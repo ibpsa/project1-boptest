@@ -11,7 +11,7 @@ BOPTEST Test Case
 
 Example RESTful interaction:
 
-- Advance simulation: ``$ curl http://127.0.0.1:5000/advance -d '{"QHeat":1000}' -H "Content-Type: application/json"``
+- Advance simulation with a heating input of 1000 W: ``$ curl http://127.0.0.1:5000/advance -d '{"QHeat":1000}' -H "Content-Type: application/json"``
 - Receive a list of measurements: ``$ curl http://127.0.0.1:5000/measurements``
 
 RESTful API
