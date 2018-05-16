@@ -29,8 +29,8 @@ RESTful API
 | Receive test case name                                         |  GET ``name``                                             |
 
 
-Repository Structure
---------------------
+Structure
+---------
 
 - ``doc/`` contains documentation of the test case.
 - ``interface/`` contains the RESTful API of test case.
