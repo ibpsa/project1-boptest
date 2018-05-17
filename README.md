@@ -1,7 +1,8 @@
-# project1-boptest
+# IBPSA Project 1 - BOPTEST
 Building Optimization Performance Tests
 
-This repository contains prototype code for the Building Optimization Performance Test framework (BOPTEST).
+This repository contains prototype code for the Building Optimization Performance Test framework (BOPTEST)
+that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/project1/).
 
 ## Structure
 - ``\testcase`` contains prototype code for developing and deploying a simple test case.
