@@ -1,5 +1,5 @@
 within ;
-model MpcTemplate
+model EmulatorTemplate
   parameter Integer nOptReal "Number of real control variables";
   parameter Integer nOptInt "Number of integer control variables";
   parameter Integer nOptBool "Number of boolean control variables";
@@ -42,4 +42,4 @@ equation
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
     uses(Modelica(version="3.2.2")));
-end MpcTemplate;
+end EmulatorTemplate;
