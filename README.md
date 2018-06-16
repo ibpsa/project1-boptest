@@ -7,6 +7,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 ## Structure
 - ``\testcase`` contains prototype code for developing and deploying a simple test case.
 - ``\examples`` contains prototype code for interacting with the test case and running an example test with a simple controller.
+- ``\template`` contains template Modelica code for an emulator model.
 
 ## Run Prototype Test Case
 1) Follow the instructions in ``testcase/README.md`` to build and deploy the test case.
