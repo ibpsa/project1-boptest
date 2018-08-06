@@ -1,11 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-This module starts a socket server which is keeping listening to the specified port for incoming message;
-Once revived any message, it will send the same content back to the corresponding client.
-
-"""
-
 import socket
+import pid_ove
+
 
 class socket_server:
 
@@ -21,15 +16,23 @@ server = socket_server()
 
 while True:
     conn,addr=server.sock.accept()
-#    print('Got a connection from {}.'.format(addr))
+    print ('Got a connection from {}.'.format(addr))
     data = conn.recv(1024)
     print data
 
 ### inputs for Modelica models
     inputs=''
     datas=data.split(',')
+   
+    if data.find('tzone')!=-1:
+#          print datas[3]
+          q=max(pid_ove.compute_control(float(datas[3])),0)
+#          print q
 ### Getting rid of the variable names from the incoming message
     for i in range((len(datas)-1)/2):
-         inputs=inputs+str(datas[i*2+1])+','
-#    print inputs
+         if data.find('q')!=-1:
+                    inputs=str(datas[1])+','+str(q)+','
+         else:
+                    inputs=inputs+str(datas[i*2+1])+','
+    print inputs
     conn.send(inputs[:-1])

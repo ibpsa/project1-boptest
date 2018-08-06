@@ -20,4 +20,4 @@ remove-image:
 
 run:
 	$(COMMAND_RUN) \
-             "cd ~/testcase/models && python run_fmu.py && exit"
+             "cd ~/testcase/models && python compile_fmu.py && python run_fmu.py && exit"
