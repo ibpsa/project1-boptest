@@ -12,3 +12,6 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 ## Run Prototype Test Case
 1) Follow the instructions in ``testcase/README.md`` to build and deploy the test case.
 2) ``$ python examples/twoday-p.py`` to test a simple controller on the test case over a two-day period.
+
+## More Information
+See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
