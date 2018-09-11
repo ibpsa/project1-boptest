@@ -25,7 +25,7 @@ RESTful API
 | Receive measurement names (y)                                  |  GET ``measurements``                                     |
 | Receive input names (u)                                        |  GET ``inputs``                                           |
 | Receive test result data                                       |  GET ``results``                                          |
-| Receive test KPIs                                              |  GET ``kpis``                                             |
+| Receive test KPIs                                              |  GET ``kpi``                                              |
 | Receive test case name                                         |  GET ``name``                                             |
 
 
