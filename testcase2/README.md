@@ -1,5 +1,5 @@
-BOPTEST Test Case
-=================
+BOPTEST Test Case 2
+===================
 
 1) To build: ``$ make build`` (takes a few minutes)
 
