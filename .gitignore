@@ -1,2 +1,7 @@
 *.pyc
 *.txt
+*.mat
+dymosim
+dsmodel.c
+*.log
+*.err

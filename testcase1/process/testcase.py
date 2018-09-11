@@ -67,10 +67,10 @@ class TestCase(object):
         # Set control inputs if they exist
         if u.keys():
             u_list = []
+            u_trajectory = self.start_time
             for key in u.keys():
                 value = float(u[key])
                 u_list.append(key)
-                u_trajectory = self.start_time
                 u_trajectory = np.vstack((u_trajectory, value))
             input_object = (u_list, np.transpose(u_trajectory))
         else:
@@ -95,6 +95,13 @@ class TestCase(object):
         
         return self.y
 
+    def reset(self):
+        '''Reset the test.
+        
+        '''
+        
+        self.__init__()
+        
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
 
