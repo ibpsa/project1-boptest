@@ -1,4 +1,4 @@
-IMG_NAME=boptest_testcase
+IMG_NAME=boptest_testcase2
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
