@@ -3,7 +3,6 @@ package SingleZoneVAV
   "This package contains models for the SingleZoneVAV testcase in BOPTEST."
   model TestCaseSupervisory
     "Based on Buildings.Air.Systems.SingleZone.VAV.Examples.ChillerDXHeatingEconomizer."
-    extends Modelica.Icons.Example;
 
     package MediumA = Buildings.Media.Air "Buildings library air media package";
     package MediumW = Buildings.Media.Water "Buildings library air media package";
@@ -36,7 +35,7 @@ package SingleZoneVAV
         computeWetBulbTemperature=false, filNam=
           Modelica.Utilities.Files.loadResource(
           "Resources/weatherdata/DRYCOLD.mos"))
-      annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
+      annotation (Placement(transformation(extent={{-160,120},{-140,140}})));
     Modelica.Blocks.Continuous.Integrator EFan "Total fan energy"
       annotation (Placement(transformation(extent={{40,-50},{60,-30}})));
     Modelica.Blocks.Continuous.Integrator EHea "Total heating energy"
@@ -44,12 +43,12 @@ package SingleZoneVAV
     Modelica.Blocks.Continuous.Integrator ECoo "Total cooling energy"
       annotation (Placement(transformation(extent={{40,-110},{60,-90}})));
     Modelica.Blocks.Math.MultiSum EHVAC(nu=4)  "Total HVAC energy"
-      annotation (Placement(transformation(extent={{80,-80},{100,-60}})));
+      annotation (Placement(transformation(extent={{80,-70},{100,-50}})));
     Modelica.Blocks.Continuous.Integrator EPum "Total pump energy"
       annotation (Placement(transformation(extent={{40,-140},{60,-120}})));
 
     Buildings.BoundaryConditions.WeatherData.Bus weaBus "Weather data bus"
-      annotation (Placement(transformation(extent={{-46,70},{-26,90}})));
+      annotation (Placement(transformation(extent={{-118,120},{-98,140}})));
 
     Modelica.Blocks.Interfaces.RealOutput TRooAir "Room air temperature"
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
@@ -76,14 +75,14 @@ package SingleZoneVAV
     Modelica.Blocks.Interfaces.RealOutput ETotFan "Total fan energy"
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
     Modelica.Blocks.Interfaces.RealOutput ETotPum "Total pump energy"
-      annotation (Placement(transformation(extent={{120,-170},{140,-150}})));
-    Modelica.Blocks.Interfaces.RealOutput ETotCoo "Total cooling energy"
       annotation (Placement(transformation(extent={{120,-130},{140,-110}})));
+    Modelica.Blocks.Interfaces.RealOutput ETotCoo "Total cooling energy"
+      annotation (Placement(transformation(extent={{120,-110},{140,-90}})));
     Modelica.Blocks.Interfaces.RealOutput ETotHea "Total heating energy"
-      annotation (Placement(transformation(extent={{120,-102},{140,-82}})));
+      annotation (Placement(transformation(extent={{120,-90},{140,-70}})));
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(
-        points={{-60,80},{-36,80}},
+        points={{-140,130},{-108,130}},
         color={255,204,51},
         thickness=0.5), Text(
         string="%second",
@@ -110,14 +109,14 @@ package SingleZoneVAV
     connect(hvac.returnAir, zon.returnAir) annotation (Line(points={{0,0},{6,0},{
             6,-2},{10,-2},{40,-2}},  color={0,127,255}));
 
-    connect(con.TOut, weaBus.TDryBul) annotation (Line(points={{-102,-2},{-108,-2},
-            {-108,40},{-36,40},{-36,80}}, color={0,0,127}));
+    connect(con.TOut, weaBus.TDryBul) annotation (Line(points={{-102,-2},{-108,
+            -2},{-108,130}},              color={0,0,127}));
     connect(hvac.weaBus, weaBus) annotation (Line(
-        points={{-36,17.8},{-36,80}},
+        points={{-36,17.8},{-36,130},{-108,130}},
         color={255,204,51},
         thickness=0.5));
     connect(zon.weaBus, weaBus) annotation (Line(
-        points={{46,18},{42,18},{42,80},{-36,80}},
+        points={{46,18},{42,18},{42,130},{-108,130}},
         color={255,204,51},
         thickness=0.5));
     connect(con.TSup, hvac.TSup) annotation (Line(points={{-102,-9},{-108,-9},{
@@ -137,14 +136,15 @@ package SingleZoneVAV
     connect(hvac.PPum, EPum.u) annotation (Line(points={{1,12},{18,12},{18,-130},{
             38,-130}},   color={0,0,127}));
 
-    connect(EFan.y, EHVAC.u[1]) annotation (Line(points={{61,-40},{70,-40},{70,
-            -64.75},{80,-64.75}}, color={0,0,127}));
+    connect(EFan.y, EHVAC.u[1]) annotation (Line(points={{61,-40},{70,-40},{70,-54.75},
+            {80,-54.75}},         color={0,0,127}));
     connect(EHea.y, EHVAC.u[2])
-      annotation (Line(points={{61,-70},{80,-70},{80,-68.25}}, color={0,0,127}));
-    connect(ECoo.y, EHVAC.u[3]) annotation (Line(points={{61,-100},{70,-100},{70,
-            -71.75},{80,-71.75}}, color={0,0,127}));
-    connect(EPum.y, EHVAC.u[4]) annotation (Line(points={{61,-130},{74,-130},{74,
-            -75.25},{80,-75.25}}, color={0,0,127}));
+      annotation (Line(points={{61,-70},{64,-70},{64,-60},{66,-60},{66,-60},{80,-60},
+            {80,-58.25}},                                      color={0,0,127}));
+    connect(ECoo.y, EHVAC.u[3]) annotation (Line(points={{61,-100},{70,-100},{70,-61.75},
+            {80,-61.75}},         color={0,0,127}));
+    connect(EPum.y, EHVAC.u[4]) annotation (Line(points={{61,-130},{74,-130},{74,-65.25},
+            {80,-65.25}},         color={0,0,127}));
     connect(zon.TRooAir, TRooAir)
       annotation (Line(points={{81,0},{130,0}}, color={0,0,127}));
     connect(hvac.PFan, PFan) annotation (Line(points={{1,18},{6,18},{6,140},{
@@ -159,17 +159,19 @@ package SingleZoneVAV
             -140,10},{-140,40},{-180,40}}, color={0,0,127}));
     connect(con.TSetRooCoo, TSetRooCoo) annotation (Line(points={{-102,6},{-140,
             6},{-140,-20},{-180,-20}}, color={0,0,127}));
-    connect(EHVAC.y, ETotHVAC) annotation (Line(points={{101.7,-70},{116,-70},{
-            116,-60},{130,-60}}, color={0,0,127}));
+    connect(EHVAC.y, ETotHVAC) annotation (Line(points={{101.7,-60},{130,-60}},
+                                 color={0,0,127}));
     connect(EFan.y, ETotFan)
       annotation (Line(points={{61,-40},{130,-40}}, color={0,0,127}));
-    connect(EPum.y, ETotPum) annotation (Line(points={{61,-130},{90,-130},{90,
-            -160},{130,-160}}, color={0,0,127}));
-    connect(ECoo.y, ETotCoo) annotation (Line(points={{61,-100},{92,-100},{92,
-            -120},{130,-120}}, color={0,0,127}));
-    connect(EHea.y, ETotHea) annotation (Line(points={{61,-70},{62,-70},{62,-70},
-            {64,-70},{64,-70},{64,-88},{64,-88},{64,-92},{130,-92}}, color={0,0,
+    connect(EPum.y, ETotPum) annotation (Line(points={{61,-130},{90,-130},{90,-120},
+            {130,-120}},       color={0,0,127}));
+    connect(ECoo.y, ETotCoo) annotation (Line(points={{61,-100},{130,-100}},
+                               color={0,0,127}));
+    connect(EHea.y, ETotHea) annotation (Line(points={{61,-70},{64,-70},{64,-80},{
+            130,-80}},                                               color={0,0,
             127}));
+    connect(ETotPum, ETotPum) annotation (Line(points={{130,-120},{126,-120},{
+            126,-120},{130,-120}}, color={0,0,127}));
     annotation (
       experiment(
         StopTime=504800,
@@ -186,16 +188,73 @@ economizer.  See documentation for the specific models for more information.
 </html>",   revisions="<html>
 <ul>
 <li>
-June 21, 2017, by Michael Wetter:<br/>
-Refactored implementation.
-</li>
-<li>
-June 1, 2017, by David Blum:<br/>
+September 14, 2018, by David Blum:<br/>
 First implementation.
 </li>
 </ul>
 </html>"),
-      Diagram(coordinateSystem(extent={{-160,-160},{120,140}})));
+      Diagram(coordinateSystem(extent={{-160,-160},{120,140}})),
+      Icon(coordinateSystem(extent={{-160,-160},{120,140}}), graphics={
+          Rectangle(
+            extent={{-160,140},{120,-160}},
+            lineColor={0,0,0},
+            fillColor={255,255,255},
+            fillPattern=FillPattern.Solid),
+          Polygon(lineColor = {0,0,255},
+                  fillColor = {75,138,73},
+                  pattern = LinePattern.None,
+                  fillPattern = FillPattern.Solid,
+                  points = {{-36,60},{64,0},{-36,-60},{-36,60}}),
+          Ellipse(lineColor = {75,138,73},
+                  fillColor={255,255,255},
+                  fillPattern = FillPattern.Solid,
+                  extent={{-116,-110},{84,90}}),
+          Polygon(lineColor = {0,0,255},
+                  fillColor = {75,138,73},
+                  pattern = LinePattern.None,
+                  fillPattern = FillPattern.Solid,
+                  points={{-52,50},{48,-10},{-52,-70},{-52,50}})}));
   end TestCaseSupervisory;
+
+  package Examples "Contains executable examples of the test case."
+    extends Modelica.Icons.ExamplesPackage;
+    model ConstantCoolHeatSet
+      extends Modelica.Icons.Example;
+      TestCaseSupervisory testCaseSupervisory
+        annotation (Placement(transformation(extent={{-16,-14},{12,16}})));
+      Modelica.Blocks.Sources.CombiTimeTable TSetRooHea(
+        table=[
+          0,       15 + 273.15;
+          8*3600,  20 + 273.15;
+          18*3600, 15 + 273.15;
+          24*3600, 15 + 273.15],
+        smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
+        extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+        "Heating setpoint for room temperature"
+        annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
+      Modelica.Blocks.Sources.CombiTimeTable TSetRooCoo(
+        table=[
+          0,       30 + 273.15;
+          8*3600,  25 + 273.15;
+          18*3600, 30 + 273.15;
+          24*3600, 30 + 273.15],
+        smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
+        extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+        "Cooling setpoint for room temperature"
+        annotation (Placement(transformation(extent={{-60,-30},{-40,-10}})));
+    equation
+      connect(TSetRooHea.y[1], testCaseSupervisory.TSetRooHea) annotation (Line(
+            points={{-39,10},{-28,10},{-28,6},{-18,6}}, color={0,0,127}));
+      connect(TSetRooCoo.y[1], testCaseSupervisory.TSetRooCoo) annotation (Line(
+            points={{-39,-20},{-28,-20},{-28,0},{-18,0}}, color={0,0,127}));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+            coordinateSystem(preserveAspectRatio=false)),
+        experiment(
+          StopTime=31536000,
+          Interval=3600,
+          Tolerance=1e-06,
+          __Dymola_Algorithm="Cvode"));
+    end ConstantCoolHeatSet;
+  end Examples;
   annotation (uses(Modelica(version="3.2.2"), Buildings(version="6.0.0")));
 end SingleZoneVAV;
