@@ -223,23 +223,17 @@ First implementation.
       TestCaseSupervisory testCaseSupervisory
         annotation (Placement(transformation(extent={{-16,-14},{12,16}})));
       Modelica.Blocks.Sources.CombiTimeTable TSetRooHea(
-        table=[
-          0,       15 + 273.15;
-          8*3600,  20 + 273.15;
-          18*3600, 15 + 273.15;
-          24*3600, 15 + 273.15],
         smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
-        extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+        extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+        table=[0,20 + 273.15; 8*3600,20 + 273.15; 18*3600,20 + 273.15; 24*3600,
+            20 + 273.15])
         "Heating setpoint for room temperature"
         annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
       Modelica.Blocks.Sources.CombiTimeTable TSetRooCoo(
-        table=[
-          0,       30 + 273.15;
-          8*3600,  25 + 273.15;
-          18*3600, 30 + 273.15;
-          24*3600, 30 + 273.15],
         smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
-        extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic)
+        extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+        table=[0,25 + 273.15; 8*3600,25 + 273.15; 18*3600,25 + 273.15; 24*3600,
+            25 + 273.15])
         "Cooling setpoint for room temperature"
         annotation (Placement(transformation(extent={{-60,-30},{-40,-10}})));
     equation
