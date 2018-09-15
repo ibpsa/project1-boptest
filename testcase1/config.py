@@ -22,11 +22,11 @@ def get_config():
         
     config = {
     # Enter configuration information
-    'fmupath'  : 'models/SingleZoneVAV_TestCaseSupervisory.fmu',
-    'u'        : ['TSetRooHea', 'TSetRooCoo'],
+    'fmupath'  : 'models/SimpleRC_Input.fmu',
+    'u'        : ['QHeat'],
     'y'        : ['TRooAir', 'PFan', 'PCoo', 'PHea', 'PPum',
-                  'ETotFan', 'ETotCoo', 'ETotHea', 'ETotPum', 'ETotHVAC'],                     
-    'step'     : 3600
+                  'ETotFan', 'ETotCoo', 'ETotHea', 'ETotPum', 'ETotHVAC'],                   
+    'step'     : 60
     }
     
     return config
