@@ -5,14 +5,41 @@ This repository contains prototype code for the Building Optimization Performanc
 that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/project1/).
 
 ## Structure
-- ``\testcase#`` contains prototype code for developing and deploying test case #.  Test case 1 is a simple RC model with actuator control of a heater.  Test case 2 is a Single Zone VAV system with supervisory control of heating and cooling setpoints.
-- ``\examples`` contains prototype code for interacting with the test case and running an example test with a simple controller.
-- ``\template`` contains template Modelica code for an emulator model.
+- ``\testcase#`` contains prototype code for a test case, including docs, models, and configuration settings.
+- ``\examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.
+- ``\template`` contains template Modelica code for a test case emulator model.
 
 ## Run Prototype Test Cases
-1) Follow the instructions in ``testcase#/README.md`` to build and deploy the test case.  See ``testcase#/doc`` for a description of the test case.
-2) For testcase1, in a separate terminal use ``$ python examples/twoday-p.py`` to test a simple proportional feedback controller on the test case over a two-day period.
-2) For testcase2, in a separate terminal use ``$ python examples/szvav-sup.py`` to test a simple supervisory controller on the test case over a two-day period.
+1) Build the test case by ``$ TESTCASE=testcase# make build`` where # is the number of the test case to build.
+2) Deploy the test case by ``$ make run``.
+3) In a seperate process, use the test case API defined below to interact with the test case.
+4) Run an example controller test:
+
+- For testcase1, in a separate terminal use ``$ python examples/twoday-p.py`` to test a simple proportional feedback controller on the test case over a two-day period.
+- For testcase2, in a separate terminal use ``$ python examples/szvav-sup.py`` to test a simple supervisory controller on the test case over a two day period.
+
+## Test Case RESTful API
+- To interact, send RESTful requests to: ``http://127.0.0.1:5000/<request>``
+- To shutdown: ``Ctrl+C`` to close port, ``Ctrl+D`` to exit docker container.
+
+Example RESTful interaction:
+
+- Receive a list of available measurements: ``$ curl http://127.0.0.1:5000/measurements``
+- Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"TSetRooHea":293.15,"TSetRooCoo":298.15}' -H "Content-Type: application/json"``
+
+| Interaction                                                    | Request                                                   |
+|----------------------------------------------------------------|-----------------------------------------------------------|
+| Advance simulation with control input and receive measurements |  POST ``advance`` with json data "{<input_name>:<value>}" |
+| Reset simulation to beginning                                  |  PUT ``reset`` with no data                               |
+| Receive simulation step                                        |  GET ``step``                                             |
+| Set simulation step                                            |  PUT ``step`` with data ``step=<value>``                  |
+| Receive measurement names (y)                                  |  GET ``measurements``                                     |
+| Receive input names (u)                                        |  GET ``inputs``                                           |
+| Receive test result data                                       |  GET ``results``                                          |
+| Receive test KPIs                                              |  GET ``kpi``                                              |
+| Receive test case name                                         |  GET ``name``                                             |
+
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
+

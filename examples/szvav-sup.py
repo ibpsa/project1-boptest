@@ -2,7 +2,7 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which mus already be running.  A PID controller is tested, which is 
+which mus already be running.  A controller is tested, which is 
 imported from a different module.
   
 """
@@ -24,7 +24,7 @@ from controllers import sup
 # Set URL for testcase
 url = 'http://127.0.0.1:5000'
 # Set simulation parameters
-length = 24*3600*365
+length = 24*3600*2
 step = 3600
 plot = False
 # ---------------
