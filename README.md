@@ -31,8 +31,8 @@ Example RESTful interaction:
 |----------------------------------------------------------------|-----------------------------------------------------------|
 | Advance simulation with control input and receive measurements |  POST ``advance`` with json data "{<input_name>:<value>}" |
 | Reset simulation to beginning                                  |  PUT ``reset`` with no data                               |
-| Receive simulation step                                        |  GET ``step``                                             |
-| Set simulation step                                            |  PUT ``step`` with data ``step=<value>``                  |
+| Receive communication step in seconds                          |  GET ``step``                                             |
+| Set communication step in seconds                              |  PUT ``step`` with data ``step=<value>``                  |
 | Receive measurement names (y)                                  |  GET ``measurements``                                     |
 | Receive input names (u)                                        |  GET ``inputs``                                           |
 | Receive test result data                                       |  GET ``results``                                          |
