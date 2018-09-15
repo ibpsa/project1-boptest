@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-This module defines the test case, including the model fmu, 
-control inputs, measurements, standard simulation options (such as solver 
-and tolerance), and any standard inputs (such as weather).  It also 
-defines the API to the test case used by the REST requests to perform 
-functions such as advancing the simulation, retreiving test case information,
-and calculating and reporting results.
+This module defines the API to the test case used by the REST requests to 
+perform functions such as advancing the simulation, retreiving test case 
+information, and calculating and reporting results.
 
 """
 
 from pyfmi import load_fmu
 import numpy as np
 import copy
+import config
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -23,14 +21,19 @@ class TestCase(object):
         
         '''
         
+        # Get configuration information
+        con = config.get_config()
         # Define simulation model
-        self.fmupath = 'models/SingleZoneVAV_TestCaseSupervisory.fmu'
+        self.fmupath = con['fmupath']
         # Define measurements
-        self.y = {'time':[], 'TRooAir':[], 'PFan':[], 'PCoo':[], 'PHea':[], 'PPum':[],
-                  'ETotFan':[], 'ETotCoo':[], 'ETotHea':[], 'ETotPum':[], 'ETotHVAC':[]}
+        self.y = {'time':[]}
+        for key in con['y']:
+            self.y[key] = []
         self.y_store = copy.deepcopy(self.y)
         # Define inputs
-        self.u = {'TSetRooHea':[], 'TSetRooCoo':[]}
+        self.u = dict()
+        for key in con['u']:
+            self.u[key] = []
         self.u_store = copy.deepcopy(self.u)
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
@@ -40,7 +43,7 @@ class TestCase(object):
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6 
         # Set default communication step
-        self.set_step(3600)
+        self.set_step(con['step'])
         # Set initial simulation start
         self.start_time = 0
         self.initialize = True
@@ -186,6 +189,8 @@ class TestCase(object):
         
     def get_kpis(self):
         '''Returns KPI data.
+        
+        Requires standard sensor signals.
         
         Parameters
         ----------

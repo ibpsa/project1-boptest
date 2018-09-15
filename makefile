@@ -1,4 +1,4 @@
-IMG_NAME=boptest_testcase2
+IMG_NAME=boptest_testcase
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -9,11 +9,11 @@ COMMAND_RUN=docker run \
 	  ${IMG_NAME} /bin/bash -c
 
 build:
-	docker build --no-cache --rm -t ${IMG_NAME} .
+	docker build --build-arg testcase=${TESTCASE} --no-cache --rm -t ${IMG_NAME} .
 
 remove-image:
 	docker rmi ${IMG_NAME}
 
 run:
 	$(COMMAND_RUN) \
-            "cd ~/testcase && python interface/restapi.py && bash"
+            "python restapi.py && bash"

@@ -9,11 +9,12 @@ The API is implemented using the ``flask`` package.
 # ----------------------
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+import config
 # ----------------------
 
 # TEST CASE IMPORT
 # ----------------
-from process.testcase import TestCase
+from testcase import TestCase
 # ----------------
 
 # FLASK REQUIREMENTS
@@ -22,6 +23,11 @@ app = Flask(__name__)
 api = Api(app)
 # ------------------
 
+# INSTANTIATE TEST CASE
+# ---------------------
+case = TestCase()
+# ---------------------
+
 # DEFINE ARGUMENT PARSERS
 # -----------------------
 # ``step`` interface
@@ -29,14 +35,9 @@ parser_step = reqparse.RequestParser()
 parser_step.add_argument('step')
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
-parser_advance.add_argument('TSetRooHea')
-parser_advance.add_argument('TSetRooCoo')
+for key in case.u.keys():
+    parser_advance.add_argument(key)
 # -----------------------
-
-# INSTANTIATE TEST CASE
-# ---------------------
-case = TestCase()
-# ---------------------
 
 # DEFINE REST REQUESTS
 # --------------------
