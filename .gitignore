@@ -5,3 +5,4 @@ dymosim
 dsmodel.c
 *.log
 *.err
+testcase2/doc/build/
