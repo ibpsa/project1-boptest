@@ -48,7 +48,15 @@ class Advance(Resource):
         u = parser_advance.parse_args()
         y = case.advance(u)
         return y
-        
+
+class Reset(Resource):
+    '''Interface to test case simulation step size.'''
+    
+    def put(self):
+        '''PUT request to reset the test.'''
+        case.reset()
+        return 'Testcase reset.'
+
 class Step(Resource):
     '''Interface to test case simulation step size.'''
     

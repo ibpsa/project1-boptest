@@ -1,5 +1,5 @@
-BOPTEST Test Case
-=================
+BOPTEST Test Case 1
+===================
 
 1) To build: ``$ make build`` (takes a few minutes)
 
@@ -20,6 +20,7 @@ RESTful API
 | Interaction                                                    | Request                                                   |
 |----------------------------------------------------------------|-----------------------------------------------------------|
 | Advance simulation with control input and receive measurements |  POST ``advance`` with json data "{<input_name>:<value>}" |
+| Reset simulation                                               |  PUT ``reset`` with no data                               |
 | Receive simulation step                                        |  GET ``step``                                             |
 | Set simulation step                                            |  PUT ``step`` with data ``step=<value>``                  |
 | Receive measurement names (y)                                  |  GET ``measurements``                                     |
