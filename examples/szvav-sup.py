@@ -11,6 +11,7 @@ imported from a different module.
 # ----------------------
 import requests
 from matplotlib import pyplot as plt
+import time
 # ----------------------
 
 # TEST CONTROLLER IMPORT
@@ -23,8 +24,9 @@ from controllers import sup
 # Set URL for testcase
 url = 'http://127.0.0.1:5000'
 # Set simulation parameters
-length = 48*3600
+length = 24*3600*365
 step = 3600
+plot = False
 # ---------------
 
 # GET TEST INFORMATION
@@ -46,6 +48,7 @@ print('Default Simulation Step:\t{0}'.format(step_def))
 
 # RUN TEST CASE
 # -------------
+start = time.time()
 print('\nRunning test case...')
 # Set simulation step
 res = requests.put('{0}/step'.format(url), data={'step':step})
@@ -58,6 +61,7 @@ for i in range(length/step):
     # Compute next control signal
     u = sup.compute_control(y)
 print('\nTest case complete.')
+print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
 # -------------
     
 # VIEW RESULTS
@@ -82,21 +86,22 @@ PCoo = res['y']['PCoo']
 PHea = res['y']['PHea']
 PPum = res['y']['PPum']
 # Plot results
-plt.figure(1)
-plt.title('Zone Temperature')
-plt.plot(time, TRooAir)
-plt.plot(time, TSetRooHea)
-plt.plot(time, TSetRooCoo)
-plt.ylabel('Temperature [C]')
-plt.xlabel('Time [hr]')
-plt.figure(2)
-plt.title('HVAC Power')
-plt.plot(time, PHea, label='Heating')
-plt.plot(time, PCoo, label='Cooling')
-plt.plot(time, PFan, label='Fan')
-plt.plot(time, PPum, label='Pump')
-plt.ylabel('Electrical Power [W]')
-plt.xlabel('Time [hr]')
-plt.legend()
-plt.show()
+if plot:
+    plt.figure(1)
+    plt.title('Zone Temperature')
+    plt.plot(time, TRooAir)
+    plt.plot(time, TSetRooHea)
+    plt.plot(time, TSetRooCoo)
+    plt.ylabel('Temperature [C]')
+    plt.xlabel('Time [hr]')
+    plt.figure(2)
+    plt.title('HVAC Power')
+    plt.plot(time, PHea, label='Heating')
+    plt.plot(time, PCoo, label='Cooling')
+    plt.plot(time, PFan, label='Fan')
+    plt.plot(time, PPum, label='Pump')
+    plt.ylabel('Electrical Power [W]')
+    plt.xlabel('Time [hr]')
+    plt.legend()
+    plt.show()
 # --------------------
