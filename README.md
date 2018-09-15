@@ -33,8 +33,8 @@ Example RESTful interaction:
 | Reset simulation to beginning                                  |  PUT ``reset`` with no data                               |
 | Receive communication step in seconds                          |  GET ``step``                                             |
 | Set communication step in seconds                              |  PUT ``step`` with data ``step=<value>``                  |
-| Receive measurement names (y)                                  |  GET ``measurements``                                     |
-| Receive input names (u)                                        |  GET ``inputs``                                           |
+| Receive sensor signal names (y)                                |  GET ``measurements``                                     |
+| Receive control signal names (u)                               |  GET ``inputs``                                           |
 | Receive test result data                                       |  GET ``results``                                          |
 | Receive test KPIs                                              |  GET ``kpi``                                              |
 | Receive test case name                                         |  GET ``name``                                             |
