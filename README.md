@@ -16,7 +16,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 4) Run an example controller test:
 
 - For testcase1, in a separate terminal use ``$ python examples/twoday-p.py`` to test a simple proportional feedback controller on the test case over a two-day period.
-- For testcase2, in a separate terminal use ``$ python examples/szvav-sup.py`` to test a simple supervisory controller on the test case over a two day period.
+- For testcase2, in a separate terminal use ``$ python examples/szvav-sup.py`` to test a simple supervisory controller on the test case over a year.
 
 ## Test Case RESTful API
 - To interact, send RESTful requests to: ``http://127.0.0.1:5000/<request>``
