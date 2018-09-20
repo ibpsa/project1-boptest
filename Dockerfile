@@ -1,5 +1,7 @@
 FROM michaelwetter/ubuntu-1604_jmodelica_trunk
 
+ARG testcase
+
 ENV ROOT_DIR /usr/local
 ENV JMODELICA_HOME $ROOT_DIR/JModelica
 ENV IPOPT_HOME $ROOT_DIR/Ipopt-3.12.4
@@ -14,16 +16,13 @@ WORKDIR $HOME
 
 RUN pip install --user flask-restful
 
-RUN mkdir testcase && \
-    mkdir testcase/interface && \
-    mkdir testcase/models && \
-    mkdir testcase/process && \
-    mkdir testcase/doc
+RUN mkdir models && \
+    mkdir doc
 
-COPY interface/ testcase/interface/
-COPY models/*.fmu testcase/models/
-COPY process/ testcase/process/
-COPY doc/ testcase/doc/
-COPY __init__.py testcase/
+COPY ${testcase}/models/*.fmu models/
+COPY ${testcase}/doc/ doc/
+COPY ${testcase}/config.py ./
+COPY restapi.py ./
+COPY testcase.py ./
 
 

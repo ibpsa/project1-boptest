@@ -9,11 +9,12 @@ The API is implemented using the ``flask`` package.
 # ----------------------
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+import config
 # ----------------------
 
 # TEST CASE IMPORT
 # ----------------
-from process.testcase import TestCase
+from testcase import TestCase
 # ----------------
 
 # FLASK REQUIREMENTS
@@ -22,6 +23,11 @@ app = Flask(__name__)
 api = Api(app)
 # ------------------
 
+# INSTANTIATE TEST CASE
+# ---------------------
+case = TestCase()
+# ---------------------
+
 # DEFINE ARGUMENT PARSERS
 # -----------------------
 # ``step`` interface
@@ -29,13 +35,9 @@ parser_step = reqparse.RequestParser()
 parser_step.add_argument('step')
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
-parser_advance.add_argument('QHeat')
+for key in case.u.keys():
+    parser_advance.add_argument(key)
 # -----------------------
-
-# INSTANTIATE TEST CASE
-# ---------------------
-case = TestCase()
-# ---------------------
 
 # DEFINE REST REQUESTS
 # --------------------
@@ -57,6 +59,7 @@ class Reset(Resource):
         case.reset()
         return 'Testcase reset.'
 
+        
 class Step(Resource):
     '''Interface to test case simulation step size.'''
     
@@ -116,6 +119,7 @@ class Name(Resource):
 # ADD REQUESTS TO API WITH URL EXTENSION
 # --------------------------------------
 api.add_resource(Advance, '/advance')
+api.add_resource(Reset, '/reset')
 api.add_resource(Step, '/step')
 api.add_resource(Inputs, '/inputs')
 api.add_resource(Measurements, '/measurements')

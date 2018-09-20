@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-This module defines the test case, including the model fmu, 
-control inputs, measurements, standard simulation options (such as solver 
-and tolerance), and any standard inputs (such as weather).  It also 
-defines the API to the test case used by the REST requests to perform 
-functions such as advancing the simulation, retreiving test case information,
-and calculating and reporting results.
+This module defines the API to the test case used by the REST requests to 
+perform functions such as advancing the simulation, retreiving test case 
+information, and calculating and reporting results.
 
 """
 
 from pyfmi import load_fmu
 import numpy as np
 import copy
+import config
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -23,13 +21,19 @@ class TestCase(object):
         
         '''
         
+        # Get configuration information
+        con = config.get_config()
         # Define simulation model
-        self.fmupath = 'models/SimpleRC_Input.fmu'
+        self.fmupath = con['fmupath']
         # Define measurements
-        self.y = {'time':[], 'TZone':[], 'PHeat':[], 'EHeat':[]}
+        self.y = {'time':[]}
+        for key in con['y']:
+            self.y[key] = []
         self.y_store = copy.deepcopy(self.y)
         # Define inputs
-        self.u = {'QHeat':[]}
+        self.u = dict()
+        for key in con['u']:
+            self.u[key] = []
         self.u_store = copy.deepcopy(self.u)
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
@@ -39,7 +43,7 @@ class TestCase(object):
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6 
         # Set default communication step
-        self.set_step(3600)
+        self.set_step(con['step'])
         # Set initial simulation start
         self.start_time = 0
         self.initialize = True
@@ -101,7 +105,7 @@ class TestCase(object):
         '''
         
         self.__init__()
-        
+
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
 
@@ -186,6 +190,8 @@ class TestCase(object):
     def get_kpis(self):
         '''Returns KPI data.
         
+        Requires standard sensor signals.
+        
         Parameters
         ----------
         None
@@ -199,9 +205,12 @@ class TestCase(object):
         
         kpi = dict()
         # Energy
-        kpi['Energy'] = self.y_store['EHeat'][-1]
+        kpi['HVAC Energy'] = self.y_store['ETotHVAC'][-1]
+        kpi['Heating Energy'] = self.y_store['ETotHea'][-1]
+        kpi['Cooling Energy'] = self.y_store['ETotCoo'][-1]
+        kpi['Fan Energy'] = self.y_store['ETotFan'][-1]
+        kpi['Pump Energy'] = self.y_store['ETotPum'][-1]
         # Comfort
-        kpi['Max Discomfort'] = min(self.y_store['TZone'])-(273.15+20)
 
         return kpi
         

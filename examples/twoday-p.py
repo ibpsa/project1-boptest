@@ -2,7 +2,7 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which mus already be running.  A PID controller is tested, which is 
+which mus already be running.  A controller is tested, which is 
 imported from a different module.
   
 """
@@ -46,9 +46,10 @@ print('Default Simulation Step:\t{0}'.format(step_def))
 
 # RUN TEST CASE
 # -------------
-print('\nRunning test case...')
 # Set simulation step
+print('Setting simulation step to {0}.'.format(step))
 res = requests.put('{0}/step'.format(url), data={'step':step})
+print('\nRunning test case...')
 # Initialize u
 u = pid.initialize()
 # Simulation Loop
@@ -74,8 +75,8 @@ for key in kpi.keys():
 # Get result data
 res = requests.get('{0}/results'.format(url)).json()
 time = [x/3600 for x in res['y']['time']] # convert s --> hr
-TZone = [x-273.15 for x in res['y']['TZone']] # convert K --> C
-PHeat = res['y']['PHeat']
+TZone = [x-273.15 for x in res['y']['TRooAir']] # convert K --> C
+PHeat = res['y']['PHea']
 QHeat = res['u']['QHeat']
 # Plot results
 plt.figure(1)

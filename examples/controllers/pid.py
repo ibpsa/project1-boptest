@@ -25,7 +25,7 @@ def compute_control(y):
     setpoint = 273.15+20
     k_p = 2000
     # Compute control
-    e = setpoint - y['TZone']
+    e = setpoint - y['TRooAir']
     value = max(k_p*e,0)
     u = {'QHeat':value}
     
