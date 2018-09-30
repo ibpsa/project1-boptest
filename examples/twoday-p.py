@@ -53,7 +53,7 @@ print('\nRunning test case...')
 # Initialize u
 u = pid.initialize()
 # Simulation Loop
-for i in range(48*3600/step):
+for i in range(int(length/step)):
     # Advance simulation
     y = requests.post('{0}/advance'.format(url), data=u).json()
     # Compute next control signal

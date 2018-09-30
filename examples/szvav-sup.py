@@ -55,7 +55,7 @@ res = requests.put('{0}/step'.format(url), data={'step':step})
 # Initialize u
 u = sup.initialize()
 # Simulation Loop
-for i in range(length/step):
+for i in range(int(length/step)):
     # Advance simulation
     y = requests.post('{0}/advance'.format(url), data=u).json()
     # Compute next control signal
