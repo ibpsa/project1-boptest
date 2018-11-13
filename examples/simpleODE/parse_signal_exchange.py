@@ -31,6 +31,7 @@ def get_instances(model_path, mo_path):
         {'Overwrite': [str], 'Read': [str]}
         
     '''
+
     # Compile fmu
     fmu_path = compile_fmu(model_path, mo_path)
     # Load fmu
@@ -129,16 +130,39 @@ def write_wrapper(model_path, mo_path, instances):
     fmu_path = compile_fmu('wrapped', ['wrapped.mo', mo_path])
         
     return fmu_path, wrapped_path
+
+def export_fmu(model_path, mo_path):
+    '''Parse signal exchange blocks and export boptest fmu.
+    
+    Parameters
+    ----------
+    model_path : str
+        Path to orginal modelica model
+    mo_path : str
+        Path to orginal modelica file
         
+    Returns
+    -------
+    fmu_path : str
+        Path to the wrapped modelica model fmu
+    wrapped_path : str
+        Path to the wrapped modelica model
 
+    '''
 
+    # Get signal exchange instances
+    instances = get_instances(model_path, mo_path)
+    # Write wrapper and export as fmu
+    fmu_path, wrapped_path = write_wrapper(model_path, mo_path, instances)
+    
+    return fmu_path, wrapped_path
+    
 if __name__ == '__main__':
+    # Define model
     model_path = 'TestOverWrite.OriginalModelStacked'
     mo_path = 'author/TestOverWrite.mo'
-    # Get classes
-    instances = get_instances(model_path, mo_path)
-    # Write wrapper
-    fmu_path, wrapped_path = write_wrapper(model_path, mo_path, instances)
+    # Parse and export
+    fmu_path, wrapped_path = export_fmu(model_path, mo_path)
     # Print information
     print('Exported FMU path is: {0}'.format(fmu_path))
     print('Written wrapper model path is: {0}'.format(wrapped_path))
