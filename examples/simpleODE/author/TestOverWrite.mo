@@ -11,6 +11,8 @@ package TestOverWrite "Test package for overwrite block"
     Modelica.Blocks.Sources.BooleanExpression activate
       "Block to activate use of external signal"
       annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
+  protected
+    parameter Boolean is_overwrite = true "Protected parameter indicating signal overwrite block";
   equation
     connect(activate.y, swi.u2)
       annotation (Line(points={{-39,0},{-12,0}}, color={255,0,255}));
@@ -91,6 +93,46 @@ package TestOverWrite "Test package for overwrite block"
 
   model Read "Model that allows a signal to be read as an FMU output"
     extends Modelica.Blocks.Routing.RealPassThrough;
+  protected
+    parameter Boolean is_read = true "Protected parameter indicating signal read block";
   end Read;
+
+  model OriginalModelStacked "Original model with lower level model"
+
+    Modelica.Blocks.Sources.Constant TSet(k=1) "Set point"
+      annotation (Placement(transformation(extent={{-70,20},{-50,40}})));
+    Modelica.Blocks.Continuous.LimPID conPI(
+      controllerType=Modelica.Blocks.Types.SimpleController.PI,
+      yMax=10) "Controller"
+      annotation (Placement(transformation(extent={{-10,20},{10,40}})));
+    Modelica.Blocks.Continuous.FirstOrder firOrd(
+      T=1,
+      initType=Modelica.Blocks.Types.Init.InitialOutput)
+      "First order element"
+      annotation (Placement(transformation(extent={{50,20},{70,40}})));
+    Overwrite oveWriSet "Overwrite block for setpoint"
+      annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
+    Overwrite oveWriAct "Overwrite block for actuator signal"
+      annotation (Placement(transformation(extent={{20,20},{40,40}})));
+    Read rea "Measured state variable"
+      annotation (Placement(transformation(extent={{50,-30},{30,-10}})));
+    OriginalModel lowLevMod
+      annotation (Placement(transformation(extent={{-62,-46},{-42,-26}})));
+  equation
+    connect(TSet.y, oveWriSet.u)
+      annotation (Line(points={{-49,30},{-42,30}}, color={0,0,127}));
+    connect(oveWriSet.y, conPI.u_s)
+      annotation (Line(points={{-19,30},{-12,30}}, color={0,0,127}));
+    connect(conPI.y, oveWriAct.u)
+      annotation (Line(points={{11,30},{18,30}}, color={0,0,127}));
+    connect(oveWriAct.y, firOrd.u)
+      annotation (Line(points={{41,30},{48,30}}, color={0,0,127}));
+    connect(firOrd.y, rea.u) annotation (Line(points={{71,30},{80,30},{80,-20},{52,
+            -20}}, color={0,0,127}));
+    connect(rea.y, conPI.u_m)
+      annotation (Line(points={{29,-20},{0,-20},{0,18}}, color={0,0,127}));
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+          coordinateSystem(preserveAspectRatio=false)));
+  end OriginalModelStacked;
   annotation (uses(Modelica(version="3.2.2")));
 end TestOverWrite;
