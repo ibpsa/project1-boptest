@@ -160,7 +160,7 @@ def export_fmu(model_path, mo_path):
 if __name__ == '__main__':
     # Define model
     model_path = 'TestOverWrite.OriginalModelStacked'
-    mo_path = 'author/TestOverWrite.mo'
+    mo_path = 'TestOverWrite.mo'
     # Parse and export
     fmu_path, wrapped_path = export_fmu(model_path, mo_path)
     # Print information
