@@ -87,6 +87,8 @@ def write_wrapper(model_path, mo_path, instances):
 
     '''
 
+    # Signal exchange block library path
+    se_lib = 'TestOverWrite.mo'
     # Define wrapper modelica file path
     wrapped_path = 'wrapped.mo'
     # Open file
@@ -128,8 +130,6 @@ def write_wrapper(model_path, mo_path, instances):
                 f.write(',\n')
         # End file
         f.write('end wrapped;')
-    # Signal exchange block library path
-    se_lib = 'TestOverWrite.mo'
     # Export as fmu
     fmu_path = compile_fmu('wrapped', ['wrapped.mo', mo_path, se_lib])
         
@@ -163,8 +163,8 @@ def export_fmu(model_path, mo_path):
     
 if __name__ == '__main__':
     # Define model
-    model_path = 'TestOverWrite.OriginalModelStacked'
-    mo_path = 'TestOverWrite.mo'
+    model_path = 'SimpleRC'
+    mo_path = 'SimpleRC.mo'
     # Parse and export
     fmu_path = export_fmu(model_path, mo_path)
     # Print information
