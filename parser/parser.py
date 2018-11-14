@@ -32,8 +32,10 @@ def get_instances(model_path, mo_path):
         
     '''
 
+    # Signal exchange block library path
+    se_lib = 'TestOverWrite.mo'
     # Compile fmu
-    fmu_path = compile_fmu(model_path, mo_path)
+    fmu_path = compile_fmu(model_path, [mo_path,se_lib])
     # Load fmu
     fmu = load_fmu(fmu_path)
     # Check version
@@ -126,8 +128,10 @@ def write_wrapper(model_path, mo_path, instances):
                 f.write(',\n')
         # End file
         f.write('end wrapped;')
+    # Signal exchange block library path
+    se_lib = 'TestOverWrite.mo'
     # Export as fmu
-    fmu_path = compile_fmu('wrapped', ['wrapped.mo', mo_path])
+    fmu_path = compile_fmu('wrapped', ['wrapped.mo', mo_path, se_lib])
         
     return fmu_path, wrapped_path
 
@@ -155,17 +159,16 @@ def export_fmu(model_path, mo_path):
     # Write wrapper and export as fmu
     fmu_path, wrapped_path = write_wrapper(model_path, mo_path, instances)
     
-    return fmu_path, wrapped_path
+    return fmu_path
     
 if __name__ == '__main__':
     # Define model
     model_path = 'TestOverWrite.OriginalModelStacked'
     mo_path = 'TestOverWrite.mo'
     # Parse and export
-    fmu_path, wrapped_path = export_fmu(model_path, mo_path)
+    fmu_path = export_fmu(model_path, mo_path)
     # Print information
     print('Exported FMU path is: {0}'.format(fmu_path))
-    print('Written wrapper model path is: {0}'.format(wrapped_path))
 
 
     
