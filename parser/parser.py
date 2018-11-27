@@ -122,8 +122,7 @@ def write_wrapper(model_path, mo_path, instances):
         f.write('\t{0} mod(\n'.format(model_path))
         # Connect inputs to original model overwrite and activate signals
         for i,block in enumerate(instances['Overwrite']):
-            f.write('\t\t{1}(uExt(y={0})),\n'.format(input_signals[block], block))
-            f.write('\t\t{1}(activate(y={0}))'.format(input_activate[block], block))   
+            f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals[block], input_activate[block]))
             if i == len(instances['Overwrite'])-1:
                 f.write(') "Original model with overwrites";\n')
             else:
