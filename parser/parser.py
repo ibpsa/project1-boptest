@@ -14,15 +14,16 @@ from pyfmi import load_fmu
 from pymodelica import compile_fmu
 import os
   
-def get_instances(model_path, mo_path):
+def get_instances(model_path, file_name):
     '''Find the signal exchange block class instances using fmu xml.
     
     Parameters
     ----------
     model_path : str
         Path to modelica model
-    mo_path : str
-        Path to modelica file
+    file_name : str or list
+        Path(s) to modelica file and required libraries.
+        Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.  
         
     Returns
     -------
@@ -32,10 +33,8 @@ def get_instances(model_path, mo_path):
         
     '''
 
-    # Signal exchange block library path
-    se_lib = 'TestOverWrite.mo'
     # Compile fmu
-    fmu_path = compile_fmu(model_path, [mo_path,se_lib])
+    fmu_path = compile_fmu(model_path, file_name)
     # Load fmu
     fmu = load_fmu(fmu_path)
     # Check version
@@ -65,15 +64,16 @@ def get_instances(model_path, mo_path):
             
     return instances
     
-def write_wrapper(model_path, mo_path, instances):
+def write_wrapper(model_path, file_name, instances):
     '''Write the wrapper modelica model and export as fmu
     
     Parameters
     ----------
     model_path : str
         Path to orginal modelica model
-    mo_path : str
-        Path to orginal modelica file
+    file_name : str or list
+        Path(s) to modelica file and required libraries.
+        Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
     instances : dict
         Dictionary of overwrite and read block class instance lists.
         {'Overwrite': [str], 'Read': [str]}
@@ -87,8 +87,6 @@ def write_wrapper(model_path, mo_path, instances):
 
     '''
 
-    # Signal exchange block library path
-    se_lib = 'TestOverWrite.mo'
     # Define wrapper modelica file path
     wrapped_path = 'wrapped.mo'
     # Open file
@@ -130,7 +128,7 @@ def write_wrapper(model_path, mo_path, instances):
         # End file
         f.write('end wrapped;')
     # Export as fmu
-    fmu_path = compile_fmu('wrapped', ['wrapped.mo', mo_path, se_lib])
+    fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name)
         
     return fmu_path, wrapped_path
 
@@ -164,8 +162,9 @@ if __name__ == '__main__':
     # Define model
     model_path = 'SimpleRC'
     mo_path = 'SimpleRC.mo'
+    se_library = 'TestOverWrite.mo'
     # Parse and export
-    fmu_path = export_fmu(model_path, mo_path)
+    fmu_path = export_fmu(model_path, [mo_path, se_library])
     # Print information
     print('Exported FMU path is: {0}'.format(fmu_path))
 
