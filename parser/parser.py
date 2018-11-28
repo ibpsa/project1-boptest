@@ -132,15 +132,16 @@ def write_wrapper(model_path, file_name, instances):
         
     return fmu_path, wrapped_path
 
-def export_fmu(model_path, mo_path):
+def export_fmu(model_path, file_name):
     '''Parse signal exchange blocks and export boptest fmu.
     
     Parameters
     ----------
     model_path : str
         Path to orginal modelica model
-    mo_path : str
-        Path to orginal modelica file
+    file_name : str or list
+        Path(s) to modelica file and required libraries.
+        Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
         
     Returns
     -------
@@ -152,9 +153,9 @@ def export_fmu(model_path, mo_path):
     '''
 
     # Get signal exchange instances
-    instances = get_instances(model_path, mo_path)
+    instances = get_instances(model_path, file_name)
     # Write wrapper and export as fmu
-    fmu_path, wrapped_path = write_wrapper(model_path, mo_path, instances)
+    fmu_path, wrapped_path = write_wrapper(model_path, file_name, instances)
     
     return fmu_path
     
