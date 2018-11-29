@@ -13,8 +13,6 @@ def get_config():
     Dictionary contatinin configuration information.
     {
     'fmupath'  : string, location of model fmu
-    'u'        : list of strings, available control signals
-    'y'        : list of strings, available sensor signals
     'step'     : int, default control step size in seconds
     }
     
@@ -22,10 +20,7 @@ def get_config():
         
     config = {
     # Enter configuration information
-    'fmupath'  : 'models/SimpleRC_Input.fmu',
-    'u'        : ['QHeat'],
-    'y'        : ['TRooAir', 'PFan', 'PCoo', 'PHea', 'PPum',
-                  'ETotFan', 'ETotCoo', 'ETotHea', 'ETotPum', 'ETotHVAC'],                   
+    'fmupath'  : 'models/wrapped.fmu',                
     'step'     : 60
     }
     
