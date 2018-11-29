@@ -25,9 +25,10 @@ def compute_control(y):
     setpoint = 273.15+20
     k_p = 2000
     # Compute control
-    e = setpoint - y['TRooAir']
+    e = setpoint - y['TRooAir_y']
     value = max(k_p*e,0)
-    u = {'QHeat':value}
+    u = {'oveAct_u':value,
+         'oveAct_activate': 1}
     
     return u
     
@@ -46,6 +47,7 @@ def initialize():
     
     '''
     
-    u = {'QHeat':0}
+    u = {'oveAct_u':0,
+         'oveAct_activate': 1}
     
     return u
