@@ -11,7 +11,7 @@ from parser import parser
 # ------------
 mopath = 'SimpleRC.mo';
 modelpath = 'SimpleRC'
-extra_libraries = ['/home/dhbubu/git/ibpsa/project1-boptest/project1-boptest/parser/TestOverWrite.mo']
+extra_libraries = ['../../parser/TestOverWrite.mo']
 # ------------
 
 # COMPILE FMU
