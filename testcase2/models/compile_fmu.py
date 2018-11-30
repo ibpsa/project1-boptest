@@ -5,15 +5,16 @@ This module compiles the test case model into an FMU using the package
 
 """
 
-from pymodelica import compile_fmu
+from parser import parser
 
 # DEFINE MODEL
 # ------------
 mopath = 'SingleZoneVAV.mo';
 modelpath = 'SingleZoneVAV.TestCaseSupervisory'
+extra_libraries = ['../../parser/TestOverWrite.mo'] # Buildings must be on MODELICAPATH
 # ------------
 
 # COMPILE FMU
 # -----------
-fmupath = compile_fmu(modelpath, mopath)
+fmupath = parser.export_fmu(modelpath, [mopath]+extra_libraries)
 # -----------

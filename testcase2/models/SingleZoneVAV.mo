@@ -50,36 +50,42 @@ package SingleZoneVAV
     Buildings.BoundaryConditions.WeatherData.Bus weaBus "Weather data bus"
       annotation (Placement(transformation(extent={{-118,120},{-98,140}})));
 
-    Modelica.Blocks.Interfaces.RealOutput TRooAir "Room air temperature"
-      annotation (Placement(transformation(extent={{120,-10},{140,10}})));
-    Modelica.Blocks.Interfaces.RealOutput PFan
-      "Electrical power consumed by the supply fan"
-      annotation (Placement(transformation(extent={{120,130},{140,150}})));
-    Modelica.Blocks.Interfaces.RealOutput PHea
-      "Electrical power consumed by the heating equipment"
-      annotation (Placement(transformation(extent={{120,110},{140,130}})));
-    Modelica.Blocks.Interfaces.RealOutput PCoo
-      "Electrical power consumed by the cooling equipment"
-      annotation (Placement(transformation(extent={{120,90},{140,110}})));
-    Modelica.Blocks.Interfaces.RealOutput PPum
-      "Electrical power consumed by the pumps"
+    Modelica.Blocks.Sources.CombiTimeTable TSetRooHea(
+      smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
+      extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+      table=[0,20 + 273.15; 8*3600,20 + 273.15; 18*3600,20 + 273.15; 24*3600,20
+           + 273.15]) "Heating setpoint for room temperature"
+      annotation (Placement(transformation(extent={{-180,20},{-160,40}})));
+    Modelica.Blocks.Sources.CombiTimeTable TSetRooCoo(
+      smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
+      extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+      table=[0,25 + 273.15; 8*3600,25 + 273.15; 18*3600,25 + 273.15; 24*3600,25
+           + 273.15]) "Cooling setpoint for room temperature"
+      annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
+    TestOverWrite.Overwrite oveTSetRooHea
+      annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
+    TestOverWrite.Overwrite oveTSetRooCoo
+      annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
+    TestOverWrite.Read PPum
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
-    Modelica.Blocks.Interfaces.RealInput TSetRooHea
-      "Zone heating setpoint temperature"
-      annotation (Placement(transformation(extent={{-200,20},{-160,60}})));
-    Modelica.Blocks.Interfaces.RealInput TSetRooCoo
-      "Zone cooling setpoint temperature"
-      annotation (Placement(transformation(extent={{-200,-40},{-160,0}})));
-    Modelica.Blocks.Interfaces.RealOutput ETotHVAC
-      annotation (Placement(transformation(extent={{120,-70},{140,-50}})));
-    Modelica.Blocks.Interfaces.RealOutput ETotFan "Total fan energy"
+    TestOverWrite.Read PCoo
+      annotation (Placement(transformation(extent={{140,90},{160,110}})));
+    TestOverWrite.Read PHea
+      annotation (Placement(transformation(extent={{120,110},{140,130}})));
+    TestOverWrite.Read PFan
+      annotation (Placement(transformation(extent={{140,130},{160,150}})));
+    TestOverWrite.Read TRooAir
+      annotation (Placement(transformation(extent={{120,-10},{140,10}})));
+    TestOverWrite.Read ETotFan
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
-    Modelica.Blocks.Interfaces.RealOutput ETotPum "Total pump energy"
-      annotation (Placement(transformation(extent={{120,-130},{140,-110}})));
-    Modelica.Blocks.Interfaces.RealOutput ETotCoo "Total cooling energy"
-      annotation (Placement(transformation(extent={{120,-110},{140,-90}})));
-    Modelica.Blocks.Interfaces.RealOutput ETotHea "Total heating energy"
+    TestOverWrite.Read ETotHVAC
+      annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
+    TestOverWrite.Read ETotHea
       annotation (Placement(transformation(extent={{120,-90},{140,-70}})));
+    TestOverWrite.Read ETotCoo
+      annotation (Placement(transformation(extent={{140,-110},{160,-90}})));
+    TestOverWrite.Read ETotPum
+      annotation (Placement(transformation(extent={{120,-130},{140,-110}})));
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(
         points={{-140,130},{-108,130}},
@@ -145,33 +151,34 @@ package SingleZoneVAV
             {80,-61.75}},         color={0,0,127}));
     connect(EPum.y, EHVAC.u[4]) annotation (Line(points={{61,-130},{74,-130},{74,-65.25},
             {80,-65.25}},         color={0,0,127}));
-    connect(zon.TRooAir, TRooAir)
-      annotation (Line(points={{81,0},{130,0}}, color={0,0,127}));
-    connect(hvac.PFan, PFan) annotation (Line(points={{1,18},{6,18},{6,140},{
-            130,140}}, color={0,0,127}));
-    connect(hvac.QHea_flow, PHea) annotation (Line(points={{1,16},{10,16},{10,
-            120},{130,120}}, color={0,0,127}));
-    connect(hvac.PCoo, PCoo) annotation (Line(points={{1,14},{14,14},{14,100},{
-            130,100}}, color={0,0,127}));
-    connect(hvac.PPum, PPum) annotation (Line(points={{1,12},{18,12},{18,80},{
-            130,80}}, color={0,0,127}));
-    connect(con.TSetRooHea, TSetRooHea) annotation (Line(points={{-102,10},{
-            -140,10},{-140,40},{-180,40}}, color={0,0,127}));
-    connect(con.TSetRooCoo, TSetRooCoo) annotation (Line(points={{-102,6},{-140,
-            6},{-140,-20},{-180,-20}}, color={0,0,127}));
-    connect(EHVAC.y, ETotHVAC) annotation (Line(points={{101.7,-60},{130,-60}},
-                                 color={0,0,127}));
-    connect(EFan.y, ETotFan)
-      annotation (Line(points={{61,-40},{130,-40}}, color={0,0,127}));
-    connect(EPum.y, ETotPum) annotation (Line(points={{61,-130},{90,-130},{90,-120},
-            {130,-120}},       color={0,0,127}));
-    connect(ECoo.y, ETotCoo) annotation (Line(points={{61,-100},{130,-100}},
-                               color={0,0,127}));
-    connect(EHea.y, ETotHea) annotation (Line(points={{61,-70},{64,-70},{64,-80},{
-            130,-80}},                                               color={0,0,
-            127}));
-    connect(ETotPum, ETotPum) annotation (Line(points={{130,-120},{126,-120},{
-            126,-120},{130,-120}}, color={0,0,127}));
+    connect(TSetRooHea.y[1], oveTSetRooHea.u)
+      annotation (Line(points={{-159,30},{-142,30}}, color={0,0,127}));
+    connect(oveTSetRooHea.y, con.TSetRooHea) annotation (Line(points={{-119,30},
+            {-116,30},{-116,10},{-102,10}}, color={0,0,127}));
+    connect(TSetRooCoo.y[1], oveTSetRooCoo.u)
+      annotation (Line(points={{-159,-10},{-142,-10}}, color={0,0,127}));
+    connect(oveTSetRooCoo.y, con.TSetRooCoo) annotation (Line(points={{-119,-10},
+            {-116,-10},{-116,6},{-102,6}}, color={0,0,127}));
+    connect(hvac.PPum, PPum.u) annotation (Line(points={{1,12},{18,12},{18,80},
+            {118,80}}, color={0,0,127}));
+    connect(hvac.PCoo, PCoo.u) annotation (Line(points={{1,14},{14,14},{14,100},
+            {138,100}}, color={0,0,127}));
+    connect(hvac.QHea_flow, PHea.u) annotation (Line(points={{1,16},{10,16},{10,
+            120},{118,120}}, color={0,0,127}));
+    connect(hvac.PFan, PFan.u) annotation (Line(points={{1,18},{6,18},{6,140},{
+            138,140}}, color={0,0,127}));
+    connect(zon.TRooAir, TRooAir.u)
+      annotation (Line(points={{81,0},{118,0}}, color={0,0,127}));
+    connect(EFan.y, ETotFan.u)
+      annotation (Line(points={{61,-40},{118,-40}}, color={0,0,127}));
+    connect(ETotHVAC.u, EHVAC.y)
+      annotation (Line(points={{138,-60},{101.7,-60}}, color={0,0,127}));
+    connect(EHea.y, ETotHea.u) annotation (Line(points={{61,-70},{64,-70},{64,
+            -80},{118,-80}}, color={0,0,127}));
+    connect(ECoo.y, ETotCoo.u)
+      annotation (Line(points={{61,-100},{138,-100}}, color={0,0,127}));
+    connect(EPum.y, ETotPum.u) annotation (Line(points={{61,-130},{90,-130},{90,
+            -120},{118,-120}}, color={0,0,127}));
     annotation (
       experiment(
         StopTime=504800,
@@ -216,39 +223,5 @@ First implementation.
                   points={{-52,50},{48,-10},{-52,-70},{-52,50}})}));
   end TestCaseSupervisory;
 
-  package Examples "Contains executable examples of the test case."
-    extends Modelica.Icons.ExamplesPackage;
-    model ConstantCoolHeatSet
-      extends Modelica.Icons.Example;
-      TestCaseSupervisory testCaseSupervisory
-        annotation (Placement(transformation(extent={{-16,-14},{12,16}})));
-      Modelica.Blocks.Sources.CombiTimeTable TSetRooHea(
-        smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
-        extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-        table=[0,20 + 273.15; 8*3600,20 + 273.15; 18*3600,20 + 273.15; 24*3600,
-            20 + 273.15])
-        "Heating setpoint for room temperature"
-        annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
-      Modelica.Blocks.Sources.CombiTimeTable TSetRooCoo(
-        smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
-        extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-        table=[0,25 + 273.15; 8*3600,25 + 273.15; 18*3600,25 + 273.15; 24*3600,
-            25 + 273.15])
-        "Cooling setpoint for room temperature"
-        annotation (Placement(transformation(extent={{-60,-30},{-40,-10}})));
-    equation
-      connect(TSetRooHea.y[1], testCaseSupervisory.TSetRooHea) annotation (Line(
-            points={{-39,10},{-28,10},{-28,6},{-18,6}}, color={0,0,127}));
-      connect(TSetRooCoo.y[1], testCaseSupervisory.TSetRooCoo) annotation (Line(
-            points={{-39,-20},{-28,-20},{-28,0},{-18,0}}, color={0,0,127}));
-      annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-            coordinateSystem(preserveAspectRatio=false)),
-        experiment(
-          StopTime=31536000,
-          Interval=3600,
-          Tolerance=1e-06,
-          __Dymola_Algorithm="Cvode"));
-    end ConstantCoolHeatSet;
-  end Examples;
   annotation (uses(Modelica(version="3.2.2"), Buildings(version="6.0.0")));
 end SingleZoneVAV;
