@@ -24,9 +24,9 @@ from controllers import sup
 # Set URL for testcase
 url = 'http://127.0.0.1:5000'
 # Set simulation parameters
-length = 24*3600*3
+length = 24*3600*2
 step = 3600
-plot = True
+plot = False
 # ---------------
 
 # GET TEST INFORMATION
