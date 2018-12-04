@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This module compiles the defined test case model into an FMU using the 
+This module compiles the defined test case model into an FMU using the
 overwrite block parser.
 
 """
@@ -11,7 +11,7 @@ from parser import parser
 # ------------
 mopath = 'SimpleRC.mo';
 modelpath = 'SimpleRC'
-extra_libraries = ['../../parser/TestOverWrite.mo']
+extra_libraries = ['../../parser/SignalExchange.mo']
 # ------------
 
 # COMPILE FMU

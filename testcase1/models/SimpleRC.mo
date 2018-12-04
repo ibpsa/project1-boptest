@@ -25,7 +25,7 @@ model SimpleRC
     yMin=0,
     yMax=100000)
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
-  TestOverWrite.Overwrite oveAct
+  SignalExchange.Overwrite oveAct
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeat
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
@@ -34,11 +34,11 @@ model SimpleRC
   Modelica.Blocks.Continuous.Integrator intEHeat(initType=Modelica.Blocks.Types.Init.InitialState,
       y_start=0)
     annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
-  TestOverWrite.Read TRooAir
+  SignalExchange.Read TRooAir
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  TestOverWrite.Read ETotHea
+  SignalExchange.Read ETotHea
     annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
-  TestOverWrite.Read PHea
+  SignalExchange.Read PHea
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
   connect(res.port_b, cap.port)

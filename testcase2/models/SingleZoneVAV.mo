@@ -62,29 +62,29 @@ package SingleZoneVAV
       table=[0,25 + 273.15; 8*3600,25 + 273.15; 18*3600,25 + 273.15; 24*3600,25
            + 273.15]) "Cooling setpoint for room temperature"
       annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
-    TestOverWrite.Overwrite oveTSetRooHea
+    SignalExchange.Overwrite oveTSetRooHea
       annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
-    TestOverWrite.Overwrite oveTSetRooCoo
+    SignalExchange.Overwrite oveTSetRooCoo
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
-    TestOverWrite.Read PPum
+    SignalExchange.Read PPum
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
-    TestOverWrite.Read PCoo
+    SignalExchange.Read PCoo
       annotation (Placement(transformation(extent={{140,90},{160,110}})));
-    TestOverWrite.Read PHea
+    SignalExchange.Read PHea
       annotation (Placement(transformation(extent={{120,110},{140,130}})));
-    TestOverWrite.Read PFan
+    SignalExchange.Read PFan
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
-    TestOverWrite.Read TRooAir
+    SignalExchange.Read TRooAir
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
-    TestOverWrite.Read ETotFan
+    SignalExchange.Read ETotFan
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
-    TestOverWrite.Read ETotHVAC
+    SignalExchange.Read ETotHVAC
       annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
-    TestOverWrite.Read ETotHea
+    SignalExchange.Read ETotHea
       annotation (Placement(transformation(extent={{120,-90},{140,-70}})));
-    TestOverWrite.Read ETotCoo
+    SignalExchange.Read ETotCoo
       annotation (Placement(transformation(extent={{140,-110},{160,-90}})));
-    TestOverWrite.Read ETotPum
+    SignalExchange.Read ETotPum
       annotation (Placement(transformation(extent={{120,-130},{140,-110}})));
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(

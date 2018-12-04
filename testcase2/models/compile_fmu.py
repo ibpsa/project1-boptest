@@ -11,7 +11,7 @@ from parser import parser
 # ------------
 mopath = 'SingleZoneVAV.mo';
 modelpath = 'SingleZoneVAV.TestCaseSupervisory'
-extra_libraries = ['../../parser/TestOverWrite.mo'] # Buildings must be on MODELICAPATH
+extra_libraries = ['../../parser/SignalExchange.mo'] # Buildings must be on MODELICAPATH
 # ------------
 
 # COMPILE FMU
