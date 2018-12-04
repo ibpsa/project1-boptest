@@ -32,17 +32,17 @@ model SimpleRC
     offset=273.15 + 20,
     startTime=3600*24)
     annotation (Placement(transformation(extent={{-100,-30},{-80,-10}})));
-  TestOverWrite.Overwrite oveSet
+  SignalExchange.Overwrite oveSet
     annotation (Placement(transformation(extent={{-70,-30},{-50,-10}})));
-  TestOverWrite.Overwrite oveAct
+  SignalExchange.Overwrite oveAct
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
-  TestOverWrite.Read TZone
+  SignalExchange.Read TZone
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
-  TestOverWrite.Read EHeat
+  SignalExchange.Read EHeat
     annotation (Placement(transformation(extent={{100,-110},{120,-90}})));
-  TestOverWrite.Read PHeat
+  SignalExchange.Read PHeat
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
-  TestOverWrite.Read setZone
+  SignalExchange.Read setZone
     annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
 equation
   connect(res.port_b, cap.port)
