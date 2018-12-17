@@ -25,7 +25,8 @@ model SimpleRC
     yMin=0,
     yMax=100000)
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
-  SignalExchange.Overwrite oveAct
+  IBPSA.Utilities.IO.SignalExchange.Overwrite
+                           oveAct
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeat
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
@@ -34,11 +35,14 @@ model SimpleRC
   Modelica.Blocks.Continuous.Integrator intEHeat(initType=Modelica.Blocks.Types.Init.InitialState,
       y_start=0)
     annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
-  SignalExchange.Read TRooAir
+  IBPSA.Utilities.IO.SignalExchange.Read
+                      TRooAir
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  SignalExchange.Read ETotHea
+  IBPSA.Utilities.IO.SignalExchange.Read
+                      ETotHea
     annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
-  SignalExchange.Read PHea
+  IBPSA.Utilities.IO.SignalExchange.Read
+                      PHea
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
   connect(res.port_b, cap.port)
@@ -70,5 +74,5 @@ equation
     annotation (Line(points={{-79,-30},{-72,-30}}, color={0,0,127}));
   connect(intEHeat.y, ETotHea.u)
     annotation (Line(points={{81,-90},{98,-90}}, color={0,0,127}));
-  annotation (uses(Modelica(version="3.2.2")));
+  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
 end SimpleRC;

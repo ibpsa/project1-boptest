@@ -62,29 +62,41 @@ package SingleZoneVAV
       table=[0,25 + 273.15; 8*3600,25 + 273.15; 18*3600,25 + 273.15; 24*3600,25
            + 273.15]) "Cooling setpoint for room temperature"
       annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
-    SignalExchange.Overwrite oveTSetRooHea
+    IBPSA.Utilities.IO.SignalExchange.Overwrite
+                             oveTSetRooHea
       annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
-    SignalExchange.Overwrite oveTSetRooCoo
+    IBPSA.Utilities.IO.SignalExchange.Overwrite
+                             oveTSetRooCoo
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
-    SignalExchange.Read PPum
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        PPum
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
-    SignalExchange.Read PCoo
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        PCoo
       annotation (Placement(transformation(extent={{140,90},{160,110}})));
-    SignalExchange.Read PHea
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        PHea
       annotation (Placement(transformation(extent={{120,110},{140,130}})));
-    SignalExchange.Read PFan
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        PFan
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
-    SignalExchange.Read TRooAir
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        TRooAir
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
-    SignalExchange.Read ETotFan
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        ETotFan
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
-    SignalExchange.Read ETotHVAC
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        ETotHVAC
       annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
-    SignalExchange.Read ETotHea
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        ETotHea
       annotation (Placement(transformation(extent={{120,-90},{140,-70}})));
-    SignalExchange.Read ETotCoo
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        ETotCoo
       annotation (Placement(transformation(extent={{140,-110},{160,-90}})));
-    SignalExchange.Read ETotPum
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        ETotPum
       annotation (Placement(transformation(extent={{120,-130},{140,-110}})));
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(
@@ -223,5 +235,6 @@ First implementation.
                   points={{-52,50},{48,-10},{-52,-70},{-52,50}})}));
   end TestCaseSupervisory;
 
-  annotation (uses(Modelica(version="3.2.2"), Buildings(version="6.0.0")));
+  annotation (uses(Modelica(version="3.2.2"), Buildings(version="6.0.0"),
+      IBPSA(version="3.0.0")));
 end SingleZoneVAV;

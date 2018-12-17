@@ -21,8 +21,8 @@ def get_instances(model_path, file_name):
     ----------
     model_path : str
         Path to modelica model
-    file_name : str or list
-        Path(s) to modelica file and required libraries.
+    file_name : list
+        Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
 
     Returns
@@ -71,8 +71,8 @@ def write_wrapper(model_path, file_name, instances):
     ----------
     model_path : str
         Path to orginal modelica model
-    file_name : str or list
-        Path(s) to modelica file and required libraries.
+    file_name : list
+        Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
     instances : dict
         Dictionary of overwrite and read block class instance lists.
@@ -139,8 +139,8 @@ def export_fmu(model_path, file_name):
     ----------
     model_path : str
         Path to orginal modelica model
-    file_name : str or list
-        Path(s) to modelica file and required libraries.
+    file_name : list
+        Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
 
     Returns
@@ -163,8 +163,7 @@ if __name__ == '__main__':
     # Define model
     model_path = 'SimpleRC'
     mo_path = 'SimpleRC.mo'
-    se_library = 'SignalExchange.mo'
     # Parse and export
-    fmu_path = export_fmu(model_path, [mo_path, se_library])
+    fmu_path = export_fmu(model_path, [mo_path])
     # Print information
     print('Exported FMU path is: {0}'.format(fmu_path))

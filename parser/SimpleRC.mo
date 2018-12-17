@@ -32,17 +32,23 @@ model SimpleRC
     offset=273.15 + 20,
     startTime=3600*24)
     annotation (Placement(transformation(extent={{-100,-30},{-80,-10}})));
-  SignalExchange.Overwrite oveSet
+  IBPSA.Utilities.IO.SignalExchange.Overwrite
+                           oveSet
     annotation (Placement(transformation(extent={{-70,-30},{-50,-10}})));
-  SignalExchange.Overwrite oveAct
+  IBPSA.Utilities.IO.SignalExchange.Overwrite
+                           oveAct
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
-  SignalExchange.Read TZone
+  IBPSA.Utilities.IO.SignalExchange.Read
+                      TZone
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
-  SignalExchange.Read EHeat
+  IBPSA.Utilities.IO.SignalExchange.Read
+                      EHeat
     annotation (Placement(transformation(extent={{100,-110},{120,-90}})));
-  SignalExchange.Read PHeat
+  IBPSA.Utilities.IO.SignalExchange.Read
+                      PHeat
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
-  SignalExchange.Read setZone
+  IBPSA.Utilities.IO.SignalExchange.Read
+                      setZone
     annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
 equation
   connect(res.port_b, cap.port)
@@ -80,5 +86,5 @@ equation
           -100},{98,-100}}, color={0,0,127}));
   connect(oveSet.y, setZone.u) annotation (Line(points={{-49,-20},{-46,-20},{
           -46,-60},{-42,-60}}, color={0,0,127}));
-  annotation (uses(Modelica(version="3.2.2")));
+  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
 end SimpleRC;

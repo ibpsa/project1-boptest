@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-This module compiles the test case model into an FMU using the package
-``pymodelica``.
+This module compiles the defined test case model into an FMU using the
+overwrite block parser.
+
+The following libraries must be on the MODELICAPATH:
+
+- Modelica IBPSA
+- Modelica Buildings
 
 """
 
@@ -11,10 +16,9 @@ from parser import parser
 # ------------
 mopath = 'SingleZoneVAV.mo';
 modelpath = 'SingleZoneVAV.TestCaseSupervisory'
-extra_libraries = ['../../parser/SignalExchange.mo'] # Buildings must be on MODELICAPATH
 # ------------
 
 # COMPILE FMU
 # -----------
-fmupath = parser.export_fmu(modelpath, [mopath]+extra_libraries)
+fmupath = parser.export_fmu(modelpath, [mopath])
 # -----------

@@ -3,6 +3,10 @@
 This module compiles the defined test case model into an FMU using the
 overwrite block parser.
 
+The following libraries must be on the MODELICAPATH:
+
+- Modelica IBPSA
+
 """
 
 from parser import parser
@@ -11,10 +15,9 @@ from parser import parser
 # ------------
 mopath = 'SimpleRC.mo';
 modelpath = 'SimpleRC'
-extra_libraries = ['../../parser/SignalExchange.mo']
 # ------------
 
 # COMPILE FMU
 # -----------
-fmupath = parser.export_fmu(modelpath, [mopath]+extra_libraries)
+fmupath = parser.export_fmu(modelpath, [mopath])
 # -----------
