@@ -2,47 +2,52 @@ within ;
 model SimpleRC
   "A simple thermal R1C1 model with sinusoidal outside air temperature and a feedback controlled heater."
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor cap(C=1e6)
+    "Thermal capacitance of room"
     annotation (Placement(transformation(extent={{30,0},{50,20}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalResistor res(R=0.01)
+    "Thermal resistance to outside"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTZone
+    "Room air temperature sensor"
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedTemperature preTOut
+    "Set the outside air temperature"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
   Modelica.Blocks.Sources.Sine souTOut(
     freqHz=1/(3600*24),
     offset=273.15 + 20,
-    amplitude=10)
+    amplitude=10) "Artificial outside air temperature"
     annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
   Modelica.Blocks.Sources.Step set(
     height=2,
     offset=273.15 + 20,
-    startTime=3600*24)
+    startTime=3600*24) "Room temperature sepoint"
     annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
   Modelica.Blocks.Continuous.LimPID con(
     controllerType=Modelica.Blocks.Types.SimpleController.P,
     k=2000,
     yMin=0,
-    yMax=100000)
+    yMax=100000) "Feedback controller for the heater based on room temperature"
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveAct
+                           oveAct "Overwrite the heating power"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeat
+    "Set the heating power to the room"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
-  Modelica.Blocks.Math.Gain eff(k=1/0.99)
+  Modelica.Blocks.Math.Gain eff(k=1/0.99) "Heater efficiency"
     annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
   Modelica.Blocks.Continuous.Integrator intEHeat(initType=Modelica.Blocks.Types.Init.InitialState,
-      y_start=0)
+      y_start=0) "Calculate the heater energy"
     annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      TRooAir
+                      TRooAir "Read the room air temperature"
     annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      ETotHea
+                      ETotHea "Read the heater energy"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      PHea
+                      PHea "Read the heater power"
     annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
 equation
   connect(res.port_b, cap.port)
