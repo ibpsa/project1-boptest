@@ -37,13 +37,13 @@ model SimpleRC
     annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       TRooAir
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+    annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       ETotHea
     annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       PHea
-    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
+    annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
 equation
   connect(res.port_b, cap.port)
     annotation (Line(points={{20,0},{40,0}},color={191,0,0}));
@@ -59,20 +59,19 @@ equation
     annotation (Line(points={{-19,-30},{0,-30}},color={0,0,127}));
   connect(preHeat.port, cap.port)
     annotation (Line(points={{20,-30},{40,-30},{40,0}}, color={191,0,0}));
-  connect(senTZone.T, con.u_m) annotation (Line(points={{80,0},{90,0},{90,-60},
-          {-60,-60},{-60,-42}},
-                           color={0,0,127}));
-  connect(senTZone.T, TRooAir.u)
-    annotation (Line(points={{80,0},{98,0}}, color={0,0,127}));
-  connect(eff.y, intEHeat.u)
-    annotation (Line(points={{21,-90},{58,-90}}, color={0,0,127}));
   connect(oveAct.y, eff.u) annotation (Line(points={{-19,-30},{-10,-30},{-10,
           -90},{-2,-90}}, color={0,0,127}));
-  connect(PHea.u, intEHeat.u) annotation (Line(points={{98,-40},{40,-40},{40,
-          -90},{58,-90}}, color={0,0,127}));
   connect(set.y, con.u_s)
     annotation (Line(points={{-79,-30},{-72,-30}}, color={0,0,127}));
   connect(intEHeat.y, ETotHea.u)
     annotation (Line(points={{81,-90},{98,-90}}, color={0,0,127}));
+  connect(eff.y, PHea.u)
+    annotation (Line(points={{21,-90},{28,-90}}, color={0,0,127}));
+  connect(PHea.y, intEHeat.u)
+    annotation (Line(points={{51,-90},{58,-90}}, color={0,0,127}));
+  connect(senTZone.T, TRooAir.u) annotation (Line(points={{80,0},{90,0},{90,-60},
+          {82,-60}}, color={0,0,127}));
+  connect(TRooAir.y, con.u_m)
+    annotation (Line(points={{59,-60},{-60,-60},{-60,-42}}, color={0,0,127}));
   annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
 end SimpleRC;
