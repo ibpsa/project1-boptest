@@ -7,6 +7,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 ## Structure
 - ``\testcase#`` contains prototype code for a test case, including docs, models, and configuration settings.
 - ``\examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.
+- ``\parser`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU.
 - ``\template`` contains template Modelica code for a test case emulator model.
 
 ## Run Prototype Test Cases
@@ -16,7 +17,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 4) Run an example controller test:
 
 - For testcase1, in a separate terminal use ``$ python examples/twoday-p.py`` to test a simple proportional feedback controller on the test case over a two-day period.
-- For testcase2, in a separate terminal use ``$ python examples/szvav-sup.py`` to test a simple supervisory controller on the test case over a year.
+- For testcase2, in a separate terminal use ``$ python examples/szvav-sup.py`` to test a simple supervisory controller on the test case over a two-day period.
 
 ## Test Case RESTful API
 - To interact, send RESTful requests to: ``http://127.0.0.1:5000/<request>``
@@ -42,4 +43,3 @@ Example RESTful interaction:
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
-

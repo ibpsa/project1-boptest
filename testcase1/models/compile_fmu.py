@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-This module compiles the test case model into an FMU using the package
-``pymodelica``.
+This module compiles the defined test case model into an FMU using the
+overwrite block parser.
+
+The following libraries must be on the MODELICAPATH:
+
+- Modelica IBPSA
 
 """
 
-from pymodelica import compile_fmu
+from parser import parser
 
 # DEFINE MODEL
 # ------------
-mopath = 'SimpleRC_Input.mo';
-modelpath = 'SimpleRC_Input'
+mopath = 'SimpleRC.mo';
+modelpath = 'SimpleRC'
 # ------------
 
 # COMPILE FMU
 # -----------
-fmupath = compile_fmu(modelpath, mopath)
+fmupath = parser.export_fmu(modelpath, [mopath])
 # -----------

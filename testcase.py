@@ -25,20 +25,26 @@ class TestCase(object):
         con = config.get_config()
         # Define simulation model
         self.fmupath = con['fmupath']
-        # Define measurements
-        self.y = {'time':[]}
-        for key in con['y']:
-            self.y[key] = []
-        self.y_store = copy.deepcopy(self.y)
-        # Define inputs
-        self.u = dict()
-        for key in con['u']:
-            self.u[key] = []
-        self.u_store = copy.deepcopy(self.u)
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
         # Get version
         self.fmu_version = self.fmu.get_version()
+        # Get available control inputs and outputs
+        if self.fmu_version == '2.0':
+            input_names = self.fmu.get_model_variables(causality = 2).keys()
+            output_names = self.fmu.get_model_variables(causality = 3).keys()
+        else:
+            raise ValueError('FMU must be version 2.0.')
+        # Define measurements
+        self.y = {'time':[]}
+        for key in output_names:
+            self.y[key] = []
+        self.y_store = copy.deepcopy(self.y)
+        # Define inputs
+        self.u = {'time':[]}
+        for key in input_names:
+            self.u[key] = []
+        self.u_store = copy.deepcopy(self.u)
         # Set default options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6 
@@ -73,9 +79,10 @@ class TestCase(object):
             u_list = []
             u_trajectory = self.start_time
             for key in u.keys():
-                value = float(u[key])
-                u_list.append(key)
-                u_trajectory = np.vstack((u_trajectory, value))
+                if key != 'time':
+                    value = float(u[key])
+                    u_list.append(key)
+                    u_trajectory = np.vstack((u_trajectory, value))
             input_object = (u_list, np.transpose(u_trajectory))
         else:
             input_object = None
@@ -205,11 +212,7 @@ class TestCase(object):
         
         kpi = dict()
         # Energy
-        kpi['HVAC Energy'] = self.y_store['ETotHVAC'][-1]
-        kpi['Heating Energy'] = self.y_store['ETotHea'][-1]
-        kpi['Cooling Energy'] = self.y_store['ETotCoo'][-1]
-        kpi['Fan Energy'] = self.y_store['ETotFan'][-1]
-        kpi['Pump Energy'] = self.y_store['ETotPum'][-1]
+        kpi['Heating Energy'] = self.y_store['ETotHea_y'][-1]
         # Comfort
 
         return kpi

@@ -22,7 +22,10 @@ def compute_control(y):
     '''
     
     # Compute control
-    u = {'TSetRooHea':20+273.15, 'TSetRooCoo':25+273.15}
+    u = {'oveTSetRooHea_u':20+273.15, 
+         'oveTSetRooHea_activate':1,
+         'oveTSetRooCoo_u':25+273.15,
+         'oveTSetRooCoo_activate':1}
     
     return u
     
@@ -41,6 +44,9 @@ def initialize():
     
     '''
     
-    u = {'TSetRooHea':20+273.15, 'TSetRooCoo':25+273.15}
+    u = {'oveTSetRooHea_u':20+273.15, 
+         'oveTSetRooHea_activate':1,
+         'oveTSetRooCoo_u':25+273.15,
+         'oveTSetRooCoo_activate':1}
     
     return u

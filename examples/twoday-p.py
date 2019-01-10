@@ -46,6 +46,9 @@ print('Default Simulation Step:\t{0}'.format(step_def))
 
 # RUN TEST CASE
 # -------------
+# Reset test case
+print('Resetting test case if needed.')
+res = requests.put('{0}/reset'.format(url))
 # Set simulation step
 print('Setting simulation step to {0}.'.format(step))
 res = requests.put('{0}/step'.format(url), data={'step':step})
@@ -75,9 +78,9 @@ for key in kpi.keys():
 # Get result data
 res = requests.get('{0}/results'.format(url)).json()
 time = [x/3600 for x in res['y']['time']] # convert s --> hr
-TZone = [x-273.15 for x in res['y']['TRooAir']] # convert K --> C
-PHeat = res['y']['PHea']
-QHeat = res['u']['QHeat']
+TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
+PHeat = res['y']['PHea_y']
+QHeat = res['u']['oveAct_u']
 # Plot results
 plt.figure(1)
 plt.title('Zone Temperature')

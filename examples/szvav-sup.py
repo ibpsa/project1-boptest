@@ -24,7 +24,7 @@ from controllers import sup
 # Set URL for testcase
 url = 'http://127.0.0.1:5000'
 # Set simulation parameters
-length = 24*3600*365
+length = 24*3600*2
 step = 3600
 plot = False
 # ---------------
@@ -49,6 +49,9 @@ print('Default Simulation Step:\t{0}'.format(step_def))
 # RUN TEST CASE
 # -------------
 start = time.time()
+# Reset test case
+print('Resetting test case if needed.')
+res = requests.put('{0}/reset'.format(url))
 print('\nRunning test case...')
 # Set simulation step
 res = requests.put('{0}/step'.format(url), data={'step':step})
@@ -78,13 +81,13 @@ for key in kpi.keys():
 # Get result data
 res = requests.get('{0}/results'.format(url)).json()
 time = [x/3600 for x in res['y']['time']] # convert s --> hr
-TRooAir = [x-273.15 for x in res['y']['TRooAir']] # convert K --> C
-TSetRooHea = [x-273.15 for x in res['u']['TSetRooHea']] # convert K --> C
-TSetRooCoo = [x-273.15 for x in res['u']['TSetRooCoo']] # convert K --> C
-PFan = res['y']['PFan']
-PCoo = res['y']['PCoo']
-PHea = res['y']['PHea']
-PPum = res['y']['PPum']
+TRooAir = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
+TSetRooHea = [x-273.15 for x in res['u']['oveTSetRooHea_u']] # convert K --> C
+TSetRooCoo = [x-273.15 for x in res['u']['oveTSetRooCoo_u']] # convert K --> C
+PFan = res['y']['PFan_y']
+PCoo = res['y']['PCoo_y']
+PHea = res['y']['PHea_y']
+PPum = res['y']['PPum_y']
 # Plot results
 if plot:
     plt.figure(1)
