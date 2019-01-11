@@ -19,5 +19,5 @@ modelpath = 'SimpleRC'
 
 # COMPILE FMU
 # -----------
-fmupath = parser.export_fmu(modelpath, [mopath])
+fmupath,kpipath = parser.export_fmu(modelpath, [mopath])
 # -----------

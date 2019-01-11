@@ -41,10 +41,12 @@ model SimpleRC
       y_start=0) "Calculate the heater energy"
     annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      TRooAir "Read the room air temperature"
+                      TRooAir(KPIs="comfort")
+                              "Read the room air temperature"
     annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      ETotHea "Read the heater energy"
+                      ETotHea(KPIs="energy")
+                              "Read the heater energy"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       PHea "Read the heater power"
