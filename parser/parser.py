@@ -47,10 +47,10 @@ def get_instances(model_path, file_name):
     # Find instances of 'Overwrite' or 'Read'
     for par in par_names:
         # Overwrite
-        if 'is_overwrite' in par:
+        if 'boptestOverwrite' in par:
             label = 'Overwrite'
         # Read
-        elif 'is_read' in par:
+        elif 'boptestRead' in par:
             label = 'Read'
         else:
             continue
