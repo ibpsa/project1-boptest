@@ -21,3 +21,9 @@ test_testcase2:
 	cd .. && TESTCASE=testcase2 make stop
 	# Remove testcase image
 	cd .. && TESTCASE=testcase2 make remove-image
+
+test_parser:
+	# Run parser and export wrapper model and fmu
+	cd ../parser && python parser.py
+	# test wrapper fmu with simulaton
+	cd ../parser && python simulate.py
