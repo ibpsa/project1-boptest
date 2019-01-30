@@ -2,7 +2,7 @@ test_testcase1:
 	# Build testcase image
 	cd .. && TESTCASE=testcase1 make build
 	# Deploy testcase container
-	cd .. && TESTCASE=testcase1 make run && sleep 3
+	cd .. && TESTCASE=testcase1 DETACH=true make run && sleep 3
 	# Run testcase container
 	cd .. && python examples/twoday-p.py
 	# Stop testcase container
@@ -14,7 +14,7 @@ test_testcase2:
 	# Build testcase image
 	cd .. && TESTCASE=testcase2 make build
 	# Deploy testcase container
-	cd .. && TESTCASE=testcase2 make run && sleep 3
+	cd .. && TESTCASE=testcase2 DETACH=true make run && sleep 3
 	# Run testcase container
 	cd .. && python examples/szvav-sup.py
 	# Stop testcase container
