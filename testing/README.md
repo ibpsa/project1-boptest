@@ -8,7 +8,7 @@ Command: ``$ make test_testcase1``
 4) Stops test case container
 5) Removes test case image.
 
-## Run tests for compiling testcase 1 model
+## Run tests for compiling test case 1 model
 Command: ``$ make test_compile_model_testcase1``
 1) Runs ``../testcase1/models/compile_fmu.py`` to export testcase1 wrapper fmu.
 
@@ -20,7 +20,7 @@ Command: ``$ make test_testcase2``
 4) Stops test case container
 5) Removes test case image.
 
-## Run tests for compiling testcase 2 model
+## Run tests for compiling test case 2 model
 Command: ``$ make test_compile_model_testcase2``
 1) Runs ``../testcase2/models/compile_fmu.py`` to export testcase2 wrapper fmu.
 
