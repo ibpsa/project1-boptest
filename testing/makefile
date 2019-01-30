@@ -10,6 +10,10 @@ test_testcase1:
 	# Remove testcase image
 	cd .. && TESTCASE=testcase1 make remove-image
 
+test_compile_model_testcase1:
+	# Compile testcase model
+	cd ../testcase1/models && python compile_fmu.py
+
 test_testcase2:
 	# Build testcase image
 	cd .. && TESTCASE=testcase2 make build
@@ -21,6 +25,10 @@ test_testcase2:
 	cd .. && TESTCASE=testcase2 make stop
 	# Remove testcase image
 	cd .. && TESTCASE=testcase2 make remove-image
+
+test_compile_model_testcase2:
+	# Compile testcase model
+	cd ../testcase2/models && python compile_fmu.py
 
 test_parser:
 	# Run parser and export wrapper model and fmu
