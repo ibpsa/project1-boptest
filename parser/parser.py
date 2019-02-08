@@ -46,12 +46,13 @@ def parse_instances(model_path, file_name):
     if fmu.get_version() != '2.0':
         raise ValueError('FMU version must be 2.0')
     # Get all parameters
-    pars = fmu.get_model_variables(causality = 0).keys()
+    vars = fmu.get_model_variables(causality = 0).keys() + \
+           fmu.get_model_variables(causality = 4).keys()
     # Initialize dictionaries
     instances = {'Overwrite':[], 'Read':[]}
     kpis = {}
     # Find instances of 'Overwrite' or 'Read'
-    for par in pars:
+    for par in vars:
         # Overwrite
         if 'boptestOverwrite' in par:
             label = 'Overwrite'
