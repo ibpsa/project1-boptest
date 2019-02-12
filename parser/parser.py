@@ -46,8 +46,8 @@ def parse_instances(model_path, file_name):
     if fmu.get_version() != '2.0':
         raise ValueError('FMU version must be 2.0')
     # Get all parameters
-    allvars =   fmu.get_model_variables(causality = 0).keys() + \
-                fmu.get_model_variables(causality = 4).keys()
+    allvars =   fmu.get_model_variables(variability = 0).keys() + \
+                fmu.get_model_variables(variability = 1).keys()
     # Initialize dictionaries
     instances = {'Overwrite':[], 'Read':[]}
     kpis = {}
