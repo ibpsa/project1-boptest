@@ -46,31 +46,31 @@ def parse_instances(model_path, file_name):
     if fmu.get_version() != '2.0':
         raise ValueError('FMU version must be 2.0')
     # Get all parameters
-    vars = fmu.get_model_variables(causality = 0).keys() + \
-           fmu.get_model_variables(causality = 4).keys()
+    allvars =   fmu.get_model_variables(causality = 0).keys() + \
+                fmu.get_model_variables(causality = 4).keys()
     # Initialize dictionaries
     instances = {'Overwrite':[], 'Read':[]}
     kpis = {}
     # Find instances of 'Overwrite' or 'Read'
-    for par in vars:
+    for var in allvars:
         # Overwrite
-        if 'boptestOverwrite' in par:
+        if 'boptestOverwrite' in var:
             label = 'Overwrite'
         # Read
-        elif 'boptestRead' in par:
+        elif 'boptestRead' in var:
             label = 'Read'
         # KPI
-        elif 'KPIs' in par:
+        elif 'KPIs' in var:
             label = 'kpi'
         else:
             continue
         # Get instance name
-        instance = '.'.join(par.split('.')[:-1])
+        instance = '.'.join(var.split('.')[:-1])
         # Save instance
         if label is not 'kpi':
             instances[label].append(instance)
         else:
-            for kpi in fmu.get(par)[0].split(','):
+            for kpi in fmu.get(var)[0].split(','):
                 if kpi is '':
                     continue
                 elif kpi in kpis:
