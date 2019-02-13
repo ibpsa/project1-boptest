@@ -35,3 +35,10 @@ test_parser:
 	cd ../parser && python parser.py
 	# test wrapper fmu with simulaton
 	cd ../parser && python simulate.py
+
+test:
+	make test_parser
+	make test_compile_model_testcase1
+	sudo make test_testcase1
+	make test_compile_model_testcase2
+	sudo make test_testcase2
