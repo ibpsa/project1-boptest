@@ -10,11 +10,12 @@ imported from a different module.
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import requests
+import time
 # ----------------------
 
 # TEST CONTROLLER IMPORT
 # ----------------------
-from controllers import pid
+from controllers import sup
 # ----------------------
 
 def run(plot=False):
@@ -31,6 +32,8 @@ def run(plot=False):
     kpi : dict
         Dictionary of KPI names and values.
         {kpi_name : value}
+    res : dict
+        Dictionary of trajectories of inputs and outputs.
     
     '''
 
@@ -39,8 +42,8 @@ def run(plot=False):
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
     # Set simulation parameters
-    length = 48*3600
-    step = 300
+    length = 24*3600*2
+    step = 3600
     # ---------------
     
     # GET TEST INFORMATION
@@ -62,22 +65,23 @@ def run(plot=False):
     
     # RUN TEST CASE
     # -------------
+    start = time.time()
     # Reset test case
     print('Resetting test case if needed.')
     res = requests.put('{0}/reset'.format(url))
-    # Set simulation step
-    print('Setting simulation step to {0}.'.format(step))
-    res = requests.put('{0}/step'.format(url), data={'step':step})
     print('\nRunning test case...')
+    # Set simulation step
+    res = requests.put('{0}/step'.format(url), data={'step':step})
     # Initialize u
-    u = pid.initialize()
+    u = sup.initialize()
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
         y = requests.post('{0}/advance'.format(url), data=u).json()
         # Compute next control signal
-        u = pid.compute_control(y)
+        u = sup.compute_control(y)
     print('\nTest case complete.')
+    print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
         
     # VIEW RESULTS
@@ -93,27 +97,37 @@ def run(plot=False):
     # --------------------
     # Get result data
     res = requests.get('{0}/results'.format(url)).json()
-    time = [x/3600 for x in res['y']['time']] # convert s --> hr
-    TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-    PHeat = res['y']['PHea_y']
-    QHeat = res['u']['oveAct_u']
+    t = [x/3600 for x in res['y']['time']] # convert s --> hr
+    TRooAir = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
+    TSetRooHea = [x-273.15 for x in res['u']['oveTSetRooHea_u']] # convert K --> C
+    TSetRooCoo = [x-273.15 for x in res['u']['oveTSetRooCoo_u']] # convert K --> C
+    PFan = res['y']['PFan_y']
+    PCoo = res['y']['PCoo_y']
+    PHea = res['y']['PHea_y']
+    PPum = res['y']['PPum_y']
     # Plot results
     if plot:
         from matplotlib import pyplot as plt
         plt.figure(1)
         plt.title('Zone Temperature')
-        plt.plot(time, TZone)
+        plt.plot(t, TRooAir)
+        plt.plot(t, TSetRooHea)
+        plt.plot(t, TSetRooCoo)
         plt.ylabel('Temperature [C]')
         plt.xlabel('Time [hr]')
         plt.figure(2)
-        plt.title('Heater Power')
-        plt.plot(time, PHeat)
+        plt.title('HVAC Power')
+        plt.plot(t, PHea, label='Heating')
+        plt.plot(t, PCoo, label='Cooling')
+        plt.plot(t, PFan, label='Fan')
+        plt.plot(t, PPum, label='Pump')
         plt.ylabel('Electrical Power [W]')
         plt.xlabel('Time [hr]')
+        plt.legend()
         plt.show()
     # --------------------
         
-    return kpi
-
+    return kpi, res
+        
 if __name__ == "__main__":
-    kpi = run()
+    kpi,res = run()
