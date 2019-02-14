@@ -7,6 +7,7 @@ This module runs unit tests for the parer.
 import unittest
 import filecmp
 import os
+import pandas as pd
 import utilities
 from parser import parser, simulate
 
@@ -82,6 +83,15 @@ class GetInstances(unittest.TestCase):
                 with self.assertRaises(AssertionError):
                     self.assertTrue(False,msg='Key {0} should not be in instances.'.format(key))
 
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        testing_path = os.path.join(utilities.get_root_path(),'testing')
+        utilities.clean_up(testing_path)
+
 class WriteWrapper(unittest.TestCase):
     '''Tests the write_wrapper method of parser.
     
@@ -102,6 +112,15 @@ class WriteWrapper(unittest.TestCase):
         self.assertEqual(self.wrapped_path, os.path.join('wrapped.mo'))
         self.assertTrue(filecmp.cmp(self.wrapped_path, os.path.join(root_dir, 'testing', 'references', 'parser', 'wrapped.mo')))
 
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        testing_path = os.path.join(utilities.get_root_path(),'testing')
+        utilities.clean_up(testing_path)
+        
 class ExportSimulate(unittest.TestCase):
     '''Tests the export of a wrapper fmu and simulation of it.
     
@@ -113,7 +132,7 @@ class ExportSimulate(unittest.TestCase):
         '''
         
         # Parse and export fmu to working directory
-        fmu_path = parser.export_fmu(model_path, [mo_path])
+        self.fmu_path = parser.export_fmu(model_path, [mo_path])
 
     def test_simulate_no_overwrite(self):
         '''Test simulation with no overwriting.
@@ -123,6 +142,22 @@ class ExportSimulate(unittest.TestCase):
         # Simulate wrapped fmu in working directory
         res = simulate.simulate(overwrite=None)
         # Check results
+        df = pd.DataFrame()
+        for key in ['time', 'TZone_y', 'PHeat_y', 'setZone_y']:
+            df = pd.concat((df, pd.DataFrame(data=res[key], columns=[key])), axis=1)
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'parser', 'results_no_overwrite.csv')
+        if os.path.exists(ref_filepath):
+            # If reference exists, check it
+            df_ref = pd.read_csv(ref_filepath)
+            for key in df.columns:
+                y_test = df[key].get_values()
+                y_ref = df_ref[key].get_values()
+                results = utilities.check_trajectory(y_test, y_ref)
+                self.assertTrue(results['Pass'], results['Message'])
+        else:
+            # Otherwise, save as reference
+            df.to_csv(ref_filepath)
         
     def test_simulate_set_overwrite(self):
         '''Test simulation with setpoint overwriting.
@@ -132,7 +167,23 @@ class ExportSimulate(unittest.TestCase):
         # Simulate wrapped fmu in working directory
         res = simulate.simulate(overwrite='set')
         # Check results
-        
+        df = pd.DataFrame()
+        for key in ['time', 'TZone_y', 'PHeat_y', 'setZone_y']:
+            df = pd.concat((df, pd.DataFrame(data=res[key], columns=[key])), axis=1)
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'parser', 'results_set_overwrite.csv')
+        if os.path.exists(ref_filepath):
+            # If reference exists, check it
+            df_ref = pd.read_csv(ref_filepath)
+            for key in df.columns:
+                y_test = df[key].get_values()
+                y_ref = df_ref[key].get_values()
+                results = utilities.check_trajectory(y_test, y_ref)
+                self.assertTrue(results['Pass'], results['Message'])
+        else:
+            # Otherwise, save as reference
+            df.to_csv(ref_filepath)
+
     def test_simulate_act_overwrite(self):
         '''Test simulation with actuator overwriting.
         
@@ -141,7 +192,31 @@ class ExportSimulate(unittest.TestCase):
         # Simulate wrapped fmu in working directory
         res = simulate.simulate(overwrite='act')
         # Check results
+        df = pd.DataFrame()
+        for key in ['time', 'TZone_y', 'PHeat_y', 'setZone_y']:
+            df = pd.concat((df, pd.DataFrame(data=res[key], columns=[key])), axis=1)
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'parser', 'results_act_overwrite.csv')
+        if os.path.exists(ref_filepath):
+            # If reference exists, check it
+            df_ref = pd.read_csv(ref_filepath)
+            for key in df.columns:
+                y_test = df[key].get_values()
+                y_ref = df_ref[key].get_values()
+                results = utilities.check_trajectory(y_test, y_ref)
+                self.assertTrue(results['Pass'], results['Message'])
+        else:
+            # Otherwise, save as reference
+            df.to_csv(ref_filepath)
+            
+    def tearDown(self):
+        '''Teardown for each test.
         
+        '''
         
+        # Delete leftover files
+        testing_path = os.path.join(utilities.get_root_path(),'testing')
+        utilities.clean_up(testing_path)
+
 if __name__ == '__main__':
     unittest.main()
