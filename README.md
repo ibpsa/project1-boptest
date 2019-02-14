@@ -13,7 +13,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 
 ## Run Prototype Test Cases
 1) Build the test case image by ``$ TESTCASE=testcase# make build`` where # is the number of the test case to build.
-2) Deploy the test case container by ``$ TESTCASE=testcase# DETACH=false make run`` where # is the number of the test case that has been built.
+2) Deploy the test case container by ``$ TESTCASE=testcase# make run`` where # is the number of the test case that has been built.
 3) In a seperate process, use the test case API defined below to interact with the test case.
 4) Run an example controller test:
 
