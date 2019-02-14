@@ -34,3 +34,4 @@ test_all:
 	make test_parser
 	make test_testcase1
 	make test_testcase2
+	python report.py

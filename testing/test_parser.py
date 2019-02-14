@@ -8,6 +8,7 @@ import unittest
 import filecmp
 import os
 import pandas as pd
+import json
 import utilities
 from parser import parser, simulate
 
@@ -219,4 +220,4 @@ class ExportSimulate(unittest.TestCase):
         utilities.clean_up(testing_path)
 
 if __name__ == '__main__':
-    unittest.main()
+    utilities.run_tests(__file__)

@@ -7,9 +7,9 @@ common functions and partial classes.
 
 import os
 import requests
-from unittest import TestCase
+import unittest
 import numpy as np
-import pandas as pd
+import json
 
 def get_root_path():
     '''Returns the path to the root repository directory.
@@ -95,6 +95,36 @@ def clean_up(dir_path):
     for f in files:
         if f.endswith('.fmu') or f.endswith('.mo') or f.endswith('.txt') or f.endswith('.mat'):
             os.remove(os.path.join(dir_path, f))
+            
+def run_tests(test_file_name):
+    '''Run tests and save results for specified test file.
+    
+    Parameters
+    ----------
+    test_file_name : str
+        Test file name (ends in .py)
+    
+    '''
+
+    # Load tests
+    test_loader = unittest.TestLoader()
+    suite = test_loader.discover(os.path.join(get_root_path(),'testing'), pattern = test_file_name)
+    num_cases = suite.countTestCases()
+    # Run tests
+    print('\nFound {0} tests to run in {1}.\n\nRunning...'.format(num_cases, test_file_name))
+    result = unittest.TextTestRunner(verbosity = 1).run(suite);
+    # Parse and save results
+    num_failures = len(result.failures)
+    num_errors = len(result.errors)
+    num_passed = num_cases - num_errors - num_failures
+    log_json = {'TestFile':test_file_name, 'NCases':num_cases, 'NPassed':num_passed, 'NErrors':num_errors, 'NFailures':num_failures, 'Failures':{}, 'Errors':{}}
+    for i, failure in enumerate(result.failures):
+        log_json['Failures'][i]= failure[1]
+    for i, error in enumerate(result.errors):
+        log_json['Errors'][i]= error[1]
+    log_file = os.path.splitext(test_file_name)[0] + '.log'
+    with open(log_file, 'w') as f:
+        json.dump(log_json, f)
                 
 class partialTestAPI(object):
     '''This class implements common API tests for test cases.

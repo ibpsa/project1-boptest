@@ -3,6 +3,8 @@
 ## Run all tests defined below
 Command: ``$ make test_all``
 
+A test report will be displayed upon completion.
+
 ## Run tests for test case 1
 Command: ``$ make test_testcase1``
 1) Compiles testcase1 model
@@ -11,6 +13,7 @@ Command: ``$ make test_testcase1``
 4) Runs ``test_testcase1.py``
 5) Stops test case container
 6) Removes test case image.
+
 
 ## Run tests for test case 2
 Command: ``$ make test_testcase2``
