@@ -7,6 +7,9 @@ common functions and partial classes.
 
 import os
 import requests
+from unittest import TestCase
+import numpy as np
+import pandas as pd
 
 def get_root_path():
     '''Returns the path to the root repository directory.
@@ -17,6 +20,67 @@ def get_root_path():
     root_path = os.path.split(testing_path)[0]
     
     return root_path;
+    
+def check_trajectory(y_test, y_ref):
+    '''Check a numeric trajectory against a reference with a tolerance.
+    
+    Parameters
+    ----------
+    y_test : list-like of numerics
+        Test trajectory
+    y_ref : list-like of numerics
+        Reference trajectory
+        
+    Returns
+    -------
+    result : dict
+        Dictionary of result of check.
+        {'Pass' : bool, True if ErrorMax <= tol, False otherwise.
+         'ErrorMax' : float or None, Maximum error, None if fail length check
+         'IndexMax' : int or None, Index of maximum error,None if fail length check
+         'Message' : str or None, Message if failed check, None if passed.
+        }
+    
+    '''
+    
+    # Set tolerance
+    tol = 1e-3
+    # Initialize return dictionary
+    result =  {'Pass' : True,
+               'ErrorMax' : None,
+               'IndexMax' : None,
+               'Message' : None}
+    # First, check that trajectories are same length
+    if len(y_test) != len(y_ref):
+        result['Pass'] = False
+        result['Message'] = 'Test and reference trajectory not the same length.'
+    else:
+        # Initialize error arrays
+        err_abs = np.zeros(len(y_ref))
+        err_rel = np.zeros(len(y_ref))
+        err_fun = np.zeros(len(y_ref))
+        # Calculate errors
+        for i in range(len(y_ref)):
+            # Absolute error
+            err_abs[i] = np.absolute(y_test[i] - y_ref[i])
+            # Relative error
+            if (abs(y_ref[i]) > 10 * tol):
+                err_rel[i] = err_abs[i] / abs(y_ref[i])
+            else:
+                err_rel[i] = 0
+            # Total error
+            err_fun[i] = err_abs[i] + err_rel[i]
+            # Assess error
+            err_max = max(err_fun);
+            i_max = np.argmax(err_fun);
+            if err_max > tol:
+                result['Pass'] = False
+                result['ErrorMax'] = err_max,
+                result['IndexMax'] = i_max,
+                result['Message'] = 'Max error ({0}) in trajectory greater than tolerance ({1}) at index {2}.'.format(err_max, tol, i_max)
+    
+    return result
+    
     
 class partialTestAPI(object):
     '''This class implements common API tests for test cases.
@@ -90,10 +154,3 @@ class partialTestAPI(object):
         '''
 
         requests.put('{0}/reset'.format(self.url))
-
-    def test_get_results(self):
-        '''Test geting of test result trajectories.
-        
-        '''
-        
-        res = requests.get('{0}/results'.format(self.url)).json()

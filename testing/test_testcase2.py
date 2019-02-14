@@ -6,6 +6,8 @@ already be deployed.
 """
 
 import unittest
+import pandas as pd
+import os
 import utilities
 from examples import testcase2_supervisory
 
@@ -32,6 +34,26 @@ class ExampleSupervisoryPython(unittest.TestCase):
         kpi,res = testcase2_supervisory.run()
         # Check kpis
         self.assertEqual(kpi['Heating Energy'], 469467198.2194152)
+        # Check trajectories
+        # Make dataframe
+        df = pd.DataFrame(data=res['y']['time'], columns=['time'])
+        for s in ['y','u']:
+            for x in res[s].keys():
+                if x != 'time':
+                    df = pd.concat((df,pd.DataFrame(data=res[s][x], columns=[x])), axis=1)
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results.csv')
+        if os.path.exists(ref_filepath):
+            # If reference exists, check it
+            df_ref = pd.read_csv(ref_filepath)
+            for key in df.columns:
+                y_test = df[key].get_values()
+                y_ref = df_ref[key].get_values()
+                results = utilities.check_trajectory(y_test, y_ref)
+                self.assertTrue(results['Pass'], results['Message'])
+        else:
+            # Otherwise, save as reference
+            df.to_csv(ref_filepath)
         
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 2.  
