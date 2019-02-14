@@ -6,7 +6,7 @@ test_testcase1:
 	# Deploy testcase container
 	cd .. && TESTCASE=testcase1 DETACH=true make run && sleep 3
 	# Run testcase tests
-	cd ../testcase1/testing && python tests.py
+	python test_testcase1.py
 	# Stop testcase container
 	cd .. && TESTCASE=testcase1 make stop
 	# Remove testcase image
@@ -20,7 +20,7 @@ test_testcase2:
 	# Deploy testcase container
 	cd .. && TESTCASE=testcase2 DETACH=true make run && sleep 3
 	# Run testcase tests
-	cd ../testcase2/testing && python tests.py
+	python test_testcase2.py
 	# Stop testcase container
 	cd .. && TESTCASE=testcase2 make stop
 	# Remove testcase image
@@ -28,9 +28,9 @@ test_testcase2:
 
 test_parser:
 	# Run parser and export wrapper model and fmu
-	cd ../parser/testing && python tests.py
+	python test_parser.py
 
-test:
+test_all:
 	make test_parser
 	make test_testcase1
 	make test_testcase2

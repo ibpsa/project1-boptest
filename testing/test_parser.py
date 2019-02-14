@@ -7,10 +7,10 @@ This module runs unit tests for the parer.
 import unittest
 import filecmp
 import os
-from parser import parser
-from parser import simulate
+import utilities
+from parser import parser, simulate
 
-root_dir = '/home/dhbubu/git/ibpsa/project1-boptest/project1-boptest/'
+root_dir = utilities.get_root_path()
 
 # Define test model
 model_path = 'SimpleRC'
@@ -98,9 +98,9 @@ class WriteWrapper(unittest.TestCase):
         self.fmu_path, self.wrapped_path = parser.write_wrapper(model_path, [mo_path], instances)
         
     def test_create_wrapped(self):
-        self.assertEqual(self.fmu_path, os.path.join(root_dir, 'parser', 'testing', '.', 'wrapped.fmu'))
+        self.assertEqual(self.fmu_path, os.path.join(root_dir, 'testing', '.', 'wrapped.fmu'))
         self.assertEqual(self.wrapped_path, os.path.join('wrapped.mo'))
-        self.assertTrue(filecmp.cmp(self.wrapped_path, os.path.join(root_dir, 'parser', 'testing', 'references', 'wrapped.mo')))
+        self.assertTrue(filecmp.cmp(self.wrapped_path, os.path.join(root_dir, 'testing', 'references', 'parser', 'wrapped.mo')))
 
 class ExportSimulate(unittest.TestCase):
     '''Tests the export of a wrapper fmu and simulation of it.
