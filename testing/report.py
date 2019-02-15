@@ -8,7 +8,35 @@ import json
 import os
 import utilities
 
-print('\n==============\nTESTING REPORT\n==============\n')
+report_file ='testing_report.txt'
+    
+def record(message, display=True, write=True, initial=False):
+    '''Records a message to screen and/or file.
+    
+    Parameters
+    ----------
+    message : str
+        Message to record.
+    display : bool, optional
+        Display to terminal.
+        Default is True.
+    write : bool, optional
+        Write to file.
+        Default is True.
+        
+    '''
+
+    if display:
+        print(message)
+    if write:
+        if initial:
+            access = 'w'
+        else:
+            access = 'a'
+        with open(report_file, access) as logf:
+            logf.write('\n'+message)
+
+record('\n==============\nTESTING REPORT\n==============\n', initial=True)
 # Get all test case logs
 testing_dir = os.path.join(utilities.get_root_path(),'testing')
 logs = []
@@ -19,35 +47,35 @@ for f in os.listdir(testing_dir):
 # Get total number of tests run
 cases = 0
 passed = 0
-print('The test logs found were:')
+record('The following test modules were run:')
 for log in logs:
-    print(log)
     with open(log, 'r') as f:
         d = json.load(f)
     cases = cases + d['NCases']
     passed = passed + d['NPassed']
+    record(d['TestFile'])
 
 # Report total number run
-print('The total number of tests run was {0}.'.format(cases))
+record('The total number of individual tests run was {0}.'.format(cases))
 # Report if all passed
 if cases == passed:
-    print('All tests OK.')
+    record('\n-------------\nAll tests OK.\n-------------\n\nOutput saved to {0}.'.format(report_file))
 else:
-    print('Not all tests passed.  See below for more detailed report:\n')
+    record('\n-------------\nNot all tests passed.  See {0} for more detailed report.\n-------------\n'.format(report_file))
     for log in logs:
-        print('\nFrom {0}\n========================='.format(log))
         with open(log, 'r') as f:
             d = json.load(f)
-        print('Of {0} tests run...'.format(d['NCases']))
-        print('Passed: {0}'.format(d['NPassed']))
-        print('Failures: {0}'.format(d['NFailures']))
-        print('Errors: {0}'.format(d['NErrors']))
-        print('\nFailure Messages\n----------------')
+        record('\nFrom {0}\n========================='.format(d['TestFile']))
+        record('Of {0} tests run...'.format(d['NCases']))
+        record('Passed: {0}'.format(d['NPassed']))
+        record('Failures: {0}'.format(d['NFailures']))
+        record('Errors: {0}'.format(d['NErrors']))
+        record('\nFailure Messages\n----------------')
         for failure in d['Failures'].keys():
-            print('Failure {0}:\n{1}'.format(failure, d['Failures'][failure]))
-        print('\nError Messages\n----------------')
+            record('Failure {0}:\n{1}'.format(failure, d['Failures'][failure]))
+        record('\nError Messages\n----------------')
         for error in d['Errors'].keys():
-            print('Error {0}:\n{1}'.format(error, d['Errors'][error]))
+            record('Error {0}:\n{1}'.format(error, d['Errors'][error]))
             
 # Clean up test logs
 for log in logs:

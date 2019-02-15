@@ -3,7 +3,7 @@
 ## Run all tests defined below
 Command: ``$ make test_all``
 
-A test report will be displayed upon completion.
+A test report will be displayed and recorded to file upon completion.
 
 ## Run tests for test case 1
 Command: ``$ make test_testcase1``
