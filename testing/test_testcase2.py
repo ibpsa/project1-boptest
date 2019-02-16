@@ -75,4 +75,4 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.step_ref = 3600.0
 
 if __name__ == '__main__':
-    utilities.run_tests(__file__)
+    utilities.run_tests(os.path.relpath(__file__))
