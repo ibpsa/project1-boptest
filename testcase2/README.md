@@ -1,6 +1,6 @@
-BOPTEST Test Case 2
+BOPTEST Test Case 3
 ===================
-This test case is a single zone VAV system.
+This test case is a single zone hydronic system.
 
 Structure
 ---------
