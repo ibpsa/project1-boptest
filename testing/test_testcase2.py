@@ -33,7 +33,8 @@ class ExampleSupervisoryPython(unittest.TestCase):
         # Run test
         kpi,res = testcase2_supervisory.run()
         # Check kpis
-        self.assertEqual(kpi['Heating Energy'], 469467198.2194152)
+        self.assertEqual(kpi['energy'], 132.40084858017514)
+        self.assertEqual(kpi['comfort'], 4.610775885198207)
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame(data=res['y']['time'], columns=['time'])

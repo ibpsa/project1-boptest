@@ -33,7 +33,8 @@ class ExampleProportionalPython(unittest.TestCase):
         # Run test
         kpi,res = testcase1_proportional.run()
         # Check kpis
-        self.assertEqual(kpi['Heating Energy'], 47760585.403377)
+        self.assertEqual(kpi['energy'], 13.266839892179254)
+        self.assertEqual(kpi['comfort'], 6.568340735543789)
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame(data=res['y']['time'], columns=['time'])

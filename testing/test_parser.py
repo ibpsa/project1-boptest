@@ -21,8 +21,8 @@ mo_path = os.path.join(root_dir,'parser', 'SimpleRC.mo')
 read_blocks = ['EHeat', 'PHeat', 'TZone', 'setZone']
 overwrite_blocks = ['oveAct', 'oveSet']
 
-class GetInstances(unittest.TestCase):
-    '''Tests the get_instance method of parser.
+class ParseInstances(unittest.TestCase):
+    '''Tests the parse_instances method of parser.
     
     '''
     
@@ -31,10 +31,10 @@ class GetInstances(unittest.TestCase):
         
         '''
 
-        # Run the get_instance method
-        self.instances = parser.get_instances(model_path, [mo_path])
+        # Run the parse_instances method
+        self.instances, self.kpis = parser.parse_instances(model_path, [mo_path])
         
-    def test_get_instances(self):
+    def test_parse_instances(self):
         '''Tests that Read and Overwrite blocks identified correctly.
         
         '''
@@ -104,7 +104,7 @@ class WriteWrapper(unittest.TestCase):
         '''
         
         # Get signal exchange instances
-        instances = parser.get_instances(model_path, [mo_path])
+        instances, kpis = parser.parse_instances(model_path, [mo_path])
         # Write wrapper and export as fmu
         self.fmu_path, self.wrapped_path = parser.write_wrapper(model_path, [mo_path], instances)
         
