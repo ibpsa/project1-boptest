@@ -220,4 +220,4 @@ class ExportSimulate(unittest.TestCase):
         utilities.clean_up(testing_path)
 
 if __name__ == '__main__':
-    utilities.run_tests(os.path.relpath(__file__))
+    utilities.run_tests(os.path.basename(__file__))
