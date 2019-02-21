@@ -5,6 +5,9 @@ Command: ``$ make test_all``
 
 A test report will be displayed and recorded to file upon completion.
 
+NOTE: To pass all tests, they must be run in a Linux environment and with JModelica.org installed.
+This is due to the requirement of compiling FMUs and simulating them in a Docker container with Ubuntu OS.
+
 ## Run tests for test case 1
 Command: ``$ make test_testcase1``
 1) Compiles testcase1 model

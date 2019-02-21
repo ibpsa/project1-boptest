@@ -9,7 +9,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.
 - ``/parser`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/template`` contains template Modelica code for a test case emulator model.
-- ``/testing`` contains code for testing.
+- ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
 
 ## Run Prototype Test Cases
 1) Build the test case image by ``$ TESTCASE=testcase# make build`` where # is the number of the test case to build.
