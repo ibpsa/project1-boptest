@@ -5,7 +5,7 @@ Implements the parsing and code generation for signal exchange blocks.
 The steps are:
 1) Compile Modelica code into fmu
 2) Use signal exchange block id parameters to find block instance paths and 
-read any associated KPIs.
+read any associated KPIs, with units.
 3) Write Modelica wrapper around instantiated model and associated KPI list.
 4) Export as wrapper FMU and save KPI json.
 
@@ -31,10 +31,10 @@ def parse_instances(model_path, file_name):
     -------
     instances : dict
         Dictionary of overwrite and read block class instance lists.
-        {'Overwrite': [str], 'Read': [str]}
+        {'Overwrite': {input_name : {Unit : unit_name}}, 'Read': {output_name : {Unit : unit_name}}}
     kpis : dict
-        Dictionary of kpi instance lists.
-        {'kpi_name' : [list of instances]}
+        Dictionary of kpi outputs.
+        {'kpi_name' : [output_name]}
 
     '''
 
@@ -49,26 +49,28 @@ def parse_instances(model_path, file_name):
     allvars =   fmu.get_model_variables(variability = 0).keys() + \
                 fmu.get_model_variables(variability = 1).keys()
     # Initialize dictionaries
-    instances = {'Overwrite':[], 'Read':[]}
+    instances = {'Overwrite':dict(), 'Read':dict()}
     kpis = {}
     # Find instances of 'Overwrite' or 'Read'
     for var in allvars:
+        # Get instance name
+        instance = '.'.join(var.split('.')[:-1])
         # Overwrite
         if 'boptestOverwrite' in var:
             label = 'Overwrite'
+            unit = None
         # Read
         elif 'boptestRead' in var:
             label = 'Read'
+            unit = fmu.get_variable_unit(instance+'.y')
         # KPI
         elif 'KPIs' in var:
             label = 'kpi'
         else:
             continue
-        # Get instance name
-        instance = '.'.join(var.split('.')[:-1])
         # Save instance
         if label is not 'kpi':
-            instances[label].append(instance)
+            instances[label][instance] = {'Unit' : unit}
         else:
             for kpi in fmu.get(var)[0].split(','):
                 if kpi is '':
@@ -116,7 +118,7 @@ def write_wrapper(model_path, file_name, instances):
         f.write('\t// Input overwrite\n')
         input_signals = dict()
         input_activate = dict()
-        for block in instances['Overwrite']:
+        for block in instances['Overwrite'].keys():
             # Add to signal input list
             input_signals[block] = _make_var_name(block,style='input_signal')
             # Add to signal activate list
@@ -127,9 +129,9 @@ def write_wrapper(model_path, file_name, instances):
             f.write('\tModelica.Blocks.Interfaces.BooleanInput {0} "Activation for overwrite block {1}";\n'.format(input_activate[block], block))
         # Add outputs for every read block
         f.write('\t// Out read\n')
-        for block in instances['Read']:
+        for block in instances['Read'].keys():
             # Instantiate input signal
-            f.write('\tModelica.Blocks.Interfaces.RealOutput {0} = mod.{1}.y "Measured signal for {1}";\n'.format(_make_var_name(block,style='output'), block))
+            f.write('\tModelica.Blocks.Interfaces.RealOutput {0} = mod.{1}.y "Measured signal for {1}";\n'.format(_make_var_name(block,style='output',attribute='(unit="{0}")'.format(instances['Read'][block]['Unit'])), block))
         # Add original model
         f.write('\t// Original model\n')
         f.write('\t{0} mod(\n'.format(model_path))
@@ -178,7 +180,7 @@ def export_fmu(model_path, file_name):
     
     return fmu_path, kpi_path
 
-def _make_var_name(block, style):
+def _make_var_name(block, style, attribute=''):
     '''Make a variable name from block instance name.
     
     Parameters
@@ -188,6 +190,9 @@ def _make_var_name(block, style):
     style : str
         Style of variable to be made.
         "input_signal"|"input_activate"|"output"
+    attribute : str, optional
+        Attribute string of variable.
+        Default is empty.
         
     Returns
     -------
@@ -204,7 +209,7 @@ def _make_var_name(block, style):
     elif style is 'input_activate':
         var_name = '{0}_activate'.format(name)
     elif style is 'output':
-        var_name = '{0}_y'.format(name)
+        var_name = '{0}_y{1}'.format(name,attribute)
     else:
         raise ValueError('Style {0} unknown.'.format(style))
 

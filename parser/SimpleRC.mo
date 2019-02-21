@@ -39,16 +39,16 @@ model SimpleRC
                            oveAct
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      TZone(KPIs="kpi1")
+                      TZone(KPIs="kpi1", y(unit="K"))
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      EHeat(KPIs="kpi2")
+                      EHeat(KPIs="kpi2", y(unit="J"))
     annotation (Placement(transformation(extent={{100,-110},{120,-90}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      PHeat(KPIs="kpi1,kpi2")
+                      PHeat(KPIs="kpi1,kpi2", y(unit="W"))
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      setZone
+                      setZone(y(unit="K"))
     annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
 equation
   connect(res.port_b, cap.port)
