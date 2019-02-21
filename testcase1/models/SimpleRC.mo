@@ -36,19 +36,21 @@ model SimpleRC
     "Set the heating power to the room"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   Modelica.Blocks.Math.Gain eff(k=1/0.99) "Heater efficiency"
-    annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
+    annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
   Modelica.Blocks.Continuous.Integrator intEHeat(initType=Modelica.Blocks.Types.Init.InitialState,
       y_start=0) "Calculate the heater energy"
-    annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
+    annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      TRooAir "Read the room air temperature"
-    annotation (Placement(transformation(extent={{80,-70},{60,-50}})));
+                      TRooAir(KPIs="comfort")
+                              "Read the room air temperature"
+    annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      ETotHea "Read the heater energy"
-    annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
+                      ETotHea(KPIs="energy")
+                              "Read the heater energy"
+    annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       PHea "Read the heater power"
-    annotation (Placement(transformation(extent={{30,-100},{50,-80}})));
+    annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
 equation
   connect(res.port_b, cap.port)
     annotation (Line(points={{20,0},{40,0}},color={191,0,0}));
@@ -65,18 +67,18 @@ equation
   connect(preHeat.port, cap.port)
     annotation (Line(points={{20,-30},{40,-30},{40,0}}, color={191,0,0}));
   connect(oveAct.y, eff.u) annotation (Line(points={{-19,-30},{-10,-30},{-10,
-          -90},{-2,-90}}, color={0,0,127}));
+          -80},{-2,-80}}, color={0,0,127}));
   connect(set.y, con.u_s)
     annotation (Line(points={{-79,-30},{-72,-30}}, color={0,0,127}));
   connect(intEHeat.y, ETotHea.u)
-    annotation (Line(points={{81,-90},{98,-90}}, color={0,0,127}));
+    annotation (Line(points={{81,-80},{98,-80}}, color={0,0,127}));
   connect(eff.y, PHea.u)
-    annotation (Line(points={{21,-90},{28,-90}}, color={0,0,127}));
+    annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
   connect(PHea.y, intEHeat.u)
-    annotation (Line(points={{51,-90},{58,-90}}, color={0,0,127}));
-  connect(senTZone.T, TRooAir.u) annotation (Line(points={{80,0},{90,0},{90,-60},
-          {82,-60}}, color={0,0,127}));
+    annotation (Line(points={{51,-80},{58,-80}}, color={0,0,127}));
+  connect(senTZone.T, TRooAir.u) annotation (Line(points={{80,0},{90,0},{90,-50},
+          {82,-50}}, color={0,0,127}));
   connect(TRooAir.y, con.u_m)
-    annotation (Line(points={{59,-60},{-60,-60},{-60,-42}}, color={0,0,127}));
+    annotation (Line(points={{59,-50},{-60,-50},{-60,-42}}, color={0,0,127}));
   annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
 end SimpleRC;
