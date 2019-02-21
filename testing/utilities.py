@@ -82,7 +82,7 @@ def check_trajectory(y_test, y_ref):
     return result
     
 def clean_up(dir_path):
-    '''Cleans up the .fmu, .mo, .txt, .mat files from directory.
+    '''Cleans up the .fmu, .mo, .txt, .mat, .json files from directory.
 
     Parameters
     ----------
@@ -93,7 +93,7 @@ def clean_up(dir_path):
 
     files = os.listdir(dir_path)
     for f in files:
-        if f.endswith('.fmu') or f.endswith('.mo') or f.endswith('.txt') or f.endswith('.mat'):
+        if f.endswith('.fmu') or f.endswith('.mo') or f.endswith('.txt') or f.endswith('.mat') or f.endswith('.json'):
             os.remove(os.path.join(dir_path, f))
             
 def run_tests(test_file_name):
