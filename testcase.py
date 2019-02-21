@@ -10,6 +10,8 @@ from pyfmi import load_fmu
 import numpy as np
 import copy
 import config
+import json
+from scipy.integrate import trapz
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -35,6 +37,12 @@ class TestCase(object):
             output_names = self.fmu.get_model_variables(causality = 3).keys()
         else:
             raise ValueError('FMU must be version 2.0.')
+        # Define KPIs
+        self.kpipath = con['kpipath']
+        # Load kpi json
+        with open(self.kpipath, 'r') as f:
+            json_str = f.read()
+            self.kpi_json = json.loads(json_str)
         # Define measurements
         self.y = {'time':[]}
         for key in output_names:
@@ -204,18 +212,38 @@ class TestCase(object):
         None
         
         Returns
-        kpi : dict
+        kpis : dict
             Dictionary containing KPI names and values.
             {<kpi_name>:<kpi_value>}
         
         '''
         
-        kpi = dict()
-        # Energy
-        kpi['Heating Energy'] = self.y_store['ETotHea_y'][-1]
-        # Comfort
+        kpis = dict()
+        # Calculate each KPI using json for signalsand save in dictionary
+        for kpi in self.kpi_json.keys():
+            print(kpi, type(kpi))
+            if kpi == 'energy':
+                # Calculate total energy [KWh - assumes measured in J]
+                E = 0
+                for signal in self.kpi_json[kpi]:
+                    E = E + self.y_store[signal][-1]
+                # Store result in dictionary
+                kpis[kpi] = E*2.77778e-7 # Convert to kWh
+            elif kpi == 'comfort':
+                # Calculate total discomfort [K-h = assumes measured in K]
+                tot_dis = 0
+                heat_setpoint = 273.15+20
+                for signal in self.kpi_json[kpi]:
+                    data = np.array(self.y_store[signal])
+                    dT_heating = heat_setpoint - data
+                    dT_heating[dT_heating<0]=0
+                    tot_dis = tot_dis + trapz(dT_heating,self.y_store['time'])/3600
+                # Store result in dictionary
+                kpis[kpi] = tot_dis
+            else:
+                print('No calculation for KPI named "{0}".'.format(kpi))
 
-        return kpi
+        return kpis
         
     def get_name(self):
         '''Returns the name of the test case fmu.

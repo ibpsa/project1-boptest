@@ -81,13 +81,13 @@ package SingleZoneVAV
                         PFan
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        TRooAir
+                        TRooAir(KPIs="comfort")
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         ETotFan
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotHVAC
+                        ETotHVAC(KPIs="energy")
       annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         ETotHea

@@ -7,7 +7,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 ## Structure
 - ``\testcase#`` contains prototype code for a test case, including docs, models, and configuration settings.
 - ``\examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.
-- ``\parser`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU.
+- ``\parser`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``\template`` contains template Modelica code for a test case emulator model.
 
 ## Run Prototype Test Cases
