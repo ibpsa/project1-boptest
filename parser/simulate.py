@@ -6,10 +6,9 @@ Created on Tue Nov 13 16:36:31 2018
 """
 
 from pyfmi import load_fmu
-from matplotlib import pyplot as plt
 import numpy as np
 
-def simulate(start_time=0, final_time=3600*48, overwrite = None):
+def simulate(start_time=0, final_time=3600*48, overwrite = None, plot = False):
     '''Simulate the wrapper fmu with any overwriting signals.
     
     Parameters
@@ -25,6 +24,11 @@ def simulate(start_time=0, final_time=3600*48, overwrite = None):
         'act' to overwrite the actuator.
         None to overwrite nothing.
         Default is None
+        
+    Returns
+    -------
+    res : pyfmi results object
+        Results from simulation.
     
     '''
     
@@ -52,19 +56,24 @@ def simulate(start_time=0, final_time=3600*48, overwrite = None):
     # Simulate
     print(input_object)
     res = fmu.simulate(start_time,final_time, options=options, input=input_object)
-    # Plot
-    time = res['time']
-    TZone = res['TZone_y']
-    PHeat = res['PHeat_y']
-    setZone = res['setZone_y']
-    plt.figure(1)
-    plt.plot(time,TZone,label='TZone')
-    plt.plot(time,setZone,label='Zone Setpoint')
-    plt.legend()
-    plt.figure(2)
-    plt.plot(time,PHeat,label='PHeat')
-    plt.legend()
-    plt.show()
+    
+    if plot:
+        from matplotlib import pyplot as plt
+        # Plot
+        time = res['time']
+        TZone = res['TZone_y']
+        PHeat = res['PHeat_y']
+        setZone = res['setZone_y']
+        plt.figure(1)
+        plt.plot(time,TZone,label='TZone')
+        plt.plot(time,setZone,label='Zone Setpoint')
+        plt.legend()
+        plt.figure(2)
+        plt.plot(time,PHeat,label='PHeat')
+        plt.legend()
+        plt.show()
+        
+    return res
     
 def overwrite_set(input_names):
     '''Creates input object for overwriting the setpoint.
@@ -133,6 +142,6 @@ def overwrite_act(input_names):
     
 
 if __name__ == '__main__':
-    simulate(overwrite=None)
-    simulate(overwrite='set')
-    simulate(overwrite='act')
+    res = simulate(overwrite=None)
+    res = simulate(overwrite='set')
+    res = simulate(overwrite='act')
