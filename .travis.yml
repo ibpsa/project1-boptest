@@ -9,5 +9,9 @@ git:
 services:
   - docker
 
+install:
+  - pip install --upgrade pip setuptools wheel
+  - pip install pandas,numpy,matplotlib
+
 script:
   - (cd testing && make test_all)
