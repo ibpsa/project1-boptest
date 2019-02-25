@@ -9,7 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
-from examples import testcase2_supervisory
+from examples import szvav_sup
 
 root_dir = utilities.get_root_path()
     
@@ -31,7 +31,7 @@ class ExampleSupervisoryPython(unittest.TestCase):
         '''
         
         # Run test
-        kpi,res = testcase2_supervisory.run()
+        kpi,res = szvav_sup.run()
         # Check kpis
         self.assertEqual(kpi['energy'], 132.40084858017514)
         self.assertEqual(kpi['comfort'], 4.610775885198207)

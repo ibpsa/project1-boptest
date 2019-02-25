@@ -17,8 +17,8 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 3) In a seperate process, use the test case API defined below to interact with the test case.
 4) Run an example controller test:
 
-- For testcase1, in a separate terminal use ``$ python examples/twoday-p.py`` to test a simple proportional feedback controller on the test case over a two-day period.
-- For testcase2, in a separate terminal use ``$ python examples/szvav-sup.py`` to test a simple supervisory controller on the test case over a two-day period.
+- For testcase1, in a separate terminal use ``$ python examples/twoday_p.py`` to test a simple proportional feedback controller on the test case over a two-day period.
+- For testcase2, in a separate terminal use ``$ python examples/szvav_sup.py`` to test a simple supervisory controller on the test case over a two-day period.
 
 5) Shutdown test case container by slecting container terminal window and ``Ctrl+C`` to close port, ``Ctrl+D`` to exit docker container.
 6) Remove the test case image by ``$ TESTCASE=testcase# make remove-image``.
