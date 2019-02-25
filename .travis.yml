@@ -11,7 +11,7 @@ services:
 
 install:
   - pip install --upgrade pip setuptools wheel
-  - pip install pandas numpy matplotlib
+  - pip install pandas numpy matplotlib requests
 
 script:
   - (cd testing && make test_all)
