@@ -145,7 +145,7 @@ class TestCase(object):
         return None
         
     def get_inputs(self):
-        '''Returns a list of control input names.
+        '''Returns a list of control inputs and their meta-data.
         
         Parameters
         ----------
@@ -153,17 +153,25 @@ class TestCase(object):
         
         Returns
         -------
-        inputs : list
-            List of control input names.
+        inputs : dict
+            Dictionary of control inputs and their meta-data.
             
         '''
 
-        inputs = self.u.keys()
+        inputs = dict()        
+        for key in self.u.keys():
+            if key == 'time':
+                unit = 's'
+            elif '_activate' in key:
+                unit = None
+            else:
+                unit = self.fmu.get_variable_unit(key)
+            inputs[key] = {'Unit':unit}
         
         return inputs
         
     def get_measurements(self):
-        '''Returns a list of measurement names.
+        '''Returns a list of measurements and their meta-data.
         
         Parameters
         ----------
@@ -171,12 +179,18 @@ class TestCase(object):
         
         Returns
         -------
-        measurements : list
-            List of measurement names.
+        measurements : dict
+            Dictionary of measurements and their meta-data.
             
         '''
 
-        measurements = self.y.keys()
+        measurements = dict()        
+        for key in self.y.keys():
+            if key == 'time':
+                unit = 's'
+            else:
+                unit = self.fmu.get_variable_unit(key)
+            measurements[key] = {'Unit':unit}
         
         return measurements
         
