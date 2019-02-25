@@ -6,6 +6,9 @@ python:
 git:
   depth: 10
 
+notifications:
+  email: false
+
 services:
   - docker
 
@@ -13,6 +16,9 @@ install:
   - pip install --upgrade pip setuptools wheel
   - pip install pandas numpy matplotlib requests
 
+before_script:
+  export PYTHONPATH=$PYTHONPATH:$(pwd)
+  
 script:
   - (cd testing && make test_all)
 
