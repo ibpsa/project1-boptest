@@ -33,10 +33,10 @@ model SimpleRC
     startTime=3600*24)
     annotation (Placement(transformation(extent={{-100,-30},{-80,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveSet
+                           oveSet(u(unit="K"))
     annotation (Placement(transformation(extent={{-70,-30},{-50,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveAct
+                           oveAct(u(unit="W"))
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       TZone(KPIs="kpi1", y(unit="K"))

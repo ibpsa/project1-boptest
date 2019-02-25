@@ -58,7 +58,7 @@ def parse_instances(model_path, file_name):
         # Overwrite
         if 'boptestOverwrite' in var:
             label = 'Overwrite'
-            unit = None
+            unit = fmu.get_variable_unit(instance+'.u')
         # Read
         elif 'boptestRead' in var:
             label = 'Read'
@@ -116,15 +116,17 @@ def write_wrapper(model_path, file_name, instances):
         f.write('model wrapped "Wrapped model"\n')
         # Add inputs for every overwrite block
         f.write('\t// Input overwrite\n')
-        input_signals = dict()
+        input_signals_w_unit = dict()
+        input_signals_wo_unit = dict()
         input_activate = dict()
         for block in instances['Overwrite'].keys():
-            # Add to signal input list
-            input_signals[block] = _make_var_name(block,style='input_signal')
+            # Add to signal input list with and without units
+            input_signals_w_unit[block] = _make_var_name(block,style='input_signal',attribute='(unit="{0}")'.format(instances['Overwrite'][block]['Unit']))
+            input_signals_wo_unit[block] = _make_var_name(block,style='input_signal')
             # Add to signal activate list
             input_activate[block] = _make_var_name(block,style='input_activate')
             # Instantiate input signal
-            f.write('\tModelica.Blocks.Interfaces.RealInput {0} "Signal for overwrite block {1}";\n'.format(input_signals[block], block))
+            f.write('\tModelica.Blocks.Interfaces.RealInput {0} "Signal for overwrite block {1}";\n'.format(input_signals_w_unit[block], block))
             # Instantiate input activation
             f.write('\tModelica.Blocks.Interfaces.BooleanInput {0} "Activation for overwrite block {1}";\n'.format(input_activate[block], block))
         # Add outputs for every read block
@@ -137,7 +139,7 @@ def write_wrapper(model_path, file_name, instances):
         f.write('\t{0} mod(\n'.format(model_path))
         # Connect inputs to original model overwrite and activate signals
         for i,block in enumerate(instances['Overwrite']):
-            f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals[block], input_activate[block]))
+            f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals_wo_unit[block], input_activate[block]))
             if i == len(instances['Overwrite'])-1:
                 f.write(') "Original model with overwrites";\n')
             else:
@@ -205,7 +207,7 @@ def _make_var_name(block, style, attribute=''):
     name = block.replace('.', '_')
     # Specific modification
     if style is 'input_signal':
-        var_name = '{0}_u'.format(name)
+        var_name = '{0}_u{1}'.format(name,attribute)
     elif style is 'input_activate':
         var_name = '{0}_activate'.format(name)
     elif style is 'output':
