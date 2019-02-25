@@ -10,7 +10,7 @@ The following libraries must be on the MODELICAPATH:
 
 """
 
-from parser import parser
+from parser import parser_functions
 
 def compile_fmu():
     '''Compile the fmu.
@@ -30,7 +30,7 @@ def compile_fmu():
     
     # COMPILE FMU
     # -----------
-    fmupath = parser.export_fmu(modelpath, [mopath])
+    fmupath = parser_functions.export_fmu(modelpath, [mopath])
     # -----------
     
     return fmupath
