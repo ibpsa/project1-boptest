@@ -13,7 +13,7 @@ services:
   - docker
 
 install:
-  - pip install --upgrade pip setuptools wheel
+  - pip install --upgrade pip
   - pip install pandas numpy matplotlib requests
 
 before_script:
