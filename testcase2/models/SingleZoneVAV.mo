@@ -63,40 +63,40 @@ package SingleZoneVAV
            + 273.15]) "Cooling setpoint for room temperature"
       annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite
-                             oveTSetRooHea
+                             oveTSetRooHea(u(unit="K"))
       annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite
-                             oveTSetRooCoo
+                             oveTSetRooCoo(u(unit="K"))
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PPum
+                        PPum(y(unit="W"))
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PCoo
+                        PCoo(y(unit="W"))
       annotation (Placement(transformation(extent={{140,90},{160,110}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PHea
+                        PHea(y(unit="W"))
       annotation (Placement(transformation(extent={{120,110},{140,130}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PFan
+                        PFan(y(unit="W"))
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        TRooAir
+                        TRooAir(y(unit="K"))
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotFan
+                        ETotFan(y(unit="J"))
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotHVAC
+                        ETotHVAC(y(unit="J"))
       annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotHea
+                        ETotHea(y(unit="J"))
       annotation (Placement(transformation(extent={{120,-90},{140,-70}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotCoo
+                        ETotCoo(y(unit="J"))
       annotation (Placement(transformation(extent={{140,-110},{160,-90}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotPum
+                        ETotPum(y(unit="J"))
       annotation (Placement(transformation(extent={{120,-130},{140,-110}})));
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(
