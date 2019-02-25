@@ -11,3 +11,4 @@ services:
 
 script:
   - (cd testing && make test_all)
+
