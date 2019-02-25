@@ -161,7 +161,7 @@ class TestCase(object):
         inputs = dict()        
         for key in self.u.keys():
             if key == 'time':
-                unit = 's'
+                continue
             elif '_activate' in key:
                 unit = None
             else:
