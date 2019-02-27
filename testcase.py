@@ -147,7 +147,7 @@ class TestCase(object):
         return None
         
     def get_inputs(self):
-        '''Returns a list of control inputs and their meta-data.
+        '''Returns a dictionary of control inputs and their meta-data.
         
         Parameters
         ----------
@@ -165,7 +165,7 @@ class TestCase(object):
         return inputs
         
     def get_measurements(self):
-        '''Returns a list of measurements and their meta-data.
+        '''Returns a dictionary of measurements and their meta-data.
         
         Parameters
         ----------
