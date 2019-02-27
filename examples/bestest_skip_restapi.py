@@ -9,28 +9,8 @@ imported from a different module.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-import os
 import sys
- 
-#===============================================================================
-# Configure environment for JModelica
-GBT_dir = 'C:\Users\u0110910\Box Sync\work_folder\GBT' 
-JM_dir  = 'C:\JModelica.org-2.2'
-
-# Import the python library of the Grey-Box Toolbox 
-GBTpy_dir = os.path.join(GBT_dir, os.path.join('greybox','python'))
-sys.path.append(GBTpy_dir)
-
-import configure_jmodelica
-configure_jmodelica.main()  
-
-# Set a 'ModelicaPath' environmental variable with the path to 
-# Modelica and IBPSA libraries
-Modelica_dir = os.path.join(JM_dir, os.path.join('install',os.path.join('ThirdParty','MSL')))
-ibpsa_dir = "C:\\Users\\u0110910\\Documents\\modelica-ibpsa"
-os.environ["ModelicaPath"] = Modelica_dir+';'+ibpsa_dir 
-#===============================================================================
-
+import os
 from matplotlib import pyplot as plt
 # ----------------------
 
@@ -41,9 +21,8 @@ from controllers.pid_bestest import PID
 
 # SETUP TEST CASE
 # ---------------
-sys.path.append('C:\\Users\\u0110910\\Box Sync\\work_folder\\BOPTEST\\testcase3')
-# Necesary to import config of the testcase
-
+# append testcase folder to import config in TestCase
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)),'testcase3'))
 from testcase import TestCase
 case = TestCase()
 length = 2*24*3600
