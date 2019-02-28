@@ -15,7 +15,7 @@ root_dir = utilities.get_root_path()
 
 # Define test model
 model_path = 'SimpleRC'
-mo_path = os.path.join(root_dir,'parser', 'SimpleRC.mo')
+mo_path = os.path.join(root_dir,'parsing', 'SimpleRC.mo')
 # Define read and overwrite block instances in test model
 read_blocks = ['EHeat', 'PHeat', 'TZone', 'setZone']
 overwrite_blocks = ['oveAct', 'oveSet']
