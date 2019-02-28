@@ -9,7 +9,7 @@ import filecmp
 import os
 import pandas as pd
 import utilities
-from parser import parser, simulate
+from parsing import parser, simulate
 
 root_dir = utilities.get_root_path()
 
