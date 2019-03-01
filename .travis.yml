@@ -18,9 +18,9 @@ before_install:
 install:
   - pip install --upgrade pip
   - pip install pandas numpy matplotlib requests
-  - mkdir $HOME/git && cd git && \
-	mkdir ibpsa && cd ibpsa && git clone https://github.com/ibpsa/modelica-ibpsa.git && \
-    	cd .. && mkdir buildings && cd buildings && git clone https://github.com/lbl-srg/modelica-buildings.git
+  - mkdir $HOME/git && mkdir $HOME/git/ibpsa && mkdir $HOME/git/buildings
+  - cd $HOME/git/ibpsa && git clone https://github.com/ibpsa/modelica-ibpsa.git
+  - cd $HOME/git/buildings && git clone https://github.com/lbl-srg/modelica-buildings.git
 
 before_script:
   - chmod +x $HOME/git/buildings/modelica-buildings/Buildings/Resources/Scripts/travis/bin/jm_ipython.sh
