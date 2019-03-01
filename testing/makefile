@@ -1,10 +1,34 @@
+IMG_NAME=jm
+
+COMMAND_RUN=docker run \
+	  --name ${IMG_NAME} \
+	  --detach=true \
+	  -e DISPLAY=${DISPLAY} \
+	  -v /tmp/.X11-unix:/tmp/.X11-unix \
+	  --rm \
+	  -it \
+	  -v `pwd`:/mnt/shared/testing \
+	  ${IMG_NAME}
+
+build_jm_image:
+	docker build --no-cache --rm -t ${IMG_NAME} .
+
+remove_jm_image:
+	docker rmi ${IMG_NAME}
+
+run_jm:
+	$(COMMAND_RUN)
+	cp -r ../parsing ./parsing
+	docker exec -it ${IMG_NAME} /bin/bash -c "cd /mnt/shared/testing && ${ARGS} && exit"
+	docker stop ${IMG_NAME}
+	rm -r parsing
+
 test_testcase1:
-# Compile testcase model
-ifeq ($(strip $(TEST_ENV)),"travis")
-	cd ../testcase1/models && jm_ipython compile_fmu.py
-else
-	cd ../testcase1/models && python compile_fmu.py	     
-endif
+     # Compile testcase model
+	cp -r ../testcase1/models ./models && make run_jm ARGS="cd models && python compile_fmu.py"
+	cp models/wrapped.fmu ../testcase1/models
+	cp models/kpis.json ../testcase1/models
+	rm -r models
 	# Build testcase image
 	cd .. && TESTCASE=testcase1 make build
 	# Deploy testcase container
@@ -17,12 +41,11 @@ endif
 	cd .. && TESTCASE=testcase1 make remove-image
 
 test_testcase2:
-# Compile testcase model
-ifeq ($(strip $(TEST_ENV)),"travis")
-	cd ../testcase2/models && jm_ipython compile_fmu.py
-else
-	cd ../testcase2/models && python compile_fmu.py	     
-endif
+     # Compile testcase model
+	cp -r ../testcase2/models ./models && make run_jm ARGS="cd models && python compile_fmu.py"
+	cp models/wrapped.fmu ../testcase2/models
+	cp models/kpis.json ../testcase2/models
+	rm -r models
 	# Build testcase image
 	cd .. && TESTCASE=testcase2 make build
 	# Deploy testcase container
@@ -35,16 +58,17 @@ endif
 	cd .. && TESTCASE=testcase2 make remove-image
 
 test_parser:
-# Run parser and export wrapper model and fmu
-ifeq ($(strip $(TEST_ENV)),"travis")
-	jm_ipython.sh test_parser.py
-else
-	python test_parser.py	     
-endif
+	make run_jm ARGS="python test_parser.py"
 
 test_all:
+	# Build jm
+	make build_jm_image
 	# Run tests
 	make test_parser
 	make test_testcase1
 	make test_testcase2
+	# Remove jm
+	make remove_jm_image
+	# Report test results
 	python report.py
+

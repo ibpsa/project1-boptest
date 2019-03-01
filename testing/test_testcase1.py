@@ -11,7 +11,7 @@ import os
 import utilities
 from examples import twoday_p
 
-root_dir = utilities.get_root_path()
+root_dir = utilities.get_testing_root_path()
     
 class ExampleProportionalPython(unittest.TestCase):
     '''Tests the example test of proportional feedback controller in Python.
@@ -43,7 +43,7 @@ class ExampleProportionalPython(unittest.TestCase):
                 if x != 'time':
                     df = pd.concat((df,pd.DataFrame(data=res[s][x], columns=[x])), axis=1)
         # Set reference file path
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results.csv')
+        ref_filepath = os.path.join(root_dir, 'references', 'testcase1', 'results.csv')
         if os.path.exists(ref_filepath):
             # If reference exists, check it
             df_ref = pd.read_csv(ref_filepath)

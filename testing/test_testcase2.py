@@ -11,7 +11,7 @@ import os
 import utilities
 from examples import szvav_sup
 
-root_dir = utilities.get_root_path()
+root_dir = utilities.get_testing_root_path()
     
 class ExampleSupervisoryPython(unittest.TestCase):
     '''Tests the example test of a supervisory controller in Python.
@@ -33,8 +33,8 @@ class ExampleSupervisoryPython(unittest.TestCase):
         # Run test
         kpi,res = szvav_sup.run()
         # Check kpis
-        self.assertEqual(kpi['energy'], 132.40084858017514)
-        self.assertEqual(kpi['comfort'], 4.610775885198207)
+        self.assertAlmostEqual(kpi['energy'], 132.40084858017514)
+        self.assertAlmostEqual(kpi['comfort'], 4.610775885198207)
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame(data=res['y']['time'], columns=['time'])
@@ -43,7 +43,7 @@ class ExampleSupervisoryPython(unittest.TestCase):
                 if x != 'time':
                     df = pd.concat((df,pd.DataFrame(data=res[s][x], columns=[x])), axis=1)
         # Set reference file path
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results.csv')
+        ref_filepath = os.path.join(root_dir, 'references', 'testcase2', 'results.csv')
         if os.path.exists(ref_filepath):
             # If reference exists, check it
             df_ref = pd.read_csv(ref_filepath)

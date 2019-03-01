@@ -11,15 +11,14 @@ import unittest
 import numpy as np
 import json
 
-def get_root_path():
+def get_testing_root_path():
     '''Returns the path to the root repository directory.
     
     '''
     
     testing_path = os.path.dirname(os.path.realpath(__file__));
-    root_path = os.path.split(testing_path)[0]
     
-    return root_path;
+    return testing_path;
     
 def check_trajectory(y_test, y_ref):
     '''Check a numeric trajectory against a reference with a tolerance.
@@ -108,7 +107,7 @@ def run_tests(test_file_name):
 
     # Load tests
     test_loader = unittest.TestLoader()
-    suite = test_loader.discover(os.path.join(get_root_path(),'testing'), pattern = test_file_name)
+    suite = test_loader.discover(get_testing_root_path(), pattern = test_file_name)
     num_cases = suite.countTestCases()
     # Run tests
     print('\nFound {0} tests to run in {1}.\n\nRunning...'.format(num_cases, test_file_name))

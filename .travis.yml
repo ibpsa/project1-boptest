@@ -12,21 +12,13 @@ notifications:
 services:
   - docker
 
-before_install:
-  - docker pull michaelwetter/ubuntu-1604_jmodelica_trunk
-
 install:
   - pip install --upgrade pip
   - pip install pandas numpy matplotlib requests
-  - git clone https://github.com/ibpsa/modelica-ibpsa.git git/ibspa/modelica-ibpsa
-  - git clone https://github.com/lbl-srg/modelica-buildings.git git/buildings/modelica-buildings
 
 before_script:
-  - chmod +x git/buildings/modelica-buildings/Buildings/Resources/Scripts/travis/bin/jm_ipython.sh
-  - cp git/buildings/modelica-buildings/Buildings/Resources/Scripts/travis/bin/jm_ipython.sh $HOME/bin/
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
-  - export MODELICAPATH=git/ibpsa/modelica-ibpsa:git/buildings/modelica-buildings
   
 script:
-  - (export TEST_ENV=travis && cd testing && make test_all)
+  - (cd testing && make test_all)
 
