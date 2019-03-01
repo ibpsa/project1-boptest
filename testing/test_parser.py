@@ -9,13 +9,13 @@ import filecmp
 import os
 import pandas as pd
 import utilities
-from parser import parser_functions, simulate
+from parsing import parser, simulate
 
 root_dir = utilities.get_root_path()
 
 # Define test model
 model_path = 'SimpleRC'
-mo_path = os.path.join(root_dir,'parser', 'SimpleRC.mo')
+mo_path = os.path.join(root_dir,'parsing', 'SimpleRC.mo')
 # Define read and overwrite block instances in test model
 read_blocks = ['EHeat', 'PHeat', 'TZone', 'setZone']
 overwrite_blocks = ['oveAct', 'oveSet']
@@ -33,7 +33,7 @@ class ParseInstances(unittest.TestCase):
         '''
 
         # Run the parse_instances method
-        self.instances, self.kpis = parser_functions.parse_instances(model_path, [mo_path])
+        self.instances, self.kpis = parser.parse_instances(model_path, [mo_path])
         
     def test_parse_instances(self):
         '''Tests that Read and Overwrite blocks identified correctly.
@@ -129,9 +129,9 @@ class WriteWrapper(unittest.TestCase):
         '''
         
         # Get signal exchange instances
-        instances, kpis = parser_functions.parse_instances(model_path, [mo_path])
+        instances, kpis = parser.parse_instances(model_path, [mo_path])
         # Write wrapper and export as fmu
-        self.fmu_path, self.wrapped_path = parser_functions.write_wrapper(model_path, [mo_path], instances)
+        self.fmu_path, self.wrapped_path = parser.write_wrapper(model_path, [mo_path], instances)
         
     def test_create_wrapped(self):
         self.assertEqual(self.fmu_path, os.path.join(root_dir, 'testing', '.', 'wrapped.fmu'))
@@ -158,7 +158,7 @@ class ExportSimulate(unittest.TestCase):
         '''
         
         # Parse and export fmu to working directory
-        self.fmu_path, self.kpi_path = parser_functions.export_fmu(model_path, [mo_path])
+        self.fmu_path, self.kpi_path = parser.export_fmu(model_path, [mo_path])
         
     def test_kpis_json(self):
         '''Test that kpi json exported correctly.
