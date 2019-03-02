@@ -1,6 +1,7 @@
 IMG_NAME=jm
 
 COMMAND_RUN=docker run \
+	  --user=${UID} \
 	  --name ${IMG_NAME} \
 	  --detach=true \
 	  -e DISPLAY=${DISPLAY} \
