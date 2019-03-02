@@ -1,7 +1,6 @@
 IMG_NAME=jm
 
 COMMAND_RUN=docker run \
-	  --user=${UID} \
 	  --name ${IMG_NAME} \
 	  --detach=true \
 	  -e DISPLAY=${DISPLAY} \
@@ -20,7 +19,7 @@ remove_jm_image:
 run_jm:
 	$(COMMAND_RUN)
 	cp -r ../parsing ./parsing
-	docker exec -it ${IMG_NAME} /bin/bash -c "export USER=developer && cd /mnt/shared/testing && ${ARGS} && exit"
+	docker exec -it ${IMG_NAME} /bin/bash -c "cd /mnt/shared/testing && ${ARGS} && exit"
 	docker stop ${IMG_NAME}
 	rm -r parsing
 
