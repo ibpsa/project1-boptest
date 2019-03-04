@@ -164,7 +164,8 @@ def parse_color_indexes(dictionary, min_index=0, max_index=260):
     return np.linspace(min_index, max_index, n+1).astype(int)
     
 
-def plot_nested_pie(dictionary,ax=None,radius=1.,delta_radius=0.2):
+def plot_nested_pie(dictionary,ax=None,radius=1.,delta_radius=0.2,
+                    dontlabel=[],breakdonut=True):
     """
     This method appends a pie plot from a nested dictionary
     to an axes of matplotlib object. If all the elements
@@ -186,6 +187,10 @@ def plot_nested_pie(dictionary,ax=None,radius=1.,delta_radius=0.2):
     delta_radius: float
         desired difference between the radius of two 
         consecutive pie plot layers
+    dontlabel: list
+        list of items to not be labeled for more clarity
+    breakdonut: boolean
+        if true it will not show the non labeled slices
     """
     
     # Initialize the pie plot if not initialized yet
@@ -193,6 +198,7 @@ def plot_nested_pie(dictionary,ax=None,radius=1.,delta_radius=0.2):
         _, ax = plt.subplots()
     # Get the color map to be used in this pie
     cmap = plt.get_cmap('rainbow')
+    labels=[]
     # Parse the color indexes to be used in this pie
     color_indexes  = parse_color_indexes(dictionary)
     # Initialize the color indexes to be used in this layer
@@ -209,6 +215,9 @@ def plot_nested_pie(dictionary,ax=None,radius=1.,delta_radius=0.2):
     for k_outer,v_outer in iteritems(dictionary):
         # Calculate the slice size of this component 
         vals.append(sum_dict(v_outer))
+        # Append the new label if not end point
+        label = k_outer.split('_')[-1] if k_outer not in dontlabel else ''
+        labels.append(label)
         # Check if this component has nested dictionaries
         if isinstance(v_outer, dict):
             # If it has, add them to the new dictionary
@@ -230,26 +239,34 @@ def plot_nested_pie(dictionary,ax=None,radius=1.,delta_radius=0.2):
         # shift something characteristic of this layer by making
         # use of its radius 
         shift[i] = 0 if n==1 else 60*radius
-        # Append the new label if it  
+        # Do not label this slice in the next layer if this was
+        # already an end point
+        if n==1: dontlabel.append(k_outer) 
         # Increase counter
         i+=1
-        
+    
+    # Assign the colors to every component in this layer
+    colors = cmap((color_indexes[[cindexes_layer[:-1]]] + shift).astype(int))
+    
+    # If breakdonut=True show a blank in the unlabeled items
+    if breakdonut:
+        for j,l in enumerate(labels):
+            if l is '': colors[j]=[0., 0., 0., 0.]   
+            
     # Append the obtained slice values of this layer to the axes
-    ax.pie(np.array(vals), radius=radius, labels=dictionary.keys(), labeldistance=radius*0.9,
-           colors=cmap((color_indexes[[cindexes_layer[:-1]]] + shift).astype(int)),
-           wedgeprops=dict(width=0.2, edgecolor='w', linewidth=0))
+    ax.pie(np.array(vals), radius=radius, labels=labels, labeldistance=radius,
+           colors=colors,
+           wedgeprops=dict(width=0.2, edgecolor='w', linewidth=0.3))
     
     # Keep nesting if there is still any dictionary between the values
     if not all(isinstance(v, float) for v in dictionary.values()):
-        plot_nested_pie(new_dict, ax, radius=radius-delta_radius)
+        plot_nested_pie(new_dict, ax, radius=radius-delta_radius, dontlabel=dontlabel)
     # Don't continue nesting if all components were float end points 
     else:
-        pass
-    
-    # Equal aspect ratio ensures that pie is drawn as a circle
-    ax.axis('equal')
-    plt.show()
-   
+        plt.title('Total energy use = {0} Kwh'.format(sum_dict(dictionary)))
+        # Equal aspect ratio ensures that pie is drawn as a circle
+        ax.axis('equal')
+        plt.show()
     
 power_usage = {'HVAC_damper_y':50.,
                'HVAC_HP_component1_y':160.,
