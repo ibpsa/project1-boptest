@@ -9,7 +9,6 @@ indicators.
 # ----------------------
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 from alias import alias, aliased
 from scipy.integrate import trapz
 from flask._compat import iteritems
@@ -110,7 +109,8 @@ class KPI_calculator(object):
         
     
     @alias('dis')
-    def get_discomfort(self, setpoint=273.15+20, plot=False, cn=None):
+    def get_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+24,
+                       plot=False, cn=None):
         """
         The thermal discomfort is the integral of the deviation 
         of the temperature with respect to the predefined comfort 
@@ -144,10 +144,17 @@ class KPI_calculator(object):
             dis_dict = OrderedDict()
             for signal in tc.kpi_json['comfort']:
                 data = np.array(tc.y_store[signal])
-                dT_heating = setpoint - data
-                dT_heating[dT_heating<0]=0
-                dis_dict[signal] = trapz(dT_heating,tc.y_store['time'])/3600
-                dis_tot = dis_tot + dis_dict[signal]
+                dT_lower = lowersetp - data
+                dT_lower[dT_lower<0]=0
+                dT_upper = data - uppersetp
+                dT_upper[dT_upper<0]=0
+                dis_dict[signal[:-1]+'dTlower_y'] = \
+                    trapz(dT_lower,tc.y_store['time'])/3600.
+                dis_dict[signal[:-1]+'dTupper_y'] = \
+                    trapz(dT_upper,tc.y_store['time'])/3600.
+                dis_tot = dis_tot + \
+                          dis_dict[signal[:-1]+'dTlower_y'] + \
+                          dis_dict[signal[:-1]+'dTupper_y']
             
             tc.dis_tot  = dis_tot
             tc.dis_tree = self.get_dict_tree(dis_dict)
@@ -163,7 +170,7 @@ class KPI_calculator(object):
     
 
     @alias('ene')
-    def get_energy(self, from_power=True, plot=True, cn=None):
+    def get_energy(self, from_power=True, plot=False, cn=None):
         """
         This method returns the measure of the total building 
         energy use in kW*h when accounting for the sum of all 
@@ -191,7 +198,7 @@ class KPI_calculator(object):
             cn = self.cn 
         tc = self.cases[self.cn]
         
-        if not hasattr(tc, 'ene_tot'):
+        if not hasattr(tc, 'ene_tree'):
             ene_tot = 0
             ene_dict = OrderedDict()
             if from_power:
@@ -455,7 +462,7 @@ class KPI_calculator(object):
         
     @alias('pie')
     def plot_nested_pie(self, dictionary, ax=None, radius=1., delta=0.2,
-                        dontlabel=[], breakdonut=True, 
+                        dontlabel=None, breakdonut=True, 
                         metric = 'energy use', units = 'kW*h'):
         """
         This method appends a pie plot from a nested dictionary
@@ -493,6 +500,8 @@ class KPI_calculator(object):
         # Initialize the pie plot if not initialized yet
         if ax is None:
             _, ax = plt.subplots()
+        if dontlabel is None:
+            dontlabel = []
         # Get the color map to be used in this pie
         cmap = plt.get_cmap('rainbow')
         labels=[]
@@ -562,7 +571,8 @@ class KPI_calculator(object):
         # Keep nesting if there is still any dictionary between the values
         if not all(isinstance(v, float) for v in dictionary.values()):
             self.plot_nested_pie(new_dict, ax, radius=radius-delta,
-                                dontlabel=dontlabel)
+                                 dontlabel=dontlabel, metric=metric, 
+                                 units=units)
         # Don't continue nesting if all components were float end points 
         else:
             plt.title('Total {metric} = {value:.2f} {units}'.format(\
