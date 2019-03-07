@@ -11,7 +11,8 @@ import numpy as np
 import copy
 import config
 import json
-from scipy.integrate import trapz
+import cPickle as pickle
+from kpis.kpi_calculator import KPI_calculator
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -201,7 +202,7 @@ class TestCase(object):
         Y = {'y':self.y_store, 'u':self.u_store}
         
         return Y
-        
+    
     def get_kpis(self):
         '''Returns KPI data.
         
@@ -212,38 +213,17 @@ class TestCase(object):
         None
         
         Returns
+        -------
         kpis : dict
             Dictionary containing KPI names and values.
             {<kpi_name>:<kpi_value>}
         
         '''
         
-        kpis = dict()
-        # Calculate each KPI using json for signalsand save in dictionary
-        for kpi in self.kpi_json.keys():
-            print(kpi, type(kpi))
-            if kpi == 'energy':
-                # Calculate total energy [KWh - assumes measured in J]
-                E = 0
-                for signal in self.kpi_json[kpi]:
-                    E = E + self.y_store[signal][-1]
-                # Store result in dictionary
-                kpis[kpi] = E*2.77778e-7 # Convert to kWh
-            elif kpi == 'comfort':
-                # Calculate total discomfort [K-h = assumes measured in K]
-                tot_dis = 0
-                heat_setpoint = 273.15+20
-                for signal in self.kpi_json[kpi]:
-                    data = np.array(self.y_store[signal])
-                    dT_heating = heat_setpoint - data
-                    dT_heating[dT_heating<0]=0
-                    tot_dis = tot_dis + trapz(dT_heating,self.y_store['time'])/3600
-                # Store result in dictionary
-                kpis[kpi] = tot_dis
-            else:
-                print('No calculation for KPI named "{0}".'.format(kpi))
+        cal = KPI_calculator(self)
+        kpis = cal.get_core_kpis()
 
-        return kpis
+        return kpis    
         
     def get_name(self):
         '''Returns the name of the test case fmu.
@@ -262,3 +242,50 @@ class TestCase(object):
         name = self.fmupath[7:-4]
         
         return name
+    
+    def save_test_case(self, file_name='tc_deployed'):
+        '''Save the deployed test case in a pickle.
+        This method is going to delete the fmu from the
+        object because it is not supported by pickle.
+        
+        Parameters
+        ----------
+        file_name: string
+            name of the file where the test case is going
+            to be pickled
+        '''
+        
+        del self.fmu
+        
+        f=open(file_name,'wb')
+        pickle.dump(self,f)
+        f.close()
+
+        return file_name
+        
+        
+    def load_test_case(self, file_name='tc_deployed'):
+        '''Load a deployed test case that has been 
+        saved with 'save_test_case'
+        
+        Parameters
+        ----------
+        file_name: string
+            name of the file where the test case is stored
+            
+        Returns
+        -------
+        self: TestCase 
+            Instance with the attributes of a previously 
+            deployed test case
+        '''
+        
+        self.fmu = load_fmu(self.fmupath)
+
+        tc = pickle.load(file(file_name, 'rb'))
+        for k,v in tc.__dict__.iteritems():
+            self.__dict__[k] = v
+
+        return self   
+        
+    

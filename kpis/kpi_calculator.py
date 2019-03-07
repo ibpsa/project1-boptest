@@ -109,7 +109,7 @@ class KPI_calculator(object):
         
     
     @alias('dis')
-    def get_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+24,
+    def get_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+26,
                        plot=False, cn=None):
         """
         The thermal discomfort is the integral of the deviation 
@@ -595,12 +595,6 @@ if __name__ == "__main__":
                 'Lighting_floor1_lamp2_y':87.,
                 'Lighting_floor2_y':37.}  
     
-    #===========================================================================
-    # ene_dict = {'hvac_pumChiWat_readPowerFlow_y': 0.030037936003331576, 
-    #             'hvac_heaCoi_readHeaCoo_y': 129.10108453075296, 
-    #             'hvac_chi_readElectricEIR_y': 1.2891683015406512, 
-    #             'hvac_fanSup_readPowerFlow_y': 0.67386612390116907}
-    #===========================================================================
     cal = KPI_calculator(testcase=None)
     ene_tree = cal.get_dict_tree(ene_dict)
     cal.pie(ene_tree)
