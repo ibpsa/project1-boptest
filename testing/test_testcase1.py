@@ -71,8 +71,8 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
-        self.inputs_ref = [u'oveAct_u', u'oveAct_activate', u'time']
-        self.measurements_ref = [u'PHea_y', u'TRooAir_y', u'ETotHea_y', u'time']
+        self.inputs_ref = [u'oveAct_u', u'oveAct_activate']
+        self.measurements_ref = [u'PHea_y', u'TRooAir_y', u'ETotHea_y']
         self.step_ref = 60.0
         
 if __name__ == '__main__':
