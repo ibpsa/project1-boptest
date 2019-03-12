@@ -80,14 +80,12 @@ package SingleZoneVAV
     IBPSA.Utilities.IO.SignalExchange.Read
                         PFan(y(unit="W"))
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
-                        TRooAir(y(unit="K"))
+    IBPSA.Utilities.IO.SignalExchange.Read TRooAir(KPIs="comfort",y(unit="K"))
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         ETotFan(y(unit="J"))
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotHVAC(y(unit="J"))
+    IBPSA.Utilities.IO.SignalExchange.Read ETotHVAC(KPIs="energy",y(unit="J"))
       annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         ETotHea(y(unit="J"))
