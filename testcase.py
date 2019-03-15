@@ -29,26 +29,28 @@ class TestCase(object):
         self.fmupath = con['fmupath']
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
-        # Get version
+        # Get version and check is 2.0
         self.fmu_version = self.fmu.get_version()
-        # Get available control inputs and outputs
-        if self.fmu_version == '2.0':
-            input_names = self.fmu.get_model_variables(causality = 2).keys()
-            output_names = self.fmu.get_model_variables(causality = 3).keys()
-        else:
+        if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Get available control inputs and outputs
+        input_names = self.fmu.get_model_variables(causality = 2).keys()
+        output_names = self.fmu.get_model_variables(causality = 3).keys()
+        # Get input and output meta-data
+        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names)
+        self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
         # Define KPIs
         self.kpipath = con['kpipath']
         # Load kpi json
         with open(self.kpipath, 'r') as f:
             json_str = f.read()
             self.kpi_json = json.loads(json_str)
-        # Define measurements
+        # Define outputs data
         self.y = {'time':[]}
         for key in output_names:
             self.y[key] = []
         self.y_store = copy.deepcopy(self.y)
-        # Define inputs
+        # Define inputs data
         self.u = {'time':[]}
         for key in input_names:
             self.u[key] = []
@@ -145,7 +147,7 @@ class TestCase(object):
         return None
         
     def get_inputs(self):
-        '''Returns a list of control input names.
+        '''Returns a dictionary of control inputs and their meta-data.
         
         Parameters
         ----------
@@ -153,17 +155,17 @@ class TestCase(object):
         
         Returns
         -------
-        inputs : list
-            List of control input names.
+        inputs : dict
+            Dictionary of control inputs and their meta-data.
             
         '''
 
-        inputs = self.u.keys()
+        inputs = self.inputs_metadata
         
         return inputs
         
     def get_measurements(self):
-        '''Returns a list of measurement names.
+        '''Returns a dictionary of measurements and their meta-data.
         
         Parameters
         ----------
@@ -171,12 +173,12 @@ class TestCase(object):
         
         Returns
         -------
-        measurements : list
-            List of measurement names.
+        measurements : dict
+            Dictionary of measurements and their meta-data.
             
         '''
 
-        measurements = self.y.keys()
+        measurements = self.outputs_metadata
         
         return measurements
         
@@ -262,3 +264,38 @@ class TestCase(object):
         name = self.fmupath[7:-4]
         
         return name
+        
+    def _get_var_metadata(self, fmu, var_list):
+        '''Build a dictionary of variables and their metadata.
+        
+        Parameters
+        ----------
+        fmu : pyfmi fmu object
+            FMU from which to get variable metadata
+        var_list : list of str
+            List of variable names
+            
+        Returns
+        -------
+        var_metadata : dict
+            Dictionary of variable names as keys and metadata as fields.
+            {<var_name> :
+                "Unit" : <units_str>
+            }
+            
+        '''
+        
+        # Inititalize
+        var_metadata = dict()
+        # Get metadata        
+        for var in var_list:
+            # Units
+            if var == 'time':
+                unit = 's'
+            elif '_activate' in var:
+                unit = None
+            else:
+                unit = fmu.get_variable_unit(var)
+            var_metadata[var] = {'Unit':unit}
+
+        return var_metadata
