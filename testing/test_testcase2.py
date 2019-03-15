@@ -71,8 +71,20 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
-        self.inputs_ref = [u'oveTSetRooCoo_activate', u'oveTSetRooHea_activate', u'oveTSetRooHea_u', u'oveTSetRooCoo_u']
-        self.measurements_ref = [u'PFan_y', u'ETotCoo_y', u'ETotFan_y', u'ETotHea_y', u'TRooAir_y', u'PCoo_y', u'ETotPum_y', u'PHea_y', u'PPum_y', u'ETotHVAC_y']
+        self.inputs_ref = {"oveTSetRooCoo_activate": {"Unit": None}, 
+                           "oveTSetRooCoo_u": {"Unit": "K"}, 
+                           "oveTSetRooHea_activate": {"Unit": None}, 
+                           "oveTSetRooHea_u": {"Unit": "K"}}
+        self.measurements_ref = {"ETotCoo_y": {"Unit": "J"}, 
+                                 "ETotFan_y": {"Unit": "J"},
+                                 "ETotHVAC_y": {"Unit": "J"},
+                                 "ETotHea_y": {"Unit": "J"}, 
+                                 "ETotPum_y": {"Unit": "J"}, 
+                                 "PCoo_y": {"Unit": "W"}, 
+                                 "PFan_y": {"Unit": "W"}, 
+                                 "PHea_y": {"Unit": "W"}, 
+                                 "PPum_y": {"Unit": "W"}, 
+                                 "TRooAir_y": {"Unit": "K"}}
         self.step_ref = 3600.0
 
 if __name__ == '__main__':
