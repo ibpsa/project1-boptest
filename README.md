@@ -28,7 +28,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 
 Example RESTful interaction:
 
-- Receive a list of available measurements: ``$ curl http://127.0.0.1:5000/measurements``
+- Receive a list of available measurements and their metadata: ``$ curl http://127.0.0.1:5000/measurements``
 - Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"TSetRooHea":293.15,"TSetRooCoo":298.15}' -H "Content-Type: application/json"``
 
 | Interaction                                                    | Request                                                   |
@@ -37,8 +37,8 @@ Example RESTful interaction:
 | Reset simulation to beginning                                  |  PUT ``reset`` with no data                               |
 | Receive communication step in seconds                          |  GET ``step``                                             |
 | Set communication step in seconds                              |  PUT ``step`` with data ``step=<value>``                  |
-| Receive sensor signal names (y)                                |  GET ``measurements``                                     |
-| Receive control signal names (u)                               |  GET ``inputs``                                           |
+| Receive sensor signals (y) and metadata                        |  GET ``measurements``                                     |
+| Receive control signals (u) and metadata                       |  GET ``inputs``                                           |
 | Receive test result data                                       |  GET ``results``                                          |
 | Receive test KPIs                                              |  GET ``kpi``                                              |
 | Receive test case name                                         |  GET ``name``                                             |
