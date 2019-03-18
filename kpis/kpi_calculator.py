@@ -68,15 +68,15 @@ class KPI_calculator(object):
         """
         
         ckpis = OrderedDict()
-        ckpis['dis_tot'] = self.get_discomfort()
+        ckpis['tdc_tot'] = self.get_thermal_discomfort()
         ckpis['ene_tot'] = self.get_energy()
         
         return ckpis
         
     
-    @alias('dis')
-    def get_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+26,
-                       plot=False):
+    @alias('tdc')
+    def get_thermal_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+26,
+                               plot=False):
         """
         The thermal discomfort is the integral of the deviation 
         of the temperature with respect to the predefined comfort 
@@ -93,35 +93,35 @@ class KPI_calculator(object):
             
         Returns
         -------
-        dis_tot: float
-            total discomfort accounted in this test case
+        tdc_tot: float
+            total thermal discomfort accounted in this test case
 
         """
         
-        dis_tot = 0
-        dis_dict = OrderedDict()
+        tdc_tot = 0
+        tdc_dict = OrderedDict()
         for signal in self.tc.kpi_json['comfort']:
             data = np.array(self.tc.y_store[signal])
             dT_lower = lowersetp - data
             dT_lower[dT_lower<0]=0
             dT_upper = data - uppersetp
             dT_upper[dT_upper<0]=0
-            dis_dict[signal[:-1]+'dTlower_y'] = \
+            tdc_dict[signal[:-1]+'dTlower_y'] = \
                 trapz(dT_lower,self.tc.y_store['time'])/3600.
-            dis_dict[signal[:-1]+'dTupper_y'] = \
+            tdc_dict[signal[:-1]+'dTupper_y'] = \
                 trapz(dT_upper,self.tc.y_store['time'])/3600.
-            dis_tot = dis_tot + \
-                      dis_dict[signal[:-1]+'dTlower_y'] + \
-                      dis_dict[signal[:-1]+'dTupper_y']
+            tdc_tot = tdc_tot + \
+                      tdc_dict[signal[:-1]+'dTlower_y'] + \
+                      tdc_dict[signal[:-1]+'dTupper_y']
         
-        self.tc.dis_tot  = dis_tot
-        self.tc.dis_tree = self.get_dict_tree(dis_dict)
+        self.tc.tdc_tot  = tdc_tot
+        self.tc.tdc_tree = self.get_dict_tree(tdc_dict)
             
         if plot:
-            self.plot_nested_pie(self.tc.dis_tree, metric='discomfort',
+            self.plot_nested_pie(self.tc.tdc_tree, metric='discomfort',
                                  units='K*h')
         
-        return dis_tot
+        return tdc_tot
     
 
     @alias('ene')
