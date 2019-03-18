@@ -40,7 +40,8 @@ class KPI_calculator(object):
 
     def __init__(self, testcase):
         """
-        Initialize the KPI_calculator class
+        Initialize the KPI_calculator class. One KPI_calculator
+        is associated with one testcase.
         
         Parameters
         ----------
@@ -50,44 +51,13 @@ class KPI_calculator(object):
         
         """
         
-        # Keep track of the test cases cn in the KPI_calculator 
-        # Object. The very first case will have cn=0.
-        self.cn = None
-        # self.cases is a dictionary with TestCase objects
-        self.cases = OrderedDict()
-        self.open_new_case(testcase)
-
-
-    @alias('onc')
-    def open_new_case(self, testcase):
-        """
-        Start a new case with the data from a deployed TestCase 
-        object
-        
-        Parameters
-        ----------
-        testcase: BOPTEST TestCase object
-            object of an already deployed test case that
-            contains the data stored from the test case run
-        """
-        
-        if self.cn is None:
-            self.cn = 0
-        else:
-            self.cn += 1  
-                
-        self.cases[self.cn] = testcase
+        self.tc = testcase
     
     
     @alias('ckpis')
-    def get_core_kpis(self, cn=None):
+    def get_core_kpis(self):
         """
         Return the core KPIs of a test case.
-        
-        Parameters
-        ----------
-        cn: int, optional
-            test case number, default = self.cn
         
         Returns 
         -------
@@ -97,20 +67,16 @@ class KPI_calculator(object):
             two test cases
         """
         
-        # cn = case number (int), tc = TestCase object
-        if cn is None:
-            cn = self.cn 
-        
         ckpis = OrderedDict()
-        ckpis['dis_tot'] = self.get_discomfort(cn=cn)
-        ckpis['ene_tot'] = self.get_energy(cn=cn)
+        ckpis['dis_tot'] = self.get_discomfort()
+        ckpis['ene_tot'] = self.get_energy()
         
         return ckpis
         
     
     @alias('dis')
     def get_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+26,
-                       plot=False, cn=None):
+                       plot=False):
         """
         The thermal discomfort is the integral of the deviation 
         of the temperature with respect to the predefined comfort 
@@ -124,8 +90,6 @@ class KPI_calculator(object):
         plot: boolean
             True if it it is desired to make plots related with
             the energy usage metrics
-        cn: int, optional
-            test case number, default = self.cn
             
         Returns
         -------
@@ -134,39 +98,34 @@ class KPI_calculator(object):
 
         """
         
-        # cn = case number (int), tc = TestCase object
-        if cn is None:
-            cn = self.cn 
-        tc = self.cases[self.cn]
-        
         dis_tot = 0
         dis_dict = OrderedDict()
-        for signal in tc.kpi_json['comfort']:
-            data = np.array(tc.y_store[signal])
+        for signal in self.tc.kpi_json['comfort']:
+            data = np.array(self.tc.y_store[signal])
             dT_lower = lowersetp - data
             dT_lower[dT_lower<0]=0
             dT_upper = data - uppersetp
             dT_upper[dT_upper<0]=0
             dis_dict[signal[:-1]+'dTlower_y'] = \
-                trapz(dT_lower,tc.y_store['time'])/3600.
+                trapz(dT_lower,self.tc.y_store['time'])/3600.
             dis_dict[signal[:-1]+'dTupper_y'] = \
-                trapz(dT_upper,tc.y_store['time'])/3600.
+                trapz(dT_upper,self.tc.y_store['time'])/3600.
             dis_tot = dis_tot + \
                       dis_dict[signal[:-1]+'dTlower_y'] + \
                       dis_dict[signal[:-1]+'dTupper_y']
         
-        tc.dis_tot  = dis_tot
-        tc.dis_tree = self.get_dict_tree(dis_dict)
+        self.tc.dis_tot  = dis_tot
+        self.tc.dis_tree = self.get_dict_tree(dis_dict)
             
         if plot:
-            self.plot_nested_pie(tc.dis_tree, metric='discomfort',
+            self.plot_nested_pie(self.tc.dis_tree, metric='discomfort',
                                  units='K*h')
         
         return dis_tot
     
 
     @alias('ene')
-    def get_energy(self, from_power=True, plot=False, cn=None):
+    def get_energy(self, from_power=True, plot=False):
         """
         This method returns the measure of the total building 
         energy use in kW*h when accounting for the sum of all 
@@ -185,63 +144,47 @@ class KPI_calculator(object):
         plot: boolean
             True if it it is desired to make plots related with
             the energy usage metrics
-        cn: int, optional
-            test case number, default = self.cn
         """
-        
-        # cn = case number (int), tc = TestCase object
-        if cn is None:
-            cn = self.cn 
-        tc = self.cases[self.cn]
         
         ene_tot = 0
         ene_dict = OrderedDict()
         if from_power:
             # Calculate total energy from power 
             # [returns KWh - assumes power measured in Watts]
-            for signal in tc.kpi_json['power']:
-                pow_data = np.array(tc.y_store[signal])
+            for signal in self.tc.kpi_json['power']:
+                pow_data = np.array(self.tc.y_store[signal])
                 ene_dict[signal] = \
-                trapz(pow_data,tc.y_store['time'])*2.77778e-7 # Convert to kWh
+                trapz(pow_data,self.tc.y_store['time'])*2.77778e-7 # Convert to kWh
                 ene_tot = ene_tot + ene_dict[signal]
         else:
             # Calculate total energy 
             # [returns KWh - assumes energy measured in J]
-            for signal in tc.kpi_json['energy']:
+            for signal in self.tc.kpi_json['energy']:
                 ene_dict[signal] = \
-                tc.y_store[signal][-1]*2.77778e-7 # Convert to kWh
+                self.tc.y_store[signal][-1]*2.77778e-7 # Convert to kWh
                 ene_tot = ene_tot + ene_dict[signal]
                 
-        tc.ene_tot  = ene_tot
-        tc.ene_tree = self.get_dict_tree(ene_dict) 
+        self.tc.ene_tot  = ene_tot
+        self.tc.ene_tree = self.get_dict_tree(ene_dict) 
             
         if plot:
-            self.plot_nested_pie(tc.ene_tree, metric='energy use',
+            self.plot_nested_pie(self.tc.ene_tree, metric='energy use',
                                  units='kW*h')
         
         return ene_tot
 
 
     @alias('lfs')
-    def get_load_factors(self, cn=None):
+    def get_load_factors(self):
         """
         Calculate the load factor for every power signal
         
-        Parameters
-        ----------
-        cn: int, optional
-            test case number, default = self.cn
         """
-        
-        # cn = case number (int), tc = TestCase object
-        if cn is None:
-            cn = self.cn 
-        tc = self.cases[self.cn]
         
         lfs = OrderedDict()
         
-        for signal in tc.kpi_json['power']:
-            pow_data = np.array(tc.y_store[signal])
+        for signal in self.tc.kpi_json['power']:
+            pow_data = np.array(self.tc.y_store[signal])
             avg_pow = pow_data.mean()
             max_pow = pow_data.max()
             try:
@@ -250,35 +193,26 @@ class KPI_calculator(object):
                 print("Error: {0}".format(err))
                 return
         
-        tc.lfs = lfs
+        self.tc.lfs = lfs
     
         return lfs
 
     
     @alias('pps')
-    def get_power_peaks(self, cn=None):
+    def get_power_peaks(self):
         """
         Calculate the power peak for every power signal
         
-        Parameters
-        ----------
-        cn: int, optional
-            test case number, default = self.cn
         """
         
-        # cn = case number (int), tc = TestCase object
-        if cn is None:
-            cn = self.cn 
-        tc = self.cases[self.cn]
-                
         pps = OrderedDict()
         
-        for signal in tc.kpi_json['power']:
-            pow_data = np.array(tc.y_store[signal])
+        for signal in self.tc.kpi_json['power']:
+            pow_data = np.array(self.tc.y_store[signal])
             max_pow = pow_data.max()
             pps[signal]=max_pow
         
-        tc.pps = pps
+        self.tc.pps = pps
             
         return pps
                             
