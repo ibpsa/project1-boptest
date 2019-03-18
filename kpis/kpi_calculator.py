@@ -139,28 +139,24 @@ class KPI_calculator(object):
             cn = self.cn 
         tc = self.cases[self.cn]
         
-        if not hasattr(tc, 'dis_tree'):
-            dis_tot = 0
-            dis_dict = OrderedDict()
-            for signal in tc.kpi_json['comfort']:
-                data = np.array(tc.y_store[signal])
-                dT_lower = lowersetp - data
-                dT_lower[dT_lower<0]=0
-                dT_upper = data - uppersetp
-                dT_upper[dT_upper<0]=0
-                dis_dict[signal[:-1]+'dTlower_y'] = \
-                    trapz(dT_lower,tc.y_store['time'])/3600.
-                dis_dict[signal[:-1]+'dTupper_y'] = \
-                    trapz(dT_upper,tc.y_store['time'])/3600.
-                dis_tot = dis_tot + \
-                          dis_dict[signal[:-1]+'dTlower_y'] + \
-                          dis_dict[signal[:-1]+'dTupper_y']
-            
-            tc.dis_tot  = dis_tot
-            tc.dis_tree = self.get_dict_tree(dis_dict)
+        dis_tot = 0
+        dis_dict = OrderedDict()
+        for signal in tc.kpi_json['comfort']:
+            data = np.array(tc.y_store[signal])
+            dT_lower = lowersetp - data
+            dT_lower[dT_lower<0]=0
+            dT_upper = data - uppersetp
+            dT_upper[dT_upper<0]=0
+            dis_dict[signal[:-1]+'dTlower_y'] = \
+                trapz(dT_lower,tc.y_store['time'])/3600.
+            dis_dict[signal[:-1]+'dTupper_y'] = \
+                trapz(dT_upper,tc.y_store['time'])/3600.
+            dis_tot = dis_tot + \
+                      dis_dict[signal[:-1]+'dTlower_y'] + \
+                      dis_dict[signal[:-1]+'dTupper_y']
         
-        else:
-            dis_tot = tc.dis_tot
+        tc.dis_tot  = dis_tot
+        tc.dis_tree = self.get_dict_tree(dis_dict)
             
         if plot:
             self.plot_nested_pie(tc.dis_tree, metric='discomfort',
@@ -198,30 +194,26 @@ class KPI_calculator(object):
             cn = self.cn 
         tc = self.cases[self.cn]
         
-        if not hasattr(tc, 'ene_tree'):
-            ene_tot = 0
-            ene_dict = OrderedDict()
-            if from_power:
-                # Calculate total energy from power 
-                # [returns KWh - assumes power measured in Watts]
-                for signal in tc.kpi_json['power']:
-                    pow_data = np.array(tc.y_store[signal])
-                    ene_dict[signal] = \
-                    trapz(pow_data,tc.y_store['time'])*2.77778e-7 # Convert to kWh
-                    ene_tot = ene_tot + ene_dict[signal]
-            else:
-                # Calculate total energy 
-                # [returns KWh - assumes energy measured in J]
-                for signal in tc.kpi_json['energy']:
-                    ene_dict[signal] = \
-                    tc.y_store[signal][-1]*2.77778e-7 # Convert to kWh
-                    ene_tot = ene_tot + ene_dict[signal]
-                    
-            tc.ene_tot  = ene_tot
-            tc.ene_tree = self.get_dict_tree(ene_dict) 
-            
+        ene_tot = 0
+        ene_dict = OrderedDict()
+        if from_power:
+            # Calculate total energy from power 
+            # [returns KWh - assumes power measured in Watts]
+            for signal in tc.kpi_json['power']:
+                pow_data = np.array(tc.y_store[signal])
+                ene_dict[signal] = \
+                trapz(pow_data,tc.y_store['time'])*2.77778e-7 # Convert to kWh
+                ene_tot = ene_tot + ene_dict[signal]
         else:
-            ene_tot = tc.ene_tot
+            # Calculate total energy 
+            # [returns KWh - assumes energy measured in J]
+            for signal in tc.kpi_json['energy']:
+                ene_dict[signal] = \
+                tc.y_store[signal][-1]*2.77778e-7 # Convert to kWh
+                ene_tot = ene_tot + ene_dict[signal]
+                
+        tc.ene_tot  = ene_tot
+        tc.ene_tree = self.get_dict_tree(ene_dict) 
             
         if plot:
             self.plot_nested_pie(tc.ene_tree, metric='energy use',
@@ -246,24 +238,20 @@ class KPI_calculator(object):
             cn = self.cn 
         tc = self.cases[self.cn]
         
-        if not hasattr(tc, 'lfs'):
-            lfs = OrderedDict()
-            
-            for signal in tc.kpi_json['power']:
-                pow_data = np.array(tc.y_store[signal])
-                avg_pow = pow_data.mean()
-                max_pow = pow_data.max()
-                try:
-                    lfs[signal]=avg_pow/max_pow
-                except ZeroDivisionError as err:
-                    print("Error: {0}".format(err))
-                    return
-            
-            tc.lfs = lfs
-                
-        else:
-            lfs = tc.lfs
+        lfs = OrderedDict()
         
+        for signal in tc.kpi_json['power']:
+            pow_data = np.array(tc.y_store[signal])
+            avg_pow = pow_data.mean()
+            max_pow = pow_data.max()
+            try:
+                lfs[signal]=avg_pow/max_pow
+            except ZeroDivisionError as err:
+                print("Error: {0}".format(err))
+                return
+        
+        tc.lfs = lfs
+    
         return lfs
 
     
@@ -282,20 +270,15 @@ class KPI_calculator(object):
         if cn is None:
             cn = self.cn 
         tc = self.cases[self.cn]
+                
+        pps = OrderedDict()
         
-        if not hasattr(tc, 'pps'):
+        for signal in tc.kpi_json['power']:
+            pow_data = np.array(tc.y_store[signal])
+            max_pow = pow_data.max()
+            pps[signal]=max_pow
         
-            pps = OrderedDict()
-            
-            for signal in tc.kpi_json['power']:
-                pow_data = np.array(tc.y_store[signal])
-                max_pow = pow_data.max()
-                pps[signal]=max_pow
-            
-            tc.pps = pps
-        
-        else:
-            pps = tc.pps
+        tc.pps = pps
             
         return pps
                             
