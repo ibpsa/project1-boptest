@@ -12,7 +12,7 @@ import copy
 import config
 import json
 import cPickle as pickle
-from kpis.kpi_calculator import KPI_calculator
+from kpis.kpi_calculator import KPI_Calculator
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -220,7 +220,7 @@ class TestCase(object):
         
         '''
         
-        cal = KPI_calculator(self)
+        cal = KPI_Calculator(self)
         kpis = cal.get_core_kpis()
 
         return kpis    

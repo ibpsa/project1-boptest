@@ -16,7 +16,7 @@ from collections import OrderedDict
 
 
 @aliased
-class KPI_calculator(object):
+class KPI_Calculator(object):
     '''
     This class calculates the KPIs as a post-process after 
     a test is complete. Upon deployment of the test case, 
@@ -40,7 +40,7 @@ class KPI_calculator(object):
 
     def __init__(self, testcase):
         """
-        Initialize the KPI_calculator class. One KPI_calculator
+        Initialize the KPI_Calculator class. One KPI_Calculator
         is associated with one testcase.
         
         Parameters
@@ -51,31 +51,31 @@ class KPI_calculator(object):
         
         """
         
-        self.tc = testcase
+        self.case = testcase
     
     
-    @alias('ckpis')
+    @alias('ckpi')
     def get_core_kpis(self):
         """
         Return the core KPIs of a test case.
         
         Returns 
         -------
-        ckpis = dict
+        ckpi = dict
             Dictionary with the core KPIs, i.e., the KPIs
             that are considered essential for the comparison between
             two test cases
         """
         
-        ckpis = OrderedDict()
-        ckpis['tdc_tot'] = self.get_thermal_discomfort()
-        ckpis['ene_tot'] = self.get_energy()
+        ckpi = OrderedDict()
+        ckpi['tdis_tot'] = self.get_thermal_discomfort()
+        ckpi['ener_tot'] = self.get_energy()
         
-        return ckpis
+        return ckpi
         
     
-    @alias('tdc')
-    def get_thermal_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+26,
+    @alias('tdis')
+    def get_thermal_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+25,
                                plot=False):
         """
         The thermal discomfort is the integral of the deviation 
@@ -93,38 +93,38 @@ class KPI_calculator(object):
             
         Returns
         -------
-        tdc_tot: float
+        tdis_tot: float
             total thermal discomfort accounted in this test case
 
         """
         
-        tdc_tot = 0
-        tdc_dict = OrderedDict()
-        for signal in self.tc.kpi_json['comfort']:
-            data = np.array(self.tc.y_store[signal])
+        tdis_tot = 0
+        tdis_dict = OrderedDict()
+        for signal in self.case.kpi_json['comfort']:
+            data = np.array(self.case.y_store[signal])
             dT_lower = lowersetp - data
             dT_lower[dT_lower<0]=0
             dT_upper = data - uppersetp
             dT_upper[dT_upper<0]=0
-            tdc_dict[signal[:-1]+'dTlower_y'] = \
-                trapz(dT_lower,self.tc.y_store['time'])/3600.
-            tdc_dict[signal[:-1]+'dTupper_y'] = \
-                trapz(dT_upper,self.tc.y_store['time'])/3600.
-            tdc_tot = tdc_tot + \
-                      tdc_dict[signal[:-1]+'dTlower_y'] + \
-                      tdc_dict[signal[:-1]+'dTupper_y']
+            tdis_dict[signal[:-1]+'dTlower_y'] = \
+                trapz(dT_lower,self.case.y_store['time'])/3600.
+            tdis_dict[signal[:-1]+'dTupper_y'] = \
+                trapz(dT_upper,self.case.y_store['time'])/3600.
+            tdis_tot = tdis_tot + \
+                      tdis_dict[signal[:-1]+'dTlower_y'] + \
+                      tdis_dict[signal[:-1]+'dTupper_y']
         
-        self.tc.tdc_tot  = tdc_tot
-        self.tc.tdc_tree = self.get_dict_tree(tdc_dict)
+        self.case.tdis_tot  = tdis_tot
+        self.case.tdis_tree = self.get_dict_tree(tdis_dict)
             
         if plot:
-            self.plot_nested_pie(self.tc.tdc_tree, metric='discomfort',
+            self.plot_nested_pie(self.case.tdis_tree, metric='discomfort',
                                  units='K*h')
         
-        return tdc_tot
+        return tdis_tot
     
 
-    @alias('ene')
+    @alias('ener')
     def get_energy(self, from_power=True, plot=False):
         """
         This method returns the measure of the total building 
@@ -146,75 +146,109 @@ class KPI_calculator(object):
             the energy usage metrics
         """
         
-        ene_tot = 0
-        ene_dict = OrderedDict()
+        ener_tot = 0
+        ener_dict = OrderedDict()
         if from_power:
             # Calculate total energy from power 
             # [returns KWh - assumes power measured in Watts]
-            for signal in self.tc.kpi_json['power']:
-                pow_data = np.array(self.tc.y_store[signal])
-                ene_dict[signal] = \
-                trapz(pow_data,self.tc.y_store['time'])*2.77778e-7 # Convert to kWh
-                ene_tot = ene_tot + ene_dict[signal]
+            for signal in self.case.kpi_json['power']:
+                pow_data = np.array(self.case.y_store[signal])
+                ener_dict[signal] = \
+                trapz(pow_data,self.case.y_store['time'])*2.77778e-7 # Convert to kWh
+                ener_tot = ener_tot + ener_dict[signal]
         else:
             # Calculate total energy 
             # [returns KWh - assumes energy measured in J]
-            for signal in self.tc.kpi_json['energy']:
-                ene_dict[signal] = \
-                self.tc.y_store[signal][-1]*2.77778e-7 # Convert to kWh
-                ene_tot = ene_tot + ene_dict[signal]
+            for signal in self.case.kpi_json['energy']:
+                ener_dict[signal] = \
+                self.case.y_store[signal][-1]*2.77778e-7 # Convert to kWh
+                ener_tot = ener_tot + ener_dict[signal]
                 
-        self.tc.ene_tot  = ene_tot
-        self.tc.ene_tree = self.get_dict_tree(ene_dict) 
+        self.case.ener_tot  = ener_tot
+        self.case.ener_tree = self.get_dict_tree(ener_dict) 
             
         if plot:
-            self.plot_nested_pie(self.tc.ene_tree, metric='energy use',
+            self.plot_nested_pie(self.case.ener_tree, metric='energy use',
                                  units='kW*h')
         
-        return ene_tot
+        return ener_tot
+    
+    
+    @alias('cost')
+    def get_cost(self, plot=False):
+        """
+        This method returns the measure of the total building 
+        energy cost in euros when accounting for the sum of all 
+        energy vectors present in the test case. The scenarios 
+        defined in each test case determine which components 
+        are added and the source data for the conversion 
+        factors if required.
+        
+        Parameters
+        ----------
+        plot: boolean
+            True if it it is desired to make plots related with
+            the energy usage metrics
+        """
+        
+        cost_tot = 0
+        cost_dict = OrderedDict()
+        # Calculate total cost from power 
+        # assumes power measured in Watts
+        for signal in self.case.kpi_json['power']:
+            pow_data = np.array(self.case.y_store[signal])
+            cost_dict[signal] = \
+            trapz(pow_data,self.case.y_store['time'])*2.77778e-7 # Convert to kWh
+            cost_tot = cost_tot + cost_dict[signal]
+            
+        if plot:
+            self.plot_nested_pie(self.case.cost_tree, metric='cost',
+                                 units='euros')
+        
+        return cost_tot
 
 
-    @alias('lfs')
+    @alias('ldfs')
     def get_load_factors(self):
         """
         Calculate the load factor for every power signal
         
         """
         
-        lfs = OrderedDict()
+        ldfs = OrderedDict()
         
-        for signal in self.tc.kpi_json['power']:
-            pow_data = np.array(self.tc.y_store[signal])
+        for signal in self.case.kpi_json['power']:
+            pow_data = np.array(self.case.y_store[signal])
             avg_pow = pow_data.mean()
             max_pow = pow_data.max()
             try:
-                lfs[signal]=avg_pow/max_pow
+                ldfs[signal]=avg_pow/max_pow
             except ZeroDivisionError as err:
                 print("Error: {0}".format(err))
                 return
         
-        self.tc.lfs = lfs
+        self.case.ldfs = ldfs
     
-        return lfs
+        return ldfs
 
     
-    @alias('pps')
+    @alias('ppks')
     def get_power_peaks(self):
         """
         Calculate the power peak for every power signal
         
         """
         
-        pps = OrderedDict()
+        ppks = OrderedDict()
         
-        for signal in self.tc.kpi_json['power']:
-            pow_data = np.array(self.tc.y_store[signal])
+        for signal in self.case.kpi_json['power']:
+            pow_data = np.array(self.case.y_store[signal])
             max_pow = pow_data.max()
-            pps[signal]=max_pow
+            ppks[signal]=max_pow
         
-        self.tc.pps = pps
+        self.case.ppks = ppks
             
-        return pps
+        return ppks
                             
                             
     def get_dict_tree(self, dict_flat, sep='_'):
@@ -512,6 +546,6 @@ if __name__ == "__main__":
                 'Lighting_floor1_lamp2_y':87.,
                 'Lighting_floor2_y':37.}  
     
-    cal = KPI_calculator(testcase=None)
+    cal = KPI_Calculator(testcase=None)
     ene_tree = cal.get_dict_tree(ene_dict)
     cal.pie(ene_tree)
