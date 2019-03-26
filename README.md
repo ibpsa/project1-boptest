@@ -7,7 +7,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 ## Structure
 - ``/testcase#`` contains prototype code for a test case, including docs, models, and configuration settings.
 - ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.
-- ``/parser`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
+- ``/parsing`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/template`` contains template Modelica code for a test case emulator model.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
 
@@ -28,7 +28,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 
 Example RESTful interaction:
 
-- Receive a list of available measurements: ``$ curl http://127.0.0.1:5000/measurements``
+- Receive a list of available measurement names and their metadata: ``$ curl http://127.0.0.1:5000/measurements``
 - Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"TSetRooHea":293.15,"TSetRooCoo":298.15}' -H "Content-Type: application/json"``
 
 | Interaction                                                    | Request                                                   |
@@ -37,8 +37,8 @@ Example RESTful interaction:
 | Reset simulation to beginning                                  |  PUT ``reset`` with no data                               |
 | Receive communication step in seconds                          |  GET ``step``                                             |
 | Set communication step in seconds                              |  PUT ``step`` with data ``step=<value>``                  |
-| Receive sensor signal names (y)                                |  GET ``measurements``                                     |
-| Receive control signal names (u)                               |  GET ``inputs``                                           |
+| Receive sensor signal names (y) and metadata                   |  GET ``measurements``                                     |
+| Receive control signals names (u) and metadata                 |  GET ``inputs``                                           |
 | Receive test result data                                       |  GET ``results``                                          |
 | Receive test KPIs                                              |  GET ``kpi``                                              |
 | Receive test case name                                         |  GET ``name``                                             |

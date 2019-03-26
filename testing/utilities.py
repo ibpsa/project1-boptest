@@ -160,8 +160,9 @@ class partialTestAPI(object):
         
         inputs = requests.get('{0}/inputs'.format(self.url)).json()
         self.assertEqual(len(inputs), len(self.inputs_ref))
-        for i in inputs:
-            self.assertTrue(i in self.inputs_ref)
+        for inp in inputs:
+            self.assertTrue(inp in self.inputs_ref)
+            self.assertTrue(inputs[inp]['Unit'] == self.inputs_ref[inp]['Unit'])
 
     def test_get_measurements(self):
         '''Test getting the measurement list of test.
@@ -170,8 +171,9 @@ class partialTestAPI(object):
 
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
         self.assertEqual(len(measurements), len(self.measurements_ref))
-        for i in measurements:
-            self.assertTrue(i in self.measurements_ref)
+        for measurement in measurements:
+            self.assertTrue(measurement in self.measurements_ref)
+            self.assertTrue(measurements[measurement]['Unit'] == self.measurements_ref[measurement]['Unit'])
         
     def test_get_step(self):
         '''Test getting the communication step of test.
