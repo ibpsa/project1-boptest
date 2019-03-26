@@ -283,6 +283,107 @@ class TestCase(object):
 
         return var_metadata
     
+    def get_forecast(self, horizon=24*3600, start=None,
+                     interval=None, type=None, index=None, 
+                     plot=False,
+                     data_file_name='test_case_data.csv'):
+        '''Retrieve forecast data from the fmu. The data
+        is stored within the data_file_name file that 
+        is located in the resources folder of the wrapped.fmu.
+        
+        Parameters
+        ----------
+        horizon : float
+            Length of the requested forecast in seconds 
+        interval: integer (optional)
+            resampling time interval in seconds. If None,
+            self.step will be used instead
+        type : string (optional)
+            Type of data to retrieve from the test case.
+            If None it will return all available data in the
+            file without filtering it by any category. 
+            Possible options are 'weather', 'emissions', 
+            'price_constant', 'price_dynamic', 
+            'price_highly_dynamic', 'gains'
+        start : float (optional)
+            Starting time of the forecast. If None it
+            will use the actual time, i.e.: self.start_time
+        data_file_name : string
+            Name of the data file from where the data is 
+            retrieved. Notice that this file should be within
+            the resources folder of the wrapped.fmu
+            
+        Returns
+        -------
+        data: dict 
+            Dictionary with the requested forecast data
+            {<variable_name>:<variable_forecast_trajectory>}
+        
+        Notes
+        -----
+        The read and pre-process of the data happens only 
+        once to reduce the computational load during the 
+        co-simulation
+        
+        '''
+        
+        # First read the test case data if it has not been 
+        # read before. 
+        if not hasattr(self, 'data'):    
+            z_fmu = zipfile.ZipFile(self.fmupath, 'r')
+            # This will work in any OS because the zip format 
+            # specifies a forward slash.
+            self.data=pd.read_csv(z_fmu.open('resources/'+data_file_name),
+                                  index_col='datetime', parse_dates=True)
+            
+            # Convert any convert any string formatted
+            # numbers to floats.
+            self.data = self.data.applymap(float)
+            
+            # Resample the data
+            if interval is None:
+                interval = self.step
+            
+            self.data = self.data.asfreq(freq=str(interval)+'S')
+            self.data = self.data.interpolate(method='time')        
+
+            # Get rid of the NaN's
+            if np.isnan(self.data).any().any():
+                self.data = self.data.fillna(method='ffill')
+                if np.isnan(self.data).any().any():            
+                    self.data = self.data.fillna(method='bfill')
+            
+            # Set time as index (fmu does not understand datetime)
+            self.data['datetime'] = self.data.index
+            self.data = self.data.set_index('time')
+            
+            # Close the fmu
+            z_fmu.close()
+        
+        # If no index use horizon to slice the data
+        if index is None:
+            # If no start time specified use the test case start time
+            if start is None:
+                start = self.start_time
+            end = start + horizon
+            data_slice = self.data.loc[start:end, :]
+        
+        # If there is an index return the data slice on that index
+        else:
+            # TODO: Make distinction between weather and other data:
+            # should call .interpolate(method='index') instead of fillna
+            # for the weather data. 
+            data_slice = self.data.reindex(index).fillna(method='ffill').fillna(method='bfill')
+        
+        if plot:
+            to_plot=['energy_price_dynamic']
+            data_slice.set_index('datetime')[to_plot].plot()
+            plt.show()
+
+        # Reset the index to keep the 'time' column in the data
+        # Transform data frame to dictionary
+        return data_slice.reset_index().to_dict('list')
+    
     def save_test_case(self, file_name='tc_deployed'):
         '''Save the deployed test case in a pickle.
         This method is going to delete the fmu from the
