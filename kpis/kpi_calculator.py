@@ -41,7 +41,7 @@ class KPI_Calculator(object):
     def __init__(self, testcase):
         """
         Initialize the KPI_Calculator class. One KPI_Calculator
-        is associated with one testcase.
+        is associated with one test case.
         
         Parameters
         ----------
@@ -165,9 +165,9 @@ class KPI_Calculator(object):
                 ener_tot = ener_tot + ener_dict[signal]
                 
         self.case.ener_tot  = ener_tot
-        self.case.ener_tree = self.get_dict_tree(ener_dict) 
             
         if plot:
+            self.case.ener_tree = self.get_dict_tree(ener_dict) 
             self.plot_nested_pie(self.case.ener_tree, metric='energy use',
                                  units='kW*h')
         
@@ -188,25 +188,66 @@ class KPI_Calculator(object):
         ----------
         plot: boolean
             True if it it is desired to make plots related with
-            the energy usage metrics
+            the cost metric
         """
         
         cost_tot = 0
         cost_dict = OrderedDict()
         # Calculate total cost from power 
         # assumes power measured in Watts
+        price_data = np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                              ['energy_price_dynamic'])
         for signal in self.case.kpi_json['power']:
             pow_data = np.array(self.case.y_store[signal])
             cost_dict[signal] = \
-            trapz(pow_data,self.case.y_store['time'])*2.77778e-7 # Convert to kWh
+            trapz(np.multiply(price_data,pow_data),
+                  self.case.y_store['time'])*2.77778e-7 # Convert to kWh
             cost_tot = cost_tot + cost_dict[signal]
             
+        self.case.cost_tot = cost_tot
+             
         if plot:
+            self.case.cost_tree = self.get_dict_tree(cost_dict) 
             self.plot_nested_pie(self.case.cost_tree, metric='cost',
                                  units='euros')
-        
+         
         return cost_tot
 
+    @alias('emis')
+    def get_emissions(self, plot=False):
+        """
+        This method returns the measure of the total building 
+        emissions in kgCO2 when accounting for the sum of all 
+        energy vectors present in the test case. 
+        
+        Parameters
+        ----------
+        plot: boolean
+            True if it it is desired to make plots related with
+            the emission metric
+        """
+        
+        emis_tot = 0
+        emis_dict = OrderedDict()
+        # Calculate total emissions from power 
+        # assumes power measured in Watts
+        emission_factor_data = np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                                    ['emission_factor_electricity'])
+        for signal in self.case.kpi_json['power']:
+            pow_data = np.array(self.case.y_store[signal])
+            emis_dict[signal] = \
+            trapz(np.multiply(emission_factor_data,pow_data),
+                  self.case.y_store['time'])*2.77778e-7 # Convert to kWh
+            emis_tot = emis_tot + emis_dict[signal]
+            
+        self.case.emis_tot = emis_tot
+             
+        if plot:
+            self.case.emis_tree = self.get_dict_tree(emis_dict) 
+            self.plot_nested_pie(self.case.cost_tree, metric='emissions',
+                                 units='kgCO2')
+         
+        return emis_tot
 
     @alias('ldfs')
     def get_load_factors(self):
@@ -535,12 +576,12 @@ class KPI_Calculator(object):
             
 if __name__ == "__main__":
     """Nested pie chart example"""
-    ene_dict = {'HVAC_damper_y':50.,
-                'HVAC_HP_component1_y':160.,
-                'HVAC_pump_y':25.,
-                'Distrib_component1_y':80.,
-                'HVAC_HP_component2_y':30.,
-                'Distrib_component2_y':80.,
+    ene_dict = {'Heating_damper_y':50.,
+                'Heating_HP_component1_y':160.,
+                'Heating_pump_y':25.,
+                'Cooling_component1_y':80.,
+                'Heating_HP_component2_y':30.,
+                'Cooling_component2_y':80.,
                 'Lighting_floor1_lamp1_coponent1_y':15.,
                 'Lighting_floor1_lamp1_coponent2_y':23.,
                 'Lighting_floor1_lamp2_y':87.,
