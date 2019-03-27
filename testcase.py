@@ -283,9 +283,8 @@ class TestCase(object):
 
         return var_metadata
     
-    def get_forecast(self, horizon=24*3600, start=None,
-                     interval=None, type=None, index=None, 
-                     plot=False,
+    def get_forecast(self, horizon=24*3600, interval=None,
+                     type=None, index=None, plot=False,
                      data_file_name='test_case_data.csv'):
         '''Retrieve forecast data from the fmu. The data
         is stored within the data_file_name file that 
@@ -293,9 +292,9 @@ class TestCase(object):
         
         Parameters
         ----------
-        horizon : float
+        horizon : int
             Length of the requested forecast in seconds 
-        interval: integer (optional)
+        interval: int (optional)
             resampling time interval in seconds. If None,
             self.step will be used instead
         type : string (optional)
@@ -305,9 +304,6 @@ class TestCase(object):
             Possible options are 'weather', 'emissions', 
             'price_constant', 'price_dynamic', 
             'price_highly_dynamic', 'gains'
-        start : float (optional)
-            Starting time of the forecast. If None it
-            will use the actual time, i.e.: self.start_time
         data_file_name : string
             Name of the data file from where the data is 
             retrieved. Notice that this file should be within
@@ -362,9 +358,8 @@ class TestCase(object):
         
         # If no index use horizon to slice the data
         if index is None:
-            # If no start time specified use the test case start time
-            if start is None:
-                start = self.start_time
+            # Use the test case start time
+            start = self.start_time
             end = start + horizon
             data_slice = self.data.loc[start:end, :]
         
