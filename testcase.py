@@ -357,22 +357,17 @@ class TestCase(object):
             # get rid of NaN's if still any
             data_slice = data_slice.fillna(method='bfill')
         
-        # Filter the requested data columns
-        if category == 'weather':
-            data_slice = data_slice.loc[:,self.weather_keys]
-        elif category == 'price':
-            data_slice = data_slice.loc[:,self.price_keys]
-        elif category == 'emission':
-            data_slice = data_slice.loc[:,self.emission_keys]
-        elif category == 'occupancy':
-            data_slice = data_slice.loc[:,self.occupancy_keys]
-        elif category == 'setpoint_keys':
-            data_slice = data_slice.loc[:,self.setpoint_keys]
-        
         if plot:
-            to_plot=['price_electricity_dynamic']
+            if category is None:
+                to_plot = data_slice.keys().drop('datetime')
+            else: 
+                to_plot = self.categories[category]
             data_slice.set_index('datetime')[to_plot].plot()
             plt.show()
+        
+        # Filter the requested data columns
+        if category is not None:
+            data_slice = data_slice.loc[:,self.categories[category]]
 
         # Reset the index to keep the 'time' column in the data
         # Transform data frame to dictionary
@@ -401,14 +396,22 @@ class TestCase(object):
                                'TDewPoi','relHum','TDryBul','TWetBul',
                                'solAlt','solZen','solDec','solHouAng',
                                'lon','lat','TBlaSky']
-        self.price_keys     = ['electricity_price_constant', 
-                               'electricity_price_dynamic', 
-                               'electricity_price_highly_dynamic',
-                               'gas_price']
+        self.price_keys     = ['price_electricity_constant', 
+                               'price_electricity_dynamic', 
+                               'price_electricity_highly_dynamic',
+                               'price_gas']
         self.emission_keys  = ['emission_factor_electricity',
                                'emission_factor_gas'] 
         self.occupancy_keys = ['occupancy']
         self.setpoint_keys  = ['T_set_lower', 'T_set_upper']
+        
+        # Save the categories within a dictionary:
+        self.categories = {}
+        self.categories['weather']   = self.weather_keys
+        self.categories['price']     = self.price_keys
+        self.categories['emission']  = self.emission_keys
+        self.categories['occupancy'] = self.occupancy_keys
+        self.categories['setpoint']  = self.setpoint_keys
         
         # Point to the fmu zip file
         z_fmu = zipfile.ZipFile(self.fmupath, 'r')
