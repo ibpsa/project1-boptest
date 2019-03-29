@@ -339,14 +339,6 @@ class TestCase(object):
             if index[0] < 1e-6:
                 index[0] = 0
             data_slice = self.data.reindex(index)
-            
-            # Redefine the datetime index with the simulation time
-            # this slows down a lot the co-simulation process
-            if False:
-                t0 = data_slice.index[0]
-                for t in data_slice.index[1:]:
-                    data_slice.loc[t,'datetime'] = data_slice.loc[t0,'datetime'] + \
-                        pd.Timedelta(t-t0,'s')
                     
             # Interpolate the continuous variables
             data_slice.loc[:,self.weather_keys]  = \
