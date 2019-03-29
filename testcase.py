@@ -11,7 +11,11 @@ import numpy as np
 import copy
 import config
 import json
-from scipy.integrate import trapz
+import cPickle as pickle
+from kpis.kpi_calculator import KPI_Calculator
+import zipfile
+import pandas as pd
+import matplotlib.pyplot as plt
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -29,26 +33,28 @@ class TestCase(object):
         self.fmupath = con['fmupath']
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
-        # Get version
+        # Get version and check is 2.0
         self.fmu_version = self.fmu.get_version()
-        # Get available control inputs and outputs
-        if self.fmu_version == '2.0':
-            input_names = self.fmu.get_model_variables(causality = 2).keys()
-            output_names = self.fmu.get_model_variables(causality = 3).keys()
-        else:
+        if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Get available control inputs and outputs
+        input_names = self.fmu.get_model_variables(causality = 2).keys()
+        output_names = self.fmu.get_model_variables(causality = 3).keys()
+        # Get input and output meta-data
+        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names)
+        self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
         # Define KPIs
         self.kpipath = con['kpipath']
         # Load kpi json
         with open(self.kpipath, 'r') as f:
             json_str = f.read()
             self.kpi_json = json.loads(json_str)
-        # Define measurements
+        # Define outputs data
         self.y = {'time':[]}
         for key in output_names:
             self.y[key] = []
         self.y_store = copy.deepcopy(self.y)
-        # Define inputs
+        # Define inputs data
         self.u = {'time':[]}
         for key in input_names:
             self.u[key] = []
@@ -145,7 +151,7 @@ class TestCase(object):
         return None
         
     def get_inputs(self):
-        '''Returns a list of control input names.
+        '''Returns a dictionary of control inputs and their meta-data.
         
         Parameters
         ----------
@@ -153,17 +159,17 @@ class TestCase(object):
         
         Returns
         -------
-        inputs : list
-            List of control input names.
+        inputs : dict
+            Dictionary of control inputs and their meta-data.
             
         '''
 
-        inputs = self.u.keys()
+        inputs = self.inputs_metadata
         
         return inputs
         
     def get_measurements(self):
-        '''Returns a list of measurement names.
+        '''Returns a dictionary of measurements and their meta-data.
         
         Parameters
         ----------
@@ -171,12 +177,12 @@ class TestCase(object):
         
         Returns
         -------
-        measurements : list
-            List of measurement names.
+        measurements : dict
+            Dictionary of measurements and their meta-data.
             
         '''
 
-        measurements = self.y.keys()
+        measurements = self.outputs_metadata
         
         return measurements
         
@@ -201,7 +207,7 @@ class TestCase(object):
         Y = {'y':self.y_store, 'u':self.u_store}
         
         return Y
-        
+    
     def get_kpis(self):
         '''Returns KPI data.
         
@@ -212,12 +218,14 @@ class TestCase(object):
         None
         
         Returns
+        -------
         kpis : dict
             Dictionary containing KPI names and values.
             {<kpi_name>:<kpi_value>}
         
         '''
         
+<<<<<<< HEAD
         kpis = dict()
         # Calculate each KPI using json for signalsand save in dictionary
         for kpi in self.kpi_json.keys():
@@ -250,8 +258,12 @@ class TestCase(object):
                 kpis[kpi] = tot_dis
             else:
                 print('No calculation for KPI named "{0}".'.format(kpi))
+=======
+        cal = KPI_Calculator(self)
+        kpis = cal.get_core_kpis()
+>>>>>>> development
 
-        return kpis
+        return kpis   
         
     def get_name(self):
         '''Returns the name of the test case fmu.
@@ -270,3 +282,241 @@ class TestCase(object):
         name = self.fmupath[7:-4]
         
         return name
+        
+    def _get_var_metadata(self, fmu, var_list):
+        '''Build a dictionary of variables and their metadata.
+        
+        Parameters
+        ----------
+        fmu : pyfmi fmu object
+            FMU from which to get variable metadata
+        var_list : list of str
+            List of variable names
+            
+        Returns
+        -------
+        var_metadata : dict
+            Dictionary of variable names as keys and metadata as fields.
+            {<var_name> :
+                "Unit" : <units_str>
+            }
+            
+        '''
+        
+        # Inititalize
+        var_metadata = dict()
+        # Get metadata        
+        for var in var_list:
+            # Units
+            if var == 'time':
+                unit = 's'
+            elif '_activate' in var:
+                unit = None
+            else:
+                unit = fmu.get_variable_unit(var)
+            var_metadata[var] = {'Unit':unit}
+
+        return var_metadata
+    
+    def get_forecast(self, horizon=24*3600, interval=None,
+                     category=None, index=None, plot=False,
+                     data_file_name='test_case_data.csv'):
+        '''Retrieve forecast data from the fmu. The data
+        is stored within the data_file_name file that 
+        is located in the resources folder of the wrapped.fmu.
+        
+        Parameters
+        ----------
+        horizon : int
+            Length of the requested forecast in seconds 
+        interval: int (optional)
+            resampling time interval in seconds. If None,
+            self.step will be used instead
+        category : string (optional)
+            Type of data to retrieve from the test case.
+            If None it will return all available data in the
+            file without filtering it by any category. 
+            Possible options are 'weather', 'price',
+            'emission', 'occupancy', 'setpoints'
+        data_file_name : string
+            Name of the data file from where the data is 
+            retrieved. Notice that this file should be within
+            the resources folder of the wrapped.fmu
+            
+        Returns
+        -------
+        data: dict 
+            Dictionary with the requested forecast data
+            {<variable_name>:<variable_forecast_trajectory>}
+        
+        Notes
+        -----
+        The read and pre-process of the data happens only 
+        once to reduce the computational load during the 
+        co-simulation
+        
+        '''
+        
+        # First read the test case data if not read yet
+        if not hasattr(self, 'data'):    
+            self.load_data(interval, data_file_name)
+            
+        # If no index use horizon to slice the data
+        if index is None:
+            # Use the test case start time
+            start = self.start_time
+            end = start + horizon
+            data_slice = self.data.loc[start:end, :]
+        
+        # If there is an index return the data slice on that index
+        else:
+            # Don't miss first data point
+            if index[0] < 1e-6:
+                index[0] = 0
+            data_slice = self.data.reindex(index)
+                    
+            # Interpolate the continuous variables
+            data_slice.loc[:,self.weather_keys]  = \
+                data_slice.loc[:,self.weather_keys].interpolate(method='index')
+
+            # Forward fill the other variables  
+            data_slice = data_slice.fillna(method='ffill')
+            # get rid of NaN's if still any
+            data_slice = data_slice.fillna(method='bfill')
+        
+        if plot:
+            if category is None:
+                to_plot = data_slice.keys().drop('datetime')
+            else: 
+                to_plot = self.categories[category]
+            data_slice.set_index('datetime')[to_plot].plot()
+            plt.show()
+        
+        # Filter the requested data columns
+        if category is not None:
+            data_slice = data_slice.loc[:,self.categories[category]]
+
+        # Reset the index to keep the 'time' column in the data
+        # Transform data frame to dictionary
+        return data_slice.reset_index().to_dict('list')
+    
+    def load_data(self, interval=None,
+                  data_file_name='test_case_data.csv'):
+        '''Load the data from the resources folder of the fmu.
+        Resample it with the specified time interval.
+        
+        Parameters
+        ----------
+        interval: int (optional)
+            resampling time interval in seconds. If None,
+            self.step will be used instead
+        data_file_name : string
+            Name of the data file from where the data is 
+            retrieved. Notice that this file should be within
+            the resources folder of the wrapped.fmu
+        '''
+        
+        # Define the column keys and group them by categories
+        self.weather_keys   = ['pAtm','nTot','nOpa','HGloHor',
+                               'HDifHor','HDirNor','celHei','winSpe',
+                               'HHorIR','winDir','cloTim','solTim',
+                               'TDewPoi','relHum','TDryBul','TWetBul',
+                               'solAlt','solZen','solDec','solHouAng',
+                               'lon','lat','TBlaSky']
+        self.price_keys     = ['price_electricity_constant', 
+                               'price_electricity_dynamic', 
+                               'price_electricity_highly_dynamic',
+                               'price_gas']
+        self.emission_keys  = ['emission_factor_electricity',
+                               'emission_factor_gas'] 
+        self.occupancy_keys = ['occupancy']
+        self.setpoint_keys  = ['T_set_lower', 'T_set_upper']
+        
+        # Save the categories within a dictionary:
+        self.categories = {}
+        self.categories['weather']   = self.weather_keys
+        self.categories['price']     = self.price_keys
+        self.categories['emission']  = self.emission_keys
+        self.categories['occupancy'] = self.occupancy_keys
+        self.categories['setpoint']  = self.setpoint_keys
+        
+        # Point to the fmu zip file
+        z_fmu = zipfile.ZipFile(self.fmupath, 'r')
+        # The following will work in any OS because the zip format 
+        # specifies a forward slash.
+        self.data=pd.read_csv(z_fmu.open('resources/'+data_file_name),
+                              index_col='datetime', parse_dates=True)
+        
+        # Convert any convert any string formatted
+        # numbers to floats.
+        self.data = self.data.applymap(float)
+        
+        # Resample the data
+        if interval is None:
+            interval = self.step
+        
+        self.data = self.data.asfreq(freq=str(interval)+'S')
+        
+        # Interpolate the continuous variables
+        self.data.loc[:,['time']+self.weather_keys] = \
+            self.data.loc[:,['time']+self.weather_keys].interpolate(method='time')
+
+        # Forward fill the other variables  
+        if np.isnan(self.data).any().any():
+            self.data = self.data.fillna(method='ffill')
+            # get rid of NaN's if still any
+            if np.isnan(self.data).any().any():            
+                self.data = self.data.fillna(method='bfill')
+        
+        # Set time as index (fmu does not understand datetime)
+        self.data['datetime'] = self.data.index
+        self.data = self.data.astype({'time':int})
+        self.data = self.data.set_index('time')
+        
+        # Close the fmu
+        z_fmu.close()
+        
+    def save_test_case(self, file_name='tc_deployed'):
+        '''Save the deployed test case in a pickle.
+        This method is going to delete the fmu from the
+        object because it is not supported by pickle.
+        
+        Parameters
+        ----------
+        file_name: string
+            name of the file where the test case is going
+            to be pickled
+        '''
+        
+        del self.fmu
+        
+        f=open(file_name,'wb')
+        pickle.dump(self,f)
+        f.close()
+
+        return file_name
+        
+    def load_test_case(self, file_name='tc_deployed'):
+        '''Load a deployed test case that has been 
+        saved with 'save_test_case'
+        
+        Parameters
+        ----------
+        file_name: string
+            name of the file where the test case is stored
+            
+        Returns
+        -------
+        self: TestCase 
+            Instance with the attributes of a previously 
+            deployed test case
+        '''
+        
+        self.fmu = load_fmu(self.fmupath)
+
+        tc = pickle.load(file(file_name, 'rb'))
+        for k,v in tc.__dict__.iteritems():
+            self.__dict__[k] = v
+
+        return self   
+        

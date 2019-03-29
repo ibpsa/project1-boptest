@@ -8,15 +8,35 @@ The following libraries must be on the MODELICAPATH:
 - Modelica IBPSA
 
 """
+<<<<<<< HEAD
 from parser import parser
+=======
 
-# DEFINE MODEL
-# ------------
-mopath = 'SimpleRC.mo';
-modelpath = 'SimpleRC'
-# ------------
+from parsing import parser
+>>>>>>> development
 
-# COMPILE FMU
-# -----------
-fmupath,kpipath = parser.export_fmu(modelpath, [mopath])
-# -----------
+def compile_fmu():
+    '''Compile the fmu.
+    
+    Returns
+    -------
+    fmupath : str
+        Path to compiled fmu.
+    
+    '''
+    
+    # DEFINE MODEL
+    # ------------
+    mopath = 'SimpleRC.mo';
+    modelpath = 'SimpleRC'
+    # ------------
+    
+    # COMPILE FMU
+    # -----------
+    fmupath = parser.export_fmu(modelpath, [mopath])
+    # -----------
+
+    return fmupath
+    
+if __name__ == "__main__":
+    fmupath = compile_fmu()
