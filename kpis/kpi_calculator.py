@@ -196,11 +196,11 @@ class KPI_Calculator(object):
         # Calculate total cost from power 
         # assumes power measured in Watts
         price_data = np.array(self.case.get_forecast(index=self.case.y_store['time'])\
-                              ['energy_price_dynamic'])
+                              ['price_electricity_dynamic'])
         for signal in self.case.kpi_json['power']:
             pow_data = np.array(self.case.y_store[signal])
             cost_dict[signal] = \
-            trapz(np.multiply(price_data,pow_data),
+                trapz(np.multiply(price_data,pow_data),
                   self.case.y_store['time'])*2.77778e-7 # Convert to kWh
             cost_tot = cost_tot + cost_dict[signal]
             
@@ -236,7 +236,7 @@ class KPI_Calculator(object):
         for signal in self.case.kpi_json['power']:
             pow_data = np.array(self.case.y_store[signal])
             emis_dict[signal] = \
-            trapz(np.multiply(emission_factor_data,pow_data),
+                trapz(np.multiply(emission_factor_data,pow_data),
                   self.case.y_store['time'])*2.77778e-7 # Convert to kWh
             emis_tot = emis_tot + emis_dict[signal]
             
