@@ -10,6 +10,7 @@ imported from a different module.
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import requests
+import numpy as np
 # ----------------------
 
 # TEST CONTROLLER IMPORT
@@ -88,7 +89,11 @@ def run(plot=False):
     kpi = requests.get('{0}/kpi'.format(url)).json()
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
-        print('{0}: {1}'.format(key, kpi[key]))
+        if key == 'energy':
+            unit = 'kWh'
+        elif key == 'comfort':
+            unit = 'Kh'
+        print('{0}: {1} {2}'.format(key, kpi[key], unit))
     # ------------ 
         
     # POST PROCESS RESULTS
@@ -105,6 +110,7 @@ def run(plot=False):
         plt.figure(1)
         plt.title('Zone Temperature')
         plt.plot(time, TZone)
+        plt.plot(time, 20*np.ones(len(time)), '--')
         plt.ylabel('Temperature [C]')
         plt.xlabel('Time [hr]')
         plt.figure(2)
