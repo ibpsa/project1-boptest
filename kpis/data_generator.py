@@ -279,8 +279,7 @@ class Data_Generator(object):
 if __name__ == "__main__":
     os.environ['TESTCASE'] = 'testcase2'
     gen = Data_Generator()
-    gen.generate_data(weather_file_name='DRYCOLD.mos',
-                      electricity_price_file_name='balancing_prices_belgium_2009.csv')
+    gen.generate_data(weather_file_name='DRYCOLD.mos')
     
     
     
