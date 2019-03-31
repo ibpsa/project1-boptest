@@ -434,7 +434,7 @@ class TestCase(object):
                 self.data = self.data.fillna(method='bfill')
         
         # Set time as index (fmu does not understand datetime)
-        self.data['datetime'] = self.data.index
+        self.data['datetime'] = self.data.index.astype(np.int64) // 10**9
         self.data = self.data.astype({'time':int})
         self.data = self.data.set_index('time')
         
