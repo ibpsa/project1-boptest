@@ -67,8 +67,9 @@ class Data_Generator(object):
         
         # Test case folder from kpis folder
         self.case_path = os.path.join(\
-            os.path.dirname(os.path.dirname(__file__)), # BOPTEST main path
+            os.path.split(os.path.split(os.path.abspath(__file__))[0])[0], # BOPTEST main path
             os.environ['TESTCASE'])
+        print(self.case_path)
     
     def generate_data(self,
                       weather_file_name='DRYCOLD.mos',
