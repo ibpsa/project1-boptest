@@ -225,43 +225,9 @@ class TestCase(object):
         
         '''
         
-<<<<<<< HEAD
-        kpis = dict()
-        # Calculate each KPI using json for signalsand save in dictionary
-        for kpi in self.kpi_json.keys():
-            print(kpi, type(kpi))
-            if kpi == 'energy':
-                # Calculate total energy [KWh - assumes measured in J]
-                E = 0
-                for signal in self.kpi_json[kpi]:
-                    E = E + self.y_store[signal][-1]
-                # Store result in dictionary
-                kpis[kpi] = E*2.77778e-7 # Convert to kWh
-            elif kpi == 'power':
-                # Calculate total energy from power [KWh - assumes measured in Watts]
-                E = 0
-                for signal in self.kpi_json[kpi]:
-                    Pdata = np.array(self.y_store[signal])
-                    E = E + trapz(Pdata,self.y_store['time'])
-                # Store result in dictionary
-                kpis['integrated energy'] = E*2.77778e-7 # Convert to kWh
-            elif kpi == 'comfort':
-                # Calculate total discomfort [K-h = assumes measured in K]
-                tot_dis = 0
-                heat_setpoint = 273.15+20
-                for signal in self.kpi_json[kpi]:
-                    data = np.array(self.y_store[signal])
-                    dT_heating = heat_setpoint - data
-                    dT_heating[dT_heating<0]=0
-                    tot_dis = tot_dis + trapz(dT_heating,self.y_store['time'])/3600
-                # Store result in dictionary
-                kpis[kpi] = tot_dis
-            else:
-                print('No calculation for KPI named "{0}".'.format(kpi))
-=======
+        
         cal = KPI_Calculator(self)
         kpis = cal.get_core_kpis()
->>>>>>> development
 
         return kpis   
         
