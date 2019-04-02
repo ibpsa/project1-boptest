@@ -5,7 +5,7 @@ Implements the parsing and code generation for signal exchange blocks.
 The steps are:
 1) Compile Modelica code into fmu
 2) Use signal exchange block id parameters to find block instance paths and 
-read any associated KPIs, with units.
+read any associated KPIs, units, and descriptions.
 3) Write Modelica wrapper around instantiated model and associated KPI list.
 4) Export as wrapper FMU and save KPI json.
 
@@ -31,7 +31,8 @@ def parse_instances(model_path, file_name):
     -------
     instances : dict
         Dictionary of overwrite and read block class instance lists.
-        {'Overwrite': {input_name : {Unit : unit_name}}, 'Read': {output_name : {Unit : unit_name}}}
+        {'Overwrite': {input_name : {Unit : unit_name, Description : description}}, 
+         'Read': {output_name : {Unit : unit_name, Description : description}}}
     kpis : dict
         Dictionary of kpi outputs.
         {'kpi_name' : [output_name]}
@@ -59,10 +60,12 @@ def parse_instances(model_path, file_name):
         if 'boptestOverwrite' in var:
             label = 'Overwrite'
             unit = fmu.get_variable_unit(instance+'.u')
+            description = fmu.get(instance+'.Description')[0]
         # Read
         elif 'boptestRead' in var:
             label = 'Read'
             unit = fmu.get_variable_unit(instance+'.y')
+            description = fmu.get(instance+'.Description')[0]
         # KPI
         elif 'KPIs' in var:
             label = 'kpi'
@@ -71,6 +74,7 @@ def parse_instances(model_path, file_name):
         # Save instance
         if label is not 'kpi':
             instances[label][instance] = {'Unit' : unit}
+            instances[label][instance]['Description'] = description
         else:
             for kpi in fmu.get(var)[0].split(','):
                 if kpi is '':
@@ -116,30 +120,32 @@ def write_wrapper(model_path, file_name, instances):
         f.write('model wrapped "Wrapped model"\n')
         # Add inputs for every overwrite block
         f.write('\t// Input overwrite\n')
-        input_signals_w_unit = dict()
-        input_signals_wo_unit = dict()
-        input_activate = dict()
+        input_signals_w_info = dict()
+        input_signals_wo_info = dict()
+        input_activate_w_info = dict()
+        input_activate_wo_info = dict()
         for block in instances['Overwrite'].keys():
             # Add to signal input list with and without units
-            input_signals_w_unit[block] = _make_var_name(block,style='input_signal',attribute='(unit="{0}")'.format(instances['Overwrite'][block]['Unit']))
-            input_signals_wo_unit[block] = _make_var_name(block,style='input_signal')
+            input_signals_w_info[block] = _make_var_name(block,style='input_signal',description=instances['Overwrite'][block]['Description'],attribute='(unit="{0}")'.format(instances['Overwrite'][block]['Unit']))
+            input_signals_wo_info[block] = _make_var_name(block,style='input_signal')
             # Add to signal activate list
-            input_activate[block] = _make_var_name(block,style='input_activate')
+            input_activate_w_info[block] = _make_var_name(block,style='input_activate',description='Activation for {0}'.format(instances['Overwrite'][block]['Description']))
+            input_activate_wo_info[block] = _make_var_name(block,style='input_activate')
             # Instantiate input signal
-            f.write('\tModelica.Blocks.Interfaces.RealInput {0} "Signal for overwrite block {1}";\n'.format(input_signals_w_unit[block], block))
+            f.write('\tModelica.Blocks.Interfaces.RealInput {0};\n'.format(input_signals_w_info[block], block))
             # Instantiate input activation
-            f.write('\tModelica.Blocks.Interfaces.BooleanInput {0} "Activation for overwrite block {1}";\n'.format(input_activate[block], block))
+            f.write('\tModelica.Blocks.Interfaces.BooleanInput {0};\n'.format(input_activate_w_info[block], block))
         # Add outputs for every read block
         f.write('\t// Out read\n')
         for block in instances['Read'].keys():
             # Instantiate input signal
-            f.write('\tModelica.Blocks.Interfaces.RealOutput {0} = mod.{1}.y "Measured signal for {1}";\n'.format(_make_var_name(block,style='output',attribute='(unit="{0}")'.format(instances['Read'][block]['Unit'])), block))
+            f.write('\tModelica.Blocks.Interfaces.RealOutput {0} = mod.{1}.y "{2}";\n'.format(_make_var_name(block,style='output',attribute='(unit="{0}")'.format(instances['Read'][block]['Unit'])), block, instances['Read'][block]['Description']))
         # Add original model
         f.write('\t// Original model\n')
         f.write('\t{0} mod(\n'.format(model_path))
         # Connect inputs to original model overwrite and activate signals
         for i,block in enumerate(instances['Overwrite']):
-            f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals_wo_unit[block], input_activate[block]))
+            f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals_wo_info[block], input_activate_wo_info[block]))
             if i == len(instances['Overwrite'])-1:
                 f.write(') "Original model with overwrites";\n')
             else:
@@ -182,7 +188,7 @@ def export_fmu(model_path, file_name):
     
     return fmu_path, kpi_path
 
-def _make_var_name(block, style, attribute=''):
+def _make_var_name(block, style, description='', attribute=''):
     '''Make a variable name from block instance name.
     
     Parameters
@@ -192,6 +198,8 @@ def _make_var_name(block, style, attribute=''):
     style : str
         Style of variable to be made.
         "input_signal"|"input_activate"|"output"
+    description : str, optional
+        Description of variable to be added as comment
     attribute : str, optional
         Attribute string of variable.
         Default is empty.
@@ -205,13 +213,19 @@ def _make_var_name(block, style, attribute=''):
 
     # General modification
     name = block.replace('.', '_')
+    # Handle empty descriptions
+    if description is '':
+        description = ''
+    else:
+        description = '"{0}"'.format(description)
+        
     # Specific modification
     if style is 'input_signal':
-        var_name = '{0}_u{1}'.format(name,attribute)
+        var_name = '{0}_u{1} {2}'.format(name,attribute, description)
     elif style is 'input_activate':
-        var_name = '{0}_activate'.format(name)
+        var_name = '{0}_activate {1}'.format(name, description)
     elif style is 'output':
-        var_name = '{0}_y{1}'.format(name,attribute)
+        var_name = '{0}_y{1} {2}'.format(name,attribute, description)
     else:
         raise ValueError('Style {0} unknown.'.format(style))
 

@@ -275,11 +275,15 @@ class TestCase(object):
             # Units
             if var == 'time':
                 unit = 's'
+                description = 'Time of simulation'
             elif '_activate' in var:
                 unit = None
+                description = fmu.get_variable_description(var)
             else:
                 unit = fmu.get_variable_unit(var)
-            var_metadata[var] = {'Unit':unit}
+                description = fmu.get_variable_description(var)
+            var_metadata[var] = {'Unit':unit,
+                                 'Description':description}
 
         return var_metadata
     
