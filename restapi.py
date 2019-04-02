@@ -113,6 +113,14 @@ class Name(Resource):
         '''GET request to receive test case name.'''
         name = case.get_name()
         return name
+        
+class Forecasts(Resource):
+    '''Interface to test case forecast.'''
+    
+    def get(self):
+        '''GET request to receive test case forecast.'''
+        data = case.get_forecast()
+        return data
 # --------------------
         
 # ADD REQUESTS TO API WITH URL EXTENSION
@@ -125,6 +133,7 @@ api.add_resource(Measurements, '/measurements')
 api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
 api.add_resource(Name, '/name')
+api.add_resource(Forecasts, '/forecasts')
 # --------------------------------------
 
 if __name__ == '__main__':

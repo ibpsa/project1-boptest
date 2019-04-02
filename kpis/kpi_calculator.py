@@ -70,6 +70,8 @@ class KPI_Calculator(object):
         ckpi = OrderedDict()
         ckpi['tdis_tot'] = self.get_thermal_discomfort()
         ckpi['ener_tot'] = self.get_energy()
+        ckpi['cost_tot'] = self.get_cost()
+        ckpi['emis_tot'] = self.get_emissions()
         
         return ckpi
         

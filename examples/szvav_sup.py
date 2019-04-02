@@ -90,7 +90,17 @@ def run(plot=False):
     kpi = requests.get('{0}/kpi'.format(url)).json()
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
-        print('{0}: {1}'.format(key, kpi[key]))
+        if key == 'ener_tot':
+            unit = 'kWh'
+        elif key == 'tdis_tot':
+            unit = 'Kh'
+        elif key == 'cost_tot':
+            unit = 'Euro or $'
+        elif key == 'emis_tot':
+            unit = 'KgCO2'
+        else:
+            unit = None
+        print('{0}: {1} {2}'.format(key, kpi[key], unit))
     # ------------ 
         
     # POST PROCESS RESULTS
