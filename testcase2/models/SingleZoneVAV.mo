@@ -71,25 +71,9 @@ package SingleZoneVAV
           "Cooling setpoint")
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PPum(y(unit="W"), Description="Pump electrical power")
-      annotation (Placement(transformation(extent={{120,70},{140,90}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
-                        PCoo(y(unit="W"), Description=
-          "Cooling electrical power")
-      annotation (Placement(transformation(extent={{140,90},{160,110}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
-                        PHea(y(unit="W"), Description="Heater power")
-      annotation (Placement(transformation(extent={{120,110},{140,130}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
-                        PFan(y(unit="W"), Description="Fan electrical power")
-      annotation (Placement(transformation(extent={{140,130},{160,150}})));
-    IBPSA.Utilities.IO.SignalExchange.Read TRooAir(KPIs="comfort",y(unit="K"),
-      Description="Room air temperature")
-      annotation (Placement(transformation(extent={{120,-10},{140,10}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
                         ETotFan(y(unit="J"), Description="Fan energy")
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
-    IBPSA.Utilities.IO.SignalExchange.Read ETotHVAC(KPIs="energy",y(unit="J"),
+    IBPSA.Utilities.IO.SignalExchange.Read ETotHVAC(              y(unit="J"),
       Description="Total HVAC energy")
       annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
     IBPSA.Utilities.IO.SignalExchange.Read
@@ -176,16 +160,6 @@ package SingleZoneVAV
       annotation (Line(points={{-159,-10},{-142,-10}}, color={0,0,127}));
     connect(oveTSetRooCoo.y, con.TSetRooCoo) annotation (Line(points={{-119,-10},
             {-116,-10},{-116,6},{-102,6}}, color={0,0,127}));
-    connect(hvac.PPum, PPum.u) annotation (Line(points={{1,12},{18,12},{18,80},
-            {118,80}}, color={0,0,127}));
-    connect(hvac.PCoo, PCoo.u) annotation (Line(points={{1,14},{14,14},{14,100},
-            {138,100}}, color={0,0,127}));
-    connect(hvac.QHea_flow, PHea.u) annotation (Line(points={{1,16},{10,16},{10,
-            120},{118,120}}, color={0,0,127}));
-    connect(hvac.PFan, PFan.u) annotation (Line(points={{1,18},{6,18},{6,140},{
-            138,140}}, color={0,0,127}));
-    connect(zon.TRooAir, TRooAir.u)
-      annotation (Line(points={{81,0},{118,0}}, color={0,0,127}));
     connect(EFan.y, ETotFan.u)
       annotation (Line(points={{61,-40},{118,-40}}, color={0,0,127}));
     connect(ETotHVAC.u, EHVAC.y)
