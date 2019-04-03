@@ -217,15 +217,15 @@ def _make_var_name(block, style, description='', attribute=''):
     if description is '':
         description = ''
     else:
-        description = '"{0}"'.format(description)
+        description = '" {0}"'.format(description)
         
     # Specific modification
     if style is 'input_signal':
-        var_name = '{0}_u{1} {2}'.format(name,attribute, description)
+        var_name = '{0}_u{1}{2}'.format(name,attribute, description)
     elif style is 'input_activate':
-        var_name = '{0}_activate {1}'.format(name, description)
+        var_name = '{0}_activate{1}'.format(name, description)
     elif style is 'output':
-        var_name = '{0}_y{1} {2}'.format(name,attribute, description)
+        var_name = '{0}_y{1}{2}'.format(name,attribute, description)
     else:
         raise ValueError('Style {0} unknown.'.format(style))
 
