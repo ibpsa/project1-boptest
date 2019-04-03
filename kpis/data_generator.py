@@ -329,9 +329,10 @@ class Data_Generator(object):
             
     
 if __name__ == "__main__":
-    os.environ['TESTCASE'] = 'testcase2'
+    
+    os.environ['TESTCASE'] = 'testcase3'
     gen = Data_Generator()
-    gen.generate_data(weather_file_name='DRYCOLD.mos')
+    gen.generate_data(weather_file_name='Uccle.TMY')
     
     
     
