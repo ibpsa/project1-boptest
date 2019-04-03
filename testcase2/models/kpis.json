@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"energy": ["ETotHVAC_y"], "comfort": ["TRooAir_y"], "power": ["PCoo_y", "PFan_y", "PHea_y", "PPum_y"]}
-=======
-{"energy": ["ETotHVAC_y "], "comfort": ["TRooAir_y "]}
->>>>>>> issue37_variableDescription
+{"comfort": ["zon_reaTRooAir_y"], "power": ["hvac_reaPCoo_y", "hvac_reaPFan_y", "hvac_reaPHea_y", "hvac_reaPPum_y"]}
