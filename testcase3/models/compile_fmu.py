@@ -9,32 +9,32 @@ The following libraries must be on the MODELICAPATH:
 - Modelica Buildings
 
 """
-# GENERAL PACKAGE IMPORT
-# ----------------------
-import os
-import sys
- 
-#===============================================================================
-# Configure environment for JModelica
-GBT_dir = 'C:\Users\u0110910\Box Sync\work_folder\GBT' 
-JM_dir  = 'C:\JModelica.org-2.2'
 
-# Import the python library of the Grey-Box Toolbox 
-GBTpy_dir = os.path.join(GBT_dir, os.path.join('greybox','python'))
-sys.path.append(GBTpy_dir)
+from parsing import parser
 
-import configure_jmodelica
-configure_jmodelica.main()  
+def compile_fmu():
+    '''Compile the fmu.
+    
+    Returns
+    -------
+    fmupath : str
+        Path to compiled fmu.
+    
+    '''
+    
+    # DEFINE MODEL
+    # ------------
+    mopath = 'SingleZoneResidentialHydronic.mo';
+    modelpath = 'SingleZoneResidentialHydronic.SingleZoneResidentialHydronicBOPTEST_withBaseline'
+    # ------------
+    
+    # COMPILE FMU
+    # -----------
+    fmupath = parser.export_fmu(modelpath, [mopath])
+    # -----------
+    
+    return fmupath
 
-from Parser import parser
+if __name__ == "__main__":
+    fmupath = compile_fmu()
 
-# DEFINE MODEL
-# ------------
-mopath = 'SingleZoneResidentialHydronic.mo';
-modelpath = 'SingleZoneResidentialHydronic.SingleZoneResidentialHydronicControl'
-# ------------
-
-# COMPILE FMU
-# -----------
-fmupath = parser.export_fmu(modelpath, [mopath])
-# -----------
