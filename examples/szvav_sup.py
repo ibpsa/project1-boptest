@@ -107,16 +107,16 @@ def run(plot=False):
     # --------------------
     # Get result data
     res = requests.get('{0}/results'.format(url)).json()
-    t = [x/3600 for x in res['y']['time']] # convert s --> hr
-    TRooAir = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-    TSetRooHea = [x-273.15 for x in res['u']['oveTSetRooHea_u']] # convert K --> C
-    TSetRooCoo = [x-273.15 for x in res['u']['oveTSetRooCoo_u']] # convert K --> C
-    PFan = res['y']['PFan_y']
-    PCoo = res['y']['PCoo_y']
-    PHea = res['y']['PHea_y']
-    PPum = res['y']['PPum_y']
     # Plot results
     if plot:
+        t = [x/3600 for x in res['y']['time']] # convert s --> hr
+        TRooAir = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
+        TSetRooHea = [x-273.15 for x in res['u']['oveTSetRooHea_u']] # convert K --> C
+        TSetRooCoo = [x-273.15 for x in res['u']['oveTSetRooCoo_u']] # convert K --> C
+        PFan = res['y']['PFan_y']
+        PCoo = res['y']['PCoo_y']
+        PHea = res['y']['PHea_y']
+        PPum = res['y']['PPum_y']
         from matplotlib import pyplot as plt
         plt.figure(1)
         plt.title('Zone Temperature')
