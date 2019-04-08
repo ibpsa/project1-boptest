@@ -33,8 +33,8 @@ class ExampleSupervisoryPython(unittest.TestCase):
         # Run test
         kpi,res = szvav_sup.run()
         # Check kpis
-        self.assertEqual(kpi['energy'], 132.40084858017514)
-        self.assertEqual(kpi['comfort'], 4.610775885198207)
+        self.assertAlmostEqual(kpi['energy'], 147.135331884, places=5)
+        self.assertAlmostEqual(kpi['comfort'], 0.001831087016403562, places=5)
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame(data=res['y']['time'], columns=['time'])
@@ -71,20 +71,24 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
-        self.inputs_ref = {"oveTSetRooCoo_activate": {"Unit": None}, 
-                           "oveTSetRooCoo_u": {"Unit": "K"}, 
-                           "oveTSetRooHea_activate": {"Unit": None}, 
-                           "oveTSetRooHea_u": {"Unit": "K"}}
-        self.measurements_ref = {"ETotCoo_y": {"Unit": "J"}, 
-                                 "ETotFan_y": {"Unit": "J"},
-                                 "ETotHVAC_y": {"Unit": "J"},
-                                 "ETotHea_y": {"Unit": "J"}, 
-                                 "ETotPum_y": {"Unit": "J"}, 
-                                 "PCoo_y": {"Unit": "W"}, 
-                                 "PFan_y": {"Unit": "W"}, 
-                                 "PHea_y": {"Unit": "W"}, 
-                                 "PPum_y": {"Unit": "W"}, 
-                                 "TRooAir_y": {"Unit": "K"}}
+        self.inputs_ref = {"oveTSetRooCoo_activate": {"Unit": None,
+                                                      "Description": "Activation for Cooling setpoint"}, 
+                           "oveTSetRooCoo_u": {"Unit": "K",
+                                               "Description": "Cooling setpoint"}, 
+                           "oveTSetRooHea_activate": {"Unit": None,
+                                                      "Description": "Activation for Heating setpoint"}, 
+                           "oveTSetRooHea_u": {"Unit": "K",
+                                               "Description": "Heating setpoint"}}
+        self.measurements_ref = {"ETotCoo_y": {"Unit": "J", "Description": "Cooling electrical energy"}, 
+                                 "ETotFan_y": {"Unit": "J", "Description": "Fan energy"},
+                                 "ETotHVAC_y": {"Unit": "J", "Description": "Total HVAC energy"},
+                                 "ETotHea_y": {"Unit": "J", "Description": "Heating energy"}, 
+                                 "ETotPum_y": {"Unit": "J", "Description": "Pump electrical energy"}, 
+                                 "PCoo_y": {"Unit": "W", "Description": "Cooling electrical power"}, 
+                                 "PFan_y": {"Unit": "W", "Description": "Fan electrical power"}, 
+                                 "PHea_y": {"Unit": "W", "Description": "Heater power"}, 
+                                 "PPum_y": {"Unit": "W", "Description": "Pump electrical power"}, 
+                                 "TRooAir_y": {"Unit": "K", "Description": "Room air temperature"}}
         self.step_ref = 3600.0
 
 if __name__ == '__main__':
