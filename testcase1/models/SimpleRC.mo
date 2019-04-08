@@ -30,8 +30,8 @@ model SimpleRC
     yMax=100000) "Feedback controller for the heater based on room temperature"
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveAct(u(unit="W"))
-                                  "Overwrite the heating power"
+                           oveAct(u(unit="W"), Description=
+        "Heater thermal power")   "Overwrite the heating power"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeat
     "Set the heating power to the room"
@@ -42,15 +42,17 @@ model SimpleRC
       y_start=0) "Calculate the heater energy"
     annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      TRooAir(KPIs="comfort", y(unit="K"))
+                      TRooAir(KPIs="comfort", y(unit="K"),
+    Description="Zone air temperature")
                               "Read the room air temperature"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      ETotHea(KPIs="energy", y(unit="J"))
+                      ETotHea(KPIs="energy", y(unit="J"),
+    Description="Heater energy")
                               "Read the heater energy"
     annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      PHea(y(unit="W"))
+                      PHea(y(unit="W"), Description="Heater power")
                            "Read the heater power"
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
 equation
