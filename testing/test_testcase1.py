@@ -71,11 +71,11 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
-        self.inputs_ref = {"oveAct_activate": {"Unit": None}, 
-                           "oveAct_u": {"Unit": "W"}}
-        self.measurements_ref = {"ETotHea_y": {"Unit": "J"},
-                                 "PHea_y": {"Unit": "W"},
-                                 "TRooAir_y": {"Unit": "K"}}
+        self.inputs_ref = {"oveAct_activate": {"Unit": None, "Description": "Activation for Heater thermal power"}, 
+                           "oveAct_u": {"Unit": "W", "Description": "Heater thermal power"}}
+        self.measurements_ref = {"ETotHea_y": {"Unit": "J", "Description":"Heater energy"},
+                                 "PHea_y": {"Unit": "W", "Description": "Heater power"},
+                                 "TRooAir_y": {"Unit": "K", "Description": "Zone air temperature"}}
         self.step_ref = 60.0
         
 if __name__ == '__main__':
