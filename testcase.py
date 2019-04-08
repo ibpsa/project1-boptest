@@ -32,7 +32,7 @@ class TestCase(object):
         # Define simulation model
         self.fmupath = con['fmupath']
         # Load fmu
-        self.fmu = load_fmu(self.fmupath)
+        self.fmu = load_fmu(self.fmupath, enable_logging=True)
         # Get version and check is 2.0
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
@@ -88,16 +88,30 @@ class TestCase(object):
         
         # Set final time
         self.final_time = self.start_time + self.step
-        # Set control inputs if they exist
+        # Set control inputs if they exist and are written
+        # Check if possible to overwrite
         if u.keys():
-            u_list = []
-            u_trajectory = self.start_time
+            # If there are overwriting keys available
+            # Check that any are overwritten
+            written = False
             for key in u.keys():
-                if key != 'time':
-                    value = float(u[key])
-                    u_list.append(key)
-                    u_trajectory = np.vstack((u_trajectory, value))
-            input_object = (u_list, np.transpose(u_trajectory))
+                if u[key]:
+                    written = True
+                    break
+            # If there are, create input object
+            if written:
+                u_list = []
+                u_trajectory = self.start_time
+                for key in u.keys():
+                    if key != 'time' and u[key]:
+                        value = float(u[key])
+                        u_list.append(key)
+                        u_trajectory = np.vstack((u_trajectory, value))
+                input_object = (u_list, np.transpose(u_trajectory))
+            # Otherwise, input object is None
+            else:
+                input_object = None    
+        # Otherwise, input object is None
         else:
             input_object = None
         # Simulate
@@ -275,11 +289,15 @@ class TestCase(object):
             # Units
             if var == 'time':
                 unit = 's'
+                description = 'Time of simulation'
             elif '_activate' in var:
                 unit = None
+                description = fmu.get_variable_description(var)
             else:
                 unit = fmu.get_variable_unit(var)
-            var_metadata[var] = {'Unit':unit}
+                description = fmu.get_variable_description(var)
+            var_metadata[var] = {'Unit':unit,
+                                 'Description':description}
 
         return var_metadata
     

@@ -33,8 +33,8 @@ class ExampleProportionalPython(unittest.TestCase):
         # Run test
         kpi,res = twoday_p.run()
         # Check kpis
-        self.assertEqual(kpi['energy'], 13.266839892179254)
-        self.assertEqual(kpi['comfort'], 6.568340735543789)
+        self.assertAlmostEqual(kpi['energy'], 13.266839892179254, places=5)
+        self.assertAlmostEqual(kpi['comfort'], 6.568340735543789, places=5)
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame(data=res['y']['time'], columns=['time'])
@@ -69,14 +69,20 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         
         '''
         
+        self.name = 'testcase1'
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
-        self.inputs_ref = {"oveAct_activate": {"Unit": None}, 
-                           "oveAct_u": {"Unit": "W"}}
-        self.measurements_ref = {"ETotHea_y": {"Unit": "J"},
-                                 "PHea_y": {"Unit": "W"},
-                                 "TRooAir_y": {"Unit": "K"}}
+        self.inputs_ref = {"oveAct_activate": {"Unit": None, "Description": "Activation for Heater thermal power"}, 
+                           "oveAct_u": {"Unit": "W", "Description": "Heater thermal power"}}
+        self.measurements_ref = {"ETotHea_y": {"Unit": "J", "Description":"Heater energy"},
+                                 "PHea_y": {"Unit": "W", "Description": "Heater power"},
+                                 "TRooAir_y": {"Unit": "K", "Description": "Zone air temperature"}}
         self.step_ref = 60.0
+        self.y_ref = {u'PHea_y': 0.0, 
+                      u'TRooAir_y': 293.15015556512265, 
+                      u'ETotHea_y': -2.18888639030113e-13, 
+                      u'time': 60.0}
+
         
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
