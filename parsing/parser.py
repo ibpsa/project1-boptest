@@ -217,7 +217,7 @@ def _make_var_name(block, style, description='', attribute=''):
     if description is '':
         description = ''
     else:
-        description = '" {0}"'.format(description)
+        description = ' "{0}"'.format(description)
         
     # Specific modification
     if style is 'input_signal':
