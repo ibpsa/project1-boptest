@@ -8,13 +8,17 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput PHea_y(unit="W") = mod.PHea.y "Measured signal for PHea";
 	Modelica.Blocks.Interfaces.RealOutput PFan_y(unit="W") = mod.PFan.y "Measured signal for PFan";
 	Modelica.Blocks.Interfaces.RealOutput ETotFan_y(unit="J") = mod.ETotFan.y "Measured signal for ETotFan";
+	Modelica.Blocks.Interfaces.RealOutput hvac_Chiller_y(unit="W") = mod.hvac.Chiller.y "Measured signal for hvac.Chiller";
 	Modelica.Blocks.Interfaces.RealOutput PCoo_y(unit="W") = mod.PCoo.y "Measured signal for PCoo";
 	Modelica.Blocks.Interfaces.RealOutput TRooAir_y(unit="K") = mod.TRooAir.y "Measured signal for TRooAir";
+	Modelica.Blocks.Interfaces.RealOutput hvac_HeatingCoil_y(unit="W") = mod.hvac.HeatingCoil.y "Measured signal for hvac.HeatingCoil";
 	Modelica.Blocks.Interfaces.RealOutput ETotHea_y(unit="J") = mod.ETotHea.y "Measured signal for ETotHea";
 	Modelica.Blocks.Interfaces.RealOutput ETotCoo_y(unit="J") = mod.ETotCoo.y "Measured signal for ETotCoo";
 	Modelica.Blocks.Interfaces.RealOutput PPum_y(unit="W") = mod.PPum.y "Measured signal for PPum";
+	Modelica.Blocks.Interfaces.RealOutput hvac_Fan_y(unit="W") = mod.hvac.Fan.y "Measured signal for hvac.Fan";
 	Modelica.Blocks.Interfaces.RealOutput ETotHVAC_y(unit="J") = mod.ETotHVAC.y "Measured signal for ETotHVAC";
 	Modelica.Blocks.Interfaces.RealOutput ETotPum_y(unit="J") = mod.ETotPum.y "Measured signal for ETotPum";
+	Modelica.Blocks.Interfaces.RealOutput hvac_Pump_y(unit="W") = mod.hvac.Pump.y "Measured signal for hvac.Pump";
 	// Original model
 	SingleZoneVAV.TestCaseSupervisory mod(
 		oveTSetRooCoo(uExt(y=oveTSetRooCoo_u),activate(y=oveTSetRooCoo_activate)),

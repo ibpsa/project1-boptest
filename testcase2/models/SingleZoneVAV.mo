@@ -69,16 +69,16 @@ package SingleZoneVAV
                              oveTSetRooCoo(u(unit="K"))
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PPum(y(unit="W"), KPIs="power")
+                        PPum(y(unit="W"), KPIs="")
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PCoo(y(unit="W"), KPIs="power")
+                        PCoo(y(unit="W"), KPIs="")
       annotation (Placement(transformation(extent={{140,90},{160,110}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PHea(y(unit="W"), KPIs="power")
+                        PHea(y(unit="W"), KPIs="")
       annotation (Placement(transformation(extent={{120,110},{140,130}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PFan(y(unit="W"), KPIs="power")
+                        PFan(y(unit="W"), KPIs="")
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
     IBPSA.Utilities.IO.SignalExchange.Read TRooAir(KPIs="comfort",y(unit="K"))
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));

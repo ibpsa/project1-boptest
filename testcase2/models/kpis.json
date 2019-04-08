@@ -1,1 +1,1 @@
-{"energy": ["ETotHVAC_y"], "comfort": ["TRooAir_y"], "power": ["PCoo_y", "PFan_y", "PHea_y", "PPum_y"]}
+{"energy": ["ETotHVAC_y"], "comfort": ["TRooAir_y"], "power": ["hvac_Chiller_y", "hvac_Fan_y", "hvac_HeatingCoil_y", "hvac_Pump_y"]}

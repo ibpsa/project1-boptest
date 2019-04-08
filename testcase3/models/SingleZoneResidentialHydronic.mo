@@ -255,7 +255,7 @@ First implementation.
       annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
     inner IDEAS.BoundaryConditions.SimInfoManager sim
       "Simulation information manager for climate data"
-      annotation (Placement(transformation(extent={{-100,100},{-80,120}})));
+      annotation (Placement(transformation(extent={{-100,120},{-80,140}})));
     IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
       redeclare package Medium = Medium,
       T_a_nominal=273.15 + 70,
@@ -286,20 +286,20 @@ First implementation.
       annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
     Modelica.Blocks.Interfaces.RealOutput Q
       "Thermal power use of heater"
-      annotation (Placement(transformation(extent={{100,50},{120,70}})));
+      annotation (Placement(transformation(extent={{140,50},{160,70}})));
     Modelica.Blocks.Interfaces.RealOutput TZone
       "Zone operative temperature"
-      annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+      annotation (Placement(transformation(extent={{140,-10},{160,10}})));
     IBPSA.Utilities.IO.SignalExchange.Read pumpRead(KPIs="power", y(unit="W"))
       annotation (Placement(transformation(extent={{46,-40},{66,-20}})));
     IBPSA.Utilities.IO.SignalExchange.Read heaRead(KPIs="power", y(unit="W"))
-      annotation (Placement(transformation(extent={{120,26},{140,46}})));
+      annotation (Placement(transformation(extent={{120,20},{140,40}})));
     IBPSA.Utilities.IO.SignalExchange.Read TRooAir(KPIs="comfort", y(unit="K"))
-      annotation (Placement(transformation(extent={{122,-38},{142,-18}})));
+      annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite oveTsup(u(unit="K"))
-      annotation (Placement(transformation(extent={{34,78},{54,98}})));
+      annotation (Placement(transformation(extent={{76,28},{56,48}})));
     IBPSA.Utilities.IO.SignalExchange.Read TSupRead(KPIs="", y(unit="K"))
-      annotation (Placement(transformation(extent={{120,78},{140,98}})));
+      annotation (Placement(transformation(extent={{120,80},{140,100}})));
     Modelica.Blocks.Sources.Constant TSet_lower(y(unit="K"), k=273.15 + 22)
       "Set point"
       annotation (Placement(transformation(extent={{-96,36},{-76,56}})));
@@ -308,8 +308,12 @@ First implementation.
     Modelica.Blocks.Sources.Constant TSet_upper(y(unit="K"), k=273.15 + 24)
       "Set point"
       annotation (Placement(transformation(extent={{-96,70},{-76,90}})));
-    Modelica.Blocks.Math.Gain gain(k=273.15 + 65)
-      annotation (Placement(transformation(extent={{-6,78},{14,98}})));
+    Modelica.Blocks.Math.Gain gain(k=50)
+      annotation (Placement(transformation(extent={{-2,78},{16,96}})));
+    Modelica.Blocks.Math.MultiSum multiSum(nu=2)
+      annotation (Placement(transformation(extent={{70,80},{90,100}})));
+    Modelica.Blocks.Sources.Constant const(k=273.15 + 20)
+      annotation (Placement(transformation(extent={{34,116},{54,136}})));
   equation
     connect(rad.heatPortCon, case900Template.gainCon) annotation (Line(points={{-37.2,
             12},{-48,12},{-48,7},{-60,7}}, color={191,0,0}));
@@ -324,34 +328,40 @@ First implementation.
     connect(bou.ports[1], pump.port_a)
       annotation (Line(points={{-20,-30},{0,-30},{0,-10}}, color={0,127,255}));
     connect(hea.Q_flow, Q) annotation (Line(points={{-1,38},{-6,38},{-6,60},{
-            110,60}},
+            150,60}},
           color={0,0,127}));
-    connect(case900Template.TSensor, TZone) annotation (Line(points={{-59,12},{80,
-            12},{80,0},{110,0}}, color={0,0,127}));
+    connect(case900Template.TSensor, TZone) annotation (Line(points={{-59,12},{
+            80,12},{80,0},{150,0}},
+                                 color={0,0,127}));
     connect(pump.P, pumpRead.u)
       annotation (Line(points={{21,-1},{44,-1},{44,-30}}, color={0,0,127}));
-    connect(Q, heaRead.u) annotation (Line(points={{110,60},{106,60},{106,36},{
-            118,36}}, color={0,0,127}));
-    connect(TZone, TRooAir.u)
-      annotation (Line(points={{110,0},{110,-28},{120,-28}}, color={0,0,127}));
-    connect(oveTsup.y, hea.TSet) annotation (Line(points={{55,88},{84,88},{84,
-            38},{22,38}}, color={0,0,127}));
-    connect(TSupRead.u, hea.TSet) annotation (Line(points={{118,88},{84,88},{84,
-            38},{22,38}}, color={0,0,127}));
+    connect(Q, heaRead.u) annotation (Line(points={{150,60},{106,60},{106,30},{
+            118,30}}, color={0,0,127}));
     connect(TSet_lower.y, con.uLow) annotation (Line(points={{-75,46},{-60,46},
             {-60,80},{-42,80}}, color={0,0,127}));
     connect(TSet_upper.y, con.uHigh) annotation (Line(points={{-75,80},{-62,80},
             {-62,84},{-42,84}}, color={0,0,127}));
     connect(con.u, TZone) annotation (Line(points={{-42,88},{-52,88},{-52,12},{
-            80,12},{80,0},{110,0}}, color={0,0,127}));
+            80,12},{80,0},{150,0}}, color={0,0,127}));
     connect(con.y, gain.u)
-      annotation (Line(points={{-19,88},{-8,88}}, color={0,0,127}));
-    connect(gain.y, oveTsup.u)
-      annotation (Line(points={{15,88},{32,88}}, color={0,0,127}));
+      annotation (Line(points={{-19,88},{-12,88},{-12,87},{-3.8,87}},
+                                                  color={0,0,127}));
+    connect(const.y, multiSum.u[1]) annotation (Line(points={{55,126},{66,126},
+            {66,93.5},{70,93.5}}, color={0,0,127}));
+    connect(multiSum.y, TSupRead.u)
+      annotation (Line(points={{91.7,90},{118,90}}, color={0,0,127}));
+    connect(TRooAir.u, TZone) annotation (Line(points={{118,-30},{110,-30},{110,
+            0},{150,0}}, color={0,0,127}));
+    connect(gain.y, multiSum.u[2]) annotation (Line(points={{16.9,87},{42,87},{
+            42,86.5},{70,86.5}}, color={0,0,127}));
+    connect(oveTsup.y, hea.TSet)
+      annotation (Line(points={{55,38},{22,38}}, color={0,0,127}));
+    connect(oveTsup.u, TSupRead.u) annotation (Line(points={{78,38},{100,38},{
+            100,90},{118,90}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-              -60},{140,120}})),                                   Diagram(
+              -60},{140,140}})),                                   Diagram(
           coordinateSystem(preserveAspectRatio=false, extent={{-100,-60},{140,
-              120}})),
+              140}})),
       experiment(
         StopTime=2.4192e+006,
         __Dymola_NumberOfIntervals=5000,
