@@ -202,3 +202,34 @@ class partialTestAPI(object):
         '''
 
         requests.put('{0}/reset'.format(self.url))
+        
+    def test_advance_no_data(self):
+        '''Test advancing of simulation with no input data.
+        
+        This is a basic test of functionality.  
+        Tests for advancing with overwriting are done in the example tests.
+                
+        '''
+
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        for key in y.keys():
+            self.assertAlmostEqual(y[key], self.y_ref[key], places=5)
+
+    def test_advance_false_overwrite(self):
+        '''Test advancing of simulation with overwriting as false.
+        
+        This is a basic test of functionality.  
+        Tests for advancing with overwriting are done in the example tests.
+                
+        '''
+
+        requests.put('{0}/reset'.format(self.url))
+        if self.name == 'testcase1':
+            u = {'oveAct_u':0, 'oveAct_activate':1500}
+        elif self.name == 'testcase2':
+            u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data=u).json()
+        for key in y.keys():
+            self.assertAlmostEqual(y[key], self.y_ref[key], places=5)

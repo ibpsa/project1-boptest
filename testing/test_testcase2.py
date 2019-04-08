@@ -69,6 +69,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         
         '''
 
+        self.name = 'testcase2'
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
         self.inputs_ref = {"oveTSetRooCoo_activate": {"Unit": None,
@@ -90,6 +91,18 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                  "PPum_y": {"Unit": "W", "Description": "Pump electrical power"}, 
                                  "TRooAir_y": {"Unit": "K", "Description": "Room air temperature"}}
         self.step_ref = 3600.0
+        self.y_ref = {u'PFan_y': 5.231953892667217, 
+                      u'ETotCoo_y': 0.0, 
+                      u'ETotFan_y': 18835.034013601995, 
+                      u'ETotHea_y': 6369084.093412709, 
+                      u'TRooAir_y': 293.0823301149466, 
+                      u'time': 3600.0, 
+                      u'ETotPum_y': 0.0, 
+                      u'PCoo_y': 0.0, 
+                      u'PHea_y': 1913.8957388829822, 
+                      u'PPum_y': -0.0, 
+                      u'ETotHVAC_y': 6387919.127426311}
+
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
