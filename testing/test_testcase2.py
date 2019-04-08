@@ -33,8 +33,8 @@ class ExampleSupervisoryPython(unittest.TestCase):
         # Run test
         kpi,res = szvav_sup.run()
         # Check kpis
-        self.assertEqual(kpi['energy'], 132.40084858017514)
-        self.assertEqual(kpi['comfort'], 4.610775885198207)
+        self.assertAlmostEqual(kpi['energy'], 147.135331884, places=5)
+        self.assertAlmostEqual(kpi['comfort'], 0.001831087016403562, places=5)
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame(data=res['y']['time'], columns=['time'])
