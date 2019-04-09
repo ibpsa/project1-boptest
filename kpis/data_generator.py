@@ -68,12 +68,13 @@ class Data_Generator(object):
         
         # Test case folder from kpis folder
         self.case_path = os.path.join(\
-            os.path.dirname(os.path.dirname(__file__)), # BOPTEST main path
+            os.path.split(os.path.split(os.path.abspath(__file__))[0])[0], # BOPTEST main path
             os.environ['TESTCASE'])
+        print(self.case_path)
     
     def generate_data(self,
                       weather_file_name='DRYCOLD.mos',
-                      energy_price_file_name='balancing_prices_belgium_2009.csv'):
+                      electricity_price_file_name='balancing_prices_belgium_2009.csv'):
         '''This method appends the weather data, the
         energy prices, the emission factors, the
         internal gains and the temperature set 
@@ -90,12 +91,12 @@ class Data_Generator(object):
             raw weather data. This file should be
             located within the Resources\\weatherdata
             folder of the test case.
-        energy_price_file_name: string
-        
+        electricity_price_file_name: string
+            path to location with the highly dynamic price profile
         '''
         
         self.append_weather_data(weather_file_name=weather_file_name)
-        self.append_energy_prices(energy_price_file_name=energy_price_file_name)
+        self.append_energy_prices(electricity_price_file_name=electricity_price_file_name)
         self.append_emission_factors()
         self.append_occupancy()
         self.append_temperature_set_points()
@@ -207,8 +208,9 @@ class Data_Generator(object):
                              price_night = 0.1,
                              start_day_time = '08:00:00',
                              end_day_time = '17:00:00',
-                             energy_price_file_name = 'balancing_prices_belgium_2009.csv'):
-        '''Append the energy prices for three different scenarios:
+                             electricity_price_file_name = 'balancing_prices_belgium_2009.csv'):
+        '''Append the energy prices for electricity and gas.
+        There are three different scenarios considered for electricity:
             1. price_static: completely constant price
             2. price_dynamic: day/night tariff
             3. price_highly_dynamic: spot price changing every 15 minutes
@@ -229,25 +231,25 @@ class Data_Generator(object):
         end_day_time : string
             datetime indicating the end time of the day for the
             dynamic price profile
-        energy_price_file_name : string
+        electricity_price_file_name : string
             path to location with the highly dynamic price profile
         
         '''
         
-        self.data.loc[:,'energy_price_constant'] = price_constant
+        self.data.loc[:,'price_electricity_constant'] = price_constant
         
         self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
         
-        self.data.loc[self.data.index.isin(self.day_time_index),  'energy_price_dynamic'] = price_day
-        self.data.loc[~self.data.index.isin(self.day_time_index), 'energy_price_dynamic'] = price_night
+        self.data.loc[self.data.index.isin(self.day_time_index),  'price_electricity_dynamic'] = price_day
+        self.data.loc[~self.data.index.isin(self.day_time_index), 'price_electricity_dynamic'] = price_night
         
-        self.data.loc[:,'energy_price_highly_dynamic'] = price_constant
+        self.data.loc[:,'price_electricity_highly_dynamic'] = price_constant
         
-        self.data.loc[:,'energy_price_gas'] = price_constant
+        self.data.loc[:,'price_gas'] = price_constant
     
     def append_occupancy(self,
                         start_day_time = '07:00:00',
-                        end_day_time = '18:00:00'):
+                        end_day_time   = '18:00:00'):
         '''Append occupancy schedules
         '''
         
@@ -308,7 +310,7 @@ class Data_Generator(object):
         z_fmu.close()
         
     def plot_data(self,
-                  to_plot=['TDryBul','HGloHor','energy_price_dynamic']):
+                  to_plot=['TDryBul','HGloHor','price_electricity_dynamic']):
         '''Plot the items of the data indicated in to_plot
         
         Parameters
@@ -329,8 +331,7 @@ class Data_Generator(object):
 if __name__ == "__main__":
     os.environ['TESTCASE'] = 'testcase2'
     gen = Data_Generator()
-    gen.generate_data(weather_file_name='DRYCOLD.mos',
-                      energy_price_file_name='balancing_prices_belgium_2009.csv')
+    gen.generate_data(weather_file_name='DRYCOLD.mos')
     
     
     
