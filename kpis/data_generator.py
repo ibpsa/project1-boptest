@@ -8,6 +8,7 @@ set points.
 '''
 # GENERAL PACKAGE IMPORT
 # ----------------------
+from pymodelica import compile_fmu
 from pyfmi import load_fmu
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -105,37 +106,81 @@ class Data_Generator(object):
     
     def append_weather_data(self,
                             weather_file_name='DRYCOLD.mos',
-                            fmu_name='Buildings_BoundaryConditions_WeatherData_ReaderTMY3.fmu'):
+                            model_class='IBPSA.BoundaryConditions.WeatherData.ReaderTMY3',
+                            model_library=None):
         '''Append the weather data to the data frame 
         of this class. This method reads the data 
         from a .mos file and applies a transformation 
         carried out by the ReaderTMY3 model of the 
-        Buildings library.
+        IBPSA library. The user could provide any other
+        reader model but should then make sure that
+        the naming convention is accomplished. 
         
         Parameters
         ----------
-        weather_file_name: string
+        weather_file_name: str
             Name of the .mos file containing the 
             raw weather data. This file should be
             located within the Resources\\weatherdata
             folder of the test case.
-        fmu_name: string
-            Path to the fmu with the ReaderTMY3.
+        model_class: str
+            Name of the model class that is going to be
+            used to pre-process the weather data. This is 
+            most likely to be the ReaderTMY3 of IBPSA but 
+            other classes could be created. 
+        model_library: str
+            String to library path. If empty it will look
+            for IBPSA library in modelicapath
             
         '''
         
+        if not model_library:
+            # Try to find the IBPSA library
+            for p in os.environ['modelicapath'].split(';'):
+                if os.path.isdir(os.path.join(p,'IBPSA')):
+                    model_library = os.path.join(p,'IBPSA')
+            # Raise error if ibpsa cannot be found
+            if not model_library:
+                raise ValueError("Provide a valid model_library or point to IBPSA library in your MODELICAPATH")      
+                  
+        # Path to modelica model file
+        model_file =  model_library
+        for f in model_class.split('.')[1:]:
+            model_file = os.path.join(model_file,f)
+        model_file = model_file+'.mo'
+        
+        # Edit the class to load the weather_file_name before compilation
+        str_old = 'filNam=""'
+        str_new = 'filNam=Modelica.Utilities.Files.loadResource("{0}")'.format(weather_file_name)
+        
+        with open(model_file) as f:
+            newText=f.read().replace(str_old, str_new)
+        
+        with open(model_file, "w") as f:
+            f.write(newText)
+        
+        # Directory to weather file
+        weather_file_directory = os.path.join(os.path.join(os.path.join(\
+            self.case_path,'models'),'Resources'),'weatherdata')
+        
+        # Change to weather file directory
+        currdir = os.curdir
+        os.chdir(weather_file_directory)
+        
+        # Compile the ReaderTMY3 from IBPSA using JModelica
+        fmu_path = compile_fmu(model_class, model_library)
+        
+        # Revert changes in directory and model file
+        os.chdir(currdir)
+        
+        with open(model_file) as f:
+            newText=f.read().replace(str_new, str_old)
+            
+        with open(model_file, "w") as f:
+            f.write(newText)
+        
         # Load FMU 
-        model = load_fmu(fmu_name)
-        
-        # Get available model outputs
-        output_names = model.get_model_variables(causality=3)
-        
-        # Path to weather file
-        weather_file_path = os.path.join(os.path.join(os.path.join(os.path.join(\
-            self.case_path,'models'),'Resources'),'weatherdata'),weather_file_name)
-        
-        # Set path to weather data
-        model.set('filNam',weather_file_path)
+        model = load_fmu(fmu_path)
         
         # Set number of communication points
         options = model.simulate_options()
@@ -146,9 +191,16 @@ class Data_Generator(object):
                              final_time=self.data.time[-1],
                              options=options)
         
+        # Get model outputs
+        output_names = []
+        for key in res.keys():
+            if 'weaBus.' in key:
+                output_names.append(key)
+        
+        # Write every output in the data
         for out in output_names:
             self.data.loc[:,out.replace('weaBus.', '')] = res[out]
-        
+            
     def append_energy_prices(self,
                              price_constant = 0.2,
                              price_day = 0.3,
