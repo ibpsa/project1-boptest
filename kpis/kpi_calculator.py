@@ -244,7 +244,7 @@ class KPI_Calculator(object):
              
         if plot:
             self.case.emis_tree = self.get_dict_tree(emis_dict) 
-            self.plot_nested_pie(self.case.cost_tree, metric='emissions',
+            self.plot_nested_pie(self.case.emis_tree, metric='emissions',
                                  units='kgCO2')
          
         return emis_tot
@@ -577,14 +577,14 @@ class KPI_Calculator(object):
 if __name__ == "__main__":
     """Nested pie chart example"""
     ene_dict = {'Heating_damper_y':50.,
-                'Heating_HP_component1_y':160.,
+                'Heating_HP_pump_y':160.,
                 'Heating_pump_y':25.,
-                'Cooling_component1_y':80.,
-                'Heating_HP_component2_y':30.,
-                'Cooling_component2_y':80.,
-                'Lighting_floor1_lamp1_coponent1_y':15.,
-                'Lighting_floor1_lamp1_coponent2_y':23.,
-                'Lighting_floor1_lamp2_y':87.,
+                'Cooling_fan_y':80.,
+                'Heating_HP_fan_y':30.,
+                'Cooling_pump_y':80.,
+                'Lighting_floor1_zone1_lamp1_y':15.,
+                'Lighting_floor1_zone1_lamp2_y':23.,
+                'Lighting_floor1_zone2_y':87.,
                 'Lighting_floor2_y':37.}  
     
     cal = KPI_Calculator(testcase=None)
