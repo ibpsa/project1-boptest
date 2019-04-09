@@ -75,7 +75,7 @@ class KPI_Calculator(object):
         
     
     @alias('tdis')
-    def get_thermal_discomfort(self, lowersetp=273.15+20, uppersetp=273.15+25,
+    def get_thermal_discomfort(self, lowersetp=273.15+22, uppersetp=273.15+23,
                                plot=False):
         """
         The thermal discomfort is the integral of the deviation 
@@ -248,6 +248,48 @@ class KPI_Calculator(object):
                                  units='kgCO2')
          
         return emis_tot
+
+    @alias('time')
+    def get_computational_time_ratio(self, plot=False):
+        """
+        Obtain the computational time ratio as the ratio between 
+        the average of the elapsed control time and the test case 
+        sampling time. The elapsed control time is measured as the 
+        time between two emulator simulations. A time counter starts
+        at the end of the 'advance' test case method and finishes at 
+        the beginning of the following call to the same method. 
+        Notice that the accounted time includes not only the 
+        controller computational time but also the signal exchange
+        time with the controller through the RESTAPI interface. 
+        
+        Parameters
+        ----------
+        plot: boolean
+            True if it it is desired to make a plot of the elapsed 
+            controller time
+            
+        Returns
+        -------
+        time_rat: float
+            computational time ratio of this test case
+
+        """
+        
+        elapsed_time_average = np.mean(np.asarray(self.case.elapsed_control_time))
+        time_rat = elapsed_time_average/self.case.step
+        
+        self.case.time_rat = time_rat
+        
+        if plot:
+            plt.figure()
+            n=len(self.case.elapsed_control_time)
+            bgn=int(self.case.step)
+            end=int(self.case.step + n*self.case.step)
+            plt.plot(range(bgn,end,int(self.case.step)),
+                     self.case.elapsed_control_time)
+            plt.show()
+            
+        return time_rat
 
     @alias('ldfs')
     def get_load_factors(self):

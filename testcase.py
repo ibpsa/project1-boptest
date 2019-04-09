@@ -16,6 +16,7 @@ from kpis.kpi_calculator import KPI_Calculator
 import zipfile
 import pandas as pd
 import matplotlib.pyplot as plt
+import time
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -68,6 +69,7 @@ class TestCase(object):
         self.start_time = 0
         self.initialize = True
         self.options['initialize'] = self.initialize
+        self.elapsed_control_time = []
         
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -86,6 +88,11 @@ class TestCase(object):
             
         '''
         
+        # Calculate and store the elapsed time 
+        if hasattr(self, 'tic_time'):
+            self.tac_time = time.time()
+            self.elapsed_control_time.append(self.tac_time-self.tic_time)
+            
         # Set final time
         self.final_time = self.start_time + self.step
         # Set control inputs if they exist and are written
@@ -131,6 +138,8 @@ class TestCase(object):
         self.start_time = self.final_time
         # Prevent inialize
         self.initialize = False
+        # Raise the flag to compute time lapse
+        self.tic_time = time.time()
         
         return self.y
 
