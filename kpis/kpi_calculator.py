@@ -72,6 +72,7 @@ class KPI_Calculator(object):
         ckpi['ener_tot'] = self.get_energy()
         ckpi['cost_tot'] = self.get_cost()
         ckpi['emis_tot'] = self.get_emissions()        
+        ckpi['time_rat'] = self.get_computational_time_ratio()
         
         return ckpi
         
