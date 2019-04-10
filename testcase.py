@@ -37,7 +37,7 @@ class TestCase(object):
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Get input and output meta-data
-        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names)
+        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
         # Define KPIs
         self.kpipath = con['kpipath']
@@ -279,7 +279,7 @@ class TestCase(object):
         
         return name
         
-    def _get_var_metadata(self, fmu, var_list):
+    def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
         
         Parameters
@@ -293,8 +293,11 @@ class TestCase(object):
         -------
         var_metadata : dict
             Dictionary of variable names as keys and metadata as fields.
-            {<var_name> :
-                "Unit" : <units_str>
+            {<var_name_str> :
+                "Unit" : str,
+                "Description" : str,
+                "Minimum" : float,
+                "Maximum" : float
             }
             
         '''
@@ -307,13 +310,25 @@ class TestCase(object):
             if var == 'time':
                 unit = 's'
                 description = 'Time of simulation'
+                mini = None
+                maxi = None
             elif '_activate' in var:
                 unit = None
                 description = fmu.get_variable_description(var)
+                mini = None
+                maxi = None
             else:
                 unit = fmu.get_variable_unit(var)
                 description = fmu.get_variable_description(var)
+                if inputs:
+                    mini = fmu.get_variable_min(var)
+                    maxi = fmu.get_variable_max(var)
+                else:
+                    mini = None
+                    maxi = None
             var_metadata[var] = {'Unit':unit,
-                                 'Description':description}
+                                 'Description':description,
+                                 'Minimum':mini,
+                                 'Maximum':maxi}
 
         return var_metadata
