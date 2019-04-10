@@ -14,7 +14,7 @@ USER developer
 
 WORKDIR $HOME
 
-RUN pip install --user flask-restful
+RUN pip install --user flask-restful pandas
 
 RUN mkdir models && \
     mkdir doc
@@ -25,5 +25,8 @@ COPY ${testcase}/doc/ doc/
 COPY ${testcase}/config.py ./
 COPY restapi.py ./
 COPY testcase.py ./
+
+COPY kpis kpis/
+ENV PYTHONPATH $PYTHONPATH:$HOME
 
 
