@@ -71,37 +71,49 @@ package SingleZoneVAV
           "Cooling setpoint")
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PPum(y(unit="W"), Description="Pump electrical power")
+                        PPum(y(unit="W"), Description="Pump electrical power",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         PCoo(y(unit="W"), Description=
-          "Cooling electrical power")
+          "Cooling electrical power",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{140,90},{160,110}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PHea(y(unit="W"), Description="Heater power")
+                        PHea(y(unit="W"), Description="Heater power",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{120,110},{140,130}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PFan(y(unit="W"), Description="Fan electrical power")
+                        PFan(y(unit="W"), Description="Fan electrical power",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
-    IBPSA.Utilities.IO.SignalExchange.Read TRooAir(KPIs="comfort",y(unit="K"),
+    IBPSA.Utilities.IO.SignalExchange.Read TRooAir(
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ZoneTemperature,
+                                                                  y(unit="K"),
       Description="Room air temperature")
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotFan(y(unit="J"), Description="Fan energy")
+                        ETotFan(y(unit="J"), Description="Fan energy",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricEnergy)
       annotation (Placement(transformation(extent={{120,-50},{140,-30}})));
-    IBPSA.Utilities.IO.SignalExchange.Read ETotHVAC(KPIs="energy",y(unit="J"),
+    IBPSA.Utilities.IO.SignalExchange.Read ETotHVAC(
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricEnergy,
+                                                                  y(unit="J"),
       Description="Total HVAC energy")
       annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        ETotHea(y(unit="J"), Description="Heating energy")
+                        ETotHea(y(unit="J"), Description="Heating energy",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricEnergy)
       annotation (Placement(transformation(extent={{120,-90},{140,-70}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         ETotCoo(y(unit="J"), Description=
-          "Cooling electrical energy")
+          "Cooling electrical energy",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricEnergy)
       annotation (Placement(transformation(extent={{140,-110},{160,-90}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         ETotPum(y(unit="J"), Description=
-          "Pump electrical energy")
+          "Pump electrical energy",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricEnergy)
       annotation (Placement(transformation(extent={{120,-130},{140,-110}})));
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(
@@ -239,7 +251,6 @@ First implementation.
                   fillPattern = FillPattern.Solid,
                   points={{-52,50},{48,-10},{-52,-70},{-52,50}})}));
   end TestCaseSupervisory;
-
   annotation (uses(Modelica(version="3.2.2"), Buildings(version="6.0.0"),
       IBPSA(version="3.0.0")));
 end SingleZoneVAV;

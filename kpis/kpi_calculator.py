@@ -103,7 +103,7 @@ class KPI_Calculator(object):
         
         tdis_tot = 0
         tdis_dict = OrderedDict()
-        for signal in self.case.kpi_json['comfort']:
+        for signal in self.case.kpi_json['ZoneTemperature']:
             data = np.array(self.case.y_store[signal])
             dT_lower = lowersetp - data
             dT_lower[dT_lower<0]=0
@@ -154,7 +154,7 @@ class KPI_Calculator(object):
         if from_power:
             # Calculate total energy from power 
             # [returns KWh - assumes power measured in Watts]
-            for signal in self.case.kpi_json['power']:
+            for signal in self.case.kpi_json['ElectricPower']:
                 pow_data = np.array(self.case.y_store[signal])
                 ener_dict[signal] = \
                 trapz(pow_data,self.case.y_store['time'])*2.77778e-7 # Convert to kWh
@@ -162,7 +162,7 @@ class KPI_Calculator(object):
         else:
             # Calculate total energy 
             # [returns KWh - assumes energy measured in J]
-            for signal in self.case.kpi_json['energy']:
+            for signal in self.case.kpi_json['ElectricEnergy']:
                 ener_dict[signal] = \
                 self.case.y_store[signal][-1]*2.77778e-7 # Convert to kWh
                 ener_tot = ener_tot + ener_dict[signal]
@@ -200,7 +200,7 @@ class KPI_Calculator(object):
         # assumes power measured in Watts
         price_data = np.array(self.case.get_forecast(index=self.case.y_store['time'])\
                               ['price_electricity_dynamic'])
-        for signal in self.case.kpi_json['power']:
+        for signal in self.case.kpi_json['ElectricPower']:
             pow_data = np.array(self.case.y_store[signal])
             cost_dict[signal] = \
                 trapz(np.multiply(price_data,pow_data),
@@ -236,7 +236,7 @@ class KPI_Calculator(object):
         # assumes power measured in Watts
         emission_factor_data = np.array(self.case.get_forecast(index=self.case.y_store['time'])\
                                     ['emission_factor_electricity'])
-        for signal in self.case.kpi_json['power']:
+        for signal in self.case.kpi_json['ElectricPower']:
             pow_data = np.array(self.case.y_store[signal])
             emis_dict[signal] = \
                 trapz(np.multiply(emission_factor_data,pow_data),
@@ -303,7 +303,7 @@ class KPI_Calculator(object):
         
         ldfs = OrderedDict()
         
-        for signal in self.case.kpi_json['power']:
+        for signal in self.case.kpi_json['ElectricPower']:
             pow_data = np.array(self.case.y_store[signal])
             avg_pow = pow_data.mean()
             max_pow = pow_data.max()
@@ -327,7 +327,7 @@ class KPI_Calculator(object):
         
         ppks = OrderedDict()
         
-        for signal in self.case.kpi_json['power']:
+        for signal in self.case.kpi_json['ElectricPower']:
             pow_data = np.array(self.case.y_store[signal])
             max_pow = pow_data.max()
             ppks[signal]=max_pow
