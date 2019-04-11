@@ -101,8 +101,13 @@ class TestCase(object):
                 for key in u.keys():
                     if key != 'time' and u[key]:
                         value = float(u[key])
+                        # Check min/max if not activation input
+                        if '_activate' not in key:
+                            checked_value = self._check_value_min_max(key, value)
+                        else:
+                            checked_value = value
                         u_list.append(key)
-                        u_trajectory = np.vstack((u_trajectory, value))
+                        u_trajectory = np.vstack((u_trajectory, checked_value))
                 input_object = (u_list, np.transpose(u_trajectory))
             # Otherwise, input object is None
             else:
@@ -332,3 +337,38 @@ class TestCase(object):
                                  'Maximum':maxi}
 
         return var_metadata
+        
+    def _check_value_min_max(self, var, value):
+        '''Check that the input value does not violate the min or max.
+        
+        Note that if it does, the value is truncated to the minimum or maximum.
+        
+        Parameters
+        ----------
+        var : str
+            Name of variable
+        value : numeric
+            Specified value of variable
+            
+        Return
+        ------
+        checked_value : float
+            Value of variable truncated by min and max.
+            
+        '''
+        
+        # Get minimum and maximum for variable
+        mini = self.inputs_metadata[var]['Minimum']
+        maxi = self.inputs_metadata[var]['Maximum']
+        # Check the value and truncate if necessary
+        if value > maxi:
+            checked_value = maxi
+            print('WARNING: Value of {0} for {1} is above maximum of {2}.  Using {2}.'.format(value, var, maxi))
+        elif value < mini:
+            checked_value = mini
+            print('WARNING: Value of {0} for {1} is below minimum of {2}.  Using {2}.'.format(value, var, mini))
+        else:
+            checked_value = value
+
+        return checked_value
+            
