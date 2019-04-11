@@ -9,6 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
+import requests
 from examples import twoday_p
 
 root_dir = utilities.get_root_path()
@@ -55,6 +56,42 @@ class ExampleProportionalPython(unittest.TestCase):
         else:
             # Otherwise, save as reference
             df.to_csv(ref_filepath)
+            
+class MinMax(unittest.TestCase):
+    '''Test the use of min/max attributes to truncate the controller input.
+    
+    '''
+    
+    def setUp(self):
+        '''Setup for each test.
+        
+        '''
+
+        self.url = 'http://127.0.0.1:5000'
+        
+    def test_min(self):
+        '''Tests that if input is below min, input is set to min.
+        
+        '''
+        
+        # Run test
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-100}).json()
+        # Check kpis
+        value = float(y['PHea_y'])
+        self.assertEqual(value, 0.0)
+        
+    def test_max(self):
+        '''Tests that if input is above max, input is set to max.
+        
+        '''
+        
+        # Run test
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":500000}).json()
+        # Check kpis
+        value = float(y['PHea_y'])
+        self.assertAlmostEqual(value, 10101.010101010103, places=5)
         
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 2.  
