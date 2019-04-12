@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
+'''
 This class includes the basic functions for processing the results 
 for BOPTEST simulations and generating the corresponding key performance 
 indicators.
 
-"""
+'''
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import matplotlib.pyplot as plt
@@ -17,8 +17,7 @@ from collections import OrderedDict
 
 @aliased
 class KPI_Calculator(object):
-    '''
-    This class calculates the KPIs as a post-process after 
+    '''This class calculates the KPIs as a post-process after 
     a test is complete. Upon deployment of the test case, 
     the module first uses the KPI JSON (kpis.json) to 
     associate model output names with the appropriate KPIs 
@@ -39,8 +38,7 @@ class KPI_Calculator(object):
     ''' 
 
     def __init__(self, testcase):
-        """
-        Initialize the KPI_Calculator class. One KPI_Calculator
+        '''Initialize the KPI_Calculator class. One KPI_Calculator
         is associated with one test case.
         
         Parameters
@@ -49,15 +47,23 @@ class KPI_Calculator(object):
             object of an already deployed test case that
             contains the data stored from the test case run
         
-        """
+        '''
         
         self.case = testcase
+        
+        # Naming convention from the signal exchange package of IBPSA
+        self.sources = ['ZoneTemperature',
+                        'ElectricPower',
+                        'DistrictHeatingPower',
+                        'GasPower',
+                        'BiomassPower',
+                        'SolarThermalPower', 
+                        'Water']
     
     
     @alias('ckpi')
     def get_core_kpis(self):
-        """
-        Return the core KPIs of a test case.
+        '''Return the core KPIs of a test case.
         
         Returns 
         -------
@@ -65,7 +71,8 @@ class KPI_Calculator(object):
             Dictionary with the core KPIs, i.e., the KPIs
             that are considered essential for the comparison between
             two test cases
-        """
+            
+        '''
         
         ckpi = OrderedDict()
         ckpi['tdis_tot'] = self.get_thermal_discomfort()
@@ -78,18 +85,13 @@ class KPI_Calculator(object):
         
     
     @alias('tdis')
-    def get_thermal_discomfort(self, lowersetp=273.15+22, uppersetp=273.15+23,
-                               plot=False):
-        """
-        The thermal discomfort is the integral of the deviation 
+    def get_thermal_discomfort(self, plot=False):
+        '''The thermal discomfort is the integral of the deviation 
         of the temperature with respect to the predefined comfort 
         setpoint. Its units are of K*h.
         
         Parameters
         ----------
-        setpoint: float
-            temperature set point from which deviations are 
-            penalized
         plot: boolean
             True if it it is desired to make plots related with
             the energy usage metrics
@@ -99,15 +101,20 @@ class KPI_Calculator(object):
         tdis_tot: float
             total thermal discomfort accounted in this test case
 
-        """
+        '''
         
+        # Load temperature set points from test case data
+        LowerSetp = np.array(self.case.get_forecast(index=self.case.y_store['time'])
+                             ['LowerSetp'])
+        UpperSetp = np.array(self.case.get_forecast(index=self.case.y_store['time'])
+                             ['UpperSetp']) 
         tdis_tot = 0
         tdis_dict = OrderedDict()
         for signal in self.case.kpi_json['ZoneTemperature']:
             data = np.array(self.case.y_store[signal])
-            dT_lower = lowersetp - data
+            dT_lower = LowerSetp - data
             dT_lower[dT_lower<0]=0
-            dT_upper = data - uppersetp
+            dT_upper = data - UpperSetp
             dT_upper[dT_upper<0]=0
             tdis_dict[signal[:-1]+'dTlower_y'] = \
                 trapz(dT_lower,self.case.y_store['time'])/3600.
@@ -122,104 +129,172 @@ class KPI_Calculator(object):
             
         if plot:
             self.plot_nested_pie(self.case.tdis_tree, metric='discomfort',
-                                 units='K*h')
+                                 units='Kh')
         
         return tdis_tot
     
 
     @alias('ener')
-    def get_energy(self, from_power=True, plot=False):
-        """
-        This method returns the measure of the total building 
+    def get_energy(self, plot=False, plot_by_source=False):
+        '''This method returns the measure of the total building 
         energy use in kW*h when accounting for the sum of all 
-        energy vectors present in the test case. The scenarios 
-        defined in each test case determine which components 
-        are added and the source data for the conversion 
-        factors if required.
+        energy vectors present in the test case. 
         
         Parameters
         ----------
-        from_power: boolean
-            True if we want to calculate the energy by 
-            integrating the power. False if we want to get the
-            energy as the sum of the energy read blocks in the
-            model
         plot: boolean
-            True if it it is desired to make plots related with
-            the energy usage metrics
-        """
+            True to show a donut plot with the energy use 
+            grouped by elements
+        plot_by_source: boolean
+            True to show a donut plot with the energy use 
+            grouped by sources
+               
+        Returns
+        -------
+        ener_tot: float
+            total energy use
+            
+        '''
         
         ener_tot = 0
+        # Dictionary to store energy usage by element
         ener_dict = OrderedDict()
-        if from_power:
-            # Calculate total energy from power 
-            # [returns KWh - assumes power measured in Watts]
-            for signal in self.case.kpi_json['ElectricPower']:
-                pow_data = np.array(self.case.y_store[signal])
-                ener_dict[signal] = \
-                trapz(pow_data,self.case.y_store['time'])*2.77778e-7 # Convert to kWh
-                ener_tot = ener_tot + ener_dict[signal]
-        else:
-            # Calculate total energy 
-            # [returns KWh - assumes energy measured in J]
-            for signal in self.case.kpi_json['ElectricEnergy']:
-                ener_dict[signal] = \
-                self.case.y_store[signal][-1]*2.77778e-7 # Convert to kWh
-                ener_tot = ener_tot + ener_dict[signal]
-                
-        self.case.ener_tot  = ener_tot
-            
+        # Dictionary to store energy usage by source 
+        ener_dict_by_source = OrderedDict()
+        
+        # Calculate total energy from power 
+        # [returns KWh - assumes power measured in Watts]
+        for source in self.sources:
+            if 'Power' in source  and \
+            source in self.case.kpi_json.keys():            
+                for signal in self.case.kpi_json[source]:
+                    pow_data = np.array(self.case.y_store[signal])
+                    ener_dict[signal] = \
+                        trapz(pow_data,
+                              self.case.y_store['time'])*2.77778e-7 # Convert to kWh
+                    ener_dict_by_source[source+'_'+signal] = \
+                        ener_dict[signal]
+                    ener_tot = ener_tot + ener_dict[signal]
+                    
+        # Assign to case       
+        self.case.ener_tot            = ener_tot
+        self.case.ener_dict           = ener_dict
+        self.case.ener_dict_by_source = ener_dict_by_source
+           
         if plot:
             self.case.ener_tree = self.get_dict_tree(ener_dict) 
             self.plot_nested_pie(self.case.ener_tree, metric='energy use',
-                                 units='kW*h')
+                                 units='kWh')
+        if plot_by_source:
+            self.case.ener_tree_by_source = self.get_dict_tree(ener_dict_by_source) 
+            self.plot_nested_pie(self.case.ener_tree_by_source, 
+                                 metric='energy use by source', units='kWh')
         
         return ener_tot
     
-    
     @alias('cost')
-    def get_cost(self, plot=False):
-        """
-        This method returns the measure of the total building 
-        energy cost in euros when accounting for the sum of all 
-        energy vectors present in the test case. The scenarios 
-        defined in each test case determine which components 
-        are added and the source data for the conversion 
-        factors if required.
+    def get_cost(self, scenario='Constant', plot=False,
+                 plot_by_source=False):
+        '''This method returns the measure of the total building operational
+        energy cost in euros when accounting for the sum of all energy
+        vectors present in the test case as well as other sources of cost
+        like water. 
         
         Parameters
         ----------
+        scenario: string
+            There are three different scenarios considered for electricity:
+            1. 'Constant': completely constant price
+            2. 'Dynamic': day/night tariff
+            3. 'HighlyDynamic': spot price changing every 15 minutes
         plot: boolean
-            True if it it is desired to make plots related with
-            the cost metric
-        """
+            True to show a donut plot with the operational cost 
+            grouped by elements
+        plot_by_source: boolean
+            True to show a donut plot with the operational cost 
+            grouped by sources
+            
+        Notes
+        -----
+        It is assumed that power is measured in Watts and water usage in m3
+            
+        '''
         
         cost_tot = 0
+        # Dictionary to store operational cost by element
         cost_dict = OrderedDict()
-        # Calculate total cost from power 
-        # assumes power measured in Watts
-        price_data = np.array(self.case.get_forecast(index=self.case.y_store['time'])\
-                              ['price_electricity_dynamic'])
-        for signal in self.case.kpi_json['ElectricPower']:
-            pow_data = np.array(self.case.y_store[signal])
-            cost_dict[signal] = \
-                trapz(np.multiply(price_data,pow_data),
-                  self.case.y_store['time'])*2.77778e-7 # Convert to kWh
-            cost_tot = cost_tot + cost_dict[signal]
+        # Dictionary to store operational cost by source 
+        cost_dict_by_source = OrderedDict()
+        
+        for source in self.sources:
             
-        self.case.cost_tot = cost_tot
-             
+            # Calculate the operational cost from electricity in this scenario
+            if 'ElectricPower' in source  and \
+            source in self.case.kpi_json.keys(): 
+                # Load the electricity price data of this scenario    
+                electricity_price_data = \
+                np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                         ['Price'+source+scenario])       
+                for signal in self.case.kpi_json[source]:
+                    pow_data = np.array(self.case.y_store[signal])
+                    cost_dict[signal] = \
+                        trapz(np.multiply(electricity_price_data,pow_data),
+                              self.case.y_store['time'])*2.77778e-7 # Convert to kWh
+                    cost_dict_by_source[source+'_'+signal] = \
+                        cost_dict[signal]
+                    cost_tot = cost_tot + cost_dict[signal]
+                    
+            # Calculate the operational cost from other power sources        
+            elif 'Power' in source  and \
+            source in self.case.kpi_json.keys(): 
+                # Load the source price data
+                source_price_data = \
+                np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                         ['Price'+source])            
+                for signal in self.case.kpi_json[source]:
+                    pow_data = np.array(self.case.y_store[signal])
+                    cost_dict[signal] = \
+                        trapz(np.multiply(source_price_data,pow_data),
+                              self.case.y_store['time'])*2.77778e-7 # Convert to kWh
+                    cost_dict_by_source[source+'_'+signal] = \
+                        cost_dict[signal]
+                    cost_tot = cost_tot + cost_dict[signal]       
+                    
+            # Calculate the operational cost from other sources        
+            elif 'Water' in source  and \
+            source in self.case.kpi_json.keys(): 
+                # load the source price data
+                source_price_data = \
+                np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                         ['Price'+source])            
+                for signal in self.case.kpi_json[source]:
+                    pow_data = np.array(self.case.y_store[signal])
+                    cost_dict[signal] = \
+                        trapz(np.multiply(source_price_data,pow_data),
+                              self.case.y_store['time'])
+                    cost_dict_by_source[source+'_'+signal] = \
+                        cost_dict[signal]
+                    cost_tot = cost_tot + cost_dict[signal]                      
+                    
+        # Assign to case       
+        self.case.cost_tot            = cost_tot
+        self.case.cost_dict           = cost_dict
+        self.case.cost_dict_by_source = cost_dict_by_source
+        
         if plot:
             self.case.cost_tree = self.get_dict_tree(cost_dict) 
             self.plot_nested_pie(self.case.cost_tree, metric='cost',
                                  units='euros')
+        if plot_by_source:
+            self.case.cost_tree_by_source = self.get_dict_tree(cost_dict_by_source) 
+            self.plot_nested_pie(self.case.cost_tree_by_source, 
+                                 metric='cost by source', units='euros')
          
         return cost_tot
 
     @alias('emis')
-    def get_emissions(self, plot=False):
-        """
-        This method returns the measure of the total building 
+    def get_emissions(self, plot=False, plot_by_source=False):
+        '''This method returns the measure of the total building 
         emissions in kgCO2 when accounting for the sum of all 
         energy vectors present in the test case. 
         
@@ -228,34 +303,58 @@ class KPI_Calculator(object):
         plot: boolean
             True if it it is desired to make plots related with
             the emission metric
-        """
+        plot_by_source: boolean
+            True to show a donut plot with the operational cost 
+            grouped by sources
+            
+        Notes
+        -----
+        It is assumed that power is measured in Watts 
+            
+        '''
         
         emis_tot = 0
+        # Dictionary to store emissions by element
         emis_dict = OrderedDict()
-        # Calculate total emissions from power 
-        # assumes power measured in Watts
-        emission_factor_data = np.array(self.case.get_forecast(index=self.case.y_store['time'])\
-                                    ['emission_factor_electricity'])
-        for signal in self.case.kpi_json['ElectricPower']:
-            pow_data = np.array(self.case.y_store[signal])
-            emis_dict[signal] = \
-                trapz(np.multiply(emission_factor_data,pow_data),
-                  self.case.y_store['time'])*2.77778e-7 # Convert to kWh
-            emis_tot = emis_tot + emis_dict[signal]
+        # Dictionary to store emissions by source 
+        emis_dict_by_source = OrderedDict()
+        
+        for source in self.sources:
             
-        self.case.emis_tot = emis_tot
-             
+            # Calculate the operational emissions from power sources        
+            if 'Power' in source  and \
+            source in self.case.kpi_json.keys(): 
+                source_emissions_data = \
+                np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                         ['Emissions'+source])            
+                for signal in self.case.kpi_json[source]:
+                    pow_data = np.array(self.case.y_store[signal])
+                    emis_dict[signal] = \
+                        trapz(np.multiply(source_emissions_data,pow_data),
+                              self.case.y_store['time'])*2.77778e-7 # Convert to kWh
+                    emis_dict_by_source[source+'_'+signal] = \
+                        emis_dict[signal]
+                    emis_tot = emis_tot + emis_dict[signal]                           
+                    
+        # Assign to case       
+        self.case.emis_tot            = emis_tot
+        self.case.emis_dict           = emis_dict
+        self.case.emis_dict_by_source = emis_dict_by_source
+        
         if plot:
             self.case.emis_tree = self.get_dict_tree(emis_dict) 
             self.plot_nested_pie(self.case.emis_tree, metric='emissions',
                                  units='kgCO2')
+        if plot_by_source:
+            self.case.emis_tree_by_source = self.get_dict_tree(emis_dict_by_source) 
+            self.plot_nested_pie(self.case.emis_tree_by_source, 
+                                 metric='emissions by source', units='kgCO2')
          
         return emis_tot
 
     @alias('time')
     def get_computational_time_ratio(self, plot=False):
-        """
-        Obtain the computational time ratio as the ratio between 
+        '''Obtain the computational time ratio as the ratio between 
         the average of the elapsed control time and the test case 
         sampling time. The elapsed control time is measured as the 
         time between two emulator simulations. A time counter starts
@@ -276,7 +375,7 @@ class KPI_Calculator(object):
         time_rat: float
             computational time ratio of this test case
 
-        """
+        '''
         
         elapsed_time_average = np.mean(np.asarray(self.case.elapsed_control_time))
         time_rat = elapsed_time_average/self.case.step
@@ -296,10 +395,9 @@ class KPI_Calculator(object):
 
     @alias('ldfs')
     def get_load_factors(self):
-        """
-        Calculate the load factor for every power signal
+        '''Calculate the load factor for every power signal
         
-        """
+        '''
         
         ldfs = OrderedDict()
         
@@ -320,10 +418,9 @@ class KPI_Calculator(object):
     
     @alias('ppks')
     def get_power_peaks(self):
-        """
-        Calculate the power peak for every power signal
+        '''Calculate the power peak for every power signal
         
-        """
+        '''
         
         ppks = OrderedDict()
         
@@ -338,8 +435,7 @@ class KPI_Calculator(object):
                             
                             
     def get_dict_tree(self, dict_flat, sep='_'):
-        """
-        This method creates a dictionary tree from a 
+        '''This method creates a dictionary tree from a 
         flat dictionary. A dictionary tree is a nested
         dictionary where each element contains other
         dictionaries which keys are the following 
@@ -365,7 +461,8 @@ class KPI_Calculator(object):
             nested dictionary with the different layers
             of complexity indicated by the 'sep' string
             in the keys of the original dictionary
-        """
+            
+        '''
         
         # Initialize the dictionary tree
         dict_tree = OrderedDict()
@@ -390,8 +487,7 @@ class KPI_Calculator(object):
     
     
     def sum_dict(self, dictionary):
-        """
-        This method returns the sum of all values within a 
+        '''This method returns the sum of all values within a 
         nested dictionary that can contain float numbers 
         and/or other dictionaries containing the same type 
         of elements. It works in a recursive way.
@@ -408,7 +504,7 @@ class KPI_Calculator(object):
         val: float
             value of the sum of all values within the 
             nested dictionary
-        """
+        '''
         
         # Initialize the sum
         val=0.
@@ -429,8 +525,7 @@ class KPI_Calculator(object):
     
     
     def count_elements(self, dictionary):
-        """
-        This methods counts the number of end points in 
+        '''This methods counts the number of end points in 
         a nested dictionary. An end point is considered
         to be a float number instead of a new dictionary
         layer.
@@ -445,7 +540,7 @@ class KPI_Calculator(object):
         n: integer
             number of total end points within the nested
             dictionary
-        """
+        '''
         
         # Initialize the counter
         n=0
@@ -468,8 +563,7 @@ class KPI_Calculator(object):
         
         
     def parse_color_indexes(self, dictionary, min_index=0, max_index=260):
-        """
-        This method parses the color indexes for a nested pie chart
+        '''This method parses the color indexes for a nested pie chart
         and according to the number of elements within the dictionary
         that is going to be plotted. It will provide an equally 
         distributed range of color indexes between a minimum value
@@ -490,7 +584,7 @@ class KPI_Calculator(object):
         max_index: integer
             maximum value of the index that is going to be used
         
-        """
+        '''
         
         n = self.count_elements(dictionary)
         
@@ -501,8 +595,7 @@ class KPI_Calculator(object):
     def plot_nested_pie(self, dictionary, ax=None, radius=1., delta=0.2,
                         dontlabel=None, breakdonut=True, 
                         metric = 'energy use', units = 'kW*h'):
-        """
-        This method appends a pie plot from a nested dictionary
+        '''This method appends a pie plot from a nested dictionary
         to an axes of matplotlib object. If all the elements
         of the dictionary are float values it will make a simple
         pie plot with those values. If there are other nested
@@ -532,7 +625,7 @@ class KPI_Calculator(object):
         units: string
             indicates the units used for the metric. Notice that
             this is only used for the title of the plot
-        """
+        '''
         
         # Initialize the pie plot if not initialized yet
         if ax is None:
@@ -620,7 +713,7 @@ class KPI_Calculator(object):
             
             
 if __name__ == "__main__":
-    """Nested pie chart example"""
+    '''Nested pie chart example'''
     ene_dict = {'Heating_damper_y':50.,
                 'Heating_HP_pump_y':160.,
                 'Heating_pump_y':25.,
