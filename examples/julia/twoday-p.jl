@@ -50,7 +50,6 @@ println("Running test case ...")
 
 # simulation loop
 for i = 1:convert(Int, floor(length/step))
-    sleep(1)
     if i<2
     # Initialize u
        u = PID.initialize()
@@ -59,7 +58,7 @@ for i = 1:convert(Int, floor(length/step))
        u = PID.compute_control(y)
     end
     # Advance in simulation
-    global y = JSON.parse(String(HTTP.post("$url/advance", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(u)).body))
+    global y = JSON.parse(String(HTTP.post("$url/advance", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(u);retry_non_idempotent=true).body))
 
 end
 println("Test case complete.")

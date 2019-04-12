@@ -49,7 +49,6 @@ res = HTTP.put("$url/step",["Content-Type" => "application/json"], JSON.json(Dic
 
 # simulation loop
 for i = 1:convert(Int, floor(length/step))
-    sleep(1)
     if i<2
     # Initialize u
        u = sup.initialize()
@@ -58,7 +57,7 @@ for i = 1:convert(Int, floor(length/step))
        u = sup.compute_control(y)
     end
     # Advance in simulation
-    res=HTTP.post("$url/advance", ["Content-Type" => "application/json"], JSON.json(u)).body
+    res=HTTP.post("$url/advance", ["Content-Type" => "application/json"], JSON.json(u);retry_non_idempotent=true).body
     global y = JSON.parse(String(res))
 end
 
