@@ -52,13 +52,17 @@ class KPI_Calculator(object):
         self.case = testcase
         
         # Naming convention from the signal exchange package of IBPSA
-        self.sources = ['ZoneTemperature',
+        self.sources = ['AirZoneTemperature',
+                        'RadiativeZoneTemperature',
+                        'OperativeZoneTemperature',
+                        'RelativeHumidity',
+                        'CO2Concentration',
                         'ElectricPower',
                         'DistrictHeatingPower',
                         'GasPower',
                         'BiomassPower',
                         'SolarThermalPower', 
-                        'Water']
+                        'FreshWaterFlowRate']
     
     
     @alias('ckpi')
@@ -110,7 +114,7 @@ class KPI_Calculator(object):
                              ['UpperSetp']) 
         tdis_tot = 0
         tdis_dict = OrderedDict()
-        for signal in self.case.kpi_json['ZoneTemperature']:
+        for signal in self.case.kpi_json['AirZoneTemperature']:
             data = np.array(self.case.y_store[signal])
             dT_lower = LowerSetp - data
             dT_lower[dT_lower<0]=0
@@ -261,7 +265,7 @@ class KPI_Calculator(object):
                     cost_tot = cost_tot + cost_dict[signal]       
                     
             # Calculate the operational cost from other sources        
-            elif 'Water' in source  and \
+            elif 'FreshWater' in source  and \
             source in self.case.kpi_json.keys(): 
                 # load the source price data
                 source_price_data = \
