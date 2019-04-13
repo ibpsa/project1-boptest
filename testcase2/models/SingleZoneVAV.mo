@@ -78,7 +78,7 @@ package SingleZoneVAV
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
     IBPSA.Utilities.IO.SignalExchange.Read TRooAir(
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ZoneTemperature,
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
                                                                   y(unit="K"),
       Description="Room air temperature")
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
