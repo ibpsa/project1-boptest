@@ -16,18 +16,24 @@ package SingleZoneResidentialHydronic
       T_a_nominal=273.15 + 70,
       T_b_nominal=273.15 + 50,
       energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-      Q_flow_nominal=2000) "Radiator" annotation (Placement(transformation(
+      Q_flow_nominal=2000,
+      dp_nominal=10000)    "Radiator" annotation (Placement(transformation(
           extent={{10,-10},{-10,10}},
           rotation=90,
           origin={-30,10})));
     IDEAS.Fluid.HeatExchangers.Heater_T hea(
       redeclare package Medium = Medium,
       m_flow_nominal=pump.m_flow_nominal,
-      dp_nominal=0) "Ideal heater"
+      dp_nominal=10000)
+                    "Ideal heater"
       annotation (Placement(transformation(extent={{20,20},{0,40}})));
     IDEAS.Fluid.Movers.FlowControlled_m_flow pump(
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      redeclare
+        IDEAS.Fluid.Movers.Data.Pumps.Wilo.VeroLine50slash150dash4slash2 per,
+      addPowerToMedium=false,
+      nominalValuesDefineDefaultPressureCurve=true,
       use_inputFilter=false,
       massFlowRates={0,0.05},
       redeclare package Medium = Medium,
@@ -58,7 +64,7 @@ package SingleZoneResidentialHydronic
       annotation (Placement(transformation(extent={{90,30},{70,50}})));
     IBPSA.Utilities.IO.SignalExchange.Read TSupRead(KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
                                                              y(unit="K"))
-      annotation (Placement(transformation(extent={{60,30},{40,50}})));
+      annotation (Placement(transformation(extent={{62,30},{42,50}})));
     Modelica.Blocks.Sources.Constant TSet_lower(y(unit="K"), k=273.15 + 22)
       "Set point"
       annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
@@ -113,10 +119,10 @@ package SingleZoneResidentialHydronic
     connect(gain.y, multiSum.u[2]) annotation (Line(points={{19.9,90},{38.55,90},
             {38.55,86.5},{70,86.5}},
                                  color={0,0,127}));
-    connect(TSupRead.y, hea.TSet) annotation (Line(points={{39,40},{30,40},{30,
+    connect(TSupRead.y, hea.TSet) annotation (Line(points={{41,40},{30,40},{30,
             38},{22,38}}, color={0,0,127}));
     connect(oveTsup.y, TSupRead.u)
-      annotation (Line(points={{69,40},{62,40}}, color={0,0,127}));
+      annotation (Line(points={{69,40},{64,40}}, color={0,0,127}));
     connect(multiSum.y, oveTsup.u) annotation (Line(points={{91.7,90},{104.15,
             90},{104.15,40},{92,40}}, color={0,0,127}));
     connect(pump.P, pumpRead.u) annotation (Line(points={{21,-1},{60.5,-1},{
@@ -149,6 +155,10 @@ First implementation.
 </ul>
 </html>"));
   end SingleZoneResidentialHydronicBOPTESTwithBaseline;
+
+  model SingleZoneResidentialHydronicFromIDEAS
+    extends IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic;
+  end SingleZoneResidentialHydronicFromIDEAS;
   annotation (uses(Modelica(version="3.2.2"),
       IDEAS(version="2.0.0"),
       IBPSA(version="3.0.0")));

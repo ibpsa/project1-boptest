@@ -51,8 +51,9 @@ def simulate_baseline(Ts,
     sim.simulate()
     
     if plot:
-        sim.plot_separated()
+        sim.plot_separated(plot_control_inputs=False)
         
+    f=sim.plant.case.get_forecast(index=sim.plant.case.y_store['time'])
     test_case_data          = pd.DataFrame(sim.plant.case.get_forecast(index=sim.plant.case.y_store['time']))
     simulation_data_inputs  = pd.DataFrame(sim.plant.case.u_store).drop(['time'], axis=1)
     simulation_data_outputs = pd.DataFrame(sim.plant.case.y_store).drop(['time'], axis=1)
@@ -173,7 +174,8 @@ def simulate_MPC(Ts,
     sim.simulate()
     
     if plot:
-        sim.plot_separated()
+        sim.plot_separated(plot_disturbances=True,
+                           plot_price = True)
         sim.controller.observer.plot_kalman()
     sim.save_sim()
     
@@ -191,20 +193,20 @@ if __name__ == "__main__":
     measMap['z_0.cZon'] = 'TRooAir_y'
     
     
-    Ts = 3600      # sample time: time between two optimizations in seconds
+    Ts = 1800      # sample time: time between two optimizations in seconds
     
     bgn_sim_time = "20090301 00:00:00"    # begin time of the simulation   
-    end_sim_time = "20090303 00:00:00"    # end time of the simulation
+    end_sim_time = "20090307 00:00:00"    # end time of the simulation
     
-    sim_baseline = False
+    sim_baseline = True
     if sim_baseline:
-        sim = simulate_baseline(Ts = Ts,
+        sim = simulate_baseline(Ts = 24*3600,
                                 bgn_sim_time = bgn_sim_time,
                                 end_sim_time = end_sim_time,                                  
                                 cInpMap = cInpMap,
                                 measMap = measMap)
     
-    id_gb = False
+    id_gb = True
     if id_gb:
         identify_gb()
     
@@ -223,8 +225,9 @@ if __name__ == "__main__":
         print('\nKPI RESULTS \n-----------')
         for key in kpis.keys():
             print('{0}: {1}'.format(key, kpis[key]))
-        cal.get_energy(plot=True)
-        cal.get_thermal_discomfort(lowersetp=273.15+22, uppersetp=273.15+24, plot=True)
-        cal.get_emissions(plot=True)
-        cal.get_cost(plot=True)
+        tdis_tot = cal.get_thermal_discomfort(plot=True)    
+        ener_tot = cal.get_energy(plot=True, plot_by_source=True)
+        emis_tot = cal.get_emissions(plot=True, plot_by_source=True)
+        cost_tot = cal.get_cost(plot=True, plot_by_source=True)
+        time_rat = cal.get_computational_time_ratio(plot=True)
 
