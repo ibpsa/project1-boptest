@@ -351,15 +351,17 @@ class TestCase(object):
         
         # First read the test case data if not read yet
         if not hasattr(self, 'data'):    
-            self.load_data(interval, data_file_name)
-            
+            self.load_data(data_file_name)
+        
         # If no index use horizon to slice the data
         if index is None:
-            # Use the test case start time
+            # Use the test case start time and step
             start = self.start_time
             end = start + horizon
             data_slice = self.data.loc[start:end, :]
-        
+            interval = self.step
+            self.data = self.data.asfreq(freq=str(interval)+'S')
+            
         # If there is an index return the data slice on that index
         else:
             # Don't miss first data point
@@ -367,22 +369,14 @@ class TestCase(object):
                 index[0] = 0
             data_slice = self.data.reindex(index)
             
-            # Redefine the datetime index with the simulation time
-            # this slows down a lot the co-simulation process
-            if False:
-                t0 = data_slice.index[0]
-                for t in data_slice.index[1:]:
-                    data_slice.loc[t,'datetime'] = data_slice.loc[t0,'datetime'] + \
-                        pd.Timedelta(t-t0,'s')
-                    
-            # Interpolate the continuous variables
-            data_slice.loc[:,self.weather_keys]  = \
-                data_slice.loc[:,self.weather_keys].interpolate(method='index')
+        # Interpolate the continuous variables
+        data_slice.loc[:,self.weather_keys]  = \
+            data_slice.loc[:,self.weather_keys].interpolate(method='index')
 
-            # Forward fill the other variables  
-            data_slice = data_slice.fillna(method='ffill')
-            # get rid of NaN's if still any
-            data_slice = data_slice.fillna(method='bfill')
+        # Forward fill the other variables  
+        data_slice = data_slice.fillna(method='ffill')
+        # get rid of NaN's if still any
+        data_slice = data_slice.fillna(method='bfill')
         
         if plot:
             if category is None:
@@ -400,8 +394,7 @@ class TestCase(object):
         # Transform data frame to dictionary
         return data_slice.reset_index().to_dict('list')
     
-    def load_data(self, interval=None,
-                  data_file_name='test_case_data.csv'):
+    def load_data(self, data_file_name='test_case_data.csv'):
         '''Load the data from the resources folder of the fmu.
         Resample it with the specified time interval.
         
@@ -455,23 +448,6 @@ class TestCase(object):
         # Convert any convert any string formatted
         # numbers to floats.
         self.data = self.data.applymap(float)
-        
-        # Resample the data
-        if interval is None:
-            interval = self.step
-        
-        self.data = self.data.asfreq(freq=str(interval)+'S')
-        
-        # Interpolate the continuous variables
-        self.data.loc[:,['time']+self.weather_keys] = \
-            self.data.loc[:,['time']+self.weather_keys].interpolate(method='time')
-
-        # Forward fill the other variables  
-        if np.isnan(self.data).any().any():
-            self.data = self.data.fillna(method='ffill')
-            # get rid of NaN's if still any
-            if np.isnan(self.data).any().any():            
-                self.data = self.data.fillna(method='bfill')
         
         # Set time as index (fmu does not understand datetime)
         self.data['datetime'] = self.data.index
