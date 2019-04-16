@@ -27,7 +27,7 @@ from Plants.plant_BOPTEST import Plant_BOPTEST
 
 from kpis.kpi_calculator import KPI_Calculator
 
-def simulate_baseline(Ts,
+def generate_data_with_baseline(Ts,
                       bgn_sim_time,
                       end_sim_time,
                       cInpMap,
@@ -52,8 +52,7 @@ def simulate_baseline(Ts,
     
     if plot:
         sim.plot_separated(plot_control_inputs=False)
-        
-    f=sim.plant.case.get_forecast(index=sim.plant.case.y_store['time'])
+    
     test_case_data          = pd.DataFrame(sim.plant.case.get_forecast(index=sim.plant.case.y_store['time']))
     simulation_data_inputs  = pd.DataFrame(sim.plant.case.u_store).drop(['time'], axis=1)
     simulation_data_outputs = pd.DataFrame(sim.plant.case.y_store).drop(['time'], axis=1)
@@ -98,7 +97,7 @@ def identify_gb(data=None):
     
     gb.set_case_attr(slicekey='A')
     
-    gb.plot_dataset(to_show=['TRooAir_y','TSupRead_y'])
+    gb.plot_dataset(to_show=['TDryBul','TRooAir_y','TSupRead_y'])
     
     gb.set_case_attr(inputmap = {'irr1':'HGloHor', 'TAmb':'TDryBul', 'TSup':'TSupRead_y'},
                      fitmap   = {'z_0.TZon':'TRooAir_y'})
@@ -174,7 +173,7 @@ def simulate_MPC(Ts,
     sim.simulate()
     
     if plot:
-        sim.plot_separated(plot_disturbances=True,
+        sim.plot_separated(plot_disturbances=False,
                            plot_price = True)
         sim.controller.observer.plot_kalman()
     sim.save_sim()
@@ -193,20 +192,23 @@ if __name__ == "__main__":
     measMap['z_0.cZon'] = 'TRooAir_y'
     
     
-    Ts = 1800      # sample time: time between two optimizations in seconds
+    Ts = 3600      # sample time: time between two optimizations in seconds
     
     bgn_sim_time = "20090301 00:00:00"    # begin time of the simulation   
-    end_sim_time = "20090307 00:00:00"    # end time of the simulation
+    end_sim_time = "20090303 00:00:00"    # end time of the simulation
     
-    sim_baseline = True
+    sim_baseline = False
     if sim_baseline:
-        sim = simulate_baseline(Ts = 24*3600,
-                                bgn_sim_time = bgn_sim_time,
-                                end_sim_time = end_sim_time,                                  
-                                cInpMap = cInpMap,
-                                measMap = measMap)
+        bgn_sim_time_TS = pd.Timestamp(bgn_sim_time)
+        end_sim_time_TS = pd.Timestamp(end_sim_time)
+        total_sim_seconds = (end_sim_time_TS - bgn_sim_time_TS).total_seconds()
+        sim = generate_data_with_baseline(Ts = int(total_sim_seconds),
+                                          bgn_sim_time = bgn_sim_time,
+                                          end_sim_time = end_sim_time,                                  
+                                          cInpMap = cInpMap,
+                                          measMap = measMap)
     
-    id_gb = True
+    id_gb = False
     if id_gb:
         identify_gb()
     
@@ -228,6 +230,6 @@ if __name__ == "__main__":
         tdis_tot = cal.get_thermal_discomfort(plot=True)    
         ener_tot = cal.get_energy(plot=True, plot_by_source=True)
         emis_tot = cal.get_emissions(plot=True, plot_by_source=True)
-        cost_tot = cal.get_cost(plot=True, plot_by_source=True)
+        cost_tot = cal.get_cost(plot=True, plot_by_source=True, scenario='Dynamic')
         time_rat = cal.get_computational_time_ratio(plot=True)
 
