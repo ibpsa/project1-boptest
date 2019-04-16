@@ -324,7 +324,7 @@ class TestCase(object):
             Length of the requested forecast in seconds 
         interval: int (optional)
             resampling time interval in seconds. If None,
-            the data will be sampled minutely
+            the test case step will be used instead
         category : string (optional)
             Type of data to retrieve from the test case.
             If None it will return all available data in the
