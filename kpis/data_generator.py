@@ -303,8 +303,11 @@ class Data_Generator(object):
         data_file_path=os.path.join(os.path.join(os.path.join(\
                         self.case_path,'models'),'Resources'),data_file_name)
         
+        # Get rid of datetime as fmu do not understand that format
+        self.data.reset_index(drop=True, inplace=True)
+        
         # Save a copy of the csv within the Resources folder of the test case
-        self.data.to_csv(data_file_path, index_label='datetime')
+        self.data.to_csv(data_file_path, index=False)
         
         # Path of the fmu used by BOPTEST for this test case
         fmu_path = os.path.join(os.path.join(self.case_path,'models'),'wrapped.fmu')

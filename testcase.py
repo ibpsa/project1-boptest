@@ -17,6 +17,7 @@ import zipfile
 import pandas as pd
 import matplotlib.pyplot as plt
 import time
+from scipy import interpolate
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -323,7 +324,7 @@ class TestCase(object):
             Length of the requested forecast in seconds 
         interval: int (optional)
             resampling time interval in seconds. If None,
-            self.step will be used instead
+            the data will be sampled minutely
         category : string (optional)
             Type of data to retrieve from the test case.
             If None it will return all available data in the
@@ -353,46 +354,50 @@ class TestCase(object):
         if not hasattr(self, 'data'):    
             self.load_data(data_file_name)
         
-        # If no index use horizon to slice the data
-        if index is None:
-            # Use the test case start time and step
-            start = self.start_time
-            end = start + horizon
-            data_slice = self.data.loc[start:end, :]
-            interval = self.step
-            self.data = self.data.asfreq(freq=str(interval)+'S')
-            
-        # If there is an index return the data slice on that index
+        # Filter the requested data columns
+        if category is not None:
+            data_slice = self.data.loc[:,self.categories[category]]
         else:
-            # Don't miss first data point
-            if index[0] < 1e-6:
-                index[0] = 0
-            data_slice = self.data.reindex(index)
+            data_slice = self.data
             
-        # Interpolate the continuous variables
-        data_slice.loc[:,self.weather_keys]  = \
-            data_slice.loc[:,self.weather_keys].interpolate(method='index')
-
-        # Forward fill the other variables  
-        data_slice = data_slice.fillna(method='ffill')
-        # get rid of NaN's if still any
-        data_slice = data_slice.fillna(method='bfill')
+        # If no index use horizon and interval 
+        if index is None:
+            # Use the test case start time 
+            start = self.start_time
+            stop  = start + horizon
+            # Reindex to the desired interval. Use step if none
+            if interval is None:
+                interval=self.step
+            index = np.arange(start,stop,interval).astype(int)
+            
+        # Reindex to the desired index
+        data_slice_reindexed = data_slice.reindex(index)
+        
+        for key in data_slice_reindexed.keys():
+            # Use linear interpolation for continuous variables
+            if key in self.weather_keys:
+                f = interpolate.interp1d(self.data.index,
+                    self.data[key], kind='linear')
+                data_slice_reindexed.loc[:,key] = f(index)
+            # Use forward fill for discrete variables
+            else:
+                f = interpolate.interp1d(self.data.index,
+                    self.data[key], kind='zero')
+                data_slice_reindexed.loc[:,key] = f(index)
         
         if plot:
             if category is None:
-                to_plot = data_slice.keys().drop('datetime')
+                to_plot = data_slice_reindexed.keys()
             else: 
                 to_plot = self.categories[category]
-            data_slice.set_index('datetime')[to_plot].plot()
-            plt.show()
+            for var in to_plot:
+                data_slice_reindexed[var].plot()
+                plt.legend()
+                plt.show()
         
-        # Filter the requested data columns
-        if category is not None:
-            data_slice = data_slice.loc[:,self.categories[category]]
-
         # Reset the index to keep the 'time' column in the data
         # Transform data frame to dictionary
-        return data_slice.reset_index().to_dict('list')
+        return data_slice_reindexed.reset_index().to_dict('list')
     
     def load_data(self, data_file_name='test_case_data.csv'):
         '''Load the data from the resources folder of the fmu.
@@ -400,9 +405,6 @@ class TestCase(object):
         
         Parameters
         ----------
-        interval: int (optional)
-            resampling time interval in seconds. If None,
-            self.step will be used instead
         data_file_name : string
             Name of the data file from where the data is 
             retrieved. Notice that this file should be within
@@ -442,15 +444,13 @@ class TestCase(object):
         z_fmu = zipfile.ZipFile(self.fmupath, 'r')
         # The following will work in any OS because the zip format 
         # specifies a forward slash.
-        self.data=pd.read_csv(z_fmu.open('resources/'+data_file_name),
-                              index_col='datetime', parse_dates=True)
+        self.data=pd.read_csv(z_fmu.open('resources/'+data_file_name))
         
         # Convert any convert any string formatted
         # numbers to floats.
         self.data = self.data.applymap(float)
         
-        # Set time as index (fmu does not understand datetime)
-        self.data['datetime'] = self.data.index
+        # Set time as index 
         self.data = self.data.astype({'time':int})
         self.data = self.data.set_index('time')
         
