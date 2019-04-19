@@ -255,6 +255,12 @@ class Data_Generator(object):
                         end_day_time   = '18:00:00'):
         '''Append occupancy schedules
         
+        Parameters
+        ----------
+        start_day_time: str
+            string in pandas date-time format with the starting time of the day
+        end_day_time: str
+            string in pandas date-time format with the ending time of the day
         '''
         
         self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
@@ -277,18 +283,42 @@ class Data_Generator(object):
         self.data['EmissionsBiomassPower']         = 0.
         self.data['EmissionsSolarThermalPower']    = 0.
     
-    def append_temperature_set_points(self):
+    def append_temperature_set_points(self,
+                                      start_day_time = '07:00:00',
+                                      end_day_time   = '18:00:00',
+                                      THeaOn=293.15,
+                                      THeaOff=285.15,
+                                      TCooOn=297.15,
+                                      TCooOff=303.15):
         '''Append the lower and upper temperature set points 
         that are used in the model to define the comfort range.
         These temperature set points are defined in Kelvins 
         and can vary over time but are fixed for a particular
         test case.
         
+        Parameters
+        ----------
+        start_day_time: str
+            string in pandas date-time format with the starting time of the day
+        end_day_time: str
+            string in pandas date-time format with the ending time of the day
+        THeaOn: float
+            Heating temperature set-point during the day time
+        THeaoff: float
+            Heating temperature set-point out of the day time
+        TCooOn: float
+            Cooling temperature set-point during the day time
+        TCoooff: float
+            Cooling temperature set-point out of the day time
         '''
         
-        self.data['LowerSetp'] = 273.15 + 22
-        self.data['UpperSetp'] = 273.15 + 23
-    
+        self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
+        
+        self.data.loc[self.data.index.isin(self.day_time_index),  'LowerSetp'] = THeaOn
+        self.data.loc[self.data.index.isin(self.day_time_index),  'UpperSetp'] = TCooOn
+        self.data.loc[~self.data.index.isin(self.day_time_index), 'LowerSetp'] = THeaOff
+        self.data.loc[~self.data.index.isin(self.day_time_index), 'UpperSetp'] = TCooOff
+        
     def save_data(self,data_file_name='test_case_data.csv'):
         '''Store the data in .csv format
         
@@ -339,9 +369,9 @@ class Data_Generator(object):
             
     
 if __name__ == "__main__":
-    os.environ['TESTCASE'] = 'testcase3'
+    os.environ['TESTCASE'] = 'testcase_CMZA'
     gen = Data_Generator()
-    gen.generate_data(weather_file_name='Uccle.TMY')
+    gen.generate_data(weather_file_name='USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos')
     
     
     
