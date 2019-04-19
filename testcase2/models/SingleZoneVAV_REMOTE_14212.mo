@@ -71,7 +71,6 @@ package SingleZoneVAV
           "Cooling setpoint")
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-
                         PPum(y(unit="W"), Description="Pump electrical power")
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
     IBPSA.Utilities.IO.SignalExchange.Read

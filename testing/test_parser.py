@@ -17,12 +17,12 @@ root_dir = utilities.get_root_path()
 model_path = 'SimpleRC'
 mo_path = os.path.join(root_dir,'parsing', 'SimpleRC.mo')
 # Define read and overwrite block instances in test model
-read_blocks = {'EHeat':{'Unit':'J'}, 
-               'PHeat':{'Unit':'W'}, 
-               'TZone':{'Unit':'K'}, 
-               'setZone':{'Unit':'K'}}
-overwrite_blocks = {'oveAct':{'Unit':'W'},
-                    'oveSet':{'Unit':'K'}}
+read_blocks = {'EHeat':{'Unit':'J', 'Description': 'Heater electrical energy'}, 
+               'PHeat':{'Unit':'W', 'Description': 'Heater electrical power'}, 
+               'TZone':{'Unit':'K', 'Description': 'Zone temperature'}, 
+               'setZone':{'Unit':'K', 'Description': 'Zone temperature setpoint'}}
+overwrite_blocks = {'oveAct':{'Unit':'W', 'Description': 'Heater thermal power'},
+                    'oveSet':{'Unit':'K', 'Description': 'Zone temperature setpoint'}}
 kpi1_outputs = ['PHeat_y', 'TZone_y']
 kpi2_outputs = ['EHeat_y', 'PHeat_y']
 
@@ -54,7 +54,9 @@ class ParseInstances(unittest.TestCase):
                     # Check each Read block instance is identified correctly
                     self.assertTrue(instance in read_blocks)
                     # Check that units are identified correctly
-                    self.assertTrue(instances[key][instance]['Unit'] is read_blocks[instance]['Unit'])
+                    self.assertTrue(instances[key][instance]['Unit'] == read_blocks[instance]['Unit'])
+                    # Check that description is identified correctly
+                    self.assertTrue(instances[key][instance]['Description'] == read_blocks[instance]['Description'])
             elif key is 'Overwrite':
                 # Check there are 2 Overwrite blocks
                 self.assertEqual(len(instances[key]),2)
@@ -62,7 +64,9 @@ class ParseInstances(unittest.TestCase):
                     # Check each Overwrite block instance is identified correctly
                     self.assertTrue(instance in overwrite_blocks)
                     # Check that units are identified correctly
-                    self.assertTrue(instances[key][instance]['Unit'] is overwrite_blocks[instance]['Unit'])
+                    self.assertTrue(instances[key][instance]['Unit'] == overwrite_blocks[instance]['Unit'])
+                    # Check that description are identified correctly
+                    self.assertTrue(instances[key][instance]['Description'] == overwrite_blocks[instance]['Description'])
             else:
                 # Check that only Read and Overwrite blocks are included
                 self.assertTrue(False,msg='Key {0} should not be in instances.'.format(key))

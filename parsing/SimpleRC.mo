@@ -33,22 +33,28 @@ model SimpleRC
     startTime=3600*24)
     annotation (Placement(transformation(extent={{-100,-30},{-80,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveSet(u(unit="K"))
+                           oveSet(u(unit="K"), Description=
+        "Zone temperature setpoint")
     annotation (Placement(transformation(extent={{-70,-30},{-50,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveAct(u(unit="W"))
+                           oveAct(u(unit="W"), Description=
+        "Heater thermal power")
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      TZone(KPIs="kpi1", y(unit="K"))
+                      TZone(KPIs="kpi1", y(unit="K"),
+    Description="Zone temperature")
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      EHeat(KPIs="kpi2", y(unit="J"))
+                      EHeat(KPIs="kpi2", y(unit="J"),
+    Description="Heater electrical energy")
     annotation (Placement(transformation(extent={{100,-110},{120,-90}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      PHeat(KPIs="kpi1,kpi2", y(unit="W"))
+                      PHeat(KPIs="kpi1,kpi2", y(unit="W"),
+    Description="Heater electrical power")
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      setZone(y(unit="K"))
+                      setZone(y(unit="K"), Description=
+        "Zone temperature setpoint")
     annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
 equation
   connect(res.port_b, cap.port)

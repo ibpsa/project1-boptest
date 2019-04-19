@@ -29,7 +29,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 Example RESTful interaction:
 
 - Receive a list of available measurement names and their metadata: ``$ curl http://127.0.0.1:5000/measurements``
-- Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"TSetRooHea":293.15,"TSetRooCoo":298.15}' -H "Content-Type: application/json"``
+- Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"``.  Leave an empty json to advance the simulation using the setpoints embedded in the model.
 
 | Interaction                                                    | Request                                                   |
 |----------------------------------------------------------------|-----------------------------------------------------------|

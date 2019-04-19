@@ -71,7 +71,18 @@ package SingleZoneVAV
           "Cooling setpoint")
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-
+<<<<<<< HEAD
+                        PPum(y(unit="W"), KPIs="power")
+      annotation (Placement(transformation(extent={{120,70},{140,90}})));
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        PCoo(y(unit="W"), KPIs="power")
+      annotation (Placement(transformation(extent={{140,90},{160,110}})));
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        PHea(y(unit="W"), KPIs="power")
+      annotation (Placement(transformation(extent={{120,110},{140,130}})));
+    IBPSA.Utilities.IO.SignalExchange.Read
+                        PFan(y(unit="W"), KPIs="power")
+=======
                         PPum(y(unit="W"), Description="Pump electrical power")
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
     IBPSA.Utilities.IO.SignalExchange.Read
@@ -83,6 +94,7 @@ package SingleZoneVAV
       annotation (Placement(transformation(extent={{120,110},{140,130}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         PFan(y(unit="W"), Description="Fan electrical power")
+>>>>>>> senhuang/master
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
     IBPSA.Utilities.IO.SignalExchange.Read TRooAir(KPIs="comfort",y(unit="K"),
       Description="Room air temperature")
