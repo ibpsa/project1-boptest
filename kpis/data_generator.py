@@ -211,9 +211,9 @@ class Data_Generator(object):
                              electricity_price_file_name = 'balancing_prices_belgium_2009.csv'):
         '''Append the energy prices for electricity and gas.
         There are three different scenarios considered for electricity:
-            1. price_static: completely constant price
-            2. price_dynamic: day/night tariff
-            3. price_highly_dynamic: spot price changing every 15 minutes
+            1. PriceElectricPowerConstant: completely constant price
+            2. PriceElectricPowerDynamic: day/night tariff
+            3. PriceElectricPowerHighlyDynamic: spot price changing every 15 minutes
             
         All prices are expressed in ($/euros)/Kw*h.
         
@@ -236,21 +236,31 @@ class Data_Generator(object):
         
         '''
         
-        self.data.loc[:,'price_electricity_constant'] = price_constant
+        self.data['PriceElectricPowerConstant'] = price_constant
         
         self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
         
-        self.data.loc[self.data.index.isin(self.day_time_index),  'price_electricity_dynamic'] = price_day
-        self.data.loc[~self.data.index.isin(self.day_time_index), 'price_electricity_dynamic'] = price_night
+        self.data.loc[self.data.index.isin(self.day_time_index),  'PriceElectricPowerDynamic'] = price_day
+        self.data.loc[~self.data.index.isin(self.day_time_index), 'PriceElectricPowerDynamic'] = price_night
         
-        self.data.loc[:,'price_electricity_highly_dynamic'] = price_constant
+        self.data['PriceElectricPowerHighlyDynamic'] = price_constant
         
-        self.data.loc[:,'price_gas'] = price_constant
+        self.data['PriceDistrictHeatingPower'] = 0.1
+        self.data['PriceGasPower']             = 0.07
+        self.data['PriceBiomassPower']         = 0.2
+        self.data['PriceSolarThermalPower']    = 0.
     
     def append_occupancy(self,
                         start_day_time = '07:00:00',
                         end_day_time   = '18:00:00'):
         '''Append occupancy schedules
+        
+        Parameters
+        ----------
+        start_day_time: str
+            string in pandas date-time format with the starting time of the day
+        end_day_time: str
+            string in pandas date-time format with the ending time of the day
         '''
         
         self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
@@ -267,21 +277,48 @@ class Data_Generator(object):
         of gas.
         '''
         
-        self.data['emission_factor_electricity'] = 0.5 
-        self.data['emission_factor_gas'] = 0.5 
+        self.data['EmissionsElectricPower']        = 0.5
+        self.data['EmissionsDistrictHeatingPower'] = 0.1
+        self.data['EmissionsGasPower']             = 0.2
+        self.data['EmissionsBiomassPower']         = 0.
+        self.data['EmissionsSolarThermalPower']    = 0.
     
-    def append_temperature_set_points(self):
+    def append_temperature_set_points(self,
+                                      start_day_time = '07:00:00',
+                                      end_day_time   = '18:00:00',
+                                      THeaOn=293.15,
+                                      THeaOff=285.15,
+                                      TCooOn=297.15,
+                                      TCooOff=303.15):
         '''Append the lower and upper temperature set points 
         that are used in the model to define the comfort range.
         These temperature set points are defined in Kelvins 
         and can vary over time but are fixed for a particular
         test case.
         
+        Parameters
+        ----------
+        start_day_time: str
+            string in pandas date-time format with the starting time of the day
+        end_day_time: str
+            string in pandas date-time format with the ending time of the day
+        THeaOn: float
+            Heating temperature set-point during the day time
+        THeaoff: float
+            Heating temperature set-point out of the day time
+        TCooOn: float
+            Cooling temperature set-point during the day time
+        TCoooff: float
+            Cooling temperature set-point out of the day time
         '''
         
-        self.data['T_set_lower'] = 273.15 + 20
-        self.data['T_set_upper'] = 273.15 + 25
-    
+        self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
+        
+        self.data.loc[self.data.index.isin(self.day_time_index),  'LowerSetp'] = THeaOn
+        self.data.loc[self.data.index.isin(self.day_time_index),  'UpperSetp'] = TCooOn
+        self.data.loc[~self.data.index.isin(self.day_time_index), 'LowerSetp'] = THeaOff
+        self.data.loc[~self.data.index.isin(self.day_time_index), 'UpperSetp'] = TCooOff
+        
     def save_data(self,data_file_name='test_case_data.csv'):
         '''Store the data in .csv format
         
@@ -296,8 +333,11 @@ class Data_Generator(object):
         data_file_path=os.path.join(os.path.join(os.path.join(\
                         self.case_path,'models'),'Resources'),data_file_name)
         
+        # Get rid of datetime as fmu do not understand that format
+        self.data.reset_index(drop=True, inplace=True)
+        
         # Save a copy of the csv within the Resources folder of the test case
-        self.data.to_csv(data_file_path, index_label='datetime')
+        self.data.to_csv(data_file_path, index=False)
         
         # Path of the fmu used by BOPTEST for this test case
         fmu_path = os.path.join(os.path.join(self.case_path,'models'),'wrapped.fmu')
@@ -310,7 +350,7 @@ class Data_Generator(object):
         z_fmu.close()
         
     def plot_data(self,
-                  to_plot=['TDryBul','HGloHor','price_electricity_dynamic']):
+                  to_plot=['TDryBul','HGloHor','PriceElectricPowerDynamic']):
         '''Plot the items of the data indicated in to_plot
         
         Parameters
@@ -329,9 +369,9 @@ class Data_Generator(object):
             
     
 if __name__ == "__main__":
-    os.environ['TESTCASE'] = 'testcase2'
+    os.environ['TESTCASE'] = 'testcase_CMZA'
     gen = Data_Generator()
-    gen.generate_data(weather_file_name='DRYCOLD.mos')
+    gen.generate_data(weather_file_name='USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos')
     
     
     

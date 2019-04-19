@@ -1,1 +1,1 @@
-{"energy": ["ETotHVAC_y"], "comfort": ["TRooAir_y"], "power": ["PCoo_y", "PFan_y", "PHea_y", "PPum_y"]}
+{"ZoneTemperature": ["TRooAir_y"], "ElectricPower": ["PCoo_y", "PFan_y", "PHea_y", "PPum_y"], "ElectricEnergy": ["ETotCoo_y", "ETotFan_y", "ETotHVAC_y", "ETotHea_y", "ETotPum_y"]}
