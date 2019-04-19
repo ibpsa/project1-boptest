@@ -133,7 +133,7 @@ class KPI_Calculator(object):
             
         if plot:
             self.plot_nested_pie(self.case.tdis_tree, metric='discomfort',
-                                 units='Kh')
+                                 units='Kh', breakdonut=False)
         
         return tdis_tot
     
@@ -438,7 +438,8 @@ class KPI_Calculator(object):
         return ppks
                             
                             
-    def get_dict_tree(self, dict_flat, sep='_'):
+    def get_dict_tree(self, dict_flat, sep='_',
+                      remove_null=True, merge_branches=True):
         '''This method creates a dictionary tree from a 
         flat dictionary. A dictionary tree is a nested
         dictionary where each element contains other
@@ -458,6 +459,15 @@ class KPI_Calculator(object):
         sep: string
             string that indicates different layers in 
             the keys of the original dictionary
+        remove_null: Boolean
+            True if we don't want to include the null
+            elements in the dictionary tree. These null
+            elements create problems when plotting the 
+            nested pie chart.
+        merge_branches: Boolean
+            Merge the branches where a key has only one value.
+            This resolves the problem of getting a plain 
+            dictionary with any key containing the 'sep'.
             
         Returns
         -------
@@ -470,6 +480,9 @@ class KPI_Calculator(object):
         
         # Initialize the dictionary tree
         dict_tree = OrderedDict()
+        # Remove the null elements from the flat dictionary
+        if remove_null:
+            dict_flat = self.remove_null_elements(dict_flat)
         # Each element of the flat dictionary is a branch of the tree
         for element in dict_flat.keys():
             # Create an auxiliary variable to go through the branches of the tree
@@ -486,8 +499,42 @@ class KPI_Calculator(object):
                 actual_layer = actual_layer[component]
             # If last component, assign the flat dictionary value
             actual_layer[components[-1]] = dict_flat[element]
-            
+        
+        if merge_branches:
+            dict_tree = self.merge_branches(dict_tree,sep=sep)
+        
         return dict_tree
+    
+    
+    def merge_branches(self, dictionary, sep='_'):
+        '''Merge the branches where a key has only one value.
+        This resolves the problem of getting a plain dictionary
+        with any key containing the 'sep' element.
+        
+        Parameters
+        ----------
+        dictionary: dict
+            dictionary for which we want to merge branches
+        sep: string
+            string used to merge the key and the value of the
+            elements of a dictionary in different layers
+            
+        Returns
+        -------
+        new_dict: dict
+            a new dictionary with the branches merged
+        '''
+        
+        for k,v in iteritems(dictionary):
+            if isinstance(v, dict):
+                if len(dictionary.keys())==1:
+                    for vkey in v.keys():
+                        dictionary[k+sep+vkey] = v[vkey]
+                    dictionary.pop(k)
+                 
+                self.merge_branches(v)
+                
+        return dictionary 
     
     
     def sum_dict(self, dictionary):
@@ -563,8 +610,32 @@ class KPI_Calculator(object):
                     n += self.count_elements(dictionary=dictionary[k])
                 except:
                     pass
+                
             return n
         
+        
+    def remove_null_elements(self, dictionary):
+        '''This methods removes the null elements of a 
+        plain dictionary
+        
+        Parameters
+        ----------
+        dictionary: dict
+            dictionary for which we want to remove the null elements 
+            
+        Returns
+        -------
+        new_dict: dict
+            a new dictionary without the null elements
+        '''
+        
+        new_dict = OrderedDict()
+        
+        for k,v in iteritems(dictionary):
+            if v!=0.: 
+                new_dict[k] = dictionary[k]
+        
+        return new_dict
         
     def parse_color_indexes(self, dictionary, min_index=0, max_index=260):
         '''This method parses the color indexes for a nested pie chart
@@ -655,8 +726,8 @@ class KPI_Calculator(object):
         for k_outer,v_outer in iteritems(dictionary):
             # Calculate the slice size of this component 
             vals.append(self.sum_dict(v_outer))
-            # Append the new label if not end point
-            last_key = k_outer.split('_')[-1]
+            # Append the new label if not end point (if not in dontlabel)
+            last_key = k_outer.split('__')[-1]
             label = last_key if not any(k_outer.startswith(dntlbl) \
                                         for dntlbl in dontlabel) else ''
             labels.append(label)
@@ -665,7 +736,7 @@ class KPI_Calculator(object):
                 # If it has, add them to the new dictionary
                 for k_inner,v_inner in iteritems(v_outer):
                     # Give a unique nested key name to it
-                    new_dict[k_outer+'_'+k_inner] = v_inner
+                    new_dict[k_outer+'__'+k_inner] = v_inner
             # Check if this component is already a float end point 
             elif isinstance(v_outer, float):
                 # If it is, add it to the new dictionary
@@ -682,7 +753,7 @@ class KPI_Calculator(object):
             # use of its radius 
             shift[i] = 0 if n==1 else 60*radius
             # Do not label this slice in the next layer if this was
-            # already an end point
+            # already an end point or a null slice
             if n==1: 
                 dontlabel.append(k_outer) 
             # Increase counter
@@ -707,6 +778,7 @@ class KPI_Calculator(object):
             self.plot_nested_pie(new_dict, ax, radius=radius-delta,
                                  dontlabel=dontlabel, metric=metric, 
                                  units=units)
+            
         # Don't continue nesting if all components were float end points 
         else:
             plt.title('Total {metric} = {value:.2f} {units}'.format(\
@@ -723,11 +795,12 @@ if __name__ == "__main__":
                 'Heating_pump_y':25.,
                 'Cooling_fan_y':80.,
                 'Heating_HP_fan_y':30.,
+                'Heating_HP_prueba_y':0.,
                 'Cooling_pump_y':80.,
-                'Lighting_floor1_zone1_lamp1_y':15.,
-                'Lighting_floor1_zone1_lamp2_y':23.,
-                'Lighting_floor1_zone2_y':87.,
-                'Lighting_floor2_y':37.}  
+                'Lighting_floor_1_zone1_lamp1_y':15.,
+                'Lighting_floor_1_zone1_lamp2_y':23.,
+                'Lighting_floor_1_zone2_y':87.,
+                'Lighting_floor_2_y':37.}  
     
     cal = KPI_Calculator(testcase=None)
     ene_tree = cal.get_dict_tree(ene_dict)
