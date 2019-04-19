@@ -14,6 +14,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import zipfile
+import platform
 
 class Data_Generator(object):
     '''
@@ -131,18 +132,22 @@ class Data_Generator(object):
             other classes could be created. 
         model_library: str
             String to library path. If empty it will look
-            for IBPSA library in modelicapath
+            for IBPSA library in MODELICAPATH
             
         '''
         
         if not model_library:
             # Try to find the IBPSA library
-            for p in os.environ['modelicapath'].split(';'):
+            if platform.system() == 'Linux':
+                sep = ':'
+            else:
+                sep = ';'
+            for p in os.environ['MODELICAPATH'].split(sep):
                 if os.path.isdir(os.path.join(p,'IBPSA')):
                     model_library = os.path.join(p,'IBPSA')
             # Raise error if ibpsa cannot be found
             if not model_library:
-                raise ValueError("Provide a valid model_library or point to IBPSA library in your MODELICAPATH")      
+                raise ValueError("Provide a valid model_library or point to IBPSA library in your MODELICAPATH")   
                   
         # Path to modelica model file
         model_file =  model_library
@@ -369,9 +374,9 @@ class Data_Generator(object):
             
     
 if __name__ == "__main__":
-    os.environ['TESTCASE'] = 'testcase_CMZA'
+    os.environ['TESTCASE'] = 'testcase2'
     gen = Data_Generator()
-    gen.generate_data(weather_file_name='USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos')
+    gen.generate_data(weather_file_name='DRYCOLD.mos')
     
     
     
