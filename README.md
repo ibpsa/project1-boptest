@@ -42,7 +42,7 @@ Example RESTful interaction:
 | Receive test result data                                       |  GET ``results``                                          |
 | Receive test KPIs                                              |  GET ``kpi``                                              |
 | Receive test case name                                         |  GET ``name``                                             |
-
+| Receive forecast						 						 |  GET ``forecasts``					     				 |
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
