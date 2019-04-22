@@ -35,4 +35,4 @@ Command: ``$ make test_parser``
 
 ## Other notes
 - ``utilities.py`` is used for common testing functions in Python.
-- Each test in the ``makefile`` generates its own test log called ``<test_name>.log``.  If running all tests with ``make test_all``, then ``report.py`` reads and summarizes all test logs, finally writing this summary in ``testing_report.txt``.
+- Each test in the ``makefile`` generates its own test log called ``<test_name>.log``.  If running all tests with ``$ make test_all``, then ``report.py`` reads and summarizes all test logs, finally writing this summary in ``testing_report.txt``.
