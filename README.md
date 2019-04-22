@@ -22,8 +22,8 @@ For Python based controllers:
 - in a separate terminal, use ``$ python examples/python/szvav_sup.py`` to test a simple supervisory controller on the testcase2 over a two-day period. 
 For Julia based controllers:
 - install docker compose based on the instruction from https://docs.docker.com/compose/install/, then
-- in a separate terminal, use ``$ Script=twoday-p docker-compose up`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
-- in a separate terminal, use ``$ Script=szvav-sup docker-compose up`` to test a simple supervisory controller on the testcase2 over a two-day period.
+- in a separate terminal, use ``$ cd examples/julia && Script=twoday-p docker-compose up`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
+- in a separate terminal, use ``$ cd examples/julia && Script=szvav-sup docker-compose up`` to test a simple supervisory controller on the testcase2 over a two-day period.
 - once the test is done, use ``docker-compose down`` to stop containers and removes containers, networks, volumes, and images created by ``docker-compose up``.
 
 5) Shutdown test case container by slecting container terminal window and ``Ctrl+C`` to close port, ``Ctrl+D`` to exit docker container.

@@ -2,8 +2,8 @@ version: '3'
 
 services:
   julia:
-    build: './julia'
+    build: './'
     volumes: 
-      - ./julia:/usr/myapp
+      - ./:/usr/myapp
     command: julia /usr/myapp/${Script}.jl
     network_mode: host
