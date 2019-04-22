@@ -9,7 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
-from examples import szvav_sup
+from examples.python import szvav_sup
 
 root_dir = utilities.get_root_path()
     

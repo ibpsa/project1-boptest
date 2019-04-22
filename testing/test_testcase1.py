@@ -9,7 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
-from examples import twoday_p
+from examples.python import twoday_p
 
 root_dir = utilities.get_root_path()
     

@@ -18,8 +18,8 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 4) Run an example controller test: 
 
 For Python based controllers:
-- in a separate terminal, use ``$ python examples/twoday-p.py`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
-- in a separate terminal, use ``$ python examples/szvav-sup.py`` to test a simple supervisory controller on the testcase2 over a two-day period. 
+- in a separate terminal, use ``$ python examples/python/twoday_p.py`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
+- in a separate terminal, use ``$ python examples/python/szvav_sup.py`` to test a simple supervisory controller on the testcase2 over a two-day period. 
 For Julia based controllers:
 - install docker compose based on the instruction from https://docs.docker.com/compose/install/, then
 - in a separate terminal, use ``$ Script=twoday-p docker-compose up`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
