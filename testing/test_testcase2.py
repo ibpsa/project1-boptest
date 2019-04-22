@@ -27,7 +27,7 @@ class ExampleSupervisoryPython(unittest.TestCase):
         pass
         
     def test_run(self):
-        '''Tests that Read and Overwrite blocks identified correctly.
+        '''Runs the example and tests the kpi and trajectory results.
         
         '''
         
@@ -70,7 +70,7 @@ class ExampleSupervisoryJulia(unittest.TestCase):
         pass
         
     def test_run(self):
-        '''Tests that Read and Overwrite blocks identified correctly.
+        '''Runs the example and tests the kpi and trajectory results.
         
         '''
         
