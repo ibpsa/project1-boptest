@@ -81,5 +81,8 @@ time = [x/3600 for x in res["y"]["time"]] # convert s --> hr
 TZone = [x-273.15 for x in res["y"]["TRooAir_y"]] # convert K --> C
 PHeat = res["y"]["PHea_y"]
 QHeat = res["u"]["oveAct_u"]
-tab=DataFrame([time,TZone],[:time,:TRooAir_y])
-CSV.write("result_testcase1.csv",tab)
+uAct = res["u"]["oveAct_activate"]
+tab_res=DataFrame([time,TZone,PHeat,QHeat,uAct],[:time,:TRooAir_y,:PHea_y,:oveAct_u,:oveAct_activate])
+CSV.write("result_testcase1.csv",tab_res)
+tab_kpi = DataFrame([[kpi["energy"]], [kpi["comfort"]]], [:energy, :comfort])
+CSV.write("kpi_testcase1.csv",tab_kpi)

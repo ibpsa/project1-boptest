@@ -89,3 +89,5 @@ PHea  = res["y"]["PHea_y"]
 PPum  = res["y"]["PPum_y"]
 tab=DataFrame([time,TRooAir,TSetRooHea,TSetRooCoo,PFan,PCoo,PHea,PPum],[:time,:TRooAir,:TSetRooHea,:TSetRooCoo,:PFan,:PCoo,:PHea,:PPum])
 CSV.write("result_testcase2.csv",tab)
+tab_kpi = DataFrame([[kpi["energy"]], [kpi["comfort"]]], [:energy, :comfort])
+CSV.write("kpi_testcase2.csv",tab_kpi)
