@@ -7,3 +7,6 @@ dsmodel.c
 *.err
 *.csv
 testcase2/doc/build/
+parser/*.fmu
+parser/*.mo
+parser/*.json

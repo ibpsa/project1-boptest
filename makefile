@@ -2,11 +2,9 @@ IMG_NAME=boptest_${TESTCASE}
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
-	  --detach=false \
 	  --rm \
-	  -i -t \
-	  -p 127.0.0.1:5000:5000 \
-	  ${IMG_NAME} /bin/bash -c
+ 	  -it \
+	  -p 127.0.0.1:5000:5000
 
 build:
 	docker build --build-arg testcase=${TESTCASE} --no-cache --rm -t ${IMG_NAME} .
@@ -15,5 +13,13 @@ remove-image:
 	docker rmi ${IMG_NAME}
 
 run:
-	$(COMMAND_RUN) \
-            "python restapi.py && bash"
+	$(COMMAND_RUN) --detach=false ${IMG_NAME} /bin/bash -c "python restapi.py && bash"
+
+run-detached:
+	$(COMMAND_RUN) --detach=true ${IMG_NAME} /bin/bash -c "python restapi.py && bash" \
+	&& sleep 3
+
+stop:
+	docker stop ${IMG_NAME}
+
+	

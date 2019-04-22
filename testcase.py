@@ -10,6 +10,8 @@ from pyfmi import load_fmu
 import numpy as np
 import copy
 import config
+import json
+from scipy.integrate import trapz
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -26,21 +28,29 @@ class TestCase(object):
         # Define simulation model
         self.fmupath = con['fmupath']
         # Load fmu
-        self.fmu = load_fmu(self.fmupath)
-        # Get version
+        self.fmu = load_fmu(self.fmupath, enable_logging=True)
+        # Get version and check is 2.0
         self.fmu_version = self.fmu.get_version()
-        # Get available control inputs and outputs
-        if self.fmu_version == '2.0':
-            input_names = self.fmu.get_model_variables(causality = 2).keys()
-            output_names = self.fmu.get_model_variables(causality = 3).keys()
-        else:
+        if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
-        # Define measurements
+        # Get available control inputs and outputs
+        input_names = self.fmu.get_model_variables(causality = 2).keys()
+        output_names = self.fmu.get_model_variables(causality = 3).keys()
+        # Get input and output meta-data
+        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names)
+        self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
+        # Define KPIs
+        self.kpipath = con['kpipath']
+        # Load kpi json
+        with open(self.kpipath, 'r') as f:
+            json_str = f.read()
+            self.kpi_json = json.loads(json_str)
+        # Define outputs data
         self.y = {'time':[]}
         for key in output_names:
             self.y[key] = []
         self.y_store = copy.deepcopy(self.y)
-        # Define inputs
+        # Define inputs data
         self.u = {'time':[]}
         for key in input_names:
             self.u[key] = []
@@ -74,16 +84,30 @@ class TestCase(object):
         
         # Set final time
         self.final_time = self.start_time + self.step
-        # Set control inputs if they exist
+        # Set control inputs if they exist and are written
+        # Check if possible to overwrite
         if u.keys():
-            u_list = []
-            u_trajectory = self.start_time
+            # If there are overwriting keys available
+            # Check that any are overwritten
+            written = False
             for key in u.keys():
-                if key != 'time':
-                    value = float(u[key])
-                    u_list.append(key)
-                    u_trajectory = np.vstack((u_trajectory, value))
-            input_object = (u_list, np.transpose(u_trajectory))
+                if u[key]:
+                    written = True
+                    break
+            # If there are, create input object
+            if written:
+                u_list = []
+                u_trajectory = self.start_time
+                for key in u.keys():
+                    if key != 'time' and u[key]:
+                        value = float(u[key])
+                        u_list.append(key)
+                        u_trajectory = np.vstack((u_trajectory, value))
+                input_object = (u_list, np.transpose(u_trajectory))
+            # Otherwise, input object is None
+            else:
+                input_object = None    
+        # Otherwise, input object is None
         else:
             input_object = None
         # Simulate
@@ -137,7 +161,7 @@ class TestCase(object):
         return None
         
     def get_inputs(self):
-        '''Returns a list of control input names.
+        '''Returns a dictionary of control inputs and their meta-data.
         
         Parameters
         ----------
@@ -145,17 +169,17 @@ class TestCase(object):
         
         Returns
         -------
-        inputs : list
-            List of control input names.
+        inputs : dict
+            Dictionary of control inputs and their meta-data.
             
         '''
 
-        inputs = self.u.keys()
+        inputs = self.inputs_metadata
         
         return inputs
         
     def get_measurements(self):
-        '''Returns a list of measurement names.
+        '''Returns a dictionary of measurements and their meta-data.
         
         Parameters
         ----------
@@ -163,12 +187,12 @@ class TestCase(object):
         
         Returns
         -------
-        measurements : list
-            List of measurement names.
+        measurements : dict
+            Dictionary of measurements and their meta-data.
             
         '''
 
-        measurements = self.y.keys()
+        measurements = self.outputs_metadata
         
         return measurements
         
@@ -204,18 +228,38 @@ class TestCase(object):
         None
         
         Returns
-        kpi : dict
+        kpis : dict
             Dictionary containing KPI names and values.
             {<kpi_name>:<kpi_value>}
         
         '''
         
-        kpi = dict()
-        # Energy
-        kpi['Heating Energy'] = self.y_store['ETotHea_y'][-1]
-        # Comfort
+        kpis = dict()
+        # Calculate each KPI using json for signalsand save in dictionary
+        for kpi in self.kpi_json.keys():
+            print(kpi, type(kpi))
+            if kpi == 'energy':
+                # Calculate total energy [KWh - assumes measured in J]
+                E = 0
+                for signal in self.kpi_json[kpi]:
+                    E = E + self.y_store[signal][-1]
+                # Store result in dictionary
+                kpis[kpi] = E*2.77778e-7 # Convert to kWh
+            elif kpi == 'comfort':
+                # Calculate total discomfort [K-h = assumes measured in K]
+                tot_dis = 0
+                heat_setpoint = 273.15+20
+                for signal in self.kpi_json[kpi]:
+                    data = np.array(self.y_store[signal])
+                    dT_heating = heat_setpoint - data
+                    dT_heating[dT_heating<0]=0
+                    tot_dis = tot_dis + trapz(dT_heating,self.y_store['time'])/3600
+                # Store result in dictionary
+                kpis[kpi] = tot_dis
+            else:
+                print('No calculation for KPI named "{0}".'.format(kpi))
 
-        return kpi
+        return kpis
         
     def get_name(self):
         '''Returns the name of the test case fmu.
@@ -234,3 +278,42 @@ class TestCase(object):
         name = self.fmupath[7:-4]
         
         return name
+        
+    def _get_var_metadata(self, fmu, var_list):
+        '''Build a dictionary of variables and their metadata.
+        
+        Parameters
+        ----------
+        fmu : pyfmi fmu object
+            FMU from which to get variable metadata
+        var_list : list of str
+            List of variable names
+            
+        Returns
+        -------
+        var_metadata : dict
+            Dictionary of variable names as keys and metadata as fields.
+            {<var_name> :
+                "Unit" : <units_str>
+            }
+            
+        '''
+        
+        # Inititalize
+        var_metadata = dict()
+        # Get metadata        
+        for var in var_list:
+            # Units
+            if var == 'time':
+                unit = 's'
+                description = 'Time of simulation'
+            elif '_activate' in var:
+                unit = None
+                description = fmu.get_variable_description(var)
+            else:
+                unit = fmu.get_variable_unit(var)
+                description = fmu.get_variable_description(var)
+            var_metadata[var] = {'Unit':unit,
+                                 'Description':description}
+
+        return var_metadata
