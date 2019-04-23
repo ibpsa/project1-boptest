@@ -6,6 +6,9 @@ test_testcase1:
 	# Deploy testcase container
 	cd .. && TESTCASE=testcase1 make run-detached && sleep 3
 	# Run testcase tests
+	# Julia
+	cd ../examples/julia && Script=twoday_p docker-compose up
+	# Python and checks
 	python test_testcase1.py
 	# Stop testcase container
 	cd .. && TESTCASE=testcase1 make stop
@@ -20,6 +23,9 @@ test_testcase2:
 	# Deploy testcase container
 	cd .. && TESTCASE=testcase2 make run-detached && sleep 3
 	# Run testcase tests
+	# Julia
+	cd ../examples/julia && Script=szvav_sup docker-compose up
+	# Python and checks
 	python test_testcase2.py
 	# Stop testcase container
 	cd .. && TESTCASE=testcase2 make stop
