@@ -329,7 +329,7 @@ class TestCase(object):
             Type of data to retrieve from the test case.
             If None it will return all available data in the
             file without filtering it by any category. 
-            Possible options are 'weather', 'price',
+            Possible options are 'weather', 'prices',
             'emissions', 'occupancy', 'setpoints'
         data_file_name : string
             Name of the data file from where the data is 
@@ -435,10 +435,10 @@ class TestCase(object):
         # Save the categories within a dictionary:
         self.categories = {}
         self.categories['weather']   = self.weather_keys
-        self.categories['price']     = self.price_keys
+        self.categories['prices']     = self.price_keys
         self.categories['emissions']  = self.emissions_keys
         self.categories['occupancy'] = self.occupancy_keys
-        self.categories['setpoint']  = self.setpoint_keys
+        self.categories['setpoints']  = self.setpoint_keys
         
         # Point to the fmu zip file
         z_fmu = zipfile.ZipFile(self.fmupath, 'r')
@@ -492,12 +492,12 @@ class TestCase(object):
             Instance with the attributes of a previously 
             deployed test case
         '''
-        
-        self.fmu = load_fmu(self.fmupath)
 
         tc = pickle.load(file(file_name, 'rb'))
         for k,v in tc.__dict__.iteritems():
             self.__dict__[k] = v
+            
+        self.fmu = load_fmu(self.fmupath)
 
         return self   
         
