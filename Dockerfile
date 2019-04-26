@@ -26,4 +26,5 @@ COPY ${testcase}/config.py ./
 COPY restapi.py ./
 COPY testcase.py ./
 
+COPY kpis kpis/
 
