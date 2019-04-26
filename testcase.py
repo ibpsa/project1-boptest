@@ -12,6 +12,7 @@ import copy
 import config
 import json
 from scipy.integrate import trapz
+from forecast.forecaster import Forecaster
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -260,6 +261,40 @@ class TestCase(object):
                 print('No calculation for KPI named "{0}".'.format(kpi))
 
         return kpis
+    def get_forecast(self,horizon=24*3600, category=None, plot=False):
+        '''Returns forecast of the test case data
+        
+        Parameters
+        ----------
+        horizon : int
+            Length of the requested forecast in seconds 
+        category : string (optional)
+            Type of data to retrieve from the test case.
+            If None it will return all available test case
+            data without filtering it by any category. 
+            Possible options are 'weather', 'prices',
+            'emissions', 'occupancy', 'setpoints'
+        plot : boolean
+            True if desired to plot the forecast
+            
+        Returns
+        -------
+        forecast: dict 
+            Dictionary with the requested forecast data
+            {<variable_name>:<variable_forecast_trajectory>}
+        
+        '''
+        
+        # Instantiate a forecaster for the test case
+        if not hasattr(self, 'forecaster'):
+            self.forecaster = Forecaster(self)
+        
+        # Get the forecast
+        forecast = self.forecaster.get_forecast(horizon=horizon,
+                                                category=category,
+                                                plot=plot)
+        
+        return forecast
         
     def get_name(self):
         '''Returns the name of the test case fmu.
