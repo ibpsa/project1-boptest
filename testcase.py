@@ -39,12 +39,6 @@ class TestCase(object):
         # Get input and output meta-data
         self.inputs_metadata = self._get_var_metadata(self.fmu, input_names)
         self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
-        # Define KPIs
-        self.kpipath = con['kpipath']
-        # Load kpi json
-        with open(self.kpipath, 'r') as f:
-            json_str = f.read()
-            self.kpi_json = json.loads(json_str)
         # Define outputs data
         self.y = {'time':[]}
         for key in output_names:
