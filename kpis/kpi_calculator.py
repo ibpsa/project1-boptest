@@ -1,25 +1,25 @@
-# -*- coding: utf-8 -*-
 '''
-This class includes the basic functions for processing the results 
-for BOPTEST simulations and generating the corresponding key performance 
-indicators.
+Created on Apr 25, 2019
+
+@author: Javier Arroyo
+
+This module contains the KPI_Calculator class with methods for processing 
+the results of BOPTEST simulations and generating the corresponding key 
+performance indicators.
 
 '''
-# GENERAL PACKAGE IMPORT
-# ----------------------
+
 import matplotlib.pyplot as plt
 import numpy as np
-from alias import alias, aliased
 from scipy.integrate import trapz
 from flask._compat import iteritems
 from collections import OrderedDict
+from data.data_manager import Data_Manager
 
-
-@aliased
 class KPI_Calculator(object):
     '''This class calculates the KPIs as a post-process after 
     a test is complete. Upon deployment of the test case, 
-    the module first uses the KPI JSON (kpis.json) to 
+    the module first uses the KPI JSON file to 
     associate model output names with the appropriate KPIs 
     through the specified KPI annotations. Upon called to 
     do so, the module is able to calculate and return the 
@@ -30,11 +30,7 @@ class KPI_Calculator(object):
     test cases. This class also supports other methods for
     evaluation, plotting and post-processing of an already
     deployed test case.  
-    This class is able to handle multiple test cases to
-    enable an easier comparison between them. The test 
-    cases handled by the class are stored in the 
-    self.cases dictionary. 
-
+    
     ''' 
 
     def __init__(self, testcase):
@@ -49,7 +45,12 @@ class KPI_Calculator(object):
         
         '''
         
+        # Point to the test case object
         self.case = testcase
+        
+        # Instantiate a data_manager if not instantiated yet
+        if not hasattr(self.case, 'data_manager'):
+            self.case.data_manager = Data_Manager(self.case)
         
         # Naming convention from the signal exchange package of IBPSA
         self.sources = ['AirZoneTemperature',
@@ -64,8 +65,6 @@ class KPI_Calculator(object):
                         'SolarThermalPower', 
                         'FreshWaterFlowRate']
     
-    
-    @alias('ckpi')
     def get_core_kpis(self):
         '''Return the core KPIs of a test case.
         
@@ -87,8 +86,6 @@ class KPI_Calculator(object):
         
         return ckpi
         
-    
-    @alias('tdis')
     def get_thermal_discomfort(self, plot=False):
         '''The thermal discomfort is the integral of the deviation 
         of the temperature with respect to the predefined comfort 
@@ -108,9 +105,10 @@ class KPI_Calculator(object):
         '''
         
         # Load temperature set points from test case data
-        LowerSetp = np.array(self.case.get_forecast(index=self.case.y_store['time'])
+        index=self.case.y_store['time']
+        LowerSetp = np.array(self.case.data_manager.get_data(index=index)
                              ['LowerSetp'])
-        UpperSetp = np.array(self.case.get_forecast(index=self.case.y_store['time'])
+        UpperSetp = np.array(self.case.data_manager.get_data(index=index)
                              ['UpperSetp']) 
         tdis_tot = 0
         tdis_dict = OrderedDict()
@@ -137,8 +135,6 @@ class KPI_Calculator(object):
         
         return tdis_tot
     
-
-    @alias('ener')
     def get_energy(self, plot=False, plot_by_source=False):
         '''This method returns the measure of the total building 
         energy use in kW*h when accounting for the sum of all 
@@ -196,7 +192,6 @@ class KPI_Calculator(object):
         
         return ener_tot
     
-    @alias('cost')
     def get_cost(self, scenario='Constant', plot=False,
                  plot_by_source=False):
         '''This method returns the measure of the total building operational
@@ -229,6 +224,8 @@ class KPI_Calculator(object):
         cost_dict = OrderedDict()
         # Dictionary to store operational cost by source 
         cost_dict_by_source = OrderedDict()
+        # Define time index
+        index=self.case.y_store['time']
         
         for source in self.sources:
             
@@ -237,7 +234,7 @@ class KPI_Calculator(object):
             source in self.case.kpi_json.keys(): 
                 # Load the electricity price data of this scenario    
                 electricity_price_data = \
-                np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                np.array(self.case.data_manager.get_data(index=index)\
                          ['Price'+source+scenario])       
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self.case.y_store[signal])
@@ -253,7 +250,7 @@ class KPI_Calculator(object):
             source in self.case.kpi_json.keys(): 
                 # Load the source price data
                 source_price_data = \
-                np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                np.array(self.case.data_manager.get_data(index=index)\
                          ['Price'+source])            
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self.case.y_store[signal])
@@ -269,7 +266,7 @@ class KPI_Calculator(object):
             source in self.case.kpi_json.keys(): 
                 # load the source price data
                 source_price_data = \
-                np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                np.array(self.case.data_manager.get_data(index=index)\
                          ['Price'+source])            
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self.case.y_store[signal])
@@ -296,7 +293,6 @@ class KPI_Calculator(object):
          
         return cost_tot
 
-    @alias('emis')
     def get_emissions(self, plot=False, plot_by_source=False):
         '''This method returns the measure of the total building 
         emissions in kgCO2 when accounting for the sum of all 
@@ -322,6 +318,8 @@ class KPI_Calculator(object):
         emis_dict = OrderedDict()
         # Dictionary to store emissions by source 
         emis_dict_by_source = OrderedDict()
+        # Define time index
+        index=self.case.y_store['time']
         
         for source in self.sources:
             
@@ -329,7 +327,7 @@ class KPI_Calculator(object):
             if 'Power' in source  and \
             source in self.case.kpi_json.keys(): 
                 source_emissions_data = \
-                np.array(self.case.get_forecast(index=self.case.y_store['time'])\
+                np.array(self.case.data_manager.get_data(index=index)\
                          ['Emissions'+source])            
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self.case.y_store[signal])
@@ -356,7 +354,6 @@ class KPI_Calculator(object):
          
         return emis_tot
 
-    @alias('time')
     def get_computational_time_ratio(self, plot=False):
         '''Obtain the computational time ratio as the ratio between 
         the average of the elapsed control time and the test case 
@@ -397,7 +394,6 @@ class KPI_Calculator(object):
             
         return time_rat
 
-    @alias('ldfs')
     def get_load_factors(self):
         '''Calculate the load factor for every power signal
         
@@ -419,8 +415,6 @@ class KPI_Calculator(object):
     
         return ldfs
 
-    
-    @alias('ppks')
     def get_power_peaks(self):
         '''Calculate the power peak for every power signal
         
@@ -436,7 +430,6 @@ class KPI_Calculator(object):
         self.case.ppks = ppks
             
         return ppks
-                            
                             
     def get_dict_tree(self, dict_flat, sep='_',
                       remove_null=True, merge_branches=True):
@@ -505,7 +498,6 @@ class KPI_Calculator(object):
         
         return dict_tree
     
-    
     def merge_branches(self, dictionary, sep='_'):
         '''Merge the branches where a key has only one value.
         This resolves the problem of getting a plain dictionary
@@ -535,7 +527,6 @@ class KPI_Calculator(object):
                 self.merge_branches(v)
                 
         return dictionary 
-    
     
     def sum_dict(self, dictionary):
         '''This method returns the sum of all values within a 
@@ -574,7 +565,6 @@ class KPI_Calculator(object):
                 
             return val
     
-    
     def count_elements(self, dictionary):
         '''This methods counts the number of end points in 
         a nested dictionary. An end point is considered
@@ -612,7 +602,6 @@ class KPI_Calculator(object):
                     pass
                 
             return n
-        
         
     def remove_null_elements(self, dictionary):
         '''This methods removes the null elements of a 
@@ -665,8 +654,6 @@ class KPI_Calculator(object):
         
         return np.linspace(min_index, max_index, n+1).astype(int)
         
-        
-    @alias('pie')
     def plot_nested_pie(self, dictionary, ax=None, radius=1., delta=0.2,
                         dontlabel=None, breakdonut=True, 
                         metric = 'energy use', units = 'kW*h'):
@@ -700,6 +687,7 @@ class KPI_Calculator(object):
         units: string
             indicates the units used for the metric. Notice that
             this is only used for the title of the plot
+            
         '''
         
         # Initialize the pie plot if not initialized yet
@@ -787,7 +775,6 @@ class KPI_Calculator(object):
             ax.axis('equal')
             plt.show()
             
-            
 if __name__ == "__main__":
     '''Nested pie chart example'''
     ene_dict = {'Heating_damper_y':50.,
@@ -804,4 +791,5 @@ if __name__ == "__main__":
     
     cal = KPI_Calculator(testcase=None)
     ene_tree = cal.get_dict_tree(ene_dict)
-    cal.pie(ene_tree)
+    cal.plot_nested_pie(ene_tree)
+    

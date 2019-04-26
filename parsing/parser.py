@@ -8,6 +8,7 @@ The steps are:
 read any associated KPIs, units, and descriptions.
 3) Write Modelica wrapper around instantiated model and associated KPI list.
 4) Export as wrapper FMU and save KPI json.
+5) Generate test case data and save it within wrapper FMU.
 
 """
 
@@ -15,6 +16,7 @@ from pyfmi import load_fmu
 from pymodelica import compile_fmu
 import os
 import json
+from data.data_generator import Data_Generator
 
 def parse_instances(model_path, file_name):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -180,11 +182,15 @@ def export_fmu(model_path, file_name):
     # Get signal exchange instances and kpis
     instances, kpis = parse_instances(model_path, file_name)
     # Write wrapper and export as fmu
-    fmu_path, wrapped_path = write_wrapper(model_path, file_name, instances)
+    fmu_path, _ = write_wrapper(model_path, file_name, instances)
     # Write kpi json
     kpi_path = os.path.join(os.getcwd(), 'kpis.json')
     with open(kpi_path, 'w') as f:
         json.dump(kpis, f)
+    # Generate test case data
+    gen = Data_Generator(fmu_path=fmu_path)
+    gen.generate_data()
+    gen.save_data()
     
     return fmu_path, kpi_path
 

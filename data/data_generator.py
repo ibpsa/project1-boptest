@@ -1,17 +1,19 @@
-# -*- coding: utf-8 -*-
 '''
-This class includes the basic functions generating a data 
-.csv file of a test case containing weather data, price 
-profiles, internal gains, emission factors and temperature
-set points.
+Created on Apr 25, 2019
+
+@author: Javier Arroyo
+
+This module contains the Data_Generator class with methods to gather
+data within .csv files for a test case. A test case data-set must
+include: weather data, price profiles, occupancy schedules, emission 
+factors and temperature set points for a whole year.
 
 '''
-# GENERAL PACKAGE IMPORT
-# ----------------------
+
 from pymodelica import compile_fmu
 from pyfmi import load_fmu
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 import os
 import zipfile
 import platform
@@ -33,6 +35,8 @@ class Data_Generator(object):
     '''
     
     def __init__(self,
+                 fmu_path=None,
+                 data_file_name='test_case_data.csv',
                  start_time="20090101 00:00:00",
                  final_time="20091231 23:00:00",
                  period=900):
@@ -40,6 +44,10 @@ class Data_Generator(object):
         
         Parameters
         ----------
+        fmu_path : str
+            Path to the fmu where the data is to be saved
+        data_file_name: string
+            Name that will be used to store the data
         start_time: string
             Pandas date-time indicating the starting 
             time of the data frame.
@@ -48,8 +56,6 @@ class Data_Generator(object):
             of the data frame.
         period: integer
             Number of seconds of the sampling time.
-            It should be kept to 900 as that is 
-            normally the convention for spot prices.
         
         '''
         
@@ -67,15 +73,62 @@ class Data_Generator(object):
         time = time_since_epoch - time_since_epoch[0]  
         self.data['time'] = time
         
-        # Test case folder from kpis folder
-        self.case_path = os.path.join(\
-            os.path.split(os.path.split(os.path.abspath(__file__))[0])[0], # BOPTEST main path
-            os.environ['TESTCASE'])
-        print(self.case_path)
-    
-    def generate_data(self,
-                      weather_file_name='DRYCOLD.mos',
-                      electricity_price_file_name='balancing_prices_belgium_2009.csv'):
+        # Path of the fmu used by BOPTEST for this test case
+        if fmu_path is None:
+            # If fmu_path not provided look for it using the test case 
+            # environmental variable
+            case_dir = os.path.join(\
+                # BOPTEST main path
+                os.path.split(os.path.split(os.path.abspath(__file__))[0])[0], 
+                os.environ['TESTCASE'])
+            
+            self.fmu_path = os.path.join(os.path.join(case_dir,
+                                         'models'),'wrapped.fmu')            
+        
+        else:
+            self.fmu_path  = fmu_path
+            case_dir = os.path.split(os.path.split(os.path.abspath(fmu_path))[0])[0]
+        
+        # Path to resources directory
+        resources_dir = os.path.join(os.path.join(\
+            case_dir,'models'),'Resources')
+        
+        # Path to data file within the Resources folder of the test case
+        self.data_file_name = data_file_name
+        self.data_file_path=os.path.join(resources_dir, data_file_name)
+        
+        # Path to kpis.json file
+        self.kpi_path = os.path.join(os.path.join(\
+            case_dir,'models'),'kpis.json')
+        
+        # Find all files within resources folder
+        self.files = []
+        weather_files = []
+        for root, _, files in os.walk(resources_dir):
+            for f in files:
+                self.files.append(f)   
+                if f.endswith('.mos') or f.endswith('.TMY'):
+                    weather_files.append(f)
+                    self.weather_dir = root
+                
+        # Find the weather file name
+        if len(weather_files)>1:
+            raise ReferenceError('There cannot be more than one weather '\
+                                 'file within the Resources folder of the '\
+                                 'test case.')
+        elif len(weather_files)==0:
+            raise ReferenceError('Please provide the .mos or .TMY file of '\
+                                 'the test case within the resources folder')
+        else:
+            self.weather_file_name = weather_files[0] 
+        
+        # Find separator for environmental variables depending on OS
+        if platform.system() == 'Linux':
+            self.sep = ':'
+        else:
+            self.sep = ';'
+         
+    def generate_data(self):
         '''This method appends the weather data, the
         energy prices, the emission factors, the
         internal gains and the temperature set 
@@ -85,34 +138,22 @@ class Data_Generator(object):
         case and within the resources folder of 
         the wrapped.fmu of this test case.
         
-        Parameters
-        ----------
-        weather_file_name: string
-            Name of the .mos file containing the 
-            raw weather data. This file should be
-            located within the Resources\\weatherdata
-            folder of the test case.
-        electricity_price_file_name: string
-            path to location with the highly dynamic price profile
         '''
         
-        self.append_weather_data(weather_file_name=weather_file_name)
-        self.append_energy_prices(electricity_price_file_name=electricity_price_file_name)
+        self.append_weather_data()
+        self.append_energy_prices()
         self.append_emission_factors()
         self.append_occupancy()
         self.append_temperature_set_points()
-        self.save_data()
-        self.plot_data()
         
         return self.data
     
     def append_weather_data(self,
-                            weather_file_name='DRYCOLD.mos',
                             model_class='IBPSA.BoundaryConditions.WeatherData.ReaderTMY3',
                             model_library=None):
         '''Append the weather data to the data frame 
         of this class. This method reads the data 
-        from a .mos file and applies a transformation 
+        from a .mos or .TMY file and applies a transformation 
         carried out by the ReaderTMY3 model of the 
         IBPSA library. The user could provide any other
         reader model but should then make sure that
@@ -120,11 +161,6 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        weather_file_name: str
-            Name of the .mos file containing the 
-            raw weather data. This file should be
-            located within the Resources\\weatherdata
-            folder of the test case.
         model_class: str
             Name of the model class that is going to be
             used to pre-process the weather data. This is 
@@ -138,26 +174,24 @@ class Data_Generator(object):
         
         if not model_library:
             # Try to find the IBPSA library
-            if platform.system() == 'Linux':
-                sep = ':'
-            else:
-                sep = ';'
-            for p in os.environ['MODELICAPATH'].split(sep):
+            for p in os.environ['MODELICAPATH'].split(self.sep):
                 if os.path.isdir(os.path.join(p,'IBPSA')):
                     model_library = os.path.join(p,'IBPSA')
-            # Raise error if ibpsa cannot be found
+            # Raise an error if ibpsa cannot be found
             if not model_library:
-                raise ValueError("Provide a valid model_library or point to IBPSA library in your MODELICAPATH")   
+                raise ValueError('Provide a valid model_library or point '\
+                                 'to the IBPSA library in your MODELICAPATH')   
                   
-        # Path to modelica model file
+        # Path to modelica reader model file
         model_file =  model_library
         for f in model_class.split('.')[1:]:
             model_file = os.path.join(model_file,f)
         model_file = model_file+'.mo'
-        
+                        
         # Edit the class to load the weather_file_name before compilation
         str_old = 'filNam=""'
-        str_new = 'filNam=Modelica.Utilities.Files.loadResource("{0}")'.format(weather_file_name)
+        str_new = 'filNam=Modelica.Utilities.Files.loadResource("{0}")'\
+                  .format(self.weather_file_name)
         
         with open(model_file) as f:
             newText=f.read().replace(str_old, str_new)
@@ -165,13 +199,9 @@ class Data_Generator(object):
         with open(model_file, "w") as f:
             f.write(newText)
         
-        # Directory to weather file
-        weather_file_directory = os.path.join(os.path.join(os.path.join(\
-            self.case_path,'models'),'Resources'),'weatherdata')
-        
-        # Change to weather file directory
+        # Change to resources directory
         currdir = os.curdir
-        os.chdir(weather_file_directory)
+        os.chdir(self.weather_dir)
         
         # Compile the ReaderTMY3 from IBPSA using JModelica
         fmu_path = compile_fmu(model_class, model_library)
@@ -212,13 +242,12 @@ class Data_Generator(object):
                              price_day = 0.3,
                              price_night = 0.1,
                              start_day_time = '08:00:00',
-                             end_day_time = '17:00:00',
-                             electricity_price_file_name = 'balancing_prices_belgium_2009.csv'):
+                             end_day_time = '17:00:00'):
         '''Append the energy prices for electricity and gas.
         There are three different scenarios considered for electricity:
             1. PriceElectricPowerConstant: completely constant price
             2. PriceElectricPowerDynamic: day/night tariff
-            3. PriceElectricPowerHighlyDynamic: spot price changing every 15 minutes
+            3. PriceElectricPowerHighlyDynamic: spot price 
             
         All prices are expressed in ($/euros)/Kw*h.
         
@@ -243,10 +272,13 @@ class Data_Generator(object):
         
         self.data['PriceElectricPowerConstant'] = price_constant
         
-        self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
+        self.day_time_index = self.data.between_time(start_day_time, 
+                                                     end_day_time).index
         
-        self.data.loc[self.data.index.isin(self.day_time_index),  'PriceElectricPowerDynamic'] = price_day
-        self.data.loc[~self.data.index.isin(self.day_time_index), 'PriceElectricPowerDynamic'] = price_night
+        self.data.loc[self.data.index.isin(self.day_time_index),  
+                      'PriceElectricPowerDynamic'] = price_day
+        self.data.loc[~self.data.index.isin(self.day_time_index), 
+                      'PriceElectricPowerDynamic'] = price_night
         
         self.data['PriceElectricPowerHighlyDynamic'] = price_constant
         
@@ -263,15 +295,18 @@ class Data_Generator(object):
         Parameters
         ----------
         start_day_time: str
-            string in pandas date-time format with the starting time of the day
+            string in pandas date-time format with the starting day time
         end_day_time: str
-            string in pandas date-time format with the ending time of the day
+            string in pandas date-time format with the ending day time
         '''
         
-        self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
+        self.day_time_index = self.data.between_time(start_day_time, 
+                                                     end_day_time).index
 
-        self.data.loc[self.data.index.isin(self.day_time_index),  'occupancy'] = 1
-        self.data.loc[~self.data.index.isin(self.day_time_index), 'occupancy'] = 0
+        self.data.loc[self.data.index.isin(self.day_time_index),  
+                      'occupancy'] = 1
+        self.data.loc[~self.data.index.isin(self.day_time_index), 
+                      'occupancy'] = 0
     
     def append_emission_factors(self):
         '''Append the emission factors for every possible 
@@ -304,9 +339,9 @@ class Data_Generator(object):
         Parameters
         ----------
         start_day_time: str
-            string in pandas date-time format with the starting time of the day
+            string in pandas date-time format with the starting day time
         end_day_time: str
-            string in pandas date-time format with the ending time of the day
+            string in pandas date-time format with the ending day time
         THeaOn: float
             Heating temperature set-point during the day time
         THeaoff: float
@@ -317,42 +352,47 @@ class Data_Generator(object):
             Cooling temperature set-point out of the day time
         '''
         
-        self.day_time_index = self.data.between_time(start_day_time, end_day_time).index
+        self.day_time_index = self.data.between_time(start_day_time, 
+                                                     end_day_time).index
         
-        self.data.loc[self.data.index.isin(self.day_time_index),  'LowerSetp'] = THeaOn
-        self.data.loc[self.data.index.isin(self.day_time_index),  'UpperSetp'] = TCooOn
-        self.data.loc[~self.data.index.isin(self.day_time_index), 'LowerSetp'] = THeaOff
-        self.data.loc[~self.data.index.isin(self.day_time_index), 'UpperSetp'] = TCooOff
+        self.data.loc[self.data.index.isin(self.day_time_index),  
+                      'LowerSetp'] = THeaOn
+        self.data.loc[self.data.index.isin(self.day_time_index),  
+                      'UpperSetp'] = TCooOn
+        self.data.loc[~self.data.index.isin(self.day_time_index), 
+                      'LowerSetp'] = THeaOff
+        self.data.loc[~self.data.index.isin(self.day_time_index), 
+                      'UpperSetp'] = TCooOff
         
-    def save_data(self,data_file_name='test_case_data.csv'):
-        '''Store the data in .csv format
+    def save_data(self):
+        '''Store the test case data in .csv format and save it within the
+        resources folder of the fmu. Save also the kpis.json file in the
+        same folder.
         
-        Parameters
-        ----------
-        data_file_name: string
-            Name that will be used to store the data
-            
         '''
         
-        # Path to data file within the Resources folder of the test case
-        data_file_path=os.path.join(os.path.join(os.path.join(\
-                        self.case_path,'models'),'Resources'),data_file_name)
-        
-        # Get rid of datetime as fmu do not understand that format
+        # Get rid of datetime as fmus do not understand that format
         self.data.reset_index(drop=True, inplace=True)
         
-        # Save a copy of the csv within the Resources folder of the test case
-        self.data.to_csv(data_file_path, index=False)
-        
-        # Path of the fmu used by BOPTEST for this test case
-        fmu_path = os.path.join(os.path.join(self.case_path,'models'),'wrapped.fmu')
+        # Save a copy of the csv within the test case Resources folder 
+        self.data.to_csv(self.data_file_path, index=False)
         
         # Open the fmu zip file in append mode
-        z_fmu = zipfile.ZipFile(fmu_path,'a')
+        z_fmu = zipfile.ZipFile(self.fmu_path,'a')
         
         # Write a copy of the csv within the resources folder of the fmu
-        z_fmu.write(data_file_path, os.path.join('resources',data_file_name))
+        z_fmu.write(self.data_file_path, os.path.join('resources',
+                                                 self.data_file_name))
+        
+        # Write a copy of the kpis.json within the resources folder of the fmu
+        z_fmu.write(self.kpi_path, os.path.join('resources', 'kpis.json'))
+        
+        # Close the fmu
         z_fmu.close()
+        
+        # Delete the files appended to the fmu to have a unique location
+        os.remove(self.data_file_path)
+        os.remove(self.kpi_path)
         
     def plot_data(self,
                   to_plot=['TDryBul','HGloHor','PriceElectricPowerDynamic']):
@@ -376,7 +416,7 @@ class Data_Generator(object):
 if __name__ == "__main__":
     os.environ['TESTCASE'] = 'testcase2'
     gen = Data_Generator()
-    gen.generate_data(weather_file_name='DRYCOLD.mos')
-    
+    gen.generate_data()
+    gen.save_data()
     
     
