@@ -117,8 +117,7 @@ class Data_Generator(object):
                                  'file within the Resources folder of the '\
                                  'test case.')
         elif len(weather_files)==0:
-            raise ReferenceError('Please provide the .mos or .TMY file of '\
-                                 'the test case within the resources folder')
+            self.weather_file_name = None
         else:
             self.weather_file_name = weather_files[0] 
         
@@ -140,7 +139,8 @@ class Data_Generator(object):
         
         '''
         
-        self.append_weather_data()
+        if self.weather_file_name is not None:
+            self.append_weather_data()
         self.append_energy_prices()
         self.append_emission_factors()
         self.append_occupancy()
