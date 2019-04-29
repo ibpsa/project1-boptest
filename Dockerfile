@@ -26,6 +26,7 @@ COPY ${testcase}/config.py ./
 COPY restapi.py ./
 COPY testcase.py ./
 
+COPY kpis kpis/
 COPY forecast forecast/
 COPY data data/
 ENV PYTHONPATH $PYTHONPATH:$HOME

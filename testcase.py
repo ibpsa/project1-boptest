@@ -11,7 +11,9 @@ import numpy as np
 import copy
 import config
 import json
-from scipy.integrate import trapz
+import time
+import cPickle as pickle
+from kpis.kpi_calculator import KPI_Calculator
 from forecast.forecaster import Forecaster
 
 class TestCase(object):
@@ -59,6 +61,7 @@ class TestCase(object):
         self.start_time = 0
         self.initialize = True
         self.options['initialize'] = self.initialize
+        self.elapsed_control_time = []
         
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -77,6 +80,11 @@ class TestCase(object):
             
         '''
         
+        # Calculate and store the elapsed time 
+        if hasattr(self, 'tic_time'):
+            self.tac_time = time.time()
+            self.elapsed_control_time.append(self.tac_time-self.tic_time)
+            
         # Set final time
         self.final_time = self.start_time + self.step
         # Set control inputs if they exist and are written
@@ -122,6 +130,8 @@ class TestCase(object):
         self.start_time = self.final_time
         # Prevent inialize
         self.initialize = False
+        # Raise the flag to compute time lapse
+        self.tic_time = time.time()
         
         return self.y
 
@@ -223,36 +233,18 @@ class TestCase(object):
         None
         
         Returns
+        -------
         kpis : dict
             Dictionary containing KPI names and values.
             {<kpi_name>:<kpi_value>}
         
         '''
         
-        kpis = dict()
-        # Calculate each KPI using json for signalsand save in dictionary
-        for kpi in self.kpi_json.keys():
-            print(kpi, type(kpi))
-            if kpi == 'energy':
-                # Calculate total energy [KWh - assumes measured in J]
-                E = 0
-                for signal in self.kpi_json[kpi]:
-                    E = E + self.y_store[signal][-1]
-                # Store result in dictionary
-                kpis[kpi] = E*2.77778e-7 # Convert to kWh
-            elif kpi == 'comfort':
-                # Calculate total discomfort [K-h = assumes measured in K]
-                tot_dis = 0
-                heat_setpoint = 273.15+20
-                for signal in self.kpi_json[kpi]:
-                    data = np.array(self.y_store[signal])
-                    dT_heating = heat_setpoint - data
-                    dT_heating[dT_heating<0]=0
-                    tot_dis = tot_dis + trapz(dT_heating,self.y_store['time'])/3600
-                # Store result in dictionary
-                kpis[kpi] = tot_dis
-            else:
-                print('No calculation for KPI named "{0}".'.format(kpi))
+        # Instantiate a KPI calculator for the test case
+        if not hasattr(self, 'cal'):
+            self.cal = KPI_Calculator(self)
+            
+        kpis = self.cal.get_core_kpis()
 
         return kpis
     def get_forecast(self,horizon=24*3600, category=None, plot=False):
@@ -345,4 +337,49 @@ class TestCase(object):
             var_metadata[var] = {'Unit':unit,
                                  'Description':description}
 
-        return var_metadata
+        return var_metadata    
+    
+    def save_test_case(self, file_name='deployed.tc'):
+        '''Save the deployed test case in a pickle.
+        This method is going to delete the fmu from the
+        object because it is not supported by pickle.
+        
+        Parameters
+        ----------
+        file_name: string
+            name of the file where the test case is going
+            to be pickled
+        '''
+        
+        del self.fmu
+        
+        f=open(file_name,'wb')
+        pickle.dump(self,f)
+        f.close()
+
+        return file_name
+        
+    def load_test_case(self, file_name='deployed.tc'):
+        '''Load a deployed test case that has been 
+        saved with 'save_test_case'
+        
+        Parameters
+        ----------
+        file_name: string
+            name of the file where the test case is stored
+            
+        Returns
+        -------
+        self: TestCase 
+            Instance with the attributes of a previously 
+            deployed test case
+        '''
+
+        tc = pickle.load(file(file_name, 'rb'))
+        for k,v in tc.__dict__.iteritems():
+            self.__dict__[k] = v
+            
+        self.fmu = load_fmu(self.fmupath)
+
+        return self   
+        
