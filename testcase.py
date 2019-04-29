@@ -11,7 +11,6 @@ import numpy as np
 import copy
 import config
 import json
-from scipy.integrate import trapz
 import time
 import cPickle as pickle
 from kpis.kpi_calculator import KPI_Calculator
