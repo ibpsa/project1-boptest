@@ -10,7 +10,6 @@ from pyfmi import load_fmu
 import numpy as np
 import copy
 import config
-import json
 from scipy.integrate import trapz
 
 class TestCase(object):

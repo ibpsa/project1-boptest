@@ -22,7 +22,6 @@ def get_config():
     config = {
     # Enter configuration information
     'fmupath'  : 'models/wrapped.fmu', 
-    'kpipath'  : 'models/kpis.json',
     'step'     : 3600
     }
     

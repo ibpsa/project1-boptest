@@ -20,7 +20,6 @@ RUN mkdir models && \
     mkdir doc
 
 COPY ${testcase}/models/*.fmu models/
-COPY ${testcase}/models/*.json models/
 COPY ${testcase}/doc/ doc/
 COPY ${testcase}/config.py ./
 COPY restapi.py ./
