@@ -10,7 +10,6 @@ from pyfmi import load_fmu
 import numpy as np
 import copy
 import config
-import json
 import time
 import cPickle as pickle
 from kpis.kpi_calculator import KPI_Calculator
