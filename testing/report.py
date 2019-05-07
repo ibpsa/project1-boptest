@@ -40,7 +40,7 @@ if __name__ == '__main__':
     exit_code = 0
     record('\n==============\nTESTING REPORT\n==============\n', initial=True)
     # Get all test case logs
-    testing_dir = utilities.get_testing_root_path()
+    testing_dir = os.path.join(utilities.get_root_path(), 'testing')
     logs = []
     for f in os.listdir(testing_dir):
         if f.endswith('.log'):

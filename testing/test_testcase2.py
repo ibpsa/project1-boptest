@@ -9,10 +9,10 @@ import unittest
 import pandas as pd
 import os
 import utilities
-from examples import szvav_sup
+from examples.python import szvav_sup
 
-root_dir = utilities.get_testing_root_path()
-    
+kpi_ref = {'energy' : 147.135331884, 'comfort' : 0.001831087016403562}
+
 class ExampleSupervisoryPython(unittest.TestCase):
     '''Tests the example test of a supervisory controller in Python.
     
@@ -26,15 +26,15 @@ class ExampleSupervisoryPython(unittest.TestCase):
         pass
         
     def test_run(self):
-        '''Tests that Read and Overwrite blocks identified correctly.
+        '''Runs the example and tests the kpi and trajectory results.
         
         '''
         
         # Run test
         kpi,res = szvav_sup.run()
         # Check kpis
-        self.assertAlmostEqual(kpi['energy'], 132.40084858017514, places=4)
-        self.assertAlmostEqual(kpi['comfort'], 4.610775885198207, places=4)
+        self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=5)
+        self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=5)
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame(data=res['y']['time'], columns=['time'])
@@ -43,7 +43,7 @@ class ExampleSupervisoryPython(unittest.TestCase):
                 if x != 'time':
                     df = pd.concat((df,pd.DataFrame(data=res[s][x], columns=[x])), axis=1)
         # Set reference file path
-        ref_filepath = os.path.join(root_dir, 'references', 'testcase2', 'results.csv')
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_python.csv')
         if os.path.exists(ref_filepath):
             # If reference exists, check it
             df_ref = pd.read_csv(ref_filepath)
@@ -55,7 +55,47 @@ class ExampleSupervisoryPython(unittest.TestCase):
         else:
             # Otherwise, save as reference
             df.to_csv(ref_filepath)
+
+class ExampleSupervisoryJulia(unittest.TestCase):
+    '''Tests the example test of a supervisory controller in Julia.
+    
+    '''
+    
+    def setUp(self):
+        '''Setup for each test.
         
+        '''
+
+        pass
+        
+    def test_run(self):
+        '''Runs the example and tests the kpi and trajectory results.
+        
+        '''
+        
+        # Run test
+        kpi_path = os.path.join(utilities.get_root_path(), 'examples', 'julia', 'kpi_testcase2.csv')
+        res_path = os.path.join(utilities.get_root_path(), 'examples', 'julia', 'result_testcase2.csv')
+        # Check kpis
+        kpi = pd.read_csv(kpi_path)
+        self.assertAlmostEqual(kpi['energy'].get_values()[0], kpi_ref['energy'], places=5)
+        self.assertAlmostEqual(kpi['comfort'].get_values()[0], kpi_ref['comfort'], places=5)
+        # Check trajectories
+        df = pd.read_csv(res_path)
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_julia.csv')
+        if os.path.exists(ref_filepath):
+            # If reference exists, check it
+            df_ref = pd.read_csv(ref_filepath)
+            for key in df.columns:
+                y_test = df[key].get_values()
+                y_ref = df_ref[key].get_values()
+                results = utilities.check_trajectory(y_test, y_ref)
+                self.assertTrue(results['Pass'], results['Message'])
+        else:
+            # Otherwise, save as reference
+            df.to_csv(ref_filepath)
+
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 2.  
     
@@ -69,11 +109,40 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         
         '''
 
+        self.name = 'testcase2'
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
-        self.inputs_ref = [u'oveTSetRooCoo_activate', u'oveTSetRooHea_activate', u'oveTSetRooHea_u', u'oveTSetRooCoo_u', u'time']
-        self.measurements_ref = [u'PFan_y', u'ETotCoo_y', u'ETotFan_y', u'ETotHea_y', u'TRooAir_y', u'PCoo_y', u'ETotPum_y', u'time', u'PHea_y', u'PPum_y', u'ETotHVAC_y']
+        self.inputs_ref = {"oveTSetRooCoo_activate": {"Unit": None,
+                                                      "Description": "Activation for Cooling setpoint"}, 
+                           "oveTSetRooCoo_u": {"Unit": "K",
+                                               "Description": "Cooling setpoint"}, 
+                           "oveTSetRooHea_activate": {"Unit": None,
+                                                      "Description": "Activation for Heating setpoint"}, 
+                           "oveTSetRooHea_u": {"Unit": "K",
+                                               "Description": "Heating setpoint"}}
+        self.measurements_ref = {"ETotCoo_y": {"Unit": "J", "Description": "Cooling electrical energy"}, 
+                                 "ETotFan_y": {"Unit": "J", "Description": "Fan energy"},
+                                 "ETotHVAC_y": {"Unit": "J", "Description": "Total HVAC energy"},
+                                 "ETotHea_y": {"Unit": "J", "Description": "Heating energy"}, 
+                                 "ETotPum_y": {"Unit": "J", "Description": "Pump electrical energy"}, 
+                                 "PCoo_y": {"Unit": "W", "Description": "Cooling electrical power"}, 
+                                 "PFan_y": {"Unit": "W", "Description": "Fan electrical power"}, 
+                                 "PHea_y": {"Unit": "W", "Description": "Heater power"}, 
+                                 "PPum_y": {"Unit": "W", "Description": "Pump electrical power"}, 
+                                 "TRooAir_y": {"Unit": "K", "Description": "Room air temperature"}}
         self.step_ref = 3600.0
+        self.y_ref = {u'PFan_y': 5.231953892667217, 
+                      u'ETotCoo_y': 0.0, 
+                      u'ETotFan_y': 18835.034013601995, 
+                      u'ETotHea_y': 6369084.093412709, 
+                      u'TRooAir_y': 293.0823301149466, 
+                      u'time': 3600.0, 
+                      u'ETotPum_y': 0.0, 
+                      u'PCoo_y': 0.0, 
+                      u'PHea_y': 1913.8957388829822, 
+                      u'PPum_y': -0.0, 
+                      u'ETotHVAC_y': 6387919.127426311}
+
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

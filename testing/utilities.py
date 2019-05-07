@@ -11,14 +11,15 @@ import unittest
 import numpy as np
 import json
 
-def get_testing_root_path():
+def get_root_path():
     '''Returns the path to the root repository directory.
     
     '''
     
     testing_path = os.path.dirname(os.path.realpath(__file__));
+    root_path = os.path.split(testing_path)[0]
     
-    return testing_path;
+    return root_path;
     
 def check_trajectory(y_test, y_ref):
     '''Check a numeric trajectory against a reference with a tolerance.
@@ -107,7 +108,7 @@ def run_tests(test_file_name):
 
     # Load tests
     test_loader = unittest.TestLoader()
-    suite = test_loader.discover(get_testing_root_path(), pattern = test_file_name)
+    suite = test_loader.discover(os.path.join(get_root_path(),'testing'), pattern = test_file_name)
     num_cases = suite.countTestCases()
     # Run tests
     print('\nFound {0} tests to run in {1}.\n\nRunning...'.format(num_cases, test_file_name))
@@ -159,8 +160,10 @@ class partialTestAPI(object):
         
         inputs = requests.get('{0}/inputs'.format(self.url)).json()
         self.assertEqual(len(inputs), len(self.inputs_ref))
-        for i in inputs:
-            self.assertTrue(i in self.inputs_ref)
+        for inp in inputs:
+            self.assertTrue(inp in self.inputs_ref)
+            self.assertTrue(inputs[inp]['Unit'] == self.inputs_ref[inp]['Unit'])
+            self.assertTrue(inputs[inp]['Description'] == self.inputs_ref[inp]['Description'])
 
     def test_get_measurements(self):
         '''Test getting the measurement list of test.
@@ -169,8 +172,10 @@ class partialTestAPI(object):
 
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
         self.assertEqual(len(measurements), len(self.measurements_ref))
-        for i in measurements:
-            self.assertTrue(i in self.measurements_ref)
+        for measurement in measurements:
+            self.assertTrue(measurement in self.measurements_ref)
+            self.assertTrue(measurements[measurement]['Unit'] == self.measurements_ref[measurement]['Unit'])
+            self.assertTrue(measurements[measurement]['Description'] == self.measurements_ref[measurement]['Description'])
         
     def test_get_step(self):
         '''Test getting the communication step of test.
@@ -197,3 +202,34 @@ class partialTestAPI(object):
         '''
 
         requests.put('{0}/reset'.format(self.url))
+        
+    def test_advance_no_data(self):
+        '''Test advancing of simulation with no input data.
+        
+        This is a basic test of functionality.  
+        Tests for advancing with overwriting are done in the example tests.
+                
+        '''
+
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        for key in y.keys():
+            self.assertAlmostEqual(y[key], self.y_ref[key], places=5)
+
+    def test_advance_false_overwrite(self):
+        '''Test advancing of simulation with overwriting as false.
+        
+        This is a basic test of functionality.  
+        Tests for advancing with overwriting are done in the example tests.
+                
+        '''
+
+        requests.put('{0}/reset'.format(self.url))
+        if self.name == 'testcase1':
+            u = {'oveAct_u':0, 'oveAct_activate':1500}
+        elif self.name == 'testcase2':
+            u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data=u).json()
+        for key in y.keys():
+            self.assertAlmostEqual(y[key], self.y_ref[key], places=5)

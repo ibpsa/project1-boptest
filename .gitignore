@@ -5,6 +5,7 @@ dymosim
 dsmodel.c
 *.log
 *.err
+examples/julia/*.csv
 testcase2/doc/build/
 parser/*.fmu
 parser/*.mo
