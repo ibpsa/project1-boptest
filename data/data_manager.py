@@ -14,6 +14,8 @@ import pandas as pd
 import numpy as np
 import zipfile
 from scipy import interpolate
+import warnings
+import os
 import json
 
 class Data_Manager(object):
@@ -23,7 +25,7 @@ class Data_Manager(object):
     
     '''
 
-    def __init__(self, testcase):
+    def __init__(self, testcase=None):
         '''Initialize the Data_Manager class. One Data_Manager
         is associated with one test case.
         
@@ -38,38 +40,17 @@ class Data_Manager(object):
         # Point to the test case object
         self.case = testcase
         
-        # Define the column keys and group them by categories
-        self.weather_keys   = ['pAtm','nTot','nOpa','HGloHor',
-                               'HDifHor','HDirNor','celHei','winSpe',
-                               'HHorIR','winDir','cloTim','solTim',
-                               'TDewPoi','relHum','TDryBul','TWetBul',
-                               'solAlt','solZen','solDec','solHouAng',
-                               'lon','lat','TBlaSky']
-        self.price_keys     = ['PriceElectricPowerConstant', 
-                               'PriceElectricPowerDynamic', 
-                               'PriceElectricPowerHighlyDynamic',
-                               'PriceGasPower',
-                               'PriceBiomassPower',
-                               'PriceSolarThermalPower']
-        self.emissions_keys = ['EmissionsElectricPower',
-                               'EmissionsDistrictHeatingPower',
-                               'EmissionsGasPower',
-                               'EmissionsBiomassPower'
-                               'EmissionsSolarThermalPower'] 
-        self.occupancy_keys = ['occupancy']
-        self.setpoint_keys  = ['LowerSetp', 'UpperSetp']
+        # Find path to data directory
+        data_dir = os.path.join(\
+            os.path.split(os.path.split(os.path.abspath(__file__))[0])[0],
+            'data')
         
-        # Save the categories within a dictionary:
-        self.categories = {}
-        self.categories['weather']   = self.weather_keys
-        self.categories['prices']    = self.price_keys
-        self.categories['emissions'] = self.emissions_keys
-        self.categories['occupancy'] = self.occupancy_keys
-        self.categories['setpoints'] = self.setpoint_keys
+        # Load possible data keys
+        with open(os.path.join(data_dir,'categories.json'),'r') as f:
+            self.categories = json.loads(f.read()) 
         
-    def get_data(self, horizon=24*3600, interval=None,
-                 category=None, index=None, plot=False,
-                 data_file_name='test_case_data.csv'):
+    def get_data(self, horizon=24*3600, interval=None, index=None, 
+                 category=None, plot=False):
         '''Retrieve test case data from the fmu. The data
         is stored within the data_file_name file that 
         is located in the resources folder of the wrapped.fmu.
@@ -87,10 +68,6 @@ class Data_Manager(object):
             data without filtering it by any category. 
             Possible options are 'weather', 'prices',
             'emissions', 'occupancy', 'setpoints'
-        data_file_name : string
-            Name of the data file from where the data is 
-            retrieved. Notice that this file should be within
-            the resources folder of the wrapped.fmu
             
         Returns
         -------
@@ -108,7 +85,7 @@ class Data_Manager(object):
         
         # First read the test case data if not read yet
         if not hasattr(self.case, 'data'):    
-            self.load_data(data_file_name)
+            self.load_data()
         
         # Filter the requested data columns
         if category is not None:
@@ -131,15 +108,14 @@ class Data_Manager(object):
         
         for key in data_slice_reindexed.keys():
             # Use linear interpolation for continuous variables
-            if key in self.weather_keys:
+            if key in self.categories['weather']:
                 f = interpolate.interp1d(self.case.data.index,
                     self.case.data[key], kind='linear')
-                data_slice_reindexed.loc[:,key] = f(index)
             # Use forward fill for discrete variables
             else:
                 f = interpolate.interp1d(self.case.data.index,
                     self.case.data[key], kind='zero')
-                data_slice_reindexed.loc[:,key] = f(index)
+            data_slice_reindexed.loc[:,key] = f(index)
         
         if plot:
             if category is None:
@@ -155,7 +131,7 @@ class Data_Manager(object):
         # Transform data frame to dictionary
         return data_slice_reindexed.reset_index().to_dict('list')
     
-    def load_data(self, data_file_name='test_case_data.csv'):
+    def load_data(self):
         '''Load the data from the resources folder of the fmu.
         Resample it with the specified time interval.
         
@@ -176,16 +152,76 @@ class Data_Manager(object):
         json_str = z_fmu.open('resources/kpis.json').read()
         self.case.kpi_json = json.loads(json_str)
         
-        self.case.data=pd.read_csv(z_fmu.open('resources/'+data_file_name))
+        # Find the test case data files
+        files = []
+        for f in z_fmu.namelist():
+            if f.startswith('resources/') and f.endswith('.csv'):
+                files.append(f)
         
-        # Convert any convert any string formatted
-        # numbers to floats.
-        self.case.data = self.case.data.applymap(float)
+        # Find the minimum sampling resolution
+        sampling = 3600. 
+        for f in files:
+            df = pd.read_csv(z_fmu.open(f))
+            if 'time' in df.keys():
+                new_sampling = df.iloc[1]['time']-df.iloc[0]['time']
+                if new_sampling<sampling:
+                    sampling=new_sampling
+                    
+        # Define the index for one year with the minimum sampling found
+        index = np.arange(0.,3.154e+7,sampling,dtype='int')
         
-        # Set time as index 
-        self.case.data = self.case.data.astype({'time':int})
-        self.case.data = self.case.data.set_index('time')
+        # Find all data keys
+        all_keys = []
+        for category in self.categories:
+            all_keys.extend(self.categories[category])
+        
+        # Initialize test case data frame
+        self.case.data = \
+            pd.DataFrame(index=index, columns=all_keys).rename_axis('time')
+        
+        # Load the test case data
+        for f in files:
+            df = pd.read_csv(z_fmu.open(f))
+            keys = df.keys()
+            if 'time' in keys:
+                for key in keys.drop('time'):
+                    for category in self.categories:
+                        # Use linear interpolation for continuous variables
+                        if key in self.categories[category] and \
+                            category == 'weather':
+                            g = interpolate.interp1d(df['time'],df[key], 
+                                kind='linear',fill_value='extrapolate')
+                            self.case.data.loc[:,key] = \
+                                g(self.case.data.index)
+                        # Use forward fill for discrete variables
+                        elif key in self.categories[category]:
+                            g = interpolate.interp1d(df['time'],df[key], 
+                                kind='linear',fill_value='extrapolate')
+                            self.case.data.loc[:,key] = \
+                                g(self.case.data.index)
+            else:
+                warnings.warn('The following file does not have '\
+                'time column and therefore no data is going to '\
+                'be used from this file as test case data.', Warning) 
+                print(f)
         
         # Close the fmu
-        z_fmu.close()
+        z_fmu.close()        
+        
+        # Convert any string formatted numbers to floats.
+        self.case.data = self.case.data.applymap(float)
+
+        
+if __name__ == "__main__":
+    import sys
+    case_dir = os.path.join(\
+        os.path.split(os.path.split(os.path.abspath(__file__))[0])[0], 
+        'testcase2')
+    # Append the case directory to see the config file
+    sys.path.append(case_dir)
+    
+    from testcase import TestCase
+    case=TestCase()
+    man = Data_Manager(case)
+    data=man.get_data()
         

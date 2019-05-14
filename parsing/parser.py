@@ -189,7 +189,6 @@ def export_fmu(model_path, file_name):
         json.dump(kpis, f)
     # Generate test case data
     gen = Data_Generator(fmu_path=fmu_path)
-    gen.generate_data()
     gen.save_data()
     
     return fmu_path, kpi_path
