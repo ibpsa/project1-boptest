@@ -60,9 +60,9 @@ class Forecaster(object):
         '''
         
         # Get the forecast
-        forecast = self.data_manager.get_data(horizon=horizon,
-                                              category=category,
-                                              plot=plot)
+        forecast = self.case.data_manager.get_data(horizon=horizon,
+                                                   category=category,
+                                                   plot=plot)
         
         return forecast
     
