@@ -20,10 +20,10 @@ RUN mkdir models
 RUN mkdir parsing
 RUN mkdir data
 
-COPY ${testcase}/models ./models/
 COPY parsing/parser.py parsing/
 COPY parsing/__init__.py parsing/
 COPY data/data_generator.py data/
+COPY data/categories.json data/
 COPY data/__init__.py data/
 
 ENV PYTHONPATH $PYTHONPATH:$HOME
