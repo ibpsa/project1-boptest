@@ -9,6 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
+import requests
 from examples.python import szvav_sup
 
 root_dir = utilities.get_root_path()
@@ -97,6 +98,42 @@ class ExampleSupervisoryJulia(unittest.TestCase):
             # Otherwise, save as reference
             df.to_csv(ref_filepath)
 
+class MinMax(unittest.TestCase):
+    '''Test the use of min/max attributes to truncate the controller input.
+    
+    '''
+    
+    def setUp(self):
+        '''Setup for each test.
+        
+        '''
+
+        self.url = 'http://127.0.0.1:5000'
+        
+    def test_min(self):
+        '''Tests that if input is below min, input is set to min.
+        
+        '''
+        
+        # Run test
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
+        # Check kpis
+        value = float(y['ETotHVAC_y'])
+        self.assertAlmostEqual(value, 18835.034013601977, places=5)
+        
+    def test_max(self):
+        '''Tests that if input is above max, input is set to max.
+        
+        '''
+        
+        # Run test
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
+        # Check kpis
+        value = float(y['ETotHVAC_y'])
+        self.assertAlmostEqual(value, 27242077.872117456, places=5)
+        
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 2.  
     
