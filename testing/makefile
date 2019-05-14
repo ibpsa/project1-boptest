@@ -1,6 +1,6 @@
 test_testcase1:
 	# Compile testcase model
-#	cd ../testcase1/models && python compile_fmu.py
+	cd ../testcase1/models && python compile_fmu.py
 	# Build testcase image
 	cd .. && TESTCASE=testcase1 make build
 	# Deploy testcase container
@@ -19,7 +19,7 @@ test_testcase1:
 
 test_testcase2:
 	# Compile testcase model
-#	cd ../testcase2/models && python compile_fmu.py
+	cd ../testcase2/models && python compile_fmu.py
 	# Build testcase image
 	cd .. && TESTCASE=testcase2 make build
 	# Deploy testcase container
