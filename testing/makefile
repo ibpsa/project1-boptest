@@ -9,7 +9,7 @@ test_testcase1:
 	# Julia
 	cd ../examples/julia && Script=twoday_p make build && Script=twoday_p make run
 	# Python and checks
-	cd ../.. python testing/test_testcase1.py
+	cd .. && python testing/test_testcase1.py
 	# Stop testcase container
 	cd .. && TESTCASE=testcase1 make stop
 	# Remove testcase image
@@ -28,7 +28,7 @@ test_testcase2:
 	# Julia
 	cd ../examples/julia && Script=szvav_sup make build && Script=szvav_sup make run
 	# Python and checks
-	cd ../.. python testing/test_testcase2.py
+	cd .. && python testing/test_testcase2.py
 	# Stop testcase container
 	cd .. && TESTCASE=testcase2 make stop
 	# Remove testcase image
