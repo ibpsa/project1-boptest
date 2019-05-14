@@ -123,7 +123,7 @@ def run_tests(test_file_name):
     for i, error in enumerate(result.errors):
         log_json['Errors'][i]= error[1]
     log_file = os.path.splitext(test_file_name)[0] + '.log'
-    with open(log_file, 'w') as f:
+    with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
                 
 class partialTestAPI(object):
