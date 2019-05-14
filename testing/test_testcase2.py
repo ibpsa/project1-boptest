@@ -9,6 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
+import requests
 from examples.python import szvav_sup
 
 kpi_ref = {'energy' : 147.135331884, 'comfort' : 0.001831087016403562}
@@ -96,6 +97,42 @@ class ExampleSupervisoryJulia(unittest.TestCase):
             # Otherwise, save as reference
             df.to_csv(ref_filepath)
 
+class MinMax(unittest.TestCase):
+    '''Test the use of min/max attributes to truncate the controller input.
+    
+    '''
+    
+    def setUp(self):
+        '''Setup for each test.
+        
+        '''
+
+        self.url = 'http://127.0.0.1:5000'
+        
+    def test_min(self):
+        '''Tests that if input is below min, input is set to min.
+        
+        '''
+        
+        # Run test
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
+        # Check kpis
+        value = float(y['ETotHVAC_y'])
+        self.assertAlmostEqual(value, 18835.034013601977, places=5)
+        
+    def test_max(self):
+        '''Tests that if input is above max, input is set to max.
+        
+        '''
+        
+        # Run test
+        requests.put('{0}/reset'.format(self.url))
+        y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
+        # Check kpis
+        value = float(y['ETotHVAC_y'])
+        self.assertAlmostEqual(value, 27242077.872117456, places=5)
+        
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 2.  
     
@@ -113,23 +150,61 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
         self.inputs_ref = {"oveTSetRooCoo_activate": {"Unit": None,
-                                                      "Description": "Activation for Cooling setpoint"}, 
+                                                      "Description": "Activation for Cooling setpoint",
+                                                      "Minimum":None,
+                                                      "Maximum":None}, 
                            "oveTSetRooCoo_u": {"Unit": "K",
-                                               "Description": "Cooling setpoint"}, 
+                                               "Description": "Cooling setpoint",
+                                               "Minimum":273.15+10,
+                                               "Maximum":273.15+35}, 
                            "oveTSetRooHea_activate": {"Unit": None,
-                                                      "Description": "Activation for Heating setpoint"}, 
+                                                      "Description": "Activation for Heating setpoint",
+                                                      "Minimum":None,
+                                                      "Maximum":None}, 
                            "oveTSetRooHea_u": {"Unit": "K",
-                                               "Description": "Heating setpoint"}}
-        self.measurements_ref = {"ETotCoo_y": {"Unit": "J", "Description": "Cooling electrical energy"}, 
-                                 "ETotFan_y": {"Unit": "J", "Description": "Fan energy"},
-                                 "ETotHVAC_y": {"Unit": "J", "Description": "Total HVAC energy"},
-                                 "ETotHea_y": {"Unit": "J", "Description": "Heating energy"}, 
-                                 "ETotPum_y": {"Unit": "J", "Description": "Pump electrical energy"}, 
-                                 "PCoo_y": {"Unit": "W", "Description": "Cooling electrical power"}, 
-                                 "PFan_y": {"Unit": "W", "Description": "Fan electrical power"}, 
-                                 "PHea_y": {"Unit": "W", "Description": "Heater power"}, 
-                                 "PPum_y": {"Unit": "W", "Description": "Pump electrical power"}, 
-                                 "TRooAir_y": {"Unit": "K", "Description": "Room air temperature"}}
+                                               "Description": "Heating setpoint",
+                                               "Minimum":273.15+10,
+                                               "Maximum":273.15+35}}
+        self.measurements_ref = {"ETotCoo_y": {"Unit": "J", 
+                                               "Description": "Cooling electrical energy",
+                                               "Minimum":None,
+                                               "Maximum":None}, 
+                                 "ETotFan_y": {"Unit": "J", 
+                                               "Description": "Fan energy", 
+                                               "Minimum":None,
+                                               "Maximum":None},
+                                 "ETotHVAC_y": {"Unit": "J", 
+                                                "Description": "Total HVAC energy",
+                                                "Minimum":None,
+                                                "Maximum":None},
+                                 "ETotHea_y": {"Unit": "J", 
+                                               "Description": "Heating energy",
+                                               "Minimum":None,
+                                               "Maximum":None}, 
+                                 "ETotPum_y": {"Unit": "J", 
+                                               "Description": "Pump electrical energy",
+                                               "Minimum":None,
+                                               "Maximum":None}, 
+                                 "PCoo_y": {"Unit": "W", 
+                                            "Description": "Cooling electrical power",
+                                            "Minimum":None,
+                                            "Maximum":None}, 
+                                 "PFan_y": {"Unit": "W", 
+                                            "Description": "Fan electrical power",
+                                            "Minimum":None,
+                                            "Maximum":None}, 
+                                 "PHea_y": {"Unit": "W", 
+                                            "Description": "Heater power",
+                                            "Minimum":None,
+                                            "Maximum":None}, 
+                                 "PPum_y": {"Unit": "W", 
+                                            "Description": "Pump electrical power",                                            
+                                            "Minimum":None,
+                                            "Maximum":None}, 
+                                 "TRooAir_y": {"Unit": "K", 
+                                               "Description": "Room air temperature",                                               
+                                               "Minimum":None,
+                                               "Maximum":None}}
         self.step_ref = 3600.0
         self.y_ref = {u'PFan_y': 5.231953892667217, 
                       u'ETotCoo_y': 0.0, 

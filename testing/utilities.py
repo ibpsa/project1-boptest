@@ -123,7 +123,7 @@ def run_tests(test_file_name):
     for i, error in enumerate(result.errors):
         log_json['Errors'][i]= error[1]
     log_file = os.path.splitext(test_file_name)[0] + '.log'
-    with open(log_file, 'w') as f:
+    with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
                 
 class partialTestAPI(object):
@@ -164,6 +164,8 @@ class partialTestAPI(object):
             self.assertTrue(inp in self.inputs_ref)
             self.assertTrue(inputs[inp]['Unit'] == self.inputs_ref[inp]['Unit'])
             self.assertTrue(inputs[inp]['Description'] == self.inputs_ref[inp]['Description'])
+            self.assertTrue(inputs[inp]['Minimum'] == self.inputs_ref[inp]['Minimum'])
+            self.assertTrue(inputs[inp]['Maximum'] == self.inputs_ref[inp]['Maximum'])
 
     def test_get_measurements(self):
         '''Test getting the measurement list of test.
@@ -176,7 +178,9 @@ class partialTestAPI(object):
             self.assertTrue(measurement in self.measurements_ref)
             self.assertTrue(measurements[measurement]['Unit'] == self.measurements_ref[measurement]['Unit'])
             self.assertTrue(measurements[measurement]['Description'] == self.measurements_ref[measurement]['Description'])
-        
+            self.assertTrue(measurements[measurement]['Minimum'] == self.measurements_ref[measurement]['Minimum'])
+            self.assertTrue(measurements[measurement]['Maximum'] == self.measurements_ref[measurement]['Maximum'])
+
     def test_get_step(self):
         '''Test getting the communication step of test.
         
