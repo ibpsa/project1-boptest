@@ -5,7 +5,7 @@ Implements the parsing and code generation for signal exchange blocks.
 The steps are:
 1) Compile Modelica code into fmu
 2) Use signal exchange block id parameters to find block instance paths and 
-read any associated KPIs, units, and descriptions.
+read any associated KPIs, units, min/max, and descriptions.
 3) Write Modelica wrapper around instantiated model and associated KPI list.
 4) Export as wrapper FMU and save KPI json.
 5) Generate test case data and save it within wrapper FMU.
@@ -33,8 +33,8 @@ def parse_instances(model_path, file_name):
     -------
     instances : dict
         Dictionary of overwrite and read block class instance lists.
-        {'Overwrite': {input_name : {Unit : unit_name, Description : description}}, 
-         'Read': {output_name : {Unit : unit_name, Description : description}}}
+        {'Overwrite': {input_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}}, 
+         'Read': {output_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}}}
     kpis : dict
         Dictionary of kpi outputs.
         {'kpi_name' : [output_name]}
@@ -63,11 +63,15 @@ def parse_instances(model_path, file_name):
             label = 'Overwrite'
             unit = fmu.get_variable_unit(instance+'.u')
             description = fmu.get(instance+'.Description')[0]
+            mini = fmu.get_variable_min(instance+'.u')
+            maxi = fmu.get_variable_max(instance+'.u')
         # Read
         elif 'boptestRead' in var:
             label = 'Read'
             unit = fmu.get_variable_unit(instance+'.y')
             description = fmu.get(instance+'.Description')[0]
+            mini = None
+            maxi = None
         # KPI
         elif 'KPIs' in var:
             label = 'kpi'
@@ -77,6 +81,8 @@ def parse_instances(model_path, file_name):
         if label is not 'kpi':
             instances[label][instance] = {'Unit' : unit}
             instances[label][instance]['Description'] = description
+            instances[label][instance]['Minimum'] = mini
+            instances[label][instance]['Maximum'] = maxi
         else:
             kpi = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
             if kpi is '':
@@ -128,7 +134,7 @@ def write_wrapper(model_path, file_name, instances):
         input_activate_wo_info = dict()
         for block in instances['Overwrite'].keys():
             # Add to signal input list with and without units
-            input_signals_w_info[block] = _make_var_name(block,style='input_signal',description=instances['Overwrite'][block]['Description'],attribute='(unit="{0}")'.format(instances['Overwrite'][block]['Unit']))
+            input_signals_w_info[block] = _make_var_name(block,style='input_signal',description=instances['Overwrite'][block]['Description'],attribute='(unit="{0}", min={1}, max={2})'.format(instances['Overwrite'][block]['Unit'], instances['Overwrite'][block]['Minimum'], instances['Overwrite'][block]['Maximum']))
             input_signals_wo_info[block] = _make_var_name(block,style='input_signal')
             # Add to signal activate list
             input_activate_w_info[block] = _make_var_name(block,style='input_activate',description='Activation for {0}'.format(instances['Overwrite'][block]['Description']))
@@ -189,7 +195,6 @@ def export_fmu(model_path, file_name):
         json.dump(kpis, f)
     # Generate test case data
     gen = Data_Generator(fmu_path=fmu_path)
-    gen.generate_data()
     gen.save_data()
     
     return fmu_path, kpi_path

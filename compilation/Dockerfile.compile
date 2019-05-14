@@ -10,23 +10,20 @@ ENV SEPARATE_PROCESS_JVM /usr/lib/jvm/java-8-openjdk-amd64/
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PYTHONPATH $PYTHONPATH:$JMODELICA_HOME/Python:$JMODELICA_HOME/Python/pymodelica
 
-USER developer
+USER root
 
 WORKDIR $HOME
 
-RUN pip install --user flask-restful pandas
+RUN pip install --user pandas
 
-RUN mkdir models && \
-    mkdir doc
+RUN mkdir models
+RUN mkdir parsing
+RUN mkdir data
 
-COPY ${testcase}/models/*.fmu models/
-COPY ${testcase}/doc/ doc/
-COPY ${testcase}/config.py ./
-COPY restapi.py ./
-COPY testcase.py ./
+COPY parsing/parser.py parsing/
+COPY parsing/__init__.py parsing/
+COPY data/data_generator.py data/
+COPY data/categories.json data/
+COPY data/__init__.py data/
 
-COPY kpis kpis/
-COPY forecast forecast/
-COPY data data/
 ENV PYTHONPATH $PYTHONPATH:$HOME
-

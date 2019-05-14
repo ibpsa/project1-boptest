@@ -10,7 +10,6 @@ from pyfmi import load_fmu
 import numpy as np
 import copy
 import config
-import json
 import time
 import cPickle as pickle
 from kpis.kpi_calculator import KPI_Calculator
@@ -40,7 +39,7 @@ class TestCase(object):
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Get input and output meta-data
-        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names)
+        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
         # Define outputs data
         self.y = {'time':[]}
@@ -104,8 +103,13 @@ class TestCase(object):
                 for key in u.keys():
                     if key != 'time' and u[key]:
                         value = float(u[key])
+                        # Check min/max if not activation input
+                        if '_activate' not in key:
+                            checked_value = self._check_value_min_max(key, value)
+                        else:
+                            checked_value = value
                         u_list.append(key)
-                        u_trajectory = np.vstack((u_trajectory, value))
+                        u_trajectory = np.vstack((u_trajectory, checked_value))
                 input_object = (u_list, np.transpose(u_trajectory))
             # Otherwise, input object is None
             else:
@@ -300,7 +304,7 @@ class TestCase(object):
         
         return name
         
-    def _get_var_metadata(self, fmu, var_list):
+    def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
         
         Parameters
@@ -314,8 +318,11 @@ class TestCase(object):
         -------
         var_metadata : dict
             Dictionary of variable names as keys and metadata as fields.
-            {<var_name> :
-                "Unit" : <units_str>
+            {<var_name_str> :
+                "Unit" : str,
+                "Description" : str,
+                "Minimum" : float,
+                "Maximum" : float
             }
             
         '''
@@ -328,17 +335,63 @@ class TestCase(object):
             if var == 'time':
                 unit = 's'
                 description = 'Time of simulation'
+                mini = None
+                maxi = None
             elif '_activate' in var:
                 unit = None
                 description = fmu.get_variable_description(var)
+                mini = None
+                maxi = None
             else:
                 unit = fmu.get_variable_unit(var)
                 description = fmu.get_variable_description(var)
+                if inputs:
+                    mini = fmu.get_variable_min(var)
+                    maxi = fmu.get_variable_max(var)
+                else:
+                    mini = None
+                    maxi = None
             var_metadata[var] = {'Unit':unit,
-                                 'Description':description}
+                                 'Description':description,
+                                 'Minimum':mini,
+                                 'Maximum':maxi}
 
-        return var_metadata    
-    
+        return var_metadata
+        
+    def _check_value_min_max(self, var, value):
+        '''Check that the input value does not violate the min or max.
+        
+        Note that if it does, the value is truncated to the minimum or maximum.
+        
+        Parameters
+        ----------
+        var : str
+            Name of variable
+        value : numeric
+            Specified value of variable
+            
+        Return
+        ------
+        checked_value : float
+            Value of variable truncated by min and max.
+            
+        '''
+        
+        # Get minimum and maximum for variable
+        mini = self.inputs_metadata[var]['Minimum']
+        maxi = self.inputs_metadata[var]['Maximum']
+        # Check the value and truncate if necessary
+        if value > maxi:
+            checked_value = maxi
+            print('WARNING: Value of {0} for {1} is above maximum of {2}.  Using {2}.'.format(value, var, maxi))
+        elif value < mini:
+            checked_value = mini
+            print('WARNING: Value of {0} for {1} is below minimum of {2}.  Using {2}.'.format(value, var, mini))
+        else:
+            checked_value = value
+
+        return checked_value
+        
     def save_test_case(self, file_name='deployed.tc'):
         '''Save the deployed test case in a pickle.
         This method is going to delete the fmu from the
