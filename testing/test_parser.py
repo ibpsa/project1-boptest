@@ -183,7 +183,7 @@ class WriteWrapper(unittest.TestCase):
         # Delete leftover files
         utilities.clean_up(testing_root_dir)
         
-class ExportSimulate(unittest.TestCase):
+class ExportSimulate(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the export of a wrapper fmu and simulation of it.
     
     '''
@@ -212,21 +212,13 @@ class ExportSimulate(unittest.TestCase):
         res = simulate.simulate(overwrite=None)
         # Check results
         df = pd.DataFrame()
-        for key in ['time', 'TZone_y', 'PHeat_y', 'setZone_y']:
-            df = pd.concat((df, pd.DataFrame(data=res[key], columns=[key])), axis=1)
+        for key in ['TZone_y', 'PHeat_y', 'setZone_y']:
+            df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'],columns=[key])), axis=1)
+        df.index.name = 'time'
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir, 'references', 'parser', 'results_no_overwrite.csv')
-        if os.path.exists(ref_filepath):
-            # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath)
-            for key in df.columns:
-                y_test = df[key].get_values()
-                y_ref = df_ref[key].get_values()
-                results = utilities.check_trajectory(y_test, y_ref)
-                self.assertTrue(results['Pass'], results['Message'])
-        else:
-            # Otherwise, save as reference
-            df.to_csv(ref_filepath)
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)
         
     def test_simulate_set_overwrite(self):
         '''Test simulation with setpoint overwriting.
@@ -237,21 +229,13 @@ class ExportSimulate(unittest.TestCase):
         res = simulate.simulate(overwrite='set')
         # Check results
         df = pd.DataFrame()
-        for key in ['time', 'TZone_y', 'PHeat_y', 'setZone_y']:
-            df = pd.concat((df, pd.DataFrame(data=res[key], columns=[key])), axis=1)
+        for key in ['TZone_y', 'PHeat_y', 'setZone_y']:
+            df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'], columns=[key])), axis=1)
+        df.index.name = 'time'
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir, 'references', 'parser', 'results_set_overwrite.csv')
-        if os.path.exists(ref_filepath):
-            # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath)
-            for key in df.columns:
-                y_test = df[key].get_values()
-                y_ref = df_ref[key].get_values()
-                results = utilities.check_trajectory(y_test, y_ref)
-                self.assertTrue(results['Pass'], results['Message'])
-        else:
-            # Otherwise, save as reference
-            df.to_csv(ref_filepath)
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)
 
     def test_simulate_act_overwrite(self):
         '''Test simulation with actuator overwriting.
@@ -262,21 +246,13 @@ class ExportSimulate(unittest.TestCase):
         res = simulate.simulate(overwrite='act')
         # Check results
         df = pd.DataFrame()
-        for key in ['time', 'TZone_y', 'PHeat_y', 'setZone_y']:
-            df = pd.concat((df, pd.DataFrame(data=res[key], columns=[key])), axis=1)
+        for key in ['TZone_y', 'PHeat_y', 'setZone_y']:
+            df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'], columns=[key])), axis=1)
+        df.index.name = 'time'
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir, 'references', 'parser', 'results_act_overwrite.csv')
-        if os.path.exists(ref_filepath):
-            # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath)
-            for key in df.columns:
-                y_test = df[key].get_values()
-                y_ref = df_ref[key].get_values()
-                results = utilities.check_trajectory(y_test, y_ref)
-                self.assertTrue(results['Pass'], results['Message'])
-        else:
-            # Otherwise, save as reference
-            df.to_csv(ref_filepath)
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)
             
     def tearDown(self):
         '''Teardown for each test.
