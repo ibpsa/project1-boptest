@@ -5,8 +5,6 @@ USER root
 RUN apt-get update && \
     apt-get install -y git
 
-USER developer
-
 ENV ROOT_DIR /usr/local
 
 WORKDIR $HOME

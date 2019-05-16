@@ -21,14 +21,14 @@ run_jm:
 	cp -r ../parsing ./parsing
 	docker exec -it ${IMG_NAME} /bin/bash -c "cd /mnt/shared/testing && ${ARGS} && exit"
 	docker stop ${IMG_NAME}
-	rm -r parsing
+	rm -rf parsing
 
 test_testcase1:
      # Compile testcase model
 	cp -r ../testcase1/models ./models && make run_jm ARGS="cd models && python compile_fmu.py"
 	cp models/wrapped.fmu ../testcase1/models
 	cp models/kpis.json ../testcase1/models
-	rm -r models
+	rm -rf models
 	# Build testcase image
 	cd .. && TESTCASE=testcase1 make build
 	# Deploy testcase container
@@ -50,7 +50,7 @@ test_testcase2:
 	cp -r ../testcase2/models ./models && make run_jm ARGS="cd models && python compile_fmu.py"
 	cp models/wrapped.fmu ../testcase2/models
 	cp models/kpis.json ../testcase2/models
-	rm -r models
+	rm -rf models
 	# Build testcase image
 	cd .. && TESTCASE=testcase2 make build
 	# Deploy testcase container

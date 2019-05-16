@@ -294,7 +294,7 @@ class partialTestAPI(object):
         requests.put('{0}/reset'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
         for key in y.keys():
-            self.assertAlmostEqual(y[key], self.y_ref[key], places=5)
+            self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
 
     def test_advance_false_overwrite(self):
         '''Test advancing of simulation with overwriting as false.
@@ -312,4 +312,4 @@ class partialTestAPI(object):
         requests.put('{0}/reset'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
         for key in y.keys():
-            self.assertAlmostEqual(y[key], self.y_ref[key], places=5)
+            self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
