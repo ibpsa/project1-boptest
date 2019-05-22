@@ -104,7 +104,7 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
       annotation (Placement(transformation(extent={{360,218},{380,238}})));
     Modelica.Blocks.Sources.RealExpression heaCoiPow(y=abs(heaCoi.Q1_flow))
       annotation (Placement(transformation(extent={{300,302},{320,322}})));
-    IBPSA.Utilities.IO.SignalExchange.Read senPowHeaCoi(
+    IBPSA.Utilities.IO.SignalExchange.Read senGasHea(
       y(unit="W"),
       Description="Thermal power exchanged",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
@@ -112,7 +112,7 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
     Modelica.Blocks.Sources.RealExpression cooCoiPow(y=abs(cooCoi.Q1_flow)*3)
       "Assumes constant EER"
       annotation (Placement(transformation(extent={{300,268},{320,288}})));
-    IBPSA.Utilities.IO.SignalExchange.Read senPowCooCoi(
+    IBPSA.Utilities.IO.SignalExchange.Read senPowCoo(
       y(unit="W"),
       Description="Thermal power exchanged by cooCoi",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
@@ -405,9 +405,9 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
         pattern=LinePattern.Dash));
     connect(fanSup.P, senPowFan.u) annotation (Line(points={{321,-31},{334,-31},
             {334,228},{358,228}}, color={0,0,127}));
-    connect(heaCoiPow.y, senPowHeaCoi.u)
+    connect(heaCoiPow.y, senGasHea.u)
       annotation (Line(points={{321,312},{358,312}}, color={0,0,127}));
-    connect(cooCoiPow.y, senPowCooCoi.u)
+    connect(cooCoiPow.y, senPowCoo.u)
       annotation (Line(points={{321,278},{358,278}}, color={0,0,127}));
     annotation (
       Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1440,
@@ -811,10 +811,10 @@ Removed blocks with blocks from CDL package.
       annotation (Placement(transformation(extent={{40,40},{60,60}})));
     Modelica.Blocks.Sources.RealExpression heaCoiPow(y=abs(terHea.Q1_flow))
       annotation (Placement(transformation(extent={{20,-80},{40,-60}})));
-    IBPSA.Utilities.IO.SignalExchange.Read senPow(
+    IBPSA.Utilities.IO.SignalExchange.Read senPowVAV(
       y(unit="W"),
       Description="Thermal power exchanged",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{80,-80},{100,-60}})));
   equation
     connect(fraMasFlo.u, senMasFlo.m_flow) annotation (Line(
@@ -861,7 +861,7 @@ Removed blocks with blocks from CDL package.
             {-120,-40}}, color={0,0,127}));
     connect(ACH.y, senACH.u)
       annotation (Line(points={{21,50},{38,50}}, color={0,0,127}));
-    connect(heaCoiPow.y, senPow.u)
+    connect(heaCoiPow.y, senPowVAV.u)
       annotation (Line(points={{41,-70},{78,-70}}, color={0,0,127}));
     annotation (Icon(
       graphics={
@@ -1077,13 +1077,13 @@ Removed blocks with blocks from CDL package.
       energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) "Supply air fan"
       annotation (Placement(transformation(extent={{300,-50},{320,-30}})));
 
-    Buildings.Fluid.Sensors.VolumeFlowRate senSupFlo(redeclare package Medium
-        = MediumA, m_flow_nominal=m_flow_nominal)
+    Buildings.Fluid.Sensors.VolumeFlowRate senSupFlo(redeclare package Medium =
+          MediumA, m_flow_nominal=m_flow_nominal)
       "Sensor for supply fan flow rate"
       annotation (Placement(transformation(extent={{400,-50},{420,-30}})));
 
-    Buildings.Fluid.Sensors.VolumeFlowRate senRetFlo(redeclare package Medium
-        = MediumA, m_flow_nominal=m_flow_nominal)
+    Buildings.Fluid.Sensors.VolumeFlowRate senRetFlo(redeclare package Medium =
+          MediumA, m_flow_nominal=m_flow_nominal)
       "Sensor for return fan flow rate"
       annotation (Placement(transformation(extent={{360,130},{340,150}})));
 
