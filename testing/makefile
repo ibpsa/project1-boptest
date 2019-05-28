@@ -1,13 +1,13 @@
+# Utility Functions
+###############################################################################
+
 IMG_NAME=jm
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
 	  --detach=true \
-	  -e DISPLAY=${DISPLAY} \
-	  -v /tmp/.X11-unix:/tmp/.X11-unix \
 	  --rm \
 	  -it \
-	  -v `pwd`:/mnt/shared/testing \
 	  ${IMG_NAME}
 
 build_jm_image:
@@ -18,17 +18,37 @@ remove_jm_image:
 
 run_jm:
 	$(COMMAND_RUN)
-	cp -r ../parsing ./parsing
-	docker exec -it ${IMG_NAME} /bin/bash -c "cd /mnt/shared/testing && ${ARGS} && exit"
-	docker stop ${IMG_NAME}
-	rm -rf parsing
+	docker cp . ${IMG_NAME}:/usr/local/testing
 
+copy_to_jm:
+	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
+
+copy_from_jm:
+	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
+
+exec_jm:
+	docker exec -it ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
+
+stop_jm:
+	docker stop ${IMG_NAME}
+
+compile_testcase_model:
+	make run_jm
+	make ARGS=parsing copy_to_jm
+	make ARGS=${TESTCASE} copy_to_jm
+	make ARGS="cd ${TESTCASE}/models && python compile_fmu.py" exec_jm
+	make ARGS=${TESTCASE}/models/wrapped.fmu copy_from_jm
+	make ARGS=${TESTCASE}/models/wrapped.mo copy_from_jm
+	make ARGS=${TESTCASE}/models/kpis.json copy_from_jm
+	make stop_jm
+
+###############################################################################
+
+# Tests
+###############################################################################
 test_testcase1:
      # Compile testcase model
-	cp -r ../testcase1/models ./models && make run_jm ARGS="cd models && python compile_fmu.py"
-	cp models/wrapped.fmu ../testcase1/models
-	cp models/kpis.json ../testcase1/models
-	rm -rf models
+	TESTCASE=testcase1 make compile_testcase_model
 	# Build testcase image
 	cd .. && TESTCASE=testcase1 make build
 	# Deploy testcase container
@@ -44,13 +64,9 @@ test_testcase1:
 	cd .. && TESTCASE=testcase1 make remove-image
 	cd ../examples/julia && Script=twoday_p make remove-image
 
-
 test_testcase2:
      # Compile testcase model
-	cp -r ../testcase2/models ./models && make run_jm ARGS="cd models && python compile_fmu.py"
-	cp models/wrapped.fmu ../testcase2/models
-	cp models/kpis.json ../testcase2/models
-	rm -rf models
+	TESTCASE=testcase2 make compile_testcase_model
 	# Build testcase image
 	cd .. && TESTCASE=testcase2 make build
 	# Deploy testcase container
@@ -66,10 +82,17 @@ test_testcase2:
 	cd .. && TESTCASE=testcase2 make remove-image
 	cd ../examples/julia && Script=szvav_sup make remove-image
 
-
 test_parser:
-	make run_jm ARGS="python test_parser.py"
+	make run_jm
+	make ARGS=parsing copy_to_jm
+	make ARGS="python test_parser.py" exec_jm
+	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
+	make stop_jm
 
+###############################################################################
+
+# Run all tests
+###############################################################################
 test_all:
 	# Build jm
 	make build_jm_image
