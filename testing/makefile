@@ -34,12 +34,12 @@ stop_jm:
 
 compile_testcase_model:
 	make run_jm
-	make ARGS=parsing copy_to_jm
-	make ARGS=${TESTCASE} copy_to_jm
-	make ARGS="cd ${TESTCASE}/models && python compile_fmu.py" exec_jm
-	make ARGS=${TESTCASE}/models/wrapped.fmu copy_from_jm
-	make ARGS=${TESTCASE}/models/wrapped.mo copy_from_jm
-	make ARGS=${TESTCASE}/models/kpis.json copy_from_jm
+	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=${TESTCASE}
+	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
+	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
+	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.mo
+	make copy_from_jm ARGS=${TESTCASE}/models/kpis.json
 	make stop_jm
 
 ###############################################################################
@@ -48,44 +48,46 @@ compile_testcase_model:
 ###############################################################################
 test_testcase1:
      # Compile testcase model
-	TESTCASE=testcase1 make compile_testcase_model
+	make compile_testcase_model TESTCASE=testcase1
 	# Build testcase image
-	cd .. && TESTCASE=testcase1 make build
+	cd .. &&  make build TESTCASE=testcase1
 	# Deploy testcase container
-	cd .. && TESTCASE=testcase1 make run-detached && sleep 3
+	cd .. && make run-detached TESTCASE=testcase1
+	python sleep3.py
 	# Run testcase tests
 	# Julia
-	cd ../examples/julia && Script=twoday_p make build && Script=twoday_p make run
+	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
 	# Python and checks
 	cd .. && python testing/test_testcase1.py
 	# Stop testcase container
-	cd .. && TESTCASE=testcase1 make stop
+	cd .. && make stop TESTCASE=testcase1
 	# Remove testcase image
-	cd .. && TESTCASE=testcase1 make remove-image
-	cd ../examples/julia && Script=twoday_p make remove-image
+	cd .. && make remove-image TESTCASE=testcase1
+	cd ../examples/julia && make remove-image Script=twoday_p
 
 test_testcase2:
      # Compile testcase model
-	TESTCASE=testcase2 make compile_testcase_model
+	make compile_testcase_model TESTCASE=testcase2 
 	# Build testcase image
-	cd .. && TESTCASE=testcase2 make build
+	cd .. && make build TESTCASE=testcase2
 	# Deploy testcase container
-	cd .. && TESTCASE=testcase2 make run-detached && sleep 3
+	cd .. && make run-detached TESTCASE=testcase2
+	python sleep3.py
 	# Run testcase tests
 	# Julia
-	cd ../examples/julia && Script=szvav_sup make build && Script=szvav_sup make run
+	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
 	# Python and checks
 	cd .. && python testing/test_testcase2.py
 	# Stop testcase container
-	cd .. && TESTCASE=testcase2 make stop
+	cd .. && make stop TESTCASE=testcase2
 	# Remove testcase image
-	cd .. && TESTCASE=testcase2 make remove-image
-	cd ../examples/julia && Script=szvav_sup make remove-image
+	cd .. && make remove-image TESTCASE=testcase2
+	cd ../examples/julia && make remove-image Script=szvav_sup
 
 test_parser:
 	make run_jm
-	make ARGS=parsing copy_to_jm
-	make ARGS="python test_parser.py" exec_jm
+	make copy_to_jm ARGS=parsing
+	make exec_jm ARGS="python test_parser.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
 	make stop_jm
 
