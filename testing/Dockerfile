@@ -5,6 +5,8 @@ USER root
 RUN apt-get update && \
     apt-get install -y git
 
+USER developer
+
 ENV ROOT_DIR /usr/local
 
 WORKDIR $HOME
@@ -25,6 +27,3 @@ ENV SEPARATE_PROCESS_JVM /usr/lib/jvm/java-8-openjdk-amd64/
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PYTHONPATH $PYTHONPATH:$JMODELICA_HOME/Python:$JMODELICA_HOME/Python/pymodelica:/usr/local/testing
 ENV MODELICAPATH $MODELICAPATH:$HOME/git/buildings/modelica-buildings:$HOME/git/ibpsa/modelica-ibpsa
-
-
-
