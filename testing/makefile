@@ -22,7 +22,7 @@ run_jm:
 
 copy_to_jm:
 	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
-	docker exec -it ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing/${ARGS} && exit"
+	docker exec -it ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
 
 copy_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
