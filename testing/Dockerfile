@@ -3,7 +3,8 @@ FROM michaelwetter/ubuntu-1604_jmodelica_trunk
 USER root
 
 RUN apt-get update && \
-    apt-get install -y git
+    apt-get install -y git && \
+    apt-get install -y sudo
 
 USER developer
 
