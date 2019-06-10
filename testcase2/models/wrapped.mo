@@ -1,8 +1,8 @@
 model wrapped "Wrapped model"
 	// Input overwrite
-	Modelica.Blocks.Interfaces.RealInput oveTSetRooCoo_u(unit="K") "Cooling setpoint";
+	Modelica.Blocks.Interfaces.RealInput oveTSetRooCoo_u(unit="K", min=283.15, max=308.15) "Cooling setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetRooCoo_activate "Activation for Cooling setpoint";
-	Modelica.Blocks.Interfaces.RealInput oveTSetRooHea_u(unit="K") "Heating setpoint";
+	Modelica.Blocks.Interfaces.RealInput oveTSetRooHea_u(unit="K", min=283.15, max=308.15) "Heating setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetRooHea_activate "Activation for Heating setpoint";
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput PHea_y(unit="W") = mod.PHea.y "Heater power";

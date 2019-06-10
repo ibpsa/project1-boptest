@@ -30,8 +30,11 @@ model SimpleRC
     yMax=100000) "Feedback controller for the heater based on room temperature"
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveAct(u(unit="W"), Description=
-        "Heater thermal power")   "Overwrite the heating power"
+                           oveAct(             Description=
+        "Heater thermal power", u(
+      unit="W",
+      min=0,
+      max=10000))                 "Overwrite the heating power"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeat
     "Set the heating power to the room"
