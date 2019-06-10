@@ -63,7 +63,6 @@ test_testcase1:
 	# Stop testcase container
 	cd .. && make stop TESTCASE=testcase1
 	# Remove testcase image
-	cd .. && make remove-image TESTCASE=testcase1
 	cd ../examples/julia && make remove-image Script=twoday_p
 
 test_testcase2:
@@ -82,7 +81,6 @@ test_testcase2:
 	# Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
 	# Remove testcase image
-	cd .. && make remove-image TESTCASE=testcase2
 	cd ../examples/julia && make remove-image Script=szvav_sup
 
 test_parser:
