@@ -1,8 +1,8 @@
 model wrapped "Wrapped model"
 	// Input overwrite
-	Modelica.Blocks.Interfaces.RealInput oveSet_u(unit="K") "Zone temperature setpoint";
+	Modelica.Blocks.Interfaces.RealInput oveSet_u(unit="K", min=283.15, max=308.15) "Zone temperature setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput oveSet_activate "Activation for Zone temperature setpoint";
-	Modelica.Blocks.Interfaces.RealInput oveAct_u(unit="W") "Heater thermal power";
+	Modelica.Blocks.Interfaces.RealInput oveAct_u(unit="W", min=0.0, max=3000.0) "Heater thermal power";
 	Modelica.Blocks.Interfaces.BooleanInput oveAct_activate "Activation for Heater thermal power";
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput EHeat_y(unit="J") = mod.EHeat.y "Heater electrical energy";

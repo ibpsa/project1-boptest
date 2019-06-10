@@ -63,12 +63,18 @@ package SingleZoneVAV
            + 273.15]) "Cooling setpoint for room temperature"
       annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite
-                             oveTSetRooHea(u(unit="K"), Description=
-          "Heating setpoint")
+                             oveTSetRooHea(             Description=
+          "Heating setpoint", u(
+        unit="K",
+        min=273.15 + 10,
+        max=273.15 + 35))
       annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite
-                             oveTSetRooCoo(u(unit="K"), Description=
-          "Cooling setpoint")
+                             oveTSetRooCoo(             Description=
+          "Cooling setpoint", u(
+        unit="K",
+        min=273.15 + 10,
+        max=273.15 + 35))
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
     IBPSA.Utilities.IO.SignalExchange.Read
                         PPum(y(unit="W"), Description="Pump electrical power")
