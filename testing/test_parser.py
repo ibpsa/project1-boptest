@@ -173,7 +173,15 @@ class WriteWrapper(unittest.TestCase):
     def test_create_wrapped(self):
         self.assertEqual(self.fmu_path, os.path.join(testing_root_dir, '.', 'wrapped.fmu'))
         self.assertEqual(self.wrapped_path, os.path.join('wrapped.mo'))
-        self.assertTrue(filecmp.cmp(self.wrapped_path, os.path.join(testing_root_dir, 'references', 'parser', 'wrapped.mo')))
+        with open(self.wrapped_path, 'rU') as f_test:         
+            with open(os.path.join(testing_root_dir, 'references', 'parser', 'wrapped.mo'), 'rU') as f_ref:
+                line_test = f_test.readline()
+                i = 1
+                while line_test:
+                    line_ref = f_ref.readline()
+                    self.assertTrue(line_test==line_ref, 'Not the same on line {0} of reference file.\nTest Line: {1}\nRef Line:  {2}'.format(i,line_test, line_ref))
+                    line_test = f_test.readline()
+                    i = i + 1
 
     def tearDown(self):
         '''Teardown for each test.
