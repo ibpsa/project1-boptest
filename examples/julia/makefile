@@ -18,8 +18,11 @@ run:
 	$(COMMAND_RUN) && \
 	docker cp . ${IMG_NAME}:/usr/myapp && \
 	docker exec -it ${IMG_NAME} /bin/bash -c "julia /usr/myapp/${Script}.jl" && \
-	docker cp ${IMG_NAME}:/usr/myapp/. . && \
+	make copy_from_container ARGS=. && \
 	docker stop ${IMG_NAME}
+
+copy_from_container:
+	docker cp ${IMG_NAME}:/usr/myapp/${ARGS} ${ARGS}
 
 stop:
 	docker stop ${Script}
