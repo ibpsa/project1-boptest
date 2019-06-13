@@ -16,5 +16,6 @@
               "EmissionsDistrictHeatingPower",
               "EmissionsBiomassPower",
               "EmissionsSolarThermalPower"],
-"occupancy": ["occupancy"],
+"occupancy": ["Occupancy"],
+"internalGains": ["InternalGains"],
 "setpoints": ["LowerSetp", "UpperSetp"]}

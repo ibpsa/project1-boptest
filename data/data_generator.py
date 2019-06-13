@@ -111,6 +111,7 @@ class Data_Generator(object):
         self.generate_prices()
         self.generate_emissions()
         self.generate_occupancy()
+        self.generate_internalGains()
         self.generate_setpoints()
     
     def generate_weather(self,
@@ -295,7 +296,8 @@ class Data_Generator(object):
     def generate_occupancy(self,
                         start_day_time = '07:00:00',
                         end_day_time   = '18:00:00'):
-        '''Append occupancy schedules
+        '''The occupancy indicates the number of people in the building
+        at each time.
         
         Parameters
         ----------
@@ -312,11 +314,38 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'occupancy'] = 1
-        df.loc[~df.index.isin(day_time_index),'occupancy'] = 0
+        df.loc[df.index.isin(day_time_index), 'Occupancy'] = 10
+        df.loc[~df.index.isin(day_time_index),'Occupancy'] = 0
         
         # Store in csv
-        self.store_df(df,'occupancy')    
+        self.store_df(df,'Occupancy')  
+        
+    def generate_internalGains(self,
+                        start_day_time = '07:00:00',
+                        end_day_time   = '18:00:00'):
+        '''The internal gains are the heat gains (in Watts) produced by 
+        electrical appliances and the people within the building.
+        
+        Parameters
+        ----------
+        start_day_time: str
+            string in pandas date-time format with the starting day time
+        end_day_time: str
+            string in pandas date-time format with the ending day time
+            
+        '''
+        
+        # Initialize data frame
+        df = self.create_df()
+        
+        day_time_index = df.between_time(start_day_time, 
+                                         end_day_time).index
+
+        df.loc[df.index.isin(day_time_index), 'InternalGains'] = 1000
+        df.loc[~df.index.isin(day_time_index),'InternalGains'] = 0
+        
+        # Store in csv
+        self.store_df(df,'internalGains')  
         
     def generate_setpoints(self,
                          start_day_time = '07:00:00',
