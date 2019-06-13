@@ -48,39 +48,39 @@ compile_testcase_model:
 # Tests
 ###############################################################################
 test_testcase1:
-     # Compile testcase model
+# Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
-	# Build testcase image
+# Build testcase image
 	cd .. &&  make build TESTCASE=testcase1
-	# Deploy testcase container
+# Deploy testcase container
 	cd .. && make run-detached TESTCASE=testcase1
 	python sleep3.py
-	# Run testcase tests
-	# Julia
+# Run testcase tests
+# Julia
 	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
-	# Python and checks
+# Python and checks
 	cd .. && python testing/test_testcase1.py
-	# Stop testcase container
+# Stop testcase container
 	cd .. && make stop TESTCASE=testcase1
-	# Remove testcase image
+# Remove testcase image
 	cd ../examples/julia && make remove-image Script=twoday_p
 
 test_testcase2:
-     # Compile testcase model
+# Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2 
-	# Build testcase image
+# Build testcase image
 	cd .. && make build TESTCASE=testcase2
-	# Deploy testcase container
+# Deploy testcase container
 	cd .. && make run-detached TESTCASE=testcase2
 	python sleep3.py
-	# Run testcase tests
-	# Julia
+# Run testcase tests
+# Julia
 	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
-	# Python and checks
+# Python and checks
 	cd .. && python testing/test_testcase2.py
-	# Stop testcase container
+# Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
-	# Remove testcase image
+# Remove testcase image
 	cd ../examples/julia && make remove-image Script=szvav_sup
 
 test_parser:
@@ -95,14 +95,14 @@ test_parser:
 # Run all tests
 ###############################################################################
 test_all:
-	# Build jm
+# Build jm
 	make build_jm_image
-	# Run tests
+# Run tests
 	make test_parser
 	make test_testcase1
 	make test_testcase2
-	# Remove jm
+# Remove jm
 	make remove_jm_image
-	# Report test results
+# Report test results
 	python report.py
 
