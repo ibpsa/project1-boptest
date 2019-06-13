@@ -12,10 +12,9 @@ import utilities
 import requests
 from examples.python import twoday_p
 
-root_dir = utilities.get_root_path()
-kpi_ref = {'energy' : 13.266839892179254, 'comfort' : 6.568340735543789}
-    
-class ExampleProportionalPython(unittest.TestCase):
+kpi_ref = {'energy' : 13.273897900783135, 'comfort' : 6.572523639734243}
+
+class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of proportional feedback controller in Python.
     
     '''
@@ -35,30 +34,22 @@ class ExampleProportionalPython(unittest.TestCase):
         # Run test
         kpi,res = twoday_p.run()
         # Check kpis
-        self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=5)
-        self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=5)
+        self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=3)
+        self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=3)
         # Check trajectories
         # Make dataframe
-        df = pd.DataFrame(data=res['y']['time'], columns=['time'])
+        df = pd.DataFrame()
         for s in ['y','u']:
             for x in res[s].keys():
                 if x != 'time':
-                    df = pd.concat((df,pd.DataFrame(data=res[s][x], columns=[x])), axis=1)
+                    df = pd.concat((df,pd.DataFrame(data=res[s][x], index=res['y']['time'],columns=[x])), axis=1)
+        df.index.name = 'time'
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results_python.csv')
-        if os.path.exists(ref_filepath):
-            # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath)
-            for key in df.columns:
-                y_test = df[key].get_values()
-                y_ref = df_ref[key].get_values()
-                results = utilities.check_trajectory(y_test, y_ref)
-                self.assertTrue(results['Pass'], results['Message'])
-        else:
-            # Otherwise, save as reference
-            df.to_csv(ref_filepath)
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)
             
-class ExampleProportionalJulia(unittest.TestCase):
+class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of proportional feedback controller in Julia.
     
     '''
@@ -80,23 +71,14 @@ class ExampleProportionalJulia(unittest.TestCase):
         res_path = os.path.join(utilities.get_root_path(), 'examples', 'julia', 'result_testcase1.csv')
         # Check kpis
         kpi = pd.read_csv(kpi_path)
-        self.assertAlmostEqual(kpi['energy'].get_values()[0], kpi_ref['energy'], places=5)
-        self.assertAlmostEqual(kpi['comfort'].get_values()[0], kpi_ref['comfort'], places=5)
+        self.assertAlmostEqual(kpi['energy'].get_values()[0], kpi_ref['energy'], places=3)
+        self.assertAlmostEqual(kpi['comfort'].get_values()[0], kpi_ref['comfort'], places=3)
         # Check trajectories
-        df = pd.read_csv(res_path)
+        df = pd.read_csv(res_path, index_col = 'time')
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results_julia.csv')
-        if os.path.exists(ref_filepath):
-            # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath)
-            for key in df.columns:
-                y_test = df[key].get_values()
-                y_ref = df_ref[key].get_values()
-                results = utilities.check_trajectory(y_test, y_ref)
-                self.assertTrue(results['Pass'], results['Message'])
-        else:
-            # Otherwise, save as reference
-            df.to_csv(ref_filepath)
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)
             
 class MinMax(unittest.TestCase):
     '''Test the use of min/max attributes to truncate the controller input.
@@ -132,7 +114,7 @@ class MinMax(unittest.TestCase):
         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":500000}).json()
         # Check kpis
         value = float(y['PHea_y'])
-        self.assertAlmostEqual(value, 10101.010101010103, places=5)
+        self.assertAlmostEqual(value, 10101.010101010103, places=3)
         
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 2.  

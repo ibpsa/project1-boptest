@@ -1,47 +1,108 @@
-test_testcase1:
-	# Compile testcase model
-	cd ../testcase1/models && python compile_fmu.py
-	# Build testcase image
-	cd .. && TESTCASE=testcase1 make build
-	# Deploy testcase container
-	cd .. && TESTCASE=testcase1 make run-detached && sleep 3
-	# Run testcase tests
-	# Julia
-	cd ../examples/julia && Script=twoday_p make build && Script=twoday_p make run
-	# Python and checks
-	cd .. && python testing/test_testcase1.py
-	# Stop testcase container
-	cd .. && TESTCASE=testcase1 make stop
-	# Remove testcase image
-	cd .. && TESTCASE=testcase1 make remove-image
-	cd ../examples/julia && Script=twoday_p make remove-image
+# Utility Functions
+###############################################################################
 
+IMG_NAME=jm
+
+COMMAND_RUN=docker run \
+	  --name ${IMG_NAME} \
+	  --detach=true \
+	  --rm \
+	  -it \
+	  ${IMG_NAME}
+
+build_jm_image:
+	docker build --no-cache --rm -t ${IMG_NAME} .
+
+remove_jm_image:
+	docker rmi ${IMG_NAME}
+
+run_jm:
+	$(COMMAND_RUN)
+	docker cp . ${IMG_NAME}:/usr/local/testing
+
+copy_to_jm:
+	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
+	docker exec -it ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
+
+copy_from_jm:
+	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
+
+exec_jm:
+	docker exec -it ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
+
+stop_jm:
+	docker stop ${IMG_NAME}
+
+compile_testcase_model:
+	make run_jm
+	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=${TESTCASE}
+	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
+	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
+	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.mo
+	make copy_from_jm ARGS=${TESTCASE}/models/kpis.json
+	make stop_jm
+
+###############################################################################
+
+# Tests
+###############################################################################
+test_testcase1:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase1
+# Build testcase image
+	cd .. &&  make build TESTCASE=testcase1
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=testcase1
+	python sleep3.py
+# Run testcase tests
+# Julia
+	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
+# Python and checks
+	cd .. && python testing/test_testcase1.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=testcase1
+# Remove testcase image
+	cd ../examples/julia && make remove-image Script=twoday_p
 
 test_testcase2:
-	# Compile testcase model
-	cd ../testcase2/models && python compile_fmu.py
-	# Build testcase image
-	cd .. && TESTCASE=testcase2 make build
-	# Deploy testcase container
-	cd .. && TESTCASE=testcase2 make run-detached && sleep 3
-	# Run testcase tests
-	# Julia
-	cd ../examples/julia && Script=szvav_sup make build && Script=szvav_sup make run
-	# Python and checks
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase2 
+# Build testcase image
+	cd .. && make build TESTCASE=testcase2
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=testcase2
+	python sleep3.py
+# Run testcase tests
+# Julia
+	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
+# Python and checks
 	cd .. && python testing/test_testcase2.py
-	# Stop testcase container
-	cd .. && TESTCASE=testcase2 make stop
-	# Remove testcase image
-	cd .. && TESTCASE=testcase2 make remove-image
-	cd ../examples/julia && Script=szvav_sup make remove-image
-
+# Stop testcase container
+	cd .. && make stop TESTCASE=testcase2
+# Remove testcase image
+	cd ../examples/julia && make remove-image Script=szvav_sup
 
 test_parser:
-	# Run parser and export wrapper model and fmu
-	python test_parser.py
+	make run_jm
+	make copy_to_jm ARGS=parsing
+	make exec_jm ARGS="python test_parser.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
+	make stop_jm
 
+###############################################################################
+
+# Run all tests
+###############################################################################
 test_all:
+# Build jm
+	make build_jm_image
+# Run tests
 	make test_parser
 	make test_testcase1
 	make test_testcase2
+# Remove jm
+	make remove_jm_image
+# Report test results
 	python report.py
+
