@@ -21,7 +21,10 @@ import json
 class Data_Manager(object):
     '''Class to access the test case data within the resources 
     folder of the test case FMU. The returned data may be used 
-    for forecasting purposes or for KPI calculations.
+    for forecasting purposes or for KPI calculations. It also stores 
+    the data as a csv file within the Resources folder of the test
+    case and within the resources folder of the wrapped.fmu of this 
+    test case.
     
     '''
 
@@ -48,6 +51,101 @@ class Data_Manager(object):
         # Load possible data keys
         with open(os.path.join(data_dir,'categories.json'),'r') as f:
             self.categories = json.loads(f.read()) 
+        
+    def append_csv_data(self):
+        '''Append data from any .csv file within the Resources folder
+        of the testcase. The .csv file must contain a 'time' column 
+        in seconds from the beginning of the year and one of the 
+        keys defined within categories.kpis. Other data without these
+        keys will be neglected.
+        
+        '''
+        
+        # Find all data keys
+        all_keys = []
+        for category in self.categories:
+            all_keys.extend(self.categories[category])
+        
+        # Keep track of the data already appended to avoid duplicities
+        appended = {key: False for key in all_keys}
+        
+        # Search for .csv files in the resources folder
+        for f in self.files:
+            if f.endswith('.csv'):
+                df = pd.read_csv(f)
+                keys = df.keys()
+                if 'time' in keys:
+                    for key in keys.drop('time'):
+                        # Raise error if key already appended
+                        if appended[key]:
+                            raise ReferenceError('{0} in multiple files within the Resources folder'.format(key))
+                        # Trim df from keys that are not in categories
+                        elif key not in all_keys:
+                            df.drop(key, inplace=True)
+                        else:
+                            appended[key] = True
+                    # Copy the trimmed df if any key found in categories
+                    if len(df.keys())>0:
+                        df.to_csv(f+'_trimmed', index=False)
+                        file_name = os.path.split(f)[1]
+                        self.z_fmu.write(f, os.path.join('resources',
+                                                         file_name))
+                        os.remove(f+'_trimmed')
+                else:
+                    warnings.warn('The following file does not have '\
+                    'time column and therefore no data is going to '\
+                    'be used from this file as test case data.', Warning) 
+                    print(f)
+                    
+    def save_data(self, fmu_path):
+        '''Store the all the .csv test case data within the resources
+        folder of the fmu. Save also the kpis.json file in the same
+        folder.
+        
+        fmu_path : str
+            Path to the fmu where the data is to be saved. The reason
+            to do not get this path from the tescase config file is 
+            that this method is called by the parser before the test 
+            case is created. 
+        
+        '''
+        
+        # Open the fmu zip file in append mode
+        self.z_fmu = zipfile.ZipFile(fmu_path,'a')
+        
+        # Find the models directory
+        models_dir = os.path.split(os.path.abspath(fmu_path))[0]
+        
+        # Find the Resources folder
+        resources_dir = os.path.join(models_dir, 'Resources')
+        
+        if os.path.exists(resources_dir):
+            # Find all files within Resources folder
+            self.files = []
+            for root, _, files in os.walk(resources_dir):
+                for f in files:
+                    self.files.append(os.path.join(root,f))   
+            
+            # Write a copy all .csv files within the fmu resources folder
+            self.append_csv_data() 
+        else:
+            warnings.warn('No Resources folder found for this FMU, ' \
+                          'No additional data will be stored within the FMU.')
+        
+        # Find the kpis.json path
+        kpi_path = os.path.join(models_dir, 'kpis.json')
+        
+        # Write a copy of the kpis.json within the fmu resources folder
+        if os.path.exists(kpi_path):
+            self.z_fmu.write(kpi_path, 
+                             os.path.join('resources', 'kpis.json'))
+            os.remove(kpi_path)
+        else:
+            warnings.warn('No kpis.json found for this test case, ' \
+                          'use the parser to get this file.')
+                
+        # Close the fmu
+        self.z_fmu.close()
         
     def get_data(self, horizon=24*3600, interval=None, index=None, 
                  category=None, plot=False):

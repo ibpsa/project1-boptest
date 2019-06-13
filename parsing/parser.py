@@ -16,7 +16,7 @@ from pyfmi import load_fmu
 from pymodelica import compile_fmu
 import os
 import json
-from data.data_generator import Data_Generator
+from data.data_manager import Data_Manager
 
 def parse_instances(model_path, file_name):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -194,8 +194,8 @@ def export_fmu(model_path, file_name):
     with open(kpi_path, 'w') as f:
         json.dump(kpis, f)
     # Generate test case data
-    gen = Data_Generator(fmu_path=fmu_path)
-    gen.save_data()
+    man = Data_Manager()
+    man.save_data(fmu_path=fmu_path)
     
     return fmu_path, kpi_path
 

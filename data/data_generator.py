@@ -14,29 +14,21 @@ from pymodelica import compile_fmu
 from pyfmi import load_fmu
 import pandas as pd
 import os
-import zipfile
 import platform
 import json
-import warnings
 
 class Data_Generator(object):
     '''
-    This class prepares a data file with the weather data, 
-    energy prices, emission factors, internal gains and 
-    temperature set points. It also stores the data as a 
-    csv file within the Resources folder of the test
-    case and within the resources folder of the 
-    wrapped.fmu of this test case. Generating the data
-    from this class ensures that all the data is 
-    concatenated using the proper indexes and that 
-    the data is substracted and located within the 
-    correct directories. It also ensures that the right
-    column keys are used.
+    This class generates weather data, energy prices, 
+    emission factors, internal gains and temperature 
+    set points. Generating the data with this class 
+    ensures that all the data is using the right 
+    column keys.
     
     '''
     
     def __init__(self,
-                 fmu_path=None,
+                 resources_dir,
                  start_time="20090101 00:00:00",
                  final_time="20091231 23:00:00",
                  period=3600):
@@ -44,8 +36,8 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        fmu_path : str
-            Path to the fmu where the data is to be saved
+        resources_dir: string
+            path to resources test case directory
         start_time: string
             Pandas date-time indicating the starting 
             time of the data frame.
@@ -57,17 +49,8 @@ class Data_Generator(object):
         
         '''
         
-        # Path to fmu
-        self.fmu_path  = fmu_path
-        
-        # test case models directory
-        models_dir = os.path.split(os.path.abspath(fmu_path))[0]
-        
         # test case Resources directory
-        self.resources_dir = os.path.join(models_dir,'Resources')
-        
-        # Path to kpis.json file
-        self.kpi_path = os.path.join(models_dir,'kpis.json')
+        self.resources_dir = resources_dir
         
         # Find all files within Resources folder
         self.files = []
@@ -406,84 +389,12 @@ class Data_Generator(object):
         
         # Save a copy of the csv within the test case Resources folder 
         df.to_csv(os.path.join(self.resources_dir,name+'.csv'), 
-                  index=False)
-        
-    def append_csv_data(self):
-        '''Append data from any .csv file within the Resources folder
-        of the testcase. The .csv file must contain a 'time' column 
-        in seconds from the beginning of the year and one of the 
-        keys defined within categories.kpis. Other data without these
-        keys will be neglected.
-        
-        '''
-        
-        # Find all data keys
-        all_keys = []
-        for category in self.categories:
-            all_keys.extend(self.categories[category])
-        
-        # Keep track of the data already appended to avoid duplicities
-        appended = {key: False for key in all_keys}
-        
-        # Search for .csv files in the resources folder
-        for f in self.files:
-            if f.endswith('.csv'):
-                df = pd.read_csv(f)
-                keys = df.keys()
-                if 'time' in keys:
-                    for key in keys.drop('time'):
-                        # Raise error if key already appended
-                        if appended[key]:
-                            raise ReferenceError('{0} in multiple files within the Resources folder'.format(key))
-                        # Trim df from keys that are not in categories
-                        elif key not in all_keys:
-                            df.drop(key, inplace=True)
-                        else:
-                            appended[key] = True
-                    # Copy the trimmed df if any key found in categories
-                    if len(df.keys())>0:
-                        df.to_csv(f+'_trimmed', index=False)
-                        file_name = os.path.split(f)[1]
-                        self.z_fmu.write(f, os.path.join('resources',
-                                                         file_name))
-                        os.remove(f+'_trimmed')
-                else:
-                    warnings.warn('The following file does not have '\
-                    'time column and therefore no data is going to '\
-                    'be used from this file as test case data.', Warning) 
-                    print(f)
-                    
-    def save_data(self):
-        '''Store the all the .csv test case data within the resources
-        folder of the fmu. Save also the kpis.json file in the same
-        folder.
-        
-        '''
-        
-        # Open the fmu zip file in append mode
-        self.z_fmu = zipfile.ZipFile(self.fmu_path,'a')
-        
-        # Write a copy all .csv files within the fmu resources folder
-        self.append_csv_data() 
-        
-        # Write a copy of the kpis.json within the fmu resources folder
-        if os.path.exists(self.kpi_path):
-            self.z_fmu.write(self.kpi_path, 
-                             os.path.join('resources', 'kpis.json'))
-            os.remove(self.kpi_path)
-        else:
-            warnings.warn('No kpis.json found for this test case, ' \
-                          'use the parser to get this file.')
-                
-        # Close the fmu
-        self.z_fmu.close()
-        
+                  index=False)        
         
 if __name__ == "__main__":
-    fmu_path = os.path.join(\
+    resources_dir = os.path.join(\
         os.path.split(os.path.split(os.path.abspath(__file__))[0])[0], 
-        'testcase2','models','wrapped.fmu')
-    gen = Data_Generator(fmu_path)
+        'testcase2','models','Resources')
+    gen = Data_Generator(resources_dir)
     gen.generate_data()    
-    gen.save_data()
     
