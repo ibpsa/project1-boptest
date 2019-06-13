@@ -19,12 +19,13 @@ import os
 import json
 
 class Data_Manager(object):
-    '''Class to access the test case data within the resources 
-    folder of the test case FMU. The returned data may be used 
-    for forecasting purposes or for KPI calculations. It also stores 
-    the data as a csv file within the Resources folder of the test
-    case and within the resources folder of the wrapped.fmu of this 
-    test case.
+    ''' This class has the functionality to store and retrieve the data 
+    into and from the resources folder of the wrapped.fmu. To store the 
+    data, it looks into the csv files within the test case Resources folder 
+    searching for columns with keys that accomplish the BOPTEST data
+    convention specified in the categories.json file.
+    The data retrieved from a test case may be used for forecasting 
+    purposes or for KPI calculations.
     
     '''
 
@@ -66,7 +67,7 @@ class Data_Manager(object):
         for category in self.categories:
             all_keys.extend(self.categories[category])
         
-        # Keep track of the data already appended to avoid duplicities
+        # Keep track of the data already appended to avoid duplication
         appended = {key: False for key in all_keys}
         
         # Search for .csv files in the resources folder
@@ -88,8 +89,8 @@ class Data_Manager(object):
                     if len(df.keys())>0:
                         df.to_csv(f+'_trimmed', index=False)
                         file_name = os.path.split(f)[1]
-                        self.z_fmu.write(f, os.path.join('resources',
-                                                         file_name))
+                        self.z_fmu.write(f+'_trimmed', os.path.join('resources',
+                                         file_name))
                         os.remove(f+'_trimmed')
                 else:
                     warnings.warn('The following file does not have '\
@@ -97,7 +98,7 @@ class Data_Manager(object):
                     'be used from this file as test case data.', Warning) 
                     print(f)
                     
-    def save_data(self, fmu_path):
+    def save_data_and_kpisjson(self, fmu_path):
         '''Store the all the .csv test case data within the resources
         folder of the fmu. Save also the kpis.json file in the same
         folder.
@@ -150,22 +151,29 @@ class Data_Manager(object):
     def get_data(self, horizon=24*3600, interval=None, index=None, 
                  category=None, plot=False):
         '''Retrieve test case data from the fmu. The data
-        is stored within the data_file_name file that 
-        is located in the resources folder of the wrapped.fmu.
+        is stored within the csv files that are 
+        located in the resources folder of the wrapped.fmu.
         
         Parameters
         ----------
-        horizon : int
-            Length of the requested forecast in seconds 
-        interval: int (optional)
+        horizon : int (optional)
+            Length of the requested forecast in seconds. By default one
+            day will be used. 
+        interval : int (optional)
             resampling time interval in seconds. If None,
-            the test case step will be used instead
+            the test case step will be used instead.
+        index : numpy array (optional)
+            time vector for which the data points are requested.
+            The interpolation is linear for the weather data
+            and forward fill for the other data categories. If 
+            index is None, the default case step is used as default. 
         category : string (optional)
             Type of data to retrieve from the test case.
             If None it will return all available test case
             data without filtering it by any category. 
-            Possible options are 'weather', 'prices',
-            'emissions', 'occupancy', 'setpoints'
+            The possible options are specified at categories.json.
+        plot : Boolean
+            True if desired to plot the retrieved data
             
         Returns
         -------
@@ -176,14 +184,14 @@ class Data_Manager(object):
         Notes
         -----
         The read and pre-process of the data happens only 
-        once to reduce the computational load during the 
-        co-simulation
+        once (at load_data_and_kpisjson) to reduce the computational 
+        load during the co-simulation
         
         '''
         
         # First read the test case data if not read yet
         if not hasattr(self.case, 'data'):    
-            self.load_data()
+            self.load_data_and_kpisjson()
         
         # Filter the requested data columns
         if category is not None:
@@ -229,16 +237,10 @@ class Data_Manager(object):
         # Transform data frame to dictionary
         return data_slice_reindexed.reset_index().to_dict('list')
     
-    def load_data(self):
-        '''Load the data from the resources folder of the fmu.
+    def load_data_and_kpisjson(self):
+        '''Load the data and kpis.json from the resources folder of the fmu.
         Resample it with the specified time interval.
         
-        Parameters
-        ----------
-        data_file_name : string
-            Name of the data file from where the data is 
-            retrieved. Notice that this file should be within
-            the resources folder of the wrapped.fmu
         '''
         
         # Point to the fmu zip file
@@ -294,7 +296,7 @@ class Data_Manager(object):
                         # Use forward fill for discrete variables
                         elif key in self.categories[category]:
                             g = interpolate.interp1d(df['time'],df[key], 
-                                kind='linear',fill_value='extrapolate')
+                                kind='zero',fill_value='extrapolate')
                             self.case.data.loc[:,key] = \
                                 g(self.case.data.index)
             else:

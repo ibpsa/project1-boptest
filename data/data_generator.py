@@ -95,11 +95,10 @@ class Data_Generator(object):
         
     def generate_data(self):
         '''This method generates the weather data, the
-        energy prices, the emission factors, the
-        internal gains and the temperature set 
-        points and stores each in a separate csv 
-        file within the Resources folder of the test
-        case.
+        energy prices, the emission factors, the occupancy 
+        schedule, the internal gains and the temperature set 
+        points, and it stores each data-set in a separate csv 
+        file within the Resources folder of the test case.
         
         '''
         
@@ -239,8 +238,6 @@ class Data_Generator(object):
         end_day_time : string
             datetime indicating the end time of the day for the
             dynamic price profile
-        electricity_price_file_name : string
-            path to location with the highly dynamic price profile
         
         '''
         
@@ -250,7 +247,7 @@ class Data_Generator(object):
         df['PriceElectricPowerConstant'] = price_constant
         
         day_time_index = df.between_time(start_day_time, 
-                                        end_day_time).index
+                                         end_day_time).index
         
         df.loc[df.index.isin(day_time_index),  
             'PriceElectricPowerDynamic'] = price_day
