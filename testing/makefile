@@ -41,7 +41,6 @@ compile_testcase_model:
 	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
 	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
 	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.mo
-	make copy_from_jm ARGS=${TESTCASE}/models/kpis.json
 	make stop_jm
 
 ###############################################################################

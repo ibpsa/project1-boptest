@@ -5,10 +5,10 @@ This module runs unit tests for the parer.
 """
 
 import unittest
-import filecmp
 import os
 import pandas as pd
 import utilities
+import zipfile
 from parsing import parser, simulate
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
@@ -208,8 +208,16 @@ class ExportSimulate(unittest.TestCase, utilities.partialTimeseries):
         '''Test that kpi json exported correctly.
         
         '''
-        
-        self.assertTrue(filecmp.cmp(self.kpi_path, os.path.join(testing_root_dir, 'references', 'parser', 'kpis.json')))
+        with zipfile.ZipFile(self.fmu_path, 'r') as z_fmu:
+            with z_fmu.open('resources/kpis.json') as f_test:      
+                with open(os.path.join(testing_root_dir, 'references', 'parser', 'kpis.json'), 'rU') as f_ref:
+                    line_test = f_test.readline()
+                    i = 1
+                    while line_test:
+                        line_ref = f_ref.readline()
+                        self.assertTrue(line_test==line_ref, 'Not the same on line {0} of reference file.\nTest Line: {1}\nRef Line:  {2}'.format(i,line_test, line_ref))
+                        line_test = f_test.readline()
+                        i = i + 1
 
     def test_simulate_no_overwrite(self):
         '''Test simulation with no overwriting.
