@@ -36,6 +36,7 @@ stop_jm:
 compile_testcase_model:
 	make run_jm
 	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
 	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
@@ -86,6 +87,7 @@ test_testcase2:
 test_parser:
 	make run_jm
 	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=data
 	make exec_jm ARGS="python test_parser.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
 	make stop_jm

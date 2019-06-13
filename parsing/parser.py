@@ -84,13 +84,13 @@ def parse_instances(model_path, file_name):
             instances[label][instance]['Minimum'] = mini
             instances[label][instance]['Maximum'] = maxi
         else:
-            kpi = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
-            if kpi is '':
-                continue
-            elif kpi in kpis:
-                kpis[kpi].append(_make_var_name(instance,style='output'))
-            else:
-                kpis[kpi] = [_make_var_name(instance,style='output')]
+            for kpi in fmu.get(var)[0].split(','):
+                if kpi is '':
+                    continue
+                elif kpi in kpis:
+                    kpis[kpi].append(_make_var_name(instance,style='output'))
+                else:
+                    kpis[kpi] = [_make_var_name(instance,style='output')]
     # Clean up
     os.remove(fmu_path)
     os.remove(fmu_path.replace('.fmu', '_log.txt'))

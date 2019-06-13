@@ -11,6 +11,7 @@ import numpy as np
 import copy
 import config
 from scipy.integrate import trapz
+from data.data_manager import Data_Manager
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -32,6 +33,9 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Load data and the kpi_json
+        data_manager = Data_Manager(testcase=self)
+        data_manager.load_data()
         # Get available control inputs and outputs
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
