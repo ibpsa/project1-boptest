@@ -13,7 +13,6 @@ def get_config():
     Dictionary contatinin configuration information.
     {
     'fmupath'  : string, location of model fmu
-    'kpipath'  : string, location of kpi json
     'step'     : int, default control step size in seconds
     }
     
