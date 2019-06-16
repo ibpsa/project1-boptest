@@ -1,4 +1,7 @@
 # IBPSA Project 1 - BOPTEST
+
+[![Build Status](https://travis-ci.org/ibpsa/project1-boptest.svg?branch=master)](https://travis-ci.org/ibpsa/project1-boptest)
+
 Building Optimization Performance Tests
 
 This repository contains prototype code for the Building Optimization Performance Test framework (BOPTEST)
