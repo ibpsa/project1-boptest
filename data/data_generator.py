@@ -12,6 +12,7 @@ factors and temperature set points for a whole year.
 
 from pymodelica import compile_fmu
 from pyfmi import load_fmu
+from scipy import interpolate
 import pandas as pd
 import os
 import platform
@@ -30,7 +31,7 @@ class Data_Generator(object):
     def __init__(self,
                  resources_dir,
                  start_time="20090101 00:00:00",
-                 final_time="20091231 23:00:00",
+                 final_time="20100101 00:00:00",
                  period=3600):
         '''Initialize the data index and data frame
         
@@ -203,7 +204,9 @@ class Data_Generator(object):
         
         # Write every output in the data
         for out in output_names:
-            df.loc[:,out.replace('weaBus.', '')] = res[out]
+            # Interpolate to avoid problems with events from Modelica
+            g = interpolate.interp1d(res['time'],res[out],kind='linear')
+            df.loc[:,out.replace('weaBus.', '')] = g(self.time)
             
         # Store in csv
         self.store_df(df,'weather')
