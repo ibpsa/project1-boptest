@@ -268,7 +268,7 @@ class Data_Manager(object):
                     sampling=new_sampling
                     
         # Define the index for one year with the minimum sampling found
-        index = np.arange(0.,3.154e+7,sampling,dtype='int')
+        index = np.arange(0.,3.1536e+7,sampling,dtype='int')
         
         # Find all data keys
         all_keys = []
@@ -290,13 +290,13 @@ class Data_Manager(object):
                         if key in self.categories[category] and \
                             category == 'weather':
                             g = interpolate.interp1d(df['time'],df[key], 
-                                kind='linear',fill_value='extrapolate')
+                                kind='linear')
                             self.case.data.loc[:,key] = \
                                 g(self.case.data.index)
                         # Use forward fill for discrete variables
                         elif key in self.categories[category]:
                             g = interpolate.interp1d(df['time'],df[key], 
-                                kind='zero',fill_value='extrapolate')
+                                kind='zero')
                             self.case.data.loc[:,key] = \
                                 g(self.case.data.index)
             else:
