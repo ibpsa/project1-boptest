@@ -14,6 +14,7 @@ from pymodelica import compile_fmu
 from pyfmi import load_fmu
 from scipy import interpolate
 import pandas as pd
+import numpy as np
 import os
 import platform
 import json
@@ -257,7 +258,8 @@ class Data_Generator(object):
         df.loc[~df.index.isin(day_time_index), 
             'PriceElectricPowerDynamic'] = price_night
         
-        df['PriceElectricPowerHighlyDynamic'] = price_constant
+        df['PriceElectricPowerHighlyDynamic'] = \
+            price_day*np.sin(self.time*2*np.pi/24/3600)
         
         df['PriceDistrictHeatingPower'] = 0.1
         df['PriceGasPower']             = 0.07
