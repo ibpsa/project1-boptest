@@ -68,7 +68,7 @@ class Data_Manager(object):
             all_keys.extend(self.categories[category])
         
         # Keep track of the data already appended to avoid duplication
-        appended = {key: False for key in all_keys}
+        appended = {key: None for key in all_keys}
         
         # Search for .csv files in the resources folder
         for f in self.files:
@@ -78,13 +78,13 @@ class Data_Manager(object):
                 if 'time' in keys:
                     for key in keys.drop('time'):
                         # Raise error if key already appended
-                        if appended[key]:
-                            raise ReferenceError('{0} in multiple files within the Resources folder'.format(key))
+                        if appended[key] is not None:
+                            raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(key, appended[key], f))
                         # Trim df from keys that are not in categories
                         elif key not in all_keys:
                             df.drop(key, inplace=True)
                         else:
-                            appended[key] = True
+                            appended[key] = f
                     # Copy the trimmed df if any key found in categories
                     if len(df.keys())>0:
                         df.to_csv(f+'_trimmed', index=False)
