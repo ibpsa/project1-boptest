@@ -320,7 +320,7 @@ class Data_Generator(object):
         df.loc[~df.index.isin(day_time_index),'Occupancy'] = 0
         
         # Store in csv
-        self.store_df(df,'Occupancy')  
+        self.store_df(df,'occupancy')  
         
     def generate_internalGains(self,
                         start_day_time = '07:00:00',
