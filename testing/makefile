@@ -88,6 +88,7 @@ test_parser:
 	make copy_to_jm ARGS=parsing
 	make copy_to_jm ARGS=data
 	make exec_jm ARGS="python test_parser.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/parser ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
 	make stop_jm
 

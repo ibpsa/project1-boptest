@@ -14,7 +14,7 @@ WORKDIR $HOME
 
 RUN git clone https://github.com/ibpsa/modelica-ibpsa.git $HOME/git/ibpsa/modelica-ibpsa && \
     git clone https://github.com/lbl-srg/modelica-buildings.git $HOME/git/buildings/modelica-buildings && \
-    cd $HOME/git/ibpsa/modelica-ibpsa && git checkout ed4df71 && \
+    cd $HOME/git/ibpsa/modelica-ibpsa && git checkout c5e77db && \
     cd $HOME/git/buildings/modelica-buildings && git checkout 1a6d3a768cf43f43b4e434997653734f85f722d8
 
 RUN python -m pip install --user pandas==0.22.0 requests

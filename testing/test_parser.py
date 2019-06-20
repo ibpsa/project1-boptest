@@ -17,11 +17,7 @@ testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 model_path = 'SimpleRC'
 mo_path = os.path.join(testing_root_dir,'parsing', 'SimpleRC.mo')
 # Define read and overwrite block instances in test model
-read_blocks = {'EHeat':{'Unit':'J', 
-                        'Description': 'Heater electrical energy',
-                        'Minimum': None,
-                        'Maximum': None}, 
-               'PHeat':{'Unit':'W', 
+read_blocks = {'PHeat':{'Unit':'W', 
                         'Description': 'Heater electrical power',
                         'Minimum': None,
                         'Maximum': None}, 
@@ -41,8 +37,7 @@ overwrite_blocks = {'oveAct':{'Unit':'W',
                               'Description': 'Zone temperature setpoint',
                               'Minimum': 273.15+10,
                               'Maximum': 273.15+35}}
-kpi1_outputs = ['PHeat_y', 'TZone_y']
-kpi2_outputs = ['EHeat_y', 'PHeat_y']
+signal_outputs = ['PHeat_y', 'TZone_y', 'setZone_y']
 
 class ParseInstances(unittest.TestCase):
     '''Tests the parse_instances method of parser.
@@ -55,7 +50,7 @@ class ParseInstances(unittest.TestCase):
         '''
 
         # Run the parse_instances method
-        self.instances, self.kpis = parser.parse_instances(model_path, [mo_path])
+        self.instances, self.signals = parser.parse_instances(model_path, [mo_path])
         
     def test_parse_instances(self):
         '''Tests that Read and Overwrite blocks identified correctly.
@@ -66,8 +61,8 @@ class ParseInstances(unittest.TestCase):
         # Checks
         for key in instances.keys():
             if key is 'Read':
-                # Check there are 4 Read blocks
-                self.assertEqual(len(instances[key]),4)
+                # Check there are 3 Read blocks
+                self.assertEqual(len(instances[key]),3)
                 for instance in instances[key].keys():
                     # Check each Read block instance is identified correctly
                     self.assertTrue(instance in read_blocks)
@@ -102,24 +97,30 @@ class ParseInstances(unittest.TestCase):
         
         '''
 
-        kpis = self.kpis
+        signals = self.signals
         # Checks
-        for key in kpis.keys():
-            if key == 'kpi1':
-                # Check there are 2 outputs
-                self.assertEqual(len(kpis[key]),2)
-                for output in kpis[key]:
-                    # Check each ouput is identified correctly
-                    self.assertTrue(output in kpi1_outputs)
-            elif key == 'kpi2':
-                # Check there are 2 outputs
-                self.assertEqual(len(kpis[key]),2)
-                for output in kpis[key]:
-                    # Check each Overwrite block instance is identified correctly
-                    self.assertTrue(output in kpi2_outputs)
+        for key in signals.keys():
+            if key == 'AirZoneTemperature':
+                # Check there is one output tagged with AirZoneTemperature
+                self.assertEqual(len(signals[key]),1)
+                for output in signals[key]:
+                    # Check each output of this signal type is identified correctly
+                    self.assertTrue(output in signal_outputs)
+            elif key == 'GasPower':
+                # Check there is one output tagged with GasPower
+                self.assertEqual(len(signals[key]),1)
+                for output in signals[key]:
+                    # Check each output of this signal type is identified correctly
+                    self.assertTrue(output in signal_outputs)
+            elif key == 'None':
+                # Check there is one output tagged with None
+                self.assertEqual(len(signals[key]),1)
+                for output in signals[key]:
+                    # Check each output of this signal type is identified correctly
+                    self.assertTrue(output in signal_outputs)
             else:
-                # Check that only kpi1 and kpi2 are included
-                self.assertTrue(False,msg='KPI {0} should not be in kpis.'.format(key))
+                # Check that only Temperature and Power are included
+                self.assertTrue(False,msg='Signal {0} should not be in signals.'.format(key))
 
     def test_wrong_key(self):
         '''Tests that the instances are only Read and Overwrite blocks.
@@ -131,8 +132,8 @@ class ParseInstances(unittest.TestCase):
         # Checks
         for key in instances.keys():
             if key is 'Read':
-                # Check there are 4 Read blocks
-                self.assertEqual(len(instances[key]),4)
+                # Check there are 3 Read blocks
+                self.assertEqual(len(instances[key]),3)
                 for instance in instances[key]:
                     # Check each Read block instance is identified correctly
                     self.assertTrue(instance in read_blocks)
@@ -166,7 +167,7 @@ class WriteWrapper(unittest.TestCase):
         '''
         
         # Get signal exchange instances
-        instances, kpis = parser.parse_instances(model_path, [mo_path])
+        instances, signals = parser.parse_instances(model_path, [mo_path])
         # Write wrapper and export as fmu
         self.fmu_path, self.wrapped_path = parser.write_wrapper(model_path, [mo_path], instances)
         
