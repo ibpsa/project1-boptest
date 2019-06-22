@@ -240,14 +240,16 @@ class TestCase(object):
         # Calculate each KPI using json for signalsand save in dictionary
         for kpi in self.kpi_json.keys():
             print(kpi, type(kpi))
-            if kpi == 'energy':
+            if 'Power' in kpi:
                 # Calculate total energy [KWh - assumes measured in J]
                 E = 0
                 for signal in self.kpi_json[kpi]:
-                    E = E + self.y_store[signal][-1]
+                    time = self.y_store['time']
+                    power = self.y_store[signal]
+                    E = E + np.trapz(power, time)
                 # Store result in dictionary
-                kpis[kpi] = E*2.77778e-7 # Convert to kWh
-            elif kpi == 'comfort':
+                kpis['energy'] = E*2.77778e-7 # Convert to kWh
+            elif kpi == 'AirZoneTemperature':
                 # Calculate total discomfort [K-h = assumes measured in K]
                 tot_dis = 0
                 heat_setpoint = 273.15+20
@@ -257,7 +259,7 @@ class TestCase(object):
                     dT_heating[dT_heating<0]=0
                     tot_dis = tot_dis + trapz(dT_heating,self.y_store['time'])/3600
                 # Store result in dictionary
-                kpis[kpi] = tot_dis
+                kpis['comfort'] = tot_dis
             else:
                 print('No calculation for KPI named "{0}".'.format(kpi))
 

@@ -140,11 +140,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                         "Description": "Heater thermal power",
                                         "Minimum":0,
                                         "Maximum":10000}}
-        self.measurements_ref = {"ETotHea_y": {"Unit": "J", 
-                                               "Description":"Heater energy", 
-                                               "Minimum":None,
-                                               "Maximum":None},
-                                 "PHea_y": {"Unit": "W", 
+        self.measurements_ref = {"PHea_y": {"Unit": "W", 
                                             "Description": "Heater power",
                                             "Minimum":None,
                                             "Maximum":None},
@@ -154,8 +150,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Maximum":None}}
         self.step_ref = 60.0
         self.y_ref = {u'PHea_y': 0.0, 
-                      u'TRooAir_y': 293.15015556512265, 
-                      u'ETotHea_y': -2.18888639030113e-13, 
+                      u'TRooAir_y': 293.15015556512265,
                       u'time': 60.0}
 
         
