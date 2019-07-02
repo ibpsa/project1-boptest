@@ -14,6 +14,7 @@ import os
 import pandas as pd
 import numpy as np
 import utilities
+import json
 from data.data_generator import Data_Generator
 from data.data_manager import Data_Manager
 
@@ -236,14 +237,23 @@ class DataManagerTest(unittest.TestCase, utilities.partialTimeseries):
         # Check if test case has kpi_json and data attributes
         self.assertTrue(hasattr(self.case, 'kpi_json'))
         self.assertTrue(hasattr(self.case, 'data'))
-         
-        # Set reference file path
-        ref_filepath = os.path.join(testing_root_dir, 
+        
+        # Set reference file path for data
+        ref_filepath_data = os.path.join(testing_root_dir, 
             'references', 'data', 'tc2_data_loaded.csv')
-         
-        # Check the data loaded by the manager
+        
+        # Set reference file path for kpis.json
+        ref_filepath_kpis = os.path.join(testing_root_dir, 
+            'references', 'data', 'kpis.json')
+        
+        # Check content of the kpis.json loaded
+        with open(os.path.join(ref_filepath_kpis),'r') as f:
+            kpi_json_ref = json.loads(f.read()) 
+        self.assertDictEqual(self.case.kpi_json, kpi_json_ref)
+        
+        # Check the content of the data loaded
         df_man = self.case.data
-        self.compare_ref_timeseries_df(df_man, ref_filepath)
+        self.compare_ref_timeseries_df(df_man, ref_filepath_data)
              
     def test_get_data_default(self):
         '''Check that the data manager can retrieve the test case data
@@ -251,9 +261,9 @@ class DataManagerTest(unittest.TestCase, utilities.partialTimeseries):
          
         '''       
          
-        # Load the data into the test case
+        # Get the data
         data_dict = self.man.get_data()
-         
+        
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir,
             'references', 'data', 'tc2_data_retrieved_default.csv')
@@ -271,7 +281,7 @@ class DataManagerTest(unittest.TestCase, utilities.partialTimeseries):
         # Define index
         index = np.arange(0, 7*24*3600, 321)
          
-        # Load the data into the test case
+        # Get the data
         data_dict = self.man.get_data(index=index)
          
         # Set reference file path
