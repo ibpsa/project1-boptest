@@ -32,6 +32,8 @@ exec_jm:
 
 stop_jm:
 	docker stop ${IMG_NAME}
+# Make sure jm image stops being used
+	python sleep3.py
 
 compile_testcase_model:
 	make run_jm
@@ -122,8 +124,6 @@ test_all:
 	make test_testcase1
 	make test_testcase2
 	make test_data
-# Make sure jm image stops being used
-	python sleep3.py
 # Remove jm
 	make remove_jm_image
 # Report test results
