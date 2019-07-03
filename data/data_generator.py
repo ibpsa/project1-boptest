@@ -3,10 +3,10 @@ Created on Apr 25, 2019
 
 @author: Javier Arroyo
 
-This module contains the Data_Generator class with methods to gather
-data within .csv files for a test case. A test case data-set must
+This module contains the Data_Generator class with methods to generate
+data as .csv files for a test case. A test case data-set must
 include: weather data, price profiles, occupancy schedules, emission 
-factors and temperature set points for a whole year.
+factors, internal gain schedules and temperature set points for a whole year.
 
 '''
 
@@ -39,7 +39,7 @@ class Data_Generator(object):
         Parameters
         ----------
         resources_dir: string
-            path to resources test case directory
+            path to test case Resources directory
         start_time: string
             Pandas date-time indicating the starting 
             time of the data frame.

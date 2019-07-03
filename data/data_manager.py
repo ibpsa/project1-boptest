@@ -3,8 +3,8 @@ Created on Apr 25, 2019
 
 @author: Javier Arroyo
 
-This module contains the Data_Manager class with methods to  
-access the test case data within the resources folder of the
+This module contains the Data_Manager class with methods to add and  
+access test case data within the resources folder of the
 test case FMU.
 
 '''
@@ -20,24 +20,28 @@ import json
 
 class Data_Manager(object):
     ''' This class has the functionality to store and retrieve the data 
-    into and from the resources folder of the wrapped.fmu. To store the 
-    data, it looks into the csv files within the test case Resources folder 
-    searching for columns with keys that accomplish the BOPTEST data
-    convention specified in the categories.json file.
-    The data retrieved from a test case may be used for forecasting 
-    purposes or for KPI calculations.
+    into and from the resources folder of the test case FMU. 
+    
+    To store the data, it assumes csv files are within a Resources directory 
+    located in the same directory as the FMU.  All csv files are searched for 
+    columns with keys following the BOPTEST data convention specified in the 
+    categories.json file.
+    
+    To retrieve the data, it loads timeseries data and kpis.json into the 
+    TestCase object managing the FMU upon deployment and provides methods
+    to retrieve it as needed for forecasting purposes or for KPI calculations.
     
     '''
 
     def __init__(self, testcase=None):
-        '''Initialize the Data_Manager class. One Data_Manager
-        is associated with one test case.
+        '''Initialize the Data_Manager class.
         
         Parameters
         ----------
-        testcase: BOPTEST TestCase object
-            object of an already deployed test case used
-            to retrieve test case metadata
+        testcase: BOPTEST TestCase object, optional
+            Used if loading or retrieving data from a test case FMU.
+            Not used if compiling test case data into an FMU.
+            Default is None.
         
         '''
         
@@ -53,7 +57,7 @@ class Data_Manager(object):
         with open(os.path.join(data_dir,'categories.json'),'r') as f:
             self.categories = json.loads(f.read()) 
         
-    def append_csv_data(self):
+    def _append_csv_data(self):
         '''Append data from any .csv file within the Resources folder
         of the testcase. The .csv file must contain a 'time' column 
         in seconds from the beginning of the year and one of the 
@@ -99,13 +103,14 @@ class Data_Manager(object):
                     print(f)
                     
     def save_data_and_kpisjson(self, fmu_path):
-        '''Store the all the .csv test case data within the resources
-        folder of the fmu. Save also the kpis.json file in the same
-        folder.
+        '''Store all of the .csv and kpis.json test case data within the 
+        resources folder of the fmu.
         
+        Parameters
+        ----------       
         fmu_path : str
             Path to the fmu where the data is to be saved. The reason
-            to do not get this path from the tescase config file is 
+            to not get this path from the tescase config file is 
             that this method is called by the parser before the test 
             case is created. 
         
@@ -128,7 +133,7 @@ class Data_Manager(object):
                     self.files.append(os.path.join(root,f))   
             
             # Write a copy all .csv files within the fmu resources folder
-            self.append_csv_data() 
+            self._append_csv_data() 
         else:
             warnings.warn('No Resources folder found for this FMU, ' \
                           'No additional data will be stored within the FMU.')
@@ -140,10 +145,9 @@ class Data_Manager(object):
         if os.path.exists(kpi_path):
             self.z_fmu.write(kpi_path, 
                              os.path.join('resources', 'kpis.json'))
-            os.remove(kpi_path)
         else:
             warnings.warn('No kpis.json found for this test case, ' \
-                          'use the parser to get this file.')
+                          'use the parser to get this file or otherwise create it.')
                 
         # Close the fmu
         self.z_fmu.close()
@@ -152,7 +156,7 @@ class Data_Manager(object):
                  category=None, plot=False):
         '''Retrieve test case data from the fmu. The data
         is stored within the csv files that are 
-        located in the resources folder of the wrapped.fmu.
+        located in the resources folder of the test case fmu.
         
         Parameters
         ----------
@@ -183,7 +187,7 @@ class Data_Manager(object):
         
         Notes
         -----
-        The read and pre-process of the data happens only 
+        The loading and pre-processing of the data happens only 
         once (at load_data_and_kpisjson) to reduce the computational 
         load during the co-simulation
         
@@ -238,8 +242,10 @@ class Data_Manager(object):
         return data_slice_reindexed.reset_index().to_dict('list')
     
     def load_data_and_kpisjson(self):
-        '''Load the data and kpis.json from the resources folder of the fmu.
-        Resample it with the specified time interval.
+        '''Load the data and kpis.json from the resources folder of the fmu 
+        into the test case object.  The data is resampled according to the 
+        minimum sampling rate, where weather is linearly interpolated and 
+        schedules use a forward-fill.
         
         '''
         

@@ -8,7 +8,7 @@ The steps are:
 read any associated signals for KPIs, units, min/max, and descriptions.
 3) Write Modelica wrapper around instantiated model and associated KPI list.
 4) Export as wrapper FMU and save KPI json.
-5) Generate test case data and save it within wrapper FMU.
+5) Save test case data within wrapper FMU.
 
 """
 
