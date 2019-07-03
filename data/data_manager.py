@@ -189,10 +189,6 @@ class Data_Manager(object):
         
         '''
         
-        # First read the test case data if not read yet
-        if not hasattr(self.case, 'data'):    
-            self.load_data_and_kpisjson()
-        
         # Filter the requested data columns
         if category is not None:
             data_slice = self.case.data.loc[:,self.categories[category]]
