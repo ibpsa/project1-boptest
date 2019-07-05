@@ -32,15 +32,17 @@ exec_jm:
 
 stop_jm:
 	docker stop ${IMG_NAME}
+# Make sure jm image stops being used
+	python sleep3.py
 
 compile_testcase_model:
 	make run_jm
 	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
 	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
 	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.mo
-	make copy_from_jm ARGS=${TESTCASE}/models/kpis.json
 	make stop_jm
 
 ###############################################################################
@@ -86,8 +88,28 @@ test_testcase2:
 test_parser:
 	make run_jm
 	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=data
 	make exec_jm ARGS="python test_parser.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/parser ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
+	make stop_jm
+
+test_data:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase2
+# Run jm docker container
+	make run_jm
+# Copy the required files and folders for the test
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=testcase2/models
+	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcase.py
+	docker cp ../testing/references/data/kpis.json ${IMG_NAME}:/usr/local/testing/models
+# Run test_data.py
+	make exec_jm ARGS="python test_data.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
+# Stop jm docker container
 	make stop_jm
 
 ###############################################################################
@@ -101,6 +123,7 @@ test_all:
 	make test_parser
 	make test_testcase1
 	make test_testcase2
+	make test_data
 # Remove jm
 	make remove_jm_image
 # Report test results

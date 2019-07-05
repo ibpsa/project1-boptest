@@ -5,9 +5,10 @@ Implements the parsing and code generation for signal exchange blocks.
 The steps are:
 1) Compile Modelica code into fmu
 2) Use signal exchange block id parameters to find block instance paths and 
-read any associated KPIs, units, min/max, and descriptions.
+read any associated signals for KPIs, units, min/max, and descriptions.
 3) Write Modelica wrapper around instantiated model and associated KPI list.
 4) Export as wrapper FMU and save KPI json.
+5) Save test case data within wrapper FMU.
 
 """
 
@@ -15,6 +16,7 @@ from pyfmi import load_fmu
 from pymodelica import compile_fmu
 import os
 import json
+from data.data_manager import Data_Manager
 
 def parse_instances(model_path, file_name):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -33,9 +35,8 @@ def parse_instances(model_path, file_name):
         Dictionary of overwrite and read block class instance lists.
         {'Overwrite': {input_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}}, 
          'Read': {output_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}}}
-    kpis : dict
-        Dictionary of kpi outputs.
-        {'kpi_name' : [output_name]}
+    signals : dict
+        {'signal_type' : [output_name]}
 
     '''
 
@@ -51,7 +52,7 @@ def parse_instances(model_path, file_name):
                 fmu.get_model_variables(variability = 1).keys()
     # Initialize dictionaries
     instances = {'Overwrite':dict(), 'Read':dict()}
-    kpis = {}
+    signals = {}
     # Find instances of 'Overwrite' or 'Read'
     for var in allvars:
         # Get instance name
@@ -82,18 +83,19 @@ def parse_instances(model_path, file_name):
             instances[label][instance]['Minimum'] = mini
             instances[label][instance]['Maximum'] = maxi
         else:
-            for kpi in fmu.get(var)[0].split(','):
-                if kpi is '':
-                    continue
-                elif kpi in kpis:
-                    kpis[kpi].append(_make_var_name(instance,style='output'))
-                else:
-                    kpis[kpi] = [_make_var_name(instance,style='output')]
+            signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
+            if signal_type is 'None':
+                continue
+            elif signal_type in signals:
+                signals[signal_type].append(_make_var_name(instance,style='output'))
+            else:
+                signals[signal_type] = [_make_var_name(instance,style='output')]
+                
     # Clean up
     os.remove(fmu_path)
     os.remove(fmu_path.replace('.fmu', '_log.txt'))
 
-    return instances, kpis
+    return instances, signals
 
 def write_wrapper(model_path, file_name, instances):
     '''Write the wrapper modelica model and export as fmu
@@ -183,14 +185,17 @@ def export_fmu(model_path, file_name):
 
     '''
 
-    # Get signal exchange instances and kpis
-    instances, kpis = parse_instances(model_path, file_name)
+    # Get signal exchange instances and kpi signals
+    instances, signals = parse_instances(model_path, file_name)
     # Write wrapper and export as fmu
-    fmu_path, wrapped_path = write_wrapper(model_path, file_name, instances)
+    fmu_path, _ = write_wrapper(model_path, file_name, instances)
     # Write kpi json
     kpi_path = os.path.join(os.getcwd(), 'kpis.json')
     with open(kpi_path, 'w') as f:
-        json.dump(kpis, f)
+        json.dump(signals, f)
+    # Generate test case data
+    man = Data_Manager()
+    man.save_data_and_kpisjson(fmu_path=fmu_path)
     
     return fmu_path, kpi_path
 

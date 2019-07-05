@@ -12,7 +12,7 @@ import utilities
 import requests
 from examples.python import szvav_sup
 
-kpi_ref = {'energy' : 147.13485155565968, 'comfort' : 0.001831087016403562}
+kpi_ref = {'energy' : 147.13398341352897, 'comfort' : 0.00182974909243}
 
 class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of a supervisory controller in Python.
@@ -101,8 +101,8 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/reset'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
         # Check kpis
-        value = float(y['ETotHVAC_y'])
-        self.assertAlmostEqual(value, 18835.034013601977, places=3)
+        value = float(y['senTSetRooHea_y'])
+        self.assertAlmostEqual(value, 273.15+10, places=3)
         
     def test_max(self):
         '''Tests that if input is above max, input is set to max.
@@ -113,8 +113,8 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/reset'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
         # Check kpis
-        value = float(y['ETotHVAC_y'])
-        self.assertAlmostEqual(value, 27242079.91911008, places=3)
+        value = float(y['senTSetRooHea_y'])
+        self.assertAlmostEqual(value, 273.15+35, places=3)
         
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 2.  
@@ -148,27 +148,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Description": "Heating setpoint",
                                                "Minimum":273.15+10,
                                                "Maximum":273.15+35}}
-        self.measurements_ref = {"ETotCoo_y": {"Unit": "J", 
-                                               "Description": "Cooling electrical energy",
-                                               "Minimum":None,
-                                               "Maximum":None}, 
-                                 "ETotFan_y": {"Unit": "J", 
-                                               "Description": "Fan energy", 
-                                               "Minimum":None,
-                                               "Maximum":None},
-                                 "ETotHVAC_y": {"Unit": "J", 
-                                                "Description": "Total HVAC energy",
-                                                "Minimum":None,
-                                                "Maximum":None},
-                                 "ETotHea_y": {"Unit": "J", 
-                                               "Description": "Heating energy",
-                                               "Minimum":None,
-                                               "Maximum":None}, 
-                                 "ETotPum_y": {"Unit": "J", 
-                                               "Description": "Pump electrical energy",
-                                               "Minimum":None,
-                                               "Maximum":None}, 
-                                 "PCoo_y": {"Unit": "W", 
+        self.measurements_ref = {"PCoo_y": {"Unit": "W", 
                                             "Description": "Cooling electrical power",
                                             "Minimum":None,
                                             "Maximum":None}, 
@@ -187,19 +167,24 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                  "TRooAir_y": {"Unit": "K", 
                                                "Description": "Room air temperature",                                               
                                                "Minimum":None,
+                                               "Maximum":None},
+                                 "senTSetRooCoo_y": {"Unit": "K", 
+                                               "Description": "Room cooling setpoint",                                               
+                                               "Minimum":None,
+                                               "Maximum":None},
+                                 "senTSetRooHea_y": {"Unit": "K", 
+                                               "Description": "Room heating setpoint",                                               
+                                               "Minimum":None,
                                                "Maximum":None}}
         self.step_ref = 3600.0
-        self.y_ref = {u'PFan_y': 5.231953892667217, 
-                      u'ETotCoo_y': 0.0, 
-                      u'ETotFan_y': 18835.034013601995, 
-                      u'ETotHea_y': 6369130.248839594, 
+        self.y_ref = {u'PFan_y': 5.231953892667217,
                       u'TRooAir_y': 293.0823301149466, 
                       u'time': 3600.0, 
-                      u'ETotPum_y': 0.0, 
                       u'PCoo_y': 0.0, 
-                      u'PHea_y': 1913.8903678245845, 
-                      u'PPum_y': -0.0, 
-                      u'ETotHVAC_y': 6387965.2828532}
+                      u'PHea_y': 1913.8903678245845,
+                      u'PPum_y': -0.0,
+                      u'senTSetRooCoo_y': 298.15,
+                      u'senTSetRooHea_y': 293.15}
 
 
 if __name__ == '__main__':

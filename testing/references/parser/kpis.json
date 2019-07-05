@@ -1,1 +1,1 @@
-{"kpi2": ["EHeat_y", "PHeat_y"], "kpi1": ["PHeat_y", "TZone_y"]}
+{"None": ["setZone_y"], "GasPower": ["PHeat_y"], "AirZoneTemperature": ["TZone_y"]}
