@@ -30,29 +30,26 @@ model SimpleRC
     yMax=100000) "Feedback controller for the heater based on room temperature"
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveAct(u(unit="W"), Description=
-        "Heater thermal power")   "Overwrite the heating power"
+                           oveAct(             Description=
+        "Heater thermal power", u(
+      unit="W",
+      min=0,
+      max=10000))                 "Overwrite the heating power"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeat
     "Set the heating power to the room"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   Modelica.Blocks.Math.Gain eff(k=1/0.99) "Heater efficiency"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
-  Modelica.Blocks.Continuous.Integrator intEHeat(initType=Modelica.Blocks.Types.Init.InitialState,
-      y_start=0) "Calculate the heater energy"
-    annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      TRooAir(KPIs="comfort", y(unit="K"),
-    Description="Zone air temperature")
+                      TRooAir(                y(unit="K"),
+    Description="Zone air temperature",
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature)
                               "Read the room air temperature"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      ETotHea(KPIs="energy", y(unit="J"),
-    Description="Heater energy")
-                              "Read the heater energy"
-    annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read
-                      PHea(y(unit="W"), Description="Heater power")
+                      PHea(y(unit="W"), Description="Heater power",
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
                            "Read the heater power"
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
 equation
@@ -74,12 +71,8 @@ equation
           -80},{-2,-80}}, color={0,0,127}));
   connect(set.y, con.u_s)
     annotation (Line(points={{-79,-30},{-72,-30}}, color={0,0,127}));
-  connect(intEHeat.y, ETotHea.u)
-    annotation (Line(points={{81,-80},{98,-80}}, color={0,0,127}));
   connect(eff.y, PHea.u)
     annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
-  connect(PHea.y, intEHeat.u)
-    annotation (Line(points={{51,-80},{58,-80}}, color={0,0,127}));
   connect(senTZone.T, TRooAir.u) annotation (Line(points={{80,0},{90,0},{90,-50},
           {82,-50}}, color={0,0,127}));
   connect(TRooAir.y, con.u_m)

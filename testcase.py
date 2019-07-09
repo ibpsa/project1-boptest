@@ -10,8 +10,8 @@ from pyfmi import load_fmu
 import numpy as np
 import copy
 import config
-import json
 from scipy.integrate import trapz
+from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
 
 class TestCase(object):
@@ -34,18 +34,15 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Load data and the kpis_json for the test case
+        data_manager = Data_Manager(testcase=self)
+        data_manager.load_data_and_kpisjson()
         # Get available control inputs and outputs
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Get input and output meta-data
-        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names)
+        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
-        # Define KPIs
-        self.kpipath = con['kpipath']
-        # Load kpi json
-        with open(self.kpipath, 'r') as f:
-            json_str = f.read()
-            self.kpi_json = json.loads(json_str)
         # Define outputs data
         self.y = {'time':[]}
         for key in output_names:
@@ -102,8 +99,13 @@ class TestCase(object):
                 for key in u.keys():
                     if key != 'time' and u[key]:
                         value = float(u[key])
+                        # Check min/max if not activation input
+                        if '_activate' not in key:
+                            checked_value = self._check_value_min_max(key, value)
+                        else:
+                            checked_value = value
                         u_list.append(key)
-                        u_trajectory = np.vstack((u_trajectory, value))
+                        u_trajectory = np.vstack((u_trajectory, checked_value))
                 input_object = (u_list, np.transpose(u_trajectory))
             # Otherwise, input object is None
             else:
@@ -239,14 +241,16 @@ class TestCase(object):
         # Calculate each KPI using json for signalsand save in dictionary
         for kpi in self.kpi_json.keys():
             print(kpi, type(kpi))
-            if kpi == 'energy':
+            if 'Power' in kpi:
                 # Calculate total energy [KWh - assumes measured in J]
                 E = 0
                 for signal in self.kpi_json[kpi]:
-                    E = E + self.y_store[signal][-1]
+                    time = self.y_store['time']
+                    power = self.y_store[signal]
+                    E = E + np.trapz(power, time)
                 # Store result in dictionary
-                kpis[kpi] = E*2.77778e-7 # Convert to kWh
-            elif kpi == 'comfort':
+                kpis['energy'] = E*2.77778e-7 # Convert to kWh
+            elif kpi == 'AirZoneTemperature':
                 # Calculate total discomfort [K-h = assumes measured in K]
                 tot_dis = 0
                 heat_setpoint = 273.15+20
@@ -256,11 +260,12 @@ class TestCase(object):
                     dT_heating[dT_heating<0]=0
                     tot_dis = tot_dis + trapz(dT_heating,self.y_store['time'])/3600
                 # Store result in dictionary
-                kpis[kpi] = tot_dis
+                kpis['comfort'] = tot_dis
             else:
                 print('No calculation for KPI named "{0}".'.format(kpi))
 
         return kpis
+
     def get_forecast(self,horizon=24*3600, category=None, plot=False):
         '''Returns forecast of the test case data
         
@@ -273,7 +278,7 @@ class TestCase(object):
             If None it will return all available test case
             data without filtering it by any category. 
             Possible options are 'weather', 'prices',
-            'emissions', 'occupancy', 'setpoints'
+            'emissions', 'occupancy', internalGains, 'setpoints'
         plot : boolean
             True if desired to plot the forecast
             
@@ -314,7 +319,7 @@ class TestCase(object):
         
         return name
         
-    def _get_var_metadata(self, fmu, var_list):
+    def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
         
         Parameters
@@ -328,8 +333,11 @@ class TestCase(object):
         -------
         var_metadata : dict
             Dictionary of variable names as keys and metadata as fields.
-            {<var_name> :
-                "Unit" : <units_str>
+            {<var_name_str> :
+                "Unit" : str,
+                "Description" : str,
+                "Minimum" : float,
+                "Maximum" : float
             }
             
         '''
@@ -342,13 +350,60 @@ class TestCase(object):
             if var == 'time':
                 unit = 's'
                 description = 'Time of simulation'
+                mini = None
+                maxi = None
             elif '_activate' in var:
                 unit = None
                 description = fmu.get_variable_description(var)
+                mini = None
+                maxi = None
             else:
                 unit = fmu.get_variable_unit(var)
                 description = fmu.get_variable_description(var)
+                if inputs:
+                    mini = fmu.get_variable_min(var)
+                    maxi = fmu.get_variable_max(var)
+                else:
+                    mini = None
+                    maxi = None
             var_metadata[var] = {'Unit':unit,
-                                 'Description':description}
+                                 'Description':description,
+                                 'Minimum':mini,
+                                 'Maximum':maxi}
 
         return var_metadata
+        
+    def _check_value_min_max(self, var, value):
+        '''Check that the input value does not violate the min or max.
+        
+        Note that if it does, the value is truncated to the minimum or maximum.
+        
+        Parameters
+        ----------
+        var : str
+            Name of variable
+        value : numeric
+            Specified value of variable
+            
+        Return
+        ------
+        checked_value : float
+            Value of variable truncated by min and max.
+            
+        '''
+        
+        # Get minimum and maximum for variable
+        mini = self.inputs_metadata[var]['Minimum']
+        maxi = self.inputs_metadata[var]['Maximum']
+        # Check the value and truncate if necessary
+        if value > maxi:
+            checked_value = maxi
+            print('WARNING: Value of {0} for {1} is above maximum of {2}.  Using {2}.'.format(value, var, maxi))
+        elif value < mini:
+            checked_value = mini
+            print('WARNING: Value of {0} for {1} is below minimum of {2}.  Using {2}.'.format(value, var, mini))
+        else:
+            checked_value = value
+
+        return checked_value
+            
