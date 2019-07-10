@@ -32,23 +32,23 @@ class Forecaster(object):
         # Point to the test case object
         self.case = testcase
         
-        # Instantiate a data_manager if not instantiated yet
-        if not hasattr(self.case, 'data_manager'):
-            self.case.data_manager = Data_Manager(self.case)        
-        
-    def get_forecast(self,horizon=24*3600, category=None, plot=False):
+    def get_forecast(self,horizon=24*3600, interval=None, 
+                     category=None, plot=False):
         '''Returns forecast of the test case data
         
         Parameters
         ----------
         horizon : int
             Length of the requested forecast in seconds 
+        interval : int (optional)
+            resampling time interval in seconds. If None,
+            the test case step will be used instead.
         category : string (optional)
             Type of data to retrieve from the test case.
             If None it will return all available test case
             data without filtering it by any category. 
             Possible options are 'weather', 'prices',
-            'emissions', 'occupancy', 'setpoints'
+            'emissions', 'occupancy', internalGains, 'setpoints'
         plot : boolean
             True if desired to plot the forecast
             
@@ -62,6 +62,7 @@ class Forecaster(object):
         
         # Get the forecast
         forecast = self.case.data_manager.get_data(horizon=horizon,
+                                                   interval=interval,
                                                    category=category,
                                                    plot=plot)
         
