@@ -4,11 +4,12 @@ Created on Apr 25, 2019
 @author: Javier Arroyo
 
 This module contains the Forecaster class with methods to obtain 
-forecast data for the test case.
+forecast data for the test case. It relies on the data_manager object
+of the test case to provide deterministic forecast and extends this
+functionality to provide also stochastic forecast with a predefined
+distribution. 
 
 '''
-
-from data.data_manager import Data_Manager
 
 class Forecaster(object):
     '''This class retrieves test case data forecast for its use in

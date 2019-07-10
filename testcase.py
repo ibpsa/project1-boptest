@@ -34,9 +34,12 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Instantiate a data manager for this test case
+        self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
-        data_manager = Data_Manager(testcase=self)
-        data_manager.load_data_and_kpisjson()
+        self.data_manager.load_data_and_kpisjson()
+        # Instantiate a forecaster for this test case
+        self.forecaster = Forecaster(testcase=self)
         # Get available control inputs and outputs
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
@@ -289,10 +292,6 @@ class TestCase(object):
             {<variable_name>:<variable_forecast_trajectory>}
         
         '''
-        
-        # Instantiate a forecaster for the test case
-        if not hasattr(self, 'forecaster'):
-            self.forecaster = Forecaster(self)
         
         # Get the forecast
         forecast = self.forecaster.get_forecast(horizon=horizon,
