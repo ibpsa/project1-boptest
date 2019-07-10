@@ -101,6 +101,7 @@ test_data:
 	make run_jm
 # Copy the required files and folders for the test
 	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=testcase2/models
 	make copy_to_jm ARGS=testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
@@ -109,6 +110,24 @@ test_data:
 	make exec_jm ARGS="python test_data.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
+# Stop jm docker container
+	make stop_jm
+	
+test_forecast:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase2
+# Run jm docker container
+	make run_jm
+# Copy the required files and folders for the test
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=testcase2/models
+	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcase.py
+# Run test_forecast.py
+	make exec_jm ARGS="python test_forecast.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/forecast ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
 # Stop jm docker container
 	make stop_jm
 
@@ -124,6 +143,7 @@ test_all:
 	make test_testcase1
 	make test_testcase2
 	make test_data
+	make test_forecast
 # Remove jm
 	make remove_jm_image
 # Report test results
