@@ -109,6 +109,7 @@ test_data:
 # Run test_data.py
 	make exec_jm ARGS="python test_data.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/models/Resources ../testcase2/models 
 	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
 # Stop jm docker container
 	make stop_jm
