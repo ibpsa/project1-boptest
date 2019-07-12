@@ -207,11 +207,15 @@ class Data_Manager(object):
             # Use the test case start time 
             start = self.case.start_time
             stop  = start + horizon
-            # Reindex to the desired interval. Use step if none
+            # Use step if None interval provided
             if interval is None:
                 interval=self.case.step
-            index = np.arange(start,stop,interval).astype(int)
-            
+            # Define the index. Make sure last point is included if 
+            # possible. If interval is not an exact divisor of stop,
+            # the closest possible point under stop will be the end 
+            # point in order to keep interval unchanged among index. 
+            index = np.arange(start,stop+0.1,interval).astype(int)
+
         # Reindex to the desired index
         data_slice_reindexed = data_slice.reindex(index)
         
