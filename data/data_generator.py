@@ -40,13 +40,13 @@ class Data_Generator(object):
         ----------
         resources_dir: string
             path to test case Resources directory
-        start_time: string
+        start_time: string, default is "20090101 00:00:00"
             Pandas date-time indicating the starting 
             time of the data frame.
-        final_time: string
+        final_time: string, default is "20100101 00:00:00"
             Pandas date-time indicating the end time
             of the data frame.
-        period: integer
+        period: integer, default is 3600
             Number of seconds of the sampling time.
         
         '''
@@ -128,12 +128,12 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        model_class: str
+        model_class: string, default is IBPSA TMY3 Reader
             Name of the model class that is going to be
             used to pre-process the weather data. This is 
             most likely to be the ReaderTMY3 of IBPSA but 
             other classes could be created. 
-        model_library: str
+        model_library: string, default is None
             String to library path. If empty it will look
             for IBPSA library in MODELICAPATH
             
@@ -230,16 +230,16 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        price_constant : float
+        price_constant : float, default is 0.2
             price of the constant price profile
-        price_day : float
+        price_day : float, default is 0.3
             price during the day for the dynamic price profile
-        price_night : float
+        price_night : float, default is 0.1
             price during the night for the dynamic price profile
-        start_day_time : string
+        start_day_time : string, default is '08:00:00'
             datetime indicating the starting time of the day
             for the dynamic price profile
-        end_day_time : string
+        end_day_time : string, default is '17:00:00'
             datetime indicating the end time of the day for the
             dynamic price profile
         
@@ -303,9 +303,9 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        start_day_time: str
+        start_day_time: string, default is '07:00:00'
             string in pandas date-time format with the starting day time
-        end_day_time: str
+        end_day_time: string, default is '18:00:00'
             string in pandas date-time format with the ending day time
             
         '''
@@ -330,9 +330,9 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        start_day_time: str
+        start_day_time: string, default is '07:00:00'
             string in pandas date-time format with the starting day time
-        end_day_time: str
+        end_day_time: string, default is '18:00:00'
             string in pandas date-time format with the ending day time
             
         '''
@@ -364,17 +364,17 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        start_day_time: str
+        start_day_time: string, default is '07:00:00'
             string in pandas date-time format with the starting day time
-        end_day_time: str
+        end_day_time: string, default is '18:00:00'
             string in pandas date-time format with the ending day time
-        THeaOn: float
+        THeaOn: float, default is 22+273.15
             Heating temperature set-point during the day time
-        THeaoff: float
+        THeaoff: float, default is 22+273.15
             Heating temperature set-point out of the day time
-        TCooOn: float
+        TCooOn: float, default is 23+273.15
             Cooling temperature set-point during the day time
-        TCoooff: float
+        TCoooff: float, default is 23+273.15
             Cooling temperature set-point out of the day time
             
         '''
