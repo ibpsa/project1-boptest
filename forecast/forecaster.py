@@ -38,25 +38,28 @@ class Forecaster(object):
         
         Parameters
         ----------
-        horizon : int
+        horizon : int, default is 24*3600 seconds
             Length of the requested forecast in seconds 
-        interval : int (optional)
+        interval : int, default is None
             resampling time interval in seconds. If None,
-            the test case step will be used instead.
-        category : string (optional)
+            the test case step will be used instead. 
+        category : string, default is None
             Type of data to retrieve from the test case.
             If None it will return all available test case
             data without filtering it by any category. 
             Possible options are 'weather', 'prices',
             'emissions', 'occupancy', internalGains, 'setpoints'
-        plot : boolean
+        plot : boolean, default is False
             True if desired to plot the forecast
             
         Returns
         -------
-        forecast: dict 
+        forecast : dict 
             Dictionary with the requested forecast data
             {<variable_name>:<variable_forecast_trajectory>}
+            where <variable_name> is a string with the variable
+            key and <variable_forecast_trajectory> is a list with
+            the forecasted values
         
         '''
         
