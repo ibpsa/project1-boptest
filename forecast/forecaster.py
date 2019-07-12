@@ -59,7 +59,7 @@ class Forecaster(object):
             {<variable_name>:<variable_forecast_trajectory>}
             where <variable_name> is a string with the variable
             key and <variable_forecast_trajectory> is a list with
-            the forecasted values
+            the forecasted values. 'time' is included as a variable
         
         '''
         
