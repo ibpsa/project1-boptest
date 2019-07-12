@@ -14,6 +14,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/template`` contains template Modelica code for a test case emulator model.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
 - ``/data`` contains prototype code for generating and managing data associated with test cases.  This includes boundary conditions, such as weather, schedules, and energy prices, as well as a map of test case FMU outputs needed to calculate KPIs.
+- ``/forecast`` contains prototype code for returning boundary condition forecast, such as weather, schedules, and energy prices.
 
 ## Run Prototype Test Cases
 1) Build the test case by ``$ make build TESTCASE=testcase#`` where # is the number of the test case to build.
@@ -52,7 +53,7 @@ Example RESTful interaction:
 | Receive test result data                                       |  GET ``results``                                          |
 | Receive test KPIs                                              |  GET ``kpi``                                              |
 | Receive test case name                                         |  GET ``name``                                             |
-| Receive forecast						 						 |  GET ``forecasts``					     				 |
+| Receive forecast						 						 |  GET ``forecast``					     				 |
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.

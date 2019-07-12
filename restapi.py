@@ -105,6 +105,14 @@ class KPI(Resource):
         '''GET request to receive KPI data.'''
         kpi = case.get_kpis()
         return kpi
+    
+class Forecast(Resource):
+    '''Interface to test case forecast.'''
+    
+    def get(self):
+        '''GET request to receive forecast data.'''
+        forecast = case.get_forecast()
+        return forecast
         
 class Name(Resource):
     '''Interface to test case name.'''
@@ -124,6 +132,7 @@ api.add_resource(Inputs, '/inputs')
 api.add_resource(Measurements, '/measurements')
 api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
+api.add_resource(Forecast, '/forecast')
 api.add_resource(Name, '/name')
 # --------------------------------------
 
