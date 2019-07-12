@@ -269,32 +269,40 @@ class TestCase(object):
 
         return kpis
 
-    def get_forecast(self,horizon=24*3600, category=None, plot=False):
+    def get_forecast(self,horizon=24*3600, interval=None, 
+                     category=None, plot=False):
         '''Returns forecast of the test case data
         
         Parameters
         ----------
-        horizon : int
+        horizon : int, default is 24*3600 seconds
             Length of the requested forecast in seconds 
-        category : string (optional)
+        interval : int, default is None
+            resampling time interval in seconds. If None,
+            the test case step will be used instead. 
+        category : string, default is None
             Type of data to retrieve from the test case.
             If None it will return all available test case
             data without filtering it by any category. 
             Possible options are 'weather', 'prices',
             'emissions', 'occupancy', internalGains, 'setpoints'
-        plot : boolean
+        plot : boolean, default is False
             True if desired to plot the forecast
             
         Returns
         -------
-        forecast: dict 
+        forecast : dict 
             Dictionary with the requested forecast data
             {<variable_name>:<variable_forecast_trajectory>}
+            where <variable_name> is a string with the variable
+            key and <variable_forecast_trajectory> is a list with
+            the forecasted values. 'time' is included as a variable
         
         '''
         
         # Get the forecast
         forecast = self.forecaster.get_forecast(horizon=horizon,
+                                                interval=interval,
                                                 category=category,
                                                 plot=plot)
         
