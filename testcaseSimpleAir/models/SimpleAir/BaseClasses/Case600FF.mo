@@ -1,7 +1,6 @@
-within SimpleAir;
+within SimpleAir.BaseClasses;
 model Case600FF
   "Basic test with light-weight construction and free floating temperature"
-  extends Modelica.Icons.Example;
 
   package MediumA = Buildings.Media.Air "Medium model";
   parameter Modelica.SIunits.Angle S_=
@@ -80,7 +79,7 @@ model Case600FF
     hRoo=2.7,
     nConExtWin=nConExtWin,
     nConBou=1,
-    nPorts=3,
+    nPorts=5,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     AFlo=48,
     datConBou(
@@ -182,9 +181,6 @@ model Case600FF
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
     annotation (Placement(transformation(extent={{4,-66},{16,-54}})));
-  Buildings.Fluid.Sources.Outside souInf(redeclare package Medium = MediumA,
-      nPorts=1) "Source model for air infiltration"
-           annotation (Placement(transformation(extent={{-24,-34},{-12,-22}})));
   Modelica.Blocks.Sources.Constant InfiltrationRate(k=-48*2.7*0.5/3600)
     "0.41 ACH adjusted for the altitude (0.5 at sea level)"
     annotation (Placement(transformation(extent={{-96,-78},{-88,-70}})));
@@ -193,11 +189,9 @@ model Case600FF
   Buildings.Fluid.Sensors.Density density(redeclare package Medium = MediumA)
     "Air density inside the building"
     annotation (Placement(transformation(extent={{-40,-76},{-50,-66}})));
-  Buildings.BoundaryConditions.WeatherData.Bus weaBus
-    annotation (Placement(transformation(extent={{-4,-96},{12,-80}})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAirSen
     "Room air temperature"
-    annotation (Placement(transformation(extent={{-86,-28},{-78,-20}})));
+    annotation (Placement(transformation(extent={{80,16},{90,26}})));
   replaceable parameter
     Buildings.ThermalZones.Detailed.Validation.BESTEST.Data.StandardResultsFreeFloating
       staRes(
@@ -209,13 +203,29 @@ model Case600FF
     annotation (Placement(transformation(extent={{80,40},{94,54}})));
   Modelica.Blocks.Math.MultiSum multiSum(nu=1)
     annotation (Placement(transformation(extent={{-78,-80},{-66,-68}})));
-  Modelica.Blocks.Math.Mean TRooHou(f=1/3600, y(start=293.15))
-    "Hourly averaged room air temperature"
-    annotation (Placement(transformation(extent={{-68,-28},{-60,-20}})));
-  Modelica.Blocks.Math.Mean TRooAnn(f=1/86400/365, y(start=293.15))
-    "Annual averaged room air temperature"
-    annotation (Placement(transformation(extent={{-68,-40},{-60,-32}})));
 
+  Modelica.Blocks.Interfaces.RealOutput TRooAir "Room air temperature"
+    annotation (Placement(transformation(extent={{160,110},{180,130}}),
+        iconTransformation(extent={{160,110},{180,130}})));
+  Buildings.Fluid.Sources.MassFlowSource_T souInf(
+    redeclare package Medium = MediumA,
+    m_flow=1,
+    use_m_flow_in=true,
+    use_T_in=false,
+    use_X_in=false,
+    use_C_in=false,
+    nPorts=1) "source model for air infiltration"
+    annotation (Placement(transformation(extent={{4,-46},{16,-34}})));
+  Modelica.Blocks.Math.Gain gain(k=-1)
+    annotation (Placement(transformation(extent={{-18,-40},{-8,-30}})));
+  Modelica.Fluid.Interfaces.FluidPort_a supplyAir(redeclare final package
+      Medium = MediumA) "Supply air"
+    annotation (Placement(transformation(extent={{-110,10},{-90,30}}),
+        iconTransformation(extent={{-110,10},{-90,30}})));
+  Modelica.Fluid.Interfaces.FluidPort_b returnAir(redeclare final package
+      Medium = MediumA) "Return air"
+    annotation (Placement(transformation(extent={{-110,-30},{-90,-10}}),
+        iconTransformation(extent={{-110,-30},{-90,-10}})));
 equation
   connect(qRadGai_flow.y,multiplex3_1. u1[1])  annotation (Line(
       points={{-35.6,76},{-34,76},{-34,70.8},{-18.8,70.8}},
@@ -251,21 +261,13 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(density.port, roo.ports[1])  annotation (Line(
-      points={{-45,-76},{32,-76},{32,-24.5},{39.75,-24.5}},
+      points={{-45,-76},{32,-76},{32,-24.9},{39.75,-24.9}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(density.d, product.u2) annotation (Line(
       points={{-50.5,-71},{-56,-71},{-56,-58},{-51,-58}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(weaDat.weaBus, weaBus) annotation (Line(
-      points={{86,-88},{4,-88}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
   connect(TSoi[1].port, soi.port_a) annotation (Line(
       points={{64,-48},{56,-48},{56,-40}},
       color={191,0,0},
@@ -274,20 +276,8 @@ equation
       points={{56,-32},{56,-27},{55.5,-27}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(weaBus, souInf.weaBus)        annotation (Line(
-      points={{4,-88},{-30,-88},{-30,-27.88},{-24,-27.88}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}}));
-  connect(roo.heaPorAir, TRooAir.port)  annotation (Line(
-      points={{50.25,-15},{-90,-15},{-90,-24},{-86,-24}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(sinInf.ports[1], roo.ports[2])        annotation (Line(
-      points={{16,-60},{30,-60},{30,-22.5},{39.75,-22.5}},
+      points={{16,-60},{30,-60},{30,-23.7},{39.75,-23.7}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(multiSum.y, product.u1) annotation (Line(
@@ -299,16 +289,21 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
 
-  connect(TRooAir.T, TRooHou.u) annotation (Line(
-      points={{-78,-24},{-68.8,-24}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TRooAir.T, TRooAnn.u) annotation (Line(
-      points={{-78,-24},{-72,-24},{-72,-36},{-68.8,-36}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{14,
-          -28},{14,-20.5},{39.75,-20.5}}, color={0,127,255}));
+  connect(TRooAirSen.port, roo.heaPorAir) annotation (Line(points={{80,21},{60,
+          21},{60,-15},{50.25,-15}}, color={191,0,0}));
+  connect(TRooAirSen.T, TRooAir) annotation (Line(points={{90,21},{96,21},{96,
+          120},{170,120}},
+                         color={0,0,127}));
+  connect(gain.y, souInf.m_flow_in) annotation (Line(points={{-7.5,-35},{-4.75,
+          -35},{-4.75,-35.2},{2.8,-35.2}}, color={0,0,127}));
+  connect(gain.u, sinInf.m_flow_in) annotation (Line(points={{-19,-35},{-30,-35},
+          {-30,-55.2},{2.8,-55.2}}, color={0,0,127}));
+  connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{16,-40},{20,
+          -40},{20,-22.5},{39.75,-22.5}}, color={0,127,255}));
+  connect(supplyAir, roo.ports[4]) annotation (Line(points={{-100,20},{0,20},{
+          0,-21.3},{39.75,-21.3}}, color={0,127,255}));
+  connect(returnAir, roo.ports[5]) annotation (Line(points={{-100,-20},{-30,-20},
+          {-30,-20.1},{39.75,-20.1}}, color={0,127,255}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
@@ -354,5 +349,27 @@ October 6, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Icon(graphics={
+        Rectangle(
+          extent={{-160,-160},{160,160}},
+          lineColor={95,95,95},
+          fillColor={95,95,95},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-140,138},{140,-140}},
+          pattern=LinePattern.None,
+          lineColor={117,148,176},
+          fillColor={170,213,255},
+          fillPattern=FillPattern.Sphere),
+        Rectangle(
+          extent={{140,70},{160,-70}},
+          lineColor={95,95,95},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{146,70},{154,-70}},
+          lineColor={95,95,95},
+          fillColor={170,213,255},
+          fillPattern=FillPattern.Solid)}));
 end Case600FF;
