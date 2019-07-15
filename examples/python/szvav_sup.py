@@ -11,6 +11,8 @@ imported from a different module.
 # ----------------------
 import requests
 import time
+import kpicalculation
+import json,collections
 # ----------------------
 
 # TEST CONTROLLER IMPORT
@@ -18,7 +20,7 @@ import time
 from controllers import sup
 # ----------------------
 
-def run(plot=False):
+def run(plot=False, kpiconfig=None):
     '''Run test case.
     
     Parameters
@@ -26,7 +28,9 @@ def run(plot=False):
     plot : bool, optional
         True to plot timeseries results.
         Default is False.
-        
+    customizedkpi : string, optional
+        The name of the json file which contains the customized kpi information.
+        Default is None.
     Returns
     -------
     kpi : dict
@@ -61,8 +65,19 @@ def run(plot=False):
     # Default simulation step
     step_def = requests.get('{0}/step'.format(url)).json()
     print('Default Simulation Step:\t{0}'.format(step_def))
+
+    # import customized KPI if any
+    customizedkpis=[]
+
+    if kpiconfig is not None:
+        with open(kpiconfig) as f:
+                config=json.load(f,object_pairs_hook=collections.OrderedDict)
+
+        for key in config.keys():
+               customizedkpis.append(kpicalculation.cutomizedKPI(config[key]))
     # --------------------
-    
+
+
     # RUN TEST CASE
     # -------------
     start = time.time()
@@ -80,6 +95,11 @@ def run(plot=False):
         y = requests.post('{0}/advance'.format(url), data=u).json()
         # Compute next control signal
         u = sup.compute_control(y)
+        # Compute customized KPIs
+        if customizedkpis is not None:
+             for customizedkpi in customizedkpis:
+                  customizedkpi.processing_data(y,customizedkpi.data_point_num)
+                  print('KPI:\t{0}:\t{1}'.format(customizedkpi.model.name,round(customizedkpi.calculation(),2)))
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
@@ -134,4 +154,4 @@ def run(plot=False):
     return kpi, res
         
 if __name__ == "__main__":
-    kpi,res = run()
+    kpi,res = run(kpiconfig='kpi.config')
