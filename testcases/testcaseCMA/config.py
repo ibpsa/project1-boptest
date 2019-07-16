@@ -21,7 +21,7 @@ def get_config():
         
     config = {
     # Enter configuration information
-    'fmupath'  : 'C:\\Users\\u0110910\\Box Sync\\work_folder\\BOPTEST\\testcases\\testcaseCMA\\models\\wrapped.fmu', 
+    'fmupath'  : 'C:\\Users\\u0110910\\workspace\BOPTEST\\testcases\\testcaseCMA\\models\\wrapped.fmu', 
     'step'     : 3600
     }
     
