@@ -251,7 +251,8 @@ class TestCase(object):
         kpis = self.cal.get_core_kpis()
 
         return kpis
-    def get_forecast(self,horizon=24*3600, category=None, plot=False):
+    def get_forecast(self,horizon=24*3600, category=None, 
+                     index=None, plot=False):
         '''Returns forecast of the test case data
         
         Parameters
@@ -282,6 +283,7 @@ class TestCase(object):
         # Get the forecast
         forecast = self.forecaster.get_forecast(horizon=horizon,
                                                 category=category,
+                                                index=index,
                                                 plot=plot)
         
         return forecast

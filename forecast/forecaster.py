@@ -35,7 +35,8 @@ class Forecaster(object):
         if not hasattr(self.case, 'data_manager'):
             self.case.data_manager = Data_Manager(self.case)        
         
-    def get_forecast(self,horizon=24*3600, category=None, plot=False):
+    def get_forecast(self,horizon=24*3600, category=None, 
+                     index=None, plot=False):
         '''Returns forecast of the test case data
         
         Parameters
@@ -62,6 +63,7 @@ class Forecaster(object):
         # Get the forecast
         forecast = self.case.data_manager.get_data(horizon=horizon,
                                                    category=category,
+                                                   index=index,
                                                    plot=plot)
         
         return forecast
