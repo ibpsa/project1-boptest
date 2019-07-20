@@ -61,6 +61,8 @@ class TestCase(object):
         self.options['CVode_options']['rtol'] = 1e-6 
         # Set default communication step
         self.set_step(con['step'])
+        # Set default forecast parameters
+        self.set_forecast_parameters(con['horizon'], con['interval'])
         # Set initial simulation start
         self.start_time = 0
         self.initialize = True
@@ -269,26 +271,43 @@ class TestCase(object):
 
         return kpis
 
-    def get_forecast(self,horizon=24*3600, interval=None, 
-                     category=None, plot=False):
-        '''Returns forecast of the test case data
+    def set_forecast_parameters(self,horizon,interval):
+        '''Sets the forecast horizon and interval, both in seconds.
         
         Parameters
         ----------
-        horizon : int, default is 24*3600 seconds
-            Length of the requested forecast in seconds 
-        interval : int, default is None
-            resampling time interval in seconds. If None,
-            the test case step will be used instead. 
-        category : string, default is None
-            Type of data to retrieve from the test case.
-            If None it will return all available test case
-            data without filtering it by any category. 
-            Possible options are 'weather', 'prices',
-            'emissions', 'occupancy', internalGains, 'setpoints'
-        plot : boolean, default is False
-            True if desired to plot the forecast
+        horizon : int
+            Forecast horizon in seconds.
+        interval : int
+            Forecast interval in seconds.
             
+        Returns
+        -------
+        None
+        
+        '''
+        
+        self.horizon = float(horizon)
+        self.interval = float(interval)
+        
+        return None
+    
+    def get_forecast_parameters(self):
+        '''Returns the current forecast horizon and interval parameters.'''
+        
+        forecast_parameters = dict()
+        forecast_parameters['horizon'] = self.horizon
+        forecast_parameters['interval'] = self.interval
+        
+        return forecast_parameters
+
+    def get_forecast(self):
+        '''Returns the test case data forecast
+        
+        Parameters
+        ----------
+        None
+        
         Returns
         -------
         forecast : dict 
@@ -301,10 +320,8 @@ class TestCase(object):
         '''
         
         # Get the forecast
-        forecast = self.forecaster.get_forecast(horizon=horizon,
-                                                interval=interval,
-                                                category=category,
-                                                plot=plot)
+        forecast = self.forecaster.get_forecast(horizon=self.horizon,
+                                                interval=self.interval)
         
         return forecast
         

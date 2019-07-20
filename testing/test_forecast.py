@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 This module runs tests for the Forecaster module. To run these tests, 
-testcase 2 must already be deployed. Forecaster requires of a test 
-case as an input to retrieve data from it. 
+testcase 2 must already be deployed. 
 
 """
 
+import requests
 import unittest
 import os
 import pandas as pd
 import utilities
-from forecast.forecaster import Forecaster
 
 root_dir = utilities.get_root_path()
 
@@ -23,20 +22,18 @@ class ForecasterTest(unittest.TestCase, utilities.partialTimeseries):
         '''Setup for each test.
         
         '''
-         
-        from testcase import TestCase
-        case=TestCase()
-        
-        # Instantiate a forecaster
-        self.forecaster = Forecaster(case)
+
+        # Set URL for testcase
+        self.url = 'http://127.0.0.1:5000'
         
     def test_get_forecast_default(self):
         '''Check that the forecaster is able to retrieve the data
+        with default forecast parameters.
         
         '''       
         
-        # Load the data into the test case
-        forecast = self.forecaster.get_forecast()
+        # Test case forecast
+        forecast = requests.get('{0}/forecast'.format(self.url)).json()
         
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 
@@ -46,18 +43,41 @@ class ForecasterTest(unittest.TestCase, utilities.partialTimeseries):
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
         
-    def test_get_forecast_interval(self):
-        '''Check that the forecaster is able to retrieve the data
+    def test_put_and_get_parameters(self):
+        '''Check that it is possible to put and get the forecast settings
+        in a test case. 
         
         '''       
         
-        # Load the data into the test case
-        forecast = self.forecaster.get_forecast(horizon=2*24*3600,
-                                                interval=123)
+        # Define the reference forecast parameters
+        forecast_parameters_ref = {'horizon':172800, 'interval':123}
+        
+        # Set forecast parameters
+        requests.put('{0}/forecast_parameters'.format(self.url), 
+                     data=forecast_parameters_ref)
+        
+        # Get forecast parameters
+        forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
+        
+        # Check the forecast parameters
+        self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
+        
+    def test_get_forecast_with_parameters(self):
+        '''Check that it is possible to get the forecast setting first 
+        customized forecast parameters.
+        
+        '''       
+        
+        # Set forecast parameters
+        requests.put('{0}/forecast_parameters'.format(self.url), 
+                     data={'horizon':172800, 'interval':123})
+        
+        # Test case forecast
+        forecast = requests.get('{0}/forecast'.format(self.url)).json()
         
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 
-            'testing', 'references', 'forecast', 'tc2_forecast_interval.csv')
+            'testing', 'references', 'forecast', 'tc2_forecast_with_parameters.csv')
         
         # Check the forecast
         df_forecaster = pd.DataFrame(forecast).set_index('time')

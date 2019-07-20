@@ -14,6 +14,8 @@ def get_config():
     {
     'fmupath'  : string, location of model fmu
     'step'     : int, default control step size in seconds
+    'horizon'  : int, default forecast horizon in seconds
+    'interval' : int, default forecast interval in seconds
     }
     
     '''
@@ -21,7 +23,9 @@ def get_config():
     config = {
     # Enter configuration information
     'fmupath'  : 'models/wrapped.fmu',
-    'step'     : 60
+    'step'     : 60,
+    'horizon'  : 86400,
+    'interval' : 3600
     }
     
     return config
