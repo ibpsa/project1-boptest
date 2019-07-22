@@ -116,16 +116,21 @@ test_data:
 	
 test_forecast:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2 
-# Build testcase image
-	cd .. && make build TESTCASE=testcase2
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=testcase2
-	python sleep3.py
-# Run forecast tests
-	cd .. && python testing/test_forecast.py
-# Stop testcase container
-	cd .. && make stop TESTCASE=testcase2
+	make compile_testcase_model TESTCASE=testcase2
+# Run jm docker container
+	make run_jm
+# Copy the required files and folders for the test
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=testcase2/models
+	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcase.py
+# Run test_data.py
+	make exec_jm ARGS="python test_forecast.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/forecast ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
+# Stop jm docker container
+	make stop_jm
 
 ###############################################################################
 
