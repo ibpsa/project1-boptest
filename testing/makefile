@@ -33,7 +33,7 @@ exec_jm:
 stop_jm:
 	docker stop ${IMG_NAME}
 # Make sure jm image stops being used
-	python sleep3.py
+	python sleep10.py
 
 compile_testcase_model:
 	make run_jm
@@ -56,7 +56,7 @@ test_testcase1:
 	cd .. &&  make build TESTCASE=testcase1
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=testcase1
-	python sleep3.py
+	python sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
@@ -74,7 +74,7 @@ test_testcase2:
 	cd .. && make build TESTCASE=testcase2
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=testcase2
-	python sleep3.py
+	python sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
