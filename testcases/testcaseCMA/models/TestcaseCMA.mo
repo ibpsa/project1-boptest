@@ -810,12 +810,15 @@ Removed blocks with blocks from CDL package.
         KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
       annotation (Placement(transformation(extent={{40,40},{60,60}})));
     Modelica.Blocks.Sources.RealExpression heaCoiPow(y=abs(terHea.Q1_flow))
-      annotation (Placement(transformation(extent={{20,-80},{40,-60}})));
+      annotation (Placement(transformation(extent={{-36,-80},{-16,-60}})));
     IBPSA.Utilities.IO.SignalExchange.Read senPowVAV(
       y(unit="W"),
       Description="Thermal power exchanged",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{80,-80},{100,-60}})));
+    IBPSA.Utilities.IO.SignalExchange.Subcontroller subConHea(Description=
+          "Heating input to the zone", u(unit="W"))
+      annotation (Placement(transformation(extent={{32,-64},{52,-44}})));
   equation
     connect(fraMasFlo.u, senMasFlo.m_flow) annotation (Line(
         points={{-2,80},{-24,80},{-24,70},{-39,70}},
@@ -857,12 +860,16 @@ Removed blocks with blocks from CDL package.
       annotation (Line(points={{52,12},{59,12}}, color={0,0,127}));
     connect(sinTer.ports[1], terHea.port_b2) annotation (Line(points={{30,-20},{
             -38,-20},{-38,-10}}, color={0,127,255}));
-    connect(gaiM_flow.u, yVal) annotation (Line(points={{82,12},{90,12},{90,-40},
-            {-120,-40}}, color={0,0,127}));
     connect(ACH.y, senACH.u)
       annotation (Line(points={{21,50},{38,50}}, color={0,0,127}));
     connect(heaCoiPow.y, senPowVAV.u)
-      annotation (Line(points={{41,-70},{78,-70}}, color={0,0,127}));
+      annotation (Line(points={{-15,-70},{78,-70}},color={0,0,127}));
+    connect(heaCoiPow.y, subConHea.u_m) annotation (Line(points={{-15,-70},{-2,
+            -70},{-2,-48},{30,-48}}, color={0,0,127}));
+    connect(subConHea.u, yVal) annotation (Line(points={{30,-54},{8,-54},{8,-40},
+            {-120,-40}}, color={0,0,127}));
+    connect(subConHea.y, gaiM_flow.u) annotation (Line(points={{53,-54},{90,-54},
+            {90,12},{82,12}}, color={0,0,127}));
     annotation (Icon(
       graphics={
           Rectangle(

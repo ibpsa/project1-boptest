@@ -10,6 +10,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput conVAVWes_oveVal_activate "Activation for Heating valve set point";
 	Modelica.Blocks.Interfaces.RealInput modeSelector_oveFanMod_u(unit="None", min=-1.79769313486e+308, max=1.79769313486e+308) "Overwrite the fan mode";
 	Modelica.Blocks.Interfaces.BooleanInput modeSelector_oveFanMod_activate "Activation for Overwrite the fan mode";
+	Modelica.Blocks.Interfaces.RealInput sou_subConHea_u(unit="W", min=-1.79769313486e+308, max=1.79769313486e+308) "Heating input to the zone";
+	Modelica.Blocks.Interfaces.BooleanInput sou_subConHea_activate "Activation for Heating input to the zone";
 	Modelica.Blocks.Interfaces.RealInput conVAVEas_oveTRooHeaSet_u(unit="K", min=-1.79769313486e+308, max=1.79769313486e+308) "Room heating temperature set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVEas_oveTRooHeaSet_activate "Activation for Room heating temperature set point";
 	Modelica.Blocks.Interfaces.RealInput conVAVEas_oveDam_u(unit="None", min=-1.79769313486e+308, max=1.79769313486e+308) "Damper set point";
@@ -24,6 +26,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput conVAVSou_oveVal_activate "Activation for Heating valve set point";
 	Modelica.Blocks.Interfaces.RealInput conVAVNor_oveDam_u(unit="None", min=-1.79769313486e+308, max=1.79769313486e+308) "Damper set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVNor_oveDam_activate "Activation for Damper set point";
+	Modelica.Blocks.Interfaces.RealInput nor_subConHea_u(unit="W", min=-1.79769313486e+308, max=1.79769313486e+308) "Heating input to the zone";
+	Modelica.Blocks.Interfaces.BooleanInput nor_subConHea_activate "Activation for Heating input to the zone";
 	Modelica.Blocks.Interfaces.RealInput conVAVNor_oveVal_u(unit="None", min=-1.79769313486e+308, max=1.79769313486e+308) "Heating valve set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVNor_oveVal_activate "Activation for Heating valve set point";
 	Modelica.Blocks.Interfaces.RealInput conVAVWes_oveTRooHeaSet_u(unit="K", min=-1.79769313486e+308, max=1.79769313486e+308) "Room heating temperature set point";
@@ -34,6 +38,10 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetCoo_activate "Activation for Cooling set point";
 	Modelica.Blocks.Interfaces.RealInput conVAVCor_oveTRooHeaSet_u(unit="K", min=-1.79769313486e+308, max=1.79769313486e+308) "Room heating temperature set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVCor_oveTRooHeaSet_activate "Activation for Room heating temperature set point";
+	Modelica.Blocks.Interfaces.RealInput cor_subConHea_u(unit="W", min=-1.79769313486e+308, max=1.79769313486e+308) "Heating input to the zone";
+	Modelica.Blocks.Interfaces.BooleanInput cor_subConHea_activate "Activation for Heating input to the zone";
+	Modelica.Blocks.Interfaces.RealInput wes_subConHea_u(unit="W", min=-1.79769313486e+308, max=1.79769313486e+308) "Heating input to the zone";
+	Modelica.Blocks.Interfaces.BooleanInput wes_subConHea_activate "Activation for Heating input to the zone";
 	Modelica.Blocks.Interfaces.RealInput conVAVSou_oveDam_u(unit="None", min=-1.79769313486e+308, max=1.79769313486e+308) "Damper set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVSou_oveDam_activate "Activation for Damper set point";
 	Modelica.Blocks.Interfaces.RealInput conVAVNor_oveTRooCooSet_u(unit="K", min=-1.79769313486e+308, max=1.79769313486e+308) "Room cooling temperature set point";
@@ -44,6 +52,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput conVAVCor_oveTRooCooSet_activate "Activation for Room cooling temperature set point";
 	Modelica.Blocks.Interfaces.RealInput conVAVSou_oveTRooCooSet_u(unit="K", min=-1.79769313486e+308, max=1.79769313486e+308) "Room cooling temperature set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVSou_oveTRooCooSet_activate "Activation for Room cooling temperature set point";
+	Modelica.Blocks.Interfaces.RealInput eas_subConHea_u(unit="W", min=-1.79769313486e+308, max=1.79769313486e+308) "Heating input to the zone";
+	Modelica.Blocks.Interfaces.BooleanInput eas_subConHea_activate "Activation for Heating input to the zone";
 	Modelica.Blocks.Interfaces.RealInput conVAVNor_oveTRooHeaSet_u(unit="K", min=-1.79769313486e+308, max=1.79769313486e+308) "Room heating temperature set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVNor_oveTRooHeaSet_activate "Activation for Room heating temperature set point";
 	// Out read
@@ -97,6 +107,7 @@ model wrapped "Wrapped model"
 		oveTSetHea(uExt(y=oveTSetHea_u),activate(y=oveTSetHea_activate)),
 		conVAVWes.oveVal(uExt(y=conVAVWes_oveVal_u),activate(y=conVAVWes_oveVal_activate)),
 		modeSelector.oveFanMod(uExt(y=modeSelector_oveFanMod_u),activate(y=modeSelector_oveFanMod_activate)),
+		sou.subConHea(uExt(y=sou_subConHea_u),activate(y=sou_subConHea_activate)),
 		conVAVEas.oveTRooHeaSet(uExt(y=conVAVEas_oveTRooHeaSet_u),activate(y=conVAVEas_oveTRooHeaSet_activate)),
 		conVAVEas.oveDam(uExt(y=conVAVEas_oveDam_u),activate(y=conVAVEas_oveDam_activate)),
 		conVAVEas.oveVal(uExt(y=conVAVEas_oveVal_u),activate(y=conVAVEas_oveVal_activate)),
@@ -104,15 +115,19 @@ model wrapped "Wrapped model"
 		conVAVCor.oveDam(uExt(y=conVAVCor_oveDam_u),activate(y=conVAVCor_oveDam_activate)),
 		conVAVSou.oveVal(uExt(y=conVAVSou_oveVal_u),activate(y=conVAVSou_oveVal_activate)),
 		conVAVNor.oveDam(uExt(y=conVAVNor_oveDam_u),activate(y=conVAVNor_oveDam_activate)),
+		nor.subConHea(uExt(y=nor_subConHea_u),activate(y=nor_subConHea_activate)),
 		conVAVNor.oveVal(uExt(y=conVAVNor_oveVal_u),activate(y=conVAVNor_oveVal_activate)),
 		conVAVWes.oveTRooHeaSet(uExt(y=conVAVWes_oveTRooHeaSet_u),activate(y=conVAVWes_oveTRooHeaSet_activate)),
 		conVAVCor.oveVal(uExt(y=conVAVCor_oveVal_u),activate(y=conVAVCor_oveVal_activate)),
 		oveTSetCoo(uExt(y=oveTSetCoo_u),activate(y=oveTSetCoo_activate)),
 		conVAVCor.oveTRooHeaSet(uExt(y=conVAVCor_oveTRooHeaSet_u),activate(y=conVAVCor_oveTRooHeaSet_activate)),
+		cor.subConHea(uExt(y=cor_subConHea_u),activate(y=cor_subConHea_activate)),
+		wes.subConHea(uExt(y=wes_subConHea_u),activate(y=wes_subConHea_activate)),
 		conVAVSou.oveDam(uExt(y=conVAVSou_oveDam_u),activate(y=conVAVSou_oveDam_activate)),
 		conVAVNor.oveTRooCooSet(uExt(y=conVAVNor_oveTRooCooSet_u),activate(y=conVAVNor_oveTRooCooSet_activate)),
 		conVAVWes.oveDam(uExt(y=conVAVWes_oveDam_u),activate(y=conVAVWes_oveDam_activate)),
 		conVAVCor.oveTRooCooSet(uExt(y=conVAVCor_oveTRooCooSet_u),activate(y=conVAVCor_oveTRooCooSet_activate)),
 		conVAVSou.oveTRooCooSet(uExt(y=conVAVSou_oveTRooCooSet_u),activate(y=conVAVSou_oveTRooCooSet_activate)),
+		eas.subConHea(uExt(y=eas_subConHea_u),activate(y=eas_subConHea_activate)),
 		conVAVNor.oveTRooHeaSet(uExt(y=conVAVNor_oveTRooHeaSet_u),activate(y=conVAVNor_oveTRooHeaSet_activate))) "Original model with overwrites";
 end wrapped;
