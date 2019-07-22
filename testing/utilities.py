@@ -161,7 +161,7 @@ class partialTimeseries(object):
                     result['Pass'] = False
                     result['ErrorMax'] = err_max,
                     result['IndexMax'] = i_max,
-                    result['Message'] = 'Max error ({0}) in trajectory greater than tolerance ({1}) at index {2}.'.format(err_max, tol, i_max)
+                    result['Message'] = 'Max error ({0}) in trajectory greater than tolerance ({1}) at index {2}. y_test: {3}, y_ref:{4}'.format(err_max, tol, i_max, y_test[i], y_ref[i])
         
         return result
     
