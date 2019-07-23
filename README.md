@@ -40,20 +40,23 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 Example RESTful interaction:
 
 - Receive a list of available measurement names and their metadata: ``$ curl http://127.0.0.1:5000/measurements``
+- Receive a forecast of boundary condition data: ``$ curl http://127.0.0.1:5000/forecast``
 - Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"``.  Leave an empty json to advance the simulation using the setpoints embedded in the model.
 
-| Interaction                                                    | Request                                                   |
-|----------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements |  POST ``advance`` with json data "{<input_name>:<value>}" |
-| Reset simulation to beginning                                  |  PUT ``reset`` with no data                               |
-| Receive communication step in seconds                          |  GET ``step``                                             |
-| Set communication step in seconds                              |  PUT ``step`` with data ``step=<value>``                  |
-| Receive sensor signal names (y) and metadata                   |  GET ``measurements``                                     |
-| Receive control signals names (u) and metadata                 |  GET ``inputs``                                           |
-| Receive test result data                                       |  GET ``results``                                          |
-| Receive test KPIs                                              |  GET ``kpi``                                              |
-| Receive test case name                                         |  GET ``name``                                             |
-| Receive forecast						 						 |  GET ``forecast``					     				 |
+| Interaction                                                           | Request                                                   |
+|-----------------------------------------------------------------------|-----------------------------------------------------------|
+| Advance simulation with control input and receive measurements        |  POST ``advance`` with json data "{<input_name>:<value>}" |
+| Reset simulation to beginning                                         |  PUT ``reset`` with no argument                           |
+| Receive communication step in seconds                                 |  GET ``step``                                             |
+| Set communication step in seconds                                     |  PUT ``step`` with argument ``step=<value>``              |
+| Receive sensor signal names (y) and metadata                          |  GET ``measurements``                                     |
+| Receive control signals names (u) and metadata                        |  GET ``inputs``                                           |
+| Receive test result data                                              |  GET ``results``                                          |
+| Receive test KPIs                                                     |  GET ``kpi``                                              |
+| Receive test case name                                                |  GET ``name``                                             |
+| Receive boundary condition forecast from current communication step   |  GET ``forecast``                                         |
+| Receive boundary condition forecast paramet                           |  GET ``forecast_parameters``                              |
+| Set boundary condition forecast parameters            		        |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
