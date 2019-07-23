@@ -119,13 +119,13 @@ class Forecast_Parameters(Resource):
         return forecast_parameters
     
     def put(self):
-        '''PUT request to set the forecast horizon and interval in 
-        seconds, as well as the requested forecast category and plot.'''
+        '''PUT request to set forecast horizon and interval inseconds.'''
         args = parser_forecast_parameters.parse_args()
         horizon  = args['horizon']
         interval = args['interval']
         case.set_forecast_parameters(horizon, interval)
-        return horizon, interval
+        forecast_parameters = case.get_forecast_parameters()
+        return forecast_parameters
     
 class Forecast(Resource):
     '''Interface to test case forecast data.'''

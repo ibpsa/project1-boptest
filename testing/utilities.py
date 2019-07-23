@@ -340,14 +340,16 @@ class partialTestAPI(partialTimeseries):
         '''
 
         # Set forecast parameters
-        requests.put('{0}/forecast_parameters'.format(self.url), 
-                     data=self.forecast_parameters_ref)
+        ret = requests.put('{0}/forecast_parameters'.format(self.url), 
+                           data=self.forecast_parameters_ref)
         
         # Get forecast parameters
         forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
         
         # Check the forecast parameters
         self.assertDictEqual(forecast_parameters, self.forecast_parameters_ref)
+        # Check the return on the put request
+        self.assertDictEqual(ret.json(), self.forecast_parameters_ref)
         
     def test_get_forecast_with_parameters(self):
         '''Check that the forecaster is able to retrieve the data.
