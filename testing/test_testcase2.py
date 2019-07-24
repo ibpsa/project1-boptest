@@ -185,6 +185,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       u'PPum_y': -0.0,
                       u'senTSetRooCoo_y': 298.15,
                       u'senTSetRooHea_y': 293.15}
+        self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_default.csv')
+        self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
+        self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_interval.csv')
 
 
 if __name__ == '__main__':

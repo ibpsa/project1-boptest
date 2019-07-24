@@ -117,7 +117,7 @@ class MinMax(unittest.TestCase):
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
         
 class API(unittest.TestCase, utilities.partialTestAPI):
-    '''Tests the api for testcase 2.  
+    '''Tests the api for testcase 1.  
     
     Actual test methods implemented in utilities.partialTestAPI.  Set self 
     attributes defined there for particular testcase in setUp method here.
@@ -152,6 +152,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.y_ref = {u'PHea_y': 0.0, 
                       u'TRooAir_y': 293.15015556512265,
                       u'time': 60.0}
+        self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc1_forecast_default.csv')
+        self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
+        self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc1_forecast_interval.csv')
 
         
 if __name__ == '__main__':
