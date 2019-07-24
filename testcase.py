@@ -12,6 +12,7 @@ import copy
 import config
 from scipy.integrate import trapz
 from data.data_manager import Data_Manager
+from forecast.forecaster import Forecaster
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -33,9 +34,12 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Instantiate a data manager for this test case
+        self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
-        data_manager = Data_Manager(testcase=self)
-        data_manager.load_data_and_kpisjson()
+        self.data_manager.load_data_and_kpisjson()
+        # Instantiate a forecaster for this test case
+        self.forecaster = Forecaster(testcase=self)
         # Get available control inputs and outputs
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
@@ -57,6 +61,8 @@ class TestCase(object):
         self.options['CVode_options']['rtol'] = 1e-6 
         # Set default communication step
         self.set_step(con['step'])
+        # Set default forecast parameters
+        self.set_forecast_parameters(con['horizon'], con['interval'])
         # Set initial simulation start
         self.start_time = 0
         self.initialize = True
@@ -264,6 +270,60 @@ class TestCase(object):
                 print('No calculation for KPI named "{0}".'.format(kpi))
 
         return kpis
+
+    def set_forecast_parameters(self,horizon,interval):
+        '''Sets the forecast horizon and interval, both in seconds.
+        
+        Parameters
+        ----------
+        horizon : int
+            Forecast horizon in seconds.
+        interval : int
+            Forecast interval in seconds.
+            
+        Returns
+        -------
+        None
+        
+        '''
+        
+        self.horizon = float(horizon)
+        self.interval = float(interval)
+        
+        return None
+    
+    def get_forecast_parameters(self):
+        '''Returns the current forecast horizon and interval parameters.'''
+        
+        forecast_parameters = dict()
+        forecast_parameters['horizon'] = self.horizon
+        forecast_parameters['interval'] = self.interval
+        
+        return forecast_parameters
+
+    def get_forecast(self):
+        '''Returns the test case data forecast
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        forecast : dict 
+            Dictionary with the requested forecast data
+            {<variable_name>:<variable_forecast_trajectory>}
+            where <variable_name> is a string with the variable
+            key and <variable_forecast_trajectory> is a list with
+            the forecasted values. 'time' is included as a variable
+        
+        '''
+        
+        # Get the forecast
+        forecast = self.forecaster.get_forecast(horizon=self.horizon,
+                                                interval=self.interval)
+        
+        return forecast
         
     def get_name(self):
         '''Returns the name of the test case fmu.

@@ -26,5 +26,6 @@ COPY restapi.py ./
 COPY testcase.py ./
 
 COPY data data/
+COPY forecast forecast/
 ENV PYTHONPATH $PYTHONPATH:$HOME
 

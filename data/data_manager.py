@@ -38,7 +38,7 @@ class Data_Manager(object):
         
         Parameters
         ----------
-        testcase: BOPTEST TestCase object, optional
+        testcase: BOPTEST TestCase object, default is None
             Used if loading or retrieving data from a test case FMU.
             Not used if compiling test case data into an FMU.
             Default is None.
@@ -108,7 +108,7 @@ class Data_Manager(object):
         
         Parameters
         ----------       
-        fmu_path : str
+        fmu_path : string
             Path to the fmu where the data is to be saved. The reason
             to not get this path from the tescase config file is 
             that this method is called by the parser before the test 
@@ -160,23 +160,23 @@ class Data_Manager(object):
         
         Parameters
         ----------
-        horizon : int (optional)
+        horizon : int, default is 24*3600
             Length of the requested forecast in seconds. By default one
             day will be used. 
-        interval : int (optional)
+        interval : int, default is None
             resampling time interval in seconds. If None,
             the test case step will be used instead.
-        index : numpy array (optional)
+        index : numpy array, default is None
             time vector for which the data points are requested.
             The interpolation is linear for the weather data
             and forward fill for the other data categories. If 
             index is None, the default case step is used as default. 
-        category : string (optional)
+        category : string, default is None
             Type of data to retrieve from the test case.
             If None it will return all available test case
             data without filtering it by any category. 
             The possible options are specified at categories.json.
-        plot : Boolean
+        plot : Boolean, default is False
             True if desired to plot the retrieved data
             
         Returns
@@ -184,6 +184,9 @@ class Data_Manager(object):
         data: dict 
             Dictionary with the requested forecast data
             {<variable_name>:<variable_forecast_trajectory>}
+            where <variable_name> is a string with the variable
+            key and <variable_forecast_trajectory> is a list with
+            the data values. 'time' is included as a variable
         
         Notes
         -----
@@ -204,11 +207,15 @@ class Data_Manager(object):
             # Use the test case start time 
             start = self.case.start_time
             stop  = start + horizon
-            # Reindex to the desired interval. Use step if none
+            # Use step if None interval provided
             if interval is None:
                 interval=self.case.step
-            index = np.arange(start,stop,interval).astype(int)
-            
+            # Define the index. Make sure last point is included if 
+            # possible. If interval is not an exact divisor of stop,
+            # the closest possible point under stop will be the end 
+            # point in order to keep interval unchanged among index. 
+            index = np.arange(start,stop+0.1,interval).astype(int)
+
         # Reindex to the desired index
         data_slice_reindexed = data_slice.reindex(index)
         

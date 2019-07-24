@@ -45,6 +45,16 @@ Then, run the test with command: ``$ make test_data``
 2. Copies the data and testcase2/models folders as well as the testcase2/config.py, the testcase.py and kpis.json files into the ``jm`` Docker container. 
 3. Runs ``test_data.py`` within the ``jm`` Docker container. The tests are performed within the container because some of them require JModelica.  
 
+## Run tests for forecaster
+First, check if Docker image ``jm`` exists.  If not, run command: ``$ make build_jm_image``.
+
+Then, run the test with command: ``$ make test_forecast``
+1. Compiles testcase2 model
+2. Copies the data and testcase2/models folders as well as the testcase2/config.py
+and the testcase.py files into the ``jm`` Docker container. 
+3. Runs ``test_forecast.py`` within the ``jm`` Docker container. The tests are performed within the container because the test case object requires JModelica
+to be initialized.  
+
 ## Other notes
 - ``utilities.py`` is used for common testing functions in Python.
 - Each test in the ``makefile`` generates its own test log called ``<test_name>.log``.  If running all tests with ``$ make test_all``, then ``report.py`` reads and summarizes all test logs, finally writing this summary in ``testing_report.txt``.

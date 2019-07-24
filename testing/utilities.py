@@ -161,7 +161,7 @@ class partialTimeseries(object):
                     result['Pass'] = False
                     result['ErrorMax'] = err_max,
                     result['IndexMax'] = i_max,
-                    result['Message'] = 'Max error ({0}) in trajectory greater than tolerance ({1}) at index {2}.'.format(err_max, tol, i_max)
+                    result['Message'] = 'Max error ({0}) in trajectory greater than tolerance ({1}) at index {2}. y_test: {3}, y_ref:{4}'.format(err_max, tol, i_max, y_test[i], y_ref[i])
         
         return result
     
@@ -202,7 +202,7 @@ class partialTimeseries(object):
         
         return s_test
 
-class partialTestAPI(object):
+class partialTestAPI(partialTimeseries):
     '''This partial class implements common API tests for test cases.
     
     References to self attributes for the tests should be set in the setUp 
@@ -285,10 +285,10 @@ class partialTestAPI(object):
         
     def test_advance_no_data(self):
         '''Test advancing of simulation with no input data.
-        
+
         This is a basic test of functionality.  
         Tests for advancing with overwriting are done in the example tests.
-                
+
         '''
 
         requests.put('{0}/reset'.format(self.url))
@@ -298,10 +298,10 @@ class partialTestAPI(object):
 
     def test_advance_false_overwrite(self):
         '''Test advancing of simulation with overwriting as false.
-        
+
         This is a basic test of functionality.  
         Tests for advancing with overwriting are done in the example tests.
-                
+
         '''
 
         requests.put('{0}/reset'.format(self.url))
@@ -313,3 +313,64 @@ class partialTestAPI(object):
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
         for key in y.keys():
             self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
+
+    def test_get_forecast_default(self):
+        '''Check that the forecaster is able to retrieve the data.
+        
+        Default forecast parameters for testcase used.
+
+        '''
+
+        requests.put('{0}/reset'.format(self.url))
+        
+        # Test case forecast
+        forecast = requests.get('{0}/forecast'.format(self.url)).json()
+        
+        # Set reference file path
+        ref_filepath = self.forecast_default_ref
+        
+        # Check the forecast
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        
+    def test_put_and_get_parameters(self):
+        '''Check PUT and GET of forecast settings.
+
+        '''
+
+        # Set forecast parameters
+        ret = requests.put('{0}/forecast_parameters'.format(self.url), 
+                           data=self.forecast_parameters_ref)
+        
+        # Get forecast parameters
+        forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
+        
+        # Check the forecast parameters
+        self.assertDictEqual(forecast_parameters, self.forecast_parameters_ref)
+        # Check the return on the put request
+        self.assertDictEqual(ret.json(), self.forecast_parameters_ref)
+        
+    def test_get_forecast_with_parameters(self):
+        '''Check that the forecaster is able to retrieve the data.
+        
+        Custom forecast parameters used.
+        
+        '''  
+
+        requests.put('{0}/reset'.format(self.url))
+        
+        # Set forecast parameters
+        requests.put('{0}/forecast_parameters'.format(self.url), 
+                     data=self.forecast_parameters_ref)
+        
+        # Test case forecast
+        forecast = requests.get('{0}/forecast'.format(self.url)).json()
+        
+        # Set reference file path
+        ref_filepath = self.forecast_with_parameters_ref
+        
+        # Check the forecast
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)

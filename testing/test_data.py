@@ -48,7 +48,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialTimeseries):
            
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir, 
-            'references', 'data', 'tc2_weather.csv')
+            'references', 'data', 'default_weather.csv')
           
         # Check the data file has been created
         self.assertTrue(os.path.exists(gen_filepath))
@@ -74,7 +74,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialTimeseries):
         
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir,
-            'references', 'data', 'tc2_prices.csv')
+            'references', 'data', 'default_prices.csv')
         
         # Check the data file has been created
         self.assertTrue(os.path.exists(gen_filepath))
@@ -100,7 +100,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialTimeseries):
         
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir, 
-            'references', 'data', 'tc2_emissions.csv')
+            'references', 'data', 'default_emissions.csv')
         
         # Check the data file has been created
         self.assertTrue(os.path.exists(gen_filepath))
@@ -126,7 +126,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialTimeseries):
         
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir, 
-            'references', 'data', 'tc2_occupancy.csv')
+            'references', 'data', 'default_occupancy.csv')
         
         # Check the data file has been created
         self.assertTrue(os.path.exists(gen_filepath))
@@ -152,7 +152,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialTimeseries):
         
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir, 
-            'references', 'data', 'tc2_internalGains.csv')
+            'references', 'data', 'default_internalGains.csv')
         
         # Check the data file has been created
         self.assertTrue(os.path.exists(gen_filepath))
@@ -178,7 +178,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialTimeseries):
         
         # Set reference file path
         ref_filepath = os.path.join(testing_root_dir, 
-            'references', 'data', 'tc2_setpoints.csv')
+            'references', 'data', 'default_setpoints.csv')
         
         # Check the data file has been created
         self.assertTrue(os.path.exists(gen_filepath))
