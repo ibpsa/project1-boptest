@@ -117,7 +117,7 @@ class MinMax(unittest.TestCase):
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
         
 class API(unittest.TestCase, utilities.partialTestAPI):
-    '''Tests the api for testcase 2.  
+    '''Tests the api for testcase 1.  
     
     Actual test methods implemented in utilities.partialTestAPI.  Set self 
     attributes defined there for particular testcase in setUp method here.
