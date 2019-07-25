@@ -205,8 +205,8 @@ model Case600FF
     annotation (Placement(transformation(extent={{-78,-80},{-66,-68}})));
 
   Modelica.Blocks.Interfaces.RealOutput TRooAir "Room air temperature"
-    annotation (Placement(transformation(extent={{160,110},{180,130}}),
-        iconTransformation(extent={{160,110},{180,130}})));
+    annotation (Placement(transformation(extent={{160,-10},{180,10}}),
+        iconTransformation(extent={{160,-10},{180,10}})));
   Buildings.Fluid.Sources.MassFlowSource_T souInf(
     redeclare package Medium = MediumA,
     m_flow=1,
@@ -291,9 +291,8 @@ equation
 
   connect(TRooAirSen.port, roo.heaPorAir) annotation (Line(points={{80,21},{60,
           21},{60,-15},{50.25,-15}}, color={191,0,0}));
-  connect(TRooAirSen.T, TRooAir) annotation (Line(points={{90,21},{96,21},{96,
-          120},{170,120}},
-                         color={0,0,127}));
+  connect(TRooAirSen.T, TRooAir) annotation (Line(points={{90,21},{96,21},{96,0},
+          {170,0}},      color={0,0,127}));
   connect(gain.y, souInf.m_flow_in) annotation (Line(points={{-7.5,-35},{-4.75,
           -35},{-4.75,-35.2},{2.8,-35.2}}, color={0,0,127}));
   connect(gain.u, sinInf.m_flow_in) annotation (Line(points={{-19,-35},{-30,-35},

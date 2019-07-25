@@ -38,5 +38,9 @@ October 6, 2011, by Michael Wetter:<br/>
 First implementation.
 </li>
 </ul>
-</html>"));
+</html>"),
+    Icon(graphics={                     Text(
+        extent={{-152,202},{148,162}},
+        textString="%name",
+        lineColor={0,0,255})}));
 end Case900FF;
