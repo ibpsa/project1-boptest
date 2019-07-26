@@ -107,14 +107,8 @@ model Case600FF
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     "Room model for Case 600"
     annotation (Placement(transformation(extent={{36,-30},{66,0}})));
-  Modelica.Blocks.Sources.Constant qConGai_flow(k=80/48) "Convective heat gain"
-    annotation (Placement(transformation(extent={{-56,64},{-48,72}})));
-  Modelica.Blocks.Sources.Constant qRadGai_flow(k=120/48) "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-44,72},{-36,80}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_1
     annotation (Placement(transformation(extent={{-18,64},{-10,72}})));
-  Modelica.Blocks.Sources.Constant qLatGai_flow(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-44,56},{-36,64}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos"),
       computeWetBulbTemperature=false)
@@ -226,25 +220,35 @@ model Case600FF
       Medium = MediumA) "Return air"
     annotation (Placement(transformation(extent={{-110,-30},{-90,-10}}),
         iconTransformation(extent={{-110,-30},{-90,-10}})));
+  InternalLoad lig(
+    radFraction=0.5,
+    latPower_nominal=0,
+    senPower_nominal=10)
+    annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
+  InternalLoad equ(
+    latPower_nominal=0,
+    senPower_nominal=5,
+    radFraction=0.7)
+    annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
+  OccupancyLoad occ(
+    radFraction=0.6,
+    occ_density=2/48,
+    senPower=73,
+    latPower=45)
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+  Modelica.Blocks.Math.MultiSum sumRad(nu=3) "Sum of radiant internal gains"
+    annotation (Placement(transformation(extent={{-52,82},{-40,94}})));
+  Modelica.Blocks.Math.MultiSum sumCon(nu=3) "Sum of convective internal gains"
+    annotation (Placement(transformation(extent={{-52,62},{-40,74}})));
+  Modelica.Blocks.Math.MultiSum sumLat(nu=3) "Sum of latent internal gains"
+    annotation (Placement(transformation(extent={{-52,42},{-40,54}})));
 equation
-  connect(qRadGai_flow.y,multiplex3_1. u1[1])  annotation (Line(
-      points={{-35.6,76},{-34,76},{-34,70.8},{-18.8,70.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(qLatGai_flow.y,multiplex3_1. u3[1])  annotation (Line(
-      points={{-35.6,60},{-28,60},{-28,65.2},{-18.8,65.2}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(roo.uSha, replicator.y) annotation (Line(
       points={{34.8,-1.5},{24,-1.5},{24,80},{-3.6,80}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(qConGai_flow.y, multiplex3_1.u2[1]) annotation (Line(
-      points={{-47.6,68},{-18.8,68}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(weaDat.weaBus, roo.weaBus)  annotation (Line(
@@ -303,6 +307,30 @@ equation
           0,-21.3},{39.75,-21.3}}, color={0,127,255}));
   connect(returnAir, roo.ports[5]) annotation (Line(points={{-100,-20},{-30,-20},
           {-30,-20.1},{39.75,-20.1}}, color={0,127,255}));
+  connect(occ.rad, sumRad.u[1]) annotation (Line(points={{-79,94},{-60,94},{-60,
+          90.8},{-52,90.8}}, color={0,0,127}));
+  connect(equ.rad, sumRad.u[2]) annotation (Line(points={{-79,74},{-60,74},{-60,
+          88},{-52,88}}, color={0,0,127}));
+  connect(lig.rad, sumRad.u[3]) annotation (Line(points={{-79,54},{-58,54},{-58,
+          85.2},{-52,85.2}}, color={0,0,127}));
+  connect(occ.con, sumCon.u[1]) annotation (Line(points={{-79,90},{-64,90},{-64,
+          70.8},{-52,70.8}}, color={0,0,127}));
+  connect(equ.con, sumCon.u[2]) annotation (Line(points={{-79,70},{-66,70},{-66,
+          68},{-52,68}}, color={0,0,127}));
+  connect(lig.con, sumCon.u[3]) annotation (Line(points={{-79,50},{-66,50},{-66,
+          65.2},{-52,65.2}}, color={0,0,127}));
+  connect(occ.lat, sumLat.u[1]) annotation (Line(points={{-79,86},{-72,86},{-72,
+          50.8},{-52,50.8}}, color={0,0,127}));
+  connect(equ.lat, sumLat.u[2]) annotation (Line(points={{-79,66},{-74,66},{-74,
+          48},{-52,48}}, color={0,0,127}));
+  connect(lig.lat, sumLat.u[3]) annotation (Line(points={{-79,46},{-76,46},{-76,
+          44},{-52,44},{-52,45.2}}, color={0,0,127}));
+  connect(sumRad.y, multiplex3_1.u1[1]) annotation (Line(points={{-38.98,88},{
+          -32,88},{-32,70.8},{-18.8,70.8}}, color={0,0,127}));
+  connect(sumCon.y, multiplex3_1.u2[1])
+    annotation (Line(points={{-38.98,68},{-18.8,68}}, color={0,0,127}));
+  connect(sumLat.y, multiplex3_1.u3[1]) annotation (Line(points={{-38.98,48},{
+          -32,48},{-32,65.2},{-18.8,65.2}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
