@@ -30,33 +30,32 @@ model SimpleRC
     startTime=3600*24)
     annotation (Placement(transformation(extent={{-100,-30},{-80,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveSet(             Description=
-        "Zone temperature setpoint", u(
+                           oveSet(   u(
       unit="K",
       min=273.15 + 10,
-      max=273.15 + 35))
+      max=273.15 + 35), description="Zone temperature setpoint")
     annotation (Placement(transformation(extent={{-70,-30},{-50,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveAct(             Description=
-        "Heater thermal power", u(
+                           oveAct(
+                                u(
       unit="W",
       min=0,
-      max=3000))
+      max=3000), description="Heater thermal power")
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       TZone(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
                                          y(unit="K"),
-    Description="Zone temperature")
+    description="Zone temperature")
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       PHeat(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
                                               y(unit="W"),
-    Description="Heater electrical power")
+    description="Heater electrical power")
     annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      setZone(y(unit="K"), Description=
+                      setZone(y(unit="K"), description=
         "Zone temperature setpoint")
     annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
 equation
