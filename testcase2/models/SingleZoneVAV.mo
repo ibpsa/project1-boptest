@@ -63,49 +63,52 @@ package SingleZoneVAV
            + 273.15]) "Cooling setpoint for room temperature"
       annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite
-                             oveTSetRooHea(             Description=
-          "Heating setpoint", u(
+                             oveTSetRooHea(
+                              u(
         unit="K",
         min=273.15 + 10,
-        max=273.15 + 35))
+        max=273.15 + 35), description="Heating setpoint")
       annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite
-                             oveTSetRooCoo(             Description=
-          "Cooling setpoint", u(
+                             oveTSetRooCoo(
+                              u(
         unit="K",
         min=273.15 + 10,
-        max=273.15 + 35))
+        max=273.15 + 35), description="Cooling setpoint")
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PPum(y(unit="W"), Description="Pump electrical power",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+                        PPum(y(unit="W"),
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+      description="Pump electrical power")
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PCoo(y(unit="W"), Description=
-          "Cooling electrical power",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+                        PCoo(y(unit="W"),
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+      description="Cooling electrical power")
       annotation (Placement(transformation(extent={{140,90},{160,110}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PHea(y(unit="W"), Description="Heater power",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+                        PHea(y(unit="W"),
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+      description="Heater power")
       annotation (Placement(transformation(extent={{120,110},{140,130}})));
     IBPSA.Utilities.IO.SignalExchange.Read
-                        PFan(y(unit="W"), Description="Fan electrical power",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+                        PFan(y(unit="W"),
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+      description="Fan electrical power")
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
     IBPSA.Utilities.IO.SignalExchange.Read TRooAir(               y(unit="K"),
-      Description="Room air temperature",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature)
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+      description="Room air temperature")
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
     IBPSA.Utilities.IO.SignalExchange.Read senTSetRooCoo(
       y(unit="K"),
-      Description="Room cooling setpoint",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+      description="Room cooling setpoint")
       annotation (Placement(transformation(extent={{-100,-80},{-80,-60}})));
     IBPSA.Utilities.IO.SignalExchange.Read senTSetRooHea(
       y(unit="K"),
-      Description="Room heating setpoint",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+      description="Room heating setpoint")
       annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(

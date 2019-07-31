@@ -61,14 +61,14 @@ def parse_instances(model_path, file_name):
         if 'boptestOverwrite' in var:
             label = 'Overwrite'
             unit = fmu.get_variable_unit(instance+'.u')
-            description = fmu.get(instance+'.Description')[0]
+            description = fmu.get(instance+'.description')[0]
             mini = fmu.get_variable_min(instance+'.u')
             maxi = fmu.get_variable_max(instance+'.u')
         # Read
         elif 'boptestRead' in var:
             label = 'Read'
             unit = fmu.get_variable_unit(instance+'.y')
-            description = fmu.get(instance+'.Description')[0]
+            description = fmu.get(instance+'.description')[0]
             mini = None
             maxi = None
         # KPI
