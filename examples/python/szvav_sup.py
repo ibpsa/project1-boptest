@@ -11,7 +11,7 @@ imported from a different module.
 # ----------------------
 import requests
 import time
-import kpicalculation
+from kpi import kpicalculation
 import json,collections
 # ----------------------
 
@@ -83,7 +83,7 @@ def run(plot=False, kpiconfig=None):
     start = time.time()
     # Reset test case
     print('Resetting test case if needed.')
-    res = requests.put('{0}/reset'.format(url))
+    res = requests.put('{0}/reset'.format(url), data={'reset_time':0})
     print('\nRunning test case...')
     # Set simulation step
     res = requests.put('{0}/step'.format(url), data={'step':step})
@@ -98,8 +98,8 @@ def run(plot=False, kpiconfig=None):
         # Compute customized KPIs
         if customizedkpis is not None:
              for customizedkpi in customizedkpis:
-                  customizedkpi.processing_data(y,customizedkpi.data_point_num)
-                  print('KPI:\t{0}:\t{1}'.format(customizedkpi.model.name,round(customizedkpi.calculation(),2)))
+                  customizedkpi.processing_data(y)
+                  print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi.calculation(),2)))
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
@@ -154,4 +154,4 @@ def run(plot=False, kpiconfig=None):
     return kpi, res
         
 if __name__ == "__main__":
-    kpi,res = run(kpiconfig='kpi.config')
+    kpi,res = run(kpiconfig='kpi/kpi.config')
