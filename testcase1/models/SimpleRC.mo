@@ -30,8 +30,12 @@ model SimpleRC
     yMax=100000) "Feedback controller for the heater based on room temperature"
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite
-                           oveAct(u(unit="W"), Description=
-        "Heater thermal power")   "Overwrite the heating power"
+                           oveAct(
+                                u(
+      unit="W",
+      min=0,
+      max=10000), description="Heater thermal power")
+                                  "Overwrite the heating power"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeat
     "Set the heating power to the room"
@@ -39,17 +43,17 @@ model SimpleRC
   Modelica.Blocks.Math.Gain eff(k=1/0.99) "Heater efficiency"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      TRooAir(
+                      TRooAir(                y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-                                              y(unit="K"),
-    Description="Zone air temperature")
+    description="Zone air temperature")
                               "Read the room air temperature"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
   IBPSA.Utilities.IO.SignalExchange.Read
-                      PHea(y(unit="W"), Description="Heater power",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+                      PHea(y(unit="W"),
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    description="Heater power")
                            "Read the heater power"
-    annotation (Placement(transformation(extent={{80,-90},{100,-70}})));
+    annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
 equation
   connect(res.port_b, cap.port)
     annotation (Line(points={{20,0},{40,0}},color={191,0,0}));
@@ -70,7 +74,7 @@ equation
   connect(set.y, con.u_s)
     annotation (Line(points={{-79,-30},{-72,-30}}, color={0,0,127}));
   connect(eff.y, PHea.u)
-    annotation (Line(points={{21,-80},{78,-80}}, color={0,0,127}));
+    annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
   connect(senTZone.T, TRooAir.u) annotation (Line(points={{80,0},{90,0},{90,-50},
           {82,-50}}, color={0,0,127}));
   connect(TRooAir.y, con.u_m)

@@ -10,9 +10,10 @@ from pyfmi import load_fmu
 import numpy as np
 import copy
 import config
-import json
 import time
 import cPickle as pickle
+from data.data_manager import Data_Manager
+from forecast.forecaster import Forecaster
 from kpis.kpi_calculator import KPI_Calculator
 
 class TestCase(object):
@@ -35,18 +36,20 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Instantiate a data manager for this test case
+        self.data_manager = Data_Manager(testcase=self)
+        # Load data and the kpis_json for the test case
+        self.data_manager.load_data_and_kpisjson()
+        # Instantiate a forecaster for this test case
+        self.forecaster = Forecaster(testcase=self)
+	# Instantiate a KPI calculator for the test case
+	self.cal = KPI_Calculator(testcase=self)
         # Get available control inputs and outputs
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Get input and output meta-data
-        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names)
+        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
-        # Define KPIs
-        self.kpipath = con['kpipath']
-        # Load kpi json
-        with open(self.kpipath, 'r') as f:
-            json_str = f.read()
-            self.kpi_json = json.loads(json_str)
         # Define outputs data
         self.y = {'time':[]}
         for key in output_names:
@@ -62,6 +65,8 @@ class TestCase(object):
         self.options['CVode_options']['rtol'] = 1e-6 
         # Set default communication step
         self.set_step(con['step'])
+        # Set default forecast parameters
+        self.set_forecast_parameters(con['horizon'], con['interval'])
         # Set initial simulation start
         self.start_time = 0
         self.initialize = True
@@ -109,8 +114,13 @@ class TestCase(object):
                 for key in u.keys():
                     if key != 'time' and u[key]:
                         value = float(u[key])
+                        # Check min/max if not activation input
+                        if '_activate' not in key:
+                            checked_value = self._check_value_min_max(key, value)
+                        else:
+                            checked_value = value
                         u_list.append(key)
-                        u_trajectory = np.vstack((u_trajectory, value))
+                        u_trajectory = np.vstack((u_trajectory, checked_value))
                 input_object = (u_list, np.transpose(u_trajectory))
             # Otherwise, input object is None
             else:
@@ -245,13 +255,65 @@ class TestCase(object):
         
         '''
         
-        # Instantiate a KPI calculator for the test case
-        if not hasattr(self, 'cal'):
-            self.cal = KPI_Calculator(self)
-            
+        # Calculate the core kpis 
+
         kpis = self.cal.get_core_kpis()
 
         return kpis
+
+    def set_forecast_parameters(self,horizon,interval):
+        '''Sets the forecast horizon and interval, both in seconds.
+        
+        Parameters
+        ----------
+        horizon : int
+            Forecast horizon in seconds.
+        interval : int
+            Forecast interval in seconds.
+            
+        Returns
+        -------
+        None
+        
+        '''
+        
+        self.horizon = float(horizon)
+        self.interval = float(interval)
+        
+        return None
+    
+    def get_forecast_parameters(self):
+        '''Returns the current forecast horizon and interval parameters.'''
+        
+        forecast_parameters = dict()
+        forecast_parameters['horizon'] = self.horizon
+        forecast_parameters['interval'] = self.interval
+        
+        return forecast_parameters
+
+    def get_forecast(self):
+        '''Returns the test case data forecast
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        forecast : dict 
+            Dictionary with the requested forecast data
+            {<variable_name>:<variable_forecast_trajectory>}
+            where <variable_name> is a string with the variable
+            key and <variable_forecast_trajectory> is a list with
+            the forecasted values. 'time' is included as a variable
+        
+        '''
+        
+        # Get the forecast
+        forecast = self.forecaster.get_forecast(horizon=self.horizon,
+                                                interval=self.interval)
+        
+        return forecast
         
     def get_name(self):
         '''Returns the name of the test case fmu.
@@ -271,7 +333,7 @@ class TestCase(object):
         
         return name
         
-    def _get_var_metadata(self, fmu, var_list):
+    def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
         
         Parameters
@@ -285,8 +347,11 @@ class TestCase(object):
         -------
         var_metadata : dict
             Dictionary of variable names as keys and metadata as fields.
-            {<var_name> :
-                "Unit" : <units_str>
+            {<var_name_str> :
+                "Unit" : str,
+                "Description" : str,
+                "Minimum" : float,
+                "Maximum" : float
             }
             
         '''
@@ -299,58 +364,60 @@ class TestCase(object):
             if var == 'time':
                 unit = 's'
                 description = 'Time of simulation'
+                mini = None
+                maxi = None
             elif '_activate' in var:
                 unit = None
                 description = fmu.get_variable_description(var)
+                mini = None
+                maxi = None
             else:
                 unit = fmu.get_variable_unit(var)
                 description = fmu.get_variable_description(var)
+                if inputs:
+                    mini = fmu.get_variable_min(var)
+                    maxi = fmu.get_variable_max(var)
+                else:
+                    mini = None
+                    maxi = None
             var_metadata[var] = {'Unit':unit,
-                                 'Description':description}
+                                 'Description':description,
+                                 'Minimum':mini,
+                                 'Maximum':maxi}
 
-        return var_metadata    
-    
-    def save_test_case(self, file_name='deployed.tc'):
-        '''Save the deployed test case in a pickle.
-        This method is going to delete the fmu from the
-        object because it is not supported by pickle.
+        return var_metadata
+        
+    def _check_value_min_max(self, var, value):
+        '''Check that the input value does not violate the min or max.
+        
+        Note that if it does, the value is truncated to the minimum or maximum.
         
         Parameters
         ----------
-        file_name: string
-            name of the file where the test case is going
-            to be pickled
+        var : str
+            Name of variable
+        value : numeric
+            Specified value of variable
+            
+        Return
+        ------
+        checked_value : float
+            Value of variable truncated by min and max.
+            
         '''
         
-        del self.fmu
-        
-        f=open(file_name,'wb')
-        pickle.dump(self,f)
-        f.close()
+        # Get minimum and maximum for variable
+        mini = self.inputs_metadata[var]['Minimum']
+        maxi = self.inputs_metadata[var]['Maximum']
+        # Check the value and truncate if necessary
+        if value > maxi:
+            checked_value = maxi
+            print('WARNING: Value of {0} for {1} is above maximum of {2}.  Using {2}.'.format(value, var, maxi))
+        elif value < mini:
+            checked_value = mini
+            print('WARNING: Value of {0} for {1} is below minimum of {2}.  Using {2}.'.format(value, var, mini))
+        else:
+            checked_value = value
 
-        return file_name
-        
-    def load_test_case(self, file_name='deployed.tc'):
-        '''Load a deployed test case that has been 
-        saved with 'save_test_case'
-        
-        Parameters
-        ----------
-        file_name: string
-            name of the file where the test case is stored
+        return checked_value
             
-        Returns
-        -------
-        self: TestCase 
-            Instance with the attributes of a previously 
-            deployed test case
-        '''
-
-        tc = pickle.load(file(file_name, 'rb'))
-        for k,v in tc.__dict__.iteritems():
-            self.__dict__[k] = v
-            
-        self.fmu = load_fmu(self.fmupath)
-
-        return self   
-        
