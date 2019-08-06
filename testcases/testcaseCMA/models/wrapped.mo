@@ -24,6 +24,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput conVAVCor_oveDam_activate "Activation for Damper set point";
 	Modelica.Blocks.Interfaces.RealInput conVAVSou_oveVal_u(unit="None", min=-1.79769313486e+308, max=1.79769313486e+308) "Heating valve set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVSou_oveVal_activate "Activation for Heating valve set point";
+	Modelica.Blocks.Interfaces.RealInput modeSelector_oveConMod_u(unit="None", min=-1.79769313486e+308, max=1.79769313486e+308) "Overwrite the control mode";
+	Modelica.Blocks.Interfaces.BooleanInput modeSelector_oveConMod_activate "Activation for Overwrite the control mode";
 	Modelica.Blocks.Interfaces.RealInput conVAVNor_oveDam_u(unit="None", min=-1.79769313486e+308, max=1.79769313486e+308) "Damper set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVNor_oveDam_activate "Activation for Damper set point";
 	Modelica.Blocks.Interfaces.RealInput nor_subConHea_u(unit="W", min=-1.79769313486e+308, max=1.79769313486e+308) "Heating input to the zone";
@@ -57,7 +59,6 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealInput conVAVNor_oveTRooHeaSet_u(unit="K", min=-1.79769313486e+308, max=1.79769313486e+308) "Room heating temperature set point";
 	Modelica.Blocks.Interfaces.BooleanInput conVAVNor_oveTRooHeaSet_activate "Activation for Room heating temperature set point";
 	// Out read
-	Modelica.Blocks.Interfaces.RealOutput senGasHea_y(unit="W") = mod.senGasHea.y "Thermal power exchanged";
 	Modelica.Blocks.Interfaces.RealOutput conVAVNor_senTSup_y(unit="K") = mod.conVAVNor.senTSup.y "Air supply temperature";
 	Modelica.Blocks.Interfaces.RealOutput conVAVWes_senTRooHeaSet_y(unit="K") = mod.conVAVWes.senTRooHeaSet.y "Room heating temperature set point";
 	Modelica.Blocks.Interfaces.RealOutput conVAVNor_senDamSet_y(unit="None") = mod.conVAVNor.senDamSet.y "Damper set point";
@@ -68,6 +69,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput eas_senACH_y(unit="None") = mod.eas.senACH.y "Air change per hour";
 	Modelica.Blocks.Interfaces.RealOutput flo_nor_intGai_y(unit="W") = mod.flo.nor.intGai.y "Internal gains of the zone";
 	Modelica.Blocks.Interfaces.RealOutput nor_senACH_y(unit="None") = mod.nor.senACH.y "Air change per hour";
+	Modelica.Blocks.Interfaces.RealOutput senTRet_y(unit="K") = mod.senTRet.y "Return mixed temperature from zones";
 	Modelica.Blocks.Interfaces.RealOutput conVAVNor_senTRooCooSet_y(unit="K") = mod.conVAVNor.senTRooCooSet.y "Room cooling temperature set point";
 	Modelica.Blocks.Interfaces.RealOutput sou_senPowVAV_y(unit="W") = mod.sou.senPowVAV.y "Thermal power exchanged";
 	Modelica.Blocks.Interfaces.RealOutput conVAVSou_senTRooCooSet_y(unit="K") = mod.conVAVSou.senTRooCooSet.y "Room cooling temperature set point";
@@ -80,6 +82,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput conVAVSou_senValSet_y(unit="None") = mod.conVAVSou.senValSet.y "Heating valve set point";
 	Modelica.Blocks.Interfaces.RealOutput conVAVCor_senTSup_y(unit="K") = mod.conVAVCor.senTSup.y "Air supply temperature";
 	Modelica.Blocks.Interfaces.RealOutput conVAVCor_senValSet_y(unit="None") = mod.conVAVCor.senValSet.y "Heating valve set point";
+	Modelica.Blocks.Interfaces.RealOutput senTMix_y(unit="K") = mod.senTMix.y "Return temperature from zones mixed with outdoor temperature after economizer";
 	Modelica.Blocks.Interfaces.RealOutput senPowCoo_y(unit="W") = mod.senPowCoo.y "Thermal power exchanged by cooCoi";
 	Modelica.Blocks.Interfaces.RealOutput nor_senPowVAV_y(unit="W") = mod.nor.senPowVAV.y "Thermal power exchanged";
 	Modelica.Blocks.Interfaces.RealOutput conVAVWes_senTSup_y(unit="K") = mod.conVAVWes.senTSup.y "Air supply temperature";
@@ -101,8 +104,10 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput cor_senPowVAV_y(unit="W") = mod.cor.senPowVAV.y "Thermal power exchanged";
 	Modelica.Blocks.Interfaces.RealOutput conVAVCor_senTRooCooSet_y(unit="K") = mod.conVAVCor.senTRooCooSet.y "Room cooling temperature set point";
 	Modelica.Blocks.Interfaces.RealOutput senPowFan_y(unit="W") = mod.senPowFan.y "Fan power";
+	Modelica.Blocks.Interfaces.RealOutput senTSup_y(unit="K") = mod.senTSup.y "Supply temperature to terminal units of the zones";
 	Modelica.Blocks.Interfaces.RealOutput conVAVEas_senTRooHeaSet_y(unit="K") = mod.conVAVEas.senTRooHeaSet.y "Room heating temperature set point";
 	Modelica.Blocks.Interfaces.RealOutput conVAVCor_senDamSet_y(unit="None") = mod.conVAVCor.senDamSet.y "Damper set point";
+	Modelica.Blocks.Interfaces.RealOutput senPowHea_y(unit="W") = mod.senPowHea.y "Thermal power exchanged";
 	Modelica.Blocks.Interfaces.RealOutput conVAVSou_senTRooHeaSet_y(unit="K") = mod.conVAVSou.senTRooHeaSet.y "Room heating temperature set point";
 	Modelica.Blocks.Interfaces.RealOutput conVAVEas_senValSet_y(unit="None") = mod.conVAVEas.senValSet.y "Heating valve set point";
 	// Original model
@@ -119,6 +124,7 @@ model wrapped "Wrapped model"
 		conVAVWes.oveTRooCooSet(uExt(y=conVAVWes_oveTRooCooSet_u),activate(y=conVAVWes_oveTRooCooSet_activate)),
 		conVAVCor.oveDam(uExt(y=conVAVCor_oveDam_u),activate(y=conVAVCor_oveDam_activate)),
 		conVAVSou.oveVal(uExt(y=conVAVSou_oveVal_u),activate(y=conVAVSou_oveVal_activate)),
+		modeSelector.oveConMod(uExt(y=modeSelector_oveConMod_u),activate(y=modeSelector_oveConMod_activate)),
 		conVAVNor.oveDam(uExt(y=conVAVNor_oveDam_u),activate(y=conVAVNor_oveDam_activate)),
 		nor.subConHea(uExt(y=nor_subConHea_u),activate(y=nor_subConHea_activate)),
 		conVAVNor.oveVal(uExt(y=conVAVNor_oveVal_u),activate(y=conVAVNor_oveVal_activate)),
