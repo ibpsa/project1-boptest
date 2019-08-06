@@ -12,11 +12,12 @@ import utilities
 import requests
 from examples.python import twoday_p
 
-kpi_ref = {'ener_tot': 13.273654783563488,
-           'tdis_tot': 73.9449464293046,
+kpi_ref = {'tdis_tot': 73.9449464293046,
+           'ener_tot': 13.273654783563488,
            'cost_tot': 0.9291558348494443,
-           'time_rat': 8.150469462076822e-5,
-           'emis_tot': 2.6547309567126978}
+           'emis_tot': 2.6547309567126978,
+           'time_rat_python': 8.150469462076822e-5,
+           'time_rat_julia':  0.0007346613401616061}
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of proportional feedback controller in Python.
@@ -41,7 +42,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
-        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_python'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
         
         # Check trajectories
@@ -82,7 +83,7 @@ class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
         self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
-        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_julia'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
         
         # Check trajectories
