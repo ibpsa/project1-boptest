@@ -12,7 +12,11 @@ import utilities
 import requests
 from examples.python import twoday_p
 
-kpi_ref = {'energy' : 13.273897900783135, 'comfort' : 6.572523639734243}
+kpi_ref = {'ener_tot': 13.273654783563488,
+           'tdis_tot': 73.9449464293046,
+           'cost_tot': 0.9291558348494443,
+           'time_rat': 8.150469462076822e-5,
+           'emis_tot': 2.6547309567126978}
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of proportional feedback controller in Python.
@@ -34,8 +38,12 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         # Run test
         kpi,res = twoday_p.run()
         # Check kpis
-        self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=3)
-        self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=3)
+        self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
+        
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame()
@@ -71,8 +79,12 @@ class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
         res_path = os.path.join(utilities.get_root_path(), 'examples', 'julia', 'result_testcase1.csv')
         # Check kpis
         kpi = pd.read_csv(kpi_path)
-        self.assertAlmostEqual(kpi['energy'].get_values()[0], kpi_ref['energy'], places=3)
-        self.assertAlmostEqual(kpi['comfort'].get_values()[0], kpi_ref['comfort'], places=3)
+        self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
+        
         # Check trajectories
         df = pd.read_csv(res_path, index_col = 'time')
         # Set reference file path
