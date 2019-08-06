@@ -11,6 +11,10 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
     extends PartialOpenLoop(
       heaCoi(show_T=true),
       cooCoi(show_T=true));
+    parameter Real k_hea = 0.02 "Gain of the PI controller of the heating coil";
+    parameter Real Ti_hea = 300 "Time constant of the PI controller of the heating coil";
+    parameter Real k_coo = 0.1 "Gain of the PI controller of the heating coil";
+    parameter Real Ti_coo = 600 "Time constant of the PI controller of the heating coil";
 
     Modelica.Blocks.Sources.Constant TSupSetHea(y(
         final quantity="ThermodynamicTemperature",
@@ -67,8 +71,8 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
       Td=60,
       initType=Modelica.Blocks.Types.InitPID.InitialState,
       controllerType=Modelica.Blocks.Types.SimpleController.PI,
-      k=0.02,
-      Ti=300)
+      k=k_hea,
+      Ti=Ti_hea)
              "Controller for heating coil"
       annotation (Placement(transformation(extent={{-80,-212},{-60,-192}})));
     Buildings.Controls.Continuous.LimPID cooCoiCon(
@@ -78,8 +82,9 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
       yMax=1,
       yMin=0,
       controllerType=Modelica.Blocks.Types.SimpleController.PI,
-      Ti=600,
-      k=0.1) "Controller for cooling coil"
+      Ti=Ti_coo,
+      k=k_coo)
+             "Controller for cooling coil"
       annotation (Placement(transformation(extent={{-80,-250},{-60,-230}})));
     Buildings.Controls.OBC.CDL.Logical.Switch swiHeaCoi
       "Switch to switch off heating coil"
@@ -104,12 +109,13 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
       annotation (Placement(transformation(extent={{360,218},{380,238}})));
     Modelica.Blocks.Sources.RealExpression heaCoiPow(y=abs(heaCoi.Q1_flow))
       annotation (Placement(transformation(extent={{300,302},{320,322}})));
-    IBPSA.Utilities.IO.SignalExchange.Read senGasHea(
+    IBPSA.Utilities.IO.SignalExchange.Read senPowHea(
       y(unit="W"),
       Description="Thermal power exchanged",
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{360,302},{380,322}})));
-    Modelica.Blocks.Sources.RealExpression cooCoiPow(y=abs(cooCoi.Q1_flow)*3)
+    Modelica.Blocks.Sources.RealExpression cooCoiPow(y=abs(cooCoi.port_a1.m_flow
+          *(cooCoi.port_b1.h_outflow - cooCoi.port_a1.h_outflow)))
       "Assumes constant EER"
       annotation (Placement(transformation(extent={{300,268},{320,288}})));
     IBPSA.Utilities.IO.SignalExchange.Read senPowCoo(
@@ -117,6 +123,29 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
       Description="Thermal power exchanged by cooCoi",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{360,268},{380,288}})));
+    Modelica.Blocks.Sources.RealExpression TRetCalculator(y=TRet.T)
+      annotation (Placement(transformation(extent={{100,340},{120,360}})));
+    IBPSA.Utilities.IO.SignalExchange.Read senTRet(
+      y(unit="K"),
+      Description="Return mixed temperature from zones",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+      annotation (Placement(transformation(extent={{160,340},{180,360}})));
+    Modelica.Blocks.Sources.RealExpression TMixCalculator(y=TMix.T)
+      annotation (Placement(transformation(extent={{100,300},{120,320}})));
+    IBPSA.Utilities.IO.SignalExchange.Read senTMix(
+      y(unit="K"),
+      Description=
+          "Return temperature from zones mixed with outdoor temperature after economizer",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+      annotation (Placement(transformation(extent={{160,300},{180,320}})));
+
+    Modelica.Blocks.Sources.RealExpression TSupCalculator(y=TSup.T)
+      annotation (Placement(transformation(extent={{100,260},{120,280}})));
+    IBPSA.Utilities.IO.SignalExchange.Read senTSup(
+      y(unit="K"),
+      Description="Supply temperature to terminal units of the zones",
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+      annotation (Placement(transformation(extent={{160,260},{180,280}})));
   equation
     connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
         points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -350,11 +379,6 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
             255}));
     connect(conFanSup.y, fanSup.y) annotation (Line(points={{261,0},{280,0},{280,
             -20},{310,-20},{310,-28}}, color={0,0,127}));
-    connect(modeSelector.yFan, swiCooCoi.u2) annotation (Line(points={{-179.545,
-            -310},{-20,-310},{-20,-248},{58,-248}},
-                                                color={255,0,255}));
-    connect(swiCooCoi.u1, cooCoiCon.y) annotation (Line(points={{58,-240},{-20,
-            -240},{-59,-240}},      color={0,0,127}));
     connect(swiHeaCoi.u1, heaCoiCon.y)
       annotation (Line(points={{58,-202},{-59,-202}}, color={0,0,127}));
     connect(coiOff.y, swiCooCoi.u3) annotation (Line(points={{-39,-162},{-28,-162},
@@ -405,10 +429,20 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
         pattern=LinePattern.Dash));
     connect(fanSup.P, senPowFan.u) annotation (Line(points={{321,-31},{334,-31},
             {334,228},{358,228}}, color={0,0,127}));
-    connect(heaCoiPow.y, senGasHea.u)
+    connect(heaCoiPow.y,senPowHea. u)
       annotation (Line(points={{321,312},{358,312}}, color={0,0,127}));
     connect(cooCoiPow.y, senPowCoo.u)
       annotation (Line(points={{321,278},{358,278}}, color={0,0,127}));
+    connect(TRetCalculator.y, senTRet.u)
+      annotation (Line(points={{121,350},{158,350}}, color={0,0,127}));
+    connect(TMixCalculator.y, senTMix.u)
+      annotation (Line(points={{121,310},{158,310}}, color={0,0,127}));
+    connect(TSupCalculator.y, senTSup.u)
+      annotation (Line(points={{121,270},{158,270}}, color={0,0,127}));
+    connect(swiCooCoi.u2, modeSelector.yFan) annotation (Line(points={{58,-248},
+            {-20,-248},{-20,-310},{-179.545,-310}}, color={255,0,255}));
+    connect(cooCoiCon.y, swiCooCoi.u1)
+      annotation (Line(points={{-59,-240},{58,-240}}, color={0,0,127}));
     annotation (
       Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1440,
               580}})),
@@ -1986,8 +2020,15 @@ This is for
       annotation (Placement(transformation(extent={{194,56},{214,76}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite oveFanMod(u(unit="None"),Description="Overwrite the fan mode")
       annotation (Placement(transformation(extent={{164,56},{184,76}})));
-    Modelica.Blocks.Sources.Constant const(k=0)
+    Modelica.Blocks.Sources.Constant const(k=1)
       annotation (Placement(transformation(extent={{172,112},{192,132}})));
+    IBPSA.Utilities.IO.SignalExchange.Overwrite oveConMod(u(unit="None"),
+        Description="Overwrite the control mode")
+      annotation (Placement(transformation(extent={{-160,190},{-140,210}})));
+    Modelica.Blocks.Math.RealToInteger realToInteger
+      annotation (Placement(transformation(extent={{-140,160},{-160,180}})));
+    Modelica.Blocks.Math.IntegerToReal integerToReal
+      annotation (Placement(transformation(extent={{-200,190},{-180,210}})));
   equation
     connect(start.outPort, unOccOff.inPort[1]) annotation (Line(
         points={{-38.5,30},{-29.75,30},{-29.75,30.6667},{-21,30.6667}},
@@ -2193,13 +2234,6 @@ This is for
         points={{101,24},{112,24},{112,8},{-192,8},{-192,136.64},{-186,136.64}},
         color={255,127,0},
         smooth=Smooth.None));
-    connect(sum.y, cb.controlMode) annotation (Line(
-        points={{-173.1,140},{-158,140}},
-        color={255,127,0},
-        smooth=Smooth.None), Text(
-        string="%second",
-        index=1,
-        extent={{6,3},{6,3}}));
     connect(yFan, or1.y)
       annotation (Line(points={{230,0},{196.9,0}}, color={255,0,255}));
     connect(unOccNigSetBac.active, or1.u[1]) annotation (Line(points={{90,19},{90,
@@ -2216,6 +2250,18 @@ This is for
             {218,20},{184,20},{184,-3.36}}, color={255,0,255}));
     connect(const.y, oveFanMod.u) annotation (Line(points={{193,122},{210,122},{
             210,88},{156,88},{156,66},{162,66}}, color={0,0,127}));
+    connect(realToInteger.y, cb.controlMode) annotation (Line(points={{-161,170},
+            {-166,170},{-166,140},{-158,140}}, color={255,127,0}), Text(
+        string="%second",
+        index=1,
+        extent={{-6,3},{-6,3}},
+        horizontalAlignment=TextAlignment.Right));
+    connect(oveConMod.y, realToInteger.u) annotation (Line(points={{-139,200},{
+            -130,200},{-130,170},{-138,170}}, color={0,0,127}));
+    connect(sum.y, integerToReal.u) annotation (Line(points={{-173.1,140},{-170,
+            140},{-170,160},{-208,160},{-208,200},{-202,200}}, color={255,127,0}));
+    connect(integerToReal.y, oveConMod.u)
+      annotation (Line(points={{-179,200},{-162,200}}, color={0,0,127}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-220,
               -220},{220,220}})), Icon(coordinateSystem(
             preserveAspectRatio=true, extent={{-220,-220},{220,220}}), graphics={
