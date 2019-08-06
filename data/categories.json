@@ -17,5 +17,9 @@
               "EmissionsBiomassPower",
               "EmissionsSolarThermalPower"],
 "occupancy": ["occupancy"],
-"internalGains": ["InternalGains"],
+"internalGains": ["InternalGains[0]",
+				  "InternalGains[1]",
+				  "InternalGains[2]",
+				  "InternalGains[3]",
+				  "InternalGains[4]"],
 "setpoints": ["LowerSetp", "UpperSetp"]}
