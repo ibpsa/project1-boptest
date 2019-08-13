@@ -16,8 +16,8 @@ kpi_ref = {'tdis_tot': 0.00182974909243,
            'ener_tot': 147.133983414,
            'cost_tot': 29.4267966827,
            'emis_tot': 73.5669917068,
-           'time_rat_python': 0.0001921725963,
-           'time_rat_julia': 0.0001921725963}
+           'time_rat_python': 0.000198015450603,
+           'time_rat_julia': 0.000198015450603}
 
 class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of a supervisory controller in Python.
