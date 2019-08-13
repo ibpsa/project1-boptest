@@ -52,6 +52,8 @@ model SimpleRC
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power")
                            "Read the heater power"
+    annotation (Placement(transformation(extent={{80,-90},{100,-70}})));
+  Modelica.Blocks.Math.Abs abs
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
 equation
   connect(res.port_b, cap.port)
@@ -72,11 +74,13 @@ equation
           -80},{-2,-80}}, color={0,0,127}));
   connect(set.y, con.u_s)
     annotation (Line(points={{-79,-30},{-72,-30}}, color={0,0,127}));
-  connect(eff.y, PHea.u)
-    annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
   connect(senTZone.T, TRooAir.u) annotation (Line(points={{80,0},{90,0},{90,-50},
           {82,-50}}, color={0,0,127}));
   connect(TRooAir.y, con.u_m)
     annotation (Line(points={{59,-50},{-60,-50},{-60,-42}}, color={0,0,127}));
+  connect(eff.y, abs.u)
+    annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
+  connect(abs.y, PHea.u)
+    annotation (Line(points={{51,-80},{78,-80}}, color={0,0,127}));
   annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
 end SimpleRC;
