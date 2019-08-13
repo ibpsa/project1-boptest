@@ -11,7 +11,6 @@ import numpy as np
 import copy
 import config
 import time
-import cPickle as pickle
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
 from kpis.kpi_calculator import KPI_Calculator
@@ -42,8 +41,8 @@ class TestCase(object):
         self.data_manager.load_data_and_kpisjson()
         # Instantiate a forecaster for this test case
         self.forecaster = Forecaster(testcase=self)
-	# Instantiate a KPI calculator for the test case
-	self.cal = KPI_Calculator(testcase=self)
+        # Instantiate a KPI calculator for the test case
+        self.cal = KPI_Calculator(testcase=self)
         # Get available control inputs and outputs
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
