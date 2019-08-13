@@ -13,11 +13,11 @@ import requests
 from examples.python import twoday_p
 
 kpi_ref = {'tdis_tot': 10.6329491656,
-           'ener_tot': 13.273654783563488,
-           'cost_tot': 0.9291558348494443,
-           'emis_tot': 2.6547309567126978,
+           'ener_tot': 21.474759625,
+           'cost_tot': 1.50323317375,
+           'emis_tot': 4.294951925,
            'time_rat_python': 8.150469462076822e-5,
-           'time_rat_julia':  0.0007346613401616061}
+           'time_rat_julia':  0.000734898964012 }
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of proportional feedback controller in Python.
@@ -115,7 +115,7 @@ class MinMax(unittest.TestCase):
         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
         # Check kpis
         value = float(y['PHea_y'])
-        self.assertEqual(value, -10101.010101010103)
+        self.assertAlmostEqual(value, 10101.010101010103, places=3)
         
     def test_max(self):
         '''Tests that if input is above max, input is set to max.
