@@ -122,6 +122,7 @@ test_forecast:
 # Copy the required files and folders for the test
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=kpis
 	make copy_to_jm ARGS=testcase2/models
 	make copy_to_jm ARGS=testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
