@@ -80,11 +80,11 @@ class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
         res_path = os.path.join(utilities.get_root_path(), 'examples', 'julia', 'result_testcase2.csv')
         # Check kpis
         kpi = pd.read_csv(kpi_path)
-        self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
-        self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
-        self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
-        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_julia'], places=3)
-        self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
+        self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
         # Check trajectories
         df = pd.read_csv(res_path, index_col = 'time')
         # Set reference file path
