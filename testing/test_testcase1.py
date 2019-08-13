@@ -112,10 +112,10 @@ class MinMax(unittest.TestCase):
         
         # Run test
         requests.put('{0}/reset'.format(self.url))
-        y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-100}).json()
+        y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
         # Check kpis
         value = float(y['PHea_y'])
-        self.assertEqual(value, 0.0)
+        self.assertEqual(value, -10101.010101010103)
         
     def test_max(self):
         '''Tests that if input is above max, input is set to max.
@@ -151,7 +151,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Maximum":None}, 
                            "oveAct_u": {"Unit": "W", 
                                         "Description": "Heater thermal power",
-                                        "Minimum":0,
+                                        "Minimum":-10000,
                                         "Maximum":10000}}
         self.measurements_ref = {"PHea_y": {"Unit": "W", 
                                             "Description": "Heater power",
