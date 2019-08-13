@@ -12,7 +12,7 @@ import utilities
 import requests
 from examples.python import twoday_p
 
-kpi_ref = {'tdis_tot': 73.9449464293046,
+kpi_ref = {'tdis_tot': 10.6329491656,
            'ener_tot': 13.273654783563488,
            'cost_tot': 0.9291558348494443,
            'emis_tot': 2.6547309567126978,

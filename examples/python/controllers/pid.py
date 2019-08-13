@@ -22,11 +22,19 @@ def compute_control(y):
     '''
     
     # Controller parameters
-    setpoint = 273.15+20
+    LowerSetp = 273.15+20
+    UpperSetp = 273.15+23
     k_p = 2000
+    
     # Compute control
-    e = setpoint - y['TRooAir_y']
-    value = max(k_p*e,0)
+    if y['TRooAir_y']<LowerSetp:
+        e = LowerSetp - y['TRooAir_y']
+    elif y['TRooAir_y']>UpperSetp:
+        e = UpperSetp - y['TRooAir_y']
+    else:
+        e = 0
+        
+    value = k_p*e
     u = {'oveAct_u':value,
          'oveAct_activate': 1}
     
