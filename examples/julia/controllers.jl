@@ -20,10 +20,10 @@ function compute_control(y::Dict)
     k_p = 2000
 
     # compute control
-    if y['TRooAir_y']<LowerSetp
-        e = LowerSetp - y['TRooAir_y']
-    elseif y['TRooAir_y']>UpperSetp
-        e = UpperSetp - y['TRooAir_y']
+    if y["TRooAir_y"]<LowerSetp
+        e = LowerSetp - y["TRooAir_y"]
+    elseif y["TRooAir_y"]>UpperSetp
+        e = UpperSetp - y["TRooAir_y"]
     else
         e = 0
     end
