@@ -1,4 +1,4 @@
-within SimpleAir.BaseClasses;
+within BESTESTAir.BaseClasses;
 model OccupancyLoad
   "A model for occupancy and resulting internal loads"
   parameter Modelica.SIunits.Power senPower "Sensible heat gain per person";

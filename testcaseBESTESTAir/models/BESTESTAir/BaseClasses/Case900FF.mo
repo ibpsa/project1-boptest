@@ -1,4 +1,4 @@
-within SimpleAir.BaseClasses;
+within BESTESTAir.BaseClasses;
 model Case900FF "Case 600FF, but with high thermal mass"
   extends Case600FF(
     matExtWal = extWalCase900,

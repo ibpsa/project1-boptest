@@ -1,4 +1,4 @@
-within SimpleAir.BaseClasses;
+within BESTESTAir.BaseClasses;
 model Case600FF
   "Basic test with light-weight construction and free floating temperature"
 

@@ -1,4 +1,4 @@
-within SimpleAir.BaseClasses;
+within BESTESTAir.BaseClasses;
 model InternalLoad "A model for internal loads"
   parameter Modelica.SIunits.HeatFlux senPower_nominal "Nominal sensible heat gain";
   parameter Modelica.SIunits.DimensionlessRatio radFraction "Fraction of sensible gain that is radiant";

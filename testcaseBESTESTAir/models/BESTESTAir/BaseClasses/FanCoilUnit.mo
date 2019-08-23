@@ -1,4 +1,4 @@
-within SimpleAir.BaseClasses;
+within BESTESTAir.BaseClasses;
 model FanCoilUnit "Four-pipe fan coil unit model"
   package Medium1 = Buildings.Media.Air;
   parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.65 "Nominal air flowrate";
@@ -31,11 +31,11 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
   Modelica.Blocks.Interfaces.RealInput yFan "Fan speed signal"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium =
-        Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium
+      = Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{40,50},{60,70}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium =
-        Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium
+      = Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{60,-110},{40,-90}})));
   Buildings.Fluid.Sensors.MassFlowRate senSupFlo(redeclare package Medium =
         Medium1)

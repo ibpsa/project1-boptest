@@ -1,4 +1,4 @@
-within SimpleAir;
+within BESTESTAir;
 model TestCase "Testcase model"
   extends Modelica.Icons.Example;
   BaseClasses.Case900FF zon
