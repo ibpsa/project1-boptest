@@ -14,7 +14,6 @@ import numpy as np
 from scipy.integrate import trapz
 from flask._compat import iteritems
 from collections import OrderedDict
-from data.data_manager import Data_Manager
 
 class KPI_Calculator(object):
     '''This class calculates the KPIs as a post-process after 
@@ -47,10 +46,6 @@ class KPI_Calculator(object):
         
         # Point to the test case object
         self.case = testcase
-        
-        # Instantiate a data_manager if not instantiated yet
-        if not hasattr(self.case, 'data_manager'):
-            self.case.data_manager = Data_Manager(self.case)
         
         # Naming convention from the signal exchange package of IBPSA
         self.sources = ['AirZoneTemperature',
