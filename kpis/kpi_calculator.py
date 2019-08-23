@@ -122,9 +122,10 @@ class KPI_Calculator(object):
                       tdis_dict[signal[:-1]+'dTupper_y']
         
         self.case.tdis_tot  = tdis_tot
-        self.case.tdis_tree = self.get_dict_tree(tdis_dict)
+        self.case.tdis_dict = tdis_dict
             
         if plot:
+            self.case.tdis_tree = self.get_dict_tree(tdis_dict)
             self.plot_nested_pie(self.case.tdis_tree, metric='discomfort',
                                  units='Kh', breakdonut=False)
         
