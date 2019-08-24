@@ -31,21 +31,20 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
   Modelica.Blocks.Interfaces.RealInput yFan "Fan speed signal"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium
-      = Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium =
+        Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{40,50},{60,70}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium
-      = Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium =
+        Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{60,-110},{40,-90}})));
   Buildings.Fluid.Sensors.MassFlowRate senSupFlo(redeclare package Medium =
         Medium1)
     annotation (Placement(transformation(extent={{10,50},{30,70}})));
   Modelica.Blocks.Interfaces.RealOutput PFan "Fan electrical power consumption"
     annotation (Placement(transformation(extent={{100,90},{120,110}})));
-  Modelica.Blocks.Interfaces.RealOutput GBoi "Gas consumption of boiler"
+  Modelica.Blocks.Interfaces.RealOutput PHea "Heating power"
     annotation (Placement(transformation(extent={{100,110},{120,130}})));
-  Modelica.Blocks.Interfaces.RealOutput PChi
-    "Chiller electrical power consumption"
+  Modelica.Blocks.Interfaces.RealOutput PCoo "Cooling power"
     annotation (Placement(transformation(extent={{100,130},{120,150}})));
   Buildings.Fluid.HeatExchangers.Heater_T heaCoi(
     m_flow_nominal=mAir_flow_nominal,
@@ -90,9 +89,9 @@ equation
     annotation (Line(points={{-30,-20},{-30,20}}, color={0,127,255}));
   connect(cooCoi.port_b, senSupFlo.port_a)
     annotation (Line(points={{-30,40},{-30,60},{10,60}}, color={0,127,255}));
-  connect(powCoo.y, PChi) annotation (Line(points={{13,140},{58,140},{58,140},{110,
+  connect(powCoo.y,PCoo)  annotation (Line(points={{13,140},{58,140},{58,140},{110,
           140}}, color={0,0,127}));
-  connect(powHea.y, GBoi) annotation (Line(points={{13,120},{59.5,120},{59.5,120},
+  connect(powHea.y,PHea)  annotation (Line(points={{13,120},{59.5,120},{59.5,120},
           {110,120}}, color={0,0,127}));
   connect(powCoo.u, cooCoi.Q_flow)
     annotation (Line(points={{-10,140},{-38,140},{-38,41}}, color={0,0,127}));
