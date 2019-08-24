@@ -15,12 +15,12 @@ model Thermostat
     annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
   Buildings.Controls.Continuous.LimPID heaPID(controllerType=Modelica.Blocks.Types.SimpleController.P,
       k=5) "Heating control signal"
-    annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
+    annotation (Placement(transformation(extent={{-66,30},{-46,50}})));
   Buildings.Controls.Continuous.LimPID cooPID(
     controllerType=Modelica.Blocks.Types.SimpleController.P,
     reverseAction=true,
     k=5) "Cooling control signal"
-    annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
+    annotation (Placement(transformation(extent={{-66,70},{-46,90}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{-20,-30},{0,-10}})));
   Modelica.Blocks.Interfaces.RealOutput TSupSet
@@ -48,29 +48,46 @@ model Thermostat
     annotation (Placement(transformation(extent={{30,40},{50,60}})));
   Modelica.Blocks.Logical.And andDea
     annotation (Placement(transformation(extent={{70,50},{90,70}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveFan(description=
+        "Fan speed control signal", u(
+      min=0,
+      max=1,
+      unit="1")) "Overwrite for fan speed control signal"
+    annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSupSetCoo(u(
+      unit="K",
+      min=273.15 + 12,
+      max=273.15 + 18), description=
+        "Supply air temperature setpoint for cooling")
+    "Overwrite for cooling supply air temperature setpoint"
+    annotation (Placement(transformation(extent={{-40,-60},{-20,-40}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSupSetHea(u(
+      unit="K",
+      min=273.15 + 30,
+      max=273.15 + 40), description=
+        "Supply air temperature setpoint for heating")
+    "Overwrite for heating supply air temperature setpoint"
+    annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(u(unit="K"), description=
+        "Zone air temperature setpoin for cooling")
+    "Read zone cooling setpoint"
+    annotation (Placement(transformation(extent={{-94,70},{-74,90}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(u(unit="K"), description=
+        "Zone air temperature setpoin for heating") "Read zone cooling heating"
+    annotation (Placement(transformation(extent={{-94,30},{-74,50}})));
 equation
-  connect(TSetCoo, cooPID.u_s)
-    annotation (Line(points={{-120,80},{-82,80}}, color={0,0,127}));
-  connect(TSetHea, heaPID.u_s)
-    annotation (Line(points={{-120,40},{-82,40}}, color={0,0,127}));
   connect(TZon, heaPID.u_m)
-    annotation (Line(points={{-120,0},{-70,0},{-70,28}}, color={0,0,127}));
-  connect(TZon, cooPID.u_m) annotation (Line(points={{-120,0},{-90,0},{-90,60},{
-          -70,60},{-70,68}}, color={0,0,127}));
-  connect(add.y, yFan)
-    annotation (Line(points={{1,-20},{110,-20}}, color={0,0,127}));
-  connect(cooPID.y, add.u1) annotation (Line(points={{-59,80},{-40,80},{-40,-14},
+    annotation (Line(points={{-120,0},{-56,0},{-56,28}}, color={0,0,127}));
+  connect(TZon, cooPID.u_m) annotation (Line(points={{-120,0},{-70,0},{-70,60},
+          {-56,60},{-56,68}},color={0,0,127}));
+  connect(cooPID.y, add.u1) annotation (Line(points={{-45,80},{-40,80},{-40,-14},
           {-22,-14}}, color={0,0,127}));
-  connect(heaPID.y, add.u2) annotation (Line(points={{-59,40},{-50,40},{-50,-26},
+  connect(heaPID.y, add.u2) annotation (Line(points={{-45,40},{-42,40},{-42,-26},
           {-22,-26}}, color={0,0,127}));
-  connect(TSupSetCooCon.y, TSupSwitch.u1) annotation (Line(points={{-59,-50},{10,
-          -50},{10,28},{28,28}}, color={0,0,127}));
-  connect(TSupSetHeaCon.y, TSupSwitch.u3) annotation (Line(points={{-59,-90},{20,
-          -90},{20,12},{28,12}}, color={0,0,127}));
   connect(cooPID.y, greaterThreshold.u)
-    annotation (Line(points={{-59,80},{-32,80}}, color={0,0,127}));
+    annotation (Line(points={{-45,80},{-32,80}}, color={0,0,127}));
   connect(heaPID.y, greaterThreshold1.u)
-    annotation (Line(points={{-59,40},{-32,40}}, color={0,0,127}));
+    annotation (Line(points={{-45,40},{-32,40}}, color={0,0,127}));
   connect(greaterThreshold.y, TSupSwitch.u2) annotation (Line(points={{-9,80},{20,
           80},{20,20},{28,20}}, color={255,0,255}));
   connect(deaSwitch.y, TSupSet)
@@ -89,6 +106,26 @@ equation
           68,28}}, color={0,0,127}));
   connect(TSupSwitch.y, deaSwitch.u3) annotation (Line(points={{51,20},{58,20},{
           58,12},{68,12}}, color={0,0,127}));
+  connect(add.y, oveFan.u)
+    annotation (Line(points={{1,-20},{58,-20}}, color={0,0,127}));
+  connect(oveFan.y, yFan)
+    annotation (Line(points={{81,-20},{110,-20}}, color={0,0,127}));
+  connect(TSupSetCooCon.y, oveTSupSetCoo.u)
+    annotation (Line(points={{-59,-50},{-42,-50}}, color={0,0,127}));
+  connect(oveTSupSetCoo.y, TSupSwitch.u1) annotation (Line(points={{-19,-50},{
+          10,-50},{10,28},{28,28}}, color={0,0,127}));
+  connect(TSupSetHeaCon.y, oveTSupSetHea.u)
+    annotation (Line(points={{-59,-90},{-42,-90}}, color={0,0,127}));
+  connect(oveTSupSetHea.y, TSupSwitch.u3) annotation (Line(points={{-19,-90},{
+          20,-90},{20,12},{28,12}}, color={0,0,127}));
+  connect(TSetCoo, reaTSetCoo.u)
+    annotation (Line(points={{-120,80},{-96,80}}, color={0,0,127}));
+  connect(reaTSetCoo.y, cooPID.u_s)
+    annotation (Line(points={{-73,80},{-68,80}}, color={0,0,127}));
+  connect(TSetHea, reaTSetHea.u)
+    annotation (Line(points={{-120,40},{-96,40}}, color={0,0,127}));
+  connect(reaTSetHea.y, heaPID.u_s)
+    annotation (Line(points={{-73,40},{-68,40}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                                 Rectangle(
         extent={{-100,-100},{100,100}},
