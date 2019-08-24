@@ -16,7 +16,8 @@ kpi_ref = {'tdis_tot': 6.0427772787153575,
            'ener_tot': 147.133983414,
            'cost_tot': 29.4267966827,
            'emis_tot': 73.5669917068,
-           'time_rat': 0.000198015450603}
+           'time_rat_python': 0.000198015450603,
+           'time_rat_julia': 0.000198015450603}
 
 class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of a supervisory controller in Python.
@@ -41,7 +42,7 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
         self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
-        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_python'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
         
         # Check trajectories
@@ -82,7 +83,7 @@ class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
         self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
-        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
         # Check trajectories
         df = pd.read_csv(res_path, index_col = 'time')
