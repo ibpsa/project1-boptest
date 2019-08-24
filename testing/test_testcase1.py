@@ -16,8 +16,7 @@ kpi_ref = {'tdis_tot': 10.6329491656,
            'ener_tot': 21.474759625,
            'cost_tot': 1.50323317375,
            'emis_tot': 4.294951925,
-           'time_rat_python': 7.33207902974552e-04,
-           'time_rat_julia':  7.32503600742506e-05 }
+           'time_rat': 7.33207902974552e-04}
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of proportional feedback controller in Python.
@@ -42,7 +41,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
-        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_python'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
         
         # Check trajectories
@@ -83,7 +82,7 @@ class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
         self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
-        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
         
         # Check trajectories
