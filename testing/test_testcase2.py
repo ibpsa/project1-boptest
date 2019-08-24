@@ -12,7 +12,7 @@ import utilities
 import requests
 from examples.python import szvav_sup
 
-kpi_ref = {'tdis_tot': 0.00182974909243,
+kpi_ref = {'tdis_tot': 6.0427772787153575,
            'ener_tot': 147.133983414,
            'cost_tot': 29.4267966827,
            'emis_tot': 73.5669917068,

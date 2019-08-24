@@ -14,14 +14,14 @@ from testcase import TestCase
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
-tdis_tot_ref = 0.0018297490924272324
+tdis_tot_ref = 6.0427772787153575
 ener_tot_ref = 147.133983413
 cost_tot_ref = 29.426796682679161
 emis_tot_ref = 73.566991706697891
 time_rat_ref = 2.778238720364041e-07
 
-tdis_dict_ref = OrderedDict([('TRooAir_dTlower_y', 0.0018297490924272324), 
-                             ('TRooAir_dTupper_y', 0.0)])
+tdis_dict_ref =  OrderedDict([('TRooAir_dTlower_y', 5.1757106813714691), 
+                              ('TRooAir_dTupper_y', 0.86706659733940084)])
 ener_dict_ref = OrderedDict([('PCoo_y', 2.5666768015020454), 
                              ('PFan_y', 1.2181399139428837), 
                              ('PHea_y', 143.31369783282616), 
