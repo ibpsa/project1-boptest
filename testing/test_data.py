@@ -118,7 +118,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialTimeseries):
         '''
         
         # Generate weather file
-        self.gen.generate_occupancy()
+        self.gen.generate_occupancy(occ_num=10)
         
         # Set generated file path
         gen_filepath = os.path.join(self.gen.resources_dir,

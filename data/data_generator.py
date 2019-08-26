@@ -295,7 +295,7 @@ class Data_Generator(object):
         
         return df
          
-    def generate_occupancy(self,
+    def generate_occupancy(self, occ_num,
                         start_day_time = '07:00:00',
                         end_day_time   = '18:00:00'):
         '''The occupancy indicates the number of people in the building
@@ -303,6 +303,8 @@ class Data_Generator(object):
         
         Parameters
         ----------
+        occ_num : int
+            number of occupants during occupied hours
         start_day_time: string, default is '07:00:00'
             string in pandas date-time format with the starting day time
         end_day_time: string, default is '18:00:00'
@@ -316,7 +318,7 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'Occupancy'] = 10
+        df.loc[df.index.isin(day_time_index), 'Occupancy'] = occ_num
         df.loc[~df.index.isin(day_time_index),'Occupancy'] = 0
         
         # Store in csv
