@@ -31,11 +31,11 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
   Modelica.Blocks.Interfaces.RealInput yFan "Fan speed signal"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium
-      = Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium =
+        Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{40,50},{60,70}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium
-      = Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium =
+        Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{60,-110},{40,-90}})));
   Buildings.Fluid.Sensors.MassFlowRate senSupFlo(redeclare package Medium =
         Medium1)
@@ -67,19 +67,19 @@ model FanCoilUnit "Four-pipe fan coil unit model"
   Modelica.Blocks.Math.Gain powCoo(k=-1/COP)
     annotation (Placement(transformation(extent={{-8,130},{12,150}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaTSup(description=
-        "Supply air temperature", u(unit="K")) "Read supply air temperature"
+        "Supply air temperature", y(unit="K")) "Read supply air temperature"
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTRet(u(unit="K"), description=
+  IBPSA.Utilities.IO.SignalExchange.Read reaTRet(y(unit="K"), description=
         "Return air temperature") "Read return air temperature"
     annotation (Placement(transformation(extent={{60,-80},{80,-60}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaFloSup(u(unit="kg/s"), description=
+  IBPSA.Utilities.IO.SignalExchange.Read reaFloSup(y(unit="kg/s"), description=
         "Supply air mass flow rate") "Read supply air flowrate"
     annotation (Placement(transformation(extent={{26,74},{46,94}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSupSet(u(unit="K"), description=
+  IBPSA.Utilities.IO.SignalExchange.Read reaTSupSet(y(unit="K"), description=
         "Supply air temperature setpoint")
     "Read supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-90,50},{-70,70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaFanSpeSet(u(unit="1"), description=
+  IBPSA.Utilities.IO.SignalExchange.Read reaFanSpeSet(y(unit="1"), description=
         "Supply fan speed setpoint") "Read supply fan speed setpoint"
     annotation (Placement(transformation(extent={{-90,-70},{-70,-50}})));
 equation

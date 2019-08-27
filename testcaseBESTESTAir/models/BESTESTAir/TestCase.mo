@@ -36,24 +36,24 @@ model TestCase "Testcase model"
   IBPSA.Utilities.IO.SignalExchange.Read reaTRooAir(
     description="Zone air temperature",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-
-    u(unit="K")) "Read room air temperature"
+    y(unit="K")) "Read room air temperature"
     annotation (Placement(transformation(extent={{80,-40},{60,-20}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPCoo(
-    u(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
 
+  IBPSA.Utilities.IO.SignalExchange.Read reaPCoo(
+    y(unit="W"),
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     description="Cooling electrical power consumption")
     "Read power for cooling"
     annotation (Placement(transformation(extent={{60,70},{80,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPHea(
-    u(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
 
+  IBPSA.Utilities.IO.SignalExchange.Read reaPHea(
+    y(unit="W"),
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heating thermal power consumption") "Read power for heating"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
+
   IBPSA.Utilities.IO.SignalExchange.Read reaPFan(
-    u(unit="W"),
+    y(unit="W"),
     description="Supply fan electrical power consumption",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
     "Read power for supply fan"

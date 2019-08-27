@@ -68,11 +68,11 @@ model Thermostat
         "Supply air temperature setpoint for heating")
     "Overwrite for heating supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(u(unit="K"), description=
+  IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(y(unit="K"), description=
         "Zone air temperature setpoin for cooling")
     "Read zone cooling setpoint"
     annotation (Placement(transformation(extent={{-94,70},{-74,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(u(unit="K"), description=
+  IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(y(unit="K"), description=
         "Zone air temperature setpoin for heating") "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-94,30},{-74,50}})));
 equation
