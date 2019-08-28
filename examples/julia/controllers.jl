@@ -15,12 +15,20 @@ function compute_control(y::Dict)
     # {<input_name> : <input_value>}
 
     # control parameters
-    setpoint = 273.15 + 20
+    LowerSetp = 273.15 + 20
+    UpperSetp = 273.15 + 23
     k_p = 2000
 
     # compute control
-    e = setpoint - y["TRooAir_y"]
-    value = max(k_p * e, 0.0)
+    if y["TRooAir_y"]<LowerSetp
+        e = LowerSetp - y["TRooAir_y"]
+    elseif y["TRooAir_y"]>UpperSetp
+        e = UpperSetp - y["TRooAir_y"]
+    else
+        e = 0
+    end
+
+    value = k_p*e
     u = Dict("oveAct_u" => value,"oveAct_activate" => 1)
     return u
 end

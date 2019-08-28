@@ -89,5 +89,5 @@ PHea  = res["y"]["PHea_y"]
 PPum  = res["y"]["PPum_y"]
 tab=DataFrame([time,TRooAir,TSetRooHea,TSetRooCoo,PFan,PCoo,PHea,PPum],[:time,:TRooAir,:TSetRooHea,:TSetRooCoo,:PFan,:PCoo,:PHea,:PPum])
 CSV.write("result_testcase2.csv",tab)
-tab_kpi = DataFrame([[kpi["energy"]], [kpi["comfort"]]], [:energy, :comfort])
+tab_kpi = DataFrame([[kpi["ener_tot"]], [kpi["tdis_tot"]], [kpi["cost_tot"]], [kpi["time_rat"]], [kpi["emis_tot"]]], [:ener_tot, :tdis_tot, :cost_tot, :time_rat, :emis_tot])
 CSV.write("kpi_testcase2.csv",tab_kpi)

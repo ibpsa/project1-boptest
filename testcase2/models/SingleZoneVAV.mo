@@ -53,13 +53,13 @@ package SingleZoneVAV
     Modelica.Blocks.Sources.CombiTimeTable TSetRooHea(
       smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
       extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-      table=[0,20 + 273.15; 8*3600,20 + 273.15; 18*3600,20 + 273.15; 24*3600,20
+      table=[0,22 + 273.15; 8*3600,22 + 273.15; 18*3600,22 + 273.15; 24*3600,22
            + 273.15]) "Heating setpoint for room temperature"
       annotation (Placement(transformation(extent={{-180,20},{-160,40}})));
     Modelica.Blocks.Sources.CombiTimeTable TSetRooCoo(
       smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
       extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-      table=[0,25 + 273.15; 8*3600,25 + 273.15; 18*3600,25 + 273.15; 24*3600,25
+      table=[0,23 + 273.15; 8*3600,23 + 273.15; 18*3600,23 + 273.15; 24*3600,23
            + 273.15]) "Cooling setpoint for room temperature"
       annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite
@@ -150,7 +150,7 @@ package SingleZoneVAV
         color={255,204,51},
         thickness=0.5));
     connect(con.TSup, hvac.TSup) annotation (Line(points={{-102,-9},{-108,-9},{
-            -108,-32},{4,-32},{4,-7},{1,-7}},
+            -108,-32},{4,-32},{4,-8},{1,-8}},
           color={0,0,127}));
     connect(con.TRoo, zon.TRooAir) annotation (Line(points={{-102,-6},{-110,-6},{
             -110,-36},{6,-36},{6,-22},{90,-22},{90,0},{81,0}},      color={0,0,
