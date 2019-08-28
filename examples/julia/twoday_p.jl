@@ -84,5 +84,5 @@ QHeat = res["u"]["oveAct_u"]
 uAct = res["u"]["oveAct_activate"]
 tab_res=DataFrame([time,TZone,PHeat,QHeat,uAct],[:time,:TRooAir_y,:PHea_y,:oveAct_u,:oveAct_activate])
 CSV.write("result_testcase1.csv",tab_res)
-tab_kpi = DataFrame([[kpi["energy"]], [kpi["comfort"]]], [:energy, :comfort])
+tab_kpi = DataFrame([[kpi["ener_tot"]], [kpi["tdis_tot"]], [kpi["cost_tot"]], [kpi["time_rat"]], [kpi["emis_tot"]]], [:ener_tot, :tdis_tot, :cost_tot, :time_rat, :emis_tot])
 CSV.write("kpi_testcase1.csv",tab_kpi)

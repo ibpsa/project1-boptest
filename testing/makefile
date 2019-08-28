@@ -45,6 +45,15 @@ compile_testcase_model:
 	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.mo
 	make stop_jm
 
+generate_testcase_data:
+	make run_jm
+	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=${TESTCASE}
+	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../${TESTCASE}/models/
+	make stop_jm
+
 ###############################################################################
 
 # Tests
@@ -102,6 +111,7 @@ test_data:
 # Copy the required files and folders for the test
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=kpis
 	make copy_to_jm ARGS=testcase2/models
 	make copy_to_jm ARGS=testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
@@ -121,6 +131,7 @@ test_forecast:
 # Copy the required files and folders for the test
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=kpis
 	make copy_to_jm ARGS=testcase2/models
 	make copy_to_jm ARGS=testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
@@ -128,6 +139,21 @@ test_forecast:
 	make exec_jm ARGS="python test_forecast.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/forecast ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
+# Stop jm docker container
+	make stop_jm
+	
+test_kpis:
+# Run jm docker container
+	make run_jm
+# Copy the required files and folders for the test
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=kpis
+	make copy_to_jm ARGS=testcase2/models
+	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcase.py
+# Run test_data.py
+	make exec_jm ARGS="python test_kpis.py"
 # Stop jm docker container
 	make stop_jm
 
