@@ -382,18 +382,19 @@ class KPI_Calculator(object):
 
         '''
         
-        elapsed_time_average = np.mean(np.asarray(self.case.elapsed_control_time))
+        elapsed_control_time = self.case.get_elapsed_control_time()
+        elapsed_time_average = np.mean(np.asarray(elapsed_control_time))
         time_rat = elapsed_time_average/self.case.step
         
         self.case.time_rat = time_rat
         
         if plot:
             plt.figure()
-            n=len(self.case.elapsed_control_time)
+            n=len(elapsed_control_time)
             bgn=int(self.case.step)
             end=int(self.case.step + n*self.case.step)
             plt.plot(range(bgn,end,int(self.case.step)),
-                     self.case.elapsed_control_time)
+                     elapsed_control_time)
             plt.show()
             
         return time_rat

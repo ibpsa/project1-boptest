@@ -332,6 +332,24 @@ class TestCase(object):
         
         return name
         
+    def get_elapsed_control_time(self):
+        '''Returns the elapsed control time vector for the case.
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        elapsed_control_time : list of floats
+            elapsed_control_time for each control step.
+            
+        '''
+        
+        elapsed_control_time = self.elapsed_control_time
+        
+        return elapsed_control_time
+        
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
         
