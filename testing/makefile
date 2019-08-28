@@ -45,6 +45,15 @@ compile_testcase_model:
 	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.mo
 	make stop_jm
 
+generate_testcase_data:
+	make run_jm
+	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=${TESTCASE}
+	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../${TESTCASE}/models/
+	make stop_jm
+
 ###############################################################################
 
 # Tests
