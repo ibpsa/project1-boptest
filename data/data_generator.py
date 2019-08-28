@@ -63,7 +63,6 @@ class Data_Generator(object):
                 if f.endswith('.mos') or f.endswith('.TMY'):
                     weather_files.append(f)
                     self.weather_dir = root
-                
         # Find the weather file name
         if len(weather_files)>1:
             raise ReferenceError('There cannot be more than one weather '\
@@ -73,7 +72,6 @@ class Data_Generator(object):
             self.weather_file_name = None
         else:
             self.weather_file_name = weather_files[0] 
-        
         # Find separator for environmental variables depending on OS
         if platform.system() == 'Linux':
             self.sep = ':'
@@ -162,7 +160,6 @@ class Data_Generator(object):
         str_old = 'filNam=""'
         str_new = 'filNam=Modelica.Utilities.Files.loadResource("{0}")'\
                   .format(self.weather_file_name)
-        
         with open(model_file) as f:
             newText=f.read().replace(str_old, str_new)
         
@@ -172,7 +169,6 @@ class Data_Generator(object):
         # Change to Resources directory
         currdir = os.curdir
         os.chdir(self.weather_dir)
-        
         # Compile the ReaderTMY3 from IBPSA using JModelica
         fmu_path = compile_fmu(model_class, model_library)
         
@@ -295,7 +291,7 @@ class Data_Generator(object):
         
         return df
          
-    def generate_occupancy(self,
+    def generate_occupancy(self, occ_num,
                         start_day_time = '07:00:00',
                         end_day_time   = '18:00:00'):
         '''The occupancy indicates the number of people in the building
@@ -303,6 +299,8 @@ class Data_Generator(object):
         
         Parameters
         ----------
+        occ_num : int
+            number of occupants during occupied hours
         start_day_time: string, default is '07:00:00'
             string in pandas date-time format with the starting day time
         end_day_time: string, default is '18:00:00'
@@ -316,7 +314,7 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'Occupancy'] = 10
+        df.loc[df.index.isin(day_time_index), 'Occupancy'] = occ_num
         df.loc[~df.index.isin(day_time_index),'Occupancy'] = 0
         
         # Store in csv
@@ -324,7 +322,13 @@ class Data_Generator(object):
         
     def generate_internalGains(self,
                         start_day_time = '07:00:00',
-                        end_day_time   = '18:00:00'):
+                        end_day_time   = '18:00:00',
+                        RadOcc = 1000,
+                        RadUnocc = 0,
+                        ConOcc = 1000,
+                        ConUnocc = 0,
+                        LatOcc = 200,
+                        LatUnocc = 0):
         '''The internal gains are the heat gains (in Watts) produced by 
         electrical appliances and the people within the building.
         
@@ -334,6 +338,18 @@ class Data_Generator(object):
             string in pandas date-time format with the starting day time
         end_day_time: string, default is '18:00:00'
             string in pandas date-time format with the ending day time
+        RadOcc: num, default is 1000
+            Radiant internal load during occupied times in W
+        RadUnocc: num, default is 0
+            Radiant internal load during unoccupied times in W
+        ConOcc: num, default is 1000
+            Convective internal load during occupied times in W
+        ConUnocc: num, default is 0
+            Convective internal load during unoccupied times in W
+        LatOcc: num, default is 200
+            Latent internal load during occupied times in W
+        LatUnocc: num, default is 0
+            Latent internal load during unoccupied times in W
             
         '''
         
@@ -343,8 +359,12 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'InternalGains'] = 1000
-        df.loc[~df.index.isin(day_time_index),'InternalGains'] = 0
+        df.loc[df.index.isin(day_time_index), 'InternalGainsRad'] = RadOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsRad'] = RadUnocc
+        df.loc[df.index.isin(day_time_index), 'InternalGainsCon'] = ConOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsCon'] = ConUnocc
+        df.loc[df.index.isin(day_time_index), 'InternalGainsLat'] = LatOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsLat'] = LatUnocc
         
         # Store in csv
         self.store_df(df,'internalGains')  

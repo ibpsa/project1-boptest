@@ -190,13 +190,13 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Maximum":None}}
         self.step_ref = 3600.0
         self.y_ref = {u'PFan_y': 5.231953892667217,
-                      u'TRooAir_y': 293.0823301149466, 
+                      u'TRooAir_y': 295.06442470392363, 
                       u'time': 3600.0, 
                       u'PCoo_y': 0.0, 
-                      u'PHea_y': 1913.8903678245845,
+                      u'PHea_y': 2420.311404179384,
                       u'PPum_y': -0.0,
-                      u'senTSetRooCoo_y': 298.15,
-                      u'senTSetRooHea_y': 293.15}
+                      u'senTSetRooCoo_y': 296.15,
+                      u'senTSetRooHea_y': 295.15}
         self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_default.csv')
         self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
         self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_interval.csv')
