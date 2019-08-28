@@ -75,7 +75,7 @@ class KpiCalculatorTest(unittest.TestCase):
            
         # Calculate thermal discomfort
         self.cal.get_thermal_discomfort()
-        self.assertAlmostEqual(self.case.tdis_tot, tdis_tot_ref, places=9)
+        self.assertAlmostEqual(self.case.tdis_tot, tdis_tot_ref, places=3)
         self.assertDictEqual(self.case.tdis_dict, tdis_dict_ref)
     
     def test_get_energy(self):
@@ -88,7 +88,7 @@ class KpiCalculatorTest(unittest.TestCase):
         self.cal.get_energy()
         
         # Compare with references
-        self.assertAlmostEqual(self.case.ener_tot, ener_tot_ref, places=9)
+        self.assertAlmostEqual(self.case.ener_tot, ener_tot_ref, places=3)
         self.assertDictEqual(self.case.ener_dict, ener_dict_ref)
     
     def test_get_cost(self):
@@ -101,7 +101,7 @@ class KpiCalculatorTest(unittest.TestCase):
         self.cal.get_cost()
         
         # Compare with references
-        self.assertAlmostEqual(self.case.cost_tot, cost_tot_ref, places=9)
+        self.assertAlmostEqual(self.case.cost_tot, cost_tot_ref, places=3)
         self.assertDictEqual(self.case.cost_dict, cost_dict_ref)
         
     def test_get_emissions(self):
@@ -114,7 +114,7 @@ class KpiCalculatorTest(unittest.TestCase):
         self.cal.get_emissions()
         
         # Compare with references
-        self.assertAlmostEqual(self.case.emis_tot, emis_tot_ref, places=9)
+        self.assertAlmostEqual(self.case.emis_tot, emis_tot_ref, places=3)
         self.assertDictEqual(self.case.emis_dict, emis_dict_ref)
         
     def test_get_computational_time_ratio(self):
