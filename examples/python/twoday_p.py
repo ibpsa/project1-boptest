@@ -89,10 +89,16 @@ def run(plot=False):
     kpi = requests.get('{0}/kpi'.format(url)).json()
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
-        if key == 'energy':
-            unit = 'kWh'
-        elif key == 'comfort':
+        if key == 'tdis_tot':
             unit = 'Kh'
+        elif key == 'ener_tot':
+            unit = 'kWh'
+        elif key == 'cost_tot':
+            unit = 'euro or $'
+        elif key == 'emis_tot':
+            unit = 'kg CO2'
+        elif key == 'time_rat':
+            unit = ''
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
     # ------------ 
         
@@ -111,6 +117,7 @@ def run(plot=False):
         plt.title('Zone Temperature')
         plt.plot(time, TZone)
         plt.plot(time, 20*np.ones(len(time)), '--')
+        plt.plot(time, 23*np.ones(len(time)), '--')
         plt.ylabel('Temperature [C]')
         plt.xlabel('Time [hr]')
         plt.figure(2)
