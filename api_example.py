@@ -44,14 +44,14 @@ pp.pprint(w)
 
 # DEMONSTRATE API FOR VIEWING RESULTS
 # -----------------------------------
-# Report KPIs
-kpi = requests.get('{0}/kpi'.format(url)).json()
-print('\nKPIs are:')
-pp.pprint(kpi)
 # Get all simulation results
 data = requests.get('{0}/results'.format(url)).json()
 print('\nSimulation results are:')
 pp.pprint(data)
+# Report KPIs
+kpi = requests.get('{0}/kpi'.format(url)).json()
+print('\nKPIs are:')
+pp.pprint(kpi)
 
 # Reset test case
 print('\nResetting test case to beginning.')
