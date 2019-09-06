@@ -3,71 +3,56 @@ Created on Apr 25, 2019
 
 @author: Javier Arroyo
 
-This module contains the Data_Generator class with methods to gather
-data within .csv files for a test case. A test case data-set must
+This module contains the Data_Generator class with methods to generate
+data as .csv files for a test case. A test case data-set must
 include: weather data, price profiles, occupancy schedules, emission 
-factors and temperature set points for a whole year.
+factors, internal gain schedules and temperature set points for a whole year.
 
 '''
 
 from pymodelica import compile_fmu
 from pyfmi import load_fmu
+from scipy import interpolate
 import pandas as pd
+import numpy as np
 import os
-import zipfile
 import platform
 import json
-import warnings
 
 class Data_Generator(object):
     '''
-    This class prepares a data file with the weather data, 
-    energy prices, emission factors, internal gains and 
-    temperature set points. It also stores the data as a 
-    csv file within the Resources folder of the test
-    case and within the resources folder of the 
-    wrapped.fmu of this test case. Generating the data
-    from this class ensures that all the data is 
-    concatenated using the proper indexes and that 
-    the data is substracted and located within the 
-    correct directories. It also ensures that the right
-    column keys are used.
+    This class generates weather data, energy prices, 
+    emission factors, internal gains and temperature 
+    set points. Generating the data with this class 
+    ensures that all the data is using the right 
+    column keys.
     
     '''
     
     def __init__(self,
-                 fmu_path=None,
+                 resources_dir,
                  start_time="20090101 00:00:00",
-                 final_time="20091231 23:00:00",
+                 final_time="20100101 00:00:00",
                  period=3600):
         '''Initialize the data index and data frame
         
         Parameters
         ----------
-        fmu_path : str
-            Path to the fmu where the data is to be saved
-        start_time: string
+        resources_dir: string
+            path to test case Resources directory
+        start_time: string, default is "20090101 00:00:00"
             Pandas date-time indicating the starting 
             time of the data frame.
-        final_time: string
+        final_time: string, default is "20100101 00:00:00"
             Pandas date-time indicating the end time
             of the data frame.
-        period: integer
+        period: integer, default is 3600
             Number of seconds of the sampling time.
         
         '''
         
-        # Path to fmu
-        self.fmu_path  = fmu_path
-        
-        # test case models directory
-        models_dir = os.path.split(os.path.abspath(fmu_path))[0]
-        
         # test case Resources directory
-        self.resources_dir = os.path.join(models_dir,'Resources')
-        
-        # Path to kpis.json file
-        self.kpi_path = os.path.join(models_dir,'kpis.json')
+        self.resources_dir = resources_dir
         
         # Find all files within Resources folder
         self.files = []
@@ -78,7 +63,6 @@ class Data_Generator(object):
                 if f.endswith('.mos') or f.endswith('.TMY'):
                     weather_files.append(f)
                     self.weather_dir = root
-                
         # Find the weather file name
         if len(weather_files)>1:
             raise ReferenceError('There cannot be more than one weather '\
@@ -88,7 +72,6 @@ class Data_Generator(object):
             self.weather_file_name = None
         else:
             self.weather_file_name = weather_files[0] 
-        
         # Find separator for environmental variables depending on OS
         if platform.system() == 'Linux':
             self.sep = ':'
@@ -112,11 +95,10 @@ class Data_Generator(object):
         
     def generate_data(self):
         '''This method generates the weather data, the
-        energy prices, the emission factors, the
-        internal gains and the temperature set 
-        points and stores each in a separate csv 
-        file within the Resources folder of the test
-        case.
+        energy prices, the emission factors, the occupancy 
+        schedule, the internal gains and the temperature set 
+        points, and it stores each data-set in a separate csv 
+        file within the Resources folder of the test case.
         
         '''
         
@@ -128,6 +110,7 @@ class Data_Generator(object):
         self.generate_prices()
         self.generate_emissions()
         self.generate_occupancy()
+        self.generate_internalGains()
         self.generate_setpoints()
     
     def generate_weather(self,
@@ -143,12 +126,12 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        model_class: str
+        model_class: string, default is IBPSA TMY3 Reader
             Name of the model class that is going to be
             used to pre-process the weather data. This is 
             most likely to be the ReaderTMY3 of IBPSA but 
             other classes could be created. 
-        model_library: str
+        model_library: string, default is None
             String to library path. If empty it will look
             for IBPSA library in MODELICAPATH
             
@@ -177,7 +160,6 @@ class Data_Generator(object):
         str_old = 'filNam=""'
         str_new = 'filNam=Modelica.Utilities.Files.loadResource("{0}")'\
                   .format(self.weather_file_name)
-        
         with open(model_file) as f:
             newText=f.read().replace(str_old, str_new)
         
@@ -187,7 +169,6 @@ class Data_Generator(object):
         # Change to Resources directory
         currdir = os.curdir
         os.chdir(self.weather_dir)
-        
         # Compile the ReaderTMY3 from IBPSA using JModelica
         fmu_path = compile_fmu(model_class, model_library)
         
@@ -220,7 +201,9 @@ class Data_Generator(object):
         
         # Write every output in the data
         for out in output_names:
-            df.loc[:,out.replace('weaBus.', '')] = res[out]
+            # Interpolate to avoid problems with events from Modelica
+            g = interpolate.interp1d(res['time'],res[out],kind='linear')
+            df.loc[:,out.replace('weaBus.', '')] = g(self.time)
             
         # Store in csv
         self.store_df(df,'weather')
@@ -243,20 +226,18 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        price_constant : float
+        price_constant : float, default is 0.2
             price of the constant price profile
-        price_day : float
+        price_day : float, default is 0.3
             price during the day for the dynamic price profile
-        price_night : float
+        price_night : float, default is 0.1
             price during the night for the dynamic price profile
-        start_day_time : string
+        start_day_time : string, default is '08:00:00'
             datetime indicating the starting time of the day
             for the dynamic price profile
-        end_day_time : string
+        end_day_time : string, default is '17:00:00'
             datetime indicating the end time of the day for the
             dynamic price profile
-        electricity_price_file_name : string
-            path to location with the highly dynamic price profile
         
         '''
         
@@ -266,14 +247,15 @@ class Data_Generator(object):
         df['PriceElectricPowerConstant'] = price_constant
         
         day_time_index = df.between_time(start_day_time, 
-                                        end_day_time).index
+                                         end_day_time).index
         
         df.loc[df.index.isin(day_time_index),  
             'PriceElectricPowerDynamic'] = price_day
         df.loc[~df.index.isin(day_time_index), 
             'PriceElectricPowerDynamic'] = price_night
         
-        df['PriceElectricPowerHighlyDynamic'] = price_constant
+        df['PriceElectricPowerHighlyDynamic'] = \
+            price_day*np.sin(self.time*2*np.pi/24/3600)
         
         df['PriceDistrictHeatingPower'] = 0.1
         df['PriceGasPower']             = 0.07
@@ -309,16 +291,19 @@ class Data_Generator(object):
         
         return df
          
-    def generate_occupancy(self,
+    def generate_occupancy(self, occ_num,
                         start_day_time = '07:00:00',
                         end_day_time   = '18:00:00'):
-        '''Append occupancy schedules
+        '''The occupancy indicates the number of people in the building
+        at each time.
         
         Parameters
         ----------
-        start_day_time: str
+        occ_num : int
+            number of occupants during occupied hours
+        start_day_time: string, default is '07:00:00'
             string in pandas date-time format with the starting day time
-        end_day_time: str
+        end_day_time: string, default is '18:00:00'
             string in pandas date-time format with the ending day time
             
         '''
@@ -329,11 +314,60 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'occupancy'] = 1
-        df.loc[~df.index.isin(day_time_index),'occupancy'] = 0
+        df.loc[df.index.isin(day_time_index), 'Occupancy'] = occ_num
+        df.loc[~df.index.isin(day_time_index),'Occupancy'] = 0
         
         # Store in csv
-        self.store_df(df,'occupancy')    
+        self.store_df(df,'occupancy')  
+        
+    def generate_internalGains(self,
+                        start_day_time = '07:00:00',
+                        end_day_time   = '18:00:00',
+                        RadOcc = 1000,
+                        RadUnocc = 0,
+                        ConOcc = 1000,
+                        ConUnocc = 0,
+                        LatOcc = 200,
+                        LatUnocc = 0):
+        '''The internal gains are the heat gains (in Watts) produced by 
+        electrical appliances and the people within the building.
+        
+        Parameters
+        ----------
+        start_day_time: string, default is '07:00:00'
+            string in pandas date-time format with the starting day time
+        end_day_time: string, default is '18:00:00'
+            string in pandas date-time format with the ending day time
+        RadOcc: num, default is 1000
+            Radiant internal load during occupied times in W
+        RadUnocc: num, default is 0
+            Radiant internal load during unoccupied times in W
+        ConOcc: num, default is 1000
+            Convective internal load during occupied times in W
+        ConUnocc: num, default is 0
+            Convective internal load during unoccupied times in W
+        LatOcc: num, default is 200
+            Latent internal load during occupied times in W
+        LatUnocc: num, default is 0
+            Latent internal load during unoccupied times in W
+            
+        '''
+        
+        # Initialize data frame
+        df = self.create_df()
+        
+        day_time_index = df.between_time(start_day_time, 
+                                         end_day_time).index
+
+        df.loc[df.index.isin(day_time_index), 'InternalGainsRad'] = RadOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsRad'] = RadUnocc
+        df.loc[df.index.isin(day_time_index), 'InternalGainsCon'] = ConOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsCon'] = ConUnocc
+        df.loc[df.index.isin(day_time_index), 'InternalGainsLat'] = LatOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsLat'] = LatUnocc
+        
+        # Store in csv
+        self.store_df(df,'internalGains')  
         
     def generate_setpoints(self,
                          start_day_time = '07:00:00',
@@ -350,17 +384,17 @@ class Data_Generator(object):
         
         Parameters
         ----------
-        start_day_time: str
+        start_day_time: string, default is '07:00:00'
             string in pandas date-time format with the starting day time
-        end_day_time: str
+        end_day_time: string, default is '18:00:00'
             string in pandas date-time format with the ending day time
-        THeaOn: float
+        THeaOn: float, default is 22+273.15
             Heating temperature set-point during the day time
-        THeaoff: float
+        THeaoff: float, default is 22+273.15
             Heating temperature set-point out of the day time
-        TCooOn: float
+        TCooOn: float, default is 23+273.15
             Cooling temperature set-point during the day time
-        TCoooff: float
+        TCoooff: float, default is 23+273.15
             Cooling temperature set-point out of the day time
             
         '''
@@ -406,84 +440,12 @@ class Data_Generator(object):
         
         # Save a copy of the csv within the test case Resources folder 
         df.to_csv(os.path.join(self.resources_dir,name+'.csv'), 
-                  index=False)
-        
-    def append_csv_data(self):
-        '''Append data from any .csv file within the Resources folder
-        of the testcase. The .csv file must contain a 'time' column 
-        in seconds from the beginning of the year and one of the 
-        keys defined within categories.kpis. Other data without these
-        keys will be neglected.
-        
-        '''
-        
-        # Find all data keys
-        all_keys = []
-        for category in self.categories:
-            all_keys.extend(self.categories[category])
-        
-        # Keep track of the data already appended to avoid duplicities
-        appended = {key: False for key in all_keys}
-        
-        # Search for .csv files in the resources folder
-        for f in self.files:
-            if f.endswith('.csv'):
-                df = pd.read_csv(f)
-                keys = df.keys()
-                if 'time' in keys:
-                    for key in keys.drop('time'):
-                        # Raise error if key already appended
-                        if appended[key]:
-                            raise ReferenceError('{0} in multiple files within the Resources folder'.format(key))
-                        # Trim df from keys that are not in categories
-                        elif key not in all_keys:
-                            df.drop(key, inplace=True)
-                        else:
-                            appended[key] = True
-                    # Copy the trimmed df if any key found in categories
-                    if len(df.keys())>0:
-                        df.to_csv(f+'_trimmed', index=False)
-                        file_name = os.path.split(f)[1]
-                        self.z_fmu.write(f, os.path.join('resources',
-                                                         file_name))
-                        os.remove(f+'_trimmed')
-                else:
-                    warnings.warn('The following file does not have '\
-                    'time column and therefore no data is going to '\
-                    'be used from this file as test case data.', Warning) 
-                    print(f)
-                    
-    def save_data(self):
-        '''Store the all the .csv test case data within the resources
-        folder of the fmu. Save also the kpis.json file in the same
-        folder.
-        
-        '''
-        
-        # Open the fmu zip file in append mode
-        self.z_fmu = zipfile.ZipFile(self.fmu_path,'a')
-        
-        # Write a copy all .csv files within the fmu resources folder
-        self.append_csv_data() 
-        
-        # Write a copy of the kpis.json within the fmu resources folder
-        if os.path.exists(self.kpi_path):
-            self.z_fmu.write(self.kpi_path, 
-                             os.path.join('resources', 'kpis.json'))
-            os.remove(self.kpi_path)
-        else:
-            warnings.warn('No kpis.json found for this test case, ' \
-                          'use the parser to get this file.')
-                
-        # Close the fmu
-        self.z_fmu.close()
-        
+                  index=False)        
         
 if __name__ == "__main__":
-    fmu_path = os.path.join(\
+    resources_dir = os.path.join(\
         os.path.split(os.path.split(os.path.abspath(__file__))[0])[0], 
-        'testcase2','models','wrapped.fmu')
-    gen = Data_Generator(fmu_path)
+        'testcase2','models','Resources')
+    gen = Data_Generator(resources_dir)
     gen.generate_data()    
-    gen.save_data()
     

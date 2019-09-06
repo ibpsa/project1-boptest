@@ -13,8 +13,9 @@ def get_config():
     Dictionary contatinin configuration information.
     {
     'fmupath'  : string, location of model fmu
-    'kpipath'  : string, location of kpi json
     'step'     : int, default control step size in seconds
+    'horizon'  : int, default forecast horizon in seconds
+    'interval' : int, default forecast interval in seconds
     }
     
     '''
@@ -22,7 +23,9 @@ def get_config():
     config = {
     # Enter configuration information
     'fmupath'  : 'models/wrapped.fmu', 
-    'step'     : 3600
+    'step'     : 3600,
+    'horizon'  : 86400,
+    'interval' : 3600
     }
     
     return config

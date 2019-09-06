@@ -117,6 +117,7 @@ def run(plot=False):
         plt.title('Zone Temperature')
         plt.plot(time, TZone)
         plt.plot(time, 20*np.ones(len(time)), '--')
+        plt.plot(time, 23*np.ones(len(time)), '--')
         plt.ylabel('Temperature [C]')
         plt.xlabel('Time [hr]')
         plt.figure(2)

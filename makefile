@@ -16,8 +16,7 @@ run:
 	$(COMMAND_RUN) --detach=false ${IMG_NAME} /bin/bash -c "python restapi.py && bash"
 
 run-detached:
-	$(COMMAND_RUN) --detach=true ${IMG_NAME} /bin/bash -c "python restapi.py && bash" \
-	&& sleep 3
+	$(COMMAND_RUN) --detach=true ${IMG_NAME} /bin/bash -c "python restapi.py && bash"
 
 stop:
 	docker stop ${IMG_NAME}

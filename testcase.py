@@ -11,9 +11,9 @@ import numpy as np
 import copy
 import config
 import time
-import cPickle as pickle
-from kpis.kpi_calculator import KPI_Calculator
+from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
+from kpis.kpi_calculator import KPI_Calculator
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -35,6 +35,14 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Instantiate a data manager for this test case
+        self.data_manager = Data_Manager(testcase=self)
+        # Load data and the kpis_json for the test case
+        self.data_manager.load_data_and_kpisjson()
+        # Instantiate a forecaster for this test case
+        self.forecaster = Forecaster(testcase=self)
+        # Instantiate a KPI calculator for the test case
+        self.cal = KPI_Calculator(testcase=self)
         # Get available control inputs and outputs
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
@@ -56,6 +64,8 @@ class TestCase(object):
         self.options['CVode_options']['rtol'] = 1e-6 
         # Set default communication step
         self.set_step(con['step'])
+        # Set default forecast parameters
+        self.set_forecast_parameters(con['horizon'], con['interval'])
         # Set initial simulation start
         self.start_time = 0
         self.initialize = True
@@ -244,47 +254,63 @@ class TestCase(object):
         
         '''
         
-        # Instantiate a KPI calculator for the test case
-        if not hasattr(self, 'cal'):
-            self.cal = KPI_Calculator(self)
-            
+        # Calculate the core kpis 
+
         kpis = self.cal.get_core_kpis()
 
         return kpis
-    def get_forecast(self,horizon=24*3600, category=None, 
-                     index=None, plot=False):
-        '''Returns forecast of the test case data
+
+    def set_forecast_parameters(self,horizon,interval):
+        '''Sets the forecast horizon and interval, both in seconds.
         
         Parameters
         ----------
         horizon : int
-            Length of the requested forecast in seconds 
-        category : string (optional)
-            Type of data to retrieve from the test case.
-            If None it will return all available test case
-            data without filtering it by any category. 
-            Possible options are 'weather', 'prices',
-            'emissions', 'occupancy', 'setpoints'
-        plot : boolean
-            True if desired to plot the forecast
+            Forecast horizon in seconds.
+        interval : int
+            Forecast interval in seconds.
             
         Returns
         -------
-        forecast: dict 
-            Dictionary with the requested forecast data
-            {<variable_name>:<variable_forecast_trajectory>}
+        None
         
         '''
         
-        # Instantiate a forecaster for the test case
-        if not hasattr(self, 'forecaster'):
-            self.forecaster = Forecaster(self)
+        self.horizon = float(horizon)
+        self.interval = float(interval)
+        
+        return None
+    
+    def get_forecast_parameters(self):
+        '''Returns the current forecast horizon and interval parameters.'''
+        
+        forecast_parameters = dict()
+        forecast_parameters['horizon'] = self.horizon
+        forecast_parameters['interval'] = self.interval
+        
+        return forecast_parameters
+
+    def get_forecast(self):
+        '''Returns the test case data forecast
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        forecast : dict 
+            Dictionary with the requested forecast data
+            {<variable_name>:<variable_forecast_trajectory>}
+            where <variable_name> is a string with the variable
+            key and <variable_forecast_trajectory> is a list with
+            the forecasted values. 'time' is included as a variable
+        
+        '''
         
         # Get the forecast
-        forecast = self.forecaster.get_forecast(horizon=horizon,
-                                                category=category,
-                                                index=index,
-                                                plot=plot)
+        forecast = self.forecaster.get_forecast(horizon=self.horizon,
+                                                interval=self.interval)
         
         return forecast
         
@@ -305,6 +331,24 @@ class TestCase(object):
         name = self.fmupath[7:-4]
         
         return name
+        
+    def get_elapsed_control_time(self):
+        '''Returns the elapsed control time vector for the case.
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        elapsed_control_time : list of floats
+            elapsed_control_time for each control step.
+            
+        '''
+        
+        elapsed_control_time = self.elapsed_control_time
+        
+        return elapsed_control_time
         
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
@@ -393,48 +437,4 @@ class TestCase(object):
             checked_value = value
 
         return checked_value
-        
-    def save_test_case(self, file_name='deployed.tc'):
-        '''Save the deployed test case in a pickle.
-        This method is going to delete the fmu from the
-        object because it is not supported by pickle.
-        
-        Parameters
-        ----------
-        file_name: string
-            name of the file where the test case is going
-            to be pickled
-        '''
-        
-        del self.fmu
-        
-        f=open(file_name,'wb')
-        pickle.dump(self,f)
-        f.close()
-
-        return file_name
-        
-    def load_test_case(self, file_name='deployed.tc'):
-        '''Load a deployed test case that has been 
-        saved with 'save_test_case'
-        
-        Parameters
-        ----------
-        file_name: string
-            name of the file where the test case is stored
             
-        Returns
-        -------
-        self: TestCase 
-            Instance with the attributes of a previously 
-            deployed test case
-        '''
-
-        tc = pickle.load(file(file_name, 'rb'))
-        for k,v in tc.__dict__.iteritems():
-            self.__dict__[k] = v
-            
-        self.fmu = load_fmu(self.fmupath)
-
-        return self   
-        

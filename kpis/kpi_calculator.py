@@ -14,7 +14,6 @@ import numpy as np
 from scipy.integrate import trapz
 from flask._compat import iteritems
 from collections import OrderedDict
-from data.data_manager import Data_Manager
 
 class KPI_Calculator(object):
     '''This class calculates the KPIs as a post-process after 
@@ -47,10 +46,6 @@ class KPI_Calculator(object):
         
         # Point to the test case object
         self.case = testcase
-        
-        # Instantiate a data_manager if not instantiated yet
-        if not hasattr(self.case, 'data_manager'):
-            self.case.data_manager = Data_Manager(self.case)
         
         # Naming convention from the signal exchange package of IBPSA
         self.sources = ['AirZoneTemperature',
@@ -93,9 +88,9 @@ class KPI_Calculator(object):
         
         Parameters
         ----------
-        plot: boolean
-            True if it it is desired to make plots related with
-            the energy usage metrics
+        plot: boolean, optional
+            True to show a donut plot with the thermal discomfort metrics.
+            Default is False.
             
         Returns
         -------
@@ -127,9 +122,10 @@ class KPI_Calculator(object):
                       tdis_dict[signal[:-1]+'dTupper_y']
         
         self.case.tdis_tot  = tdis_tot
-        self.case.tdis_tree = self.get_dict_tree(tdis_dict)
+        self.case.tdis_dict = tdis_dict
             
         if plot:
+            self.case.tdis_tree = self.get_dict_tree(tdis_dict)
             self.plot_nested_pie(self.case.tdis_tree, metric='discomfort',
                                  units='Kh', breakdonut=False)
         
@@ -142,12 +138,14 @@ class KPI_Calculator(object):
         
         Parameters
         ----------
-        plot: boolean
+        plot: boolean, optional
             True to show a donut plot with the energy use 
-            grouped by elements
-        plot_by_source: boolean
+            grouped by elements.
+            Default is False.
+        plot_by_source: boolean, optional
             True to show a donut plot with the energy use 
-            grouped by sources
+            grouped by sources.
+            Default is False.
                
         Returns
         -------
@@ -201,17 +199,20 @@ class KPI_Calculator(object):
         
         Parameters
         ----------
-        scenario: string
+        scenario: string, optional
             There are three different scenarios considered for electricity:
             1. 'Constant': completely constant price
             2. 'Dynamic': day/night tariff
-            3. 'HighlyDynamic': spot price changing every 15 minutes
-        plot: boolean
+            3. 'HighlyDynamic': spot price changing every 15 minutes.
+            Default is 'Constant'.
+        plot: boolean, optional
             True to show a donut plot with the operational cost 
-            grouped by elements
-        plot_by_source: boolean
+            grouped by elements.
+            Default is False.
+        plot_by_source: boolean, optional
             True to show a donut plot with the operational cost 
-            grouped by sources
+            grouped by sources.
+            Default is False.
             
         Notes
         -----
@@ -300,12 +301,14 @@ class KPI_Calculator(object):
         
         Parameters
         ----------
-        plot: boolean
+        plot: boolean, optional
             True if it it is desired to make plots related with
-            the emission metric
-        plot_by_source: boolean
+            the emission metric.
+            Default is False.
+        plot_by_source: boolean, optional
             True to show a donut plot with the operational cost 
-            grouped by sources
+            grouped by sources.
+            Default is False.
             
         Notes
         -----
@@ -367,9 +370,10 @@ class KPI_Calculator(object):
         
         Parameters
         ----------
-        plot: boolean
+        plot: boolean, optional
             True if it it is desired to make a plot of the elapsed 
-            controller time
+            controller time.
+            Default is False.
             
         Returns
         -------
@@ -378,18 +382,19 @@ class KPI_Calculator(object):
 
         '''
         
-        elapsed_time_average = np.mean(np.asarray(self.case.elapsed_control_time))
+        elapsed_control_time = self.case.get_elapsed_control_time()
+        elapsed_time_average = np.mean(np.asarray(elapsed_control_time))
         time_rat = elapsed_time_average/self.case.step
         
         self.case.time_rat = time_rat
         
         if plot:
             plt.figure()
-            n=len(self.case.elapsed_control_time)
+            n=len(elapsed_control_time)
             bgn=int(self.case.step)
             end=int(self.case.step + n*self.case.step)
             plt.plot(range(bgn,end,int(self.case.step)),
-                     self.case.elapsed_control_time)
+                     elapsed_control_time)
             plt.show()
             
         return time_rat
@@ -448,19 +453,22 @@ class KPI_Calculator(object):
             dictionary containing only one layer of
             complexity. This means that the values of
             the dictionary do not contain any other
-            dictionaries
-        sep: string
+            dictionaries.
+        sep: string, optioanl
             string that indicates different layers in 
-            the keys of the original dictionary
-        remove_null: Boolean
+            the keys of the original dictionary.
+            Default is '_'.
+        remove_null: Boolean, optional
             True if we don't want to include the null
             elements in the dictionary tree. These null
             elements create problems when plotting the 
             nested pie chart.
-        merge_branches: Boolean
+            Default is True.
+        merge_branches: Boolean, optional
             Merge the branches where a key has only one value.
             This resolves the problem of getting a plain 
             dictionary with any key containing the 'sep'.
+            Default is True.
             
         Returns
         -------
@@ -507,14 +515,16 @@ class KPI_Calculator(object):
         ----------
         dictionary: dict
             dictionary for which we want to merge branches
-        sep: string
+        sep: string, optional
             string used to merge the key and the value of the
-            elements of a dictionary in different layers
+            elements of a dictionary in different layers.
+            Default is '_'.
             
         Returns
         -------
         new_dict: dict
             a new dictionary with the branches merged
+
         '''
         
         for k,v in iteritems(dictionary):
@@ -546,6 +556,7 @@ class KPI_Calculator(object):
         val: float
             value of the sum of all values within the 
             nested dictionary
+
         '''
         
         # Initialize the sum
@@ -581,6 +592,7 @@ class KPI_Calculator(object):
         n: integer
             number of total end points within the nested
             dictionary
+
         '''
         
         # Initialize the counter
@@ -616,6 +628,7 @@ class KPI_Calculator(object):
         -------
         new_dict: dict
             a new dictionary without the null elements
+
         '''
         
         new_dict = OrderedDict()
@@ -643,10 +656,12 @@ class KPI_Calculator(object):
         dictionary: dict
             dictionary for which the pie chart is going to be 
             plotted
-        min_index: integer
-            minimum value of the index that is going to be used
-        max_index: integer
-            maximum value of the index that is going to be used
+        min_index: integer, optional
+            minimum value of the index that is going to be used.
+            Default is 0.
+        max_index: integer, optional
+            maximum value of the index that is going to be used.
+            Default is 260.
         
         '''
         
@@ -669,24 +684,31 @@ class KPI_Calculator(object):
         dictionary: dict
             dictionary containing other dictionaries and/or
             float numbers for which the pie plot is going to be
-            created
-        ax: matplotlib axes object
-            axes object where the plot is going to be appended
-        radius: float
-            radius of the outer layer of the pie plot
-        delta: float
+            created.
+        ax: matplotlib axes object, optional
+            axes object where the plot is going to be appended.
+            Default is None.
+        radius: float, optional
+            radius of the outer layer of the pie plot.
+            Default is 1.
+        delta: float, optional
             desired difference between the radius of two 
-            consecutive pie plot layers
-        dontlabel: list
-            list of items to not be labeled for more clarity
-        breakdonut: boolean
-            if true it will not show the non labeled slices
-        metric: string
+            consecutive pie plot layers.
+            Default is 0.2.
+        dontlabel: list, optional
+            list of items to not be labeled for more clarity.
+            Default is None.
+        breakdonut: boolean, optional
+            if true it will not show the non labeled slices.
+            Default is True.
+        metric: string, optional
             indicates the metric that is being plotted. Notice that
-            this is only used for the title of the plot
-        units: string
+            this is only used for the title of the plot.
+            Default is 'energy use'.
+        units: string, optional
             indicates the units used for the metric. Notice that
-            this is only used for the title of the plot
+            this is only used for the title of the plot.
+            Default is 'kW*h'.
             
         '''
         

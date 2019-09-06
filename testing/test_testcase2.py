@@ -12,10 +12,14 @@ import utilities
 import requests
 from examples.python import szvav_sup
 
-root_dir = utilities.get_root_path()
-kpi_ref = {'energy' : 147.135331884, 'comfort' : 0.001831087016403562}
+kpi_ref = {'tdis_tot': 6.0427772787153575,
+           'ener_tot': 147.133983414,
+           'cost_tot': 29.4267966827,
+           'emis_tot': 73.5669917068,
+           'time_rat_python': 0.000198015450603,
+           'time_rat_julia': 0.000198015450603}
 
-class ExampleSupervisoryPython(unittest.TestCase):
+class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of a supervisory controller in Python.
     
     '''
@@ -35,30 +39,26 @@ class ExampleSupervisoryPython(unittest.TestCase):
         # Run test
         kpi,res = szvav_sup.run()
         # Check kpis
-        self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=5)
-        self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=5)
+        self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_python'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
+        
         # Check trajectories
         # Make dataframe
-        df = pd.DataFrame(data=res['y']['time'], columns=['time'])
+        df = pd.DataFrame()
         for s in ['y','u']:
             for x in res[s].keys():
                 if x != 'time':
-                    df = pd.concat((df,pd.DataFrame(data=res[s][x], columns=[x])), axis=1)
+                    df = pd.concat((df,pd.DataFrame(data=res[s][x], index=res['y']['time'], columns=[x])), axis=1)
+        df.index.name = 'time'
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_python.csv')
-        if os.path.exists(ref_filepath):
-            # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath)
-            for key in df.columns:
-                y_test = df[key].get_values()
-                y_ref = df_ref[key].get_values()
-                results = utilities.check_trajectory(y_test, y_ref)
-                self.assertTrue(results['Pass'], results['Message'])
-        else:
-            # Otherwise, save as reference
-            df.to_csv(ref_filepath)
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)
 
-class ExampleSupervisoryJulia(unittest.TestCase):
+class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of a supervisory controller in Julia.
     
     '''
@@ -80,23 +80,17 @@ class ExampleSupervisoryJulia(unittest.TestCase):
         res_path = os.path.join(utilities.get_root_path(), 'examples', 'julia', 'result_testcase2.csv')
         # Check kpis
         kpi = pd.read_csv(kpi_path)
-        self.assertAlmostEqual(kpi['energy'].get_values()[0], kpi_ref['energy'], places=5)
-        self.assertAlmostEqual(kpi['comfort'].get_values()[0], kpi_ref['comfort'], places=5)
+        self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
         # Check trajectories
-        df = pd.read_csv(res_path)
+        df = pd.read_csv(res_path, index_col = 'time')
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_julia.csv')
-        if os.path.exists(ref_filepath):
-            # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath)
-            for key in df.columns:
-                y_test = df[key].get_values()
-                y_ref = df_ref[key].get_values()
-                results = utilities.check_trajectory(y_test, y_ref)
-                self.assertTrue(results['Pass'], results['Message'])
-        else:
-            # Otherwise, save as reference
-            df.to_csv(ref_filepath)
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)
 
 class MinMax(unittest.TestCase):
     '''Test the use of min/max attributes to truncate the controller input.
@@ -119,8 +113,8 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/reset'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
         # Check kpis
-        value = float(y['ETotHVAC_y'])
-        self.assertAlmostEqual(value, 18835.034013601977, places=5)
+        value = float(y['senTSetRooHea_y'])
+        self.assertAlmostEqual(value, 273.15+10, places=3)
         
     def test_max(self):
         '''Tests that if input is above max, input is set to max.
@@ -131,8 +125,8 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/reset'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
         # Check kpis
-        value = float(y['ETotHVAC_y'])
-        self.assertAlmostEqual(value, 27242077.872117456, places=5)
+        value = float(y['senTSetRooHea_y'])
+        self.assertAlmostEqual(value, 273.15+35, places=3)
         
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 2.  
@@ -166,27 +160,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Description": "Heating setpoint",
                                                "Minimum":273.15+10,
                                                "Maximum":273.15+35}}
-        self.measurements_ref = {"ETotCoo_y": {"Unit": "J", 
-                                               "Description": "Cooling electrical energy",
-                                               "Minimum":None,
-                                               "Maximum":None}, 
-                                 "ETotFan_y": {"Unit": "J", 
-                                               "Description": "Fan energy", 
-                                               "Minimum":None,
-                                               "Maximum":None},
-                                 "ETotHVAC_y": {"Unit": "J", 
-                                                "Description": "Total HVAC energy",
-                                                "Minimum":None,
-                                                "Maximum":None},
-                                 "ETotHea_y": {"Unit": "J", 
-                                               "Description": "Heating energy",
-                                               "Minimum":None,
-                                               "Maximum":None}, 
-                                 "ETotPum_y": {"Unit": "J", 
-                                               "Description": "Pump electrical energy",
-                                               "Minimum":None,
-                                               "Maximum":None}, 
-                                 "PCoo_y": {"Unit": "W", 
+        self.measurements_ref = {"PCoo_y": {"Unit": "W", 
                                             "Description": "Cooling electrical power",
                                             "Minimum":None,
                                             "Maximum":None}, 
@@ -205,19 +179,27 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                  "TRooAir_y": {"Unit": "K", 
                                                "Description": "Room air temperature",                                               
                                                "Minimum":None,
+                                               "Maximum":None},
+                                 "senTSetRooCoo_y": {"Unit": "K", 
+                                               "Description": "Room cooling setpoint",                                               
+                                               "Minimum":None,
+                                               "Maximum":None},
+                                 "senTSetRooHea_y": {"Unit": "K", 
+                                               "Description": "Room heating setpoint",                                               
+                                               "Minimum":None,
                                                "Maximum":None}}
         self.step_ref = 3600.0
-        self.y_ref = {u'PFan_y': 5.231953892667217, 
-                      u'ETotCoo_y': 0.0, 
-                      u'ETotFan_y': 18835.034013601995, 
-                      u'ETotHea_y': 6369084.093412709, 
-                      u'TRooAir_y': 293.0823301149466, 
+        self.y_ref = {u'PFan_y': 5.231953892667217,
+                      u'TRooAir_y': 295.06442470392363, 
                       u'time': 3600.0, 
-                      u'ETotPum_y': 0.0, 
                       u'PCoo_y': 0.0, 
-                      u'PHea_y': 1913.8957388829822, 
-                      u'PPum_y': -0.0, 
-                      u'ETotHVAC_y': 6387919.127426311}
+                      u'PHea_y': 2420.311404179384,
+                      u'PPum_y': -0.0,
+                      u'senTSetRooCoo_y': 296.15,
+                      u'senTSetRooHea_y': 295.15}
+        self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_default.csv')
+        self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
+        self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_interval.csv')
 
 
 if __name__ == '__main__':

@@ -3,8 +3,8 @@ Created on Apr 25, 2019
 
 @author: Javier Arroyo
 
-This module contains the Data_Manager class with methods to  
-access the test case data within the resources folder of the
+This module contains the Data_Manager class with methods to add and  
+access test case data within the resources folder of the
 test case FMU.
 
 '''
@@ -19,21 +19,29 @@ import os
 import json
 
 class Data_Manager(object):
-    '''Class to access the test case data within the resources 
-    folder of the test case FMU. The returned data may be used 
-    for forecasting purposes or for KPI calculations.
+    ''' This class has the functionality to store and retrieve the data 
+    into and from the resources folder of the test case FMU. 
+    
+    To store the data, it assumes csv files are within a Resources directory 
+    located in the same directory as the FMU.  All csv files are searched for 
+    columns with keys following the BOPTEST data convention specified in the 
+    categories.json file.
+    
+    To retrieve the data, it loads timeseries data and kpis.json into the 
+    TestCase object managing the FMU upon deployment and provides methods
+    to retrieve it as needed for forecasting purposes or for KPI calculations.
     
     '''
 
     def __init__(self, testcase=None):
-        '''Initialize the Data_Manager class. One Data_Manager
-        is associated with one test case.
+        '''Initialize the Data_Manager class.
         
         Parameters
         ----------
-        testcase: BOPTEST TestCase object
-            object of an already deployed test case used
-            to retrieve test case metadata
+        testcase: BOPTEST TestCase object, default is None
+            Used if loading or retrieving data from a test case FMU.
+            Not used if compiling test case data into an FMU.
+            Default is None.
         
         '''
         
@@ -49,43 +57,144 @@ class Data_Manager(object):
         with open(os.path.join(data_dir,'categories.json'),'r') as f:
             self.categories = json.loads(f.read()) 
         
+    def _append_csv_data(self):
+        '''Append data from any .csv file within the Resources folder
+        of the testcase. The .csv file must contain a 'time' column 
+        in seconds from the beginning of the year and one of the 
+        keys defined within categories.kpis. Other data without these
+        keys will be neglected.
+        
+        '''
+        
+        # Find all data keys
+        all_keys = []
+        for category in self.categories:
+            all_keys.extend(self.categories[category])
+        
+        # Keep track of the data already appended to avoid duplication
+        appended = {key: None for key in all_keys}
+        
+        # Search for .csv files in the resources folder
+        for f in self.files:
+            if f.endswith('.csv'):
+                df = pd.read_csv(f)
+                keys = df.keys()
+                if 'time' in keys:
+                    for key in keys.drop('time'):
+                        # Raise error if key already appended
+                        if appended[key] is not None:
+                            raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(key, appended[key], f))
+                        # Trim df from keys that are not in categories
+                        elif key not in all_keys:
+                            df.drop(key, inplace=True)
+                        else:
+                            appended[key] = f
+                    # Copy the trimmed df if any key found in categories
+                    if len(df.keys())>0:
+                        df.to_csv(f+'_trimmed', index=False)
+                        file_name = os.path.split(f)[1]
+                        self.z_fmu.write(f+'_trimmed', os.path.join('resources',
+                                         file_name))
+                        os.remove(f+'_trimmed')
+                else:
+                    warnings.warn('The following file does not have '\
+                    'time column and therefore no data is going to '\
+                    'be used from this file as test case data.', Warning) 
+                    print(f)
+                    
+    def save_data_and_kpisjson(self, fmu_path):
+        '''Store all of the .csv and kpis.json test case data within the 
+        resources folder of the fmu.
+        
+        Parameters
+        ----------       
+        fmu_path : string
+            Path to the fmu where the data is to be saved. The reason
+            to not get this path from the tescase config file is 
+            that this method is called by the parser before the test 
+            case is created. 
+        
+        '''
+        
+        # Open the fmu zip file in append mode
+        self.z_fmu = zipfile.ZipFile(fmu_path,'a')
+        
+        # Find the models directory
+        models_dir = os.path.split(os.path.abspath(fmu_path))[0]
+        
+        # Find the Resources folder
+        resources_dir = os.path.join(models_dir, 'Resources')
+        
+        if os.path.exists(resources_dir):
+            # Find all files within Resources folder
+            self.files = []
+            for root, _, files in os.walk(resources_dir):
+                for f in files:
+                    self.files.append(os.path.join(root,f))   
+            
+            # Write a copy all .csv files within the fmu resources folder
+            self._append_csv_data() 
+        else:
+            warnings.warn('No Resources folder found for this FMU, ' \
+                          'No additional data will be stored within the FMU.')
+        
+        # Find the kpis.json path
+        kpi_path = os.path.join(models_dir, 'kpis.json')
+        
+        # Write a copy of the kpis.json within the fmu resources folder
+        if os.path.exists(kpi_path):
+            self.z_fmu.write(kpi_path, 
+                             os.path.join('resources', 'kpis.json'))
+        else:
+            warnings.warn('No kpis.json found for this test case, ' \
+                          'use the parser to get this file or otherwise create it.')
+                
+        # Close the fmu
+        self.z_fmu.close()
+        
     def get_data(self, horizon=24*3600, interval=None, index=None, 
                  category=None, plot=False):
         '''Retrieve test case data from the fmu. The data
-        is stored within the data_file_name file that 
-        is located in the resources folder of the wrapped.fmu.
+        is stored within the csv files that are 
+        located in the resources folder of the test case fmu.
         
         Parameters
         ----------
-        horizon : int
-            Length of the requested forecast in seconds 
-        interval: int (optional)
+        horizon : int, default is 24*3600
+            Length of the requested forecast in seconds. By default one
+            day will be used. 
+        interval : int, default is None
             resampling time interval in seconds. If None,
-            the test case step will be used instead
-        category : string (optional)
+            the test case step will be used instead.
+        index : numpy array, default is None
+            time vector for which the data points are requested.
+            The interpolation is linear for the weather data
+            and forward fill for the other data categories. If 
+            index is None, the default case step is used as default. 
+        category : string, default is None
             Type of data to retrieve from the test case.
             If None it will return all available test case
             data without filtering it by any category. 
-            Possible options are 'weather', 'prices',
-            'emissions', 'occupancy', 'setpoints'
+            The possible options are specified at categories.json.
+        plot : Boolean, default is False
+            True if desired to plot the retrieved data
             
         Returns
         -------
         data: dict 
             Dictionary with the requested forecast data
             {<variable_name>:<variable_forecast_trajectory>}
+            where <variable_name> is a string with the variable
+            key and <variable_forecast_trajectory> is a list with
+            the data values. 'time' is included as a variable
         
         Notes
         -----
-        The read and pre-process of the data happens only 
-        once to reduce the computational load during the 
-        co-simulation
+        The loading and pre-processing of the data happens only 
+        once (at load_data_and_kpisjson) to reduce the computational 
+        load during the co-simulation
         
         '''
-        
-        # First read the test case data if not read yet
-        if not hasattr(self.case, 'data'):    
-            self.load_data()
         
         # Filter the requested data columns
         if category is not None:
@@ -98,11 +207,15 @@ class Data_Manager(object):
             # Use the test case start time 
             start = self.case.start_time
             stop  = start + horizon
-            # Reindex to the desired interval. Use step if none
+            # Use step if None interval provided
             if interval is None:
                 interval=self.case.step
-            index = np.arange(start,stop,interval).astype(int)
-            
+            # Define the index. Make sure last point is included if 
+            # possible. If interval is not an exact divisor of stop,
+            # the closest possible point under stop will be the end 
+            # point in order to keep interval unchanged among index. 
+            index = np.arange(start,stop+0.1,interval).astype(int)
+
         # Reindex to the desired index
         data_slice_reindexed = data_slice.reindex(index)
         
@@ -131,16 +244,12 @@ class Data_Manager(object):
         # Transform data frame to dictionary
         return data_slice_reindexed.reset_index().to_dict('list')
     
-    def load_data(self):
-        '''Load the data from the resources folder of the fmu.
-        Resample it with the specified time interval.
+    def load_data_and_kpisjson(self):
+        '''Load the data and kpis.json from the resources folder of the fmu 
+        into the test case object.  The data is resampled according to the 
+        minimum sampling rate, where weather is linearly interpolated and 
+        schedules use a forward-fill.
         
-        Parameters
-        ----------
-        data_file_name : string
-            Name of the data file from where the data is 
-            retrieved. Notice that this file should be within
-            the resources folder of the wrapped.fmu
         '''
         
         # Point to the fmu zip file
@@ -168,7 +277,7 @@ class Data_Manager(object):
                     sampling=new_sampling
                     
         # Define the index for one year with the minimum sampling found
-        index = np.arange(0.,3.154e+7,sampling,dtype='int')
+        index = np.arange(0.,3.1536e+7,sampling,dtype='int')
         
         # Find all data keys
         all_keys = []
@@ -190,13 +299,13 @@ class Data_Manager(object):
                         if key in self.categories[category] and \
                             category == 'weather':
                             g = interpolate.interp1d(df['time'],df[key], 
-                                kind='linear',fill_value='extrapolate')
+                                kind='linear')
                             self.case.data.loc[:,key] = \
                                 g(self.case.data.index)
                         # Use forward fill for discrete variables
                         elif key in self.categories[category]:
                             g = interpolate.interp1d(df['time'],df[key], 
-                                kind='linear',fill_value='extrapolate')
+                                kind='zero')
                             self.case.data.loc[:,key] = \
                                 g(self.case.data.index)
             else:

@@ -36,6 +36,11 @@ parser_step.add_argument('step')
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
     parser_advance.add_argument(key)
+#``forecast_parameters`` interface
+parser_forecast_parameters = reqparse.RequestParser()
+forecast_parameters = ['horizon','interval']
+for arg in forecast_parameters:
+    parser_forecast_parameters.add_argument(arg)
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -58,7 +63,6 @@ class Reset(Resource):
         case.reset()
         return 'Testcase reset.'
 
-        
 class Step(Resource):
     '''Interface to test case simulation step size.'''
     
@@ -105,6 +109,31 @@ class KPI(Resource):
         '''GET request to receive KPI data.'''
         kpi = case.get_kpis()
         return kpi
+    
+class Forecast_Parameters(Resource):
+    '''Interface to test case forecast parameters.'''
+    
+    def get(self):
+        '''GET request to receive forecast parameters.'''
+        forecast_parameters = case.get_forecast_parameters()
+        return forecast_parameters
+    
+    def put(self):
+        '''PUT request to set forecast horizon and interval inseconds.'''
+        args = parser_forecast_parameters.parse_args()
+        horizon  = args['horizon']
+        interval = args['interval']
+        case.set_forecast_parameters(horizon, interval)
+        forecast_parameters = case.get_forecast_parameters()
+        return forecast_parameters
+    
+class Forecast(Resource):
+    '''Interface to test case forecast data.'''
+    
+    def get(self):
+        '''GET request to receive forecast data.'''
+        forecast = case.get_forecast()
+        return forecast
         
 class Name(Resource):
     '''Interface to test case name.'''
@@ -124,6 +153,8 @@ api.add_resource(Inputs, '/inputs')
 api.add_resource(Measurements, '/measurements')
 api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
+api.add_resource(Forecast_Parameters, '/forecast_parameters')
+api.add_resource(Forecast, '/forecast')
 api.add_resource(Name, '/name')
 # --------------------------------------
 
