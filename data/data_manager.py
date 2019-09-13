@@ -299,13 +299,13 @@ class Data_Manager(object):
                         if key in self.categories[category] and \
                             category == 'weather':
                             g = interpolate.interp1d(df['time'],df[key], 
-                                kind='linear')
+                                kind='linear',fill_value='extrapolate')
                             self.case.data.loc[:,key] = \
                                 g(self.case.data.index)
                         # Use forward fill for discrete variables
                         elif key in self.categories[category]:
                             g = interpolate.interp1d(df['time'],df[key], 
-                                kind='zero')
+                                kind='zero',fill_value='extrapolate')
                             self.case.data.loc[:,key] = \
                                 g(self.case.data.index)
             else:
