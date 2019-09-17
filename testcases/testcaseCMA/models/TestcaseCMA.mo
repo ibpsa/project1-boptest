@@ -98,20 +98,22 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
 
     Buildings.Controls.OBC.CDL.Logical.Or or2
       annotation (Placement(transformation(extent={{0,-180},{20,-160}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(unit="K"), Description="Heating set point")
+    IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(unit="K"),
+        description="Heating set point")
       annotation (Placement(transformation(extent={{-148,-170},{-128,-150}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(unit="K"), Description="Cooling set point")
+    IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(unit="K"),
+        description="Cooling set point")
       annotation (Placement(transformation(extent={{-126,-274},{-106,-254}})));
     IBPSA.Utilities.IO.SignalExchange.Read senPowFan(
       y(unit="W"),
-      Description="Fan power",
+      description="Fan power",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{360,218},{380,238}})));
     Modelica.Blocks.Sources.RealExpression heaCoiPow(y=abs(heaCoi.Q1_flow))
       annotation (Placement(transformation(extent={{300,302},{320,322}})));
     IBPSA.Utilities.IO.SignalExchange.Read senPowHea(
       y(unit="W"),
-      Description="Thermal power exchanged",
+      description="Thermal power exchanged",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{360,302},{380,322}})));
     Modelica.Blocks.Sources.RealExpression cooCoiPow(y=abs(cooCoi.port_a1.m_flow
@@ -120,21 +122,21 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
       annotation (Placement(transformation(extent={{300,268},{320,288}})));
     IBPSA.Utilities.IO.SignalExchange.Read senPowCoo(
       y(unit="W"),
-      Description="Thermal power exchanged by cooCoi",
+      description="Thermal power exchanged by cooCoi",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{360,268},{380,288}})));
     Modelica.Blocks.Sources.RealExpression TRetCalculator(y=TRet.T)
       annotation (Placement(transformation(extent={{100,340},{120,360}})));
     IBPSA.Utilities.IO.SignalExchange.Read senTRet(
       y(unit="K"),
-      Description="Return mixed temperature from zones",
+      description="Return mixed temperature from zones",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
       annotation (Placement(transformation(extent={{160,340},{180,360}})));
     Modelica.Blocks.Sources.RealExpression TMixCalculator(y=TMix.T)
       annotation (Placement(transformation(extent={{100,300},{120,320}})));
     IBPSA.Utilities.IO.SignalExchange.Read senTMix(
       y(unit="K"),
-      Description=
+      description=
           "Return temperature from zones mixed with outdoor temperature after economizer",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
       annotation (Placement(transformation(extent={{160,300},{180,320}})));
@@ -143,7 +145,7 @@ package TestcaseCMA "Model for the commercial multi-zone air-based test case"
       annotation (Placement(transformation(extent={{100,260},{120,280}})));
     IBPSA.Utilities.IO.SignalExchange.Read senTSup(
       y(unit="K"),
-      Description="Supply temperature to terminal units of the zones",
+      description="Supply temperature to terminal units of the zones",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
       annotation (Placement(transformation(extent={{160,260},{180,280}})));
   equation
@@ -602,33 +604,35 @@ This is for
       annotation (Placement(transformation(extent={{-20,-60},{0,-40}})));
     IBPSA.Utilities.IO.SignalExchange.Read senTRooAir(
       y(unit="K"),
-      Description="Air room temperature",
+      description="Air room temperature",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature)
       annotation (Placement(transformation(extent={{140,-84},{160,-64}})));
-    IBPSA.Utilities.IO.SignalExchange.Read senTSup(y(unit="K"), Description=
+    IBPSA.Utilities.IO.SignalExchange.Read senTSup(y(unit="K"), description=
           "Air supply temperature")
       annotation (Placement(transformation(extent={{140,-116},{160,-96}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite oveVal(u(unit="None"),Description="Heating valve set point")
+    IBPSA.Utilities.IO.SignalExchange.Overwrite oveVal(u(unit="None"),
+        description="Heating valve set point")
       annotation (Placement(transformation(extent={{104,-54},{124,-34}})));
     IBPSA.Utilities.IO.SignalExchange.Read senValSet(y(unit="None"),
-        Description="Heating valve set point")
+        description="Heating valve set point")
       annotation (Placement(transformation(extent={{134,-54},{154,-34}})));
     IBPSA.Utilities.IO.SignalExchange.Read senDamSet(y(unit="None"),
-        Description="Damper set point")
+        description="Damper set point")
       annotation (Placement(transformation(extent={{132,38},{152,58}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite oveDam(u(unit="None"),Description="Damper set point")
+    IBPSA.Utilities.IO.SignalExchange.Overwrite oveDam(u(unit="None"),
+        description="Damper set point")
       annotation (Placement(transformation(extent={{100,38},{120,58}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite oveTRooHeaSet(u(unit="K"),
-        Description="Room heating temperature set point")
+        description="Room heating temperature set point")
       annotation (Placement(transformation(extent={{-94,70},{-74,90}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite oveTRooCooSet(u(unit="K"),
-        Description="Room cooling temperature set point")
+        description="Room cooling temperature set point")
       annotation (Placement(transformation(extent={{-94,40},{-74,60}})));
     IBPSA.Utilities.IO.SignalExchange.Read senTRooHeaSet(y(unit="K"),
-        Description="Room heating temperature set point")
+        description="Room heating temperature set point")
       annotation (Placement(transformation(extent={{-66,70},{-46,90}})));
     IBPSA.Utilities.IO.SignalExchange.Read senTRooCooSet(y(unit="K"),
-        Description="Room cooling temperature set point")
+        description="Room cooling temperature set point")
       annotation (Placement(transformation(extent={{-66,40},{-46,60}})));
   protected
     parameter Real kDamHea = 0.5
@@ -840,17 +844,18 @@ Removed blocks with blocks from CDL package.
     Buildings.Controls.OBC.CDL.Continuous.Gain gaiM_flow(
       final k=m_flow_nominal*1000*15/4200/10) "Gain for mass flow rate"
       annotation (Placement(transformation(extent={{80,2},{60,22}})));
-    IBPSA.Utilities.IO.SignalExchange.Read senACH(y(unit="None"),Description="Air change per hour",
+    IBPSA.Utilities.IO.SignalExchange.Read senACH(y(unit="None"),
+      description="Air change per hour",
         KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
       annotation (Placement(transformation(extent={{40,40},{60,60}})));
     Modelica.Blocks.Sources.RealExpression heaCoiPow(y=abs(terHea.Q1_flow))
       annotation (Placement(transformation(extent={{-36,-80},{-16,-60}})));
     IBPSA.Utilities.IO.SignalExchange.Read senPowVAV(
       y(unit="W"),
-      Description="Thermal power exchanged",
+      description="Thermal power exchanged",
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
       annotation (Placement(transformation(extent={{80,-80},{100,-60}})));
-    IBPSA.Utilities.IO.SignalExchange.Subcontroller subConHea(Description=
+    IBPSA.Utilities.IO.SignalExchange.Subcontroller subConHea(description=
           "Heating input to the zone", u(unit="W"))
       annotation (Placement(transformation(extent={{32,-64},{52,-44}})));
   equation
@@ -2018,12 +2023,13 @@ This is for
       annotation (Placement(transformation(extent={{184,-6},{196,6}})));
     Modelica.Blocks.Logical.GreaterThreshold greaterThreshold
       annotation (Placement(transformation(extent={{194,56},{214,76}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite oveFanMod(u(unit="None"),Description="Overwrite the fan mode")
+    IBPSA.Utilities.IO.SignalExchange.Overwrite oveFanMod(u(unit="None"),
+        description="Overwrite the fan mode")
       annotation (Placement(transformation(extent={{164,56},{184,76}})));
     Modelica.Blocks.Sources.Constant const(k=1)
       annotation (Placement(transformation(extent={{172,112},{192,132}})));
     IBPSA.Utilities.IO.SignalExchange.Overwrite oveConMod(u(unit="None"),
-        Description="Overwrite the control mode")
+        description="Overwrite the control mode")
       annotation (Placement(transformation(extent={{-160,190},{-140,210}})));
     Modelica.Blocks.Math.RealToInteger realToInteger
       annotation (Placement(transformation(extent={{-140,160},{-160,180}})));
