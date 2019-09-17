@@ -11,6 +11,7 @@ import numpy as np
 import copy
 import config
 import time
+import cPickle as pickle
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
 from kpis.kpi_calculator import KPI_Calculator
@@ -438,3 +439,46 @@ class TestCase(object):
 
         return checked_value
             
+    def save_test_case(self, file_name='deployed.tc'):
+        '''Save the deployed test case in a pickle.
+        This method is going to delete the fmu from the
+        object because it is not supported by pickle.
+        
+        Parameters
+        ----------
+        file_name: string
+            name of the file where the test case is going
+            to be pickled
+        '''
+        
+        del self.fmu
+        
+        f=open(file_name,'wb')
+        pickle.dump(self,f)
+        f.close()
+
+        return file_name
+        
+    def load_test_case(self, file_name='deployed.tc'):
+        '''Load a deployed test case that has been 
+        saved with 'save_test_case'
+        
+        Parameters
+        ----------
+        file_name: string
+            name of the file where the test case is stored
+            
+        Returns
+        -------
+        self: TestCase 
+            Instance with the attributes of a previously 
+            deployed test case
+        '''
+
+        tc = pickle.load(file(file_name, 'rb'))
+        for k,v in tc.__dict__.iteritems():
+            self.__dict__[k] = v
+            
+        self.fmu = load_fmu(self.fmupath)
+
+        return self
