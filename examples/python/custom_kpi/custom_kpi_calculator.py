@@ -17,10 +17,11 @@ class cutomizedKPI(object):
     '''
     def __init__(self, config, **kwargs):
         # import necessary KPI information from the config files
-        self.name=config.get("name")
-        kpi_file=config.get("kpi_file")
-        kpi_class = config.get("kpi_class")
-        self.data_points=config.get("data_points")
+        required_config=config.get("required")
+        self.name=required_config.get("name")
+        kpi_file=required_config.get("kpi_file")
+        kpi_class = required_config.get("kpi_class")
+        self.data_points=required_config.get("data_points")
 
         if all([self.name,kpi_file,kpi_class,self.data_points]):
         # instantiate the KPI calculation class
@@ -31,7 +32,7 @@ class cutomizedKPI(object):
         # initialize the data buffer
              self.data_buff=None
         else:
-             print('KPI definitation is not sufficients')
+             print('KPI definition is not sufficient')
              sys.exit()
 
     # A function to process the streaming data 
@@ -40,7 +41,7 @@ class cutomizedKPI(object):
         temp=[]
         for point in self.data_points:
                temp.append(data[self.data_points[point]])
-    # Customized data postprocessing
+    # Customized data post-processing
         self.data_buff = self.model.processing_data(self.data_buff,temp)
         return        
 

@@ -11,7 +11,7 @@ imported from a different module.
 # ----------------------
 import requests
 import time
-from kpi import kpicalculation
+from custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
 # ----------------------
 
@@ -154,4 +154,4 @@ def run(plot=False, kpiconfig=None):
     return kpi, res
         
 if __name__ == "__main__":
-    kpi,res = run(kpiconfig='kpi/kpi.config')
+    kpi,res = run(kpiconfig='custom_kpi/custom_kpis.config')
