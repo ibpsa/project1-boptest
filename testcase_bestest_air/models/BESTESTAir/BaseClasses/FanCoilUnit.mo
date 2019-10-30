@@ -19,8 +19,8 @@ model FanCoilUnit "Four-pipe fan coil unit model"
         Medium1, per(
       pressure(V_flow={0,mAir_flow_nominal/1.2}, dp={dpAir_nominal,0}),
       use_powerCharacteristic=true,
-      power(V_flow={0,mAir_flow_nominal/1.2}, P={0,800*mAir_flow_nominal/1.2})))
-                                                   annotation (Placement(
+      power(V_flow={0,mAir_flow_nominal/1.2}, P={0,dpAir_nominal/0.7/0.7*
+            mAir_flow_nominal/1.2})))              annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -136,5 +136,11 @@ equation
           lineColor={0,0,0},
           fillColor={215,215,215},
           fillPattern=FillPattern.Solid)}),                      Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},{100,140}})));
+        coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},{100,140}})),
+    experiment(
+      StartTime=20736000,
+      StopTime=21600000,
+      Interval=599.999616,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Cvode"));
 end FanCoilUnit;
