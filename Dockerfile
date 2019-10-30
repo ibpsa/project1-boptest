@@ -1,4 +1,4 @@
-FROM michaelwetter/ubuntu-1604_jmodelica_trunk
+FROM michaelwetter/ubuntu-1804_jmodelica_trunk
 
 ARG testcase
 

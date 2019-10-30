@@ -16,7 +16,7 @@ kpi_ref = {'tdis_tot': 10.6329491656,
            'ener_tot': 21.474759625,
            'cost_tot': 1.50323317375,
            'emis_tot': 4.294951925,
-           'time_rat_python': 7.33207902974552e-04,
+           'time_rat_python': 0.000226274950913,
            'time_rat_julia':  7.32503600742506e-05 }
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
