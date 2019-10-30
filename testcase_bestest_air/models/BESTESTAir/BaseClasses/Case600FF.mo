@@ -223,11 +223,11 @@ model Case600FF
   InternalLoad lig(
     radFraction=0.5,
     latPower_nominal=0,
-    senPower_nominal=10)
+    senPower_nominal=11.8)
     annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
   InternalLoad equ(
     latPower_nominal=0,
-    senPower_nominal=5,
+    senPower_nominal=5.4,
     radFraction=0.7)
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
   OccupancyLoad occ(
@@ -242,6 +242,18 @@ model Case600FF
     annotation (Placement(transformation(extent={{-52,62},{-40,74}})));
   Modelica.Blocks.Math.MultiSum sumLat(nu=3) "Sum of latent internal gains"
     annotation (Placement(transformation(extent={{-52,42},{-40,54}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
+        "Lighting power submeter") "Read lighting power consumption"
+    annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
+        "Plug load power submeter") "Read plug load power consumption"
+    annotation (Placement(transformation(extent={{-20,0},{0,20}})));
+  Modelica.Blocks.Math.MultiSum sumLig(k=fill(roo.AFlo, 2), nu=2)
+    "Lighting power consumption"
+    annotation (Placement(transformation(extent={{-52,24},{-40,36}})));
+  Modelica.Blocks.Math.MultiSum sumPlu(k=fill(roo.AFlo, 2), nu=2)
+    "Plug power consumption"
+    annotation (Placement(transformation(extent={{-52,4},{-40,16}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
@@ -303,8 +315,9 @@ equation
           {-30,-55.2},{2.8,-55.2}}, color={0,0,127}));
   connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{16,-40},{20,
           -40},{20,-22.5},{39.75,-22.5}}, color={0,127,255}));
-  connect(supplyAir, roo.ports[4]) annotation (Line(points={{-100,20},{0,20},{
-          0,-21.3},{39.75,-21.3}}, color={0,127,255}));
+  connect(supplyAir, roo.ports[4]) annotation (Line(points={{-100,20},{-80,20},
+          {-80,-21.3},{39.75,-21.3}},
+                                   color={0,127,255}));
   connect(returnAir, roo.ports[5]) annotation (Line(points={{-100,-20},{-30,-20},
           {-30,-20.1},{39.75,-20.1}}, color={0,127,255}));
   connect(occ.rad, sumRad.u[1]) annotation (Line(points={{-79,94},{-60,94},{-60,
@@ -315,9 +328,9 @@ equation
           85.2},{-52,85.2}}, color={0,0,127}));
   connect(occ.con, sumCon.u[1]) annotation (Line(points={{-79,90},{-64,90},{-64,
           70.8},{-52,70.8}}, color={0,0,127}));
-  connect(equ.con, sumCon.u[2]) annotation (Line(points={{-79,70},{-66,70},{-66,
+  connect(equ.con, sumCon.u[2]) annotation (Line(points={{-79,70},{-68,70},{-68,
           68},{-52,68}}, color={0,0,127}));
-  connect(lig.con, sumCon.u[3]) annotation (Line(points={{-79,50},{-66,50},{-66,
+  connect(lig.con, sumCon.u[3]) annotation (Line(points={{-79,50},{-60,50},{-60,
           65.2},{-52,65.2}}, color={0,0,127}));
   connect(occ.lat, sumLat.u[1]) annotation (Line(points={{-79,86},{-72,86},{-72,
           50.8},{-52,50.8}}, color={0,0,127}));
@@ -331,6 +344,18 @@ equation
     annotation (Line(points={{-38.98,68},{-18.8,68}}, color={0,0,127}));
   connect(sumLat.y, multiplex3_1.u3[1]) annotation (Line(points={{-38.98,48},{
           -32,48},{-32,65.2},{-18.8,65.2}}, color={0,0,127}));
+  connect(sumLig.y, reaPLig.u)
+    annotation (Line(points={{-38.98,30},{-22,30}}, color={0,0,127}));
+  connect(sumPlu.y, reaPPlu.u)
+    annotation (Line(points={{-38.98,10},{-22,10}}, color={0,0,127}));
+  connect(equ.con, sumPlu.u[1]) annotation (Line(points={{-79,70},{-68,70},{-68,
+          12.1},{-52,12.1}}, color={0,0,127}));
+  connect(equ.rad, sumPlu.u[2]) annotation (Line(points={{-79,74},{-70,74},{-70,
+          7.9},{-52,7.9}}, color={0,0,127}));
+  connect(lig.rad, sumLig.u[1]) annotation (Line(points={{-79,54},{-58,54},{-58,
+          32.1},{-52,32.1}}, color={0,0,127}));
+  connect(lig.con, sumLig.u[2]) annotation (Line(points={{-79,50},{-60,50},{-60,
+          27.9},{-52,27.9}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
