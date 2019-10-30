@@ -4,8 +4,8 @@ model Thermostat_OnOff
   parameter Modelica.SIunits.DimensionlessRatio DeadBandHea=2 "Deadband for heating setpoint [degC]";
   parameter Modelica.SIunits.DimensionlessRatio DeadBandCoo=2 "Deadband for cooling setpoint [degC]";
   parameter Modelica.SIunits.Time MinCycleTime = 2*60 "Minimum cycle time of system";
-  parameter Modelica.SIunits.Temperature TSupSetHea=273.15+35 "Heating supply air temperature setpoint";
-  parameter Modelica.SIunits.Temperature TSupSetCoo=273.15+13 "Cooling supply air temperature setpoint";
+  parameter Modelica.SIunits.Temperature TSupSetHea=273.15+32 "Heating supply air temperature setpoint";
+  parameter Modelica.SIunits.Temperature TSupSetCoo=273.15+14 "Cooling supply air temperature setpoint";
   Modelica.Blocks.Interfaces.RealInput TZon "Measured zone air temperature"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput yFan "Fan control signal"

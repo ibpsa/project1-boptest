@@ -1,8 +1,8 @@
 within BESTESTAir.BaseClasses;
 model FanCoilUnit "Four-pipe fan coil unit model"
   package Medium1 = Buildings.Media.Air;
-  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.65 "Nominal air flowrate";
-  parameter Modelica.SIunits.Pressure dpAir_nominal=500 "Nominal supply air pressure";
+  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.75 "Nominal air flowrate";
+  parameter Modelica.SIunits.Pressure dpAir_nominal=875 "Nominal supply air pressure";
   parameter Modelica.SIunits.Power QCooCap=5000 "Cooling coil capacity";
   parameter Modelica.SIunits.Power QHeaCap=5000 "Heating coil capacity";
   parameter Modelica.SIunits.DimensionlessRatio COP = 3 "Assumed COP of chiller supplying chilled water to FCU in [W_thermal/W_electric]";

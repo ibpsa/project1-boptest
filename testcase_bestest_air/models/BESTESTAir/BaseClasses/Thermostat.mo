@@ -1,8 +1,9 @@
 within BESTESTAir.BaseClasses;
 model Thermostat
   "Implements basic control of FCU to maintain zone air temperature"
-  parameter Modelica.SIunits.Temperature TSupSetCoo=273.15+13 "Cooling supply air temperature setpoint";
-  parameter Modelica.SIunits.Temperature TSupSetHea=273.15+35 "Heating supply air temperature setpoint";
+  parameter Modelica.SIunits.Time MinCycleTime = 2*60 "Minimum cycle time of system";
+  parameter Modelica.SIunits.Temperature TSupSetCoo=273.15+14 "Cooling supply air temperature setpoint";
+  parameter Modelica.SIunits.Temperature TSupSetHea=273.15+32 "Heating supply air temperature setpoint";
   Modelica.Blocks.Interfaces.RealInput TZon "Measured zone air temperature"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput yFan "Fan control signal"
@@ -35,10 +36,6 @@ model Thermostat
   Modelica.Blocks.Sources.Constant TSupSetHeaCon(k=TSupSetHea)
     "Heating supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
-  Modelica.Blocks.Logical.GreaterThreshold greaterThreshold
-    annotation (Placement(transformation(extent={{-30,70},{-10,90}})));
-  Modelica.Blocks.Logical.GreaterThreshold greaterThreshold1
-    annotation (Placement(transformation(extent={{-30,30},{-10,50}})));
   Modelica.Blocks.Logical.Switch deaSwitch
     "Switch between deadband and heating or cooling"
     annotation (Placement(transformation(extent={{70,10},{90,30}})));
@@ -75,6 +72,12 @@ model Thermostat
   IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(y(unit="K"), description=
         "Zone air temperature setpoin for heating") "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-94,30},{-74,50}})));
+  Buildings.Controls.OBC.CDL.Continuous.GreaterThreshold greThrCoo
+    "Check for cooling need"
+    annotation (Placement(transformation(extent={{-30,70},{-10,90}})));
+  Buildings.Controls.OBC.CDL.Continuous.GreaterThreshold greThrHea
+    "Check for heating need"
+    annotation (Placement(transformation(extent={{-30,30},{-10,50}})));
 equation
   connect(TZon, heaPID.u_m)
     annotation (Line(points={{-120,0},{-56,0},{-56,28}}, color={0,0,127}));
@@ -84,12 +87,6 @@ equation
           {-22,-14}}, color={0,0,127}));
   connect(heaPID.y, add.u2) annotation (Line(points={{-45,40},{-42,40},{-42,-26},
           {-22,-26}}, color={0,0,127}));
-  connect(cooPID.y, greaterThreshold.u)
-    annotation (Line(points={{-45,80},{-32,80}}, color={0,0,127}));
-  connect(heaPID.y, greaterThreshold1.u)
-    annotation (Line(points={{-45,40},{-32,40}}, color={0,0,127}));
-  connect(greaterThreshold.y, TSupSwitch.u2) annotation (Line(points={{-9,80},{20,
-          80},{20,20},{28,20}}, color={255,0,255}));
   connect(deaSwitch.y, TSupSet)
     annotation (Line(points={{91,20},{110,20}}, color={0,0,127}));
   connect(notCoo.y, andDea.u1) annotation (Line(points={{51,70},{60,70},{60,60},
@@ -98,10 +95,6 @@ equation
           {68,52}}, color={255,0,255}));
   connect(andDea.y, deaSwitch.u2) annotation (Line(points={{91,60},{94,60},{94,40},
           {60,40},{60,20},{68,20}}, color={255,0,255}));
-  connect(greaterThreshold1.y, notHea.u) annotation (Line(points={{-9,40},{0,40},
-          {0,50},{28,50}}, color={255,0,255}));
-  connect(greaterThreshold.y, notCoo.u) annotation (Line(points={{-9,80},{20,80},
-          {20,70},{28,70}}, color={255,0,255}));
   connect(TZon, deaSwitch.u1) annotation (Line(points={{-120,0},{54,0},{54,28},{
           68,28}}, color={0,0,127}));
   connect(TSupSwitch.y, deaSwitch.u3) annotation (Line(points={{51,20},{58,20},{
@@ -126,6 +119,16 @@ equation
     annotation (Line(points={{-120,40},{-96,40}}, color={0,0,127}));
   connect(reaTSetHea.y, heaPID.u_s)
     annotation (Line(points={{-73,40},{-68,40}}, color={0,0,127}));
+  connect(cooPID.y, greThrCoo.u)
+    annotation (Line(points={{-45,80},{-32,80}}, color={0,0,127}));
+  connect(greThrCoo.y, notCoo.u) annotation (Line(points={{-8,80},{20,80},{20,70},
+          {28,70}}, color={255,0,255}));
+  connect(greThrCoo.y, TSupSwitch.u2) annotation (Line(points={{-8,80},{20,80},{
+          20,20},{28,20}}, color={255,0,255}));
+  connect(heaPID.y, greThrHea.u)
+    annotation (Line(points={{-45,40},{-32,40}}, color={0,0,127}));
+  connect(greThrHea.y, notHea.u) annotation (Line(points={{-8,40},{0,40},{0,50},
+          {28,50}}, color={255,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                                 Rectangle(
         extent={{-100,-100},{100,100}},
