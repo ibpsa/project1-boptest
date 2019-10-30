@@ -17,7 +17,8 @@ model TestCase "Testcase model"
          + 273.15])
     "Cooling temperature setpoint for zone air"
     annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
-  BaseClasses.Thermostat con
+  BaseClasses.Thermostat_OnOff
+                         con
     annotation (Placement(transformation(extent={{-50,-10},{-30,10}})));
   BaseClasses.FanCoilUnit fcu(dpAir_nominal(displayUnit="Pa"))
     annotation (Placement(transformation(extent={{0,-14},{20,14}})));
@@ -89,8 +90,9 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
-      StopTime=31536000,
-      Interval=600,
+      StartTime=20736000,
+      StopTime=21600000,
+      Interval=599.999616,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"));
 end TestCase;

@@ -2,5 +2,6 @@ Case900FF
 Case600FF
 FanCoilUnit
 Thermostat
+Thermostat_OnOff
 InternalLoad
 OccupancyLoad
