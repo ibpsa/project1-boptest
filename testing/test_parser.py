@@ -279,5 +279,22 @@ class ExportSimulate(unittest.TestCase, utilities.partialTimeseries):
         # Delete leftover files
         utilities.clean_up(testing_root_dir)
 
+class NoSignalExchangeBlock(unittest.TestCase, utilities.partialTimeseries):
+    '''Tests the export of a wrapper fmu and simulation from model with no signal exchange blocks.
+    
+    '''
+    
+    def setUp(self):
+        '''Setup for each test.
+        
+        '''
+        
+        # Model path and file specifically for this case
+        self.model_path = 'SimpleRC_noSignalExchangeBlocks'
+        self.mo_path = os.path.join(testing_root_dir,'parsing', 'SimpleRC_noSignalExchangeBlocks.mo')
+    def test_export(self):
+        # Parse and export fmu to working directory
+        self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path])
+        
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
