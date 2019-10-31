@@ -1,4 +1,4 @@
-within BESTESTAir.TestCases;
+﻿within BESTESTAir.TestCases;
 model TestCase "Testcase model"
   extends Modelica.Icons.Example;
   BaseClasses.Case900FF zon
@@ -92,5 +92,285 @@ equation
       StopTime=31536000,
       Interval=599.999616,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Cvode"));
+      __Dymola_Algorithm="Cvode"),
+Documentation(info="<html>
+General model description.
+<h3>Building Design and Use</h3>
+<h4>Architecture</h4>
+<p>
+The building is a single room based on the BESTEST Case 900 model definition.
+The floor dimensions are 6m x 8m and the floor-to-ceiling height is 2.7m.  
+There are four exterior walls facing the cardinal directions and a flat roof.
+The walls facing east-west have the short dimension.  The south wall contains
+two windows, each 3m wide and 2m tall.  The use of the building is assumed
+to be a two-person office with a light load density.
+</p>
+<h4>Constructions</h4>
+<p>
+The constructions are based on the BESTEST Case 900 model definition.  The
+exterior walls are made of concrete block and insulation, while the floor
+is a concrete slab.  The roof is made of wood frame with insulation.  The 
+layer-by-layer specifications are (Outside to Inside):
+</p>
+<p>
+<b>Exterior Walls</b>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>Thickness [m]</th>
+  <th>Thermal Conductivity [W/m-K]</th>
+  <th>Specific Heat Capacity [J/kg-K]</th>
+  <th>Density [kg/m3]</th>
+  </tr>
+  <tr>
+  <td>Layer 1</td>
+  <td>0.009</td>
+  <td>0.140</td>
+  <td>900</td>
+  <td>530</td>
+  </tr>
+  <tr>
+  <td>Layer 2</td>
+  <td>0.0615</td>
+  <td>0.040</td>
+  <td>1400</td>
+  <td>10</td>
+  </tr>
+  <tr>
+  <td>Layer 3</td>
+  <td>0.100</td>
+  <td>0.510</td>
+  <td>1000</td>
+  <td>1400</td>
+  </tr>
+  </table>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>IR Emissivity [-]</th>
+  <th>Solar Emissivity [-]</th>
+  </tr>
+  <tr>
+  <td>Outside</td>
+  <td>0.9</td>
+  <td>0.6</td>
+  </tr>
+  <tr>
+  <td>Inside</td>
+  <td>0.9</td>
+  <td>0.6</td>
+  </tr>
+</table>
+</p>
+<p>
+<b>Floor</b>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>Thickness [m]</th>
+  <th>Thermal Conductivity [W/m-K]</th>
+  <th>Specific Heat Capacity [J/kg-K]</th>
+  <th>Density [kg/m3]</th>
+  </tr>
+  <tr>
+  <td>Layer 1</td>
+  <td>1.007</td>
+  <td>0.040</td>
+  <td>0</td>
+  <td>0</td>
+  </tr>
+  <tr>
+  <td>Layer 2</td>
+  <td>0.080</td>
+  <td>1.130</td>
+  <td>1000</td>
+  <td>1400</td>
+  </tr>
+</table>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>IR Emissivity [-]</th>
+  <th>Solar Emissivity [-]</th>
+  </tr>
+  <tr>
+  <td>Outside</td>
+  <td>0.9</td>
+  <td>0.6</td>
+  </tr>
+  <tr>
+  <td>Inside</td>
+  <td>0.9</td>
+  <td>0.6</td>
+  </tr>
+</table>
+</p>
+<p>
+<b>Roof</b>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>Thickness [m]</th>
+  <th>Thermal Conductivity [W/m-K]</th>
+  <th>Specific Heat Capacity [J/kg-K]</th>
+  <th>Density [kg/m3]</th>
+  </tr>
+  <tr>
+  <td>Layer 1</td>
+  <td>0.019</td>
+  <td>0.140</td>
+  <td>900</td>
+  <td>530</td>
+  </tr>
+  <tr>
+  <td>Layer 2</td>
+  <td>0.1118</td>
+  <td>0.040</td>
+  <td>840</td>
+  <td>12</td>
+  </tr>
+  <tr>
+  <td>Layer 3</td>
+  <td>0.010</td>
+  <td>0.160</td>
+  <td>840</td>
+  <td>950</td>
+  </tr>
+</table>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>IR Emissivity [-]</th>
+  <th>Solar Emissivity [-]</th>
+  </tr>
+  <tr>
+  <td>Outside</td>
+  <td>0.9</td>
+  <td>0.6</td>
+  </tr>
+  <tr>
+  <td>Inside</td>
+  <td>0.9</td>
+  <td>0.6</td>
+  </tr>
+</table>
+<p>
+The windows are double pane clear 3.175mm glass with 13mm air gap.
+</p>
+
+<h4>Occupancy schedules</h4>
+<p>
+There is maximum occupancy (two people) from 8am to 6pm each day, 
+and no occupancy during all other times.
+</p>
+<h4>Internal loads and schedules</h4>
+<p>
+The internal heat gains from plug loads come mainly from computers and monitors.
+The internal heat gains from lighting come from hanging fluorescent fixtures.
+Both types of loads are at maximum during occupied periods and 0.1 maximum 
+during all other times.
+</p>
+<h4>Climate data</h4>
+<p>
+The climate is assumed to be near Denver, CO, USA with a latitude and 
+longitude of 39.76,-104.86.  The climate data comes from the 
+Denver-Stapleton,CO,USA,TMY.
+</p>
+<h3>HVAC System Design</h3>
+<h4>Primary and secondary system designs</h4>
+<p>
+Heating and cooling is provided to the office using a four-pipe 
+fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil, 
+and filter.  The fan draws room air into the unit, blows it over the coils 
+and through the filter, and supplies the conditioned air back to the room.
+There is a variable speed drive attached to the fan motor.  The cooling coil
+is served by chilled water produced by a chiller and the heating coil is 
+served by hot water produced by a gas boiler.
+</p>
+<h4>Equipment specifications and performance maps</h4>
+<p>
+For the fan, the design airflow rate is 0.75 kg/s, design pressure rise is 
+875 Pa, and the design motor power consumption is 1.12 kW.  The heat from the
+motor is added to the air stream.  
+
+The COP of the chiller is assumed constant at 3.0.  The efficiency of the 
+gas boiler is assumed constant at 0.9.
+</p>
+<h4>Rule-based or local-loop controllers (if included)</h4>
+<p>
+A baseline thermostat controller provides heating and cooling as necessary
+to the room by switching between heating and cooling modes, and varying the
+speed of the fan accordingly.  There are seperate setpoints for room heating
+and cooling with a deadband between them.  The fan speed is controlled by a 
+proportional controller based on the error between the measured room air 
+temperature and the appropriate setpoint.  The fan is off if the room air 
+temperature is within the deadband.  During heating and cooling modes, 
+it is assumed the temperature of the air coming off of the coils is 
+controlled internally to a heating and cooling supply air temperature 
+setpoint respecitvely.
+</p>
+<h3>Model IO's</h3>
+<h4>Inputs</h4>
+The model inputs are:
+<ul>
+<li>
+<code>Input1</code> [UNIT1]: 
+</li>
+</ul>
+<h4>Outputs</h4>
+The model outputs are:
+<ul>
+<li>
+<code>Output1</code> [UNIT1]: 
+</li>
+<li>
+<code>Output2</code> [UNIT2]: 
+</li>
+</ul>
+<h3>Additional System Design</h3>
+<h4>Lighting</h4>
+<p>
+There is no daylighting system in the building.
+</p>
+<h4>Shading</h4>
+<p>
+There are no shades on the building.
+</p>
+<h4>Onsite Generation and Storage</h4>
+<p>
+There is no energy generation or storage on the site.
+</p>
+<h3>Model Implementation Details</h3>
+<h4>Moist vs. dry air</h4>
+<p>
+…
+
+</p>
+<h4>Pressure-flow models</h4>
+<p>
+…
+</p>
+<h4>Infiltration models</h4>
+<p>
+…
+</p>
+<h3>Scenario Information</h3>
+<h4>Energy Pricing</h4>
+<p>
+…
+
+</p>
+<h4>Emission Factors</h4>
+<p>
+…
+</p>
+</html>",
+revisions="<html>
+<ul>
+<li>
+October 30, 2019, by David Blum:<br/>
+First implementation.
+</li>
+</ul>
+</html>"));
 end TestCase;
