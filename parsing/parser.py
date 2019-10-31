@@ -17,6 +17,7 @@ from pymodelica import compile_fmu
 import os
 import json
 from data.data_manager import Data_Manager
+import warnings
 
 def parse_instances(model_path, file_name):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -115,53 +116,66 @@ def write_wrapper(model_path, file_name, instances):
     -------
     fmu_path : str
         Path to the wrapped modelica model fmu
-    wrapped_path : str
-        Path to the wrapped modelica model
+    wrapped_path : str or None
+        Path to the wrapped modelica model if instances of signale exchange.
+        Otherwise, None
 
     '''
 
-    # Define wrapper modelica file path
-    wrapped_path = 'wrapped.mo'
-    # Open file
-    with open(wrapped_path, 'w') as f:
-        # Start file
-        f.write('model wrapped "Wrapped model"\n')
-        # Add inputs for every overwrite block
-        f.write('\t// Input overwrite\n')
-        input_signals_w_info = dict()
-        input_signals_wo_info = dict()
-        input_activate_w_info = dict()
-        input_activate_wo_info = dict()
-        for block in instances['Overwrite'].keys():
-            # Add to signal input list with and without units
-            input_signals_w_info[block] = _make_var_name(block,style='input_signal',description=instances['Overwrite'][block]['Description'],attribute='(unit="{0}", min={1}, max={2})'.format(instances['Overwrite'][block]['Unit'], instances['Overwrite'][block]['Minimum'], instances['Overwrite'][block]['Maximum']))
-            input_signals_wo_info[block] = _make_var_name(block,style='input_signal')
-            # Add to signal activate list
-            input_activate_w_info[block] = _make_var_name(block,style='input_activate',description='Activation for {0}'.format(instances['Overwrite'][block]['Description']))
-            input_activate_wo_info[block] = _make_var_name(block,style='input_activate')
-            # Instantiate input signal
-            f.write('\tModelica.Blocks.Interfaces.RealInput {0};\n'.format(input_signals_w_info[block], block))
-            # Instantiate input activation
-            f.write('\tModelica.Blocks.Interfaces.BooleanInput {0};\n'.format(input_activate_w_info[block], block))
-        # Add outputs for every read block
-        f.write('\t// Out read\n')
-        for block in instances['Read'].keys():
-            # Instantiate input signal
-            f.write('\tModelica.Blocks.Interfaces.RealOutput {0} = mod.{1}.y "{2}";\n'.format(_make_var_name(block,style='output',attribute='(unit="{0}")'.format(instances['Read'][block]['Unit'])), block, instances['Read'][block]['Description']))
-        # Add original model
-        f.write('\t// Original model\n')
-        f.write('\t{0} mod(\n'.format(model_path))
-        # Connect inputs to original model overwrite and activate signals
-        for i,block in enumerate(instances['Overwrite']):
-            f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals_wo_info[block], input_activate_wo_info[block]))
-            if i == len(instances['Overwrite'])-1:
-                f.write(') "Original model with overwrites";\n')
-            else:
-                f.write(',\n')
-        # End file
-        f.write('end wrapped;')
-    # Export as fmu
-    fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name)
+    # Check for instances of Overwrite and/or Read blocks
+    len_write_blocks = len(instances['Overwrite'])
+    len_read_blocks = len(instances['Read'])
+    # If there are, write and export wrapper model
+    if (len_write_blocks + len_read_blocks):
+        # Define wrapper modelica file path
+        wrapped_path = 'wrapped.mo'
+        # Open file
+        with open(wrapped_path, 'w') as f:
+            # Start file
+            f.write('model wrapped "Wrapped model"\n')
+            # Add inputs for every overwrite block
+            f.write('\t// Input overwrite\n')
+            input_signals_w_info = dict()
+            input_signals_wo_info = dict()
+            input_activate_w_info = dict()
+            input_activate_wo_info = dict()
+            for block in instances['Overwrite'].keys():
+                # Add to signal input list with and without units
+                input_signals_w_info[block] = _make_var_name(block,style='input_signal',description=instances['Overwrite'][block]['Description'],attribute='(unit="{0}", min={1}, max={2})'.format(instances['Overwrite'][block]['Unit'], instances['Overwrite'][block]['Minimum'], instances['Overwrite'][block]['Maximum']))
+                input_signals_wo_info[block] = _make_var_name(block,style='input_signal')
+                # Add to signal activate list
+                input_activate_w_info[block] = _make_var_name(block,style='input_activate',description='Activation for {0}'.format(instances['Overwrite'][block]['Description']))
+                input_activate_wo_info[block] = _make_var_name(block,style='input_activate')
+                # Instantiate input signal
+                f.write('\tModelica.Blocks.Interfaces.RealInput {0};\n'.format(input_signals_w_info[block], block))
+                # Instantiate input activation
+                f.write('\tModelica.Blocks.Interfaces.BooleanInput {0};\n'.format(input_activate_w_info[block], block))
+            # Add outputs for every read block
+            f.write('\t// Out read\n')
+            for block in instances['Read'].keys():
+                # Instantiate input signal
+                f.write('\tModelica.Blocks.Interfaces.RealOutput {0} = mod.{1}.y "{2}";\n'.format(_make_var_name(block,style='output',attribute='(unit="{0}")'.format(instances['Read'][block]['Unit'])), block, instances['Read'][block]['Description']))
+            # Add original model
+            f.write('\t// Original model\n')
+            f.write('\t{0} mod(\n'.format(model_path))
+            # Connect inputs to original model overwrite and activate signals
+            for i,block in enumerate(instances['Overwrite']):
+                f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals_wo_info[block], input_activate_wo_info[block]))
+                if i == len(instances['Overwrite'])-1:
+                    f.write(') "Original model with overwrites";\n')
+                else:
+                    f.write(',\n')
+            # End file
+            f.write('end wrapped;')
+        # Export as fmu
+        fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name)
+    # If there are not, write and export wrapper model
+    else:
+        # Warn user
+        warnings.warn('No signal exchange block instances found in model.  Exporting model as is.')
+        # Compile fmu
+        fmu_path = compile_fmu(model_path, file_name)
+        wrapped_path = None
 
     return fmu_path, wrapped_path
 
