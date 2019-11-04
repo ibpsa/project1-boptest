@@ -11,6 +11,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealInput con_oveFan_u(unit="1", min=0.0, max=1.0) "Fan speed control signal";
 	Modelica.Blocks.Interfaces.BooleanInput con_oveFan_activate "Activation for Fan speed control signal";
 	// Out read
+	Modelica.Blocks.Interfaces.RealOutput zon_reaPLig_y(unit="W") = mod.zon.reaPLig.y "Lighting power submeter";
+	Modelica.Blocks.Interfaces.RealOutput zon_reaPPlu_y(unit="W") = mod.zon.reaPPlu.y "Plug load power submeter";
 	Modelica.Blocks.Interfaces.RealOutput reaPCoo_y(unit="W") = mod.reaPCoo.y "Cooling electrical power consumption";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaTSupSet_y(unit="K") = mod.fcu.reaTSupSet.y "Supply air temperature setpoint";
 	Modelica.Blocks.Interfaces.RealOutput reaPFan_y(unit="W") = mod.reaPFan.y "Supply fan electrical power consumption";
@@ -23,7 +25,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaFloSup_y(unit="kg/s") = mod.fcu.reaFloSup.y "Supply air mass flow rate";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaTRet_y(unit="K") = mod.fcu.reaTRet.y "Return air temperature";
 	// Original model
-	BESTESTAir.TestCase mod(
+	BESTESTAir.TestCases.TestCase mod(
 		con.oveTSupSetHea(uExt(y=con_oveTSupSetHea_u),activate(y=con_oveTSupSetHea_activate)),
 		con.oveTSupSetCoo(uExt(y=con_oveTSupSetCoo_u),activate(y=con_oveTSupSetCoo_activate)),
 		oveTSetCoo(uExt(y=oveTSetCoo_u),activate(y=oveTSetCoo_activate)),

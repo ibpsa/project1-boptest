@@ -1,0 +1,1 @@
+{"None": ["con_reaTSetCoo_y", "con_reaTSetHea_y", "fcu_reaFanSpeSet_y", "fcu_reaFloSup_y", "fcu_reaTRet_y", "fcu_reaTSup_y", "fcu_reaTSupSet_y", "zon_reaPLig_y", "zon_reaPPlu_y"], "ElectricPower": ["reaPCoo_y", "reaPFan_y"], "GasPower": ["reaPHea_y"], "AirZoneTemperature": ["reaTRooAir_y"]}
