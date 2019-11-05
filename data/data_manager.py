@@ -78,18 +78,18 @@ class Data_Manager(object):
         for f in self.files:
             if f.endswith('.csv'):
                 df = pd.read_csv(f)
-                keys = df.keys()
-                if 'time' in keys:
-                    for key in keys.drop('time'):
-                        # Raise error if key already appended
-                        if appended[key] is not None:
-                            raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(key, appended[key], f))
-                        # Trim df from keys that are not in categories
-                        elif key not in all_keys:
-                            df.drop(key, inplace=True)
+                cols = df.keys()
+                if 'time' in cols:
+                    for col in cols.drop('time'):
+                        # Raise error if col already appended
+                        if appended[col] is not None:
+                            raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(col, appended[col], f))
+                        # Trim df from cols that are not in categories
+                        elif not any(col.startswith(key) for key in all_keys):
+                            df.drop(col, inplace=True)
                         else:
-                            appended[key] = f
-                    # Copy the trimmed df if any key found in categories
+                            appended[col] = f
+                    # Copy the trimmed df if any col found in categories
                     if len(df.keys())>0:
                         df.to_csv(f+'_trimmed', index=False)
                         file_name = os.path.split(f)[1]
@@ -198,7 +198,9 @@ class Data_Manager(object):
         
         # Filter the requested data columns
         if category is not None:
-            data_slice = self.case.data.loc[:,self.categories[category]]
+            cols = [col for col in self.case.data if \
+                    any(col.startswith(key) for key in self.categories[category])]
+            data_slice = self.case.data.loc[:,cols]
         else:
             data_slice = self.case.data
             
@@ -291,22 +293,21 @@ class Data_Manager(object):
         # Load the test case data
         for f in files:
             df = pd.read_csv(z_fmu.open(f))
-            keys = df.keys()
-            if 'time' in keys:
-                for key in keys.drop('time'):
+            cols = df.keys()
+            if 'time' in cols:
+                for col in cols.drop('time'):
                     for category in self.categories:
                         # Use linear interpolation for continuous variables
-                        if key in self.categories[category] and \
-                            category == 'weather':
-                            g = interpolate.interp1d(df['time'],df[key], 
+                        if any(col.startswith(key) for key in self.categories['weather']):
+                            g = interpolate.interp1d(df['time'],df[col], 
                                 kind='linear')
-                            self.case.data.loc[:,key] = \
+                            self.case.data.loc[:,col] = \
                                 g(self.case.data.index)
                         # Use forward fill for discrete variables
-                        elif key in self.categories[category]:
-                            g = interpolate.interp1d(df['time'],df[key], 
+                        elif any(col.startswith(key) for key in self.categories[category]):
+                            g = interpolate.interp1d(df['time'],df[col], 
                                 kind='zero')
-                            self.case.data.loc[:,key] = \
+                            self.case.data.loc[:,col] = \
                                 g(self.case.data.index)
             else:
                 warnings.warn('The following file does not have '\
