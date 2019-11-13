@@ -1,4 +1,4 @@
-﻿within BESTESTAir.TestCases;
+within BESTESTAir.TestCases;
 model TestCase "Testcase model"
   extends Modelica.Icons.Example;
   BaseClasses.Case900FF zon
@@ -404,12 +404,131 @@ A constant infiltration flowrate is assumed to be 0.5 ACH.
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
 <p>
-…
-
+The <b>Constant Electricity Price</b> profile is:
+<ul>
+Based on the Schedule R tariff
+for winter season and summer season first 500 kWh as defined by the 
+utility servicing the assumed location of the test case.  It is $0.05461/kWh.
+For reference,
+see https://www.xcelenergy.com/company/rates_and_regulations/rates/rate_books
+in the section on Current Tariffs/Electric Rate Books (PDF).
+</ul>
+</p>
+<p>
+The <b>Dynamic Electricity Price</b> profile is:
+<ul>
+Based on the Schedule RE-TOU tariff
+as defined by the utility servicing the assumed location of the test case.
+For reference,
+see https://www.xcelenergy.com/company/rates_and_regulations/rates/rate_books
+in the section on Current Tariffs/Electric Rate Books (PDF).
+</ul>
+</p>
+<p>
+<ul>
+<li>
+Summer on-peak is $0.13814/kWh.
+</li>
+<li>
+Summer mid-peak is $0.08420/kWh.
+</li>
+<li>
+Summer off-peak is $0.04440/kWh.
+</li>
+<li>
+Winter on-peak is $0.08880/kWh.
+</li>
+<li>
+Winter mid-peak is $0.05413/kWh.
+</li>
+<li>
+Winter off-peak is $0.04440/kWh.
+</li>
+<li>
+The Summer season is June 1 to September 30.
+</li>
+<li>
+The Winter season is October 1 to May 31.
+</li>
+</p>
+<p>
+<u>The On-Peak Period is</u>:
+<ul>
+<li>
+Summer and Winter weekdays except Holidays, between 2:00 p.m. and 6:00 p.m. 
+local time.
+</li>
+</ul>
+<u>The Mid-Peak Period is</u>:
+<ul>
+<li>
+Summer and Winter weekdays except Holidays, between 9:00 a.m. and
+2:00 p.m. and between 6:00 p.m. and 9:00 p.m. local time.
+</li>
+<li>
+Summer and Winter weekends and Holidays, between 9:00 a.m. and
+9:00 p.m. local time.
+</li>
+</ul>
+<u>The Off-Peak Period is</u>:
+<ul>
+<li>
+Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time. 
+</li>
+</ul>
+</ul>
+</p>
+<p>
+The <b>Highly Dynamic Electricity Price</b> profile is:
+<ul>
+Based on the the
+day-ahead energy prices (LMP) as determined in the Southwest Power Pool 
+wholesale electricity market for node LAM345 in the year 2018.
+For reference,
+see https://marketplace.spp.org/pages/da-lmp-by-location#%2F2018.
+</ul>
+</p>
+<p>
+The <b>Gas Price</b> profile is:
+<ul>
+Based on the Schedule R tariff for usage price per therm as defined by the 
+utility servicing the assumed location of the test case.  It is $0.002878/kWh
+($0.0844/therm).
+For reference,
+see https://www.xcelenergy.com/company/rates_and_regulations/rates/rate_books
+in the section on Summary of Gas Rates for 10/1/19.
+</ul>
+</p>
+<p>
+All <b>Other Price</b> profiles are:
+<ul>
+$0/kWh.
+</ul>
 </p>
 <h4>Emission Factors</h4>
 <p>
-…
+The <b>Electricity Emissions Factor</b> profile is:
+<ul>
+Based on the average electricity generation mix for CO,USA for the year of
+2017.  It is 0.6618 kgCO2/kWh (1459 lbsCO2/MWh).
+For reference,
+see https://www.eia.gov/electricity/state/colorado/.
+</ul>
+</p>
+<p>
+The <b>Gas Emissions Factor</b> profile is:
+<ul>
+Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference,
+see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
+</ul>
+</p>
+<p>
+All <b>Other Emissions Factor</b> profiles are:
+<ul>
+0 kgCO2/kWh.
+</ul>
 </p>
 </html>",
 revisions="<html>
