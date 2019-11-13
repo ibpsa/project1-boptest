@@ -388,16 +388,18 @@ There is no energy generation or storage on the site.
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
 <p>
-…
+A moist air model is used, but condensation is not modeled on the cooling coil
+and humidity is not monitored.
 
 </p>
 <h4>Pressure-flow models</h4>
 <p>
-…
+The FCU fan is speed-controlled and the resulting flow is calculated based
+on resulting pressure rise by the fan and fixed pressure drop of the system.
 </p>
 <h4>Infiltration models</h4>
 <p>
-…
+A constant infiltration flowrate is assumed to be 0.5 ACH.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
