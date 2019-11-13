@@ -300,13 +300,13 @@ gas boiler is assumed constant at 0.9.
 <p>
 A baseline thermostat controller provides heating and cooling as necessary
 to the room by switching between heating and cooling modes, and varying the
-speed of the fan accordingly.  There are seperate setpoints for room heating
-and cooling with a deadband between them.  The fan speed is controlled by a 
-proportional controller based on the error between the measured room air 
-temperature and the appropriate setpoint.  The fan is off if the room air 
-temperature is within the deadband.  During heating and cooling modes, 
-it is assumed the temperature of the air coming off of the coils is 
-controlled internally to a heating and cooling supply air temperature 
+speed of the fan accordingly.  There are seperate room temperature setpoints 
+for heating and cooling with a deadband between them.  The fan speed is 
+controlled by a proportional controller based on the error between the 
+measured room air temperature and the appropriate setpoint.  The fan is off 
+if the room air temperature is within the deadband.  During heating and 
+cooling modes, it is assumed the temperature of the air coming off of the 
+coils is controlled internally to a heating and cooling supply air temperature 
 setpoint respecitvely.
 </p>
 <h3>Model IO's</h3>
@@ -351,7 +351,7 @@ The model outputs are:
 <code>fcu_reaTSupSet_y</code> [K] [min=None, max=None]: Supply air temperature setpoint
 </li>
 <li>
-<code>con_reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoin for cooling
+<code>con_reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
 </li>
 <li>
 <code>reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
@@ -360,7 +360,7 @@ The model outputs are:
 <code>zon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
 </li>
 <li>
-<code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoin for heating
+<code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
 </li>
 <li>
 <code>zon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter

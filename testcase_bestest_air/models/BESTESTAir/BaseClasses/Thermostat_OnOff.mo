@@ -58,11 +58,12 @@ model Thermostat_OnOff
     "Overwrite for heating supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-40,-100},{-20,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(y(unit="K"), description=
-        "Zone air temperature setpoin for cooling")
+        "Zone air temperature setpoint for cooling")
     "Read zone cooling setpoint"
     annotation (Placement(transformation(extent={{-94,70},{-74,90}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(y(unit="K"), description=
-        "Zone air temperature setpoin for heating") "Read zone cooling heating"
+        "Zone air temperature setpoint for heating")
+                                                    "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-94,30},{-74,50}})));
   Modelica.Blocks.Logical.OnOffController conCoo(bandwidth=DeadBandCoo)
     "On/off controller for cooling"

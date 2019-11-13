@@ -17,11 +17,11 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaTSupSet_y(unit="K") = mod.fcu.reaTSupSet.y "Supply air temperature setpoint";
 	Modelica.Blocks.Interfaces.RealOutput reaPFan_y(unit="W") = mod.reaPFan.y "Supply fan electrical power consumption";
 	Modelica.Blocks.Interfaces.RealOutput reaPHea_y(unit="W") = mod.reaPHea.y "Heating thermal power consumption";
-	Modelica.Blocks.Interfaces.RealOutput con_reaTSetHea_y(unit="K") = mod.con.reaTSetHea.y "Zone air temperature setpoin for heating";
+	Modelica.Blocks.Interfaces.RealOutput con_reaTSetHea_y(unit="K") = mod.con.reaTSetHea.y "Zone air temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaFanSpeSet_y(unit="1") = mod.fcu.reaFanSpeSet.y "Supply fan speed setpoint";
 	Modelica.Blocks.Interfaces.RealOutput reaTRooAir_y(unit="K") = mod.reaTRooAir.y "Zone air temperature";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaTSup_y(unit="K") = mod.fcu.reaTSup.y "Supply air temperature";
-	Modelica.Blocks.Interfaces.RealOutput con_reaTSetCoo_y(unit="K") = mod.con.reaTSetCoo.y "Zone air temperature setpoin for cooling";
+	Modelica.Blocks.Interfaces.RealOutput con_reaTSetCoo_y(unit="K") = mod.con.reaTSetCoo.y "Zone air temperature setpoint for cooling";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaFloSup_y(unit="kg/s") = mod.fcu.reaFloSup.y "Supply air mass flow rate";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaTRet_y(unit="K") = mod.fcu.reaTRet.y "Return air temperature";
 	// Original model
