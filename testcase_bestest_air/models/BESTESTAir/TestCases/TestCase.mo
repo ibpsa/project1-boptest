@@ -534,7 +534,7 @@ All <b>Other Emissions Factor</b> profiles are:
 revisions="<html>
 <ul>
 <li>
-October 30, 2019, by David Blum:<br/>
+November 13, 2019, by David Blum:<br/>
 First implementation.
 </li>
 </ul>
