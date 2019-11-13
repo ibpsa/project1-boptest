@@ -314,17 +314,62 @@ setpoint respecitvely.
 The model inputs are:
 <ul>
 <li>
-<code>Input1</code> [UNIT1]: 
+<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+</li>
+<li>
+<code>con_oveTSupSetHea_u</code> [K] [min=303.15, max=313.15]: Supply air temperature setpoint for heating
+</li>
+<li>
+<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+</li>
+<li>
+<code>con_oveFan_u</code> [1] [min=0.0, max=1.0]: Fan speed control signal
+</li>
+<li>
+<code>con_oveTSupSetCoo_u</code> [K] [min=285.15, max=291.15]: Supply air temperature setpoint for cooling
 </li>
 </ul>
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
 <li>
-<code>Output1</code> [UNIT1]: 
+<code>reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
 </li>
 <li>
-<code>Output2</code> [UNIT2]: 
+<code>reaPFan_y</code> [W] [min=None, max=None]: Supply fan electrical power consumption
+</li>
+<li>
+<code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
+</li>
+<li>
+<code>fcu_reaTSup_y</code> [K] [min=None, max=None]: Supply air temperature
+</li>
+<li>
+<code>reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>fcu_reaTSupSet_y</code> [K] [min=None, max=None]: Supply air temperature setpoint
+</li>
+<li>
+<code>con_reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoin for cooling
+</li>
+<li>
+<code>reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
+</li>
+<li>
+<code>zon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
+</li>
+<li>
+<code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoin for heating
+</li>
+<li>
+<code>zon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
+</li>
+<li>
+<code>fcu_reaFanSpeSet_y</code> [1] [min=None, max=None]: Supply fan speed setpoint
+</li>
+<li>
+<code>fcu_reaTRet_y</code> [K] [min=None, max=None]: Return air temperature
 </li>
 </ul>
 <h3>Additional System Design</h3>
