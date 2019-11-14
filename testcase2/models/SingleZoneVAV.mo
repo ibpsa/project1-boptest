@@ -131,7 +131,7 @@ package SingleZoneVAV
             -60,-4},{-79,-4}},                                color={255,0,255}));
     connect(con.TSetSupChi, hvac.TSetChi) annotation (Line(points={{-79,-8},{-70,
             -8},{-70,-15},{-42,-15}},           color={0,0,127}));
-    connect(con.TMix, hvac.TMixAir) annotation (Line(points={{-102,2},{-112,2},{
+    connect(con.TMix, hvac.TMix) annotation (Line(points={{-102,2},{-112,2},{
             -112,-40},{10,-40},{10,-4},{1,-4}},             color={0,0,127}));
 
     connect(hvac.supplyAir, zon.supplyAir) annotation (Line(points={{0,8},{10,8},
@@ -149,8 +149,8 @@ package SingleZoneVAV
         points={{46,18},{42,18},{42,130},{-108,130}},
         color={255,204,51},
         thickness=0.5));
-    connect(con.TSup, hvac.TSup) annotation (Line(points={{-102,-9},{-108,-9},{
-            -108,-32},{4,-32},{4,-8},{1,-8}},
+    connect(con.TSup, hvac.TSup) annotation (Line(points={{-102,-9},{-108,-9},{-108,
+            -32},{4,-32},{4,-8},{1,-8}},
           color={0,0,127}));
     connect(con.TRoo, zon.TRooAir) annotation (Line(points={{-102,-6},{-110,-6},{
             -110,-36},{6,-36},{6,-22},{90,-22},{90,0},{81,0}},      color={0,0,
