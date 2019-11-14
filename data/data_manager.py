@@ -277,7 +277,7 @@ class Data_Manager(object):
                     sampling=new_sampling
                     
         # Define the index for one year with the minimum sampling found
-        index = np.arange(0.,3.1536e+7,sampling,dtype='int')
+        index = np.linspace(0.,3.1536e+7,int(3.1536e+7/sampling+1),dtype='int')
         
         # Find all data keys
         all_keys = []
