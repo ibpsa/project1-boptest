@@ -36,6 +36,9 @@ parser_step.add_argument('step')
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
     parser_advance.add_argument(key)
+# ``reset`` interface    
+parser_reset= reqparse.RequestParser()
+parser_reset.add_argument('reset_time')
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -55,7 +58,9 @@ class Reset(Resource):
     
     def put(self):
         '''PUT request to reset the test.'''
-        case.reset()
+        args=parser_reset.parse_args()
+        reset_time=args['reset_time']
+        case.reset(reset_time)
         return 'Testcase reset.'
 
         

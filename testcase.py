@@ -120,12 +120,29 @@ class TestCase(object):
         
         return self.y
 
-    def reset(self):
+    def reset(self,reset_time):
         '''Reset the test.
         
-        '''
+        Parameters
+        ----------
+        reset_time : float
+            Simulation start time in seconds.
+            
+        Returns
+        -------
+        None
         
-        self.__init__()
+        '''
+        reset_time=float(reset_time)
+        self.__init__()        
+        self.initialize = True
+        if reset_time>0:
+              self.fmu.simulate(start_time=0, 
+                                final_time=reset_time, 
+                                options=self.options,
+                                input=None) 
+              self.initialize = False
+        self.start_time = reset_time
 
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
