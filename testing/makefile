@@ -68,7 +68,7 @@ test_testcase1:
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
+#	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
