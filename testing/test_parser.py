@@ -100,8 +100,8 @@ class ParseInstances(unittest.TestCase):
         signals = self.signals
         # Checks
         for key in signals.keys():
-            if key == 'AirZoneTemperature':
-                # Check there is one output tagged with AirZoneTemperature
+            if key == 'AirZoneTemperature[1]':
+                # Check there is one output tagged with AirZoneTemperature[1]
                 self.assertEqual(len(signals[key]),1)
                 for output in signals[key]:
                     # Check each output of this signal type is identified correctly
