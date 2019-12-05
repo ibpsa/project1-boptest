@@ -67,9 +67,13 @@ class Data_Manager(object):
         '''
         
         # Find all data keys
-        all_keys = []
+        all_keys = [] # All data keys
+        zon_keys = [] # Subset of data keys that allow a zone specifier 
+        
         for category in self.categories:
             all_keys.extend(self.categories[category])
+            if category in ['occupancy','internalGains','setpoints']:
+                zon_keys.extend(self.categories[category])
         
         # Keep track of the data already appended to avoid duplication
         appended = {key: None for key in all_keys}
@@ -85,7 +89,7 @@ class Data_Manager(object):
                         if appended[col] is not None:
                             raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(col, appended[col], f))
                         # Trim df from cols that are not in categories
-                        elif not any(col.startswith(key) for key in all_keys):
+                        elif not any(col is key or (col.startswith(key) and col in zon_keys) for key in all_keys):
                             df.drop(col, inplace=True)
                         else:
                             appended[col] = f
