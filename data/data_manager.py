@@ -89,7 +89,7 @@ class Data_Manager(object):
                         if appended[col] is not None:
                             raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(col, appended[col], f))
                         # Trim df from cols that are not in categories
-                        elif not any(col is key or (col.startswith(key) and col in zon_keys) for key in all_keys):
+                        elif not( (col in all_keys) or any(col.startswith(key) for key in zon_keys) ):
                             df.drop(col, inplace=True)
                         else:
                             appended[col] = f
