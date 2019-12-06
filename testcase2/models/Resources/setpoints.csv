@@ -1,4 +1,4 @@
-time,LowerSetp,UpperSetp
+time,LowerSetp[1],UpperSetp[1]
 0,295.15,296.15
 3600,295.15,296.15
 7200,295.15,296.15
