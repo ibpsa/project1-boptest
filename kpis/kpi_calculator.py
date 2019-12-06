@@ -99,27 +99,40 @@ class KPI_Calculator(object):
 
         '''
         
-        # Load temperature set points from test case data
         index=self.case.y_store['time']
-        LowerSetp = np.array(self.case.data_manager.get_data(index=index)
-                             ['LowerSetp'])
-        UpperSetp = np.array(self.case.data_manager.get_data(index=index)
-                             ['UpperSetp']) 
+        
         tdis_tot = 0
         tdis_dict = OrderedDict()
-        for signal in self.case.kpi_json['AirZoneTemperature']:
-            data = np.array(self.case.y_store[signal])
-            dT_lower = LowerSetp - data
-            dT_lower[dT_lower<0]=0
-            dT_upper = data - UpperSetp
-            dT_upper[dT_upper<0]=0
-            tdis_dict[signal[:-1]+'dTlower_y'] = \
-                trapz(dT_lower,self.case.y_store['time'])/3600.
-            tdis_dict[signal[:-1]+'dTupper_y'] = \
-                trapz(dT_upper,self.case.y_store['time'])/3600.
-            tdis_tot = tdis_tot + \
-                      tdis_dict[signal[:-1]+'dTlower_y'] + \
-                      tdis_dict[signal[:-1]+'dTupper_y']
+        
+        for source in self.case.kpi_json.keys():
+            if source.startswith(self.sources[0]):
+                # This is a potential source of discomfort
+                zone_id = source.replace(self.sources[0]+'[','')[:-1]
+                if 'LowerSetp[{0}]'.format(zone_id) not in self.case.data.keys() or \
+                   'UpperSetp[{0}]'.format(zone_id) not in self.case.data.keys():
+                    raise KeyError('The zone identifier {0} from the emulator '\
+                                   'model does not match the zone identifier '\
+                                   'used in the data to specify the lower and '\
+                                   'upper comfort bounds'.format(zone_id))
+                    
+                for signal in self.case.kpi_json[source]:
+                    # Load temperature set points from test case data
+                    LowerSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['LowerSetp[{0}]'.format(zone_id)])
+                    UpperSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['UpperSetp[{0}]'.format(zone_id)])                     
+                    data = np.array(self.case.y_store[signal])
+                    dT_lower = LowerSetp - data
+                    dT_lower[dT_lower<0]=0
+                    dT_upper = data - UpperSetp
+                    dT_upper[dT_upper<0]=0
+                    tdis_dict[signal[:-1]+'dTlower_y'] = \
+                        trapz(dT_lower,self.case.y_store['time'])/3600.
+                    tdis_dict[signal[:-1]+'dTupper_y'] = \
+                        trapz(dT_upper,self.case.y_store['time'])/3600.
+                    tdis_tot = tdis_tot + \
+                              tdis_dict[signal[:-1]+'dTlower_y'] + \
+                              tdis_dict[signal[:-1]+'dTupper_y']
         
         self.case.tdis_tot  = tdis_tot
         self.case.tdis_dict = tdis_dict
