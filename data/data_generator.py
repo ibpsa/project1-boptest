@@ -314,8 +314,8 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'Occupancy'] = occ_num
-        df.loc[~df.index.isin(day_time_index),'Occupancy'] = 0
+        df.loc[df.index.isin(day_time_index), 'Occupancy[1]'] = occ_num
+        df.loc[~df.index.isin(day_time_index),'Occupancy[1]'] = 0
         
         # Store in csv
         self.store_df(df,'occupancy')  
@@ -359,12 +359,12 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'InternalGainsRad'] = RadOcc
-        df.loc[~df.index.isin(day_time_index),'InternalGainsRad'] = RadUnocc
-        df.loc[df.index.isin(day_time_index), 'InternalGainsCon'] = ConOcc
-        df.loc[~df.index.isin(day_time_index),'InternalGainsCon'] = ConUnocc
-        df.loc[df.index.isin(day_time_index), 'InternalGainsLat'] = LatOcc
-        df.loc[~df.index.isin(day_time_index),'InternalGainsLat'] = LatUnocc
+        df.loc[df.index.isin(day_time_index), 'InternalGainsRad[1]'] = RadOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsRad[1]'] = RadUnocc
+        df.loc[df.index.isin(day_time_index), 'InternalGainsCon[1]'] = ConOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsCon[1]'] = ConUnocc
+        df.loc[df.index.isin(day_time_index), 'InternalGainsLat[1]'] = LatOcc
+        df.loc[~df.index.isin(day_time_index),'InternalGainsLat[1]'] = LatUnocc
         
         # Store in csv
         self.store_df(df,'internalGains')  
@@ -405,10 +405,10 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
         
-        df.loc[df.index.isin(day_time_index), 'LowerSetp'] = THeaOn
-        df.loc[df.index.isin(day_time_index), 'UpperSetp'] = TCooOn
-        df.loc[~df.index.isin(day_time_index),'LowerSetp'] = THeaOff
-        df.loc[~df.index.isin(day_time_index),'UpperSetp'] = TCooOff
+        df.loc[df.index.isin(day_time_index), 'LowerSetp[1]'] = THeaOn
+        df.loc[df.index.isin(day_time_index), 'UpperSetp[1]'] = TCooOn
+        df.loc[~df.index.isin(day_time_index),'LowerSetp[1]'] = THeaOff
+        df.loc[~df.index.isin(day_time_index),'UpperSetp[1]'] = TCooOff
         
         # Store in csv
         self.store_df(df,'setpoints')
