@@ -170,6 +170,7 @@ test_all:
 	make test_testcase2
 	make test_data
 	make test_forecast
+	make test_kpis
 # Remove jm
 	make remove_jm_image
 # Report test results
