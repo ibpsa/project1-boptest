@@ -76,7 +76,7 @@ class Data_Manager(object):
                 zon_keys.extend(self.categories[category])
         
         # Keep track of the data already appended to avoid duplication
-        appended = {key: None for key in all_keys}
+        appended = {}
         
         # Search for .csv files in the resources folder
         for f in self.files:
@@ -86,7 +86,7 @@ class Data_Manager(object):
                 if 'time' in cols:
                     for col in cols.drop('time'):
                         # Raise error if col already appended
-                        if appended[col] is not None:
+                        if col in appended.keys():
                             raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(col, appended[col], f))
                         # Trim df from cols that are not in categories
                         elif not( (col in all_keys) or any(col.startswith(key) for key in zon_keys) ):
@@ -286,13 +286,17 @@ class Data_Manager(object):
         index = np.linspace(0.,3.1536e+7,int(3.1536e+7/sampling+1),dtype='int')
         
         # Find all data keys
-        all_keys = []
+        all_keys = [] # All data keys
+        zon_keys = [] # Subset of data keys that allow a zone specifier 
+        
         for category in self.categories:
             all_keys.extend(self.categories[category])
+            if category in ['occupancy','internalGains','setpoints']:
+                zon_keys.extend(self.categories[category])
         
         # Initialize test case data frame
         self.case.data = \
-            pd.DataFrame(index=index, columns=all_keys).rename_axis('time')
+            pd.DataFrame(index=index).rename_axis('time')
         
         # Load the test case data
         for f in files:
