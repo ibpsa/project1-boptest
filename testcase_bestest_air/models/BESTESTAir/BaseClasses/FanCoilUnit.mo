@@ -119,7 +119,7 @@ model FanCoilUnit "Four-pipe fan coil unit model"
   Modelica.Blocks.Interfaces.RealInput uHeaVal
     "Control signal for heating valve"
     annotation (Placement(transformation(extent={{-180,-20},{-140,20}})));
-  Buildings.Fluid.HeatExchangers.ConstantEffectiveness cooCoil(
+  Buildings.Fluid.HeatExchangers.ConstantEffectiveness cooCoi(
     redeclare package Medium1 = Medium1,
     redeclare package Medium2 = Medium2,
     m1_flow_nominal=mAir_flow_nominal,
@@ -145,9 +145,13 @@ model FanCoilUnit "Four-pipe fan coil unit model"
   IBPSA.Utilities.IO.SignalExchange.Read reaCooVal(y(unit="1"), description="Cooling valve control signal")
     "Read cooling valve control signal"
     annotation (Placement(transformation(extent={{-80,90},{-60,110}})));
-  Modelica.Blocks.Sources.RealExpression powCooThe "Cooling thermal power"
+  Modelica.Blocks.Sources.RealExpression powCooThe(y=senCooMasFlo.m_flow*(
+        inStream(cooCoi.port_b2.h_outflow) - inStream(cooCoi.port_a2.h_outflow)))
+                                                   "Cooling thermal power"
     annotation (Placement(transformation(extent={{-60,170},{-40,190}})));
-  Modelica.Blocks.Sources.RealExpression powHeaThe "Heating thermal power"
+  Modelica.Blocks.Sources.RealExpression powHeaThe(y=-senHeaMasFlo.m_flow*(
+        inStream(heaCoi.port_b2.h_outflow) - inStream(heaCoi.port_a2.h_outflow)))
+                                                   "Heating thermal power"
     annotation (Placement(transformation(extent={{-60,150},{-40,170}})));
   Modelica.Blocks.Interfaces.BooleanInput uFanSta "Status of fan"
     annotation (Placement(transformation(extent={{-180,-180},{-140,-140}})));
@@ -254,20 +258,19 @@ equation
   connect(sinHea.ports[1], senHeaRetTem.port_b)
     annotation (Line(points={{120,-110},{100,-110}},
                                                  color={0,127,255}));
-  connect(senCooMasFlo.port_b, cooCoil.port_a2)
-    annotation (Line(points={{20,20},{6,20}},    color={0,127,255}));
-  connect(senCooRetTem.port_a, cooCoil.port_b2)
-    annotation (Line(points={{78,-18},{78,0},{6,0}},
-                                              color={0,127,255}));
+  connect(senCooMasFlo.port_b, cooCoi.port_a2)
+    annotation (Line(points={{20,20},{6,20}}, color={0,127,255}));
+  connect(senCooRetTem.port_a, cooCoi.port_b2)
+    annotation (Line(points={{78,-18},{78,0},{6,0}}, color={0,127,255}));
   connect(heaCoi.port_a2, senHeaMasFlo.port_b)
     annotation (Line(points={{6,-70},{20,-70}},    color={0,127,255}));
   connect(heaCoi.port_b2, senHeaRetTem.port_a)
     annotation (Line(points={{6,-90},{80,-90},{80,-110}},
                                                   color={0,127,255}));
-  connect(senSupFlo.port_a, cooCoil.port_b1)
+  connect(senSupFlo.port_a, cooCoi.port_b1)
     annotation (Line(points={{20,100},{-6,100},{-6,20}}, color={0,127,255}));
-  connect(cooCoil.port_a1, heaCoi.port_b1)
-    annotation (Line(points={{-6,0},{-6,-70}},   color={0,127,255}));
+  connect(cooCoi.port_a1, heaCoi.port_b1)
+    annotation (Line(points={{-6,0},{-6,-70}}, color={0,127,255}));
   connect(fan.port_b, heaCoi.port_a1) annotation (Line(points={{4.44089e-16,
           -110},{4.44089e-16,-90},{-6,-90}},
                                 color={0,127,255}));
