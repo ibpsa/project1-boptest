@@ -8,7 +8,7 @@ This repository contains prototype code for the Building Optimization Performanc
 that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/project1/).
 
 ## Structure
-- ``/testcase#`` contains prototype code for a test case, including docs, models, and configuration settings.
+- ``/testcases`` contains test cases, including docs, models, and configuration settings.
 - ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in both Python (Version 2.7) and Julia (Version 1.0.3).
 - ``/parsing`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/template`` contains template Modelica code for a test case emulator model.
@@ -18,8 +18,8 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/kpis`` contains prototype code for calculating key performance indicators.
 
 ## Run Prototype Test Cases
-1) Build the test case by ``$ make build TESTCASE=testcase#`` where # is the number of the test case to build.
-2) Deploy the test case by ``$ make run TESTCASE=testcase#`` where # is the number of the test case that has been built.
+1) Build the test case by ``$ make build TESTCASE=testcase#`` where # is the number of the test case to build from ``testcases``.
+2) Deploy the test case by ``$ make run TESTCASE=testcase#`` where # is the number of the test case that has been built from ``testcases``.
 3) In a separate process, use the test case API defined below to interact with the test case.
 4) Run an example controller test: 
 
