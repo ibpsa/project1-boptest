@@ -115,8 +115,8 @@ test_data:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=kpis
-	make copy_to_jm ARGS=testcase2/models
-	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
 	docker cp ../testing/references/data/kpis.json ${IMG_NAME}:/usr/local/testing/models
 # Run test_data.py
@@ -135,8 +135,8 @@ test_forecast:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=kpis
-	make copy_to_jm ARGS=testcase2/models
-	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
 # Run test_data.py
 	make exec_jm ARGS="python test_forecast.py"
@@ -152,8 +152,8 @@ test_kpis:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=kpis
-	make copy_to_jm ARGS=testcase2/models
-	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
 # Run test_data.py
 	make exec_jm ARGS="python test_kpis.py"
