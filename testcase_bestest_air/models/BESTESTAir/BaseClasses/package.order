@@ -5,3 +5,4 @@ Thermostat
 Thermostat_OnOff
 InternalLoad
 OccupancyLoad
+FanControl

@@ -254,6 +254,12 @@ model Case600FF
   Modelica.Blocks.Math.MultiSum sumPlu(k=fill(roo.AFlo, 2), nu=2)
     "Plug power consumption"
     annotation (Placement(transformation(extent={{-52,4},{-40,16}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaTRooAir(
+    description="Zone air temperature",
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+
+    y(unit="K")) "Read room air temperature"
+    annotation (Placement(transformation(extent={{120,-10},{140,10}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
@@ -307,8 +313,6 @@ equation
 
   connect(TRooAirSen.port, roo.heaPorAir) annotation (Line(points={{80,21},{60,
           21},{60,-15},{50.25,-15}}, color={191,0,0}));
-  connect(TRooAirSen.T, TRooAir) annotation (Line(points={{90,21},{96,21},{96,0},
-          {170,0}},      color={0,0,127}));
   connect(gain.y, souInf.m_flow_in) annotation (Line(points={{-7.5,-35},{-4.75,
           -35},{-4.75,-35.2},{2.8,-35.2}}, color={0,0,127}));
   connect(gain.u, sinInf.m_flow_in) annotation (Line(points={{-19,-35},{-30,-35},
@@ -356,6 +360,10 @@ equation
           32.1},{-52,32.1}}, color={0,0,127}));
   connect(lig.con, sumLig.u[2]) annotation (Line(points={{-79,50},{-60,50},{-60,
           27.9},{-52,27.9}}, color={0,0,127}));
+  connect(TRooAirSen.T, reaTRooAir.u) annotation (Line(points={{90,21},{96,21},
+          {96,0},{118,0}}, color={0,0,127}));
+  connect(reaTRooAir.y, TRooAir)
+    annotation (Line(points={{141,0},{170,0}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
