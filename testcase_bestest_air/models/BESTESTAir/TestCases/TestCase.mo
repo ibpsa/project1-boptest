@@ -225,7 +225,7 @@ Heating and cooling is provided to the office using a four-pipe
 fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil, 
 and filter.  The fan draws room air into the unit, blows it over the coils 
 and through the filter, and supplies the conditioned air back to the room.
-There is a variable speed drive attached to the fan motor.  The cooling coil
+There is a variable speed drive serving the fan motor.  The cooling coil
 is served by chilled water produced by a chiller and the heating coil is 
 served by hot water produced by a gas boiler.
 </p>
@@ -233,7 +233,11 @@ served by hot water produced by a gas boiler.
 <p>
 For the fan, the design airflow rate is 0.75 kg/s, design pressure rise is 
 875 Pa, and the design motor power consumption is 1.12 kW.  The heat from the
-motor is added to the air stream.  
+motor is added to the air stream.  The minimum fan speed is 20%.
+
+The cooling coil capacity is assumed to be 5 kW with a supply water 
+temperature of 6 C.  The heating coil capacity is assumed to be 5 kW with a 
+supply water temperature of 50 C.
 
 The COP of the chiller is assumed constant at 3.0.  The efficiency of the 
 gas boiler is assumed constant at 0.9.
@@ -241,16 +245,19 @@ gas boiler is assumed constant at 0.9.
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 A baseline thermostat controller provides heating and cooling as necessary
-to the room by switching between heating and cooling modes, and varying the
-speed of the fan accordingly.  There are seperate room temperature setpoints 
-for heating and cooling with a deadband between them.  The fan speed is 
-controlled by a proportional controller based on the error between the 
-measured room air temperature and the appropriate setpoint.  The fan is off 
-if the room air temperature is within the deadband.  During heating and 
-cooling modes, it is assumed the temperature of the air coming off of the 
-coils is controlled internally to a heating and cooling supply air temperature 
-setpoint respecitvely.
+to the room by modulating the heating coil valve, cooling coil valve, and 
+fan speed.  The thermostat uses two different PI controllers for heating and 
+cooling, each taking the respective zone temperature setpoint and zone
+temperature measurement as inputs.  The outputs are used to control the
+heating valve and cooling valve respectively, as well as the fan speed, 
+with a minimum speed of 20% and hysteresis to enable/disable the fan.
+
 </p>
+<p align=\"center\">
+<img alt=\"Control scheme diagram\"
+src=\"../../doc/images/ControlSchematic.png\" width=600 />
+</p>
+
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 The model inputs are:
@@ -349,7 +356,8 @@ There is no energy generation or storage on the site.
 <h4>Moist vs. dry air</h4>
 <p>
 A moist air model is used, but condensation is not modeled on the cooling coil
-and humidity is not monitored.
+and humidity is not monitored.  The heating and cooling coils are modeled
+with a constant effectiveness of 0.8.
 
 </p>
 <h4>Pressure-flow models</h4>
