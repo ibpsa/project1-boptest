@@ -255,7 +255,7 @@ with a minimum speed of 20% and hysteresis to enable/disable the fan.
 </p>
 <p align=\"center\">
 <img alt=\"Control scheme diagram\"
-src=\"../../doc/images/ControlSchematic.png\" width=600 />
+src=\"../../../doc/images/ControlSchematic.png\" width=600 />
 </p>
 
 <h3>Model IO's</h3>
