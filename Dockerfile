@@ -19,9 +19,9 @@ RUN pip install --user flask-restful pandas
 RUN mkdir models && \
     mkdir doc
 
-COPY ${testcase}/models/*.fmu models/
-COPY ${testcase}/doc/ doc/
-COPY ${testcase}/config.py ./
+COPY testcases/${testcase}/models/*.fmu models/
+COPY testcases/${testcase}/doc/ doc/
+COPY testcases/${testcase}/config.py ./
 COPY restapi.py ./
 COPY testcase.py ./
 
