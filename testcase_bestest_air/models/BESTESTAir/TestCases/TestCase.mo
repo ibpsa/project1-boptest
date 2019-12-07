@@ -25,7 +25,7 @@ equation
           -5.77778},{-21.4286,-5.77778}},
                     color={0,0,127}));
   connect(con.yFanSta, fcu.uFanSta) annotation (Line(points={{-49,-4},{-44,-4},
-          {-44,-10.4444},{-21.4286,-10.4444}}, color={255,0,255}));
+          {-44,-10.4444},{-21.4286,-10.4444}},color={255,0,255}));
   connect(zon.TRooAir, con.TZon) annotation (Line(points={{61,0},{80,0},{80,-40},
           {-80,-40},{-80,0},{-72,0}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
@@ -256,53 +256,68 @@ setpoint respecitvely.
 The model inputs are:
 <ul>
 <li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+<code>fcu_oveFan_u</code> [1] [min=0.0, max=1.0]: Fan speed control signal
 </li>
 <li>
-<code>con_oveTSupSetHea_u</code> [K] [min=303.15, max=313.15]: Supply air temperature setpoint for heating
+<code>fcu_oveCooVal_u</code> [1] [min=0.0, max=1.0]: Cooling valve control signal
 </li>
 <li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+<code>fcu_oveHeaVal_u</code> [1] [min=0.0, max=1.0]: Heating valve control signal
 </li>
 <li>
-<code>con_oveFan_u</code> [1] [min=0.0, max=1.0]: Fan speed control signal
+<code>fcu_oveFanSta_u</code> [1] [min=0.0, max=1.0]: Fan status control signal
 </li>
 <li>
-<code>con_oveTSupSetCoo_u</code> [K] [min=285.15, max=291.15]: Supply air temperature setpoint for cooling
+<code>con_oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+</li>
+<li>
+<code>con_oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
 </li>
 </ul>
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
 <li>
-<code>reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>fcu_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
 </li>
 <li>
-<code>reaPFan_y</code> [W] [min=None, max=None]: Supply fan electrical power consumption
+<code>fcu_reaFloHea_y</code> [kg/s] [min=None, max=None]: Heating coil water flow rate
 </li>
 <li>
-<code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
+<code>fcu_reaCooVal_y</code> [1] [min=None, max=None]: Cooling valve control signal
+</li>
+<li>
+<code>fcu_reaHeaVal_y</code> [1] [min=None, max=None]: Heating valve control signal
 </li>
 <li>
 <code>fcu_reaTSup_y</code> [K] [min=None, max=None]: Supply air temperature
 </li>
 <li>
-<code>reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
 </li>
 <li>
-<code>fcu_reaTSupSet_y</code> [K] [min=None, max=None]: Supply air temperature setpoint
+<code>fcu_reaTCooLea_y</code> [K] [min=None, max=None]: Cooling coil water leaving temperature
 </li>
 <li>
 <code>con_reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
 </li>
 <li>
-<code>reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
-</li>
-<li>
 <code>zon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
 </li>
 <li>
+<code>fcu_reaPFan_y</code> [W] [min=None, max=None]: Supply fan electrical power consumption
+</li>
+<li>
 <code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>fcu_reaFloCoo_y</code> [kg/s] [min=None, max=None]: Cooling coil water flow rate
+</li>
+<li>
+<code>fcu_reaTHeaLea_y</code> [K] [min=None, max=None]: Heating coil water leaving temperature
+</li>
+<li>
+<code>fcu_reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
 </li>
 <li>
 <code>zon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
@@ -312,6 +327,9 @@ The model outputs are:
 </li>
 <li>
 <code>fcu_reaTRet_y</code> [K] [min=None, max=None]: Return air temperature
+</li>
+<li>
+<code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 </ul>
 <h3>Additional System Design</h3>
