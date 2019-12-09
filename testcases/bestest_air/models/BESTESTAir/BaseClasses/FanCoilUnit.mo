@@ -2,17 +2,17 @@ within BESTESTAir.BaseClasses;
 model FanCoilUnit "Four-pipe fan coil unit model"
   package Medium1 = Buildings.Media.Air;
   package Medium2 = Buildings.Media.Water;
-  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.75 "Nominal air flowrate" annotation (Dialog(group="Air"));
-  parameter Modelica.SIunits.Pressure dpAir_nominal=875 "Nominal supply air pressure" annotation (Dialog(group="Air"));
+  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.55 "Nominal air flowrate" annotation (Dialog(group="Air"));
   parameter Modelica.SIunits.DimensionlessRatio minSpe=0.2 "Minimum fan speed" annotation (Dialog(group="Air"));
-  parameter Modelica.SIunits.Power QCooCap=5000 "Cooling coil capacity" annotation (Dialog(group="Coils"));
-  parameter Modelica.SIunits.Power QHeaCap=5000 "Heating coil capacity" annotation (Dialog(group="Coils"));
+  parameter Modelica.SIunits.Power QCooCap=3666 "Cooling coil capacity" annotation (Dialog(group="Coils"));
+  parameter Modelica.SIunits.Power QHeaCap=7000 "Heating coil capacity" annotation (Dialog(group="Coils"));
   parameter Modelica.SIunits.DimensionlessRatio COP = 3 "Assumed COP of chiller supplying chilled water to FCU in [W_thermal/W_electric]" annotation (Dialog(group="Plant"));
   parameter Modelica.SIunits.DimensionlessRatio eff = 0.9 "Assumed efficiency of gas boiler supplying hot water to FCU in [W_gas/W_thermal]" annotation (Dialog(group="Plant"));
+  final parameter Modelica.SIunits.Pressure dpAir_nominal=185 "Nominal supply air pressure";
   final parameter Modelica.SIunits.MassFlowRate mCoo_flow_nominal=QCooCap/(4200*5) "Nominal chilled water flowrate";
-  final parameter Modelica.SIunits.MassFlowRate mHea_flow_nominal=QHeaCap/(4200*5) "Nominal heating water flowrate";
-  final parameter Modelica.SIunits.Pressure dpCoo_nominal=((mCoo_flow_nominal/1000)*3600/(0.865*0.3))^2*1e5 "Nominal chilled water pressure drop";
-  final parameter Modelica.SIunits.Pressure dpHea_nominal=((mHea_flow_nominal/1000)*3600/(0.865*0.3))^2*1e5 "Nominal heating water pressure drop";
+  final parameter Modelica.SIunits.MassFlowRate mHea_flow_nominal=QHeaCap/(4200*20) "Nominal heating water flowrate";
+  final parameter Modelica.SIunits.Pressure dpCoo_nominal=((mCoo_flow_nominal/1000)*3600/(0.865*1))^2*1e5 "Nominal chilled water pressure drop";
+  final parameter Modelica.SIunits.Pressure dpHea_nominal=((mHea_flow_nominal/1000)*3600/(0.865*1))^2*1e5 "Nominal heating water pressure drop";
   Modelica.Fluid.Interfaces.FluidPort_a returnAir(redeclare final package
       Medium = Medium1) "Return air" annotation (Placement(transformation(
           extent={{130,-170},{150,-150}}),
@@ -38,11 +38,11 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-180,80},{-140,120}})));
   Modelica.Blocks.Interfaces.RealInput uFan "Fan speed signal"
     annotation (Placement(transformation(extent={{-180,-120},{-140,-80}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium
-      = Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium =
+        Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{90,90},{110,110}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium
-      = Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium =
+        Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{110,-170},{90,-150}})));
   Buildings.Fluid.Sensors.MassFlowRate senSupFlo(redeclare package Medium =
         Medium1)
@@ -100,7 +100,7 @@ model FanCoilUnit "Four-pipe fan coil unit model"
   Buildings.Fluid.Sources.Boundary_pT souCoo(
     redeclare package Medium = Medium2,
     p=101325 + dpCoo_nominal,
-    T=279.15,                                nPorts=1)
+    T=280.35,                                nPorts=1)
     "Source for chilled water"
     annotation (Placement(transformation(extent={{140,20},{120,40}})));
   Buildings.Fluid.Sources.Boundary_pT sinCoo(redeclare package Medium = Medium2,
@@ -113,7 +113,7 @@ model FanCoilUnit "Four-pipe fan coil unit model"
   Buildings.Fluid.Sources.Boundary_pT souHea(
     redeclare package Medium = Medium2,
     p=101325 + dpHea_nominal,
-    T=323.15,                                nPorts=1)
+    T=333.15,                                nPorts=1)
     "Source for heating water"
     annotation (Placement(transformation(extent={{140,-70},{120,-50}})));
   Modelica.Blocks.Interfaces.RealInput uHeaVal
@@ -203,16 +203,16 @@ model FanCoilUnit "Four-pipe fan coil unit model"
   IBPSA.Utilities.IO.SignalExchange.Read reaPCoo(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     description="Cooling electrical power consumption")
     "Read power for cooling"
     annotation (Placement(transformation(extent={{70,170},{90,190}})));
+
   IBPSA.Utilities.IO.SignalExchange.Read reaPHea(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-
     description="Heating thermal power consumption") "Read power for heating"
     annotation (Placement(transformation(extent={{70,150},{90,170}})));
+
   IBPSA.Utilities.IO.SignalExchange.Read reaPFan(
     y(unit="W"),
     description="Supply fan electrical power consumption",

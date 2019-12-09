@@ -5,7 +5,7 @@ model TestCase "Testcase model"
     annotation (Placement(transformation(extent={{34,-10},{54,10}})));
   BaseClasses.Thermostat con
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
-  BaseClasses.FanCoilUnit fcu(dpAir_nominal(displayUnit="Pa"))
+  BaseClasses.FanCoilUnit fcu
     annotation (Placement(transformation(extent={{-20,-12},{0,16}})));
 
 equation
@@ -231,13 +231,16 @@ served by hot water produced by a gas boiler.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
-For the fan, the design airflow rate is 0.75 kg/s, design pressure rise is 
-875 Pa, and the design motor power consumption is 1.12 kW.  The heat from the
-motor is added to the air stream.  The minimum fan speed is 20%.
+For the fan, the design airflow rate is 0.55 kg/s and design pressure rise is 
+185 Pa.  The fan and motor efficiencies are both constant at 0.7.
+The heat from the motor is added to the air stream.  The minimum fan speed 
+is 20%.
 
-The cooling coil capacity is assumed to be 5 kW with a supply water 
-temperature of 6 C.  The heating coil capacity is assumed to be 5 kW with a 
-supply water temperature of 50 C.
+The cooling coil capacity is assumed to be 3.67 kW with a supply water 
+temperature of 7.2 C.  The heating coil capacity is assumed to be 7.00 kW 
+with a supply water temperature of 60 C.  Water flow through each of the coils
+is controlled with equal-percentage two-way valves.  Pump power for water
+flow through the coils is not considered.
 
 The COP of the chiller is assumed constant at 3.0.  The efficiency of the 
 gas boiler is assumed constant at 0.9.
@@ -368,6 +371,15 @@ on resulting pressure rise by the fan and fixed pressure drop of the system.
 <h4>Infiltration models</h4>
 <p>
 A constant infiltration flowrate is assumed to be 0.5 ACH.
+</p>
+<h4>Other assumptions</h4>
+<p>
+The design parameters for the system were determined based on the required
+airflow and coil capacities to serve the max heating and cooling loads with a 
+constant cooling supply air temperature of 12.8 C and heating supply air 
+temperature of 40.0 C.  The design coil water flowrates are determined
+assuming a design water temperature rise of 5 C across the cooling coil
+and water temperature drop of 20 C across the heating coil.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
@@ -501,6 +513,10 @@ All <b>Other Emissions Factor</b> profiles are:
 </html>",
 revisions="<html>
 <ul>
+<li>
+December 9, 2019, by David Blum:<br/>
+Revised control, system sizing, and documentation.
+</li>
 <li>
 November 13, 2019, by David Blum:<br/>
 First implementation.
