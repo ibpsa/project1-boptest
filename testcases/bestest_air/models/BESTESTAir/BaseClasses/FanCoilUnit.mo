@@ -38,11 +38,11 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-180,80},{-140,120}})));
   Modelica.Blocks.Interfaces.RealInput uFan "Fan speed signal"
     annotation (Placement(transformation(extent={{-180,-120},{-140,-80}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium =
-        Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium
+      = Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{90,90},{110,110}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium =
-        Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium
+      = Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{110,-170},{90,-150}})));
   Buildings.Fluid.Sensors.MassFlowRate senSupFlo(redeclare package Medium =
         Medium1)
@@ -68,7 +68,7 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{40,110},{60,130}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaFanSpeSet(y(unit="1"), description=
         "Supply fan speed setpoint") "Read supply fan speed setpoint"
-    annotation (Placement(transformation(extent={{-40,-130},{-20,-110}})));
+    annotation (Placement(transformation(extent={{20,-120},{40,-100}})));
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage cooVal(
     redeclare package Medium = Medium2,
     m_flow_nominal=mCoo_flow_nominal,
@@ -287,15 +287,9 @@ equation
   connect(uFan, oveFan.u)
     annotation (Line(points={{-160,-100},{-122,-100}},
                                                      color={0,0,127}));
-  connect(reaFanSpeSet.y, fan.y)
-    annotation (Line(points={{-19,-120},{-12,-120}},
-                                                   color={0,0,127}));
   connect(oveFan.y, fanControl.uFan) annotation (Line(points={{-99,-100},{-90,
           -100},{-90,-116},{-72,-116}},
                                 color={0,0,127}));
-  connect(fanControl.yFan, reaFanSpeSet.u)
-    annotation (Line(points={{-49,-120},{-42,-120}},
-                                                   color={0,0,127}));
   connect(reaHeaVal.y, heaVal.y) annotation (Line(points={{-59,0},{-40,0},{-40,
           -54},{60,-54},{60,-58}},
                               color={0,0,127}));
@@ -341,6 +335,10 @@ equation
           -68},{-10,-64},{-16,-64},{-16,140},{68,140}}, color={0,0,127}));
   connect(reaPFan.y, PFan)
     annotation (Line(points={{91,140},{150,140}}, color={0,0,127}));
+  connect(fanControl.yFan, fan.y)
+    annotation (Line(points={{-49,-120},{-12,-120}}, color={0,0,127}));
+  connect(fan.y_actual, reaFanSpeSet.u) annotation (Line(points={{-7,-109},{-7,
+          -104},{12,-104},{12,-110},{18,-110}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -180},{140,180}}),                                  graphics={
                                         Text(
