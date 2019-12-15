@@ -1,34 +1,24 @@
 within BESTESTAir.TestCases;
-model TestCase "Testcase model"
+model TestCase_Ideal "Testcase model with ideal airflow"
   extends Modelica.Icons.Example;
   BaseClasses.Case900FF zon
     annotation (Placement(transformation(extent={{34,-10},{54,10}})));
-  BaseClasses.Thermostat con
-    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
-  BaseClasses.FanCoilUnit fcu
-    annotation (Placement(transformation(extent={{-20,-8},{0,20}})));
 
+  BaseClasses.Thermostat_T con "Thermostat controller"
+    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+  BaseClasses.FanCoilUnit_T fcu "Fan coil unit"
+    annotation (Placement(transformation(extent={{-20,-8},{0,20}})));
 equation
-  connect(fcu.supplyAir, zon.supplyAir)
-    annotation (Line(points={{0,13.7778},{20,13.7778},{20,2},{34,2}},
-                                                           color={0,127,255}));
-  connect(zon.returnAir, fcu.returnAir) annotation (Line(points={{34,-2},{20,-2},
-          {20,-6.44444},{0,-6.44444}},
-                              color={0,127,255}));
-  connect(con.yCooVal, fcu.uCooVal) annotation (Line(points={{-59,8},{-36,8},{
-          -36,13.7778},{-21.4286,13.7778}},
-                          color={0,0,127}));
-  connect(con.yHeaVal, fcu.uHeaVal) annotation (Line(points={{-59,4},{-36,4},{
-          -36,6},{-21.4286,6}},
-                          color={0,0,127}));
-  connect(con.yFan, fcu.uFan) annotation (Line(points={{-59,0},{-40,0},{-40,
-          -1.77778},{-21.4286,-1.77778}},
-                    color={0,0,127}));
-  connect(con.yFanSta, fcu.uFanSta) annotation (Line(points={{-59,-4},{-44,-4},
-          {-44,-6.44444},{-21.4286,-6.44444}},color={255,0,255}));
+  connect(fcu.supplyAir, zon.supplyAir) annotation (Line(points={{0,13.7778},{
+          20,13.7778},{20,2},{34,2}}, color={0,127,255}));
+  connect(fcu.returnAir, zon.returnAir) annotation (Line(points={{0,-6.44444},{
+          20,-6.44444},{20,-2},{34,-2}}, color={0,127,255}));
   connect(zon.TRooAir, con.TZon) annotation (Line(points={{61,0},{80,0},{80,-40},
-          {-100,-40},{-100,0},{-82,0}},
-                                      color={0,0,127}));
+          {-100,-40},{-100,0},{-82,0}}, color={0,0,127}));
+  connect(con.TSup, fcu.TSup) annotation (Line(points={{-59,6},{-44,6},{-44,
+          9.11111},{-21.4286,9.11111}}, color={0,0,127}));
+  connect(con.yFan, fcu.uFan) annotation (Line(points={{-59,0},{-44,0},{-44,
+          2.88889},{-21.4286,2.88889}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -222,7 +212,7 @@ Denver-Stapleton,CO,USA,TMY.
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-Heating and cooling is provided to the office using a four-pipe 
+Heating and cooling is provided to the office using an idealized four-pipe 
 fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil, 
 and filter.  The fan draws room air into the unit, blows it over the coils 
 and through the filter, and supplies the conditioned air back to the room.
@@ -234,14 +224,7 @@ served by hot water produced by a gas boiler.
 <p>
 For the fan, the design airflow rate is 0.55 kg/s and design pressure rise is 
 185 Pa.  The fan and motor efficiencies are both constant at 0.7.
-The heat from the motor is added to the air stream.  The minimum fan speed 
-is 20%.
-
-The cooling coil capacity is assumed to be 3.67 kW with a supply water 
-temperature of 7.2 C.  The heating coil capacity is assumed to be 7.00 kW 
-with a supply water temperature of 60 C.  Water flow through each of the coils
-is controlled with equal-percentage two-way valves.  Pump power for water
-flow through the coils is not considered.
+The heat from the motor is added to the air stream.
 
 The COP of the chiller is assumed constant at 3.0.  The efficiency of the 
 gas boiler is assumed constant at 0.9.
@@ -249,17 +232,16 @@ gas boiler is assumed constant at 0.9.
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 A baseline thermostat controller provides heating and cooling as necessary
-to the room by modulating the heating coil valve, cooling coil valve, and 
+to the room by modulating the supply air temperature and 
 fan speed.  The thermostat uses two different PI controllers for heating and 
 cooling, each taking the respective zone temperature setpoint and zone
-temperature measurement as inputs.  The outputs are used to control the
-heating valve and cooling valve respectively, as well as the fan speed, 
-with a minimum speed of 20% and hysteresis to enable/disable the fan.
+temperature measurement as inputs.  The outputs are used to control supply air 
+temperature during heating and cooling, as well as the fan speed.
 
 </p>
 <p align=\"center\">
 <img alt=\"Control scheme diagram\"
-src=\"../../../doc/images/ControlSchematic.png\" width=600 />
+src=\"../../../doc/images/ControlSchematic_Ideal.png\" width=600 />
 </p>
 
 <h3>Model IO's</h3>
@@ -267,16 +249,10 @@ src=\"../../../doc/images/ControlSchematic.png\" width=600 />
 The model inputs are:
 <ul>
 <li>
+<code>fcu_oveTSup_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint
+</li>
+<li>
 <code>fcu_oveFan_u</code> [1] [min=0.0, max=1.0]: Fan speed control signal
-</li>
-<li>
-<code>fcu_oveCooVal_u</code> [1] [min=0.0, max=1.0]: Cooling valve control signal
-</li>
-<li>
-<code>fcu_oveHeaVal_u</code> [1] [min=0.0, max=1.0]: Heating valve control signal
-</li>
-<li>
-<code>fcu_oveFanSta_u</code> [1] [min=0.0, max=1.0]: Fan status control signal
 </li>
 <li>
 <code>con_oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
@@ -292,22 +268,10 @@ The model outputs are:
 <code>fcu_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
 </li>
 <li>
-<code>fcu_reaFloHea_y</code> [kg/s] [min=None, max=None]: Heating coil water flow rate
-</li>
-<li>
-<code>fcu_reaCooVal_y</code> [1] [min=None, max=None]: Cooling valve control signal
-</li>
-<li>
-<code>fcu_reaHeaVal_y</code> [1] [min=None, max=None]: Heating valve control signal
-</li>
-<li>
-<code>fcu_reaTSup_y</code> [K] [min=None, max=None]: Supply air temperature
-</li>
-<li>
 <code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
 </li>
 <li>
-<code>fcu_reaTCooLea_y</code> [K] [min=None, max=None]: Cooling coil water leaving temperature
+<code>fcu_reaTSup_y</code> [K] [min=None, max=None]: Supply air temperature setpoint
 </li>
 <li>
 <code>con_reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
@@ -322,12 +286,6 @@ The model outputs are:
 <code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
 </li>
 <li>
-<code>fcu_reaFloCoo_y</code> [kg/s] [min=None, max=None]: Cooling coil water flow rate
-</li>
-<li>
-<code>fcu_reaTHeaLea_y</code> [K] [min=None, max=None]: Heating coil water leaving temperature
-</li>
-<li>
 <code>fcu_reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
 </li>
 <li>
@@ -335,9 +293,6 @@ The model outputs are:
 </li>
 <li>
 <code>fcu_reaFanSpeSet_y</code> [1] [min=None, max=None]: Supply fan speed setpoint
-</li>
-<li>
-<code>fcu_reaTRet_y</code> [K] [min=None, max=None]: Return air temperature
 </li>
 <li>
 <code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
@@ -360,8 +315,7 @@ There is no energy generation or storage on the site.
 <h4>Moist vs. dry air</h4>
 <p>
 A moist air model is used, but condensation is not modeled on the cooling coil
-and humidity is not monitored.  The heating and cooling coils are modeled
-with a constant effectiveness of 0.8.
+and humidity is not monitored.
 
 </p>
 <h4>Pressure-flow models</h4>
@@ -375,12 +329,7 @@ A constant infiltration flowrate is assumed to be 0.5 ACH.
 </p>
 <h4>Other assumptions</h4>
 <p>
-The design parameters for the system were determined based on the required
-airflow and coil capacities to serve the max heating and cooling loads with a 
-constant cooling supply air temperature of 12.8 C and heating supply air 
-temperature of 40.0 C.  The design coil water flowrates are determined
-assuming a design water temperature rise of 5 C across the cooling coil
-and water temperature drop of 20 C across the heating coil.
+The supply air temperature is directly specified.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
@@ -524,4 +473,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end TestCase;
+end TestCase_Ideal;

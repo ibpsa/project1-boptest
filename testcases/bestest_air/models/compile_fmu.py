@@ -12,7 +12,7 @@ def compile_fmu():
     
     # DEFINE MODEL
     mopath = 'BESTESTAir/package.mo'
-    modelpath = 'BESTESTAir.TestCases.TestCase'
+    modelpath = 'BESTESTAir.TestCases.TestCase_Ideal'
 
     # COMPILE FMU
     fmupath = parser.export_fmu(modelpath, [mopath])

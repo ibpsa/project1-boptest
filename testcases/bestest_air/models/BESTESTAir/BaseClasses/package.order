@@ -5,3 +5,6 @@ Thermostat
 InternalLoad
 OccupancyLoad
 FanControl
+FanCoilUnit_T
+Thermostat_T
+ControlToTemperature
