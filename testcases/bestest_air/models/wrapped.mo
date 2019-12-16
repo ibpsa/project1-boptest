@@ -16,6 +16,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput zon_reaPPlu_y(unit="W") = mod.zon.reaPPlu.y "Plug load power submeter";
 	Modelica.Blocks.Interfaces.RealOutput con_reaTSetHea_y(unit="K") = mod.con.reaTSetHea.y "Zone air temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaTSup_y(unit="K") = mod.fcu.reaTSup.y "Supply air temperature setpoint";
+	Modelica.Blocks.Interfaces.RealOutput zon_reaCO2RooAir_y(unit="1") = mod.zon.reaCO2RooAir.y "Zone air CO2 concentration";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaFanSpeSet_y(unit="1") = mod.fcu.reaFanSpeSet.y "Supply fan speed setpoint";
 	Modelica.Blocks.Interfaces.RealOutput con_reaTSetCoo_y(unit="K") = mod.con.reaTSetCoo.y "Zone air temperature setpoint for cooling";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaPCoo_y(unit="W") = mod.fcu.reaPCoo.y "Cooling electrical power consumption";
