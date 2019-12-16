@@ -236,7 +236,11 @@ to the room by modulating the supply air temperature and
 fan speed.  The thermostat uses two different PI controllers for heating and 
 cooling, each taking the respective zone temperature setpoint and zone
 temperature measurement as inputs.  The outputs are used to control supply air 
-temperature during heating and cooling, as well as the fan speed.
+temperature during heating and cooling, as well as the fan speed.  For
+heating, the maximum supply air temperature is 40 C and the minimum is the 
+zone occupied heating temperature setpoint.  For cooling, the minimum supply
+air temperature is 12 C and the maximum is the zone occupied cooling
+temperature setpoint.
 
 </p>
 <p align=\"center\">
