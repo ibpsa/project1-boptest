@@ -1,7 +1,8 @@
 within BESTESTAir.TestCases;
 model TestCase "Testcase model"
   extends Modelica.Icons.Example;
-  BaseClasses.Case900FF zon
+
+  BaseClasses.Case900FF zon(mAir_flow_nominal=fcu.mAir_flow_nominal)
     annotation (Placement(transformation(extent={{34,-10},{54,10}})));
   BaseClasses.Thermostat con
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
@@ -342,6 +343,9 @@ The model outputs are:
 <li>
 <code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
+<li>
+<code>zon_reaCO2RooAir_y</code> [1] [min=None, max=None]: Zone air CO2 concentration
+</li>
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -381,6 +385,10 @@ constant cooling supply air temperature of 12.8 C and heating supply air
 temperature of 40.0 C.  The design coil water flowrates are determined
 assuming a design water temperature rise of 5 C across the cooling coil
 and water temperature drop of 20 C across the heating coil.
+
+CO2 generation is 0.31 L/min per person (ASHRAE Standard 62.1 Figure D-2) 
+and outside air CO2 concentration is 400 ppm.  However, CO2 concentration 
+is not controlled for in the model.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>

@@ -2,7 +2,8 @@ within BESTESTAir.BaseClasses;
 model Case600FF
   "Basic test with light-weight construction and free floating temperature"
 
-  package MediumA = Buildings.Media.Air "Medium model";
+  replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
+  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal "Nominal air mass flow rate";
   parameter Modelica.SIunits.Angle S_=
     Buildings.Types.Azimuth.S "Azimuth for south walls";
   parameter Modelica.SIunits.Angle E_=
@@ -79,6 +80,7 @@ model Case600FF
     hRoo=2.7,
     nConExtWin=nConExtWin,
     nConBou=1,
+    use_C_flow=true,
     nPorts=5,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     AFlo=48,
@@ -172,9 +174,9 @@ model Case600FF
     use_m_flow_in=true,
     use_T_in=false,
     use_X_in=false,
-    use_C_in=false,
+    use_C_in=true,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{4,-66},{16,-54}})));
+    annotation (Placement(transformation(extent={{-10,-66},{2,-54}})));
   Modelica.Blocks.Sources.Constant InfiltrationRate(k=-48*2.7*0.5/3600)
     "0.41 ACH adjusted for the altitude (0.5 at sea level)"
     annotation (Placement(transformation(extent={{-96,-78},{-88,-70}})));
@@ -207,7 +209,7 @@ model Case600FF
     use_m_flow_in=true,
     use_T_in=false,
     use_X_in=false,
-    use_C_in=false,
+    use_C_in=true,
     nPorts=1) "source model for air infiltration"
     annotation (Placement(transformation(extent={{4,-46},{16,-34}})));
   Modelica.Blocks.Math.Gain gain(k=-1)
@@ -232,6 +234,7 @@ model Case600FF
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
   OccupancyLoad occ(
     radFraction=0.6,
+    co2Gen=1.023e-5,
     occ_density=2/48,
     senPower=73,
     latPower=45)
@@ -257,9 +260,27 @@ model Case600FF
   IBPSA.Utilities.IO.SignalExchange.Read reaTRooAir(
     description="Zone air temperature",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-
     y(unit="K")) "Read room air temperature"
     annotation (Placement(transformation(extent={{120,-10},{140,10}})));
+
+  IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
+    description="Zone air CO2 concentration",
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+
+    y(unit="1")) "Read room air CO2 concentration"
+    annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
+  Modelica.Blocks.Interfaces.RealOutput CO2RooAir "Room air CO2 concentration"
+    annotation (Placement(transformation(extent={{160,-50},{180,-30}}),
+        iconTransformation(extent={{160,-50},{180,-30}})));
+  Modelica.Blocks.Sources.Constant conCO2Out(k=400e-6)
+    "Outside air CO2 concentration"
+    annotation (Placement(transformation(extent={{-34,-72},{-26,-64}})));
+  Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO(redeclare package Medium
+      = MediumA, m_flow_nominal=mAir_flow_nominal) "CO2 sensor"
+    annotation (Placement(transformation(extent={{28,-70},{8,-50}})));
+  Modelica.Blocks.Math.Gain gaiCO2Gen(k=roo.AFlo)
+    "Gain for CO2 generation by floor area"
+    annotation (Placement(transformation(extent={{-50,-18},{-40,-8}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
@@ -279,7 +300,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(product.y, sinInf.m_flow_in)       annotation (Line(
-      points={{-39.5,-55},{-36,-55},{-36,-55.2},{2.8,-55.2}},
+      points={{-39.5,-55},{-36,-55},{-36,-55.2},{-11.2,-55.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(density.port, roo.ports[1])  annotation (Line(
@@ -298,10 +319,6 @@ equation
       points={{56,-32},{56,-27},{55.5,-27}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(sinInf.ports[1], roo.ports[2])        annotation (Line(
-      points={{16,-60},{30,-60},{30,-23.7},{39.75,-23.7}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(multiSum.y, product.u1) annotation (Line(
       points={{-64.98,-74},{-54,-74},{-54,-52},{-51,-52}},
       color={0,0,127},
@@ -316,14 +333,13 @@ equation
   connect(gain.y, souInf.m_flow_in) annotation (Line(points={{-7.5,-35},{-4.75,
           -35},{-4.75,-35.2},{2.8,-35.2}}, color={0,0,127}));
   connect(gain.u, sinInf.m_flow_in) annotation (Line(points={{-19,-35},{-30,-35},
-          {-30,-55.2},{2.8,-55.2}}, color={0,0,127}));
-  connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{16,-40},{20,
-          -40},{20,-22.5},{39.75,-22.5}}, color={0,127,255}));
-  connect(supplyAir, roo.ports[4]) annotation (Line(points={{-100,20},{-80,20},
-          {-80,-21.3},{39.75,-21.3}},
+          {-30,-55.2},{-11.2,-55.2}},
+                                    color={0,0,127}));
+  connect(souInf.ports[1], roo.ports[2]) annotation (Line(points={{16,-40},{20,
+          -40},{20,-23.7},{39.75,-23.7}}, color={0,127,255}));
+  connect(supplyAir, roo.ports[3]) annotation (Line(points={{-100,20},{-80,20},
+          {-80,-22.5},{39.75,-22.5}},
                                    color={0,127,255}));
-  connect(returnAir, roo.ports[5]) annotation (Line(points={{-100,-20},{-30,-20},
-          {-30,-20.1},{39.75,-20.1}}, color={0,127,255}));
   connect(occ.rad, sumRad.u[1]) annotation (Line(points={{-79,94},{-60,94},{-60,
           90.8},{-52,90.8}}, color={0,0,127}));
   connect(equ.rad, sumRad.u[2]) annotation (Line(points={{-79,74},{-60,74},{-60,
@@ -364,6 +380,24 @@ equation
           {96,0},{118,0}}, color={0,0,127}));
   connect(reaTRooAir.y, TRooAir)
     annotation (Line(points={{141,0},{170,0}}, color={0,0,127}));
+  connect(reaCO2RooAir.y, CO2RooAir) annotation (Line(points={{141,-30},{156,
+          -30},{156,-40},{170,-40}}, color={0,0,127}));
+  connect(conCO2Out.y, sinInf.C_in[1]) annotation (Line(points={{-25.6,-68},{
+          -16.8,-68},{-16.8,-64.8},{-11.2,-64.8}}, color={0,0,127}));
+  connect(conCO2Out.y, souInf.C_in[1]) annotation (Line(points={{-25.6,-68},{
+          -18,-68},{-18,-44.8},{2.8,-44.8}}, color={0,0,127}));
+  connect(returnAir, roo.ports[4]) annotation (Line(points={{-100,-20},{-30,-20},
+          {-30,-21.3},{39.75,-21.3}}, color={0,127,255}));
+  connect(sinInf.ports[1], senCO.port_b)
+    annotation (Line(points={{2,-60},{8,-60}}, color={0,127,255}));
+  connect(senCO.port_a, roo.ports[5]) annotation (Line(points={{28,-60},{30,-60},
+          {30,-20.1},{39.75,-20.1}}, color={0,127,255}));
+  connect(senCO.C, reaCO2RooAir.u)
+    annotation (Line(points={{18,-49},{18,-30},{118,-30}}, color={0,0,127}));
+  connect(occ.co2, gaiCO2Gen.u) annotation (Line(points={{-79,82},{-66,82},{-66,
+          -13},{-51,-13}}, color={0,0,127}));
+  connect(gaiCO2Gen.y, roo.C_flow[1]) annotation (Line(points={{-39.5,-13},{
+          -1.75,-13},{-1.75,-12.9},{34.8,-12.9}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"

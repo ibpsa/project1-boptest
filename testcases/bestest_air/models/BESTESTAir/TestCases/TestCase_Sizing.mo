@@ -1,13 +1,14 @@
 within BESTESTAir.TestCases;
 model TestCase_Sizing "Testcase model for sizing purposes"
   extends Modelica.Icons.Example;
+  replaceable package Medium1 = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Air medium";
   parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.55 "Nominal air flowrate" annotation (Dialog(group="Air"));
   final parameter Modelica.SIunits.Pressure dpAir_nominal=185 "Nominal supply air pressure";
-  BaseClasses.Case900FF zon
+  BaseClasses.Case900FF zon(mAir_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{74,-10},{94,10}})));
 
-  Buildings.Fluid.Sources.Boundary_pT sin(redeclare package Medium =
-        Buildings.Media.Air, nPorts=1) "Airflow sink"
+  Buildings.Fluid.Sources.Boundary_pT sin(redeclare package Medium = Medium1,
+                             nPorts=1) "Airflow sink"
     annotation (Placement(transformation(extent={{-20,-60},{0,-40}})));
   Modelica.Blocks.Sources.Constant TSupCoo(k=273.15 + 12.78)
     "Cooling air temperature"
@@ -22,31 +23,31 @@ model TestCase_Sizing "Testcase model for sizing purposes"
   BaseClasses.Thermostat con "Controller"
     annotation (Placement(transformation(extent={{-88,70},{-68,90}})));
   Buildings.Fluid.Sources.Boundary_pT souAirCoo(
-    redeclare package Medium = Buildings.Media.Air,
+    redeclare package Medium = Medium1,
     use_T_in=true,
     nPorts=1) "Cooling air source"
     annotation (Placement(transformation(extent={{-20,0},{0,20}})));
   Buildings.Fluid.Sources.Boundary_pT souAirHea(
-    redeclare package Medium = Buildings.Media.Air,
+    redeclare package Medium = Medium1,
     use_T_in=true,
     nPorts=1) "Heating air source"
     annotation (Placement(transformation(extent={{-20,-30},{0,-10}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fanCoo(
-    redeclare package Medium = Buildings.Media.Air,
+    redeclare package Medium = Medium1,
     m_flow_nominal=mAir_flow_nominal,
     addPowerToMedium=false,
     dp_nominal=dpAir_nominal)
                     "Cooling fan"
     annotation (Placement(transformation(extent={{10,0},{30,20}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fanHea(
-    redeclare package Medium = Buildings.Media.Air,
+    redeclare package Medium = Medium1,
     m_flow_nominal=mAir_flow_nominal,
     addPowerToMedium=false,
     dp_nominal=dpAir_nominal)
                     "Heating fan"
     annotation (Placement(transformation(extent={{10,-30},{30,-10}})));
   Buildings.Fluid.FixedResistances.PressureDrop res(
-    redeclare package Medium = Buildings.Media.Air,
+    redeclare package Medium = Medium1,
     m_flow_nominal=mAir_flow_nominal,
     dp_nominal=dpAir_nominal)
     annotation (Placement(transformation(extent={{40,-8},{60,12}})));

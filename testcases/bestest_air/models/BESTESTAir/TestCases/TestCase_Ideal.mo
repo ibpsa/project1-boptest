@@ -1,7 +1,7 @@
 within BESTESTAir.TestCases;
 model TestCase_Ideal "Testcase model with ideal airflow"
   extends Modelica.Icons.Example;
-  BaseClasses.Case900FF zon
+  BaseClasses.Case900FF zon(mAir_flow_nominal=fcu.mAir_flow_nominal)
     annotation (Placement(transformation(extent={{34,-10},{54,10}})));
 
   BaseClasses.Thermostat_T con "Thermostat controller"
@@ -204,6 +204,7 @@ Both types of loads are at maximum during occupied periods and 0.1 maximum
 during all other times.  The occupied heating and cooling temperature 
 setpoints are 21 C and 24 C respectively, while the unoccupied heating
 and cooling temperature setpoints are 15 C and 30 C respectively.
+
 </p>
 <h4>Climate data</h4>
 <p>
@@ -303,6 +304,9 @@ The model outputs are:
 <li>
 <code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
+<li>
+<code>zon_reaCO2RooAir_y</code> [1] [min=None, max=None]: Zone air CO2 concentration
+</li>
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -335,7 +339,10 @@ A constant infiltration flowrate is assumed to be 0.5 ACH.
 </p>
 <h4>Other assumptions</h4>
 <p>
-The supply air temperature is directly specified.
+The supply air temperature is directly specified.  CO2 generation is 
+0.31 L/min per person (ASHRAE Standard 62.1 Figure D-2) and outside air
+CO2 concentration is 400 ppm.  However, CO2 concentration is not controlled 
+for in the model.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>

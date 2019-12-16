@@ -1,7 +1,7 @@
 within BESTESTAir.BaseClasses;
 model FanCoilUnit "Four-pipe fan coil unit model"
-  package Medium1 = Buildings.Media.Air;
-  package Medium2 = Buildings.Media.Water;
+  replaceable package Medium1 = Buildings.Media.Air(extraPropertiesNames={"CO2"});
+  replaceable package Medium2 = Buildings.Media.Water;
   parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal=0.55 "Nominal air flowrate" annotation (Dialog(group="Air"));
   parameter Modelica.SIunits.DimensionlessRatio minSpe=0.2 "Minimum fan speed" annotation (Dialog(group="Air"));
   parameter Modelica.SIunits.Power QCooCap=3666 "Cooling coil capacity" annotation (Dialog(group="Coils"));
@@ -38,11 +38,11 @@ model FanCoilUnit "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-180,80},{-140,120}})));
   Modelica.Blocks.Interfaces.RealInput uFan "Fan speed signal"
     annotation (Placement(transformation(extent={{-180,-120},{-140,-80}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium
-      = Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senSupTem(redeclare package Medium =
+        Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{90,90},{110,110}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium
-      = Medium1, m_flow_nominal=mAir_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senRetTem(redeclare package Medium =
+        Medium1, m_flow_nominal=mAir_flow_nominal)
     annotation (Placement(transformation(extent={{110,-170},{90,-150}})));
   Buildings.Fluid.Sensors.MassFlowRate senSupFlo(redeclare package Medium =
         Medium1)

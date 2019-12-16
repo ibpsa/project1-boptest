@@ -1,12 +1,21 @@
 within BESTESTAir.BaseClasses;
 model Case900FF "Case 600FF, but with high thermal mass"
   extends Case600FF(
-    matExtWal = extWalCase900,
-    matFlo =    floorCase900,
+    matExtWal=extWalCase900,
+    matFlo=floorCase900,
     staRes(
-      minT( Min=-6.4+273.15, Max=-1.6+273.15, Mean=-4.2+273.15),
-      maxT( Min=41.6+273.15, Max=44.8+273.15, Mean=43.1+273.15),
-      meanT(Min=24.5+273.15, Max=25.9+273.15, Mean=25.2+273.15)));
+      minT(
+        Min=-6.4 + 273.15,
+        Max=-1.6 + 273.15,
+        Mean=-4.2 + 273.15),
+      maxT(
+        Min=41.6 + 273.15,
+        Max=44.8 + 273.15,
+        Mean=43.1 + 273.15),
+      meanT(
+        Min=24.5 + 273.15,
+        Max=25.9 + 273.15,
+        Mean=25.2 + 273.15)));
 
   parameter Buildings.ThermalZones.Detailed.Validation.BESTEST.Data.ExteriorWallCase900
      extWalCase900 "Exterior wall"
