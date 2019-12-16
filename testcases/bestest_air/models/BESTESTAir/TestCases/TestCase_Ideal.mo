@@ -201,7 +201,9 @@ and no occupancy during all other times.
 The internal heat gains from plug loads come mainly from computers and monitors.
 The internal heat gains from lighting come from hanging fluorescent fixtures.
 Both types of loads are at maximum during occupied periods and 0.1 maximum 
-during all other times.
+during all other times.  The occupied heating and cooling temperature 
+setpoints are 21 C and 24 C respectively, while the unoccupied heating
+and cooling temperature setpoints are 15 C and 30 C respectively.
 </p>
 <h4>Climate data</h4>
 <p>
