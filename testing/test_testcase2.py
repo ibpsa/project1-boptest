@@ -32,7 +32,7 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
         '''
         
         # Run test
-        kpi,res = szvav_sup.run()
+        kpi,customizedkpis_result,res = szvav_sup.run()
         # Check kpis
         self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=3)
         self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=3)
@@ -48,6 +48,17 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_python.csv')
         # Test
         self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check customized kpi trajectories
+        # Make dataframe
+        df = pd.DataFrame()
+        for x in customizedkpis_result.keys():
+                if x != 'time':
+                    df = pd.concat((df,pd.DataFrame(data=customizedkpis_result[x], index=customizedkpis_result['time'], columns=[x])), axis=1)
+        df.index.name = 'time'
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'customizedkpis.csv')
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)        
 
 class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of a supervisory controller in Julia.
@@ -71,8 +82,8 @@ class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
         res_path = os.path.join(utilities.get_root_path(), 'examples', 'julia', 'result_testcase2.csv')
         # Check kpis
         kpi = pd.read_csv(kpi_path)
-        self.assertAlmostEqual(kpi['energy'].get_values()[0], kpi_ref['energy'], places=3)
-        self.assertAlmostEqual(kpi['comfort'].get_values()[0], kpi_ref['comfort'], places=3)
+        self.assertAlmostEqual(kpi['energy'].get_values()[0], kpi_ref['energy'], places=2)
+        self.assertAlmostEqual(kpi['comfort'].get_values()[0], kpi_ref['comfort'], places=2)
         # Check trajectories
         df = pd.read_csv(res_path, index_col = 'time')
         # Set reference file path
