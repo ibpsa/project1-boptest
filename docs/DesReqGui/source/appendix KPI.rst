@@ -270,7 +270,7 @@ Thermal comfort metrics
    :math:`z \in {Z}`, during the time interval :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t_{u,Z} = \sum_{z \in Z}\sum_{t_i=T_0}^{t_1}s(t_i)
-       :label: eq:12
+       :label: eq:13
 	   
 #. Percent time when the comfort indicator :math:`T` is outside the
    comfort set :math:`S_c` for zone :math:`z`, during the time interval
@@ -302,7 +302,6 @@ System and equipment utilization metrics
   :math:`\eta_e` denote operation status indicator, operation capacity,
   and operation efficiency, respectively.
 
-#. | The operational period of equipment :math:`e \in E` during the
      period :math:`[t_{0},t_{1}]`:
 
      .. math:: \dfrac{1}{t_{1}-t_{0}}\sum_{t_i=t_{0}}^{t_{1}} O_{e}(i)
@@ -393,7 +392,7 @@ Fault sensitivity metrics
   baseline (no fault):
 
 .. math:: \frac{p'(t_i)-p(t_i)}{p(t_i)}
-   :label: eq:20
+   :label: eq:21
    
 Computation metrics
 ^^^^^^^^^^^^^^^^^^^
@@ -426,40 +425,40 @@ Computation metrics
    calculated as:
 
    .. math:: t_p(i)=t_{p1}(i)-t_{p0}(i)
-      :label: eq:21
+      :label: eq:22
 	  
 #. Model simulation (or real building system operation) time length at
    :math:`i^{th}` iteration can be calculated as:
 
    .. math:: t_s(i)=t_{s1}(i)-t_{s0}(i)
-     :label: eq:22
+     :label: eq:23
 	 
    while total :math:`t_s(i)` over a period of :math:`[t_{0},t_{1}]`:
 
    .. math:: t_s=\sum_{t_i=t_{0}}^{t_{1}}t_s(i)
-      :label: eq:23
+      :label: eq:24
 	  
 #. Real building system operation time length at :math:`i^{th}`
    iteration can be calculated as:
 
    .. math:: t_r(i)=t_{r1}(i)-t_{r0}(i)
-      :label: eq:24
+      :label: eq:25
 	  
 #. Total :math:`t_r` over a period of :math:`[t_{0},t_{1}]` can be
    calculated as:
 
    .. math:: t_r=\sum_{i=t_{0}}^{t_{1}}t_r(i)
-      :label: eq:25
+      :label: eq:26
 	  
 #. Total prediction-simulation time ratio:
 
    .. math:: \frac{t_p}{t_s}
-      :label: eq:26
+      :label: eq:27
 	  
 #. Total modeling-operation time ratio:
 
    .. math:: \frac{t_s}{t_r}
-       :label: eq:27
+       :label: eq:28
 	   
 	   
 Air quality metrics
@@ -501,20 +500,20 @@ Air quality metrics
    period :math:`[t_{0},t_{1}]`:
 
    .. math:: \dfrac{1}{t_{1}-t_{0}}{\sum_{t_i=t_{0}}^{t_{1}}A_z(t_i)}
-     :label: eq:28
+     :label: eq:29
 	 
 #. Maximum :math:`CO_2` concentration for zone :math:`z`, during the
    period :math:`[t_{0},t_{1}]`:
 
    .. math:: {max\{A_z(t_i) ~|~t_i \in \{t_{0},t_{1}\}\}}
-     :label: eq:29
+     :label: eq:30
 	 
 #. Total time when :math:`CO_2` concentration :math:`A_z(t_i)` is higher
    than the ASHRAE recommended value :math:`A_r` for zone :math:`z`,
    during the time interval :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t(CO_2)_{u,z} = \sum_{t_i=T_0}^{T_z}s(t_i)
-    :label: eq:30
+    :label: eq:31
 	
    where :math:`s(t_i)=1`, if :math:`A_z(t_i)` :math:`>` :math:`A_r`, at
    time :math:`t_i`; :math:`s(t_i)=0`, if :math:`A_z(t_i)` :math:`\leq`
@@ -526,7 +525,7 @@ Air quality metrics
    :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t(CO_2)_{u,Z} = \sum_{z \in Z}\sum_{t_i=T_0}^{T_z}s(t_i)
-    :label: eq:31
+    :label: eq:32
 	
    where :math:`s(t_i)=1`, if :math:`A_z(t_i)` :math:`>` :math:`A_r`, at
    time :math:`t_i`; :math:`s(t_i)=0`, if :math:`A_z(t_i)` :math:`\leq`
@@ -556,7 +555,7 @@ In the following subsections, we detail the implementation for the two
 groups, respectively.
 
 *Core KPI*
-^^^^^^^^^
+^^^^^^^^^^
 
 Core KPI is intended to enable “apple-to-apple” comparisons among
 different building controls. To serve this purpose, KPIs in *core KPI*
