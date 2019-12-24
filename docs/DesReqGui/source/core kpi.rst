@@ -79,7 +79,7 @@ Total operational cost in a given period of time
    Where :math:`C^\tau(t_0, t_f)` is the total cost during the period
    between time :math:`t_0` and :math:`t_f` with a tariff :math:`\tau`; :math:`p_i^\tau`
    is the price profile of equipment :math:`i` with a tariff :math:`\tau` and
-   has units of :math:`$/kW`.
+   has units of :math:`\$/kW`.
 
 Capability of the controller to steer flexibility
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -308,7 +308,7 @@ Maximum allowed capital cost
    controller is established as a reference. First, the operational
    savings per year are calculated as:
 
-   .. math:: S_{1 year} = C_{1 year}^{old}−C_{1 year}^{new}
+   .. math:: S_{1 year} = C_{1 year}^{old}-C_{1 year}^{new}
 
    These savings are computed as the difference between the operational
    cost of the old controller (the baseline) and the new controller.
@@ -383,9 +383,9 @@ Indoor air quality indicator
 
    .. math:: Unmet_{CO_2} = \sum_{z \in Z}\sum_{t_i=t_0}^{t_1}s(t_i)
 
-   .. math:: s(t_i)=1, if C_z(t_i)>C_r, \quad at \quad  time \quad t_i
+   .. math:: s(t_i)=1, if C_z(t_i)>C_r, \quad at \quad time \quad t_i
 
-   .. math:: s(t_i)=0$, if C_z(t_i) \leq C_r, \quad at \quad  time \quad  t_i.
+   .. math:: s(t_i)=0, if C_z(t_i) \leq C_r, \quad at \quad time \quad t_i
 
    Where :math:`C` denotes the concentration of carbon dioxide *CO\ 2* in
    ppm. For zone :math:`z`, the carbon dioxide concentration is :math:`C_z(t_i)`
@@ -393,17 +393,18 @@ Indoor air quality indicator
    :math:`C_r` denotes the required *CO\ 2* concentration threshold from
    ASHRAE 62.1 (e.g., for office :math:`C_r`=700 ppm + :math:`a`).
 
-   .. math:: \Phi(t_0, t_f) = \sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \phi_z(t) dt%0
+   .. math:: \Phi(t_0, t_f) = \sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \phi_z(t) dt
 
-   .. math:: \phi_z(t)=\gamma_z(t)−\gamma_r, \quad if \quad\gamma_z(t)>\gamma_r
+   .. math:: \phi_z(t)=\gamma_z(t)-\gamma_r, \quad if \quad\gamma_z(t)>\gamma_r
 
    .. math:: \phi_z(t)=0, \quad if \quad \gamma_z(t) \leq \gamma_r
+   
    Where
    :math:`\Phi` is the total violation of carbon dioxide *CO\ 2*
    concentration in ppm*h between the initial time :math:`t_0` and the final
    time :math:`t_f`. :math:`z` is the zone index for the set of zones in the
    building :math:`\mathbb{Z}`. :math:`\phi_z` is the deviation of zone :math:`z`
-   from the required *CO\ 2* concentration threshold from ASHRAE 62.1.
+   from the required *CO\2* concentration threshold from ASHRAE 62.1.
 
 Calculation Module
 ---------------------
