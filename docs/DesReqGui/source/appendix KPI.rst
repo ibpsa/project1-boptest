@@ -1,5 +1,6 @@
+.. _SecAppKpi:
 
-Appendix Additional KPI Specification and Calculation
+Appendix: Additional KPI Specification and Calculation
 =====================================================
 
 Summary

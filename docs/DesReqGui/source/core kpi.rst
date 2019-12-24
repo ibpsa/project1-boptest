@@ -5,7 +5,7 @@ Core KPIs
 ------------
 
 The following KPI definitions constitute the core KPIs to be calculated
-in every test case, and documentation of the KPI considered during the KPI development is provided in the Appendix. During the IBPSA expert meetings, these core KPIs have been selected as the most
+in every test case, and documentation of the KPI considered during the KPI development is provided in the Appendix (See :ref:`SecAppKpi`). During the IBPSA expert meetings, these core KPIs have been selected as the most
 representative and relevant indicators to compare different control
 approaches for buildings. Additional KPIs may be calculated and used for
 specific purposes, but the core KPIs are considered the basis for
