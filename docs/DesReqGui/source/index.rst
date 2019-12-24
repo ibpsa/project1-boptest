@@ -10,6 +10,7 @@ Design Requirements and Guide
    requirements
    usecases
    testcasedev
-   kpi
+   core_kpi
    forecasts
    architecture
+   appendix_KPI
