@@ -1,8 +1,8 @@
 
 Appendix Additional KPI Specification and Calculation
-=================================
+=====================================================
 
-Executive Summary
+Summary
 -----------------
 
 Advanced building controls are increasingly critical to achieve high
@@ -39,8 +39,7 @@ Acronyms and Abbreviations
 | :math:`\lambda` regular fuel price (without demand charge)
 | :math:`\lambda_d` fuel price with demand charge
 | :math:`d` disturbance value
-| :math:`p` performance factor (e.g., energy, demand, cost, efficiency,
-  etc.
+| :math:`p` performance factor (e.g., energy, demand, cost, efficiency, etc.
 | :math:`t` time
 | :math:`A` concentration of carbon dioxide (:math:`CO_2`)
 | :math:`C` capacity of an equipment
@@ -77,22 +76,18 @@ transient response, steady-state response, control of variables within
 bounds, reduction in fluctuations from a set-point, system efficiency,
 robustness to disturbances and changes, IAQ, thermal comfort, and
 computational time. These metrics were selectively used in previous
-studies. For example, as listed in Table
-`[Lit_Summary] <#Lit_Summary>`__, and :cite:`Ma2012}` used
-energy usage as one of their KPIs, while
+studies. For example, :cite:`Ma2012` used energy usage as one of their KPIs, while
 :cite:`Rehrl2011,Privara2011,Morosan2010,Huang2011,Xi2007,Yuan2006`
 used metrics for control dynamic performance as qualitative evaluation.
 In this document, we attempted to answer two related questions:
 
-- What would be a comprehensive list of KPIs for control performance
-evaluation?
+- What would be a comprehensive list of KPIs for control performance evaluation?
 
 - What are their definition and calculation formulas?
 
 To answer the first question, we grouped KPIs into the following
 categories: energy-related, controller-related, system-related,
-disturbance-related, and occupant-related (as illustrated in Figure
-`[images:Metrics_overview] <#images:Metrics_overview>`__). A building control
+disturbance-related, and occupant-related (as illustrated in the figure below). A building control
 system controls the HVAC system, which conditions the indoor space. The
 indoor space is occupied by people and has comfort demand. On the other
 side, the HVAC system needs energy, especially electricity, to operate.
@@ -104,16 +99,14 @@ each KPI and how those inputs are accessible in real buildings or
 emulators. We then provided detailed formulas to calculate each KPI
 based on those inputs.
 
-.. figure:: images/Metrics_overview.jpg
-   :alt: An overview of the conceptual design of control performance
-   metrics
-   :width: 100.0%
 
-   An overview of the conceptual design of control performance metrics
+.. figure:: images/Metrics_overview.png
+    :scale: 50 %
+    
+    An overview of the conceptual design of control performance metrics
+    
 
-[images:Metrics_overview]
 
-[Lit_Summary]
 
 .. _ch:characterization:
 
@@ -136,25 +129,28 @@ Power demand metrics
   equipment and its fraction against the total building power demand.
 
 #. Diversity factor is defined by the General Services Administration
-   :cite:`NCSTSD}` as the ratio of the sum of individual
+   :cite:`NCSTSD` as the ratio of the sum of individual
    maximum demands to the maximum demand of the whole system:
 
    .. math:: \dfrac{\sum_{e \in E}\max\limits_{{t_{0}}<t<{t_{1}}}{P_e(t_i)}}{\max\limits_{{t_{0}}<t<{t_{1}}}{\sum_{e \in E}P_e(t_i)}}
+      :label: eq:1_1
+   
+#. Load factor can be expressed as follows based on the definition in :cite:`NCSTSD`:
 
-#. Load factor can be expressed as follows based on the definition in
-   :cite:`NCSTSD}`:
-
-   .. math:: \dfrac{\mean\limits_{{t_{0}}<t<{t_{1}}}{P_e(t_i)}}{\max\limits_{{t_{0}}<t<{t_{1}}}{P_e(t_i)}}
+   .. math:: \dfrac{\overline{P_e(t_i)}}{\max\limits_{{t_{0}}<t<{t_{1}}}{P_e(t_i)}}
+      :label: eq:1_2
 
 #. Equipment power demand fraction at time :math:`t_i` relative to total
    power demand at time :math:`t_i`, this can help rank the energy
    demand from equipment level:
 
    .. math:: \dfrac{P_{e}(t_i)}{\sum_{e \in E}P_e(t_i)}
+      	:label: eq:1_3
 
 #. Power peak demand during the period :math:`[t_{0},t_{1}]` :
 
    .. math:: \max\limits_{{t_{0}}<t_i<{t_{1}}}{\sum_{e \in E}P_e(t_i)}
+      	:label: eq:2
 
 Energy usage metrics
 ^^^^^^^^^^^^^^^^^^^^
@@ -165,7 +161,7 @@ building system at a given period. Such energy consumption can be
 further divided based on end-use type into multiple categories, i.e.,
 space heating, cooling, ventilation, water heating, lighting, cooking,
 refrigeration, computing (including servers), office equipment, and
-other uses :cite:`USEIA2012}`. Here, we listed energy
+other uses :cite:`USEIA2012`. Here, we listed energy
 consumption for equipment, total energy consumption, and combined the
 end-use energy usage into HVAC energy usage and non-HVAC energy usage.
 
@@ -173,26 +169,28 @@ end-use energy usage into HVAC energy usage and non-HVAC energy usage.
    :math:`[t_{0},t_{1}]`:
 
    .. math:: \int_{t_i=t_{0}}^{t_{1}} P_e(t_i)dt
+      	:label: eq:3
 
 #. Energy consumption fraction associated with equipment :math:`e`
    during :math:`[t_{0},t_{1}]` :
 
    .. math:: \dfrac{\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}
+   	:label: eq:4
 
 #. Total building energy consumption during :math:`[t_{0},t_{1}]` :
 
-   .. math::
-
-      {\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}
-      \label{energy}
+   .. math:: {\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}
+    :label: eq:5
 
 #. HVAC system energy consumption during :math:`[t_{0},t_{1}]` :
 
    .. math:: {\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_{e,AC}(t_i)dt}
+      :label: eq:6
 
 #. Non-HVAC system energy consumption during :math:`[t_{0},t_{1}]` :
 
    .. math:: {\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}-{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_{e,AC}(t_i)dt}
+      :label: eq:7
 
 Energy cost metrics
 ^^^^^^^^^^^^^^^^^^^
@@ -202,27 +200,29 @@ Energy cost metrics
   performance during operation, especially responding to the dynamic
   variation of energy price. Energy cost is often used as a control
   objective function in model predictive control (MPC) studies
-  :cite:`Avci2013,Ma2012}`, which have developed controllers
+  :cite:`Avci2013,Ma2012`, which have developed controllers
   targeted at minimizing energy cost under normal charge rate, and (or)
   under peak demand charge rate.
-| Let :math:`\{t_{0},\hdots,t_{1}\}` denote the period of interest (in
+| Let :math:`\{t_{0},...,t_{1}\}` denote the period of interest (in
   minutes), and let :math:`c(t_i)` denote the regular fuel price at time
   :math:`t_i`:
 
   .. math:: {\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)\lambda(t_i)dt}
+     :label: eq:8
 
   Let :math:`c_d(t_i)` denote the fuel price (peak demand charge rate)
   at time :math:`t_i`. Considering the demand charge rate,
-  :cite:`Ma2012}` rewrote the cost metric as:
+  :cite:`Ma2012` rewrote the cost metric as:
 
   .. math:: {\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)\lambda(t_i)dt}+\max\limits_{{t_{0}}<t<{t_{1}}}{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)\lambda_d(t_i)dt}
-
+     :label: eq:9
+	 
 Thermal comfort metrics
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 | Thermal comfort, defined by ASHRAE Standard 55 is ‘‘that condition of
   mind that express satisfaction with the thermal
-  environment’’:cite:`ASHRAE55}`. In a typical commercial
+  environment’’:cite:`ASHRAE55`. In a typical commercial
   building, the goal of a HVAC system is to provide such comfort.
   However, this thermal comfort, assessed by the human being, is
   affected by environmental, social, physiological, and psychological
@@ -236,12 +236,12 @@ Thermal comfort metrics
   :math:`c_i` denote the comfort indicator at time :math:`t_i`.
 
 #. Based on Fanger comfort model
-   :cite:`Fanger1967,Fanger1970}`, predicted percent of
+   :cite:`Fanger1967,Fanger1970`, predicted percent of
    dissatisfied (:math:`PPD`) people at each Predicted Mean Vote
    (:math:`PMV`) can be calculated as:
 
    .. math:: PPD = 100-95e^{-0.03353*PMV^4 - 0.2179*PMV^2}
-
+       :label: eq:10
    where :math:`PMV = (0.303e^{-0.036M}+0.028)(H-L)`; :math:`H` is the
    internal heat production rate of an occupant per unit area (i.e.,
    metabolic rate per unit area minus the rate of heat loss due to the
@@ -251,13 +251,15 @@ Thermal comfort metrics
 #. Number of excursions outside of the comfort set for zone :math:`z`:
 
    .. math:: |\{t_z ~|~ T_{t}^n \in S_c \land T_{t+1}^n \not\in S_c \}|
-
+      :label: eq:11 
+	  
 #. Total time when the comfort indicator :math:`T` is outside the
    comfort set :math:`S_c` for zone :math:`z`, during the time interval
    :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t_{u,z} = \sum_{t_i=t_0}^{t_1}s(t_i)
-
+         :label: eq:12
+		 
    where :math:`s(t_i)=1`, if :math:`T^n_{t}\not \in S_c`, at time
    :math:`t_i`; :math:`s(t_i)=0`, if :math:`T^n_{t} \in S_c`, at time
    :math:`t_i`.
@@ -267,7 +269,8 @@ Thermal comfort metrics
    :math:`z \in {Z}`, during the time interval :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t_{u,Z} = \sum_{z \in Z}\sum_{t_i=T_0}^{t_1}s(t_i)
-
+       :label: eq:12
+	   
 #. Percent time when the comfort indicator :math:`T` is outside the
    comfort set :math:`S_c` for zone :math:`z`, during the time interval
    See :eq:`eq:percent`
@@ -302,31 +305,33 @@ System and equipment utilization metrics
      period :math:`[t_{0},t_{1}]`:
 
      .. math:: \dfrac{1}{t_{1}-t_{0}}\sum_{t_i=t_{0}}^{t_{1}} O_{e}(i)
-
-     Where
-   | :math:`O_{e}(i)=1`, if the equipment is ON, and :math:`O_{e}(i)=0`,
+        :label: eq:14
+		
+     Where :math:`O_{e}(i)=1`, if the equipment is ON, and :math:`O_{e}(i)=0`,
      if the equipment is OFF.
 
 #. | The maximum capacity percentage of equipment :math:`e \in E` during
      the period :math:`[t_{0},t_{1}]`:
 
      .. math:: \dfrac{max\{C_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}{C_{e,r}}
-
-     Where
-   | :math:`C_{e,r}` is the rated maximum capacity of of equipment
+        :label: eq:15
+		
+     Where :math:`C_{e,r}` is the rated maximum capacity of of equipment
      :math:`e \in E` during the period :math:`[t_{0},t_{1}]`.
 
 #. The average capacity percentage of equipment :math:`e \in E` during
    the period :math:`[t_{0},t_{1}]`:
 
    .. math:: \dfrac{average\{C_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}{C_{e,r}}
-
+      :label: eq:16
+	  
 #. The average efficiency coefficient (e.g.,energy efficiency ratio,
    seasonal energy efficiency ratio, and coefficient of performance) of
    equipment :math:`e \in E` during the period :math:`[t_{0},t_{1}]`:
 
    .. math:: {max\{\eta_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}
-
+       :label: eq:17
+	   
 Control dynamics metrics
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -335,8 +340,8 @@ quality of control during normal and abnormal operation. It includes
 qualitative analysis (e.g., Bode plot, Nyquist plot) and quantitative
 evaluations (e.g., Harris index, mean of control error). Several studies
 have reviewed and compared the performance of those metrics
-:cite:`Harris1999,Jelali2006,Deng2017}`. Particularly,
-:cite:`Deng2017}` compared the metrics for HVAC control loops
+:cite:`Harris1999,Jelali2006,Deng2017`. Particularly,
+:cite:`Deng2017` compared the metrics for HVAC control loops
 and recommended the Harris index and VarBand because of their bounded
 values. Here we selected the Harris index as one metric. In addition, we
 added response speed, i.e., how fast the controller responds to a
@@ -349,11 +354,12 @@ the time when a disturbance occurs, the time when the system re-balanced
 (actual measurement stays within :math:`\pm` 10% of the setpoint),
 pre-disturbed value, and the disturbance value, respectively.
 
-#. Based on :cite:`Harris1989}`, Harris index is calculated
+#. Based on :cite:`Harris1989`, Harris index is calculated
    as follows:
 
    .. math:: H=1-\frac{\delta^2_{mv}}{\delta^2_{y}}
-
+     :label: eq:18
+	 
    Where :math:`\delta^2_{mv}` is the minimum variance of the control
    output obtained by maximum likelihood estimation method, and
    :math:`\delta^2_{y}` is the variance of control outputs with respect
@@ -362,11 +368,13 @@ pre-disturbed value, and the disturbance value, respectively.
 #. Control response absolute speed:
 
    .. math:: t_{0-1}=t_1-t_0
-
+     :label: eq:19
+	 
 #. Control response relative speed:
 
    .. math:: \frac{t_{0-1}}{|d_1-d_0|}
-
+      :label: eq:20
+	  
 Fault sensitivity metrics
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -375,7 +383,7 @@ Fault sensitivity metrics
   cost. For the same HVAC system, one type of controller might be more
   immune to the fault than other controllers. Thus, we defined this
   fault sensitivity metric to quantify such fault immunity for
-  controllers :cite:`Chen2018}`.
+  controllers :cite:`Chen2018`.
 | Let :math:`p'(t_i)` denote a performance factor (energy, demand, cost,
   efficiency, etc.) at time :math:`t_i` under fault condition
   (:math:`'`), :math:`p(t_i)` denote the same type of performance factor
@@ -384,16 +392,17 @@ Fault sensitivity metrics
   baseline (no fault):
 
 .. math:: \frac{p'(t_i)-p(t_i)}{p(t_i)}
-
+   :label: eq:20
+   
 Computation metrics
 ^^^^^^^^^^^^^^^^^^^
 
 | For a conventional HVAC control system, the controller involves
   limited computation effort. For an MPC, studies have found the control
   decision could require noticeable computational effort
-  :cite:`May2011,Oldewurtel2012}`, which may include system
+  :cite:`May2011,Oldewurtel2012`, which may include system
   modeling, prediction, and optimization). Computation time has been
-  used as one of the metrics :cite:`Morosan2010}`. Here, we
+  used as one of the metrics :cite:`Morosan2010`. Here, we
   defined three scenarios: MPC prediction, virtual-building model
   simulation, and real-building operation. Each scenario has its time
   track.
@@ -416,40 +425,48 @@ Computation metrics
    calculated as:
 
    .. math:: t_p(i)=t_{p1}(i)-t_{p0}(i)
-
+      :label: eq:21
+	  
 #. Model simulation (or real building system operation) time length at
    :math:`i^{th}` iteration can be calculated as:
 
    .. math:: t_s(i)=t_{s1}(i)-t_{s0}(i)
-
+     :label: eq:22
+	 
    while total :math:`t_s(i)` over a period of :math:`[t_{0},t_{1}]`:
 
    .. math:: t_s=\sum_{t_i=t_{0}}^{t_{1}}t_s(i)
-
+      :label: eq:23
+	  
 #. Real building system operation time length at :math:`i^{th}`
    iteration can be calculated as:
 
    .. math:: t_r(i)=t_{r1}(i)-t_{r0}(i)
-
+      :label: eq:24
+	  
 #. Total :math:`t_r` over a period of :math:`[t_{0},t_{1}]` can be
    calculated as:
 
    .. math:: t_r=\sum_{i=t_{0}}^{t_{1}}t_r(i)
-
+      :label: eq:25
+	  
 #. Total prediction-simulation time ratio:
 
    .. math:: \frac{t_p}{t_s}
-
+      :label: eq:26
+	  
 #. Total modeling-operation time ratio:
 
    .. math:: \frac{t_s}{t_r}
-
+       :label: eq:27
+	   
+	   
 Air quality metrics
 ^^^^^^^^^^^^^^^^^^^
 
 | IAQ is always a critical factor in indoor environment that directly
   relates to occupant health, comfort, and productivity
-  :cite:`Sundell2004}`. Accurate evaluation of IAQ require a
+  :cite:`Sundell2004`. Accurate evaluation of IAQ require a
   set of measurements of the typical indoor air pollutants (such as
   particulate matter(:math:`PM`), volatile organic compounds
   (:math:`VOCs`), nitrogen dioxide (:math:`NO_2`), formaldehyde, radon
@@ -462,16 +479,16 @@ Air quality metrics
   IAQ-related control actions include controlling the ratio of fresh air
   intake and modifying ventilation rate. Increasing ventilation rate was
   found to be associated with reduced symptoms of sick building syndrome
-  :cite:`Sundell2011}`. ASHRAE Standard 62.1 has established
+  :cite:`Sundell2011`. ASHRAE Standard 62.1 has established
   the minimum requirement for fresh air intake
-  :cite:`ASHRAE621}`. To evaluate weather this requirement
+  :cite:`ASHRAE621`. To evaluate weather this requirement
   has been met, it can be directly calculated by measuring outside air
   flow rate, recirculating air flow rate, number of occupants, and
-  building area :cite:`Yuan2006}`. This can also be
+  building area :cite:`Yuan2006`. This can also be
   indirectly estimated by measuring :math:`CO_2` concentration for a
   building mainly occupied by humans. Thus, :math:`CO_2` concentration
   has been used as control inputs in demand control ventilation
-  :raw-latex:`\cite{Sun2011,Nassif2012,Congradac2009}`).
+  :cite:`Sun2011,Nassif2012,Congradac2009`).
 | Let :math:`A` denote the concentration of :math:`CO_2` in ppm. For
   zone :math:`z`, the :math:`CO_2` concentration is :math:`A_z(t_i)` at
   time :math:`t_i`. Let :math:`a` denote the ambient environment. Let
@@ -483,18 +500,21 @@ Air quality metrics
    period :math:`[t_{0},t_{1}]`:
 
    .. math:: \dfrac{1}{t_{1}-t_{0}}{\sum_{t_i=t_{0}}^{t_{1}}A_z(t_i)}
-
+     :label: eq:28
+	 
 #. Maximum :math:`CO_2` concentration for zone :math:`z`, during the
    period :math:`[t_{0},t_{1}]`:
 
    .. math:: {max\{A_z(t_i) ~|~t_i \in \{t_{0},t_{1}\}\}}
-
+     :label: eq:29
+	 
 #. Total time when :math:`CO_2` concentration :math:`A_z(t_i)` is higher
    than the ASHRAE recommended value :math:`A_r` for zone :math:`z`,
    during the time interval :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t(CO_2)_{u,z} = \sum_{t_i=T_0}^{T_z}s(t_i)
-
+    :label: eq:30
+	
    where :math:`s(t_i)=1`, if :math:`A_z(t_i)` :math:`>` :math:`A_r`, at
    time :math:`t_i`; :math:`s(t_i)=0`, if :math:`A_z(t_i)` :math:`\leq`
    :math:`A_r`, at time :math:`t_i`.
@@ -505,7 +525,8 @@ Air quality metrics
    :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t(CO_2)_{u,Z} = \sum_{z \in Z}\sum_{t_i=T_0}^{T_z}s(t_i)
-
+    :label: eq:31
+	
    where :math:`s(t_i)=1`, if :math:`A_z(t_i)` :math:`>` :math:`A_r`, at
    time :math:`t_i`; :math:`s(t_i)=0`, if :math:`A_z(t_i)` :math:`\leq`
    :math:`A_r`, at time :math:`t_i`.
@@ -540,14 +561,10 @@ Core KPI is intended to enable “apple-to-apple” comparisons among
 different building controls. To serve this purpose, KPIs in *core KPI*
 must be case insensitive, i.e., not depending on specific simulation
 case or simulation scenario. As of now, we consider two KPIs for *key
-KPI*: “HVAC system energy consumption”, as defined in *Equation*
-`[energy] <#energy>`__, and “comfort”, as defined in *Equation*
-`[tdev] <#tdev>`__.
+KPI*: “HVAC system energy consumption”, as defined in :eq:`eq:5`, and “comfort”, as defined in :eq:`eq:34`.
 
-.. math::
-
-   {\sum_{i=1}^{M}\sum_{k=0}^{N}({{T_i}^k-{T_{set}){\Delta}t}}}
-   \label{tdev}
+.. math:: {\sum_{i=1}^{M}\sum_{k=0}^{N}({{T_i}^k-{T_{set}){\Delta}t}}}
+   :label: eq:34
 
 where :math:`{T_i}^k` is the temperature of the :math:`i`\ th zone at
 the discrete :math:`k`\ th time step, :math:`T_{set}` is the zone
@@ -555,20 +572,17 @@ temperature set point, :math:`{\Delta}t` is the discrete time step
 length , :math:`M` is the number of zones, and :math:`N` is the number
 of discrete time steps.
 
-Similarly, we rewrite *Equation* `[energy] <#energy>`__ into a discrete
+Similarly, we rewrite *Equation* :eq:`eq:5` into a discrete
 form, as shown below, to facilitate the calculation:
 
-.. math::
-
-   {\sum_{j=1}^{S}\sum_{k=0}^{N}({{P_{j}}^k){\Delta}t}}
-   \label{E}
+.. math:: {\sum_{j=1}^{S}\sum_{k=0}^{N}({{P_{j}}^k){\Delta}t}}
+   :label: eq:35
 
 where :math:`{P_{j}}^k` is the power of the :math:`j`\ th HVAC device at
 the discrete :math:`k`\ th time step, :math:`S` is the number of HVAC
 device.
 
-In the Modelica building models, we specify the inputs for *Equation*
-`[tdev] <#tdev>`__ and *Equation* `[E] <#E>`__ with a module called
+In the Modelica building models, we specify the inputs for :eq:`eq:34` and :eq:`eq:35` with a module called
 *IBPSA.Utilities.IO.SignalExchange.Read*. This module allows users to
 define which variables are involved in a certain KPI calculation. For
 example, :math:`{T_i}^k` is defined with:
