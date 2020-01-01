@@ -16,6 +16,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/data`` contains prototype code for generating and managing data associated with test cases.  This includes boundary conditions, such as weather, schedules, and energy prices, as well as a map of test case FMU outputs needed to calculate KPIs.
 - ``/forecast`` contains prototype code for returning boundary condition forecast, such as weather, schedules, and energy prices.
 - ``/kpis`` contains prototype code for calculating key performance indicators.
+- ``/docs`` contains design requirements and guide documentation.
 
 ## Run Prototype Test Cases
 1) Build the test case by ``$ make build TESTCASE=testcase#`` where # is the number of the test case to build from ``testcases``.
