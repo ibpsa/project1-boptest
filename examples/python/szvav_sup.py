@@ -11,8 +11,9 @@ imported from a different module.
 # ----------------------
 import requests
 import time
-import kpicalculation
+from custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
+
 # ----------------------
 
 # TEST CONTROLLER IMPORT
@@ -68,13 +69,15 @@ def run(plot=False, kpiconfig=None):
 
     # import customized KPI if any
     customizedkpis=[]
-
+    customizedkpis_result={}
     if kpiconfig is not None:
         with open(kpiconfig) as f:
                 config=json.load(f,object_pairs_hook=collections.OrderedDict)
 
         for key in config.keys():
                customizedkpis.append(kpicalculation.cutomizedKPI(config[key]))
+               customizedkpis_result[kpicalculation.cutomizedKPI(config[key]).name]=[]
+    customizedkpis_result['time']=[]           
     # --------------------
 
 
@@ -83,7 +86,7 @@ def run(plot=False, kpiconfig=None):
     start = time.time()
     # Reset test case
     print('Resetting test case if needed.')
-    res = requests.put('{0}/reset'.format(url))
+    res = requests.put('{0}/reset'.format(url), data={'reset_time':0})
     print('\nRunning test case...')
     # Set simulation step
     res = requests.put('{0}/step'.format(url), data={'step':step})
@@ -98,8 +101,10 @@ def run(plot=False, kpiconfig=None):
         # Compute customized KPIs
         if customizedkpis is not None:
              for customizedkpi in customizedkpis:
-                  customizedkpi.processing_data(y,customizedkpi.data_point_num)
-                  print('KPI:\t{0}:\t{1}'.format(customizedkpi.model.name,round(customizedkpi.calculation(),2)))
+                  customizedkpi.processing_data(y)
+                  customizedkpis_result[customizedkpi.name].append(round(customizedkpi.calculation(),2))
+                  print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi.calculation(),2)))
+             customizedkpis_result['time'].append(y['time'])     
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
@@ -150,8 +155,8 @@ def run(plot=False, kpiconfig=None):
         plt.legend()
         plt.show()
     # --------------------
-        
-    return kpi, res
+   
+    return kpi,customizedkpis_result,res 
         
 if __name__ == "__main__":
-    kpi,res = run(kpiconfig='kpi.config')
+    kpi,customizedkpis_result,res = run(kpiconfig='custom_kpi/custom_kpis.config')
