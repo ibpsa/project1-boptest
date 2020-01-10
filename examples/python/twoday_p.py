@@ -21,7 +21,7 @@ import json,collections
 from controllers import pid
 # ----------------------
 
-def run(plot=False, kpiconfig=None):
+def run(plot=False, customized_kpi_config=None):
     '''Run test case.
     
     Parameters
@@ -29,14 +29,20 @@ def run(plot=False, kpiconfig=None):
     plot : bool, optional
         True to plot timeseries results.
         Default is False.
-        
+    customized_kpi_config : string, optional
+        The path of the json file which contains the customized kpi information.
+        Default is None.
+
     Returns
     -------
     kpi : dict
-        Dictionary of KPI names and values.
-        {kpi_name : value}    
+        Dictionary of core KPI names and values.
+        {kpi_name : value}
     res : dict
         Dictionary of trajectories of inputs and outputs.
+    customizedkpis_result: dict
+        Dictionary of tracked custom KPI calculations.
+        Empty if no customized KPI calculations defined.
     
     '''
 
@@ -66,17 +72,16 @@ def run(plot=False, kpiconfig=None):
     print('Default Simulation Step:\t{0}'.format(step_def))
     # --------------------
 
-    # import customized KPI if any
-    customizedkpis=[]
-    customizedkpis_result={}
-    if kpiconfig is not None:
-        with open(kpiconfig) as f:
+    # Define customized KPI if any
+    customizedkpis=[] # Initialize customzied kpi calculation list
+    customizedkpis_result={} # Initialize tracking of customized kpi calculation results
+    if customized_kpi_config is not None:
+        with open(customized_kpi_config) as f:
                 config=json.load(f,object_pairs_hook=collections.OrderedDict)
-
         for key in config.keys():
                customizedkpis.append(kpicalculation.cutomizedKPI(config[key]))
                customizedkpis_result[kpicalculation.cutomizedKPI(config[key]).name]=[]
-    customizedkpis_result['time']=[]       
+    customizedkpis_result['time']=[]           
     # --------------------
     
     # RUN TEST CASE
@@ -96,13 +101,14 @@ def run(plot=False, kpiconfig=None):
         y = requests.post('{0}/advance'.format(url), data=u).json()
         # Compute next control signal
         u = pid.compute_control(y)
-        # Compute customized KPIs
-        if customizedkpis is not None:
+        # Compute customized KPIs if any
+        if customized_kpi_config is not None:
              for customizedkpi in customizedkpis:
-                  customizedkpi.processing_data(y)
-                  customizedkpis_result[customizedkpi.name].append(round(customizedkpi.calculation(),2))
-                  print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi.calculation(),2)))
-             customizedkpis_result['time'].append(y['time']) 
+                  customizedkpi.processing_data(y) # Process data as needed for custom KPI
+                  customizedkpi_value = customizedkpi.calculation() # Calculate custom KPI value
+                  customizedkpis_result[customizedkpi.name].append(round(customizedkpi_value,2)) # Track custom KPI value
+                  print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi_value,2))) # Print custom KPI value
+             customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time  
     print('\nTest case complete.')
     # -------------
         
@@ -144,7 +150,7 @@ def run(plot=False, kpiconfig=None):
         plt.show()
     # --------------------
             
-    return kpi,customizedkpis_result,res 
+    return kpi,res,customizedkpis_result 
 
 if __name__ == "__main__":
-    kpi,customizedkpis_result,res= run(kpiconfig='custom_kpi/custom_kpis.config')
+    kpi,res,customizedkpis_result = run(kpiconfig='custom_kpi/custom_kpis.config')

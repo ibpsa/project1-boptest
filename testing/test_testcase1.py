@@ -32,7 +32,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         '''
         
         # Run test
-        kpi,customizedkpis_result,res = twoday_p.run()
+        kpi,res,customizedkpis_result = twoday_p.run()
         # Check kpis
         self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=3)
         self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=3)

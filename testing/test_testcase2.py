@@ -32,7 +32,7 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
         '''
         
         # Run test
-        kpi,customizedkpis_result,res = szvav_sup.run()
+        kpi,res,customizedkpis_result = szvav_sup.run()
         # Check kpis
         self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=3)
         self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=3)
