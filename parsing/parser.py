@@ -159,12 +159,15 @@ def write_wrapper(model_path, file_name, instances):
             f.write('\t// Original model\n')
             f.write('\t{0} mod(\n'.format(model_path))
             # Connect inputs to original model overwrite and activate signals
-            for i,block in enumerate(instances['Overwrite']):
-                f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals_wo_info[block], input_activate_wo_info[block]))
-                if i == len(instances['Overwrite'])-1:
-                    f.write(') "Original model with overwrites";\n')
-                else:
-                    f.write(',\n')
+            if len_write_blocks:
+                for i,block in enumerate(instances['Overwrite']):
+                    f.write('\t\t{0}(uExt(y={1}),activate(y={2}))'.format(block, input_signals_wo_info[block], input_activate_wo_info[block]))
+                    if i == len(instances['Overwrite'])-1:
+                        f.write(') "Original model with overwrites";\n')
+                    else:
+                        f.write(',\n')
+            else:
+                f.write(') "Original model with overwrites";\n')
             # End file
             f.write('end wrapped;')
         # Export as fmu
