@@ -1,0 +1,13 @@
+**kpi_ID**,**Description**
+None,Not used for KPI
+AirZoneTemperature,Air zone temperature
+RadiativeZoneTemperature,Radiative zone temperature
+OperativeZoneTemperature,Operative zone temperature
+RelativeHumidity,Relative humidity
+CO2Concentration,CO2 concentration
+ElectricPower,Electric power from grid
+DistrictHeatingPower,Thermal power from district heating
+GasPower,Thermal power from natural gas
+BiomassPower,Thermal power from biomass
+SolarThermalPower,Thermal power from solar thermal
+FreshWaterFlowRate,FreshWaterFlowRate
