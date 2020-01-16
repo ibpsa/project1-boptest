@@ -335,9 +335,9 @@ class Data_Generator(object):
         Parameters
         ----------
         start_day_time: string, default is '07:00:00'
-            string in pandas date-time format with the starting day time
+            string in pandas date-time format with the starting occupied time
         end_day_time: string, default is '18:00:00'
-            string in pandas date-time format with the ending day time
+            string in pandas date-time format with the ending occupied time
         RadOcc: num, default is 1000
             Radiant internal load during occupied times in W
         RadUnocc: num, default is 0
@@ -372,10 +372,10 @@ class Data_Generator(object):
     def generate_setpoints(self,
                          start_day_time = '07:00:00',
                          end_day_time   = '18:00:00',
-                         THeaOn  = 22+273.15,
-                         THeaOff = 22+273.15,
-                         TCooOn  = 23+273.15,
-                         TCooOff = 23+273.15):
+                         THeaOcc  = 22+273.15,
+                         THeaUnocc = 22+273.15,
+                         TCooOcc  = 23+273.15,
+                         TCooUnocc = 23+273.15):
         '''Append the lower and upper temperature set points 
         that are used in the model to define the comfort range.
         These temperature set points are defined in Kelvins 
@@ -385,17 +385,17 @@ class Data_Generator(object):
         Parameters
         ----------
         start_day_time: string, default is '07:00:00'
-            string in pandas date-time format with the starting day time
+            string in pandas date-time format with the starting occupied time
         end_day_time: string, default is '18:00:00'
-            string in pandas date-time format with the ending day time
-        THeaOn: float, default is 22+273.15
-            Heating temperature set-point during the day time
-        THeaoff: float, default is 22+273.15
-            Heating temperature set-point out of the day time
-        TCooOn: float, default is 23+273.15
-            Cooling temperature set-point during the day time
-        TCoooff: float, default is 23+273.15
-            Cooling temperature set-point out of the day time
+            string in pandas date-time format with the ending occupied time
+        THeaOcc: float, default is 22+273.15
+            Heating temperature set-point during occupied hours
+        THeaUnocc: float, default is 22+273.15
+            Heating temperature set-point during unoccupied hours
+        TCooOcc: float, default is 23+273.15
+            Cooling temperature set-point during occupied hours
+        TCooUNocc: float, default is 23+273.15
+            Cooling temperature set-point during unoccupied hours
             
         '''
         
@@ -405,10 +405,10 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
         
-        df.loc[df.index.isin(day_time_index), 'LowerSetp'] = THeaOn
-        df.loc[df.index.isin(day_time_index), 'UpperSetp'] = TCooOn
-        df.loc[~df.index.isin(day_time_index),'LowerSetp'] = THeaOff
-        df.loc[~df.index.isin(day_time_index),'UpperSetp'] = TCooOff
+        df.loc[df.index.isin(day_time_index), 'LowerSetp'] = THeaOcc
+        df.loc[df.index.isin(day_time_index), 'UpperSetp'] = TCooUnocc
+        df.loc[~df.index.isin(day_time_index),'LowerSetp'] = THeaOcc
+        df.loc[~df.index.isin(day_time_index),'UpperSetp'] = TCooUnocc
         
         # Store in csv
         self.store_df(df,'setpoints')
