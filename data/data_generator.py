@@ -211,33 +211,47 @@ class Data_Generator(object):
         return df
             
     def generate_prices(self,
+                      start_day_time = '08:00:00',
+                      end_day_time = '17:00:00',
                       price_constant = 0.2,
                       price_day = 0.3,
-                      price_night = 0.1,
-                      start_day_time = '08:00:00',
-                      end_day_time = '17:00:00'):
+                      price_night = 0.1, 
+                      price_district_heating_power = 0.1,
+                      price_gas_power = 0.07,
+                      price_biomass_power = 0.2,
+                      price_solar_thermal_power = 0.0):
+                      
         '''Append the prices for different energy sources.
         There are three different scenarios considered for electricity:
             1. PriceElectricPowerConstant: completely constant price
             2. PriceElectricPowerDynamic: day/night tariff
             3. PriceElectricPowerHighlyDynamic: spot price 
             
-        All prices are expressed in ($/euros)/Kw*h.
+        All prices are expressed in ($/euros)/KW*h.
         
         Parameters
         ----------
-        price_constant : float, default is 0.2
-            price of the constant price profile
-        price_day : float, default is 0.3
-            price during the day for the dynamic price profile
-        price_night : float, default is 0.1
-            price during the night for the dynamic price profile
         start_day_time : string, default is '08:00:00'
             datetime indicating the starting time of the day
             for the dynamic price profile
         end_day_time : string, default is '17:00:00'
             datetime indicating the end time of the day for the
             dynamic price profile
+        price_constant : float, default is 0.2
+            price of the constant price profile
+        price_day : float, default is 0.3
+            price during the day for the dynamic price profile
+        price_night : float, default is 0.1
+            price during the night for the dynamic price profile
+        price_district_heating_power : float, default is 0.1
+            price of the district heating power
+        price_gas_power : float, default is 0.07
+            price of the gas power
+        price_biomass_power : float, default is 0.2
+            price of the biomass power
+        price_solar_thermal_power : float, default is 0.0
+            price of the solar thermal power
+        
         
         '''
         
@@ -257,17 +271,22 @@ class Data_Generator(object):
         df['PriceElectricPowerHighlyDynamic'] = \
             price_day*np.sin(self.time*2*np.pi/24/3600)
         
-        df['PriceDistrictHeatingPower'] = 0.1
-        df['PriceGasPower']             = 0.07
-        df['PriceBiomassPower']         = 0.2
-        df['PriceSolarThermalPower']    = 0.
+        df['PriceDistrictHeatingPower'] = price_district_heating_power
+        df['PriceGasPower']             = price_gas_power
+        df['PriceBiomassPower']         = price_biomass_power
+        df['PriceSolarThermalPower']    = price_solar_thermal_power
         
         # Store in csv
         self.store_df(df,'prices')
         
         return df
         
-    def generate_emissions(self):
+    def generate_emissions(self,
+                           emissions_electric_power = 0.5,
+                           emissions_district_heating_power = 0.1,
+                           emissions_gas_power = 0.2,
+                           emissions_biomass_power = 0.0,
+                           emissions_solar_thermal_power = 0.0):
         '''Append the emission factors for every possible 
         energy vector. The units are in kgCO2/kW*h. For the 
         electricity this factor depends on the energy mix of 
@@ -275,16 +294,29 @@ class Data_Generator(object):
         it depends on the net calorific value and the type
         of gas.
         
+        Parameters
+        ----------
+        emissions_electric_power : float, default is 0.5
+            emission factor for electric power in kgCO2/kWh
+        emissions_district_heating_power : float, default is 0.1
+            emission factor for district heating power in kgCO2/kWh
+        emissions_gas_power : float, default is 0.2
+            emission factor for gas power in kgCO2/kWh
+        emissions_biomass_power : float, default is 0.0
+            emission factor for biomass power in kgCO2/kWh
+        emissions_solar_thermal_power : float, default is 0.0
+            emission factor for solar_thermal power in kgCO2/kWh
+
         '''
         
         # Initialize data frame
         df = self.create_df()
         
-        df['EmissionsElectricPower']        = 0.5
-        df['EmissionsDistrictHeatingPower'] = 0.1
-        df['EmissionsGasPower']             = 0.2
-        df['EmissionsBiomassPower']         = 0.
-        df['EmissionsSolarThermalPower']    = 0.
+        df['EmissionsElectricPower']        = emissions_electric_power
+        df['EmissionsDistrictHeatingPower'] = emissions_district_heating_power
+        df['EmissionsGasPower']             = emissions_gas_power
+        df['EmissionsBiomassPower']         = emissions_biomass_power
+        df['EmissionsSolarThermalPower']    = emissions_solar_thermal_power
         
         # Store in csv
         self.store_df(df,'emissions')
