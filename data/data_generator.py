@@ -227,7 +227,7 @@ class Data_Generator(object):
             2. PriceElectricPowerDynamic: day/night tariff
             3. PriceElectricPowerHighlyDynamic: spot price 
             
-        All prices are expressed in ($/euros)/KW*h.
+        All prices are expressed in ($/euros)/kWh.
         
         Parameters
         ----------
@@ -288,7 +288,7 @@ class Data_Generator(object):
                            emissions_biomass_power = 0.0,
                            emissions_solar_thermal_power = 0.0):
         '''Append the emission factors for every possible 
-        energy vector. The units are in kgCO2/kW*h. For the 
+        energy vector. The units are in kgCO2/kWh. For the 
         electricity this factor depends on the energy mix of 
         the building location at every instant. For the gas
         it depends on the net calorific value and the type
