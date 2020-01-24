@@ -74,10 +74,12 @@ model FanCoilUnit_T
         rotation=90,
         origin={10,50})));
   Modelica.Blocks.Sources.RealExpression powCooThe(y=max(0, -senSupFlo.m_flow*(
-        supplyAir.h_outflow - returnAir.h_outflow))) "Cooling thermal power"
+        supplyAir.h_outflow - inStream(returnAir.h_outflow))))
+                                                     "Cooling thermal power"
     annotation (Placement(transformation(extent={{-100,170},{-80,190}})));
   Modelica.Blocks.Sources.RealExpression powHeaThe(y=max(0, senSupFlo.m_flow*(
-        supplyAir.h_outflow - returnAir.h_outflow))) "Heating thermal power"
+        supplyAir.h_outflow - inStream(returnAir.h_outflow))))
+                                                     "Heating thermal power"
     annotation (Placement(transformation(extent={{-100,150},{-80,170}})));
   Buildings.Fluid.Sources.PropertySource_T coi(use_T_in=true, redeclare package
       Medium = Medium1) "Cooling and heating coil" annotation (Placement(
