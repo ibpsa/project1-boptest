@@ -265,10 +265,11 @@ model Case600FF
   IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="Zone air CO2 concentration",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-    y(unit="1")) "Read room air CO2 concentration"
+    y(unit="ppm"))
+                 "Read room air CO2 concentration"
     annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
 
-  Modelica.Blocks.Interfaces.RealOutput CO2RooAir "Room air CO2 concentration"
+  Modelica.Blocks.Interfaces.RealOutput CO2RooAir(unit="ppm") "Room air CO2 concentration"
     annotation (Placement(transformation(extent={{160,-50},{180,-30}}),
         iconTransformation(extent={{160,-50},{180,-30}})));
   Modelica.Blocks.Sources.Constant conCO2Out(k=400e-6)
@@ -282,6 +283,8 @@ model Case600FF
   Modelica.Blocks.Math.Gain gaiCO2Gen(k=roo.AFlo)
     "Gain for CO2 generation by floor area"
     annotation (Placement(transformation(extent={{-50,-18},{-40,-8}})));
+  Modelica.Blocks.Math.Gain gaiPPM(k=1e6) "Convert mass fraction to PPM"
+    annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
@@ -388,8 +391,6 @@ equation
     annotation (Line(points={{2,-60},{8,-60}}, color={0,127,255}));
   connect(senCO2.port_a, roo.ports[5]) annotation (Line(points={{28,-60},{30,-60},
           {30,-20.1},{39.75,-20.1}}, color={0,127,255}));
-  connect(senCO2.C, reaCO2RooAir.u)
-    annotation (Line(points={{18,-49},{18,-30},{118,-30}}, color={0,0,127}));
   connect(occ.co2, gaiCO2Gen.u) annotation (Line(points={{-79,82},{-66,82},{-66,
           -13},{-51,-13}}, color={0,0,127}));
   connect(gaiCO2Gen.y, roo.C_flow[1]) annotation (Line(points={{-39.5,-13},{-1.75,
@@ -406,6 +407,10 @@ equation
           -68},{-16,-64.8},{-10,-64.8}}, color={0,0,127}));
   connect(conCO2Out.y, souInf.C_in[1]) annotation (Line(points={{-25.6,-68},{-16,
           -68},{-16,-44.8},{4,-44.8}}, color={0,0,127}));
+  connect(senCO2.C, gaiPPM.u)
+    annotation (Line(points={{18,-49},{18,-30},{88,-30}}, color={0,0,127}));
+  connect(gaiPPM.y, reaCO2RooAir.u)
+    annotation (Line(points={{111,-30},{118,-30}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"

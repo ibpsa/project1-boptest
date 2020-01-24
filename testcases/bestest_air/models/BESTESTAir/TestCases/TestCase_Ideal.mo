@@ -305,7 +305,7 @@ The model outputs are:
 <code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>zon_reaCO2RooAir_y</code> [1] [min=None, max=None]: Zone air CO2 concentration
+<code>zon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
 </li>
 </ul>
 <h3>Additional System Design</h3>
