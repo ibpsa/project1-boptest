@@ -106,7 +106,7 @@ model FanCoilUnit_T
       max=1,
       unit="1")) "Overwrite for fan control signal"
     annotation (Placement(transformation(extent={{-120,-50},{-100,-30}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaFanSpeSet(y(unit="1"), description=
+  IBPSA.Utilities.IO.SignalExchange.Read reaFanSet(y(unit="1"), description=
         "Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate")
     "Read supply fan control setpoint"
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
@@ -151,9 +151,9 @@ equation
           -4},{-2,-4}}, color={0,0,127}));
   connect(uFan, oveFan.u)
     annotation (Line(points={{-160,-40},{-122,-40}}, color={0,0,127}));
-  connect(oveFan.y, reaFanSpeSet.u)
+  connect(oveFan.y, reaFanSet.u)
     annotation (Line(points={{-99,-40},{-82,-40}}, color={0,0,127}));
-  connect(reaFanSpeSet.y, fanGai.u)
+  connect(reaFanSet.y, fanGai.u)
     annotation (Line(points={{-59,-40},{-42,-40}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -180},{140,180}}),                                  graphics={
