@@ -82,6 +82,9 @@ model Thermostat_T
   Modelica.Blocks.Logical.Hysteresis hysCoo(uLow=-1, uHigh=0)
     "Hysteresis for cooling signal"
     annotation (Placement(transformation(extent={{-20,-30},{0,-10}})));
+  Modelica.Blocks.Nonlinear.Limiter fanLim(uMax=1, uMin=0)
+    "Limit fan signal to between 0 and 1"
+    annotation (Placement(transformation(extent={{70,-10},{90,10}})));
 equation
   connect(TZon, heaPI.u_m)
     annotation (Line(points={{-120,0},{0,0},{0,28}},     color={0,0,127}));
@@ -95,8 +98,6 @@ equation
           6}}, color={0,0,127}));
   connect(heaPI.y, add.u2) annotation (Line(points={{11,40},{20,40},{20,-6},{38,
           -6}},     color={0,0,127}));
-  connect(add.y, yFan)
-    annotation (Line(points={{61,0},{110,0}}, color={0,0,127}));
   connect(TSetHea.y[1], oveTSetHea.u)
     annotation (Line(points={{-79,40},{-72,40}}, color={0,0,127}));
   connect(TSetCoo.y[1], oveTSetCoo.u)
@@ -123,6 +124,10 @@ equation
           {-56,-20}}, color={0,0,127}));
   connect(TSetCoo.y[1], errCoo.u2) annotation (Line(points={{-79,80},{-76,80},{
           -76,-40},{-48,-40},{-48,-28}}, color={0,0,127}));
+  connect(add.y, fanLim.u)
+    annotation (Line(points={{61,0},{68,0}}, color={0,0,127}));
+  connect(fanLim.y, yFan)
+    annotation (Line(points={{91,0},{110,0}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                                 Rectangle(
         extent={{-100,-100},{100,100}},
