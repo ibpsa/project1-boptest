@@ -311,7 +311,7 @@ The model outputs are:
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
-There is no daylighting system in the building.
+Artificial lighting is provided by hanging fluorescent fixtures.
 </p>
 <h4>Shading</h4>
 <p>
