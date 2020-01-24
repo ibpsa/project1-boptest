@@ -27,7 +27,7 @@ model FanCoilUnit_T
     annotation (Placement(transformation(extent={{140,150},{160,170}})));
   Modelica.Blocks.Interfaces.RealOutput PCoo "Cooling power"
     annotation (Placement(transformation(extent={{140,170},{160,190}})));
-  Modelica.Blocks.Math.Gain powHea(k=eff)
+  Modelica.Blocks.Math.Gain powHea(k=1/eff)
     annotation (Placement(transformation(extent={{-8,150},{12,170}})));
   Modelica.Blocks.Math.Gain powCoo(k=1/COP)
     annotation (Placement(transformation(extent={{-8,170},{12,190}})));
