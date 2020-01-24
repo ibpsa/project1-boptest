@@ -259,7 +259,7 @@ The model inputs are:
 <code>fcu_oveTSup_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint
 </li>
 <li>
-<code>fcu_oveFan_u</code> [1] [min=0.0, max=1.0]: Fan speed control signal
+<code>fcu_oveFan_u</code> [1] [min=0.0, max=1.0]: Fan control signal as air mass flow rate normalized to the design air mass flow rate
 </li>
 <li>
 <code>con_oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
@@ -299,7 +299,7 @@ The model outputs are:
 <code>zon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
 </li>
 <li>
-<code>fcu_reaFanSpeSet_y</code> [1] [min=None, max=None]: Supply fan speed setpoint
+<code>fcu_reaFanSet_y</code> [1] [min=None, max=None]: Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate
 </li>
 <li>
 <code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature

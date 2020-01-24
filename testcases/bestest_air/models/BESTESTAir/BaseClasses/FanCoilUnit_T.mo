@@ -100,13 +100,15 @@ model FanCoilUnit_T
     "Read supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveFan(description=
-        "Fan speed control signal", u(
+        "Fan control signal as air mass flow rate normalized to the design air mass flow rate",
+                                    u(
       min=0,
       max=1,
-      unit="1")) "Overwrite for fan speed control signal"
+      unit="1")) "Overwrite for fan control signal"
     annotation (Placement(transformation(extent={{-120,-50},{-100,-30}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaFanSpeSet(y(unit="1"), description=
-        "Supply fan speed setpoint") "Read supply fan speed setpoint"
+        "Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate")
+    "Read supply fan control setpoint"
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
 equation
   connect(senSupFlo.m_flow, reaFloSup.u)
