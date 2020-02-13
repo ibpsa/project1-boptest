@@ -167,7 +167,7 @@ def write_wrapper(model_path, file_name, instances):
                     else:
                         f.write(',\n')
             else:
-                f.write(') "Original model with overwrites";\n')
+                f.write(') "Original model without overwrites";\n')
             # End file
             f.write('end wrapped;')
         # Export as fmu
