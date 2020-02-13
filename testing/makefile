@@ -27,22 +27,34 @@ copy_to_jm:
 copy_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
 
+copy_testcase_from_jm:
+	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../testcases/${ARGS}
+
 exec_jm:
 	docker exec -it ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
 
 stop_jm:
 	docker stop ${IMG_NAME}
 # Make sure jm image stops being used
-	python sleep3.py
+	python sleep10.py
 
 compile_testcase_model:
 	make run_jm
 	make copy_to_jm ARGS=parsing
 	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=${TESTCASE}
+	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
-	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
-	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.mo
+	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
+	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.mo
+	make stop_jm
+
+generate_testcase_data:
+	make run_jm
+	make copy_to_jm ARGS=parsing
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=testcases/${TESTCASE}
+	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	make stop_jm
 
 ###############################################################################
@@ -56,7 +68,7 @@ test_testcase1:
 	cd .. &&  make build TESTCASE=testcase1
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=testcase1
-	python sleep3.py
+	python sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
@@ -74,7 +86,7 @@ test_testcase2:
 	cd .. && make build TESTCASE=testcase2
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=testcase2
-	python sleep3.py
+	python sleep10.py
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
@@ -101,14 +113,50 @@ test_data:
 	make run_jm
 # Copy the required files and folders for the test
 	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=testcase2/models
-	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=kpis
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
 	docker cp ../testing/references/data/kpis.json ${IMG_NAME}:/usr/local/testing/models
 # Run test_data.py
 	make exec_jm ARGS="python test_data.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
+# Stop jm docker container
+	make stop_jm
+	
+test_forecast:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase2
+# Run jm docker container
+	make run_jm
+# Copy the required files and folders for the test
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=kpis
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
+	make copy_to_jm ARGS=testcase.py
+# Run test_data.py
+	make exec_jm ARGS="python test_forecast.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/forecast ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
+# Stop jm docker container
+	make stop_jm
+	
+test_kpis:
+# Run jm docker container
+	make run_jm
+# Copy the required files and folders for the test
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=forecast
+	make copy_to_jm ARGS=kpis
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
+	make copy_to_jm ARGS=testcase.py
+# Run test_data.py
+	make exec_jm ARGS="python test_kpis.py"
 # Stop jm docker container
 	make stop_jm
 
@@ -124,6 +172,8 @@ test_all:
 	make test_testcase1
 	make test_testcase2
 	make test_data
+	make test_forecast
+	make test_kpis
 # Remove jm
 	make remove_jm_image
 # Report test results

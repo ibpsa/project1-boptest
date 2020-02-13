@@ -1,4 +1,4 @@
-FROM michaelwetter/ubuntu-1604_jmodelica_trunk
+FROM michaelwetter/ubuntu-1804_jmodelica_trunk
 
 ARG testcase
 
@@ -19,12 +19,14 @@ RUN pip install --user flask-restful pandas
 RUN mkdir models && \
     mkdir doc
 
-COPY ${testcase}/models/*.fmu models/
-COPY ${testcase}/doc/ doc/
-COPY ${testcase}/config.py ./
+COPY testcases/${testcase}/models/*.fmu models/
+COPY testcases/${testcase}/doc/ doc/
+COPY testcases/${testcase}/config.py ./
 COPY restapi.py ./
 COPY testcase.py ./
 
 COPY data data/
+COPY forecast forecast/
+COPY kpis kpis/
 ENV PYTHONPATH $PYTHONPATH:$HOME
 

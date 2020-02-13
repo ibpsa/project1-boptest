@@ -12,7 +12,12 @@ import utilities
 import requests
 from examples.python import twoday_p
 
-kpi_ref = {'energy' : 13.273897900783135, 'comfort' : 6.572523639734243}
+kpi_ref = {'tdis_tot': 10.6329491656,
+           'ener_tot': 21.474759625,
+           'cost_tot': 1.50323317375,
+           'emis_tot': 4.294951925,
+           'time_rat_python': 0.000226274950913,
+           'time_rat_julia':  7.32503600742506e-05 }
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of proportional feedback controller in Python.
@@ -34,8 +39,12 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         # Run test
         kpi,res,customizedkpis_result = twoday_p.run()
         # Check kpis
-        self.assertAlmostEqual(kpi['energy'], kpi_ref['energy'], places=3)
-        self.assertAlmostEqual(kpi['comfort'], kpi_ref['comfort'], places=3)
+        self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_python'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
+        
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame()
@@ -82,8 +91,12 @@ class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
         res_path = os.path.join(utilities.get_root_path(), 'examples', 'julia', 'result_testcase1.csv')
         # Check kpis
         kpi = pd.read_csv(kpi_path)
-        self.assertAlmostEqual(kpi['energy'].get_values()[0], kpi_ref['energy'], places=3)
-        self.assertAlmostEqual(kpi['comfort'].get_values()[0], kpi_ref['comfort'], places=3)
+        self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
+        
         # Check trajectories
         df = pd.read_csv(res_path, index_col = 'time')
         # Set reference file path
@@ -110,10 +123,10 @@ class MinMax(unittest.TestCase):
         
         # Run test
         requests.put('{0}/reset'.format(self.url))
-        y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-100}).json()
+        y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
         # Check kpis
         value = float(y['PHea_y'])
-        self.assertEqual(value, 0.0)
+        self.assertAlmostEqual(value, 10101.010101010103, places=3)
         
     def test_max(self):
         '''Tests that if input is above max, input is set to max.
@@ -128,7 +141,7 @@ class MinMax(unittest.TestCase):
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
         
 class API(unittest.TestCase, utilities.partialTestAPI):
-    '''Tests the api for testcase 2.  
+    '''Tests the api for testcase 1.  
     
     Actual test methods implemented in utilities.partialTestAPI.  Set self 
     attributes defined there for particular testcase in setUp method here.
@@ -149,7 +162,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Maximum":None}, 
                            "oveAct_u": {"Unit": "W", 
                                         "Description": "Heater thermal power",
-                                        "Minimum":0,
+                                        "Minimum":-10000,
                                         "Maximum":10000}}
         self.measurements_ref = {"PHea_y": {"Unit": "W", 
                                             "Description": "Heater power",
@@ -163,6 +176,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.y_ref = {u'PHea_y': 0.0, 
                       u'TRooAir_y': 293.15015556512265,
                       u'time': 60.0}
+        self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc1_forecast_default.csv')
+        self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
+        self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc1_forecast_interval.csv')
 
         
 if __name__ == '__main__':

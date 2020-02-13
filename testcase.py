@@ -10,8 +10,10 @@ from pyfmi import load_fmu
 import numpy as np
 import copy
 import config
-from scipy.integrate import trapz
+import time
 from data.data_manager import Data_Manager
+from forecast.forecaster import Forecaster
+from kpis.kpi_calculator import KPI_Calculator
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -33,9 +35,14 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Instantiate a data manager for this test case
+        self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
-        data_manager = Data_Manager(testcase=self)
-        data_manager.load_data_and_kpisjson()
+        self.data_manager.load_data_and_kpisjson()
+        # Instantiate a forecaster for this test case
+        self.forecaster = Forecaster(testcase=self)
+        # Instantiate a KPI calculator for the test case
+        self.cal = KPI_Calculator(testcase=self)
         # Get available control inputs and outputs
         input_names = self.fmu.get_model_variables(causality = 2).keys()
         output_names = self.fmu.get_model_variables(causality = 3).keys()
@@ -57,10 +64,13 @@ class TestCase(object):
         self.options['CVode_options']['rtol'] = 1e-6 
         # Set default communication step
         self.set_step(con['step'])
+        # Set default forecast parameters
+        self.set_forecast_parameters(con['horizon'], con['interval'])
         # Set initial simulation start
         self.start_time = 0
         self.initialize = True
         self.options['initialize'] = self.initialize
+        self.elapsed_control_time = []
         
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -79,6 +89,11 @@ class TestCase(object):
             
         '''
         
+        # Calculate and store the elapsed time 
+        if hasattr(self, 'tic_time'):
+            self.tac_time = time.time()
+            self.elapsed_control_time.append(self.tac_time-self.tic_time)
+            
         # Set final time
         self.final_time = self.start_time + self.step
         # Set control inputs if they exist and are written
@@ -129,6 +144,8 @@ class TestCase(object):
         self.start_time = self.final_time
         # Prevent inialize
         self.initialize = False
+        # Raise the flag to compute time lapse
+        self.tic_time = time.time()
         
         return self.y
 
@@ -230,40 +247,72 @@ class TestCase(object):
         None
         
         Returns
+        -------
         kpis : dict
             Dictionary containing KPI names and values.
             {<kpi_name>:<kpi_value>}
         
         '''
         
-        kpis = dict()
-        # Calculate each KPI using json for signalsand save in dictionary
-        for kpi in self.kpi_json.keys():
-            print(kpi, type(kpi))
-            if 'Power' in kpi:
-                # Calculate total energy [KWh - assumes measured in J]
-                E = 0
-                for signal in self.kpi_json[kpi]:
-                    time = self.y_store['time']
-                    power = self.y_store[signal]
-                    E = E + np.trapz(power, time)
-                # Store result in dictionary
-                kpis['energy'] = E*2.77778e-7 # Convert to kWh
-            elif kpi == 'AirZoneTemperature':
-                # Calculate total discomfort [K-h = assumes measured in K]
-                tot_dis = 0
-                heat_setpoint = 273.15+20
-                for signal in self.kpi_json[kpi]:
-                    data = np.array(self.y_store[signal])
-                    dT_heating = heat_setpoint - data
-                    dT_heating[dT_heating<0]=0
-                    tot_dis = tot_dis + trapz(dT_heating,self.y_store['time'])/3600
-                # Store result in dictionary
-                kpis['comfort'] = tot_dis
-            else:
-                print('No calculation for KPI named "{0}".'.format(kpi))
+        # Calculate the core kpis 
+
+        kpis = self.cal.get_core_kpis()
 
         return kpis
+
+    def set_forecast_parameters(self,horizon,interval):
+        '''Sets the forecast horizon and interval, both in seconds.
+        
+        Parameters
+        ----------
+        horizon : int
+            Forecast horizon in seconds.
+        interval : int
+            Forecast interval in seconds.
+            
+        Returns
+        -------
+        None
+        
+        '''
+        
+        self.horizon = float(horizon)
+        self.interval = float(interval)
+        
+        return None
+    
+    def get_forecast_parameters(self):
+        '''Returns the current forecast horizon and interval parameters.'''
+        
+        forecast_parameters = dict()
+        forecast_parameters['horizon'] = self.horizon
+        forecast_parameters['interval'] = self.interval
+        
+        return forecast_parameters
+
+    def get_forecast(self):
+        '''Returns the test case data forecast
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        forecast : dict 
+            Dictionary with the requested forecast data
+            {<variable_name>:<variable_forecast_trajectory>}
+            where <variable_name> is a string with the variable
+            key and <variable_forecast_trajectory> is a list with
+            the forecasted values. 'time' is included as a variable
+        
+        '''
+        
+        # Get the forecast
+        forecast = self.forecaster.get_forecast(horizon=self.horizon,
+                                                interval=self.interval)
+        
+        return forecast
         
     def get_name(self):
         '''Returns the name of the test case fmu.
@@ -282,6 +331,24 @@ class TestCase(object):
         name = self.fmupath[7:-4]
         
         return name
+        
+    def get_elapsed_control_time(self):
+        '''Returns the elapsed control time vector for the case.
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        elapsed_control_time : list of floats
+            elapsed_control_time for each control step.
+            
+        '''
+        
+        elapsed_control_time = self.elapsed_control_time
+        
+        return elapsed_control_time
         
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.

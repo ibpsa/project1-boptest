@@ -119,10 +119,16 @@ def run(plot=False, customized_kpi_config=None):
     kpi = requests.get('{0}/kpi'.format(url)).json()
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
-        if key == 'energy':
+        if key == 'ener_tot':
             unit = 'kWh'
-        elif key == 'comfort':
+        elif key == 'tdis_tot':
             unit = 'Kh'
+        elif key == 'cost_tot':
+            unit = 'Euro or $'
+        elif key == 'emis_tot':
+            unit = 'KgCO2'
+        else:
+            unit = None
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
     # ------------ 
         

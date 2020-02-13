@@ -1,0 +1,3 @@
+**NAME**,**UNIT**,**DESCRIPTION**
+LowerSetp[z],K,Lower temperature set point of the comfort range at zone ‘z’
+UpperSetp[z],K,Upper temperature set point of the comfort range at zone ‘z’
