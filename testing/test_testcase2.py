@@ -12,10 +12,10 @@ import utilities
 import requests
 from examples.python import szvav_sup
 
-kpi_ref = {'tdis_tot': 6.0386812587473635,
-           'ener_tot': 147.1202022345602,
-           'cost_tot': 29.42404044691204,
-           'emis_tot': 73.5601011172801,
+kpi_ref = {'tdis_tot': 6.04428275644,
+           'ener_tot': 147.22400811308495,
+           'cost_tot': 29.4448016226,
+           'emis_tot': 73.6120040565,
            'time_rat_python': 0.000198015450603,
            'time_rat_julia': 0.000198015450603}
 
@@ -200,11 +200,11 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Minimum":None,
                                                "Maximum":None}}
         self.step_ref = 3600.0
-        self.y_ref = {u'PFan_y': 5.231953892667217,
-                      u'TRooAir_y': 295.06442470392363, 
+        self.y_ref = {u'PFan_y': 5.231953892668184,
+                      u'TRooAir_y': 295.06434640698365, 
                       u'time': 3600.0, 
                       u'PCoo_y': 0.0, 
-                      u'PHea_y': 2422.6914961978637,
+                      u'PHea_y': 2422.525863088172,
                       u'PPum_y': -0.0,
                       u'senTSetRooCoo_y': 296.15,
                       u'senTSetRooHea_y': 295.15}
