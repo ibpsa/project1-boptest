@@ -12,10 +12,10 @@ import utilities
 import requests
 from examples.python import szvav_sup
 
-kpi_ref = {'tdis_tot': 6.0386812587473635,
-           'ener_tot': 147.1202022345602,
-           'cost_tot': 29.42404044691204,
-           'emis_tot': 73.5601011172801,
+kpi_ref = {'tdis_tot': 6.04428275644,
+           'ener_tot': 147.22400811308495,
+           'cost_tot': 29.4448016226,
+           'emis_tot': 73.6120040565,
            'time_rat_python': 0.000198015450603,
            'time_rat_julia': 0.000198015450603}
 
@@ -37,7 +37,7 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
         '''
         
         # Run test
-        kpi,res = szvav_sup.run()
+        kpi,res,customizedkpis_result = szvav_sup.run()
         # Check kpis
         self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
@@ -57,6 +57,17 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_python.csv')
         # Test
         self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check customized kpi trajectories
+        # Make dataframe
+        df = pd.DataFrame()
+        for x in customizedkpis_result.keys():
+                if x != 'time':
+                    df = pd.concat((df,pd.DataFrame(data=customizedkpis_result[x], index=customizedkpis_result['time'], columns=[x])), axis=1)
+        df.index.name = 'time'
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'customizedkpis.csv')
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)        
 
 class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of a supervisory controller in Julia.
@@ -189,11 +200,11 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Minimum":None,
                                                "Maximum":None}}
         self.step_ref = 3600.0
-        self.y_ref = {u'PFan_y': 5.231953892667217,
-                      u'TRooAir_y': 295.06442470392363, 
+        self.y_ref = {u'PFan_y': 5.231953892668184,
+                      u'TRooAir_y': 295.06434640698365, 
                       u'time': 3600.0, 
                       u'PCoo_y': 0.0, 
-                      u'PHea_y': 2422.6914961978637,
+                      u'PHea_y': 2422.525863088172,
                       u'PPum_y': -0.0,
                       u'senTSetRooCoo_y': 296.15,
                       u'senTSetRooHea_y': 295.15}
