@@ -267,12 +267,13 @@ model Case600FF
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm"))
                  "Read room air CO2 concentration"
-    annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
+    annotation (Placement(transformation(extent={{130,-40},{150,-20}})));
 
   Modelica.Blocks.Interfaces.RealOutput CO2RooAir(unit="ppm") "Room air CO2 concentration"
     annotation (Placement(transformation(extent={{160,-50},{180,-30}}),
         iconTransformation(extent={{160,-50},{180,-30}})));
-  Modelica.Blocks.Sources.Constant conCO2Out(k=400e-6)
+  Modelica.Blocks.Sources.Constant conCO2Out(k=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+        /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
     "Outside air CO2 concentration"
     annotation (Placement(transformation(extent={{-34,-72},{-26,-64}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2(
@@ -284,7 +285,11 @@ model Case600FF
     "Gain for CO2 generation by floor area"
     annotation (Placement(transformation(extent={{-50,-18},{-40,-8}})));
   Modelica.Blocks.Math.Gain gaiPPM(k=1e6) "Convert mass fraction to PPM"
-    annotation (Placement(transformation(extent={{90,-40},{110,-20}})));
+    annotation (Placement(transformation(extent={{100,-40},{120,-20}})));
+  Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra(MMMea=
+        Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
+    "Conversion from mass fraction CO2 to volume fraction CO2"
+    annotation (Placement(transformation(extent={{70,-40},{90,-20}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
@@ -383,8 +388,9 @@ equation
           {96,0},{118,0}}, color={0,0,127}));
   connect(reaTRooAir.y, TRooAir)
     annotation (Line(points={{141,0},{170,0}}, color={0,0,127}));
-  connect(reaCO2RooAir.y, CO2RooAir) annotation (Line(points={{141,-30},{156,-30},
-          {156,-40},{170,-40}}, color={0,0,127}));
+  connect(reaCO2RooAir.y, CO2RooAir) annotation (Line(points={{151,-30},{156,
+          -30},{156,-40},{170,-40}},
+                                color={0,0,127}));
   connect(returnAir, roo.ports[4]) annotation (Line(points={{-100,-20},{-30,-20},
           {-30,-21.3},{39.75,-21.3}}, color={0,127,255}));
   connect(sinInf.ports[1], senCO2.port_b)
@@ -407,10 +413,12 @@ equation
           -68},{-16,-64.8},{-10,-64.8}}, color={0,0,127}));
   connect(conCO2Out.y, souInf.C_in[1]) annotation (Line(points={{-25.6,-68},{-16,
           -68},{-16,-44.8},{4,-44.8}}, color={0,0,127}));
-  connect(senCO2.C, gaiPPM.u)
-    annotation (Line(points={{18,-49},{18,-30},{88,-30}}, color={0,0,127}));
   connect(gaiPPM.y, reaCO2RooAir.u)
-    annotation (Line(points={{111,-30},{118,-30}}, color={0,0,127}));
+    annotation (Line(points={{121,-30},{128,-30}}, color={0,0,127}));
+  connect(senCO2.C, conMasVolFra.m)
+    annotation (Line(points={{18,-49},{18,-30},{69,-30}}, color={0,0,127}));
+  connect(conMasVolFra.V, gaiPPM.u)
+    annotation (Line(points={{91,-30},{98,-30}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
