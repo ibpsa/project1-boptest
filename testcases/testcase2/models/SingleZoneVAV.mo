@@ -314,6 +314,8 @@ First implementation.
               -142,110},{-142,32}}, color={0,0,127}));
     end ChillerDXHeatingEconomizer;
   end BaseClasses;
-  annotation (uses(Modelica(version="3.2.2"), Buildings(version="6.0.0"),
-      IBPSA(version="3.0.0")));
+  annotation (uses(Modelica(version="3.2.3"),
+      Buildings(version="7.0.0"),
+      IBPSA(version="3.0.0")),
+    version="1");
 end SingleZoneVAV;
