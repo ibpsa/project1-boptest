@@ -233,7 +233,7 @@ model Case600FF
     annotation (Placement(transformation(extent={{-100,60},{-80,80}})));
   OccupancyLoad occ(
     radFraction=0.6,
-    co2Gen=1.023e-5,
+    co2Gen=8.64e-6,
     occ_density=2/48,
     senPower=73,
     latPower=45)

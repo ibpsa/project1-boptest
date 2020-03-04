@@ -1,4 +1,4 @@
-within BESTESTAir.TestCases;
+﻿within BESTESTAir.TestCases;
 model TestCase "Testcase model"
   extends Modelica.Icons.Example;
 
@@ -385,10 +385,18 @@ constant cooling supply air temperature of 12.8 C and heating supply air
 temperature of 40.0 C.  The design coil water flowrates are determined
 assuming a design water temperature rise of 5 C across the cooling coil
 and water temperature drop of 20 C across the heating coil.
-
-CO2 generation is 0.31 L/min per person (ASHRAE Standard 62.1 Figure D-2) 
-and outside air CO2 concentration is 400 ppm.  However, CO2 concentration 
+</p>
+<p>
+CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017) 
+and density of CO2 assumed to be 1.8 kg/m^3, 
+making CO2 generation 8.64e-6 kg/s per person.
+Outside air CO2 concentration is 400 ppm.  However, CO2 concentration 
 is not controlled for in the model.
+</p>
+<p>
+Persily, A. and De Jonge, L. (2017). 
+Carbon dioxide generation rates for building occupants.
+Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
