@@ -275,8 +275,8 @@ First implementation.
       Modelica.Blocks.Interfaces.RealOutput CO2(unit="ppm") "Room air CO2 concentration"
         annotation (Placement(transformation(extent={{200,-50},{220,-30}}),
             iconTransformation(extent={{200,-50},{220,-30}})));
-      Modelica.Blocks.Sources.Constant mCO2Gai_flow(k=2.023e-5)
-        "CO2 generation (2x to create high CO2 for example)"
+      Modelica.Blocks.Sources.Constant mCO2Gai_flow(k=8.64e-6)
+        "CO2 generation per person in kg/s"
         annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
     protected
       Modelica.Blocks.Math.Product pro4 "Product for internal gain"
