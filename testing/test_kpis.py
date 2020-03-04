@@ -14,26 +14,28 @@ from testcase import TestCase
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
-tdis_tot_ref = 6.0427772787153575
-ener_tot_ref = 147.133983413
-cost_tot_ref = 29.426796682679161
-emis_tot_ref = 73.566991706697891
+tdis_tot_ref = 6.04428540467
+idis_tot_ref = 0.00
+ener_tot_ref = 147.224341889
+cost_tot_ref = 29.4448683777
+emis_tot_ref = 73.6121709444
 time_rat_ref = 2.778238720364041e-07
 
-tdis_dict_ref =  OrderedDict([('TRooAir_dTlower_y', 5.1757106813714691), 
-                              ('TRooAir_dTupper_y', 0.86706659733940084)])
-ener_dict_ref = OrderedDict([('PCoo_y', 2.5666768015020454), 
-                             ('PFan_y', 1.2181399139428837), 
-                             ('PHea_y', 143.31369783282616), 
-                             ('PPum_y', 0.035468865124696727)])
-cost_dict_ref = OrderedDict([('PCoo_y', 0.51333536030040894), 
-                             ('PFan_y', 0.24362798278857672), 
-                             ('PHea_y', 28.662739566565236), 
-                             ('PPum_y', 0.0070937730249393451)])
-emis_dict_ref = OrderedDict([('PCoo_y', 1.2833384007510227), 
-                             ('PFan_y', 0.60906995697144184), 
-                             ('PHea_y', 71.656848916413082), 
-                             ('PPum_y', 0.017734432562348364)])
+tdis_dict_ref =  OrderedDict([('TRooAir_dTlower_y', 5.1747363118961944), 
+                              ('TRooAir_dTupper_y', 0.86954909277880887)])
+idis_dict_ref =  OrderedDict([('CO2RooAir_dIupper_y', 0.00)])
+ener_dict_ref = OrderedDict([('PCoo_y', 2.579012665272586), 
+                             ('PFan_y', 1.2243760177843268), 
+                             ('PHea_y', 143.38544897227666), 
+                             ('PPum_y', 0.035504233405456678)])
+cost_dict_ref = OrderedDict([('PCoo_y', 0.51580253305451729), 
+                             ('PFan_y', 0.24487520355686537), 
+                             ('PHea_y', 28.67708979445533), 
+                             ('PPum_y', 0.0071008466810913353)])
+emis_dict_ref = OrderedDict([('PCoo_y', 1.289506332636293), 
+                             ('PFan_y', 0.6121880088921634), 
+                             ('PHea_y', 71.692724486138331), 
+                             ('PPum_y', 0.017752116702728339)])
 
 class KpiCalculatorTest(unittest.TestCase):
     '''Tests the KPI Calculator class
@@ -52,7 +54,7 @@ class KpiCalculatorTest(unittest.TestCase):
         
         # Read the reference data
         ref_filepath = os.path.join(utilities.get_root_path(), 
-            'testing', 'references', 'kpis', 'tc2_results.csv')
+            'testing', 'references', 'testcase2', 'results_python.csv')
         df = pd.read_csv(ref_filepath)
         
         # Fill the test case with the refernce data
@@ -77,7 +79,18 @@ class KpiCalculatorTest(unittest.TestCase):
         self.cal.get_thermal_discomfort()
         self.assertAlmostEqual(self.case.tdis_tot, tdis_tot_ref, places=3)
         self.assertDictEqual(self.case.tdis_dict, tdis_dict_ref)
-    
+
+    def test_get_iaq_discomfort(self):
+        '''Uses the KPI calculator to calculate the IAQ discomfort 
+        and compares with references.
+           
+        '''
+           
+        # Calculate thermal discomfort
+        self.cal.get_iaq_discomfort()
+        self.assertAlmostEqual(self.case.idis_tot, idis_tot_ref, places=3)
+        self.assertDictEqual(self.case.idis_dict, idis_dict_ref)
+
     def test_get_energy(self):
         '''Uses the KPI calculator to calculate the energy use
         and compares with references.

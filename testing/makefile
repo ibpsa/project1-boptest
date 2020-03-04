@@ -146,6 +146,8 @@ test_forecast:
 	make stop_jm
 	
 test_kpis:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase2
 # Run jm docker container
 	make run_jm
 # Copy the required files and folders for the test
