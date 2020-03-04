@@ -150,7 +150,7 @@ class KPI_Calculator(object):
 
         '''
         
-        UpperSetp = 1000 # Upper setpoint of 1000 ppm for now
+        UpperSetp = 894 # Upper setpoint of 894 ppm per ASHRAE Guideline 36 Table 3.1.1.3
         
         idis_tot = 0
         idis_dict = OrderedDict()
