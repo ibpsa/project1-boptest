@@ -150,7 +150,10 @@ class KPI_Calculator(object):
 
         '''
         
-        UpperSetp = 894 # Upper setpoint of 894 ppm per ASHRAE Guideline 36 Table 3.1.1.3
+        # Load CO2 set points from test case data
+        index=self.case.y_store['time']
+        UpperSetp = np.array(self.case.data_manager.get_data(index=index)
+                             ['UpperCO2']) 
         
         idis_tot = 0
         idis_dict = OrderedDict()
