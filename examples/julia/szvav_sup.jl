@@ -81,13 +81,14 @@ end
 res = JSON.parse(String(HTTP.get("$url/results").body))
 time = [x/3600 for x in res["y"]["time"]] # convert s --> hr
 TRooAir  = [x-273.15 for x in res["y"]["TRooAir_y"]] # convert K --> C
+CO2RooAir  = [x for x in res["y"]["CO2RooAir_y"]]
 TSetRooHea   = [x-273.15 for x in res["u"]["oveTSetRooHea_u"]] # convert K --> C
 TSetRooCoo   = [x-273.15 for x in res["u"]["oveTSetRooCoo_u"]] # convert K --> C
 PFan  = res["y"]["PFan_y"]
 PCoo  = res["y"]["PCoo_y"]
 PHea  = res["y"]["PHea_y"]
 PPum  = res["y"]["PPum_y"]
-tab=DataFrame([time,TRooAir,TSetRooHea,TSetRooCoo,PFan,PCoo,PHea,PPum],[:time,:TRooAir,:TSetRooHea,:TSetRooCoo,:PFan,:PCoo,:PHea,:PPum])
+tab=DataFrame([time,TRooAir,CO2RooAir,TSetRooHea,TSetRooCoo,PFan,PCoo,PHea,PPum],[:time,:TRooAir,:CO2RooAir,:TSetRooHea,:TSetRooCoo,:PFan,:PCoo,:PHea,:PPum])
 CSV.write("result_testcase2.csv",tab)
 tab_kpi = DataFrame([[kpi["ener_tot"]], [kpi["tdis_tot"]], [kpi["idis_tot"]], [kpi["cost_tot"]], [kpi["time_rat"]], [kpi["emis_tot"]]], [:ener_tot, :tdis_tot, :idis_tot, :cost_tot, :time_rat, :emis_tot])
 CSV.write("kpi_testcase2.csv",tab_kpi)
