@@ -159,6 +159,8 @@ test_kpis:
 	make copy_to_jm ARGS=testcase.py
 # Run test_data.py
 	make exec_jm ARGS="python test_kpis.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/kpis ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/test_kpis.log ./test_kpis.log
 # Stop jm docker container
 	make stop_jm
 
