@@ -54,7 +54,7 @@ class KpiCalculatorTest(unittest.TestCase):
         
         # Read the reference data
         ref_filepath = os.path.join(utilities.get_root_path(), 
-            'testing', 'references', 'testcase2', 'results_python.csv')
+            'testing', 'references', 'kpis', 'tc2_results_python.csv')
         df = pd.read_csv(ref_filepath)
         
         # Fill the test case with the refernce data
