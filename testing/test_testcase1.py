@@ -37,7 +37,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         '''
         
         # Run test
-        kpi,res = twoday_p.run()
+        kpi,res,customizedkpis_result = twoday_p.run()
         # Check kpis
         self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
@@ -57,6 +57,17 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results_python.csv')
         # Test
         self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check customized kpi trajectories
+        # Make dataframe
+        df = pd.DataFrame()
+        for x in customizedkpis_result.keys():
+                if x != 'time':
+                    df = pd.concat((df,pd.DataFrame(data=customizedkpis_result[x], index=customizedkpis_result['time'], columns=[x])), axis=1)
+        df.index.name = 'time'
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'customizedkpis.csv')
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)      
             
 class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
     '''Tests the example test of proportional feedback controller in Julia.
