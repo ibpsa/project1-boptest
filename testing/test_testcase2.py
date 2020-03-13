@@ -13,7 +13,7 @@ import requests
 from examples.python import szvav_sup
 
 kpi_ref = {'tdis_tot': 6.04428540467,
-           'idis_tot': 0.00,
+           'idis_tot': 365.6911873402533,
            'ener_tot': 147.224341889,
            'cost_tot': 29.4448683777,
            'emis_tot': 73.6121709444,
@@ -215,7 +215,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       u'PPum_y': -0.0,
                       u'senTSetRooCoo_y': 296.15,
                       u'senTSetRooHea_y': 295.15,
-                      u'CO2RooAir_y': 260.4510034285302}
+                      u'CO2RooAir_y': 279.137}
         self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_default.csv')
         self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
         self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_interval.csv')

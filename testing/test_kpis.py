@@ -15,27 +15,27 @@ from testcase import TestCase
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
 tdis_tot_ref = 6.04428540467
-idis_tot_ref = 0.00
+idis_tot_ref = 365.6911873402533
 ener_tot_ref = 147.224341889
 cost_tot_ref = 29.4448683777
 emis_tot_ref = 73.6121709444
 time_rat_ref = 2.778238720364041e-07
 
-tdis_dict_ref =  OrderedDict([('TRooAir_dTlower_y', 5.1747363118961944), 
-                              ('TRooAir_dTupper_y', 0.86954909277880887)])
-idis_dict_ref =  OrderedDict([('CO2RooAir_dIupper_y', 0.00)])
-ener_dict_ref = OrderedDict([('PCoo_y', 2.579012665272586), 
-                             ('PFan_y', 1.2243760177843268), 
-                             ('PHea_y', 143.38544897227666), 
-                             ('PPum_y', 0.035504233405456678)])
-cost_dict_ref = OrderedDict([('PCoo_y', 0.51580253305451729), 
-                             ('PFan_y', 0.24487520355686537), 
-                             ('PHea_y', 28.67708979445533), 
-                             ('PPum_y', 0.0071008466810913353)])
-emis_dict_ref = OrderedDict([('PCoo_y', 1.289506332636293), 
-                             ('PFan_y', 0.6121880088921634), 
-                             ('PHea_y', 71.692724486138331), 
-                             ('PPum_y', 0.017752116702728339)])
+tdis_dict_ref =  OrderedDict([('TRooAir_dTlower_y', 5.1747331046897154), 
+                              ('TRooAir_dTupper_y', 0.86954784517941663)])
+idis_dict_ref =  OrderedDict([('CO2RooAir_dIupper_y', 365.69118734025329)])
+ener_dict_ref = OrderedDict([('PCoo_y', 2.5790120993548213), 
+                             ('PFan_y', 1.2243750151212227), 
+                             ('PHea_y', 143.38535826054658), 
+                             ('PPum_y', 0.035504245658337034)])
+cost_dict_ref = OrderedDict([('PCoo_y', 0.5158024198709642), 
+                             ('PFan_y', 0.24487500302424459), 
+                             ('PHea_y', 28.677071652109316), 
+                             ('PPum_y', 0.0071008491316674072)])
+emis_dict_ref = OrderedDict([('PCoo_y', 1.2895060496774107), 
+                             ('PFan_y', 0.61218750756061135), 
+                             ('PHea_y', 71.692679130273291), 
+                             ('PPum_y', 0.017752122829168517)])
 
 class KpiCalculatorTest(unittest.TestCase):
     '''Tests the KPI Calculator class
