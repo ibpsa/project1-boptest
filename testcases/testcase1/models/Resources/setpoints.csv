@@ -1,3 +1,7 @@
+# Optional header information
+# time: time of setpoint [s]
+# LowerSetp: Heating zone temperature setpoint [K]
+# UpperSetp: Cooling zone temperature setpoint [K]
 time,LowerSetp,UpperSetp
 0,293.15,296.15
 3600,293.15,296.15

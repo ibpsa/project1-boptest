@@ -1,3 +1,10 @@
+# Optional header information
+# time: time of emissions factor [s]
+# EmissionsElectricPower: Emissions factor of electric poweer [kgCO2-e/kWh]
+# EmissionsDistrictHeatingPower: Emissions factor of district heating power [kgCO2-e/kWh]
+# EmissionsGasPower: Emissions factor of ga powers [kgCO2-e/kWh]
+# EmissionsBiomassPower: Emissions factor of biomass power [kgCO2-e/kWh]
+# EmissionsSolarThermalPower: Emissions factor of solar thermal power [kgCO2-e/kWh]
 time,EmissionsElectricPower,EmissionsDistrictHeatingPower,EmissionsGasPower,EmissionsBiomassPower,EmissionsSolarThermalPower
 0.0,0.5,0.1,0.2,0.0,0.0
 3600.0,0.5,0.1,0.2,0.0,0.0
