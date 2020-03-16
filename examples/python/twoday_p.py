@@ -120,6 +120,8 @@ def run(plot=False, customized_kpi_config=None):
     for key in kpi.keys():
         if key == 'tdis_tot':
             unit = 'Kh'
+        if key == 'idis_tot':
+            unit = 'ppmh'
         elif key == 'ener_tot':
             unit = 'kWh'
         elif key == 'cost_tot':

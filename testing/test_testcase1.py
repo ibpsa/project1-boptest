@@ -13,6 +13,7 @@ import requests
 from examples.python import twoday_p
 
 kpi_ref = {'tdis_tot': 10.6329491656,
+           'idis_tot': 1016.9440316099516,
            'ener_tot': 21.474759625,
            'cost_tot': 1.50323317375,
            'emis_tot': 4.294951925,
@@ -41,6 +42,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         # Check kpis
         self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['idis_tot'], kpi_ref['idis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
         self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_python'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
@@ -93,6 +95,7 @@ class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
         kpi = pd.read_csv(kpi_path)
         self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['idis_tot'].get_values()[0], kpi_ref['idis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
         self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
@@ -171,10 +174,15 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                  "TRooAir_y": {"Unit": "K", 
                                                "Description": "Zone air temperature",
                                                "Minimum":None,
+                                               "Maximum":None},
+                                "CO2RooAir_y": {"Unit": "ppm", 
+                                               "Description": "Zone air CO2 concentration",
+                                               "Minimum":None,
                                                "Maximum":None}}
         self.step_ref = 60.0
         self.y_ref = {u'PHea_y': 0.0, 
                       u'TRooAir_y': 293.15015556512265,
+                      u'CO2RooAir_y': 751.091,
                       u'time': 60.0}
         self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc1_forecast_default.csv')
         self.forecast_parameters_ref = {'horizon':172800, 'interval':123}

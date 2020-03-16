@@ -51,7 +51,7 @@ following structure:
 	|  |  |  |--internalGains.csv 	// Internal gain schedules
 	|  |  |  |--prices.csv 		// Energy pricing schedules
 	|  |  |  |--emissions.csv 	// Energy emission factor schedules
-	|  |  |  |--setpoints.csv 	// Thermal comfort region schedules
+	|  |  |  |--setpoints.csv 	// Thermal  and IAQ comfort region schedules
 	|--doc				// Documentation directory
 	|  |--doc.html 			// Copy of .mo file documentation
 	|  |--images 			// Image directory
