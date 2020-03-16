@@ -18,4 +18,4 @@
               "EmissionsSolarThermalPower"],
 "occupancy": ["Occupancy"],
 "internalGains": ["InternalGainsRad", "InternalGainsCon", "InternalGainsLat"],
-"setpoints": ["LowerSetp", "UpperSetp"]}
+"setpoints": ["LowerSetp", "UpperSetp", "UpperCO2"]}

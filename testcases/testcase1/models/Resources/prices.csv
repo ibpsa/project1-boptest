@@ -1,3 +1,12 @@
+# Optional header information
+# time: time of price [s]
+# PriceElectricPowerConstant: Price of electricity in constant scenario [$/kWh]
+# PriceElectricPowerDynamic: Price of electricity in dynamic scenario [$/kWh]
+# PriceElectricPowerHighlyDynamic: Price of electricity in highly dynamic scenario [$/kWh]
+# PriceDistrictHeatingPower: Price of district heating power [$/kWh]
+# PriceGasPower: Price of gas power [$/kWh]
+# PriceBiomassPower: Price of biomass power [$/kWh]
+# PriceSolarThermalPower: Price of solar thermal power [$/kWh]
 time,PriceElectricPowerConstant,PriceElectricPowerDynamic,PriceElectricPowerHighlyDynamic,PriceDistrictHeatingPower,PriceGasPower,PriceBiomassPower,PriceSolarThermalPower
 0.0,0.2,0.1,0.0,0.1,0.07,0.2,0.0
 3600.0,0.2,0.1,0.0776457135308,0.1,0.07,0.2,0.0
