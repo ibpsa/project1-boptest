@@ -1,3 +1,5 @@
+# time: time of price [s]
+# PriceGasPower: Price of gas power [$/kWh]
 time,PriceGasPower
 0,0.002878
 900,0.002878

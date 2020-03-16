@@ -1,3 +1,9 @@
+# time: time of emissions factor [s]
+# EmissionsElectricPower: Emissions factor of electric poweer [kgCO2-e/kWh]
+# EmissionsGasPower: Emissions factor of ga powers [kgCO2-e/kWh]
+# EmissionsDistrictHeatingPower: Emissions factor of district heating power [kgCO2-e/kWh]
+# EmissionsBiomassPower: Emissions factor of biomass power [kgCO2-e/kWh]
+# EmissionsSolarThermalPower: Emissions factor of solar thermal power [kgCO2-e/kWh]
 time,EmissionsElectricPower,EmissionsGasPower,EmissionsDistrictHeatingPower,EmissionsBiomassPower,EmissionsSolarThermalPower
 0,0.6618,0.18108,0,0,0
 900,0.6618,0.18108,0,0,0

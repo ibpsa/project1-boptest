@@ -1,3 +1,5 @@
+# time: time of price [s]
+# PriceElectricPowerDynamic: Price of electricity in dynamic scenario [$/kWh]
 time,PriceElectricPowerDynamic
 0,0.0444
 900,0.0444

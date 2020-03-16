@@ -1,3 +1,5 @@
+# time: time of price [s]
+# PriceElectricPowerConstant: Price of electricity in constant scenario [$/kWh]
 time,PriceElectricPowerConstant
 0,0.05461
 900,0.05461
