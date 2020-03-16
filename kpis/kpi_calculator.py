@@ -74,6 +74,7 @@ class KPI_Calculator(object):
         
         ckpi = OrderedDict()
         ckpi['tdis_tot'] = self.get_thermal_discomfort()
+        ckpi['idis_tot'] = self.get_iaq_discomfort()
         ckpi['ener_tot'] = self.get_energy()
         ckpi['cost_tot'] = self.get_cost()
         ckpi['emis_tot'] = self.get_emissions()        
@@ -130,6 +131,50 @@ class KPI_Calculator(object):
                                  units='Kh', breakdonut=False)
         
         return tdis_tot
+        
+    def get_iaq_discomfort(self, plot=False):
+        '''The IAQ discomfort is the integral of the deviation 
+        of the CO2 concentration with respect to the predefined comfort 
+        setpoint. Its units are of ppm*h.
+        
+        Parameters
+        ----------
+        plot: boolean, optional
+            True to show a donut plot with the iaq discomfort metrics.
+            Default is False.
+            
+        Returns
+        -------
+        idis_tot: float
+            total IAQ discomfort accounted in this test case
+
+        '''
+        
+        # Load CO2 set points from test case data
+        index=self.case.y_store['time']
+        UpperSetp = np.array(self.case.data_manager.get_data(index=index)
+                             ['UpperCO2']) 
+        
+        idis_tot = 0
+        idis_dict = OrderedDict()
+        for signal in self.case.kpi_json['CO2Concentration']:
+            data = np.array(self.case.y_store[signal])
+            dI_upper = data - UpperSetp
+            dI_upper[dI_upper<0]=0
+            idis_dict[signal[:-1]+'dIupper_y'] = \
+                trapz(dI_upper,self.case.y_store['time'])/3600.
+            idis_tot = idis_tot + \
+                      idis_dict[signal[:-1]+'dIupper_y']
+        
+        self.case.idis_tot  = idis_tot
+        self.case.idis_dict = idis_dict
+            
+        if plot:
+            self.case.idis_tree = self.get_dict_tree(idis_dict)
+            self.plot_nested_pie(self.case.idis_tree, metric='IAQ discomfort',
+                                 units='ppmh', breakdonut=False)
+        
+        return idis_tot
     
     def get_energy(self, plot=False, plot_by_source=False):
         '''This method returns the measure of the total building 
