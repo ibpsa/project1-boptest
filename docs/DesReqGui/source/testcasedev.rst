@@ -270,6 +270,10 @@ The CSV data files should accomplish the following requirements:
 
 3. The files should have column names using the key-words specified by the convention above. Columns that do not use a standard key-word will be omitted from packing within the test case FMU. 
 
+4. The files can have optional header rows for holding information about the
+data contained in the csv file.  These header rows can be indicated by starting
+the row with the character "#".
+
 Two python modules are developed to generate and handle the data, 
 these are the Data_Generator and the Data_Manager modules, respectively.
 

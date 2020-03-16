@@ -1,3 +1,8 @@
+# Optional header information
+# time: time of setpoint [s]
+# LowerSetp: Heating zone temperature setpoint [K]
+# UpperSetp: Cooling zone temperature setpoint [K]
+# UpperCO2: Zone CO2 concentration upper limit [ppm]
 time,LowerSetp,UpperSetp,UpperCO2
 0,293.15,296.15,894
 3600,293.15,296.15,894

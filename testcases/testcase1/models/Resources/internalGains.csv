@@ -1,3 +1,8 @@
+# Optional header information
+# time: time of internal gain [s]
+# InternalGainsRad: Radiative internal gains [W]
+# InternalGainsCon: Convective internal gains [W]
+# InternalGainsLat: Latent internal gains [W]
 time,InternalGainsRad,InternalGainsCon,InternalGainsLat
 0,0,0,0
 3600,0,0,0
