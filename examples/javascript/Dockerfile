@@ -17,7 +17,5 @@ RUN cd /home && \
 
 ENV PATH $PATH:/home
 
-ADD wrapper.py /home/
 
-ADD twoday_p.html /home/
 	

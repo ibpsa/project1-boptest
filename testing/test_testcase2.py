@@ -12,10 +12,10 @@ import utilities
 import requests
 from examples.python import szvav_sup
 
-kpi_ref = {'tdis_tot': 6.0427772787153575,
-           'ener_tot': 147.133983414,
-           'cost_tot': 29.4267966827,
-           'emis_tot': 73.5669917068,
+kpi_ref = {'tdis_tot': 6.0386812587473635,
+           'ener_tot': 147.1202022345602,
+           'cost_tot': 29.42404044691204,
+           'emis_tot': 73.5601011172801,
            'time_rat_python': 0.000198015450603,
            'time_rat_julia': 0.000198015450603}
 
@@ -91,6 +91,44 @@ class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_julia.csv')
         # Test
         self.compare_ref_timeseries_df(df,ref_filepath)
+        
+        
+        
+        
+class ExampleSupervisoryJavascript(unittest.TestCase, utilities.partialTimeseries):
+    '''Tests the example test of a supervisory controller in Javascript.
+    
+    '''
+    
+    def setUp(self):
+        '''Setup for each test.
+        
+        '''
+
+        pass
+        
+    def test_run(self):
+        '''Runs the example and tests the kpi and trajectory results.
+        
+        '''
+        
+        # Run test
+        kpi_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'kpi_testcase2.csv')
+        res_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'result_testcase2.csv')
+        # Check kpis
+        kpi = pd.read_csv(kpi_path)
+        self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
+        # Check trajectories
+        df = pd.read_csv(res_path, index_col = 'time')
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_javascript.csv')
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)        
+                          
 
 class MinMax(unittest.TestCase):
     '''Test the use of min/max attributes to truncate the controller input.
@@ -193,7 +231,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       u'TRooAir_y': 295.06442470392363, 
                       u'time': 3600.0, 
                       u'PCoo_y': 0.0, 
-                      u'PHea_y': 2420.311404179384,
+                      u'PHea_y': 2422.6914961978637,
                       u'PPum_y': -0.0,
                       u'senTSetRooCoo_y': 296.15,
                       u'senTSetRooHea_y': 295.15}

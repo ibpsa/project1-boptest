@@ -92,6 +92,42 @@ class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results_julia.csv')
         # Test
         self.compare_ref_timeseries_df(df,ref_filepath)
+        
+class ExampleProportionalJavascript(unittest.TestCase, utilities.partialTimeseries):
+    '''Tests the example test of proportional feedback controller in Javascript.
+    
+    '''
+    
+    def setUp(self):
+        '''Setup for each test.
+        
+        '''
+
+        pass
+        
+    def test_run(self):
+        '''Runs the example and tests the kpi and trajectory results.
+        
+        '''
+        
+        # Run test
+        kpi_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'kpi_testcase1.csv')
+        res_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'result_testcase1.csv')
+        # Check kpis
+        kpi = pd.read_csv(kpi_path)
+        self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
+        self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
+        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
+        self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
+        
+        # Check trajectories
+        df = pd.read_csv(res_path, index_col = 'time')
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results_javascript.csv')
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)        
+        
             
 class MinMax(unittest.TestCase):
     '''Test the use of min/max attributes to truncate the controller input.

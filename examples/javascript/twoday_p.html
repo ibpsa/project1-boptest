@@ -215,10 +215,28 @@ function send()
   };
 	
   xhr_get_result.send(null); 
+  
+  xhr_get_kpi = new XMLHttpRequest();
+  xhr_get_kpi.open("GET", url+"kpi", false);	
+  xhr_get_kpi.onreadystatechange = function() {
+        if (xhr_get_kpi.readyState == 4) {
+		              if (xhr_get_kpi.status != 200) {
+								 console.log( "ERR in getting kpi" );
+		              } 
+		              else {
+								 console.log( "SUCCESS in getting kpi" );
+								 kpi.value = xhr_get_kpi.response;
+		              }
+        }
+  };
+	
+  xhr_get_kpi.send(null);    
+  
+  
 };
 
 // schedule the first invocation:
-setInterval(send, 3000);
+setInterval(send, 50);
 
 </script>
 </head>
@@ -239,6 +257,11 @@ output:
 <br> 
 result: 
 <br> <textarea rows="10" cols="150" id='result' value="result" >
+</textarea>  
+<br>
+<br> 
+kpi: 
+<br> <textarea rows="10" cols="150" id='kpi' value="kpi" >
 </textarea>  
 <br>
 </div>

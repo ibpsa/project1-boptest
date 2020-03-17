@@ -27,6 +27,9 @@ copy_to_jm:
 copy_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
 
+copy_testcase_from_jm:
+	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../testcases/${ARGS}
+
 exec_jm:
 	docker exec -it ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
 
@@ -39,19 +42,19 @@ compile_testcase_model:
 	make run_jm
 	make copy_to_jm ARGS=parsing
 	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=${TESTCASE}
+	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
-	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
-	make copy_from_jm ARGS=${TESTCASE}/models/wrapped.mo
+	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
+	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.mo
 	make stop_jm
 
 generate_testcase_data:
 	make run_jm
 	make copy_to_jm ARGS=parsing
 	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=${TESTCASE}
+	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../${TESTCASE}/models/
+	docker cp ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	make stop_jm
 
 ###############################################################################
@@ -69,6 +72,8 @@ test_testcase1:
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
+# Javascript
+	cd ../examples/javascript && make build Script=twoday_p && make run Script=twoday_p	
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
@@ -87,6 +92,8 @@ test_testcase2:
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
+# Javascript
+	cd ../examples/javascript && make build Script=szvav_sup && make run Script=szvav_sup	
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
@@ -112,8 +119,8 @@ test_data:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=kpis
-	make copy_to_jm ARGS=testcase2/models
-	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
 	docker cp ../testing/references/data/kpis.json ${IMG_NAME}:/usr/local/testing/models
 # Run test_data.py
@@ -132,8 +139,8 @@ test_forecast:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=kpis
-	make copy_to_jm ARGS=testcase2/models
-	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
 # Run test_data.py
 	make exec_jm ARGS="python test_forecast.py"
@@ -149,8 +156,8 @@ test_kpis:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=kpis
-	make copy_to_jm ARGS=testcase2/models
-	make copy_to_jm ARGS=testcase2/config.py
+	make copy_to_jm ARGS=testcases/testcase2/models
+	make copy_to_jm ARGS=testcases/testcase2/config.py
 	make copy_to_jm ARGS=testcase.py
 # Run test_data.py
 	make exec_jm ARGS="python test_kpis.py"
@@ -170,6 +177,7 @@ test_all:
 	make test_testcase2
 	make test_data
 	make test_forecast
+	make test_kpis
 # Remove jm
 	make remove_jm_image
 # Report test results
