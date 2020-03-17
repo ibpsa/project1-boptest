@@ -407,7 +407,9 @@ class Data_Generator(object):
                          THeaOcc  = 22+273.15,
                          THeaUnocc = 22+273.15,
                          TCooOcc  = 23+273.15,
-                         TCooUnocc = 23+273.15):
+                         TCooUnocc = 23+273.15,
+                         CO2Occ = 894,
+                         CO2Unocc = 894):
         '''Append the lower and upper temperature set points 
         that are used in the model to define the comfort range.
         These temperature set points are defined in Kelvins 
@@ -428,6 +430,10 @@ class Data_Generator(object):
             Cooling temperature set-point during occupied hours
         TCooUNocc: float, default is 23+273.15
             Cooling temperature set-point during unoccupied hours
+        CO2Occ: float, default is 864
+            CO2 ppm upper limit during occupied hours
+        CO2Unocc: float, default is 894
+            CO2 ppm upper limit during unoccupied hours
             
         '''
         
@@ -441,7 +447,8 @@ class Data_Generator(object):
         df.loc[df.index.isin(day_time_index), 'UpperSetp[1]'] = TCooUnocc
         df.loc[~df.index.isin(day_time_index),'LowerSetp[1]'] = THeaOcc
         df.loc[~df.index.isin(day_time_index),'UpperSetp[1]'] = TCooUnocc
-        
+        df.loc[~df.index.isin(day_time_index),'UpperCO2'] = CO2Occ
+        df.loc[df.index.isin(day_time_index),'UpperCO2'] = CO2Unocc        
         # Store in csv
         self.store_df(df,'setpoints')
         

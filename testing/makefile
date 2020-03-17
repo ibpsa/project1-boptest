@@ -146,6 +146,8 @@ test_forecast:
 	make stop_jm
 	
 test_kpis:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase2
 # Run jm docker container
 	make run_jm
 # Copy the required files and folders for the test
@@ -157,6 +159,8 @@ test_kpis:
 	make copy_to_jm ARGS=testcase.py
 # Run test_data.py
 	make exec_jm ARGS="python test_kpis.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/kpis ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/test_kpis.log ./test_kpis.log
 # Stop jm docker container
 	make stop_jm
 
