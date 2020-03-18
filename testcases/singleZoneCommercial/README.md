@@ -15,7 +15,7 @@ The model is developed in accordance with the BOPTEST [Development Document](htt
 
 The model contains components from:
 
-* Buildings 5.0.1: https://simulationresearch.lbl.gov/modelica/download.html
+* Buildings 5.0.1: https://simulationresearch.lbl.gov/modelica/downloads/archive/modelica-buildings.html
 * Modelica Standard Library (MSL)
 
 To test the model from this repository, the user is expected to have the depending libraries downloaded
@@ -23,6 +23,4 @@ and loaded in Dymola.
 
 The model was developed in Dymola 2018 FD01.
 
-# Review
 
-First review: https://docs.google.com/document/d/1mOoVWCSGb48KxPXDmZaBSz5EYwecX5MHJOwSCn4k5F8/edit?usp=sharing
