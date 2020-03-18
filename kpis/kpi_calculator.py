@@ -107,14 +107,14 @@ class KPI_Calculator(object):
         
         for source in self.case.kpi_json.keys():
             if source.startswith(self.sources[0]):
-                # This is a potential source of discomfort
+                # This is a potential source of thermal discomfort
                 zone_id = source.replace(self.sources[0]+'[','')[:-1]
                 if 'LowerSetp[{0}]'.format(zone_id) not in self.case.data.keys() or \
                    'UpperSetp[{0}]'.format(zone_id) not in self.case.data.keys():
                     raise KeyError('The zone identifier {0} from the emulator '\
                                    'model does not match the zone identifier '\
                                    'used in the data to specify the lower and '\
-                                   'upper comfort bounds'.format(zone_id))
+                                   'upper thermal comfort bounds'.format(zone_id))
                     
                 for signal in self.case.kpi_json[source]:
                     # Load temperature set points from test case data
@@ -163,21 +163,32 @@ class KPI_Calculator(object):
 
         '''
         
-        # Load CO2 set points from test case data
         index=self.case.y_store['time']
-        UpperSetp = np.array(self.case.data_manager.get_data(index=index)
-                             ['UpperCO2']) 
         
         idis_tot = 0
         idis_dict = OrderedDict()
-        for signal in self.case.kpi_json['CO2Concentration']:
-            data = np.array(self.case.y_store[signal])
-            dI_upper = data - UpperSetp
-            dI_upper[dI_upper<0]=0
-            idis_dict[signal[:-1]+'dIupper_y'] = \
-                trapz(dI_upper,self.case.y_store['time'])/3600.
-            idis_tot = idis_tot + \
-                      idis_dict[signal[:-1]+'dIupper_y']
+        
+        for source in self.case.kpi_json.keys():
+            if source.startswith(self.sources[4]):
+                # This is a potential source of iaq discomfort
+                zone_id = source.replace(self.sources[4]+'[','')[:-1]
+                if 'UpperCO2[{0}]'.format(zone_id) not in self.case.data.keys():
+                    raise KeyError('The zone identifier {0} from the emulator '\
+                                   'model does not match the zone identifier '\
+                                   'used in the data to specify the upper '\
+                                   'CO2 concentration bound'.format(zone_id))
+                    
+                for signal in self.case.kpi_json[source]:
+                    # Load CO2 set points from test case data
+                    UpperSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['UpperCO2[{0}]'.format(zone_id)])                     
+                    data = np.array(self.case.y_store[signal])
+                    dI_upper = data - UpperSetp
+                    dI_upper[dI_upper<0]=0
+                    idis_dict[signal[:-1]+'dIupper_y'] = \
+                        trapz(dI_upper,self.case.y_store['time'])/3600.
+                    idis_tot = idis_tot + \
+                              idis_dict[signal[:-1]+'dIupper_y']
         
         self.case.idis_tot  = idis_tot
         self.case.idis_dict = idis_dict

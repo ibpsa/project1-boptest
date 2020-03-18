@@ -447,8 +447,8 @@ class Data_Generator(object):
         df.loc[df.index.isin(day_time_index), 'UpperSetp[1]'] = TCooUnocc
         df.loc[~df.index.isin(day_time_index),'LowerSetp[1]'] = THeaOcc
         df.loc[~df.index.isin(day_time_index),'UpperSetp[1]'] = TCooUnocc
-        df.loc[~df.index.isin(day_time_index),'UpperCO2'] = CO2Occ
-        df.loc[df.index.isin(day_time_index),'UpperCO2'] = CO2Unocc        
+        df.loc[~df.index.isin(day_time_index),'UpperCO2[1]'] = CO2Occ
+        df.loc[df.index.isin(day_time_index),'UpperCO2[1]'] = CO2Unocc        
         # Store in csv
         self.store_df(df,'setpoints')
         
