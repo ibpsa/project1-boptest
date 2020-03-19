@@ -1,6 +1,9 @@
 within ;
 model TwoZones
   "A simple thermal R2C2 model of two symmetric zones: north and south. It has sinusoidal outside air temperature and a feedback controlled heaters."
+  parameter String zonNorName="North" "Parameter used to designate north zone";
+  parameter String zonSouName="South" "Parameter used to designate south zone";
+
   Modelica.Thermal.HeatTransfer.Components.HeatCapacitor capSou(C=1e6)
     "Thermal capacitance of south zone"
     annotation (Placement(transformation(extent={{30,0},{50,20}})));
@@ -45,7 +48,7 @@ model TwoZones
     y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     description="Zone air temperature of south zone",
-    zone="South zone") "Read the room air temperature of south zone"
+    zone=zonSouName)   "Read the room air temperature of south zone"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read PHeaSou(
@@ -60,7 +63,7 @@ model TwoZones
     y(unit="ppm"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration in south zone",
-    zone="South zone") "Read the room air CO2 concentration in south zone"
+    zone=zonSouName)   "Read the room air CO2 concentration in south zone"
     annotation (Placement(transformation(extent={{160,-40},{180,-20}})));
 
   Modelica.Blocks.Sources.Sine conCO2Sou(
@@ -104,7 +107,7 @@ model TwoZones
     y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     description="Zone air temperature of north zone",
-    zone="North zone") "Read the room air temperature of north zone"
+    zone=zonNorName)   "Read the room air temperature of north zone"
     annotation (Placement(transformation(extent={{80,120},{60,140}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read PHeaNor(
@@ -119,7 +122,7 @@ model TwoZones
     y(unit="ppm"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration in north zone",
-    zone="North zone") "Read the room air CO2 concentration in north zone"
+    zone=zonNorName)   "Read the room air CO2 concentration in north zone"
     annotation (Placement(transformation(extent={{160,80},{180,100}})));
 
   Modelica.Blocks.Sources.Sine conCO2Nor(
