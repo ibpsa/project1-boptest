@@ -531,6 +531,10 @@ All <b>Other Emissions Factor</b> profiles are:
 revisions="<html>
 <ul>
 <li>
+March 4, 2020, by David Blum:<br/>
+Updated CO2 generation per person and method of ppm calculation.
+</li>
+<li>
 December 9, 2019, by David Blum:<br/>
 Revised control, system sizing, and documentation.
 </li>

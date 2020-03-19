@@ -1,4 +1,4 @@
-within BESTESTAir.TestCases;
+﻿within BESTESTAir.TestCases;
 model TestCase_Ideal "Testcase model with ideal airflow"
   extends Modelica.Icons.Example;
   BaseClasses.Case900FF zon(mAir_flow_nominal=fcu.mAir_flow_nominal)
@@ -339,10 +339,19 @@ A constant infiltration flowrate is assumed to be 0.5 ACH.
 </p>
 <h4>Other assumptions</h4>
 <p>
-The supply air temperature is directly specified.  CO2 generation is 
-0.31 L/min per person (ASHRAE Standard 62.1 Figure D-2) and outside air
-CO2 concentration is 400 ppm.  However, CO2 concentration is not controlled 
-for in the model.
+The supply air temperature is directly specified.
+</p>
+<p>
+CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017) 
+and density of CO2 assumed to be 1.8 kg/m^3, 
+making CO2 generation 8.64e-6 kg/s per person.
+Outside air CO2 concentration is 400 ppm.  However, CO2 concentration 
+is not controlled for in the model.
+</p>
+<p>
+Persily, A. and De Jonge, L. (2017). 
+Carbon dioxide generation rates for building occupants.
+Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
@@ -476,6 +485,10 @@ All <b>Other Emissions Factor</b> profiles are:
 </html>",
 revisions="<html>
 <ul>
+<li>
+March 4, 2020, by David Blum:<br/>
+Updated CO2 generation per person and method of ppm calculation.
+</li>
 <li>
 December 15, 2019, by David Blum:<br/>
 First implementation.
