@@ -72,6 +72,8 @@ test_testcase1:
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
+# Javascript
+	cd ../examples/javascript && make build Script=twoday_p && make run Script=twoday_p		
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
@@ -90,6 +92,8 @@ test_testcase2:
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
+# Javascript
+	cd ../examples/javascript && make build Script=szvav_sup && make run Script=szvav_sup	
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
