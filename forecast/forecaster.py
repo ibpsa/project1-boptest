@@ -30,17 +30,18 @@ class Forecaster(object):
         # Point to the test case object
         self.case = testcase
         
-    def get_forecast(self,horizon=24*3600, interval=None, 
+    def get_forecast(self,horizon=None, interval=None, 
                      category=None, plot=False):
         '''Returns forecast of the test case data
         
         Parameters
         ----------
-        horizon : int, default is 24*3600 seconds
-            Length of the requested forecast in seconds 
+        horizon : int, default is None
+            Length of the requested forecast in seconds. If None,
+            the test case horizon will be used instead. 
         interval : int, default is None
             resampling time interval in seconds. If None,
-            the test case step will be used instead. 
+            the test case interval will be used instead. 
         category : string, default is None
             Type of data to retrieve from the test case.
             If None it will return all available test case
@@ -60,6 +61,12 @@ class Forecaster(object):
             the forecasted values. 'time' is included as a variable
         
         '''
+        
+        # Set default parameters if not provided
+        if horizon is None:
+            horizon = self.case.horizon
+        if interval is None:
+            interval = self.case.interval
         
         # Get the forecast
         forecast = self.case.data_manager.get_data(horizon=horizon,
