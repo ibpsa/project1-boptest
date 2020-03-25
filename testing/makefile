@@ -175,6 +175,7 @@ test_kpis:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=kpis
+	make copy_to_jm ARGS=testcase.py
 	make copy_testcase_to_jm TESTCASE=testcase2
 	make copy_testcase_to_jm TESTCASE=testcase3
 # Run test_kpis.py
