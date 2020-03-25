@@ -12,7 +12,6 @@ import pandas as pd
 import utilities
 from collections import OrderedDict
 from kpis.kpi_calculator import KPI_Calculator
-from testcase import TestCase
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
@@ -131,24 +130,27 @@ class PartialKpiCalculatorTest(object):
 
 class KpiCalculatorSingleZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
     '''Tests the Forecaster class in a single-zone example.
-        
+         
     '''
-
+ 
     def setUp(self):
         '''Setup for each test.
-        
+         
         '''
-        
+         
+        # Change directory to testcase 2
+        os.chdir(os.path.join(testing_root_dir,'testcase2'))
+        from testcase2.testcase import TestCase
         self.case=TestCase()
-        
+                 
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
-        
+         
         # Read the reference data
         ref_filepath = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'kpis', 'tc2_results_python.csv')
         df = pd.read_csv(ref_filepath)
-        
+         
         # Fill the test case with the refernce data
         for var in df.keys():
             # Assign time
@@ -160,14 +162,14 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
-                
+                 
         self.tdis_tot_ref = 6.04428540467
         self.idis_tot_ref = 365.6911873402533
         self.ener_tot_ref = 147.224341889
         self.cost_tot_ref = 29.4448683777
         self.emis_tot_ref = 73.6121709444
         self.time_rat_ref = 2.778238720364041e-07
-        
+         
         self.tdis_dict_ref =  OrderedDict([('TRooAir_dTlower_y', 5.1747331046897154), 
                                            ('TRooAir_dTupper_y', 0.86954784517941663)])
         self.idis_dict_ref =  OrderedDict([('CO2RooAir_dIupper_y', 365.69118734025329)])
@@ -183,7 +185,7 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
                                           ('PFan_y', 0.61218750756061135), 
                                           ('PHea_y', 71.692679130273291), 
                                           ('PPum_y', 0.017752122829168517)]) 
-        
+         
 class KpiCalculatorMultiZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
     '''Tests the Forecaster class in a multi-zone example.
         
@@ -194,6 +196,9 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
         
         '''
         
+        # Change directory to testcase 3
+        os.chdir(os.path.join(testing_root_dir,'testcase3'))
+        from testcase3.testcase import TestCase
         self.case=TestCase()
         
         # Instantiate a KPI calculator linked to an empty case
