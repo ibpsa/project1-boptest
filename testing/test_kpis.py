@@ -226,20 +226,21 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
         self.ener_tot_ref = 43.8117652678
         self.cost_tot_ref = 3.06682356874
         self.emis_tot_ref = 8.76235305355
-        self.time_rat_ref = 0.00441199023277
+        self.time_rat_ref = 8.7420145670572913e-07
         
-        self.tdis_dict_ref =  OrderedDict([('TRooAirNor_dTlower_y', 8.2055849580505953), 
-                                           ('TRooAirNor_dTupper_y', 2.8932777121301765), 
-                                           ('TRooAirSou_dTlower_y', 6.8613721856277694), 
-                                           ('TRooAirSou_dTupper_y', 3.7719972572470115)])
-        self.idis_dict_ref =  OrderedDict([('CO2RooAirSou_dIupper_y', 1016.9440316099515), 
-                                           ('CO2RooAirNor_dIupper_y', 13.405864798567574)])
-        self.ener_dict_ref = OrderedDict([('PHeaNor_y', 22.336566559500465), 
-                                          ('PHeaSou_y', 21.475198708263413)])
-        self.cost_dict_ref = OrderedDict([('PHeaNor_y', 1.563559659165032), 
-                                          ('PHeaSou_y', 1.5032639095784393)])
-        self.emis_dict_ref = OrderedDict([('PHeaNor_y', 4.4673133119000932), 
-                                          ('PHeaSou_y', 4.2950397416526815)])
+        self.maxDiff = None
+        self.tdis_dict_ref =  OrderedDict([('TRooAirNor_dTlower_y', 8.2055849580534996), 
+                                           ('TRooAirNor_dTupper_y', 2.8932777121529849), 
+                                           ('TRooAirSou_dTlower_y', 6.8613721856065562),
+                                           ('TRooAirSou_dTupper_y', 3.7719972572410261)])
+        self.idis_dict_ref =  OrderedDict([('CO2RooAirSou_dIupper_y', 1016.9440316099603), 
+                                           ('CO2RooAirNor_dIupper_y', 13.40586479855533)])
+        self.ener_dict_ref = OrderedDict([('PHeaNor_y', 22.33656655950071), 
+                                          ('PHeaSou_y', 21.475198708263587)])
+        self.cost_dict_ref = OrderedDict([('PHeaNor_y', 1.5635596591650494), 
+                                          ('PHeaSou_y', 1.503263909578451)])
+        self.emis_dict_ref = OrderedDict([('PHeaNor_y', 4.4673133119001411), 
+                                          ('PHeaSou_y', 4.2950397416527188)])
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
