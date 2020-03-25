@@ -24,6 +24,11 @@ copy_to_jm:
 	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
 	docker exec -it ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
 
+copy_testcase_to_jm:
+	make copy_to_jm ARGS=testcases/${TESTCASE}
+	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing/${TESTCASE}
+	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
+	
 copy_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
 
@@ -123,16 +128,17 @@ test_parser:
 test_data:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
+	make compile_testcase_model TESTCASE=testcase3
 # Run jm docker container
 	make run_jm
 # Copy the required files and folders for the test
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=forecast
 	make copy_to_jm ARGS=kpis
-	make copy_to_jm ARGS=testcases/testcase2/models
-	make copy_to_jm ARGS=testcases/testcase2/config.py
-	make copy_to_jm ARGS=testcase.py
-	docker cp ../testing/references/data/kpis.json ${IMG_NAME}:/usr/local/testing/models
+	make copy_testcase_to_jm TESTCASE=testcase2
+	make copy_testcase_to_jm TESTCASE=testcase3
+	docker cp ../testing/references/data/testcase2/kpis.json ${IMG_NAME}:/usr/local/testing/testcase2/models
+	docker cp ../testing/references/data/testcase3/kpis.json ${IMG_NAME}:/usr/local/testing/testcase3/models
 # Run test_data.py
 	make exec_jm ARGS="python test_data.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
