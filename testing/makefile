@@ -97,6 +97,20 @@ test_testcase2:
 # Remove testcase image
 	cd ../examples/julia && make remove-image Script=szvav_sup
 
+test_testcase3:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase3
+# Build testcase image
+	cd .. &&  make build TESTCASE=testcase3
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=testcase3
+	python sleep10.py
+# Run testcase tests
+# Python and checks
+	cd .. && python testing/test_testcase3.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=testcase3
+
 test_parser:
 	make run_jm
 	make copy_to_jm ARGS=parsing
@@ -175,6 +189,7 @@ test_all:
 	make test_parser
 	make test_testcase1
 	make test_testcase2
+	make test_testcase3
 	make test_data
 	make test_forecast
 	make test_kpis
