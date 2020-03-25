@@ -37,7 +37,7 @@ model TwoZones
       unit="W",
       min=-10000,
       max=10000), description="Heater thermal power of south zone")
-    "Overwrite the heating powerof south zone"
+    "Overwrite the heating power of south zone"
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaSou
     "Set the heating power to the south zone"
@@ -54,7 +54,8 @@ model TwoZones
   IBPSA.Utilities.IO.SignalExchange.Read PHeaSou(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    description="Heater power") "Read the heater power consumed in south zone"
+    description="Heater power of south zone")
+                                "Read the heater power consumed in south zone"
     annotation (Placement(transformation(extent={{80,-90},{100,-70}})));
 
   Modelica.Blocks.Math.Abs absSou
@@ -62,7 +63,7 @@ model TwoZones
   IBPSA.Utilities.IO.SignalExchange.Read CO2RooAirSou(
     y(unit="ppm"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-    description="Zone air CO2 concentration in south zone",
+    description="Zone air CO2 concentration of south zone",
     zone=zonSouName)   "Read the room air CO2 concentration in south zone"
     annotation (Placement(transformation(extent={{160,-40},{180,-20}})));
 
@@ -96,7 +97,7 @@ model TwoZones
       unit="W",
       min=-10000,
       max=10000), description="Heater thermal power of north zone")
-    "Overwrite the heating powerof north zone"
+    "Overwrite the heating power of north zone"
     annotation (Placement(transformation(extent={{-40,90},{-20,110}})));
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaNor
     "Set the heating power to the north zone"
@@ -113,7 +114,8 @@ model TwoZones
   IBPSA.Utilities.IO.SignalExchange.Read PHeaNor(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    description="Heater power") "Read the heater power consumed in north zone"
+    description="Heater power of north zone")
+                                "Read the heater power consumed in north zone"
     annotation (Placement(transformation(extent={{80,150},{100,170}})));
 
   Modelica.Blocks.Math.Abs absNor
@@ -121,7 +123,7 @@ model TwoZones
   IBPSA.Utilities.IO.SignalExchange.Read CO2RooAirNor(
     y(unit="ppm"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-    description="Zone air CO2 concentration in north zone",
+    description="Zone air CO2 concentration of north zone",
     zone=zonNorName)   "Read the room air CO2 concentration in north zone"
     annotation (Placement(transformation(extent={{160,80},{180,100}})));
 
