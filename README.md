@@ -9,7 +9,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
-- ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in both Python (Version 2.7) and Julia (Version 1.0.3).
+- ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (Version 2.7), Julia (Version 1.0.3), and JavaScript (Version ECMAScript 2018).
 - ``/parsing`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/template`` contains template Modelica code for a test case emulator model.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
@@ -33,6 +33,12 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
   * in a separate terminal, use ``$ cd examples/julia && make build Script=szvav_sup && make run Script=szvav_sup`` to test a simple supervisory controller on the testcase2 over a two-day period.
   * once the test is done, use ``$ make remove-image Script=twoday_p`` or ``$ make remove-image Script=szvav_sup`` to removes containers, networks, volumes, and images.
 
+* For JavaScript based controllers:
+  * in a separate terminal, use ``$ cd examples/javascript && make build Script=twoday_p && make run Script=twoday_p`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
+  * in a separate terminal, use ``$ cd examples/javascript && make build Script=szvav_sup && make run Script=szvav_sup`` to test a simple supervisory controller on the testcase2 over a two-day period.
+  * once the test is done, use ``$ make remove-image Script=twoday_p`` or ``$ make remove-image Script=szvav_sup`` to removes containers, networks, volumes, and images. 
+  * noted that those two controllers can also be executed by web browers, such as chrome or firefox.
+  
 5) Shutdown test case container by slecting container terminal window and ``Ctrl+C`` to close port, ``Ctrl+D`` to exit docker container.
 6) Remove the test case image by ``$ make remove-image TESTCASE=testcase#``.
 
