@@ -67,29 +67,33 @@ class Data_Manager(object):
         '''
         
         # Find all data keys
-        all_keys = []
+        all_keys = [] # All data keys
+        zon_keys = [] # Subset of data keys that allow a zone specifier 
+        
         for category in self.categories:
             all_keys.extend(self.categories[category])
+            if category in ['occupancy','internalGains','setpoints']:
+                zon_keys.extend(self.categories[category])
         
         # Keep track of the data already appended to avoid duplication
-        appended = {key: None for key in all_keys}
+        appended = {}
         
         # Search for .csv files in the resources folder
         for f in self.files:
             if f.endswith('.csv'):
-                df = pd.read_csv(f)
-                keys = df.keys()
-                if 'time' in keys:
-                    for key in keys.drop('time'):
-                        # Raise error if key already appended
-                        if appended[key] is not None:
-                            raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(key, appended[key], f))
-                        # Trim df from keys that are not in categories
-                        elif key not in all_keys:
-                            df.drop(key, inplace=True)
+                df = pd.read_csv(f, comment='#')
+                cols = df.keys()
+                if 'time' in cols:
+                    for col in cols.drop('time'):
+                        # Raise error if col already appended
+                        if col in appended.keys():
+                            raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(col, appended[col], f))
+                        # Trim df from cols that are not in categories
+                        elif not( (col in all_keys) or any(col.startswith(key) for key in zon_keys) ):
+                            df.drop(col, inplace=True)
                         else:
-                            appended[key] = f
-                    # Copy the trimmed df if any key found in categories
+                            appended[col] = f
+                    # Copy the trimmed df if any col found in categories
                     if len(df.keys())>0:
                         df.to_csv(f+'_trimmed', index=False)
                         file_name = os.path.split(f)[1]
@@ -198,7 +202,9 @@ class Data_Manager(object):
         
         # Filter the requested data columns
         if category is not None:
-            data_slice = self.case.data.loc[:,self.categories[category]]
+            cols = [col for col in self.case.data if \
+                    any(col.startswith(key) for key in self.categories[category])]
+            data_slice = self.case.data.loc[:,cols]
         else:
             data_slice = self.case.data
             
@@ -270,7 +276,7 @@ class Data_Manager(object):
         # Find the minimum sampling resolution
         sampling = 3600. 
         for f in files:
-            df = pd.read_csv(z_fmu.open(f))
+            df = pd.read_csv(z_fmu.open(f), comment='#')
             if 'time' in df.keys():
                 new_sampling = df.iloc[1]['time']-df.iloc[0]['time']
                 if new_sampling<sampling:
@@ -280,33 +286,36 @@ class Data_Manager(object):
         index = np.linspace(0.,3.1536e+7,int(3.1536e+7/sampling+1),dtype='int')
         
         # Find all data keys
-        all_keys = []
+        all_keys = [] # All data keys
+        zon_keys = [] # Subset of data keys that allow a zone specifier 
+        
         for category in self.categories:
             all_keys.extend(self.categories[category])
+            if category in ['occupancy','internalGains','setpoints']:
+                zon_keys.extend(self.categories[category])
         
         # Initialize test case data frame
         self.case.data = \
-            pd.DataFrame(index=index, columns=all_keys).rename_axis('time')
+            pd.DataFrame(index=index).rename_axis('time')
         
         # Load the test case data
         for f in files:
             df = pd.read_csv(z_fmu.open(f))
-            keys = df.keys()
-            if 'time' in keys:
-                for key in keys.drop('time'):
+            cols = df.keys()
+            if 'time' in cols:
+                for col in cols.drop('time'):
                     for category in self.categories:
                         # Use linear interpolation for continuous variables
-                        if key in self.categories[category] and \
-                            category == 'weather':
-                            g = interpolate.interp1d(df['time'],df[key], 
+                        if any(col.startswith(key) for key in self.categories['weather']):
+                            g = interpolate.interp1d(df['time'],df[col], 
                                 kind='linear')
-                            self.case.data.loc[:,key] = \
+                            self.case.data.loc[:,col] = \
                                 g(self.case.data.index)
                         # Use forward fill for discrete variables
-                        elif key in self.categories[category]:
-                            g = interpolate.interp1d(df['time'],df[key], 
+                        elif any(col.startswith(key) for key in self.categories[category]):
+                            g = interpolate.interp1d(df['time'],df[col], 
                                 kind='zero')
-                            self.case.data.loc[:,key] = \
+                            self.case.data.loc[:,col] = \
                                 g(self.case.data.index)
             else:
                 warnings.warn('The following file does not have '\

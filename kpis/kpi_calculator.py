@@ -74,6 +74,7 @@ class KPI_Calculator(object):
         
         ckpi = OrderedDict()
         ckpi['tdis_tot'] = self.get_thermal_discomfort()
+        ckpi['idis_tot'] = self.get_iaq_discomfort()
         ckpi['ener_tot'] = self.get_energy()
         ckpi['cost_tot'] = self.get_cost()
         ckpi['emis_tot'] = self.get_emissions()        
@@ -99,27 +100,40 @@ class KPI_Calculator(object):
 
         '''
         
-        # Load temperature set points from test case data
         index=self.case.y_store['time']
-        LowerSetp = np.array(self.case.data_manager.get_data(index=index)
-                             ['LowerSetp'])
-        UpperSetp = np.array(self.case.data_manager.get_data(index=index)
-                             ['UpperSetp']) 
+        
         tdis_tot = 0
         tdis_dict = OrderedDict()
-        for signal in self.case.kpi_json['AirZoneTemperature']:
-            data = np.array(self.case.y_store[signal])
-            dT_lower = LowerSetp - data
-            dT_lower[dT_lower<0]=0
-            dT_upper = data - UpperSetp
-            dT_upper[dT_upper<0]=0
-            tdis_dict[signal[:-1]+'dTlower_y'] = \
-                trapz(dT_lower,self.case.y_store['time'])/3600.
-            tdis_dict[signal[:-1]+'dTupper_y'] = \
-                trapz(dT_upper,self.case.y_store['time'])/3600.
-            tdis_tot = tdis_tot + \
-                      tdis_dict[signal[:-1]+'dTlower_y'] + \
-                      tdis_dict[signal[:-1]+'dTupper_y']
+        
+        for source in self.case.kpi_json.keys():
+            if source.startswith(self.sources[0]):
+                # This is a potential source of thermal discomfort
+                zone_id = source.replace(self.sources[0]+'[','')[:-1]
+                if 'LowerSetp[{0}]'.format(zone_id) not in self.case.data.keys() or \
+                   'UpperSetp[{0}]'.format(zone_id) not in self.case.data.keys():
+                    raise KeyError('The zone identifier {0} from the emulator '\
+                                   'model does not match the zone identifier '\
+                                   'used in the data to specify the lower and '\
+                                   'upper thermal comfort bounds'.format(zone_id))
+                    
+                for signal in self.case.kpi_json[source]:
+                    # Load temperature set points from test case data
+                    LowerSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['LowerSetp[{0}]'.format(zone_id)])
+                    UpperSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['UpperSetp[{0}]'.format(zone_id)])                     
+                    data = np.array(self.case.y_store[signal])
+                    dT_lower = LowerSetp - data
+                    dT_lower[dT_lower<0]=0
+                    dT_upper = data - UpperSetp
+                    dT_upper[dT_upper<0]=0
+                    tdis_dict[signal[:-1]+'dTlower_y'] = \
+                        trapz(dT_lower,self.case.y_store['time'])/3600.
+                    tdis_dict[signal[:-1]+'dTupper_y'] = \
+                        trapz(dT_upper,self.case.y_store['time'])/3600.
+                    tdis_tot = tdis_tot + \
+                              tdis_dict[signal[:-1]+'dTlower_y'] + \
+                              tdis_dict[signal[:-1]+'dTupper_y']
         
         self.case.tdis_tot  = tdis_tot
         self.case.tdis_dict = tdis_dict
@@ -130,6 +144,61 @@ class KPI_Calculator(object):
                                  units='Kh', breakdonut=False)
         
         return tdis_tot
+        
+    def get_iaq_discomfort(self, plot=False):
+        '''The IAQ discomfort is the integral of the deviation 
+        of the CO2 concentration with respect to the predefined comfort 
+        setpoint. Its units are of ppm*h.
+        
+        Parameters
+        ----------
+        plot: boolean, optional
+            True to show a donut plot with the iaq discomfort metrics.
+            Default is False.
+            
+        Returns
+        -------
+        idis_tot: float
+            total IAQ discomfort accounted in this test case
+
+        '''
+        
+        index=self.case.y_store['time']
+        
+        idis_tot = 0
+        idis_dict = OrderedDict()
+        
+        for source in self.case.kpi_json.keys():
+            if source.startswith(self.sources[4]):
+                # This is a potential source of iaq discomfort
+                zone_id = source.replace(self.sources[4]+'[','')[:-1]
+                if 'UpperCO2[{0}]'.format(zone_id) not in self.case.data.keys():
+                    raise KeyError('The zone identifier {0} from the emulator '\
+                                   'model does not match the zone identifier '\
+                                   'used in the data to specify the upper '\
+                                   'CO2 concentration bound'.format(zone_id))
+                    
+                for signal in self.case.kpi_json[source]:
+                    # Load CO2 set points from test case data
+                    UpperSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['UpperCO2[{0}]'.format(zone_id)])                     
+                    data = np.array(self.case.y_store[signal])
+                    dI_upper = data - UpperSetp
+                    dI_upper[dI_upper<0]=0
+                    idis_dict[signal[:-1]+'dIupper_y'] = \
+                        trapz(dI_upper,self.case.y_store['time'])/3600.
+                    idis_tot = idis_tot + \
+                              idis_dict[signal[:-1]+'dIupper_y']
+        
+        self.case.idis_tot  = idis_tot
+        self.case.idis_dict = idis_dict
+            
+        if plot:
+            self.case.idis_tree = self.get_dict_tree(idis_dict)
+            self.plot_nested_pie(self.case.idis_tree, metric='IAQ discomfort',
+                                 units='ppmh', breakdonut=False)
+        
+        return idis_tot
     
     def get_energy(self, plot=False, plot_by_source=False):
         '''This method returns the measure of the total building 

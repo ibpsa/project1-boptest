@@ -12,10 +12,11 @@ import utilities
 import requests
 from examples.python import szvav_sup
 
-kpi_ref = {'tdis_tot': 6.04428275644,
-           'ener_tot': 147.22400811308495,
-           'cost_tot': 29.4448016226,
-           'emis_tot': 73.6120040565,
+kpi_ref = {'tdis_tot': 6.04428540467,
+           'idis_tot': 365.6911873402533,
+           'ener_tot': 147.224341889,
+           'cost_tot': 29.4448683777,
+           'emis_tot': 73.6121709444,
            'time_rat_python': 0.000198015450603,
            'time_rat_julia': 0.000198015450603}
 
@@ -41,6 +42,7 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
         # Check kpis
         self.assertAlmostEqual(kpi['ener_tot'], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['idis_tot'], kpi_ref['idis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'], kpi_ref['cost_tot'], places=3)
         self.assertAlmostEqual(kpi['time_rat'], kpi_ref['time_rat_python'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'], kpi_ref['emis_tot'], places=3)
@@ -93,6 +95,7 @@ class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
         kpi = pd.read_csv(kpi_path)
         self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
         self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
+        self.assertAlmostEqual(kpi['idis_tot'].get_values()[0], kpi_ref['idis_tot'], places=3)
         self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
         self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
         self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
@@ -198,19 +201,24 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                  "senTSetRooHea_y": {"Unit": "K", 
                                                "Description": "Room heating setpoint",                                               
                                                "Minimum":None,
+                                               "Maximum":None},
+                                 "CO2RooAir_y": {"Unit": "ppm", 
+                                               "Description": "Room air CO2 concentration",                                               
+                                               "Minimum":None,
                                                "Maximum":None}}
         self.step_ref = 3600.0
         self.y_ref = {u'PFan_y': 5.231953892668184,
-                      u'TRooAir_y': 295.06434640698365, 
+                      u'TRooAir_y': 295.06434620168045, 
                       u'time': 3600.0, 
                       u'PCoo_y': 0.0, 
-                      u'PHea_y': 2422.525863088172,
+                      u'PHea_y': 2422.531669643179,
                       u'PPum_y': -0.0,
                       u'senTSetRooCoo_y': 296.15,
-                      u'senTSetRooHea_y': 295.15}
-        self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_default.csv')
+                      u'senTSetRooHea_y': 295.15,
+                      u'CO2RooAir_y': 279.137}
+        self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_default.csv')
         self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
-        self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc2_forecast_interval.csv')
+        self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_interval.csv')
 
 
 if __name__ == '__main__':
