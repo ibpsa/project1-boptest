@@ -1,6 +1,6 @@
 # IBPSA Project 1 - BOPTEST
 
-[![Build Status](https://travis-ci.org/ibpsa/project1-boptest.svg?branch=master)](https://travis-ci.org/ibpsa/project1-boptest)
+[![Build Status](https://travis-ci.com/ibpsa/project1-boptest.svg?branch=master)](https://travis-ci.com/ibpsa/project1-boptest)
 
 Building Optimization Performance Tests
 
