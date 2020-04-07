@@ -89,7 +89,7 @@ def run(plot=False, customized_kpi_config=None):
     start = time.time()
     # Reset test case
     print('Resetting test case if needed.')
-    res = requests.put('{0}/reset'.format(url), data={'reset_time':0})
+    res = requests.put('{0}/reset'.format(url), data={'start_time':0,'warmup_period':120})
     print('\nRunning test case...')
     # Set simulation step
     res = requests.put('{0}/step'.format(url), data={'step':step})
