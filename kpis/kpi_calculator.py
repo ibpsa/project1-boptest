@@ -109,13 +109,7 @@ class KPI_Calculator(object):
             if source.startswith(self.sources[0]):
                 # This is a potential source of thermal discomfort
                 zone_id = source.replace(self.sources[0]+'[','')[:-1]
-                if 'LowerSetp[{0}]'.format(zone_id) not in self.case.data.keys() or \
-                   'UpperSetp[{0}]'.format(zone_id) not in self.case.data.keys():
-                    raise KeyError('The zone identifier {0} from the emulator '\
-                                   'model does not match the zone identifier '\
-                                   'used in the data to specify the lower and '\
-                                   'upper thermal comfort bounds'.format(zone_id))
-                    
+                
                 for signal in self.case.kpi_json[source]:
                     # Load temperature set points from test case data
                     LowerSetp = np.array(self.case.data_manager.get_data(index=index)
@@ -172,12 +166,7 @@ class KPI_Calculator(object):
             if source.startswith(self.sources[4]):
                 # This is a potential source of iaq discomfort
                 zone_id = source.replace(self.sources[4]+'[','')[:-1]
-                if 'UpperCO2[{0}]'.format(zone_id) not in self.case.data.keys():
-                    raise KeyError('The zone identifier {0} from the emulator '\
-                                   'model does not match the zone identifier '\
-                                   'used in the data to specify the upper '\
-                                   'CO2 concentration bound'.format(zone_id))
-                    
+                
                 for signal in self.case.kpi_json[source]:
                     # Load CO2 set points from test case data
                     UpperSetp = np.array(self.case.data_manager.get_data(index=index)
