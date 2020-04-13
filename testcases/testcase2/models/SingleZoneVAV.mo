@@ -4,7 +4,7 @@ package SingleZoneVAV
   model TestCaseSupervisory
     "Based on Buildings.Air.Systems.SingleZone.VAV.Examples.ChillerDXHeatingEconomizer."
 
-    package MediumA = Buildings.Media.Air "Buildings library air media package";
+    package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package";
     package MediumW = Buildings.Media.Water "Buildings library air media package";
 
     parameter Modelica.SIunits.Temperature TSupChi_nominal=279.15
@@ -18,7 +18,7 @@ package SingleZoneVAV
       TSupChi_nominal=TSupChi_nominal,
       TSetSupAir=286.15) "Controller"
       annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
-    Buildings.Air.Systems.SingleZone.VAV.ChillerDXHeatingEconomizer hvac(
+    BaseClasses.ChillerDXHeatingEconomizer                          hvac(
       redeclare package MediumA = MediumA,
       redeclare package MediumW = MediumW,
       mAir_flow_nominal=0.75,
@@ -27,7 +27,8 @@ package SingleZoneVAV
       QCoo_flow_nominal=-7000,
       TSupChi_nominal=TSupChi_nominal)   "Single zone VAV system"
       annotation (Placement(transformation(extent={{-40,-20},{0,20}})));
-    Buildings.Air.Systems.SingleZone.VAV.Examples.BaseClasses.Room zon(
+    BaseClasses.Room                                               zon(
+      redeclare package MediumA = MediumA,
         mAir_flow_nominal=0.75,
         lat=weaDat.lat) "Thermal envelope of single zone"
       annotation (Placement(transformation(extent={{40,-20},{80,20}})));
@@ -110,6 +111,12 @@ package SingleZoneVAV
       KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
       description="Room heating setpoint")
       annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
+    IBPSA.Utilities.IO.SignalExchange.Read CO2RooAir(
+      y(unit="ppm"),
+      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+      description="Room air CO2 concentration") "CO2 concentration of room air"
+      annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
+
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(
         points={{-140,130},{-108,130}},
@@ -197,6 +204,8 @@ package SingleZoneVAV
             -10},{-116,-10},{-116,-70},{-102,-70}}, color={0,0,127}));
     connect(oveTSetRooHea.y, senTSetRooHea.u) annotation (Line(points={{-119,30},
             {-116,30},{-116,50},{-102,50}}, color={0,0,127}));
+    connect(zon.CO2, CO2RooAir.u) annotation (Line(points={{81,-4},{100,-4},{100,-30},
+            {118,-30}}, color={0,0,127}));
     annotation (
       experiment(
         StopTime=504800,
@@ -241,6 +250,72 @@ First implementation.
                   points={{-52,50},{48,-10},{-52,-70},{-52,50}})}));
   end TestCaseSupervisory;
 
-  annotation (uses(Modelica(version="3.2.2"), Buildings(version="6.0.0"),
-      IBPSA(version="3.0.0")));
+  package BaseClasses "Base classes for test case"
+    extends Modelica.Icons.BasesPackage;
+    model Room "Room model for test case"
+      extends Buildings.Air.Systems.SingleZone.VAV.Examples.BaseClasses.Room(roo(
+            use_C_flow=true, nPorts=6), sinInf(use_C_in=true));
+      Modelica.Blocks.Math.Gain gaiCO2Gen(k=2)
+        "Number of people for CO2 generation"
+        annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
+      Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra(MMMea=
+            Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
+        "Conversion from mass fraction CO2 to volume fraction CO2"
+        annotation (Placement(transformation(extent={{100,-40},{120,-20}})));
+      Buildings.Fluid.Sensors.TraceSubstances        senCO2(redeclare package
+          Medium = MediumA)
+                        "CO2 sensor"
+        annotation (Placement(transformation(extent={{20,-60},{40,-40}})));
+      Modelica.Blocks.Sources.Constant conCO2Out(k=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+            /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
+        "Outside air CO2 concentration"
+        annotation (Placement(transformation(extent={{-120,-70},{-100,-50}})));
+      Modelica.Blocks.Math.Gain gaiPpm(k=1e6) "Gain for CO2 generation in ppm"
+        annotation (Placement(transformation(extent={{140,-40},{160,-20}})));
+      Modelica.Blocks.Interfaces.RealOutput CO2(unit="ppm") "Room air CO2 concentration"
+        annotation (Placement(transformation(extent={{200,-50},{220,-30}}),
+            iconTransformation(extent={{200,-50},{220,-30}})));
+      Modelica.Blocks.Sources.Constant mCO2Gai_flow(k=2.5*8.64e-6)
+        "CO2 generation per person in kg/s (elevated by 2.5x to force ppm above limit for testing)"
+        annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
+    protected
+      Modelica.Blocks.Math.Product pro4 "Product for internal gain"
+        annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
+    equation
+      connect(conCO2Out.y, sinInf.C_in[1]) annotation (Line(points={{-99,-60},{-70,-60},
+              {-70,-18},{-40,-18}}, color={0,0,127}));
+      connect(senCO2.port, roo.ports[6]) annotation (Line(points={{30,-60},{30,-66},
+              {20,-66},{20,-13},{40.5,-13}}, color={0,127,255}));
+      connect(senCO2.C, conMasVolFra.m) annotation (Line(points={{41,-50},{50,-50},{
+              50,-30},{99,-30}}, color={0,0,127}));
+      connect(conMasVolFra.V, gaiPpm.u)
+        annotation (Line(points={{121,-30},{138,-30}}, color={0,0,127}));
+      connect(gaiPpm.y, CO2) annotation (Line(points={{161,-30},{180,-30},{180,-40},
+              {210,-40}}, color={0,0,127}));
+      connect(mCO2Gai_flow.y, gaiCO2Gen.u) annotation (Line(points={{-159,90},{-132,
+              90},{-132,30},{-82,30}}, color={0,0,127}));
+      connect(gaiCO2Gen.y, pro4.u2) annotation (Line(points={{-59,30},{-50,30},{-50,
+              24},{-42,24}}, color={0,0,127}));
+      connect(intLoad.y[1], pro4.u1) annotation (Line(points={{-99,160},{-94,160},{-94,
+              158},{-90,158},{-90,56},{-48,56},{-48,36},{-42,36}}, color={0,0,127}));
+      connect(pro4.y, roo.C_flow[1]) annotation (Line(points={{-19,30},{10,30},{10,3.64},
+              {31.92,3.64}}, color={0,0,127}));
+    end Room;
+
+    model ChillerDXHeatingEconomizer "RTU model for test case"
+      extends Buildings.Air.Systems.SingleZone.VAV.ChillerDXHeatingEconomizer(
+          out(use_C_in=true));
+      Modelica.Blocks.Sources.Constant conCO2Out(k=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+            /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
+        "Outside air CO2 concentration"
+        annotation (Placement(transformation(extent={{-182,100},{-162,120}})));
+    equation
+      connect(conCO2Out.y, out.C_in[1]) annotation (Line(points={{-161,110},{
+              -142,110},{-142,32}}, color={0,0,127}));
+    end ChillerDXHeatingEconomizer;
+  end BaseClasses;
+  annotation (uses(Modelica(version="3.2.3"),
+      Buildings(version="7.0.0"),
+      IBPSA(version="3.0.0")),
+    version="1");
 end SingleZoneVAV;

@@ -77,7 +77,7 @@ class Data_Manager(object):
         # Search for .csv files in the resources folder
         for f in self.files:
             if f.endswith('.csv'):
-                df = pd.read_csv(f)
+                df = pd.read_csv(f, comment='#')
                 keys = df.keys()
                 if 'time' in keys:
                     for key in keys.drop('time'):
@@ -270,7 +270,7 @@ class Data_Manager(object):
         # Find the minimum sampling resolution
         sampling = 3600. 
         for f in files:
-            df = pd.read_csv(z_fmu.open(f))
+            df = pd.read_csv(z_fmu.open(f), comment='#')
             if 'time' in df.keys():
                 new_sampling = df.iloc[1]['time']-df.iloc[0]['time']
                 if new_sampling<sampling:
@@ -290,7 +290,7 @@ class Data_Manager(object):
         
         # Load the test case data
         for f in files:
-            df = pd.read_csv(z_fmu.open(f))
+            df = pd.read_csv(z_fmu.open(f), comment='#')
             keys = df.keys()
             if 'time' in keys:
                 for key in keys.drop('time'):

@@ -44,8 +44,7 @@ model SimpleRC
   IBPSA.Utilities.IO.SignalExchange.Read
                       TRooAir(                y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-    description="Zone air temperature")
-                              "Read the room air temperature"
+    description="Zone air temperature") "Read the room air temperature"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       PHea(y(unit="W"),
@@ -55,6 +54,18 @@ model SimpleRC
     annotation (Placement(transformation(extent={{80,-90},{100,-70}})));
   Modelica.Blocks.Math.Abs abs
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
+  IBPSA.Utilities.IO.SignalExchange.Read CO2RooAir(
+    y(unit="ppm"),
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    description="Zone air CO2 concentration")
+    "Read the room air CO2 concentration"
+    annotation (Placement(transformation(extent={{80,50},{100,70}})));
+
+  Modelica.Blocks.Sources.Sine     conCO2(
+    amplitude=250,
+    freqHz=1/(3600*24),
+    offset=750) "Concetration of CO2"
+    annotation (Placement(transformation(extent={{40,50},{60,70}})));
 equation
   connect(res.port_b, cap.port)
     annotation (Line(points={{20,0},{40,0}},color={191,0,0}));
@@ -82,5 +93,11 @@ equation
     annotation (Line(points={{21,-80},{28,-80}}, color={0,0,127}));
   connect(abs.y, PHea.u)
     annotation (Line(points={{51,-80},{78,-80}}, color={0,0,127}));
-  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
+  connect(conCO2.y, CO2RooAir.u)
+    annotation (Line(points={{61,60},{78,60}}, color={0,0,127}));
+  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")),
+      experiment(
+      StopTime=60,
+      Interval=1,
+      Tolerance=1e-06));
 end SimpleRC;

@@ -123,6 +123,8 @@ def run(plot=False, customized_kpi_config=None):
             unit = 'kWh'
         elif key == 'tdis_tot':
             unit = 'Kh'
+        elif key == 'idis_tot':
+            unit = 'ppmh'
         elif key == 'cost_tot':
             unit = 'Euro or $'
         elif key == 'emis_tot':
