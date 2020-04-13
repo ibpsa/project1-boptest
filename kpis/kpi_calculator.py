@@ -106,9 +106,9 @@ class KPI_Calculator(object):
         tdis_dict = OrderedDict()
         
         for source in self.case.kpi_json.keys():
-            if source.startswith(self.sources[0]):
+            if source.startswith('AirZoneTemperature'):
                 # This is a potential source of thermal discomfort
-                zone_id = source.replace(self.sources[0]+'[','')[:-1]
+                zone_id = source.replace('AirZoneTemperature[','')[:-1]
                 
                 for signal in self.case.kpi_json[source]:
                     # Load temperature set points from test case data
@@ -163,9 +163,9 @@ class KPI_Calculator(object):
         idis_dict = OrderedDict()
         
         for source in self.case.kpi_json.keys():
-            if source.startswith(self.sources[4]):
+            if source.startswith('CO2Concentration'):
                 # This is a potential source of iaq discomfort
-                zone_id = source.replace(self.sources[4]+'[','')[:-1]
+                zone_id = source.replace('CO2Concentration[','')[:-1]
                 
                 for signal in self.case.kpi_json[source]:
                     # Load CO2 set points from test case data
