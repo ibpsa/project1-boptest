@@ -32,6 +32,10 @@ case = TestCase()
 # ``step`` interface
 parser_step = reqparse.RequestParser()
 parser_step.add_argument('step')
+# ``reset`` interface
+parser_reset = reqparse.RequestParser()
+parser_reset.add_argument('start_time')
+parser_reset.add_argument('warmup_period')
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
@@ -60,8 +64,10 @@ class Reset(Resource):
     
     def put(self):
         '''PUT request to reset the test.'''
-        case.reset()
-        return 'Testcase reset.'
+        u = parser_reset.parse_args()
+        result = case.reset(u)        
+        result={'reset_result':result}        
+        return result
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''

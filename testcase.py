@@ -44,19 +44,19 @@ class TestCase(object):
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Get available control inputs and outputs
-        input_names = self.fmu.get_model_variables(causality = 2).keys()
-        output_names = self.fmu.get_model_variables(causality = 3).keys()
+        self.input_names = self.fmu.get_model_variables(causality = 2).keys()
+        self.output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Get input and output meta-data
-        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names, inputs=True)
-        self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
+        self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
+        self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Define outputs data
         self.y = {'time':[]}
-        for key in output_names:
+        for key in self.output_names:
             self.y[key] = []
         self.y_store = copy.deepcopy(self.y)
         # Define inputs data
         self.u = {'time':[]}
-        for key in input_names:
+        for key in self.input_names:
             self.u[key] = []
         self.u_store = copy.deepcopy(self.u)
         # Set default options
@@ -71,6 +71,7 @@ class TestCase(object):
         self.initialize = True
         self.options['initialize'] = self.initialize
         self.elapsed_control_time = []
+
         
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -149,13 +150,57 @@ class TestCase(object):
         
         return self.y
 
-    def reset(self):
+    def reset(self,u):
         '''Reset the test.
         
         '''
         
-        self.__init__()
+        try:
+        
+             start = float(u['start_time'])
 
+             warm_period_length = float(u['warmup_period'])
+        
+        except Exception as e:
+ 
+             return False          
+        
+        self.fmu = load_fmu(self.fmupath, enable_logging=True)
+        
+        # Reset outputs data
+        self.y = {'time':[]}
+        for key in self.output_names:
+            self.y[key] = []
+        self.y_store = copy.deepcopy(self.y)
+        # Reset inputs data
+        self.u = {'time':[]}
+        for key in self.input_names:
+            self.u[key] = []        
+        self.u_store = copy.deepcopy(self.u)
+
+        # Warming up period simulation        
+        self.initialize = True
+        
+        self.options['initialize'] = self.initialize
+        
+        try:
+        
+             res = self.fmu.simulate(start_time=start, 
+                                     final_time=start+warm_period_length, 
+                                     options=self.options, 
+                                     input=None)
+        except Exception as e:
+        
+             self.__init__()
+ 
+             return False  
+
+        self.start_time = start+warm_period_length
+        
+        self.initialize = False
+        
+        return True
+        
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
 
