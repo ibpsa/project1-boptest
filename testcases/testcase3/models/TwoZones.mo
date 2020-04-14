@@ -83,7 +83,7 @@ model TwoZones
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
   Modelica.Blocks.Sources.Step setNor(
     height=2,
-    offset=273.15 + 20,
+    offset=273.15 + 21,
     startTime=3600*24) "Room temperature sepoint for north zone"
     annotation (Placement(transformation(extent={{-100,90},{-80,110}})));
   Modelica.Blocks.Continuous.LimPID conNor(
