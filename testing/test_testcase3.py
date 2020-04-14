@@ -116,12 +116,12 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                                                "Minimum":None,
                                                "Maximum":None}}
         self.step_ref = 60.0
-        self.y_ref = {u'PHeaNor_y': 0.0, 
-                      u'TRooAirNor_y': 293.15015556512265,
-                      u'CO2RooAirNor_y': 751.091,
+        self.y_ref = {u'PHeaNor_y': 1792.2015024968268, 
+                      u'TRooAirNor_y': 293.26286025626405,
+                      u'CO2RooAirNor_y': 751.090827,
                       u'PHeaSou_y': 0.0, 
-                      u'TRooAirSou_y': 293.15015556512265,
-                      u'CO2RooAirSou_y': 751.091,
+                      u'TRooAirSou_y': 293.15013089795605,
+                      u'CO2RooAirSou_y': 751.090827,
                       u'time': 60.0}
         self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'testcase3', 'tc3_forecast_default.csv')
         self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
