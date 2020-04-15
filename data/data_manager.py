@@ -132,8 +132,12 @@ class Data_Manager(object):
         '''Append data from any .csv file within the Resources folder
         of the testcase. The .csv file must contain a 'time' column 
         in seconds from the beginning of the year and one of the 
-        keys defined within categories.kpis. Other data without these
-        keys will be neglected.
+        keys defined within categories.kpis, or the combination of 
+        these variable keys with a zone identifier in the format: 
+        variable[zone_identifier]. Other data without this format will 
+        raise an error to prevent from unnecessary data to be stored 
+        in the test case FMU or from data columns that have not the 
+        allowed key format. 
         
         '''
         
@@ -154,9 +158,8 @@ class Data_Manager(object):
                         if col in appended.keys():
                             raise ReferenceError('{0} in multiple files within the Resources folder.'\
                                                  'These are: {1}, and {2}'.format(col, appended[col], f))
-                        # Trim df from cols that are not allowed
+                        # Raise error if there are col keys that are not allowed
                         elif not( (col in zon_keys) or (col in bou_keys) ):
-                            df.drop(col, inplace=True)
                             raise KeyError('The data column {0} from file {1} '\
                                            'does not match any of the allowed column keys and therefore '\
                                            'it cannot be saved within the compiled fmu. Test case data '\
@@ -167,17 +170,20 @@ class Data_Manager(object):
                                            'key, it is in the format: variable[zone_identifier] '.format(col,f))
                         else:
                             appended[col] = f
-                    # Copy the trimmed df if any col found in categories
-                    if len(df.keys())>0:
-                        df.to_csv(f+'_trimmed', index=False)
-                        file_name = os.path.split(f)[1]
-                        self.z_fmu.write(f+'_trimmed', os.path.join('resources',
-                                         file_name))
-                        os.remove(f+'_trimmed')
+                    # Store the data in the FMU as col checks passed
+                    df.to_csv(f+'_testcase', index=False)
+                    file_name = os.path.split(f)[1]
+                    self.z_fmu.write(f+'_testcase', 
+                        os.path.join('resources',file_name))
+                    os.remove(f+'_testcase')
                 else:
                     warnings.warn('The following file does not have '\
                     'time column and therefore no data is going to '\
-                    'be used from this file as test case data.', Warning) 
+                    'be used from this file as test case data. If your '\
+                    'intention is to store data from this file into the '\
+                    'test case data, make sure that the file includes a '\
+                    'column with time in the header indicating the '\
+                    'seconds from the beginning of the year', Warning) 
                     print(f)
                     
     def save_data_and_kpisjson(self, fmu_path):
