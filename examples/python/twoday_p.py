@@ -162,4 +162,4 @@ def run(plot=False, customized_kpi_config=None):
     return kpi,res,customizedkpis_result 
 
 if __name__ == "__main__":
-    kpi,res,customizedkpis_result = run(kpiconfig='custom_kpi/custom_kpis.config')
+    kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
