@@ -325,7 +325,8 @@ class Data_Generator(object):
          
     def generate_occupancy(self, occ_num,
                         start_day_time = '07:00:00',
-                        end_day_time   = '18:00:00'):
+                        end_day_time   = '18:00:00',
+                        zone_id        = '1'):
         '''The occupancy indicates the number of people in the building
         at each time.
         
@@ -337,6 +338,8 @@ class Data_Generator(object):
             string in pandas date-time format with the starting day time
         end_day_time: string, default is '18:00:00'
             string in pandas date-time format with the ending day time
+        zone_id: string, default is '1'
+            zone identifier to specify the zone for which data is generated
             
         '''
         
@@ -346,8 +349,10 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'Occupancy'] = occ_num
-        df.loc[~df.index.isin(day_time_index),'Occupancy'] = 0
+        df.loc[df.index.isin(day_time_index), 
+               'Occupancy[{0}]'.format(zone_id)] = occ_num
+        df.loc[~df.index.isin(day_time_index),
+               'Occupancy[{0}]'.format(zone_id)] = 0
         
         # Store in csv
         self.store_df(df,'occupancy')  
@@ -360,7 +365,8 @@ class Data_Generator(object):
                         ConOcc = 1000,
                         ConUnocc = 0,
                         LatOcc = 200,
-                        LatUnocc = 0):
+                        LatUnocc = 0,
+                        zone_id = '1'):
         '''The internal gains are the heat gains (in Watts) produced by 
         electrical appliances and the people within the building.
         
@@ -382,6 +388,8 @@ class Data_Generator(object):
             Latent internal load during occupied times in W
         LatUnocc: num, default is 0
             Latent internal load during unoccupied times in W
+        zone_id: string, default is '1'
+            zone identifier to specify the zone for which data is generated
             
         '''
         
@@ -391,12 +399,18 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
 
-        df.loc[df.index.isin(day_time_index), 'InternalGainsRad'] = RadOcc
-        df.loc[~df.index.isin(day_time_index),'InternalGainsRad'] = RadUnocc
-        df.loc[df.index.isin(day_time_index), 'InternalGainsCon'] = ConOcc
-        df.loc[~df.index.isin(day_time_index),'InternalGainsCon'] = ConUnocc
-        df.loc[df.index.isin(day_time_index), 'InternalGainsLat'] = LatOcc
-        df.loc[~df.index.isin(day_time_index),'InternalGainsLat'] = LatUnocc
+        df.loc[df.index.isin(day_time_index), 
+               'InternalGainsRad[{0}]'.format(zone_id)] = RadOcc
+        df.loc[~df.index.isin(day_time_index),
+               'InternalGainsRad[{0}]'.format(zone_id)] = RadUnocc
+        df.loc[df.index.isin(day_time_index), 
+               'InternalGainsCon[{0}]'.format(zone_id)] = ConOcc
+        df.loc[~df.index.isin(day_time_index),
+               'InternalGainsCon[{0}]'.format(zone_id)] = ConUnocc
+        df.loc[df.index.isin(day_time_index), 
+               'InternalGainsLat[{0}]'.format(zone_id)] = LatOcc
+        df.loc[~df.index.isin(day_time_index),
+               'InternalGainsLat[{0}]'.format(zone_id)] = LatUnocc
         
         # Store in csv
         self.store_df(df,'internalGains')  
@@ -409,7 +423,8 @@ class Data_Generator(object):
                          TCooOcc  = 23+273.15,
                          TCooUnocc = 23+273.15,
                          CO2Occ = 894,
-                         CO2Unocc = 894):
+                         CO2Unocc = 894,
+                         zone_id = '1'):
         '''Append the lower and upper temperature set points 
         that are used in the model to define the comfort range.
         These temperature set points are defined in Kelvins 
@@ -434,6 +449,8 @@ class Data_Generator(object):
             CO2 ppm upper limit during occupied hours
         CO2Unocc: float, default is 894
             CO2 ppm upper limit during unoccupied hours
+        zone_id: string, default is '1'
+            zone identifier to specify the zone for which data is generated
             
         '''
         
@@ -443,13 +460,19 @@ class Data_Generator(object):
         day_time_index = df.between_time(start_day_time, 
                                          end_day_time).index
         
-        df.loc[df.index.isin(day_time_index), 'LowerSetp'] = THeaOcc
-        df.loc[df.index.isin(day_time_index), 'UpperSetp'] = TCooUnocc
-        df.loc[~df.index.isin(day_time_index),'LowerSetp'] = THeaOcc
-        df.loc[~df.index.isin(day_time_index),'UpperSetp'] = TCooUnocc
-        df.loc[~df.index.isin(day_time_index),'UpperCO2'] = CO2Occ
-        df.loc[df.index.isin(day_time_index),'UpperCO2'] = CO2Unocc
-        
+        df.loc[df.index.isin(day_time_index), 
+               'LowerSetp[{0}]'.format(zone_id)] = THeaOcc
+        df.loc[df.index.isin(day_time_index), 
+               'UpperSetp[{0}]'.format(zone_id)] = TCooUnocc
+        df.loc[~df.index.isin(day_time_index),
+               'LowerSetp[{0}]'.format(zone_id)] = THeaOcc
+        df.loc[~df.index.isin(day_time_index),
+               'UpperSetp[{0}]'.format(zone_id)] = TCooUnocc
+        df.loc[~df.index.isin(day_time_index),
+               'UpperCO2[{0}]'.format(zone_id)] = CO2Occ
+        df.loc[df.index.isin(day_time_index),
+               'UpperCO2[{0}]'.format(zone_id)] = CO2Unocc    
+                   
         # Store in csv
         self.store_df(df,'setpoints')
         

@@ -1,4 +1,4 @@
-time,LowerSetp,UpperSetp,UpperCO2
+time,LowerSetp[1],UpperSetp[1],UpperCO2[1]
 0,295.15,296.15,894
 3600,295.15,296.15,894
 7200,295.15,296.15,894

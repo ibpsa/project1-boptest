@@ -184,9 +184,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       u'TRooAir_y': 293.15015556512265,
                       u'CO2RooAir_y': 751.091,
                       u'time': 60.0}
-        self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc1_forecast_default.csv')
+        self.forecast_default_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'testcase1', 'tc1_forecast_default.csv')
         self.forecast_parameters_ref = {'horizon':172800, 'interval':123}
-        self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'tc1_forecast_interval.csv')
+        self.forecast_with_parameters_ref = os.path.join(utilities.get_root_path(), 'testing', 'references', 'forecast', 'testcase1', 'tc1_forecast_interval.csv')
 
         
 if __name__ == '__main__':

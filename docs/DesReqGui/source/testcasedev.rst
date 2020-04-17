@@ -111,8 +111,9 @@ The emulator developer will add read blocks to post signals to the external
 interface at their discretion to provide measurements from sensors in the 
 building that are representative of the case being emulated.  The Read block 
 is constructed with an input and output signal with a protected parameter 
-named “boptestRead.”  The parameter KPIs allows for tagging the specific 
-signal to be used in KPI calculations.
+named “boptestRead.”  The parameter :code:`KPIs` allows for tagging the specific 
+signal to be used in KPI calculations.  The conditional parameter :code:`zone`
+allows for designating a zone associated with the particular KPI tag if needed. 
 
 .. figure:: images/r_block_code.png
     :scale: 50 %
@@ -129,7 +130,7 @@ identify the blocks in the model:
 
 2. Search for all instances of the parameters :code:`boptestOverwrite` and :code:`boptestRead`
 
-3. Record the paths of each block instance, and also store information such as signal units, descriptions, min/max, and other signal attribute data.  
+3. Record the paths of each block instance, and also store information such as signal units, descriptions, min/max, zone designation, and other signal attribute data.  
 
 The second function is to export a wrapper FMU that utilizes the signal exchange blocks:
 
@@ -176,15 +177,19 @@ This map will take the form of a JSON with the structure:
 	}
 
 Here, the kpi_ID is a unique identifier that is used by specific 
-KPI calculations (e.g. “power”, which may be used to calculate energy 
-consumption, operating cost, and emissions).  The output_ID is the name 
-of the output variable in the model FMU.
+KPI calculations.  For example, “power” may be used to calculate energy 
+consumption, operating cost, and emissions.  For kpi_IDs requiring zone
+designations, the zone designation can be appended to the end of the kpi_ID as
+:code:`<kpi_ID>[z]`, where :code:`z` is the zone designation.
+The output_ID is the name of the output variable in the model FMU.
 
 This KPI JSON may be created manually by the model developer.  Alternatively, 
 functionality of the signal exchange blocks and parser described in the 
 previous section will facilitate the generation of the KPI JSON.  
 An enumeration parameter is added to the signal exchange Read block that takes 
-one kpi_ID that is to be associated with the specified output.  
+one kpi_ID that is to be associated with the specified output.  Additionally, 
+a zone designation parameter is added to the signal exchange Read block, which
+should be used to specify the zone designation for particular kpi_IDs.  
 The parser reads the parameters for each output specified by the Read block, 
 builds the KPI JSON accordingly, and exports it along with the wrapper FMU.  
 The list of available kpi_ID is defined in 
@@ -198,7 +203,7 @@ In order to calculate the core KPIs defined in Section V. A., a minimum set
 of kpi_ID shall be specified with corresponding measurement output(s). 
 This minimum set is as follows:
 
-1. At least one of :code:`AirZoneTemperature` or :code:`OperativeZoneTemperature`
+1. At least one of :code:`AirZoneTemperature[z]` or :code:`OperativeZoneTemperature[z]`
 
 AND
 
@@ -206,8 +211,7 @@ AND
 
 AND
 
-3. :code:`CO2Concentration`
-
+3. :code:`CO2Concentration[z]`
 
 Data Generation and Collection Module
 -------------------------------------
@@ -268,7 +272,7 @@ The CSV data files should accomplish the following requirements:
 
 2. The files should have a “time” column indicating the time since the beginning of the year in seconds.
 
-3. The files should have column names using the key-words specified by the convention above. Columns that do not use a standard key-word will be omitted from packing within the test case FMU. 
+3. The files should have column names using the key-words specified by the convention above.
 
 4. The files can have optional header rows for holding information about the
 data contained in the csv file.  These header rows can be indicated by starting
