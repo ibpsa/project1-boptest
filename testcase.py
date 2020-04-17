@@ -50,16 +50,8 @@ class TestCase(object):
         # Get input and output meta-data
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
-        # Define outputs data
-        self.y = {'time':[]}
-        for key in self.output_names:
-            self.y[key] = []
-        self.y_store = copy.deepcopy(self.y)
-        # Define inputs data
-        self.u = {'time':[]}
-        for key in self.input_names:
-            self.u[key] = []
-        self.u_store = copy.deepcopy(self.u)
+        # initialize input and output arrays
+        self.__initilize_data()
         # Set default options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6 
@@ -73,7 +65,37 @@ class TestCase(object):
         self.options['initialize'] = self.initialize
         self.elapsed_control_time = []
 
+    def __initilize_data(self):
+    
+        # Outputs data
+        self.y = {'time':[]}
+        for key in self.output_names:
+            self.y[key] = []
+        self.y_store = copy.deepcopy(self.y)
+        # Inputs data
+        self.u = {'time':[]}
+        for key in self.input_names:
+            self.u[key] = []        
+        self.u_store = copy.deepcopy(self.u)
+                
+    def __simulation(self,start_time,end_time,input):
+      
+        self.options['initialize'] = self.initialize
+    
+        try:
         
+             res = self.fmu.simulate(start_time = start_time, 
+                                     final_time = end_time, 
+                                     options=self.options, 
+                                     input=input)
+        except Exception as e:
+         
+            return None 
+
+        self.initialize = False
+        
+        return res            
+           
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
         
@@ -130,26 +152,27 @@ class TestCase(object):
         else:
             input_object = None
         # Simulate
-        self.options['initialize'] = self.initialize
-        res = self.fmu.simulate(start_time=self.start_time, 
-                                final_time=self.final_time, 
-                                options=self.options, 
-                                input=input_object)
-        # Get result and store measurement
-        for key in self.y.keys():
-            self.y[key] = res[key][-1]
-            self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
-        # Store control inputs
-        for key in self.u.keys():
-            self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
-        # Advance start time
-        self.start_time = self.final_time
-        # Prevent inialize
-        self.initialize = False
-        # Raise the flag to compute time lapse
-        self.tic_time = time.time()
+                                
+        res = self.__simulation(self.start_time,self.final_time,input_object) 
+
+        if res is not None:        
+           # Get result and store measurement
+           for key in self.y.keys():
+              self.y[key] = res[key][-1]
+              self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
+           # Store control inputs
+           for key in self.u.keys():
+              self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+           # Advance start time
+           self.start_time = self.final_time
+           # Raise the flag to compute time lapse
+           self.tic_time = time.time()
         
-        return self.y
+           return self.y
+           
+        else:
+        
+           return None        
 
     def reset(self,u):
         '''Reset the test.
@@ -166,40 +189,18 @@ class TestCase(object):
  
              return False          
         
-        self.fmu = load_fmu(self.fmupath, enable_logging=True)
+        self.fmu = load_fmu(self.fmupath, enable_logging = True)
         
-        # Reset outputs data
-        self.y = {'time':[]}
-        for key in self.output_names:
-            self.y[key] = []
-        self.y_store = copy.deepcopy(self.y)
-        # Reset inputs data
-        self.u = {'time':[]}
-        for key in self.input_names:
-            self.u[key] = []        
-        self.u_store = copy.deepcopy(self.u)
-
-        # Warming up period simulation        
+        self.__initilize_data()
+                
         self.initialize = True
         
-        self.options['initialize'] = self.initialize
+        # at this point, we don't allow having negative starting time to avoid confusions
+              
+        result = self.__simulation(max(start-warm_period_length,0), start, None)
         
-        try:
-        
-             res = self.fmu.simulate(start_time=start, 
-                                     final_time=start+warm_period_length, 
-                                     options=self.options, 
-                                     input=None)
-        except Exception as e:
-        
-             self.__init__()
- 
-             return False  
-
-        self.start_time = start+warm_period_length
-        
-        self.initialize = False
-        
+        self.start_time = start
+              
         return True
         
     def get_step(self):
