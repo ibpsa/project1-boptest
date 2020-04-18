@@ -186,23 +186,23 @@ class TestCase(object):
         res = self.__simulation(self.start_time,self.final_time,input_object) 
         # Process results
         if res is not None:        
-           # Get result and store measurement
-           for key in self.y.keys():
-              self.y[key] = res[key][-1]
-              self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
-           # Store control inputs
-           for key in self.u.keys():
-              self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
-           # Advance start time
-           self.start_time = self.final_time
-           # Raise the flag to compute time lapse
-           self.tic_time = time.time()
-        
-           return self.y
-           
+            # Get result and store measurement
+            for key in self.y.keys():
+                self.y[key] = res[key][-1]
+                self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
+            # Store control inputs
+            for key in self.u.keys():
+                self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+            # Advance start time
+            self.start_time = self.final_time
+            # Raise the flag to compute time lapse
+            self.tic_time = time.time()
+
+            return self.y
+
         else:
-        
-           return None        
+
+            return None        
 
     def reset(self, start_time, warmup_period):
         '''Reset the test simulation.
