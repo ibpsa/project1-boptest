@@ -282,7 +282,7 @@ class partialTestAPI(partialTimeseries):
         '''
 
         # Get current step
-        step = requests.get('{0}/step'.format(self.url))
+        step = requests.get('{0}/step'.format(self.url)).json()
         # Get reference results at 2nd day
         requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':2*24*3600})
@@ -312,6 +312,7 @@ class partialTestAPI(partialTimeseries):
         '''
 
         requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
         for key in y.keys():
             self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
@@ -332,6 +333,7 @@ class partialTestAPI(partialTimeseries):
             u = {'oveActNor_activate':0, 'oveActNor_u':1500,
                  'oveActSou_activate':0, 'oveActSou_u':1500}
         requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
         for key in y.keys():
             self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
