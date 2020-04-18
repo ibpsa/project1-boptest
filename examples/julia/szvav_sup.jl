@@ -42,7 +42,7 @@ start = Dates.now()
 # Reset test case
 res = HTTP.put("$url/reset",["Content-Type" => "application/json"], JSON.json(Dict("start_time" => 0,"warmup_period" => 0)))
 reset_result=JSON.parse(String(res.body))
-if reset_result["reset_result"]
+if reset_result
    println("Successfully reset the simulation")
 end
 
