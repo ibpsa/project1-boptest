@@ -56,50 +56,134 @@ class Data_Manager(object):
         # Load possible data keys
         with open(os.path.join(data_dir,'categories.json'),'r') as f:
             self.categories = json.loads(f.read()) 
+    
+    def _get_zone_identifiers(self):
+        '''Get all zone identifiers from the kpis.json file generated
+        by the parser. The zone identifiers can be used, for instance,
+        to check that the right data variables are saved in the 
+        compiled fmu or loaded from the fmu into the test case object. 
         
+        Returns
+        -------
+        zone_ids: list
+            List with all zone identifiers in the building model.
+        
+        
+        '''
+        
+        # Find the kpi.json
+        try:
+            # Case when we are loading data into a test case
+            kpi_json = self.case.kpi_json 
+        except:
+            # Case when we are saving data into a compiled fmu
+            with open(self.kpi_path,'r') as f:
+                kpi_json = json.loads(f.read()) 
+        
+        # Initialize list with zone identifiers
+        zone_ids = []
+        
+        # Go through kpi_json to find zone identifiers
+        for source in kpi_json.keys():
+            if '[' and ']' in source:
+                zone_id = source[source.find('[')+1:source.find(']')]
+                if zone_id not in zone_ids:
+                    zone_ids.append(zone_id)
+        
+        return zone_ids
+    
+    def _get_zone_and_boundary_keys(self):
+        '''This method returns all possible data keys differentiating
+        between zone-related keys and boundary data keys.  
+        The zone keys are keys containing a zone identifier such as
+        temperature set points, internal gains or occupancy. Boundary
+        keys are all the others, i.e. weather, emission factors, or 
+        prices:
+            all_keys = zon_keys + bou_keys
+            
+        Returns:
+        -------
+        zon_keys: list
+            All zone-related keys of the form `variable[zone_id]` 
+            where variable is one of the variables in `self.categories`
+            and `zone_id` is the zone identifier.
+        bou_keys: list
+            All boundary data keys that do not need a zone identifier
+        
+        '''
+    
+        # Find zone and boundary keys 
+        zon_keys = []
+        bou_keys = [] 
+        
+        # Get the zone identifiers
+        zone_ids = self._get_zone_identifiers()
+
+        for category in self.categories:
+            if category in ['occupancy','internalGains','setpoints']:
+                for var in self.categories[category]:
+                    zon_keys.extend([var + '['+ zone_id+']' for zone_id in zone_ids])
+            else:
+                bou_keys.extend(self.categories[category])
+        
+        return zon_keys, bou_keys
+    
     def _append_csv_data(self):
         '''Append data from any .csv file within the Resources folder
         of the testcase. The .csv file must contain a 'time' column 
         in seconds from the beginning of the year and one of the 
-        keys defined within categories.kpis. Other data without these
-        keys will be neglected.
+        keys defined within categories.kpis, or the combination of 
+        these variable keys with a zone identifier in the format: 
+        variable[zone_identifier]. Other data without this format will 
+        raise an error to prevent from unnecessary data to be stored 
+        in the test case FMU or from data columns that have not the 
+        allowed key format. 
         
         '''
         
-        # Find all data keys
-        all_keys = []
-        for category in self.categories:
-            all_keys.extend(self.categories[category])
-        
         # Keep track of the data already appended to avoid duplication
-        appended = {key: None for key in all_keys}
+        appended = {}
+        
+        # Get zone and boundary data keys allowed
+        zon_keys, bou_keys = self._get_zone_and_boundary_keys()
         
         # Search for .csv files in the resources folder
         for f in self.files:
             if f.endswith('.csv'):
                 df = pd.read_csv(f, comment='#')
-                keys = df.keys()
-                if 'time' in keys:
-                    for key in keys.drop('time'):
-                        # Raise error if key already appended
-                        if appended[key] is not None:
-                            raise ReferenceError('{0} in multiple files within the Resources folder. These are: {1}, and {2}'.format(key, appended[key], f))
-                        # Trim df from keys that are not in categories
-                        elif key not in all_keys:
-                            df.drop(key, inplace=True)
+                cols = df.keys()
+                if 'time' in cols:
+                    for col in cols.drop('time'):
+                        # Raise error if col already appended
+                        if col in appended.keys():
+                            raise ReferenceError('{0} in multiple files within the Resources folder.'\
+                                                 'These are: {1}, and {2}'.format(col, appended[col], f))
+                        # Raise error if there are col keys that are not allowed
+                        elif not( (col in zon_keys) or (col in bou_keys) ):
+                            raise KeyError('The data column {0} from file {1} '\
+                                           'does not match any of the allowed column keys and therefore '\
+                                           'it cannot be saved within the compiled fmu. Test case data '\
+                                           'variables are used for forecasting and KPI calculation. If '\
+                                           'you want this variable to be part of the test case data '\
+                                           'make sure that the column has a key with any of the specified '\
+                                           'formats in categories.json and that, if it is a zone related '\
+                                           'key, it is in the format: variable[zone_identifier] '.format(col,f))
                         else:
-                            appended[key] = f
-                    # Copy the trimmed df if any key found in categories
-                    if len(df.keys())>0:
-                        df.to_csv(f+'_trimmed', index=False)
-                        file_name = os.path.split(f)[1]
-                        self.z_fmu.write(f+'_trimmed', os.path.join('resources',
-                                         file_name))
-                        os.remove(f+'_trimmed')
+                            appended[col] = f
+                    # Store the data in the FMU as col checks passed
+                    df.to_csv(f+'_testcase', index=False)
+                    file_name = os.path.split(f)[1]
+                    self.z_fmu.write(f+'_testcase', 
+                        os.path.join('resources',file_name))
+                    os.remove(f+'_testcase')
                 else:
                     warnings.warn('The following file does not have '\
                     'time column and therefore no data is going to '\
-                    'be used from this file as test case data.', Warning) 
+                    'be used from this file as test case data. If your '\
+                    'intention is to store data from this file into the '\
+                    'test case data, make sure that the file includes a '\
+                    'column with time in the header indicating the '\
+                    'seconds from the beginning of the year', Warning) 
                     print(f)
                     
     def save_data_and_kpisjson(self, fmu_path):
@@ -125,6 +209,9 @@ class Data_Manager(object):
         # Find the Resources folder
         resources_dir = os.path.join(models_dir, 'Resources')
         
+        # Find the kpis.json path
+        self.kpi_path = os.path.join(models_dir, 'kpis.json')
+        
         if os.path.exists(resources_dir):
             # Find all files within Resources folder
             self.files = []
@@ -138,12 +225,9 @@ class Data_Manager(object):
             warnings.warn('No Resources folder found for this FMU, ' \
                           'No additional data will be stored within the FMU.')
         
-        # Find the kpis.json path
-        kpi_path = os.path.join(models_dir, 'kpis.json')
-        
         # Write a copy of the kpis.json within the fmu resources folder
-        if os.path.exists(kpi_path):
-            self.z_fmu.write(kpi_path, 
+        if os.path.exists(self.kpi_path):
+            self.z_fmu.write(self.kpi_path, 
                              os.path.join('resources', 'kpis.json'))
         else:
             warnings.warn('No kpis.json found for this test case, ' \
@@ -198,7 +282,9 @@ class Data_Manager(object):
         
         # Filter the requested data columns
         if category is not None:
-            data_slice = self.case.data.loc[:,self.categories[category]]
+            cols = [col for col in self.case.data if \
+                    any(col.startswith(key) for key in self.categories[category])]
+            data_slice = self.case.data.loc[:,cols]
         else:
             data_slice = self.case.data
             
@@ -279,35 +365,43 @@ class Data_Manager(object):
         # Define the index for one year with the minimum sampling found
         index = np.linspace(0.,3.1536e+7,int(3.1536e+7/sampling+1),dtype='int')
         
-        # Find all data keys
-        all_keys = []
-        for category in self.categories:
-            all_keys.extend(self.categories[category])
+        # Get zone and boundary data keys allowed
+        zon_keys, bou_keys = self._get_zone_and_boundary_keys()
         
         # Initialize test case data frame
         self.case.data = \
-            pd.DataFrame(index=index, columns=all_keys).rename_axis('time')
+            pd.DataFrame(index=index).rename_axis('time')
         
         # Load the test case data
         for f in files:
-            df = pd.read_csv(z_fmu.open(f), comment='#')
-            keys = df.keys()
-            if 'time' in keys:
-                for key in keys.drop('time'):
-                    for category in self.categories:
-                        # Use linear interpolation for continuous variables
-                        if key in self.categories[category] and \
-                            category == 'weather':
-                            g = interpolate.interp1d(df['time'],df[key], 
-                                kind='linear')
-                            self.case.data.loc[:,key] = \
-                                g(self.case.data.index)
-                        # Use forward fill for discrete variables
-                        elif key in self.categories[category]:
-                            g = interpolate.interp1d(df['time'],df[key], 
-                                kind='zero')
-                            self.case.data.loc[:,key] = \
-                                g(self.case.data.index)
+            df = pd.read_csv(z_fmu.open(f))
+            cols = df.keys()
+            if 'time' in cols:
+                for col in cols.drop('time'):
+                    # Check that column has any of the allowed data keys
+                    if not( (col in zon_keys) or (col in bou_keys) ):
+                        raise KeyError('The data column {0} from file {1} of the fmu '\
+                                       'does not match any of the allowed column keys and therefore '\
+                                       'it cannot be loaded into the test case. Test case data '\
+                                       'variables are used for forecasting and KPI calculation. If '\
+                                       'you want this variable to be part of the test case data '\
+                                       'make sure that the column has a key with any of the specified '\
+                                       'formats in categories.json and that, if it is a zone related '\
+                                       'key, it is in the format: variable[zone_identifier] '.format(col,f))
+                    else:
+                        for category in self.categories:
+                            # Use linear interpolation for continuous variables
+                            if any(col.startswith(key) for key in self.categories['weather']):
+                                g = interpolate.interp1d(df['time'],df[col], 
+                                    kind='linear')
+                                self.case.data.loc[:,col] = \
+                                    g(self.case.data.index)
+                            # Use forward fill for discrete variables
+                            elif any(col.startswith(key) for key in self.categories[category]):
+                                g = interpolate.interp1d(df['time'],df[col], 
+                                    kind='zero')
+                                self.case.data.loc[:,col] = \
+                                    g(self.case.data.index)
             else:
                 warnings.warn('The following file does not have '\
                 'time column and therefore no data is going to '\

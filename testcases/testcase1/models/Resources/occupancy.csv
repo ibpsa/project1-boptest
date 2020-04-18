@@ -1,7 +1,7 @@
 # Optional header information
 # time: time of occupancy [s]
 # Occupancy: Number of occupants [ppl]
-time,Occupancy
+time,Occupancy[1]
 0,0
 3600,0
 7200,0

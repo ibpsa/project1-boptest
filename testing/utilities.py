@@ -324,11 +324,13 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
         if self.name == 'testcase1':
-            u = {'oveAct_u':0, 'oveAct_activate':1500}
+            u = {'oveAct_activate':0, 'oveAct_u':1500}
         elif self.name == 'testcase2':
             u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
+        elif self.name == 'testcase3':
+            u = {'oveActNor_activate':0, 'oveActNor_u':1500,
+                 'oveActSou_activate':0, 'oveActSou_u':1500}
         requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
         for key in y.keys():

@@ -133,8 +133,8 @@ class ParseInstances(unittest.TestCase):
         signals = self.signals
         # Checks
         for key in signals.keys():
-            if key == 'AirZoneTemperature':
-                # Check there is one output tagged with AirZoneTemperature
+            if key == 'AirZoneTemperature[1]':
+                # Check there is one output tagged with AirZoneTemperature[1]
                 self.assertEqual(len(signals[key]),1)
                 for output in signals[key]:
                     # Check each output of this signal type is identified correctly
@@ -188,6 +188,28 @@ class ParseInstances(unittest.TestCase):
         
         # Delete leftover files
         utilities.clean_up(testing_root_dir)
+
+class ParseInstancesMultiZone(unittest.TestCase, utilities.partialTimeseries):
+    '''Tests the parse_instances method of parser for multi-zone models. 
+    
+    '''
+    
+    def setUp(self):
+        '''Setup for each test.
+        
+        '''
+        
+        # Model path and file specifically for this case
+        self.model_path = 'TwoZones'
+        self.mo_path = os.path.join(testing_root_dir,'parsing', 'TwoZones.mo')
+
+    def test_export(self):
+        # Parse and export fmu to working directory
+        self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path])
+        # Test
+        ref_kpis_json_path = os.path.join(testing_root_dir, 'references', 'parser', 'kpis_MultiZone.json')
+        passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)
+        self.assertTrue(passed, 'Did not pass kpi json check')
 
 class WriteWrapper(unittest.TestCase):
     '''Tests the write_wrapper method of parser.
