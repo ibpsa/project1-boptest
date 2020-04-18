@@ -64,9 +64,10 @@ class Reset(Resource):
     
     def put(self):
         '''PUT request to reset the test.'''
-        u = parser_reset.parse_args()
-        result = case.reset(u)        
-        result={'reset_result':result}        
+        args = parser_reset.parse_args()
+        start_time = args['start_time']
+        warmup_period = args['warmup_period']
+        result = case.reset(start_time,warmup_period)      
         return result
 
 class Step(Resource):
