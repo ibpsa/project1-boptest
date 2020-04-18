@@ -280,12 +280,28 @@ class partialTestAPI(partialTimeseries):
         '''Test reseting of test.
         
         '''
-        
-        start_time = 2*24*3600
-        warmup_period = 1*24*3600
-        requests.put('{0}/reset'.format(self.url), data={'start_time':start_time, 'warmup_period':warmup_period})
-        forecast = requests.get('{0}/forecast'.format(self.url)).json()
-        self.assertTrue(forecast['time'][0] == start_time)
+
+        # Get current step
+        step = requests.get('{0}/step'.format(self.url))
+        # Get reference results at 2nd day
+        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':2*24*3600})
+        y_ref = requests.post('{0}/advance'.format(self.url),data = {}).json()
+        # Reset to 1st day
+        requests.put('{0}/reset'.format(self.url), data={'start_time':1*24*3600, 'warmup_period':1*24*3600})
+        # Check results are empty again
+        y = requests.get('{0}/results'.format(self.url)).json()
+        for key in y.keys():
+            for var in y[key].keys():
+                self.assertEqual(len(y[key][var]), 0)
+        # Advance to 2nd day
+        requests.put('{0}/step'.format(self.url), data={'step':1*24*3600})
+        y = requests.post('{0}/advance'.format(self.url),data = {}).json()
+        # Check results
+        for key in y.keys():
+            self.assertAlmostEqual(y[key], y_ref[key], places=3)
+        # Set step back to step
+        requests.put('{0}/step'.format(self.url), data={'step':step})
 
     def test_advance_no_data(self):
         '''Test advancing of simulation with no input data.
@@ -313,7 +329,7 @@ class partialTestAPI(partialTimeseries):
             u = {'oveAct_u':0, 'oveAct_activate':1500}
         elif self.name == 'testcase2':
             u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
         for key in y.keys():
             self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
