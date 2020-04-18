@@ -88,7 +88,7 @@ def run(plot=False, customized_kpi_config=None):
     # -------------
     # Reset test case
     print('Resetting test case if needed.')
-    res = requests.put('{0}/reset'.format(url), data={'start_time':360,'warmup_period':120})
+    res = requests.put('{0}/reset'.format(url), data={'start_time':0,'warmup_period':0})
     if res['reset_result']:
         print('Successfully reset the simulation')
     # Set simulation step

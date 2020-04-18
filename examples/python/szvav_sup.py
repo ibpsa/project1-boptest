@@ -89,7 +89,7 @@ def run(plot=False, customized_kpi_config=None):
     start = time.time()
     # Reset test case
     print('Resetting test case if needed.')
-    res = requests.put('{0}/reset'.format(url), data={'start_time':360,'warmup_period':120}).json()
+    res = requests.put('{0}/reset'.format(url), data={'start_time':0,'warmup_period':0}).json()
     if res['reset_result']:
         print('Successfully reset the simulation')
     print('\nRunning test case...')

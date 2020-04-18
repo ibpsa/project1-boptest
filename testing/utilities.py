@@ -280,9 +280,13 @@ class partialTestAPI(partialTimeseries):
         '''Test reseting of test.
         
         '''
-
-        requests.put('{0}/reset'.format(self.url))
         
+        start_time = 2*24*3600
+        warmup_period = 1*24*3600
+        requests.put('{0}/reset'.format(self.url), data={'start_time':start_time, 'warmup_period':warmup_period})
+        forecast = requests.get('{0}/forecast'.format(self.url)).json()
+        self.assertTrue(forecast['time'][0] == start_time)
+
     def test_advance_no_data(self):
         '''Test advancing of simulation with no input data.
 
@@ -291,7 +295,7 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
         for key in y.keys():
             self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
@@ -304,7 +308,7 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
         if self.name == 'testcase1':
             u = {'oveAct_u':0, 'oveAct_activate':1500}
         elif self.name == 'testcase2':
@@ -321,7 +325,7 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
         
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
@@ -358,7 +362,7 @@ class partialTestAPI(partialTimeseries):
         
         '''  
 
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
         
         # Set forecast parameters
         requests.put('{0}/forecast_parameters'.format(self.url), 
