@@ -65,8 +65,8 @@ class Reset(Resource):
     def put(self):
         '''PUT request to reset the test.'''
         args = parser_reset.parse_args()
-        start_time = int(args['start_time'])
-        warmup_period = int(args['warmup_period'])
+        start_time = float(args['start_time'])
+        warmup_period = float(args['warmup_period'])
         result = case.reset(start_time,warmup_period)      
         return result
 
