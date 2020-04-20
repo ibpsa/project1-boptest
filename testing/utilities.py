@@ -283,23 +283,29 @@ class partialTestAPI(partialTimeseries):
 
         # Get current step
         step = requests.get('{0}/step'.format(self.url)).json()
-        # Get reference results at 2nd day
-        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        requests.put('{0}/step'.format(self.url), data={'step':2*24*3600})
-        y_ref = requests.post('{0}/advance'.format(self.url),data = {}).json()
-        # Reset to 1st day
-        requests.put('{0}/reset'.format(self.url), data={'start_time':1*24*3600, 'warmup_period':1*24*3600})
+        # Reset
+        requests.put('{0}/reset'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
         # Check results are empty again
         y = requests.get('{0}/results'.format(self.url)).json()
         for key in y.keys():
             for var in y[key].keys():
                 self.assertEqual(len(y[key][var]), 0)
-        # Advance to 2nd day
+        # Advance
         requests.put('{0}/step'.format(self.url), data={'step':1*24*3600})
         y = requests.post('{0}/advance'.format(self.url),data = {}).json()
+        res = requests.get('{0}/results'.format(self.url)).json()
+        # Check trajectories
+        # Make dataframe
+        df = pd.DataFrame()
+        for s in ['y','u']:
+            for x in res[s].keys():
+                if x != 'time':
+                    df = pd.concat((df,pd.DataFrame(data=res[s][x], index=res['y']['time'],columns=[x])), axis=1)
+        df.index.name = 'time'
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_reset.csv')
         # Check results
-        for key in y.keys():
-            self.assertAlmostEqual(y[key], y_ref[key], places=3)
+        self.compare_ref_timeseries_df(df,ref_filepath)
         # Set step back to step
         requests.put('{0}/step'.format(self.url), data={'step':step})
 
