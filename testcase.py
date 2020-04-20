@@ -61,9 +61,9 @@ class TestCase(object):
         self.start_time = 0
         self.initialize = True
         self.options['initialize'] = self.initialize
-        self.elapsed_control_time = []
         # Initialize simulation data arrays
         self.__initilize_data()
+        self.elapsed_control_time = []
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
@@ -225,6 +225,7 @@ class TestCase(object):
         self.fmu.reset()
         # Reset simulation data storage
         self.__initilize_data()
+        self.elapsed_control_time = []
         # Set fmu intitialization                
         self.initialize = True
         # Simulate fmu for warmup period.

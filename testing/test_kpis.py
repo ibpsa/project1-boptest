@@ -116,7 +116,7 @@ class PartialKpiCalculatorTest(object):
         '''
         
         # Reset test-case
-        self.case.reset()
+        self.case.reset(0,0)
         
         # Advance three simulation steps to compute elapsed times
         for _ in range(3):
