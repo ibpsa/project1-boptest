@@ -74,7 +74,7 @@ def run(plot=False):
     # -------------
     # Reset test case
     print('Resetting test case if needed.')
-    res = requests.put('{0}/reset'.format(url))
+    res = requests.put('{0}/reset'.format(url), data={'start_time':0,'warmup_period':0})
     # Set simulation step
     print('Setting simulation step to {0}.'.format(step))
     res = requests.put('{0}/step'.format(url), data={'step':step})
