@@ -248,6 +248,11 @@ def _make_var_name(block, style, description='', attribute=''):
 
     # General modification
     name = block.replace('.', '_')
+    # Go through name to identify potential array indices 
+    index = None
+    if '[' and ']' in name:
+        index = name[name.find('[')+1:name.find(']')]
+        name = name.replace('['+index+']','_index{}'.format(index))
     # Handle empty descriptions
     if description is '':
         description = ''
