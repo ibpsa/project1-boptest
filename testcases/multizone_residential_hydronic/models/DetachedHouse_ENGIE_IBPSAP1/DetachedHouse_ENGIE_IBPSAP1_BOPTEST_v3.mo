@@ -1326,6 +1326,18 @@ public
 
     zone="Hal")
     annotation (Placement(transformation(extent={{70,-172},{76,-166}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaTAti(
+    description="Read attic temperature",
+    y(unit="K"),
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    zone="Hal")
+    annotation (Placement(transformation(extent={{-196,-12},{-190,-6}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaTGar(
+    description="Read garage temperature",
+    y(unit="K"),
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    zone="Hal")
+    annotation (Placement(transformation(extent={{-110,-50},{-104,-44}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -2125,6 +2137,10 @@ equation
     annotation (Line(points={{48.3,-169},{51.4,-169}}, color={0,0,127}));
   connect(realExpression28.y, reaTHal.u)
     annotation (Line(points={{66.3,-169},{69.4,-169}}, color={0,0,127}));
+  connect(T_Combles.T, reaTAti.u) annotation (Line(points={{-206,-10},{-202,-10},
+          {-202,-9},{-196.6,-9}}, color={0,0,127}));
+  connect(T_Garage.T, reaTGar.u) annotation (Line(points={{-116,-48},{-114,-48},
+          {-114,-47},{-110.6,-47}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-380,-260},
             {100,100}})),                                        Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-380,-260},{100,100}}),
