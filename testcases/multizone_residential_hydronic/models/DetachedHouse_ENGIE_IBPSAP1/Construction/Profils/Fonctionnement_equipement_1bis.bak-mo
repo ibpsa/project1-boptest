@@ -1,0 +1,35 @@
+﻿within DetachedHouse_ENGIE_IBPSAP1.Construction.Profils;
+model Fonctionnement_equipement_1bis "Fonctionnement permanent"
+
+  parameter Modelica.SIunits.Power Pf = 100 "Puissance de fonctionnement";
+  parameter Modelica.SIunits.Power Pv = 1 "Puissance de veille";
+  parameter Real Taux_equipement = 1 "Taux d'équipement dans les ménages";
+  parameter Real N = 1 "Nombre d'occupants concernés";
+
+  Modelica.Blocks.Logical.Switch switch1
+    annotation (Placement(transformation(extent={{10,-4},{18,4}})));
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=Pf)
+    annotation (Placement(transformation(extent={{-4,2},{4,8}})));
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=Pv)
+    annotation (Placement(transformation(extent={{-4,-8},{4,-2}})));
+  Modelica.Blocks.Interfaces.RealOutput y annotation (Placement(transformation(
+          rotation=0, extent={{40,-10},{60,10}})));
+  Modelica.Blocks.Math.Gain gain(k=Taux_equipement/N)
+    annotation (Placement(transformation(extent={{24,-4},{32,4}})));
+  Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
+    annotation (Placement(transformation(extent={{-30,-10},{-10,10}})));
+equation
+  connect(realExpression1.y, switch1.u1) annotation (Line(points={{4.4,5},{6.1,5},
+          {6.1,3.2},{9.2,3.2}}, color={0,0,127}));
+  connect(realExpression2.y, switch1.u3) annotation (Line(points={{4.4,-5},{6,-5},
+          {6,-4},{6,-3.2},{9.2,-3.2}},
+                                color={0,0,127}));
+  connect(switch1.y, gain.u)
+    annotation (Line(points={{18.4,0},{23.2,0}}, color={0,0,127}));
+  connect(gain.y, y)
+    annotation (Line(points={{32.4,0},{50,0}}, color={0,0,127}));
+  connect(booleanExpression.y, switch1.u2)
+    annotation (Line(points={{-9,0},{9.2,0}}, color={255,0,255}));
+  annotation (Diagram(coordinateSystem(extent={{-40,-20},{40,20}})), Icon(
+        coordinateSystem(extent={{-40,-20},{40,20}})));
+end Fonctionnement_equipement_1bis;

@@ -1,0 +1,474 @@
+within DetachedHouse_ENGIE_IBPSAP1.Construction.Profils;
+model Schedules_RT2012_Bureaux
+  "French thermal regulation schedules. Office building. Heating off from May to the 15th of october"
+
+parameter Modelica.SIunits.Temperature SetHeaOccup=19+273.15
+    "Heating setpoint during occupation";
+parameter Modelica.SIunits.Temperature SetHeaInoccupa=16+273.15
+    "Heating setpoint during inoccupation for less than 48 hours";
+parameter Modelica.SIunits.Temperature SetHeaInoccupb=7+273.15
+    "Heating setpoint during inoccupation for less than 48 hours";
+parameter Modelica.SIunits.Temperature SetCooOccup=26+273.15
+    "Cooling setpoint during occupation";
+parameter Modelica.SIunits.Temperature SetCooInoccupa=30+273.15
+    "Cooling setpoint during inoccupation for less than 48 hours";
+parameter Modelica.SIunits.Temperature SetCooInoccupb=30+273.15
+    "Cooling setpoint during inoccupation for less than 48 hours";
+
+  Modelica.Blocks.MathBoolean.And OccupRT12a(nu=2) "Ocupancy permision"
+    annotation (Placement(transformation(extent={{-14,78},{-2,90}})));
+  Modelica.Blocks.Logical.Switch switch1
+    annotation (Placement(transformation(extent={{38,78},{50,90}})));
+  Modelica.Blocks.Sources.Constant SetHeaOccupa(k=SetHeaOccup)
+    "Heating setpoint"
+    annotation (Placement(transformation(extent={{18,88},{26,96}})));
+  Modelica.Blocks.Sources.Constant SetHeaInoccup(k=SetHeaInoccupa)
+    "Inoccupation for less than 48 hours"
+    annotation (Placement(transformation(extent={{18,72},{26,80}})));
+  Modelica.Blocks.Logical.Switch HeaSetRT12a "Heating setpoint"
+    annotation (Placement(transformation(extent={{60,62},{72,74}})));
+  Modelica.Blocks.Sources.Constant SetHeaInoccup1(k=SetHeaInoccupb)
+    "Inoccupation for more than 48 hours"
+    annotation (Placement(transformation(extent={{20,56},{28,64}})));
+  Modelica.Blocks.Logical.Switch switch2
+    annotation (Placement(transformation(extent={{40,28},{52,40}})));
+  Modelica.Blocks.Sources.Constant SetCooOccupa(k=SetCooOccup)
+    "Cooling setpoint"
+    annotation (Placement(transformation(extent={{18,38},{26,46}})));
+  Modelica.Blocks.Sources.Constant SetCooInoccup(k=SetCooInoccupa)
+    "Inoccupation for less than 48 hours"
+    annotation (Placement(transformation(extent={{18,22},{26,30}})));
+  Modelica.Blocks.Logical.Switch CooSetRTa "Cooling setpoint"
+    annotation (Placement(transformation(extent={{60,12},{72,24}})));
+  Modelica.Blocks.Sources.Constant SetCooInoccup1(k=SetCooInoccupb)
+    "Inoccupation for more than 48 hours"
+    annotation (Placement(transformation(extent={{18,6},{26,14}})));
+  Modelica.Blocks.Interfaces.RealOutput HeaSetRT12 "Heating setpoint"
+    annotation (Placement(transformation(extent={{90,58},{110,78}}),
+        iconTransformation(extent={{90,70},{110,90}})));
+  Modelica.Blocks.Interfaces.RealOutput CooSetRT12 "Cooling setpoint"
+    annotation (Placement(transformation(extent={{90,24},{110,44}}),
+        iconTransformation(extent={{90,36},{110,56}})));
+  Modelica.Blocks.Interfaces.BooleanOutput VentRT12
+    "Hygienic ventilation (always on)" annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={10,-100}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-46,-100})));
+  Modelica.Blocks.Math.Gain gain(k=0.7)
+    annotation (Placement(transformation(extent={{-8,-28},{-2,-22}})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal
+    annotation (Placement(transformation(extent={{-26,-14},{-16,-4}})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal1
+    annotation (Placement(transformation(extent={{-26,-30},{-16,-20}})));
+  Modelica.Blocks.Math.Max OccupRateRT12a "Occupancy rate"
+    annotation (Placement(transformation(extent={{4,-18},{14,-8}})));
+  Modelica.Blocks.Interfaces.RealOutput OccupRateRT12 "Occupancy rate"
+    annotation (Placement(transformation(extent={{90,-24},{110,-4}}),
+        iconTransformation(extent={{90,-12},{110,8}})));
+  Buildings.Controls.SetPoints.OccupancySchedule LoadsRateFullSchedule(
+    period=604800,
+    firstEntryOccupied=true,
+    occupancy=3600*{9,17,33,41,57,65,81,89,105,113})
+    "Internal loads rates (full rates) and schedules"
+    annotation (Placement(transformation(extent={{-90,-46},{-78,-34}})));
+  Buildings.Controls.SetPoints.OccupancySchedule LoadsRateLowlSchedule(
+    period=604800,
+    occupancy=3600*{8,9,17,18,32,33,41,42,56,57,65,66,80,81,89,90,104,105,113,
+        114},
+    firstEntryOccupied=true)
+    "Internal loads rates (low rates) and schedules"
+    annotation (Placement(transformation(extent={{-90,-64},{-78,-52}})));
+  Modelica.Blocks.Math.Gain gain1(k=0.6)
+    annotation (Placement(transformation(extent={{-8,-66},{-2,-60}})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal2
+    annotation (Placement(transformation(extent={{-26,-52},{-16,-42}})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal3
+    annotation (Placement(transformation(extent={{-26,-68},{-16,-58}})));
+  Modelica.Blocks.Math.Max OtherLoadsRateRT12a "Internal Other loads rate"
+    annotation (Placement(transformation(extent={{4,-52},{14,-42}})));
+  Modelica.Blocks.Interfaces.RealOutput OtherLoadsRateRT12
+    "Internal loads rate"
+    annotation (Placement(transformation(extent={{90,-84},{110,-64}}),
+        iconTransformation(extent={{92,-74},{112,-54}})));
+  Modelica.Blocks.Interfaces.BooleanOutput HeaCooRT12
+    "Heating and Cooling permission" annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={32,-100}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={0,-100})));
+  Modelica.Blocks.Interfaces.BooleanOutput LightRT12b "Lighting permission"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={56,-100}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={40,-100})));
+  Modelica.Blocks.Interfaces.BooleanOutput OccupRT12 "Occupancy permission"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={78,-100}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={82,-100})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal4
+    annotation (Placement(transformation(extent={{64,-46},{76,-34}})));
+  Modelica.Blocks.Interfaces.RealOutput LightRT12 "Lighting permission"
+    annotation (Placement(transformation(extent={{92,-50},{112,-30}}),
+        iconTransformation(extent={{90,-42},{110,-22}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Noheating(
+    firstEntryOccupied=false,
+    period=365*24*3600,
+    occupancy=3600*{2130,7232}) "Annual schedule"
+    annotation (Placement(transformation(extent={{-94,102},{-84,112}})));
+  Modelica.Blocks.Sources.Constant SetHeafictif(k=2 + 273.15)
+    "Heating setpoint"
+    annotation (Placement(transformation(extent={{40,100},{48,108}})));
+  Modelica.Blocks.Logical.Switch switch3
+    annotation (Placement(transformation(extent={{82,106},{94,118}})));
+  Buildings.Controls.SetPoints.OccupancySchedule OccupWeeklySchedule(
+    period=604800,
+    firstEntryOccupied=true,
+    occupancy=3600*{8,18,32,42,56,66,80,90,104,114}) "Day schedule"
+    annotation (Placement(transformation(extent={{-90,80},{-80,90}})));
+  Buildings.Controls.SetPoints.OccupancySchedule OccupWeeklySchedule_sup48h(
+    period=604800,
+    occupancy=3600*{8,114},
+    firstEntryOccupied=true) "Weekly schedule superior to 48h"
+    annotation (Placement(transformation(extent={{-90,64},{-80,74}})));
+  Buildings.Controls.SetPoints.OccupancySchedule OccupRateFullSchedule(
+    period=604800,
+    occupancy=3600*{9,12,14,17,33,36,38,41,57,60,62,65,81,84,86,89,105,108,110,
+        113},
+    firstEntryOccupied=true) "Day schedule"
+    annotation (Placement(transformation(extent={{-90,-6},{-78,6}})));
+  Buildings.Controls.SetPoints.OccupancySchedule OccupRateLowSchedule(
+    period=604800,
+    firstEntryOccupied=true,
+    occupancy=3600*{8,9,12,14,17,18,32,33,36,38,40,42,56,57,60,62,64,66,80,81,
+        84,86,88,90,104,105,108,110,112,114}) "Day schedule"
+    annotation (Placement(transformation(extent={{-90,-26},{-78,-14}})));
+  Modelica.Blocks.Logical.Switch switch4
+    annotation (Placement(transformation(extent={{38,-58},{50,-46}})));
+  Modelica.Blocks.Sources.Constant load_low(k=0.1)
+    annotation (Placement(transformation(extent={{18,-72},{26,-64}})));
+  Buildings.Controls.SetPoints.OccupancySchedule OccupAnnualSchedule(
+    firstEntryOccupied=false,
+    period=365*24*3600,
+    occupancy=3600*{2664,2880,5088,5832,8592,8759.9999}) "Day schedule"
+    annotation (Placement(transformation(extent={{-90,30},{-80,40}})));
+  Modelica.Blocks.Logical.Switch switch5
+    annotation (Placement(transformation(extent={{62,-68},{74,-56}})));
+  Modelica.Blocks.Sources.Constant load_low1(k=0.5)
+    annotation (Placement(transformation(extent={{38,-72},{46,-64}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Nocooling(
+    period=365*24*3600,
+    occupancy=3600*{2130,7232},
+    firstEntryOccupied=true) "Annual schedule"
+    annotation (Placement(transformation(extent={{-90,44},{-80,54}})));
+  Modelica.Blocks.Logical.Switch switch6
+    annotation (Placement(transformation(extent={{78,40},{90,52}})));
+  Modelica.Blocks.Sources.Constant SeCoofictif(k=32 + 273.15)
+    "Cooling setpoint"
+    annotation (Placement(transformation(extent={{60,36},{68,44}})));
+  Modelica.Blocks.Interfaces.BooleanOutput NoHeatingRT12b "No heating"
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-62,-100}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={-82,-100})));
+equation
+  connect(OccupRT12a.y, switch1.u2)
+                                   annotation (Line(
+      points={{-1.1,84},{36.8,84}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(SetHeaInoccup.y, switch1.u3) annotation (Line(
+      points={{26.4,76},{30,76},{30,79.2},{36.8,79.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetHeaOccupa.y, switch1.u1)
+                                     annotation (Line(
+      points={{26.4,92},{30,92},{30,88.8},{36.8,88.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetHeaInoccup1.y, HeaSetRT12a.u3)
+                                           annotation (Line(
+      points={{28.4,60},{32,60},{32,63.2},{58.8,63.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(switch1.y, HeaSetRT12a.u1)
+                                    annotation (Line(
+      points={{50.6,84},{54,84},{54,72.8},{58.8,72.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetCooInoccup.y, switch2.u3) annotation (Line(
+      points={{26.4,26},{30,26},{30,29.2},{38.8,29.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetCooOccupa.y, switch2.u1)
+                                     annotation (Line(
+      points={{26.4,42},{30,42},{30,38.8},{38.8,38.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetCooInoccup1.y, CooSetRTa.u3)
+                                         annotation (Line(
+      points={{26.4,10},{32,10},{32,13.2},{58.8,13.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(switch2.y, CooSetRTa.u1)
+                                  annotation (Line(
+      points={{52.6,34},{54,34},{54,22.8},{58.8,22.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(OccupRT12a.y, switch2.u2)
+                                   annotation (Line(
+      points={{-1.1,84},{2,84},{2,34},{38.8,34}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(booleanToReal.y, OccupRateRT12a.u1) annotation (Line(
+      points={{-15.5,-9},{-7.75,-9},{-7.75,-10},{3,-10}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(gain.y, OccupRateRT12a.u2) annotation (Line(
+      points={{-1.7,-25},{0.25,-25},{0.25,-16},{3,-16}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(booleanToReal1.y, gain.u) annotation (Line(
+      points={{-15.5,-25},{-14,-26},{-14,-25},{-8.6,-25}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(OccupRateRT12a.y, OccupRateRT12) annotation (Line(
+      points={{14.5,-13},{57.25,-13},{57.25,-14},{100,-14}},
+      color={0,0,127},
+      smooth=Smooth.None));
+
+  connect(booleanToReal2.y, OtherLoadsRateRT12a.u1)
+                                               annotation (Line(
+      points={{-15.5,-47},{-7.75,-47},{-7.75,-44},{3,-44}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(gain1.y, OtherLoadsRateRT12a.u2)
+                                      annotation (Line(
+      points={{-1.7,-63},{0.25,-63},{0.25,-50},{3,-50}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(booleanToReal3.y, gain1.u) annotation (Line(
+      points={{-15.5,-63},{-14,-64},{-14,-63},{-8.6,-63}},
+      color={0,0,127},
+      smooth=Smooth.None));
+
+  connect(OccupRT12a.y, OccupRT12) annotation (Line(
+      points={{-1.1,84},{2,84},{2,34},{-62,34},{-62,-80},{78,-80},{78,-100}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(booleanToReal4.y, LightRT12) annotation (Line(
+      points={{76.6,-40},{102,-40}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(Noheating.occupied,switch3. u2) annotation (Line(
+      points={{-83.5,104},{-62,104},{-62,112},{80.8,112}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(SetHeafictif.y,switch3. u3) annotation (Line(
+      points={{48.4,104},{60,104},{60,107.2},{80.8,107.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(HeaSetRT12a.y,switch3. u1) annotation (Line(
+      points={{72.6,68},{76,68},{76,116.8},{80.8,116.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(switch3.y, HeaSetRT12) annotation (Line(
+      points={{94.6,112},{106,112},{106,92},{80,92},{80,68},{100,68}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(OccupWeeklySchedule_sup48h.occupied, HeaSetRT12a.u2) annotation (Line(
+        points={{-79.5,66},{-14,66},{-14,68},{58.8,68}}, color={255,0,255}));
+  connect(OccupWeeklySchedule_sup48h.occupied, OccupRT12a.u[1]) annotation (
+      Line(points={{-79.5,66},{-14,66},{-14,86.1}}, color={255,0,255}));
+  connect(OccupWeeklySchedule.occupied, VentRT12) annotation (Line(points={{-79.5,
+          82},{-62,82},{-62,58},{-62,-80},{10,-80},{10,-100}},
+        color={255,0,255}));
+  connect(OccupWeeklySchedule.occupied, booleanToReal4.u) annotation (Line(
+        points={{-79.5,82},{-62,82},{-62,12},{-62,-40},{26,-40},{62.8,-40}},
+                      color={255,0,255}));
+  connect(OccupWeeklySchedule.occupied, LightRT12b) annotation (Line(points={{-79.5,
+          82},{-62,82},{-62,74},{-62,20},{-62,-58},{-62,-80},{56,-80},{56,
+          -100}},
+        color={255,0,255}));
+  connect(OccupWeeklySchedule_sup48h.occupied, CooSetRTa.u2) annotation (Line(
+        points={{-79.5,66},{-34,66},{-34,60},{-34,18},{58.8,18}},        color=
+          {255,0,255}));
+  connect(OccupWeeklySchedule.occupied, HeaCooRT12) annotation (Line(points={{-79.5,
+          82},{-62,82},{-62,26},{-62,-68},{-62,-80},{32,-80},{32,-100}},
+                  color={255,0,255}));
+  connect(OccupRateFullSchedule.occupied, booleanToReal.u) annotation (Line(
+        points={{-77.4,-3.6},{-52.7,-3.6},{-52.7,-9},{-27,-9}}, color={255,0,
+          255}));
+  connect(LoadsRateLowlSchedule.occupied, booleanToReal3.u) annotation (Line(
+        points={{-77.4,-61.6},{-52.7,-61.6},{-52.7,-63},{-27,-63}}, color={255,
+          0,255}));
+  connect(LoadsRateFullSchedule.occupied, booleanToReal2.u) annotation (Line(
+        points={{-77.4,-43.6},{-62,-43.6},{-62,-40},{-44,-40},{-44,-47},{
+          -27,-47}},                                                color={255,
+          0,255}));
+  connect(OccupWeeklySchedule.occupied, switch4.u2) annotation (Line(points={{
+          -79.5,82},{-62,82},{-62,-54},{36.8,-54},{36.8,-52}}, color={255,0,255}));
+  connect(OccupWeeklySchedule.occupied, OccupRT12a.u[2]) annotation (Line(
+        points={{-79.5,82},{-62,82},{-62,81.9},{-14,81.9}}, color={255,0,255}));
+  connect(OtherLoadsRateRT12a.y, switch4.u1) annotation (Line(points={{14.5,-47},
+          {25.25,-47},{25.25,-47.2},{36.8,-47.2}}, color={0,0,127}));
+  connect(load_low.y, switch4.u3) annotation (Line(points={{26.4,-68},{32,-68},
+          {32,-56.8},{36.8,-56.8}}, color={0,0,127}));
+  connect(switch4.y, switch5.u1) annotation (Line(points={{50.6,-52},{56,-52},{
+          56,-57.2},{60.8,-57.2}}, color={0,0,127}));
+  connect(OccupAnnualSchedule.occupied, switch5.u2) annotation (Line(points={{-79.5,
+          32},{-62,32},{-62,-62},{60.8,-62}},     color={255,0,255}));
+  connect(load_low1.y, switch5.u3) annotation (Line(points={{46.4,-68},{60.8,
+          -68},{60.8,-66.8}}, color={0,0,127}));
+  connect(switch5.y, OtherLoadsRateRT12) annotation (Line(points={{74.6,-62},{
+          84,-62},{84,-74},{100,-74}}, color={0,0,127}));
+  connect(Nocooling.occupied, switch6.u2)
+    annotation (Line(points={{-79.5,46},{76.8,46}}, color={255,0,255}));
+  connect(CooSetRTa.y, switch6.u1) annotation (Line(points={{72.6,18},{74,
+          18},{74,32},{74,50.8},{76.8,50.8}}, color={0,0,127}));
+  connect(SeCoofictif.y, switch6.u3) annotation (Line(points={{68.4,40},{72,
+          40},{72,41.2},{76.8,41.2}}, color={0,0,127}));
+  connect(switch6.y, CooSetRT12) annotation (Line(points={{90.6,46},{92,46},
+          {92,34},{100,34}}, color={0,0,127}));
+  connect(NoHeatingRT12b, switch3.u2) annotation (Line(points={{-62,-100},{
+          -62,112},{-22,112},{80.8,112}}, color={255,0,255}));
+  connect(NoHeatingRT12b, NoHeatingRT12b) annotation (Line(points={{-62,
+          -100},{-68,-100},{-62,-100}}, color={255,0,255}));
+  connect(OccupRateLowSchedule.occupied, booleanToReal1.u) annotation (Line(
+        points={{-77.4,-23.6},{-51.7,-23.6},{-51.7,-25},{-27,-25}}, color={
+          255,0,255}));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,120}})),           Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,120}}), graphics={
+        Rectangle(
+          extent={{-100,120},{100,-100}},
+          lineColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          fillColor={255,255,255}),
+        Rectangle(
+          extent={{-94,34},{-26,40}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-30,34},{-24,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-30,84},{38,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{32,34},{38,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{32,34},{76,40}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-94,-34},{-10,-28}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-12,-34},{-6,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-10,16},{18,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{12,-34},{18,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{12,-34},{76,-28}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Text(
+          extent={{-132,-36},{-6,-64}},
+          lineColor={0,0,0},
+          fillPattern=FillPattern.HorizontalCylinder,
+          fillColor={255,255,255},
+          textString="%name"),
+        Text(
+          extent={{96,95},{158,86}},
+          lineColor={0,0,127},
+          textString="HeaSetRT12"),
+        Text(
+          extent={{94,59},{156,50}},
+          lineColor={0,0,127},
+          textString="CooSetRT12"),
+        Text(
+          extent={{-76,-81},{-14,-90}},
+          lineColor={0,0,127},
+          textString="VentRT12"),
+        Text(
+          extent={{100,13},{162,4}},
+          lineColor={0,0,127},
+          textString="OccupRateRT12"),
+        Text(
+          extent={{108,-67},{170,-76}},
+          lineColor={0,0,127},
+          textString="OtherLoadsRateRT12"),
+        Text(
+          extent={{-32,-81},{30,-90}},
+          lineColor={0,0,127},
+          textString="HeaCooRT12"),
+        Text(
+          extent={{10,-81},{72,-90}},
+          lineColor={0,0,127},
+          textString="LightRT12"),
+        Text(
+          extent={{52,-81},{114,-90}},
+          lineColor={0,0,127},
+          textString="OccupRT12"),
+        Text(
+          extent={{96,-33},{158,-42}},
+          lineColor={0,0,127},
+          textString="LightRt12
+"),     Text(
+          extent={{-114,-81},{-52,-90}},
+          lineColor={0,0,127},
+          textString="NoHeaRT12")}),
+    Documentation(info="<html>
+<h4>Profils du b&acirc;timent</h4>
+<p>Ici, on retrouve diff&eacute;rents profils relatifs au fonctionnement du b&acirc;timent pour des bureaux respectant le fonctionnement d&eacute;fini par la RT2012 : </p>
+<ul>
+<li>Consigne de chauffage</li>
+<li>Consigne de climatisation</li>
+<li>Occupation</li>
+<li>Eclairage</li>
+<li>Autres &eacute;quipements</li>
+</ul>
+</html>"));
+end Schedules_RT2012_Bureaux;

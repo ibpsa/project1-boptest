@@ -1,0 +1,330 @@
+within DetachedHouse_ENGIE_IBPSAP1.Construction.Profils;
+model Schedules_BureauxWOOPA
+
+parameter Modelica.SIunits.Temperature SetHeaOccup=22+273.15
+    "Heating setpoint during occupation";
+parameter Modelica.SIunits.Temperature SetHeaInoccupa=20+273.15
+    "Heating setpoint during inoccupation";
+parameter Modelica.SIunits.Temperature SetCooOccup=25+273.15
+    "Cooling setpoint during occupation";
+parameter Modelica.SIunits.Temperature SetCooInoccupa=27+273.15
+    "Cooling setpoint during inoccupation";
+
+  Modelica.Blocks.Logical.Switch switch1
+    annotation (Placement(transformation(extent={{48,102},{60,114}})));
+  Modelica.Blocks.Sources.Constant SetHeaOccupa(k=SetHeaOccup)
+    "Heating setpoint"
+    annotation (Placement(transformation(extent={{28,112},{36,120}})));
+  Modelica.Blocks.Sources.Constant SetHeaInoccup(k=SetHeaInoccupa)
+    "Inoccupation for less than 48 hours"
+    annotation (Placement(transformation(extent={{28,96},{36,104}})));
+  Modelica.Blocks.Logical.Switch switch2
+    annotation (Placement(transformation(extent={{72,44},{84,56}})));
+  Modelica.Blocks.Sources.Constant SetCooOccupa(k=SetCooOccup)
+    "Cooling setpoint"
+    annotation (Placement(transformation(extent={{50,54},{58,62}})));
+  Modelica.Blocks.Sources.Constant SetCooInoccup(k=SetCooInoccupa)
+    "Inoccupation for less than 48 hours"
+    annotation (Placement(transformation(extent={{50,38},{58,46}})));
+  Modelica.Blocks.Interfaces.RealOutput HeaSet "Heating setpoint"
+    annotation (Placement(transformation(extent={{100,76},{120,96}}),
+        iconTransformation(extent={{100,76},{120,96}})));
+  Modelica.Blocks.Interfaces.RealOutput CooSet "Cooling setpoint"
+    annotation (Placement(transformation(extent={{100,40},{120,60}}),
+        iconTransformation(extent={{100,36},{120,56}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Heating(
+    firstEntryOccupied=false,
+    period=365*24*3600,
+    occupancy=3600*{2305,7129}) "Annual schedule"
+    annotation (Placement(transformation(extent={{6,84},{16,94}})));
+  Modelica.Blocks.Sources.Constant SetHeafictif(k=2 + 273.15)
+    "Heating setpoint"
+    annotation (Placement(transformation(extent={{46,74},{54,82}})));
+  Modelica.Blocks.Logical.Switch switch3
+    annotation (Placement(transformation(extent={{76,80},{88,92}})));
+  Modelica.Blocks.Interfaces.RealOutput Occupancy "Occupancy ratio"
+    annotation (Placement(transformation(extent={{100,-14},{120,6}})));
+  Modelica.Blocks.Math.RealToBoolean realToBoolean(threshold=0.0001)
+    annotation (Placement(transformation(extent={{64,-42},{76,-30}})));
+  Modelica.Blocks.Interfaces.BooleanOutput OccupancyBool "Occupancy"
+    annotation (Placement(transformation(extent={{100,-46},{120,-26}})));
+  Modelica.Blocks.Interfaces.BooleanOutput HeatingBool "HeatingSeason"
+    annotation (Placement(transformation(extent={{100,10},{120,30}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Occupancy_Day_100(
+    firstEntryOccupied=true,
+    period=86400,
+    occupancy=3600*{9,12,14,18}) "Day schedule at 100%"
+    annotation (Placement(transformation(extent={{-84,56},{-74,66}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Occupancy_Day_50(
+    firstEntryOccupied=true,
+    period=86400,
+    occupancy=3600*{13,14,18,19}) "Day schedule at 50%"
+    annotation (Placement(transformation(extent={{-84,42},{-74,52}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Occupancy_Day_25(
+    firstEntryOccupied=true,
+    period=86400,
+    occupancy=3600*{8,9,12,13,19,20}) "Day schedule at 25%"
+    annotation (Placement(transformation(extent={{-84,28},{-74,38}})));
+  Modelica.Blocks.Logical.Switch switch4
+    annotation (Placement(transformation(extent={{-14,52},{-2,64}})));
+  Modelica.Blocks.Sources.Constant KOccupancy_Day_100(k=1) "100%"
+    annotation (Placement(transformation(extent={{-28,60},{-22,66}})));
+  Modelica.Blocks.Logical.Switch switch5
+    annotation (Placement(transformation(extent={{-32,38},{-20,50}})));
+  Modelica.Blocks.Logical.Switch switch6
+    annotation (Placement(transformation(extent={{-50,24},{-38,36}})));
+  Modelica.Blocks.Sources.Constant KOccupancy_Day_50(k=0.5) "50%"
+    annotation (Placement(transformation(extent={{-46,46},{-40,52}})));
+  Modelica.Blocks.Sources.Constant KOccupancy_Day_25(k=0.25) "25%"
+    annotation (Placement(transformation(extent={{-62,32},{-56,38}})));
+  Modelica.Blocks.Sources.Constant KOccupancy_Day_0(k=0) "0%"
+    annotation (Placement(transformation(extent={{-62,22},{-56,28}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Occupancy_Year_80(
+    period=31536000,
+    firstEntryOccupied=false,
+    occupancy=60*60*24*7*{1,6,9,14,16,42,44,51}) "Year schedule at 80%"
+    annotation (Placement(transformation(extent={{-84,-36},{-74,-26}})));
+  Modelica.Blocks.Logical.Switch switch7
+    annotation (Placement(transformation(extent={{-14,-40},{-2,-28}})));
+  Modelica.Blocks.Sources.Constant KOccupancy_Year_80(k=0.8) "80%"
+    annotation (Placement(transformation(extent={{-28,-32},{-22,-26}})));
+  Modelica.Blocks.Logical.Switch switch8
+    annotation (Placement(transformation(extent={{-32,-54},{-20,-42}})));
+  Modelica.Blocks.Logical.Switch switch9
+    annotation (Placement(transformation(extent={{-50,-68},{-38,-56}})));
+  Modelica.Blocks.Sources.Constant Occupancy_2(k=0.7) "50%"
+    annotation (Placement(transformation(extent={{-46,-46},{-40,-40}})));
+  Modelica.Blocks.Sources.Constant Occupancy_3(k=0.5) "25%"
+    annotation (Placement(transformation(extent={{-62,-60},{-56,-54}})));
+  Modelica.Blocks.Sources.Constant Occupancy_4(k=1) "100%"
+    annotation (Placement(transformation(extent={{-62,-70},{-56,-64}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Occupancy_Year_70(
+    period=31536000,
+    firstEntryOccupied=true,
+    occupancy=60*60*24*7*{26,30}) "Year schedule at 70%"
+    annotation (Placement(transformation(extent={{-84,-50},{-74,-40}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Occupancy_Year_50(
+    period=31536000,
+    firstEntryOccupied=true,
+    occupancy=60*60*24*7*{30,34}) "Year schedule at 50%"
+    annotation (Placement(transformation(extent={{-84,-64},{-74,-54}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Occupancy_Week(
+    firstEntryOccupied=true,
+    period=604800,
+    occupancy=3600*{8,116}) "Week schedule"
+    annotation (Placement(transformation(extent={{-84,-6},{-74,4}})));
+  Modelica.Blocks.Logical.Switch switch10
+    annotation (Placement(transformation(extent={{-46,-10},{-34,2}})));
+  Modelica.Blocks.Sources.Constant KOccupancy_Week_100(k=1) "100%"
+    annotation (Placement(transformation(extent={{-62,-2},{-56,4}})));
+  Modelica.Blocks.Sources.Constant KOccupancy_Week_0(k=0) "0%"
+    annotation (Placement(transformation(extent={{-62,-12},{-56,-6}})));
+  Modelica.Blocks.Math.MultiProduct multiProduct(nu=3)
+    annotation (Placement(transformation(extent={{24,-10},{36,2}})));
+equation
+  connect(SetHeaInoccup.y, switch1.u3) annotation (Line(
+      points={{36.4,100},{40,100},{40,103.2},{46.8,103.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetHeaOccupa.y, switch1.u1)
+                                     annotation (Line(
+      points={{36.4,116},{40,116},{40,112.8},{46.8,112.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetCooInoccup.y, switch2.u3) annotation (Line(
+      points={{58.4,42},{62,42},{62,45.2},{70.8,45.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetCooOccupa.y, switch2.u1)
+                                     annotation (Line(
+      points={{58.4,58},{62,58},{62,54.8},{70.8,54.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+
+  connect(Heating.occupied, switch3.u2) annotation (Line(
+      points={{16.5,86},{74.8,86}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(SetHeafictif.y,switch3. u3) annotation (Line(
+      points={{54.4,78},{68,78},{68,81.2},{74.8,81.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(switch3.y, HeaSet) annotation (Line(
+      points={{88.6,86},{110,86}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(switch3.u1, switch1.y) annotation (Line(points={{74.8,90.8},{74.8,
+          90},{70,90},{70,108},{66,108},{60.6,108}},
+                                                 color={0,0,127}));
+  connect(switch2.y, CooSet)
+    annotation (Line(points={{84.6,50},{110,50}}, color={0,0,127}));
+  connect(Occupancy, Occupancy) annotation (Line(points={{110,-4},{108,-4},
+          {110,-4}}, color={0,0,127}));
+  connect(CooSet, CooSet)
+    annotation (Line(points={{110,50},{98,50},{110,50}}, color={0,0,127}));
+  connect(realToBoolean.u, Occupancy) annotation (Line(points={{62.8,-36},{
+          62.8,-4},{110,-4}}, color={0,0,127}));
+  connect(realToBoolean.y, OccupancyBool) annotation (Line(points={{76.6,
+          -36},{87.25,-36},{110,-36}}, color={255,0,255}));
+  connect(switch1.u2, OccupancyBool) annotation (Line(points={{46.8,108},{
+          42,108},{42,-54},{84,-54},{84,-36},{110,-36}}, color={255,0,255}));
+  connect(switch2.u2, OccupancyBool) annotation (Line(points={{70.8,50},{42,
+          50},{42,-54},{84,-54},{84,-36},{110,-36}}, color={255,0,255}));
+  connect(Heating.occupied, HeatingBool) annotation (Line(points={{16.5,86},{
+          42,86},{42,20},{110,20}}, color={255,0,255}));
+  connect(switch4.u2,Occupancy_Day_100. occupied) annotation (Line(points={{-15.2,
+          58},{-44,58},{-73.5,58}},        color={255,0,255}));
+  connect(KOccupancy_Day_100.y,switch4. u1) annotation (Line(points={{-21.7,
+          63},{-15.2,63},{-15.2,62.8}}, color={0,0,127}));
+  connect(Occupancy_Day_50.occupied,switch5. u2)
+    annotation (Line(points={{-73.5,44},{-33.2,44}},
+                                                   color={255,0,255}));
+  connect(switch6.u2,Occupancy_Day_25. occupied)
+    annotation (Line(points={{-51.2,30},{-73.5,30}},   color={255,0,255}));
+  connect(KOccupancy_Day_25.y,switch6. u1) annotation (Line(points={{-55.7,
+          35},{-52.85,35},{-52.85,34.8},{-51.2,34.8}}, color={0,0,127}));
+  connect(KOccupancy_Day_0.y,switch6. u3) annotation (Line(points={{-55.7,
+          25},{-52,25},{-52,26},{-51.2,26},{-51.2,25.2}},      color={0,0,
+          127}));
+  connect(KOccupancy_Day_50.y,switch5. u1) annotation (Line(points={{-39.7,
+          49},{-34,49},{-34,48},{-33.2,48},{-33.2,48.8}},
+                                                     color={0,0,127}));
+  connect(switch5.y,switch4. u3) annotation (Line(points={{-19.4,44},{-18,
+          44},{-18,53.2},{-15.2,53.2}},
+                                    color={0,0,127}));
+  connect(switch6.y,switch5. u3) annotation (Line(points={{-37.4,30},{-36,
+          30},{-36,39.2},{-33.2,39.2}},  color={0,0,127}));
+  connect(switch7.u2,Occupancy_Year_80. occupied) annotation (Line(points={{-15.2,
+          -34},{-44,-34},{-73.5,-34}},        color={255,0,255}));
+  connect(KOccupancy_Year_80.y,switch7. u1) annotation (Line(points={{-21.7,
+          -29},{-15.2,-29},{-15.2,-29.2}}, color={0,0,127}));
+  connect(Occupancy_3.y,switch9. u1) annotation (Line(points={{-55.7,-57},{
+          -52.85,-57},{-52.85,-57.2},{-51.2,-57.2}}, color={0,0,127}));
+  connect(Occupancy_4.y,switch9. u3) annotation (Line(points={{-55.7,-67},{
+          -52,-67},{-52,-66},{-51.2,-66},{-51.2,-66.8}}, color={0,0,127}));
+  connect(Occupancy_2.y,switch8. u1) annotation (Line(points={{-39.7,-43},{
+          -34,-43},{-34,-44},{-33.2,-44},{-33.2,-43.2}}, color={0,0,127}));
+  connect(switch8.y,switch7. u3) annotation (Line(points={{-19.4,-48},{-18,
+          -48},{-18,-38.8},{-15.2,-38.8}}, color={0,0,127}));
+  connect(switch9.y,switch8. u3) annotation (Line(points={{-37.4,-62},{-36,
+          -62},{-36,-52.8},{-33.2,-52.8}}, color={0,0,127}));
+  connect(Occupancy_Year_70.occupied,switch8. u2)
+    annotation (Line(points={{-73.5,-48},{-33.2,-48}}, color={255,0,255}));
+  connect(Occupancy_Year_50.occupied,switch9. u2)
+    annotation (Line(points={{-73.5,-62},{-51.2,-62}}, color={255,0,255}));
+  connect(Occupancy_Week.occupied,switch10. u2)
+    annotation (Line(points={{-73.5,-4},{-47.2,-4}}, color={255,0,255}));
+  connect(KOccupancy_Week_100.y,switch10. u1) annotation (Line(points={{-55.7,1},
+          {-55.7,0.5},{-47.2,0.5},{-47.2,0.8}},    color={0,0,127}));
+  connect(KOccupancy_Week_0.y,switch10. u3) annotation (Line(points={{-55.7,
+          -9},{-50.85,-9},{-50.85,-8.8},{-47.2,-8.8}}, color={0,0,127}));
+  connect(multiProduct.u[1],switch4. y) annotation (Line(points={{24,-1.2},
+          {12,-1.2},{12,58},{-1.4,58}},color={0,0,127}));
+  connect(multiProduct.u[2],switch10. y)
+    annotation (Line(points={{24,-4},{-6,-4},{-33.4,-4}}, color={0,0,127}));
+  connect(multiProduct.u[3],switch7. y) annotation (Line(points={{24,-6.8},
+          {12,-6.8},{12,-34},{-1.4,-34}},color={0,0,127}));
+  connect(multiProduct.y, Occupancy)
+    annotation (Line(points={{37.02,-4},{70,-4},{110,-4}},
+                                                   color={0,0,127}));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,120}})),           Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,120}}), graphics={
+        Rectangle(
+          extent={{-100,120},{100,-100}},
+          lineColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          fillColor={255,255,255}),
+        Rectangle(
+          extent={{-94,34},{-26,40}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-30,34},{-24,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-30,84},{38,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{32,34},{38,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{32,34},{76,40}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-94,-34},{-10,-28}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-12,-34},{-6,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-10,16},{18,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{12,-34},{18,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{12,-34},{76,-28}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Text(
+          extent={{-132,-36},{-6,-64}},
+          lineColor={0,0,0},
+          fillPattern=FillPattern.HorizontalCylinder,
+          fillColor={255,255,255},
+          textString="%name"),
+        Text(
+          extent={{84,105},{146,96}},
+          lineColor={0,0,127},
+          textString="HeatSet"),
+        Text(
+          extent={{84,65},{146,56}},
+          lineColor={0,0,127},
+          textString="CoolSet"),
+        Text(
+          extent={{90,-17},{152,-26}},
+          lineColor={0,0,127},
+          textString="Occupancy"),
+        Text(
+          extent={{100,9},{162,0}},
+          lineColor={217,67,180},
+          textString="HeatingSeason
+"),     Text(
+          extent={{90,-47},{152,-56}},
+          lineColor={217,67,180},
+          textString="Occupancy")}),
+    Documentation(info="<html>
+<h4>Profils du b&acirc;timent</h4>
+<p>Ici, on retrouve diff&eacute;rents profils relatifs au fonctionnement du b&acirc;timent : </p>
+<ul>
+<li>Consigne de chauffage</li>
+<li>Consigne de climatisation</li>
+<li>Occupation</li>
+<li>Eclairage</li>
+<li>Autres &eacute;quipements</li>
+</ul>
+</html>"));
+end Schedules_BureauxWOOPA;

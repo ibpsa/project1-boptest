@@ -1,0 +1,84 @@
+within DetachedHouse_ENGIE_IBPSAP1.Construction.Apports;
+model Q_rad_1
+
+  parameter Real Q_occupant_ete = 50
+    "Apport thermique par occupant en t (en W/occupant)";
+  parameter Real Q_occupant_hiver = 70
+    "Apport thermique par occupant en hiver (en W/occupant)";
+  parameter Real N_occupants = 1/17.84
+    "Nombre d'occupants au m2 (en Occupant/m2)";
+  parameter Real Foisonnement = 0.85 "Foisonnement";
+
+  parameter Real Q_autres_occ = 8.1 "Autre apport thermique interne en occupation (en W/m2)";
+  parameter Real Q_autres_inocc = 8.1 "Autre apport thermique interne en inoccupation (en W/m2)";
+  parameter Real Q_ecl_occ = 3.5 "Apport d  l'clairage en occupation (en W/m2)";
+  parameter Real Q_ecl_inocc = 3.5 "Apport d  l'clairage en incoccupation (en W/m2)";
+
+  Modelica.Blocks.Math.Add3 add3_1
+    annotation (Placement(transformation(extent={{74,44},{94,64}})));
+  Modelica.Blocks.Interfaces.RealOutput Q_rad "Flux de transfert radiatif"
+    annotation (Placement(transformation(extent={{100,52},{156,108}})));
+
+  Modelica.Blocks.Math.Gain gain1(
+                                 k=0.5*N_occupants*Foisonnement)
+    annotation (Placement(transformation(extent={{0,88},{12,100}})));
+  Modelica.Blocks.Math.Product product
+    annotation (Placement(transformation(extent={{42,92},{52,102}})));
+  Modelica.Blocks.Interfaces.BooleanInput HeatingSeason
+    "Priode de chauffe"
+    annotation (Placement(transformation(extent={{-140,100},{-100,140}})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal1(realTrue=
+        Q_occupant_hiver, realFalse=Q_occupant_ete)
+    annotation (Placement(transformation(extent={{16,116},{26,126}})));
+  Modelica.Blocks.Interfaces.RealInput Occupation "Occupation"
+    annotation (Placement(transformation(extent={{-140,26},{-100,66}})));
+  Modelica.Blocks.Math.BooleanToReal Eclairage(realTrue=Q_ecl_occ, realFalse=
+        Q_ecl_inocc)
+    annotation (Placement(transformation(extent={{4,48},{24,68}})));
+  Modelica.Blocks.Math.BooleanToReal AutresEquipements(realTrue=Q_autres_occ,
+      realFalse=Q_autres_inocc)
+    annotation (Placement(transformation(extent={{4,20},{24,40}})));
+  Modelica.Blocks.Math.RealToBoolean realToBoolean(threshold=0.01)
+    annotation (Placement(transformation(extent={{-34,36},{-14,56}})));
+equation
+  connect(add3_1.y, Q_rad) annotation (Line(
+      points={{95,54},{96,54},{96,80},{128,80}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(product.u2, gain1.y)
+    annotation (Line(points={{41,94},{12.6,94}},           color={0,0,127}));
+  connect(product.y, add3_1.u1) annotation (Line(points={{52.5,97},{62,97},
+          {62,84},{62,62},{72,62}}, color={0,0,127}));
+  connect(booleanToReal1.y, product.u1) annotation (Line(points={{26.5,121},
+          {32,121},{32,100},{41,100}}, color={0,0,127}));
+  connect(Occupation, gain1.u) annotation (Line(points={{-120,46},{-48,46},{-48,
+          94},{-1.2,94}},      color={0,0,127}));
+  connect(booleanToReal1.u, HeatingSeason) annotation (Line(points={{15,121},
+          {-43.5,121},{-43.5,120},{-120,120}}, color={255,0,255}));
+  connect(Eclairage.y, add3_1.u2) annotation (Line(points={{25,58},{40,58},{40,54},
+          {72,54}}, color={0,0,127}));
+  connect(AutresEquipements.y, add3_1.u3) annotation (Line(points={{25,30},{40,30},
+          {40,46},{72,46}}, color={0,0,127}));
+  connect(realToBoolean.u, gain1.u) annotation (Line(points={{-36,46},{-42,46},{
+          -48,46},{-48,94},{-1.2,94}}, color={0,0,127}));
+  connect(realToBoolean.y, Eclairage.u) annotation (Line(points={{-13,46},{-8,46},
+          {-8,58},{2,58}}, color={255,0,255}));
+  connect(realToBoolean.y, AutresEquipements.u) annotation (Line(points={{-13,46},
+          {-8,46},{-8,30},{2,30}}, color={255,0,255}));
+  annotation (                                 Diagram(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,0},{100,160}})),
+    Icon(coordinateSystem(extent={{-100,0},{100,160}})),
+    Documentation(info="<html>
+<h4>Calcul d&apos;un flux de transfert radiatif</h4>
+<p>Ce flux d&eacute;pend : </p>
+<ul>
+<li>des autres &eacute;quipements (typiquement des ordinateurs)</li>
+<li>de l&apos;&eacute;clairage</li>
+<li>des occupants (&agrave; 50&percnt;) en tenant compte d&apos;un certain foisonnement pour prendre en compte les vacances</li>
+<li>de l&apos;occupation g&eacute;n&eacute;rale du b&acirc;timent<br></li>
+</ul>
+<p><u>Formule de calcul</u></p>
+<p><br><img src=\"modelica://Construction/Resources/Images/equations/equation-G3TdZTSh.png\" alt=\"Q_rad = (Q_autres+Q_ecl+0.5*N_occupants*Foisonnement*Q_occupant)*Occupation\"/></p>
+<p>Q_occupant est calcul&eacute; en fonction de la p&eacute;riode de chauffe. En fonction de la saison, la valeur sera respectivement Q_occupant_ete ou Q_occupant_hiver.</p>
+</html>"));
+end Q_rad_1;

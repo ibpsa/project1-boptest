@@ -1,0 +1,966 @@
+within DetachedHouse_ENGIE_IBPSAP1.Construction.Equipements.Chaud;
+model microCoge
+
+//--------------------------------------------------------------------------
+// Variables d'entre en attendant de connecter des inputs
+//-------------------------------------------------------------------------
+
+  parameter Modelica.SIunits.Temperature T_amb( displayUnit="degC")=295.15;
+  parameter Modelica.SIunits.Temperature T_air( displayUnit="degC")=295.15;
+
+//--------------------------------------------------------------------------
+//DECLARATION DES PARAMETRES DU TYPE 253
+//--------------------------------------------------------------------------
+
+// paramtres modifis le 23/11/2015 avec paramtrage v3
+
+  parameter Modelica.SIunits.Power Q_HX_nom=21480.60273;
+  parameter Modelica.SIunits.Power P_net_nom=7500;
+  parameter Modelica.SIunits.Power P_comb_nom=31316.56398;
+  parameter Modelica.SIunits.MassFlowRate mdot_cw_nom=0.165;
+  parameter Modelica.SIunits.Temperature T_cwi_nom( displayUnit="degC")=313.55;
+  parameter Modelica.SIunits.Temperature T_exh_nom( displayUnit="degC")=319.6;
+  parameter Modelica.SIunits.Temperature T_cons( displayUnit="degC")=358.15;
+  parameter Modelica.SIunits.Power P_electronique=0;
+  parameter Modelica.SIunits.Power P_auxiliaires=0;
+  parameter Real h=-7500;
+  parameter Real k=-25531;
+  parameter Real g1=-15215;
+  parameter Real a1=-9.7812;
+  parameter Real a2=0;
+  parameter Real b1=0;
+  parameter Real b2=0;
+  parameter Real c1=-62.772;
+  parameter Real c2=0;
+  parameter Real d1=0;
+  parameter Real d2=0;
+  parameter Real e1=0;
+  parameter Real e2=0;
+  parameter Real f1=0;
+  parameter Real f2=0;
+  parameter Real UA_pertes=26.143;
+  //  Real UA_pertes=12.101*y - 4.1365;
+  parameter Real k_pertes=-864.2;
+  parameter Real UA_pertes_arret=3.47;
+  parameter Real MC_moteur=95589;
+  parameter Real Tau_RF=106;
+  parameter Real Tau_PR_Q=283;
+  parameter Real Tau_PR_P=1;
+  parameter Real tps_debut_P=10;
+  parameter Real tps_debut_Q=20;
+  parameter Modelica.SIunits.Energy E_elec_RF=0;
+  parameter Real exces_air=0.001;
+  parameter Real k_exh=0.6748;
+  parameter Real k_condens=-0.00002582338579615372;
+  parameter Real l_condens=0.00168486856342802;
+  parameter Real a_Q_finPR=0.99;
+  parameter Real t_fin_RF=300;
+  parameter Modelica.SIunits.Power Q_HX_dem_nom=20647;
+  parameter Modelica.SIunits.Power P_net_dem_nom=7146;
+  parameter Modelica.SIunits.Power P_comb_dem_nom=30551;
+
+  parameter Modelica.SIunits.Temperature T_max(displayUnit="degC")=368.15;
+
+  Real f;
+  Real g;
+  Real c;
+  Real d;
+  Real e;
+
+//  Modelica.SIunits.Power q_demand;
+  Real V_a_kg;
+  Real i_CO2_comb;
+  Real H2O_kg;
+  Real dH_comb;
+  Real DH_comb;
+  Modelica.SIunits.Power Q_HX;
+//  Real Mode_Fcmt;
+  Modelica.SIunits.Time tps_debut_PR1;
+  Modelica.SIunits.Time tps_debut_PR2;
+  Modelica.SIunits.Time tps_debut_PR3;
+  Modelica.SIunits.Time tps_debut_RF;
+  Modelica.SIunits.Power P_brut;
+  Modelica.SIunits.Power P_net;
+//  Modelica.SIunits.Temperature T_cwo;
+  Modelica.SIunits.MassFlowRate mdot_comb;
+  Modelica.SIunits.MassFlowRate mdot_condensats_max;
+  Real DH_N2_exh;
+  Real DH_CO2_exh;
+  Real DH_O2_exh;
+  Real DH_H2O_exh;
+  Real dH_exh_sens;
+  Modelica.SIunits.MassFlowRate mdot_air;
+  Modelica.SIunits.MassFlowRate mdot_exh;
+  Modelica.SIunits.Power P_comb;
+  Modelica.SIunits.Power Hdot_comb;
+  Modelica.SIunits.Power Hdot_air;
+  Modelica.SIunits.Power Hdot_exh_sen;
+  Modelica.SIunits.Power Hdot_exh_lat;
+  Modelica.SIunits.MassFlowRate mdot_CO2;
+  Modelica.SIunits.Power Q_pertes;
+  Modelica.SIunits.Temperature T_mot(start=T_amb);
+  Real C_charge_elec;
+  Real C_charge_gaz;
+  Modelica.SIunits.Energy E_HX;
+  Modelica.SIunits.Energy E_elec_brut;
+  Modelica.SIunits.Energy E_elec_net;
+  Modelica.SIunits.Energy E_pertes;
+  Modelica.SIunits.Energy E_comb;
+  Modelica.SIunits.Mass mCO2;
+  Modelica.SIunits.Energy E_p;
+
+// Enthalpies des produits  T_0(tps), T_comb(tps), T_exh(tps) kJ/kmol
+  Real H_T0[1,11];
+  Real H_Texh[1,11];
+  Real H_Tcomb[1,11];
+  parameter Real R=8.314;
+
+// Paramtres de simulation
+//   Real delta_t=10;
+//   Real delta_t_simul=1800;
+
+// Paramtres du combustible
+  parameter Real user_defined_gas=1;
+  parameter Real compo_GN=1;
+  Real comb[1,11];
+  parameter Real user_comb[1,11]=[90.7, 4.4, 0.8, 0.15, 0.05, 2.2, 1.4, 0, 0, 0, 0];
+
+// Constantes internes au problme
+  parameter Modelica.SIunits.SpecificHeatCapacity cp_air=1006;
+  parameter Modelica.SIunits.SpecificHeatCapacity cp_cw=4182;
+  parameter Modelica.SIunits.SpecificEnergy L_v_H2O=2501000;
+  parameter Modelica.SIunits.Temperature T_0( displayUnit="degC")=273.15;
+  parameter Real Q_demarrage=3400;
+  Modelica.SIunits.Power Q_max;
+
+//--------------------------------------------------------------------------
+//DECLARATION DES VARIABLES
+//--------------------------------------------------------------------------
+
+// Masses molaires en (g/mol)
+  parameter Real Mm_air=0.79*28+0.21*32;
+  parameter Real Mm_CO2=1*12+2*16;
+  parameter Real Mm_H2O=2*1+1*16;
+  Real Mm_comb;
+
+  parameter Real tab[11,5]=[16, 11.08, 9.54, 1, 2;
+                            30, 19.58, 16.84, 2, 3;
+                            44, 28.22, 24.37, 3, 4;
+                            58, 37.41, 32.41, 4, 5;
+                            72, 47.11, 40.87, 5, 6;
+                            28, 0, 0, 0, 0;
+                            44, 0, 0, 1, 0;
+                            28, 3.51, 2.38, 1, 0;
+                            2, 3.52, 2.36, 0, 1;
+                            32, 0, -4.77, 0, 0;
+                            18, 0, 0, 0, 1];
+
+// coefficients des tables de janaf
+
+  parameter Real j[11,6]=[0.7787415, 0.01747668, -2.78341*10^(-5), 3.04971*10^(-8), -1.22393*10^(-11), -9825.229;
+                          1.4625388, 0.015494667, 5.78051*10^(-6), -1.25783*10^(-8), 4.58627*10^(-12), -11239.176;
+                          0.8969208, 0.02668986, 5.43143*10^(-6), -2.126*10^(-8), 9.24333*10^(-12), -13954.918;
+                          -2.256618, 0.05881732, -4.52578*10^(-5), -2.03712*10^(-8), -4.07946*10^(-12), -17602.33;
+                          1.877907, 0.04121645, 1.25323*10^(-5), -3.70154*10^(-8), 1.52557*10^(-11), -20038.15;
+                          3.298677, 0.00140824, -3.96322*10^(-6), 5.64152*10^(-9), -2.44485*10^(-12), -1020.8999;
+                          2.275724, 0.009922072, -1.04091*10^(-5), 6.86669*10^(-9), -2.11728*10^(-12), -48373.14;
+                          3.262451, 0.001511941, -3.88176*10^(-6), 5.58194*10^(-9), -2.47495*10^(-12), -14310.539;
+                          3.298124, 0.000824944, -8.14302*10^(-7), -9.47543*10^(-11), 4.13487*10^(-13), -1012.5209;
+                          3.212936, 0.001127486, -5.75615*10^(-7), 1.31388*10^(-9), -8.76855*10^(-13), -1005.549;
+                          3.386842, 0.003474982, -6.3547*10^(-6), 6.96858*10^(-9), -2.50659*10^(-12), -30208.11];
+
+// Masse volumique
+  Real MV_comb;
+
+// Pouvoir calorifique (kWh/m3 gaz naturel)
+  Real PCS_comb;
+
+// Pouvoir comburivore (m3(n) air / m3(n) gaz naturel)
+  Real V_a;
+
+// Dioxyde de carbone (m3(n) CO2 / m3(n) gaz naturel)
+  Real V_CO2;
+
+// Vapeur d'eau (m3(n) H2O / m3(n) gaz naturel)
+  Real V_H2O;
+
+// Composition des fumes (m3(n) gaz i / m3(n) gaz naturel)
+  Real V_N2_exh;
+  Real V_CO2_exh;
+  Real V_O2_exh;
+  Real V_H2O_exh;
+
+// Volume total des fumes humides (m3 fumes / m3 gaz naturel)
+  Real Vf0_w;
+
+// En pourcentage sur fumes humides
+  Real pc_N2_exh_w;
+  Real pc_CO2_exh_w;
+  Real pc_O2_exh_w;
+  Real pc_H2O_exh_w;
+
+// Masse molaire des fumes humides (g/mol)
+  Real Mm_exh;
+
+// Divers (oublis)
+  Real PCS_kg;
+  Real PCS_J_kg;
+
+// Paramtres de combustion au temps tps
+
+  Modelica.SIunits.Temperature T_comb;
+  Modelica.SIunits.Temperature T_exh;
+  Modelica.SIunits.MassFlowRate mdot_condensats;
+
+// rendements
+  Real eta_inst_HX;
+  Real eta_inst_net;
+  Real eta_inst_brut;
+  Real eta_inst_tot_net;
+
+  Real eta_cumul_HX;
+  Real eta_cumul_net;
+  Real eta_cumul_brut;
+  Real eta_cumul_tot_brut;
+
+  Modelica_StateGraph2.Step Arret(
+    initialStep=true,
+    use_activePort=true,
+    nIn=1,
+    nOut=1)
+    annotation (Placement(transformation(extent={{34,154},{42,162}})));
+  Modelica_StateGraph2.Transition T1(use_conditionPort=true, use_firePort=true)
+    annotation (Placement(transformation(extent={{34,136},{42,144}})));
+  Modelica_StateGraph2.Step PR1(
+    use_activePort=true,
+    nIn=1,
+    nOut=1) annotation (Placement(transformation(extent={{34,122},{42,130}})));
+  Modelica.Blocks.Logical.GreaterThreshold demarrage(threshold=Q_demarrage)
+    annotation (Placement(transformation(extent={{0,134},{12,146}})));
+  Modelica_StateGraph2.Transition T2(
+    use_conditionPort=false,
+    delayedTransition=true,
+    use_firePort=true,
+    waitTime=tps_debut_P)
+    annotation (Placement(transformation(extent={{34,108},{42,116}})));
+  Modelica_StateGraph2.Transition T3(
+    use_conditionPort=false,
+    delayedTransition=true,
+    use_firePort=true,
+    waitTime=tps_debut_Q - tps_debut_P)
+    annotation (Placement(transformation(extent={{34,80},{42,88}})));
+  Modelica_StateGraph2.Step PR2(
+    use_activePort=true,
+    nIn=1,
+    nOut=1) annotation (Placement(transformation(extent={{34,92},{42,100}})));
+  Modelica_StateGraph2.Step PR3(
+    use_activePort=true,
+    nIn=1,
+    nOut=1) annotation (Placement(transformation(extent={{34,62},{42,70}})));
+  Modelica_StateGraph2.Transition T4(
+    waitTime=tps_debut_P - tps_debut_Q,
+    use_conditionPort=true,
+    delayedTransition=false,
+    use_firePort=true)
+    annotation (Placement(transformation(extent={{34,50},{42,58}})));
+  Modelica.Blocks.Logical.GreaterThreshold fin_prechauffage(threshold=
+        a_Q_finPR*Q_HX_dem_nom)
+    annotation (Placement(transformation(extent={{12,48},{24,60}})));
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=Q_HX)
+    annotation (Placement(transformation(extent={{-148,44},{-128,64}})));
+  Modelica_StateGraph2.Step Fct_normal(
+    use_activePort=true,
+    nIn=1,
+    nOut=2) annotation (Placement(transformation(extent={{34,32},{42,40}})));
+  Modelica_StateGraph2.Transition T5(
+    waitTime=tps_debut_P - tps_debut_Q,
+    use_conditionPort=true,
+    delayedTransition=false,
+    use_firePort=true)
+    annotation (Placement(transformation(extent={{34,16},{42,24}})));
+  Modelica.Blocks.Logical.LessThreshold debut_refroidissement(threshold=
+        Q_demarrage)
+    annotation (Placement(transformation(extent={{12,14},{24,26}})));
+  Modelica_StateGraph2.Step RF(
+    use_activePort=true,
+    nIn=2,
+    nOut=1) annotation (Placement(transformation(extent={{34,-2},{42,6}})));
+  Modelica_StateGraph2.Transition T6(
+    delayedTransition=true,
+    waitTime=t_fin_RF,
+    use_conditionPort=false)
+    annotation (Placement(transformation(extent={{34,-22},{42,-14}})));
+
+  Buildings.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
+    annotation (Placement(transformation(extent={{-66,-100},{-46,-80}})));
+  Modelica.Blocks.Interfaces.RealInput y(min=0, max=1) "Part load ratio"
+    annotation (Placement(transformation(extent={{-200,120},{-160,160}},
+          rotation=0)));
+
+  Modelica.Blocks.Math.Gain gain(k=7500)
+    annotation (Placement(transformation(extent={{-132,130},{-112,150}})));
+
+  parameter Modelica.SIunits.Pressure dp_nominal=1000
+    "Pressure drop at nominal mass flow rate";
+
+  Buildings.Fluid.FixedResistances.PressureDrop dP(
+    redeclare package Medium = Medium,
+    m_flow_nominal=mdot_cw_nom,
+    dp_nominal=dp_nominal)
+    annotation (Placement(transformation(extent={{-56,-70},{-36,-50}})));
+  replaceable package Medium = Modelica.Media.Interfaces.PartialMedium;
+
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
+        Medium)
+    annotation (Placement(transformation(extent={{-170,-70},{-150,-50}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
+        Medium)
+    annotation (Placement(transformation(extent={{150,-70},{170,-50}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort T_cwi(redeclare package Medium =
+        Medium,
+    m_flow_nominal=0.17,
+    tau=0,
+    T_start=333.15)
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={-132,-60})));
+  Modelica.Fluid.Sensors.MassFlowRate mdot_cw(redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{-92,-70},{-72,-50}})));
+  Modelica.Blocks.Interfaces.RealOutput P_elec_net
+    annotation (Placement(transformation(extent={{160,122},{196,158}})));
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=P_net)
+    annotation (Placement(transformation(extent={{120,130},{140,150}})));
+  Modelica.Blocks.Interfaces.RealOutput P_gaz
+    annotation (Placement(transformation(extent={{160,82},{196,118}})));
+  Modelica.Blocks.Sources.RealExpression realExpression3(y=P_comb)
+    annotation (Placement(transformation(extent={{120,90},{140,110}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort T_cwo(
+    redeclare package Medium = Medium,
+    m_flow_nominal=0.17,
+    tau=0,
+    initType=Modelica.Blocks.Types.Init.InitialState,
+    T_start=333.15)      annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={90,-60})));
+  Modelica.Blocks.Interfaces.RealOutput pump_control
+    "controle 0-1 de la pompe"
+    annotation (Placement(transformation(extent={{160,2},{196,38}})));
+  Modelica.Blocks.Interfaces.RealOutput P_th
+    annotation (Placement(transformation(extent={{160,42},{196,78}})));
+  Modelica.Blocks.Sources.RealExpression realExpression4(y=Q_HX)
+    annotation (Placement(transformation(extent={{120,50},{140,70}})));
+  Modelica.Blocks.Continuous.LimPID PID_pump(
+    Td=0.01,
+    yMax=1,
+    yMin=0.1,
+    Ti=1.6,
+    controllerType=Modelica.Blocks.Types.SimpleController.P,
+    k=0.33)  annotation (Placement(transformation(extent={{106,12},{122,28}})));
+  Modelica.Blocks.Sources.Constant const1(k=T_cons)
+    annotation (Placement(transformation(extent={{-8,-8},{8,8}},
+        rotation=90,
+        origin={114,-10})));
+  Modelica.Fluid.Vessels.ClosedVolume volume(
+    redeclare package Medium = Medium,
+    use_HeatTransfer=true,
+    nPorts=2,
+    use_portsData=false,
+    V=0.005)
+            annotation (Placement(transformation(extent={{10,-10},{-10,10}},
+        rotation=180,
+        origin={-10,-70})));
+  Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(              y(start=
+          1), Rising=0.0001,
+    Td=100)
+    annotation (Placement(transformation(extent={{134,12},{150,28}})));
+  Modelica_StateGraph2.Transition T7(use_conditionPort=true, use_firePort=true)
+    annotation (Placement(transformation(extent={{62,16},{54,24}})));
+  Modelica.Blocks.Logical.GreaterThreshold greaterThreshold3(threshold=T_max)
+    annotation (Placement(transformation(extent={{82,14},{70,26}})));
+algorithm
+// Masse molaire
+  for i in 1:11 loop
+    c:=tab[i, 1]*comb[1,i]/100;
+    Mm_comb:=Mm_comb + c;
+  end for;
+
+// Pouvoir calorifique (kWh/m3 gaz naturel)
+  for i in 1:11 loop
+    d:=tab[i, 2]*comb[1,i]/100;
+    PCS_comb:=PCS_comb + d;
+  end for;
+
+// Pouvoir comburivore (m3(n) air / m3(n) gaz naturel)
+  for i in 1:11 loop
+    e:=tab[i, 3]*comb[1,i]/100;
+    V_a:=V_a + e;
+  end for;
+
+// Dioxyde de carbone (m3(n) CO2 / m3(n) gaz naturel)
+  for i in 1:11 loop
+    f:=tab[i, 4]*comb[1,i]/100;
+    V_CO2:=V_CO2 + f;
+  end for;
+
+// Vapeur d'eau (m3(n) H2O / m3(n) gaz naturel)
+  for i in 1:11 loop
+    g:=tab[i, 5]*comb[1,i]/100;
+    V_H2O:=V_H2O + g;
+  end for;
+
+// Enthalpies des produits  T_0(tps), T_comb(tps), T_exh(tps) kJ/kmol --, utilisation de la table de Janaf
+  for i in 1:11 loop
+    H_T0[1,i]:=T_0*R*(j[i, 1] + j[i, 2]/2*T_0 + j[i, 3]/3*T_0^2 + j[i, 4]/4*T_0^3 +
+      j[i, 5]/5*T_0^4 + j[i, 6]/T_0);
+  end for;
+
+  for i in 1:11 loop
+    H_Texh[1,i]:=T_exh*R*(j[i, 1] + j[i, 2]/2*T_exh + j[i, 3]/3*T_exh^2 + j[i, 4]/
+      4*T_exh^3 + j[i, 5]/5*T_exh^4 + j[i, 6]/T_exh);
+  end for;
+
+  for i in 1:11 loop
+    H_Tcomb[1,i]:=T_comb*R*(j[i, 1] + j[i, 2]/2*T_comb + j[i, 3]/3*T_comb^2 + j[i,
+      4]/4*T_comb^3 + j[i, 5]/5*T_comb^4 + j[i, 6]/T_comb);
+  end for;
+
+  // Dbits enthalpiques J/kg
+  //dH_comb:=0;
+  for i in 1:11 loop
+     DH_comb:=(H_Tcomb[1,i] - H_T0[1,i])*comb[1,i]/100;
+     dH_comb:=dH_comb + (DH_comb/Mm_comb*1000);
+  end for;
+
+equation
+
+//----------------------------------------------------------------------
+//CALCULS PRELIMINAIRES DU COMBUSTIBLE
+//-----------------------------------------------------------------------
+
+// Choix du gaz
+  if user_defined_gas==0 then
+    if  compo_GN==1 then    // Lacq
+      comb= [97.3,2.1,0.2,0.1,0,0.3,0,0,0,0,0];
+    elseif compo_GN==2 then // Fos
+      comb= [91.2,6.5,1.1,0.2,0,1,0,0,0,0,0];
+    elseif compo_GN==3 then // Mer du Nord
+      comb= [88.2,5.4,1.2,0.4,0.2,3.2,1.4,0,0,0,0];
+    elseif compo_GN==4 then // Russie
+      comb= [96.2,1.2,0.3,0.1,0.1,1.8,0.3,0,0,0,0];
+    elseif compo_GN==5 then // Groningue
+      comb= [83.5,3.6,0.7,0.2,0.1,10.8,1.1,0,0,0,0];
+    else // Mthane pur
+      comb= [100,0,0,0,0,0,0,0,0,0,0];
+    end if;
+  else
+      comb=user_comb;
+  end if;
+
+// Constantes propres au problme
+
+  Q_max= Q_HX_nom;
+// Masse volumique du gaz (g/L == kg/m3)
+  MV_comb= Mm_comb/22.4;
+
+  PCS_kg= PCS_comb/MV_comb;//(kWh/kg gaz)
+  PCS_J_kg= PCS_kg*3600000;//(J/kg gaz)
+
+  V_a_kg= V_a*Mm_air/Mm_comb;   // (kg air / kg gaz)
+
+  i_CO2_comb= V_CO2*Mm_CO2/Mm_comb;// (kg CO2 / kg gaz)
+
+  H2O_kg= V_H2O*Mm_H2O/Mm_comb;// (kg H2O / kg gaz)
+
+// Composition des fumes (m3(n) gaz i / m3(n) gaz naturel)
+  V_N2_exh= 0.79*V_a*(1 + exces_air) + comb[1,6]/100;
+  V_CO2_exh= V_CO2;
+  V_O2_exh= 0.21*V_a*(1 + exces_air) + comb[1,10]/100;
+
+// Volume total des fumes humides (m3 fumes / m3 gaz naturel)
+  Vf0_w= V_N2_exh + V_CO2_exh + V_O2_exh + V_H2O_exh;
+
+// En pourcentage sur fumes humides
+  pc_N2_exh_w= V_N2_exh/Vf0_w;
+  pc_CO2_exh_w= V_CO2_exh/Vf0_w;
+  pc_O2_exh_w= V_O2_exh/Vf0_w;
+  pc_H2O_exh_w= V_H2O_exh/Vf0_w;
+
+// Masse molaire des fumes humides (g/mol)
+  Mm_exh= (28*pc_N2_exh_w + 44*pc_CO2_exh_w + 32*pc_O2_exh_w + 18*pc_H2O_exh_w);
+
+//--------------------------------------------------------------------------
+//DEBUT DE LA SIMULATION
+//---------------------------------------------------------------------------
+
+// Initialisation des temps de dbut de prchauffages 1, 2, 3
+
+  when T1.firePort then
+     tps_debut_PR1=time;
+  end when;
+
+  when T2.firePort then
+     tps_debut_PR2=time;
+  end when;
+
+  when T3.firePort then
+     tps_debut_PR3=time;
+  end when;
+
+  when T5.firePort or T7.firePort then
+     tps_debut_RF=time;
+  end when;
+
+  T_comb= T_air;
+
+// Loi de temprature des fumes
+  T_exh= k_exh*(T_cwi.T - T_cwi_nom) + T_exh_nom;
+
+// Dbit de condensats rel et maximum ------------
+  mdot_condensats= if (C_charge_gaz)*(k_condens*(T_cwi.T-273.15) + l_condens) > 0 then (C_charge_gaz)*(k_condens*(T_cwi.T-273.15) +
+    l_condens) else 0;
+
+// Calcul de la temprature de l'eau en sorte
+//  T_cwo= T_cwi.T + Q_HX/(mdot_cw.m_flow*cp_cw);
+
+// Evaluation des pertes
+//  Q_pertes= if T_mot > 273.15 then UA_pertes*(T_mot - T_amb) else 0;
+  Q_pertes=if abs(C_charge_gaz) > 0 then (UA_pertes*((T_mot+T_cwi.T)/2-T_amb)+k_pertes)*C_charge_gaz else UA_pertes_arret*(T_mot-T_amb);
+
+  C_charge_elec=1-y;
+  C_charge_gaz=P_comb/P_comb_nom;
+
+// Equation diffrentielle pour T_mot
+  der(T_mot)= (Hdot_comb + Hdot_air + P_comb - (P_brut + Q_HX + Q_pertes +
+  Hdot_exh_sen + Hdot_exh_lat))/MC_moteur;
+
+//---------------------------------------------------------------------------
+//DIFFERENTES PHASES DE FONCTIONNEMENT
+//---------------------------------------------------------------------------
+
+    if PR1.activePort or PR2.activePort or PR3.activePort then
+
+// ================ PRECHAUFFAGE  =====================
+
+            // Prchauffage 1
+        if PR1.activePort then
+            Q_HX= 0;
+            P_brut= 0;
+            P_net= P_brut - P_auxiliaires - P_electronique;
+
+            // Prchauffage 2
+        elseif PR2.activePort then
+            Q_HX= Q_HX_dem_nom*(1 - exp(-(time - tps_debut_PR2)/Tau_PR_Q));
+            P_brut= 0;
+            P_net= P_brut - P_auxiliaires - P_electronique;
+
+        elseif PR3.activePort then
+            // Prchauffage 3
+            Q_HX= Q_HX_dem_nom*(1 - exp(-(time - tps_debut_PR2)/Tau_PR_Q));
+            P_net= P_net_dem_nom*(1 - exp(-(time - tps_debut_PR3)/Tau_PR_P));
+            P_brut= P_net + P_auxiliaires + P_electronique;
+
+        else
+            Q_HX=0;
+            P_net=0;
+            P_brut=0;
+        end if;
+
+        mdot_comb= P_comb_dem_nom/PCS_J_kg;
+
+        // Composition des fumes
+        mdot_condensats_max= mdot_comb*H2O_kg;
+        V_H2O_exh= V_H2O*(1 - mdot_condensats/mdot_condensats_max);
+
+        // Dbit enthalpique fumes kJ/kmol
+        DH_N2_exh= (H_Texh[1,6] - H_T0[1,6])*pc_N2_exh_w;
+        DH_CO2_exh= (H_Texh[1,7] - H_T0[1,7])*pc_CO2_exh_w;
+        DH_O2_exh= (H_Texh[1,10] - H_T0[1,10])*pc_O2_exh_w;
+        DH_H2O_exh= (H_Texh[1,11] - H_T0[1,11])*pc_H2O_exh_w;
+
+        // Dbit enthalpique fumes J/kg
+        dH_exh_sens= (DH_N2_exh + DH_CO2_exh + DH_O2_exh + DH_H2O_exh)/Mm_exh*1000;
+
+        // Fin du calcul de la composition des fumes
+        mdot_air= mdot_comb*V_a_kg*(1 + exces_air);
+        mdot_exh= mdot_comb + mdot_air;
+        P_comb= mdot_comb*PCS_J_kg;
+        Hdot_comb= mdot_comb*dH_comb;
+        Hdot_air= mdot_air*cp_air*(T_air - T_0);
+        Hdot_exh_sen= mdot_exh*dH_exh_sens;
+        Hdot_exh_lat= L_v_H2O*(mdot_condensats_max - mdot_condensats);
+        mdot_CO2= mdot_comb*i_CO2_comb;
+
+    elseif Fct_normal.activePort then
+
+// ================ FONCTIONNEMENT NORMAL  =====================
+        // Coefficient de charge
+//         if q_demand<Q_max then
+//             C_charge_elec= q_demand/Q_HX_nom;
+//         else
+//             C_charge_elec= Q_max/Q_HX_nom;
+//         end if;
+
+        // Equations de fonctionnement
+        Q_HX= Q_HX_nom + C_charge_elec*g1 + (T_cwi.T - T_cwi_nom)*c1 + (T_cwi.T -
+        T_cwi_nom)^2*c2 + (mdot_cw.m_flow - mdot_cw_nom)*d1 + (mdot_cw.m_flow - mdot_cw_nom)^2
+        *d2;
+        P_net= P_net_nom + C_charge_elec*h + (T_cwi.T - T_cwi_nom)*e1 + (T_cwi.T -
+        T_cwi_nom)^2*e2 + (mdot_cw.m_flow - mdot_cw_nom)*f1 + (mdot_cw.m_flow - mdot_cw_nom)^2
+        *f2;
+        P_comb= P_comb_nom + C_charge_elec*k + (T_cwi.T - T_cwi_nom)*a1 + (T_cwi.T -
+        T_cwi_nom)^2*a2 + (mdot_cw.m_flow - mdot_cw_nom)*b1 + (mdot_cw.m_flow - mdot_cw_nom)^2
+        *b2;
+        P_brut= P_net + P_auxiliaires + P_electronique;
+
+        mdot_comb= P_comb/PCS_J_kg;
+
+        // Composition des fumes
+        mdot_condensats_max= mdot_comb*H2O_kg;
+        V_H2O_exh= V_H2O*(1 - mdot_condensats/mdot_condensats_max);
+
+        // Dbit enthalpique fumes kJ/kmol
+        DH_N2_exh= (H_Texh[1,6] - H_T0[1,6])*pc_N2_exh_w;
+        DH_CO2_exh= (H_Texh[1,7] - H_T0[1,7])*pc_CO2_exh_w;
+        DH_O2_exh= (H_Texh[1,10] - H_T0[1,10])*pc_O2_exh_w;
+        DH_H2O_exh= (H_Texh[1,11] - H_T0[1,11])*pc_H2O_exh_w;
+
+        // Dbit enthalpique fumes kJ/kg
+        dH_exh_sens= (DH_N2_exh + DH_CO2_exh + DH_O2_exh + DH_H2O_exh)/Mm_exh*1000;
+
+        mdot_air= mdot_comb*V_a_kg*(1 + exces_air);
+        mdot_exh= mdot_comb + mdot_air - mdot_condensats;
+        Hdot_comb= mdot_comb*dH_comb;
+        Hdot_air= mdot_air*cp_air*(T_air - T_0);
+        Hdot_exh_sen= mdot_exh*dH_exh_sens;
+        Hdot_exh_lat= L_v_H2O*(mdot_condensats_max - mdot_condensats);
+        mdot_CO2= mdot_comb*i_CO2_comb;
+
+    elseif RF.activePort then
+
+// ================ REFROIDISSEMENT  =====================
+        // Equations de fonctionnement
+        Q_HX= Q_HX_nom*exp(-(time - tps_debut_RF)/Tau_RF);
+        P_brut= E_elec_RF/t_fin_RF*3600;
+        P_net= P_brut - P_auxiliaires - P_electronique;
+
+        mdot_comb= 0;
+        mdot_air= P_comb_nom/PCS_J_kg*V_a_kg*(1 + exces_air);
+        mdot_exh= mdot_air;
+        P_comb= 0;
+        Hdot_comb= 0;
+        Hdot_air= mdot_air*cp_air*(T_air - T_0);
+        Hdot_exh_sen= mdot_exh*cp_air*(T_exh - T_0);
+        Hdot_exh_lat= 0;
+        mdot_CO2= 0;
+
+        // Composition des fumes
+        mdot_condensats_max=0;
+        V_H2O_exh=0;
+
+        // Dbit enthalpique fumes kJ/kmol
+        DH_N2_exh=0;
+        DH_CO2_exh= 0;
+        DH_O2_exh=0;
+        DH_H2O_exh=0;
+
+        // Dbit enthalpique fumes kJ/kg
+        dH_exh_sens= (DH_N2_exh + DH_CO2_exh + DH_O2_exh + DH_H2O_exh)/Mm_exh*1000;
+
+    elseif Arret.activePort then
+
+// ================ ARRT  =====================
+
+        // Equations de fonctionnement
+        Q_HX= 0;
+        P_brut= 0;
+        P_net= P_brut - P_electronique;
+
+        mdot_comb= 0;
+        mdot_air= 0;
+        mdot_exh= 0;
+        P_comb= 0;
+        Hdot_comb= 0;
+        Hdot_air= 0;
+        Hdot_exh_sen= 0;
+        Hdot_exh_lat= 0;
+        mdot_CO2= 0;
+
+        // Composition des fumes
+        mdot_condensats_max=0;
+        V_H2O_exh=0;
+
+        // Dbit enthalpique fumes kJ/kmol
+        DH_N2_exh=0;
+        DH_CO2_exh= 0;
+        DH_O2_exh=0;
+        DH_H2O_exh=0;
+
+        // Dbit enthalpique fumes kJ/kg
+        dH_exh_sens= (DH_N2_exh + DH_CO2_exh + DH_O2_exh + DH_H2O_exh)/Mm_exh*1000;
+
+    else
+        Q_HX=0;
+        P_brut=0;
+        P_net= P_brut - P_electronique;
+
+        mdot_comb= 0;
+        mdot_air= 0;
+        mdot_exh= 0;
+        P_comb= 0;
+        Hdot_comb= 0;
+        Hdot_air= 0;
+        Hdot_exh_sen= 0;
+        Hdot_exh_lat= 0;
+        mdot_CO2= 0;
+
+        // Composition des fumes
+        mdot_condensats_max=0;
+        V_H2O_exh=0;
+
+        // Dbit enthalpique fumes kJ/kmol
+        DH_N2_exh=0;
+        DH_CO2_exh= 0;
+        DH_O2_exh=0;
+        DH_H2O_exh=0;
+
+        // Dbit enthalpique fumes kJ/kg
+        dH_exh_sens= (DH_N2_exh + DH_CO2_exh + DH_O2_exh + DH_H2O_exh)/Mm_exh*1000;
+
+    end if;
+
+//-----------------------------------------------------------------------
+//CALCUL DES INTEGRALES
+//-----------------------------------------------------------------------
+
+ der(E_HX)= Q_HX;
+ der(E_elec_brut)= P_brut;
+ der(E_elec_net)= P_net;
+ der(E_comb)= P_comb;
+ der(E_pertes)= Q_pertes;
+ der(mCO2)= mdot_CO2;
+ der(E_p)=P_comb-2.58*P_net;
+
+//-----------------------------------------------------------------------
+//CALCUL DES RENDEMENTS
+//-----------------------------------------------------------------------
+
+ eta_inst_HX=if P_comb > 0 and der(E_comb) >0 then Q_HX/(P_comb+1) else 0;
+ eta_inst_net=if P_comb > 0 and der(E_comb) >0 then P_net/(P_comb+1) else 0;
+ eta_inst_brut=if P_comb > 0 and der(E_comb) >0 then P_brut/(P_comb+1) else 0;
+ eta_inst_tot_net=if P_comb > 0 and der(E_comb) >0 then (Q_HX+P_net)/(P_comb+1) else 0;
+
+ eta_cumul_HX= E_HX/(E_comb+0.000001);
+ eta_cumul_net= E_elec_net/(E_comb+0.000001);
+ eta_cumul_brut= E_elec_brut/(E_comb+0.000001);
+ eta_cumul_tot_brut= (E_HX+E_elec_brut)/(E_comb+0.000001);
+
+//-----------------------------------------------------------------------
+//CONTROLE DE LA POMPE DE CHARGE
+//-----------------------------------------------------------------------
+
+ if PR1.activePort then
+   slewRateLimiter.u=1;
+   pump_control=slewRateLimiter.y;
+ elseif PR2.activePort or PR3.activePort or Fct_normal.activePort then
+   slewRateLimiter.u=PID_pump.y;
+   pump_control=slewRateLimiter.y;
+ elseif RF.activePort then
+   slewRateLimiter.u=1;
+   pump_control=1;
+ else
+   slewRateLimiter.u=1;
+   pump_control=0;
+ end if;
+
+  connect(fin_prechauffage.y, T4.conditionPort) annotation (Line(
+      points={{24.6,54},{33,54}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(fin_prechauffage.u, realExpression1.y) annotation (Line(
+      points={{10.8,54},{-127,54}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(debut_refroidissement.y, T5.conditionPort) annotation (Line(
+      points={{24.6,20},{33,20}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(T6.outPort, Arret.inPort[1]) annotation (Line(
+      points={{38,-23},{38,-28},{98,-28},{98,170},{38,170},{38,162}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(Arret.outPort[1], T1.inPort) annotation (Line(
+      points={{38,153.4},{38,144}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(T1.outPort, PR1.inPort[1]) annotation (Line(
+      points={{38,135},{38,130}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(PR1.outPort[1], T2.inPort) annotation (Line(
+      points={{38,121.4},{38,116}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(T2.outPort, PR2.inPort[1]) annotation (Line(
+      points={{38,107},{38,100}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(PR2.outPort[1], T3.inPort) annotation (Line(
+      points={{38,91.4},{38,88}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(T3.outPort, PR3.inPort[1]) annotation (Line(
+      points={{38,79},{38,70}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(PR3.outPort[1], T4.inPort) annotation (Line(
+      points={{38,61.4},{38,58}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(T4.outPort, Fct_normal.inPort[1]) annotation (Line(
+      points={{38,49},{38,40}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(Fct_normal.outPort[1], T5.inPort) annotation (Line(
+      points={{37,31.4},{37,28},{38,28},{38,24}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(T5.outPort, RF.inPort[1]) annotation (Line(
+      points={{38,15},{38,6},{37,6}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(RF.outPort[1], T6.inPort) annotation (Line(
+      points={{38,-2.6},{38,-14}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(realExpression1.y, prescribedHeatFlow.Q_flow) annotation (Line(
+      points={{-127,54},{-108,54},{-108,-90},{-66,-90}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(y, gain.u) annotation (Line(
+      points={{-180,140},{-134,140}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(gain.y, debut_refroidissement.u) annotation (Line(
+      points={{-111,140},{-82,140},{-82,20},{10.8,20}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(gain.y, demarrage.u) annotation (Line(
+      points={{-111,140},{-1.2,140}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(port_a, T_cwi.port_a) annotation (Line(
+      points={{-160,-60},{-142,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(T_cwi.port_b, mdot_cw.port_a)      annotation (Line(
+      points={{-122,-60},{-92,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(mdot_cw.port_b, dP.port_a)      annotation (Line(
+      points={{-72,-60},{-56,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(P_elec_net, realExpression2.y) annotation (Line(
+      points={{178,140},{141,140}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(P_gaz, realExpression3.y) annotation (Line(
+      points={{178,100},{141,100}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(T_cwo.port_b, port_b) annotation (Line(
+      points={{100,-60},{160,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(realExpression4.y, P_th) annotation (Line(
+      points={{141,60},{178,60}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(const1.y, PID_pump.u_m) annotation (Line(
+      points={{114,-1.2},{114,10.4}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(T_cwo.T, PID_pump.u_s) annotation (Line(
+      points={{90,-49},{90,20},{104.4,20}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(prescribedHeatFlow.port, volume.heatPort) annotation (Line(
+      points={{-46,-90},{-28,-90},{-28,-70},{-20,-70}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(dP.port_b, volume.ports[1]) annotation (Line(
+      points={{-36,-60},{-12,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(volume.ports[2], T_cwo.port_a) annotation (Line(
+      points={{-8,-60},{80,-60}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(Fct_normal.outPort[2], T7.inPort) annotation (Line(
+      points={{39,31.4},{58,31.4},{58,24}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(T7.outPort, RF.inPort[2]) annotation (Line(
+      points={{58,15},{58,6},{39,6}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(T_cwo.T, greaterThreshold3.u) annotation (Line(
+      points={{90,-49},{90,20},{83.2,20}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(T7.conditionPort, greaterThreshold3.y) annotation (Line(
+      points={{63,20},{69.4,20}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(demarrage.y, T1.conditionPort) annotation (Line(
+      points={{12.6,140},{33,140}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-160,
+            -100},{160,180}})),           Icon(coordinateSystem(extent={{-160,
+            -100},{160,180}},
+                        preserveAspectRatio=false), graphics={
+        Rectangle(
+          extent={{-160,180},{160,-100}},
+          lineColor={0,0,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{-142,112},{-42,112},{-42,92},{-142,92},{-128,102},{-142,
+              112}},
+          lineColor={255,255,0},
+          smooth=Smooth.None,
+          fillColor={255,255,0},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{-42,130},{-42,72},{36,72},{36,132},{-42,132},{-42,130}},
+          lineColor={175,175,175},
+          smooth=Smooth.None,
+          fillColor={175,175,175},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{36,128},{118,128},{126,124},{118,120},{36,120},{36,128}},
+          lineColor={0,128,255},
+          smooth=Smooth.None,
+          fillColor={0,128,255},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{36,114},{118,114},{126,102},{118,90},{36,90},{36,114}},
+          lineColor={255,0,0},
+          smooth=Smooth.None,
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{36,84},{82,84},{82,56},{78,50},{74,56},{74,76},{74,76},{
+              36,76},{36,84}},
+          lineColor={127,127,0},
+          smooth=Smooth.None,
+          fillColor={127,127,0},
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{-102,14},{118,-50}},
+          lineColor={0,0,255},
+          textString="CogenGreen
+7.5 kWe")}));
+end microCoge;

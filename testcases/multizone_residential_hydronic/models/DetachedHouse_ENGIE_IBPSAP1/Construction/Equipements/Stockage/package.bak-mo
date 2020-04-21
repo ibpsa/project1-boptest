@@ -1,0 +1,4 @@
+within DetachedHouse_ENGIE_IBPSAP1.Construction.Equipements;
+package Stockage
+
+end Stockage;

@@ -1,0 +1,56 @@
+﻿within DetachedHouse_ENGIE_IBPSAP1.Construction.Profils;
+model BesoinECS_LC
+
+  Modelica.SIunits.Density rho = 1000 "Masse volumique de l'eau";
+  Modelica.SIunits.SpecificHeatCapacity Cp = 4185 "Capacité thermique spécifique de l'eau";
+  Modelica.SIunits.Volume V "Volume hebdomadaire d'eau puisée à la température Tuw";
+  Modelica.SIunits.Volume a "Nombre de litres d'eau à Tuw unitaires hebdomadaires";
+  Real Nu "Nombre d'unités caractéristiques desservies par un émetteur ECS équivalent";
+  Real Nmax "Nombre d'occupants maximal";
+  Real Nb_logement = 1 "Nombre de logement desservis par l'émetteur";
+  parameter Modelica.SIunits.Temperature Tuw = 273.15+40 "Température de l'eau mitigée utilisée au puisage";
+  parameter Modelica.SIunits.Temperature Tcw = 273.15+10.5 "Température de l'eau froide entrant dans le système de préparation de l'ECS (H1:10.5,H2:12,H3:14.5)";
+  parameter Modelica.SIunits.Area Shab = 40 "Surface habitable du logement";
+  Modelica.SIunits.Power Besoin_ECS "Besoins en ECS non ramnée au prorata du profil de répartition de puisage";
+
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(
+    tableOnFile=true,
+    columns={2},
+    tableName="dat",
+    fileName="C:/Users/VZ5325/Local/SEBI/BATINERGIE/Saclay/Profil_ECS.txt")
+    annotation (Placement(transformation(extent={{-54,-10},{-34,10}})));
+  Modelica.Blocks.Interfaces.RealOutput B_ECS "Output signal connector"
+    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Math.Product product
+    annotation (Placement(transformation(extent={{6,-22},{26,-2}})));
+  Modelica.Blocks.Sources.RealExpression realExpression(y=Besoin_ECS)
+    annotation (Placement(transformation(extent={{-54,-48},{-34,-28}})));
+equation
+
+  if Shab < 10 then
+    Nmax = 1;
+  elseif Shab < 50 then
+    Nmax = 1.75 - 0.01875 * (50 - Shab);
+  else
+    Nmax = 0.035 * Shab;
+  end if;
+
+  if Nmax < 1.75 then
+      Nu = Nb_logement * Nmax;
+  else
+      Nu = Nb_logement * (1.75 + 0.3 * (Nmax - 1.75));
+  end if;
+
+  a = min(500, 40 * Shab / Nu)/1000;
+  V = a * Nu * 52/1000;
+  Besoin_ECS = (rho/1000) * (Cp/3600) * V * (Tuw - Tcw) / 1000;
+
+  connect(combiTimeTable1.y[1], product.u1) annotation (Line(points={{-33,0},{-26,
+          0},{-26,-6},{4,-6}}, color={0,0,127}));
+  connect(product.y, B_ECS) annotation (Line(points={{27,-12},{48,-12},{48,0},{110,
+          0}}, color={0,0,127}));
+  connect(realExpression.y, product.u2) annotation (Line(points={{-33,-38},{-26,
+          -38},{-26,-18},{4,-18}}, color={0,0,127}));
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+        coordinateSystem(preserveAspectRatio=false)));
+end BesoinECS_LC;

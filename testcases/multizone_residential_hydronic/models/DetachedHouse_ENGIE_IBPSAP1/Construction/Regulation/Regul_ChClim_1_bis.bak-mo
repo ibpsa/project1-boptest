@@ -1,0 +1,99 @@
+within DetachedHouse_ENGIE_IBPSAP1.Construction.Regulation;
+model Regul_ChClim_1_bis
+
+  parameter Real Khea=1e6 "Gain value for the heating controller";
+  parameter Real Kcoo=1e6 "Gain value for the cooling controller";
+
+  Buildings.Controls.Continuous.LimPID conHea(
+    Td=1,
+    initType=Modelica.Blocks.Types.InitPID.SteadyState,
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    Ti=300,
+    k=5e-2) "Controller for heating"
+    annotation (Placement(transformation(extent={{-62,16},{-54,24}})));
+  Buildings.Controls.Continuous.LimPID conCoo(
+    Td=1,
+    initType=Modelica.Blocks.Types.InitPID.InitialState,
+    reverseAction=true,
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    Ti=300,
+    k=5e-2) "Controller for cooling"
+    annotation (Placement(transformation(extent={{-62,-6},{-54,2}})));
+  Modelica.Blocks.Math.Gain gaiHea(k=Khea)
+                                          "Gain for heating"
+    annotation (Placement(transformation(extent={{-48,16},{-40,24}})));
+  Modelica.Blocks.Math.Gain gaiCoo(k=-Kcoo)
+                                           "Gain for cooling"
+    annotation (Placement(transformation(extent={{-48,-6},{-40,2}})));
+  Modelica.Blocks.Interfaces.RealInput T annotation (Placement(transformation(
+        rotation=0,
+        extent={{-8,-8},{8,8}},
+        origin={-108,10})));
+  Modelica.Blocks.Continuous.Integrator EHea(
+    k=1,
+    initType=Modelica.Blocks.Types.Init.InitialState,
+    y_start=0,
+    u(unit="W"),
+    y(unit="J")) "Heating energy in Joules"
+    annotation (Placement(transformation(extent={{-26,26},{-18,34}})));
+  Modelica.Blocks.Continuous.Integrator ECoo(
+    k=1,
+    initType=Modelica.Blocks.Types.Init.InitialState,
+    y_start=0,
+    u(unit="W"),
+    y(unit="J")) "Cooling energy in Joules"
+    annotation (Placement(transformation(extent={{-26,-14},{-18,-6}})));
+  Modelica.Blocks.Interfaces.RealInput ConsigneCh annotation (Placement(
+        transformation(
+        rotation=0,
+        extent={{-8,-8},{8,8}},
+        origin={-108,30})));
+  Modelica.Blocks.Interfaces.RealInput ConsigneClim annotation (Placement(
+        transformation(
+        rotation=0,
+        extent={{-8,-8},{8,8}},
+        origin={-108,-10})));
+
+  Modelica.Blocks.Interfaces.RealOutput yHea "Output signal connector"
+    annotation (Placement(transformation(extent={{40,10},{60,30}})));
+  Modelica.Blocks.Interfaces.RealOutput yCoo
+    "Connector of Real output signal"
+    annotation (Placement(transformation(extent={{40,-12},{60,8}})));
+equation
+  connect(conHea.y,gaiHea. u) annotation (Line(
+      points={{-53.6,20},{-48.8,20}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(conCoo.y,gaiCoo. u)  annotation (Line(
+      points={{-53.6,-2},{-48.8,-2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(EHea.u, gaiHea.y) annotation (Line(
+      points={{-26.8,30},{-30,30},{-30,20},{-39.6,20}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(ECoo.u, gaiCoo.y) annotation (Line(
+      points={{-26.8,-10},{-34,-10},{-34,-2},{-39.6,-2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(T, conHea.u_m) annotation (Line(points={{-108,10},{-66,10},{-58,10},
+          {-58,15.2}},         color={0,0,127}));
+  connect(conCoo.u_m, T) annotation (Line(points={{-58,-6.8},{-58,-6.8},{-58,
+          -12},{-66,-12},{-66,10},{-108,10}}, color={0,0,127}));
+  connect(ConsigneClim, conCoo.u_s) annotation (Line(points={{-108,-10},{-86,
+          -10},{-86,-2},{-62.8,-2}}, color={0,0,127}));
+  connect(ConsigneCh, conHea.u_s) annotation (Line(points={{-108,30},{-86,
+          30},{-86,20},{-62.8,20}}, color={0,0,127}));
+  connect(gaiHea.y, yHea)
+    annotation (Line(points={{-39.6,20},{50,20}}, color={0,0,127}));
+  connect(gaiCoo.y, yCoo) annotation (Line(points={{-39.6,-2},{-16,-2},{18,
+          -2},{50,-2}}, color={0,0,127}));
+  annotation (
+    Diagram(coordinateSystem(extent={{-100,-20},{40,40}},  preserveAspectRatio=false)),
+    Icon(coordinateSystem(extent={{-100,-20},{40,40}})),
+    Documentation(info="<html>
+<h4>R&eacute;gulations</h4>
+<p>R&eacute;gulation sur le chauffage pour respecter une temp&eacute;rature de consigne, &agrave; l&apos;aide d&apos;un PID.</p>
+<p>R&eacute;gulation sur la climatisation pour respecter une temp&eacute;rature de consigne, &agrave; l&apos;aide d&apos;un PID.</p>
+</html>"));
+end Regul_ChClim_1_bis;

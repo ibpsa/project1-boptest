@@ -1,0 +1,150 @@
+﻿within DetachedHouse_ENGIE_IBPSAP1.Construction.Apports;
+model Q_rad_3
+
+  parameter Real Q_occupant_ete = 50
+    "Apport thermique par occupant en été (en W/occupant)";
+  parameter Real Q_occupant_hiver = 70
+    "Apport thermique par occupant en hiver (en W/occupant)";
+  parameter Real N_occupants = 1/17.84
+    "Nombre d'occupants au m2 (en Occupant/m2)";
+  parameter Real Foisonnement = 0.85 "Foisonnement";
+
+  parameter Real Q_autres = 8.1 "Autre apport thermique interne (en W/m2)";
+  parameter Real Q_ecl = 3.5 "Apport dû à l'éclairage (en W/m2)";
+
+  Modelica.Blocks.Math.Gain gain2(k=Q_autres)
+    annotation (Placement(transformation(extent={{22,14},{32,24}})));
+  Modelica.Blocks.Math.Add3 add3_1
+    annotation (Placement(transformation(extent={{44,44},{64,64}})));
+  Modelica.Blocks.Interfaces.RealOutput Q_rad "Flux de transfert radiatif"
+    annotation (Placement(transformation(extent={{100,60},{140,100}})));
+
+  Modelica.Blocks.Math.Gain gain1(
+                                 k=0.5*N_occupants*Foisonnement)
+    annotation (Placement(transformation(extent={{2,88},{16,102}})));
+  Modelica.Blocks.Math.Product product
+    annotation (Placement(transformation(extent={{32,90},{52,110}})));
+  Modelica.Blocks.Math.Gain gain(k=Q_ecl)
+    annotation (Placement(transformation(extent={{14,40},{24,50}})));
+  Modelica.Blocks.Interfaces.BooleanInput HeatingSeason
+    "Période de chauffe"
+    annotation (Placement(transformation(extent={{-140,100},{-100,140}})));
+  Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
+        transformation(extent={{-126,66},{-88,104}}),
+                                                    iconTransformation(extent={{-98,84},
+            {-58,126}})));
+  Modelica.Blocks.Logical.GreaterEqualThreshold greaterEqualThreshold(
+      threshold=300)
+    annotation (Placement(transformation(extent={{-78,90},{-58,110}})));
+  Modelica.Blocks.Logical.LessEqualThreshold lessEqualThreshold(threshold=
+        400)
+    annotation (Placement(transformation(extent={{-78,60},{-58,80}})));
+  Modelica.Blocks.Logical.Switch switch2
+    annotation (Placement(transformation(extent={{-20,96},{-12,104}})));
+  Modelica.Blocks.Logical.Switch switch3
+    annotation (Placement(transformation(extent={{-40,66},{-32,74}})));
+  Modelica.Blocks.Sources.Constant const3(k=0)
+    annotation (Placement(transformation(extent={{-54,60},{-48,66}})));
+  Modelica.Blocks.Sources.Constant const4(k=1)
+    annotation (Placement(transformation(extent={{-44,90},{-38,96}})));
+  Modelica.Blocks.Math.Gain gain3(k=-1/(400 - 300))
+    annotation (Placement(transformation(extent={{-82,82},{-76,88}})));
+  Modelica.Blocks.Math.Add add
+    annotation (Placement(transformation(extent={{-52,82},{-46,88}})));
+  Modelica.Blocks.Sources.Constant const5(k=4)
+    annotation (Placement(transformation(extent={{-70,80},{-64,86}})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal1(realTrue=
+        Q_occupant_hiver, realFalse=Q_occupant_ete)
+    annotation (Placement(transformation(extent={{26,124},{36,134}})));
+  Modelica.Blocks.Interfaces.RealInput Occupation "Occupation"
+    annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
+  Modelica.Blocks.Math.Product product1
+    annotation (Placement(transformation(extent={{-8,40},{2,50}})));
+equation
+  connect(add3_1.y, Q_rad) annotation (Line(
+      points={{65,54},{88,54},{88,80},{120,80}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(product.u2, gain1.y)
+    annotation (Line(points={{30,94},{16.7,94},{16.7,95}}, color={0,0,127}));
+  connect(product.y, add3_1.u1) annotation (Line(points={{53,100},{68,100},{68,82},
+          {28,82},{28,62},{42,62}}, color={0,0,127}));
+  connect(gain.y, add3_1.u2) annotation (Line(points={{24.5,45},{32.25,45},{32.25,
+          54},{42,54}}, color={0,0,127}));
+  connect(gain2.y, add3_1.u3) annotation (Line(points={{32.5,19},{32.5,18},{32,18},
+          {34,18},{38,18},{38,46},{42,46}}, color={0,0,127}));
+
+  connect(weaBus.HDirNor, greaterEqualThreshold.u) annotation (Line(
+      points={{-107,85},{-90.5,85},{-90.5,100},{-80,100}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}}));
+  connect(weaBus.HDirNor, lessEqualThreshold.u) annotation (Line(
+      points={{-107,85},{-90,85},{-90,70},{-80,70}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}}));
+  connect(greaterEqualThreshold.y, switch2.u2) annotation (Line(points={{
+          -57,100},{-50,100},{-20.8,100}}, color={255,0,255}));
+  connect(switch3.u2, lessEqualThreshold.y) annotation (Line(points={{-40.8,
+          70},{-40.8,70},{-57,70}}, color={255,0,255}));
+  connect(switch3.y, switch2.u1) annotation (Line(points={{-31.6,70},{-26,
+          70},{-26,84},{-26,103.2},{-20.8,103.2}}, color={0,0,127}));
+  connect(const3.y, switch3.u3) annotation (Line(points={{-47.7,63},{-46,63},
+          {-46,66.8},{-40.8,66.8}}, color={0,0,127}));
+  connect(const4.y, switch2.u3) annotation (Line(points={{-37.7,93},{-29.85,
+          93},{-29.85,96.8},{-20.8,96.8}}, color={0,0,127}));
+  connect(weaBus.HDirNor, gain3.u) annotation (Line(
+      points={{-107,85},{-82.6,85}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}}));
+  connect(gain3.y, add.u1) annotation (Line(points={{-75.7,85},{-66,85},{
+          -66,86},{-56,86},{-56,86.8},{-52.6,86.8}}, color={0,0,127}));
+  connect(const5.y, add.u2) annotation (Line(points={{-63.7,83},{-63.7,80.5},
+          {-52.6,80.5},{-52.6,83.2}}, color={0,0,127}));
+  connect(add.y, switch3.u1) annotation (Line(points={{-45.7,85},{-45.7,
+          79.5},{-40.8,79.5},{-40.8,73.2}}, color={0,0,127}));
+  connect(booleanToReal1.y, product.u1) annotation (Line(points={{36.5,129},
+          {46,129},{46,120},{22,120},{22,106},{30,106}}, color={0,0,127}));
+  connect(product1.y, gain.u) annotation (Line(points={{2.5,45},{7.25,45},{
+          7.25,45},{13,45}}, color={0,0,127}));
+  connect(product1.u1, switch2.y) annotation (Line(points={{-9,48},{-18,48},
+          {-18,84},{-8,84},{-8,100},{-11.6,100}}, color={0,0,127}));
+  connect(Occupation, product1.u2)
+    annotation (Line(points={{-120,40},{-9,40},{-9,42}}, color={0,0,127}));
+  connect(Occupation, gain1.u) annotation (Line(points={{-120,40},{-120,40},
+          {-30,40},{-30,60},{-4,60},{-4,95},{0.6,95}}, color={0,0,127}));
+  connect(Occupation, gain2.u) annotation (Line(points={{-120,40},{-30,40},
+          {-30,19},{21,19}}, color={0,0,127}));
+  connect(HeatingSeason, booleanToReal1.u) annotation (Line(points={{-120,
+          120},{-48,120},{-48,129},{25,129}}, color={255,0,255}));
+  annotation (                                 Diagram(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,0},{100,160}})),
+    Icon(coordinateSystem(extent={{-100,0},{100,160}})),
+    Documentation(info="<html>
+<h4>Calcul d&apos;un flux de transfert radiatif</h4>
+<p>Ce flux d&eacute;pend : </p>
+<ul>
+<li>des autres &eacute;quipements (typiquement des ordinateurs)</li>
+<li>de l&apos;&eacute;clairage (proportionnellement &agrave; la luminosit&eacute; ext&eacute;rieure)</li>
+<li>des occupants (&agrave; 50&percnt;) en tenant compte d&apos;un certain foisonnement pour prendre en compte les vacances</li>
+<li>de l&apos;occupation g&eacute;n&eacute;rale du b&acirc;timent</li>
+</ul>
+<p><br><br><u>Formule de calcul</u></p>
+<p><br><img src=\"modelica://Construction/Resources/Images/equations/equation-JccIZ1Yb.png\" alt=\"Q_rad = (Q_autres+Q_ecl+0.5*N_occupants*Foisonnement*Q_occupant)*Occupation\"/></p>
+<p><br>Q_occupant est calcul&eacute; en fonction de la p&eacute;riode de chauffe. En fonction de la saison, la valeur sera respectivement Q_occupant_ete ou Q_occupant_hiver.</p>
+<p>Q_ecl est calcul&eacute; en fonction de l&apos;irradiation solaire. On suppose que l&apos;&eacute;clairage module automatiquement en fonction de la luminosit&eacute; ext&eacute;rieure selon la r&egrave;gle suivante :</p>
+<ul>
+<li>en dessous de 300 W/m&sup2; d&apos;irradiation solaire, l&apos;&eacute;clairage est allum&eacute; &agrave; fond</li>
+<li>au-dessous de 400 W/m&sup2; d&apos;irradiation solaire, l&apos;&eacute;clairage s&apos;&eacute;teint</li>
+<li>entre 300 W/m&sup2; et 400 W/m&sup2;, l&apos;&eacute;clairage s&apos;allume proportionnellement </li>
+</ul>
+</html>"));
+end Q_rad_3;

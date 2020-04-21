@@ -1,0 +1,28 @@
+﻿within DetachedHouse_ENGIE_IBPSAP1.Construction.Apports;
+model Q_rad_2
+
+  parameter Real Q_ecl = 4 "Apport dû à l'éclairage (en W/m2)";
+
+  Modelica.Blocks.Interfaces.RealOutput Q_rad "Flux de transfert radiatif"
+    annotation (Placement(transformation(extent={{100,20},{140,60}})));
+
+  Modelica.Blocks.Math.Gain gain(k=Q_ecl)
+    annotation (Placement(transformation(extent={{-8,30},{12,50}})));
+  Modelica.Blocks.Interfaces.RealInput Occupation "Occupation"
+    annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
+equation
+  connect(Q_rad, gain.y) annotation (Line(points={{120,40},{68,40},{13,40}},
+                      color={0,0,127}));
+  connect(Occupation, gain.u) annotation (Line(points={{-120,40},{-54,40},{
+          -10,40}}, color={0,0,127}));
+  annotation (                                 Diagram(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,0},{100,80}})),
+    Icon(coordinateSystem(extent={{-100,0},{100,80}})),
+    Documentation(info="<html>
+<h4>Calcul d&apos;un flux de transfert radiatif</h4>
+<p>Ce flux d&eacute;pend uniquement de l&apos;&eacute;clairage et de l&apos;occupation g&eacute;&eacute;nrale du b&acirc;timent.</p>
+<p>Ce module de calcul pourra &ecirc;tre utilis&eacute; pour les pi&egrave;ces consid&eacute;r&eacute;es comme innoccup&eacute;es.</p>
+<p><br><u>Formule de calcul</u></p>
+<p><img src=\"modelica://Construction/Resources/Images/equations/equation-lfxfXYwr.png\" alt=\"Q_rad=Q_ecl*Occupation\"/></p>
+</html>"));
+end Q_rad_2;

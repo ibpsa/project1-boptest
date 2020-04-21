@@ -1,0 +1,230 @@
+within DetachedHouse_ENGIE_IBPSAP1.Construction.Profils;
+model Schedules_Employes "French thermal regulation schedules"
+
+parameter Modelica.SIunits.Temperature SetHeaOccup=19+273.15
+    "Heating setpoint during occupation";
+parameter Modelica.SIunits.Temperature SetHeaInoccupa=16+273.15
+    "Heating setpoint during inoccupation";
+parameter Modelica.SIunits.Temperature SetHeaFictif=2+273.15
+    "Heating setpoint during no heating period";
+parameter Modelica.SIunits.Temperature SetCooOccup=26+273.15
+    "Cooling setpoint during occupation";
+parameter Modelica.SIunits.Temperature SetCooInoccupa=30+273.15
+    "Cooling setpoint during inoccupation";
+parameter Modelica.SIunits.Temperature SetCooFictif=32+273.15
+    "Cooling setpoint during no heating period";
+
+  Modelica.Blocks.Logical.Switch switch1
+    annotation (Placement(transformation(extent={{-6,80},{6,92}})));
+  Modelica.Blocks.Sources.Constant SetHeaOccupa(k=SetHeaOccup)
+    "Heating setpoint"
+    annotation (Placement(transformation(extent={{-26,90},{-18,98}})));
+  Modelica.Blocks.Sources.Constant SetHeaInoccup(k=SetHeaInoccupa)
+    "Inoccupation for less than 48 hours"
+    annotation (Placement(transformation(extent={{-26,74},{-18,82}})));
+  Modelica.Blocks.Logical.Switch switch2
+    annotation (Placement(transformation(extent={{-4,32},{8,44}})));
+  Modelica.Blocks.Sources.Constant SetCooOccupa(k=SetCooOccup)
+    "Cooling setpoint"
+    annotation (Placement(transformation(extent={{-26,42},{-18,50}})));
+  Modelica.Blocks.Sources.Constant SetCooInoccup(k=SetCooInoccupa)
+    "Inoccupation for less than 48 hours"
+    annotation (Placement(transformation(extent={{-26,26},{-18,34}})));
+  Modelica.Blocks.Interfaces.RealOutput HeaSet(unit="K") "Heating setpoint"
+    annotation (Placement(transformation(extent={{100,80},{120,100}}),
+        iconTransformation(extent={{100,76},{120,96}})));
+  Modelica.Blocks.Interfaces.RealOutput CooSet(unit="K") "Cooling setpoint"
+    annotation (Placement(transformation(extent={{100,58},{120,78}}),
+        iconTransformation(extent={{100,50},{120,70}})));
+  Modelica.Blocks.Interfaces.RealOutput Occupation "Occupancy rate"
+    annotation (Placement(transformation(extent={{100,-10},{120,10}}),
+        iconTransformation(extent={{100,-18},{120,2}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Noheating(
+    firstEntryOccupied=false,
+    period=365*24*3600,
+    occupancy=3600*{3000,6000}) "Annual schedule"
+    annotation (Placement(transformation(extent={{-90,104},{-80,114}})));
+  Modelica.Blocks.Sources.Constant SetHeafictifa(k=SetHeaFictif)
+    "Heating setpoint"
+    annotation (Placement(transformation(extent={{40,98},{48,106}})));
+  Modelica.Blocks.Logical.Switch switch3
+    annotation (Placement(transformation(extent={{82,104},{94,116}})));
+  Buildings.Controls.SetPoints.OccupancySchedule Nocooling(
+    period=365*24*3600,
+    firstEntryOccupied=true,
+    occupancy=3600*{3000,6000})
+                             "Annual schedule"
+    annotation (Placement(transformation(extent={{-90,52},{-80,62}})));
+  Modelica.Blocks.Logical.Switch switch6
+    annotation (Placement(transformation(extent={{82,48},{94,60}})));
+  Modelica.Blocks.Sources.Constant SetCoofictifa(k=SetCooFictif)
+    "Cooling setpoint"
+    annotation (Placement(transformation(extent={{40,42},{48,50}})));
+  Modelica.Blocks.Sources.CombiTimeTable combiTimeTable1(
+    tableOnFile=true,
+    fileName="C:/Users/VZ5325/Local/SEBI/BATINERGIE/Saclay/Profil_presence_employes.txt",
+    columns={2},
+    tableName="dat")
+    annotation (Placement(transformation(extent={{-94,-32},{-74,-12}})));
+
+  Modelica.Blocks.Math.RealToBoolean realToBoolean
+    annotation (Placement(transformation(extent={{-60,4},{-40,24}})));
+  Modelica.Blocks.Interfaces.BooleanOutput HeatingBool "HeatingSeason"
+    annotation (Placement(transformation(extent={{100,16},{120,36}})));
+  Modelica.Blocks.Interfaces.BooleanOutput Occupancy "Occupancy"
+    annotation (Placement(transformation(extent={{100,-40},{120,-20}})));
+equation
+  connect(SetHeaInoccup.y, switch1.u3) annotation (Line(
+      points={{-17.6,78},{-14,78},{-14,81.2},{-7.2,81.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetHeaOccupa.y, switch1.u1)
+                                     annotation (Line(
+      points={{-17.6,94},{-14,94},{-14,90.8},{-7.2,90.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetCooInoccup.y, switch2.u3) annotation (Line(
+      points={{-17.6,30},{-14,30},{-14,33.2},{-5.2,33.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetCooOccupa.y, switch2.u1)
+                                     annotation (Line(
+      points={{-17.6,46},{-14,46},{-14,42.8},{-5.2,42.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+
+  connect(Noheating.occupied,switch3. u2) annotation (Line(
+      points={{-79.5,106},{-22,106},{-22,110},{80.8,110}},
+      color={255,0,255},
+      smooth=Smooth.None));
+  connect(SetHeafictifa.y, switch3.u3) annotation (Line(
+      points={{48.4,102},{60,102},{60,105.2},{80.8,105.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(switch3.y, HeaSet) annotation (Line(
+      points={{94.6,110},{98,110},{98,90},{110,90}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(SetCoofictifa.y, switch6.u3) annotation (Line(points={{48.4,46},{
+          60,46},{60,49.2},{80.8,49.2}}, color={0,0,127}));
+  connect(switch6.y, CooSet) annotation (Line(points={{94.6,54},{96,54},{96,
+          68},{110,68}}, color={0,0,127}));
+  connect(Nocooling.occupied, switch6.u2)
+    annotation (Line(points={{-79.5,54},{80.8,54}}, color={255,0,255}));
+  connect(combiTimeTable1.y[1], Occupation) annotation (Line(points={{-73,-22},
+          {24,-22},{24,0},{110,0}}, color={0,0,127}));
+  connect(switch2.y, switch6.u1) annotation (Line(points={{8.6,38},{32,38},{32,58},
+          {56,58},{56,58.8},{80.8,58.8}}, color={0,0,127}));
+  connect(switch1.y, switch3.u1) annotation (Line(points={{6.6,86},{26,86},{26,114.8},
+          {80.8,114.8}}, color={0,0,127}));
+  connect(combiTimeTable1.y[1], realToBoolean.u) annotation (Line(points={{
+          -73,-22},{-66,-22},{-66,-20},{-66,14},{-62,14}}, color={0,0,127}));
+  connect(realToBoolean.y, switch2.u2) annotation (Line(points={{-39,14},{
+          -34,14},{-34,38},{-5.2,38}}, color={255,0,255}));
+  connect(realToBoolean.y, switch1.u2) annotation (Line(points={{-39,14},{
+          -34,14},{-34,86},{-7.2,86}}, color={255,0,255}));
+  connect(HeatingBool, switch3.u2) annotation (Line(points={{110,26},{86,26},
+          {70,26},{70,110},{80.8,110}}, color={255,0,255}));
+  connect(Occupancy, switch2.u2) annotation (Line(points={{110,-30},{-34,-30},
+          {-34,38},{-5.2,38}}, color={255,0,255}));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,120}})),           Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,120}}), graphics={
+        Rectangle(
+          extent={{-100,120},{100,-100}},
+          lineColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          fillColor={255,255,255}),
+        Rectangle(
+          extent={{-94,34},{-26,40}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-30,34},{-24,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-30,84},{38,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{32,34},{38,90}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{32,34},{76,40}},
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None),
+        Rectangle(
+          extent={{-94,-34},{-10,-28}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-12,-34},{-6,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-10,16},{18,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{12,-34},{18,22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{12,-34},{76,-28}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Text(
+          extent={{-132,-36},{-6,-64}},
+          lineColor={0,0,0},
+          fillPattern=FillPattern.HorizontalCylinder,
+          fillColor={255,255,255},
+          textString="%name"),
+        Text(
+          extent={{90,103},{152,94}},
+          lineColor={0,0,127},
+          textString="HeaSet"),
+        Text(
+          extent={{90,77},{152,68}},
+          lineColor={0,0,127},
+          textString="CooSet"),
+        Text(
+          extent={{98,11},{160,2}},
+          lineColor={0,0,127},
+          textString="Occupation"),
+        Text(
+          extent={{102,39},{164,30}},
+          lineColor={217,67,180},
+          textString="HeatingSeason
+"),     Text(
+          extent={{100,-19},{162,-28}},
+          lineColor={217,67,180},
+          textString="Occupancy")}),
+    Documentation(info="<html>
+<h4>Profils du b&acirc;timent</h4>
+<p>Ici, on retrouve diff&eacute;rents profils relatifs au fonctionnement du b&acirc;timent pour une maison individuelle respectant le fonctionnement d&eacute;fini par la RT2012 :  </p>
+<ul>
+<li>Consigne de chauffage</li>
+<li>Consigne de climatisation</li>
+<li>Occupation</li>
+<li>Eclairage</li>
+<li>Autres &eacute;quipements</li>
+</ul>
+</html>"));
+end Schedules_Employes;

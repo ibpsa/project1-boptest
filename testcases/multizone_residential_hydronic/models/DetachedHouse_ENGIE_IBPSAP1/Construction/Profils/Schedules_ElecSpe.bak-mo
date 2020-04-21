@@ -1,0 +1,323 @@
+﻿within DetachedHouse_ENGIE_IBPSAP1.Construction.Profils;
+model Schedules_ElecSpe
+
+  parameter Real N = 2 " Nombre de personnes dans le longement";
+
+  // Taux d'équipement
+  parameter Real T_refrigerateur = 0.962 "Taux d'équipement du réfrigérateur" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_congelateur = 0.108 "Taux d'équipement du congélateur" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_lavelinge = 0.739 "Taux d'équipement du lave-linge" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_sechelinge = 0.024 "Taux d'équipement du sèche-linge" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_lavevaisselle = 0.041 "Taux d'équipement du lave-vaisselle" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_cuisiniere = 0.933 "Taux d'équipement de la cuisinière" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_microondes = 0.544 "Taux d'équipement du four à micro-ondes" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_aspirateur = 0.591 "Taux d'équipement de l'aspirateur" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_televiseur = 0.899 "Taux d'équipement du téléviseur" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_chainehifi = 0.084 "Taux d'équipement de la chaîne hi-fi" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_ordinateurportable = 0.034 "Taux d'équipement de l'ordinateur portable" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_ordinateurfixe = 0.047 "Taux d'équipement de l'ordinateur fixe" annotation(Dialog(group="Taux d'équipement"));
+  parameter Real T_telephoneportable = 0.473 "Taux d'équipement du téléphone portable" annotation(Dialog(group="Taux d'équipement"));
+
+  // Nombre de personnes concernées
+  parameter Real N_refrigerateur = 2 "Nombre de personnes concernées par le dimensionnement du réfrigérateur" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_congelateur = 2 "Nombre de personnes concernées par le dimensionnement du congélateur" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_lavelinge = 4 "Nombre de personnes concernées par le dimensionnement du lave-linge" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_sechelinge = 4 "Nombre de personnes concernées par le dimensionnement du sèche-linge" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_lavevaisselle = 4 "Nombre de personnes concernées par le dimensionnement du lave-vaisselle" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_cuisiniere = 4 "Nombre de personnes concernées par le dimensionnement de la cuisinière" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_microondes = 2 "Nombre de personnes concernées par le dimensionnement du four à micro-ondes" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_aspirateur = 2 "Nombre de personnes concernées par le dimensionnement de l'aspirateur" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_televiseur = N "Nombre de personnes concernées par le dimensionnement du téléviseur" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_chainehifi = N "Nombre de personnes concernées par le dimensionnement de la chaîne hi-fi" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_ordinateurportable = 1 "Nombre de personnes concernées par le dimensionnement de l'ordinateur portable" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_ordinateurfixe = 0.5 "Nombre de personnes concernées par le dimensionnement de l'ordinateur fixe" annotation(Dialog(group="Nombre de personnes concernées"));
+  parameter Real N_telephoneportable = 1 "Nombre de personnes concernées par le dimensionnement du téléphone portable" annotation(Dialog(group="Nombre de personnes concernées"));
+
+  // Puissance de fonctionnement
+  parameter Modelica.SIunits.Power Pf_refrigerateur = 29 "Puissance de fonctionnement du réfrigérateur" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_congelateur = 64 "Puissance de fonctionnement du congélateur" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_lavelinge = 9000 "Puissance de fonctionnement du lave-linge" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_sechelinge = 1500 "Puissance de fonctionnement du sèche-linge" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_lavevaisselle = 600 "Puissance de fonctionnement du lave-vaisselle" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_cuisiniere = 9000 "Puissance de fonctionnement de la cuisinière" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_microondes = 1035 "Puissance de fonctionnement du four à micro-ondes" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_aspirateur = 800 "Puissance de fonctionnement de l'aspirateur" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_televiseur = 137.97 "Puissance de fonctionnement du téléviseur" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_chainehifi = 19 "Puissance de fonctionnement de la chaîne hi-fi" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_ordinateurportable = 28.5 "Puissance de fonctionnement de l'ordinateur portable" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_ordinateurfixe = 122.5 "Puissance de fonctionnement de l'ordinateur fixe" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Power Pf_telephoneportable = 0.45 "Puissance de fonctionnement du téléphone portable" annotation(Dialog(group="Puissance de fonctionnement des équipements"));
+
+  // Puissance de veille
+  parameter Modelica.SIunits.Power Pv_refrigerateur = 0 "Puissance de veille du réfrigérateur" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_congelateur = 0 "Puissance de veille du congélateur" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_lavelinge = 0 "Puissance de veille du lave-linge" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_sechelinge = 0 "Puissance de veille du sèche-linge" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_lavevaisselle = 0 "Puissance de veille du lave-vaisselle" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_cuisiniere = 0 "Puissance de veille de la cuisinière" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_microondes = 0 "Puissance de veille du four à micro-ondes" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_aspirateur = 0 "Puissance de veille de l'aspirateur" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_televiseur = 25 "Puissance de veille du téléviseur" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_chainehifi = 5 "Puissance de veille de la chaîne hi-fi" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_ordinateurportable = 2 "Puissance de veille de l'ordinateur portable" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_ordinateurfixe = 5 "Puissance de veille de l'ordinateur fixe" annotation(Dialog(group="Puissance de veille des équipements"));
+  parameter Modelica.SIunits.Power Pv_telephoneportable = 0 "Puissance de veille du téléphone portable" annotation(Dialog(group="Puissance de veille des équipements"));
+
+  // Durée de fonctionnement
+  parameter Modelica.SIunits.Time Df_lavelinge = 1*3600 "Durée de fonctionnement du lave-linge" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_sechelinge = 2*3600 "Durée de fonctionnement du sèche-linge" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_lavevaisselle = 1.5*3600 "Durée de fonctionnement du lave-vaisselle" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_cuisiniere = 1*3600 "Durée de fonctionnement de la cuisinière" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_microondes = 0.15*3600 "Durée de fonctionnement du four à micro-ondes" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_aspirateur = 0.75*3600 "Durée de fonctionnement de l'aspirateur" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_televiseur = 5.5*3600 "Durée de fonctionnement du téléviseur" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_chainehifi = 2*3600 "Durée de fonctionnement de la chaîne hi-fi" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_ordinateurportable = 2*3600 "Durée de fonctionnement de l'ordinateur portable" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_ordinateurfixe = 2*3600 "Durée de fonctionnement de l'ordinateur fixe" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Df_telephoneportable = 1*3600 "Durée de fonctionnement du téléphone portable" annotation(Dialog(group="Durée de fonctionnement des équipements"));
+
+  // Heure de début de fonctionnement
+  parameter Modelica.SIunits.Time Hf_lavelinge = 20*3600 "Heure de début de fonctionnement du lave-linge" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_sechelinge = 21*3600 "Heure de début de fonctionnement du sèche-linge" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_lavevaisselle = 22*3600 "Heure de début de fonctionnement du lave-vaisselle" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_cuisiniere = 20*3600 "Heure de début de fonctionnement de la cuisinière" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_microondes = 20*3600 "Heure de début de fonctionnement du four à micro-ondes" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_aspirateur = 19*3600 "Heure de début de fonctionnement de l'aspirateur" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_televiseur = 18*3600 "Heure de début de fonctionnement du téléviseur" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_chainehifi = 7*3600 "Heure de début de fonctionnement de la chaîne hi-fi" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_ordinateurportable = 21*3600 "Heure de début de fonctionnement de l'ordinateur portable" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_ordinateurfixe = 19*3600 "Heure de début de fonctionnement de l'ordinateur fixe" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time Hf_telephoneportable = 22*3600 "Heure de début de fonctionnement du téléphone portable" annotation(Dialog(group="Heure de début de fonctionnement des équipements"));
+
+  // Jours de non fonctionnement
+  parameter Modelica.SIunits.Time[:] Jf_lavelinge = 24*3600*{2,3,5,6.9999} "Jours de non fonctionnement du lave-linge" annotation(Dialog(group="Jours de non fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time[:] Jf_sechelinge = 24*3600*{1,3,4,6.9999} "Jours de non fonctionnement du sèche-linge" annotation(Dialog(group="Jours de non fonctionnement des équipements"));
+  parameter Modelica.SIunits.Time[:] Jf_lavevaisselle = 24*3600*{5,6.9999} "Jours de non fonctionnement du lave-vaisselle" annotation(Dialog(group="Jours de non fonctionnement des équipements"));
+
+  Modelica.Blocks.Interfaces.RealOutput ProfilElec(unit="W") annotation (
+      Placement(transformation(extent={{60,-10},{80,10}}), iconTransformation(
+          extent={{60,-10},{80,10}})));
+  Modelica.Blocks.Sources.CombiTimeTable ProfilConsoECS(
+    extrapolation=Modelica.Blocks.Types.Extrapolation.HoldLastPoint,
+    table=[0,0.525; 25200,0.105; 27000,0.105; 30600,0.105; 34200,0.105;
+        41400,0.105; 42300,0.105; 45900,0.315; 64800,0.105; 65700,0.105;
+        73800,0.42; 77400,0.525],
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments)
+    annotation (Placement(transformation(extent={{-154,46},{-134,66}})));
+  Fonctionnement_equipement_1bis
+                              fonctionnement_refrigerateur(
+    Pf=Pf_refrigerateur,
+    Pv=Pv_refrigerateur,
+    Taux_equipement=T_refrigerateur,
+    N=N_refrigerateur)
+    annotation (Placement(transformation(extent={{-44,34},{-36,38}})));
+  Fonctionnement_equipement_1bis
+                              fonctionnement_congelateur(
+    Pf=Pf_congelateur,
+    Pv=Pv_congelateur,
+    Taux_equipement=T_congelateur,
+    N=N_congelateur)
+    annotation (Placement(transformation(extent={{-44,28},{-36,32}})));
+  Fonctionnement_equipement_2 fonctionnement_lavelinge(
+    Pf=Pf_lavelinge,
+    Pv=Pv_lavelinge,
+    Hf=Hf_lavelinge,
+    Df=Df_lavelinge,
+    Jf=Jf_lavelinge,
+    Taux_equipement=T_lavelinge,
+    N=N_lavelinge)
+    annotation (Placement(transformation(extent={{-44,22},{-36,26}})));
+  Fonctionnement_equipement_2 fonctionnement_sechelinge(
+    Pf=Pf_sechelinge,
+    Pv=Pv_sechelinge,
+    Hf=Hf_sechelinge,
+    Df=Df_sechelinge,
+    Jf=Jf_sechelinge,
+    Taux_equipement=T_sechelinge,
+    N=N_sechelinge)
+    annotation (Placement(transformation(extent={{-44,16},{-36,20}})));
+  Fonctionnement_equipement_2 fonctionnement_lavevaisselle(
+    Pf=Pf_lavevaisselle,
+    Pv=Pv_lavevaisselle,
+    Hf=Hf_lavevaisselle,
+    Df=Df_lavevaisselle,
+    Jf=Jf_lavevaisselle,
+    Taux_equipement=T_lavevaisselle,
+    N=N_lavevaisselle)
+    annotation (Placement(transformation(extent={{-44,10},{-36,14}})));
+  Fonctionnement_equipement_1 fonctionnement_cuisiniere(
+    Pf=Pf_cuisiniere,
+    Pv=Pv_cuisiniere,
+    Hf=Hf_cuisiniere,
+    Df=Df_cuisiniere,
+    Taux_equipement=T_cuisiniere,
+    N=N_cuisiniere)
+    annotation (Placement(transformation(extent={{-44,4},{-36,8}})));
+  Fonctionnement_equipement_1 fonctionnement_microondes(
+    Pf=Pf_microondes,
+    Pv=Pv_microondes,
+    Hf=Hf_microondes,
+    Df=Df_microondes,
+    Taux_equipement=T_microondes,
+    N=N_microondes)
+    annotation (Placement(transformation(extent={{-44,-2},{-36,2}})));
+  Fonctionnement_equipement_1 fonctionnement_aspirateur(
+    Pf=Pf_aspirateur,
+    Pv=Pv_aspirateur,
+    Hf=Hf_aspirateur,
+    Df=Df_aspirateur,
+    Taux_equipement=T_aspirateur,
+    N=N_aspirateur)
+    annotation (Placement(transformation(extent={{-44,-8},{-36,-4}})));
+  Fonctionnement_equipement_1 fonctionnement_televiseur(
+    Pf=Pf_televiseur,
+    Pv=Pv_televiseur,
+    Hf=Hf_televiseur,
+    Df=Df_televiseur,
+    Taux_equipement=T_televiseur,
+    N=N_televiseur)
+    annotation (Placement(transformation(extent={{-44,-14},{-36,-10}})));
+  Fonctionnement_equipement_1 fonctionnement_chainehifi(
+    Pf=Pf_chainehifi,
+    Pv=Pv_chainehifi,
+    Hf=Hf_chainehifi,
+    Df=Df_chainehifi,
+    Taux_equipement=T_chainehifi,
+    N=N_chainehifi)
+    annotation (Placement(transformation(extent={{-44,-20},{-36,-16}})));
+  Fonctionnement_equipement_1 fonctionnement_ordinateurportable(
+    Pf=Pf_ordinateurportable,
+    Pv=Pv_ordinateurportable,
+    Hf=Hf_ordinateurportable,
+    Df=Df_ordinateurportable,
+    Taux_equipement=T_ordinateurportable,
+    N=N_ordinateurportable)
+    annotation (Placement(transformation(extent={{-44,-26},{-36,-22}})));
+  Fonctionnement_equipement_1 fonctionnement_ordinateurfixe(
+    Pf=Pf_ordinateurfixe,
+    Pv=Pv_ordinateurfixe,
+    Hf=Hf_ordinateurfixe,
+    Df=Df_ordinateurfixe,
+    Taux_equipement=T_ordinateurfixe,
+    N=N_ordinateurfixe)
+    annotation (Placement(transformation(extent={{-44,-32},{-36,-28}})));
+  Fonctionnement_equipement_1 fonctionnement_telephoneportable(
+    Pf=Pf_telephoneportable,
+    Pv=Pv_telephoneportable,
+    Hf=Hf_telephoneportable,
+    Df=Df_telephoneportable,
+    Taux_equipement=T_telephoneportable,
+    N=N_telephoneportable)
+    annotation (Placement(transformation(extent={{-44,-38},{-36,-34}})));
+  Modelica.Blocks.Math.Sum sum1(nin=13)
+    annotation (Placement(transformation(extent={{-2,-10},{18,10}})));
+  Modelica.Blocks.Math.Gain gain(k=N)
+    annotation (Placement(transformation(extent={{30,-10},{50,10}})));
+  Modelica.Blocks.Interfaces.RealInput Occupation "Input signal connector"
+    annotation (Placement(transformation(extent={{-100,-20},{-60,20}}),
+        iconTransformation(extent={{-100,-20},{-60,20}})));
+equation
+
+  connect(fonctionnement_refrigerateur.y, sum1.u[1]) annotation (Line(points={{-35,36},
+          {-20,36},{-20,-1.84615},{-4,-1.84615}},     color={0,0,127}));
+  connect(fonctionnement_congelateur.y, sum1.u[2]) annotation (Line(points={{-35,30},
+          {-20,30},{-20,-1.53846},{-4,-1.53846}},     color={0,0,127}));
+  connect(fonctionnement_lavelinge.y, sum1.u[3]) annotation (Line(points={{-35,24},
+          {-20,24},{-20,-1.23077},{-4,-1.23077}}, color={0,0,127}));
+  connect(fonctionnement_sechelinge.y, sum1.u[4]) annotation (Line(points={{-35,18},
+          {-20,18},{-20,-0.923077},{-4,-0.923077}},     color={0,0,127}));
+  connect(fonctionnement_lavevaisselle.y, sum1.u[5]) annotation (Line(points={{-35,12},
+          {-20,12},{-20,-0.615385},{-4,-0.615385}},     color={0,0,127}));
+  connect(fonctionnement_cuisiniere.y, sum1.u[6]) annotation (Line(points={{-35,6},
+          {-20,6},{-20,-0.307692},{-4,-0.307692}},    color={0,0,127}));
+  connect(fonctionnement_microondes.y, sum1.u[7]) annotation (Line(points={{-35,0},
+          {-4,0}},                                        color={0,0,127}));
+  connect(fonctionnement_aspirateur.y, sum1.u[8]) annotation (Line(points={{-35,-6},
+          {-20,-6},{-20,0.307692},{-4,0.307692}},     color={0,0,127}));
+  connect(fonctionnement_televiseur.y, sum1.u[9]) annotation (Line(points={{-35,-12},
+          {-20,-12},{-20,0.615385},{-4,0.615385}},      color={0,0,127}));
+  connect(fonctionnement_chainehifi.y, sum1.u[10]) annotation (Line(points={{-35,-18},
+          {-28,-18},{-20,-18},{-20,0.923077},{-4,0.923077}},      color={0,0,127}));
+  connect(fonctionnement_ordinateurportable.y, sum1.u[11]) annotation (Line(
+        points={{-35,-24},{-28,-24},{-20,-24},{-20,2},{-14,2},{-14,1.23077},{-4,
+          1.23077}}, color={0,0,127}));
+  connect(fonctionnement_ordinateurfixe.y, sum1.u[12]) annotation (Line(points={{-35,-30},
+          {-20,-30},{-20,1.53846},{-4,1.53846}},           color={0,0,127}));
+  connect(fonctionnement_telephoneportable.y, sum1.u[13]) annotation (Line(
+        points={{-35,-36},{-20,-36},{-20,1.84615},{-4,1.84615}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_lavelinge.Occupation) annotation (Line(
+        points={{-80,0},{-80,0},{-54,0},{-54,22.6},{-46,22.6}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_sechelinge.Occupation) annotation (Line(
+        points={{-80,0},{-54,0},{-54,16.6},{-46,16.6}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_lavevaisselle.Occupation) annotation (Line(
+        points={{-80,0},{-54,0},{-54,10.6},{-46,10.6}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_cuisiniere.Occupation) annotation (Line(
+        points={{-80,0},{-54,0},{-54,4.6},{-46,4.6}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_microondes.Occupation) annotation (Line(
+        points={{-80,0},{-54,0},{-54,-1.4},{-46,-1.4}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_aspirateur.Occupation) annotation (Line(
+        points={{-80,0},{-54,0},{-54,-7.4},{-46,-7.4}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_televiseur.Occupation) annotation (Line(
+        points={{-80,0},{-54,0},{-54,-13.4},{-46,-13.4}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_chainehifi.Occupation) annotation (Line(
+        points={{-80,0},{-54,0},{-54,-19.4},{-46,-19.4}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_ordinateurportable.Occupation) annotation (
+     Line(points={{-80,0},{-54,0},{-54,-25.4},{-46,-25.4}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_ordinateurfixe.Occupation) annotation (
+      Line(points={{-80,0},{-54,0},{-54,-31.4},{-46,-31.4}}, color={0,0,127}));
+  connect(Occupation, fonctionnement_telephoneportable.Occupation) annotation (
+      Line(points={{-80,0},{-80,0},{-54,0},{-54,-37.4},{-46,-37.4}}, color={0,0,
+          127}));
+  connect(sum1.y, gain.u)
+    annotation (Line(points={{19,0},{22,0},{28,0}}, color={0,0,127}));
+  connect(gain.y, ProfilElec)
+    annotation (Line(points={{51,0},{56,0},{70,0}}, color={0,0,127}));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-60,-60},
+            {60,60}})),                   Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-40},{60,40}}),    graphics={
+        Rectangle(
+          extent={{-80,40},{60,-40}},
+          lineColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          fillColor={255,255,255}),
+        Rectangle(
+          extent={{-72,-28},{-18,-22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-22,-28},{-16,34}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{-20,28},{8,34}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{2,-24},{8,32}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Rectangle(
+          extent={{2,-28},{52,-22}},
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid,
+          pattern=LinePattern.None,
+          lineColor={0,0,0}),
+        Text(
+          extent={{-80,18},{46,-10}},
+          lineColor={0,0,0},
+          fillPattern=FillPattern.HorizontalCylinder,
+          fillColor={255,255,255},
+          textString="%name")}),
+    Documentation(info="<html>
+<h4>Profils du b&acirc;timent</h4>
+<p>Ici, on retrouve un profil de ventilation.</p>
+</html>"));
+end Schedules_ElecSpe;
