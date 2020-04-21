@@ -106,14 +106,14 @@ class partialTimeseries(object):
         return None
     
     def compare_ref_json(self, json_test, ref_filepath):
-            '''Compare a json to a reference json saved as txt.
+            '''Compare a json to a reference json saved as .json.
             
             Parameters
             ----------
             json_test : Dict
                 Test json in the form of a dictionary.
             ref_filepath : str
-                Reference txt file path relative to testing directory.
+                Reference .json file path relative to testing directory.
                 
             Returns
             -------
@@ -322,7 +322,7 @@ class partialTestAPI(partialTimeseries):
         '''
         
         inputs = requests.get('{0}/inputs'.format(self.url)).json()
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_inputs.txt')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_inputs.json')
         self.compare_ref_json(inputs, ref_filepath)
 
     def test_get_measurements(self):
@@ -331,7 +331,7 @@ class partialTestAPI(partialTimeseries):
         '''
 
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_measurements.txt')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_measurements.json')
         self.compare_ref_json(measurements, ref_filepath)
 
     def test_get_step(self):
