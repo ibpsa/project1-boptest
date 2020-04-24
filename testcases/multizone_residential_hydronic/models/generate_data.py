@@ -14,7 +14,7 @@ from scipy import interpolate
 # Set the location of the Resource directory relative to this file location
 file_dir = os.path.dirname(os.path.realpath(__file__))
 resources_dir = os.path.join(file_dir, 'Resources')
-# Create data generator object with time interval to 15 minutes
+# Create data generator object with time interval of 5 minutes
 gen = Data_Generator(resources_dir, period=300)
 
 #=====================================================================
