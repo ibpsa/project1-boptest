@@ -2269,7 +2269,7 @@ of the boiler
 <p><b><span style=\"font-size: 10pt;\">Building</span></b> </p>
 <p><span style=\"font-size: 10pt;\">The modeling focuses on one type of residential building, in accordance with the French Thermal regulation 2012 (French national building energy regulation). The building typology is defined in such way to be representative of French new dwellings. </span></p>
 <p><span style=\"font-size: 10pt;\">The model represents a detached house of approximately 100 m&sup2; (<i>S_ref</i>). The building floor surface can be modified by the user in order to model the effect of the building size. This can done by changing the value of the variable <i>S</i> in the model. The dimensions of the building elements (surfaces) will be then automatically calculated accordingly to the new value.</span> </p>
-<p><br><img src=\"modelica://DetachedHouse_ENGIE_IBPSAP1/Ressources/Detached_house_view_from_Chambre1_section_1.jpg\"/></p>
+<p><br><img src=\"modelica://DetachedHouse_ENGIE_IBPSAP1/Documentation/Detached_house_view_from_Chambre1_section_1.jpg\"/></p>
 <p><span style=\"font-size: 10pt;\"><a name=\"_Ref346520932\">F</a>igure 1. Simulated single floor house (SFH)</span> </p>
 <p><span style=\"font-size: 10pt;\">The orientation of each building was chosen in order to maximize the natural light during winter. Thus, the main surface of windows of the building is south oriented. The building consists of :</span> </p>
 <ul>
