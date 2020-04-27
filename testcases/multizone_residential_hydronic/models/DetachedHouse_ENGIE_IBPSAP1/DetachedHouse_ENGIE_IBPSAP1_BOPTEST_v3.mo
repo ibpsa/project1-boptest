@@ -487,7 +487,7 @@ public
         5.25,
     winSpeSou=Buildings.BoundaryConditions.Types.DataSource.Parameter,
     filNam=ModelicaServices.ExternalReferences.loadResource(
-        "modelica://DetachedHouse_ENGIE_IBPSAP1/Ressources/FRA_Bordeaux.075100_IWEC.mos"))
+        "Resources/FRA_Bordeaux.075100_IWEC.mos"))
     annotation (Placement(transformation(extent={{-296,46},{-276,66}})));
   Building.Schedules.Schedules_MI_ZoneJour schedules_MI_ZoneJour(delta_ST=
         delta_ST_rad)
@@ -1323,9 +1323,9 @@ public
   IBPSA.Utilities.IO.SignalExchange.Read reaTHal(description=
         "Read hall temperature", y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-
     zone="Hal")
     annotation (Placement(transformation(extent={{70,-172},{76,-166}})));
+
   IBPSA.Utilities.IO.SignalExchange.Read reaTAti(
     description="Read attic temperature",
     y(unit="K"),
