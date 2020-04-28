@@ -59,8 +59,8 @@ class TestCase(object):
         self.options['CVode_options']['rtol'] = 1e-6 
         # Set initial fmu simulation start
         self.start_time = 0
-        self.initialize = True
-        self.options['initialize'] = self.initialize
+        self.initialize_fmu = True
+        self.options['initialize'] = self.initialize_fmu
         # Initialize simulation data arrays
         self.__initilize_data()
         self.elapsed_control_time = []
@@ -113,7 +113,7 @@ class TestCase(object):
         '''
 
         # Set fmu initialization option
-        self.options['initialize'] = self.initialize
+        self.options['initialize'] = self.initialize_fmu
         # Simulate fmu
         try:
              res = self.fmu.simulate(start_time = start_time, 
@@ -123,7 +123,7 @@ class TestCase(object):
         except Exception as e:
             return None
         # Set internal fmu initialization
-        self.initialize = False
+        self.initialize_fmu = False
 
         return res            
            
@@ -227,7 +227,7 @@ class TestCase(object):
         self.__initilize_data()
         self.elapsed_control_time = []
         # Set fmu intitialization                
-        self.initialize = True
+        self.initialize_fmu = True
         # Simulate fmu for warmup period.
         # Do not allow negative starting time to avoid confusions
         res = self.__simulation(max(start_time-warmup_period,0), start_time)
