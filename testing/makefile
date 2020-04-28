@@ -116,6 +116,19 @@ test_testcase3:
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase3
 
+test_multizone_residential_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=multizone_residential_hydronic
+# Build testcase image
+	cd .. &&  make build TESTCASE=multizone_residential_hydronic
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=multizone_residential_hydronic
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_multizone_residential_hydronic.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=multizone_residential_hydronic
+
 test_parser:
 	make run_jm
 	make copy_to_jm ARGS=parsing
@@ -196,6 +209,7 @@ test_all:
 	make test_testcase1
 	make test_testcase2
 	make test_testcase3
+	make test_multizone_residential_hydronic
 	make test_data
 	make test_forecast
 	make test_kpis
