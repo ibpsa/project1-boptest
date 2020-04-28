@@ -276,15 +276,15 @@ class partialTestAPI(partialTimeseries):
         self.assertEqual(step, step_set)
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         
-    def test_reset(self):
-        '''Test reseting of test.
+    def test_initialize(self):
+        '''Test initialization of test simulation.
         
         '''
 
         # Get current step
         step = requests.get('{0}/step'.format(self.url)).json()
-        # Reset
-        requests.put('{0}/reset'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
         # Check results are empty again
         y = requests.get('{0}/results'.format(self.url)).json()
         for key in y.keys():
@@ -303,7 +303,7 @@ class partialTestAPI(partialTimeseries):
                     df = pd.concat((df,pd.DataFrame(data=res[s][x], index=res['y']['time'],columns=[x])), axis=1)
         df.index.name = 'time'
         # Set reference file path
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_reset.csv')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
         # Set step back to step
@@ -317,7 +317,7 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
         for key in y.keys():
@@ -338,7 +338,7 @@ class partialTestAPI(partialTimeseries):
         elif self.name == 'testcase3':
             u = {'oveActNor_activate':0, 'oveActNor_u':1500,
                  'oveActSou_activate':0, 'oveActSou_u':1500}
-        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
         for key in y.keys():
@@ -351,7 +351,7 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
@@ -388,7 +388,7 @@ class partialTestAPI(partialTimeseries):
         
         '''  
 
-        requests.put('{0}/reset'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         
         # Set forecast parameters
         requests.put('{0}/forecast_parameters'.format(self.url), 

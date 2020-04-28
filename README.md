@@ -48,7 +48,7 @@ Example RESTful interaction:
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
 | Advance simulation with control input and receive measurements        |  POST ``advance`` with json data "{<input_name>:<value>}" |
-| Reset simulation to a start time using a warmup period in seconds     |  PUT ``reset`` with with arguments ``start_time=<value>``, ``warmup_time=<value>``|
+| Initialize simulation to a start time using a warmup period in seconds     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
 | Receive communication step in seconds                                 |  GET ``step``                                             |
 | Set communication step in seconds                                     |  PUT ``step`` with argument ``step=<value>``              |
 | Receive sensor signal names (y) and metadata                          |  GET ``measurements``                                     |

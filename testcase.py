@@ -204,13 +204,13 @@ class TestCase(object):
 
             return None        
 
-    def reset(self, start_time, warmup_period):
-        '''Reset the test simulation.
+    def initialize(self, start_time, warmup_period):
+        '''Initialize the test simulation.
         
         Parameters
         ----------
         start_time: int
-            Start time of simulation to reset to in seconds.
+            Start time of simulation to initialize to in seconds.
         warmup_period: int
             Length of time before start_time to simulate for warmup in seconds.
             

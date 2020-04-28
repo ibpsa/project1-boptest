@@ -39,11 +39,11 @@ println("Default Simulation Step:\t$step_def")
 
 # RUN TEST CASE
 #----------
-println("Resetting test case if needed.")
-res = HTTP.put("$url/reset",["Content-Type" => "application/json"], JSON.json(Dict("start_time" => 0,"warmup_period" => 0)))
-reset_result=JSON.parse(String(res.body))
-if reset_result
-   println("Successfully reset the simulation")
+println("Initializing test case simulation.")
+res = HTTP.put("$url/initialize",["Content-Type" => "application/json"], JSON.json(Dict("start_time" => 0,"warmup_period" => 0)))
+initialize_result=JSON.parse(String(res.body))
+if initialize_result
+   println("Successfully initialized the simulation")
 end
 
 # Set simulation step
