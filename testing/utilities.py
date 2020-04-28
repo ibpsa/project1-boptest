@@ -67,8 +67,8 @@ def run_tests(test_file_name):
     with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
                 
-class partialTimeseries(object):
-    '''This partial class implements common API testing timeseries data.
+class partialChecks(object):
+    '''This partial class implements common ref data check methods.
     
     '''
     
@@ -289,7 +289,7 @@ class partialTimeseries(object):
         
         return df        
 
-class partialTestAPI(partialTimeseries):
+class partialTestAPI(partialChecks):
     '''This partial class implements common API tests for test cases.
     
     References to self attributes for the tests should be set in the setUp 

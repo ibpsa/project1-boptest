@@ -21,7 +21,7 @@ from data.data_manager import Data_Manager
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
-class DataGeneratorTest(unittest.TestCase, utilities.partialTimeseries):
+class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
     '''Tests the data generator class
     
     '''
@@ -283,7 +283,7 @@ class PartialDataManagerTest(object):
         df_man = pd.DataFrame(data_dict).set_index('time')
         self.compare_ref_timeseries_df(df_man, self.ref_data_index)
     
-class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialTimeseries,
+class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
                       PartialDataManagerTest):
     '''Tests the data manager class in a single-zone example. 
      
@@ -312,7 +312,7 @@ class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialTimeseries,
         self.ref_data_index = os.path.join(testing_root_dir,
             'references', 'data', 'testcase2', 'tc2_data_retrieved_index.csv')        
     
-class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialTimeseries,
+class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                                PartialDataManagerTest):
     '''Tests the data manager class in a single-zone example.  
      

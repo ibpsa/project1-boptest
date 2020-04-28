@@ -15,7 +15,7 @@ from kpis.kpi_calculator import KPI_Calculator
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
-class PartialKpiCalculatorTest(object):
+class partialKpiCalculatorTest(utilities.partialChecks):
     '''This partial class implements common tests for the KPI Calculator class.
        
     References to self attributes for the tests should be set in the setUp 

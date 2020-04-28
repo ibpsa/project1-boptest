@@ -11,7 +11,7 @@ import os
 import utilities
 from examples.python import twozones_p
 
-class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
+class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller with 
     two zones in Python.
     

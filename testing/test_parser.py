@@ -189,7 +189,7 @@ class ParseInstances(unittest.TestCase):
         # Delete leftover files
         utilities.clean_up(testing_root_dir)
 
-class ParseInstancesMultiZone(unittest.TestCase, utilities.partialTimeseries):
+class ParseInstancesMultiZone(unittest.TestCase, utilities.partialChecks):
     '''Tests the parse_instances method of parser for multi-zone models. 
     
     '''
@@ -247,7 +247,7 @@ class WriteWrapper(unittest.TestCase):
         # Delete leftover files
         utilities.clean_up(testing_root_dir)
         
-class ExportSimulate(unittest.TestCase, utilities.partialTimeseries):
+class ExportSimulate(unittest.TestCase, utilities.partialChecks):
     '''Tests the export of a wrapper fmu and simulation of it.
     
     '''
@@ -329,7 +329,7 @@ class ExportSimulate(unittest.TestCase, utilities.partialTimeseries):
         # Delete leftover files
         utilities.clean_up(testing_root_dir)
 
-class NoSignalExchangeBlock(unittest.TestCase, utilities.partialTimeseries):
+class NoSignalExchangeBlock(unittest.TestCase, utilities.partialChecks):
     '''Tests the export of a wrapper fmu and simulation from model with no signal exchange blocks.
     
     '''
@@ -351,7 +351,7 @@ class NoSignalExchangeBlock(unittest.TestCase, utilities.partialTimeseries):
         passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)
         self.assertTrue(passed, 'Did not pass kpi json check')
         
-class OnlyReadSignalExchangeBlock(unittest.TestCase, utilities.partialTimeseries):
+class OnlyReadSignalExchangeBlock(unittest.TestCase, utilities.partialChecks):
     '''Tests the export of a wrapper fmu and simulation from model with only read signal exchange blocks.
     
     '''
