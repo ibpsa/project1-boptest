@@ -56,8 +56,8 @@ class partialKpiCalculatorTest(utilities.partialChecks):
            
         # Calculate thermal discomfort
         self.cal.get_thermal_discomfort()
-        self.assertAlmostEqual(self.case.tdis_tot, self.tdis_tot_ref, places=3)
-        self.assertDictEqual(self.case.tdis_dict, self.tdis_dict_ref)
+        # Check results
+        self._perform_test(self.case.tdis_tot, self.case.tdis_dict, 'tdis')
 
     def test_get_iaq_discomfort(self):
         '''Uses the KPI calculator to calculate the IAQ discomfort 
@@ -65,10 +65,10 @@ class partialKpiCalculatorTest(utilities.partialChecks):
            
         '''
            
-        # Calculate thermal discomfort
+        # Calculate iaq discomfort
         self.cal.get_iaq_discomfort()
-        self.assertAlmostEqual(self.case.idis_tot, self.idis_tot_ref, places=3)
-        self.assertDictEqual(self.case.idis_dict, self.idis_dict_ref)
+        # Check results
+        self._perform_test(self.case.idis_tot, self.case.idis_dict, 'idis')
 
     def test_get_energy(self):
         '''Uses the KPI calculator to calculate the energy use
@@ -76,12 +76,10 @@ class partialKpiCalculatorTest(utilities.partialChecks):
            
         '''
            
-        # Calculate thermal discomfort
+        # Calculate energy
         self.cal.get_energy()
-        
-        # Compare with references
-        self.assertAlmostEqual(self.case.ener_tot, self.ener_tot_ref, places=3)
-        self.assertDictEqual(self.case.ener_dict, self.ener_dict_ref)
+        # Check results
+        self._perform_test(self.case.ener_tot, self.case.ener_dict, 'ener')
     
     def test_get_cost(self):
         '''Uses the KPI calculator to calculate the operational cost
@@ -91,10 +89,8 @@ class partialKpiCalculatorTest(utilities.partialChecks):
            
         # Calculate operational cost
         self.cal.get_cost()
-        
-        # Compare with references
-        self.assertAlmostEqual(self.case.cost_tot, self.cost_tot_ref, places=3)
-        self.assertDictEqual(self.case.cost_dict, self.cost_dict_ref)
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost')
         
     def test_get_emissions(self):
         '''Uses the KPI calculator to calculate the emissions
@@ -104,10 +100,8 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         
         # Calculate emissions
         self.cal.get_emissions()
-        
-        # Compare with references
-        self.assertAlmostEqual(self.case.emis_tot, self.emis_tot_ref, places=3)
-        self.assertDictEqual(self.case.emis_dict, self.emis_dict_ref)
+        # Check results
+        self._perform_test(self.case.emis_tot, self.case.emis_dict, 'emis')
         
     def test_get_computational_time_ratio(self):
         '''Uses the KPI calculator to calculate the computational time ratio
@@ -117,18 +111,42 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         
         # Reset test-case
         self.case.reset()
-        
         # Advance three simulation steps to compute elapsed times
         for _ in range(3):
             self.case.advance(u={})
-        
         # Calculate computational time ratio
         self.cal.get_computational_time_ratio()
+        # Check results
+        self._perform_test(self.case.time_rat, None, 'time_rat')
         
-        # Compare with references
-        self.assertAlmostEqual(self.case.time_rat, self.time_rat_ref, places=3)
+    def _perform_test(self, tot, dictionary, label):
+        '''Common function for performing the tests.
+        
+        Parameters
+        ----------
+        tot: float
+            Value of kpi "tot"
+        dictionary: dict or None
+            kpi "dict".
+            If None, not used.
+        label: str
+            Label to describe KPI.
+            
+        '''
+        
+        # Check total
+        df = pd.DataFrame(data=[tot], index=['{0}_tot'.format(label)], columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'kpis', '{0}_tot_{1}.csv'.format(label, self.name))
+        self.compare_ref_values_df(df, ref_filepath)
+        # Check dict
+        if dictionary is not None:
+            df = pd.DataFrame.from_dict(dictionary, orient = 'index', columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'kpis', '{0}_dict_{1}.csv'.format(label, self.name))
+            self.compare_ref_values_df(df, ref_filepath)        
 
-class KpiCalculatorSingleZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
+class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
     '''Tests the Forecaster class in a single-zone example.
          
     '''
@@ -137,7 +155,8 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
         '''Setup for each test.
          
         '''
-         
+        
+        self.name = 'SingleZone'         
         # Change directory to testcase 2
         os.chdir(os.path.join(testing_root_dir,'testcase2'))
         from testcase2.testcase import TestCase
@@ -162,31 +181,8 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
-                 
-        self.tdis_tot_ref = 6.04428540467
-        self.idis_tot_ref = 365.6911873402533
-        self.ener_tot_ref = 147.224341889
-        self.cost_tot_ref = 29.4448683777
-        self.emis_tot_ref = 73.6121709444
-        self.time_rat_ref = 2.778238720364041e-07
          
-        self.tdis_dict_ref =  OrderedDict([('TRooAir_dTlower_y', 5.1747331046897154), 
-                                           ('TRooAir_dTupper_y', 0.86954784517941663)])
-        self.idis_dict_ref =  OrderedDict([('CO2RooAir_dIupper_y', 365.69118734025329)])
-        self.ener_dict_ref = OrderedDict([('PCoo_y', 2.5790120993548213), 
-                                          ('PFan_y', 1.2243750151212227), 
-                                          ('PHea_y', 143.38535826054658), 
-                                          ('PPum_y', 0.035504245658337034)])
-        self.cost_dict_ref = OrderedDict([('PCoo_y', 0.5158024198709642), 
-                                          ('PFan_y', 0.24487500302424459), 
-                                          ('PHea_y', 28.677071652109316), 
-                                          ('PPum_y', 0.0071008491316674072)])
-        self.emis_dict_ref = OrderedDict([('PCoo_y', 1.2895060496774107), 
-                                          ('PFan_y', 0.61218750756061135), 
-                                          ('PHea_y', 71.692679130273291), 
-                                          ('PPum_y', 0.017752122829168517)]) 
-         
-class KpiCalculatorMultiZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
+class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
     '''Tests the Forecaster class in a multi-zone example.
         
     '''
@@ -196,6 +192,7 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
         
         '''
         
+        self.name = 'MultiZone'
         # Change directory to testcase 3
         os.chdir(os.path.join(testing_root_dir,'testcase3'))
         from testcase3.testcase import TestCase
@@ -220,27 +217,6 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, PartialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
-                
-        self.tdis_tot_ref = 21.7322321131
-        self.idis_tot_ref = 1030.34989641
-        self.ener_tot_ref = 43.8117652678
-        self.cost_tot_ref = 3.06682356874
-        self.emis_tot_ref = 8.76235305355
-        self.time_rat_ref = 8.7420145670572913e-07
-        
-        self.maxDiff = None
-        self.tdis_dict_ref =  OrderedDict([('TRooAirNor_dTlower_y', 8.2055849580534996), 
-                                           ('TRooAirNor_dTupper_y', 2.8932777121529849), 
-                                           ('TRooAirSou_dTlower_y', 6.8613721856065562),
-                                           ('TRooAirSou_dTupper_y', 3.7719972572410261)])
-        self.idis_dict_ref =  OrderedDict([('CO2RooAirSou_dIupper_y', 1016.9440316099603), 
-                                           ('CO2RooAirNor_dIupper_y', 13.40586479855533)])
-        self.ener_dict_ref = OrderedDict([('PHeaNor_y', 22.33656655950071), 
-                                          ('PHeaSou_y', 21.475198708263587)])
-        self.cost_dict_ref = OrderedDict([('PHeaNor_y', 1.5635596591650494), 
-                                          ('PHeaSou_y', 1.503263909578451)])
-        self.emis_dict_ref = OrderedDict([('PHeaNor_y', 4.4673133119001411), 
-                                          ('PHeaSou_y', 4.2950397416527188)])
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
