@@ -8,6 +8,6 @@ IBPSA_COMMIT=master
 BUILDINGS_COMMIT=master
 # =================================
 
-# Executes corresponding git checkout  
+# Executes corresponding git checkout
 cd $HOME/git/ibpsa/modelica-ibpsa && git checkout $IBPSA_COMMIT
 cd $HOME/git/buildings/modelica-buildings && git checkout $BUILDINGS_COMMIT
