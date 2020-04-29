@@ -137,6 +137,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.name = 'testcase2'
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
+        self.step_ref = 3600.0
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
