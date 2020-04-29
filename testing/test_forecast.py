@@ -62,7 +62,7 @@ class PartialForecasterTest(object):
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
-class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialTimeseries,
+class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
                                PartialForecasterTest):
     '''Tests the Forecaster class in a single-zone example.
         
@@ -88,7 +88,7 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialTimeseries,
         self.ref_forecast_interval = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_interval.csv')
 
-class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialTimeseries,
+class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                               PartialForecasterTest):
     '''Tests the Forecaster class in a multi-zone example.
         
