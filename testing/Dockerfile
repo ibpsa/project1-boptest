@@ -17,7 +17,7 @@ RUN git clone https://github.com/ibpsa/modelica-ibpsa.git $HOME/git/ibpsa/modeli
     cd $HOME/git/ibpsa/modelica-ibpsa && \
     cd $HOME/git/buildings/modelica-buildings
 
-RUN python -m pip install --user flask-restful pandas==0.22.0 requests
+RUN python -m pip install --user flask-restful pandas requests
 
 WORKDIR $ROOT_DIR
 
