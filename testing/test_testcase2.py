@@ -12,7 +12,7 @@ import utilities
 import requests
 from examples.python import szvav_sup
 
-class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
+class ExampleSupervisoryPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of a supervisory controller in Python.
     
     '''
@@ -51,7 +51,7 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialTimeseries):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'customizedkpis.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)   
 
-class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialTimeseries):
+class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of a supervisory controller in Julia.
     
     '''

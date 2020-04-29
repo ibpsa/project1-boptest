@@ -12,7 +12,7 @@ import utilities
 import requests
 from examples.python import twoday_p
 
-class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
+class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller in Python.
     
     '''
@@ -51,7 +51,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialTimeseries):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'customizedkpis.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)      
             
-class ExampleProportionalJulia(unittest.TestCase, utilities.partialTimeseries):
+class ExampleProportionalJulia(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller in Julia.
     
     '''
