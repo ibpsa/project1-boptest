@@ -100,27 +100,34 @@ class KPI_Calculator(object):
 
         '''
         
-        # Load temperature set points from test case data
         index=self.case.y_store['time']
-        LowerSetp = np.array(self.case.data_manager.get_data(index=index)
-                             ['LowerSetp'])
-        UpperSetp = np.array(self.case.data_manager.get_data(index=index)
-                             ['UpperSetp']) 
+        
         tdis_tot = 0
         tdis_dict = OrderedDict()
-        for signal in self.case.kpi_json['AirZoneTemperature']:
-            data = np.array(self.case.y_store[signal])
-            dT_lower = LowerSetp - data
-            dT_lower[dT_lower<0]=0
-            dT_upper = data - UpperSetp
-            dT_upper[dT_upper<0]=0
-            tdis_dict[signal[:-1]+'dTlower_y'] = \
-                trapz(dT_lower,self.case.y_store['time'])/3600.
-            tdis_dict[signal[:-1]+'dTupper_y'] = \
-                trapz(dT_upper,self.case.y_store['time'])/3600.
-            tdis_tot = tdis_tot + \
-                      tdis_dict[signal[:-1]+'dTlower_y'] + \
-                      tdis_dict[signal[:-1]+'dTupper_y']
+        
+        for source in self.case.kpi_json.keys():
+            if source.startswith('AirZoneTemperature'):
+                # This is a potential source of thermal discomfort
+                zone_id = source.replace('AirZoneTemperature[','')[:-1]
+                
+                for signal in self.case.kpi_json[source]:
+                    # Load temperature set points from test case data
+                    LowerSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['LowerSetp[{0}]'.format(zone_id)])
+                    UpperSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['UpperSetp[{0}]'.format(zone_id)])                     
+                    data = np.array(self.case.y_store[signal])
+                    dT_lower = LowerSetp - data
+                    dT_lower[dT_lower<0]=0
+                    dT_upper = data - UpperSetp
+                    dT_upper[dT_upper<0]=0
+                    tdis_dict[signal[:-1]+'dTlower_y'] = \
+                        trapz(dT_lower,self.case.y_store['time'])/3600.
+                    tdis_dict[signal[:-1]+'dTupper_y'] = \
+                        trapz(dT_upper,self.case.y_store['time'])/3600.
+                    tdis_tot = tdis_tot + \
+                              tdis_dict[signal[:-1]+'dTlower_y'] + \
+                              tdis_dict[signal[:-1]+'dTupper_y']
         
         self.case.tdis_tot  = tdis_tot
         self.case.tdis_dict = tdis_dict
@@ -150,21 +157,27 @@ class KPI_Calculator(object):
 
         '''
         
-        # Load CO2 set points from test case data
         index=self.case.y_store['time']
-        UpperSetp = np.array(self.case.data_manager.get_data(index=index)
-                             ['UpperCO2']) 
         
         idis_tot = 0
         idis_dict = OrderedDict()
-        for signal in self.case.kpi_json['CO2Concentration']:
-            data = np.array(self.case.y_store[signal])
-            dI_upper = data - UpperSetp
-            dI_upper[dI_upper<0]=0
-            idis_dict[signal[:-1]+'dIupper_y'] = \
-                trapz(dI_upper,self.case.y_store['time'])/3600.
-            idis_tot = idis_tot + \
-                      idis_dict[signal[:-1]+'dIupper_y']
+        
+        for source in self.case.kpi_json.keys():
+            if source.startswith('CO2Concentration'):
+                # This is a potential source of iaq discomfort
+                zone_id = source.replace('CO2Concentration[','')[:-1]
+                
+                for signal in self.case.kpi_json[source]:
+                    # Load CO2 set points from test case data
+                    UpperSetp = np.array(self.case.data_manager.get_data(index=index)
+                                     ['UpperCO2[{0}]'.format(zone_id)])                     
+                    data = np.array(self.case.y_store[signal])
+                    dI_upper = data - UpperSetp
+                    dI_upper[dI_upper<0]=0
+                    idis_dict[signal[:-1]+'dIupper_y'] = \
+                        trapz(dI_upper,self.case.y_store['time'])/3600.
+                    idis_tot = idis_tot + \
+                              idis_dict[signal[:-1]+'dIupper_y']
         
         self.case.idis_tot  = idis_tot
         self.case.idis_dict = idis_dict
