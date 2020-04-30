@@ -103,7 +103,7 @@ class MinMax(unittest.TestCase):
         '''
         
         # Run test
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
         # Check kpis
         value = float(y['PHea_y'])
@@ -115,7 +115,7 @@ class MinMax(unittest.TestCase):
         '''
         
         # Run test
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":500000}).json()
         # Check kpis
         value = float(y['PHea_y'])
@@ -137,6 +137,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.name = 'testcase1'
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
+        self.step_ref = 60.0
         
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

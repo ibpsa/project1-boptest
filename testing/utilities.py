@@ -357,13 +357,39 @@ class partialTestAPI(partialChecks):
         self.assertEqual(step, step_set)
         requests.put('{0}/step'.format(self.url), data={'step':step_current})
         
-    def test_reset(self):
-        '''Test reseting of test.
+    def test_initialize(self):
+        '''Test initialization of test simulation.
         
         '''
 
-        requests.put('{0}/reset'.format(self.url))
-        
+        # Get current step
+        step = requests.get('{0}/step'.format(self.url)).json()
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
+        # Check results are empty again
+        y = requests.get('{0}/results'.format(self.url)).json()
+        for key in y.keys():
+            for var in y[key].keys():
+                self.assertEqual(len(y[key][var]), 0)
+        # Advance
+        requests.put('{0}/step'.format(self.url), data={'step':1*24*3600})
+        y = requests.post('{0}/advance'.format(self.url),data = {}).json()
+        res = requests.get('{0}/results'.format(self.url)).json()
+        # Check trajectories
+        # Make dataframe
+        df = pd.DataFrame()
+        for s in ['y','u']:
+            for x in res[s].keys():
+                if x != 'time':
+                    df = pd.concat((df,pd.DataFrame(data=res[s][x], index=res['y']['time'],columns=[x])), axis=1)
+        df.index.name = 'time'
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Set step back to step
+        requests.put('{0}/step'.format(self.url), data={'step':step})
+
     def test_advance_no_data(self):
         '''Test advancing of simulation with no input data.
 
@@ -372,7 +398,8 @@ class partialTestAPI(partialChecks):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
         df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
@@ -387,7 +414,6 @@ class partialTestAPI(partialChecks):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url))
         if self.name == 'testcase1':
             u = {'oveAct_activate':0, 'oveAct_u':1500}
         elif self.name == 'testcase2':
@@ -395,7 +421,8 @@ class partialTestAPI(partialChecks):
         elif self.name == 'testcase3':
             u = {'oveActNor_activate':0, 'oveActNor_u':1500,
                  'oveActSou_activate':0, 'oveActSou_u':1500}
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
         df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
@@ -409,8 +436,8 @@ class partialTestAPI(partialChecks):
 
         '''
 
-        # Reset
-        requests.put('{0}/reset'.format(self.url))
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
         df_forecaster = pd.DataFrame(forecast).set_index('time')
@@ -445,8 +472,8 @@ class partialTestAPI(partialChecks):
 
         # Define forecast parameters
         forecast_parameters_ref = {'horizon':3600, 'interval':300}
-        # Reset
-        requests.put('{0}/reset'.format(self.url))
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Set forecast parameters
         requests.put('{0}/forecast_parameters'.format(self.url), 
                      data=forecast_parameters_ref)
