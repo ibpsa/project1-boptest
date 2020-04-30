@@ -6,7 +6,7 @@
 # InternalGainsLat: Latent internal gains [W],,,,,,,
 # Occupancy: Number of occupants [ppl],,,,,,,
 # UpperCO2: Zone CO2 concentration upper limit [ppm],,,,,,,
-time,UpperSetp,LowerSetp,InternalGainsRad,InternalGainsCon,InternalGainsLat,Occupancy,UpperCO2
+time,UpperSetp[1],LowerSetp[1],InternalGainsRad[1],InternalGainsCon[1],InternalGainsLat[1],Occupancy[1],UpperCO2[1]
 0,303.15,288.15,46.464,36.096,0,0,1500
 600,303.15,288.15,46.464,36.096,0,0,1500
 1200,303.15,288.15,46.464,36.096,0,0,1500

@@ -11,7 +11,7 @@ import os
 import utilities
 import requests
 
-class Run(unittest.TestCase, utilities.partialTimeseries):
+class Run(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test case.
     
     '''
@@ -29,8 +29,8 @@ class Run(unittest.TestCase, utilities.partialTimeseries):
         
         '''
 
-        # Reset test case
-        res_reset = requests.put('{0}/reset'.format(self.url))
+        # Initialize test case
+        res_initialize = requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Get default simulation step
         step_def = requests.get('{0}/step'.format(self.url)).json()
         # Simulation Loop
@@ -43,16 +43,7 @@ class Run(unittest.TestCase, utilities.partialTimeseries):
         res_results = requests.get('{0}/results'.format(self.url)).json()
         # Check trajectories
         # Make dataframe
-        df = pd.DataFrame()
-        for s in ['y','u']:
-            for x in res_results[s].keys():
-                if x != 'time':
-                    d = pd.DataFrame(data=res_results[s][x], index=res_results['y']['time'], columns=[x])
-                    s_n = self.create_test_points(d[x])
-                    s_n.name = x
-                    df = pd.concat((df,s_n), axis=1)
-        df.index.name = 'time'
-        
+        df = self.results_to_df(res_results)
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'bestest_air', 'run.csv')
         # Test
