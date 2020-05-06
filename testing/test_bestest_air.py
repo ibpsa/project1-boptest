@@ -30,6 +30,9 @@ class Run(unittest.TestCase, utilities.partialChecks):
         
     def test_summer(self):
         self._run('summer')
+        
+    def test_shoulder(self):
+        self._run('shoulder')
 
     def _run(self, season):
         '''Runs the example and tests the kpi and trajectory results for season.
@@ -37,7 +40,7 @@ class Run(unittest.TestCase, utilities.partialChecks):
         Parameters
         ----------
         season: str
-            'winter' or 'summer'
+            'winter' or 'summer' or 'shoulder'
             
         Returns
         -------
@@ -46,9 +49,11 @@ class Run(unittest.TestCase, utilities.partialChecks):
         '''
 
         if season == 'winter':
-            start_time = 0
+            start_time = 1*24*3600
         elif season == 'summer':
-            start_time = 7*30*24*3600
+            start_time = 248*24*3600
+        elif season == 'shoulder':
+            start_time = 118*24*3600
         else:
             raise ValueError('Season {0} unknown.'.format(season))
         # Initialize test case
