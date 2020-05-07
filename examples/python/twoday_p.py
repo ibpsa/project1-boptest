@@ -87,8 +87,10 @@ def run(plot=False, customized_kpi_config=None):
     # RUN TEST CASE
     # -------------
     # Reset test case
-    print('Resetting test case if needed.')
-    res = requests.put('{0}/reset'.format(url))
+    print('Initializing the simualation.')
+    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0})
+    if res:
+        print('Successfully initialized the simulation')
     # Set simulation step
     print('Setting simulation step to {0}.'.format(step))
     res = requests.put('{0}/step'.format(url), data={'step':step})

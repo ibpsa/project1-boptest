@@ -3,7 +3,7 @@
 # InternalGainsRad: Radiative internal gains [W]
 # InternalGainsCon: Convective internal gains [W]
 # InternalGainsLat: Latent internal gains [W]
-time,InternalGainsRad,InternalGainsCon,InternalGainsLat
+time,InternalGainsRad[1],InternalGainsCon[1],InternalGainsLat[1]
 0,0,0,0
 3600,0,0,0
 7200,0,0,0
