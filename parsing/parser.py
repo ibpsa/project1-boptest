@@ -85,6 +85,13 @@ def parse_instances(model_path, file_name):
             instances[label][instance]['Maximum'] = maxi
         else:
             signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
+            # Split certain signal types for multi-zone
+            if signal_type in ['AirZoneTemperature',
+                               'RadiativeZoneTemperature',
+                               'OperativeZoneTemperature',
+                               'RelativeHumidity',
+                               'CO2Concentration']:
+                signal_type = '{0}[{1}]'.format(signal_type, fmu.get(instance+'.zone')[0])
             if signal_type is 'None':
                 continue
             elif signal_type in signals:

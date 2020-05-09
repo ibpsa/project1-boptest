@@ -1,5 +1,5 @@
 {"weather": ["pAtm","nTot","nOpa","HGloHor",
-             "HDifHor","HDirNor","celHei","winSpe",
+             "HDifHor","HDirNor","ceiHei","winSpe",
              "HHorIR","winDir","cloTim","solTim",
              "TDewPoi","relHum","TDryBul","TWetBul",
              "solAlt","solZen","solDec","solHouAng",
