@@ -32,6 +32,10 @@ case = TestCase()
 # ``step`` interface
 parser_step = reqparse.RequestParser()
 parser_step.add_argument('step')
+# ``initialize`` interface
+parser_initialize = reqparse.RequestParser()
+parser_initialize.add_argument('start_time')
+parser_initialize.add_argument('warmup_period')
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
@@ -55,13 +59,16 @@ class Advance(Resource):
         y = case.advance(u)
         return y
 
-class Reset(Resource):
-    '''Interface to test case simulation step size.'''
+class Initialize(Resource):
+    '''Interface to initialize the test case simulation.'''
     
     def put(self):
-        '''PUT request to reset the test.'''
-        case.reset()
-        return 'Testcase reset.'
+        '''PUT request to initialize the test.'''
+        args = parser_initialize.parse_args()
+        start_time = float(args['start_time'])
+        warmup_period = float(args['warmup_period'])
+        result = case.initialize(start_time,warmup_period)      
+        return result
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''
@@ -147,7 +154,7 @@ class Name(Resource):
 # ADD REQUESTS TO API WITH URL EXTENSION
 # --------------------------------------
 api.add_resource(Advance, '/advance')
-api.add_resource(Reset, '/reset')
+api.add_resource(Initialize, '/initialize')
 api.add_resource(Step, '/step')
 api.add_resource(Inputs, '/inputs')
 api.add_resource(Measurements, '/measurements')

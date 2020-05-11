@@ -67,8 +67,8 @@ def run_tests(test_file_name):
     with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
                 
-class partialTimeseries(object):
-    '''This partial class implements common API testing timeseries data.
+class partialChecks(object):
+    '''This partial class implements common ref data check methods.
     
     '''
     
@@ -97,6 +97,69 @@ class partialTimeseries(object):
             for key in df.columns:
                 y_test = self.create_test_points(df[key]).get_values()
                 y_ref = self.create_test_points(df_ref[key]).get_values()
+                results = self.check_trajectory(y_test, y_ref)
+                self.assertTrue(results['Pass'], '{0} Key is {1}.'.format(results['Message'],key))
+        else:
+            # Otherwise, save as reference
+            df.to_csv(ref_filepath)
+            
+        return None
+    
+    def compare_ref_json(self, json_test, ref_filepath):
+            '''Compare a json to a reference json saved as .json.
+            
+            Parameters
+            ----------
+            json_test : Dict
+                Test json in the form of a dictionary.
+            ref_filepath : str
+                Reference .json file path relative to testing directory.
+                
+            Returns
+            -------
+            None
+            
+            '''
+            
+            # Perform test
+            if os.path.exists(ref_filepath):
+                # If reference exists, check it
+                with open(ref_filepath, 'r') as f:
+                    json_ref = json.load(f)               
+                self.assertTrue(json_test==json_ref, 'json_test:\n{0}\ndoes not equal\njson_ref:\n{1}'.format(json_test, json_ref))
+            else:
+                # Otherwise, save as reference
+                with open(ref_filepath, 'w') as f:
+                    json.dump(json_test,f)
+                
+            return None
+        
+    def compare_ref_values_df(self, df, ref_filepath):
+        '''Compare a values dataframe to a reference csv.
+        
+        Parameters
+        ----------
+        df : pandas DataFrame
+            Test dataframe with a number of keys as index paired with values.
+        ref_filepath : str
+            Reference file path relative to testing directory.
+            
+        Returns
+        -------
+        None
+        
+        '''
+        
+        # Check keys is index
+        assert(df.index.name == 'keys')
+        assert(df.columns.to_list() == ['value'])
+        # Perform test
+        if os.path.exists(ref_filepath):
+            # If reference exists, check it
+            df_ref = pd.read_csv(ref_filepath, index_col='keys')           
+            for key in df.index.values:
+                y_test = [df.loc[key,'value']]
+                y_ref = [df_ref.loc[key,'value']]
                 results = self.check_trajectory(y_test, y_ref)
                 self.assertTrue(results['Pass'], '{0} Key is {1}.'.format(results['Message'],key))
         else:
@@ -201,8 +264,32 @@ class partialTimeseries(object):
         s_test = pd.Series(data=data_interp, index=t)
         
         return s_test
+    
+    def results_to_df(self, results):
+        '''Convert results from boptest into pandas DataFrame timeseries.
+        
+        Parameters
+        ----------
+        results: dict
+            Dictionary of results provided by boptest api "/results".
+        
+        Returns
+        -------
+        df: pandas DataFrame
+            Timeseries dataframe object with "time" as index in seconds.
+            
+        '''
+        
+        df = pd.DataFrame()
+        for s in ['y','u']:
+            for x in results[s].keys():
+                if x != 'time':
+                    df = pd.concat((df,pd.DataFrame(data=results[s][x], index=results['y']['time'],columns=[x])), axis=1)
+        df.index.name = 'time'
+        
+        return df        
 
-class partialTestAPI(partialTimeseries):
+class partialTestAPI(partialChecks):
     '''This partial class implements common API tests for test cases.
     
     References to self attributes for the tests should be set in the setUp 
@@ -235,13 +322,8 @@ class partialTestAPI(partialTimeseries):
         '''
         
         inputs = requests.get('{0}/inputs'.format(self.url)).json()
-        self.assertEqual(len(inputs), len(self.inputs_ref))
-        for inp in inputs:
-            self.assertTrue(inp in self.inputs_ref)
-            self.assertTrue(inputs[inp]['Unit'] == self.inputs_ref[inp]['Unit'])
-            self.assertTrue(inputs[inp]['Description'] == self.inputs_ref[inp]['Description'])
-            self.assertTrue(inputs[inp]['Minimum'] == self.inputs_ref[inp]['Minimum'])
-            self.assertTrue(inputs[inp]['Maximum'] == self.inputs_ref[inp]['Maximum'])
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_inputs.json')
+        self.compare_ref_json(inputs, ref_filepath)
 
     def test_get_measurements(self):
         '''Test getting the measurement list of test.
@@ -249,13 +331,8 @@ class partialTestAPI(partialTimeseries):
         '''
 
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        self.assertEqual(len(measurements), len(self.measurements_ref))
-        for measurement in measurements:
-            self.assertTrue(measurement in self.measurements_ref)
-            self.assertTrue(measurements[measurement]['Unit'] == self.measurements_ref[measurement]['Unit'])
-            self.assertTrue(measurements[measurement]['Description'] == self.measurements_ref[measurement]['Description'])
-            self.assertTrue(measurements[measurement]['Minimum'] == self.measurements_ref[measurement]['Minimum'])
-            self.assertTrue(measurements[measurement]['Maximum'] == self.measurements_ref[measurement]['Maximum'])
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_measurements.json')
+        self.compare_ref_json(measurements, ref_filepath)
 
     def test_get_step(self):
         '''Test getting the communication step of test.
@@ -263,26 +340,56 @@ class partialTestAPI(partialTimeseries):
         '''
 
         step = requests.get('{0}/step'.format(self.url)).json()
-        self.assertEqual(step, self.step_ref)
+        df = pd.DataFrame(data=[step], index=['step'], columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_step.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         
     def test_set_step(self):
         '''Test setting the communication step of test.
         
         '''
 
+        step_current = requests.get('{0}/step'.format(self.url)).json()
         step = 101
         requests.put('{0}/step'.format(self.url), data={'step':step})
         step_set = requests.get('{0}/step'.format(self.url)).json()
         self.assertEqual(step, step_set)
-        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
+        requests.put('{0}/step'.format(self.url), data={'step':step_current})
         
-    def test_reset(self):
-        '''Test reseting of test.
+    def test_initialize(self):
+        '''Test initialization of test simulation.
         
         '''
 
-        requests.put('{0}/reset'.format(self.url))
-        
+        # Get current step
+        step = requests.get('{0}/step'.format(self.url)).json()
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
+        # Check results are empty again
+        y = requests.get('{0}/results'.format(self.url)).json()
+        for key in y.keys():
+            for var in y[key].keys():
+                self.assertEqual(len(y[key][var]), 0)
+        # Advance
+        requests.put('{0}/step'.format(self.url), data={'step':1*24*3600})
+        y = requests.post('{0}/advance'.format(self.url),data = {}).json()
+        res = requests.get('{0}/results'.format(self.url)).json()
+        # Check trajectories
+        # Make dataframe
+        df = pd.DataFrame()
+        for s in ['y','u']:
+            for x in res[s].keys():
+                if x != 'time':
+                    df = pd.concat((df,pd.DataFrame(data=res[s][x], index=res['y']['time'],columns=[x])), axis=1)
+        df.index.name = 'time'
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Set step back to step
+        requests.put('{0}/step'.format(self.url), data={'step':step})
+
     def test_advance_no_data(self):
         '''Test advancing of simulation with no input data.
 
@@ -291,10 +398,13 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        for key in y.keys():
-            self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_no_data.csv')
+        self.compare_ref_values_df(df, ref_filepath)
 
     def test_advance_false_overwrite(self):
         '''Test advancing of simulation with overwriting as false.
@@ -304,15 +414,20 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url))
         if self.name == 'testcase1':
-            u = {'oveAct_u':0, 'oveAct_activate':1500}
+            u = {'oveAct_activate':0, 'oveAct_u':1500}
         elif self.name == 'testcase2':
             u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
-        requests.put('{0}/reset'.format(self.url))
+        elif self.name == 'testcase3':
+            u = {'oveActNor_activate':0, 'oveActNor_u':1500,
+                 'oveActSou_activate':0, 'oveActSou_u':1500}
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
-        for key in y.keys():
-            self.assertAlmostEqual(y[key], self.y_ref[key], places=3)
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
+        self.compare_ref_values_df(df, ref_filepath)
 
     def test_get_forecast_default(self):
         '''Check that the forecaster is able to retrieve the data.
@@ -321,17 +436,14 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
-        requests.put('{0}/reset'.format(self.url))
-        
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
-        
-        # Set reference file path
-        ref_filepath = self.forecast_default_ref
-        
-        # Check the forecast
         df_forecaster = pd.DataFrame(forecast).set_index('time')
-
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_default.csv')
+        # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
         
     def test_put_and_get_parameters(self):
@@ -339,17 +451,17 @@ class partialTestAPI(partialTimeseries):
 
         '''
 
+        # Define forecast parameters
+        forecast_parameters_ref = {'horizon':3600, 'interval':300}
         # Set forecast parameters
         ret = requests.put('{0}/forecast_parameters'.format(self.url), 
-                           data=self.forecast_parameters_ref)
-        
+                           data=forecast_parameters_ref)
         # Get forecast parameters
         forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
-        
         # Check the forecast parameters
-        self.assertDictEqual(forecast_parameters, self.forecast_parameters_ref)
+        self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
         # Check the return on the put request
-        self.assertDictEqual(ret.json(), self.forecast_parameters_ref)
+        self.assertDictEqual(ret.json(), forecast_parameters_ref)
         
     def test_get_forecast_with_parameters(self):
         '''Check that the forecaster is able to retrieve the data.
@@ -358,19 +470,17 @@ class partialTestAPI(partialTimeseries):
         
         '''  
 
-        requests.put('{0}/reset'.format(self.url))
-        
+        # Define forecast parameters
+        forecast_parameters_ref = {'horizon':3600, 'interval':300}
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Set forecast parameters
         requests.put('{0}/forecast_parameters'.format(self.url), 
-                     data=self.forecast_parameters_ref)
-        
+                     data=forecast_parameters_ref)
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
-        
-        # Set reference file path
-        ref_filepath = self.forecast_with_parameters_ref
-        
-        # Check the forecast
         df_forecaster = pd.DataFrame(forecast).set_index('time')
-
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
+        # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
