@@ -201,6 +201,23 @@ class partialChecks(object):
         if len(y_test) != len(y_ref):
             result['Pass'] = False
             result['Message'] = 'Test and reference trajectory not the same length.'
+        
+        # Then, check any nan's
+        elif np.isnan(y_test).any() or np.isnan(y_ref).any():
+            # Check if should have nan
+            if not np.isnan(y_ref).any():
+                result['Pass'] = False
+                result['Message'] = 'NAN detected in y_test but not in y_ref.'
+            elif not np.isnan(y_test).any():
+                result['Pass'] = False
+                result['Message'] = 'NAN detected in y_ref but not in y_test.'                
+            else:
+                y_test_nan = np.isnan(y_test)
+                y_ref_nan = np.isnan(y_ref)
+                if not (y_test_nan == y_ref_nan).any():
+                    result['Pass'] = False
+                    result['Message'] = 'NAN detected in y_test different than in y_ref.'
+        # Check errors
         else:
             # Initialize error arrays
             err_abs = np.zeros(len(y_ref))
@@ -225,7 +242,7 @@ class partialChecks(object):
                     result['ErrorMax'] = err_max,
                     result['IndexMax'] = i_max,
                     result['Message'] = 'Max error ({0}) in trajectory greater than tolerance ({1}) at index {2}. y_test: {3}, y_ref:{4}'.format(err_max, tol, i_max, y_test[i_max], y_ref[i_max])
-        
+                    
         return result
     
     def create_test_points(self, s,n=500):
