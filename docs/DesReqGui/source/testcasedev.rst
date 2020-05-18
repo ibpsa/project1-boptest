@@ -278,6 +278,8 @@ The CSV data files should accomplish the following requirements:
 data contained in the csv file.  These header rows can be indicated by starting
 the row with the character "#".
 
+5. The columns of data can indicate "NA" under the appropriate column name if that data is not utilized in the emulator (e.g. under PriceBiomassPower if no Biomass power is used).
+
 Two python modules are developed to generate and handle the data, 
 these are the Data_Generator and the Data_Manager modules, respectively.
 
