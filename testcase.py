@@ -146,6 +146,7 @@ class TestCase(object):
         
         # Calculate and store the elapsed time 
         if hasattr(self, 'tic_time'):
+
             self.tac_time = time.time()
             self.elapsed_control_time.append(self.tac_time-self.tic_time)
             
@@ -198,11 +199,11 @@ class TestCase(object):
             # Raise the flag to compute time lapse
             self.tic_time = time.time()
 
-            return self.y
+            return {'message':'success','result':self.y}
 
         else:
 
-            return None        
+            return {'message':'fail to advance: simulation fail to advance','result':None}        
 
     def initialize(self, start_time, warmup_period):
         '''Initialize the test simulation.
@@ -236,11 +237,11 @@ class TestCase(object):
             # Set internal start time to start_time
             self.start_time = start_time
 
-            return True
-        
+            return {'message':'success'}
+
         else:
 
-            return False
+            return {'message':'fail to initialize: simulation fail to advance'} 
         
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
@@ -260,10 +261,19 @@ class TestCase(object):
         None
         
         '''
+
+        try: 
         
-        self.step = float(step)
+             self.step = float(step)
+            
+        except TypeError:
         
-        return None
+             return {'message':'fail to set step: insufficient input','result':None}
+             
+        except ValueError:
+        
+             return {'message':'fail to set step: invalid input','result':None}     
+
         
     def get_inputs(self):
         '''Returns a dictionary of control inputs and their meta-data.
@@ -361,11 +371,20 @@ class TestCase(object):
         None
         
         '''
+
+        try: 
         
-        self.horizon = float(horizon)
-        self.interval = float(interval)
+             self.horizon = float(horizon)
         
-        return None
+             self.interval = float(interval)
+            
+        except TypeError:
+        
+             return {'message':'fail to set the forecast: insufficient input','result':None}
+             
+        except ValueError:
+        
+             return {'message':'fail to set the forecast: invalid input','result':None}     
     
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.'''

@@ -7,9 +7,21 @@ The API is implemented using the ``flask`` package.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
+import logging
+import argparse
 # ----------------------
+
+# LOGGING SETTING
+# ----------------
+parser = argparse.ArgumentParser()
+parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],help="Provide logging level. Example --log DEBUG'")
+
+log_level = parser.parse_args()
+
+logging.basicConfig(level=getattr(logging, log_level.logLevel))
+# ----------------
 
 # TEST CASE IMPORT
 # ----------------
@@ -20,6 +32,7 @@ from testcase import TestCase
 # ------------------
 app = Flask(__name__)
 api = Api(app)
+
 # ------------------
 
 # INSTANTIATE TEST CASE
@@ -55,19 +68,69 @@ class Advance(Resource):
     def post(self):
         '''POST request with input data to advance the simulation one step 
         and receive current measurements.'''
+                
+        parse = request.get_json(silent = True)
+        
+        if parse is None:
+                    
+            return {'message':'fail to advance: invalid json input','result':None}        
+        
         u = parser_advance.parse_args()
-        y = case.advance(u)
-        return y
+        
+        app.logger.info("Receiving a new advance request: {}".format(u)) 
+                
+        result = case.advance(u)
+        
+        if result['message'] == 'success':
+
+            app.logger.info("Advanced the simulation")
+        
+        else:
+        
+            app.logger.error("Fail to advanced the simulation")   
+                    
+        return result        
 
 class Initialize(Resource):
     '''Interface to initialize the test case simulation.'''
     
     def put(self):
         '''PUT request to initialize the test.'''
+        
+        parse = request.get_json(silent = True)
+        
+        if parse is None:
+                    
+            return {'message':'fail to initialize: invalid json input','result':None}  
+               
         args = parser_initialize.parse_args()
-        start_time = float(args['start_time'])
-        warmup_period = float(args['warmup_period'])
-        result = case.initialize(start_time,warmup_period)      
+        
+        app.logger.info("Receiving a new initialize request: {}".format(args)) 
+        
+        try: 
+        
+            start_time = float(args['start_time'])
+            
+            warmup_period = float(args['warmup_period'])
+            
+        except TypeError:
+        
+            return {'message':'fail to initialize: insufficient input','result':None}
+             
+        except ValueError:
+        
+            return {'message':'fail to initialize: invalid input','result':None}               
+            
+        result = case.initialize(start_time,warmup_period)  
+
+        if result['message'] == 'success':
+
+            app.logger.info("Reset the simulation start time to: {}".format(start_time)) 
+        
+        else:
+        
+            app.logger.error("Fail to initialize the simulation")                          
+        
         return result
 
 class Step(Resource):
@@ -75,22 +138,49 @@ class Step(Resource):
     
     def get(self):
         '''GET request to receive current simulation step in seconds.'''
+                
+        app.logger.info("Receiving a new query for step") 
+        
         step = case.get_step()
         return step
 
     def put(self):
         '''PUT request to set simulation step in seconds.'''
+               
+        parse = request.get_json(silent = True)
+        
+        if parse is None:
+                    
+            return {'message':'fail to set step: invalid json input','result':None}          
+        
         args = parser_step.parse_args()
+        
+        app.logger.info("Receiving a new set step request: {}".format(args)) 
+        
         step = args['step']
-        case.set_step(step)
-        return step, 201
+        
+        result = case.set_step(step)
+
+        if result['message'] == 'success':
+
+            app.logger.info("Set the step to {}".format(step))
+        
+        else:
+        
+            app.logger.error("Fail to set the step")   
+                                     
+        return result
         
 class Inputs(Resource):
     '''Interface to test case inputs.'''
     
     def get(self):
         '''GET request to receive list of available inputs.'''
+
+        app.logger.info("Receiving a new query for input list")         
+        
         u_list = case.get_inputs()
+        
         return u_list
         
 class Measurements(Resource):
@@ -98,6 +188,9 @@ class Measurements(Resource):
     
     def get(self):
         '''GET request to receive list of available measurements.'''
+        
+        app.logger.info("Receiving a new query for output list")           
+        
         y_list = case.get_measurements()
         return y_list
         
@@ -106,6 +199,9 @@ class Results(Resource):
     
     def get(self):
         '''GET request to receive measurement data.'''
+        
+        app.logger.info("Receiving a new query for outputs")          
+        
         Y = case.get_results()
         return Y
         
@@ -114,6 +210,9 @@ class KPI(Resource):
     
     def get(self):
         '''GET request to receive KPI data.'''
+        
+        app.logger.info("Receiving a new query for KPI")            
+        
         kpi = case.get_kpis()
         return kpi
     
@@ -122,23 +221,49 @@ class Forecast_Parameters(Resource):
     
     def get(self):
         '''GET request to receive forecast parameters.'''
+        
+        app.logger.info("Receiving a new query for forecast parameters")           
+        
         forecast_parameters = case.get_forecast_parameters()
         return forecast_parameters
     
     def put(self):
         '''PUT request to set forecast horizon and interval inseconds.'''
+        
+        parse = request.get_json(silent = True)
+        
+        if parse is None:
+                    
+            return {'message':'fail to set forecast: invalid json input','result':None}  
+
         args = parser_forecast_parameters.parse_args()
+
+        app.logger.info("Receiving a new request for setting the forecast: ()".format(args))   
+             
         horizon  = args['horizon']
+        
         interval = args['interval']
-        case.set_forecast_parameters(horizon, interval)
-        forecast_parameters = case.get_forecast_parameters()
-        return forecast_parameters
+        
+        result = case.set_forecast_parameters(horizon, interval)
+        
+        if result['message'] == 'success':
+
+            app.logger.info("Set the forecast parameters to horizon: {} and interval: {}".format(horizon, interval))
+        
+        else:
+        
+            app.logger.error("Fail to set the forecast")   
+
+        return result
     
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
     
     def get(self):
         '''GET request to receive forecast data.'''
+        
+        app.logger.info("Receiving a new query for forecast")            
+        
         forecast = case.get_forecast()
         return forecast
         
@@ -147,6 +272,9 @@ class Name(Resource):
     
     def get(self):
         '''GET request to receive test case name.'''
+        
+        app.logger.info("Receiving a new query for case name")           
+        
         name = case.get_name()
         return name
 # --------------------
@@ -166,4 +294,4 @@ api.add_resource(Name, '/name')
 # --------------------------------------
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
