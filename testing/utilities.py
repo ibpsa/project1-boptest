@@ -93,7 +93,14 @@ class partialChecks(object):
         # Perform test
         if os.path.exists(ref_filepath):
             # If reference exists, check it
-            df_ref = pd.read_csv(ref_filepath, index_col='time')           
+            df_ref = pd.read_csv(ref_filepath, index_col='time')   
+            # Check all keys in reference are in test
+            for key in df_ref.columns.to_list():
+                self.assertTrue(key in df.columns.to_list(), 'Reference key {0} not in test data.'.format(key))
+            # Check all keys in test are in reference
+            for key in df.columns.to_list():
+                self.assertTrue(key in df_ref.columns.to_list(), 'Test key {0} not in reference data.'.format(key))
+            # Check trajectories
             for key in df.columns:
                 y_test = self.create_test_points(df[key]).get_values()
                 y_ref = self.create_test_points(df_ref[key]).get_values()
