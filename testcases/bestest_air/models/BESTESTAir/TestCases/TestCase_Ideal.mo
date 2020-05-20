@@ -451,12 +451,6 @@ see https://www.xcelenergy.com/company/rates_and_regulations/rates/rate_books
 in the section on Summary of Gas Rates for 10/1/19.
 </ul>
 </p>
-<p>
-All <b>Other Price</b> profiles are:
-<ul>
-$0/kWh.
-</ul>
-</p>
 <h4>Emission Factors</h4>
 <p>
 The <b>Electricity Emissions Factor</b> profile is:
@@ -474,12 +468,6 @@ Based on the kgCO2 emitted per amount of natural gas burned in terms of
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
-</ul>
-</p>
-<p>
-All <b>Other Emissions Factor</b> profiles are:
-<ul>
-0 kgCO2/kWh.
 </ul>
 </p>
 </html>",
