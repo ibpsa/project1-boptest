@@ -272,7 +272,7 @@ The CSV data files should accomplish the following requirements:
 
 2. The files should have a “time” column indicating the time since the beginning of the year in seconds.
 
-3. The files should have column names using the key-words specified by the convention above.
+3. The files should have column names using the key-words specified by the convention above.  Columns that do not apply to the test case may be omitted (e.g. :code:`EmissionsGasPower` if the test case does not use gas power).
 
 4. The files can have optional header rows for holding information about the
 data contained in the csv file.  These header rows can be indicated by starting
