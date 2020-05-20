@@ -4,8 +4,8 @@
 
 # Set modelica library commits here
 # =================================
-IBPSA_COMMIT=master
-BUILDINGS_COMMIT=master
+IBPSA_COMMIT=20348095e407933816a90d5beff307ac1d491887
+BUILDINGS_COMMIT=a31228ee424e954ac59d4a12e26a21d732c11c30
 # =================================
 
 # Executes corresponding git checkout
