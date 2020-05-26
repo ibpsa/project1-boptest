@@ -189,6 +189,8 @@ test_kpis:
 # Run all tests
 ###############################################################################
 test_all:
+# Build boptest
+	cd .. && make setup
 # Build jm
 	make build_jm_image
 # Run tests
@@ -201,6 +203,8 @@ test_all:
 	make test_kpis
 # Remove jm
 	make remove_jm_image
+# Remove boptest
+	cd ../docker && make remove-image
 # Report test results
 	python report.py
 
