@@ -13,12 +13,15 @@ remove-image:
 	docker rmi ${IMG_NAME}
 
 run:
-	$(COMMAND_RUN) --detach=false ${IMG_NAME} /bin/bash -c "python restapi.py && bash"
+	$(COMMAND_RUN) --detach=false ${IMG_NAME} /bin/bash -c ". miniconda/bin/activate && conda activate boptest && python restapi.py && bash"
 
 run-detached:
-	$(COMMAND_RUN) --detach=true ${IMG_NAME} /bin/bash -c "python restapi.py && bash"
+	$(COMMAND_RUN) --detach=true ${IMG_NAME} /bin/bash -c ". miniconda/bin/activate && conda activate boptest && python restapi.py && bash"
 
 stop:
 	docker stop ${IMG_NAME}
+
+setup:
+	cd docker && make build
 
 	

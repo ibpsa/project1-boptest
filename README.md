@@ -19,10 +19,11 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/docs`` contains design requirements and guide documentation.
 
 ## Run Prototype Test Cases
-1) Build the test case by ``$ make build TESTCASE=testcase#`` where # is the number of the test case to build from ``testcases``.
-2) Deploy the test case by ``$ make run TESTCASE=testcase#`` where # is the number of the test case that has been built from ``testcases``.
-3) In a separate process, use the test case API defined below to interact with the test case.
-4) Run an example controller test: 
+1) Build base BOPTEST image by ``$ make setup``
+2) Build the test case image by ``$ make build TESTCASE=testcase#`` where # is the number of the test case to build from ``testcases``.
+3) Deploy the test case by ``$ make run TESTCASE=testcase#`` where # is the number of the test case that has been built from ``testcases``.
+4) In a separate process, use the test case API defined below to interact with the test case.
+5) Run an example controller test: 
 
 * For Python based controllers:
   * in a separate terminal, use ``$ cd examples/python/ && python twoday_p.py`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
@@ -33,8 +34,8 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
   * in a separate terminal, use ``$ cd examples/julia && make build Script=szvav_sup && make run Script=szvav_sup`` to test a simple supervisory controller on the testcase2 over a two-day period.
   * once the test is done, use ``$ make remove-image Script=twoday_p`` or ``$ make remove-image Script=szvav_sup`` to removes containers, networks, volumes, and images.
 
-5) Shutdown test case container by slecting container terminal window and ``Ctrl+C`` to close port, ``Ctrl+D`` to exit docker container.
-6) Remove the test case image by ``$ make remove-image TESTCASE=testcase#``.
+6) Shutdown test case container by slecting container terminal window and ``Ctrl+C`` to close port, ``Ctrl+D`` to exit docker container.
+7) Remove the test case image by ``$ make remove-image TESTCASE=testcase#``.
 
 ## Test Case RESTful API
 - To interact, send RESTful requests to: ``http://127.0.0.1:5000/<request>``
