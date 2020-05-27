@@ -82,10 +82,10 @@ Total operational cost in a given period of time
    is the price profile of equipment :math:`i` with a tariff :math:`\tau` and
    has units of :math:`\$/kW`.
    
-Indoor air quality discomfort 
+Indoor air quality violation 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   The indoor air quality discomfort is the integral of the deviation of the
+   The indoor air quality violation is the integral of the deviation of the
    CO2 concentration above a predefined threshold during a
    given period of time.  The units are :math:`ppmh` and is
    quantified as:
