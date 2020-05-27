@@ -81,6 +81,88 @@ Total operational cost in a given period of time
    between time :math:`t_0` and :math:`t_f` with a tariff :math:`\tau`; :math:`p_i^\tau`
    is the price profile of equipment :math:`i` with a tariff :math:`\tau` and
    has units of :math:`\$/kW`.
+   
+Indoor air quality indicator 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Indoor air quality (IAQ) is always a critical factor in the indoor
+   environment that directly relates to occupant health, comfort, and
+   productivity. Accurate evaluation of IAQ requires a set of
+   measurements of the typical indoor air pollutants (such as
+   Particulate Matter (*PM*), Volatile Organic Compounds (*VOCs*),
+   Nitrogen Dioxide (*NO\ 2*), Formaldehyde, Radon (*Rn*), Biological
+   Pollutants). Direct measurement of those pollutants are typically
+   costly and physical modeling of those pollutants in the indoor
+   environment are not well established. As a result, an alternative
+   path is used to evaluate the IAQ by measuring the amount of fresh air
+   via *CO\ 2*-based evaluation. From the perspective of building HVAC
+   system operation and control, IAQ related control actions include
+   controlling the ratio of fresh air intake and modifying the
+   ventilation rate. Increasing the ventilation rate was found to be
+   associated with reducing sick building syndrome symptoms. ASHRAE
+   Standard 62.1 has setup the minimum requirement for fresh air intake.
+   To evaluate if this requirement has been met, it can be directly
+   calculated by measuring outside air flow rate, recirculating air flow
+   rate, occupant numbers, and building area. This can be also
+   indirectly estimated by measuring carbon dioxide concentration for a
+   building mainly occupied by human beings. Thus, *CO\ 2* concentration
+   has been used as control inputs in demand control ventilation.
+
+   This metric is defined as the total time when *CO\ 2* concentration
+   :math:`C_z(t_i)``\gamma_z` is higher than the ASHRAE recommended value
+   :math:`C_r``\gamma_r` for all the zones in the whole building , during
+   the time interval :math:`\{t_{0},t_{1}\}`:
+
+   .. math:: Unmet_{CO_2} = \sum_{z \in Z}\sum_{t_i=t_0}^{t_1}s(t_i)
+
+   .. math:: s(t_i)=1, if C_z(t_i)>C_r, \quad at \quad time \quad t_i
+
+   .. math:: s(t_i)=0, if C_z(t_i) \leq C_r, \quad at \quad time \quad t_i
+
+   Where :math:`C` denotes the concentration of carbon dioxide *CO\ 2* in
+   ppm. For zone :math:`z`, the carbon dioxide concentration is :math:`C_z(t_i)`
+   at time :math:`t_i`. Let :math:`a` denote the ambient environment. Let
+   :math:`C_r` denotes the required *CO\ 2* concentration threshold from
+   ASHRAE 62.1 (e.g., for office :math:`C_r`=700 ppm + :math:`a`).
+
+   .. math:: \Phi(t_0, t_f) = \sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \phi_z(t) dt
+
+   .. math:: \phi_z(t)=\gamma_z(t)-\gamma_r, \quad if \quad\gamma_z(t)>\gamma_r
+
+   .. math:: \phi_z(t)=0, \quad if \quad \gamma_z(t) \leq \gamma_r
+   
+   Where
+   :math:`\Phi` is the total violation of carbon dioxide *CO\ 2*
+   concentration in ppm*h between the initial time :math:`t_0` and the final
+   time :math:`t_f`. :math:`z` is the zone index for the set of zones in the
+   building :math:`\mathbb{Z}`. :math:`\phi_z` is the deviation of zone :math:`z`
+   from the required *CO\2* concentration threshold from ASHRAE 62.1.
+   
+Computational time ratio
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+   The computational time at iteration :math:`k`, :math:`t_c(k)` is the time
+   required by the controller to compute the inputs to control the
+   building during that iteration. It needs to be shorter than the
+   building-system sampling time period of that iteration, :math:`T_s(k)`.
+   This sampling time is the real time lapse between two instants where
+   the control input signal is computed and applied in the building. The
+   ratio between both indicates the percentage of sampling time used by
+   the controller to compute the inputs. In this sense, the
+   computational time ratio is a good indicator of the scalability of
+   the controller since explains the time left every sampling period
+   that could be used to increase the controller complexity.
+
+   As the computational time and the sampling time period may not be the
+   same for every iteration, an average of these variables is used with
+   all the iterations that take place between the initial time :math:`t_0`
+   and the final time :math:`t_f` for which this KPI is calculated. Thus,
+   the computational time ratio is computed as follows:
+
+   .. math:: t(t_0,t_f) =\frac{\frac{\sum_{k=1}^{n}t_c(k)}{n}}{\frac{\sum_{k=1}^{n}T_s(k)}{n}}= \sum_{k=1}^{n}\frac{t_c(k)}{T_s(k)}
+
+   Where :math:`n` is the number of iterations that take place between
+   :math:`t_0` and :math:`t_f`.
 
 Capability of the controller to steer flexibility
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -177,88 +259,6 @@ Maximum allowed capital cost
    The judgement of whether it is worth to install the new controller
    relies on the BOPTEST user, who can use the objective quantification
    of this KPI to take the decision.
-
-Computational time ratio
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-   The computational time at iteration :math:`k`, :math:`t_c(k)` is the time
-   required by the controller to compute the inputs to control the
-   building during that iteration. It needs to be shorter than the
-   building-system sampling time period of that iteration, :math:`T_s(k)`.
-   This sampling time is the real time lapse between two instants where
-   the control input signal is computed and applied in the building. The
-   ratio between both indicates the percentage of sampling time used by
-   the controller to compute the inputs. In this sense, the
-   computational time ratio is a good indicator of the scalability of
-   the controller since explains the time left every sampling period
-   that could be used to increase the controller complexity.
-
-   As the computational time and the sampling time period may not be the
-   same for every iteration, an average of these variables is used with
-   all the iterations that take place between the initial time :math:`t_0`
-   and the final time :math:`t_f` for which this KPI is calculated. Thus,
-   the computational time ratio is computed as follows:
-
-   .. math:: t(t_0,t_f) =\frac{\frac{\sum_{k=1}^{n}t_c(k)}{n}}{\frac{\sum_{k=1}^{n}T_s(k)}{n}}= \sum_{k=1}^{n}\frac{t_c(k)}{T_s(k)}
-
-   Where :math:`n` is the number of iterations that take place between
-   :math:`t_0` and :math:`t_f`.
-
-Indoor air quality indicator 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-   Indoor air quality (IAQ) is always a critical factor in the indoor
-   environment that directly relates to occupant health, comfort, and
-   productivity. Accurate evaluation of IAQ requires a set of
-   measurements of the typical indoor air pollutants (such as
-   Particulate Matter (*PM*), Volatile Organic Compounds (*VOCs*),
-   Nitrogen Dioxide (*NO\ 2*), Formaldehyde, Radon (*Rn*), Biological
-   Pollutants). Direct measurement of those pollutants are typically
-   costly and physical modeling of those pollutants in the indoor
-   environment are not well established. As a result, an alternative
-   path is used to evaluate the IAQ by measuring the amount of fresh air
-   via *CO\ 2*-based evaluation. From the perspective of building HVAC
-   system operation and control, IAQ related control actions include
-   controlling the ratio of fresh air intake and modifying the
-   ventilation rate. Increasing the ventilation rate was found to be
-   associated with reducing sick building syndrome symptoms. ASHRAE
-   Standard 62.1 has setup the minimum requirement for fresh air intake.
-   To evaluate if this requirement has been met, it can be directly
-   calculated by measuring outside air flow rate, recirculating air flow
-   rate, occupant numbers, and building area. This can be also
-   indirectly estimated by measuring carbon dioxide concentration for a
-   building mainly occupied by human beings. Thus, *CO\ 2* concentration
-   has been used as control inputs in demand control ventilation.
-
-   This metric is defined as the total time when *CO\ 2* concentration
-   :math:`C_z(t_i)``\gamma_z` is higher than the ASHRAE recommended value
-   :math:`C_r``\gamma_r` for all the zones in the whole building , during
-   the time interval :math:`\{t_{0},t_{1}\}`:
-
-   .. math:: Unmet_{CO_2} = \sum_{z \in Z}\sum_{t_i=t_0}^{t_1}s(t_i)
-
-   .. math:: s(t_i)=1, if C_z(t_i)>C_r, \quad at \quad time \quad t_i
-
-   .. math:: s(t_i)=0, if C_z(t_i) \leq C_r, \quad at \quad time \quad t_i
-
-   Where :math:`C` denotes the concentration of carbon dioxide *CO\ 2* in
-   ppm. For zone :math:`z`, the carbon dioxide concentration is :math:`C_z(t_i)`
-   at time :math:`t_i`. Let :math:`a` denote the ambient environment. Let
-   :math:`C_r` denotes the required *CO\ 2* concentration threshold from
-   ASHRAE 62.1 (e.g., for office :math:`C_r`=700 ppm + :math:`a`).
-
-   .. math:: \Phi(t_0, t_f) = \sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \phi_z(t) dt
-
-   .. math:: \phi_z(t)=\gamma_z(t)-\gamma_r, \quad if \quad\gamma_z(t)>\gamma_r
-
-   .. math:: \phi_z(t)=0, \quad if \quad \gamma_z(t) \leq \gamma_r
-   
-   Where
-   :math:`\Phi` is the total violation of carbon dioxide *CO\ 2*
-   concentration in ppm*h between the initial time :math:`t_0` and the final
-   time :math:`t_f`. :math:`z` is the zone index for the set of zones in the
-   building :math:`\mathbb{Z}`. :math:`\phi_z` is the deviation of zone :math:`z`
-   from the required *CO\2* concentration threshold from ASHRAE 62.1.
 
 Calculation Module
 ---------------------
