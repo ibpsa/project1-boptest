@@ -107,27 +107,23 @@ Indoor air quality discomfort
 Computational time ratio
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-   The computational time at iteration :math:`k`, :math:`t_c(k)` is the time
-   required by the controller to compute the inputs to control the
-   building during that iteration. It needs to be shorter than the
-   building-system sampling time period of that iteration, :math:`T_s(k)`.
-   This sampling time is the real time lapse between two instants where
-   the control input signal is computed and applied in the building. The
-   ratio between both indicates the percentage of sampling time used by
-   the controller to compute the inputs. In this sense, the
-   computational time ratio is a good indicator of the scalability of
-   the controller since explains the time left every sampling period
-   that could be used to increase the controller complexity.
+   The computational time at simulation step :math:`k`, :math:`t_c(k)`, is the real time
+   required by the controller to compute the control inputs between simulation
+   steps :math:`k` and :math:`k-1`.  It needs to be shorter than the duration of the
+   simulation step of that iteration, :math:`T_s(k)`.
+   The ratio between :math:`t_c(k)` and :math:`T_s(k)` helps indicate the 
+   practicality of the controller as well as potential for increasing
+   computational time.
 
-   As the computational time and the sampling time period may not be the
-   same for every iteration, an average of these variables is used with
-   all the iterations that take place between the initial time :math:`t_0`
+   As the computational time and the simulation step duration may not be the
+   same for every simulation step, an average of these variables is used from
+   all of the simulation steps that take place between the initial time :math:`t_0`
    and the final time :math:`t_f` for which this KPI is calculated. Thus,
    the computational time ratio is computed as follows:
 
    .. math:: t(t_0,t_f) =\frac{\frac{\sum_{k=1}^{n}t_c(k)}{n}}{\frac{\sum_{k=1}^{n}T_s(k)}{n}}= \sum_{k=1}^{n}\frac{t_c(k)}{T_s(k)}
 
-   Where :math:`n` is the number of iterations that take place between
+   Where :math:`n` is the number of simulation steps that take place between
    :math:`t_0` and :math:`t_f`.
 
 Capability of the controller to steer flexibility
