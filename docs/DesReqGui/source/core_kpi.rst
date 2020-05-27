@@ -36,30 +36,27 @@ Total building energy use in a given period of time
 
    This KPI is the measure of the total building site energy use in :math:`kWh`
    when accounting for the sum of all energy vectors present in the test
-   case. The scenarios defined in each test case determine which
-   components are added and the source data for the conversion factors
-   if required, e.g. energy use for HVAC (heating, cooling, fans,
-   pumps,...), lighting, etc. The mathematical formulation for this KPI
-   is the following:
+   case building. Each test case determines the energy vectors and conversion factors
+   necessary for HVAC (heating, cooling, fans, pumps), lighting, etc. 
+   The mathematical formulation for this KPI is the following:
 
    .. math:: E(t_0, t_f) = \sum_{i\in \xi} \int_{t=t_0}^{t=t_f}\ P_i(t) dt
 
    Where :math:`E(t_0, t_f)` is the total amount of energy use from the
    initial time :math:`t_0` up to the final time :math:`t_f`; :math:`\xi` denotes
-   the set of equipments in the system with an associated energy use of
+   the set of equipment in the system with an associated energy use of
    any type; finally, :math:`P_i` is the instantaneous power used by the
    energy vector :math:`i`.
 
 Total Building CO2 emissions in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   This KPI explains the total amount of CO2 emissions in :math:`kg` using a
-   fixed emission factor profile for each emulator. This emission factor
-   is chosen to depend on the emulator because is related with the
-   energy mix associated with the location at national level, and also
-   because the type of architecture is tailored for the specific
-   location. According to this, the total amount of CO2 emissions are
-   calculated as:
+   This KPI is the measure of the total amount of source CO2 emissions in 
+   :math:`kg` when accounting for the sum of all energy vectors in the test
+   case building, each using an emission factor profile based on the source of energy. 
+   The emission factors are to be related with the energy mix associated with 
+   the location of the test case building. According to this, the total 
+   amount of CO2 emissions are calculated as:
 
    .. math:: \epsilon (t_0, t_f) = \sum_{i\in \xi} \int_{t=t_0}^{t=t_f}e_i(t)P_i(t) dt 
 
@@ -71,10 +68,12 @@ Total Building CO2 emissions in a given period of time
 Total operational cost in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   The price profile of each energy vector is fixed for each emulator
-   and three specific archetypes of tariffs are defined. These are:
-   constant, moderately dynamic with a day and night tariffs, and highly
-   dynamic.
+   This KPI is the measure of the total operational cost in :math:`\$` when 
+   accounting for the sum of all energy vectors in the test case building, 
+   each using a price profile based on the source of energy and given tariff 
+   archetype.  Three tariff archetypes are defined:
+   constant, moderately dynamic (e.g. day/peak and night/off-peak pricing), 
+   and highly dynamic (e.g. real-time pricing).
 
    .. math:: C^\tau(t_0, t_f) = \sum_{i\in \xi}\int_{t=t_0}^{t=t_f}p_i^\tau(t) P_i(t) dt
 
