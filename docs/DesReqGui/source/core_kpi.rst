@@ -132,13 +132,16 @@ Installation metrics
    The installation metrics refer to the effort and cost required to get
    the controller settled and running. Many aspects play a role in this
    sense. They are intrinsically subjective and therefore require
-   qualitative measures. Moreover, these metrics are provided by the
-   client who should specify within the following categories:
+   qualitative measures. Therefore, these metrics are provided by the
+   controller developer in the form of a simple score 
+   according to the following categories.  These categories may be refined in
+   the future.
 
 .. csv-table:: Installation Metrics
    :file: tables/installation_metrics.csv
    :class: longtable
-   :widths: 30,20,20,20,20,20
+   :widths: 30,20,20,20,20,20,20
+   :align: left
 
 Maximum allowed capital cost
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
