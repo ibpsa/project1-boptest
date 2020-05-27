@@ -5,7 +5,9 @@ Core KPIs
 ------------
 
 The following KPI definitions constitute the core KPIs to be calculated
-in every test case, and documentation of the KPI considered during the KPI development is provided in the Appendix (See :ref:`SecAppKpi`). During the IBPSA expert meetings, these core KPIs have been selected as the most
+in every test case, and documentation of the KPI considered during the 
+development phase is provided in the Appendix (See :ref:`SecAppKpi`). 
+During the IBPSA expert meetings, these core KPIs have been selected as the most
 representative and relevant indicators to compare different control
 approaches for buildings. Additional KPIs may be calculated and used for
 specific purposes, but the core KPIs are considered the basis for
@@ -17,8 +19,8 @@ Thermal discomfort in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    The thermal discomfort is the integral of the deviation of the
-   temperature with respect to the predefined comfort range during a
-   given period of time. This means that its units are of :math:`Kh` and is
+   temperature with respect to a predefined comfort range during a
+   given period of time.  The units are :math:`Kh` and is
    quantified as:
 
    .. math:: D(t_0, t_f) = \sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \left \|s_z (t) \right \| dt
