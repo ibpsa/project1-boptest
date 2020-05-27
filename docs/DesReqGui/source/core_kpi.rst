@@ -126,58 +126,6 @@ Computational time ratio
    Where :math:`n` is the number of simulation steps that take place between
    :math:`t_0` and :math:`t_f`.
 
-Capability of the controller to steer flexibility
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-   A controller capable to estimate and steer the flexibility available
-   in a building supposes an added value since it would be able to
-   provide ancillary services to the grid. However, the estimation of
-   this KPI is particularly challenging because of the dependency of
-   flexibility on the previous actions and on the current estate. For
-   this reason, BOPTEST is focused on quantifying how good a controller
-   is able to follow an artificial external signal within a predefined
-   scenario where boundary conditions are given. In this test, the
-   controller is stressed to modify the behavior of the building
-   according to such signal.
-
-   It is worth noting that we are evaluating the capability of the
-   controller to steer flexibility, and not the quantity of flexibility
-   available in the building. The latter is a property of the building
-   itself, while we are interested in evaluating the controller.
-
-   TO BE DISCUSSED.
-
--  The variable used as external signal could be:
-
-   -  Real price profile. I guess this is the most logic since is what
-      an aggregator would normally use to communicate with the
-      buildings.
-
-   -  Virtual price profile.
-
-   -  Imposed energy use.
-
-   -  Imposed temperature setpoint.
-
-   -  Share of renewable energies.
-
--  The shape used as external signal could be:
-
-   -  Step.
-
-   -  Variable profile over a day.
-
--  There are different possible parameters to be measured out of the
-   response of the building. These could be:
-
-   -  Amount of electrical energy that the building deviates from a
-      baseline during the requested flexibility period. It is important
-      to account here for the rebound factor.
-
-   -  Time constant: in case of imposed setpoint and step signal, the
-      period of time that the controller needs to reach a percentage of
-      the setpoint.
-
 Installation metrics
 ~~~~~~~~~~~~~~~~~~~~
 
