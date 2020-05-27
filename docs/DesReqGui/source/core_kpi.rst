@@ -82,61 +82,27 @@ Total operational cost in a given period of time
    is the price profile of equipment :math:`i` with a tariff :math:`\tau` and
    has units of :math:`\$/kW`.
    
-Indoor air quality indicator 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Indoor air quality discomfort 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   Indoor air quality (IAQ) is always a critical factor in the indoor
-   environment that directly relates to occupant health, comfort, and
-   productivity. Accurate evaluation of IAQ requires a set of
-   measurements of the typical indoor air pollutants (such as
-   Particulate Matter (*PM*), Volatile Organic Compounds (*VOCs*),
-   Nitrogen Dioxide (*NO\ 2*), Formaldehyde, Radon (*Rn*), Biological
-   Pollutants). Direct measurement of those pollutants are typically
-   costly and physical modeling of those pollutants in the indoor
-   environment are not well established. As a result, an alternative
-   path is used to evaluate the IAQ by measuring the amount of fresh air
-   via *CO\ 2*-based evaluation. From the perspective of building HVAC
-   system operation and control, IAQ related control actions include
-   controlling the ratio of fresh air intake and modifying the
-   ventilation rate. Increasing the ventilation rate was found to be
-   associated with reducing sick building syndrome symptoms. ASHRAE
-   Standard 62.1 has setup the minimum requirement for fresh air intake.
-   To evaluate if this requirement has been met, it can be directly
-   calculated by measuring outside air flow rate, recirculating air flow
-   rate, occupant numbers, and building area. This can be also
-   indirectly estimated by measuring carbon dioxide concentration for a
-   building mainly occupied by human beings. Thus, *CO\ 2* concentration
-   has been used as control inputs in demand control ventilation.
-
-   This metric is defined as the total time when *CO\ 2* concentration
-   :math:`C_z(t_i)``\gamma_z` is higher than the ASHRAE recommended value
-   :math:`C_r``\gamma_r` for all the zones in the whole building , during
-   the time interval :math:`\{t_{0},t_{1}\}`:
-
-   .. math:: Unmet_{CO_2} = \sum_{z \in Z}\sum_{t_i=t_0}^{t_1}s(t_i)
-
-   .. math:: s(t_i)=1, if C_z(t_i)>C_r, \quad at \quad time \quad t_i
-
-   .. math:: s(t_i)=0, if C_z(t_i) \leq C_r, \quad at \quad time \quad t_i
-
-   Where :math:`C` denotes the concentration of carbon dioxide *CO\ 2* in
-   ppm. For zone :math:`z`, the carbon dioxide concentration is :math:`C_z(t_i)`
-   at time :math:`t_i`. Let :math:`a` denote the ambient environment. Let
-   :math:`C_r` denotes the required *CO\ 2* concentration threshold from
-   ASHRAE 62.1 (e.g., for office :math:`C_r`=700 ppm + :math:`a`).
+   The indoor air quality discomfort is the integral of the deviation of the
+   CO2 concentration above a predefined threshold during a
+   given period of time.  The units are :math:`ppmh` and is
+   quantified as:
 
    .. math:: \Phi(t_0, t_f) = \sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \phi_z(t) dt
 
-   .. math:: \phi_z(t)=\gamma_z(t)-\gamma_r, \quad if \quad\gamma_z(t)>\gamma_r
+   .. math:: \phi_z(t)=\gamma_z(t)-\gamma_{r,z}(t), \quad if \quad\gamma_z(t)>\gamma_{r,z}(t)
 
-   .. math:: \phi_z(t)=0, \quad if \quad \gamma_z(t) \leq \gamma_r
+   .. math:: \phi_z(t)=0, \quad if \quad \gamma_z(t) \leq \gamma_{r,z}(t)
    
    Where
-   :math:`\Phi` is the total violation of carbon dioxide *CO\ 2*
-   concentration in ppm*h between the initial time :math:`t_0` and the final
+   :math:`\Phi` is the total violation of carbon dioxide CO2
+   concentration in :math:`ppmh` between the initial time :math:`t_0` and the final
    time :math:`t_f`. :math:`z` is the zone index for the set of zones in the
-   building :math:`\mathbb{Z}`. :math:`\phi_z` is the deviation of zone :math:`z`
-   from the required *CO\2* concentration threshold from ASHRAE 62.1.
+   building :math:`\mathbb{Z}`. :math:`\phi_z` is the deviation of measured
+   zone CO2 concentration :math:`\gamma_z` from the zone CO2 concentration 
+   threshold :math:`\gamma_{r,z}`.
    
 Computational time ratio
 ~~~~~~~~~~~~~~~~~~~~~~~~
