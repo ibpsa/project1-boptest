@@ -34,7 +34,7 @@ Thermal discomfort in a given period of time
 Total building energy use in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   This KPI is the measure of the total building energy use in :math:`kWh`
+   This KPI is the measure of the total building site energy use in :math:`kWh`
    when accounting for the sum of all energy vectors present in the test
    case. The scenarios defined in each test case determine which
    components are added and the source data for the conversion factors
