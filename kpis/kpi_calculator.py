@@ -106,9 +106,10 @@ class KPI_Calculator(object):
         tdis_dict = OrderedDict()
         
         for source in self.case.kpi_json.keys():
-            if source.startswith('AirZoneTemperature'):
+            if source.startswith('AirZoneTemperature') or \
+               source.startswith('OperativeZoneTemperature'):
                 # This is a potential source of thermal discomfort
-                zone_id = source.replace('AirZoneTemperature[','')[:-1]
+                zone_id = source.split('[')[1][:-1]
                 
                 for signal in self.case.kpi_json[source]:
                     # Load temperature set points from test case data
