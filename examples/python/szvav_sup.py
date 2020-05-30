@@ -18,7 +18,7 @@ import json,collections
 
 # TEST CONTROLLER IMPORT
 # ----------------------
-from controllers import sup
+from examples.python.controllers import sup
 # ----------------------
 
 def run(plot=False, customized_kpi_config=None):

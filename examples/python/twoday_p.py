@@ -18,7 +18,7 @@ import json,collections
 
 # TEST CONTROLLER IMPORT
 # ----------------------
-from controllers import pid
+from examples.python.controllers import pid
 # ----------------------
 
 def run(plot=False, customized_kpi_config=None):

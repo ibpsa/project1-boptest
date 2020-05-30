@@ -16,7 +16,7 @@ import pandas as pd
 
 # TEST CONTROLLER IMPORT
 # ----------------------
-from controllers import pidTwoZones
+from examples.python.controllers import pidTwoZones
 # ----------------------
 
 def run(plot=False):

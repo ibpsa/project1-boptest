@@ -102,8 +102,8 @@ class partialChecks(object):
                 self.assertTrue(key in df_ref.columns.to_list(), 'Test key {0} not in reference data.'.format(key))
             # Check trajectories
             for key in df.columns:
-                y_test = self.create_test_points(df[key]).get_values()
-                y_ref = self.create_test_points(df_ref[key]).get_values()
+                y_test = self.create_test_points(df[key]).to_numpy()
+                y_ref = self.create_test_points(df_ref[key]).to_numpy()
                 results = self.check_trajectory(y_test, y_ref)
                 self.assertTrue(results['Pass'], '{0} Key is {1}.'.format(results['Message'],key))
         else:
@@ -257,7 +257,7 @@ class partialChecks(object):
         '''
         
         # Get data
-        data = s.get_values()
+        data = s.to_numpy()
         index = s.index.values
         # Make interpolated index
         t_min = index.min()
