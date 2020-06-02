@@ -6,7 +6,7 @@
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-using HTTP, JSON, CSV, DataFrames
+using HTTP, JSON, CSV, DataFrames, Dates
 
 # TEST CONTROLLER IMPORT
 # ----------------------
@@ -26,29 +26,44 @@ step = 300
 println("TEST CASE INFORMATION ------------- \n")
 # Test case name
 name = JSON.parse(String(HTTP.get("$url/name").body))
-println("Name:\t\t\t$name")
+if name["message"] == "success"
+    println("Name:\t\t\t$name['result']")
+end
 # Inputs available
 inputs = JSON.parse(String(HTTP.get("$url/inputs").body))
-println("Control Inputs:\t\t\t$inputs")
+if inputs["message"] == "success"
+    println("Control Inputs:\t\t\t$inputs['result']")
+end
 # Measurements available
 measurements = JSON.parse(String(HTTP.get("$url/measurements").body))
-println("Measurements:\t\t\t$measurements")
+if measurements["message"] == "success"
+    println("Measurements:\t\t\t$measurements['result']")
+end 
+
 # Default simulation step
 step_def = JSON.parse(String(HTTP.get("$url/step").body))
-println("Default Simulation Step:\t$step_def")
+if step_def["message"] == "success"
+    println("Default Simulation Step:\t$step_def")
+end 
 
 # RUN TEST CASE
 #----------
-println("Initializing test case simulation.")
+start = Dates.now()
+# Initialize test case simulation
 res = HTTP.put("$url/initialize",["Content-Type" => "application/json"], JSON.json(Dict("start_time" => 0,"warmup_period" => 0)))
 initialize_result=JSON.parse(String(res.body))
-if initialize_result
+if initialize_result["message"] == "success"
    println("Successfully initialized the simulation")
 end
 
+
 # Set simulation step
-println("Setting simulation step to $step")
+
 res = HTTP.put("$url/step",["Content-Type" => "application/json"], JSON.json(Dict("step" => step)))
+if res["message"] == "success"
+   println("Setting simulation step to $step")
+end
+
 println("Running test case ...")
 
 
@@ -62,8 +77,12 @@ for i = 1:convert(Int, floor(length/step))
        u = PID.compute_control(y)
     end
     # Advance in simulation
-    global y = JSON.parse(String(HTTP.post("$url/advance", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(u);retry_non_idempotent=true).body))
-
+    res=HTTP.post("$url/advance", ["Content-Type" => "application/json"], JSON.json(u);retry_non_idempotent=true).body
+    global y = JSON.parse(String(res))
+	if y["message"] == "success"
+	    y = y["result"]
+        println("Successfully advanced the simulation")
+    end
 end
 println("Test case complete.")
 
@@ -71,6 +90,9 @@ println("Test case complete.")
 # ------------
 # Report KPIs
 kpi = JSON.parse(String(HTTP.get("$url/kpi").body))
+if kpi["message"] == "success"
+kpi = kpi["result"]
+end
 println("KPI RESULTS \n-----------")
 for key in keys(kpi)
    println("$key: $(kpi[key])")
@@ -81,6 +103,9 @@ end
 # --------------------
 # Get result data
 res = JSON.parse(String(HTTP.get("$url/results").body))
+if res["message"] == "success"
+res = res["result"]
+end
 time = [x/3600 for x in res["y"]["time"]] # convert s --> hr
 TZone = [x-273.15 for x in res["y"]["TRooAir_y"]] # convert K --> C
 CO2Zone = [x for x in res["y"]["CO2RooAir_y"]]

@@ -30,7 +30,7 @@ class TestCase(object):
         # Define simulation model
         self.fmupath = con['fmupath']
         # Load fmu
-        self.fmu = load_fmu(self.fmupath)
+        self.fmu = load_fmu(self.fmupath)                                
         self.fmu.set_log_level(7)
         # Get version and check is 2.0
         self.fmu_version = self.fmu.get_version()
@@ -121,11 +121,11 @@ class TestCase(object):
                                      options=self.options, 
                                      input=input_object)
         except Exception as e:
-            return None
+            return {'message':'failure','error':e}
         # Set internal fmu initialization
         self.initialize_fmu = False
 
-        return res            
+        return {'message':'success','result':res}            
            
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -186,14 +186,14 @@ class TestCase(object):
         # Simulate
         res = self.__simulation(self.start_time,self.final_time,input_object) 
         # Process results
-        if res is not None:        
+        if res['message'] == 'success':        
             # Get result and store measurement
             for key in self.y.keys():
-                self.y[key] = res[key][-1]
-                self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
+                self.y[key] = res['result'][key][-1]
+                self.y_store[key] = self.y_store[key] + res['result'][key].tolist()[1:]
             # Store control inputs
             for key in self.u.keys():
-                self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+                self.u_store[key] = self.u_store[key] + res['result'][key].tolist()[1:] 
             # Advance start time
             self.start_time = self.final_time
             # Raise the flag to compute time lapse
@@ -203,7 +203,7 @@ class TestCase(object):
 
         else:
 
-            return {'message':'fail to advance: simulation fail to advance','result':None}        
+            return {'message':'failure','error':res['error'],'result':None}        
 
     def initialize(self, start_time, warmup_period):
         '''Initialize the test simulation.
@@ -233,7 +233,7 @@ class TestCase(object):
         # Do not allow negative starting time to avoid confusions
         res = self.__simulation(max(start_time-warmup_period,0), start_time)
         # Process result
-        if res is not None:
+        if res['message'] == 'success': 
             # Set internal start time to start_time
             self.start_time = start_time
 
@@ -241,7 +241,7 @@ class TestCase(object):
 
         else:
 
-            return {'message':'fail to initialize: simulation fail to advance'} 
+            return {'message':'failure','error':res['error']} 
         
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
@@ -268,12 +268,13 @@ class TestCase(object):
             
         except TypeError:
         
-             return {'message':'fail to set step: insufficient input','result':None}
+             return {'message':'failure','error':'insufficient input','result':None}
              
         except ValueError:
         
-             return {'message':'fail to set step: invalid input','result':None}     
+             return {'message':'failure','error':'invalid input','result':None}     
 
+        return {'message':'success'}
         
     def get_inputs(self):
         '''Returns a dictionary of control inputs and their meta-data.
@@ -380,11 +381,13 @@ class TestCase(object):
             
         except TypeError:
         
-             return {'message':'fail to set the forecast: insufficient input','result':None}
+             return {'message':'failure','error':'insufficient input','result':None}
              
         except ValueError:
         
-             return {'message':'fail to set the forecast: invalid input','result':None}     
+             return {'message':'failure','error':'invalid input','result':None}
+
+        return {'message':'success'}             
     
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.'''

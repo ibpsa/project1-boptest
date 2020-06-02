@@ -10,6 +10,7 @@ imported from a different module.
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import requests
+import time
 import pandas as pd
 
 # ----------------------
@@ -58,29 +59,50 @@ def run(plot=False):
     print('\nTEST CASE INFORMATION\n---------------------')
     # Test case name
     name = requests.get('{0}/name'.format(url)).json()
-    print('Name:\t\t\t\t{0}'.format(name))
+    if name['message'] == 'success':
+        print('Name:\t\t\t\t{0}'.format(name['result']))
     # Inputs available
     inputs = requests.get('{0}/inputs'.format(url)).json()
-    print('Control Inputs:\t\t\t{0}'.format(inputs))
+    if inputs['message'] == 'success':
+        print('Control Inputs:\t\t\t{0}'.format(inputs['result']))
     # Measurements available
     measurements = requests.get('{0}/measurements'.format(url)).json()
-    print('Measurements:\t\t\t{0}'.format(measurements))
+    if measurements['message'] == 'success':
+        print('Measurements:\t\t\t{0}'.format(measurements['result']))
     # Default simulation step
     step_def = requests.get('{0}/step'.format(url)).json()
-    print('Default Simulation Step:\t{0}'.format(step_def))
+    if step_def['message'] == 'success':
+        print('Default Simulation Step:\t{0}'.format(step_def['result']))
     # --------------------
     
     # RUN TEST CASE
     # -------------
     # Initialize test case
+    global time
+    start = time.time()
+    # Initialize test case
     print('Initializing test case simulation.')
-    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0})
+    res = requests.put('{0}/initialize'.format(url), json={'start_time':0,'warmup_period':0}).json()
+    if res['message'] == 'success':
+        print('Successfully initialized the simulation')
+    else:
+        print('Error when initializing the simulation:{}'.format(res['error']))   
     # Set simulation step
     print('Setting simulation step to {0}.'.format(step))
-    res = requests.put('{0}/step'.format(url), data={'step':step})
+    res = requests.put('{0}/step'.format(url), json={'step':step}).json()
+    if res['message'] == 'success':
+        print('Successfully set the simulation step')
+    else:
+        print('Error when setting the simulation step:{}'.format(res['error']))   
+
     # Set forecast parameters
     print('Setting forecast parameters')
-    res = requests.put('{0}/forecast_parameters'.format(url), data={'horizon':step, 'interval':step})
+    res = requests.put('{0}/forecast_parameters'.format(url), json={'horizon':step, 'interval':step}).json()
+    if res['message'] == 'success':
+        print('Successfully set the forecast parameters')
+    else:
+        print('Error when setting the forecast parameters:{}'.format(res['error']))   
+
     print('\nRunning test case...')
     # Initialize u
     u = pidTwoZones.initialize()
@@ -92,17 +114,23 @@ def run(plot=False):
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
-        y = requests.post('{0}/advance'.format(url), data=u).json()
+        y = requests.post('{0}/advance'.format(url), json=u).json()
+        if y['message'] == 'success':
+            print('Successfully advanced the simulation')
+        else:
+            print('Error when advancing the simulation:{}'.format(y['error']))  
         # Get set points for each zone
         forecast = requests.get('{0}/forecast'.format(url)).json()
-        LowerSetpNor = forecast['LowerSetp[North]'][0]
-        UpperSetpNor = forecast['UpperSetp[North]'][0]
-        LowerSetpSou = forecast['LowerSetp[South]'][0]
-        UpperSetpSou = forecast['UpperSetp[South]'][0]
-        setpoints.loc[(i+1)*step, setpoints.columns] = \
+        if forecast['message'] == 'success':
+           forecast = forecast['result']
+           LowerSetpNor = forecast['LowerSetp[North]'][0]
+           UpperSetpNor = forecast['UpperSetp[North]'][0]
+           LowerSetpSou = forecast['LowerSetp[South]'][0]
+           UpperSetpSou = forecast['UpperSetp[South]'][0]
+           setpoints.loc[(i+1)*step, setpoints.columns] = \
             [LowerSetpNor, UpperSetpNor, LowerSetpSou, UpperSetpSou]
         # Compute next control signal
-        u = pidTwoZones.compute_control(y, 
+        u = pidTwoZones.compute_control(y['result'], 
                                         LowerSetpNor, UpperSetpNor,
                                         LowerSetpSou, UpperSetpSou)
         
@@ -113,36 +141,40 @@ def run(plot=False):
     # ------------
     # Report KPIs
     kpi = requests.get('{0}/kpi'.format(url)).json()
-    print('\nKPI RESULTS \n-----------')
-    for key in kpi.keys():
-        if key == 'tdis_tot':
-            unit = 'Kh'
-        if key == 'idis_tot':
-            unit = 'ppmh'
-        elif key == 'ener_tot':
-            unit = 'kWh'
-        elif key == 'cost_tot':
-            unit = 'euro or $'
-        elif key == 'emis_tot':
-            unit = 'kg CO2'
-        elif key == 'time_rat':
-            unit = ''
-        print('{0}: {1} {2}'.format(key, kpi[key], unit))
+    if kpi['message'] == 'success':
+       kpi = kpi['result']
+       print('\nKPI RESULTS \n-----------')
+       for key in kpi.keys():
+          if key == 'tdis_tot':
+              unit = 'Kh'
+          if key == 'idis_tot':
+              unit = 'ppmh'
+          elif key == 'ener_tot':
+              unit = 'kWh'
+          elif key == 'cost_tot':
+              unit = 'euro or $'
+          elif key == 'emis_tot':
+              unit = 'kg CO2'
+          elif key == 'time_rat':
+              unit = ''
+          print('{0}: {1} {2}'.format(key, kpi[key], unit))
     # ------------ 
         
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
     res = requests.get('{0}/results'.format(url)).json()
-    time = [x/3600 for x in res['y']['time']] # convert s --> hr
-    setpoints.index = setpoints.index/3600 # convert s --> hr
-    TZoneNor = [x-273.15 for x in res['y']['TRooAirNor_y']] # convert K --> C
-    PHeatNor = res['y']['PHeaNor_y']
-    TZoneSou = [x-273.15 for x in res['y']['TRooAirSou_y']] # convert K --> C
-    PHeatSou = res['y']['PHeaSou_y']
-    setpoints= setpoints - 273.15 # convert K --> C
+    if res['message'] == 'success':
+       res = res['result']
+       time = [x/3600 for x in res['y']['time']] # convert s --> hr
+       setpoints.index = setpoints.index/3600 # convert s --> hr
+       TZoneNor = [x-273.15 for x in res['y']['TRooAirNor_y']] # convert K --> C
+       PHeatNor = res['y']['PHeaNor_y']
+       TZoneSou = [x-273.15 for x in res['y']['TRooAirSou_y']] # convert K --> C
+       PHeatSou = res['y']['PHeaSou_y']
+       setpoints= setpoints - 273.15 # convert K --> C
     # Plot results
-    if plot:
+    if plot and res['message'] == 'success':
         from matplotlib import pyplot as plt
         plt.figure(1)
         plt.title('Zone Temperatures')

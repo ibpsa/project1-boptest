@@ -10,6 +10,7 @@ imported from a different module.
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import requests
+import time
 import numpy as np
 from custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
@@ -53,6 +54,7 @@ def run(plot=False, customized_kpi_config=None):
     # Set simulation parameters
     length = 48*3600
     step = 300
+    global time
     # ---------------
     
     # GET TEST INFORMATION
@@ -60,17 +62,20 @@ def run(plot=False, customized_kpi_config=None):
     print('\nTEST CASE INFORMATION\n---------------------')
     # Test case name
     name = requests.get('{0}/name'.format(url)).json()
-    print('Name:\t\t\t\t{0}'.format(name))
+    if name['message'] == 'success':
+        print('Name:\t\t\t\t{0}'.format(name['result']))
     # Inputs available
     inputs = requests.get('{0}/inputs'.format(url)).json()
-    print('Control Inputs:\t\t\t{0}'.format(inputs))
+    if inputs['message'] == 'success':
+        print('Control Inputs:\t\t\t{0}'.format(inputs['result']))
     # Measurements available
     measurements = requests.get('{0}/measurements'.format(url)).json()
-    print('Measurements:\t\t\t{0}'.format(measurements))
+    if measurements['message'] == 'success':
+        print('Measurements:\t\t\t{0}'.format(measurements['result']))
     # Default simulation step
     step_def = requests.get('{0}/step'.format(url)).json()
-    print('Default Simulation Step:\t{0}'.format(step_def))
-    # --------------------
+    if step_def['message'] == 'success':
+        print('Default Simulation Step:\t{0}'.format(step_def['result']))
 
     # Define customized KPI if any
     customizedkpis=[] # Initialize customzied kpi calculation list
@@ -83,68 +88,84 @@ def run(plot=False, customized_kpi_config=None):
                customizedkpis_result[kpicalculation.cutomizedKPI(config[key]).name]=[]
     customizedkpis_result['time']=[]           
     # --------------------
-    
+
+
     # RUN TEST CASE
     # -------------
-    # Reset test case
-    print('Initializing the simualation.')
-    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0})
-    if res:
+    start = time.time()
+    # Initialize test case
+    print('Initializing test case simulation.')
+    res = requests.put('{0}/initialize'.format(url), json={'start_time':0,'warmup_period':0}).json()
+    if res['message'] == 'success':
         print('Successfully initialized the simulation')
-    # Set simulation step
-    print('Setting simulation step to {0}.'.format(step))
-    res = requests.put('{0}/step'.format(url), data={'step':step})
+    else:
+        print('Error when initializing the simulation:{}'.format(res['error']))    
     print('\nRunning test case...')
+    # Set simulation step
+    res = requests.put('{0}/step'.format(url), json={'step':step}).json()
+    if res['message'] == 'success':
+        print('Successfully set the simulation step')
+    else:
+        print('Error when setting the simulation step:{}'.format(res['error']))   
+
     # Initialize u
     u = pid.initialize()
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
-        y = requests.post('{0}/advance'.format(url), data=u).json()
+        y = requests.post('{0}/advance'.format(url), json=u).json()
+        if y['message'] == 'success':
+            print('Successfully advanced the simulation')
+        else:
+            print('Error when advancing the simulation:{}'.format(y['error']))   
         # Compute next control signal
-        u = pid.compute_control(y)
+        u = pid.compute_control(y['result'])
         # Compute customized KPIs if any
         if customized_kpi_config is not None:
              for customizedkpi in customizedkpis:
-                  customizedkpi.processing_data(y) # Process data as needed for custom KPI
+                  customizedkpi.processing_data(y['result']) # Process data as needed for custom KPI
                   customizedkpi_value = customizedkpi.calculation() # Calculate custom KPI value
                   customizedkpis_result[customizedkpi.name].append(round(customizedkpi_value,2)) # Track custom KPI value
                   print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi_value,2))) # Print custom KPI value
-             customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time  
+             customizedkpis_result['time'].append(y['result']['time']) # Track custom KPI calculation time  
     print('\nTest case complete.')
+    print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
         
     # VIEW RESULTS
     # ------------
     # Report KPIs
     kpi = requests.get('{0}/kpi'.format(url)).json()
-    print('\nKPI RESULTS \n-----------')
-    for key in kpi.keys():
-        if key == 'tdis_tot':
-            unit = 'Kh'
-        if key == 'idis_tot':
-            unit = 'ppmh'
-        elif key == 'ener_tot':
-            unit = 'kWh'
-        elif key == 'cost_tot':
-            unit = 'euro or $'
-        elif key == 'emis_tot':
-            unit = 'kg CO2'
-        elif key == 'time_rat':
-            unit = ''
-        print('{0}: {1} {2}'.format(key, kpi[key], unit))
+    if kpi['message'] == 'success':
+       print('\nKPI RESULTS \n-----------')
+       for key in kpi['result'].keys():
+          if key == 'tdis_tot':
+              unit = 'Kh'
+          if key == 'idis_tot':
+              unit = 'ppmh'
+          elif key == 'ener_tot':
+              unit = 'kWh'
+          elif key == 'cost_tot':
+              unit = 'euro or $'
+          elif key == 'emis_tot':
+              unit = 'kg CO2'
+          elif key == 'time_rat':
+              unit = ''
+          print('{0}: {1} {2}'.format(key, kpi['result'][key], unit))
     # ------------ 
         
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    res = requests.get('{0}/results'.format(url)).json()
-    time = [x/3600 for x in res['y']['time']] # convert s --> hr
-    TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-    PHeat = res['y']['PHea_y']
-    QHeat = res['u']['oveAct_u']
+    res = requests.get('{0}/results'.format(url)).json()    
+    if res['message'] == 'success':
+        res = res['result']
+        time = [x/3600 for x in res['y']['time']] # convert s --> hr
+        TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
+        PHeat = res['y']['PHea_y']
+        QHeat = res['u']['oveAct_u']
     # Plot results
-    if plot:
+    if plot and res['message'] == 'success':
         from matplotlib import pyplot as plt
         plt.figure(1)
         plt.title('Zone Temperature')

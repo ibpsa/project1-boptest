@@ -37,7 +37,12 @@ api = Api(app)
 
 # INSTANTIATE TEST CASE
 # ---------------------
-case = TestCase()
+try:
+
+   case = TestCase()   
+except Exception as e:
+   app.logger.error("Failed to instantiate the fmu: {}".format(e))
+   pass
 # ---------------------
 
 # DEFINE ARGUMENT PARSERS
@@ -72,8 +77,10 @@ class Advance(Resource):
         parse = request.get_json(silent = True)
         
         if parse is None:
+        
+            app.logger.error("Receiving a invalid advance request") 
                     
-            return {'message':'fail to advance: invalid json input','result':None}        
+            return {'message':'failure','error':'invalid json input'}        
         
         u = parser_advance.parse_args()
         
@@ -87,7 +94,7 @@ class Advance(Resource):
         
         else:
         
-            app.logger.error("Fail to advanced the simulation")   
+            app.logger.error("Fail to advanced the simulation: {}".format(result['error']))   
                     
         return result        
 
@@ -100,9 +107,11 @@ class Initialize(Resource):
         parse = request.get_json(silent = True)
         
         if parse is None:
+        
+            app.logger.error("Receiving a invalid initialize request") 
                     
-            return {'message':'fail to initialize: invalid json input','result':None}  
-               
+            return {'message':'failure','error':'invalid json input'}
+            
         args = parser_initialize.parse_args()
         
         app.logger.info("Receiving a new initialize request: {}".format(args)) 
@@ -115,11 +124,15 @@ class Initialize(Resource):
             
         except TypeError:
         
-            return {'message':'fail to initialize: insufficient input','result':None}
+            app.logger.error("Receiving insufficient inputs for a initialize request")
+        
+            return {'message':'failure','error':'insufficient inputs'}
              
         except ValueError:
         
-            return {'message':'fail to initialize: invalid input','result':None}               
+            app.logger.error("Receiving a invalid initialize request") 
+        
+            return {'message':'failure','error':'invalid input'}               
             
         result = case.initialize(start_time,warmup_period)  
 
@@ -129,7 +142,7 @@ class Initialize(Resource):
         
         else:
         
-            app.logger.error("Fail to initialize the simulation")                          
+            app.logger.error("Fail to initialize the simulation:{}".format(result['error']))                          
         
         return result
 
@@ -141,8 +154,17 @@ class Step(Resource):
                 
         app.logger.info("Receiving a new query for step") 
         
-        step = case.get_step()
-        return step
+        try:
+        
+            step = case.get_step()
+            
+        except Exception as e:
+        
+            app.logger.error("Fail to return the simulation step:{}".format(e))
+        
+            return {'message':'failure','error':e,'result':None} 
+        
+        return {'message':'success','result':step}  
 
     def put(self):
         '''PUT request to set simulation step in seconds.'''
@@ -150,8 +172,10 @@ class Step(Resource):
         parse = request.get_json(silent = True)
         
         if parse is None:
+        
+            app.logger.error("Receiving a invalid set step request")
                     
-            return {'message':'fail to set step: invalid json input','result':None}          
+            return {'message':'failure','error':'invalid json input','result':None}          
         
         args = parser_step.parse_args()
         
@@ -177,11 +201,19 @@ class Inputs(Resource):
     def get(self):
         '''GET request to receive list of available inputs.'''
 
-        app.logger.info("Receiving a new query for input list")         
+        app.logger.info("Receiving a new query for input list")
+
+        try:
         
-        u_list = case.get_inputs()
+            u_list = case.get_inputs()
+            
+        except Exception as e:
         
-        return u_list
+            app.logger.error("Fail to return the inputs:{}".format(e))
+        
+            return {'message':'failure','error':e,'result':None}         
+                
+        return {'message':'success','result':u_list}
         
 class Measurements(Resource):
     '''Interface to test case measurements.'''
@@ -190,9 +222,18 @@ class Measurements(Resource):
         '''GET request to receive list of available measurements.'''
         
         app.logger.info("Receiving a new query for output list")           
+               
+        try:
         
-        y_list = case.get_measurements()
-        return y_list
+            y_list = case.get_measurements()
+            
+        except Exception as e:
+        
+            app.logger.error("Fail to return the outputs:{}".format(e))
+        
+            return {'message':'failure','error':e,'result':None}         
+                
+        return {'message':'success','result':y_list}
         
 class Results(Resource):
     '''Interface to test case result data.'''
@@ -200,10 +241,19 @@ class Results(Resource):
     def get(self):
         '''GET request to receive measurement data.'''
         
-        app.logger.info("Receiving a new query for outputs")          
+        app.logger.info("Receiving a new query for results")  
         
-        Y = case.get_results()
-        return Y
+        try:
+        
+            Y = case.get_results()
+            
+        except Exception as e:
+        
+            app.logger.error("Fail to return the results:{}".format(e))
+        
+            return {'message':'failure','error':e,'result':None}         
+                
+        return {'message':'success','result':Y}
         
 class KPI(Resource):
     '''Interface to test case KPIs.'''
@@ -211,10 +261,20 @@ class KPI(Resource):
     def get(self):
         '''GET request to receive KPI data.'''
         
-        app.logger.info("Receiving a new query for KPI")            
+        app.logger.info("Receiving a new query for KPI")  
+
+        try:
         
-        kpi = case.get_kpis()
-        return kpi
+            kpi = case.get_kpis()
+            
+        except Exception as e:
+        
+            app.logger.error("Fail to return the KPI:{}".format(e))
+        
+            return {'message':'failure','error':e,'result':None}         
+                
+        return {'message':'success','result':kpi}        
+        
     
 class Forecast_Parameters(Resource):
     '''Interface to test case forecast parameters.'''
@@ -222,10 +282,20 @@ class Forecast_Parameters(Resource):
     def get(self):
         '''GET request to receive forecast parameters.'''
         
-        app.logger.info("Receiving a new query for forecast parameters")           
+        app.logger.info("Receiving a new query for forecast parameters") 
+
+        try:
         
-        forecast_parameters = case.get_forecast_parameters()
-        return forecast_parameters
+            forecast_parameters = case.get_forecast_parameters()
+            
+        except Exception as e:
+        
+            app.logger.error("Fail to return the forecast parameters:{}".format(e))
+        
+            return {'message':'failure','error':e,'result':None}         
+                
+        return {'message':'success','result':forecast_parameters}        
+
     
     def put(self):
         '''PUT request to set forecast horizon and interval inseconds.'''
@@ -234,7 +304,9 @@ class Forecast_Parameters(Resource):
         
         if parse is None:
                     
-            return {'message':'fail to set forecast: invalid json input','result':None}  
+            app.logger.error("Receiving a invalid set forcast request") 
+                    
+            return {'message':'failure','error':'invalid json input'}            
 
         args = parser_forecast_parameters.parse_args()
 
@@ -263,9 +335,19 @@ class Forecast(Resource):
         '''GET request to receive forecast data.'''
         
         app.logger.info("Receiving a new query for forecast")            
+
+        try:
         
-        forecast = case.get_forecast()
-        return forecast
+            forecast = case.get_forecast()
+            
+        except Exception as e:
+        
+            app.logger.error("Fail to return the forecast:{}".format(e))
+        
+            return {'message':'failure','error':e,'result':None}         
+                
+        return {'message':'success','result':forecast}  
+
         
 class Name(Resource):
     '''Interface to test case name.'''
@@ -274,9 +356,19 @@ class Name(Resource):
         '''GET request to receive test case name.'''
         
         app.logger.info("Receiving a new query for case name")           
+
+        try:
         
-        name = case.get_name()
-        return name
+            name = case.get_name()
+            
+        except Exception as e:
+        
+            app.logger.error("Fail to return the case name:{}".format(e))
+        
+            return {'message':'failure','error':e,'result':None}         
+                
+        return {'message':'success','result':name}  
+       
 # --------------------
         
 # ADD REQUESTS TO API WITH URL EXTENSION
