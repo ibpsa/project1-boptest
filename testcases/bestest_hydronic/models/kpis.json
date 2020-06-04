@@ -1,0 +1,1 @@
+{"ElectricPower": ["outputP_y"], "GasPower": ["outputQ_y"], "OperativeZoneTemperature[1]": ["outputT_y"], "None": ["reaTSetCoo_y", "reaTSetHea_y"], "CO2Concentration[1]": ["outputCO2_y"]}
