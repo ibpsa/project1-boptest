@@ -43,9 +43,9 @@ gen.generate_prices(start_day_time = '07:00:00',
                       price_biomass_power = 0.2,
                       price_solar_thermal_power = 0.0)
 
-gen.generate_emissions(emissions_electric_power = 0.5,
+gen.generate_emissions(emissions_electric_power = 0.167,
                            emissions_district_heating_power = 0.1,
-                           emissions_gas_power = 0.2,
+                           emissions_gas_power = 0.18108,
                            emissions_biomass_power = 0.0,
                            emissions_solar_thermal_power = 0.0)
 
