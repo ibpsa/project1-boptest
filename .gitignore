@@ -10,3 +10,5 @@ testcase2/doc/build/
 parser/*.fmu
 parser/*.mo
 parser/*.json
+docs/DesReqGui/build/
+
