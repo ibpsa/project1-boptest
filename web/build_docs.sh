@@ -28,6 +28,7 @@ for file in ./*.html; do
 	sed -i 's/"_images\//"images\//g' $file
 	sed -i 's/"_sources\//"sources\//g' $file
 	sed -i 's/"_static\//"static\//g' $file
+	sed -i 's/"_static\//"static\//g' $file
 done
 # Add html documents as pages in jekyll
 echo Add design documentation as jekyll title page...
@@ -41,5 +42,7 @@ for file in ./*html; do
 	else
 		echo -e '---\nlayout: page\n---' | cat - $file > temp && mv temp $file
 	fi
+	# Make documentation navbar below jekyll navbar
+	sed -i 's/ navbar-fixed-top//g' $file
 done
 echo Finished adding design documentation as jekyll title page.
