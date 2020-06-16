@@ -120,12 +120,12 @@ html_theme_options = {
         # Render the current pages TOC in the navbar. (Default: true)
         'navbar_pagenav': False,
 #        # Add links
-##        'navbar_links': [
-##                ("Publications", "publications"),
+        'navbar_links': [
+                ("BOPTEST Home", "../index")],
 ##                ("Design Documentation", "index_dd"),
 ##                ("User Guide", "index_ug")],
-#        # Bootswatch (http://bootswatch.com/) theme
-#        'bootswatch_theme': "united",
+        # Bootswatch (http://bootswatch.com/) theme
+#        'bootswatch_theme': "simplex",
         # Location of link to source.
         # Options are "nav" (default), "footer" or anything else to exclude.
         'source_link_position': ""

@@ -35,12 +35,10 @@ echo Add design documentation as jekyll title page...
 for file in ./*html; do
 	echo $file
 	if [[ $file == "./index.html" ]]; then
-		echo -e '---\nlayout: page\ntitle: Design Documentation\n---' | cat - index.html > temp && mv temp index.html
+		echo -e '---\ntitle: Design Documentation\n---' | cat - index.html > temp && mv temp index.html
 		echo index.html made jekyll title.
 	elif [[ $file == "./appendix_KPI.html" ]]; then
 		echo WARNING: Not including appendix_KPI.html as jekyll page.
-	else
-		echo -e '---\nlayout: page\n---' | cat - $file > temp && mv temp $file
 	fi
 	# Make documentation navbar below jekyll navbar
 	sed -i 's/ navbar-fixed-top//g' $file
