@@ -19,7 +19,7 @@ import json
 from data.data_manager import Data_Manager
 import warnings
 
-def parse_instances(model_path, file_name):
+def parse_instances(model_path, file_name, resources=None):
     '''Parse the signal exchange block class instances using fmu xml.
 
     Parameters
@@ -29,6 +29,9 @@ def parse_instances(model_path, file_name):
     file_name : list
         Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
+    resources : str, optional
+        Directory path for resources needed to compile model, such as weather file.
+        Default is None.    
 
     Returns
     -------
@@ -42,7 +45,7 @@ def parse_instances(model_path, file_name):
     '''
 
     # Compile fmu
-    fmu_path = _compile_fmu(model_path, file_name)
+    fmu_path = _compile_fmu(model_path, file_name, resources=resources)
     # Load fmu
     fmu = load_fmu(fmu_path)
     # Check version
@@ -108,7 +111,7 @@ def parse_instances(model_path, file_name):
 
     return instances, signals
 
-def write_wrapper(model_path, file_name, instances):
+def write_wrapper(model_path, file_name, instances, resources=None):
     '''Write the wrapper modelica model and export as fmu
 
     Parameters
@@ -121,6 +124,9 @@ def write_wrapper(model_path, file_name, instances):
     instances : dict
         Dictionary of overwrite and read block class instance lists.
         {'Overwrite': [str], 'Read': [str]}
+    resources : str, optional
+        Directory path for resources needed to compile model, such as weather file.
+        Default is None.
 
     Returns
     -------
@@ -181,18 +187,18 @@ def write_wrapper(model_path, file_name, instances):
             # End file
             f.write('end wrapped;')
         # Export as fmu
-        fmu_path = _compile_fmu('wrapped', [wrapped_path]+file_name)
+        fmu_path = _compile_fmu('wrapped', [wrapped_path]+file_name, resources=resources)
     # If there are not, write and export wrapper model
     else:
         # Warn user
         warnings.warn('No signal exchange block instances found in model.  Exporting model as is.')
         # Compile fmu
-        fmu_path = _compile_fmu(model_path, file_name)
+        fmu_path = _compile_fmu(model_path, file_name, resources=resources)
         wrapped_path = None
 
     return fmu_path, wrapped_path
 
-def export_fmu(model_path, file_name):
+def export_fmu(model_path, file_name, resources=None):
     '''Parse signal exchange blocks and export boptest fmu and kpi json.
 
     Parameters
@@ -202,6 +208,9 @@ def export_fmu(model_path, file_name):
     file_name : list
         Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
+    resources : str, optional
+        Directory path for resources needed to compile model, such as weather file.
+        Default is None.
 
     Returns
     -------
@@ -213,9 +222,9 @@ def export_fmu(model_path, file_name):
     '''
 
     # Get signal exchange instances and kpi signals
-    instances, signals = parse_instances(model_path, file_name)
+    instances, signals = parse_instances(model_path, file_name, resources=resources)
     # Write wrapper and export as fmu
-    fmu_path, _ = write_wrapper(model_path, file_name, instances)
+    fmu_path, _ = write_wrapper(model_path, file_name, instances, resources=resources)
     # Write kpi json
     kpi_path = os.path.join(os.getcwd(), 'kpis.json')
     with open(kpi_path, 'w') as f:
@@ -269,13 +278,16 @@ def _make_var_name(block, style, description='', attribute=''):
 
     return var_name
 
-def _compile_fmu(model_path, file_name, target='cs'):
+def _compile_fmu(model_path, file_name, target='cs', resources=None):
     '''Compiles an fmu using the JModelica docker container.
+    
+    Required libraries must be on MODELICAPATH.  
+    Extra .mo files can be in file_name.
     
     1. Starts docker container
     2. Creates new "compile" directory in docker container and adds to MODELICAPATH
     3. Copies directories on MODELICAPATH into "compile"
-    4. Copies directories in file_name into "compile"
+    4. Copies directories in file_name and resources into "compile"
     5. Copies "_compile_fmu.py" into "compile"
     6. Runs "_compile_fmu.py" to compile the FMU
     7. Copies fmu back to current directory
@@ -291,6 +303,9 @@ def _compile_fmu(model_path, file_name, target='cs'):
     target : str, optional
         'me' for model exchange fmu, 'cs' for co-simulation fmu with CVode solver.
         Default is 'cs'.
+    resources : str, optional
+        Directory path for resources needed to compile model, such as weather file.
+        Default is None.
         
     Returns
     -------
@@ -318,12 +333,14 @@ def _compile_fmu(model_path, file_name, target='cs'):
         lib_paths.append(lib_path)
         modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,lib_path)
     modelicapath_docker = modelicapath_docker[1:]
-    # Copy "file_name" directories into "compile" and add to file_path_str
+    # Copy "file_name" directories into "compile" and add to file_path_str and copy resources if there are
     file_path_str = ''
     for f in file_name:
         os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
         file_path_str = '{0} {1}'.format(file_path_str, f)
     file_path_str = file_path_str[1:]
+    if resources:
+        os.system('docker cp {0} {1}:{2}'.format(resources, container_name, compile_dir))
     # Copy "_compile_fmu.py" into "compile"
     PYTHONPATH = os.environ['PYTHONPATH'].split(':')
     for path in PYTHONPATH:
