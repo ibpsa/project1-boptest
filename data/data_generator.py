@@ -10,7 +10,7 @@ factors, internal gain schedules and temperature set points for a whole year.
 
 '''
 
-from pymodelica import compile_fmu
+from parsing.parser import _compile_fmu
 from pyfmi import load_fmu
 from scipy import interpolate
 import pandas as pd
@@ -63,6 +63,7 @@ class Data_Generator(object):
                 if f.endswith('.mos') or f.endswith('.TMY'):
                     weather_files.append(f)
                     self.weather_dir = root
+                    self.rel_weather_dir = os.path.split(root)[-1]
         # Find the weather file name
         if len(weather_files)>1:
             raise ReferenceError('There cannot be more than one weather '\
@@ -158,19 +159,19 @@ class Data_Generator(object):
                         
         # Edit the class to load the weather_file_name before compilation
         str_old = 'filNam=""'
-        str_new = 'filNam=Modelica.Utilities.Files.loadResource("{0}")'\
-                  .format(self.weather_file_name)
+        str_new = 'filNam=Modelica.Utilities.Files.loadResource("{0}/{1}")'\
+                  .format(self.rel_weather_dir, self.weather_file_name) 
         with open(model_file) as f:
             newText=f.read().replace(str_old, str_new)
-        
         with open(model_file, "w") as f:
             f.write(newText)
-        
+            
         # Change to Resources directory
         currdir = os.curdir
-        os.chdir(self.weather_dir)
+        os.chdir(self.resources_dir)
+
         # Compile the ReaderTMY3 from IBPSA using JModelica
-        fmu_path = compile_fmu(model_class, model_library)
+        fmu_path = _compile_fmu(model_class, [model_library], resources=self.rel_weather_dir)
         
         # Revert changes in directory and model file
         os.chdir(currdir)
