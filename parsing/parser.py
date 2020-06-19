@@ -13,8 +13,8 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 """
 
 from pyfmi import load_fmu
-from pymodelica import compile_fmu
 import os
+import shutil
 import json
 from data.data_manager import Data_Manager
 import warnings
@@ -42,7 +42,7 @@ def parse_instances(model_path, file_name):
     '''
 
     # Compile fmu
-    fmu_path = compile_fmu(model_path, file_name)
+    fmu_path = _compile_fmu(model_path, file_name)
     # Load fmu
     fmu = load_fmu(fmu_path)
     # Check version
@@ -78,7 +78,7 @@ def parse_instances(model_path, file_name):
         else:
             continue
         # Save instance
-        if label is not 'kpi':
+        if label != 'kpi':
             instances[label][instance] = {'Unit' : unit}
             instances[label][instance]['Description'] = description
             instances[label][instance]['Minimum'] = mini
@@ -92,7 +92,7 @@ def parse_instances(model_path, file_name):
                                'RelativeHumidity',
                                'CO2Concentration']:
                 signal_type = '{0}[{1}]'.format(signal_type, fmu.get(instance+'.zone')[0])
-            if signal_type is 'None':
+            if signal_type == 'None':
                 continue
             elif signal_type in signals:
                 signals[signal_type].append(_make_var_name(instance,style='output'))
@@ -178,13 +178,13 @@ def write_wrapper(model_path, file_name, instances):
             # End file
             f.write('end wrapped;')
         # Export as fmu
-        fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name)
+        fmu_path = _compile_fmu('wrapped', [wrapped_path]+file_name)
     # If there are not, write and export wrapper model
     else:
         # Warn user
         warnings.warn('No signal exchange block instances found in model.  Exporting model as is.')
         # Compile fmu
-        fmu_path = compile_fmu(model_path, file_name)
+        fmu_path = _compile_fmu(model_path, file_name)
         wrapped_path = None
 
     return fmu_path, wrapped_path
@@ -249,23 +249,105 @@ def _make_var_name(block, style, description='', attribute=''):
     # General modification
     name = block.replace('.', '_')
     # Handle empty descriptions
-    if description is '':
+    if description == '':
         description = ''
     else:
         description = ' "{0}"'.format(description)
         
     # Specific modification
-    if style is 'input_signal':
+    if style == 'input_signal':
         var_name = '{0}_u{1}{2}'.format(name,attribute, description)
-    elif style is 'input_activate':
+    elif style == 'input_activate':
         var_name = '{0}_activate{1}'.format(name, description)
-    elif style is 'output':
+    elif style == 'output':
         var_name = '{0}_y{1}{2}'.format(name,attribute, description)
     else:
         raise ValueError('Style {0} unknown.'.format(style))
 
     return var_name
+
+def _compile_fmu(model_path, file_name, target='cs'):
+    '''Compiles an fmu using the JModelica docker container.
+    
+    1. Starts docker container
+    2. Creates new "compile" directory in docker container and adds to MODELICAPATH
+    3. Copies directories on MODELICAPATH into "compile"
+    4. Copies directories in file_name into "compile"
+    5. Copies "_compile_fmu.py" into "compile"
+    6. Runs "_compile_fmu.py" to compile the FMU
+    7. Copies fmu back to current directory
+    8. Closes docker container
+    
+    Parameters
+    ----------
+    model_path : str
+        Path to modelica model.
+    file_name : list
+        Path(s) to modelica file and required libraries not on MODELICAPATH.
+        Passed to file_name parameter of pymodelica.compile_fmu() in JModelica
+    target : str, optional
+        'me' for model exchange fmu, 'cs' for co-simulation fmu with CVode solver.
+        Default is 'cs'.
         
+    Returns
+    -------
+    fmu_path : str
+        Path to the modelica model fmu.
+    
+    '''
+
+    # Docker setup
+    image_name = 'michaelwetter/ubuntu-1804_jmodelica_trunk'
+    container_name = 'jm'
+    compile_dir = '/home/developer/compile'
+    run_options = '--name {0} --detach=true --rm -it {1}'.format(container_name, image_name)
+    # Start docker container
+    os.system('docker run {0}'.format(run_options))
+    # Create new "compile" directory
+    os.system('docker exec {0} /bin/bash -c "mkdir {1} && exit"'.format(container_name, compile_dir))
+    # Copy MODELICAPATH directories into "compile" and add to MODELICAPATH command
+    MODELICAPATH = os.environ['MODELICAPATH'].split(':')
+    modelicapath_docker = ''
+    lib_paths = []
+    for path in MODELICAPATH:
+        os.system('docker cp {0} {1}:{2}'.format(path, container_name, compile_dir))
+        lib_path = '{0}/{1}'.format(compile_dir, os.path.split(path)[-1])
+        lib_paths.append(lib_path)
+        modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,lib_path)
+    modelicapath_docker = modelicapath_docker[1:]
+    # Copy "file_name" directories into "compile" and add to file_path_str
+    file_path_str = ''
+    for f in file_name:
+        os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
+        file_path_str = '{0} {1}'.format(file_path_str, f)
+    file_path_str = file_path_str[1:]
+    # Copy "_compile_fmu.py" into "compile"
+    PYTHONPATH = os.environ['PYTHONPATH'].split(':')
+    for path in PYTHONPATH:
+        if 'project1-boptest' in path:
+            boptest_path = path
+            continue
+    f = os.path.join(boptest_path,'parsing', '_compile_fmu.py')
+    os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
+    # Run "_compile_fmu.py" in container
+    os.system('docker exec {0} /bin/bash -c "cd {1} && export MODELICAPATH={2} && /usr/local/JModelica/bin/jm_ipython.sh _compile_fmu.py {3} {4} && exit"'.format(container_name, compile_dir, modelicapath_docker, model_path, file_path_str))
+    # Remove libraries and files from container
+    for lib_path in lib_paths:
+        os.system('docker exec {0} /bin/bash -c "rm -r {1} && exit"'.format(container_name,lib_path))
+    os.system('docker exec {0} /bin/bash -c "rm {1}/{2} && exit"'.format(container_name,compile_dir,'_compile_fmu.py'))
+    # Copy fmu compilation directory back to current directory
+    os.system('docker cp {0}:{1}/ ./'.format(container_name, compile_dir))
+    # Stop docker container
+    os.system('docker stop {0}'.format(container_name))
+    # Move fmu and remove compile directory
+    for _,_,files in os.walk('compile'):
+        for f in files:
+            if f.endswith('fmu'):
+                fmu_path = f
+                os.rename('compile/{0}'.format(f), f)
+    shutil.rmtree('compile')
+    
+    return fmu_path
 
 if __name__ == '__main__':
     # Define model
