@@ -34,7 +34,11 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
         '''
         
         resources_dir = os.path.join(utilities.get_root_path(),'testcases','testcase2','models','Resources')
-        self.gen = Data_Generator(resources_dir)
+        self.tmp_resources_dir = os.path.join(utilities.get_root_path(),'testcases','testcase2','models','Resources_tmp')
+        # Create temporary directory
+        shutil.copytree(resources_dir, self.tmp_resources_dir)
+        # Instantiate data generator
+        self.gen = Data_Generator(self.tmp_resources_dir)
          
     def test_generate_weather(self):
         '''Runs the generate weather data method and compares
@@ -191,6 +195,14 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
         
         # Check trajectories 
         self.compare_ref_timeseries_df(df_gen, ref_filepath)   
+        
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        shutil.rmtree(self.tmp_resources_dir)
                      
 class PartialDataManagerTest(object):
     '''This partial class implements common tests for the data manager class.
