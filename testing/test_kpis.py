@@ -8,9 +8,10 @@ example, respectively.
 
 import unittest
 import os
+import shutil
 import pandas as pd
 import utilities
-from collections import OrderedDict
+import testcase
 from kpis.kpi_calculator import KPI_Calculator
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
@@ -157,10 +158,15 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
         '''
         
         self.name = 'SingleZone'         
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
-        self.case=TestCase()
+        # mimic BOPTEST setup
+        testcase2_dir = os.path.join(utilities.get_root_path(),'testcases', 'testcase2')
+        os.mkdir(os.path.join(utilities.get_root_path(),'models'))
+        shutil.copyfile(os.path.join(testcase2_dir,'models', 'wrapped.fmu'),
+                        os.path.join(utilities.get_root_path(),'models', 'wrapped.fmu'))
+        shutil.copyfile(os.path.join(testcase2_dir,'config.json'),
+                        os.path.join(utilities.get_root_path(),'config.json'))
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
                  
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
@@ -181,6 +187,16 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
+
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        shutil.rmtree(os.path.join(utilities.get_root_path(),'models'))
+        os.remove(os.path.join(utilities.get_root_path(),'config.json'))
+        del(self.case)
          
 class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
     '''Tests the Forecaster class in a multi-zone example.
@@ -193,10 +209,15 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
         '''
         
         self.name = 'MultiZone'
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
+        # mimic BOPTEST setup
+        testcase3_dir = os.path.join(utilities.get_root_path(),'testcases', 'testcase3')
+        os.mkdir(os.path.join(utilities.get_root_path(),'models'))
+        shutil.copyfile(os.path.join(testcase3_dir,'models', 'wrapped.fmu'),
+                        os.path.join(utilities.get_root_path(),'models', 'wrapped.fmu'))
+        shutil.copyfile(os.path.join(testcase3_dir,'config.json'),
+                        os.path.join(utilities.get_root_path(),'config.json'))
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
@@ -217,6 +238,16 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
+                
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        shutil.rmtree(os.path.join(utilities.get_root_path(),'models'))
+        os.remove(os.path.join(utilities.get_root_path(),'config.json'))
+        del(self.case)
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
