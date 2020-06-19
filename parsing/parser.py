@@ -281,8 +281,7 @@ def _make_var_name(block, style, description='', attribute=''):
 def _compile_fmu(model_path, file_name, target='cs', resources=None):
     '''Compiles an fmu using the JModelica docker container.
     
-    Required libraries must be on MODELICAPATH.  
-    Extra .mo files can be in file_name.
+    Required libraries must be on MODELICAPATH or specified by .mo files in file_name.
     
     1. Starts docker container
     2. Creates new "compile" directory in docker container and adds to MODELICAPATH
@@ -333,10 +332,16 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
         lib_paths.append(lib_path)
         modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,lib_path)
     modelicapath_docker = modelicapath_docker[1:]
-    # Copy "file_name" directories into "compile" and add to file_path_str and copy resources if there are
+    # Copy "file_name" directories and libraries into "compile" and add to file_path_str and copy resources if there are
     file_path_str = ''
     for f in file_name:
-        os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
+        if 'package.mo' in f:
+            lib = os.path.split(f)[0]
+            os.system('docker cp {0} {1}:{2}'.format(lib, container_name, compile_dir))
+            lib_path = '{0}/{1}'.format(compile_dir, lib)
+            lib_paths.append(lib_path)
+        else:
+            os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
         file_path_str = '{0} {1}'.format(file_path_str, f)
     file_path_str = file_path_str[1:]
     if resources:
