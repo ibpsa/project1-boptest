@@ -1,0 +1,6 @@
+{
+"fmupath"  : "models/wrapped.fmu",
+"step"     : 60,
+"horizon"  : 86400,
+"interval" : 3600
+}

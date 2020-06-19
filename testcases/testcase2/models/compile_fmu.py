@@ -31,7 +31,7 @@ def compile_fmu():
     
     # COMPILE FMU
     # -----------
-    fmupath = parser.export_fmu(modelpath, [mopath])
+    fmupath = parser.export_fmu(modelpath, [mopath], resources='Resources')
     # -----------
     
     return fmupath
