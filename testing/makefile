@@ -44,19 +44,6 @@ test_testcase2:
 # Remove testcase image
 	cd ../examples/julia && make remove-image Script=szvav_sup
 	
-test_bestest_air:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=bestest_air
-# Build testcase image
-	cd .. &&  make build TESTCASE=bestest_air
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=bestest_air
-	python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_bestest_air.py
-# Stop testcase container
-	cd .. && make stop TESTCASE=bestest_air
-
 test_testcase3:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase3
@@ -71,24 +58,33 @@ test_testcase3:
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase3
 
+test_bestest_air:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_air
+# Build testcase image
+	cd .. &&  make build TESTCASE=bestest_air
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=bestest_air
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_air.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=bestest_air
+
 test_parser:
 	python test_parser.py
 
 test_data:
-# Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run test_data.py
 	python test_data.py
 	
 test_forecast:
-# Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
 	python test_forecast.py
 	
 test_kpis:
-# Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
 	python test_kpis.py
