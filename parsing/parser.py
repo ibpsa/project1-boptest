@@ -98,9 +98,7 @@ def parse_instances(model_path, file_name, resources=None):
                                'RelativeHumidity',
                                'CO2Concentration']:
                 signal_type = '{0}[{1}]'.format(signal_type, fmu.get(instance+'.zone')[0])
-            if signal_type == 'None':
-                continue
-            elif signal_type in signals:
+            if signal_type in signals:
                 signals[signal_type].append(_make_var_name(instance,style='output'))
             else:
                 signals[signal_type] = [_make_var_name(instance,style='output')]
