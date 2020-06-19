@@ -325,25 +325,27 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     # Copy MODELICAPATH directories into "compile" and add to MODELICAPATH command
     MODELICAPATH = os.environ['MODELICAPATH'].split(':')
     modelicapath_docker = ''
-    lib_paths = []
+    docker_lib_paths = []
     for path in MODELICAPATH:
         os.system('docker cp {0} {1}:{2}'.format(path, container_name, compile_dir))
-        lib_path = '{0}/{1}'.format(compile_dir, os.path.split(path)[-1])
-        lib_paths.append(lib_path)
-        modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,lib_path)
+        docker_lib_path = '{0}/{1}'.format(compile_dir, os.path.split(path)[-1])
+        docker_lib_paths.append(docker_lib_path)
+        modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,docker_lib_path)
     modelicapath_docker = modelicapath_docker[1:]
     # Copy "file_name" directories and libraries into "compile" and add to file_path_str and copy resources if there are
-    file_path_str = ''
+    docker_file_path_str = ''
     for f in file_name:
         if 'package.mo' in f:
-            lib = os.path.split(f)[0]
-            os.system('docker cp {0} {1}:{2}'.format(lib, container_name, compile_dir))
-            lib_path = '{0}/{1}'.format(compile_dir, lib)
-            lib_paths.append(lib_path)
+            lib_name = os.path.split(f)[0]
+            os.system('docker cp {0} {1}:{2}'.format(lib_name, container_name, compile_dir))
+            docker_lib_path = '{0}/{1}'.format(compile_dir, lib_name)
+            docker_lib_paths.append(docker_lib_path)
         else:
             os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
-        file_path_str = '{0} {1}'.format(file_path_str, f)
-    file_path_str = file_path_str[1:]
+            f_name = os.path.split(f)[-1]
+            docker_file_path = '{0}/{1}'.format(compile_dir, f_name)
+        docker_file_path_str = '{0} {1}'.format(docker_file_path_str,docker_file_path)
+    docker_file_path_str = docker_file_path_str[1:]
     if resources:
         os.system('docker cp {0} {1}:{2}'.format(resources, container_name, compile_dir))
     # Copy "_compile_fmu.py" into "compile"
@@ -355,10 +357,10 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     f = os.path.join(boptest_path,'parsing', '_compile_fmu.py')
     os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
     # Run "_compile_fmu.py" in container
-    os.system('docker exec {0} /bin/bash -c "cd {1} && export MODELICAPATH={2} && /usr/local/JModelica/bin/jm_ipython.sh _compile_fmu.py {3} {4} && exit"'.format(container_name, compile_dir, modelicapath_docker, model_path, file_path_str))
+    os.system('docker exec {0} /bin/bash -c "cd {1} && export MODELICAPATH={2} && /usr/local/JModelica/bin/jm_ipython.sh _compile_fmu.py {3} {4} && exit"'.format(container_name, compile_dir, modelicapath_docker, model_path, docker_file_path_str))
     # Remove libraries and files from container
-    for lib_path in lib_paths:
-        os.system('docker exec {0} /bin/bash -c "rm -r {1} && exit"'.format(container_name,lib_path))
+    for docker_lib_path in docker_lib_paths:
+        os.system('docker exec {0} /bin/bash -c "rm -r {1} && exit"'.format(container_name,docker_lib_path))
     os.system('docker exec {0} /bin/bash -c "rm {1}/{2} && exit"'.format(container_name,compile_dir,'_compile_fmu.py'))
     # Copy fmu compilation directory back to current directory
     os.system('docker cp {0}:{1}/ ./'.format(container_name, compile_dir))
