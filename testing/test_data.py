@@ -12,10 +12,12 @@ is used to test the Data Manager in a multi-zone building example.
 
 import unittest
 import os
+import shutil
 import pandas as pd
 import numpy as np
 import utilities
 import json
+import testcase
 from data.data_generator import Data_Generator
 from data.data_manager import Data_Manager
 
@@ -31,7 +33,7 @@ class DataGeneratorTest(unittest.TestCase, utilities.partialChecks):
         
         '''
         
-        resources_dir = os.path.join(testing_root_dir,'testcase2','models','Resources')
+        resources_dir = os.path.join(utilities.get_root_path(),'testcases','testcase2','models','Resources')
         self.gen = Data_Generator(resources_dir)
          
     def test_generate_weather(self):
@@ -294,14 +296,19 @@ class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
          
         '''
         
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
-        self.case=TestCase()
+        # mimic BOPTEST setup
+        testcase2_dir = os.path.join(utilities.get_root_path(),'testcases', 'testcase2')
+        os.mkdir(os.path.join(utilities.get_root_path(),'models'))
+        shutil.copyfile(os.path.join(testcase2_dir,'models', 'wrapped.fmu'),
+                        os.path.join(utilities.get_root_path(),'models', 'wrapped.fmu'))
+        shutil.copyfile(os.path.join(testcase2_dir,'config.json'),
+                        os.path.join(utilities.get_root_path(),'config.json'))
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         
         # Instantiate a data manager
-        self.man = Data_Manager(self.case)
-        
+        self.man = self.case.data_manager
+
         # Set reference file paths
         self.ref_kpis = os.path.join(testing_root_dir, 
             'references', 'data', 'testcase2', 'kpis.json')
@@ -310,7 +317,17 @@ class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         self.ref_data_default = os.path.join(testing_root_dir,
             'references', 'data', 'testcase2', 'tc2_data_retrieved_default.csv')
         self.ref_data_index = os.path.join(testing_root_dir,
-            'references', 'data', 'testcase2', 'tc2_data_retrieved_index.csv')        
+            'references', 'data', 'testcase2', 'tc2_data_retrieved_index.csv')     
+        
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        shutil.rmtree(os.path.join(utilities.get_root_path(),'models'))
+        os.remove(os.path.join(utilities.get_root_path(),'config.json'))
+        del(self.case)
     
 class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                                PartialDataManagerTest):
@@ -323,14 +340,19 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
          
         '''
         
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
+        # mimic BOPTEST setup
+        testcase3_dir = os.path.join(utilities.get_root_path(),'testcases', 'testcase3')
+        os.mkdir(os.path.join(utilities.get_root_path(),'models'))
+        shutil.copyfile(os.path.join(testcase3_dir,'models', 'wrapped.fmu'),
+                        os.path.join(utilities.get_root_path(),'models', 'wrapped.fmu'))
+        shutil.copyfile(os.path.join(testcase3_dir,'config.json'),
+                        os.path.join(utilities.get_root_path(),'config.json'))
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         
         # Instantiate a data manager
-        self.man = Data_Manager(self.case)
-        
+        self.man = self.case.data_manager
+
         # Set reference file paths
         self.ref_kpis = os.path.join(testing_root_dir, 
             'references', 'data', 'testcase3', 'kpis.json')
@@ -340,6 +362,16 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
             'references', 'data', 'testcase3', 'tc3_data_retrieved_default.csv')
         self.ref_data_index = os.path.join(testing_root_dir,
             'references', 'data', 'testcase3', 'tc3_data_retrieved_index.csv')
-    
+
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        shutil.rmtree(os.path.join(utilities.get_root_path(),'models'))
+        os.remove(os.path.join(utilities.get_root_path(),'config.json'))
+        del(self.case)
+        
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
