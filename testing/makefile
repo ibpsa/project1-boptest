@@ -1,66 +1,8 @@
 # Utility Functions
 ###############################################################################
 
-IMG_NAME=jm
-
-COMMAND_RUN=docker run \
-	  --name ${IMG_NAME} \
-	  --detach=true \
-	  --rm \
-	  -it \
-	  ${IMG_NAME}
-
-build_jm_image:
-	docker build --no-cache --rm -t ${IMG_NAME} .
-
-remove_jm_image:
-	docker rmi ${IMG_NAME}
-
-run_jm:
-	$(COMMAND_RUN)
-	docker cp . ${IMG_NAME}:/usr/local/testing
-
-copy_to_jm:
-	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
-	docker exec -it ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
-
-copy_testcase_to_jm:
-	make copy_to_jm ARGS=testcases/${TESTCASE}
-	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing/${TESTCASE}
-	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
-	
-copy_from_jm:
-	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
-
-copy_testcase_from_jm:
-	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../testcases/${ARGS}
-
-exec_jm:
-	docker exec -it ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
-
-stop_jm:
-	docker stop ${IMG_NAME}
-# Make sure jm image stops being used
-	python sleep10.py
-
 compile_testcase_model:
-	make run_jm
-	make copy_to_jm ARGS=parsing
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=testcases/${TESTCASE}
-	make exec_jm ARGS="cd ${TESTCASE}/models && ./set_library_versions.sh && python compile_fmu.py"
-	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
-	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.mo
-	make stop_jm
-
-generate_testcase_data:
-	make run_jm
-	make copy_to_jm ARGS=parsing
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=testcases/${TESTCASE}
-	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
-	make stop_jm
+	cd ../testcases/${TESTCASE}/models && python compile_fmu.py
 
 ###############################################################################
 
@@ -130,72 +72,26 @@ test_testcase3:
 	cd .. && make stop TESTCASE=testcase3
 
 test_parser:
-	make run_jm
-	make copy_to_jm ARGS=parsing
-	make copy_to_jm ARGS=data
-	make exec_jm ARGS="python test_parser.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/parser ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
-	make stop_jm
+	python test_parser.py
 
 test_data:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
-	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
-	docker cp ../testing/references/data/testcase2/kpis.json ${IMG_NAME}:/usr/local/testing/testcase2/models
-	docker cp ../testing/references/data/testcase3/kpis.json ${IMG_NAME}:/usr/local/testing/testcase3/models
 # Run test_data.py
-	make exec_jm ARGS="python test_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
-# Stop jm docker container
-	make stop_jm
+	python test_data.py
 	
 test_forecast:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
-	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
-# Run test_forecast.py
-	make exec_jm ARGS="python test_forecast.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/forecast ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
-# Stop jm docker container
-	make stop_jm
+	python test_forecast.py
 	
 test_kpis:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
-	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
-# Run test_kpis.py
-	make exec_jm ARGS="python test_kpis.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/kpis ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_kpis.log ./test_kpis.log
-# Stop jm docker container
-	make stop_jm
+	python test_kpis.py
 
 ###############################################################################
 
@@ -204,8 +100,6 @@ test_kpis:
 test_all:
 # Build boptest
 	cd .. && make setup
-# Build jm
-	make build_jm_image
 # Run tests
 	make test_parser
 	make test_data
@@ -215,8 +109,6 @@ test_all:
 	make test_testcase2
 	make test_testcase3
 	make test_bestest_air
-# Remove jm
-	make remove_jm_image
 # Remove boptest
 	cd ../docker && make remove-image
 # Report test results
