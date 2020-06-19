@@ -9,13 +9,15 @@ import os
 import pandas as pd
 import utilities
 import zipfile
+import json
 from parsing import parser, simulate
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
+parser_root_dir = os.path.join(utilities.get_root_path(), 'parsing')
 
 # Define test model
 model_path = 'SimpleRC'
-mo_path = os.path.join(testing_root_dir,'parsing', 'SimpleRC.mo')
+mo_path = os.path.join(parser_root_dir, 'SimpleRC.mo')
 # Define read and overwrite block instances in test model
 read_blocks = {'PHeat':{'Unit':'W', 
                         'Description': 'Heater electrical power',
@@ -38,40 +40,7 @@ overwrite_blocks = {'oveAct':{'Unit':'W',
                               'Minimum': 273.15+10,
                               'Maximum': 273.15+35}}
 signal_outputs = ['PHeat_y', 'TZone_y', 'setZone_y']
-
-def _compare_kpis_json(fmu_path, ref_kpi_json_path):
-    '''Compares the kpis json in a test case fmu with a reference file.
-    
-    Parmaeters
-    ==========
-    fmu_path: str
-        Path to test case fmu
-    ref_kpi_json_path: str
-        Path to reference kpi json file
-        
-    Returns
-    =======
-    passed: bool
-        True if files match.  Otherwise False.
-    
-    '''
-
-    passed = True
-    with zipfile.ZipFile(fmu_path, 'r') as z_fmu:
-        with z_fmu.open('resources/kpis.json') as f_test:      
-            with open(ref_kpi_json_path, 'rU') as f_ref:
-                line_test = f_test.readline()
-                i = 1
-                while line_test:
-                    line_ref = f_ref.readline()
-                    if line_test != line_ref:
-                        passed = False
-                        return passed
-                    else:
-                        line_test = f_test.readline()
-                        i = i + 1
-                return passed
-            
+           
 class ParseInstances(unittest.TestCase):
     '''Tests the parse_instances method of parser.
     
@@ -93,7 +62,7 @@ class ParseInstances(unittest.TestCase):
         instances = self.instances
         # Checks
         for key in instances.keys():
-            if key is 'Read':
+            if key == 'Read':
                 # Check there are 3 Read blocks
                 self.assertEqual(len(instances[key]),3)
                 for instance in instances[key].keys():
@@ -107,7 +76,7 @@ class ParseInstances(unittest.TestCase):
                     self.assertTrue(instances[key][instance]['Minimum'] == read_blocks[instance]['Minimum'])
                     # Check that maximum is identified correctly
                     self.assertTrue(instances[key][instance]['Maximum'] == read_blocks[instance]['Maximum'])
-            elif key is 'Overwrite':
+            elif key == 'Overwrite':
                 # Check there are 2 Overwrite blocks
                 self.assertEqual(len(instances[key]),2)
                 for instance in instances[key].keys():
@@ -164,13 +133,13 @@ class ParseInstances(unittest.TestCase):
         instances['NotReadOverwrite'] = 1
         # Checks
         for key in instances.keys():
-            if key is 'Read':
+            if key == 'Read':
                 # Check there are 3 Read blocks
                 self.assertEqual(len(instances[key]),3)
                 for instance in instances[key]:
                     # Check each Read block instance is identified correctly
                     self.assertTrue(instance in read_blocks)
-            elif key is 'Overwrite':
+            elif key == 'Overwrite':
                 # Check there are 2 Overwrite blocks
                 self.assertEqual(len(instances[key]),2)
                 for instance in instances[key]:
@@ -201,15 +170,25 @@ class ParseInstancesMultiZone(unittest.TestCase, utilities.partialChecks):
         
         # Model path and file specifically for this case
         self.model_path = 'TwoZones'
-        self.mo_path = os.path.join(testing_root_dir,'parsing', 'TwoZones.mo')
+        self.mo_path = os.path.join(parser_root_dir, 'TwoZones.mo')
 
     def test_export(self):
         # Parse and export fmu to working directory
         self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path])
         # Test
         ref_kpis_json_path = os.path.join(testing_root_dir, 'references', 'parser', 'kpis_MultiZone.json')
-        passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)
-        self.assertTrue(passed, 'Did not pass kpi json check')
+        with open(self.kpi_path, 'r') as f:
+            json_test = json.load(f)
+        self.compare_ref_json(json_test, ref_kpis_json_path)
+
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        utilities.clean_up(testing_root_dir)        
+    
 
 class WriteWrapper(unittest.TestCase):
     '''Tests the write_wrapper method of parser.
@@ -227,7 +206,7 @@ class WriteWrapper(unittest.TestCase):
         self.fmu_path, self.wrapped_path = parser.write_wrapper(model_path, [mo_path], instances)
         
     def test_create_wrapped(self):
-        self.assertEqual(self.fmu_path, os.path.join(testing_root_dir, '.', 'wrapped.fmu'))
+        self.assertEqual(self.fmu_path, os.path.join('wrapped.fmu'))
         self.assertEqual(self.wrapped_path, os.path.join('wrapped.mo'))
         with open(self.wrapped_path, 'rU') as f_test:         
             with open(os.path.join(testing_root_dir, 'references', 'parser', 'wrapped.mo'), 'rU') as f_ref:
@@ -267,8 +246,9 @@ class ExportSimulate(unittest.TestCase, utilities.partialChecks):
 
         # Test
         ref_kpis_json_path = os.path.join(testing_root_dir, 'references', 'parser', 'kpis.json')
-        passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)
-        self.assertTrue(passed, 'Did not pass kpi json check')
+        with open(self.kpi_path, 'r') as f:
+            json_test = json.load(f)
+        self.compare_ref_json(json_test, ref_kpis_json_path)
 
     def test_simulate_no_overwrite(self):
         '''Test simulation with no overwriting.
@@ -341,15 +321,16 @@ class NoSignalExchangeBlock(unittest.TestCase, utilities.partialChecks):
         
         # Model path and file specifically for this case
         self.model_path = 'SimpleRC_NoSignalExchangeBlocks'
-        self.mo_path = os.path.join(testing_root_dir,'parsing', 'SimpleRC_NoSignalExchangeBlocks.mo')
+        self.mo_path = os.path.join(parser_root_dir, 'SimpleRC_NoSignalExchangeBlocks.mo')
 
     def test_export(self):
         # Parse and export fmu to working directory
         self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path])
         # Test
         ref_kpis_json_path = os.path.join(testing_root_dir, 'references', 'parser', 'kpis_NoSignalExchangeBlocks.json')
-        passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)
-        self.assertTrue(passed, 'Did not pass kpi json check')
+        with open(self.kpi_path, 'r') as f:
+            json_test = json.load(f)
+        self.compare_ref_json(json_test, ref_kpis_json_path)
         
 class OnlyReadSignalExchangeBlock(unittest.TestCase, utilities.partialChecks):
     '''Tests the export of a wrapper fmu and simulation from model with only read signal exchange blocks.
@@ -363,15 +344,16 @@ class OnlyReadSignalExchangeBlock(unittest.TestCase, utilities.partialChecks):
         
         # Model path and file specifically for this case
         self.model_path = 'SimpleRC_OnlyReadSignalExchangeBlocks'
-        self.mo_path = os.path.join(testing_root_dir,'parsing', 'SimpleRC_OnlyReadSignalExchangeBlocks.mo')
+        self.mo_path = os.path.join(parser_root_dir, 'SimpleRC_OnlyReadSignalExchangeBlocks.mo')
 
     def test_export(self):
         # Parse and export fmu to working directory
         self.fmu_path, self.kpi_path = parser.export_fmu(self.model_path, [self.mo_path])
         # Test
         ref_kpis_json_path = os.path.join(testing_root_dir, 'references', 'parser', 'kpis_OnlyReadSignalExchangeBlocks.json')
-        passed = _compare_kpis_json(self.fmu_path, ref_kpis_json_path)
-        self.assertTrue(passed, 'Did not pass kpi json check')
+        with open(self.kpi_path, 'r') as f:
+            json_test = json.load(f)
+        self.compare_ref_json(json_test, ref_kpis_json_path)
         
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
