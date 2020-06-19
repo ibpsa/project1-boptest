@@ -10,8 +10,10 @@ used to test the Forecaster in a multi-zone building example.
 
 import unittest
 import os
+import shutil
 import pandas as pd
 import utilities
+import testcase
 from forecast.forecaster import Forecaster
         
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
@@ -73,10 +75,15 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
     
         '''
         
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
-        self.case=TestCase()
+        # mimic BOPTEST setup
+        testcase2_dir = os.path.join(utilities.get_root_path(),'testcases', 'testcase2')
+        os.mkdir(os.path.join(utilities.get_root_path(),'models'))
+        shutil.copyfile(os.path.join(testcase2_dir,'models', 'wrapped.fmu'),
+                        os.path.join(utilities.get_root_path(),'models', 'wrapped.fmu'))
+        shutil.copyfile(os.path.join(testcase2_dir,'config.json'),
+                        os.path.join(utilities.get_root_path(),'config.json'))
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
@@ -87,6 +94,16 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         
         self.ref_forecast_interval = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_interval.csv')
+        
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        shutil.rmtree(os.path.join(utilities.get_root_path(),'models'))
+        os.remove(os.path.join(utilities.get_root_path(),'config.json'))
+        del(self.case)
 
 class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                               PartialForecasterTest):
@@ -99,10 +116,15 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
     
         '''
 
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
+        # mimic BOPTEST setup
+        testcase3_dir = os.path.join(utilities.get_root_path(),'testcases', 'testcase3')
+        os.mkdir(os.path.join(utilities.get_root_path(),'models'))
+        shutil.copyfile(os.path.join(testcase3_dir,'models', 'wrapped.fmu'),
+                        os.path.join(utilities.get_root_path(),'models', 'wrapped.fmu'))
+        shutil.copyfile(os.path.join(testcase3_dir,'config.json'),
+                        os.path.join(utilities.get_root_path(),'config.json'))
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
@@ -113,6 +135,16 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
         
         self.ref_forecast_interval = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'forecast', 'testcase3', 'tc3_forecast_interval.csv')
+        
+    def tearDown(self):
+        '''Teardown for each test.
+        
+        '''
+        
+        # Delete leftover files
+        shutil.rmtree(os.path.join(utilities.get_root_path(),'models'))
+        os.remove(os.path.join(utilities.get_root_path(),'config.json'))
+        del(self.case)
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__)) 
