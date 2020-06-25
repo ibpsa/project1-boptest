@@ -13,14 +13,14 @@ services:
   - docker
 
 install:
-  - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $HOME/miniconda.sh && /bin/bash $HOME/miniconda.sh -b -p $HOME/miniconda && /bin/bash miniconda/bin/activate
+  - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $HOME/miniconda.sh && /bin/bash $HOME/miniconda.sh -b -p $HOME/miniconda && /bin/bash $HOME/miniconda/bin/activate
   - conda update -n base -c defaults conda
   - conda create --name travis -y
+  - conda activate travis
   - conda install -c conda-forge pyfmi pandas numpy matplotlib requests -y
 
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
-  - conda activate travis
   
 script:
   - (cd testing && make test_all)
