@@ -41,9 +41,9 @@ def simulate(start_time=0, final_time=3600*48, overwrite = None, plot = False):
     print('Outputs: {0}'.format(output_names))
     # Set any overwrites
     if overwrite:
-        if overwrite is 'set':
+        if overwrite == 'set':
             input_object = overwrite_set(input_names)
-        elif overwrite is 'act':
+        elif overwrite == 'act':
             input_object = overwrite_act(input_names)
         else:
             raise ValueError('{0} overwrite unknown.')
