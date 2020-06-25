@@ -1,8 +1,45 @@
 # Utility Functions
 ###############################################################################
+TESTING_DIR := ${CURDIR}
+TMP_GIT_DIR := tmp_git
+TMP_MODELICAPATH_DIR := tmp_MODELICAPATH
 
 compile_testcase_model:
+	export MODELICAPATH=${TESTING_DIR}/${TMP_MODELICAPATH_DIR} && \
+	make link_libraries && \
+	cd ../testcases/${TESTCASE}/models && ./set_library_versions.sh
+	make remove_link_libraries && make copy_libraries && \
 	cd ../testcases/${TESTCASE}/models && python compile_fmu.py
+	make remove_libraries
+
+get_libraries:
+	mkdir ${TMP_MODELICAPATH_DIR} && mkdir ${TMP_GIT_DIR} && cd ${TMP_GIT_DIR} && \
+	git clone https://github.com/ibpsa/modelica-ibpsa.git && \
+	git clone https://github.com/open-ideas/IDEAS.git && \
+	git clone https://github.com/lbl-srg/modelica-buildings.git
+
+link_libraries:
+	ln -s ${TESTING_DIR}/${TMP_GIT_DIR}/IDEAS/IDEAS ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/IDEAS && \
+	ln -s ${TESTING_DIR}/${TMP_GIT_DIR}/modelica-buildings/Buildings ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/Buildings && \
+	ln -s ${TESTING_DIR}/${TMP_GIT_DIR}/modelica-ibpsa/IBPSA ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/IBPSA
+
+remove_link_libraries:
+	rm ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/IDEAS && \
+	rm ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/Buildings && \
+	rm ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/IBPSA
+	
+copy_libraries:
+	cp -r ${TESTING_DIR}/${TMP_GIT_DIR}/IDEAS/IDEAS ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/IDEAS && \
+	cp -r ${TESTING_DIR}/${TMP_GIT_DIR}/modelica-buildings/Buildings ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/Buildings && \
+	cp -r ${TESTING_DIR}/${TMP_GIT_DIR}/modelica-ibpsa/IBPSA ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/IBPSA
+
+remove_libraries:
+	rm -r ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/IDEAS && \
+	rm -r ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/Buildings && \
+	rm -r ${TESTING_DIR}/${TMP_MODELICAPATH_DIR}/IBPSA
+
+remove_tmp_directories:
+	rm -r ${TMP_MODELICAPATH_DIR} && rm -rf ${TMP_GIT_DIR}
 
 ###############################################################################
 
@@ -96,6 +133,8 @@ test_kpis:
 test_all:
 # Build boptest
 	cd .. && make setup
+# Get libraries
+	make get_libraries
 # Run tests
 	make test_parser
 	make test_data
@@ -105,8 +144,9 @@ test_all:
 	make test_testcase2
 	make test_testcase3
 	make test_bestest_air
+# Remove libraries
+	make remove_tmp_directories
 # Remove boptest
 	cd ../docker && make remove-image
 # Report test results
 	python report.py
-
