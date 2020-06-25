@@ -315,7 +315,7 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     image_name = 'michaelwetter/ubuntu-1804_jmodelica_trunk'
     container_name = 'jm'
     compile_dir = '/home/developer/compile'
-    run_options = '--name {0} --detach=true --rm -it {1}'.format(container_name, image_name)
+    run_options = '--name {0} --detach=true --user $UID --rm -it {1}'.format(container_name, image_name)
     # Start docker container
     os.system('docker run {0}'.format(run_options))
     # Create new "compile" directory
