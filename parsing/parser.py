@@ -321,16 +321,17 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     # Create new "compile" directory
     os.system('docker exec {0} /bin/bash -c "mkdir {1} && exit"'.format(container_name, compile_dir))
     # Copy MODELICAPATH directories into "compile" and add to MODELICAPATH command
-    MODELICAPATH = os.environ['MODELICAPATH'].split(':')
     modelicapath_docker = ''
     docker_lib_paths = []
-    # Add User MODELICAPATH first
-    for path in MODELICAPATH:
-        os.system('docker cp {0} {1}:{2}'.format(path, container_name, compile_dir))
-        docker_lib_path = '{0}/{1}'.format(compile_dir, os.path.split(path)[-1])
-        docker_lib_paths.append(docker_lib_path)
-        modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,docker_lib_path)
-    modelicapath_docker = modelicapath_docker[1:]
+    if os.environ['MODELICAPATH']:
+        MODELICAPATH = os.environ['MODELICAPATH'].split(':')
+        # Add User MODELICAPATH first
+        for path in MODELICAPATH:
+            os.system('docker cp {0} {1}:{2}'.format(path, container_name, compile_dir))
+            docker_lib_path = '{0}/{1}'.format(compile_dir, os.path.split(path)[-1])
+            docker_lib_paths.append(docker_lib_path)
+            modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,docker_lib_path)
+        modelicapath_docker = modelicapath_docker[1:]
     # Add JModelica MODELICAPATH second
     for path in ['/usr/local/JModelica/ThirdParty/MSL',
                  '/usr/local/JModelica/ThirdParty/MSL/ModelicaServices']:
