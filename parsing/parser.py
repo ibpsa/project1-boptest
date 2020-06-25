@@ -323,7 +323,7 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     # Copy MODELICAPATH directories into "compile" and add to MODELICAPATH command
     modelicapath_docker = ''
     docker_lib_paths = []
-    if os.environ['MODELICAPATH']:
+    if 'MODELICAPATH' in os.environ:
         MODELICAPATH = os.environ['MODELICAPATH'].split(':')
         # Add User MODELICAPATH first
         for path in MODELICAPATH:
