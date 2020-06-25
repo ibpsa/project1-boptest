@@ -109,8 +109,11 @@ test_bestest_air:
 	cd .. && make stop TESTCASE=bestest_air
 
 test_parser:
+	export MODELICAPATH=${TESTING_DIR}/${TMP_MODELICAPATH_DIR} && \
+	make copy_libraries && \
 	python test_parser.py
-
+	make remove_libraries
+	
 test_data:
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
