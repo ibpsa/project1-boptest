@@ -315,7 +315,7 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     image_name = 'michaelwetter/ubuntu-1804_jmodelica_trunk'
     container_name = 'jm'
     compile_dir = '/home/developer/compile'
-    run_options = '--name {0} --detach=true --user ${UID} --rm -it {1}'.format(container_name, image_name)
+    run_options = '--name {0} --detach=true --rm -it {1}'.format(container_name, image_name)
     # Start docker container
     os.system('docker run {0}'.format(run_options))
     # Create new "compile" directory
@@ -364,10 +364,6 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
     # Run "_compile_fmu.py" in container
     os.system('docker exec {0} /bin/bash -c "cd {1} && export MODELICAPATH={2} && /usr/local/JModelica/bin/jm_ipython.sh _compile_fmu.py {3} {4} && exit"'.format(container_name, compile_dir, modelicapath_docker, model_path, docker_file_path_str))
-    # Remove libraries and files from container
-    for docker_lib_path in docker_lib_paths:
-        os.system('docker exec {0} /bin/bash -c "rm -r {1} && exit"'.format(container_name,docker_lib_path))
-    os.system('docker exec {0} /bin/bash -c "rm {1}/{2} && exit"'.format(container_name,compile_dir,'_compile_fmu.py'))
     # Copy fmu compilation directory back to current directory
     os.system('docker cp {0}:{1}/ ./'.format(container_name, compile_dir))
     # Stop docker container
