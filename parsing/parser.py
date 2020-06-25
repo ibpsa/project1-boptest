@@ -324,12 +324,17 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     MODELICAPATH = os.environ['MODELICAPATH'].split(':')
     modelicapath_docker = ''
     docker_lib_paths = []
+    # Add User MODELICAPATH first
     for path in MODELICAPATH:
         os.system('docker cp {0} {1}:{2}'.format(path, container_name, compile_dir))
         docker_lib_path = '{0}/{1}'.format(compile_dir, os.path.split(path)[-1])
         docker_lib_paths.append(docker_lib_path)
         modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,docker_lib_path)
     modelicapath_docker = modelicapath_docker[1:]
+    # Add JModelica MODELICAPATH second
+    for path in ['/usr/local/JModelica/ThirdParty/MSL',
+                 '/usr/local/JModelica/ThirdParty/MSL/ModelicaServices']:
+        modelicapath_docker = '{0}:{1}'.format(modelicapath_docker,path)
     # Copy "file_name" directories and libraries into "compile" and add to file_path_str and copy resources if there are
     docker_file_path_str = ''
     for f in file_name:
@@ -338,6 +343,7 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
             os.system('docker cp {0} {1}:{2}'.format(lib_name, container_name, compile_dir))
             docker_lib_path = '{0}/{1}'.format(compile_dir, lib_name)
             docker_lib_paths.append(docker_lib_path)
+            docker_file_path = '{0}/{1}'.format(compile_dir, f)
         else:
             os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
             f_name = os.path.split(f)[-1]
