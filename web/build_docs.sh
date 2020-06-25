@@ -4,11 +4,11 @@ dir_design=docs-design
 rm -rf $dir_design
 # Build html documentation
 echo Building design documentation...
-cd ../docs/DesReqGui && make html
+cd ../docs/design_documentation && make html
 echo Finished building design documentation.
 # Move build to directory within /web
 echo Moving design documentation to $dir_design...
-cd ../../web && cp -r ../docs/DesReqGui/build/html $dir_design
+cd ../../web && cp -r ../docs/design_documentation/build/html $dir_design
 echo Finished moving design documentation.
 # Flatten directory for images and remove sphinx source and static build
 #echo Flattening design documentation images...
