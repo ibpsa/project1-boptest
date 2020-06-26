@@ -37,7 +37,7 @@ compile_testcase_model:
 	export MODELICAPATH=${TESTING_DIR}/${TMP_MODELICAPATH_DIR} && \
 	make link_libraries && \
 	cd ../testcases/${TESTCASE}/models && ./set_library_versions.sh && \
-	make remove_link_libraries && make copy_libraries && \
+	cd ${TESTING_DIR} && make remove_link_libraries && make copy_libraries && \
 	cd ../testcases/${TESTCASE}/models && python compile_fmu.py
 	make remove_libraries
 
