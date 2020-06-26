@@ -4,14 +4,6 @@ TESTING_DIR := ${CURDIR}
 TMP_GIT_DIR := tmp_git
 TMP_MODELICAPATH_DIR := tmp_MODELICAPATH
 
-compile_testcase_model:
-	export MODELICAPATH=${TESTING_DIR}/${TMP_MODELICAPATH_DIR} && \
-	make link_libraries && \
-	cd ../testcases/${TESTCASE}/models && ./set_library_versions.sh && \
-	make remove_link_libraries && make copy_libraries && \
-	cd ../testcases/${TESTCASE}/models && python compile_fmu.py
-	make remove_libraries
-
 get_libraries:
 	mkdir ${TMP_MODELICAPATH_DIR} && mkdir ${TMP_GIT_DIR} && cd ${TMP_GIT_DIR} && \
 	git clone https://github.com/ibpsa/modelica-ibpsa.git && \
@@ -40,6 +32,14 @@ remove_libraries:
 
 remove_tmp_directories:
 	rm -r ${TMP_MODELICAPATH_DIR} && rm -rf ${TMP_GIT_DIR}
+
+compile_testcase_model:
+	export MODELICAPATH=${TESTING_DIR}/${TMP_MODELICAPATH_DIR} && \
+	make link_libraries && \
+	cd ../testcases/${TESTCASE}/models && ./set_library_versions.sh && \
+	make remove_link_libraries && make copy_libraries && \
+	cd ../testcases/${TESTCASE}/models && python compile_fmu.py
+	make remove_libraries
 
 ###############################################################################
 
