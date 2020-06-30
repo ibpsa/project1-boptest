@@ -117,7 +117,10 @@ test_parser:
 test_data:
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
+	export MODELICAPATH=${TESTING_DIR}/${TMP_MODELICAPATH_DIR} && \
+	make copy_libraries && \
 	python test_data.py
+	make remove_libraries
 	
 test_forecast:
 	make compile_testcase_model TESTCASE=testcase2
