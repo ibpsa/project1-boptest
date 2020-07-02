@@ -363,6 +363,13 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
         if 'project1-boptest' in path:
             boptest_path = path
             continue
+    if not boptest_path:
+        warnings.warn('BOPTEST directory not found in your PYTHONPATH environmental variable. "_compile_fmu.py" is going to be searched relatively to the parser script directory.')
+        boptest_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    if not boptest_path:
+        raise BOPTESTpathNotFound('BOPTEST directory could not be found.')
+    if not os.path.exists(boptest_path):
+        raise BOPTESTpathNotExists('BOPTEST directory is found to be {} but this directory does not exists'.format(boptest_path))
     f = os.path.join(boptest_path,'parsing', '_compile_fmu.py')
     os.system('docker cp {0} {1}:{2}'.format(f, container_name, compile_dir))
     # Run "_compile_fmu.py" in container
@@ -380,6 +387,12 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     shutil.rmtree('compile')
     
     return fmu_path
+
+class BOPTESTpathNotFound(Exception):
+    pass
+
+class BOPTESTpathNotExists(Exception):
+    pass
 
 if __name__ == '__main__':
     # Define model
