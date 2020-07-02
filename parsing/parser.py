@@ -375,6 +375,7 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     os.system('docker exec {0} /bin/bash -c "cd {1} && export MODELICAPATH={2} && /usr/local/JModelica/bin/jm_ipython.sh _compile_fmu.py {3} {4} && exit"'.format(container_name, compile_dir, modelicapath_docker, model_path, docker_file_path_str))
     # Copy fmu compilation directory back to current directory
     os.system('docker cp {0}:{1} ./'.format(container_name, docker_file_path_str.replace('.mo','.fmu')))
+    fmu_path = os.path.join(os.getcwd(), model_path+'.fmu')
     # Stop docker container
     os.system('docker stop {0}'.format(container_name))
     
