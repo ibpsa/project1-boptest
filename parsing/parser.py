@@ -17,6 +17,7 @@ import os
 import json
 from data.data_manager import Data_Manager
 import warnings
+import subprocess
 
 def parse_instances(model_path, file_name, resources=None):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -376,8 +377,9 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     # Copy fmu compilation directory back to current directory
     os.system('docker cp {0}:{1} ./'.format(container_name, docker_file_path_str.replace('.mo','.fmu')))
     fmu_path = os.path.join(os.getcwd(), model_path+'.fmu')
-    # Stop docker container
-    os.system('docker stop {0}'.format(container_name))
+    # Stop docker container and wait until closed to don't conflict with possible future deployments
+    p = subprocess.Popen('docker stop {0}'.format(container_name))
+    p.wait()
     
     return fmu_path
 
