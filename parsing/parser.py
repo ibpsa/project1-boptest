@@ -14,7 +14,6 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 
 from pyfmi import load_fmu
 import os
-import shutil
 import json
 from data.data_manager import Data_Manager
 import warnings
