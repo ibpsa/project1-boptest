@@ -323,9 +323,10 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
     # Copy MODELICAPATH directories into "compile" and add to MODELICAPATH command
     modelicapath_docker = ''
     docker_lib_paths = []
+    print('Copying dependencies from MODELICAPATH to JModelica docker container...')
     if os.environ is not None:
         if 'MODELICAPATH' in os.environ:
-            MODELICAPATH = os.environ['MODELICAPATH'].split(':')
+            MODELICAPATH = os.environ['MODELICAPATH'].split(os.pathsep)
             # Add User MODELICAPATH first
             for path in MODELICAPATH:
                 os.system('docker cp {0} {1}:{2}'.format(path, container_name, compile_dir))
@@ -351,11 +352,13 @@ def _compile_fmu(model_path, file_name, target='cs', resources=None):
             f_name = os.path.split(f)[-1]
             docker_file_path = '{0}/{1}'.format(compile_dir, f_name)
         docker_file_path_str = '{0} {1}'.format(docker_file_path_str,docker_file_path)
+    print('Dependencies successfully copied.')
     docker_file_path_str = docker_file_path_str[1:]
     if resources:
         os.system('docker cp {0} {1}:{2}'.format(resources, container_name, compile_dir))
     # Copy "_compile_fmu.py" into "compile"
-    PYTHONPATH = os.environ['PYTHONPATH'].split(':')
+    boptest_path = None
+    PYTHONPATH = os.environ['PYTHONPATH'].split(os.pathsep)
     for path in PYTHONPATH:
         if 'project1-boptest' in path:
             boptest_path = path
