@@ -226,6 +226,7 @@ test_all:
 	make test_testcase2
 	make test_testcase3
 	make test_bestest_air
+	make test_bestest_hydronic_heat_pump
 # Remove jm
 	make remove_jm_image
 # Report test results
