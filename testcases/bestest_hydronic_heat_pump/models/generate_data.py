@@ -55,7 +55,8 @@ gen.generate_emissions(emissions_electric_power = 0.167,
 #=====================================================================
 # Initialize data frame
 df = gen.create_df()
-file_name    = 'BESTESTHydronicHeatPump'
+file_name    = os.path.join(os.path.dirname(os.path.abspath(__file__)), 
+                            'BESTESTHydronicHeatPump')
 class_name   = 'BESTESTHydronicHeatPump.TestCase'
  
 # Compile the model to generate the data
