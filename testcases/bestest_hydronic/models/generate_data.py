@@ -6,6 +6,7 @@ Created on Feb 20, 2020
 
 from data.data_generator import Data_Generator
 import os
+import pandas as pd
 from pymodelica import compile_fmu
 from pyfmi import load_fmu
 from scipy import interpolate
@@ -26,8 +27,12 @@ gen.generate_weather()
 # for the "Easy Indexed" deal for electricity, on June 2020
 # More info in https://www.energyprice.be/blog/2017/11/06/electricity-price-belgium/
 # and in https://www.energyprice.be/blog/2017/10/23/electricity-off-peak-hours/
-# For the highly dynamic scenario, the Belgian day-ahead prices of 2019 are used. Obtained from:
+# For the highly dynamic scenario, the Belgian day-ahead prices of 2019 are used. 
+# Obtained from:
 # https://my.elexys.be/MarketInformation/SpotBelpex.aspx
+# And stored as downloaded in /Resources/BelpexFilter.xlsx
+# This script preprocesses the excel file and overwrites the highly 
+# dynamic price scenario with that data. 
 
 # Gas prices obtained from https://www.energyprice.be/products-list/Engie
 # for the "Easy Indexed" deal for gas, on June 2020
@@ -43,6 +48,25 @@ gen.generate_prices(start_day_time = '07:00:00',
                       price_biomass_power = 0.2,
                       price_solar_thermal_power = 0.0)
 
+# Read highly dynamic price scenario for preprocessing
+prices_boptest = pd.read_csv(os.path.join(gen.resources_dir,  'prices.csv'),index_col='time')
+prices_belpex  = pd.read_excel(os.path.join(gen.resources_dir,'BelpexFilter.xlsx'),
+                               parse_dates=True)
+
+# Disregard duplicate from daylight saving 
+prices_belpex.drop_duplicates(subset='Date', keep='first', inplace=True)
+
+# Get an absolute time vector in seconds from the beginning of the year
+prices_belpex.sort_values('Date', ascending=True, inplace=True)
+time_since_epoch = pd.DatetimeIndex(prices_belpex['Date']).asi8/1e9
+prices_belpex['time'] = time_since_epoch - time_since_epoch[0]  
+prices_belpex.set_index('time', inplace=True)
+prices_belpex = prices_belpex.reindex(prices_boptest.index, method='ffill')
+
+# Overwrite testcase highly dynamic price profile and save
+prices_boptest['PriceElectricPowerHighlyDynamic'] = prices_belpex['Euro']/1000. # Convert EUR/MWh to EUR/kWh
+prices_boptest.to_csv(os.path.join(gen.resources_dir, 'prices.csv'), index=True)     
+
 gen.generate_emissions(emissions_electric_power = 0.167,
                            emissions_district_heating_power = 0.1,
                            emissions_gas_power = 0.18108,
@@ -55,7 +79,8 @@ gen.generate_emissions(emissions_electric_power = 0.167,
 #=====================================================================
 # Initialize data frame
 df = gen.create_df()
-file_name    = 'BESTESTHydronic'
+file_name    = os.path.join(os.path.dirname(os.path.abspath(__file__)), 
+                            'BESTESTHydronic')
 class_name   = 'BESTESTHydronic.TestCase'
  
 # Compile the model to generate the data
