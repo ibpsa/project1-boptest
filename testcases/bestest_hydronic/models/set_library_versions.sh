@@ -6,7 +6,7 @@
 # =================================
 IBPSA_COMMIT=master
 BUILDINGS_COMMIT=master
-IDEAS_COMMIT=issue996_hydronictest
+IDEAS_COMMIT=master
 # =================================
 
 # Executes corresponding git checkout
