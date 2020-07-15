@@ -48,8 +48,14 @@ gen.generate_prices(start_day_time = '07:00:00',
                       price_biomass_power = 0.2,
                       price_solar_thermal_power = 0.0)
 
+# Remove prices that are not used within the model
+prices_boptest = pd.read_csv(os.path.join(gen.resources_dir, 'prices.csv'),
+                             index_col='time')
+prices_boptest = prices_boptest.drop(labels=['PriceDistrictHeatingPower',
+                                             'PriceBiomassPower',
+                                             'PriceSolarThermalPower'], axis=1)
+
 # Read highly dynamic price scenario for preprocessing
-prices_boptest = pd.read_csv(os.path.join(gen.resources_dir,  'prices.csv'),index_col='time')
 prices_belpex  = pd.read_excel(os.path.join(gen.resources_dir,'BelpexFilter.xlsx'),
                                parse_dates=True)
 
@@ -73,7 +79,14 @@ gen.generate_emissions(emissions_electric_power = 0.167,
                            emissions_biomass_power = 0.0,
                            emissions_solar_thermal_power = 0.0)
 
- 
+# Remove emission factors that are not used within the model
+emissions_boptest = pd.read_csv(os.path.join(gen.resources_dir, 'emissions.csv'),
+                                index_col='time')
+emissions_boptest = emissions_boptest.drop(labels=['EmissionsDistrictHeatingPower',
+                                                   'EmissionsBiomassPower',
+                                                   'EmissionsSolarThermalPower'], axis=1)
+emissions_boptest.to_csv(os.path.join(gen.resources_dir, 'emissions.csv'), index=True)  
+
 #=====================================================================
 # Generate variables from model
 #=====================================================================
