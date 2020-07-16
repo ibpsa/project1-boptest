@@ -3,7 +3,6 @@
 This file is used to configure the test case.
 
 """
-import os
 
 def get_config():
     '''Returns the configuration structure for the test case.
@@ -23,7 +22,7 @@ def get_config():
         
     config = {
     # Enter configuration information
-    'fmupath'  : os.path.join(os.path.dirname(__file__),'models','wrapped.fmu'), 
+    'fmupath'  : 'models/wrapped.fmu', 
     'step'     : 3600,
     'horizon'  : 86400,
     'interval' : 3600
