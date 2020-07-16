@@ -430,6 +430,9 @@ class partialTestAPI(partialChecks):
                  'oveActSou_activate':0, 'oveActSou_u':1500}
         elif self.name == 'bestest_air':
             u = {'fcu_oveTSup_activate':0, 'fcu_oveTSup_u':290}
+        elif self.name == 'bestest_hydronic':
+            u = {'oveTSetSup_activate':0, 'oveTSetSup_u':273.15+60,
+                 'ovePum_activate':0, 'ovePum_u':1}
         elif self.name == 'bestest_hydronic_heat_pump':
             u = {'oveTSetHea_activate':0, 'oveTSetHea_u':273.15+22}
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
