@@ -15,7 +15,7 @@ WORKDIR $HOME
 RUN mkdir $HOME/MODELICAPATH && mkdir git && \
     cd git && \
     git clone https://github.com/ibpsa/modelica-ibpsa.git && \
-    git clone https://github.com/JavierArroyoBastida/IDEAS.git && \
+    git clone https://github.com/open-ideas/IDEAS.git && \
     git clone https://github.com/lbl-srg/modelica-buildings.git && \
     ln -s $HOME/git/IDEAS/IDEAS $HOME/MODELICAPATH/IDEAS && \
     ln -s $HOME/git/modelica-buildings/Buildings $HOME/MODELICAPATH/Buildings && \
