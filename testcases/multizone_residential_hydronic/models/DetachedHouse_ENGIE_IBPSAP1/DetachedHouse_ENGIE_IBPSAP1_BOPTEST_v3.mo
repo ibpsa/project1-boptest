@@ -2116,10 +2116,10 @@ equation
           {-202,-9},{-196.6,-9}}, color={0,0,127}));
   connect(T_Garage.T, reaTGar.u) annotation (Line(points={{-116,-48},{-114,-48},
           {-114,-47},{-110.6,-47}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-380,-260},
-            {100,100}})),                                        Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-380,-260},{100,100}}),
-                        graphics={
+  annotation (Icon(coordinateSystem(                           extent={{-100,
+            -100},{100,100}})),                                  Diagram(
+        coordinateSystem(                           extent={{-380,-260},{100,
+            100}}),     graphics={
         Rectangle(extent={{-160,-8},{-100,-88}},
                                                lineColor={28,108,200},
           lineThickness=1),
