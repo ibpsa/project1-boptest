@@ -1,6 +1,6 @@
 within DetachedHouse_ENGIE_IBPSAP1;
 model Generate_Data
-
+  extends Modelica.Icons.Example;
   // Living room
   parameter Modelica.SIunits.Area S_Salon = 30.32;
 
