@@ -2259,22 +2259,49 @@ of the boiler
           lineColor={28,108,200},
           textString="Living room")}),
     Documentation(info="<html>
-<p><b><span style=\"font-size: 10pt;\">Model description</span></b> </p>
-<p><b><span style=\"font-size: 10pt;\">Building</span></b> </p>
-<p><span style=\"font-size: 10pt;\">The modeling focuses on one type of residential building, in accordance with the French Thermal regulation 2012 (French national building energy regulation). The building typology is defined in such way to be representative of French new dwellings. </span></p>
-<p><span style=\"font-size: 10pt;\">The model represents a detached house of approximately 100 m&sup2; (<i>S_ref</i>). The building floor surface can be modified by the user in order to model the effect of the building size. This can done by changing the value of the variable <i>S</i> in the model. The dimensions of the building elements (surfaces) will be then automatically calculated accordingly to the new value.</span> </p>
-<p><br><img src=\"modelica://DetachedHouse_ENGIE_IBPSAP1/Documentation/Detached_house_view_from_Chambre1_section_1.jpg\"/></p>
-<p><span style=\"font-size: 10pt;\"><a name=\"_Ref346520932\">F</a>igure 1. Simulated single floor house (SFH)</span> </p>
-<p><span style=\"font-size: 10pt;\">The orientation of each building was chosen in order to maximize the natural light during winter. Thus, the main surface of windows of the building is south oriented. The building consists of :</span> </p>
+<p>
+This is a single zone residential hydronic system model 
+for WP 1.2 of IBPSA project 1. 
+</p>
+<h3>Building Design and Use</h3>
+<h4>Architecture</h4>
+<p>The modeling focuses on one type of residential building, in accordance 
+with the French Thermal regulation 2012 (French national building energy regulation). 
+The building typology is defined in such way to be representative of French new dwellings. 
+</p>
+<p>
+The model represents a detached house of approximately 100 m&sup2; (<i>S_ref</i>). 
+The building floor surface can be modified by the user in order to model the effect of the 
+building size. This can done by changing the value of the variable <i>S</i> in the model. 
+The dimensions of the building elements (surfaces) will be then automatically calculated 
+accordingly to the new value. 
+</p>
+
+<p>
+<br><img src=\"modelica://MultiZoneResidentialHydronic/Documentation/Detached_house_view_from_Chambre1_section_1.jpg\"/>
+</p>
+<p><a name=\"_Ref346520932\">F</a>igure 1. Simulated residential dwelling.</span> 
+</p>
+
+<p>
+The orientation of each building was chosen to maximize the natural light during winter. 
+Thus, the main surface of windows of the building is south oriented. The building consists of:
+</p>
 <ul>
-<li><span style=\"font-size: 10pt;\">1 living room / kitchen</span> </li>
-<li><span style=\"font-size: 10pt;\">3 bedrooms (2 South facing, 1 North facing)</span> </li>
-<li><span style=\"font-size: 10pt;\">1 bathroom</span> </li>
-<li><span style=\"font-size: 10pt;\">1 corridor serving the sleeping area (bedrooms and bathroom)</span> </li>
-<li><span style=\"font-size: 10pt;\">1 unheated garage</span> </li>
-<li><span style=\"font-size: 10pt;\">unheated attic</span> </li>
+<li>1 living room / kitchen </li>
+<li>3 bedrooms (2 South facing, 1 North facing) </li>
+<li>1 bathroom </li>
+<li>1 corridor serving the sleeping area (bedrooms and bathroom) </li>
+<li>1 unheated garage </li>
+<li>unheated attic </li>
 </ul>
-<p><br><span style=\"font-size: 10pt;\">The building envelope of each building was defined in order to cover the new construction modes existing on the market. Thus, each of these modes was characterized by a different level of insulation (Table 1). </span></p>
+
+<p>
+The building envelope was defined in order to cover the new construction 
+modes existing on the market. Thus, each of these modes was characterized 
+by a different level of insulation (Table 1). 
+</p>
+
 <p><span style=\"font-family: Arial,sans-serif;\">Table 1.Building envelope characteristic</span> </p>
 <table cellspacing=\"0\" cellpadding=\"2\" border=\"1\" width=\"100%\"><tr>
 <td><p><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Wall type </span></b></p></td>
@@ -2313,27 +2340,108 @@ of the boiler
 <td><p><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U<sub>w</sub> = 1.40 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
 </tr>
 </table>
-<p><br><span style=\"font-size: 10pt;\">These values (in accordance with the French Thermal regulation 2012 (can me modified by the user or automatically using a script.</span> </p>
-<p><span style=\"font-size: 10pt;\">The building was subject to a detailed modeling according to the architecture plans. The volume was divided into 8 thermal zones according to space function (an additional thermal zone was created to simulate the behaviour of the attic). Each space (room) has its own thermal behaviour as a result of the boundary conditions (climate, adjacent spaces, etc.) and the internal conditions (internal loads, scenarios, etc.).</span> </p>
-<p><span style=\"font-size: 10pt;\">The thermal bridges effect was taken into account by the intermediate of thermal resistance parameterized with the length building element assimilated to the thermal bridge and a thermal bridges coefficient (<i>k_PT</i>).</span> </p>
-<p><span style=\"font-size: 10pt;\">The thermal zones of the building, except the unheated zones, are subject to conventional scenarios (occupation, heating, cooling, ventilation, lighting, internal loads) defined in the French Thermal Regulation 2012 (CSTB - Centre Scientifique et Technique du B&acirc;timent), 2012. M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 2012). </span></p>
-<p><span style=\"font-size: 10pt;\">For example, the building is considered occupied continuously by four adults from 19PM to 10AM for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends. On an yearly basis, the building is considered unoccupied one week at the end of December and two weeks in August. A reduction of 30&percnt; of the internal loads due to occupants is observed during the nighttime. </span></p>
-<p><span style=\"font-size: 10pt;\">The building set-up temperature value for heating is fixed conventionally at 19&deg;C during occupation period, 16&deg;C during an inoccupation period inferior to 48 hours and 7&deg;C otherwise. The scenario for cooling is similar, the set-up values are 28&deg;C / 30&deg;C / 30&deg;C. These values can me modified by the user or automatically using a script.</span> </p>
-<p><span style=\"font-size: 10pt;\">The internal loads considered are mainly due to lighting and appliances. For lighting, approximately 1.1 W/m&sup2; are considered (according to (CSTB - Centre Scientifique et Technique du B&acirc;timent), 2012. M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 2012), 80&percnt; of the 1.12 W/m&sup2; installed power is transformed in heat). Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all day long during weekends. Otherwise, this level is reduced by 80&percnt;. All this elements can be modified by the user. These values can me modified by the user or automatically using a script.</span> </p>
-<p><b><span style=\"font-size: 10pt;\">Systems</span></b> </p>
-<p><span style=\"font-size: 10pt;\">Each building zone has its own radiator equipped with a thermostatic valve and a temperature controller (PI) connected to the zone temperature, setpoint (a correction coefficient will add 0 to 2.5&deg;C to take into the spatial variation of the control system is implemented; the default value is 0) and the sending order to the valve. The radiators are designed with the regard of building envelop characteristics and based on the specific climate of Bordeaux, France (FRA_Bordeaux.075100_IWEC.mos). </span></p>
-<p><span style=\"font-size: 10pt;\">The water is heated by a gas boiler. The boiler is designed to provide power (sum of the radiators nominal power) for heating only (the DHW production is not take into account in this model).</span> </p>
-<p><b><span style=\"font-size: 10pt;\">Control</span></b> </p>
-<p><span style=\"font-size: 10pt;\">The boiler is operated by a control system composed of a set of controllers: </span></p>
+
+
+<p>
+These values are in accordance with the French Thermal regulation 2012.
+The building was subject to a detailed modeling according to the architecture plans. 
+The volume was divided into 8 thermal zones according to space function 
+(an additional thermal zone was created to simulate the behaviour of the attic). 
+Each space (room) has its own thermal behaviour as a result of the boundary conditions 
+(climate, adjacent spaces, etc.) and the internal conditions (internal loads, scenarios, etc.)
+</p>
+<p>
+The thermal bridges effect was taken into account by the intermediate of thermal resistance 
+parameterized with the length building element assimilated to the thermal bridge and a thermal 
+bridges coefficient (<i>k_PT</i>).
+</p>
+<p>
+The thermal zones of the building, except the unheated zones, are subject to conventional 
+scenarios (occupation, heating, cooling, ventilation, lighting, internal loads) defined in the 
+French Thermal Regulation 2012 (CSTB - Centre Scientifique et Technique du B&acirc;timent), 2012. 
+M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 2012). 
+</p>
+<p>
+For example, the building is considered occupied continuously by four adults from 19PM to 10AM 
+for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends. 
+On an yearly basis, the building is considered unoccupied one week at the end of December and 
+two weeks in August. A reduction of 30&percnt; of the internal loads due to occupants is observed 
+during the nighttime. 
+</p>
+<p>
+The building set-up temperature value for heating is fixed conventionally at 19&deg;C during 
+occupation period, 16&deg;C during an inoccupation period inferior to 48 hours and 7&deg;C otherwise. 
+The scenario for cooling is similar, the set-up values are 28&deg;C / 30&deg;C / 30&deg;C. 
+These values can me modified by the user or automatically using a script.
+</p>
+<p>
+The internal loads considered are mainly due to lighting and appliances. For lighting, 
+approximately 1.1 W/m&sup2; are considered (according to (CSTB - Centre Scientifique et 
+Technique du B&acirc;timent), 2012. M&eacute;thode de calcul Th-BCE - R&eacute;glementation 
+thermique 2012; CSTB, 2012), 80&percnt; of the 1.12 W/m&sup2; installed power is transformed in heat). 
+Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM 
+and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all 
+day long during weekends. Otherwise, this level is reduced by 80&percnt;. All this elements can be 
+modified by the user. These values can me modified by the user or automatically using a script.
+</p>
+<h3>HVAC System Design</h3>
+<p>
+Each building zone has its own radiator equipped with a thermostatic valve and a temperature controller 
+(PI) connected to the zone temperature, setpoint (a correction coefficient will add 0 to 2.5&deg;C to 
+take into the spatial variation of the control system is implemented; the default value is 0) and the 
+sending order to the valve. The radiators are designed with the regard of building envelop characteristics 
+and based on the specific climate of Bordeaux, France (FRA_Bordeaux.075100_IWEC.mos).
+</p>
+<p>
+The water is heated by a gas boiler. The boiler is designed to provide power (sum of the radiators nominal 
+power) for heating only (the DHW production is not take into account in this model).
+</p>
+<h4>Rule-based or local-loop controllers (if included)</h4>
+<p>
+The boiler is operated by a control system composed of a set of controllers: 
+</p>
 <ul>
-<li><span style=\"font-size: 10pt;\">The controller (PI) in charge of the security of the output temperature of the boiler will observe the nominal supply temperature (90&deg;C) and the supply temperature provided by the boiler. </span></li>
-<li><span style=\"font-size: 10pt;\">The controller (Hysteresis) in charge of the On/Off mode of the boiler is responsible to provide an order signal based on the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor air temperature (we have chosen in this model to take into account the Living room temperature &ndash; thus the On/Off controller is considered to be placed in this specific thermal zone of the building). </span></li>
-<li><span style=\"font-size: 10pt;\">If a delta of temperature is observed between the indoor air temperature setpoint and the indoor air temperature in the Living Room (controller (Hysteresis) signal is True), an additional PI controller will be in charge of the calculating the signal for the load ratio of the boiler (a minimum PLR of Pmin_Ch/Pmax_Ch equal to 11&percnt; is imposed in this controller). </span></li>
+<li>
+The controller (PI) in charge of the security of the output temperature of the boiler will observe the 
+nominal supply temperature (90&deg;C) and the supply temperature provided by the boiler. 
+</li>
+<li>
+The controller (Hysteresis) in charge of the On/Off mode of the boiler is responsible to provide an 
+order signal based on the indoor air temperature setpoint (from the occupancy schedule) and the measured 
+indoor air temperature (we have chosen in this model to take into account the Living room temperature &ndash; 
+thus the On/Off controller is considered to be placed in this specific thermal zone of the building). 
+</li>
+<li>
+If a delta of temperature is observed between the indoor air temperature setpoint and the indoor air 
+temperature in the Living Room (controller (Hysteresis) signal is True), an additional PI controller will 
+be in charge of the calculating the signal for the load ratio of the boiler (a minimum PLR of Pmin_Ch/Pmax_Ch 
+equal to 11&percnt; is imposed in this controller).
+</li>
 </ul>
-<p><span style=\"font-size: 10pt;\">The signals from these three controllers are combined and connected to anti short cycle system and the connected to the boiler control input signal. The anti short cycle system is comparing the operating time of the boiler between two start/stops. This operating time should be greater than 600 seconds to allow the boiler to stop or start. This system should improve the overall boiler performance. &nbsp;</span> </p>
-<p><span style=\"font-size: 10pt;\">The boiler is equipped with a pump (is responsible for circulating the water through the radiators) which is performance is with a performance map here. This pump is switched On based on a signal of a PI controller observing the indoor temperature setpoint input (from the occupancy schedule) and the measured indoor air temperature. </span></p>
-<p><span style=\"font-size: 10pt;\">A heating water temperature block (capable to calculate the supply temperature for heating with the regard of the outdoor air temperature) is connected to a 3 way valve in order to limit the supply temperature.</span> </p>
-<p><b><span style=\"font-size: 10pt;\">&nbsp;</span></b> </p>
+<p>
+The signals from these three controllers are combined and connected to anti short cycle system and 
+the connected to the boiler control input signal. The anti short cycle system is comparing the operating 
+time of the boiler between two start/stops. This operating time should be greater than 600 seconds to allow 
+the boiler to stop or start. This system should improve the overall boiler performance. &nbsp;
+</p>
+<p>
+The boiler is equipped with a pump (is responsible for circulating the water through the radiators) which 
+is performance is with a performance map here. This pump is switched On based on a signal of a PI controller 
+observing the indoor temperature setpoint input (from the occupancy schedule) and the measured indoor 
+air temperature.
+</p>
+<p>
+A heating water temperature block (capable to calculate the supply temperature for heating with the regard 
+of the outdoor air temperature) is connected to a 3 way valve in order to limit the supply temperature.
+</p>
+
+</html>", revisions="<html>
+<ul>
+<li>
+July 17, 2020 by Javier Arroyo:<br/>
+First implementation. 
+</li>
+</ul>
 </html>"),
     experiment(
       StopTime=604800,
