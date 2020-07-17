@@ -1248,13 +1248,13 @@ public
   IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"),
-    description="Zone setpoint temperature")
+    description="Zone air setpoint temperature")
     annotation (Placement(transformation(extent={{-332,40},{-326,46}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"),
-    description="Zone setpoint temperature")
+    description="Zone air setpoint temperature")
     annotation (Placement(transformation(extent={{-332,30},{-326,36}})));
 
   Modelica.Blocks.Sources.RealExpression realExpression13(y=
@@ -1302,7 +1302,7 @@ public
     annotation (Placement(transformation(extent={{70,-172},{76,-166}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read reaTAti(
-    description="Read attic temperature",
+    description="Read attic air temperature",
     y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     zone="Hal")

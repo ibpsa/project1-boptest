@@ -32,7 +32,7 @@ model ConHea "General controller for heating system"
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveTsetHea(u(
       min=273.15 + 10,
       max=273.15 + 95,
-      unit="K"), description="Zone temperature setpoint for heating")
+      unit="K"), description="Zone air temperature setpoint for heating")
     annotation (Placement(transformation(extent={{-92,26},{-84,34}})));
 
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveActHea(u(

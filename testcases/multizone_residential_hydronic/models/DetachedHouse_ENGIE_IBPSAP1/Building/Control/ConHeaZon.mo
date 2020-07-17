@@ -10,7 +10,7 @@ model ConHeaZon "Controller for zone heating"
   IBPSA.Utilities.IO.SignalExchange.Read reaTzon(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K"),
-    description="Zone temperature",
+    description="Zone air temperature",
     zone=zone)
     annotation (Placement(transformation(extent={{-88,0},{-80,8}})));
 

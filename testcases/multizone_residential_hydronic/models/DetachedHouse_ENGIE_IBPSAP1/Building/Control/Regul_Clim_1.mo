@@ -29,7 +29,7 @@ model Regul_Clim_1
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveTsetCoo(u(
       min=273.15 + 10,
       max=273.15 + 30,
-      unit="K"), description="Zone temperature setpoint for cooling")
+      unit="K"), description="Zone air temperature setpoint for cooling")
     annotation (Placement(transformation(extent={{-84,16},{-76,24}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaPcoo(description=
         "Cooling electrical power consumption", KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
