@@ -128,6 +128,19 @@ test_testcase3:
 	cd .. && python testing/test_testcase3.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase3
+	
+test_bestest_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_hydronic
+# Build testcase image
+	cd .. &&  make build TESTCASE=bestest_hydronic
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=bestest_hydronic
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_hydronic.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=bestest_hydronic
 
 test_parser:
 	make run_jm
@@ -213,6 +226,7 @@ test_all:
 	make test_testcase2
 	make test_testcase3
 	make test_bestest_air
+	make test_bestest_hydronic
 # Remove jm
 	make remove_jm_image
 # Report test results
