@@ -45,34 +45,88 @@ class TestCase(object):
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Get available control inputs and outputs
-        input_names = self.fmu.get_model_variables(causality = 2).keys()
-        output_names = self.fmu.get_model_variables(causality = 3).keys()
+        self.input_names = self.fmu.get_model_variables(causality = 2).keys()
+        self.output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Get input and output meta-data
-        self.inputs_metadata = self._get_var_metadata(self.fmu, input_names, inputs=True)
-        self.outputs_metadata = self._get_var_metadata(self.fmu, output_names)
-        # Define outputs data
-        self.y = {'time':[]}
-        for key in output_names:
-            self.y[key] = []
-        self.y_store = copy.deepcopy(self.y)
-        # Define inputs data
-        self.u = {'time':[]}
-        for key in input_names:
-            self.u[key] = []
-        self.u_store = copy.deepcopy(self.u)
-        # Set default options
-        self.options = self.fmu.simulate_options()
-        self.options['CVode_options']['rtol'] = 1e-6 
+        self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
+        self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Set default communication step
         self.set_step(con['step'])
         # Set default forecast parameters
         self.set_forecast_parameters(con['horizon'], con['interval'])
-        # Set initial simulation start
+        # Set default fmu simulation options
+        self.options = self.fmu.simulate_options()
+        self.options['CVode_options']['rtol'] = 1e-6 
+        # Set initial fmu simulation start
         self.start_time = 0
-        self.initialize = True
-        self.options['initialize'] = self.initialize
+        self.initialize_fmu = True
+        self.options['initialize'] = self.initialize_fmu
+        # Initialize simulation data arrays
+        self.__initilize_data()
         self.elapsed_control_time = []
+
+    def __initilize_data(self):
+        '''Initializes objects for simulation data storage.
         
+        Uses self.output_names and self.input_names to create
+        self.y, self.y_store, self.u, and self.u_store.
+        
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        None
+        
+        '''
+    
+        # Outputs data
+        self.y = {'time':[]}
+        for key in self.output_names:
+            self.y[key] = []
+        self.y_store = copy.deepcopy(self.y)
+        # Inputs data
+        self.u = {'time':[]}
+        for key in self.input_names:
+            self.u[key] = []        
+        self.u_store = copy.deepcopy(self.u)
+                
+    def __simulation(self,start_time,end_time,input_object=None):
+        '''Simulates the FMU using the pyfmi fmu.simulate function.
+        
+        Parameters
+        ----------
+        start_time: int
+            Start time of simulation in seconds.
+        final_time: int
+            Final time of simulation in seconds.
+        input_object: pyfmi input_object, optional
+            Input object for simulation
+            Default is None
+        
+        Returns
+        -------
+        res: pyfmi results object
+            Results of the fmu simulation.
+        
+        '''
+
+        # Set fmu initialization option
+        self.options['initialize'] = self.initialize_fmu
+        # Simulate fmu
+        try:
+             res = self.fmu.simulate(start_time = start_time, 
+                                     final_time = end_time, 
+                                     options=self.options, 
+                                     input=input_object)
+        except Exception as e:
+            return None
+        # Set internal fmu initialization
+        self.initialize_fmu = False
+
+        return res            
+           
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
         
@@ -129,34 +183,65 @@ class TestCase(object):
         else:
             input_object = None
         # Simulate
-        self.options['initialize'] = self.initialize
-        res = self.fmu.simulate(start_time=self.start_time, 
-                                final_time=self.final_time, 
-                                options=self.options, 
-                                input=input_object)
-        # Get result and store measurement
-        for key in self.y.keys():
-            self.y[key] = res[key][-1]
-            self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
-        # Store control inputs
-        for key in self.u.keys():
-            self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
-        # Advance start time
-        self.start_time = self.final_time
-        # Prevent inialize
-        self.initialize = False
-        # Raise the flag to compute time lapse
-        self.tic_time = time.time()
-        
-        return self.y
+        res = self.__simulation(self.start_time,self.final_time,input_object) 
+        # Process results
+        if res is not None:        
+            # Get result and store measurement
+            for key in self.y.keys():
+                self.y[key] = res[key][-1]
+                self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
+            # Store control inputs
+            for key in self.u.keys():
+                self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+            # Advance start time
+            self.start_time = self.final_time
+            # Raise the flag to compute time lapse
+            self.tic_time = time.time()
 
-    def reset(self):
-        '''Reset the test.
+            return self.y
+
+        else:
+
+            return None        
+
+    def initialize(self, start_time, warmup_period):
+        '''Initialize the test simulation.
         
+        Parameters
+        ----------
+        start_time: int
+            Start time of simulation to initialize to in seconds.
+        warmup_period: int
+            Length of time before start_time to simulate for warmup in seconds.
+            
+        Returns
+        -------
+        True if successful.
+        False otherwise.
+
         '''
-        
-        self.__init__()
 
+        # Reset fmu
+        self.fmu.reset()
+        # Reset simulation data storage
+        self.__initilize_data()
+        self.elapsed_control_time = []
+        # Set fmu intitialization                
+        self.initialize_fmu = True
+        # Simulate fmu for warmup period.
+        # Do not allow negative starting time to avoid confusions
+        res = self.__simulation(max(start_time-warmup_period,0), start_time)
+        # Process result
+        if res is not None:
+            # Set internal start time to start_time
+            self.start_time = start_time
+
+            return True
+        
+        else:
+
+            return False
+        
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
 

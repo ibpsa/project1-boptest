@@ -109,8 +109,8 @@ class partialKpiCalculatorTest(utilities.partialChecks):
            
         '''
         
-        # Reset test-case
-        self.case.reset()
+        # Initialize test-case
+        self.case.initialize(0,0)
         # Advance three simulation steps to compute elapsed times
         for _ in range(3):
             self.case.advance(u={})

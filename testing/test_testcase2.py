@@ -30,7 +30,8 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialChecks):
         '''
         
         # Run test
-        kpi,res,customizedkpis_result = szvav_sup.run()
+        custom_kpi_config_path = os.path.join(utilities.get_root_path(), 'examples', 'python', 'custom_kpi', 'custom_kpis_example.config')
+        kpi,res,customizedkpis_result = szvav_sup.run(customized_kpi_config=custom_kpi_config_path)
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
@@ -103,7 +104,7 @@ class MinMax(unittest.TestCase):
         '''
         
         # Run test
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
         # Check kpis
         value = float(y['senTSetRooHea_y'])
@@ -115,7 +116,7 @@ class MinMax(unittest.TestCase):
         '''
         
         # Run test
-        requests.put('{0}/reset'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
         # Check kpis
         value = float(y['senTSetRooHea_y'])
@@ -137,6 +138,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.name = 'testcase2'
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
+        self.step_ref = 3600.0
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

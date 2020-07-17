@@ -101,6 +101,19 @@ test_testcase2:
 	cd .. && make stop TESTCASE=testcase2
 # Remove testcase image
 	cd ../examples/julia && make remove-image Script=szvav_sup
+	
+test_bestest_air:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_air
+# Build testcase image
+	cd .. &&  make build TESTCASE=bestest_air
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=bestest_air
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_air.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=bestest_air
 
 test_testcase3:
 # Compile testcase model
@@ -115,6 +128,19 @@ test_testcase3:
 	cd .. && python testing/test_testcase3.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase3
+	
+test_bestest_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_hydronic
+# Build testcase image
+	cd .. &&  make build TESTCASE=bestest_hydronic
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=bestest_hydronic
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_hydronic.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=bestest_hydronic
 
 test_multizone_residential_hydronic:
 # Compile testcase model
@@ -206,13 +232,15 @@ test_all:
 	make build_jm_image
 # Run tests
 	make test_parser
-	make test_testcase1
-	make test_testcase2
-	make test_testcase3
-	make test_multizone_residential_hydronic
 	make test_data
 	make test_forecast
 	make test_kpis
+	make test_testcase1
+	make test_testcase2
+	make test_testcase3
+	make test_bestest_air
+	make test_bestest_hydronic
+	make test_multizone_residential_hydronic
 # Remove jm
 	make remove_jm_image
 # Report test results
