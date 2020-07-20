@@ -2262,7 +2262,8 @@ for WP 1.2 of IBPSA project 1.
 </p>
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
-<p>The modeling focuses on one type of residential building, in accordance 
+<p>
+The modeling focuses on one type of residential building, in accordance 
 with the French Thermal regulation 2012 (French national building energy regulation). 
 The building typology is defined in such way to be representative of French new dwellings. 
 </p>
@@ -2275,7 +2276,7 @@ accordingly to the new value.
 </p>
 
 <p>
-<br><img src=\"modelica://MultiZoneResidentialHydronic/Documentation/Detached_house_view_from_Chambre1_section_1.jpg\"/>
+<br><img src=\"Resources/Detached_house_view_from_Chambre1_section.jpg\"/>
 </p>
 <p><a name=\"_Ref346520932\">F</a>igure 1. Simulated residential dwelling.</span> 
 </p>
@@ -2290,7 +2291,7 @@ Thus, the main surface of windows of the building is south oriented. The buildin
 <li>1 bathroom </li>
 <li>1 corridor serving the sleeping area (bedrooms and bathroom) </li>
 <li>1 unheated garage </li>
-<li>unheated attic </li>
+<li>1 unheated attic </li>
 </ul>
 
 <p>
@@ -2352,6 +2353,8 @@ The thermal bridges effect was taken into account by the intermediate of thermal
 parameterized with the length building element assimilated to the thermal bridge and a thermal 
 bridges coefficient (<i>k_PT</i>).
 </p>
+
+<h4>Occupancy schedules</h4>
 <p>
 The thermal zones of the building, except the unheated zones, are subject to conventional 
 scenarios (occupation, heating, cooling, ventilation, lighting, internal loads) defined in the 
@@ -2361,16 +2364,16 @@ M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 20
 <p>
 For example, the building is considered occupied continuously by four adults from 19PM to 10AM 
 for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends. 
-On an yearly basis, the building is considered unoccupied one week at the end of December and 
+On a yearly basis, the building is considered unoccupied one week at the end of December and 
 two weeks in August. A reduction of 30&percnt; of the internal loads due to occupants is observed 
 during the nighttime. 
 </p>
 <p>
-The building set-up temperature value for heating is fixed conventionally at 19&deg;C during 
-occupation period, 16&deg;C during an inoccupation period inferior to 48 hours and 7&deg;C otherwise. 
-The scenario for cooling is similar, the set-up values are 28&deg;C / 30&deg;C / 30&deg;C. 
-These values can me modified by the user or automatically using a script.
+The building heating temperature setpoint is fixed conventionally at 19&deg;C during 
+occupied periods, 16&deg;C during unoccupied periods shorter than 48 hours and 7&deg;C otherwise. 
+The scenario for cooling is similar, cooling temperature setpoints are 28&deg;C / 30&deg;C / 30&deg;C. 
 </p>
+<h4>Internal loads and schedules</h4>
 <p>
 The internal loads considered are mainly due to lighting and appliances. For lighting, 
 approximately 1.1 W/m&sup2; are considered (according to (CSTB - Centre Scientifique et 
@@ -2379,58 +2382,65 @@ thermique 2012; CSTB, 2012), 80&percnt; of the 1.12 W/m&sup2; installed power is
 Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM 
 and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all 
 day long during weekends. Otherwise, this level is reduced by 80&percnt;. All this elements can be 
-modified by the user. These values can me modified by the user or automatically using a script.
+</p>
+<h4>Climate data</h4>
+<p>
+The model uses a climate file containing one year
+of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos).
 </p>
 <h3>HVAC System Design</h3>
+<h4>Primary and secondary system designs</h4>
 <p>
-Each building zone has its own radiator equipped with a thermostatic valve and a temperature controller 
-(PI) connected to the zone temperature, setpoint (a correction coefficient will add 0 to 2.5&deg;C to 
-take into the spatial variation of the control system is implemented; the default value is 0) and the 
-sending order to the valve. The radiators are designed with the regard of building envelop characteristics 
-and based on the specific climate of Bordeaux, France (FRA_Bordeaux.075100_IWEC.mos).
+Each building zone has its own radiator equipped with a thermostatic valve that is modeled 
+using a PI controller. The radiators are sized accordingly to the building envelope characteristics 
+and to the specific climate of Bordeaux, France.
 </p>
 <p>
-The water is heated by a gas boiler. The boiler is designed to provide power (sum of the radiators nominal 
-power) for heating only (the DHW production is not take into account in this model).
+The water through the heating emission system is heated by a gas boiler. 
+The boiler is designed to provide power (sum of the radiators nominal 
+power) for spacial heating only, domestic hot water production is not taken 
+into account in this model.
+</p>
+<h4>Equipment specifications and performance maps</h4>
+<p>
+The boiler uses an efficiency curve constant with coefficient 0.9.
+The heating system circulation pump uses an efficiency curve that is function of the
+mass flow rate of water through the emission system. 
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-The boiler is operated by a control system composed of a set of controllers: 
+The following set of controllers drive the baseline controller implemented in this model: 
 </p>
 <ul>
 <li>
-The controller (PI) in charge of the security of the output temperature of the boiler will observe the 
-nominal supply temperature (90&deg;C) and the supply temperature provided by the boiler. 
+A security system of the boiler follows a nominal supply water temperature of 90&deg;C. 
 </li>
 <li>
-The controller (Hysteresis) in charge of the On/Off mode of the boiler is responsible to provide an 
-order signal based on the indoor air temperature setpoint (from the occupancy schedule) and the measured 
-indoor air temperature (we have chosen in this model to take into account the Living room temperature &ndash; 
-thus the On/Off controller is considered to be placed in this specific thermal zone of the building). 
+A hysteresis controller reads the indoor air temperature setpoint (from the occupancy schedule) and the actual 
+indoor air temperature to decide on the boiler mode: either on or off. 
+The living room temperature is chosen to represent the indoor temperature of the whole building. 
+Therefore, the thermostat is considered to be placed in the living room. 
 </li>
 <li>
-If a delta of temperature is observed between the indoor air temperature setpoint and the indoor air 
-temperature in the Living Room (controller (Hysteresis) signal is True), an additional PI controller will 
-be in charge of the calculating the signal for the load ratio of the boiler (a minimum PLR of Pmin_Ch/Pmax_Ch 
-equal to 11&percnt; is imposed in this controller).
+An anti short cycle system of the boiler compares the operating 
+time of the boiler between two start/stops. This operating time should be greater than 600 seconds to allow 
+the boiler to switch mode. This system should improve the overall boiler performance. &nbsp;
+</li>
+<li>
+When the boiler mode is on, an additional PI controller  
+controls the load ratio of the boiler. A minimum partial load ratio of Pmin_Ch/Pmax_Ch 
+equal to 11&percnt; is imposed in this controller.
+</li>
+<li>
+A heating curve is implemented to modulate the supply water temperature from the boiler to the emission
+circuit based on outdoor temperature readings. A 3 way valve is used for this modulation. 
+</li>
+<li>
+The emission circuit pump is switched on based on a signal of a PI controller 
+that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor 
+air temperature from the thermostat in the living room.
 </li>
 </ul>
-<p>
-The signals from these three controllers are combined and connected to anti short cycle system and 
-the connected to the boiler control input signal. The anti short cycle system is comparing the operating 
-time of the boiler between two start/stops. This operating time should be greater than 600 seconds to allow 
-the boiler to stop or start. This system should improve the overall boiler performance. &nbsp;
-</p>
-<p>
-The boiler is equipped with a pump (is responsible for circulating the water through the radiators) which 
-is performance is with a performance map here. This pump is switched On based on a signal of a PI controller 
-observing the indoor temperature setpoint input (from the occupancy schedule) and the measured indoor 
-air temperature.
-</p>
-<p>
-A heating water temperature block (capable to calculate the supply temperature for heating with the regard 
-of the outdoor air temperature) is connected to a 3 way valve in order to limit the supply temperature.
-</p>
 
 </html>", revisions="<html>
 <ul>
