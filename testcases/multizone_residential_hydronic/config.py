@@ -23,7 +23,7 @@ def get_config():
         
     config = {
     # Enter configuration information
-    'fmupath'  : os.path.join(os.path.dirname(__file__),'models','wrapped.fmu'), 
+    'fmupath'  : 'models/wrapped.fmu', 
     'step'     : 3600,
     'horizon'  : 86400,
     'interval' : 3600
