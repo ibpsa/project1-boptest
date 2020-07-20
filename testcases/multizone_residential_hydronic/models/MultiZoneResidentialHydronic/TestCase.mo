@@ -2439,6 +2439,12 @@ The emission circuit pump is switched on based on a signal of a PI controller
 that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor 
 air temperature from the thermostat in the living room.
 </li>
+<li>
+There is one radiator per zone with a motorized valve controlled by a PI controller
+that follows the air zone temperature set point. Only the hallway zone has no valve and its hydronic 
+circuit remains always open to ensure that there iswater flow. This is a typical layout that avoids
+vacuum failures when all valves are closed while the distribution pump is working.
+</li>
 </ul>
 
 </html>", revisions="<html>
