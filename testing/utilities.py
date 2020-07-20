@@ -433,6 +433,9 @@ class partialTestAPI(partialChecks):
         elif self.name == 'bestest_hydronic':
             u = {'oveTSetSup_activate':0, 'oveTSetSup_u':273.15+60,
                  'ovePum_activate':0, 'ovePum_u':1}
+        elif self.name == 'multizone_residential_hydronic':
+            u = {'conHeaSal_oveTsetHea_activate':0, 'conHeaSal_oveTsetHea_u':273.15+22,
+                 'conPumHea_oveActHea_activate':0, 'conPumHea_oveActHea_u':1}
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
