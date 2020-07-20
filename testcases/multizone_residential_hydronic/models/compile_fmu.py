@@ -27,8 +27,8 @@ def compile_fmu():
     
     # DEFINE MODEL
     # ------------
-    mopath      = 'DetachedHouse_ENGIE_IBPSAP1'
-    modelpath   = 'DetachedHouse_ENGIE_IBPSAP1.DetachedHouse_ENGIE_IBPSAP1_BOPTEST_v3'
+    mopath      = 'MultiZoneResidentialHydronic'
+    modelpath   = 'MultiZoneResidentialHydronic.TestCase'
     # ------------
     
     # COMPILE FMU
