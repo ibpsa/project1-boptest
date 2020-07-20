@@ -35,11 +35,13 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
 //  Modelica.SIunits.Power QWat_flow "Heat transfer from gas into water";
   Modelica.SIunits.Efficiency eta "Boiler efficiency";
 
-  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium
-      = MediumW) annotation (Placement(transformation(rotation=0, extent={{-94,-10},
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package
+      Medium =
+        MediumW) annotation (Placement(transformation(rotation=0, extent={{-94,-10},
             {-114,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare final package Medium
-      = MediumW)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare final package
+      Medium =
+        MediumW)
     annotation (Placement(transformation(rotation=0, extent={{92,-10},{112,10}})));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
@@ -62,12 +64,13 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
   Modelica.Blocks.Interfaces.RealInput y "Connector of Real input signal 1"
     annotation (Placement(transformation(extent={{-140,36},{-100,76}}),
         iconTransformation(extent={{-140,36},{-100,76}})));
-  Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package Medium =
+  Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package
+      Medium =
         MediumW)
     annotation (Placement(transformation(extent={{-86,10},{-66,-10}})));
 
-  Buildings.Fluid.Sensors.Temperature        T_retour(redeclare package Medium
-      =        MediumW)                                annotation (
+  Buildings.Fluid.Sensors.Temperature        T_retour(redeclare package
+      Medium = MediumW)                                annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
