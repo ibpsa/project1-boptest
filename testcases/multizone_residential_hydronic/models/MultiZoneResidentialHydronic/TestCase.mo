@@ -1505,17 +1505,18 @@ equation
           -8},{-234,-8},{-234,-6.8},{-228.64,-6.8}},
                                                 color={0,0,127}));
   connect(Combles.surf_surBou[1], Garage.surf_conBou[1]) annotation (Line(
-        points={{-221.52,-15.9429},{-222,-15.9429},{-222,-76},{-127.6,-76},{-127.6,
-          -54.6}}, color={191,0,0}));
+        points={{-221.52,-15.9429},{-222,-15.9429},{-222,-76},{-127.6,-76},{
+          -127.6,-54.6}},
+                   color={191,0,0}));
   connect(Combles.surf_surBou[2], Salon.surf_conBou[1]) annotation (Line(points={{-221.52,
           -15.8286},{-222,-15.8286},{-222,-76},{-85.6,-76},{-85.6,15.3333}},
         color={191,0,0}));
   connect(Combles.surf_surBou[3], Chambre1.surf_conBou[1]) annotation (Line(
-        points={{-221.52,-15.7143},{-221.52,-44},{-176,-44},{-176,6},{-5.6,6},
-          {-5.6,11.3333}},        color={191,0,0}));
+        points={{-221.52,-15.7143},{-221.52,-44},{-176,-44},{-176,6},{-5.6,6},{
+          -5.6,11.3333}},         color={191,0,0}));
   connect(Combles.surf_surBou[4], Chambre2.surf_conBou[1]) annotation (Line(
-        points={{-221.52,-15.6},{-221.52,-44},{-176,-44},{-176,6},{52.4,6},{52.4,
-          11.3333}},
+        points={{-221.52,-15.6},{-221.52,-44},{-176,-44},{-176,6},{52.4,6},{
+          52.4,11.3333}},
         color={191,0,0}));
   connect(Combles.surf_surBou[5], Chambre3.surf_conBou[1]) annotation (Line(
         points={{-221.52,-15.4857},{-221.52,-76},{52.4,-76},{52.4,-60.6}},
@@ -1524,8 +1525,8 @@ equation
           -15.3714},{-221.52,-76},{-7.6,-76},{-7.6,-60.7}},
         color={191,0,0}));
   connect(Combles.surf_surBou[7], Couloir.surf_conBou[1]) annotation (Line(
-        points={{-221.52,-15.2571},{-192,-15.2571},{-192,-32},{-68,-32},{-68,-16.7429},
-          {54.4,-16.7429}},                   color={191,0,0}));
+        points={{-221.52,-15.2571},{-192,-15.2571},{-192,-32},{-68,-32},{-68,
+          -16.7429},{54.4,-16.7429}},         color={191,0,0}));
   connect(Garage.surf_surBou[1], Salon.surf_conBou[2]) annotation (Line(points={{-131.52,
           -53.6},{-131.52,-54},{-132,-54},{-132,-74},{-85.6,-74},{-85.6,
           15.6}}, color={191,0,0}));
@@ -1536,17 +1537,17 @@ equation
           16.4},{-89.52,8},{-86,8},{-86,-74},{-7.6,-74},{-7.6,-60.5}},   color={
           191,0,0}));
   connect(Salon.surf_surBou[3], Couloir.surf_conBou[6]) annotation (Line(points={{-89.52,
-          16.6667},{-89.52,8},{86,8},{86,-16},{70,-16},{62,-16},{62,-16.1714},
-          {54.4,-16.1714}},              color={191,0,0}));
+          16.6667},{-89.52,8},{86,8},{86,-16},{70,-16},{62,-16},{62,-16.1714},{
+          54.4,-16.1714}},               color={191,0,0}));
   connect(Chambre1.surf_surBou[1], Couloir.surf_conBou[2]) annotation (Line(
-        points={{-9.52,12.2},{-9.52,8},{86,8},{86,-16},{70,-16},{70,-16.6286},
-          {54.4,-16.6286}},
+        points={{-9.52,12.2},{-9.52,8},{86,8},{86,-16},{70,-16},{70,-16.6286},{
+          54.4,-16.6286}},
                   color={191,0,0}));
   connect(Chambre1.surf_surBou[2], Chambre2.surf_conBou[2]) annotation (Line(
         points={{-9.52,12.6},{-9.52,8},{52.4,8},{52.4,11.6}},   color={191,0,0}));
   connect(Chambre2.surf_surBou[1], Couloir.surf_conBou[3]) annotation (Line(
-        points={{48.48,12.4},{48.48,8},{86,8},{86,-16},{70,-16},{70,-16.5143},
-          {54.4,-16.5143}},
+        points={{48.48,12.4},{48.48,8},{86,8},{86,-16},{70,-16},{70,-16.5143},{
+          54.4,-16.5143}},
                       color={191,0,0}));
   connect(Chambre3.surf_surBou[1], SDB.surf_conBou[3]) annotation (Line(points={{48.48,
           -59.8},{48.48,-74},{-7.6,-74},{-7.6,-60.3}},           color={191,0,0}));
@@ -1555,7 +1556,8 @@ equation
           -16.4},{54.4,-16.4}},
                             color={191,0,0}));
   connect(SDB.surf_surBou[1], Couloir.surf_conBou[5]) annotation (Line(points={{-11.52,
-          -59.6},{-11.52,-74},{86,-74},{86,-16},{70,-16},{70,-16.2857},{54.4,-16.2857}},
+          -59.6},{-11.52,-74},{86,-74},{86,-16},{70,-16},{70,-16.2857},{54.4,
+          -16.2857}},
         color={191,0,0}));
   connect(weaDat.weaBus, Couloir.weaBus) annotation (Line(
       points={{-276,56},{59.16,56},{59.16,-2.84}},
@@ -1716,8 +1718,8 @@ equation
   connect(temSoil.y, T_sol.T) annotation (Line(points={{34.5,87},{37.25,87},{39.4,
           87}}, color={0,0,127}));
   connect(T_sol.port, Salon.surf_conBou[3]) annotation (Line(points={{46,87},{
-          58,87},{58,86},{58,66},{58,64},{86,64},{86,8},{-85.6,8},{-85.6,15.8667}},
-                     color={191,0,0}));
+          58,87},{58,86},{58,66},{58,64},{86,64},{86,8},{-85.6,8},{-85.6,
+          15.8667}}, color={191,0,0}));
   connect(T_sol.port, Chambre1.surf_conBou[3]) annotation (Line(points={{46,87},
           {58,87},{58,86},{58,64},{86,64},{86,8},{-5.6,8},{-5.6,11.8667}},
         color={191,0,0}));
@@ -1747,8 +1749,9 @@ equation
   connect(ventil_Garage.ports2, Garage.ports[1:1]) annotation (Line(points={{-139.92,
           -52.15},{-137.96,-52.15},{-137.96,-52.8},{-136,-52.8}},       color={0,
           127,255}));
-  connect(ventil_SDB.ports1, SDB.ports[3:3]) annotation (Line(points={{-19.8,-62.9},
-          {-19.8,-60.45},{-16,-60.45},{-16,-56.9333}}, color={0,127,255}));
+  connect(ventil_SDB.ports1, SDB.ports[3:3]) annotation (Line(points={{-19.8,
+          -62.9},{-19.8,-60.45},{-16,-60.45},{-16,-56.9333}},
+                                                       color={0,127,255}));
   connect(ventil_SDB.weaBus, SDB.weaBus) annotation (Line(
       points={{-31,-62.6},{-31,-76},{-31,-94},{-2.84,-94},{-2.84,-46.84}},
       color={255,204,51},
@@ -1990,10 +1993,12 @@ equation
           0,0,127}));
   connect(val_chaudiere.port_2, temSup.port_a) annotation (Line(points={{-108,
           -139},{-104,-139}},       color={0,127,255}));
-  connect(boi.port_b, val_chaudiere.port_1) annotation (Line(points={{-129.8,-139.091},
-          {-124,-139.091},{-124,-139},{-118,-139}}, color={0,127,255}));
-  connect(spl.port_2, boi.port_a) annotation (Line(points={{-118,-175},{-118,-176},
-          {-156,-176},{-156,-139.091},{-150.4,-139.091}}, color={0,127,255}));
+  connect(boi.port_b, val_chaudiere.port_1) annotation (Line(points={{-129.8,
+          -139.091},{-124,-139.091},{-124,-139},{-118,-139}},
+                                                    color={0,127,255}));
+  connect(spl.port_2, boi.port_a) annotation (Line(points={{-118,-175},{-118,
+          -176},{-156,-176},{-156,-139.091},{-150.4,-139.091}},
+                                                          color={0,127,255}));
   connect(temSup.port_b, massFlowRate.port_a) annotation (Line(points={{-94,
           -139},{-92,-139},{-92,-140},{-91,-140}},
                                              color={0,127,255}));
@@ -2002,8 +2007,9 @@ equation
                                              color={0,127,255}));
   connect(pompe_chaudiere.port_a, outSplVal1.port_3) annotation (Line(points={{-78,
           -175},{-78,-174},{-47,-174},{-47,-124}},            color={0,127,255}));
-  connect(boolean_ModeDHW.y, boi.Mode_ECS) annotation (Line(points={{-177.4,-162},
-          {-158,-162},{-158,-146.909},{-152,-146.909}}, color={255,0,255}));
+  connect(boolean_ModeDHW.y, boi.Mode_ECS) annotation (Line(points={{-177.4,
+          -162},{-158,-162},{-158,-146.909},{-152,-146.909}},
+                                                        color={255,0,255}));
   connect(offHys.y,greaterEqualThreshold. u) annotation (Line(points={{-273.5,-119},
           {-269,-119}},                       color={0,0,127}));
   connect(greaterEqualThreshold.y,switch1. u2)
@@ -2052,8 +2058,8 @@ equation
   connect(switch4.y, product1.u1) annotation (Line(points={{-221.4,-226},{-218,
           -226},{-218,-196},{-248,-196},{-248,-170},{-240,-170}},
                                                             color={0,0,127}));
-  connect(Meas_T_LivingRoom.y, conPumHea.T) annotation (Line(points={{-326.1,-247},
-          {-314,-247},{-314,-209},{-211.28,-209}},       color={0,0,127}));
+  connect(Meas_T_LivingRoom.y, conPumHea.T) annotation (Line(points={{-326.1,
+          -247},{-314,-247},{-314,-209},{-211.28,-209}}, color={0,0,127}));
   connect(bou.ports[1], temRet.port_a) annotation (Line(points={{-102,-190},{
           -94,-190},{-94,-174}},
                              color={0,127,255}));
@@ -2066,8 +2072,8 @@ equation
   connect(HeaSet_LivingRoom.y, onOffController.reference) annotation (Line(
         points={{-328.1,-210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
   connect(HeaSet_LivingRoom.y, conPumHea.ConsigneCh) annotation (Line(points={{-328.1,
-          -210},{-314,-210},{-314,-202},{-226,-202},{-226,-212.333},{-211.28,-212.333}},
-                              color={0,0,127}));
+          -210},{-314,-210},{-314,-202},{-226,-202},{-226,-212.333},{-211.28,
+          -212.333}},         color={0,0,127}));
   connect(conHeaBoiler.yHea, val_chaudiere.y) annotation (Line(points={{-115.4,
           -124},{-113,-124},{-113,-133}},
                                     color={0,0,127}));
@@ -2080,8 +2086,9 @@ equation
          {{-352,38},{-336,38},{-336,43},{-332.6,43}}, color={0,0,127}));
   connect(schedules_RT2012_MI.CooSetRT12, reaTSetCoo.u) annotation (Line(points=
          {{-352,34.6},{-346,34.6},{-346,33},{-332.6,33}}, color={0,0,127}));
-  connect(conPumHea.yHea, boi.m_PompeCirc) annotation (Line(points={{-192.4,-209},
-          {-162,-209},{-162,-144},{-152,-144},{-152,-143.636}}, color={0,0,127}));
+  connect(conPumHea.yHea, boi.m_PompeCirc) annotation (Line(points={{-192.4,
+          -209},{-162,-209},{-162,-144},{-152,-144},{-152,-143.636}},
+                                                                color={0,0,127}));
   connect(realExpression13.y, reaHeaSal.u)
     annotation (Line(points={{-77.7,-145},{-70.6,-145}}, color={0,0,127}));
   connect(realExpression15.y, reaHeaRo1.u)
@@ -2435,7 +2442,7 @@ thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is t
 </p>
 <h4>Shading</h4>
 <p>
-The windows overhangs are the only shading elements considered in this model.
+No shading model is included.
 </p>
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
