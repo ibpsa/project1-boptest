@@ -2263,16 +2263,13 @@ for WP 1.2 of IBPSA project 1.
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
 <p>
-The modeling focuses on one type of residential building, in accordance 
-with the French Thermal regulation 2012 (French national building energy regulation). 
-The building typology is defined in such way to be representative of French new dwellings. 
-</p>
-<p>
-The model represents a detached house of approximately 100 m&sup2; (<i>S_ref</i>). 
-The building floor surface can be modified by the user in order to model the effect of the 
-building size. This can done by changing the value of the variable <i>S</i> in the model. 
-The dimensions of the building elements (surfaces) will be then automatically calculated 
-accordingly to the new value. 
+The emulator building model represents a residential French
+dwelling compliant with the French Thermal regulation of 2012,
+i.e. the French national building energy regulation. Therefore,
+the typology is defined to be representative of French new
+dwellings. Its area is approximately 120 m&sup2; (<i>S_ref</i>.
+The following figure shows the building layout and
+a sketch of the hydraulic system.
 </p>
 
 <p>
@@ -2283,13 +2280,15 @@ accordingly to the new value.
 
 <p>
 The orientation of each building was chosen to maximize the natural light during winter. 
-Thus, the main surface of windows of the building is south oriented. The building consists of:
+Thus, the main surface of windows of the building is south oriented. 
+The building consists of six thermal zones that are actively controlled and two unheated
+zones:
 </p>
 <ul>
-<li>1 living room / kitchen </li>
+<li>1 living room/kitchen </li>
 <li>3 bedrooms (2 South facing, 1 North facing) </li>
 <li>1 bathroom </li>
-<li>1 corridor serving the sleeping area (bedrooms and bathroom) </li>
+<li>1 hallway/corridor serving the sleeping area (bedrooms and bathroom) </li>
 <li>1 unheated garage </li>
 <li>1 unheated attic </li>
 </ul>
