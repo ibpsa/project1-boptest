@@ -1,5 +1,5 @@
 within MultiZoneResidentialHydronic.Building.Equipement.Heating;
-model chaudiere_2
+model Boiler
 
   replaceable package MediumW =
       Modelica.Media.Interfaces.PartialMedium "Medium in the component"
@@ -209,4 +209,4 @@ equation
 <h4>Equipement</h4>
 <p>Boiler model</p>
 </html>"));
-end chaudiere_2;
+end Boiler;
