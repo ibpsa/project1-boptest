@@ -2267,13 +2267,15 @@ The emulator building model represents a residential French
 dwelling compliant with the French Thermal regulation of 2012,
 i.e. the French national building energy regulation. Therefore,
 the typology is defined to be representative of French new
-dwellings. Its area is approximately 120 m&sup2; (<i>S_ref</i>.
+dwellings. Its area is approximately 120 m&sup2; (<i>S_ref</i>).
 The following figure shows the building layout and
-a sketch of the hydraulic system.
+a sketch of the hydraulic system. The coloured elements in the scheme 
+represent the controllable components
+through the BOPTEST interface. The dimensions are provided in metres.
 </p>
 
 <p>
-<br><img src=\"Resources/Detached_house_view_from_Chambre1_section.jpg\"/>
+<br><img src=\"Resources/layout.png\">
 </p>
 <p><a name=\"_Ref346520932\">F</a>igure 1. Simulated residential dwelling.</span> 
 </p>
@@ -2375,9 +2377,9 @@ The scenario for cooling is similar, cooling temperature setpoints are 28&deg;C 
 <h4>Internal loads and schedules</h4>
 <p>
 The internal loads considered are mainly due to lighting and appliances. For lighting, 
-approximately 1.1 W/m&sup2; are considered (according to (CSTB - Centre Scientifique et 
-Technique du B&acirc;timent), 2012. M&eacute;thode de calcul Th-BCE - R&eacute;glementation 
-thermique 2012; CSTB, 2012), 80&percnt; of the 1.12 W/m&sup2; installed power is transformed in heat). 
+approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et 
+Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation 
+thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat. 
 Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM 
 and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all 
 day long during weekends. Otherwise, this level is reduced by 80&percnt;. All this elements can be 
@@ -2447,6 +2449,98 @@ vacuum failures when all valves are closed while the distribution pump is workin
 </li>
 </ul>
 
+<h3>Model IO's</h3>
+<h4>Inputs</h4>
+<p>The model inputs are: </p>
+
+<h4>Outputs</h4>
+<p>The model outputs are: </p>
+
+<h3>Additional System Design</h3>
+<h4>Lighting</h4>
+<p>
+For lighting, approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et 
+Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation 
+thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat. 
+</p>
+<h4>Shading</h4>
+<p>
+The windows overhangs are the only shading elements considered in this model.
+</p>
+<h3>Model Implementation Details</h3>
+<h4>Moist vs. dry air</h4>
+<p>
+The model uses moist air despite that no condensation is modelled in any of the used components. 
+</p>
+<h4>Pressure-flow models</h4>
+<p>
+A circulation loop with one parallel branch per zone is used to model the heating emission system. 
+</p>
+<h4>Infiltration models</h4>
+<p>
+Mechanical ventilation from outside air and air exchange between zones are considered in the model. 
+</p>
+
+<h3>Scenario Information</h3>
+<h4>Energy Pricing</h4>
+<h5>Constant electricity price profile</h5>
+<p>
+The constant electricity price scenario uses a constant price of 0.108 EUR/kWh,
+as obtained from the Engie's \"Elec Ajust\" deal before taxes (HTT) in 
+<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf\">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a> 
+(accessed on July 2020). 
+The tariff used is the one for households with contracted power installations higher than 6 kVA.
+</p>
+<h5>Dynamic electricity price profile</h5>
+<p>
+The dynamic electricity price scenario uses a dual rate of 0.126 EUR/kWh during 
+day time and 0.086 EUR/kWh during night time,
+as obtained from the the Engie's \"Elec Ajust\" deal before taxes (HTT) in 
+<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf\">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a> 
+(accessed on July 2020). 
+The tariff used is the one for households with contracted power installations higher than 6 kVA.
+The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+</p>
+<h5>Highly dynamic electricity price profile</h5>
+<p>
+For the highly dynamic scenario, the French day-ahead prices of 2019 are used. 
+Obtained from:
+<a href=\"https://www.epexspot.com/en\">
+https://www.epexspot.com/en</a> 
+The prices are parsed and exported using this repository:
+<a href=\"https://github.com/JavierArroyoBastida/epex-spot-data\">
+https://github.com/JavierArroyoBastida/epex-spot-data</a> 
+</p>
+<h5>Gas price profile</h5>
+<p>
+The gas price is assumed constant and of 0.0491 EUR/kWh 
+as obtained from the \"Gaz Energie Garantie 1 an\" deal for gas in
+<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf\">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf</a> 
+(accessed on July 2020). 
+Price before taxes (HTT) for a contracted anual tariff between 0 - 6000 kWh.
+</p>
+<h4>Emission Factors</h4>
+<h5>Electricity emissions factor profile</h5>
+<p>
+It is used a constant emission factor for electricity of 0.047 kgCO2/kWh 
+which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
+for year 2019 in France. For reference, see:
+ <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
+</p>
+<h5>Gas emissions factor profile</h5>
+<p>
+Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference,
+see:
+<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+</p>
 </html>", revisions="<html>
 <ul>
 <li>
