@@ -11,4 +11,3 @@ BUILDINGS_COMMIT=master
 # Executes corresponding git checkout
 cd $MODELICAPATH/IBPSA && git checkout $IBPSA_COMMIT
 cd $MODELICAPATH/Buildings && git checkout $BUILDINGS_COMMIT
-
