@@ -11,4 +11,3 @@ BUILDINGS_COMMIT=v6.0.0
 # Executes corresponding git checkout
 cd $MODELICAPATH/IBPSA && git checkout $IBPSA_COMMIT
 cd $MODELICAPATH/Buildings && git checkout $BUILDINGS_COMMIT
-cd $MODELICAPATH/IDEAS && git checkout $IDEAS_COMMIT
