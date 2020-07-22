@@ -2,7 +2,8 @@
 """
 This file is used by unit testing to specify library versions.
 Commands here should maintain alignment with the environment generated in 
-testing/Dockerfile.
+testing/Dockerfile. The testcase name should be passed as an argument 
+when running this file. 
 
 """
 
