@@ -23,3 +23,6 @@ for key in library_versions.keys():
         os.system('cd $MODELICAPATH/Buildings && git checkout {}'.format(library_versions[key]))
     elif key == "IDEAS_COMMIT":
         os.system('cd $MODELICAPATH/IDEAS && git checkout {}'.format(library_versions[key]))
+    else:
+        raise ReferenceError('Unknown key {} in library_versions.json file'\
+                             'Allowed keys are: IBPSA_COMMIT, BUILDINGS_COMMIT, and IDEAS_COMMIT'.format(key))
