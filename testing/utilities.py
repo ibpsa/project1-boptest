@@ -372,7 +372,12 @@ class partialTestAPI(partialChecks):
         # Get current step
         step = requests.get('{0}/step'.format(self.url)).json()
         # Initialize
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
+        y = requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600}).json()
+        # Check that initialize returns the right initial values
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Check results are empty again
         y = requests.get('{0}/results'.format(self.url)).json()
         for key in y.keys():
