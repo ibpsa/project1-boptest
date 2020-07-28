@@ -1,0 +1,96 @@
+version: '3'
+services:
+  web: # main haystack application
+    build:
+      # the purpose of context one level above dockerfile
+      # is to utilize shared code, specifically in db
+      context: web
+      args:
+        - NODE_ENV
+    image: ${WEB_REGISTRY_URI}:latest
+    ports:
+      - "80:80"
+      - "29043:29043"
+    environment:
+      - NODE_ENV
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - JOB_QUEUE_URL
+      - MONGO_URL
+      - MONGO_DB_NAME
+      - S3_URL
+      - REDIS_HOST
+      - S3_BUCKET
+      - REGION
+    depends_on:
+      - redis
+      - mongo
+      - goaws
+      - worker
+      - mc
+  # Provides a local queue, conforming to aws Queue API
+  goaws:
+    image: pafortin/goaws
+    ports:
+      - "4100:4100"
+  # Local implementation of s3
+  minio:
+    image: minio/minio
+    entrypoint:
+      - minio
+      - server
+      - /data
+    ports:
+      - "9000:9000"
+    environment:
+      - MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}
+      - MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}
+  mc:
+    image: minio/mc
+    environment:
+      - MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}
+      - MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}
+    entrypoint: >
+      /bin/sh -c "
+      sleep 5;
+      /usr/bin/mc config host add myminio http://minio:9000 $${MINIO_ACCESS_KEY} $${MINIO_SECRET_KEY};
+      /usr/bin/mc mb myminio/alfalfa;
+      /usr/bin/mc policy public myminio/alfalfa;
+      "
+    depends_on:
+      - minio
+  worker:
+    build:
+      dockerfile: worker/Dockerfile
+      context: .
+    image: ${WORKER_REGISTRY_URI}:latest
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - JOB_QUEUE_URL
+      - MONGO_URL
+      - MONGO_DB_NAME
+      - LOGLEVEL=INFO
+      - NODE_ENV
+      - S3_URL
+      - REDIS_HOST
+      - S3_BUCKET
+      - REGION
+    depends_on:
+      - redis
+      - mongo
+      - goaws
+      - mc
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+#  test:
+#    build: tests
+#    depends_on:
+#      - web
+#

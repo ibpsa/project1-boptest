@@ -1,5 +1,6 @@
 *.pyc
 *.txt
+!worker/requirements/*.txt
 *.mat
 dymosim
 dsmodel.c
