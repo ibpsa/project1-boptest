@@ -9,7 +9,7 @@ information, and calculating and reporting results.
 from pyfmi import load_fmu
 import numpy as np
 import copy
-import config
+import json
 import time
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
@@ -26,7 +26,8 @@ class TestCase(object):
         '''
         
         # Get configuration information
-        con = config.get_config()
+        with open('config.json', 'r') as f:
+            con = json.load(f)
         # Define simulation model
         self.fmupath = con['fmupath']
         # Load fmu
