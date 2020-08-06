@@ -151,27 +151,26 @@ test_parser:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
 	make stop_jm
 
-test_data:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2
-	make compile_testcase_model TESTCASE=testcase3
+test_data_generator:
 # Run jm docker container
 	make run_jm
 # Copy the required files and folders for the test
 	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
 	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
-	docker cp ../testing/references/data/testcase2/kpis.json ${IMG_NAME}:/usr/local/testing/testcase2/models
-	docker cp ../testing/references/data/testcase3/kpis.json ${IMG_NAME}:/usr/local/testing/testcase3/models
 # Run test_data.py
-	make exec_jm ARGS="python test_data.py"
+	make exec_jm ARGS="python test_data_generator.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
+	docker cp ${IMG_NAME}:/usr/local/testing/test_data_generator.log ./test_data_generator.log
 # Stop jm docker container
 	make stop_jm
-	
+
+test_data_manager:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase2
+	make compile_testcase_model TESTCASE=testcase3
+# Run test_forecast.py
+	python test_data_manager.py
+
 test_forecast:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
@@ -197,7 +196,8 @@ test_all:
 	make build_jm_image
 # Run tests
 	make test_parser
-	make test_data
+	make test_data_generator
+	make test_data_manager
 	make test_forecast
 	make test_kpis
 	make test_testcase1
