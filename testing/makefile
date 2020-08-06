@@ -168,7 +168,7 @@ test_data_manager:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run test_forecast.py
+# Run test_data_manager.py
 	python test_data_manager.py
 
 test_forecast:
