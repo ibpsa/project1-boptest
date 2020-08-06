@@ -176,39 +176,15 @@ test_forecast:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
-	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
 # Run test_forecast.py
-	make exec_jm ARGS="python test_forecast.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/forecast ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
-# Stop jm docker container
-	make stop_jm
-	
+	python test_forecast.py
+
 test_kpis:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
-# Run jm docker container
-	make run_jm
-# Copy the required files and folders for the test
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=forecast
-	make copy_to_jm ARGS=kpis
-	make copy_testcase_to_jm TESTCASE=testcase2
-	make copy_testcase_to_jm TESTCASE=testcase3
 # Run test_kpis.py
-	make exec_jm ARGS="python test_kpis.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/references/kpis ./references
-	docker cp ${IMG_NAME}:/usr/local/testing/test_kpis.log ./test_kpis.log
-# Stop jm docker container
-	make stop_jm
+	python test_kpis.py
 
 ###############################################################################
 

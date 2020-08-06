@@ -10,7 +10,7 @@ import unittest
 import os
 import pandas as pd
 import utilities
-from collections import OrderedDict
+import testcase
 from kpis.kpi_calculator import KPI_Calculator
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
@@ -157,19 +157,16 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
         '''
         
         self.name = 'SingleZone'         
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
-        self.case=TestCase()
-                 
+        # Mimic testcase2 as in boptest container
+        utilities.create_mimic_boptest('testcase2')
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
-         
         # Read the reference data
         ref_filepath = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'kpis', 'tc2_results_python.csv')
         df = pd.read_csv(ref_filepath)
-         
         # Fill the test case with the refernce data
         for var in df.keys():
             # Assign time
@@ -181,6 +178,13 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
+
+    def tearDown(self):
+        '''Tear down for each test.
+        
+        '''
+        
+        utilities.remove_mimic_boptest()
          
 class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
     '''Tests the Forecaster class in a multi-zone example.
@@ -193,19 +197,16 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
         '''
         
         self.name = 'MultiZone'
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
-        
+        # Mimic testcase3 as in boptest container
+        utilities.create_mimic_boptest('testcase3')
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
-        
         # Read the reference data
         ref_filepath = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'kpis', 'tc3_results_python.csv')
         df = pd.read_csv(ref_filepath)
-        
         # Fill the test case with the refernce data
         for var in df.keys():
             # Assign time
@@ -217,6 +218,13 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
+                
+    def tearDown(self):
+        '''Tear down for each test.
+        
+        '''
+        
+        utilities.remove_mimic_boptest()
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

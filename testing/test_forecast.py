@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-This module runs tests for the Forecaster module. To run these tests, 
-testcase2 and testcase3 must already be deployed. Forecaster requires 
-of a test case as an input to retrieve data from it. testcase2 is used 
+This module runs tests for the Forecaster module. The Forecaster requires 
+a test case as an input to retrieve data from it. testcase2 is used 
 to test the Forecaster in a single-zone building example. testcase3 is 
 used to test the Forecaster in a multi-zone building example. 
 
- """
+"""
 
 import unittest
 import os
 import pandas as pd
 import utilities
 from forecast.forecaster import Forecaster
+import testcase
         
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
@@ -73,20 +73,24 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
     
         '''
         
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
-        self.case=TestCase()
-        
+        # Mimic testcase2 as in boptest container
+        utilities.create_mimic_boptest('testcase2')
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
-        
         # Specify test references
         self.ref_forecast_default  = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'forecast', 'testcase2','tc2_forecast_default.csv')
-        
         self.ref_forecast_interval = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'forecast', 'testcase2', 'tc2_forecast_interval.csv')
+        
+    def tearDown(self):
+        '''Tear down for each test.
+        
+        '''
+        
+        utilities.remove_mimic_boptest()
 
 class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                               PartialForecasterTest):
@@ -99,20 +103,24 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
     
         '''
 
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
-        
+        # Mimic testcase3 as in boptest container
+        utilities.create_mimic_boptest('testcase3')
+        os.chdir(utilities.get_root_path())
+        self.case=testcase.TestCase()
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
-
         # Specify test references
         self.ref_forecast_default  = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'forecast', 'testcase3', 'tc3_forecast_default.csv')
-        
         self.ref_forecast_interval = os.path.join(utilities.get_root_path(), 
             'testing', 'references', 'forecast', 'testcase3', 'tc3_forecast_interval.csv')
+        
+    def tearDown(self):
+        '''Tear down for each test.
+        
+        '''
+        
+        utilities.remove_mimic_boptest()
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__)) 

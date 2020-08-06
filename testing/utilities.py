@@ -11,6 +11,7 @@ import unittest
 import numpy as np
 import json
 import pandas as pd
+import shutil
 
 def get_root_path():
     '''Returns the path to the root repository directory.
@@ -66,6 +67,30 @@ def run_tests(test_file_name):
     log_file = os.path.splitext(test_file_name)[0] + '.log'
     with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
+        
+def create_mimic_boptest(testcase_name):
+    '''Creates a testcase directory in root mimicking the boptest docker.
+    
+    '''
+    
+    # Get testcase directory
+    testcase_dir = os.path.join(get_root_path(),'testcases', testcase_name)
+    # Make models directory
+    os.mkdir(os.path.join(get_root_path(),'models'))
+    # Copy fmu
+    shutil.copyfile(os.path.join(testcase_dir,'models', 'wrapped.fmu'),
+                    os.path.join(get_root_path(),'models', 'wrapped.fmu'))
+    # Copy configuration
+    shutil.copyfile(os.path.join(testcase_dir,'config.json'),
+                    os.path.join(get_root_path(),'config.json'))
+    
+def remove_mimic_boptest():
+    '''Removes a testcase directory in root mimicking the boptest docker.
+    
+    '''
+    
+    shutil.rmtree(os.path.join(get_root_path(),'models'))
+    os.remove(os.path.join(get_root_path(),'config.json'))
                 
 class partialChecks(object):
     '''This partial class implements common ref data check methods.
