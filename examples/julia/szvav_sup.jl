@@ -42,7 +42,7 @@ start = Dates.now()
 # Initialize test case simulation
 res = HTTP.put("$url/initialize",["Content-Type" => "application/json"], JSON.json(Dict("start_time" => 0,"warmup_period" => 0)))
 initialize_result=JSON.parse(String(res.body))
-if initialize_result
+if !isnothing(initialize_result)
    println("Successfully initialized the simulation")
 end
 
