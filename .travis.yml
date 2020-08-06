@@ -13,11 +13,18 @@ services:
   - docker
 
 install:
-  - pip install --upgrade pip
-  - pip install pandas numpy matplotlib requests
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - source "$HOME/miniconda/etc/profile.d/conda.sh"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda info -a
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION pandas numpy matplotlib requests
+  - conda activate test-environment
+  - conda install -c conda-forge pyfmi -y
 
 before_script:
-  - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $HOME/miniconda.sh && /bin/bash $HOME/miniconda.sh -b -p $HOME/miniconda && . miniconda/bin/activate && conda update -n base -c defaults conda && conda create --name boptest -y && conda activate boptest && conda install -c conda-forge pyfmi -y
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
   
 script:
