@@ -1,0 +1,378 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>MultiZoneResidentialHydronic.TestCase</title>
+<meta name="HTML-Generator" content="Dymola">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="&quot;Multi zone residential hydronic example model&quot;">
+<style type="text/css">
+*       { font-size: 100%; font-family: Arial, sans-serif; }
+.modelica, .modelica * { font-size: 90%; font-family: Courier, monospace; white-space: pre; } /* For the Modelica code (in exported html). */
+h4      { font-size: 100%; font-weight: bold; color: green; } 
+h3      { font-size: 110%; font-weight: bold; color: green; }
+h2      { font-size: 130%; font-weight: bold; color: green; }
+address { font-weight: normal; }
+td      { padding: 2px; border: 1px solid #808080; vertical-align: top; }
+th      { padding: 2px; border: 1px solid #808080; vertical-align: top; font-weight: bold; }
+table   { border: 1px solid #808080; border-collapse: collapse; }
+pre, code {font-family: "Courier New", monospace;}
+pre {white-space: pre; overflow-x : hidden;}
+.ModelicaDescription {font-weight: bold;} /* For the description string of the class. */
+.ModelicaBaseClass {} /* For the list of base-classes at the of the description. */
+.ModelicaKeyword { color: blue; font-weight: normal; font-style: normal; } /* Keywords in Modelica. */
+.ModelicaComment { color: #006400;  font-weight: normal; font-style: normal;} /* All three variants of comments in Modelica.  */
+.ModelicaString { color: #006400;  font-weight: normal; font-style: normal;} /* String constants. */
+.ModelicaClass { color: red; font-weight: normal; font-style: normal;} /* Formatting the names of referenced classes (for base-class and components). */
+.ModelicaFunction { color: red; font-weight: normal; font-style: normal;} /* Formatting for called functions. */
+.ModelicaTablePackageContent { } /* The table of contents for each package. */
+.ModelicaTableCrossReference { } /* The optional cross-reference table. */
+.ModelicaTableInputs {} /* The table of inputs for a function. */
+.ModelicaTableOutputs {} /* The table of outputs for a function. */
+.ModelicaTableParameters {} /* The table of parameters for a model/block. */
+.ModelicaTableConnectors {} /* The table of connectors for a model/block. */
+.ModelicaTableContents {} /* The table of contents for a connector. */
+.ModelicaStartAttribute { font-weight: bold; } /* The formatting used for start-attribute in the table of parameters, to separate them from parameter values. */
+.ModelicaParameterTab { background-color: #c0c0c0; font-weight: bold; } /* The tab-heading in the table of parameters */
+.ModelicaParameterGroup { background-color: #e0e0e0; } /* The group-heading in the table of parameters */
+</style>
+</head>
+<body>
+<!--[if supportFields]><span style="mso-element:field-begin"></span>
+<span style="mso-spacerun:yes"></span>XE TestCase<![endif]-->
+<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
+<h2><img src="MultiZoneResidentialHydronic.TestCaseI.png" alt="MultiZoneResidentialHydronic.TestCase" align="right" style="border: 1px solid" width="80" height="80">
+<a name="MultiZoneResidentialHydronic.TestCase"></a>MultiZoneResidentialHydronic.TestCase</h2>
+<p>
+<span class="ModelicaDescription">Multi zone residential hydronic example model</span>
+</p>
+<h3>Information</h3>
+
+<p>
+This is a single zone residential hydronic system model 
+for WP 1.2 of IBPSA project 1. 
+</p>
+<h3>Building Design and Use</h3>
+<h4>Architecture</h4>
+<p>
+The emulator building model represents a residential French
+dwelling compliant with the French Thermal regulation of 2012,
+i.e. the French national building energy regulation. Therefore,
+the typology is defined to be representative of French new
+dwellings. Its area is approximately 120 m&sup2; (<i>S_ref</i>).
+The following figure shows the building layout and
+a sketch of the hydraulic system. The coloured elements in the scheme 
+represent the controllable components
+through the BOPTEST interface. The dimensions are provided in metres.
+</p>
+
+<p>
+<br><img src="Resources/layout.png">
+</p>
+<p><a name="_Ref346520932">F</a>igure 1. Simulated residential dwelling.</span> 
+</p>
+
+<p>
+The orientation of each building was chosen to maximize the natural light during winter. 
+Thus, the main surface of windows of the building is south oriented. 
+The building consists of six thermal zones that are actively controlled and two unheated
+zones:
+</p>
+<ul>
+<li>1 living room/kitchen </li>
+<li>3 bedrooms (2 South facing, 1 North facing) </li>
+<li>1 bathroom </li>
+<li>1 hallway/corridor serving the sleeping area (bedrooms and bathroom) </li>
+<li>1 unheated garage </li>
+<li>1 unheated attic </li>
+</ul>
+
+<p>
+The building envelope was defined in order to cover the new construction 
+modes existing on the market. Thus, each of these modes was characterized 
+by a different level of insulation (Table 1). 
+</p>
+
+<p><span style="font-family: Arial,sans-serif;">Table 1.Building envelope characteristic</span> </p>
+<table cellspacing="0" cellpadding="2" border="1" width="100%"><tr>
+<td><p><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Wall type </span></b></p></td>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Characteristics</span></b></p></td>
+</tr>
+<tr>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">External wall</span></b></p></td>
+<td><p><span style="font-family: Arial,sans-serif; font-size: 10pt;">Brick (200 mm, &lambda;=0.2 W/mK) + polystyrene (80 mm, &lambda;=0.032 W/mK)</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">U = 0.272 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Floor</span></b></p></td>
+<td><p><span style="font-family: Arial,sans-serif; font-size: 10pt;">Hollow block (150 mm, &lambda;=0.92 W/mK) + polyurethane (60 mm, &lambda;=0.022 W/mK)</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">U<sub>e</sub> = 0.327 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Ceiling</span></b></p></td>
+<td><p><span style="font-family: Arial,sans-serif; font-size: 10pt;">Glass wool (200 mm, &lambda;=0.04 W/mK)</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">U = 0.193 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Fenestration</span></b></p></td>
+<td><p><span style="font-size: 10pt;">Double glazing with Argon and PVC frame 4/16/4, <span style="font-family: Arial,sans-serif;">Planitherm glass g=0.6, TL=76&percnt; with external solar protection</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">U<sub>w</sub> = 1.40 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+</table>
+
+
+<p>
+These values are in accordance with the French Thermal regulation 2012.
+The building was subject to a detailed modeling according to the architecture plans. 
+The volume was divided into 8 thermal zones according to space function 
+(an additional thermal zone was created to simulate the behaviour of the attic). 
+Each space (room) has its own thermal behaviour as a result of the boundary conditions 
+(climate, adjacent spaces, etc.) and the internal conditions (internal loads, scenarios, etc.)
+</p>
+<p>
+The thermal bridges effect was taken into account by the intermediate of thermal resistance 
+parameterized with the length building element assimilated to the thermal bridge and a thermal 
+bridges coefficient (<i>k_PT</i>).
+</p>
+
+<h4>Occupancy schedules</h4>
+<p>
+The thermal zones of the building, except the unheated zones, are subject to conventional 
+scenarios (occupation, heating, cooling, ventilation, lighting, internal loads) defined in the 
+French Thermal Regulation 2012 (CSTB - Centre Scientifique et Technique du B&acirc;timent), 2012. 
+M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 2012). 
+</p>
+<p>
+For example, the building is considered occupied continuously by four adults from 19PM to 10AM 
+for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends. 
+On a yearly basis, the building is considered unoccupied one week at the end of December and 
+two weeks in August. A reduction of 30&percnt; of the internal loads due to occupants is observed 
+during the nighttime. 
+</p>
+<p>
+The building heating temperature setpoint is fixed conventionally at 19&deg;C during 
+occupied periods, 16&deg;C during unoccupied periods shorter than 48 hours and 7&deg;C otherwise. 
+The scenario for cooling is similar, cooling temperature setpoints are 28&deg;C / 30&deg;C / 30&deg;C. 
+</p>
+<h4>Internal loads and schedules</h4>
+<p>
+The internal loads considered are mainly due to lighting and appliances. For lighting, 
+approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et 
+Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation 
+thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat. 
+Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM 
+and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all 
+day long during weekends. Otherwise, this level is reduced by 80&percnt;. All this elements can be 
+</p>
+<h4>Climate data</h4>
+<p>
+The model uses a climate file containing one year
+of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos).
+</p>
+<h3>HVAC System Design</h3>
+<h4>Primary and secondary system designs</h4>
+<p>
+Each building zone has its own radiator equipped with a thermostatic valve that is modeled 
+using a PI controller. The radiators are sized accordingly to the building envelope characteristics 
+and to the specific climate of Bordeaux, France.
+</p>
+<p>
+The water through the heating emission system is heated by a gas boiler. 
+The boiler is designed to provide power (sum of the radiators nominal 
+power) for spacial heating only, domestic hot water production is not taken 
+into account in this model.
+</p>
+<h4>Equipment specifications and performance maps</h4>
+<p>
+The boiler uses an efficiency curve constant with coefficient 0.9.
+The heating system circulation pump uses an efficiency curve that is function of the
+mass flow rate of water through the emission system. 
+</p>
+<h4>Rule-based or local-loop controllers (if included)</h4>
+<p>
+The following set of controllers drive the baseline controller implemented in this model: 
+</p>
+<ul>
+<li>
+A security system of the boiler follows a nominal supply water temperature of 90&deg;C. 
+</li>
+<li>
+A hysteresis controller reads the indoor air temperature setpoint (from the occupancy schedule) and the actual 
+indoor air temperature to decide on the boiler mode: either on or off. 
+The living room temperature is chosen to represent the indoor temperature of the whole building. 
+Therefore, the thermostat is considered to be placed in the living room. 
+</li>
+<li>
+An anti short cycle system of the boiler compares the operating 
+time of the boiler between two start/stops. This operating time should be greater than 600 seconds to allow 
+the boiler to switch mode. This system should improve the overall boiler performance. &nbsp;
+</li>
+<li>
+When the boiler mode is on, an additional PI controller  
+controls the load ratio of the boiler. A minimum partial load ratio of Pmin_Ch/Pmax_Ch 
+equal to 11&percnt; is imposed in this controller.
+</li>
+<li>
+A heating curve is implemented to modulate the supply water temperature from the boiler to the emission
+circuit based on outdoor temperature readings. A 3 way valve is used for this modulation. 
+</li>
+<li>
+The emission circuit pump is switched on based on a signal of a PI controller 
+that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor 
+air temperature from the thermostat in the living room.
+</li>
+<li>
+There is one radiator per zone with a motorized valve controlled by a PI controller
+that follows the air zone temperature set point. Only the hallway zone has no valve and its hydronic 
+circuit remains always open to ensure that there iswater flow. This is a typical layout that avoids
+vacuum failures when all valves are closed while the distribution pump is working.
+</li>
+</ul>
+
+<h3>Model IO's</h3>
+<h4>Inputs</h4>
+<p>The model inputs are: </p>
+
+<h4>Outputs</h4>
+<p>The model outputs are: </p>
+
+<h3>Additional System Design</h3>
+<h4>Lighting</h4>
+<p>
+For lighting, approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et 
+Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation 
+thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat. 
+</p>
+<h4>Shading</h4>
+<p>
+No shading model is included.
+</p>
+<h3>Model Implementation Details</h3>
+<h4>Moist vs. dry air</h4>
+<p>
+The model uses moist air despite that no condensation is modelled in any of the used components. 
+</p>
+<h4>Pressure-flow models</h4>
+<p>
+A circulation loop with one parallel branch per zone is used to model the heating emission system. 
+</p>
+<h4>Infiltration models</h4>
+<p>
+Mechanical ventilation from outside air and air exchange between zones are considered in the model. 
+</p>
+
+<h3>Scenario Information</h3>
+<h4>Energy Pricing</h4>
+<h5>Constant electricity price profile</h5>
+<p>
+The constant electricity price scenario uses a constant price of 0.108 EUR/kWh,
+as obtained from the Engie's "Elec Ajust" deal before taxes (HTT) in 
+<a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a> 
+(accessed on July 2020). 
+The tariff used is the one for households with contracted power installations higher than 6 kVA.
+</p>
+<h5>Dynamic electricity price profile</h5>
+<p>
+The dynamic electricity price scenario uses a dual rate of 0.126 EUR/kWh during 
+day time and 0.086 EUR/kWh during night time,
+as obtained from the the Engie's "Elec Ajust" deal before taxes (HTT) in 
+<a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a> 
+(accessed on July 2020). 
+The tariff used is the one for households with contracted power installations higher than 6 kVA.
+The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+</p>
+<h5>Highly dynamic electricity price profile</h5>
+<p>
+For the highly dynamic scenario, the French day-ahead prices of 2019 are used. 
+Obtained from:
+<a href="https://www.epexspot.com/en">
+https://www.epexspot.com/en</a> 
+The prices are parsed and exported using this repository:
+<a href="https://github.com/JavierArroyoBastida/epex-spot-data">
+https://github.com/JavierArroyoBastida/epex-spot-data</a> 
+</p>
+<h5>Gas price profile</h5>
+<p>
+The gas price is assumed constant and of 0.0491 EUR/kWh 
+as obtained from the "Gaz Energie Garantie 1 an" deal for gas in
+<a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf</a> 
+(accessed on July 2020). 
+Price before taxes (HTT) for a contracted anual tariff between 0 - 6000 kWh.
+</p>
+<h4>Emission Factors</h4>
+<h5>Electricity emissions factor profile</h5>
+<p>
+It is used a constant emission factor for electricity of 0.047 kgCO2/kWh 
+which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
+for year 2019 in France. For reference, see:
+ <a href="https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf">
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
+</p>
+<h5>Gas emissions factor profile</h5>
+<p>
+Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference,
+see:
+<a href="https://www.eia.gov/environment/emissions/co2_vol_mass.php">
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+</p>
+
+<p><span class="ModelicaBaseClass">Extends from Modelica.Icons.Example (Icon for runnable examples).</span></p>
+<h3>Parameters</h3>
+<table summary="Parameters" class="ModelicaTableParameters">
+<tr><th>Name</th><th>Description</th></tr>
+<tr><td>S</td><td>Building surface [m2]</td></tr>
+<tr><td>OpenDoors</td><td>Doors opening - 0=closed, 1 = open</td></tr>
+<tr><td>TSup_nominal</td><td>Nominal supply temperature for radiators [K]</td></tr>
+<tr><td>TRet_nominal</td><td>Nominal return temperature for radiators [K]</td></tr>
+<tr><td>CeilingWall</td><td>&nbsp;</td></tr>
+<tr><td>IntWall</td><td>Murs intrieurs</td></tr>
+<tr><td>FloorWall</td><td>&nbsp;</td></tr>
+<tr><td>ExtWall</td><td>Murs extrieurs</td></tr>
+<tr><td>Window</td><td>&nbsp;</td></tr>
+<tr class="ModelicaParameterGroup"><td colspan="2">Boiler</td></tr>
+<tr><td>Q_flow_nominal</td><td>Nominal power of heating plant [W]</td></tr>
+<tr><td>scaFacRad</td><td>Scaling factor to scale the power (and mass flow rate) of the radiator loop</td></tr>
+<tr><td>dTBoi_nominal</td><td>Nominal temperature difference for boiler loop [K]</td></tr>
+<tr><td>mBoi_flow_nominal</td><td>Nominal mass flow rate of boiler loop [kg/s]</td></tr>
+<tr><td>P_Pompe_nominal</td><td>Pump electrical power [W]</td></tr>
+<tr class="ModelicaParameterGroup"><td colspan="2">Chauffage</td></tr>
+<tr><td>Pmin_Ch</td><td>Boiler minimum power [W]</td></tr>
+<tr><td>Pmax_Ch</td><td>Boiler maximum power [W]</td></tr>
+<tr class="ModelicaParameterGroup"><td colspan="2">Cractristiques de la chaudire</td></tr>
+<tr><td>t_anticourtcycle</td><td>Anti short cycle duration for the boiler [s]</td></tr>
+<tr class="ModelicaParameterGroup"><td colspan="2">Radiators</td></tr>
+<tr><td>delta_ST_rad</td><td>Coefficient for spatial variation of the control system</td></tr>
+<tr><td>P_rad_Salon</td><td>Living room radiator power [W]</td></tr>
+<tr><td>P_rad_Chambre1</td><td>Room 1 radiator power [W]</td></tr>
+<tr><td>P_rad_Chambre2</td><td>Room 2 radiator power2 [W]</td></tr>
+<tr><td>P_rad_Chambre3</td><td>Room 3 radiator power [W]</td></tr>
+<tr><td>P_rad_SDB</td><td>Bathroom radiator power [W]</td></tr>
+<tr><td>P_rad_Couloir</td><td>Hall radiator power [W]</td></tr>
+</table>
+<h3>Connectors</h3>
+<table summary="Connectors" class="ModelicaTableConnectors">
+<tr><th>Name</th><th>Description</th></tr>
+<tr><td>weaBus</td><td>&nbsp;</td></tr>
+</table>
+<address>
+<a href="http://www.3ds.com/">Automatically generated</a> Wed Aug 12 16:05:59 2020.
+</address>
+</body>
+</html>
