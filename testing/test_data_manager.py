@@ -159,7 +159,7 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
          
         '''
         
-        # Mimic testcase2 as in boptest container
+        # Mimic testcase3 as in boptest container
         utilities.create_mimic_boptest('testcase3')
         os.chdir(utilities.get_root_path())
         self.case=testcase.TestCase()
