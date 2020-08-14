@@ -75,8 +75,11 @@ def create_mimic_boptest(testcase_name):
     
     # Get testcase directory
     testcase_dir = os.path.join(get_root_path(),'testcases', testcase_name)
-    # Make models directory
-    os.mkdir(os.path.join(get_root_path(),'models'))
+    # Make models directory, check and remove if already there first
+    models_dir = os.path.join(get_root_path(),'models')
+    if os.path.isdir(models_dir):
+        remove_mimic_boptest()
+    os.mkdir(models_dir)
     # Copy fmu
     shutil.copyfile(os.path.join(testcase_dir,'models', 'wrapped.fmu'),
                     os.path.join(get_root_path(),'models', 'wrapped.fmu'))
