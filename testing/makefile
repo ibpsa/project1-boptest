@@ -157,7 +157,7 @@ test_data_generator:
 # Copy the required files and folders for the test
 	make copy_to_jm ARGS=data
 	make copy_testcase_to_jm TESTCASE=testcase2
-# Run test_data.py
+# Run test_data_generator.py
 	make exec_jm ARGS="python test_data_generator.py"
 	docker cp ${IMG_NAME}:/usr/local/testing/references/data ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_data_generator.log ./test_data_generator.log
