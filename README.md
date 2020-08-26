@@ -1,6 +1,6 @@
 # IBPSA Project 1 - BOPTEST
 
-[![Build Status](https://travis-ci.org/ibpsa/project1-boptest.svg?branch=master)](https://travis-ci.org/ibpsa/project1-boptest)
+[![Build Status](https://travis-ci.com/ibpsa/project1-boptest.svg?branch=master)](https://travis-ci.com/ibpsa/project1-boptest)
 
 Building Optimization Performance Tests
 
@@ -25,8 +25,8 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 4) Run an example controller test: 
 
 * For Python based controllers:
-  * in a separate terminal, use ``$ python examples/python/twoday_p.py`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
-  * in a separate terminal, use ``$ python examples/python/szvav_sup.py`` to test a simple supervisory controller on the testcase2 over a two-day period.
+  * in a separate terminal, use ``$ cd examples/python/ && python twoday_p.py`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
+  * in a separate terminal, use ``$ cd examples/python/ && python szvav_sup.py`` to test a simple supervisory controller on the testcase2 over a two-day period.
 
 * For Julia based controllers:
   * in a separate terminal, use ``$ cd examples/julia && make build Script=twoday_p && make run Script=twoday_p`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
@@ -48,7 +48,7 @@ Example RESTful interaction:
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
 | Advance simulation with control input and receive measurements        |  POST ``advance`` with json data "{<input_name>:<value>}" |
-| Reset simulation to beginning                                         |  PUT ``reset`` with no argument                           |
+| Initialize simulation to a start time using a warmup period in seconds     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
 | Receive communication step in seconds                                 |  GET ``step``                                             |
 | Set communication step in seconds                                     |  PUT ``step`` with argument ``step=<value>``              |
 | Receive sensor signal names (y) and metadata                          |  GET ``measurements``                                     |

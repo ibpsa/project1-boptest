@@ -533,6 +533,20 @@ Air quality metrics
 
 .. _ch:kpi_implementation:
 
+Capability of the controller to steer flexibility
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   A controller capable of estimating and steering the flexibility available
+   in a building supposes an added value, since it would be able to
+   provide demand repsonse and ancillary services to the electric grid or 
+   district heating or cooling network. 
+   However, the explicit quantification of this KPI is particularly challenging 
+   because of the dependency of flexibility on the previous actions, current 
+   state, and various flexibility objectives that exist.  
+   For this reason, BOPTEST will utilize the operational cost KPI with dynamic 
+   pricing as a proxy for how the controller steers flexibility.  
+   Future work may specify dedicated tests and explicit quantification of flexibility.
+
 KPI Implementation
 ------------------
 

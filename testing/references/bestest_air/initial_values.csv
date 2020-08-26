@@ -1,0 +1,14 @@
+keys,value
+fcu_reaPCoo_y,3.527054251888104e-21
+fcu_reaFloSup_y,3.879756244942311e-24
+fcu_reaTSup_y,294.15
+fcu_reaFanSet_y,0.0
+con_reaTSetCoo_y,297.15
+zon_reaPPlu_y,259.20000000000005
+fcu_reaPFan_y,9.687085144589118e-46
+con_reaTSetHea_y,294.15
+time,43200.0
+fcu_reaPHea_y,0.0
+zon_reaPLig_y,566.4000000000001
+zon_reaCO2RooAir_y,854.2286052081043
+zon_reaTRooAir_y,296.8384051302132
