@@ -143,8 +143,8 @@ equation
                                                        color={0,0,127}));
   connect(OverTzone.y, read_T_zone_setpoint.u) annotation (Line(points={{95,-8.7},
           {95,-20},{102.8,-20}}, color={0,0,127}));
-  connect(read_T_zone_setpoint.y, conPIDrad.u_s) annotation (Line(points={{
-          116.6,-20},{126,-20},{126,-44},{117.6,-44}}, color={0,0,127}));
+  connect(read_T_zone_setpoint.y, conPIDrad.u_s) annotation (Line(points={{116.6,
+          -20},{126,-20},{126,-44},{117.6,-44}},       color={0,0,127}));
   connect(senCO2.ppm, read_CO2.u) annotation (Line(points={{-67,66},{-84,66},{
           -84,79},{-102.6,79}}, color={0,0,127}));
   connect(districtHeating.qdh, read_Q_h.u) annotation (Line(points={{-121.4,

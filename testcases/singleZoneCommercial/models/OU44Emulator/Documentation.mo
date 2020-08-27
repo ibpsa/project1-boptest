@@ -5,7 +5,8 @@ package Documentation "Documentation"
   annotation (preferredView="info",
   Documentation(info="<html>
 <p><b><span style=\"font-size: 10pt;\">Single-zone emulator (SDU)</span></b> </p>
-<p><img src=\"modelica://OU44Emulator/Resources/Images/ou44.jpg\" alt=\"OU44 building\"/> </p>
+<p><b><span style=\"font-size: 10pt;\">Gereral model description</span></b></p>
+<p><br><img src=\"modelica://OU44Emulator/Resources/Images/ou44.jpg\" alt=\"OU44 building\"/> </p>
 <p><b><span style=\"font-size: 10pt;\">Building Design and Use</span></b> </p>
 <p>The overall description of the actual building can be found in the following paper: <a href=\"https://www.sciencedirect.com/science/article/pii/S1876610217347720\">M. Jradi et al., A World Class Energy Efficient University Building by Danish 2020 Standards, Energy Procedia 132 (2017), 21-26.</a> Some of validation reference data are taken from this paper directly. The following documentation contains only information relevant for the simplified model included in BOPTEST. </p>
 <p><b>Architecture</b> </p>
@@ -25,7 +26,7 @@ package Documentation "Documentation"
 </tr>
 <tr>
 <td></td>
-<td><p><br><br><br><br><br>Insulation</p></td>
+<td><p><br>Insulation</p></td>
 <td><p>0.15, 0.04, 1000, 0.05</p></td>
 </tr>
 <tr>
@@ -35,7 +36,7 @@ package Documentation "Documentation"
 </tr>
 <tr>
 <td></td>
-<td><p><br><br><br><br><br>Insulation</p></td>
+<td><p><br>Insulation</p></td>
 <td><p>0.27, 0.04, 1000, 0.05</p></td>
 </tr>
 <tr>
@@ -45,7 +46,7 @@ package Documentation "Documentation"
 </tr>
 <tr>
 <td></td>
-<td><p><br><br><br><br><br>Insulation</p></td>
+<td><p><br>Insulation</p></td>
 <td><p>0.52, 0.04, 1000, 0.05</p></td>
 </tr>
 <tr>
@@ -54,11 +55,11 @@ package Documentation "Documentation"
 <td><p>0.15, 0.5, 1000, 0.25</p></td>
 </tr>
 </table>
-<p><br><br><br><br><br><br><b>Occupancy schedules and comfort requirements</b> </p>
-<p>The building is equiped with camera-based sensors that estimate real-time occupants number. Occupancy data is extracted from our internal database&quot;Volta&quot; and stored in &quot;occ.txt&quot; file in the model. Comfort requirements are defined as indoor thermal comfort (temperature) and CO2 concentratin, temperature setpoint is 21&deg;C, CO2 concentraiton has to be lower than 800ppm. </p>
+<p><br><br><br><br><b>Occupancy schedules and comfort requirements</b> </p>
+<p>The building is equiped with camera-based sensors that estimate real-time occupants number. Occupancy data is extracted from our internal database&quot;Volta&quot; and stored in &quot;occ.txt&quot; file in the model. Comfort requirements are defined as indoor thermal comfort (temperature) and CO2 concentration, temperature setpoint is 21&deg;C, CO2 concentration has to be lower than 800ppm. </p>
 <p><b>Internal loads and schedules</b> </p>
 <p>Internal heat gains only consider heat from occupancy. It is assumed that the internal gain per person is 120W and it is evenly distributed over the floor area (i.e. 120 W / 8500 m2). The heat generated per occupant is divided as 40&percnt; radiant, 40&percnt; convective and 20&percnt; latent heat.</p>
-<p><br><b>Climate</b> </p>
+<p><br><b>Climate</b> <b>data</b></p>
 <p>The weather data is based on Copenhagen Typical Meteorological Year. The weather file is located in <span style=\"font-family: Courier New;\">modelica://OU44Emulator/Resources/Weather/DNK_Copenhagen.061800_IWEC.mos</span>. </p>
 <p><b><span style=\"font-size: 10pt;\">HVAC System Design</span></b> </p>
 <h4>Primary and secondary system designs</h4>
@@ -67,30 +68,37 @@ package Documentation "Documentation"
 <p><img src=\"modelica://OU44Emulator/Resources/Images/bms_ahu.png\" alt=\"AHU\"/> </p>
 <p><br><b>Rule-based or local-loop controllers</b> </p>
 <p>The model implements three PID controllers, one regulates indoor CO2 concentration by controlling supply air in air handling unit. The second controller ensures supply air temperature of ventilation to be consistent with setpoint. The last controller regulates indoor temperature of the zone via controlling radiator power.</p>
-<p><b><span style=\"font-size: 10pt;\">Additional System Design</span></b> </p>
+<p><br><b><span style=\"font-size: 10pt;\">Model IO&apos;s</span></b></p>
+<h4>Inputs</h4>
+<p>The model inputs are</p>
+<p>input1: OverTzone [K], range [273.15+10, 273.15+30], description: Zone temperature setpoint for heating</p>
+<p>input2: Over_CO2_setpoint [ppm], range [400,1000], description: Indoor CO2 concentration setpoint</p>
+<p>input3: OverTsup [K], range [273.15+15, 273.15+40], description: Supply air temperature for heating</p>
+<p>input4: Over_pump_DH [-], range [0, 1], description: District heating pump speed control signal</p>
+<h4>Outputs</h4>
+<p>The model outputs are</p>
+<p>output1: read_Tzone [K], description: Zone air temperature</p>
+<p>output2: read_T_zone_setpoint [K], description: Zone air temperature setpoint for heating</p>
+<p>output3: read_T_sup_setpoint [K], description: supply air temperature setpoint</p>
+<p>output4: read_CO2 [ppm], description: Indoor CO2 concentration</p>
+<p>output5: read_Q_el_fan [W], description: Electrical power consumption of fan</p>
+<p>output6: read_Q_el_pump [W], description: Electrical power consumption of pump</p><p>output7: read_Q_el [W], description: Electrical power consumption for fan and pump</p><p>output8: read_Q_h [W], description: Heating thermal power consumption</p>
+<p><br><b><span style=\"font-size: 10pt;\">Additional System Design</span></b> </p>
 <p><b>Lighting</b> </p>
 <p>Lighting is not considered in the model.</p>
 <p><b>Shading</b> </p>
 <p>The model assume there is no shading in the building.</p>
 <p><b>Onsite generation and storage</b> </p>
 <p>There is no onsite power generation or energy storage in the model. </p>
-<p><b><span style=\"font-size: 10pt;\">Points List</span></b> </p>
-<p><b>Control input signals, descriptions, and meta-data</b> </p>
-<ul>
-<li>zone temperature setpoint</li>
-<li>zone CO2 concentration setpoint</li>
-<li>temperature setpoint for ventilation supply air</li>
-<li>district heating pump speed control signal</li>
-</ul>
-<p><b>Measurement output signals, descriptions, and meta-data</b> </p>
-<ul>
-<li>zone temperature </li>
-<li>zone CO2 concentration</li>
-<li>total energy consumption</li>
-<li>radiator heat consumption</li>
-<li>coil heat consumption</li>
-<li>electricity consumption for fan and pump</li>
-</ul>
+<p><br><b><span style=\"font-size: 10pt;\">Model Implementation Details</span></b></p>
+<h4>Moist vs .dry air</h4>
+<p><span style=\"font-family: Arial,sans-serif; font-size: 9pt;\">The model uses moist air despite that no condensation is modelled in any of the used components.</span></p>
+<h4>Pressure-flow models</h4>
+<p><span style=\"font-family: Arial,sans-serif; font-size: 9pt;\">A circulation hot water loop is used to model the heating emission system.</span></p>
+<h4>Infiltration models</h4>
+<p><br>Inflitration is modeled with a fixed ach parameter (0.2).</p>
+<h4>CO2 models</h4>
+<p><br>CO2 concentration of the zone is included in the model.</p>
 <p><b><span style=\"font-size: 10pt;\">Important Model Implementation Assumption</span></b> </p>
 <p>The major assumptions are as follows: </p>
 <ul>
