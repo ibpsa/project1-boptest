@@ -2364,7 +2364,9 @@ day long during weekends. Otherwise, this level is reduced by 80&percnt;. All th
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
-of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos).
+of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos). 
+The ground temperature is assumed to be a sinusoidal signal with an amplitude
+of 2&deg;C oscilating with a yearly period around 15&deg;C. 
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
