@@ -68,7 +68,7 @@ through the BOPTEST interface. The dimensions are provided in metres.
 <p>
 <br><img src="Resources/layout.png">
 </p>
-<p><a name="_Ref346520932">F</a>igure 1. Simulated residential dwelling.</span> 
+<p>Figure 1. Simulated residential dwelling.
 </p>
 
 <p>
@@ -178,7 +178,9 @@ day long during weekends. Otherwise, this level is reduced by 80&percnt;. All th
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
-of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos).
+of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos). 
+The ground temperature is assumed to be a sinusoidal signal with an amplitude
+of 2&deg;C oscilating with a yearly period around 15&deg;C. 
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
@@ -243,9 +245,183 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
+<ul>
+<li>
+<code>regul_Salon_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>regul_SDB_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>conHeaRo2_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>conHeaRo1_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>regul_Couloir_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+<li>
+<code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>conHeaRo3_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal
+</li>
+<li>
+<code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>regul_Couloir_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>regul_SDB_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+<li>
+<code>regul_Chambre1_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+<li>
+<code>conHeaSal_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>regul_Chambre3_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+<li>
+<code>conHeaBoiler_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>regul_Salon_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+<li>
+<code>conHeaBth_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>regul_Chambre1_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>regul_Chambre2_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>conHeaSal_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>regul_Chambre3_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>conPumHea_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>conHeaBoiler_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>regul_Chaudiere_Securite_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>conPumHea_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>regul_Chaudiere_Securite_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>regul_Chambre2_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+</ul>
 
 <h4>Outputs</h4>
 <p>The model outputs are: </p>
+
+<ul>
+<li>
+<code>ventil_Salon_rearelHum_y</code> [1] [min=None, max=None]: Zone relative humidity
+</li>
+<li>
+<code>q_conv_Jour_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
+</li>
+<li>
+<code>reaTHal_y</code> [K] [min=None, max=None]: Read hall temperature
+</li>
+<li>
+<code>reaHeaHal_y</code> [W] [min=None, max=None]: Read heating delivered to Hall
+</li>
+<li>
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
+</li>
+<li>
+<code>regul_SDB_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>reaHeaBth_y</code> [W] [min=None, max=None]: Read heating delivered to bathroom
+</li>
+<li>
+<code>conHeaBth_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>regul_Chambre1_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>q_conv_Nuit_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
+</li>
+<li>
+<code>conHeaRo1_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>conHeaRo2_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power consumption
+</li>
+<li>
+<code>regul_Salon_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>reaTGar_y</code> [K] [min=None, max=None]: Read garage temperature
+</li>
+<li>
+<code>reaTAti_y</code> [K] [min=None, max=None]: Read attic air temperature
+</li>
+<li>
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
+</li>
+<li>
+<code>regul_Chambre3_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>reaHeaSal_y</code> [W] [min=None, max=None]: Read heating delivered to Salon
+</li>
+<li>
+<code>regul_Couloir_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>reaHeaRo1_y</code> [W] [min=None, max=None]: Read heating delivered to room 1
+</li>
+<li>
+<code>conHeaRo3_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>reaHeaRo3_y</code> [W] [min=None, max=None]: Read heating delivered to room 3
+</li>
+<li>
+<code>conHeaSal_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>regul_Chambre2_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>reaHeaRo2_y</code> [W] [min=None, max=None]: Read heating delivered to room 2
+</li>
+<li>
+<code>boi_reaHeaBoi_y</code> [W] [min=None, max=None]: Boiler thermal energy usage
+</li>
+
+</ul>
 
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -372,7 +548,7 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 <tr><td>weaBus</td><td>&nbsp;</td></tr>
 </table>
 <address>
-<a href="http://www.3ds.com/">Automatically generated</a> Wed Aug 12 16:05:59 2020.
+<a href="http://www.3ds.com/">Automatically generated</a> Thu Sep  3 20:34:34 2020.
 </address>
 </body>
 </html>
