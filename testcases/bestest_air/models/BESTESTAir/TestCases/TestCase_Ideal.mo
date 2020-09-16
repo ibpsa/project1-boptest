@@ -272,16 +272,28 @@ The model inputs are:
 The model outputs are:
 <ul>
 <li>
+<code>zon_weaSta_reaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
 <code>fcu_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
 </li>
 <li>
 <code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
 </li>
 <li>
+<code>zon_weaSta_reaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
 <code>fcu_reaTSup_y</code> [K] [min=None, max=None]: Supply air temperature setpoint
 </li>
 <li>
+<code>fcu_reaFanSet_y</code> [1] [min=None, max=None]: Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate
+</li>
+<li>
 <code>con_reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>zon_weaSta_reaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
 </li>
 <li>
 <code>zon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
@@ -290,7 +302,13 @@ The model outputs are:
 <code>fcu_reaPFan_y</code> [W] [min=None, max=None]: Supply fan electrical power consumption
 </li>
 <li>
+<code>zon_weaSta_reaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
 <code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>zon_weaSta_reaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
 </li>
 <li>
 <code>fcu_reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
@@ -299,13 +317,16 @@ The model outputs are:
 <code>zon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
 </li>
 <li>
-<code>fcu_reaFanSet_y</code> [1] [min=None, max=None]: Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate
+<code>zon_weaSta_reaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+<li>
+<code>zon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
 </li>
 <li>
 <code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>zon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
+<code>zon_weaSta_reaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
 </li>
 </ul>
 <h3>Additional System Design</h3>
