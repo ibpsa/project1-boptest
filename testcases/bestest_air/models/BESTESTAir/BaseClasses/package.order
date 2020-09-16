@@ -8,3 +8,4 @@ FanControl
 FanCoilUnit_T
 Thermostat_T
 ControlToTemperature
+WeatherStation
