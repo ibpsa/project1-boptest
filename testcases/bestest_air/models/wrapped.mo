@@ -12,15 +12,22 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaPFan_y(unit="W") = mod.fcu.reaPFan.y "Supply fan electrical power consumption";
 	Modelica.Blocks.Interfaces.RealOutput zon_reaPLig_y(unit="W") = mod.zon.reaPLig.y "Lighting power submeter";
 	Modelica.Blocks.Interfaces.RealOutput zon_reaTRooAir_y(unit="K") = mod.zon.reaTRooAir.y "Zone air temperature";
+	Modelica.Blocks.Interfaces.RealOutput zon_weaSta_reaHGloHor_y(unit="W/m2") = mod.zon.weaSta.reaHGloHor.y "Global horizontal solar irradiation measurement";
 	Modelica.Blocks.Interfaces.RealOutput zon_reaPPlu_y(unit="W") = mod.zon.reaPPlu.y "Plug load power submeter";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaFanSet_y(unit="1") = mod.fcu.reaFanSet.y "Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate";
 	Modelica.Blocks.Interfaces.RealOutput con_reaTSetHea_y(unit="K") = mod.con.reaTSetHea.y "Zone air temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaTSup_y(unit="K") = mod.fcu.reaTSup.y "Supply air temperature setpoint";
+	Modelica.Blocks.Interfaces.RealOutput zon_weaSta_reaWinDir_y(unit="rad") = mod.zon.weaSta.reaWinDir.y "Wind direction measurement";
 	Modelica.Blocks.Interfaces.RealOutput zon_reaCO2RooAir_y(unit="ppm") = mod.zon.reaCO2RooAir.y "Zone air CO2 concentration";
+	Modelica.Blocks.Interfaces.RealOutput zon_weaSta_reaRelHum_y(unit="1") = mod.zon.weaSta.reaRelHum.y "Outside relative humidity measurement";
+	Modelica.Blocks.Interfaces.RealOutput zon_weaSta_reaTDryBul_y(unit="K") = mod.zon.weaSta.reaTDryBul.y "Outside drybulb temperature measurement";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaPHea_y(unit="W") = mod.fcu.reaPHea.y "Heating thermal power consumption";
 	Modelica.Blocks.Interfaces.RealOutput con_reaTSetCoo_y(unit="K") = mod.con.reaTSetCoo.y "Zone air temperature setpoint for cooling";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaPCoo_y(unit="W") = mod.fcu.reaPCoo.y "Cooling electrical power consumption";
+	Modelica.Blocks.Interfaces.RealOutput zon_weaSta_reaNTot_y(unit="1") = mod.zon.weaSta.reaNTot.y "Sky cover measurement";
+	Modelica.Blocks.Interfaces.RealOutput zon_weaSta_reaPAtm_y(unit="Pa") = mod.zon.weaSta.reaPAtm.y "Atmospheric pressure measurement";
 	Modelica.Blocks.Interfaces.RealOutput fcu_reaFloSup_y(unit="kg/s") = mod.fcu.reaFloSup.y "Supply air mass flow rate";
+	Modelica.Blocks.Interfaces.RealOutput zon_weaSta_reaWinSpe_y(unit="m/s") = mod.zon.weaSta.reaWinSpe.y "Wind speed measurement";
 	// Original model
 	BESTESTAir.TestCases.TestCase_Ideal mod(
 		con.oveTSetCoo(uExt(y=con_oveTSetCoo_u),activate(y=con_oveTSetCoo_activate)),
