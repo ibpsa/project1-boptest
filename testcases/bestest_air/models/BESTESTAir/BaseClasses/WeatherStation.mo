@@ -24,7 +24,8 @@ model WeatherStation
   IBPSA.Utilities.IO.SignalExchange.Read reaNTot(description="Sky cover measurement",
       y(unit="1")) "Sky cover measurement"
     annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPAtm(description="Atmospheric pressure measuremen",
+  IBPSA.Utilities.IO.SignalExchange.Read reaPAtm(description=
+        "Atmospheric pressure measurement",
       y(unit="Pa")) "Atmospheric pressure measurement"
     annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
 equation
