@@ -142,6 +142,19 @@ test_bestest_hydronic:
 # Stop testcase container
 	cd .. && make stop TESTCASE=bestest_hydronic
 
+test_bestest_hydronic_heat_pump:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_hydronic_heat_pump
+# Build testcase image
+	cd .. &&  make build TESTCASE=bestest_hydronic_heat_pump
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=bestest_hydronic_heat_pump
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_hydronic_heat_pump.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=bestest_hydronic_heat_pump
+
 test_parser:
 	make run_jm
 	make copy_to_jm ARGS=parsing
@@ -227,6 +240,7 @@ test_all:
 	make test_testcase3
 	make test_bestest_air
 	make test_bestest_hydronic
+	make test_bestest_hydronic_heat_pump
 # Remove jm
 	make remove_jm_image
 # Report test results
