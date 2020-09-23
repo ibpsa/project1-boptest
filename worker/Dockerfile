@@ -9,14 +9,6 @@ RUN apt-get update -y && apt-get install -y \
     ca-certificates curl libglu1 libjpeg8 libfreetype6 libxi6 libdbus-glib-1-2 libfontconfig1 libsm6 gdebi-core python3.5 python3-pip \
     && apt-get install -y git
 
-RUN apt-get update \
-    && apt-get install -y software-properties-common \
-    && add-apt-repository -y ppa:openjdk-r/ppa \
-    && apt-get update -y \
-    && apt-get install -y openjdk-8-jdk-headless \
-    && update-alternatives --config java \
-    && update-alternatives --config javac
-
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
   && python3 get-pip.py
 
