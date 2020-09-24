@@ -33,6 +33,7 @@ import {MongoClient} from 'mongodb';
 import node_redis from 'redis';
 import graphQLHTTP from 'express-graphql';
 import {Schema} from './schema';
+import boptestRoutes from './routes/boptest-routes.js';
 import {Advancer} from './advancer';
 import historyApiFallback from 'connect-history-api-fallback';
 import morgan from 'morgan';
@@ -68,6 +69,8 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   }
 
   const db = mongoClient.db(process.env.MONGO_DB_NAME);
+
+  app.use('/', boptestRoutes)
 
   app.use('/graphql', (request, response) => {
       return graphQLHTTP({

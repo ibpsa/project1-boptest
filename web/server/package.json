@@ -39,6 +39,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "file-loader": "^6.0.0",
+    "got": "^11.7.0",
     "graphql": "^15.1.0",
     "graphql-tag": "^2.10.3",
     "html-webpack-plugin": "^4.3.0",
