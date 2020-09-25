@@ -70,8 +70,6 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
 
   const db = mongoClient.db(process.env.MONGO_DB_NAME);
 
-  app.use('/', boptestRoutes)
-
   app.use('/graphql', (request, response) => {
       return graphQLHTTP({
         graphiql: true,
@@ -91,6 +89,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   
   app.use(bodyParser.text({ type: 'text/*' }));
   app.use(bodyParser.json()); // if you are using JSON instead of ZINC you need this
+  app.use('/', boptestRoutes)
 
   // Create a post url for file uploads
   // from a browser
