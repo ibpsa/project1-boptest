@@ -2,49 +2,166 @@ import express from 'express';
 import got from 'got'
 const boptestRoutes = express.Router();
 
-// Make a graphql query to the server
-const graphqlPost = async (querystring, req, res) => {
-  try {
-    const {body} = await got.post( req.protocol + '://' + req.get('host') + '/graphql', {
-      json: {
-        query: querystring
+
+//let response = {};
+//for (let point of points) {
+//  const tags = point["tags"];
+//  // This is a string. Should it be returned as a number?
+//  const curVal = strip(tags.find(tag => tag["key"] == "curVal") ["value"]);
+//  const dis = strip(point["dis"]);
+//  response[dis] = curVal;
+//}
+//res.send(response);
+
+// Given an array of points with tags, return an object,
+// "dis" values are the keys, and "curVal" are the values
+const pointsToCurVals = (points) => {
+  let response = {};
+  for (let point of points) {
+    const tags = point["tags"];
+    // This is a string. Should it be returned as a number?
+    const curValTag = tags.find(tag => tag["key"] == "curVal");
+    // What do return if there is no curVal?
+    let curVal = null;
+    if (curValTag) {
+      curVal = Number.parseFloat(strip(curValTag["value"]));
+    }
+    const dis = strip(point["dis"]);
+    response[dis] = curVal;
+  }
+  return response;
+};
+
+const baseurlFromReq = (req) => {
+  return req.protocol + '://' + req.get('host');
+};
+
+// Remove any preceeding haystack style type specifier. 
+// ie given "n:1.0" will return "1.0"
+const strip = (text) => {
+  return text.replace(/^\w:/,"");
+}
+
+// Post a query to the graphql api
+const graphqlPost = async (querystring, baseurl) => {
+  const {body} = await got.post( baseurl + '/graphql', {
+    json: {
+      query: querystring
+    }
+  });
+  return body;
+};
+
+const graphqlPostAndRespond = (querystring, req, res, next) => {
+  const baseurl = baseurlFromReq(req);
+  graphqlPost(querystring, baseurl).then((body) => res.send(body)).catch((e) => next(e));
+};
+
+const promiseTaskLater = (task, time, ...args) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      try {
+        await task(...args);
+        resolve();
+      } catch (e) {
+        reject(e);
       }
-    });
-    res.send(body);
-  } catch (error) {
-    res.next(error);
-  }
+    }, time);
+  });
 };
 
-// Wait for the specified condition
-const wait = (id, condition) => {
-  querystring = `{ viewer{ sites(siteRef: "${id}") { simStatus } } }`;
-
+const simStatus = async (id, baseurl) => {
   try {
-    const body = graphqlPost(querystring, req, res);
-    const simStatus = j["data"]["viewer"]["sites"][0]["simStatus"];
-  } catch {
+    const querystring = `{ viewer{ sites(siteRef: "${id}") { simStatus } } }`;
+    const body = await graphqlPost(querystring, baseurl);
+    return JSON.parse(body)["data"]["viewer"]["sites"][0]["simStatus"];
+  } catch (e) {
+    console.log("Error retriving sim status");
+    throw(e);
   }
 };
 
-boptestRoutes.post('/advance/:id', (req, res) => {
-  const querystring = `mutation { advance(siteRefs: "${req.params.id}") }`;
+const waitForSimStatus = async (id, baseurl, desiredStatus, count, maxCount) => {
+  let i = 0;
+  const currentStatus = await simStatus(id, baseurl);
+  if (currentStatus == desiredStatus) {
+    return;
+  } else if (count == maxCount) {
+    throw(`Timeout waiting for sim: ${id} to reach status: ${desiredStatus}`);
+  } else {
+    await promiseTaskLater(waitForSimStatus, 2000, id, baseurl, desiredStatus, count, maxCount);
+  }
+};
 
-  graphqlPost(querystring, req, res); 
+boptestRoutes.post('/advance/:id', async (req, res, next) => {
+  try {
+    const baseurl = baseurlFromReq(req);
+    const inputdata = req.body;
+    const inputnames = Object.keys(inputdata).filter(key => (key.endsWith('_activate'))).map(key => key.replace(/_activate$/,""));
+    for (let inputname of inputnames) {
+      const inputvalue = inputdata['inputname' + '_u'];
+      const inputactivate = inputdata['inputname' + '_activate'];
+      let writestring = '';
+      if (inputvalue && inputactivate) {
+        writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", value: ${inputvalue}, level: 1 ) }`;
+      } else {
+        // Resets the input, ie. not activated
+        writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", level: 1 ) }`;
+      }
+      await graphqlPost(writestring, baseurl); 
+    }
+    
+    const advancestring = `mutation { advance(siteRefs: "${req.params.id}") }`;
+    await graphqlPost(advancestring, baseurl);
+    res.end();
+  } catch (e) {
+    next(e);
+  }
 });
 
-boptestRoutes.post('/initialize/:id', (req, res) => {
-  const querystring = `mutation{
-    runSite(
-      siteRef: "${req.params.id}",
-      startDatetime: "0",
-      endDatetime: "86400",
-      externalClock: true,
-    	timescale: 1.0
-    )
-  }`;
+boptestRoutes.post('/initialize/:id', async (req, res, next) => {
+  try {
+    const querystring = `mutation{
+      runSite(
+        siteRef: "${req.params.id}",
+        startDatetime: "0",
+        endDatetime: "86400",
+        externalClock: true,
+      	timescale: 1.0
+      )
+    }`;
+    
+    const baseurl = baseurlFromReq(req);
+    await graphqlPost(querystring, baseurl); 
+    await waitForSimStatus(req.params.id, baseurl, "Running", 0, 3);
+    res.end();
+  } catch (e) {
+    next(e);
+  }
+});
 
-  graphqlPost(querystring, req, res); 
+boptestRoutes.post('/measurements/:id', async (req, res, next) => {
+  try {
+    const baseurl = baseurlFromReq(req);
+    const querystring = `query { viewer { sites(siteRef: "${req.params.id}") { points(cur: true) { dis tags { key value } } } } }`;
+    const points = JSON.parse(await graphqlPost(querystring, baseurl))["data"]["viewer"]["sites"][0]["points"];
+    const response = pointsToCurVals(points);
+    res.send(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
+boptestRoutes.post('/inputs/:id', async (req, res, next) => {
+  try {
+    const baseurl = baseurlFromReq(req);
+    const querystring = `query { viewer { sites(siteRef: "${req.params.id}") { points(writable: true) { dis tags { key value } } } } }`;
+    const points = JSON.parse(await graphqlPost(querystring, baseurl))["data"]["viewer"]["sites"][0]["points"];
+    const response = pointsToCurVals(points);
+    res.send(response);
+  } catch (e) {
+    next(e);
+  }
 });
 
 export default boptestRoutes;
