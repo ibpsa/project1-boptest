@@ -6,7 +6,7 @@ client = BoptestClient(url)
 
 modelid = client.submit('testcases/testcase1/models/wrapped.fmu')
 
-requests.post('{0}/initialize/{1}'.format(url, modelid))
+requests.put('{0}/initialize/{1}'.format(url, modelid))
 
 for i in range(6):
     u = {'oveTSetRooHea_u':22+273.15, 

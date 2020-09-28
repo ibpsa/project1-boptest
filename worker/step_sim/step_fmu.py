@@ -120,6 +120,13 @@ def get_config():
         if self.externalClock:
             self.redis_pubsub.subscribe(self.site_ref)
 
+        redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
+        if redis_step_size:
+            self.tc.set_step(redis_step_size)
+        else:
+            stepsize = self.tc.get_step();
+            self.redis.hset(self.site_ref, 'stepsize', stepsize)
+
     def create_tag_dictionaries(self, tag_filepath):
         '''
         Purpose: matching the haystack display-name and IDs
@@ -222,13 +229,13 @@ def get_config():
         shutil.rmtree(self.directory)
 
     def update_forecast(self, forecast):
-        self.redis.hset(site_ref, 'forecast', json.dumps(forecast))
+        self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
 
     def clear_forecast(self):
         self.redis.hdel(self.site_ref, 'forecast')
 
     def set_idle_state(self):
-        self.redis.hset(site_ref, 'control', 'idle')
+        self.redis.hset(self.site_ref, 'control', 'idle')
 
     def init_sim_status(self):
         self.set_idle_state()
@@ -241,6 +248,12 @@ def get_config():
         self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.datetime": output_time_string, "rec.simStatus": "s:Running"}})
 
     def step(self):
+        # look for a change in step size
+        redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
+        current_step_size = self.tc.get_step()
+        if current_step_size != redis_step_size:
+            self.tc.set_step(redis_step_size)
+
         # u represents simulation input values
         u = self.default_input.copy()
         # look in the database for current write arrays

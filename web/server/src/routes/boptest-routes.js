@@ -119,7 +119,7 @@ boptestRoutes.post('/advance/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.post('/initialize/:id', async (req, res, next) => {
+boptestRoutes.put('/initialize/:id', async (req, res, next) => {
   try {
     const querystring = `mutation{
       runSite(
@@ -140,7 +140,7 @@ boptestRoutes.post('/initialize/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.post('/measurements/:id', async (req, res, next) => {
+boptestRoutes.get('/measurements/:id', async (req, res, next) => {
   try {
     const baseurl = baseurlFromReq(req);
     const querystring = `query { viewer { sites(siteRef: "${req.params.id}") { points(cur: true) { dis tags { key value } } } } }`;
@@ -152,7 +152,7 @@ boptestRoutes.post('/measurements/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.post('/inputs/:id', async (req, res, next) => {
+boptestRoutes.get('/inputs/:id', async (req, res, next) => {
   try {
     const baseurl = baseurlFromReq(req);
     const querystring = `query { viewer { sites(siteRef: "${req.params.id}") { points(writable: true) { dis tags { key value } } } } }`;
@@ -164,5 +164,43 @@ boptestRoutes.post('/inputs/:id', async (req, res, next) => {
   }
 });
 
+boptestRoutes.get('/step/:id', async (req, res, next) => {
+  try {
+    const redis = req.app.get('redis');
+    redis.hget(req.params.id, 'stepsize', (err, redisres) => {
+      if (err) {
+        next(err);
+      } else {
+        res.send(redisres);
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+boptestRoutes.put('/step/:id', async (req, res, next) => {
+  try {
+    const redis = req.app.get('redis');
+    const stepsize = req.body['step'];
+    redis.hset(req.params.id, 'stepsize', stepsize, (err) => {
+      if (err) {
+        next(err);
+      } else {
+        res.end();
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+// results are valid before simulation is complete. just return from start to current time (not counting warmup)
+// kpis are the same as results ie valid until current time
+// some controllers *might* use results in realtime
+// need to add forecast_parameters get / set
+
 export default boptestRoutes;
+
+
 
