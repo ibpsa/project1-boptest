@@ -49,6 +49,7 @@ const advancer = new Advancer(redis, pub, sub);
 
 MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   var app = express();
+  app.set('redis', redis);
   
   if( process.env.NODE_ENV == "production" ) {
     app.get('*.js', function(req, res, next) {
