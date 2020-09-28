@@ -96,6 +96,8 @@ const waitForSimStatus = async (id, baseurl, desiredStatus, count, maxCount) => 
 boptestRoutes.post('/advance/:id', async (req, res, next) => {
   try {
     const baseurl = baseurlFromReq(req);
+
+    // Set inputs
     const inputdata = req.body;
     const inputnames = Object.keys(inputdata).filter(key => (key.endsWith('_activate'))).map(key => key.replace(/_activate$/,""));
     for (let inputname of inputnames) {
@@ -111,12 +113,17 @@ boptestRoutes.post('/advance/:id', async (req, res, next) => {
       await graphqlPost(writestring, baseurl); 
     }
     
+    // Advance the sim
     const advancestring = `mutation { advance(siteRefs: "${req.params.id}") }`;
     await graphqlPost(advancestring, baseurl);
-    res.end();
+
+    // Send back measurements
+    const {body} = await got.get(`${baseurl}/measurements/${req.params.id}`);
+    res.send(body);
   } catch (e) {
     next(e);
   }
+  // TODO do the above in a single operation against Redis. This is very inefficient
 });
 
 boptestRoutes.put('/initialize/:id', async (req, res, next) => {
@@ -143,9 +150,14 @@ boptestRoutes.put('/initialize/:id', async (req, res, next) => {
 boptestRoutes.get('/measurements/:id', async (req, res, next) => {
   try {
     const baseurl = baseurlFromReq(req);
-    const querystring = `query { viewer { sites(siteRef: "${req.params.id}") { points(cur: true) { dis tags { key value } } } } }`;
-    const points = JSON.parse(await graphqlPost(querystring, baseurl))["data"]["viewer"]["sites"][0]["points"];
+    const querystring = `query { viewer { sites(siteRef: "${req.params.id}") { datetime, points(cur: true) { dis tags { key value } } } } }`;
+    const jsondata = JSON.parse(await graphqlPost(querystring, baseurl));
+    const points = jsondata["data"]["viewer"]["sites"][0]["points"];
     const response = pointsToCurVals(points);
+
+    // BOPTEST includes 'time' key in the measurements
+    response['time'] = jsondata["data"]["viewer"]["sites"][0]["datetime"];
+
     res.send(response);
   } catch (e) {
     next(e);
