@@ -147,6 +147,23 @@ boptestRoutes.put('/initialize/:id', async (req, res, next) => {
   }
 });
 
+boptestRoutes.put('/stop/:id', async (req, res, next) => {
+  try {
+    const querystring = `mutation{
+      stopSite(
+        siteRef: "${req.params.id}"
+      )
+    }`;
+    
+    const baseurl = baseurlFromReq(req);
+    await graphqlPost(querystring, baseurl); 
+    await waitForSimStatus(req.params.id, baseurl, "Stopped", 0, 3);
+    res.end();
+  } catch (e) {
+    next(e);
+  }
+});
+
 boptestRoutes.get('/measurements/:id', async (req, res, next) => {
   try {
     const baseurl = baseurlFromReq(req);
@@ -200,6 +217,36 @@ boptestRoutes.put('/step/:id', async (req, res, next) => {
         next(err);
       } else {
         res.end();
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+boptestRoutes.get('/kpi/:id', async (req, res, next) => {
+  try {
+    const redis = req.app.get('redis');
+    redis.hget(req.params.id, 'kpis', (err, redisres) => {
+      if (err) {
+        next(err);
+      } else {
+        res.send(redisres);
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+boptestRoutes.get('/results/:id', async (req, res, next) => {
+  try {
+    const redis = req.app.get('redis');
+    redis.hget(req.params.id, 'results', (err, redisres) => {
+      if (err) {
+        next(err);
+      } else {
+        res.send(redisres);
       }
     });
   } catch (e) {

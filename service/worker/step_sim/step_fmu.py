@@ -110,6 +110,7 @@ def get_config():
         # initiate the testcase
         self.tc = boptest.lib.testcase.TestCase()
         self.update_forecast(self.tc.get_forecast())
+        self.update_kpis(self.tc.get_kpis())
 
         # run the FMU simulation
         self.kstep = 0
@@ -203,6 +204,11 @@ def get_config():
 
     # cleanup after the simulation is stopped
     def cleanup(self):
+        kpis = self.tc.get_kpis()
+        kpidump = json.dumps(kpis)
+        self.update_kpis(kpis)
+        self.update_results(self.tc.get_results())
+
         # Clear all current values from the database when the simulation is no longer running
         self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.simStatus": "s:Stopped"}, "$unset": {"rec.datetime": ""}}, False)
         self.mongo_db_recs.update_many({"site_ref": self.site_ref, "rec.cur": "m:"}, {"$unset": {"rec.curVal": "", "rec.curErr": ""}, "$set": {"rec.curStatus": "s:disabled"}}, False)
@@ -222,16 +228,12 @@ def get_config():
 
         time = str(datetime.now(tz=pytz.UTC))
         name = self.site.get("rec", {}).get("dis", "Test Case").replace('s:', '')
-        kpis = self.tc.get_kpis()
-        kpidump = json.dumps(kpis)
-        #worker_1  | kpis: {"tdis_tot": 0.0, "idis_tot": 0.0, "ener_tot": 0.0, "cost_tot": 0.0, "emis_tot": 0.0, "time_rat": 0.004013879299163818}
         self.mongo_db_sims.insert_one({"_id": self.sim_id, "name": name, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
         self.post_results_to_dashboard(kpis, time)
 
         shutil.rmtree(self.directory)
 
     def post_results_to_dashboard(self, kpis, time):
-
         # dashboard requires KPIs as ints, however this likely needs to change to float
         payload = {
           "results": [
@@ -277,6 +279,12 @@ def get_config():
 
     def update_forecast(self, forecast):
         self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
+
+    def update_kpis(self, kpis):
+        self.redis.hset(self.site_ref, 'kpis', json.dumps(kpis))
+
+    def update_results(self, results):
+        self.redis.hset(self.site_ref, 'results', json.dumps(results))
 
     def clear_forecast(self):
         self.redis.hdel(self.site_ref, 'forecast')
@@ -329,6 +337,9 @@ def get_config():
                 self.mongo_db_recs.update_one( {"_id": output_id }, {"$set": {"rec.curVal":"n:%s" %value_y, "rec.curStatus":"s:ok","rec.cur": "m:" }} )        
 
         self.update_forecast(self.tc.get_forecast())
+        # This takes a lot of timek, so only do it at the end
+        #self.update_kpis(self.tc.get_kpis())
+        #self.update_results(self.tc.get_results())
 
 if __name__ == "__main__":
     body = json.loads(sys.argv[1])
