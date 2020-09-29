@@ -52,7 +52,7 @@ def run(plot=False, customized_kpi_config=None):
     # Set URL for testcase
     url = 'http://localhost'
     # Set simulation parameters
-    length = 48*3600
+    length = 24*3600
     step = 300
 
     client = BoptestClient(url)
@@ -117,57 +117,59 @@ def run(plot=False, customized_kpi_config=None):
                   customizedkpis_result[customizedkpi.name].append(round(customizedkpi_value,2)) # Track custom KPI value
                   print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi_value,2))) # Print custom KPI value
              customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time  
+
+    res = requests.put('{0}/stop/{1}'.format(url,testid))
     print('\nTest case complete.')
     # -------------
         
     # VIEW RESULTS
     # ------------
     # Report KPIs
-    ###kpi = requests.get('{0}/kpi'.format(url)).json()
-    ###print('\nKPI RESULTS \n-----------')
-    ###for key in kpi.keys():
-    ###    if key == 'tdis_tot':
-    ###        unit = 'Kh'
-    ###    if key == 'idis_tot':
-    ###        unit = 'ppmh'
-    ###    elif key == 'ener_tot':
-    ###        unit = 'kWh'
-    ###    elif key == 'cost_tot':
-    ###        unit = 'euro or $'
-    ###    elif key == 'emis_tot':
-    ###        unit = 'kg CO2'
-    ###    elif key == 'time_rat':
-    ###        unit = ''
-    ###    print('{0}: {1} {2}'.format(key, kpi[key], unit))
-    #### ------------ 
-    ###    
-    #### POST PROCESS RESULTS
-    #### --------------------
-    #### Get result data
-    ###res = requests.get('{0}/results'.format(url)).json()
-    ###time = [x/3600 for x in res['y']['time']] # convert s --> hr
-    ###TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-    ###PHeat = res['y']['PHea_y']
-    ###QHeat = res['u']['oveAct_u']
-    #### Plot results
-    ###if plot:
-    ###    from matplotlib import pyplot as plt
-    ###    plt.figure(1)
-    ###    plt.title('Zone Temperature')
-    ###    plt.plot(time, TZone)
-    ###    plt.plot(time, 20*np.ones(len(time)), '--')
-    ###    plt.plot(time, 23*np.ones(len(time)), '--')
-    ###    plt.ylabel('Temperature [C]')
-    ###    plt.xlabel('Time [hr]')
-    ###    plt.figure(2)
-    ###    plt.title('Heater Power')
-    ###    plt.plot(time, PHeat)
-    ###    plt.ylabel('Electrical Power [W]')
-    ###    plt.xlabel('Time [hr]')
-    ###    plt.show()
-    #### --------------------
-    ###        
-    ###return kpi,res,customizedkpis_result 
+    kpi = requests.get('{0}/kpi/{1}'.format(url,testid)).json()
+    print('\nKPI RESULTS \n-----------')
+    for key in kpi.keys():
+        if key == 'tdis_tot':
+            unit = 'Kh'
+        if key == 'idis_tot':
+            unit = 'ppmh'
+        elif key == 'ener_tot':
+            unit = 'kWh'
+        elif key == 'cost_tot':
+            unit = 'euro or $'
+        elif key == 'emis_tot':
+            unit = 'kg CO2'
+        elif key == 'time_rat':
+            unit = ''
+        print('{0}: {1} {2}'.format(key, kpi[key], unit))
+    # ------------ 
+       
+    # POST PROCESS RESULTS
+    # --------------------
+    # Get result data
+    res = requests.get('{0}/results/{1}'.format(url,testid)).json()
+    time = [x/3600 for x in res['y']['time']] # convert s --> hr
+    TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
+    PHeat = res['y']['PHea_y']
+    QHeat = res['u']['oveAct_u']
+    # Plot results
+    if plot:
+        from matplotlib import pyplot as plt
+        plt.figure(1)
+        plt.title('Zone Temperature')
+        plt.plot(time, TZone)
+        plt.plot(time, 20*np.ones(len(time)), '--')
+        plt.plot(time, 23*np.ones(len(time)), '--')
+        plt.ylabel('Temperature [C]')
+        plt.xlabel('Time [hr]')
+        plt.figure(2)
+        plt.title('Heater Power')
+        plt.plot(time, PHeat)
+        plt.ylabel('Electrical Power [W]')
+        plt.xlabel('Time [hr]')
+        plt.show()
+    # --------------------
+            
+    return kpi,res,customizedkpis_result 
 
 if __name__ == "__main__":
     #kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
