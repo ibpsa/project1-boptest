@@ -38,6 +38,7 @@ import redis
 from distutils import util
 from pymongo import MongoClient
 import imp
+import requests
 config_module = imp.new_module('config')
 sys.modules['config'] = config_module 
 
@@ -65,8 +66,6 @@ class RunFMUSite:
         self.startTime = kwargs['startTime']
         self.endTime = kwargs['endTime']
         self.externalClock = kwargs['externalClock']
-
-        print('externalClock: %s' % self.externalClock)
 
         self.site = self.mongo_db_recs.find_one({"_id": self.site_ref})
 
@@ -223,10 +222,58 @@ def get_config():
 
         time = str(datetime.now(tz=pytz.UTC))
         name = self.site.get("rec", {}).get("dis", "Test Case").replace('s:', '')
-        kpis = json.dumps(self.tc.get_kpis())
-        self.mongo_db_sims.insert_one({"_id": self.sim_id, "name": name, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpis)})
+        kpis = self.tc.get_kpis()
+        kpidump = json.dumps(kpis)
+        #worker_1  | kpis: {"tdis_tot": 0.0, "idis_tot": 0.0, "ener_tot": 0.0, "cost_tot": 0.0, "emis_tot": 0.0, "time_rat": 0.004013879299163818}
+        self.mongo_db_sims.insert_one({"_id": self.sim_id, "name": name, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
+        self.post_results_to_dashboard(kpis, time)
 
         shutil.rmtree(self.directory)
+
+    def post_results_to_dashboard(self, kpis, time):
+
+        # dashboard requires KPIs as ints, however this likely needs to change to float
+        payload = {
+          "results": [
+            {
+              "dateRun": time,
+              "isShared": True,
+              "uid": self.site_ref,
+              "account": {
+                "apiKey": "jerrysapikey"
+              },
+              "thermalDiscomfort": int(round(kpis['tdis_tot'])),
+              "energyUse": int(round(kpis['ener_tot'])),
+              "cost": int(round(kpis['cost_tot'])),
+              "emissions": int(round(kpis['emis_tot'])),
+              "iaq": int(round(kpis['idis_tot'])),
+              "timeRatio": int(round(kpis['time_rat'])),
+              "tags": {},
+              "testTimePeriodStart": "2020-09-28T20:39:03.366Z",
+              "testTimePeriodEnd": "2020-09-28T20:39:03.366Z",
+              "controlStep": "controlStep",
+              "priceScenario": "priceScenario",
+              "weatherForecastUncertainty": "forecast-unknown",
+              "controllerType": "controllerType1",
+              "problemFormulation": "problem1",
+              "modelType": "modelType1",
+              "numStates": 15,
+              "predictionHorizon": 700,
+              "buildingType": {
+                "id": 1,
+                "uid": "buildingType-1",
+                "name": "BIG Building",
+                "parsedHTML": "<html></html>",
+                "detailsURL": "bigbuilding.com"
+              }
+            }
+          ]
+        }
+        dashboard_url = "%s/api/results" % os.environ['DASHBOARD_URL']
+        try:
+            requests.post(dashboard_url, json=payload)
+        except:
+            print("Unable to post results to dashboard located at: %s" % dashboard_url)
 
     def update_forecast(self, forecast):
         self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))

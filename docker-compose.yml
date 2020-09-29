@@ -76,6 +76,7 @@ services:
       - REDIS_HOST
       - S3_BUCKET
       - REGION
+      - DASHBOARD_URL
     depends_on:
       - redis
       - mongo
