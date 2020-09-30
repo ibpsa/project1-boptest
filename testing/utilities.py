@@ -372,7 +372,12 @@ class partialTestAPI(partialChecks):
         # Get current step
         step = requests.get('{0}/step'.format(self.url)).json()
         # Initialize
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
+        y = requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600}).json()
+        # Check that initialize returns the right initial values
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Check results are empty again
         y = requests.get('{0}/results'.format(self.url)).json()
         for key in y.keys():
@@ -430,6 +435,11 @@ class partialTestAPI(partialChecks):
                  'oveActSou_activate':0, 'oveActSou_u':1500}
         elif self.name == 'bestest_air':
             u = {'fcu_oveTSup_activate':0, 'fcu_oveTSup_u':290}
+        elif self.name == 'bestest_hydronic':
+            u = {'oveTSetSup_activate':0, 'oveTSetSup_u':273.15+60,
+                 'ovePum_activate':0, 'ovePum_u':1}
+        elif self.name == 'bestest_hydronic_heat_pump':
+            u = {'oveTSetHea_activate':0, 'oveTSetHea_u':273.15+22}
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()

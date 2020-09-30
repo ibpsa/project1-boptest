@@ -126,7 +126,37 @@ class TestCase(object):
         self.initialize_fmu = False
 
         return res            
-           
+
+    def __get_results(self, res, store=True):
+        '''Get results at the end of a simulation and throughout the 
+        simulation period for storage. This method assigns these results
+        to `self.y` and, if `store=True`, also to `self.y_store` and 
+        to `self.u_store`. 
+        This method is used by `initialize()` and `advance()` to retrieve
+        results. `initialize()` does not store results whereas `advance()`
+        does. 
+        
+        Parameters
+        ----------
+        res: pyfmi results object
+            Results of the fmu simulation.
+        store: boolean
+            Set to true if desired to store results in `self.y_store` and
+            `self.u_store`
+        
+        '''
+        
+        # Get result and store measurement
+        for key in self.y.keys():
+            self.y[key] = res[key][-1]
+            if store:
+                self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
+        
+        # Store control inputs
+        if store:
+            for key in self.u.keys():
+                self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
         
@@ -186,13 +216,8 @@ class TestCase(object):
         res = self.__simulation(self.start_time,self.final_time,input_object) 
         # Process results
         if res is not None:        
-            # Get result and store measurement
-            for key in self.y.keys():
-                self.y[key] = res[key][-1]
-                self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
-            # Store control inputs
-            for key in self.u.keys():
-                self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+            # Get result and store measurement and control inputs
+            self.__get_results(res, store=True)
             # Advance start time
             self.start_time = self.final_time
             # Raise the flag to compute time lapse
@@ -216,8 +241,9 @@ class TestCase(object):
             
         Returns
         -------
-        True if successful.
-        False otherwise.
+        y : dict
+            Contains the measurement data at the end of the initialization.
+            {<measurement_name> : <measurement_value>}
 
         '''
 
@@ -233,14 +259,16 @@ class TestCase(object):
         res = self.__simulation(max(start_time-warmup_period,0), start_time)
         # Process result
         if res is not None:
+            # Get result
+            self.__get_results(res, store=False)
             # Set internal start time to start_time
             self.start_time = start_time
 
-            return True
+            return self.y
         
         else:
 
-            return False
+            return None
         
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
