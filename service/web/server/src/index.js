@@ -33,6 +33,7 @@ import {MongoClient} from 'mongodb';
 import node_redis from 'redis';
 import graphQLHTTP from 'express-graphql';
 import {Schema} from './schema';
+import boptestRoutes from './routes/boptest-routes.js';
 import {Advancer} from './advancer';
 import historyApiFallback from 'connect-history-api-fallback';
 import morgan from 'morgan';
@@ -48,6 +49,7 @@ const advancer = new Advancer(redis, pub, sub);
 
 MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   var app = express();
+  app.set('redis', redis);
   
   if( process.env.NODE_ENV == "production" ) {
     app.get('*.js', function(req, res, next) {
@@ -88,6 +90,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   
   app.use(bodyParser.text({ type: 'text/*' }));
   app.use(bodyParser.json()); // if you are using JSON instead of ZINC you need this
+  app.use('/', boptestRoutes)
 
   // Create a post url for file uploads
   // from a browser
