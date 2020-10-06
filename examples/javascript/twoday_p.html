@@ -96,12 +96,12 @@ xhr_get_step.send(null);
 <!-- Resetting test case if needed. -->
 
 xhr_reset = new XMLHttpRequest();
-xhr_reset.open("PUT", url+"reset", false);
+xhr_reset.open("PUT", url+"initialize", false);
 xhr_reset.setRequestHeader("Content-type", "application/json");
 xhr_reset.onreadystatechange = function() {
         if (xhr_reset.readyState == 4) {
             if (xhr_reset.status != 200 && xhr_reset.status != 201) {
-                console.log( "ERR in reset" );				
+                console.log( "ERR in initialize" );				
             } 
             else {
                 console.log( "SUCCESS in reset" );
@@ -110,7 +110,8 @@ xhr_reset.onreadystatechange = function() {
             }
         }
     };
-xhr_reset.send();
+   var reset_string='{"start_time":0,"warmup_period":0}'	
+   xhr_reset.send(reset_string);
    
 
 
