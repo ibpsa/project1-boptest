@@ -69,8 +69,8 @@ class Initialize(Resource):
         args = parser_initialize.parse_args()
         start_time = float(args['start_time'])
         warmup_period = float(args['warmup_period'])
-        result = case.initialize(start_time,warmup_period)      
-        return result
+        y = case.initialize(start_time,warmup_period)      
+        return y
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''
