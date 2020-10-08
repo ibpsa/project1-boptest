@@ -32,10 +32,10 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 * For Julia-based example controllers:
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
-  * Once either test is done, use ``$ make remove-image Script=twoday_p`` or ``$ make remove-image Script=szvav_sup`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
+  * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
 6) Shutdown a test case container by selecting the container terminal window, ``Ctrl+C`` to close port, and ``Ctrl+D`` to exit the Docker container.
-7) Remove the test case Docker image by ``$ make remove-image TESTCASE=testcase#``.
+7) Remove the test case Docker image by ``$ make remove-image TESTCASE=<testcase_dir_name>``.
 
 ## Test Case RESTful API
 - To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
