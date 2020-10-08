@@ -18,23 +18,24 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/kpis`` contains prototype code for calculating key performance indicators.
 - ``/docs`` contains design requirements and guide documentation.
 
-## Run Prototype Test Cases
-1) Build the test case by ``$ make build TESTCASE=testcase#`` where # is the number of the test case to build from ``testcases``.
-2) Deploy the test case by ``$ make run TESTCASE=testcase#`` where # is the number of the test case that has been built from ``testcases``.
-3) In a separate process, use the test case API defined below to interact with the test case.
-4) Run an example controller test: 
+## Quick-Start to Run Test Cases
+1) Install [Docker](https://docs.docker.com/get-docker/)
+2) Build the test case by ``$ make build TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
+3) Deploy the test case by ``$ make run TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
+4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described in the next step.
+5) Run an example controller test: 
 
-* For Python based controllers:
-  * in a separate terminal, use ``$ cd examples/python/ && python twoday_p.py`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
-  * in a separate terminal, use ``$ cd examples/python/ && python szvav_sup.py`` to test a simple supervisory controller on the testcase2 over a two-day period.
+* For Python-based example controllers:
+  * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python twoday_p.py`` to test a simple proportional feedback controller on this test case over a two-day period.
+  * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/python/ && python szvav_sup.py`` to test a simple supervisory controller on this test case over a two-day period.
 
-* For Julia based controllers:
-  * in a separate terminal, use ``$ cd examples/julia && make build Script=twoday_p && make run Script=twoday_p`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
-  * in a separate terminal, use ``$ cd examples/julia && make build Script=szvav_sup && make run Script=szvav_sup`` to test a simple supervisory controller on the testcase2 over a two-day period.
-  * once the test is done, use ``$ make remove-image Script=twoday_p`` or ``$ make remove-image Script=szvav_sup`` to removes containers, networks, volumes, and images.
+* For Julia-based example controllers:
+  * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=twoday_p && make run Script=twoday_p`` to test a simple proportional feedback controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
+  * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=szvav_sup && make run Script=szvav_sup`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
+  * Once either test is done, use ``$ make remove-image Script=twoday_p`` or ``$ make remove-image Script=szvav_sup`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
-5) Shutdown test case container by slecting container terminal window and ``Ctrl+C`` to close port, ``Ctrl+D`` to exit docker container.
-6) Remove the test case image by ``$ make remove-image TESTCASE=testcase#``.
+6) Shutdown a test case container by selecting the container terminal window, ``Ctrl+C`` to close port, and ``Ctrl+D`` to exit the Docker container.
+7) Remove the test case Docker image by ``$ make remove-image TESTCASE=testcase#``.
 
 ## Test Case RESTful API
 - To interact, send RESTful requests to: ``http://127.0.0.1:5000/<request>``
