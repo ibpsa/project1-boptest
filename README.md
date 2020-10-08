@@ -38,7 +38,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 7) Remove the test case Docker image by ``$ make remove-image TESTCASE=testcase#``.
 
 ## Test Case RESTful API
-- To interact, send RESTful requests to: ``http://127.0.0.1:5000/<request>``
+- To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
 
 Example RESTful interaction:
 
