@@ -10,7 +10,7 @@ import pandas as pd
 import os
 import utilities
 import requests
-from examples.python import szvav_sup
+from examples.python import testcase2
 
 class ExampleSupervisoryPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of a supervisory controller in Python.

@@ -9,7 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
-from examples.python import twozones_p
+from examples.python import testcase3
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller with 

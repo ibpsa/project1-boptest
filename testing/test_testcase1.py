@@ -10,7 +10,7 @@ import pandas as pd
 import os
 import utilities
 import requests
-from examples.python import twoday_p
+from examples.python import testcase1
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller in Python.
