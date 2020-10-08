@@ -31,7 +31,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         
         # Run test
         custom_kpi_config_path = os.path.join(utilities.get_root_path(), 'examples', 'python', 'custom_kpi', 'custom_kpis_example.config')
-        kpi,res,customizedkpis_result = twoday_p.run(customized_kpi_config=custom_kpi_config_path)
+        kpi,res,customizedkpis_result = testcase1.run(customized_kpi_config=custom_kpi_config_path)
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'

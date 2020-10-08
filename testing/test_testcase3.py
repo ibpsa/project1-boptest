@@ -30,7 +30,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         '''
         
         # Run test
-        kpi,res = twozones_p.run()
+        kpi,res = testcase3.run()
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
