@@ -9,7 +9,7 @@ import unittest
 import pandas as pd
 import os
 import utilities
-from examples.python import twozones_p
+from examples.python import testcase3
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller with 
@@ -30,7 +30,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         '''
         
         # Run test
-        kpi,res = twozones_p.run()
+        kpi,res = testcase3.run()
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
