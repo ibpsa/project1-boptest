@@ -34,7 +34,8 @@ model RealOccupancy
     insulationRoof(k=0.04),
     insulationFloor(k=0.04),
     weaDat(filNam=ModelicaServices.ExternalReferences.loadResource(
-          "modelica://OU44Emulator/Resources/Climate/DNK_Copenhagen.061800_IWEC.mos")));
+          "modelica://OU44Emulator/Resources/Climate/DNK_Copenhagen.061800_IWEC.mos")),
+    metHeat(k=120/AFlo));
   Modelica.Blocks.Sources.CombiTimeTable occupancy(
     tableOnFile=true,
     tableName="occ",
@@ -217,7 +218,7 @@ equation
           lineColor={28,108,200},
           textStyle={TextStyle.Bold},
           fontSize=12,
-          textString="Infltration"),
+          textString="Infiltration"),
         Text(
           extent={{-28,102},{32,98}},
           lineColor={28,108,200},
