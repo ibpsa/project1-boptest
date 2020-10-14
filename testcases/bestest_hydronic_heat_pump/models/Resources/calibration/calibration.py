@@ -3,10 +3,10 @@
 
 Data is loaded from a performance file obtained from a manufacturer.
 Once heat pump parameters are identified, the
-results are verified by running the model in Dymola. A modelica record 
+results are verified by running the model in Dymola. A modelica record
 of the heat pump parameters is generated.
 
-The process followed is documented in: 
+The process followed is documented in:
 Buildings/Resources/src/fluid/heatpumps/calibration/doc/build/html/index.html
 
 
@@ -19,14 +19,14 @@ import sys
 import datetime
 
 def main():
-    # Add calibration directory to system path    
+    # Add calibration directory to system path
     for key in os.environ['MODELICAPATH'].split(os.pathsep):
         if os.path.exists(os.path.join(key,'Buildings')):
             buildings_path = key
             print(key)
     sys.path.append(os.path.join(buildings_path,'Buildings','Resources',
                                  'src','fluid','heatpumps','calibration'))
-    
+
     # Import Heat pump and calibration module
     import PythonModel as hp
     # Change working directory to current directory
@@ -63,7 +63,7 @@ def main():
     # Data points used in calibration
     # calData = data.calibration_data_16_points()
     calData = data # Use whole data set for calibration...
-    
+
     # Initialize the heat pump model
     Q_nominal = 14.46e3
     COP_nominal = 4.09
@@ -93,8 +93,8 @@ def main():
     # Lauch the calibration of the heat pump model.
     optPar, optRes, _ = hp.calibrate.calibrate_model(heaPum, calData,
                                                      data, plot=True)
-    
-    
+
+
     # Write the results into a record for use in Modelica
     write_record_scroll(author, manufacturer, model, CoolingMode,
                         'R410A', Q_nominal, COP_nominal,
@@ -131,7 +131,7 @@ def write_record_scroll(author, manufacturer, model, CoolingMode,
     if Q_nominal < 10.0e3:
         Q_str = (str(int(Q_nominal/1.0e3)) +
                  '_' +
-                 str(int(round(10.*(Q_nominal-np.floor(Q_nominal))/1.0e3))))
+                 str(int(round(10*(Q_nominal-np.floor(Q_nominal))/1.0e3))))
     else:
         Q_str = str(int(Q_nominal/1.0e3))
 
@@ -141,7 +141,7 @@ def write_record_scroll(author, manufacturer, model, CoolingMode,
                      model,
                      Q_str + 'kW',
                      str(int(COP_nominal)),
-                     str(int(round(100.*(COP_nominal
+                     str(int(round(100*(COP_nominal
                                          -np.floor(COP_nominal))))) + 'COP',
                      refrigerant])
     path = name + '.mo'
