@@ -120,12 +120,32 @@ def get_config():
         if self.externalClock:
             self.redis_pubsub.subscribe(self.site_ref)
 
+        # stepsize
         redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
         if redis_step_size:
             self.tc.set_step(redis_step_size)
         else:
             stepsize = self.tc.get_step();
             self.redis.hset(self.site_ref, 'stepsize', stepsize)
+
+        # forecast
+        forecast = self.tc.get_forecast_parameters()
+
+        # forecast_horizon
+        redis_horizon = self.redis.hget(self.site_ref, 'forecast:horizon')
+        if redis_horizon:
+            forecast['horizon'] = redis_horizon
+        else:
+            self.redis.hset(self.site_ref, 'forecast:horizon', forecast['horizon'])
+
+        # forecast_interval
+        redis_interval = self.redis.hget(self.site_ref, 'forecast:interval')
+        if redis_interval:
+            forecast['interval'] = redis_interval
+        else:
+            self.redis.hset(self.site_ref, 'forecast:interval', forecast['interval'])
+
+        self.tc.set_forecast_parameters(forecast)
 
     def create_tag_dictionaries(self, tag_filepath):
         '''
@@ -308,6 +328,17 @@ def get_config():
         current_step_size = self.tc.get_step()
         if current_step_size != redis_step_size:
             self.tc.set_step(redis_step_size)
+
+        # look for a change in forecast
+        forecast_params = self.tc.get_forecast_parameters()
+        redis_horizon = self.redis.hget(self.site_ref, 'forecast:horizon')
+        if forecast_params['horizon'] != redis_horizon:
+            forecast_params['horizon'] = redis_horizon
+        redis_interval = self.redis.hget(self.site_ref, 'forecast:interval')
+        if forecast_params['interval'] != redis_interval:
+            forecast_params['interval'] = redis_interval
+
+        self.tc.set_forecast_parameters(forecast_params)
 
         # u represents simulation input values
         u = self.default_input.copy()
