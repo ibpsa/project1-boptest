@@ -254,10 +254,52 @@ boptestRoutes.get('/results/:id', async (req, res, next) => {
   }
 });
 
-// results are valid before simulation is complete. just return from start to current time (not counting warmup)
-// kpis are the same as results ie valid until current time
-// some controllers *might* use results in realtime
-// need to add forecast_parameters get / set
+boptestRoutes.get('/forecast_parameters/:id', async (req, res, next) => {
+  try {
+    const redis = req.app.get('redis');
+    redis.hmget(req.params.id, 'forecast:horizon', 'forecast:interval' (err, redisres) => {
+      if (err) {
+        next(err);
+      } else {
+        res.send(redisres);
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+boptestRoutes.put('/forecast_parameters/:id', async (req, res, next) => {
+  try {
+    const redis = req.app.get('redis');
+    const horizon = req.body['horizon'];
+    const interval = req.body['interval'];
+    redis.hmset(req.params.id, 'horizon', horizon, 'interval', interval, (err) => {
+      if (err) {
+        next(err);
+      } else {
+        res.end();
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
+boptestRoutes.get('/forecast/:id', async (req, res, next) => {
+  try {
+    const redis = req.app.get('redis');
+    redis.hget(req.params.id, 'forecast', (err, redisres) => {
+      if (err) {
+        next(err);
+      } else {
+        res.send(redisres);
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+});
 
 export default boptestRoutes;
 
