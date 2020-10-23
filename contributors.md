@@ -10,6 +10,6 @@ Thank you to all who have provided guidance on the development of this software.
 - Sen Huang, Pacific Northwest National Laboratory
 - Filip Jorissen, KU Leuven
 - Yanfei Li, National Renewable Energy Laboratory
+- Nicholas Long, National Renewable Energy Laboratory
 - Draguna Vrabie, Pacific Northwest National Laboratory
 - Michael Wetter, Lawrence Berkeley National Laboratory
-
