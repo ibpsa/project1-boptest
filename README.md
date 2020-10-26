@@ -19,13 +19,14 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/docs`` contains design requirements and guide documentation.
 
 ## Quick-Start to Run Test Cases
-1) Install [Docker](https://docs.docker.com/get-docker/)
+1) Install [Docker](https://docs.docker.com/get-docker/).
 2) Build the test case by ``$ make build TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
 3) Deploy the test case by ``$ make run TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
 4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described in the next step.
 5) Run an example test controller: 
 
 * For Python-based example controllers:
+  * Add the root directory of the BOPTEST repository to the PYTHONPATH environment variable.
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1.py`` to test a simple proportional feedback controller on this test case over a two-day period.
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase2.py`` to test a simple supervisory controller on this test case over a two-day period.
 
