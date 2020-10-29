@@ -510,10 +510,7 @@ class partialTestAPI(partialChecks):
         '''
 
         price_scenario = requests.get('{0}/price_scenario'.format(self.url)).json()
-        df = pd.DataFrame(data=[price_scenario], index=['price_scenario'], columns=['value'])
-        df.index.name = 'keys'
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_price_scenario.csv')
-        self.compare_ref_values_df(df, ref_filepath)
+        self.assertEqual(price_scenario, 'constant')
         
     def test_set_price_scenario(self):
         '''Test setting the price scenario of test.
