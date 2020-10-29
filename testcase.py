@@ -368,9 +368,15 @@ class TestCase(object):
         
         '''
         
+        # Set correct price scenario for cost
+        if self.price_scenario == 'constant':
+            price_scenario = 'Constant'
+        elif self.price_scenario == 'dynamic':
+            price_scenario = 'Dynamic'
+        elif self.price_scenario == 'highly_dynamic':
+            price_scenario = 'HighlyDynamic'
         # Calculate the core kpis 
-
-        kpis = self.cal.get_core_kpis()
+        kpis = self.cal.get_core_kpis(price_scenario=price_scenario)
 
         return kpis
 
@@ -406,11 +412,11 @@ class TestCase(object):
 
     def get_forecast(self):
         '''Returns the test case data forecast
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         forecast : dict 
@@ -419,15 +425,40 @@ class TestCase(object):
             where <variable_name> is a string with the variable
             key and <variable_forecast_trajectory> is a list with
             the forecasted values. 'time' is included as a variable
-        
+
         '''
-        
+
         # Get the forecast
         forecast = self.forecaster.get_forecast(horizon=self.horizon,
                                                 interval=self.interval)
-        
+
         return forecast
-        
+
+    def set_price_scenario(self, price_scenario):
+        '''Sets the electricity price scenario.
+
+        Parameters
+        ----------
+        price_scenario : str
+            'constant' or 'dynamic' or 'highly_dynamic'
+
+        Returns
+        -------
+        None
+
+        '''
+
+        self.price_scenario = price_scenario
+
+        return None
+
+    def get_price_scenario(self):
+        '''Returns the current electricity price scenario.'''
+
+        price_scenario = self.price_scenario
+
+        return price_scenario
+
     def get_name(self):
         '''Returns the name of the test case fmu.
         
