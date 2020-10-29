@@ -54,6 +54,8 @@ class TestCase(object):
         self.set_step(con['step'])
         # Set default forecast parameters
         self.set_forecast_parameters(con['horizon'], con['interval'])
+        # Set default price scenario
+        self.set_price_scenario(con['price_scenario'])
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6 

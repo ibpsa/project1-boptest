@@ -16,6 +16,7 @@ def get_config():
     'step'     : int, default control step size in seconds
     'horizon'  : int, default forecast horizon in seconds
     'interval' : int, default forecast interval in seconds
+    'price_scenario' : string, default price_scenario
     }
     
     '''
@@ -25,7 +26,8 @@ def get_config():
     'fmupath'  : 'models/wrapped.fmu',
     'step'     : 60,
     'horizon'  : 86400,
-    'interval' : 3600
+    'interval' : 3600,
+    'price_scenario' : 'constant'
     }
     
     return config
