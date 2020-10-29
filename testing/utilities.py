@@ -503,3 +503,26 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        
+    def test_get_price_scenario(self):
+        '''Test getting the price scenario of test.
+        
+        '''
+
+        price_scenario = requests.get('{0}/price_scenario'.format(self.url)).json()
+        df = pd.DataFrame(data=[price_scenario], index=['price_scenario'], columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_price_scenario.csv')
+        self.compare_ref_values_df(df, ref_filepath)
+        
+    def test_set_price_scenario(self):
+        '''Test setting the price scenario of test.
+        
+        '''
+
+        price_scenario_current = requests.get('{0}/price_scenario'.format(self.url)).json()
+        price_scenario = 'highly_dynamic'
+        requests.put('{0}/price_scenario'.format(self.url), data={'price_scenario':price_scenario})
+        price_scenario_set = requests.get('{0}/price_scenario'.format(self.url)).json()
+        self.assertEqual(price_scenario, price_scenario_set)
+        requests.put('{0}/price_scenario'.format(self.url), data={'price_scenario':price_scenario_current})

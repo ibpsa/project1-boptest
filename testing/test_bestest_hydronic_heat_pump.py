@@ -66,12 +66,15 @@ class Run(unittest.TestCase, utilities.partialChecks):
             # Advance simulation
             y = requests.post('{0}/advance'.format(self.url), data={}).json()
         # Report KPIs
-        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
-        # Check kpis
-        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
-        df.index.name = 'keys'
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'kpis_{0}.csv'.format(season))
-        self.compare_ref_values_df(df, ref_filepath)
+        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+            requests.put('{0}/price_scenario'.format(self.url), data={'price_scenario':price_scenario})
+            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+            # Check kpis
+            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
+            self.compare_ref_values_df(df, ref_filepath)
+        requests.put('{0}/price_scenario'.format(self.url), data={'price_scenario':'constant'})
         # Report results
         res_results = requests.get('{0}/results'.format(self.url)).json()
         # Check results
