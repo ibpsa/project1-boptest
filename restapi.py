@@ -46,8 +46,8 @@ forecast_parameters = ['horizon','interval']
 for arg in forecast_parameters:
     parser_forecast_parameters.add_argument(arg)
 # ``price_scenario`` interface
-parser_price_scenario = reqparse.RequestParser()
-parser_price_scenario.add_argument('price_scenario')
+parser_scenario = reqparse.RequestParser()
+parser_scenario.add_argument('electricity_price')
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -145,20 +145,20 @@ class Forecast(Resource):
         forecast = case.get_forecast()
         return forecast
 
-class PriceScenario(Resource):
-    '''Interface to test case price scenario.'''
+class Scenario(Resource):
+    '''Interface to test case scenario.'''
     
     def get(self):
-        '''GET request to receive current price scenario.'''
-        price_scenario = case.get_price_scenario()
-        return price_scenario
+        '''GET request to receive current scenario.'''
+        scenario = case.get_scenario()
+        return scenario
 
     def put(self):
-        '''PUT request to set price scenario.'''
-        args = parser_price_scenario.parse_args()
-        price_scenario = args['price_scenario']
-        case.set_price_scenario(price_scenario)
-        return price_scenario, 201
+        '''PUT request to set scenario.'''
+        scenario = parser_scenario.parse_args()
+        case.set_scenario(scenario)
+        scenario = case.get_scenario()
+        return scenario
 
 class Name(Resource):
     '''Interface to test case name.'''
@@ -180,7 +180,7 @@ api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
 api.add_resource(Forecast_Parameters, '/forecast_parameters')
 api.add_resource(Forecast, '/forecast')
-api.add_resource(PriceScenario, '/price_scenario')
+api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')
 # --------------------------------------
 

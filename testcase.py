@@ -55,7 +55,7 @@ class TestCase(object):
         # Set default forecast parameters
         self.set_forecast_parameters(con['horizon'], con['interval'])
         # Set default price scenario
-        self.set_price_scenario(con['price_scenario'])
+        self.set_scenario(con['scenario'])
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6 
@@ -371,11 +371,11 @@ class TestCase(object):
         '''
         
         # Set correct price scenario for cost
-        if self.price_scenario == 'constant':
+        if self.scenario['electricity_price'] == 'constant':
             price_scenario = 'Constant'
-        elif self.price_scenario == 'dynamic':
+        elif self.scenario['electricity_price'] == 'dynamic':
             price_scenario = 'Dynamic'
-        elif self.price_scenario == 'highly_dynamic':
+        elif self.scenario['electricity_price'] == 'highly_dynamic':
             price_scenario = 'HighlyDynamic'
         # Calculate the core kpis 
         kpis = self.cal.get_core_kpis(price_scenario=price_scenario)
@@ -436,13 +436,13 @@ class TestCase(object):
 
         return forecast
 
-    def set_price_scenario(self, price_scenario):
-        '''Sets the electricity price scenario.
+    def set_scenario(self, scenario):
+        '''Sets the case scenario.
 
         Parameters
         ----------
-        price_scenario : str
-            'constant' or 'dynamic' or 'highly_dynamic'
+        scenario : dict
+            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>}
 
         Returns
         -------
@@ -450,16 +450,16 @@ class TestCase(object):
 
         '''
 
-        self.price_scenario = price_scenario
+        self.scenario = scenario
 
         return None
 
-    def get_price_scenario(self):
-        '''Returns the current electricity price scenario.'''
+    def get_scenario(self):
+        '''Returns the current case scenario.'''
 
-        price_scenario = self.price_scenario
+        scenario = self.scenario
 
-        return price_scenario
+        return scenario
 
     def get_name(self):
         '''Returns the name of the test case fmu.
