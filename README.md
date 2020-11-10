@@ -60,7 +60,9 @@ Example RESTful interaction:
 | Receive test case name                                                |  GET ``name``                                             |
 | Receive boundary condition forecast from current communication step   |  GET ``forecast``                                         |
 | Receive boundary condition forecast parameters in seconds             |  GET ``forecast_parameters``                              |
-| Set boundary condition forecast parameters in seconds  		        |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Set boundary condition forecast parameters in seconds                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Receive current test scenario                                         |  GET ``scenario``                                   |
+| Set test scenario  		                                             |  PUT ``scenario`` with arguments ``electricity_price=<'constant' or 'dynamic' or 'highly_dynamic'>``|
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
