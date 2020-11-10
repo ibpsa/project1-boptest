@@ -290,6 +290,9 @@ model Case600FF
         Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
     "Conversion from mass fraction CO2 to volume fraction CO2"
     annotation (Placement(transformation(extent={{70,-40},{90,-20}})));
+  IBPSA.Utilities.IO.SignalExchange.WeatherStation weaSta
+    "BOPTEST weather station"
+    annotation (Placement(transformation(extent={{60,-80},{40,-60}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
@@ -419,6 +422,11 @@ equation
     annotation (Line(points={{18,-49},{18,-30},{69,-30}}, color={0,0,127}));
   connect(conMasVolFra.V, gaiPPM.u)
     annotation (Line(points={{91,-30},{98,-30}}, color={0,0,127}));
+  connect(weaSta.weaBus, roo.weaBus) annotation (Line(
+      points={{59.9,-70.1},{80,-70},{80.07,-70},{80.07,-1.575},{64.425,-1.575}},
+
+      color={255,204,51},
+      thickness=0.5));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
