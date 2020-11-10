@@ -114,7 +114,7 @@ model Case600FF
     annotation (Placement(transformation(extent={{-18,64},{-10,72}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos"),
-      computeWetBulbTemperature=false)
+      computeWetBulbTemperature=true)
     annotation (Placement(transformation(extent={{98,-94},{86,-82}})));
   Modelica.Blocks.Sources.Constant uSha(k=0)
     "Control signal for the shading device"
@@ -424,9 +424,9 @@ equation
     annotation (Line(points={{91,-30},{98,-30}}, color={0,0,127}));
   connect(weaSta.weaBus, roo.weaBus) annotation (Line(
       points={{59.9,-70.1},{80,-70},{80.07,-70},{80.07,-1.575},{64.425,-1.575}},
-
       color={255,204,51},
       thickness=0.5));
+
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
