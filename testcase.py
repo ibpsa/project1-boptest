@@ -84,14 +84,14 @@ class TestCase(object):
         '''
     
         # Outputs data
-        self.y = {'time':[]}
+        self.y = {'time':np.array([])}
         for key in self.output_names:
-            self.y[key] = []
+            self.y[key] = np.array([])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':[]}
+        self.u = {'time':np.array([])}
         for key in self.input_names:
-            self.u[key] = []        
+            self.u[key] = np.array([])       
         self.u_store = copy.deepcopy(self.u)
                 
     def __simulation(self,start_time,end_time,input_object=None):
@@ -152,12 +152,12 @@ class TestCase(object):
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
+                self.y_store[key] = np.append(self.y_store[key], res[key][1:])
         
         # Store control inputs
         if store:
             for key in self.u.keys():
-                self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+                self.u_store[key] = np.append(self.u_store[key], res[key][1:]) 
 
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -349,7 +349,13 @@ class TestCase(object):
         
         '''
         
-        Y = {'y':self.y_store, 'u':self.u_store}
+        y_send = {}
+        u_send = {}
+        for key in self.y_store.keys():
+            y_send[key] = self.y_store[key].tolist()
+        for key in self.u_store.keys():
+            u_send[key] = self.u_store[key].tolist()
+        Y = {'y':y_send, 'u':u_send}
         
         return Y
         
