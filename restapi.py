@@ -48,6 +48,9 @@ for arg in forecast_parameters:
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
 parser_scenario.add_argument('electricity_price')
+# ``results`` interface
+results_var = reqparse.RequestParser()
+results_var.add_argument('var')
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -107,9 +110,11 @@ class Measurements(Resource):
 class Results(Resource):
     '''Interface to test case result data.'''
     
-    def get(self):
-        '''GET request to receive measurement data.'''
-        Y = case.get_results()
+    def post(self):
+        '''POST request to receive measurement data.'''
+        args = results_var.parse_args()
+        var  = args['var']
+        Y = case.get_results(var)
         return Y
         
 class KPI(Resource):
