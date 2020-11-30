@@ -114,12 +114,11 @@ class Results(Resource):
         u_lists = {}
         # np array to list
         for key in Y['y']:
-            y_lists[key] = Y['y'].tolist()
+            y_lists[key] = Y['y'][key].tolist()
         for key in Y['u']:
-            u_lists[key] = Y['u'].tolist()
-        Y = {'y':y_lists, 'u':u_lists
-             }
-        return Y
+            u_lists[key] = Y['u'][key].tolist()
+        Y_lists = {'y':y_lists, 'u':u_lists}
+        return Y_lists
         
 class KPI(Resource):
     '''Interface to test case KPIs.'''
