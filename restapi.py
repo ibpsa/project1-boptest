@@ -110,6 +110,15 @@ class Results(Resource):
     def get(self):
         '''GET request to receive measurement data.'''
         Y = case.get_results()
+        y_lists = {}
+        u_lists = {}
+        # np array to list
+        for key in Y['y']:
+            y_lists[key] = Y['y'].tolist()
+        for key in Y['u']:
+            u_lists[key] = Y['u'].tolist()
+        Y = {'y':y_lists, 'u':u_lists
+             }
         return Y
         
 class KPI(Resource):

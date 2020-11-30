@@ -349,13 +349,7 @@ class TestCase(object):
         
         '''
         
-        y_send = {}
-        u_send = {}
-        for key in self.y_store.keys():
-            y_send[key] = self.y_store[key].tolist()
-        for key in self.u_store.keys():
-            u_send[key] = self.u_store[key].tolist()
-        Y = {'y':y_send, 'u':u_send}
+        Y = {'y':self.y_store, 'u':self.u_store}
         
         return Y
         
