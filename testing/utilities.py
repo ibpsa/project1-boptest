@@ -503,3 +503,23 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        
+    def test_get_scenario(self):
+        '''Test getting the scenario of test.
+        
+        '''
+
+        scenario = requests.get('{0}/scenario'.format(self.url)).json()
+        self.assertEqual(scenario['electricity_price'], 'constant')
+        
+    def test_set_scenario(self):
+        '''Test setting the scenario of test.
+        
+        '''
+
+        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
+        scenario = {'electricity_price':'highly_dynamic'}
+        requests.put('{0}/scenario'.format(self.url), data=scenario)
+        scenario_set = requests.get('{0}/scenario'.format(self.url)).json()
+        self.assertEqual(scenario, scenario_set)
+        requests.put('{0}/scenario'.format(self.url), data=scenario_current)

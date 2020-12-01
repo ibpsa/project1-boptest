@@ -2,10 +2,12 @@
 *.txt
 !worker/requirements/*.txt
 *.mat
-dymosim
-dsmodel.c
 *.log
 *.err
+.python-version
+.idea
+dymosim
+dsmodel.c
 examples/julia/*.csv
 testcase2/doc/build/
 parser/*.fmu
