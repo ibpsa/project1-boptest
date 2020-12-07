@@ -2,9 +2,9 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which must already be running.  A controller is tested, which is 
+which must already be running.  A controller is tested, which is
 imported from a different module.
-  
+
 """
 
 # GENERAL PACKAGE IMPORT
@@ -21,7 +21,7 @@ from controllers import pidTwoZones
 
 def run(plot=False):
     '''Run test case.
-    
+
     Parameters
     ----------
     plot : bool, optional
@@ -41,7 +41,7 @@ def run(plot=False):
     customizedkpis_result: dict
         Dictionary of tracked custom KPI calculations.
         Empty if no customized KPI calculations defined.
-    
+
     '''
 
     # SETUP TEST CASE
@@ -52,7 +52,7 @@ def run(plot=False):
     length = 48*3600
     step = 300
     # ---------------
-    
+
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -69,7 +69,7 @@ def run(plot=False):
     step_def = requests.get('{0}/step'.format(url)).json()
     print('Default Simulation Step:\t{0}'.format(step_def))
     # --------------------
-    
+
     # RUN TEST CASE
     # -------------
     # Initialize test case
@@ -102,13 +102,13 @@ def run(plot=False):
         setpoints.loc[(i+1)*step, setpoints.columns] = \
             [LowerSetpNor, UpperSetpNor, LowerSetpSou, UpperSetpSou]
         # Compute next control signal
-        u = pidTwoZones.compute_control(y, 
+        u = pidTwoZones.compute_control(y,
                                         LowerSetpNor, UpperSetpNor,
                                         LowerSetpSou, UpperSetpSou)
-        
+
     print('\nTest case complete.')
     # -------------
-        
+
     # VIEW RESULTS
     # ------------
     # Report KPIs
@@ -128,8 +128,8 @@ def run(plot=False):
         elif key == 'time_rat':
             unit = ''
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
-    # ------------ 
-        
+    # ------------
+
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
@@ -162,8 +162,8 @@ def run(plot=False):
         plt.legend()
         plt.show()
     # --------------------
-            
-    return kpi,res 
+
+    return kpi,res
 
 if __name__ == "__main__":
     kpi,res = run(plot=False)

@@ -1,6 +1,6 @@
 def get_config():
     '''Returns the configuration structure for the test case.
-    
+
     Returns
     -------
     config : dict()
@@ -12,9 +12,9 @@ def get_config():
     'interval' : int, default forecast interval in seconds
     'price_scenario' : string, default price_scenario
     }
-    
+
     '''
-        
+
     config = {
     # Enter configuration information
     'fmupath'  : 'models/wrapped.fmu',
@@ -23,6 +23,6 @@ def get_config():
     'interval' : 3600,
     'scenario' : {'electricity_price':'constant'}
     }
-    
+
     return config
 

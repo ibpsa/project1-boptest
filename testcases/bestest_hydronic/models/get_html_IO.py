@@ -10,7 +10,7 @@ To run:
 Outputs:
 "inputs.txt": html code documenting the inputs
 "measurements.txt": html code documenting the outputs
-  
+
 """
 
 # GENERAL PACKAGE IMPORT
@@ -21,15 +21,15 @@ import requests
 
 def run():
     '''Run the script.
-    
+
     Parameters
     ----------
     None
-        
+
     Returns
     -------
     None
-    
+
     '''
 
     # SETUP TEST CASE
@@ -37,7 +37,7 @@ def run():
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
     # ---------------
-    
+
     # GET TEST INFORMATION
     # --------------------
     # Inputs available

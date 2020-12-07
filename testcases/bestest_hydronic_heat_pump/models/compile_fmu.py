@@ -18,25 +18,25 @@ environ['JVM_ARGS'] = '-Xmx4096m'
 
 def compile_fmu():
     '''Compile the fmu.
-    
+
     Returns
     -------
     fmupath : str
         Path to compiled fmu.
-    
+
     '''
-    
+
     # DEFINE MODEL
     # ------------
     mopath      = 'BESTESTHydronicHeatPump'
     modelpath   = 'BESTESTHydronicHeatPump.TestCase'
     # ------------
-    
+
     # COMPILE FMU
     # -----------
     fmupath = parser.export_fmu(modelpath, [mopath])
     # -----------
-    
+
     return fmupath
 
 if __name__ == "__main__":

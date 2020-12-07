@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This module helps user to understand how to define KPI classes
-  
+
 """
 import numpy as np
 
@@ -18,8 +18,8 @@ class MovingAve(object):
     # keep a moving window
         else:
            data_buff.append(sum(data))
-           if len(data_buff)>=self.data_point_num:        
-                 data_buff.pop(0) 
+           if len(data_buff)>=self.data_point_num:
+                 data_buff.pop(0)
         return data_buff
 
     def calculation(self,data_buff):
@@ -37,4 +37,4 @@ class Deviation(object):
 
     def calculation(self,data_buff):
         temp=np.array(data_buff)-np.array(([self.setpoint]*len(data_buff)))
-        return sum(temp)/len(temp) 
+        return sum(temp)/len(temp)
