@@ -175,8 +175,8 @@ def write_wrapper(model_path, file_name, instances):
                         f.write(',\n')
             else:
                 f.write(') "Original model without overwrites";\n')
-            # End file
-            f.write('end wrapped;')
+            # End file -- with hard line ending
+            f.write('end wrapped;\n')
         # Export as fmu
         fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name)
     # If there are not, write and export wrapper model

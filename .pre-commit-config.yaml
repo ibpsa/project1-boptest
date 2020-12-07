@@ -1,9 +1,10 @@
-exclude: |
-  (?x)(
-    ^testcases/testcase1/models/wrapped.mo|
-    ^testcases/testcase2/models/wrapped.mo|
-    ^testcases/testcase3/models/wrapped.mo
-  )
+#exclude: |
+#  (?x)(
+#    ^testcases/testcase1/models/wrapped.mo|
+#    ^testcases/testcase2/models/wrapped.mo|
+#    ^testcases/testcase3/models/wrapped.mo|
+#    ^testing/references/parser/wrapped.mo
+#  )
 
 repos:
   - repo: git://github.com/pre-commit/pre-commit-hooks

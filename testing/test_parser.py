@@ -60,11 +60,13 @@ def _compare_kpis_json(fmu_path, ref_kpi_json_path):
     with zipfile.ZipFile(fmu_path, 'r') as z_fmu:
         with z_fmu.open('resources/kpis.json') as f_test:
             with open(ref_kpi_json_path, 'rU') as f_ref:
-                line_test = f_test.readline()
+                # NL 12/7/20 - rstrip off carriage returns as they do not impact kpi json structure
+                line_test = f_test.readline().rstrip()
                 i = 1
                 while line_test:
-                    line_ref = f_ref.readline()
+                    line_ref = f_ref.readline().rstrip()
                     if line_test != line_ref:
+                        print("Lines do not match. {} != {}".format(line_ref, line_test))
                         passed = False
                         return passed
                     else:
