@@ -145,4 +145,3 @@ df['UpperCO2[1]'] = 894.
 
 # Store in csv
 gen.store_df(df,'dataFromModel')
-

@@ -880,4 +880,3 @@ if __name__ == "__main__":
     cal = KPI_Calculator(testcase=None)
     ene_tree = cal.get_dict_tree(ene_dict)
     cal.plot_nested_pie(ene_tree)
-

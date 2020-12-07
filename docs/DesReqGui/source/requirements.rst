@@ -18,4 +18,3 @@ The following requirements are necessary to achieve the goal outlined in :ref:`S
 6. Flexibility in synchronizing simulation and controller times to meet different application requirements. In Option 1, the simulation is advanced to the next time step according to real time, representing a realistic building-controller interaction.  In Option 2, the simulation is advanced to the next time step when the controller returns with an updated control action, which is easier for controller development and allows for reproducible tests.
 
 7. All software is open source and documented to allow for inspection of the models, their underlying assumptions and the computing platform.
-

@@ -22,4 +22,3 @@ One example of Python file that contains classes that define the detailed proced
 Additional case-dependent information can be defined under the ``optional`` key.
 
 2) Deploy the KPI calculation by setting the ``customized_kpi`` argument equal to the path of the configuration file (for example ``custom_kpi/custom_kpis.config``) when running a controller script (for example ``szvav_sup.py`` and ``twoday_p.py``).
-

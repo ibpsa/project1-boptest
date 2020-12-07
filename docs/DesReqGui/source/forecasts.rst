@@ -15,4 +15,3 @@ The controller developer can choose the prediction horizon and interval of
 the forecast from the actual simulation time. The controller developer may
 also filter the forecast for a specific data category or request all data
 variables and filter it afterwards.
-

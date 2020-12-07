@@ -463,29 +463,3 @@ primary elements of the testing scheme:
 3. Testing that the test case is exercised and appropriately interacted with by the BOPTEST API and run-time platform.
 
 4. Testing that API and simulation errors are handled appropriately.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

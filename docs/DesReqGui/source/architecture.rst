@@ -189,11 +189,3 @@ of the local area network. In order to meet these requirements a Docker based
 workflow will be adopted, with each component contained without its own
 container. This workflow is described in more detail in the Alfalfa README
 doc. https://github.com/NREL/alfalfa/blob/master/README.md
-
-
-
-
-
-
-
-

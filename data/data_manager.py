@@ -427,4 +427,3 @@ if __name__ == "__main__":
     case=TestCase()
     man = Data_Manager(case)
     data=man.get_data()
-

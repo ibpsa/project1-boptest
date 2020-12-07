@@ -245,4 +245,3 @@ test_all:
 	make remove_jm_image
 # Report test results
 	python report.py
-

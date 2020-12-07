@@ -511,4 +511,3 @@ if __name__ == "__main__":
         'testcase2','models','Resources')
     gen = Data_Generator(resources_dir)
     gen.generate_data()
-

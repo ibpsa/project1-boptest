@@ -1,8 +1,9 @@
-#exclude: |
-#  (?x)(
-#    ^examples/julia|
-#    ^another_path/something
-#  )
+exclude: |
+  (?x)(
+    ^testcases/testcase1/models/wrapped.mo|
+    ^testcases/testcase2/models/wrapped.mo|
+    ^testcases/testcase3/models/wrapped.mo
+  )
 
 repos:
   - repo: git://github.com/pre-commit/pre-commit-hooks
@@ -12,17 +13,21 @@ repos:
       - id: check-added-large-files
         args: ['--maxkb=50000']
       - id: mixed-line-ending
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
 #      - id: check-ast
 #      - id: check-json
-#      - id: check-merge-conflict
 #      - id: check-xml
 #      - id: check-yaml
 #      - id: debug-statements
-#      - id: end-of-file-fixer
 #      - id: flake8
 #        args: ['--max-line-length=140']  # default of Black
 #      - id: pretty-format-json
 #        args: ['--autofix', '--no-sort-keys']
+#  - repo: https://github.com/pre-commit/mirrors-autopep8
+#      rev: ''
+#      hooks:
+#        - id: autopep8
 #  - repo: https://github.com/pre-commit/mirrors-isort
 #    rev: v4.3.4
 #    hooks:

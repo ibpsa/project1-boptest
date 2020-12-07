@@ -584,4 +584,3 @@ class TestCase(object):
             checked_value = value
 
         return checked_value
-
