@@ -60,9 +60,16 @@ class KPI_Calculator(object):
                         'SolarThermalPower', 
                         'FreshWaterFlowRate']
     
-    def get_core_kpis(self):
+    def get_core_kpis(self, price_scenario='Constant'):
         '''Return the core KPIs of a test case.
         
+        Parameters
+        ----------
+        price_scenario : str, optional
+            Price scenario for cost kpi calculation.  
+            'Constant' or 'Dynamic' or 'HighlyDynamic'.
+            Default is 'Constant'.
+            
         Returns 
         -------
         ckpi = dict
@@ -76,7 +83,7 @@ class KPI_Calculator(object):
         ckpi['tdis_tot'] = self.get_thermal_discomfort()
         ckpi['idis_tot'] = self.get_iaq_discomfort()
         ckpi['ener_tot'] = self.get_energy()
-        ckpi['cost_tot'] = self.get_cost()
+        ckpi['cost_tot'] = self.get_cost(scenario=price_scenario)
         ckpi['emis_tot'] = self.get_emissions()        
         ckpi['time_rat'] = self.get_computational_time_ratio()
         

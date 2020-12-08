@@ -45,6 +45,9 @@ parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon','interval']
 for arg in forecast_parameters:
     parser_forecast_parameters.add_argument(arg)
+# ``price_scenario`` interface
+parser_scenario = reqparse.RequestParser()
+parser_scenario.add_argument('electricity_price')
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -107,7 +110,15 @@ class Results(Resource):
     def get(self):
         '''GET request to receive measurement data.'''
         Y = case.get_results()
-        return Y
+        y_lists = {}
+        u_lists = {}
+        # np array to list
+        for key in Y['y']:
+            y_lists[key] = Y['y'][key].tolist()
+        for key in Y['u']:
+            u_lists[key] = Y['u'][key].tolist()
+        Y_lists = {'y':y_lists, 'u':u_lists}
+        return Y_lists
         
 class KPI(Resource):
     '''Interface to test case KPIs.'''
@@ -141,7 +152,22 @@ class Forecast(Resource):
         '''GET request to receive forecast data.'''
         forecast = case.get_forecast()
         return forecast
-        
+
+class Scenario(Resource):
+    '''Interface to test case scenario.'''
+    
+    def get(self):
+        '''GET request to receive current scenario.'''
+        scenario = case.get_scenario()
+        return scenario
+
+    def put(self):
+        '''PUT request to set scenario.'''
+        scenario = parser_scenario.parse_args()
+        case.set_scenario(scenario)
+        scenario = case.get_scenario()
+        return scenario
+
 class Name(Resource):
     '''Interface to test case name.'''
     
@@ -162,6 +188,7 @@ api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
 api.add_resource(Forecast_Parameters, '/forecast_parameters')
 api.add_resource(Forecast, '/forecast')
+api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')
 # --------------------------------------
 

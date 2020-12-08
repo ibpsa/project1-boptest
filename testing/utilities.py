@@ -438,6 +438,8 @@ class partialTestAPI(partialChecks):
         elif self.name == 'bestest_hydronic':
             u = {'oveTSetSup_activate':0, 'oveTSetSup_u':273.15+60,
                  'ovePum_activate':0, 'ovePum_u':1}
+        elif self.name == 'bestest_hydronic_heat_pump':
+            u = {'oveTSetHea_activate':0, 'oveTSetHea_u':273.15+22}
         elif self.name == 'multizone_residential_hydronic':
             u = {'conHeaSal_oveTsetHea_activate':0, 'conHeaSal_oveTsetHea_u':273.15+22,
                  'conPumHea_oveActHea_activate':0, 'conPumHea_oveActHea_u':1}
@@ -504,3 +506,23 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        
+    def test_get_scenario(self):
+        '''Test getting the scenario of test.
+        
+        '''
+
+        scenario = requests.get('{0}/scenario'.format(self.url)).json()
+        self.assertEqual(scenario['electricity_price'], 'constant')
+        
+    def test_set_scenario(self):
+        '''Test setting the scenario of test.
+        
+        '''
+
+        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
+        scenario = {'electricity_price':'highly_dynamic'}
+        requests.put('{0}/scenario'.format(self.url), data=scenario)
+        scenario_set = requests.get('{0}/scenario'.format(self.url)).json()
+        self.assertEqual(scenario, scenario_set)
+        requests.put('{0}/scenario'.format(self.url), data=scenario_current)

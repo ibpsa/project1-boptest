@@ -54,6 +54,8 @@ class TestCase(object):
         self.set_step(con['step'])
         # Set default forecast parameters
         self.set_forecast_parameters(con['horizon'], con['interval'])
+        # Set default price scenario
+        self.set_scenario(con['scenario'])
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6 
@@ -82,14 +84,14 @@ class TestCase(object):
         '''
     
         # Outputs data
-        self.y = {'time':[]}
+        self.y = {'time':np.array([])}
         for key in self.output_names:
-            self.y[key] = []
+            self.y[key] = np.array([])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':[]}
+        self.u = {'time':np.array([])}
         for key in self.input_names:
-            self.u[key] = []        
+            self.u[key] = np.array([])       
         self.u_store = copy.deepcopy(self.u)
                 
     def __simulation(self,start_time,end_time,input_object=None):
@@ -150,12 +152,12 @@ class TestCase(object):
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
+                self.y_store[key] = np.append(self.y_store[key], res[key][1:])
         
         # Store control inputs
         if store:
             for key in self.u.keys():
-                self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+                self.u_store[key] = np.append(self.u_store[key], res[key][1:]) 
 
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -368,9 +370,15 @@ class TestCase(object):
         
         '''
         
+        # Set correct price scenario for cost
+        if self.scenario['electricity_price'] == 'constant':
+            price_scenario = 'Constant'
+        elif self.scenario['electricity_price'] == 'dynamic':
+            price_scenario = 'Dynamic'
+        elif self.scenario['electricity_price'] == 'highly_dynamic':
+            price_scenario = 'HighlyDynamic'
         # Calculate the core kpis 
-
-        kpis = self.cal.get_core_kpis()
+        kpis = self.cal.get_core_kpis(price_scenario=price_scenario)
 
         return kpis
 
@@ -406,11 +414,11 @@ class TestCase(object):
 
     def get_forecast(self):
         '''Returns the test case data forecast
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         forecast : dict 
@@ -419,15 +427,40 @@ class TestCase(object):
             where <variable_name> is a string with the variable
             key and <variable_forecast_trajectory> is a list with
             the forecasted values. 'time' is included as a variable
-        
+
         '''
-        
+
         # Get the forecast
         forecast = self.forecaster.get_forecast(horizon=self.horizon,
                                                 interval=self.interval)
-        
+
         return forecast
-        
+
+    def set_scenario(self, scenario):
+        '''Sets the case scenario.
+
+        Parameters
+        ----------
+        scenario : dict
+            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>}
+
+        Returns
+        -------
+        None
+
+        '''
+
+        self.scenario = scenario
+
+        return None
+
+    def get_scenario(self):
+        '''Returns the current case scenario.'''
+
+        scenario = self.scenario
+
+        return scenario
+
     def get_name(self):
         '''Returns the name of the test case fmu.
         

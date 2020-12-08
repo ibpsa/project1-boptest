@@ -76,13 +76,13 @@ test_testcase1:
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
+	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase1
 # Remove testcase image
-	cd ../examples/julia && make remove-image Script=twoday_p
+	cd ../examples/julia && make remove-image Script=testcase1
 
 test_testcase2:
 # Compile testcase model
@@ -94,13 +94,13 @@ test_testcase2:
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
+	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
 # Remove testcase image
-	cd ../examples/julia && make remove-image Script=szvav_sup
+	cd ../examples/julia && make remove-image Script=testcase2
 	
 test_bestest_air:
 # Compile testcase model
@@ -141,6 +141,19 @@ test_bestest_hydronic:
 	cd .. && python testing/test_bestest_hydronic.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=bestest_hydronic
+
+test_bestest_hydronic_heat_pump:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_hydronic_heat_pump
+# Build testcase image
+	cd .. &&  make build TESTCASE=bestest_hydronic_heat_pump
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=bestest_hydronic_heat_pump
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_hydronic_heat_pump.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=bestest_hydronic_heat_pump
 
 test_multizone_residential_hydronic:
 # Compile testcase model
@@ -240,6 +253,7 @@ test_all:
 	make test_testcase3
 	make test_bestest_air
 	make test_bestest_hydronic
+	make test_bestest_hydronic_heat_pump
 	make test_multizone_residential_hydronic
 # Remove jm
 	make remove_jm_image

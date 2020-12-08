@@ -87,10 +87,18 @@ class partialKpiCalculatorTest(utilities.partialChecks):
            
         '''
            
-        # Calculate operational cost
+        # Calculate operational cost default (Constant)
         self.cal.get_cost()
         # Check results
-        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost')
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_constant')
+        # Calculate operational cost dynamic
+        self.cal.get_cost(scenario='Dynamic')
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_dynamic')
+        # Calculate operational cost highly dynamic
+        self.cal.get_cost(scenario='HighlyDynamic')
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_highly_dynamic')
         
     def test_get_emissions(self):
         '''Uses the KPI calculator to calculate the emissions
