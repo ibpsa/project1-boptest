@@ -2257,10 +2257,8 @@ represent the controllable components
 through the BOPTEST interface. The dimensions are provided in metres.
 </p>
 
-<p>
-<br><img src=\"Resources/layout.png\">
-</p>
-<p>Figure 1. Simulated residential dwelling.
+<p align=\"center\">
+<img alt=\"Simulated residential dwelling\" src=\"../../Resources/layout.png\">
 </p>
 
 <p>
