@@ -1309,6 +1309,8 @@ public
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     zone="Hal")
     annotation (Placement(transformation(extent={{-110,-50},{-104,-44}})));
+  IBPSA.Utilities.IO.SignalExchange.WeatherStation weatherStation
+    annotation (Placement(transformation(extent={{-218,70},{-198,90}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -2109,6 +2111,10 @@ equation
           {-202,-9},{-196.6,-9}}, color={0,0,127}));
   connect(T_Garage.T, reaTGar.u) annotation (Line(points={{-116,-48},{-114,-48},
           {-114,-47},{-110.6,-47}}, color={0,0,127}));
+  connect(weaDat.weaBus, weatherStation.weaBus) annotation (Line(
+      points={{-276,56},{-236,56},{-236,79.9},{-217.9,79.9}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
