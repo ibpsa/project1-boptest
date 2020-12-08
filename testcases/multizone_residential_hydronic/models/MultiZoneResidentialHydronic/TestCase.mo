@@ -454,7 +454,7 @@ public
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor T_Chambre3
     "Temprature de la zone"
     annotation (Placement(transformation(extent={{60,-56},{64,-52}})));
-  Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(                           winSpe=
+  IBPSA.BoundaryConditions.WeatherData.ReaderTMY3     weaDat(                           winSpe=
         5.25,
     winSpeSou=Buildings.BoundaryConditions.Types.DataSource.Parameter,
     filNam=ModelicaServices.ExternalReferences.loadResource(
@@ -641,7 +641,7 @@ public
     annotation (Placement(transformation(extent={{-92,34},{-86,40}})));
   Buildings.HeatTransfer.Sources.PrescribedTemperature prescribedText
     annotation (Placement(transformation(extent={{-148,60},{-142,66}})));
-  Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
+  IBPSA.BoundaryConditions.WeatherData.Bus     weaBus annotation (Placement(
         transformation(extent={{-166,64},{-154,76}}), iconTransformation(extent=
            {{-236,54},{-216,74}})));
   Modelica.Thermal.HeatTransfer.Components.ThermalConductor con_Chambre1(G=
@@ -1310,7 +1310,7 @@ public
     zone="Hal")
     annotation (Placement(transformation(extent={{-110,-50},{-104,-44}})));
   IBPSA.Utilities.IO.SignalExchange.WeatherStation weatherStation
-    annotation (Placement(transformation(extent={{-218,70},{-198,90}})));
+    annotation (Placement(transformation(extent={{-220,68},{-200,88}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -2112,7 +2112,7 @@ equation
   connect(T_Garage.T, reaTGar.u) annotation (Line(points={{-116,-48},{-114,-48},
           {-114,-47},{-110.6,-47}}, color={0,0,127}));
   connect(weaDat.weaBus, weatherStation.weaBus) annotation (Line(
-      points={{-276,56},{-236,56},{-236,79.9},{-217.9,79.9}},
+      points={{-276,56},{-226,56},{-226,77.9},{-219.9,77.9}},
       color={255,204,51},
       thickness=0.5));
   annotation (Icon(coordinateSystem(                           extent={{-100,
