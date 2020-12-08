@@ -2439,31 +2439,76 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <p>The model inputs are: </p>
 <ul>
 <li>
-<code>regul_Salon_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal
 </li>
 <li>
-<code>regul_SDB_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaBoiler_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
 </li>
 <li>
-<code>conHeaRo2_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conHeaBoiler_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
 </li>
 <li>
-<code>conHeaRo1_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
 </li>
 <li>
-<code>regul_Couloir_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaBth_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
 </li>
 <li>
 <code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
 </li>
 <li>
-<code>conHeaRo3_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conHeaRo1_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
 </li>
 <li>
-<code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal
+<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>conHeaRo2_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
 </li>
 <li>
 <code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>conHeaRo3_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>conHeaSal_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>conHeaSal_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>conPumHea_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>conPumHea_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>regul_Chambre1_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+<li>
+<code>regul_Chambre1_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>regul_Chambre2_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+<li>
+<code>regul_Chambre2_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>regul_Chambre3_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+</li>
+<li>
+<code>regul_Chambre3_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+</li>
+<li>
+<code>regul_Chaudiere_Securite_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+</li>
+<li>
+<code>regul_Chaudiere_Securite_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+</li>
+<li>
+<code>regul_Couloir_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
 </li>
 <li>
 <code>regul_Couloir_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
@@ -2472,58 +2517,13 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>regul_SDB_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
 </li>
 <li>
-<code>regul_Chambre1_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
-</li>
-<li>
-<code>conHeaSal_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
-</li>
-<li>
-<code>regul_Chambre3_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
-</li>
-<li>
-<code>conHeaBoiler_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>regul_SDB_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
 </li>
 <li>
 <code>regul_Salon_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
 </li>
 <li>
-<code>conHeaBth_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
-</li>
-<li>
-<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
-</li>
-<li>
-<code>regul_Chambre1_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
-</li>
-<li>
-<code>regul_Chambre2_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
-</li>
-<li>
-<code>conHeaSal_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
-</li>
-<li>
-<code>regul_Chambre3_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
-</li>
-<li>
-<code>conPumHea_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
-</li>
-<li>
-<code>conHeaBoiler_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
-</li>
-<li>
-<code>regul_Chaudiere_Securite_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
-</li>
-<li>
-<code>conPumHea_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
-</li>
-<li>
-<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
-</li>
-<li>
-<code>regul_Chaudiere_Securite_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
-</li>
-<li>
-<code>regul_Chambre2_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>regul_Salon_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
 </li>
 </ul>
 
@@ -2532,34 +2532,13 @@ vacuum failures when all valves are closed while the distribution pump is workin
 
 <ul>
 <li>
-<code>ventil_Salon_rearelHum_y</code> [1] [min=None, max=None]: Zone relative humidity
+<code>boi_reaHeaBoi_y</code> [W] [min=None, max=None]: Boiler thermal energy usage
 </li>
 <li>
-<code>q_conv_Jour_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
-</li>
-<li>
-<code>reaTHal_y</code> [K] [min=None, max=None]: Read hall temperature
-</li>
-<li>
-<code>reaHeaHal_y</code> [W] [min=None, max=None]: Read heating delivered to Hall
-</li>
-<li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
-</li>
-<li>
-<code>regul_SDB_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
-</li>
-<li>
-<code>reaHeaBth_y</code> [W] [min=None, max=None]: Read heating delivered to bathroom
+<code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power consumption
 </li>
 <li>
 <code>conHeaBth_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
-</li>
-<li>
-<code>regul_Chambre1_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
-</li>
-<li>
-<code>q_conv_Nuit_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
 </li>
 <li>
 <code>conHeaRo1_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
@@ -2568,49 +2547,139 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>conHeaRo2_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power consumption
-</li>
-<li>
-<code>regul_Salon_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
-</li>
-<li>
-<code>reaTGar_y</code> [K] [min=None, max=None]: Read garage temperature
-</li>
-<li>
-<code>reaTAti_y</code> [K] [min=None, max=None]: Read attic air temperature
-</li>
-<li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
-</li>
-<li>
-<code>regul_Chambre3_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
-</li>
-<li>
-<code>reaHeaSal_y</code> [W] [min=None, max=None]: Read heating delivered to Salon
-</li>
-<li>
-<code>regul_Couloir_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
-</li>
-<li>
-<code>reaHeaRo1_y</code> [W] [min=None, max=None]: Read heating delivered to room 1
-</li>
-<li>
 <code>conHeaRo3_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
-</li>
-<li>
-<code>reaHeaRo3_y</code> [W] [min=None, max=None]: Read heating delivered to room 3
 </li>
 <li>
 <code>conHeaSal_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>regul_Chambre2_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>q_conv_Jour_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
+</li>
+<li>
+<code>q_conv_Nuit_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
+</li>
+<li>
+<code>reaHeaBth_y</code> [W] [min=None, max=None]: Read heating delivered to bathroom
+</li>
+<li>
+<code>reaHeaHal_y</code> [W] [min=None, max=None]: Read heating delivered to Hall
+</li>
+<li>
+<code>reaHeaRo1_y</code> [W] [min=None, max=None]: Read heating delivered to room 1
 </li>
 <li>
 <code>reaHeaRo2_y</code> [W] [min=None, max=None]: Read heating delivered to room 2
 </li>
 <li>
-<code>boi_reaHeaBoi_y</code> [W] [min=None, max=None]: Boiler thermal energy usage
+<code>reaHeaRo3_y</code> [W] [min=None, max=None]: Read heating delivered to room 3
+</li>
+<li>
+<code>reaHeaSal_y</code> [W] [min=None, max=None]: Read heating delivered to Salon
+</li>
+<li>
+<code>reaTAti_y</code> [K] [min=None, max=None]: Read attic air temperature
+</li>
+<li>
+<code>reaTGar_y</code> [K] [min=None, max=None]: Read garage temperature
+</li>
+<li>
+<code>reaTHal_y</code> [K] [min=None, max=None]: Read hall temperature
+</li>
+<li>
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
+</li>
+<li>
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
+</li>
+<li>
+<code>regul_Chambre1_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>regul_Chambre2_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>regul_Chambre3_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>regul_Couloir_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>regul_SDB_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>regul_Salon_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>ventil_Salon_rearelHum_y</code> [1] [min=None, max=None]: Zone relative humidity
+</li>
+<li>
+<code>weatherStation_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+</li>
+<li>
+<code>weatherStation_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weatherStation_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weatherStation_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weatherStation_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weatherStation_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weatherStation_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weatherStation_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weatherStation_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weatherStation_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weatherStation_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weatherStation_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weatherStation_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weatherStation_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>weatherStation_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
+<li>
+<code>weatherStation_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weatherStation_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weatherStation_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weatherStation_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weatherStation_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weatherStation_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weatherStation_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weatherStation_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 
 </ul>
