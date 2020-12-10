@@ -237,7 +237,7 @@ class Data_Manager(object):
         self.z_fmu.close()
         
     def get_data(self, horizon=24*3600, interval=None, index=None, 
-                 category=None, plot=False):
+                 variables=None, category=None, plot=False):
         '''Retrieve test case data from the fmu. The data
         is stored within the csv files that are 
         located in the resources folder of the test case fmu.
@@ -255,11 +255,17 @@ class Data_Manager(object):
             The interpolation is linear for the weather data
             and forward fill for the other data categories. If 
             index is None, the default case step is used as default. 
+        variables : list, default is None
+            Specific set of variables requested to the data manager. 
+            If None, the data manager will not filter by variables, but it
+            can still filter using the `category` argument. 
         category : string, default is None
             Type of data to retrieve from the test case.
             If None it will return all available test case
             data without filtering it by any category. 
             The possible options are specified at categories.json.
+            This argument cannot be used together with the `variables`
+            argument.
         plot : Boolean, default is False
             True if desired to plot the retrieved data
             
@@ -281,7 +287,14 @@ class Data_Manager(object):
         '''
         
         # Filter the requested data columns
-        if category is not None:
+        if variables is not None:
+            if category is not None:
+                raise ValueError('You cannot use category and variables '\
+                                 'at the same time to filter data. Use '\
+                                 'either one or the other. ')
+            cols = variables
+            data_slice = self.case.data.loc[:,cols]
+        elif category is not None:
             cols = [col for col in self.case.data if \
                     any(col.startswith(key) for key in self.categories[category])]
             data_slice = self.case.data.loc[:,cols]
