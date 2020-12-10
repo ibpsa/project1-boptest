@@ -8,9 +8,10 @@ multi-zone building example, respectively.
 
 import unittest
 import os
+import copy
 import pandas as pd
+import numpy as np
 import utilities
-from collections import OrderedDict
 from kpis.kpi_calculator import KPI_Calculator
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
@@ -126,6 +127,52 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         self.cal.get_computational_time_ratio()
         # Check results
         self._perform_test(self.case.time_rat, None, 'time_rat')
+    
+    def test_iterative_call(self):
+        '''Tests KPI Calculator when being called iteratively. It first
+        stores the full simulation test case data. Then, test case data
+        is emptied and filled in progressively as when calling 
+        `testcase.advance` in co-simulation. Every iteration step new data
+        is added, and the KPI Calculator is called to check that it can 
+        rely on the results from the previous iteration to perform the new 
+        integration needed to compute KPIs.  
+        
+        '''
+        
+        # Store full simulation test case data
+        y_store_full = copy.deepcopy(self.case.y_store)
+        u_store_full = copy.deepcopy(self.case.u_store)
+        
+        # Empty test case data
+        for var in self.case.y_store.keys():
+            self.case.y_store[var] = []
+        for var in self.case.u_store.keys():
+            self.case.u_store[var] = []
+        
+        # Emulate a co-simulation with 10 iteration points
+        for i in np.linspace(start=1,stop=len(y_store_full['time']),
+                             num=10, endpoint=True):
+            i=int(i)
+
+            # Fill case with simulation data
+            for var in self.case.y_store.keys():
+                self.case.y_store[var] = y_store_full[var][:i]
+            for var in self.case.u_store.keys():
+                self.case.u_store[var] = u_store_full[var][:i]
+            
+            # Compute KPIs in this iteration
+            self.cal.get_thermal_discomfort()
+            self.cal.get_iaq_discomfort()
+            self.cal.get_energy()
+            self.cal.get_cost()
+            self.cal.get_emissions()
+
+        # Check results
+        self._perform_test(self.case.tdis_tot, self.case.tdis_dict, 'tdis')                
+        self._perform_test(self.case.idis_tot, self.case.idis_dict, 'idis')                
+        self._perform_test(self.case.ener_tot, self.case.ener_dict, 'ener')                
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost')                
+        self._perform_test(self.case.emis_tot, self.case.emis_dict, 'emis')                
         
     def _perform_test(self, tot, dictionary, label):
         '''Common function for performing the tests.
