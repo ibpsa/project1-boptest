@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-This module runs tests for the KPI Calculator. testcase2 and testcase3
-are used to run the tests in a single-zone and a multi-zone building 
-example, respectively. 
+This module runs tests for the KPI Calculator. Simulation results from
+testcase2 and testcase3 are used to run the tests in a single-zone and a 
+multi-zone building example, respectively. 
 
 """
 
@@ -214,7 +214,7 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
             'testing', 'references', 'kpis', 'tc3_results_python.csv')
         df = pd.read_csv(ref_filepath)
         
-        # Fill the test case with the refernce data
+        # Fill the test case with the reference data
         for var in df.keys():
             # Assign time
             if var=='time':
