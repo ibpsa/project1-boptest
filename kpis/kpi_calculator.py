@@ -143,6 +143,14 @@ class KPI_Calculator(object):
                         self.emis_dict[signal] = 0.
                         self.emis_dict_by_source[source+'_'+signal] = 0.
     
+    def initialize(self):
+        '''
+        Method to reset all kpi variables while maintaining pointer to 
+        same test case. 
+        
+        '''
+        self.__init__(testcase=self.case)
+    
     def get_core_kpis(self, price_scenario='Constant'):
         '''Return the core KPIs of a test case.
         
