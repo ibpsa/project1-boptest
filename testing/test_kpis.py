@@ -92,10 +92,16 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         self.cal.get_cost()
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_constant')
+        
+        # Reset KPI Calculator
+        self.cal.initialize()
         # Calculate operational cost dynamic
         self.cal.get_cost(scenario='Dynamic')
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_dynamic')
+        
+        # Reset KPI Calculator
+        self.cal.initialize()
         # Calculate operational cost highly dynamic
         self.cal.get_cost(scenario='HighlyDynamic')
         # Check results
