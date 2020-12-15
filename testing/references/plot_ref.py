@@ -82,17 +82,17 @@ for season in seasons:
                 'reaTZon_y':{'label':'Room Operative',
                                  'subplot':0,
                                  'style':'-'}
-                }   
-    
+                }
+
     csv = os.path.join(name,'results_{0}.csv'.format(season))
     df = pd.read_csv(csv, index_col='time')
     df.index = pd.TimedeltaIndex(df.index.values, unit='s') + pd.to_datetime('1/1/2018')
-    
+
     fig, ax = plt.subplots(size,1, sharex=True, figsize=[8,10])
     for key in spec:
         i = spec[key]['subplot']
         label = spec[key]['label']
-        style = spec[key]['style'] 
+        style = spec[key]['style']
         if i == 0:
             ax[i].plot(df[key].index, df[key].values-273.15, label=label, linestyle=style)
             ax[i].set_ylabel('Room Temperature [' + u"\u00b0" + 'C]')

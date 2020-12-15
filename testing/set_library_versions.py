@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 This file is used by unit testing to specify library versions.
-Commands here should maintain alignment with the environment generated in 
-testing/Dockerfile. The testcase name should be passed as an argument 
-when running this file. 
+Commands here should maintain alignment with the environment generated in
+testing/Dockerfile. The testcase name should be passed as an argument
+when running this file.
 
 """
 
@@ -13,7 +13,7 @@ import os
 
 # Read library versions from testcase library_versions.json file
 with open(os.path.join(sys.argv[1],'models','library_versions.json'),'r') as f:
-    library_versions = json.loads(f.read()) 
+    library_versions = json.loads(f.read())
 
 # Checkout specified commit for each library
 for key in library_versions.keys():
