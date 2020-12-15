@@ -86,7 +86,7 @@ class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialChecks):
         # Test
         self.compare_ref_timeseries_df(df,ref_filepath)
 
-class ExampleSupervisoryJavaScript(unittest.TestCase, utilities.partialTimeseries):
+class ExampleSupervisoryJavaScript(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of a supervisory controller in JavaScript.
     
     '''
@@ -107,18 +107,18 @@ class ExampleSupervisoryJavaScript(unittest.TestCase, utilities.partialTimeserie
         kpi_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'kpi_testcase2.csv')
         res_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'result_testcase2.csv')
         # Check kpis
-        kpi = pd.read_csv(kpi_path)
-        self.assertAlmostEqual(kpi['ener_tot'].get_values()[0], kpi_ref['ener_tot'], places=3)
-        self.assertAlmostEqual(kpi['tdis_tot'].get_values()[0], kpi_ref['tdis_tot'], places=3)
-        self.assertAlmostEqual(kpi['cost_tot'].get_values()[0], kpi_ref['cost_tot'], places=3)
-        self.assertAlmostEqual(kpi['time_rat'].get_values()[0], kpi_ref['time_rat_julia'], places=3)
-        self.assertAlmostEqual(kpi['emis_tot'].get_values()[0], kpi_ref['emis_tot'], places=3)
+        df = pd.read_csv(kpi_path).transpose()
+        # Check kpis
+        df.columns = ['value']
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'kpis_javascript.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Check trajectories
         df = pd.read_csv(res_path, index_col = 'time')
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_javascript.csv')
         # Test
-        self.compare_ref_timeseries_df(df,ref_filepath)        
+        self.compare_ref_timeseries_df(df,ref_filepath)
 
 
 class MinMax(unittest.TestCase):
