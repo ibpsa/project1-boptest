@@ -3,8 +3,8 @@
 Goal
 ====
 
-The goal of BOPTEST is to enable simulation-based testing and benchmarking of 
-advanced control strategies in buildings for researchers and industry.  
+The goal of BOPTEST is to enable simulation-based testing and benchmarking of
+advanced control strategies in buildings for researchers and industry.
 This will occur through the development of:
 
 1. Reference building emulation test cases that are available to all users.
@@ -19,5 +19,5 @@ Figure 1 illustrates this goal:
 
 .. figure:: images/concept.png
     :scale: 50 %
-    
+
     BOPTEST concept.

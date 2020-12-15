@@ -4,7 +4,7 @@ General model description.
 <h4>Architecture</h4>
 <p>
 The building is a single room based on the BESTEST Case 900 model definition.
-The floor dimensions are 6m x 8m and the floor-to-ceiling height is 2.7m.  
+The floor dimensions are 6m x 8m and the floor-to-ceiling height is 2.7m.
 There are four exterior walls facing the cardinal directions and a flat roof.
 The walls facing east-west have the short dimension.  The south wall contains
 two windows, each 3m wide and 2m tall.  The use of the building is assumed
@@ -14,7 +14,7 @@ to be a two-person office with a light load density.
 <p>
 The constructions are based on the BESTEST Case 900 model definition.  The
 exterior walls are made of concrete block and insulation, while the floor
-is a concrete slab.  The roof is made of wood frame with insulation.  The 
+is a concrete slab.  The roof is made of wood frame with insulation.  The
 layer-by-layer specifications are (Outside to Inside):
 </p>
 <p>
@@ -165,54 +165,54 @@ The windows are double pane clear 3.175mm glass with 13mm air gap.
 
 <h4>Occupancy schedules</h4>
 <p>
-There is maximum occupancy (two people) from 8am to 6pm each day, 
+There is maximum occupancy (two people) from 8am to 6pm each day,
 and no occupancy during all other times.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
 The internal heat gains from plug loads come mainly from computers and monitors.
 The internal heat gains from lighting come from hanging fluorescent fixtures.
-Both types of loads are at maximum during occupied periods and 0.1 maximum 
-during all other times.  The occupied heating and cooling temperature 
+Both types of loads are at maximum during occupied periods and 0.1 maximum
+during all other times.  The occupied heating and cooling temperature
 setpoints are 21 C and 24 C respectively, while the unoccupied heating
 and cooling temperature setpoints are 15 C and 30 C respectively.
 
 </p>
 <h4>Climate data</h4>
 <p>
-The climate is assumed to be near Denver, CO, USA with a latitude and 
-longitude of 39.76,-104.86.  The climate data comes from the 
+The climate is assumed to be near Denver, CO, USA with a latitude and
+longitude of 39.76,-104.86.  The climate data comes from the
 Denver-Stapleton,CO,USA,TMY.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-Heating and cooling is provided to the office using an idealized four-pipe 
-fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil, 
-and filter.  The fan draws room air into the unit, blows it over the coils 
+Heating and cooling is provided to the office using an idealized four-pipe
+fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil,
+and filter.  The fan draws room air into the unit, blows it over the coils
 and through the filter, and supplies the conditioned air back to the room.
 There is a variable speed drive serving the fan motor.  The cooling coil
-is served by chilled water produced by a chiller and the heating coil is 
+is served by chilled water produced by a chiller and the heating coil is
 served by hot water produced by a gas boiler.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
-For the fan, the design airflow rate is 0.55 kg/s and design pressure rise is 
+For the fan, the design airflow rate is 0.55 kg/s and design pressure rise is
 185 Pa.  The fan and motor efficiencies are both constant at 0.7.
 The heat from the motor is added to the air stream.
 
-The COP of the chiller is assumed constant at 3.0.  The efficiency of the 
+The COP of the chiller is assumed constant at 3.0.  The efficiency of the
 gas boiler is assumed constant at 0.9.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 A baseline thermostat controller provides heating and cooling as necessary
-to the room by modulating the supply air temperature and 
-fan speed.  The thermostat uses two different PI controllers for heating and 
+to the room by modulating the supply air temperature and
+fan speed.  The thermostat uses two different PI controllers for heating and
 cooling, each taking the respective zone temperature setpoint and zone
-temperature measurement as inputs.  The outputs are used to control supply air 
+temperature measurement as inputs.  The outputs are used to control supply air
 temperature during heating and cooling, as well as the fan speed.  For
-heating, the maximum supply air temperature is 40 C and the minimum is the 
+heating, the maximum supply air temperature is 40 C and the minimum is the
 zone occupied heating temperature setpoint.  For cooling, the minimum supply
 air temperature is 12 C and the maximum is the zone occupied cooling
 temperature setpoint.
@@ -314,14 +314,14 @@ A constant infiltration flowrate is assumed to be 0.5 ACH.
 The supply air temperature is directly specified.
 </p>
 <p>
-CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017) 
-and density of CO2 assumed to be 1.8 kg/m^3, 
+CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017)
+and density of CO2 assumed to be 1.8 kg/m^3,
 making CO2 generation 8.64e-6 kg/s per person.
-Outside air CO2 concentration is 400 ppm.  However, CO2 concentration 
+Outside air CO2 concentration is 400 ppm.  However, CO2 concentration
 is not controlled for in the model.
 </p>
 <p>
-Persily, A. and De Jonge, L. (2017). 
+Persily, A. and De Jonge, L. (2017).
 Carbon dioxide generation rates for building occupants.
 Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
@@ -331,7 +331,7 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 The <b>Constant Electricity Price</b> profile is:
 <ul>
 Based on the Schedule R tariff
-for winter season and summer season first 500 kWh as defined by the 
+for winter season and summer season first 500 kWh as defined by the
 utility servicing the assumed location of the test case.  It is $0.05461/kWh.
 For reference,
 see https://www.xcelenergy.com/company/rates_and_regulations/rates/rate_books
@@ -379,7 +379,7 @@ The Winter season is October 1 to May 31.
 <u>The On-Peak Period is</u>:
 <ul>
 <li>
-Summer and Winter weekdays except Holidays, between 2:00 p.m. and 6:00 p.m. 
+Summer and Winter weekdays except Holidays, between 2:00 p.m. and 6:00 p.m.
 local time.
 </li>
 </ul>
@@ -397,7 +397,7 @@ Summer and Winter weekends and Holidays, between 9:00 a.m. and
 <u>The Off-Peak Period is</u>:
 <ul>
 <li>
-Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time. 
+Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time.
 </li>
 </ul>
 </ul>
@@ -406,7 +406,7 @@ Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time.
 The <b>Highly Dynamic Electricity Price</b> profile is:
 <ul>
 Based on the the
-day-ahead energy prices (LMP) as determined in the Southwest Power Pool 
+day-ahead energy prices (LMP) as determined in the Southwest Power Pool
 wholesale electricity market for node LAM345 in the year 2018.
 For reference,
 see https://marketplace.spp.org/pages/da-lmp-by-location#%2F2018.
@@ -415,7 +415,7 @@ see https://marketplace.spp.org/pages/da-lmp-by-location#%2F2018.
 <p>
 The <b>Gas Price</b> profile is:
 <ul>
-Based on the Schedule R tariff for usage price per therm as defined by the 
+Based on the Schedule R tariff for usage price per therm as defined by the
 utility servicing the assumed location of the test case.  It is $0.002878/kWh
 ($0.0844/therm).
 For reference,
@@ -436,7 +436,7 @@ see https://www.eia.gov/electricity/state/colorado/.
 <p>
 The <b>Gas Emissions Factor</b> profile is:
 <ul>
-Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+Based on the kgCO2 emitted per amount of natural gas burned in terms of
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
