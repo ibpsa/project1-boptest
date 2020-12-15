@@ -36,9 +36,9 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
 * For JavaScript based controllers:
-  * in a separate terminal, use ``$ cd examples/javascript && make build Script=twoday_p && make run Script=twoday_p`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
-  * in a separate terminal, use ``$ cd examples/javascript && make build Script=szvav_sup && make run Script=szvav_sup`` to test a simple supervisory controller on the testcase2 over a two-day period.
-  * once the test is done, use ``$ make remove-image Script=twoday_p`` or ``$ make remove-image Script=szvav_sup`` to removes containers, networks, volumes, and images. 
+  * in a separate terminal, use ``$ cd examples/javascript && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
+  * in a separate terminal, use ``$ cd examples/javascript && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on the testcase2 over a two-day period.
+  * once the test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images. 
   * noted that those two controllers can also be executed by web browers, such as chrome or firefox.
   
 6) Shutdown a test case container by selecting the container terminal window, ``Ctrl+C`` to close port, and ``Ctrl+D`` to exit the Docker container.

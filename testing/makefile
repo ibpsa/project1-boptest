@@ -78,7 +78,7 @@ test_testcase1:
 # Julia
 	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
 # Javascript
-	cd ../examples/javascript && make build Script=twoday_p && make run Script=twoday_p
+	cd ../examples/javascript && make build Script=testcase1 && make run Script=testcase1
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
@@ -98,7 +98,7 @@ test_testcase2:
 # Julia
 	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
 # Javascript
-	cd ../examples/javascript && make build Script=szvav_sup && make run Script=szvav_sup	
+	cd ../examples/javascript && make build Script=testcase2 && make run Script=testcase2	
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
