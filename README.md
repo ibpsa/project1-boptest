@@ -68,8 +68,9 @@ Example RESTful interaction:
 
 This repository uses pre-commit to ensure that the files meet standard formatting conventions (such as line spacing, layout, etc).
 Presently only a handful of checks are enabled and will expanded in the near future. To run pre-commit first install
-pre-commit using pip `pip install pre-commit`, then either install pre-commit into your GitHub checkout using
-`pre-commit install` or run manual on all files by calling `pre-commit run --all-files`.
+pre-commit into your Python version using pip `pip install pre-commit`. Pre-commit can either be manually by calling
+`pre-commit run --all-files` from within the BOPTEST checkout directory, or you can install pre-commit to be run automatically
+as a hook on all commits by calling `pre-commit install` in the root directory of the BOPTEST GitHub checkout.
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
