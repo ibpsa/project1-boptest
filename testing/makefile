@@ -76,15 +76,15 @@ test_testcase1:
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
+	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
 # Javascript
-	cd ../examples/javascript && make build Script=twoday_p && make run Script=twoday_p		
+	cd ../examples/javascript && make build Script=twoday_p && make run Script=twoday_p
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase1
 # Remove testcase image
-	cd ../examples/julia && make remove-image Script=twoday_p
+	cd ../examples/julia && make remove-image Script=testcase1
 
 test_testcase2:
 # Compile testcase model
@@ -96,7 +96,7 @@ test_testcase2:
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
+	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
 # Javascript
 	cd ../examples/javascript && make build Script=szvav_sup && make run Script=szvav_sup	
 # Python and checks
@@ -104,7 +104,7 @@ test_testcase2:
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
 # Remove testcase image
-	cd ../examples/julia && make remove-image Script=szvav_sup
+	cd ../examples/julia && make remove-image Script=testcase2
 	
 test_bestest_air:
 # Compile testcase model

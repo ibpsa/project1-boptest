@@ -10,7 +10,7 @@ import pandas as pd
 import os
 import utilities
 import requests
-from examples.python import twoday_p
+from examples.python import testcase1
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller in Python.
@@ -31,7 +31,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         
         # Run test
         custom_kpi_config_path = os.path.join(utilities.get_root_path(), 'examples', 'python', 'custom_kpi', 'custom_kpis_example.config')
-        kpi,res,customizedkpis_result = twoday_p.run(customized_kpi_config=custom_kpi_config_path)
+        kpi,res,customizedkpis_result = testcase1.run(customized_kpi_config=custom_kpi_config_path)
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
