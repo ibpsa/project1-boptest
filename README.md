@@ -23,7 +23,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 2) Build the test case by ``$ make build TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
 3) Deploy the test case by ``$ make run TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
 4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described in the next step.
-5) Run an example test controller: 
+5) Run an example test controller:
 
 * For Python-based example controllers:
   * Add the root directory of the BOPTEST repository to the PYTHONPATH environment variable.
@@ -63,6 +63,14 @@ Example RESTful interaction:
 | Set boundary condition forecast parameters in seconds                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
 | Receive current test scenario                                         |  GET ``scenario``                                   |
 | Set test scenario  		                                             |  PUT ``scenario`` with arguments ``electricity_price=<'constant' or 'dynamic' or 'highly_dynamic'>``|
+
+## Development
+
+This repository uses pre-commit to ensure that the files meet standard formatting conventions (such as line spacing, layout, etc).
+Presently only a handful of checks are enabled and will expanded in the near future. To run pre-commit first install
+pre-commit into your Python version using pip `pip install pre-commit`. Pre-commit can either be manually by calling
+`pre-commit run --all-files` from within the BOPTEST checkout directory, or you can install pre-commit to be run automatically
+as a hook on all commits by calling `pre-commit install` in the root directory of the BOPTEST GitHub checkout.
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
