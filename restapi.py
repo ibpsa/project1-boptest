@@ -116,8 +116,8 @@ class Results(Resource):
         '''POST request to receive measurement data.'''
         args = results_var.parse_args()
         var  = args['point_name']
-        start_time  = int(args['start_time'])
-        final_time  = int(args['final_time'])
+        start_time  = float(args['start_time'])
+        final_time  = float(args['final_time'])
         Y = case.get_results(var, start_time, final_time)
         for key in Y:
             Y[key] = Y[key].tolist()

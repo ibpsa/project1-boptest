@@ -338,9 +338,9 @@ class TestCase(object):
         ----------
         var : str
             Name of variable.
-        start_time : int
+        start_time : float
             Start time of data to return in seconds.
-        final_time : int
+        final_time : float
             Start time of data to return in seconds.
 
         Returns
@@ -367,23 +367,12 @@ class TestCase(object):
             Y = None
             return Y
 
-        # Get indices corresponding to correct time
-        i_start = 0
-        i_end = 0
-        for i in range(len(Y['time'])):
-            if Y['time'][i] >= start_time:
-                i_start = i
-                break
-        for i in range(len(Y['time'][i_start+1:])):
-            if Y['time'][i] > final_time:
-                i_end = i-1
-                break
-            elif Y['time'][i] == final_time:
-                i_end = i
-                break
-
-        Y['time'] = Y['time'][i_start:i_end+1]
-        Y[var] = Y[var][i_start:i_end+1]
+        # Get correct time
+        time1 = Y['time']
+        for key in [var,'time']:
+            Y[key] = Y[key][time1>=start_time]
+            time2 = time1[time1>=start_time]
+            Y[key] = Y[key][time2<=final_time]
 
         return Y
 
