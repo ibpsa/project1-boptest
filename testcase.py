@@ -331,13 +331,17 @@ class TestCase(object):
 
         return measurements
 
-    def get_results(self, var):
+    def get_results(self, var, start_time, final_time):
         '''Returns measurement and control input trajectories.
 
         Parameters
         ----------
         var : str
             Name of variable.
+        start_time : int
+            Start time of data to return in seconds.
+        final_time : int
+            Start time of data to return in seconds.
 
         Returns
         -------
@@ -350,6 +354,7 @@ class TestCase(object):
 
         '''
 
+        # Get correct point
         if var in self.y_store.keys():
             Y = {'time':self.y_store['time'],
                  var:self.y_store[var]
@@ -360,6 +365,25 @@ class TestCase(object):
                  }
         else:
             Y = None
+            return Y
+
+        # Get indices corresponding to correct time
+        i_start = 0
+        i_end = 0
+        for i in range(len(Y['time'])):
+            if Y['time'][i] >= start_time:
+                i_start = i
+                break
+        for i in range(len(Y['time'][i_start+1:])):
+            if Y['time'][i] > final_time:
+                i_end = i-1
+                break
+            elif Y['time'][i] == final_time:
+                i_end = i
+                break
+
+        Y['time'] = Y['time'][i_start:i_end+1]
+        Y[var] = Y[var][i_start:i_end+1]
 
         return Y
 

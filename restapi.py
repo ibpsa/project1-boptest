@@ -51,6 +51,8 @@ parser_scenario.add_argument('electricity_price')
 # ``results`` interface
 results_var = reqparse.RequestParser()
 results_var.add_argument('point_name')
+results_var.add_argument('start_time')
+results_var.add_argument('final_time')
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -114,7 +116,9 @@ class Results(Resource):
         '''POST request to receive measurement data.'''
         args = results_var.parse_args()
         var  = args['point_name']
-        Y = case.get_results(var)
+        start_time  = int(args['start_time'])
+        final_time  = int(args['final_time'])
+        Y = case.get_results(var, start_time, final_time)
         for key in Y:
             Y[key] = Y[key].tolist()
 
