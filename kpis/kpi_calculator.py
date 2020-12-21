@@ -59,23 +59,23 @@ class KPI_Calculator(object):
                         'BiomassPower',
                         'SolarThermalPower',
                         'FreshWaterFlowRate']
-        
+
         # Initialize KPI Calculator variables
         self.initialize_kpi_vars(label='tdis')
         self.initialize_kpi_vars(label='idis')
         self.initialize_kpi_vars(label='ener')
         self.initialize_kpi_vars(label='cost')
         self.initialize_kpi_vars(label='emis')
-        
+
     def initialize_kpi_vars(self, label='ener'):
         '''Initialize variables required for KPI calculation
-        
+
         '''
         # Initialize index since last integration
-        setattr(self, 'i_last_{}'.format(label), 0) 
+        setattr(self, 'i_last_{}'.format(label), 0)
         # Dictionary to store energy usage by element
         setattr(self, '{}_dict'.format(label), OrderedDict())
-        # Dictionary to store energy usage by source 
+        # Dictionary to store energy usage by source
         setattr(self, '{}_dict_by_source'.format(label), OrderedDict())
 
         if label=='tdis':
@@ -108,49 +108,49 @@ class KPI_Calculator(object):
                     for signal in self.case.kpi_json[source]:
                         self.ener_dict[signal] = 0.
                         self.ener_dict_by_source[source+'_'+signal] = 0.
-                        
+
         elif label=='cost':
             # Initialize sources of cost
             self.sources_cost = []
             for source in self.sources:
                 if 'ElectricPower' in source  and \
-                source in self.case.kpi_json.keys():    
+                source in self.case.kpi_json.keys():
                     self.sources_cost.append(source)
                     for signal in self.case.kpi_json[source]:
                         self.cost_dict[signal] = 0.
                         self.cost_dict_by_source[source+'_'+signal] = 0.
                 elif 'Power' in source  and \
-                source in self.case.kpi_json.keys(): 
-                    self.sources_cost.append(source)
-                    for signal in self.case.kpi_json[source]:
-                        self.cost_dict[signal] = 0.
-                        self.cost_dict_by_source[source+'_'+signal] = 0.                       
-                elif 'FreshWater' in source  and \
-                source in self.case.kpi_json.keys(): 
+                source in self.case.kpi_json.keys():
                     self.sources_cost.append(source)
                     for signal in self.case.kpi_json[source]:
                         self.cost_dict[signal] = 0.
                         self.cost_dict_by_source[source+'_'+signal] = 0.
-        
+                elif 'FreshWater' in source  and \
+                source in self.case.kpi_json.keys():
+                    self.sources_cost.append(source)
+                    for signal in self.case.kpi_json[source]:
+                        self.cost_dict[signal] = 0.
+                        self.cost_dict_by_source[source+'_'+signal] = 0.
+
         elif label=='emis':
-            # Initialize sources of emissions   
+            # Initialize sources of emissions
             self.sources_emis = []
             for source in self.sources:
                 if 'Power' in source  and \
-                source in self.case.kpi_json.keys():   
-                    self.sources_emis.append(source)       
+                source in self.case.kpi_json.keys():
+                    self.sources_emis.append(source)
                     for signal in self.case.kpi_json[source]:
                         self.emis_dict[signal] = 0.
                         self.emis_dict_by_source[source+'_'+signal] = 0.
-    
+
     def initialize(self):
         '''
-        Method to reset all kpi variables while maintaining pointer to 
-        same test case. 
-        
+        Method to reset all kpi variables while maintaining pointer to
+        same test case.
+
         '''
         self.__init__(testcase=self.case)
-    
+
     def get_core_kpis(self, price_scenario='Constant'):
         '''Return the core KPIs of a test case.
 
@@ -268,7 +268,7 @@ class KPI_Calculator(object):
                 # Load CO2 set points from test case data
                 UpperSetp = np.array(self.case.data_manager.get_data(index=index,
                             variables=['UpperCO2[{0}]'.format(zone_id)])
-                                 ['UpperCO2[{0}]'.format(zone_id)])                     
+                                 ['UpperCO2[{0}]'.format(zone_id)])
                 data = np.array(self.case.y_store[signal][self.i_last_idis:])
                 dI_upper = data - UpperSetp
                 dI_upper[dI_upper<0]=0
@@ -313,10 +313,10 @@ class KPI_Calculator(object):
 
         '''
         self.ener_tot = 0.
-        # Calculate total energy from power 
+        # Calculate total energy from power
         # [returns KWh - assumes power measured in Watts]
         for source in self.sources_ener:
-            if 'Power' in source:            
+            if 'Power' in source:
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self.case.y_store[signal][self.i_last_ener:])
                     self.ener_dict[signal] += \
@@ -326,7 +326,7 @@ class KPI_Calculator(object):
                         self.ener_dict[signal]
                     self.ener_tot = self.ener_tot + self.ener_dict[signal]
 
-        # Assign to case       
+        # Assign to case
         self.case.ener_tot            = self.ener_tot
         self.case.ener_dict           = self.ener_dict
         self.case.ener_dict_by_source = self.ener_dict_by_source
@@ -335,12 +335,12 @@ class KPI_Calculator(object):
         self.i_last_ener = len(self.case.y_store['time'])-1
 
         if plot:
-            self.case.ener_tree = self.get_dict_tree(self.ener_dict) 
+            self.case.ener_tree = self.get_dict_tree(self.ener_dict)
             self.plot_nested_pie(self.case.ener_tree, metric='energy use',
                                  units='kWh')
         if plot_by_source:
-            self.case.ener_tree_by_source = self.get_dict_tree(self.ener_dict_by_source) 
-            self.plot_nested_pie(self.case.ener_tree_by_source, 
+            self.case.ener_tree_by_source = self.get_dict_tree(self.ener_dict_by_source)
+            self.plot_nested_pie(self.case.ener_tree_by_source,
                                  metric='energy use by source', units='kWh')
 
         return self.ener_tot
@@ -379,26 +379,26 @@ class KPI_Calculator(object):
         index=self.case.y_store['time'][self.i_last_cost:]
 
         for source in self.sources_cost:
-            if 'ElectricPower' in source: 
+            if 'ElectricPower' in source:
                 # Data for the operational cost from electricity in this scenario
                 source_price_data = \
                 np.array(self.case.data_manager.get_data(index=index,
                         variables=['Price'+source+scenario])\
                          ['Price'+source+scenario])
                 factor = 2.77778e-7 # Convert to kWh
-            elif 'Power' in source:    
-                # Data for the operational cost from other power sources 
+            elif 'Power' in source:
+                # Data for the operational cost from other power sources
                 source_price_data = \
                 np.array(self.case.data_manager.get_data(index=index,
                         variables=['Price'+source])\
-                         ['Price'+source])  
+                         ['Price'+source])
                 factor = 2.77778e-7 # Convert to kWh
-            elif 'FreshWater' in source: 
-                # Data for the operational cost from other sources      
+            elif 'FreshWater' in source:
+                # Data for the operational cost from other sources
                 source_price_data = \
                 np.array(self.case.data_manager.get_data(index=index,
                         variables=['Price'+source])\
-                         ['Price'+source])  
+                         ['Price'+source])
                 factor = 1 # No conversion needed
 
             # Calculate costs
@@ -411,7 +411,7 @@ class KPI_Calculator(object):
                     self.cost_dict[signal]
                 self.cost_tot = self.cost_tot + self.cost_dict[signal]
 
-        # Assign to case       
+        # Assign to case
         self.case.cost_tot            = self.cost_tot
         self.case.cost_dict           = self.cost_dict
         self.case.cost_dict_by_source = self.cost_dict_by_source
@@ -420,12 +420,12 @@ class KPI_Calculator(object):
         self.i_last_cost = len(self.case.y_store['time'])-1
 
         if plot:
-            self.case.cost_tree = self.get_dict_tree(self.cost_dict) 
+            self.case.cost_tree = self.get_dict_tree(self.cost_dict)
             self.plot_nested_pie(self.case.cost_tree, metric='cost',
                                  units='euros')
         if plot_by_source:
-            self.case.cost_tree_by_source = self.get_dict_tree(self.cost_dict_by_source) 
-            self.plot_nested_pie(self.case.cost_tree_by_source, 
+            self.case.cost_tree_by_source = self.get_dict_tree(self.cost_dict_by_source)
+            self.plot_nested_pie(self.case.cost_tree_by_source,
                                  metric='cost by source', units='euros')
 
         return self.cost_tot
@@ -454,14 +454,14 @@ class KPI_Calculator(object):
 
         self.emis_tot = 0.
         index=self.case.y_store['time'][self.i_last_emis:]
-        
+
         for source in self.sources_emis:
             # Calculate the operational emissions from power sources
-            if 'Power' in source: 
+            if 'Power' in source:
                 source_emissions_data = \
                 np.array(self.case.data_manager.get_data(index=index,
                         variables=['Emissions'+source])\
-                         ['Emissions'+source])            
+                         ['Emissions'+source])
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self.case.y_store[signal][self.i_last_emis:])
                     self.emis_dict[signal] += \
@@ -485,7 +485,7 @@ class KPI_Calculator(object):
                                  units='kgCO2')
         if plot_by_source:
             self.case.emis_tree_by_source = self.get_dict_tree(self.emis_dict_by_source)
-            self.plot_nested_pie(self.case.emis_tree_by_source, 
+            self.plot_nested_pie(self.case.emis_tree_by_source,
                                  metric='emissions by source', units='kgCO2')
 
         return self.emis_tot

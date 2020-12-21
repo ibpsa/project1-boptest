@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This module runs tests for the KPI Calculator. Simulation results from
-testcase2 and testcase3 are used to run the tests in a single-zone and a 
+testcase2 and testcase3 are used to run the tests in a single-zone and a
 multi-zone building example, respectively.
 
 """
@@ -137,24 +137,24 @@ class partialKpiCalculatorTest(utilities.partialChecks):
     def test_iterative_call(self):
         '''Tests KPI Calculator when being called iteratively. It first
         stores the full simulation test case data. Then, test case data
-        is emptied and filled in progressively as when calling 
+        is emptied and filled in progressively as when calling
         `testcase.advance` in co-simulation. Every iteration step new data
-        is added, and the KPI Calculator is called to check that it can 
-        rely on the results from the previous iteration to perform the new 
-        integration needed to compute KPIs.  
-        
+        is added, and the KPI Calculator is called to check that it can
+        rely on the results from the previous iteration to perform the new
+        integration needed to compute KPIs.
+
         '''
-        
+
         # Store full simulation test case data
         y_store_full = copy.deepcopy(self.case.y_store)
         u_store_full = copy.deepcopy(self.case.u_store)
-        
+
         # Empty test case data
         for var in self.case.y_store.keys():
             self.case.y_store[var] = []
         for var in self.case.u_store.keys():
             self.case.u_store[var] = []
-        
+
         # Emulate a co-simulation with 10 iteration points
         for i in np.linspace(start=1,stop=len(y_store_full['time']),
                              num=10, endpoint=True):
@@ -165,7 +165,7 @@ class partialKpiCalculatorTest(utilities.partialChecks):
                 self.case.y_store[var] = y_store_full[var][:i]
             for var in self.case.u_store.keys():
                 self.case.u_store[var] = u_store_full[var][:i]
-            
+
             # Compute KPIs in this iteration
             self.cal.get_thermal_discomfort()
             self.cal.get_iaq_discomfort()
@@ -179,7 +179,7 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         self._perform_test(self.case.ener_tot, self.case.ener_dict, 'ener')
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost')
         self._perform_test(self.case.emis_tot, self.case.emis_dict, 'emis')
-        
+
     def _perform_test(self, tot, dictionary, label):
         '''Common function for performing the tests.
 

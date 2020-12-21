@@ -258,7 +258,7 @@ class Data_Manager(object):
         variables : list, default is None
             Specific set of variables requested to the data manager.
             If None, the data manager will not filter by variables, but it
-            can still filter using the `category` argument. 
+            can still filter using the `category` argument.
         category : string, default is None
             Type of data to retrieve from the test case.
             If None it will return all available test case
