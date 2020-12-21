@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module defines the API to the test case used by the REST requests to 
-perform functions such as advancing the simulation, retreiving test case 
+This module defines the API to the test case used by the REST requests to
+perform functions such as advancing the simulation, retreiving test case
 information, and calculating and reporting results.
 
 """
@@ -17,14 +17,14 @@ from kpis.kpi_calculator import KPI_Calculator
 
 class TestCase(object):
     '''Class that implements the test case.
-    
+
     '''
-    
+
     def __init__(self):
         '''Constructor.
-        
+
         '''
-        
+
         # Get configuration information
         con = config.get_config()
         # Define simulation model
@@ -58,7 +58,7 @@ class TestCase(object):
         self.set_scenario(con['scenario'])
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
-        self.options['CVode_options']['rtol'] = 1e-6 
+        self.options['CVode_options']['rtol'] = 1e-6
         # Set initial fmu simulation start
         self.start_time = 0
         self.initialize_fmu = True
@@ -69,20 +69,20 @@ class TestCase(object):
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
-        
+
         Uses self.output_names and self.input_names to create
         self.y, self.y_store, self.u, and self.u_store.
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         None
-        
+
         '''
-    
+
         # Outputs data
         self.y = {'time':np.array([])}
         for key in self.output_names:
@@ -91,12 +91,12 @@ class TestCase(object):
         # Inputs data
         self.u = {'time':np.array([])}
         for key in self.input_names:
-            self.u[key] = np.array([])       
+            self.u[key] = np.array([])
         self.u_store = copy.deepcopy(self.u)
-                
+
     def __simulation(self,start_time,end_time,input_object=None):
         '''Simulates the FMU using the pyfmi fmu.simulate function.
-        
+
         Parameters
         ----------
         start_time: int
@@ -106,38 +106,38 @@ class TestCase(object):
         input_object: pyfmi input_object, optional
             Input object for simulation
             Default is None
-        
+
         Returns
         -------
         res: pyfmi results object
             Results of the fmu simulation.
-        
+
         '''
 
         # Set fmu initialization option
         self.options['initialize'] = self.initialize_fmu
         # Simulate fmu
         try:
-             res = self.fmu.simulate(start_time = start_time, 
-                                     final_time = end_time, 
-                                     options=self.options, 
+             res = self.fmu.simulate(start_time = start_time,
+                                     final_time = end_time,
+                                     options=self.options,
                                      input=input_object)
         except Exception as e:
             return None
         # Set internal fmu initialization
         self.initialize_fmu = False
 
-        return res            
+        return res
 
     def __get_results(self, res, store=True):
-        '''Get results at the end of a simulation and throughout the 
+        '''Get results at the end of a simulation and throughout the
         simulation period for storage. This method assigns these results
-        to `self.y` and, if `store=True`, also to `self.y_store` and 
-        to `self.u_store`. 
+        to `self.y` and, if `store=True`, also to `self.y_store` and
+        to `self.u_store`.
         This method is used by `initialize()` and `advance()` to retrieve
         results. `initialize()` does not store results whereas `advance()`
-        does. 
-        
+        does.
+
         Parameters
         ----------
         res: pyfmi results object
@@ -145,42 +145,42 @@ class TestCase(object):
         store: boolean
             Set to true if desired to store results in `self.y_store` and
             `self.u_store`
-        
+
         '''
-        
+
         # Get result and store measurement
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
                 self.y_store[key] = np.append(self.y_store[key], res[key][1:])
-        
+
         # Store control inputs
         if store:
             for key in self.u.keys():
-                self.u_store[key] = np.append(self.u_store[key], res[key][1:]) 
+                self.u_store[key] = np.append(self.u_store[key], res[key][1:])
 
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
-        
+
         Parameters
         ----------
         u : dict
             Defines the control input data to be used for the step.
             {<input_name> : <input_value>}
-            
+
         Returns
         -------
         y : dict
             Contains the measurement data at the end of the step.
             {<measurement_name> : <measurement_value>}
-            
+
         '''
-        
-        # Calculate and store the elapsed time 
+
+        # Calculate and store the elapsed time
         if hasattr(self, 'tic_time'):
             self.tac_time = time.time()
             self.elapsed_control_time.append(self.tac_time-self.tic_time)
-            
+
         # Set final time
         self.final_time = self.start_time + self.step
         # Set control inputs if they exist and are written
@@ -210,14 +210,14 @@ class TestCase(object):
                 input_object = (u_list, np.transpose(u_trajectory))
             # Otherwise, input object is None
             else:
-                input_object = None    
+                input_object = None
         # Otherwise, input object is None
         else:
             input_object = None
         # Simulate
-        res = self.__simulation(self.start_time,self.final_time,input_object) 
+        res = self.__simulation(self.start_time,self.final_time,input_object)
         # Process results
-        if res is not None:        
+        if res is not None:
             # Get result and store measurement and control inputs
             self.__get_results(res, store=True)
             # Advance start time
@@ -229,18 +229,18 @@ class TestCase(object):
 
         else:
 
-            return None        
+            return None
 
     def initialize(self, start_time, warmup_period):
         '''Initialize the test simulation.
-        
+
         Parameters
         ----------
         start_time: int
             Start time of simulation to initialize to in seconds.
         warmup_period: int
             Length of time before start_time to simulate for warmup in seconds.
-            
+
         Returns
         -------
         y : dict
@@ -256,7 +256,7 @@ class TestCase(object):
         self.elapsed_control_time = []
         # Reset KPI Calculator
         self.cal.initialize()
-        # Set fmu intitialization                
+        # Set fmu intitialization
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
         # Do not allow negative starting time to avoid confusions
@@ -269,11 +269,11 @@ class TestCase(object):
             self.start_time = start_time
 
             return self.y
-        
+
         else:
 
             return None
-        
+
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
 
@@ -281,97 +281,97 @@ class TestCase(object):
 
     def set_step(self,step):
         '''Sets the simulation step in seconds.
-        
+
         Parameters
         ----------
         step : int
             Simulation step in seconds.
-            
+
         Returns
         -------
         None
-        
+
         '''
-        
+
         self.step = float(step)
-        
+
         return None
-        
+
     def get_inputs(self):
         '''Returns a dictionary of control inputs and their meta-data.
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         inputs : dict
             Dictionary of control inputs and their meta-data.
-            
+
         '''
 
         inputs = self.inputs_metadata
-        
+
         return inputs
-        
+
     def get_measurements(self):
         '''Returns a dictionary of measurements and their meta-data.
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         measurements : dict
             Dictionary of measurements and their meta-data.
-            
+
         '''
 
         measurements = self.outputs_metadata
-        
+
         return measurements
-        
+
     def get_results(self):
         '''Returns measurement and control input trajectories.
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         Y : dict
-            Dictionary of measurement and control input names and their 
+            Dictionary of measurement and control input names and their
             trajectories as lists.
             {'y':{<measurement_name>:<measurement_trajectory>},
              'u':{<input_name>:<input_trajectory>}
             }
-        
+
         '''
-        
+
         Y = {'y':self.y_store, 'u':self.u_store}
-        
+
         return Y
-        
+
     def get_kpis(self):
         '''Returns KPI data.
-        
+
         Requires standard sensor signals.
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         kpis : dict
             Dictionary containing KPI names and values.
             {<kpi_name>:<kpi_value>}
-        
+
         '''
-        
+
         # Set correct price scenario for cost
         if self.scenario['electricity_price'] == 'constant':
             price_scenario = 'Constant'
@@ -379,39 +379,39 @@ class TestCase(object):
             price_scenario = 'Dynamic'
         elif self.scenario['electricity_price'] == 'highly_dynamic':
             price_scenario = 'HighlyDynamic'
-        # Calculate the core kpis 
+        # Calculate the core kpis
         kpis = self.cal.get_core_kpis(price_scenario=price_scenario)
 
         return kpis
 
     def set_forecast_parameters(self,horizon,interval):
         '''Sets the forecast horizon and interval, both in seconds.
-        
+
         Parameters
         ----------
         horizon : int
             Forecast horizon in seconds.
         interval : int
             Forecast interval in seconds.
-            
+
         Returns
         -------
         None
-        
+
         '''
-        
+
         self.horizon = float(horizon)
         self.interval = float(interval)
-        
+
         return None
-    
+
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.'''
-        
+
         forecast_parameters = dict()
         forecast_parameters['horizon'] = self.horizon
         forecast_parameters['interval'] = self.interval
-        
+
         return forecast_parameters
 
     def get_forecast(self):
@@ -423,7 +423,7 @@ class TestCase(object):
 
         Returns
         -------
-        forecast : dict 
+        forecast : dict
             Dictionary with the requested forecast data
             {<variable_name>:<variable_forecast_trajectory>}
             where <variable_name> is a string with the variable
@@ -465,50 +465,50 @@ class TestCase(object):
 
     def get_name(self):
         '''Returns the name of the test case fmu.
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         name : str
             Name of test case fmu.
-            
+
         '''
-        
+
         name = self.fmupath[7:-4]
-        
+
         return name
-        
+
     def get_elapsed_control_time(self):
         '''Returns the elapsed control time vector for the case.
-        
+
         Parameters
         ----------
         None
-        
+
         Returns
         -------
         elapsed_control_time : list of floats
             elapsed_control_time for each control step.
-            
+
         '''
-        
+
         elapsed_control_time = self.elapsed_control_time
-        
+
         return elapsed_control_time
-        
+
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
-        
+
         Parameters
         ----------
         fmu : pyfmi fmu object
             FMU from which to get variable metadata
         var_list : list of str
             List of variable names
-            
+
         Returns
         -------
         var_metadata : dict
@@ -519,12 +519,12 @@ class TestCase(object):
                 "Minimum" : float,
                 "Maximum" : float
             }
-            
+
         '''
-        
+
         # Inititalize
         var_metadata = dict()
-        # Get metadata        
+        # Get metadata
         for var in var_list:
             # Units
             if var == 'time':
@@ -552,26 +552,26 @@ class TestCase(object):
                                  'Maximum':maxi}
 
         return var_metadata
-        
+
     def _check_value_min_max(self, var, value):
         '''Check that the input value does not violate the min or max.
-        
+
         Note that if it does, the value is truncated to the minimum or maximum.
-        
+
         Parameters
         ----------
         var : str
             Name of variable
         value : numeric
             Specified value of variable
-            
+
         Return
         ------
         checked_value : float
             Value of variable truncated by min and max.
-            
+
         '''
-        
+
         # Get minimum and maximum for variable
         mini = self.inputs_metadata[var]['Minimum']
         maxi = self.inputs_metadata[var]['Maximum']
@@ -586,4 +586,3 @@ class TestCase(object):
             checked_value = value
 
         return checked_value
-            

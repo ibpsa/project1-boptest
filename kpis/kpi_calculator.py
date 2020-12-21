@@ -3,8 +3,8 @@ Created on Apr 25, 2019
 
 @author: Javier Arroyo
 
-This module contains the KPI_Calculator class with methods for processing 
-the results of BOPTEST simulations and generating the corresponding key 
+This module contains the KPI_Calculator class with methods for processing
+the results of BOPTEST simulations and generating the corresponding key
 performance indicators.
 
 '''
@@ -16,37 +16,37 @@ from flask._compat import iteritems
 from collections import OrderedDict
 
 class KPI_Calculator(object):
-    '''This class calculates the KPIs as a post-process after 
-    a test is complete. Upon deployment of the test case, 
-    the module first uses the KPI JSON file to 
-    associate model output names with the appropriate KPIs 
-    through the specified KPI annotations. Upon called to 
-    do so, the module is able to calculate and return the 
+    '''This class calculates the KPIs as a post-process after
+    a test is complete. Upon deployment of the test case,
+    the module first uses the KPI JSON file to
+    associate model output names with the appropriate KPIs
+    through the specified KPI annotations. Upon called to
+    do so, the module is able to calculate and return the
     KPIs using data stored from the test case run.
-    The core KPIs are a subset of the KPIs that can be 
-    obtained using this class and that are considered 
-    essential for the comparison between two or more 
+    The core KPIs are a subset of the KPIs that can be
+    obtained using this class and that are considered
+    essential for the comparison between two or more
     test cases. This class also supports other methods for
     evaluation, plotting and post-processing of an already
-    deployed test case.  
-    
-    ''' 
+    deployed test case.
+
+    '''
 
     def __init__(self, testcase):
         '''Initialize the KPI_Calculator class. One KPI_Calculator
         is associated with one test case.
-        
+
         Parameters
         ----------
         testcase: BOPTEST TestCase object
             object of an already deployed test case that
             contains the data stored from the test case run
-        
+
         '''
-        
+
         # Point to the test case object
         self.case = testcase
-        
+
         # Naming convention from the signal exchange package of IBPSA
         self.sources = ['AirZoneTemperature',
                         'RadiativeZoneTemperature',
@@ -57,7 +57,7 @@ class KPI_Calculator(object):
                         'DistrictHeatingPower',
                         'GasPower',
                         'BiomassPower',
-                        'SolarThermalPower', 
+                        'SolarThermalPower',
                         'FreshWaterFlowRate']
         
         # Initialize KPI Calculator variables
@@ -153,66 +153,66 @@ class KPI_Calculator(object):
     
     def get_core_kpis(self, price_scenario='Constant'):
         '''Return the core KPIs of a test case.
-        
+
         Parameters
         ----------
         price_scenario : str, optional
-            Price scenario for cost kpi calculation.  
+            Price scenario for cost kpi calculation.
             'Constant' or 'Dynamic' or 'HighlyDynamic'.
             Default is 'Constant'.
-            
-        Returns 
+
+        Returns
         -------
         ckpi = dict
             Dictionary with the core KPIs, i.e., the KPIs
             that are considered essential for the comparison between
             two test cases
-            
+
         '''
-        
+
         ckpi = OrderedDict()
         ckpi['tdis_tot'] = self.get_thermal_discomfort()
         ckpi['idis_tot'] = self.get_iaq_discomfort()
         ckpi['ener_tot'] = self.get_energy()
         ckpi['cost_tot'] = self.get_cost(scenario=price_scenario)
-        ckpi['emis_tot'] = self.get_emissions()        
+        ckpi['emis_tot'] = self.get_emissions()
         ckpi['time_rat'] = self.get_computational_time_ratio()
-        
+
         return ckpi
-        
+
     def get_thermal_discomfort(self, plot=False):
-        '''The thermal discomfort is the integral of the deviation 
-        of the temperature with respect to the predefined comfort 
+        '''The thermal discomfort is the integral of the deviation
+        of the temperature with respect to the predefined comfort
         setpoint. Its units are of K*h.
-        
+
         Parameters
         ----------
         plot: boolean, optional
             True to show a donut plot with the thermal discomfort metrics.
             Default is False.
-            
+
         Returns
         -------
         tdis_tot: float
             total thermal discomfort accounted in this test case
 
         '''
-        
+
         self.tdis_tot = 0.
         index=self.case.y_store['time'][self.i_last_tdis:]
-        
+
         for source in self.sources_tdis:
             # This is a potential source of thermal discomfort
             zone_id = source.split('[')[1][:-1]
-            
+
             for signal in self.case.kpi_json[source]:
                 # Load temperature set points from test case data
-                LowerSetp = np.array(self.case.data_manager.get_data(index=index, 
+                LowerSetp = np.array(self.case.data_manager.get_data(index=index,
                                     variables=['LowerSetp[{0}]'.format(zone_id)])
                                  ['LowerSetp[{0}]'.format(zone_id)])
-                UpperSetp = np.array(self.case.data_manager.get_data(index=index, 
+                UpperSetp = np.array(self.case.data_manager.get_data(index=index,
                                     variables=['UpperSetp[{0}]'.format(zone_id)])
-                                 ['UpperSetp[{0}]'.format(zone_id)])                     
+                                 ['UpperSetp[{0}]'.format(zone_id)])
                 data = np.array(self.case.y_store[signal][self.i_last_tdis:])
                 dT_lower = LowerSetp - data
                 dT_lower[dT_lower<0]=0
@@ -225,45 +225,45 @@ class KPI_Calculator(object):
                 self.tdis_tot = self.tdis_tot + \
                     self.tdis_dict[signal[:-1]+'dTlower_y'] + \
                     self.tdis_dict[signal[:-1]+'dTupper_y']
-        
+
         self.case.tdis_tot  = self.tdis_tot
         self.case.tdis_dict = self.tdis_dict
-        
+
         # Update last integration index
         self.i_last_tdis = len(self.case.y_store['time'])-1
-        
+
         if plot:
             self.case.tdis_tree = self.get_dict_tree(self.tdis_dict)
             self.plot_nested_pie(self.case.tdis_tree, metric='discomfort',
                                  units='Kh', breakdonut=False)
-        
+
         return self.tdis_tot
-        
+
     def get_iaq_discomfort(self, plot=False):
-        '''The IAQ discomfort is the integral of the deviation 
-        of the CO2 concentration with respect to the predefined comfort 
+        '''The IAQ discomfort is the integral of the deviation
+        of the CO2 concentration with respect to the predefined comfort
         setpoint. Its units are of ppm*h.
-        
+
         Parameters
         ----------
         plot: boolean, optional
             True to show a donut plot with the iaq discomfort metrics.
             Default is False.
-            
+
         Returns
         -------
         idis_tot: float
             total IAQ discomfort accounted in this test case
 
         '''
-        
+
         self.idis_tot = 0.
         index=self.case.y_store['time'][self.i_last_idis:]
-        
+
         for source in self.sources_idis:
             # This is a potential source of iaq discomfort
             zone_id = source.replace('CO2Concentration[','')[:-1]
-            
+
             for signal in self.case.kpi_json[source]:
                 # Load CO2 set points from test case data
                 UpperSetp = np.array(self.case.data_manager.get_data(index=index,
@@ -276,41 +276,41 @@ class KPI_Calculator(object):
                     trapz(dI_upper,self.case.y_store['time'][self.i_last_idis:])/3600.
                 self.idis_tot = self.idis_tot + \
                           self.idis_dict[signal[:-1]+'dIupper_y']
-        
+
         self.case.idis_tot  = self.idis_tot
         self.case.idis_dict = self.idis_dict
-        
+
         # Update last integration index
         self.i_last_idis = len(self.case.y_store['time'])-1
-        
+
         if plot:
             self.case.idis_tree = self.get_dict_tree(self.idis_dict)
             self.plot_nested_pie(self.case.idis_tree, metric='IAQ discomfort',
                                  units='ppmh', breakdonut=False)
-        
+
         return self.idis_tot
-    
+
     def get_energy(self, plot=False, plot_by_source=False):
-        '''This method returns the measure of the total building 
-        energy use in kW*h when accounting for the sum of all 
-        energy vectors present in the test case. 
-        
+        '''This method returns the measure of the total building
+        energy use in kW*h when accounting for the sum of all
+        energy vectors present in the test case.
+
         Parameters
         ----------
         plot: boolean, optional
-            True to show a donut plot with the energy use 
+            True to show a donut plot with the energy use
             grouped by elements.
             Default is False.
         plot_by_source: boolean, optional
-            True to show a donut plot with the energy use 
+            True to show a donut plot with the energy use
             grouped by sources.
             Default is False.
-               
+
         Returns
         -------
         ener_tot: float
             total energy use
-            
+
         '''
         self.ener_tot = 0.
         # Calculate total energy from power 
@@ -325,15 +325,15 @@ class KPI_Calculator(object):
                     self.ener_dict_by_source[source+'_'+signal] += \
                         self.ener_dict[signal]
                     self.ener_tot = self.ener_tot + self.ener_dict[signal]
-                    
+
         # Assign to case       
         self.case.ener_tot            = self.ener_tot
         self.case.ener_dict           = self.ener_dict
         self.case.ener_dict_by_source = self.ener_dict_by_source
-        
+
         # Update last integration index
         self.i_last_ener = len(self.case.y_store['time'])-1
-        
+
         if plot:
             self.case.ener_tree = self.get_dict_tree(self.ener_dict) 
             self.plot_nested_pie(self.case.ener_tree, metric='energy use',
@@ -342,16 +342,16 @@ class KPI_Calculator(object):
             self.case.ener_tree_by_source = self.get_dict_tree(self.ener_dict_by_source) 
             self.plot_nested_pie(self.case.ener_tree_by_source, 
                                  metric='energy use by source', units='kWh')
-        
+
         return self.ener_tot
-    
+
     def get_cost(self, scenario='Constant', plot=False,
                  plot_by_source=False):
         '''This method returns the measure of the total building operational
         energy cost in euros when accounting for the sum of all energy
         vectors present in the test case as well as other sources of cost
-        like water. 
-        
+        like water.
+
         Parameters
         ----------
         scenario: string, optional
@@ -361,23 +361,23 @@ class KPI_Calculator(object):
             3. 'HighlyDynamic': spot price changing every 15 minutes.
             Default is 'Constant'.
         plot: boolean, optional
-            True to show a donut plot with the operational cost 
+            True to show a donut plot with the operational cost
             grouped by elements.
             Default is False.
         plot_by_source: boolean, optional
-            True to show a donut plot with the operational cost 
+            True to show a donut plot with the operational cost
             grouped by sources.
             Default is False.
-            
+
         Notes
         -----
         It is assumed that power is measured in Watts and water usage in m3
-            
+
         '''
-        
+
         self.cost_tot = 0.
         index=self.case.y_store['time'][self.i_last_cost:]
-        
+
         for source in self.sources_cost:
             if 'ElectricPower' in source: 
                 # Data for the operational cost from electricity in this scenario
@@ -400,7 +400,7 @@ class KPI_Calculator(object):
                         variables=['Price'+source])\
                          ['Price'+source])  
                 factor = 1 # No conversion needed
-            
+
             # Calculate costs
             for signal in self.case.kpi_json[source]:
                 pow_data = np.array(self.case.y_store[signal][self.i_last_cost:])
@@ -409,16 +409,16 @@ class KPI_Calculator(object):
                           self.case.y_store['time'][self.i_last_cost:])*factor
                 self.cost_dict_by_source[source+'_'+signal] += \
                     self.cost_dict[signal]
-                self.cost_tot = self.cost_tot + self.cost_dict[signal]                   
-                    
+                self.cost_tot = self.cost_tot + self.cost_dict[signal]
+
         # Assign to case       
         self.case.cost_tot            = self.cost_tot
         self.case.cost_dict           = self.cost_dict
         self.case.cost_dict_by_source = self.cost_dict_by_source
-        
+
         # Update last integration index
         self.i_last_cost = len(self.case.y_store['time'])-1
-        
+
         if plot:
             self.case.cost_tree = self.get_dict_tree(self.cost_dict) 
             self.plot_nested_pie(self.case.cost_tree, metric='cost',
@@ -427,14 +427,14 @@ class KPI_Calculator(object):
             self.case.cost_tree_by_source = self.get_dict_tree(self.cost_dict_by_source) 
             self.plot_nested_pie(self.case.cost_tree_by_source, 
                                  metric='cost by source', units='euros')
-         
+
         return self.cost_tot
 
     def get_emissions(self, plot=False, plot_by_source=False):
-        '''This method returns the measure of the total building 
-        emissions in kgCO2 when accounting for the sum of all 
-        energy vectors present in the test case. 
-        
+        '''This method returns the measure of the total building
+        emissions in kgCO2 when accounting for the sum of all
+        energy vectors present in the test case.
+
         Parameters
         ----------
         plot: boolean, optional
@@ -442,21 +442,21 @@ class KPI_Calculator(object):
             the emission metric.
             Default is False.
         plot_by_source: boolean, optional
-            True to show a donut plot with the operational cost 
+            True to show a donut plot with the operational cost
             grouped by sources.
             Default is False.
-            
+
         Notes
         -----
-        It is assumed that power is measured in Watts 
-            
+        It is assumed that power is measured in Watts
+
         '''
-        
+
         self.emis_tot = 0.
         index=self.case.y_store['time'][self.i_last_emis:]
         
         for source in self.sources_emis:
-            # Calculate the operational emissions from power sources        
+            # Calculate the operational emissions from power sources
             if 'Power' in source: 
                 source_emissions_data = \
                 np.array(self.case.data_manager.get_data(index=index,
@@ -469,58 +469,58 @@ class KPI_Calculator(object):
                               self.case.y_store['time'][self.i_last_emis:])*2.77778e-7 # Convert to kWh
                     self.emis_dict_by_source[source+'_'+signal] += \
                         self.emis_dict[signal]
-                    self.emis_tot = self.emis_tot + self.emis_dict[signal]                           
-        
+                    self.emis_tot = self.emis_tot + self.emis_dict[signal]
+
         # Update last integration index
         self.i_last_emis = len(self.case.y_store['time'])-1
-        
-        # Assign to case       
+
+        # Assign to case
         self.case.emis_tot            = self.emis_tot
         self.case.emis_dict           = self.emis_dict
         self.case.emis_dict_by_source = self.emis_dict_by_source
-        
+
         if plot:
-            self.case.emis_tree = self.get_dict_tree(self.emis_dict) 
+            self.case.emis_tree = self.get_dict_tree(self.emis_dict)
             self.plot_nested_pie(self.case.emis_tree, metric='emissions',
                                  units='kgCO2')
         if plot_by_source:
-            self.case.emis_tree_by_source = self.get_dict_tree(self.emis_dict_by_source) 
+            self.case.emis_tree_by_source = self.get_dict_tree(self.emis_dict_by_source)
             self.plot_nested_pie(self.case.emis_tree_by_source, 
                                  metric='emissions by source', units='kgCO2')
-         
+
         return self.emis_tot
 
     def get_computational_time_ratio(self, plot=False):
-        '''Obtain the computational time ratio as the ratio between 
-        the average of the elapsed control time and the test case 
-        sampling time. The elapsed control time is measured as the 
+        '''Obtain the computational time ratio as the ratio between
+        the average of the elapsed control time and the test case
+        sampling time. The elapsed control time is measured as the
         time between two emulator simulations. A time counter starts
-        at the end of the 'advance' test case method and finishes at 
-        the beginning of the following call to the same method. 
-        Notice that the accounted time includes not only the 
+        at the end of the 'advance' test case method and finishes at
+        the beginning of the following call to the same method.
+        Notice that the accounted time includes not only the
         controller computational time but also the signal exchange
-        time with the controller through the RESTAPI interface. 
-        
+        time with the controller through the RESTAPI interface.
+
         Parameters
         ----------
         plot: boolean, optional
-            True if it it is desired to make a plot of the elapsed 
+            True if it it is desired to make a plot of the elapsed
             controller time.
             Default is False.
-            
+
         Returns
         -------
         time_rat: float
             computational time ratio of this test case
 
         '''
-        
+
         elapsed_control_time = self.case.get_elapsed_control_time()
         elapsed_time_average = np.mean(np.asarray(elapsed_control_time))
         time_rat = elapsed_time_average/self.case.step
-        
+
         self.case.time_rat = time_rat
-        
+
         if plot:
             plt.figure()
             n=len(elapsed_control_time)
@@ -529,16 +529,16 @@ class KPI_Calculator(object):
             plt.plot(range(bgn,end,int(self.case.step)),
                      elapsed_control_time)
             plt.show()
-            
+
         return time_rat
 
     def get_load_factors(self):
         '''Calculate the load factor for every power signal
-        
+
         '''
-        
+
         ldfs = OrderedDict()
-        
+
         for signal in self.case.kpi_json['ElectricPower']:
             pow_data = np.array(self.case.y_store[signal])
             avg_pow = pow_data.mean()
@@ -548,38 +548,38 @@ class KPI_Calculator(object):
             except ZeroDivisionError as err:
                 print("Error: {0}".format(err))
                 return
-        
+
         self.case.ldfs = ldfs
-    
+
         return ldfs
 
     def get_power_peaks(self):
         '''Calculate the power peak for every power signal
-        
+
         '''
-        
+
         ppks = OrderedDict()
-        
+
         for signal in self.case.kpi_json['ElectricPower']:
             pow_data = np.array(self.case.y_store[signal])
             max_pow = pow_data.max()
             ppks[signal]=max_pow
-        
+
         self.case.ppks = ppks
-            
+
         return ppks
-                            
+
     def get_dict_tree(self, dict_flat, sep='_',
                       remove_null=True, merge_branches=True):
-        '''This method creates a dictionary tree from a 
+        '''This method creates a dictionary tree from a
         flat dictionary. A dictionary tree is a nested
         dictionary where each element contains other
-        dictionaries which keys are the following 
-        names of the strings in the keys of the 
+        dictionaries which keys are the following
+        names of the strings in the keys of the
         original dictionary and that are separated
         from each other with a 'sep' string case that
         can be specified.
-        
+
         Parameters
         ----------
         dict_flat: dict
@@ -588,30 +588,30 @@ class KPI_Calculator(object):
             the dictionary do not contain any other
             dictionaries.
         sep: string, optioanl
-            string that indicates different layers in 
+            string that indicates different layers in
             the keys of the original dictionary.
             Default is '_'.
         remove_null: Boolean, optional
             True if we don't want to include the null
             elements in the dictionary tree. These null
-            elements create problems when plotting the 
+            elements create problems when plotting the
             nested pie chart.
             Default is True.
         merge_branches: Boolean, optional
             Merge the branches where a key has only one value.
-            This resolves the problem of getting a plain 
+            This resolves the problem of getting a plain
             dictionary with any key containing the 'sep'.
             Default is True.
-            
+
         Returns
         -------
         dict_tree: dict
             nested dictionary with the different layers
             of complexity indicated by the 'sep' string
             in the keys of the original dictionary
-            
+
         '''
-        
+
         # Initialize the dictionary tree
         dict_tree = OrderedDict()
         # Remove the null elements from the flat dictionary
@@ -633,17 +633,17 @@ class KPI_Calculator(object):
                 actual_layer = actual_layer[component]
             # If last component, assign the flat dictionary value
             actual_layer[components[-1]] = dict_flat[element]
-        
+
         if merge_branches:
             dict_tree = self.merge_branches(dict_tree,sep=sep)
-        
+
         return dict_tree
-    
+
     def merge_branches(self, dictionary, sep='_'):
         '''Merge the branches where a key has only one value.
         This resolves the problem of getting a plain dictionary
         with any key containing the 'sep' element.
-        
+
         Parameters
         ----------
         dictionary: dict
@@ -652,74 +652,74 @@ class KPI_Calculator(object):
             string used to merge the key and the value of the
             elements of a dictionary in different layers.
             Default is '_'.
-            
+
         Returns
         -------
         new_dict: dict
             a new dictionary with the branches merged
 
         '''
-        
+
         for k,v in iteritems(dictionary):
             if isinstance(v, dict):
                 if len(dictionary.keys())==1:
                     for vkey in v.keys():
                         dictionary[k+sep+vkey] = v[vkey]
                     dictionary.pop(k)
-                 
+
                 self.merge_branches(v)
-                
-        return dictionary 
-    
+
+        return dictionary
+
     def sum_dict(self, dictionary):
-        '''This method returns the sum of all values within a 
-        nested dictionary that can contain float numbers 
-        and/or other dictionaries containing the same type 
+        '''This method returns the sum of all values within a
+        nested dictionary that can contain float numbers
+        and/or other dictionaries containing the same type
         of elements. It works in a recursive way.
-        
+
         Parameters
         ----------
         dictionary: dict or float
             dictionary containing other dictionaries and/or
             float numbers. If it's a float it will return
             its value directly
-            
+
         Returns
-        -------    
+        -------
         val: float
-            value of the sum of all values within the 
+            value of the sum of all values within the
             nested dictionary
 
         '''
-        
+
         # Initialize the sum
         val=0.
         # If dictionary is a float we have arrived to an
         # end point and we want to return its value
         if isinstance(dictionary, float):
-            
+
             return dictionary
-        
-        # If dictionary is still a dictionary we should 
+
+        # If dictionary is still a dictionary we should
         # keep searching for an end point with a float
         elif isinstance(dictionary, dict):
             for k in dictionary.keys():
                 # Sum the values within this dictionary
                 val += self.sum_dict(dictionary=dictionary[k])
-                
+
             return val
-    
+
     def count_elements(self, dictionary):
-        '''This methods counts the number of end points in 
+        '''This methods counts the number of end points in
         a nested dictionary. An end point is considered
         to be a float number instead of a new dictionary
         layer.
-        
+
         Parameters
         ----------
         dictionary: dict
-            dictionary for which we want to count the 
-            
+            dictionary for which we want to count the
+
         Returns
         -------
         n: integer
@@ -727,17 +727,17 @@ class KPI_Calculator(object):
             dictionary
 
         '''
-        
+
         # Initialize the counter
         n=0
         # If dictionary is a float we have arrived to an
         # end point and we want to sum one element
         if isinstance(dictionary, float):
-            
+
             return 1
-        
-        # If dictionary is still a dictionary we should 
-        # keep searching for an end point 
+
+        # If dictionary is still a dictionary we should
+        # keep searching for an end point
         elif isinstance(dictionary, dict):
             for k in dictionary.keys():
                 # Count the elements within this dictionary
@@ -745,49 +745,49 @@ class KPI_Calculator(object):
                     n += self.count_elements(dictionary=dictionary[k])
                 except:
                     pass
-                
+
             return n
-        
+
     def remove_null_elements(self, dictionary):
-        '''This methods removes the null elements of a 
+        '''This methods removes the null elements of a
         plain dictionary
-        
+
         Parameters
         ----------
         dictionary: dict
-            dictionary for which we want to remove the null elements 
-            
+            dictionary for which we want to remove the null elements
+
         Returns
         -------
         new_dict: dict
             a new dictionary without the null elements
 
         '''
-        
+
         new_dict = OrderedDict()
-        
+
         for k,v in iteritems(dictionary):
-            if v!=0.: 
+            if v!=0.:
                 new_dict[k] = dictionary[k]
-        
+
         return new_dict
-        
+
     def parse_color_indexes(self, dictionary, min_index=0, max_index=260):
         '''This method parses the color indexes for a nested pie chart
         and according to the number of elements within the dictionary
-        that is going to be plotted. It will provide an equally 
+        that is going to be plotted. It will provide an equally
         distributed range of color indexes between a minimum value
-        and a maximum value. These indexes can then be used for a 
-        matplotlib color map in order to provide an smooth color 
-        variation within the chromatic circle. Notice that with 
+        and a maximum value. These indexes can then be used for a
+        matplotlib color map in order to provide an smooth color
+        variation within the chromatic circle. Notice that with
         min_index and max_index it can be customized the color range
-        to be used in the chart. These indexes must lay between the 
+        to be used in the chart. These indexes must lay between the
         minimum and maximum indexes of the color map used.
-        
+
         Parameters
         ----------
         dictionary: dict
-            dictionary for which the pie chart is going to be 
+            dictionary for which the pie chart is going to be
             plotted
         min_index: integer, optional
             minimum value of the index that is going to be used.
@@ -795,15 +795,15 @@ class KPI_Calculator(object):
         max_index: integer, optional
             maximum value of the index that is going to be used.
             Default is 260.
-        
+
         '''
-        
+
         n = self.count_elements(dictionary)
-        
+
         return np.linspace(min_index, max_index, n+1).astype(int)
-        
+
     def plot_nested_pie(self, dictionary, ax=None, radius=1., delta=0.2,
-                        dontlabel=None, breakdonut=True, 
+                        dontlabel=None, breakdonut=True,
                         metric = 'energy use', units = 'kW*h'):
         '''This method appends a pie plot from a nested dictionary
         to an axes of matplotlib object. If all the elements
@@ -811,7 +811,7 @@ class KPI_Calculator(object):
         pie plot with those values. If there are other nested
         dictionaries it will continue plotting them in a nested
         pie plot.
-         
+
         Parameters
         ----------
         dictionary: dict
@@ -825,7 +825,7 @@ class KPI_Calculator(object):
             radius of the outer layer of the pie plot.
             Default is 1.
         delta: float, optional
-            desired difference between the radius of two 
+            desired difference between the radius of two
             consecutive pie plot layers.
             Default is 0.2.
         dontlabel: list, optional
@@ -842,9 +842,9 @@ class KPI_Calculator(object):
             indicates the units used for the metric. Notice that
             this is only used for the title of the plot.
             Default is 'kW*h'.
-            
+
         '''
-        
+
         # Initialize the pie plot if not initialized yet
         if ax is None:
             _, ax = plt.subplots()
@@ -867,7 +867,7 @@ class KPI_Calculator(object):
         i=0
         # Go through every component in this layer
         for k_outer,v_outer in iteritems(dictionary):
-            # Calculate the slice size of this component 
+            # Calculate the slice size of this component
             vals.append(self.sum_dict(v_outer))
             # Append the new label if not end point (if not in dontlabel)
             last_key = k_outer.split('__')[-1]
@@ -880,7 +880,7 @@ class KPI_Calculator(object):
                 for k_inner,v_inner in iteritems(v_outer):
                     # Give a unique nested key name to it
                     new_dict[k_outer+'__'+k_inner] = v_inner
-            # Check if this component is already a float end point 
+            # Check if this component is already a float end point
             elif isinstance(v_outer, float):
                 # If it is, add it to the new dictionary
                 new_dict[k_outer] = v_outer
@@ -893,43 +893,43 @@ class KPI_Calculator(object):
             # Make a shift if this is not an end point to do not use
             # the same color as the underlying end points. Make this
             # shift something characteristic of this layer by making
-            # use of its radius 
+            # use of its radius
             shift[i] = 0 if n==1 else 60*radius
             # Do not label this slice in the next layer if this was
             # already an end point or a null slice
-            if n==1: 
-                dontlabel.append(k_outer) 
+            if n==1:
+                dontlabel.append(k_outer)
             # Increase counter
             i+=1
-        
+
         # Assign the colors to every component in this layer
         colors = cmap((color_indexes[[cindexes_layer[:-1]]] + \
                        shift).astype(int))
-        
+
         # If breakdonut=True show a blank in the unlabeled items
         if breakdonut:
             for j,l in enumerate(labels):
-                if l is '': colors[j]=[0., 0., 0., 0.]   
-                
+                if l is '': colors[j]=[0., 0., 0., 0.]
+
         # Append the obtained slice values of this layer to the axes
-        ax.pie(np.array(vals), radius=radius, labels=labels, 
+        ax.pie(np.array(vals), radius=radius, labels=labels,
                labeldistance=radius, colors=colors,
                wedgeprops=dict(width=0.2, edgecolor='w', linewidth=0.3))
-        
+
         # Keep nesting if there is still any dictionary between the values
         if not all(isinstance(v, float) for v in dictionary.values()):
             self.plot_nested_pie(new_dict, ax, radius=radius-delta,
-                                 dontlabel=dontlabel, metric=metric, 
+                                 dontlabel=dontlabel, metric=metric,
                                  units=units)
-            
-        # Don't continue nesting if all components were float end points 
+
+        # Don't continue nesting if all components were float end points
         else:
             plt.title('Total {metric} = {value:.2f} {units}'.format(\
                 metric=metric, value=self.sum_dict(dictionary), units=units))
             # Equal aspect ratio ensures that pie is drawn as a circle
             ax.axis('equal')
             plt.show()
-            
+
 if __name__ == "__main__":
     '''Nested pie chart example'''
     ene_dict = {'Heating_damper_y':50.,
@@ -942,9 +942,8 @@ if __name__ == "__main__":
                 'Lighting_floor_1_zone1_lamp1_y':15.,
                 'Lighting_floor_1_zone1_lamp2_y':23.,
                 'Lighting_floor_1_zone2_y':87.,
-                'Lighting_floor_2_y':37.}  
-    
+                'Lighting_floor_2_y':37.}
+
     cal = KPI_Calculator(testcase=None)
     ene_tree = cal.get_dict_tree(ene_dict)
     cal.plot_nested_pie(ene_tree)
-    
