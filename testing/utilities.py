@@ -548,3 +548,35 @@ class partialTestAPI(partialChecks):
         scenario_set = requests.get('{0}/scenario'.format(self.url)).json()
         self.assertEqual(scenario, scenario_set)
         requests.put('{0}/scenario'.format(self.url), data=scenario_current)
+
+    def test_partial_results_inner(self):
+        '''Test getting results for start time after and final time before.
+
+        '''
+
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        res_inner = requests.put('{0}/results'.format(self.url), data={'point_name':measurements.keys()[0], \
+                                                                 'start_time':self.step_ref*0.25, \
+                                                                 'final_time':self.step_ref*0.75}).json()
+        df = pd.DataFrame.from_dict(res_inner).set_index('time')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_inner.csv')
+        self.compare_ref_timeseries_df(df, ref_filepath)
+
+    def test_partial_results_outer(self):
+        '''Test getting results for start time before and final time after.
+
+        '''
+
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        res_outer = requests.put('{0}/results'.format(self.url), data={'point_name':measurements.keys()[0], \
+                                                                 'start_time':0-self.step_ref, \
+                                                                 'final_time':self.step_ref*2}).json()
+        df = pd.DataFrame.from_dict(res_outer).set_index('time')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
+        self.compare_ref_timeseries_df(df, ref_filepath)
