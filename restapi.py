@@ -112,8 +112,8 @@ class Measurements(Resource):
 class Results(Resource):
     '''Interface to test case result data.'''
 
-    def post(self):
-        '''POST request to receive measurement data.'''
+    def put(self):
+        '''PUT request to receive measurement data.'''
         args = results_var.parse_args()
         var  = args['point_name']
         start_time  = float(args['start_time'])

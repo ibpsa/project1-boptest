@@ -272,13 +272,20 @@ class partialChecks(object):
 
         return s_test
 
-    def results_to_df(self, results):
+    def results_to_df(self, points, start_time, final_time, url='localhost:5000'):
         '''Convert results from boptest into pandas DataFrame timeseries.
 
         Parameters
         ----------
-        results: dict
-            Dictionary of results provided by boptest api "/results".
+        points: list of str
+            List of points to retrieve from boptest api.
+        start_time: float
+            Starting time of data to get in seconds.
+        final_time: float
+            Ending time of data to get in seconds.
+        url: str
+            URL pointing to deployed boptest test case.
+            Default is localhost:5000.
 
         Returns
         -------
@@ -288,13 +295,35 @@ class partialChecks(object):
         '''
 
         df = pd.DataFrame()
-        for s in ['y','u']:
-            for x in results[s].keys():
-                if x != 'time':
-                    df = pd.concat((df,pd.DataFrame(data=results[s][x], index=results['y']['time'],columns=[x])), axis=1)
+        for point in points:
+            res = requests.put('{0}/results'.format(self.url), data={'point_name':point,'start_time':start_time, 'final_time':final_time}).json()
+            df = pd.concat((df,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
         df.index.name = 'time'
 
         return df
+
+    def get_all_points(self, url='localhost:5000'):
+        '''Get all of the input and measurement point names from boptest.
+
+        Parameters
+        ----------
+        url: str, optional
+            URL pointing to deployed boptest test case.
+            Default is localhost:5000.
+
+        Returns
+        -------
+        points: list of str
+            List of available point names.
+
+        '''
+
+        measurements = requests.get('{0}/measurements'.format(url)).json()
+        inputs = requests.get('{0}/inputs'.format(url)).json()
+        points = measurements.keys() + inputs.keys()
+
+        return points
+
 
 class partialTestAPI(partialChecks):
     '''This partial class implements common API tests for test cases.
@@ -369,32 +398,28 @@ class partialTestAPI(partialChecks):
 
         '''
 
+        # Get measurements and inputs
+        points = self.get_all_points(self.url)
         # Get current step
         step = requests.get('{0}/step'.format(self.url)).json()
         # Initialize
-        y = requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600}).json()
+        start_time = 0.5*24*3600
+        y = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0.5*24*3600}).json()
         # Check that initialize returns the right initial values
         df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
         self.compare_ref_values_df(df, ref_filepath)
         # Check results are empty again
-        y = requests.get('{0}/results'.format(self.url)).json()
-        for key in y.keys():
-            for var in y[key].keys():
-                self.assertEqual(len(y[key][var]), 0)
+        for point in points:
+            res = requests.put('{0}/results'.format(self.url), data={'point_name':point,'start_time':0, 'final_time':step}).json()
+            self.assertEqual(len(res[point]), 0)
         # Advance
-        requests.put('{0}/step'.format(self.url), data={'step':1*24*3600})
+        step_advance = 1*24*3600
+        requests.put('{0}/step'.format(self.url), data={'step':step_advance})
         y = requests.post('{0}/advance'.format(self.url),data = {}).json()
-        res = requests.get('{0}/results'.format(self.url)).json()
         # Check trajectories
-        # Make dataframe
-        df = pd.DataFrame()
-        for s in ['y','u']:
-            for x in res[s].keys():
-                if x != 'time':
-                    df = pd.concat((df,pd.DataFrame(data=res[s][x], index=res['y']['time'],columns=[x])), axis=1)
-        df.index.name = 'time'
+        df = self.results_to_df(points, start_time, start_time+step_advance)
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
         # Check results
