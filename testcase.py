@@ -254,6 +254,8 @@ class TestCase(object):
         # Reset simulation data storage
         self.__initilize_data()
         self.elapsed_control_time = []
+        # Reset KPI Calculator
+        self.cal.initialize()
         # Set fmu intitialization
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
