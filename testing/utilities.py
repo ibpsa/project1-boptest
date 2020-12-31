@@ -296,7 +296,7 @@ class partialChecks(object):
 
         df = pd.DataFrame()
         for point in points:
-            res = requests.put('{0}/results'.format(self.url), data={'point_name':point,'start_time':start_time, 'final_time':final_time}).json()
+            res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':start_time, 'final_time':final_time}).json()
             df = pd.concat((df,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
         df.index.name = 'time'
 

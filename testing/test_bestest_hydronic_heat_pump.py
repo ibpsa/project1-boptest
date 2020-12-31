@@ -77,7 +77,7 @@ class Run(unittest.TestCase, utilities.partialChecks):
         requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
         # Check results
         points = self.get_all_points(self.url)
-        df = self.results_to_df(points, start_time, start_time+self.length)
+        df = self.results_to_df(points, start_time, start_time+self.length, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
         self.compare_ref_timeseries_df(df,ref_filepath)
 
