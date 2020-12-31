@@ -557,7 +557,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        requests.post('{0}/advance'.format(self.url), data=dict()).json()
         res_inner = requests.put('{0}/results'.format(self.url), data={'point_name':measurements.keys()[0], \
                                                                  'start_time':self.step_ref*0.25, \
                                                                  'final_time':self.step_ref*0.75}).json()
@@ -573,7 +573,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        requests.post('{0}/advance'.format(self.url), data=dict()).json()
         res_outer = requests.put('{0}/results'.format(self.url), data={'point_name':measurements.keys()[0], \
                                                                  'start_time':0-self.step_ref, \
                                                                  'final_time':self.step_ref*2}).json()
