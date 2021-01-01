@@ -272,7 +272,7 @@ class partialChecks(object):
 
         return s_test
 
-    def results_to_df(self, points, start_time, final_time, url='localhost:5000'):
+    def results_to_df(self, points, start_time, final_time, url='http://127.0.0.1:5000'):
         '''Convert results from boptest into pandas DataFrame timeseries.
 
         Parameters
@@ -285,7 +285,7 @@ class partialChecks(object):
             Ending time of data to get in seconds.
         url: str
             URL pointing to deployed boptest test case.
-            Default is localhost:5000.
+            Default is http://127.0.0.1:5000.
 
         Returns
         -------
@@ -419,7 +419,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/step'.format(self.url), data={'step':step_advance})
         y = requests.post('{0}/advance'.format(self.url),data = {}).json()
         # Check trajectories
-        df = self.results_to_df(points, start_time, start_time+step_advance)
+        df = self.results_to_df(points, start_time, start_time+step_advance, self.url)
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
         # Check results
