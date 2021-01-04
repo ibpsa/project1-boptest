@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module runs tests for bestest_hydronic_heat_pump.  
-To run these tests, testcase bestest_hydronic_heat_pump must already 
+This module runs tests for bestest_hydronic_heat_pump.
+To run these tests, testcase bestest_hydronic_heat_pump must already
 be deployed.
 
 """
@@ -14,39 +14,39 @@ import requests
 
 class Run(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test case.
-    
+
     '''
-    
+
     def setUp(self):
         '''Setup for each test.
-        
+
         '''
-        
+
         self.name = 'bestest_hydronic_heat_pump'
         self.url = 'http://127.0.0.1:5000'
         self.length = 48*3600
-    
+
     def test_winter(self):
         self._run('winter')
-        
+
     def test_summer(self):
         self._run('summer')
-        
+
     def test_shoulder(self):
         self._run('shoulder')
 
     def _run(self, season):
         '''Runs the example and tests the kpi and trajectory results for season.
-        
+
         Parameters
         ----------
         season: str
             'winter' or 'summer' or 'shoulder'
-            
+
         Returns
         -------
         None
-        
+
         '''
 
         if season == 'winter':
@@ -81,20 +81,20 @@ class Run(unittest.TestCase, utilities.partialChecks):
         df = self.results_to_df(res_results)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
         self.compare_ref_timeseries_df(df,ref_filepath)
-        
+
 class API(unittest.TestCase, utilities.partialTestAPI):
-    '''Tests the api for testcase.  
-    
-    Actual test methods implemented in utilities.partialTestAPI.  Set self 
+    '''Tests the api for testcase.
+
+    Actual test methods implemented in utilities.partialTestAPI.  Set self
     attributes defined there for particular testcase in setUp method here.
 
     '''
 
     def setUp(self):
         '''Setup for testcase.
-        
+
         '''
-        
+
         self.name = 'bestest_hydronic_heat_pump'
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'

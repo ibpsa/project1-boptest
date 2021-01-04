@@ -5,8 +5,8 @@ Core KPIs
 ------------
 
 The following KPI definitions constitute the core KPIs to be calculated
-in every test case, and documentation of the KPI considered during the 
-development phase is provided in the Appendix (See :ref:`SecAppKpi`). 
+in every test case, and documentation of the KPI considered during the
+development phase is provided in the Appendix (See :ref:`SecAppKpi`).
 During the IBPSA expert meetings, these core KPIs have been selected as the most
 representative and relevant indicators to compare different control
 approaches for buildings. Additional KPIs may be calculated and used for
@@ -37,7 +37,7 @@ Total building energy use in a given period of time
    This KPI is the measure of the total building site energy use in :math:`kWh`
    when accounting for the sum of all energy vectors present in the test
    case building. Each test case determines the energy vectors and conversion factors
-   necessary for HVAC (heating, cooling, fans, pumps), lighting, etc. 
+   necessary for HVAC (heating, cooling, fans, pumps), lighting, etc.
    The mathematical formulation for this KPI is the following:
 
    .. math:: E(t_0, t_f) = \sum_{i\in \xi} \int_{t=t_0}^{t=t_f}\ P_i(t) dt
@@ -51,14 +51,14 @@ Total building energy use in a given period of time
 Total Building CO2 emissions in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   This KPI is the measure of the total amount of source CO2 emissions in 
+   This KPI is the measure of the total amount of source CO2 emissions in
    :math:`kg` when accounting for the sum of all energy vectors in the test
-   case building, each using an emission factor profile based on the source of energy. 
-   The emission factors are to be related with the energy mix associated with 
-   the location of the test case building. According to this, the total 
+   case building, each using an emission factor profile based on the source of energy.
+   The emission factors are to be related with the energy mix associated with
+   the location of the test case building. According to this, the total
    amount of CO2 emissions are calculated as:
 
-   .. math:: \epsilon (t_0, t_f) = \sum_{i\in \xi} \int_{t=t_0}^{t=t_f}e_i(t)P_i(t) dt 
+   .. math:: \epsilon (t_0, t_f) = \sum_{i\in \xi} \int_{t=t_0}^{t=t_f}e_i(t)P_i(t) dt
 
    Where :math:`\epsilon (t_0, t_f)` is the equivalent total amount of CO2
    emissions during the period of time between :math:`t_0` and :math:`t_f`.
@@ -68,11 +68,11 @@ Total Building CO2 emissions in a given period of time
 Total operational cost in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   This KPI is the measure of the total operational cost in :math:`\$` when 
-   accounting for the sum of all energy vectors in the test case building, 
-   each using a price profile based on the source of energy and given tariff 
+   This KPI is the measure of the total operational cost in :math:`\$` when
+   accounting for the sum of all energy vectors in the test case building,
+   each using a price profile based on the source of energy and given tariff
    archetype.  Three tariff archetypes are defined:
-   constant, moderately dynamic (e.g. day/peak and night/off-peak pricing), 
+   constant, moderately dynamic (e.g. day/peak and night/off-peak pricing),
    and highly dynamic (e.g. real-time pricing).
 
    .. math:: C^\tau(t_0, t_f) = \sum_{i\in \xi}\int_{t=t_0}^{t=t_f}p_i^\tau(t) P_i(t) dt
@@ -81,8 +81,8 @@ Total operational cost in a given period of time
    between time :math:`t_0` and :math:`t_f` with a tariff :math:`\tau`; :math:`p_i^\tau`
    is the price profile of equipment :math:`i` with a tariff :math:`\tau` and
    has units of :math:`\$/kW`.
-   
-Indoor air quality violation 
+
+Indoor air quality violation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    The indoor air quality violation is the integral of the deviation of the
@@ -95,15 +95,15 @@ Indoor air quality violation
    .. math:: \phi_z(t)=\gamma_z(t)-\gamma_{r,z}(t), \quad if \quad\gamma_z(t)>\gamma_{r,z}(t)
 
    .. math:: \phi_z(t)=0, \quad if \quad \gamma_z(t) \leq \gamma_{r,z}(t)
-   
+
    Where
    :math:`\Phi` is the total violation of carbon dioxide CO2
    concentration in :math:`ppmh` between the initial time :math:`t_0` and the final
    time :math:`t_f`. :math:`z` is the zone index for the set of zones in the
    building :math:`\mathbb{Z}`. :math:`\phi_z` is the deviation of measured
-   zone CO2 concentration :math:`\gamma_z` from the zone CO2 concentration 
+   zone CO2 concentration :math:`\gamma_z` from the zone CO2 concentration
    threshold :math:`\gamma_{r,z}`.
-   
+
 Computational time ratio
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -111,7 +111,7 @@ Computational time ratio
    required by the controller to compute the control inputs between simulation
    steps :math:`k` and :math:`k-1`.  It needs to be shorter than the duration of the
    simulation step of that iteration, :math:`T_s(k)`.
-   The ratio between :math:`t_c(k)` and :math:`T_s(k)` helps indicate the 
+   The ratio between :math:`t_c(k)` and :math:`T_s(k)` helps indicate the
    practicality of the controller as well as potential for increasing
    computational time.
 
@@ -133,7 +133,7 @@ Installation metrics
    the controller settled and running. Many aspects play a role in this
    sense. They are intrinsically subjective and therefore require
    qualitative measures. Therefore, these metrics are provided by the
-   controller developer in the form of a simple score 
+   controller developer in the form of a simple score
    according to the following categories.  These categories may be refined in
    the future.
 

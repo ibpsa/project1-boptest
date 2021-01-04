@@ -1,4 +1,4 @@
-#1																													
+#1
 double tab1(8760,30)
 #LOCATION,Uccle weather station,Brussels,Belgium,TMY3,123456789,50.8023,4.3394,1.0,48
 #C1 Time in seconds. Beginning of a year is 0s.

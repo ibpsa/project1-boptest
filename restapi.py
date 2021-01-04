@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module implements the REST API used to interact with the test case.  
-The API is implemented using the ``flask`` package.  
+This module implements the REST API used to interact with the test case.
+The API is implemented using the ``flask`` package.
 
 """
 
@@ -55,10 +55,10 @@ parser_scenario.add_argument('electricity_price')
 # DEFINE REST REQUESTS
 # --------------------
 class Advance(Resource):
-    '''Interface to advance the test case simulation.'''    
-    
+    '''Interface to advance the test case simulation.'''
+
     def post(self):
-        '''POST request with input data to advance the simulation one step 
+        '''POST request with input data to advance the simulation one step
         and receive current measurements.'''
         u = parser_advance.parse_args()
         y = case.advance(u)
@@ -66,18 +66,18 @@ class Advance(Resource):
 
 class Initialize(Resource):
     '''Interface to initialize the test case simulation.'''
-    
+
     def put(self):
         '''PUT request to initialize the test.'''
         args = parser_initialize.parse_args()
         start_time = float(args['start_time'])
         warmup_period = float(args['warmup_period'])
-        y = case.initialize(start_time,warmup_period)      
+        y = case.initialize(start_time,warmup_period)
         return y
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''
-    
+
     def get(self):
         '''GET request to receive current simulation step in seconds.'''
         step = case.get_step()
@@ -89,26 +89,26 @@ class Step(Resource):
         step = args['step']
         case.set_step(step)
         return step, 201
-        
+
 class Inputs(Resource):
     '''Interface to test case inputs.'''
-    
+
     def get(self):
         '''GET request to receive list of available inputs.'''
         u_list = case.get_inputs()
         return u_list
-        
+
 class Measurements(Resource):
     '''Interface to test case measurements.'''
-    
+
     def get(self):
         '''GET request to receive list of available measurements.'''
         y_list = case.get_measurements()
         return y_list
-        
+
 class Results(Resource):
     '''Interface to test case result data.'''
-    
+
     def get(self):
         '''GET request to receive measurement data.'''
         Y = case.get_results()
@@ -121,23 +121,23 @@ class Results(Resource):
             u_lists[key] = Y['u'][key].tolist()
         Y_lists = {'y':y_lists, 'u':u_lists}
         return Y_lists
-        
+
 class KPI(Resource):
     '''Interface to test case KPIs.'''
-    
+
     def get(self):
         '''GET request to receive KPI data.'''
         kpi = case.get_kpis()
         return kpi
-    
+
 class Forecast_Parameters(Resource):
     '''Interface to test case forecast parameters.'''
-    
+
     def get(self):
         '''GET request to receive forecast parameters.'''
         forecast_parameters = case.get_forecast_parameters()
         return forecast_parameters
-    
+
     def put(self):
         '''PUT request to set forecast horizon and interval inseconds.'''
         args = parser_forecast_parameters.parse_args()
@@ -146,10 +146,10 @@ class Forecast_Parameters(Resource):
         case.set_forecast_parameters(horizon, interval)
         forecast_parameters = case.get_forecast_parameters()
         return forecast_parameters
-    
+
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
-    
+
     def get(self):
         '''GET request to receive forecast data.'''
         forecast = case.get_forecast()
@@ -157,7 +157,7 @@ class Forecast(Resource):
 
 class Scenario(Resource):
     '''Interface to test case scenario.'''
-    
+
     def get(self):
         '''GET request to receive current scenario.'''
         scenario = case.get_scenario()
@@ -168,17 +168,19 @@ class Scenario(Resource):
         scenario = parser_scenario.parse_args()
         case.set_scenario(scenario)
         scenario = case.get_scenario()
+        # It's needed to reset KPI Calculator when scenario is changed
+        case.cal.initialize()
         return scenario
 
 class Name(Resource):
     '''Interface to test case name.'''
-    
+
     def get(self):
         '''GET request to receive test case name.'''
         name = case.get_name()
         return name
 # --------------------
-        
+
 # ADD REQUESTS TO API WITH URL EXTENSION
 # --------------------------------------
 api.add_resource(Advance, '/advance')

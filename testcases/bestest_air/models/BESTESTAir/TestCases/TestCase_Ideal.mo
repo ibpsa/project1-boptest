@@ -32,7 +32,7 @@ General model description.
 <h4>Architecture</h4>
 <p>
 The building is a single room based on the BESTEST Case 900 model definition.
-The floor dimensions are 6m x 8m and the floor-to-ceiling height is 2.7m.  
+The floor dimensions are 6m x 8m and the floor-to-ceiling height is 2.7m.
 There are four exterior walls facing the cardinal directions and a flat roof.
 The walls facing east-west have the short dimension.  The south wall contains
 two windows, each 3m wide and 2m tall.  The use of the building is assumed
@@ -42,7 +42,7 @@ to be a two-person office with a light load density.
 <p>
 The constructions are based on the BESTEST Case 900 model definition.  The
 exterior walls are made of concrete block and insulation, while the floor
-is a concrete slab.  The roof is made of wood frame with insulation.  The 
+is a concrete slab.  The roof is made of wood frame with insulation.  The
 layer-by-layer specifications are (Outside to Inside):
 </p>
 <p>
@@ -193,54 +193,54 @@ The windows are double pane clear 3.175mm glass with 13mm air gap.
 
 <h4>Occupancy schedules</h4>
 <p>
-There is maximum occupancy (two people) from 8am to 6pm each day, 
+There is maximum occupancy (two people) from 8am to 6pm each day,
 and no occupancy during all other times.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
 The internal heat gains from plug loads come mainly from computers and monitors.
 The internal heat gains from lighting come from hanging fluorescent fixtures.
-Both types of loads are at maximum during occupied periods and 0.1 maximum 
-during all other times.  The occupied heating and cooling temperature 
+Both types of loads are at maximum during occupied periods and 0.1 maximum
+during all other times.  The occupied heating and cooling temperature
 setpoints are 21 C and 24 C respectively, while the unoccupied heating
 and cooling temperature setpoints are 15 C and 30 C respectively.
 
 </p>
 <h4>Climate data</h4>
 <p>
-The climate is assumed to be near Denver, CO, USA with a latitude and 
-longitude of 39.76,-104.86.  The climate data comes from the 
+The climate is assumed to be near Denver, CO, USA with a latitude and
+longitude of 39.76,-104.86.  The climate data comes from the
 Denver-Stapleton,CO,USA,TMY.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-Heating and cooling is provided to the office using an idealized four-pipe 
-fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil, 
-and filter.  The fan draws room air into the unit, blows it over the coils 
+Heating and cooling is provided to the office using an idealized four-pipe
+fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil,
+and filter.  The fan draws room air into the unit, blows it over the coils
 and through the filter, and supplies the conditioned air back to the room.
 There is a variable speed drive serving the fan motor.  The cooling coil
-is served by chilled water produced by a chiller and the heating coil is 
+is served by chilled water produced by a chiller and the heating coil is
 served by hot water produced by a gas boiler.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
-For the fan, the design airflow rate is 0.55 kg/s and design pressure rise is 
+For the fan, the design airflow rate is 0.55 kg/s and design pressure rise is
 185 Pa.  The fan and motor efficiencies are both constant at 0.7.
 The heat from the motor is added to the air stream.
 
-The COP of the chiller is assumed constant at 3.0.  The efficiency of the 
+The COP of the chiller is assumed constant at 3.0.  The efficiency of the
 gas boiler is assumed constant at 0.9.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
 A baseline thermostat controller provides heating and cooling as necessary
-to the room by modulating the supply air temperature and 
-fan speed.  The thermostat uses two different PI controllers for heating and 
+to the room by modulating the supply air temperature and
+fan speed.  The thermostat uses two different PI controllers for heating and
 cooling, each taking the respective zone temperature setpoint and zone
-temperature measurement as inputs.  The outputs are used to control supply air 
+temperature measurement as inputs.  The outputs are used to control supply air
 temperature during heating and cooling, as well as the fan speed.  For
-heating, the maximum supply air temperature is 40 C and the minimum is the 
+heating, the maximum supply air temperature is 40 C and the minimum is the
 zone occupied heating temperature setpoint.  For cooling, the minimum supply
 air temperature is 12 C and the maximum is the zone occupied cooling
 temperature setpoint.
@@ -272,40 +272,109 @@ The model inputs are:
 The model outputs are:
 <ul>
 <li>
-<code>fcu_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>zon_weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
 </li>
 <li>
-<code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
+<code>zon_weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
 </li>
 <li>
-<code>fcu_reaTSup_y</code> [K] [min=None, max=None]: Supply air temperature setpoint
+<code>zon_weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
 </li>
 <li>
 <code>con_reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
 </li>
 <li>
-<code>zon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
-</li>
-<li>
-<code>fcu_reaPFan_y</code> [W] [min=None, max=None]: Supply fan electrical power consumption
-</li>
-<li>
-<code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
-</li>
-<li>
-<code>fcu_reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
+<code>fcu_reaFanSet_y</code> [1] [min=None, max=None]: Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate
 </li>
 <li>
 <code>zon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
 </li>
 <li>
-<code>fcu_reaFanSet_y</code> [1] [min=None, max=None]: Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate
+<code>zon_weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>zon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
+</li>
+<li>
+<code>zon_weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>zon_weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>zon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
+</li>
+<li>
+<code>fcu_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+</li>
+<li>
+<code>fcu_reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
+</li>
+<li>
+<code>zon_weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>zon_weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
+</li>
+<li>
+<code>zon_weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>fcu_reaTSup_y</code> [K] [min=None, max=None]: Supply air temperature setpoint
 </li>
 <li>
 <code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>zon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
+<code>zon_weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>fcu_reaPFan_y</code> [W] [min=None, max=None]: Supply fan electrical power consumption
+</li>
+<li>
+<code>zon_weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
 </li>
 </ul>
 <h3>Additional System Design</h3>
@@ -342,14 +411,14 @@ A constant infiltration flowrate is assumed to be 0.5 ACH.
 The supply air temperature is directly specified.
 </p>
 <p>
-CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017) 
-and density of CO2 assumed to be 1.8 kg/m^3, 
+CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017)
+and density of CO2 assumed to be 1.8 kg/m^3,
 making CO2 generation 8.64e-6 kg/s per person.
-Outside air CO2 concentration is 400 ppm.  However, CO2 concentration 
+Outside air CO2 concentration is 400 ppm.  However, CO2 concentration
 is not controlled for in the model.
 </p>
 <p>
-Persily, A. and De Jonge, L. (2017). 
+Persily, A. and De Jonge, L. (2017).
 Carbon dioxide generation rates for building occupants.
 Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
@@ -359,7 +428,7 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 The <b>Constant Electricity Price</b> profile is:
 <ul>
 Based on the Schedule R tariff
-for winter season and summer season first 500 kWh as defined by the 
+for winter season and summer season first 500 kWh as defined by the
 utility servicing the assumed location of the test case.  It is $0.05461/kWh.
 For reference,
 see https://www.xcelenergy.com/company/rates_and_regulations/rates/rate_books
@@ -407,7 +476,7 @@ The Winter season is October 1 to May 31.
 <u>The On-Peak Period is</u>:
 <ul>
 <li>
-Summer and Winter weekdays except Holidays, between 2:00 p.m. and 6:00 p.m. 
+Summer and Winter weekdays except Holidays, between 2:00 p.m. and 6:00 p.m.
 local time.
 </li>
 </ul>
@@ -425,7 +494,7 @@ Summer and Winter weekends and Holidays, between 9:00 a.m. and
 <u>The Off-Peak Period is</u>:
 <ul>
 <li>
-Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time. 
+Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time.
 </li>
 </ul>
 </ul>
@@ -434,7 +503,7 @@ Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time.
 The <b>Highly Dynamic Electricity Price</b> profile is:
 <ul>
 Based on the the
-day-ahead energy prices (LMP) as determined in the Southwest Power Pool 
+day-ahead energy prices (LMP) as determined in the Southwest Power Pool
 wholesale electricity market for node LAM345 in the year 2018.
 For reference,
 see https://marketplace.spp.org/pages/da-lmp-by-location#%2F2018.
@@ -443,7 +512,7 @@ see https://marketplace.spp.org/pages/da-lmp-by-location#%2F2018.
 <p>
 The <b>Gas Price</b> profile is:
 <ul>
-Based on the Schedule R tariff for usage price per therm as defined by the 
+Based on the Schedule R tariff for usage price per therm as defined by the
 utility servicing the assumed location of the test case.  It is $0.002878/kWh
 ($0.0844/therm).
 For reference,
@@ -464,7 +533,7 @@ see https://www.eia.gov/electricity/state/colorado/.
 <p>
 The <b>Gas Emissions Factor</b> profile is:
 <ul>
-Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+Based on the kgCO2 emitted per amount of natural gas burned in terms of
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
@@ -473,6 +542,10 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </html>",
 revisions="<html>
 <ul>
+<li>
+November 10, 2020, by David Blum:<br/>
+Add weather station measurements.
+</li>
 <li>
 March 4, 2020, by David Blum:<br/>
 Updated CO2 generation per person and method of ppm calculation.

@@ -18,7 +18,6 @@ install:
 
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
-  
+
 script:
   - (cd testing && make test_all)
-

@@ -12,23 +12,23 @@ import utilities
 from examples.python import testcase3
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
-    '''Tests the example test of proportional feedback controller with 
+    '''Tests the example test of proportional feedback controller with
     two zones in Python.
-    
+
     '''
-    
+
     def setUp(self):
         '''Setup for each test.
-        
+
         '''
 
         pass
-        
+
     def test_run(self):
         '''Runs the example and tests the kpi and trajectory results.
-        
+
         '''
-        
+
         # Run test
         kpi,res = testcase3.run()
         # Check kpis
@@ -43,18 +43,18 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         self.compare_ref_timeseries_df(df,ref_filepath)
 
 class API(unittest.TestCase, utilities.partialTestAPI):
-    '''Tests the api for testcase 3.  
-    
-    Actual test methods implemented in utilities.partialTestAPI.  Set self 
+    '''Tests the api for testcase 3.
+
+    Actual test methods implemented in utilities.partialTestAPI.  Set self
     attributes defined there for particular testcase in setUp method here.
 
     '''
 
     def setUp(self):
         '''Setup for testcase.
-        
+
         '''
-        
+
         self.name = 'testcase3'
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
