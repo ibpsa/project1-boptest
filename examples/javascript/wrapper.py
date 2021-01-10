@@ -61,7 +61,7 @@ if div.value !='':
 
 tab_kpi = pd.DataFrame.from_dict(kpis, orient='index', columns=['value'])
 tab_kpi.index.name = 'keys'
-tab_kpi.to_csv('/home/kpi_testcase{}.csv'.format(testcase))
+tab_kpi.to_csv('/home/kpi_{}.csv'.format(testcase))
 
 ########## kill the browser process ##########
 
