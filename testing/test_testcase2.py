@@ -107,10 +107,7 @@ class ExampleSupervisoryJavaScript(unittest.TestCase, utilities.partialChecks):
         kpi_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'kpi_testcase2.csv')
         res_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'result_testcase2.csv')
         # Check kpis
-        df = pd.read_csv(kpi_path).transpose()
-        # Check kpis
-        df.columns = ['value']
-        df.index.name = 'keys'
+        df = pd.read_csv(kpi_path, index_col = 'keys')
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'kpis_javascript.csv')
         self.compare_ref_values_df(df, ref_filepath)
         # Check trajectories

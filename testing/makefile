@@ -85,6 +85,7 @@ test_testcase1:
 	cd .. && make stop TESTCASE=testcase1
 # Remove testcase image
 	cd ../examples/julia && make remove-image Script=testcase1
+	cd ../examples/javascript && make remove-image Script=testcase1
 
 test_testcase2:
 # Compile testcase model
@@ -105,6 +106,7 @@ test_testcase2:
 	cd .. && make stop TESTCASE=testcase2
 # Remove testcase image
 	cd ../examples/julia && make remove-image Script=testcase2
+	cd ../examples/javascript && make remove-image Script=testcase2
 
 test_bestest_air:
 # Compile testcase model
