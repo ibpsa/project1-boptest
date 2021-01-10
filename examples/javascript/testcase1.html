@@ -5,7 +5,7 @@
 
 <!-- SETUP TEST CASE -->
 
-count=1;
+count = 1;
 point = "";
 step = 300;
 length = 48*3600
@@ -13,6 +13,7 @@ LowerSetp = 273.15+20
 UpperSetp = 273.15+23
 k_p = 2000
 url = "http://127.0.0.1:5000/";
+control_interval = 5;
 
 <!-- DATA CONTAINER -->
 
@@ -236,7 +237,7 @@ function send()
 };
 
 // schedule the first invocation:
-setInterval(send, 10);
+setInterval(send, control_interval);
 
 </script>
 </head>

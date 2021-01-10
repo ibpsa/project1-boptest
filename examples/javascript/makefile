@@ -16,8 +16,7 @@ remove-image:
 
 run:
 	$(COMMAND_RUN) && \
-	docker cp . ${IMG_NAME}:/home && \
-	docker exec -it ${IMG_NAME} /bin/bash -c "pip install pandas && python /home/wrapper.py /home/${Script}.html" && \
+	docker exec -it ${IMG_NAME} /bin/bash -c "pip install pandas && python wrapper.py ${Script}" && \
 	make copy_from_container ARGS=. && \
 	docker stop ${IMG_NAME}
 

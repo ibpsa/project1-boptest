@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ARG testcase
+
 RUN apt-get update && \
     apt-get install -y \
 	firefox \
@@ -14,8 +16,16 @@ RUN cd /home && \
 	tar -xvzf geckodriver*  && \
 	rm geckodriver-* 
 
-
 ENV PATH $PATH:/home
+
+WORKDIR /home
+
+COPY wrapper.py ./
+
+COPY geckodriver ./
+
+COPY ${testcase}.html ./
+
 
 
 	
