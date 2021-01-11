@@ -11,6 +11,8 @@ step = 3600;
 length = 48*3600
 
 url = "http://127.0.0.1:5000/";
+control_interval = 5;
+
 
 <!-- DATA CONTAINER -->
 
@@ -227,7 +229,7 @@ function send()
 };
 
 // schedule the first invocation:
-setInterval(send, 10);
+setInterval(send, control_interval);
 
 </script>
 </head>
