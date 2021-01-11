@@ -25,4 +25,3 @@ copy_from_container:
 
 stop:
 	docker stop ${Script}
-	

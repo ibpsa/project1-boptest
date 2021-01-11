@@ -40,8 +40,8 @@ while try_results:
         div = results[0]
         if div.value !='':
              result= eval(div.value)
-        tab=pd.DataFrame(result['u'])        
-        try_results = False        
+        tab=pd.DataFrame(result['u'])
+        try_results = False
     except:
         try_results = True
 
