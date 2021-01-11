@@ -12,7 +12,7 @@ imported from a different module.
 import requests
 import time
 import numpy as np
-from custom_kpi import custom_kpi_calculator as kpicalculation
+from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
 
 # ----------------------
