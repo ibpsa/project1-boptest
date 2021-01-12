@@ -121,11 +121,10 @@ class TestCase(object):
                                      options=self.options, 
                                      input=input_object)
         except Exception as e:
-            return {'message':'failure','error':e}
+            return {'message':'failure','error':e,'result':res}
         # Set internal fmu initialization
         self.initialize_fmu = False
-
-        return {'message':'success','result':res}            
+        return {'message':'success','error':None,'result':res}            
            
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -198,11 +197,8 @@ class TestCase(object):
             self.start_time = self.final_time
             # Raise the flag to compute time lapse
             self.tic_time = time.time()
-
-            return {'message':'success','result':self.y}
-
+            return {'message':'success','error':None,'result':self.y}
         else:
-
             return {'message':'failure','error':res['error'],'result':None}        
 
     def initialize(self, start_time, warmup_period):
@@ -236,12 +232,9 @@ class TestCase(object):
         if res['message'] == 'success': 
             # Set internal start time to start_time
             self.start_time = start_time
-
-            return {'message':'success'}
-
+            return {'message':'success','error':None,'result':None}
         else:
-
-            return {'message':'failure','error':res['error']} 
+            return {'message':'failure','error':res['error'],'result':None} 
         
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
@@ -261,20 +254,10 @@ class TestCase(object):
         None
         
         '''
-
-        try: 
+      
+        self.step = float(step)  
         
-             self.step = float(step)
-            
-        except TypeError:
-        
-             return {'message':'failure','error':'insufficient input','result':None}
-             
-        except ValueError:
-        
-             return {'message':'failure','error':'invalid input','result':None}     
-
-        return {'message':'success'}
+        return 
         
     def get_inputs(self):
         '''Returns a dictionary of control inputs and their meta-data.
@@ -372,22 +355,10 @@ class TestCase(object):
         None
         
         '''
-
-        try: 
         
-             self.horizon = float(horizon)
-        
-             self.interval = float(interval)
-            
-        except TypeError:
-        
-             return {'message':'failure','error':'insufficient input','result':None}
-             
-        except ValueError:
-        
-             return {'message':'failure','error':'invalid input','result':None}
-
-        return {'message':'success'}             
+        self.horizon = float(horizon)        
+        self.interval = float(interval)
+        return             
     
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.'''
@@ -543,6 +514,5 @@ class TestCase(object):
             print('WARNING: Value of {0} for {1} is below minimum of {2}.  Using {2}.'.format(value, var, mini))
         else:
             checked_value = value
-
         return checked_value
             
