@@ -8,6 +8,7 @@
 dymosim
 dsmodel.c
 examples/julia/*.csv
+examples/javascript/*.csv
 testcase2/doc/build/
 parser/*.fmu
 parser/*.mo

@@ -9,6 +9,7 @@ The API is implemented using the ``flask`` package.
 # ----------------------
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS
 # ----------------------
 
 # TEST CASE IMPORT
@@ -19,6 +20,7 @@ from testcase import TestCase
 # FLASK REQUIREMENTS
 # ------------------
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 api = Api(app)
 # ------------------
 
