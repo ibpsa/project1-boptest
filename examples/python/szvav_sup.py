@@ -129,9 +129,11 @@ def run(plot=False, customized_kpi_config=None):
     # ------------
     # Report KPIs
     kpi = requests.get('{0}/kpi'.format(url)).json()
+    
     if kpi['message'] == 'success':
        print('\nKPI RESULTS \n-----------')
-       for key in kpi['result'].keys():
+       kpi = kpi['result']
+       for key in kpi.keys():
           if key == 'ener_tot':
                unit = 'kWh'
           elif key == 'tdis_tot':
@@ -144,7 +146,7 @@ def run(plot=False, customized_kpi_config=None):
                unit = 'KgCO2'
           else:
                unit = None
-          print('{0}: {1} {2}'.format(key, kpi['result'][key], unit))
+          print('{0}: {1} {2}'.format(key, kpi[key], unit))
     # ------------ 
         
     # POST PROCESS RESULTS
@@ -152,15 +154,15 @@ def run(plot=False, customized_kpi_config=None):
     # Get result data
     res = requests.get('{0}/results'.format(url)).json()
     if res['message'] == 'success':
-        res = res['result']
-        t = [x/3600 for x in res['y']['time']] # convert s --> hr
-        TRooAir = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-        TSetRooHea = [x-273.15 for x in res['u']['oveTSetRooHea_u']] # convert K --> C
-        TSetRooCoo = [x-273.15 for x in res['u']['oveTSetRooCoo_u']] # convert K --> C
-        PFan = res['y']['PFan_y']
-        PCoo = res['y']['PCoo_y']
-        PHea = res['y']['PHea_y']
-        PPum = res['y']['PPum_y']
+        result = res['result']
+        t = [x/3600 for x in result['y']['time']] # convert s --> hr
+        TRooAir = [x-273.15 for x in result['y']['TRooAir_y']] # convert K --> C
+        TSetRooHea = [x-273.15 for x in result['u']['oveTSetRooHea_u']] # convert K --> C
+        TSetRooCoo = [x-273.15 for x in result['u']['oveTSetRooCoo_u']] # convert K --> C
+        PFan = result['y']['PFan_y']
+        PCoo = result['y']['PCoo_y']
+        PHea = result['y']['PHea_y']
+        PPum = result['y']['PPum_y']
     # Plot results
     if plot and res['message'] == 'success':
         from matplotlib import pyplot as plt
@@ -183,7 +185,7 @@ def run(plot=False, customized_kpi_config=None):
         plt.show()
     # --------------------
    
-    return kpi,res,customizedkpis_result 
+    return kpi,result,customizedkpis_result 
         
 if __name__ == "__main__":
     kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')

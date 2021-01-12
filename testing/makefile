@@ -86,7 +86,7 @@ test_testcase1:
 
 test_testcase2:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2 
+#	make compile_testcase_model TESTCASE=testcase2 
 # Build testcase image
 	cd .. && make build TESTCASE=testcase2
 # Deploy testcase container
@@ -127,7 +127,7 @@ test_parser:
 
 test_data:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2
+#	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
 # Run jm docker container
 	make run_jm
@@ -148,7 +148,7 @@ test_data:
 	
 test_forecast:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2
+#	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
 # Run jm docker container
 	make run_jm
@@ -167,7 +167,7 @@ test_forecast:
 	
 test_kpis:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2
+#	make compile_testcase_model TESTCASE=testcase2
 	make compile_testcase_model TESTCASE=testcase3
 # Run jm docker container
 	make run_jm

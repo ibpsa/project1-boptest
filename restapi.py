@@ -7,7 +7,7 @@ The API is implemented using the ``flask`` package.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-from flask import Flask, request
+from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import logging
 import argparse
@@ -69,11 +69,7 @@ class Advance(Resource):
     
     def post(self):
         '''POST request with input data to advance the simulation one step 
-        and receive current measurements.'''                
-        parse = request.get_json(silent = True)        
-        if parse is None:        
-            app.logger.error("Receiving a invalid advance request")                     
-            return {'message':'failure','error':'invalid json input','result':None}                
+        and receive current measurements.'''                           
         u = parser_advance.parse_args()        
         app.logger.info("Receiving a new advance request: {}".format(u))                 
         result = case.advance(u)        
@@ -88,11 +84,7 @@ class Initialize(Resource):
     '''Interface to initialize the test case simulation.'''
     
     def put(self):
-        '''PUT request to initialize the test.'''        
-        parse = request.get_json(silent = True)       
-        if parse is None:        
-            app.logger.error("Receiving a invalid initialize request")                     
-            return {'message':'failure','error':'invalid json input','result':None}            
+        '''PUT request to initialize the test.'''                 
         args = parser_initialize.parse_args()        
         app.logger.info("Receiving a new initialize request: {}".format(args))         
         try:         
@@ -111,7 +103,6 @@ class Initialize(Resource):
         else:        
             app.logger.error("Fail to initialize the simulation:{}".format(result['error']))
             return {'message':'failure','error':result['error'],'result':None}                                        
-        return result
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''
@@ -127,11 +118,7 @@ class Step(Resource):
         return {'message':'success','error':None,'result':step}  
 
     def put(self):
-        '''PUT request to set simulation step in seconds.'''               
-        parse = request.get_json(silent = True)        
-        if parse is None:        
-            app.logger.error("Receiving a invalid set step request")                    
-            return {'message':'failure','error':'invalid json input','result':None}                  
+        '''PUT request to set simulation step in seconds.'''                            
         args = parser_step.parse_args()        
         app.logger.info("Receiving a new set step request: {}".format(args))         
         step = args['step']        
@@ -208,11 +195,7 @@ class Forecast_Parameters(Resource):
         return {'message':'success','error':None,'result':forecast_parameters}        
     
     def put(self):
-        '''PUT request to set forecast horizon and interval inseconds.'''        
-        parse = request.get_json(silent = True)        
-        if parse is None:                    
-            app.logger.error("Receiving a invalid set forcast request")                     
-            return {'message':'failure','error':'invalid json input','result':None}            
+        '''PUT request to set forecast horizon and interval inseconds.'''                 
         args = parser_forecast_parameters.parse_args()
         app.logger.info("Receiving a new request for setting the forecast: ()".format(args))                
         horizon  = args['horizon']        
@@ -221,8 +204,9 @@ class Forecast_Parameters(Resource):
             result = case.set_forecast_parameters(horizon, interval)            
         except Exception as e:        
             app.logger.error("Fail to return the KPI:{}".format(e))        
-            return {'message':'failure','error':e,'result':None}                         
-        return {'message':'success','error':None,'result':None}
+            return {'message':'failure','error':e,'result':None}
+        forecast_parameters = case.get_forecast_parameters()            
+        return {'message':'success','error':None,'result':forecast_parameters}
     
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
@@ -235,7 +219,7 @@ class Forecast(Resource):
         except Exception as e:        
             app.logger.error("Fail to return the forecast:{}".format(e))        
             return {'message':'failure','error':e,'result':None}                         
-        return {'message':'success','result':forecast,'result':forecast}  
+        return {'message':'success','result':forecast,'error':forecast}  
 
         
 class Name(Resource):
@@ -249,7 +233,7 @@ class Name(Resource):
         except Exception as e:        
             app.logger.error("Fail to return the case name:{}".format(e))        
             return {'message':'failure','error':e,'result':None}                         
-        return {'message':'success','result':name,'result':None}  
+        return {'message':'success','result':name,'error':None}  
        
 # --------------------
         

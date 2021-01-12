@@ -122,7 +122,9 @@ def run(plot=False):
         # Get set points for each zone
         forecast = requests.get('{0}/forecast'.format(url)).json()
         if forecast['message'] == 'success':
+           print(forecast)
            forecast = forecast['result']
+           print(forecast)
            LowerSetpNor = forecast['LowerSetp[North]'][0]
            UpperSetpNor = forecast['UpperSetp[North]'][0]
            LowerSetpSou = forecast['LowerSetp[South]'][0]
@@ -142,8 +144,8 @@ def run(plot=False):
     # Report KPIs
     kpi = requests.get('{0}/kpi'.format(url)).json()
     if kpi['message'] == 'success':
-       kpi = kpi['result']
        print('\nKPI RESULTS \n-----------')
+       kpi = kpi['result']
        for key in kpi.keys():
           if key == 'tdis_tot':
               unit = 'Kh'
@@ -165,13 +167,13 @@ def run(plot=False):
     # Get result data
     res = requests.get('{0}/results'.format(url)).json()
     if res['message'] == 'success':
-       res = res['result']
-       time = [x/3600 for x in res['y']['time']] # convert s --> hr
+       result = res['result']
+       time = [x/3600 for x in result['y']['time']] # convert s --> hr
        setpoints.index = setpoints.index/3600 # convert s --> hr
-       TZoneNor = [x-273.15 for x in res['y']['TRooAirNor_y']] # convert K --> C
-       PHeatNor = res['y']['PHeaNor_y']
-       TZoneSou = [x-273.15 for x in res['y']['TRooAirSou_y']] # convert K --> C
-       PHeatSou = res['y']['PHeaSou_y']
+       TZoneNor = [x-273.15 for x in result['y']['TRooAirNor_y']] # convert K --> C
+       PHeatNor = result['y']['PHeaNor_y']
+       TZoneSou = [x-273.15 for x in result['y']['TRooAirSou_y']] # convert K --> C
+       PHeatSou = result['y']['PHeaSou_y']
        setpoints= setpoints - 273.15 # convert K --> C
     # Plot results
     if plot and res['message'] == 'success':
@@ -195,7 +197,7 @@ def run(plot=False):
         plt.show()
     # --------------------
             
-    return kpi,res 
+    return kpi,result 
 
 if __name__ == "__main__":
     kpi,res = run(plot=False)

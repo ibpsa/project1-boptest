@@ -321,7 +321,7 @@ class partialTestAPI(partialChecks):
         '''
 
         name = requests.get('{0}/name'.format(self.url)).json()
-        self.assertEqual(name, self.name_ref)
+        self.assertEqual(name['result'], self.name_ref)
         
     def test_get_inputs(self):
         '''Test getting the input list of tests.
@@ -330,7 +330,7 @@ class partialTestAPI(partialChecks):
         
         inputs = requests.get('{0}/inputs'.format(self.url)).json()
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_inputs.json')
-        self.compare_ref_json(inputs, ref_filepath)
+        self.compare_ref_json(inputs['result'], ref_filepath)
 
     def test_get_measurements(self):
         '''Test getting the measurement list of test.
@@ -339,7 +339,7 @@ class partialTestAPI(partialChecks):
 
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_measurements.json')
-        self.compare_ref_json(measurements, ref_filepath)
+        self.compare_ref_json(measurements['result'], ref_filepath)
 
     def test_get_step(self):
         '''Test getting the communication step of test.
@@ -347,7 +347,7 @@ class partialTestAPI(partialChecks):
         '''
 
         step = requests.get('{0}/step'.format(self.url)).json()
-        df = pd.DataFrame(data=[step], index=['step'], columns=['value'])
+        df = pd.DataFrame(data=[step['result']], index=['step'], columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_step.csv')
         self.compare_ref_values_df(df, ref_filepath)
@@ -361,8 +361,8 @@ class partialTestAPI(partialChecks):
         step = 101
         requests.put('{0}/step'.format(self.url), data={'step':step})
         step_set = requests.get('{0}/step'.format(self.url)).json()
-        self.assertEqual(step, step_set)
-        requests.put('{0}/step'.format(self.url), data={'step':step_current})
+        self.assertEqual(step, step_set['result'])
+        requests.put('{0}/step'.format(self.url), data={'step':step_current['result']})
         
     def test_initialize(self):
         '''Test initialization of test simulation.
@@ -375,6 +375,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0.5*24*3600, 'warmup_period':0.5*24*3600})
         # Check results are empty again
         y = requests.get('{0}/results'.format(self.url)).json()
+        y=y['result']
         for key in y.keys():
             for var in y[key].keys():
                 self.assertEqual(len(y[key][var]), 0)
@@ -382,6 +383,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/step'.format(self.url), data={'step':1*24*3600})
         y = requests.post('{0}/advance'.format(self.url),data = {}).json()
         res = requests.get('{0}/results'.format(self.url)).json()
+        res = res['result']
         # Check trajectories
         # Make dataframe
         df = pd.DataFrame()
@@ -408,7 +410,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df = pd.DataFrame.from_dict(y['result'], orient = 'index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_no_data.csv')
         self.compare_ref_values_df(df, ref_filepath)
@@ -431,7 +433,8 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
-        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        print y
+        df = pd.DataFrame.from_dict(y['result'], orient = 'index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
         self.compare_ref_values_df(df, ref_filepath)
@@ -447,7 +450,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
-        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        df_forecaster = pd.DataFrame(forecast['result']).set_index('time')
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_default.csv')
         # Check the forecast
@@ -466,9 +469,9 @@ class partialTestAPI(partialChecks):
         # Get forecast parameters
         forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
         # Check the forecast parameters
-        self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
+        self.assertDictEqual(forecast_parameters['result'], forecast_parameters_ref)
         # Check the return on the put request
-        self.assertDictEqual(ret.json(), forecast_parameters_ref)
+        self.assertDictEqual(ret.json()['result'], forecast_parameters_ref)
         
     def test_get_forecast_with_parameters(self):
         '''Check that the forecaster is able to retrieve the data.
@@ -486,7 +489,7 @@ class partialTestAPI(partialChecks):
                      data=forecast_parameters_ref)
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
-        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        df_forecaster = pd.DataFrame(forecast['result']).set_index('time')
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
         # Check the forecast

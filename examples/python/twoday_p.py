@@ -135,10 +135,11 @@ def run(plot=False, customized_kpi_config=None):
     # VIEW RESULTS
     # ------------
     # Report KPIs
-    kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = requests.get('{0}/kpi'.format(url)).json()    
     if kpi['message'] == 'success':
        print('\nKPI RESULTS \n-----------')
-       for key in kpi['result'].keys():
+       kpi = kpi['result']
+       for key in kpi.keys():
           if key == 'tdis_tot':
               unit = 'Kh'
           if key == 'idis_tot':
@@ -151,7 +152,7 @@ def run(plot=False, customized_kpi_config=None):
               unit = 'kg CO2'
           elif key == 'time_rat':
               unit = ''
-          print('{0}: {1} {2}'.format(key, kpi['result'][key], unit))
+          print('{0}: {1} {2}'.format(key, kpi[key], unit))
     # ------------ 
         
     # POST PROCESS RESULTS
@@ -159,11 +160,11 @@ def run(plot=False, customized_kpi_config=None):
     # Get result data
     res = requests.get('{0}/results'.format(url)).json()    
     if res['message'] == 'success':
-        res = res['result']
-        time = [x/3600 for x in res['y']['time']] # convert s --> hr
-        TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-        PHeat = res['y']['PHea_y']
-        QHeat = res['u']['oveAct_u']
+        result = res['result']
+        time = [x/3600 for x in result['y']['time']] # convert s --> hr
+        TZone = [x-273.15 for x in result['y']['TRooAir_y']] # convert K --> C
+        PHeat = result['y']['PHea_y']
+        QHeat = result['u']['oveAct_u']
     # Plot results
     if plot and res['message'] == 'success':
         from matplotlib import pyplot as plt
@@ -182,7 +183,7 @@ def run(plot=False, customized_kpi_config=None):
         plt.show()
     # --------------------
             
-    return kpi,res,customizedkpis_result 
+    return kpi,result,customizedkpis_result 
 
 if __name__ == "__main__":
     kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
