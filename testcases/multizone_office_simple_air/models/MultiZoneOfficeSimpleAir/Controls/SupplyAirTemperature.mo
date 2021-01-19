@@ -166,7 +166,11 @@ equation
           -4,-72},{8,-72}}, color={0,0,127}));
   annotation (
   defaultComponentName="conTSup",
-  Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+  Icon(coordinateSystem(preserveAspectRatio=false), graphics={Rectangle(
+          extent={{-100,100},{100,-100}},
+          lineColor={0,0,0},
+          fillColor={255,170,170},
+          fillPattern=FillPattern.Solid)}),          Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-140,-140},{120,140}})),
     Documentation(info="<html>
 <p>

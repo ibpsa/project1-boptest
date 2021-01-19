@@ -140,6 +140,11 @@ equation
   annotation (Icon(
     graphics={
         Rectangle(
+          extent={{-100,100},{100,-100}},
+          lineColor={0,0,0},
+          fillColor={255,170,170},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
           extent={{-108.07,-16.1286},{93.93,-20.1286}},
           lineColor={0,0,0},
           fillPattern=FillPattern.HorizontalCylinder,

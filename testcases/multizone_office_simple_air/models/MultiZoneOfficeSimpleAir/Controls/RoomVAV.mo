@@ -171,6 +171,11 @@ annotation (
   defaultComponentName="terCon",
   Icon(coordinateSystem(extent={{-100,-100},{100,100}}),
                     graphics={
+        Rectangle(
+          extent={{-100,100},{100,-100}},
+          lineColor={0,0,0},
+          fillColor={255,170,170},
+          fillPattern=FillPattern.Solid),
         Text(
           extent={{-100,-62},{-66,-76}},
           lineColor={0,0,127},

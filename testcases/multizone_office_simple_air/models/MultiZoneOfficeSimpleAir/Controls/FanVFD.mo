@@ -70,7 +70,12 @@ equation
   connect(swi.u2, uFan) annotation (Line(points={{38,0},{12,0},{12,60},{-120,60}},
         color={255,0,255}));
   connect(swi.y, y) annotation (Line(points={{62,0},{110,0}}, color={0,0,127}));
-  annotation ( Icon(graphics={Text(
+  annotation ( Icon(graphics={Rectangle(
+          extent={{-100,100},{100,-100}},
+          lineColor={0,0,0},
+          fillColor={255,170,170},
+          fillPattern=FillPattern.Solid),
+                              Text(
           extent={{-90,-50},{96,-96}},
           lineColor={0,0,255},
           textString="r_N_min=%r_N_min")}), Documentation(revisions="<html>
