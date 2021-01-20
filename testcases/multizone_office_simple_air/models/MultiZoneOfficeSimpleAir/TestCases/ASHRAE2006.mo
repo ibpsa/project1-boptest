@@ -76,6 +76,16 @@ model ASHRAE2006
   Buildings.Examples.VAVReheat.Controls.SupplyAirTemperatureSetpoint TSupSet
     "Supply air temperature set point"
     annotation (Placement(transformation(extent={{-200,-230},{-180,-210}})));
+  BaseClasses.ReadZone reaCor(zone="Core") "Read blocks for Core zone"
+    annotation (Placement(transformation(extent={{540,80},{560,100}})));
+  BaseClasses.ReadZone reaSou(zone="South") "Read blocks for South zone"
+    annotation (Placement(transformation(extent={{700,80},{720,100}})));
+  BaseClasses.ReadZone reaEas(zone="East") "Read blocks for East zone"
+    annotation (Placement(transformation(extent={{890,80},{910,100}})));
+  BaseClasses.ReadZone reaNor(zone="North") "Read blocks for North zone"
+    annotation (Placement(transformation(extent={{1050,80},{1070,100}})));
+  BaseClasses.ReadZone reaWes(zone="West") "Read blocks for West zone"
+    annotation (Placement(transformation(extent={{1240,80},{1260,100}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -288,6 +298,56 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(TSupSet.TSet, conTSup.TSupSet)
     annotation (Line(points={{-178,-220},{28,-220}}, color={0,0,127}));
+  connect(conVAVCor.TRoo, reaCor.TZon_in) annotation (Line(points={{529,35},{
+          520,35},{520,98},{538,98}}, color={0,0,127}));
+  connect(cor.y_actual, reaCor.yDamAct_in) annotation (Line(points={{612,58},{
+          620,58},{620,72},{522,72},{522,94},{538,94}}, color={0,0,127}));
+  connect(cor.yVal, reaCor.yReaHea_in) annotation (Line(points={{566,34},{560,
+          34},{560,70},{524,70},{524,90},{538,90}}, color={0,0,127}));
+  connect(conVAVSou.TRoo, reaSou.TZon_in) annotation (Line(points={{699,33},{
+          690,33},{690,36},{680,36},{680,98},{698,98}}, color={0,0,127}));
+  connect(sou.y_actual, reaSou.yDamAct_in) annotation (Line(points={{792,56},{
+          800,56},{800,72},{682,72},{682,94},{698,94}}, color={0,0,127}));
+  connect(sou.yVal, reaSou.yReaHea_in) annotation (Line(points={{746,32},{732,
+          32},{732,70},{684,70},{684,90},{698,90}}, color={0,0,127}));
+  connect(reaEas.TZon_in, conVAVEas.TRoo) annotation (Line(points={{888,98},{
+          868,98},{868,33},{879,33}}, color={0,0,127}));
+  connect(TSupCor.T, reaCor.TSup_in) annotation (Line(points={{569,92},{564,92},
+          {564,76},{526,76},{526,86},{538,86}}, color={0,0,127}));
+  connect(VSupCor_flow.V_flow, reaCor.V_flow_in) annotation (Line(points={{569,
+          130},{530,130},{530,82},{538,82}}, color={0,0,127}));
+  connect(TSupSou.T, reaSou.TSup_in) annotation (Line(points={{749,92},{740,92},
+          {740,76},{686,76},{686,86},{698,86}}, color={0,0,127}));
+  connect(VSupSou_flow.V_flow, reaSou.V_flow_in) annotation (Line(points={{749,
+          130},{688,130},{688,82},{698,82}}, color={0,0,127}));
+  connect(TSupEas.T, reaEas.TSup_in) annotation (Line(points={{929,90},{920,90},
+          {920,76},{874,76},{874,86},{888,86}}, color={0,0,127}));
+  connect(eas.y_actual, reaEas.yDamAct_in) annotation (Line(points={{972,56},{
+          980,56},{980,72},{870,72},{870,94},{888,94}}, color={0,0,127}));
+  connect(eas.yVal, reaEas.yReaHea_in) annotation (Line(points={{926,32},{912,
+          32},{912,70},{872,70},{872,90},{888,90}}, color={0,0,127}));
+  connect(VSupEas_flow.V_flow, reaEas.V_flow_in) annotation (Line(points={{929,
+          128},{876,128},{876,82},{888,82}}, color={0,0,127}));
+  connect(reaNor.TZon_in, conVAVNor.TRoo) annotation (Line(points={{1048,98},{
+          1028,98},{1028,33},{1039,33}}, color={0,0,127}));
+  connect(nor.y_actual, reaNor.yDamAct_in) annotation (Line(points={{1132,56},{
+          1140,56},{1140,72},{1030,72},{1030,94},{1048,94}}, color={0,0,127}));
+  connect(nor.yVal, reaNor.yReaHea_in) annotation (Line(points={{1086,32},{1072,
+          32},{1072,70},{1032,70},{1032,90},{1048,90}}, color={0,0,127}));
+  connect(TSupNor.T, reaNor.TSup_in) annotation (Line(points={{1089,94},{1080,
+          94},{1080,76},{1034,76},{1034,86},{1048,86}}, color={0,0,127}));
+  connect(VSupNor_flow.V_flow, reaNor.V_flow_in) annotation (Line(points={{1089,
+          132},{1036,132},{1036,82},{1048,82}}, color={0,0,127}));
+  connect(reaWes.TZon_in, conVAVWes.TRoo) annotation (Line(points={{1238,98},{
+          1220,98},{1220,31},{1239,31}}, color={0,0,127}));
+  connect(wes.y_actual, reaWes.yDamAct_in) annotation (Line(points={{1332,56},{
+          1338,56},{1338,74},{1222,74},{1222,94},{1238,94}}, color={0,0,127}));
+  connect(wes.yVal, reaWes.yReaHea_in) annotation (Line(points={{1286,32},{1272,
+          32},{1272,72},{1224,72},{1224,90},{1238,90}}, color={0,0,127}));
+  connect(TSupWes.T, reaWes.TSup_in) annotation (Line(points={{1289,90},{1280,
+          90},{1280,76},{1226,76},{1226,86},{1238,86}}, color={0,0,127}));
+  connect(VSupWes_flow.V_flow, reaWes.V_flow_in) annotation (Line(points={{1289,
+          128},{1228,128},{1228,82},{1238,82}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1440,
             660}})),
