@@ -24,12 +24,10 @@ model WriteZone "Collection of zone overwrite points for BOPTEST"
     "Zone air temperature cooling setpoint"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite uDam(description=
-        "Control signal for terminal box damper for zone " + zone)
-    "Control signal for terminal box damper"
+        "Damper position setpoint for zone " + zone) "Damper position setpoint"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite uReaHea(description=
-        "Control signal for terminal box reheat for zone " + zone)
-    "Control signal for terminal box reheat"
+        "Reheat control signal for zone " + zone) "Reheat control signal"
     annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
   Modelica.Blocks.Interfaces.RealOutput TZoneHeaSet_out
     "Zone air temperature heating setpoint"

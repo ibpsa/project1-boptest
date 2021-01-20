@@ -8,14 +8,14 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read yDamAct(
-    description="Actual damper position feedback for zone " + zone,
+    description="Damper position setpoint feedback for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Actual damper position feedback"
+    y(units="1")) "Damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
   IBPSA.Utilities.IO.SignalExchange.Read yReaHea(
-    description="Actual reheat control signal feedback for zone " + zone,
+    description="Reheat control signal feedback for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Actual reheat control signal feedback"
+    y(units="1")) "Reheat control signal feedback"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Modelica.Blocks.Interfaces.RealInput TZon_in
     "Zone air temperature measurement"

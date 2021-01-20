@@ -56,24 +56,24 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     y(units="Pa")) "Discharge pressure of supply fan"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   IBPSA.Utilities.IO.SignalExchange.Read yOA(
-    description="Actual outside air damper position feedback",
+    description="Outside air damper position setpoint feedback",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Actual outside air damper position feedback"
+    y(units="1")) "Outside air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Read yExh(
-    description="Actual exhaust air damper position feedback",
+    description="Exhaust air damper position setpoint feedback",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Actual exhaust air damper position feedback"
+    y(units="1")) "Exhaust air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read yRet(
-    description="Actual return air damper position feedback",
+    description="Return air damper position setpoint feedback",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Actual return air damper position feedback"
+    y(units="1")) "Return air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read yFan(
-    description="Actual supply fan speed feedback",
+    description="Supply fan speed setpoint feedback",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Actual supply fan speed feedback"
+    y(units="1")) "Supply fan speed setpoint feedback"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
   Modelica.Blocks.Interfaces.RealInput yOA_in
     "Actual outside air damper position feedback"
@@ -88,9 +88,9 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     "Actual supply fan speed feedback"
     annotation (Placement(transformation(extent={{-140,-140},{-100,-100}})));
   IBPSA.Utilities.IO.SignalExchange.Read yHea(
-    description="Actual heating coil signal feedback",
+    description="Heating coil control signal feedback",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Actual heating coil signal feedback"
+    y(units="1")) "Heating coil control signal feedback"
     annotation (Placement(transformation(extent={{0,-160},{20,-140}})));
   Modelica.Blocks.Interfaces.RealInput yHea_in
     "Actual heating coil signal feedback"
@@ -99,9 +99,9 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     "Actual cooling coil signal feedback"
     annotation (Placement(transformation(extent={{-140,-200},{-100,-160}})));
   IBPSA.Utilities.IO.SignalExchange.Read yCoo(
-    description="Actual cooling coil signal feedback",
+    description="Cooling coil control signal feedback",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Actual cooling coil signal feedback"
+    y(units="1")) "Cooling coil control signal feedback"
     annotation (Placement(transformation(extent={{0,-190},{20,-170}})));
 equation
   connect(TSup.u, TSup_in)
