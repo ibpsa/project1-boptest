@@ -96,6 +96,17 @@ model ASHRAE2006
     annotation (Placement(transformation(extent={{1040,-30},{1060,-10}})));
   BaseClasses.WriteZone oveWes(zone="West") "Overwrite blocks for West zone"
     annotation (Placement(transformation(extent={{1240,-30},{1260,-10}})));
+  BaseClasses.ReadAhu reaAhu "Read blocks for AHU"
+    annotation (Placement(transformation(extent={{238,306},{258,346}})));
+  Modelica.Blocks.Sources.RealExpression yOut_actual(y=eco.damOut.y_actual)
+    "Source for actual outside air damper position feedback"
+    annotation (Placement(transformation(extent={{140,306},{160,326}})));
+  Modelica.Blocks.Sources.RealExpression yExh_actual(y=eco.damExh.y_actual)
+    "Source for actual exhaust air damper position feedback"
+    annotation (Placement(transformation(extent={{140,290},{160,310}})));
+  Modelica.Blocks.Sources.RealExpression yRet_actual(y=eco.damRet.y_actual)
+    "Source for actual recirculation air damper position feedback"
+    annotation (Placement(transformation(extent={{140,274},{160,294}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -326,11 +337,11 @@ equation
           558,50},{566,50}}, color={0,0,127}));
   connect(oveCor.yReaHea, cor.yVal) annotation (Line(points={{551,-24},{560,-24},
           {560,34},{566,34}}, color={0,0,127}));
-  connect(oveCor.TZoneHeaSet_out, conVAVCor.TRooHeaSet) annotation (Line(points
-        ={{551,-12},{554,-12},{554,26},{522,26},{522,49},{528,49}}, color={0,0,
+  connect(oveCor.TZoneHeaSet_out, conVAVCor.TRooHeaSet) annotation (Line(points=
+         {{551,-12},{554,-12},{554,26},{522,26},{522,49},{528,49}}, color={0,0,
           127}));
-  connect(oveCor.TZoneCooSet_out, conVAVCor.TRooCooSet) annotation (Line(points
-        ={{551,-16},{556,-16},{556,24},{524,24},{524,42},{528,42}}, color={0,0,
+  connect(oveCor.TZoneCooSet_out, conVAVCor.TRooCooSet) annotation (Line(points=
+         {{551,-16},{556,-16},{556,24},{524,24},{524,42},{528,42}}, color={0,0,
           127}));
   connect(oveCor.TZonHeaSet_in, controlBus.TRooSetHea) annotation (Line(points=
           {{528,-12},{500,-12},{500,-342},{-240,-342}}, color={0,0,127}), Text(
@@ -352,11 +363,11 @@ equation
           {738,-24},{721,-24}}, color={0,0,127}));
   connect(conVAVSou.yVal, oveSou.uReaHea_in) annotation (Line(points={{721,35},
           {728,35},{728,26},{686,26},{686,-24},{698,-24}}, color={0,0,127}));
-  connect(oveSou.TZoneHeaSet_out, conVAVSou.TRooHeaSet) annotation (Line(points
-        ={{721,-12},{728,-12},{728,20},{692,20},{692,46},{696,46},{696,47},{698,
+  connect(oveSou.TZoneHeaSet_out, conVAVSou.TRooHeaSet) annotation (Line(points=
+         {{721,-12},{728,-12},{728,20},{692,20},{692,46},{696,46},{696,47},{698,
           47}}, color={0,0,127}));
-  connect(oveSou.TZoneCooSet_out, conVAVSou.TRooCooSet) annotation (Line(points
-        ={{721,-16},{730,-16},{730,22},{694,22},{694,40},{698,40}}, color={0,0,
+  connect(oveSou.TZoneCooSet_out, conVAVSou.TRooCooSet) annotation (Line(points=
+         {{721,-16},{730,-16},{730,22},{694,22},{694,40},{698,40}}, color={0,0,
           127}));
   connect(oveSou.TZonHeaSet_in, controlBus.TRooSetHea) annotation (Line(points=
           {{698,-12},{680,-12},{680,-342},{-240,-342}}, color={0,0,127}), Text(
@@ -378,11 +389,11 @@ equation
           {906,35},{906,28},{866,28},{866,-24},{878,-24}}, color={0,0,127}));
   connect(oveEas.yReaHea, eas.yVal) annotation (Line(points={{901,-24},{916,-24},
           {916,32},{926,32}}, color={0,0,127}));
-  connect(oveEas.TZoneHeaSet_out, conVAVEas.TRooHeaSet) annotation (Line(points
-        ={{901,-12},{906,-12},{906,24},{870,24},{870,47},{878,47}}, color={0,0,
+  connect(oveEas.TZoneHeaSet_out, conVAVEas.TRooHeaSet) annotation (Line(points=
+         {{901,-12},{906,-12},{906,24},{870,24},{870,47},{878,47}}, color={0,0,
           127}));
-  connect(oveEas.TZoneCooSet_out, conVAVEas.TRooCooSet) annotation (Line(points
-        ={{901,-16},{908,-16},{908,22},{872,22},{872,40},{878,40}}, color={0,0,
+  connect(oveEas.TZoneCooSet_out, conVAVEas.TRooCooSet) annotation (Line(points=
+         {{901,-16},{908,-16},{908,22},{872,22},{872,40},{878,40}}, color={0,0,
           127}));
   connect(oveEas.TZonHeaSet_in, controlBus.TRooSetHea) annotation (Line(points=
           {{878,-12},{858,-12},{858,-342},{-240,-342}}, color={0,0,127}), Text(
@@ -405,12 +416,12 @@ equation
           {1076,-24},{1061,-24}}, color={0,0,127}));
   connect(conVAVNor.yVal, oveNor.uReaHea_in) annotation (Line(points={{1061,35},
           {1066,35},{1066,28},{1028,28},{1028,-24},{1038,-24}}, color={0,0,127}));
-  connect(oveNor.TZoneHeaSet_out, conVAVNor.TRooHeaSet) annotation (Line(points
-        ={{1061,-12},{1068,-12},{1068,22},{1032,22},{1032,47},{1038,47}}, color
-        ={0,0,127}));
-  connect(oveNor.TZoneCooSet_out, conVAVNor.TRooCooSet) annotation (Line(points
-        ={{1061,-16},{1070,-16},{1070,24},{1034,24},{1034,40},{1038,40}}, color
-        ={0,0,127}));
+  connect(oveNor.TZoneHeaSet_out, conVAVNor.TRooHeaSet) annotation (Line(points=
+         {{1061,-12},{1068,-12},{1068,22},{1032,22},{1032,47},{1038,47}}, color=
+         {0,0,127}));
+  connect(oveNor.TZoneCooSet_out, conVAVNor.TRooCooSet) annotation (Line(points=
+         {{1061,-16},{1070,-16},{1070,24},{1034,24},{1034,40},{1038,40}}, color=
+         {0,0,127}));
   connect(oveNor.TZonHeaSet_in, controlBus.TRooSetHea) annotation (Line(points=
           {{1038,-12},{1020,-12},{1020,-342},{-240,-342}}, color={0,0,127}),
       Text(
@@ -434,12 +445,12 @@ equation
           -24},{1276,32},{1286,32}}, color={0,0,127}));
   connect(conVAVWes.yVal, oveWes.uReaHea_in) annotation (Line(points={{1261,33},
           {1266,33},{1266,26},{1226,26},{1226,-24},{1238,-24}}, color={0,0,127}));
-  connect(oveWes.TZoneHeaSet_out, conVAVWes.TRooHeaSet) annotation (Line(points
-        ={{1261,-12},{1266,-12},{1266,22},{1230,22},{1230,45},{1238,45}}, color
-        ={0,0,127}));
-  connect(oveWes.TZoneCooSet_out, conVAVWes.TRooCooSet) annotation (Line(points
-        ={{1261,-16},{1268,-16},{1268,20},{1232,20},{1232,38},{1238,38}}, color
-        ={0,0,127}));
+  connect(oveWes.TZoneHeaSet_out, conVAVWes.TRooHeaSet) annotation (Line(points=
+         {{1261,-12},{1266,-12},{1266,22},{1230,22},{1230,45},{1238,45}}, color=
+         {0,0,127}));
+  connect(oveWes.TZoneCooSet_out, conVAVWes.TRooCooSet) annotation (Line(points=
+         {{1261,-16},{1268,-16},{1268,20},{1232,20},{1232,38},{1238,38}}, color=
+         {0,0,127}));
   connect(oveWes.TZonHeaSet_in, controlBus.TRooSetHea) annotation (Line(points=
           {{1238,-12},{1220,-12},{1220,-342},{-240,-342}}, color={0,0,127}),
       Text(
@@ -454,6 +465,32 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(TSup.T, reaAhu.TSup_in) annotation (Line(points={{340,-29},{340,100},
+          {180,100},{180,344},{236,344}}, color={0,0,127}));
+  connect(TMix.T, reaAhu.TMix_in)
+    annotation (Line(points={{40,-29},{40,341},{236,341}}, color={0,0,127}));
+  connect(TRet.T, reaAhu.TRet_in)
+    annotation (Line(points={{100,151},{100,338},{236,338}}, color={0,0,127}));
+  connect(senSupFlo.V_flow, reaAhu.V_flow_sup_in) annotation (Line(points={{410,
+          -29},{410,104},{184,104},{184,335},{236,335}}, color={0,0,127}));
+  connect(senRetFlo.V_flow, reaAhu.V_flow_ret_in) annotation (Line(points={{350,
+          151},{350,160},{188,160},{188,332},{236,332}}, color={0,0,127}));
+  connect(VOut1.V_flow, reaAhu.V_flow_out_in) annotation (Line(points={{-61,
+          -20.9},{-61,96},{192,96},{192,329},{236,329}}, color={0,0,127}));
+  connect(dpDisSupFan.p_rel, reaAhu.dp_in) annotation (Line(points={{311,0},{
+          304,0},{304,164},{196,164},{196,326},{236,326}}, color={0,0,127}));
+  connect(yOut_actual.y, reaAhu.yOA_in) annotation (Line(points={{161,316},{200,
+          316},{200,323},{236,323}}, color={0,0,127}));
+  connect(yExh_actual.y, reaAhu.yExh_in) annotation (Line(points={{161,300},{
+          204,300},{204,320},{236,320}}, color={0,0,127}));
+  connect(yRet_actual.y, reaAhu.yRet_in) annotation (Line(points={{161,284},{
+          208,284},{208,317},{236,317}}, color={0,0,127}));
+  connect(fanSup.y_actual, reaAhu.yFan_in) annotation (Line(points={{321,-33},{
+          336,-33},{336,108},{212,108},{212,314},{236,314}}, color={0,0,127}));
+  connect(gaiHeaCoi.u, reaAhu.yHea_in) annotation (Line(points={{98,-210},{62,
+          -210},{62,94},{214,94},{214,312},{236,312},{236,311}}, color={0,0,127}));
+  connect(gaiCooCoi.u, reaAhu.yCoo_in) annotation (Line(points={{98,-248},{64,
+          -248},{64,92},{216,92},{216,308},{236,308}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1440,
             660}})),
