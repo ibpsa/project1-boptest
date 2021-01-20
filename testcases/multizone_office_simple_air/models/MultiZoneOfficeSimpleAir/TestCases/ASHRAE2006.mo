@@ -97,7 +97,7 @@ model ASHRAE2006
   BaseClasses.WriteZone oveWes(zone="West") "Overwrite blocks for West zone"
     annotation (Placement(transformation(extent={{1240,-30},{1260,-10}})));
   BaseClasses.ReadAhu reaAhu "Read blocks for AHU"
-    annotation (Placement(transformation(extent={{238,306},{258,346}})));
+    annotation (Placement(transformation(extent={{240,302},{260,342}})));
   Modelica.Blocks.Sources.RealExpression yOut_actual(y=eco.damOut.y_actual)
     "Source for actual outside air damper position feedback"
     annotation (Placement(transformation(extent={{140,306},{160,326}})));
@@ -107,6 +107,8 @@ model ASHRAE2006
   Modelica.Blocks.Sources.RealExpression yRet_actual(y=eco.damRet.y_actual)
     "Source for actual recirculation air damper position feedback"
     annotation (Placement(transformation(extent={{140,274},{160,294}})));
+  BaseClasses.WriteAhu writeAhu
+    annotation (Placement(transformation(extent={{240,40},{260,70}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -153,18 +155,8 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
 
-  connect(pSetDuc.y, conFanSup.u) annotation (Line(
-      points={{181,-6},{210,-6},{210,0},{238,0}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(conEco.VOut_flow, VOut1.V_flow) annotation (Line(
       points={{-81.3333,142.667},{-90,142.667},{-90,80},{-61,80},{-61,-20.9}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(conEco.yOA, eco.yOut) annotation (Line(
-      points={{-58.6667,152},{-10,152},{-10,-34}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -219,16 +211,6 @@ equation
           -305.455},{260,-305.455},{260,-30},{226,-30},{226,6},{238,6}},
                                                                  color={255,0,
           255}));
-  connect(conFanSup.y, fanSup.y) annotation (Line(points={{261,0},{280,0},{280,
-          -20},{310,-20},{310,-28}}, color={0,0,127}));
-  connect(eco.yExh, conEco.yOA) annotation (Line(
-      points={{-3,-34},{-2,-34},{-2,152},{-58.6667,152}},
-      color={0,0,127},
-      pattern=LinePattern.Dash));
-  connect(eco.yRet, conEco.yRet) annotation (Line(
-      points={{-16.8,-34},{-16.8,146.667},{-58.6667,146.667}},
-      color={0,0,127},
-      pattern=LinePattern.Dash));
   connect(freSta.y, or2.u1) annotation (Line(points={{22,-90},{40,-90},{40,-160},
           {-80,-160},{-80,-240},{-62,-240}},                 color={255,0,255}));
   connect(or2.u2, modeSelector.yFan) annotation (Line(points={{-62,-248},{-80,
@@ -247,14 +229,6 @@ equation
   connect(TSup.T, conTSup.TSup) annotation (Line(
       points={{340,-29},{340,-20},{360,-20},{360,-280},{0,-280},{0,-214},{28,
           -214}},
-      color={0,0,127},
-      pattern=LinePattern.Dash));
-  connect(conTSup.yHea, gaiHeaCoi.u) annotation (Line(
-      points={{52,-214},{68,-214},{68,-210},{98,-210}},
-      color={0,0,127},
-      pattern=LinePattern.Dash));
-  connect(conTSup.yCoo, gaiCooCoi.u) annotation (Line(
-      points={{52,-226},{60,-226},{60,-248},{98,-248}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(conTSup.yOA, conEco.uOATSup) annotation (Line(
@@ -277,8 +251,6 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(TSupSet.TSet, conTSup.TSupSet)
-    annotation (Line(points={{-178,-220},{28,-220}}, color={0,0,127}));
   connect(conVAVCor.TRoo, reaCor.TZon_in) annotation (Line(points={{529,35},{
           520,35},{520,98},{538,98}}, color={0,0,127}));
   connect(cor.y_actual, reaCor.yDamAct_in) annotation (Line(points={{612,58},{
@@ -466,31 +438,68 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(TSup.T, reaAhu.TSup_in) annotation (Line(points={{340,-29},{340,100},
-          {180,100},{180,344},{236,344}}, color={0,0,127}));
+          {180,100},{180,340},{238,340}}, color={0,0,127}));
   connect(TMix.T, reaAhu.TMix_in)
-    annotation (Line(points={{40,-29},{40,341},{236,341}}, color={0,0,127}));
+    annotation (Line(points={{40,-29},{40,337},{238,337}}, color={0,0,127}));
   connect(TRet.T, reaAhu.TRet_in)
-    annotation (Line(points={{100,151},{100,338},{236,338}}, color={0,0,127}));
-  connect(senSupFlo.V_flow, reaAhu.V_flow_sup_in) annotation (Line(points={{410,
-          -29},{410,104},{184,104},{184,335},{236,335}}, color={0,0,127}));
-  connect(senRetFlo.V_flow, reaAhu.V_flow_ret_in) annotation (Line(points={{350,
-          151},{350,160},{188,160},{188,332},{236,332}}, color={0,0,127}));
+    annotation (Line(points={{100,151},{100,334},{238,334}}, color={0,0,127}));
+  connect(senSupFlo.V_flow, reaAhu.V_flow_sup_in) annotation (Line(points={{410,-29},
+          {410,104},{184,104},{184,331},{238,331}},      color={0,0,127}));
+  connect(senRetFlo.V_flow, reaAhu.V_flow_ret_in) annotation (Line(points={{350,151},
+          {350,160},{188,160},{188,328},{238,328}},      color={0,0,127}));
   connect(VOut1.V_flow, reaAhu.V_flow_out_in) annotation (Line(points={{-61,
-          -20.9},{-61,96},{192,96},{192,329},{236,329}}, color={0,0,127}));
+          -20.9},{-61,96},{192,96},{192,325},{238,325}}, color={0,0,127}));
   connect(dpDisSupFan.p_rel, reaAhu.dp_in) annotation (Line(points={{311,0},{
-          304,0},{304,164},{196,164},{196,326},{236,326}}, color={0,0,127}));
+          304,0},{304,164},{196,164},{196,322},{238,322}}, color={0,0,127}));
   connect(yOut_actual.y, reaAhu.yOA_in) annotation (Line(points={{161,316},{200,
-          316},{200,323},{236,323}}, color={0,0,127}));
+          316},{200,319},{238,319}}, color={0,0,127}));
   connect(yExh_actual.y, reaAhu.yExh_in) annotation (Line(points={{161,300},{
-          204,300},{204,320},{236,320}}, color={0,0,127}));
+          204,300},{204,316},{238,316}}, color={0,0,127}));
   connect(yRet_actual.y, reaAhu.yRet_in) annotation (Line(points={{161,284},{
-          208,284},{208,317},{236,317}}, color={0,0,127}));
+          208,284},{208,313},{238,313}}, color={0,0,127}));
   connect(fanSup.y_actual, reaAhu.yFan_in) annotation (Line(points={{321,-33},{
-          336,-33},{336,108},{212,108},{212,314},{236,314}}, color={0,0,127}));
-  connect(gaiHeaCoi.u, reaAhu.yHea_in) annotation (Line(points={{98,-210},{62,
-          -210},{62,94},{214,94},{214,312},{236,312},{236,311}}, color={0,0,127}));
-  connect(gaiCooCoi.u, reaAhu.yCoo_in) annotation (Line(points={{98,-248},{64,
-          -248},{64,92},{216,92},{216,308},{236,308}}, color={0,0,127}));
+          336,-33},{336,108},{212,108},{212,310},{238,310}}, color={0,0,127}));
+  connect(gaiHeaCoi.u, reaAhu.yHea_in) annotation (Line(points={{98,-210},{80,
+          -210},{80,-188},{62,-188},{62,94},{214,94},{214,312},{238,312},{238,
+          307}}, color={0,0,127}));
+  connect(gaiCooCoi.u, reaAhu.yCoo_in) annotation (Line(points={{98,-248},{80,
+          -248},{80,-228},{64,-228},{64,92},{216,92},{216,304},{238,304}},
+        color={0,0,127}));
+  connect(conFanSup.y, writeAhu.uFan_in) annotation (Line(points={{261,0},{270,
+          0},{270,20},{220,20},{220,67.8571},{238,67.8571}}, color={0,0,127}));
+  connect(writeAhu.yFan, fanSup.y) annotation (Line(points={{261,67.8571},{280,
+          67.8571},{280,-20},{310,-20},{310,-28}}, color={0,0,127}));
+  connect(conTSup.yCoo, writeAhu.uCoo_in) annotation (Line(points={{52,-226},{
+          148,-226},{148,59.2857},{238,59.2857}}, color={0,0,127}));
+  connect(writeAhu.yCoo, gaiCooCoi.u) annotation (Line(points={{261,59.2857},{
+          276,59.2857},{276,30},{150,30},{150,-228},{80,-228},{80,-248},{98,
+          -248}}, color={0,0,127}));
+  connect(gaiHeaCoi.u, writeAhu.yHea) annotation (Line(points={{98,-210},{80,
+          -210},{80,-188},{152,-188},{152,28},{278,28},{278,63.5714},{261,
+          63.5714}}, color={0,0,127}));
+  connect(conTSup.yHea, writeAhu.uHea_in) annotation (Line(points={{52,-214},{
+          58,-214},{58,-186},{146,-186},{146,63.5714},{238,63.5714}}, color={0,
+          0,127}));
+  connect(pSetDuc.y, writeAhu.dpSet_in) annotation (Line(points={{181,-6},{200,
+          -6},{200,50.7143},{238,50.7143}}, color={0,0,127}));
+  connect(writeAhu.dpSet_out, conFanSup.u) annotation (Line(points={{261,
+          50.7143},{266,50.7143},{266,50},{272,50},{272,34},{232,34},{232,0},{
+          238,0}}, color={0,0,127}));
+  connect(TSupSet.TSet, writeAhu.TSupSet_in) annotation (Line(points={{-178,
+          -220},{-172,-220},{-172,55},{238,55}}, color={0,0,127}));
+  connect(writeAhu.TSupSet_out, conTSup.TSupSet) annotation (Line(points={{261,
+          55},{268,55},{268,56},{274,56},{274,32},{-168,32},{-168,-220},{28,
+          -220}}, color={0,0,127}));
+  connect(conEco.yOA, writeAhu.uOA_in) annotation (Line(points={{-58.6667,152},
+          {0,152},{0,46.4286},{238,46.4286}}, color={0,0,127}));
+  connect(writeAhu.yOA, eco.yOut) annotation (Line(points={{261,46.4286},{270,
+          46.4286},{270,36},{-10,36},{-10,-34}}, color={0,0,127}));
+  connect(eco.yExh, eco.yOut) annotation (Line(points={{-3,-34},{-4,-34},{-4,36},
+          {-10,36},{-10,-34}}, color={0,0,127}));
+  connect(writeAhu.yRet, eco.yRet) annotation (Line(points={{261,42.1429},{268,
+          42.1429},{268,38},{-18,38},{-18,-34},{-16.8,-34}}, color={0,0,127}));
+  connect(conEco.yRet, writeAhu.uRet_in) annotation (Line(points={{-58.6667,
+          146.667},{-4,146.667},{-4,42.1429},{238,42.1429}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1440,
             660}})),
