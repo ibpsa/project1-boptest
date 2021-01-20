@@ -11,31 +11,31 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite uFan(description=
         "Supply fan speed setpoint", u(
-      units="1",
+      unit="1",
       min=0,
       max=1)) "Supply fan speed setpoint"
     annotation (Placement(transformation(extent={{0,110},{20,130}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite uCoo(description=
         "Cooling coil control signal", u(
-      units="1",
+      unit="1",
       min=0,
       max=1)) "Cooling coil control signal"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite uHea(description=
         "Heating coil control signal", u(
-      units="1",
+      unit="1",
       min=0,
       max=1)) "Heating coil control signal"
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite TSupSet(description=
         "Supply air temperature setpoint", u(
-      units="K",
+      unit="K",
       min=285.15,
       max=313.15)) "Supply air temperature setpoint"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite dpSet(description=
         "Supply duct pressure setpoint", u(
-      units="Pa",
+      unit="Pa",
       min=50,
       max=410)) "Supply duct pressure setpoint"
     annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
@@ -53,9 +53,9 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
   Modelica.Blocks.Interfaces.RealOutput dpSet_out
     "Supply duct pressure setpoint"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite uOA(description=
-        "Outside air damper position setpoint", u(
-      units="1",
+  IBPSA.Utilities.IO.SignalExchange.Overwrite uOA(description="Outside air damper position setpoint",
+      u(
+      unit="1",
       min=0,
       max=1)) "Outside air damper position setpoint"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
@@ -68,9 +68,9 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput uOA_in
     "Outside air damper position septoint"
     annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite uRet(description=
-        "Return air damper position setpoint", u(
-      units="1",
+  IBPSA.Utilities.IO.SignalExchange.Overwrite uRet(description="Return air damper position setpoint",
+      u(
+      unit="1",
       min=0,
       max=1)) "Return air damper position setpoint"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
@@ -126,8 +126,8 @@ equation
     annotation (Line(points={{21,-120},{110,-120}}, color={0,0,127}));
   connect(uRet_in, uRet.u) annotation (Line(points={{-120,-120},{-62,-120},{-62,
           -120},{-2,-120}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -140},{100,140}}),                                  graphics={
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
+            {100,140}}),                                        graphics={
           Rectangle(
           extent={{-100,140},{100,-140}},
           lineColor={0,0,0},

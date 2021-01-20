@@ -3,19 +3,19 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   IBPSA.Utilities.IO.SignalExchange.Read TZon(
     description="Zone air temperature measurement for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-    y(units="K"),
+    y(unit="K"),
     zone=zone) "Zone air temperature measurement"
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read yDamAct(
     description="Damper position setpoint feedback for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Damper position setpoint feedback"
+    y(unit="1")) "Damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
   IBPSA.Utilities.IO.SignalExchange.Read yReaHea(
     description="Reheat control signal feedback for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="1")) "Reheat control signal feedback"
+    y(unit="1")) "Reheat control signal feedback"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Modelica.Blocks.Interfaces.RealInput TZon_in
     "Zone air temperature measurement"
@@ -32,12 +32,12 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   IBPSA.Utilities.IO.SignalExchange.Read TSup(
     description="Supply air temperature to zone measurement for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="K")) "Supply air temperature to zone measurement"
+    y(unit="K")) "Supply air temperature to zone measurement"
     annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
   IBPSA.Utilities.IO.SignalExchange.Read V_flow(
     description="Supply air flowrate to zone measurement for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(units="m^3/s")) "Supply air flowrate to zone measurement"
+    y(unit="m3/s")) "Supply air flowrate to zone measurement"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
   Modelica.Blocks.Interfaces.RealInput TSup_in
     "Supply air temperature to zone measurement"
