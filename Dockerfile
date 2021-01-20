@@ -14,7 +14,7 @@ USER developer
 
 WORKDIR $HOME
 
-RUN pip install --user flask-restful pandas
+RUN pip install --user flask-restful pandas flask_cors
 
 RUN mkdir models && \
     mkdir doc
@@ -29,4 +29,3 @@ COPY data data/
 COPY forecast forecast/
 COPY kpis kpis/
 ENV PYTHONPATH $PYTHONPATH:$HOME
-

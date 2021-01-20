@@ -2,9 +2,9 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which mus already be running.  A controller is tested, which is 
+which mus already be running.  A controller is tested, which is
 imported from a different module.
-  
+
 """
 
 # GENERAL PACKAGE IMPORT
@@ -23,7 +23,7 @@ from controllers import sup
 
 def run(plot=False, customized_kpi_config=None):
     '''Run test case.
-    
+
     Parameters
     ----------
     plot : bool, optional
@@ -43,7 +43,7 @@ def run(plot=False, customized_kpi_config=None):
     customizedkpis_result: dict
         Dictionary of tracked custom KPI calculations.
         Empty if no customized KPI calculations defined.
-    
+
     '''
 
     # SETUP TEST CASE
@@ -54,7 +54,7 @@ def run(plot=False, customized_kpi_config=None):
     length = 24*3600*2
     step = 3600
     # ---------------
-    
+
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -80,7 +80,7 @@ def run(plot=False, customized_kpi_config=None):
         for key in config.keys():
                customizedkpis.append(kpicalculation.cutomizedKPI(config[key]))
                customizedkpis_result[kpicalculation.cutomizedKPI(config[key]).name]=[]
-    customizedkpis_result['time']=[]           
+    customizedkpis_result['time']=[]
     # --------------------
 
 
@@ -110,11 +110,11 @@ def run(plot=False, customized_kpi_config=None):
                   customizedkpi_value = customizedkpi.calculation() # Calculate custom KPI value
                   customizedkpis_result[customizedkpi.name].append(round(customizedkpi_value,2)) # Track custom KPI value
                   print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi_value,2))) # Print custom KPI value
-             customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time  
+             customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
-        
+
     # VIEW RESULTS
     # ------------
     # Report KPIs
@@ -134,8 +134,8 @@ def run(plot=False, customized_kpi_config=None):
         else:
             unit = None
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
-    # ------------ 
-        
+    # ------------
+
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
@@ -169,8 +169,8 @@ def run(plot=False, customized_kpi_config=None):
         plt.legend()
         plt.show()
     # --------------------
-   
-    return kpi,res,customizedkpis_result 
-        
+
+    return kpi,res,customizedkpis_result
+
 if __name__ == "__main__":
     kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
