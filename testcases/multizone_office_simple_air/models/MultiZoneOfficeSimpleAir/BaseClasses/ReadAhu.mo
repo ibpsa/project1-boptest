@@ -1,32 +1,32 @@
 within MultiZoneOfficeSimpleAir.BaseClasses;
 model ReadAhu "Collection of AHU measurements for BOPTEST"
   IBPSA.Utilities.IO.SignalExchange.Read TSup(
-    description="Supply air temperature measurement",
+    description="Supply air temperature measurement for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"))  "Supply air temperature measurement"
     annotation (Placement(transformation(extent={{0,170},{20,190}})));
   IBPSA.Utilities.IO.SignalExchange.Read TMix(
-    description="Mixed air temperature measurement",
+    description="Mixed air temperature measurement for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"))  "Mixed air temperature measurement"
     annotation (Placement(transformation(extent={{0,140},{20,160}})));
   IBPSA.Utilities.IO.SignalExchange.Read TRet(
-    description="Return air temperature measurement",
+    description="Return air temperature measurement for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"))  "Return air temperature measurement"
     annotation (Placement(transformation(extent={{0,110},{20,130}})));
   IBPSA.Utilities.IO.SignalExchange.Read V_flow_sup(
-    description="Supply air flowrate measurement",
+    description="Supply air flowrate measurement for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s"))  "Supply air flowrate measurement"
     annotation (Placement(transformation(extent={{0,80},{20,100}})));
   IBPSA.Utilities.IO.SignalExchange.Read V_flow_ret(
-    description="Return air flowrate measurement",
+    description="Return air flowrate measurement for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s"))  "Return air flowrate measurement"
     annotation (Placement(transformation(extent={{0,50},{20,70}})));
   IBPSA.Utilities.IO.SignalExchange.Read V_flow_out(
-    description="Outside air flowrate measurement",
+    description="Outside air flowrate measurement for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s"))  "Outside air flowrate measurement"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
@@ -51,27 +51,27 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput dp_in "Discharge pressure of supply fan"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   IBPSA.Utilities.IO.SignalExchange.Read dp_sup(
-    description="Discharge pressure of supply fan",
+    description="Discharge pressure of supply fan for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="Pa"))  "Discharge pressure of supply fan"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   IBPSA.Utilities.IO.SignalExchange.Read yOA(
-    description="Outside air damper position setpoint feedback",
+    description="Outside air damper position setpoint feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Outside air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Read yExh(
-    description="Exhaust air damper position setpoint feedback",
+    description="Exhaust air damper position setpoint feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Exhaust air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read yRet(
-    description="Return air damper position setpoint feedback",
+    description="Return air damper position setpoint feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Return air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
   IBPSA.Utilities.IO.SignalExchange.Read yFan(
-    description="Supply fan speed setpoint feedback",
+    description="Supply fan speed setpoint feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Supply fan speed setpoint feedback"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
@@ -88,7 +88,7 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     "Actual supply fan speed feedback"
     annotation (Placement(transformation(extent={{-140,-140},{-100,-100}})));
   IBPSA.Utilities.IO.SignalExchange.Read yHea(
-    description="Heating coil control signal feedback",
+    description="Heating coil control signal feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Heating coil control signal feedback"
     annotation (Placement(transformation(extent={{0,-160},{20,-140}})));
@@ -99,7 +99,7 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     "Actual cooling coil signal feedback"
     annotation (Placement(transformation(extent={{-140,-200},{-100,-160}})));
   IBPSA.Utilities.IO.SignalExchange.Read yCoo(
-    description="Cooling coil control signal feedback",
+    description="Cooling coil control signal feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Cooling coil control signal feedback"
     annotation (Placement(transformation(extent={{0,-190},{20,-170}})));
