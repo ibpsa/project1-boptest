@@ -29,8 +29,6 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   parameter String zone="1" "Zone designation, required if KPIs is AirZoneTemperature,
     RadiativeZoneTemperature, OperativeZoneTemperature, RelativeHumidity,
     or CO2Concentration";
-
-  parameter Modelica.SIunits.DimensionlessRatio eff_gas=0.8 "Gas efficiency";
   IBPSA.Utilities.IO.SignalExchange.Read TSup(
     description="Supply air temperature to zone measurement for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
@@ -47,16 +45,14 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput V_flow_in
     "Supply air flowrate to zone measurement"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-  IBPSA.Utilities.IO.SignalExchange.Read PReaHea(
+  IBPSA.Utilities.IO.SignalExchange.Read PHea(
     description="Gas power consumption for reheat for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     y(unit="W")) "Gas power consumption for reheat"
     annotation (Placement(transformation(extent={{0,-110},{20,-90}})));
 
-  Modelica.Blocks.Interfaces.RealInput QReaHea "Thermal power used for reheat"
+  Modelica.Blocks.Interfaces.RealInput PHea_in "Gas power used for reheat"
     annotation (Placement(transformation(extent={{-140,-120},{-100,-80}})));
-  Modelica.Blocks.Math.Gain eff(k=1/eff_gas) "Gas efficiency"
-    annotation (Placement(transformation(extent={{-60,-110},{-40,-90}})));
 equation
   connect(TZon.u, TZon_in)
     annotation (Line(points={{-2,100},{-120,100}},
@@ -70,10 +66,8 @@ equation
     annotation (Line(points={{-2,-20},{-120,-20}}, color={0,0,127}));
   connect(V_flow.u, V_flow_in)
     annotation (Line(points={{-2,-60},{-120,-60}}, color={0,0,127}));
-  connect(eff.y, PReaHea.u)
-    annotation (Line(points={{-39,-100},{-2,-100}}, color={0,0,127}));
-  connect(eff.u, QReaHea)
-    annotation (Line(points={{-62,-100},{-120,-100}}, color={0,0,127}));
+  connect(PHea_in, PHea.u)
+    annotation (Line(points={{-120,-100},{-2,-100}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},

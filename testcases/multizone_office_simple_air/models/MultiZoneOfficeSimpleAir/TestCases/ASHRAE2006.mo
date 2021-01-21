@@ -2,6 +2,7 @@ within MultiZoneOfficeSimpleAir.TestCases;
 model ASHRAE2006
   "Variable air volume flow system with terminal reheat and five thermal zones"
   extends Modelica.Icons.Example;
+  parameter Modelica.SIunits.DimensionlessRatio eff_gas=0.8 "Gas efficiency";
   extends Buildings.Examples.VAVReheat.BaseClasses.PartialOpenLoop(
     heaCoi(show_T=true),
     cooCoi(show_T=true));
@@ -97,23 +98,23 @@ model ASHRAE2006
   BaseClasses.WriteZone oveWes(zone="West") "Overwrite blocks for West zone"
     annotation (Placement(transformation(extent={{1240,-30},{1260,-10}})));
   BaseClasses.ReadAhu reaAhu "Read blocks for AHU"
-    annotation (Placement(transformation(extent={{240,302},{260,342}})));
+    annotation (Placement(transformation(extent={{240,300},{260,348}})));
   BaseClasses.WriteAhu oveAhu "Overwrite blocks for AHU"
     annotation (Placement(transformation(extent={{240,40},{260,70}})));
-  Modelica.Blocks.Sources.RealExpression QReaHeaCor(y=cor.terHea.Q1_flow)
-    "Thermal power for reheat"
+  Modelica.Blocks.Sources.RealExpression PHeaCor(y=cor.terHea.Q1_flow/eff_gas)
+    "Gas power for reheat"
     annotation (Placement(transformation(extent={{480,70},{500,90}})));
-  Modelica.Blocks.Sources.RealExpression QReaHeaSou(y=sou.terHea.Q1_flow)
-    "Thermal power for reheat"
+  Modelica.Blocks.Sources.RealExpression PHeaSou(y=sou.terHea.Q1_flow/eff_gas)
+    "Gas power for reheat"
     annotation (Placement(transformation(extent={{650,70},{670,90}})));
-  Modelica.Blocks.Sources.RealExpression QReaHeaEas(y=eas.terHea.Q1_flow)
-    "Thermal power for reheat"
+  Modelica.Blocks.Sources.RealExpression PHeaEas(y=eas.terHea.Q1_flow/eff_gas)
+    "Gas power for reheat"
     annotation (Placement(transformation(extent={{840,70},{860,90}})));
-  Modelica.Blocks.Sources.RealExpression QReaHeaNor(y=nor.terHea.Q1_flow)
-    "Thermal power for reheat"
+  Modelica.Blocks.Sources.RealExpression PHeaNor(y=nor.terHea.Q1_flow/eff_gas)
+    "Gas power for reheat"
     annotation (Placement(transformation(extent={{1004,70},{1024,90}})));
-  Modelica.Blocks.Sources.RealExpression QReaHeaWes(y=wes.terHea.Q1_flow)
-    "Thermal power for reheat"
+  Modelica.Blocks.Sources.RealExpression PHeaWes(y=wes.terHea.Q1_flow/eff_gas)
+    "Gas power for reheat"
     annotation (Placement(transformation(extent={{1180,70},{1200,90}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
@@ -257,18 +258,16 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(conVAVCor.TRoo, reaCor.TZon_in) annotation (Line(points={{529,35},{
-          520,35},{520,100},{538,100}},
-                                      color={0,0,127}));
-  connect(cor.yVal, reaCor.yReaHea_in) annotation (Line(points={{566,34},{560,
-          34},{560,70},{524,70},{524,92},{538,92}}, color={0,0,127}));
-  connect(conVAVSou.TRoo, reaSou.TZon_in) annotation (Line(points={{699,33},{
-          680,33},{680,100},{698,100}},
-                                      color={0,0,127}));
-  connect(sou.yVal, reaSou.yReaHea_in) annotation (Line(points={{746,32},{738,
-          32},{738,70},{686,70},{686,92},{698,92}}, color={0,0,127}));
-  connect(reaEas.TZon_in, conVAVEas.TRoo) annotation (Line(points={{888,100},{
-          868,100},{868,33},{879,33}},color={0,0,127}));
+  connect(conVAVCor.TRoo, reaCor.TZon_in) annotation (Line(points={{529,35},{520,
+          35},{520,100},{538,100}},   color={0,0,127}));
+  connect(cor.yVal, reaCor.yReaHea_in) annotation (Line(points={{566,34},{560,34},
+          {560,70},{524,70},{524,92},{538,92}},     color={0,0,127}));
+  connect(conVAVSou.TRoo, reaSou.TZon_in) annotation (Line(points={{699,33},{680,
+          33},{680,100},{698,100}},   color={0,0,127}));
+  connect(sou.yVal, reaSou.yReaHea_in) annotation (Line(points={{746,32},{738,32},
+          {738,70},{686,70},{686,92},{698,92}},     color={0,0,127}));
+  connect(reaEas.TZon_in, conVAVEas.TRoo) annotation (Line(points={{888,100},{868,
+          100},{868,33},{879,33}},    color={0,0,127}));
   connect(TSupCor.T, reaCor.TSup_in) annotation (Line(points={{569,92},{564,92},
           {564,76},{526,76},{526,88},{538,88}}, color={0,0,127}));
   connect(VSupCor_flow.V_flow, reaCor.V_flow_in) annotation (Line(points={{569,130},
@@ -279,24 +278,24 @@ equation
           {688,130},{688,84},{698,84}},      color={0,0,127}));
   connect(TSupEas.T, reaEas.TSup_in) annotation (Line(points={{929,90},{920,90},
           {920,76},{874,76},{874,88},{888,88}}, color={0,0,127}));
-  connect(eas.yVal, reaEas.yReaHea_in) annotation (Line(points={{926,32},{916,
-          32},{916,70},{872,70},{872,92},{888,92}}, color={0,0,127}));
+  connect(eas.yVal, reaEas.yReaHea_in) annotation (Line(points={{926,32},{916,32},
+          {916,70},{872,70},{872,92},{888,92}},     color={0,0,127}));
   connect(VSupEas_flow.V_flow, reaEas.V_flow_in) annotation (Line(points={{929,128},
           {876,128},{876,84},{888,84}},      color={0,0,127}));
-  connect(reaNor.TZon_in, conVAVNor.TRoo) annotation (Line(points={{1048,100},{
-          1028,100},{1028,33},{1039,33}},color={0,0,127}));
+  connect(reaNor.TZon_in, conVAVNor.TRoo) annotation (Line(points={{1048,100},{1028,
+          100},{1028,33},{1039,33}},     color={0,0,127}));
   connect(nor.yVal, reaNor.yReaHea_in) annotation (Line(points={{1086,32},{1076,
           32},{1076,70},{1032,70},{1032,92},{1048,92}}, color={0,0,127}));
-  connect(TSupNor.T, reaNor.TSup_in) annotation (Line(points={{1089,94},{1080,
-          94},{1080,76},{1034,76},{1034,88},{1048,88}}, color={0,0,127}));
+  connect(TSupNor.T, reaNor.TSup_in) annotation (Line(points={{1089,94},{1080,94},
+          {1080,76},{1034,76},{1034,88},{1048,88}},     color={0,0,127}));
   connect(VSupNor_flow.V_flow, reaNor.V_flow_in) annotation (Line(points={{1089,
           132},{1036,132},{1036,84},{1048,84}}, color={0,0,127}));
-  connect(reaWes.TZon_in, conVAVWes.TRoo) annotation (Line(points={{1238,100},{
-          1220,100},{1220,31},{1239,31}},color={0,0,127}));
+  connect(reaWes.TZon_in, conVAVWes.TRoo) annotation (Line(points={{1238,100},{1220,
+          100},{1220,31},{1239,31}},     color={0,0,127}));
   connect(wes.yVal, reaWes.yReaHea_in) annotation (Line(points={{1286,32},{1276,
           32},{1276,72},{1224,72},{1224,92},{1238,92}}, color={0,0,127}));
-  connect(TSupWes.T, reaWes.TSup_in) annotation (Line(points={{1289,90},{1280,
-          90},{1280,76},{1226,76},{1226,88},{1238,88}}, color={0,0,127}));
+  connect(TSupWes.T, reaWes.TSup_in) annotation (Line(points={{1289,90},{1280,90},
+          {1280,76},{1226,76},{1226,88},{1238,88}},     color={0,0,127}));
   connect(VSupWes_flow.V_flow, reaWes.V_flow_in) annotation (Line(points={{1289,
           128},{1228,128},{1228,84},{1238,84}}, color={0,0,127}));
   connect(conVAVCor.yDam, oveCor.uDam_in) annotation (Line(points={{551,46.8},{
@@ -435,30 +434,31 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(TSup.T, reaAhu.TSup_in) annotation (Line(points={{340,-29},{340,100},
-          {180,100},{180,340},{238,340}}, color={0,0,127}));
+  connect(TSup.T, reaAhu.TSup_in) annotation (Line(points={{340,-29},{340,100},{
+          180,100},{180,348},{238,348}},  color={0,0,127}));
   connect(TMix.T, reaAhu.TMix_in)
-    annotation (Line(points={{40,-29},{40,337},{238,337}}, color={0,0,127}));
+    annotation (Line(points={{40,-29},{40,345},{238,345}}, color={0,0,127}));
   connect(TRet.T, reaAhu.TRet_in)
-    annotation (Line(points={{100,151},{100,334},{238,334}}, color={0,0,127}));
+    annotation (Line(points={{100,151},{100,342},{238,342}}, color={0,0,127}));
   connect(senSupFlo.V_flow, reaAhu.V_flow_sup_in) annotation (Line(points={{410,-29},
-          {410,104},{184,104},{184,331},{238,331}},      color={0,0,127}));
+          {410,104},{184,104},{184,339},{238,339}},      color={0,0,127}));
   connect(senRetFlo.V_flow, reaAhu.V_flow_ret_in) annotation (Line(points={{350,151},
-          {350,160},{188,160},{188,328},{238,328}},      color={0,0,127}));
-  connect(VOut1.V_flow, reaAhu.V_flow_out_in) annotation (Line(points={{-61,
-          -20.9},{-61,96},{192,96},{192,325},{238,325}}, color={0,0,127}));
-  connect(dpDisSupFan.p_rel, reaAhu.dp_in) annotation (Line(points={{311,0},{
-          304,0},{304,164},{196,164},{196,322},{238,322}}, color={0,0,127}));
-  connect(gaiHeaCoi.u, reaAhu.yHea_in) annotation (Line(points={{98,-210},{80,
-          -210},{80,-188},{62,-188},{62,94},{214,94},{214,308},{238,308},{238,
-          307}}, color={0,0,127}));
-  connect(gaiCooCoi.u, reaAhu.yCoo_in) annotation (Line(points={{98,-248},{80,
-          -248},{80,-228},{64,-228},{64,92},{216,92},{216,304},{238,304}},
+          {350,160},{188,160},{188,336},{238,336}},      color={0,0,127}));
+  connect(VOut1.V_flow, reaAhu.V_flow_out_in) annotation (Line(points={{-61,-20.9},
+          {-61,96},{192,96},{192,333},{238,333}},        color={0,0,127}));
+  connect(dpDisSupFan.p_rel, reaAhu.dp_in) annotation (Line(points={{311,0},{304,
+          0},{304,164},{196,164},{196,330},{238,330}},     color={0,0,127}));
+  connect(gaiHeaCoi.u, reaAhu.yHea_in) annotation (Line(points={{98,-210},{80,-210},
+          {80,-188},{62,-188},{62,94},{214,94},{214,316},{238,316},{238,315}},
+                 color={0,0,127}));
+  connect(gaiCooCoi.u, reaAhu.yCoo_in) annotation (Line(points={{98,-248},{80,-248},
+          {80,-228},{64,-228},{64,92},{216,92},{216,312},{238,312}},
         color={0,0,127}));
   connect(conFanSup.y, oveAhu.uFan_in) annotation (Line(points={{261,0},{270,0},
           {270,20},{220,20},{220,67.8571},{238,67.8571}}, color={0,0,127}));
   connect(oveAhu.yFan, fanSup.y) annotation (Line(points={{261,67.8571},{280,
-          67.8571},{280,-20},{310,-20},{310,-28}}, color={0,0,127}));
+          67.8571},{280,-20},{310,-20},{310,-28}},
+                                          color={0,0,127}));
   connect(conTSup.yCoo, oveAhu.uCoo_in) annotation (Line(points={{52,-226},{148,
           -226},{148,59.2857},{238,59.2857}}, color={0,0,127}));
   connect(oveAhu.yCoo, gaiCooCoi.u) annotation (Line(points={{261,59.2857},{276,
@@ -468,8 +468,8 @@ equation
           {80,-188},{152,-188},{152,28},{278,28},{278,63.5714},{261,63.5714}},
         color={0,0,127}));
   connect(conTSup.yHea, oveAhu.uHea_in) annotation (Line(points={{52,-214},{58,
-          -214},{58,-186},{146,-186},{146,63.5714},{238,63.5714}}, color={0,0,
-          127}));
+          -214},{58,-186},{146,-186},{146,63.5714},{238,63.5714}},
+                                                             color={0,0,127}));
   connect(pSetDuc.y, oveAhu.dpSet_in) annotation (Line(points={{181,-6},{200,-6},
           {200,50.7143},{238,50.7143}}, color={0,0,127}));
   connect(oveAhu.dpSet_out, conFanSup.u) annotation (Line(points={{261,50.7143},
@@ -483,40 +483,43 @@ equation
   connect(conEco.yOA, oveAhu.uOA_in) annotation (Line(points={{-58.6667,152},{0,
           152},{0,46.4286},{238,46.4286}}, color={0,0,127}));
   connect(oveAhu.yOA, eco.yOut) annotation (Line(points={{261,46.4286},{270,
-          46.4286},{270,36},{-10,36},{-10,-34}}, color={0,0,127}));
+          46.4286},{270,36},{-10,36},{-10,-34}},
+                                        color={0,0,127}));
   connect(eco.yExh, eco.yOut) annotation (Line(points={{-3,-34},{-4,-34},{-4,36},
           {-10,36},{-10,-34}}, color={0,0,127}));
   connect(oveAhu.yRet, eco.yRet) annotation (Line(points={{261,42.1429},{268,
-          42.1429},{268,38},{-18,38},{-18,-34},{-16.8,-34}}, color={0,0,127}));
+          42.1429},{268,38},{-18,38},{-18,-34},{-16.8,-34}},
+                                                    color={0,0,127}));
   connect(conEco.yRet, oveAhu.uRet_in) annotation (Line(points={{-58.6667,
-          146.667},{-4,146.667},{-4,42.1429},{238,42.1429}}, color={0,0,127}));
+          146.667},{-4,146.667},{-4,42.1429},{238,42.1429}},
+                                                    color={0,0,127}));
   connect(fanSup.y, reaAhu.yFan_in) annotation (Line(points={{310,-28},{280,-28},
-          {280,168},{212,168},{212,310},{238,310}}, color={0,0,127}));
+          {280,168},{212,168},{212,318},{238,318}}, color={0,0,127}));
   connect(eco.yRet, reaAhu.yRet_in) annotation (Line(points={{-16.8,-34},{-16.8,
-          313},{238,313}}, color={0,0,127}));
+          321},{238,321}}, color={0,0,127}));
   connect(eco.yOut, reaAhu.yOA_in)
-    annotation (Line(points={{-10,-34},{-10,319},{238,319}}, color={0,0,127}));
+    annotation (Line(points={{-10,-34},{-10,327},{238,327}}, color={0,0,127}));
   connect(eco.yExh, reaAhu.yExh_in)
-    annotation (Line(points={{-3,-34},{-3,316},{238,316}}, color={0,0,127}));
-  connect(reaCor.yDamAct_in, cor.yVAV) annotation (Line(points={{538,96},{522,
-          96},{522,72},{558,72},{558,50},{566,50}}, color={0,0,127}));
-  connect(reaSou.yDamAct_in, sou.yVAV) annotation (Line(points={{698,96},{684,
-          96},{684,72},{734,72},{734,48},{746,48}}, color={0,0,127}));
-  connect(reaEas.yDamAct_in, eas.yVAV) annotation (Line(points={{888,96},{870,
-          96},{870,72},{914,72},{914,48},{926,48}}, color={0,0,127}));
+    annotation (Line(points={{-3,-34},{-3,324},{238,324}}, color={0,0,127}));
+  connect(reaCor.yDamAct_in, cor.yVAV) annotation (Line(points={{538,96},{522,96},
+          {522,72},{558,72},{558,50},{566,50}},     color={0,0,127}));
+  connect(reaSou.yDamAct_in, sou.yVAV) annotation (Line(points={{698,96},{684,96},
+          {684,72},{734,72},{734,48},{746,48}},     color={0,0,127}));
+  connect(reaEas.yDamAct_in, eas.yVAV) annotation (Line(points={{888,96},{870,96},
+          {870,72},{914,72},{914,48},{926,48}},     color={0,0,127}));
   connect(reaNor.yDamAct_in, nor.yVAV) annotation (Line(points={{1048,96},{1030,
           96},{1030,72},{1074,72},{1074,48},{1086,48}}, color={0,0,127}));
   connect(reaWes.yDamAct_in, wes.yVAV) annotation (Line(points={{1238,96},{1222,
           96},{1222,78},{1274,78},{1274,48},{1286,48}}, color={0,0,127}));
-  connect(QReaHeaCor.y, reaCor.QReaHea)
+  connect(PHeaCor.y, reaCor.PHea_in)
     annotation (Line(points={{501,80},{538,80}}, color={0,0,127}));
-  connect(QReaHeaSou.y, reaSou.QReaHea)
+  connect(PHeaSou.y, reaSou.PHea_in)
     annotation (Line(points={{671,80},{698,80}}, color={0,0,127}));
-  connect(QReaHeaEas.y, reaEas.QReaHea)
+  connect(PHeaEas.y, reaEas.PHea_in)
     annotation (Line(points={{861,80},{888,80}}, color={0,0,127}));
-  connect(QReaHeaNor.y, reaNor.QReaHea)
+  connect(PHeaNor.y, reaNor.PHea_in)
     annotation (Line(points={{1025,80},{1048,80}}, color={0,0,127}));
-  connect(QReaHeaWes.y, reaWes.QReaHea)
+  connect(PHeaWes.y, reaWes.PHea_in)
     annotation (Line(points={{1201,80},{1238,80}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1440,
