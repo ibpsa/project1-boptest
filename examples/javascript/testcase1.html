@@ -111,17 +111,16 @@ xhr_reset.onreadystatechange = function() {
             }
         }
     };
-   var reset_string='{"start_time":0,"warmup_period":0}'
-   xhr_reset.send(reset_string);
-
-
+    var reset_string='{"start_time":0,"warmup_period":0}'
+    xhr_reset.send(reset_string);
 
 function send()
 {
    if (count>length/step)
    {
       xhr_get_result = new XMLHttpRequest();
-      xhr_get_result.open("GET", url+"results", false);
+      xhr_get_result.open("PUT", url+"results", false);
+      xhr_get_result.setRequestHeader("Content-type", "application/json");
       xhr_get_result.onreadystatechange = function() {
             if (xhr_get_result.readyState == 4) {
     		              if (xhr_get_result.status != 200) {
@@ -129,12 +128,14 @@ function send()
     		              }
     		              else {
     								 console.log( "SUCCESS in getting results" );
-    								 result.value = xhr_get_result.response;
+								 result.value = xhr_get_result.response;
     		              }
             }
       };
+      var results = {};
 
-      xhr_get_result.send(null);
+      var results_arg='{"point_name":"TRooAir_y","start_time":0,"final_time":'+length.toString()+'}';
+      xhr_get_result.send(results_arg);
 
       xhr_get_kpi = new XMLHttpRequest();
       xhr_get_kpi.open("GET", url+"kpi", false);
