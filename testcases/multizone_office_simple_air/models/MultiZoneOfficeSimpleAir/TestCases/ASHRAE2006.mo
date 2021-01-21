@@ -2,6 +2,7 @@ within MultiZoneOfficeSimpleAir.TestCases;
 model ASHRAE2006
   "Variable air volume flow system with terminal reheat and five thermal zones"
   extends Modelica.Icons.Example;
+  parameter Modelica.SIunits.DimensionlessRatio cop=3 "Cooling coefficient of performance";
   parameter Modelica.SIunits.DimensionlessRatio eff_gas=0.8 "Gas efficiency";
   extends Buildings.Examples.VAVReheat.BaseClasses.PartialOpenLoop(
     heaCoi(show_T=true),
@@ -116,6 +117,12 @@ model ASHRAE2006
   Modelica.Blocks.Sources.RealExpression PHeaWes(y=wes.terHea.Q1_flow/eff_gas)
     "Gas power for reheat"
     annotation (Placement(transformation(extent={{1180,70},{1200,90}})));
+  Modelica.Blocks.Sources.RealExpression PHea(y=-heaCoi.Q1_flow/eff_gas)
+    "Gas power for heating coil"
+    annotation (Placement(transformation(extent={{140,286},{160,306}})));
+  Modelica.Blocks.Sources.RealExpression PCoo(y=cooCoi.Q1_flow/cop)
+    "Electrical power for cooling coil"
+    annotation (Placement(transformation(extent={{140,300},{160,320}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -521,6 +528,12 @@ equation
     annotation (Line(points={{1025,80},{1048,80}}, color={0,0,127}));
   connect(PHeaWes.y, reaWes.PHea_in)
     annotation (Line(points={{1201,80},{1238,80}}, color={0,0,127}));
+  connect(PHea.y, reaAhu.PHea_in) annotation (Line(points={{161,296},{200,296},{
+          200,303},{238,303}}, color={0,0,127}));
+  connect(PCoo.y, reaAhu.PCoo_in) annotation (Line(points={{161,310},{200,310},{
+          200,306},{238,306}}, color={0,0,127}));
+  connect(fanSup.P, reaAhu.PFanSup_in) annotation (Line(points={{321,-31},{338,
+          -31},{338,98},{220,98},{220,309},{238,309}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1440,
             660}})),
