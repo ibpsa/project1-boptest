@@ -2240,7 +2240,7 @@ of the boiler
           textString="Living room (Liv)")}),
     Documentation(info="<html>
 <p>
-This is a single zone residential hydronic system model 
+This is a multi zone residential hydronic system model 
 for WP 1.2 of IBPSA project 1. 
 </p>
 <h3>Building Design and Use</h3>
