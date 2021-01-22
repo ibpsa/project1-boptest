@@ -126,15 +126,15 @@ res = model.simulate(start_time=gen.time[0],
 keysMap = {}
 
 # Occupancy schedules
-keysMap['Occupancy[Sal]'] = 'occSal.y' 
+keysMap['Occupancy[Liv]'] = 'occLiv.y' 
 keysMap['Occupancy[Ro1]'] = 'occRo1.y' 
 keysMap['Occupancy[Ro2]'] = 'occRo2.y' 
 keysMap['Occupancy[Ro3]'] = 'occRo3.y' 
 
 # Internal gains
-keysMap['InternalGainsRad[Sal]'] = 'heaGaiSalRad.y' 
-keysMap['InternalGainsCon[Sal]'] = 'heaGaiSalCon.y'
-keysMap['InternalGainsLat[Sal]'] = 'heaGaiSalLat.y'
+keysMap['InternalGainsRad[Liv]'] = 'heaGaiLivRad.y' 
+keysMap['InternalGainsCon[Liv]'] = 'heaGaiLivCon.y'
+keysMap['InternalGainsLat[Liv]'] = 'heaGaiLivLat.y'
 keysMap['InternalGainsRad[Ro1]'] = 'heaGaiRo1Rad.y' 
 keysMap['InternalGainsCon[Ro1]'] = 'heaGaiRo1Con.y'
 keysMap['InternalGainsLat[Ro1]'] = 'heaGaiRo1Lat.y'
@@ -146,8 +146,8 @@ keysMap['InternalGainsCon[Ro3]'] = 'heaGaiRo3Con.y'
 keysMap['InternalGainsLat[Ro3]'] = 'heaGaiRo3Lat.y'
 
 # Comfort range setpoints
-keysMap['LowerSetp[Sal]'] = 'reaTSetHea.y'
-keysMap['UpperSetp[Sal]'] = 'reaTSetCoo.y'
+keysMap['LowerSetp[Liv]'] = 'reaTSetHea.y'
+keysMap['UpperSetp[Liv]'] = 'reaTSetCoo.y'
 keysMap['LowerSetp[Ro1]'] = 'reaTSetHea.y'
 keysMap['UpperSetp[Ro1]'] = 'reaTSetCoo.y'
 keysMap['LowerSetp[Ro2]'] = 'reaTSetHea.y'
@@ -169,7 +169,7 @@ for out in output_names:
     df.loc[:,out] = g(gen.time)
 
 # Add CO2 limits
-keysMap['UpperCO2[Sal]'] = 894.
+keysMap['UpperCO2[Liv]'] = 894.
 keysMap['UpperCO2[Ro1]'] = 894.
 keysMap['UpperCO2[Ro2]'] = 894.
 keysMap['UpperCO2[Ro3]'] = 894.
