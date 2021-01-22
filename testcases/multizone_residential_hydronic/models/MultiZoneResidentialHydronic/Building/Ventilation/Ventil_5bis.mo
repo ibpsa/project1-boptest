@@ -27,16 +27,6 @@ model Ventil_5bis
     use_C_in=false,
     nPorts=2) "Outside air conditions"
     annotation (Placement(transformation(extent={{-34,28},{-14,48}})));
-  Buildings.Fluid.Sensors.RelativeHumidity relHum_Salon(redeclare package
-      Medium = MediumA)
-    annotation (Placement(transformation(extent={{3,-3},{-3,3}},
-        rotation=180,
-        origin={5,51})));
-  IBPSA.Utilities.IO.SignalExchange.Read rearelHum(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.RelativeHumidity,
-    y(unit="1"),
-    description="Zone relative humidity")
-    annotation (Placement(transformation(extent={{30,46},{36,52}})));
 
 equation
   connect(fan.port_a, ports1[1])
@@ -52,10 +42,6 @@ equation
           30},{8,30}}, color={0,127,255}));
   connect(out.ports[2:2], ports3) annotation (Line(points={{-14,36},{-6,36},{-6,
           62},{42,62},{42,61}}, color={0,127,255}));
-  connect(relHum_Salon.phi, rearelHum.u) annotation (Line(points={{8.3,51},{12,
-          51},{12,49},{29.4,49}}, color={0,0,127}));
-  connect(relHum_Salon.port, ports3[1]) annotation (Line(points={{5,54},{4,54},
-          {4,61},{42,61}}, color={0,127,255}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-60,20},{40,
             100}})),
