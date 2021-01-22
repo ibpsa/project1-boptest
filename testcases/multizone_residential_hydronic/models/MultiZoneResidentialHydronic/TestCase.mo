@@ -759,13 +759,17 @@ public
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor T_Combles
     "Temprature de la zone"
     annotation (Placement(transformation(extent={{-210,-12},{-206,-8}})));
-  Building.Control.Regul_Clim_1 regul_Chambre1
+  Building.Control.ConCoo conCooRo1(zone="Ro1")
+    "Cooling controller for zone Ro1"
     annotation (Placement(transformation(extent={{10,14},{18,18}})));
-  Building.Control.Regul_Clim_1 regul_Chambre2
+  Building.Control.ConCoo conCooRo2(zone="Ro2")
+    "Cooling controller for zone Ro2"
     annotation (Placement(transformation(extent={{66,10},{76,16}})));
-  Building.Control.Regul_Clim_1 regul_Chambre3
+  Building.Control.ConCoo conCooRo3(zone="Ro3")
+    "Cooling controller for zone Ro3"
     annotation (Placement(transformation(extent={{66,-46},{76,-40}})));
-  Building.Control.Regul_Clim_1 regul_SDB
+  Building.Control.ConCoo conCooBth(zone="Bth")
+    "Cooling controller for zone Bth"
     annotation (Placement(transformation(extent={{6,-48},{16,-42}})));
   Modelica.Blocks.Sources.Sine temSoil(
     amplitude=2,
@@ -777,7 +781,7 @@ public
   Building.Ventilation.Ventil_5 ventil_SDB(Q=0.8*(Q_Chambre1 + Q_Chambre2 +
         Q_Chambre3)*OpenDoors + 0.001)
     annotation (Placement(transformation(extent={{-30,-64},{-20,-56}})));
-  Building.Control.Regul_Clim_1 regul_Salon
+  Building.Control.ConCoo conCooLiv(zone="Liv")
     annotation (Placement(transformation(extent={{-66,18},{-56,24}})));
   parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic CeilingWall(final
       nLay=1, material={Buildings.HeatTransfer.Data.Solids.Generic(
@@ -844,7 +848,7 @@ public
   Modelica.Blocks.Sources.RealExpression realExpression17(y=
         schedules_MI_ZoneJour.CooSetRT12)
     annotation (Placement(transformation(extent={{-78,14},{-74,18}})));
-  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad_Chambre1(
+  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo1(
     redeclare package Medium = MediumW,
     Q_flow_nominal=P_rad_Chambre1,
     T_a_nominal=TSup_nominal,
@@ -857,7 +861,7 @@ public
     use_inputFilter=false)
     annotation (Placement(transformation(extent={{-6,-118},{4,-128}})));
   Building.Control.ConHeaZon conHeaRo1(Khea=1, Ti=300,
-    zone="Ro1")
+    zone="Ro1") "Heating controller for zone Ro1"
     annotation (Placement(transformation(extent={{-12,-144},{-2,-138}})));
   Modelica.Blocks.Sources.RealExpression realExpression19(
                                                          y=T_Chambre1.T)
@@ -866,7 +870,7 @@ public
                                                          y=
         schedules_RT2012_MI.HeaSetRT12 + delta_ST_rad)
     annotation (Placement(transformation(extent={{-24,-142},{-18,-136}})));
-  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad_Chambre2(
+  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo2(
     redeclare package Medium = MediumW,
     Q_flow_nominal=P_rad_Chambre2,
     T_a_nominal=TSup_nominal,
@@ -879,14 +883,14 @@ public
     use_inputFilter=false)
     annotation (Placement(transformation(extent={{52,-118},{62,-128}})));
   Building.Control.ConHeaZon conHeaRo2(Khea=1, Ti=300,
-    zone="Ro2")
+    zone="Ro2") "Heating controller for zone Ro2"
     annotation (Placement(transformation(extent={{44,-144},{54,-138}})));
   Modelica.Blocks.Sources.RealExpression realExpression21(y=T_Chambre2.T)
     annotation (Placement(transformation(extent={{32,-146},{38,-140}})));
   Modelica.Blocks.Sources.RealExpression realExpression22(y=
         schedules_RT2012_MI.HeaSetRT12 + delta_ST_rad)
     annotation (Placement(transformation(extent={{32,-142},{38,-136}})));
-  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad_Chambre3(
+  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo3(
     redeclare package Medium = MediumW,
     Q_flow_nominal=P_rad_Chambre3,
     T_a_nominal=TSup_nominal,
@@ -899,14 +903,14 @@ public
     use_inputFilter=false)
     annotation (Placement(transformation(extent={{54,-198},{64,-208}})));
   Building.Control.ConHeaZon conHeaRo3(Khea=1, Ti=300,
-    zone="Ro3")
+    zone="Ro3") "Heating controller for zone Ro3"
     annotation (Placement(transformation(extent={{46,-226},{56,-220}})));
   Modelica.Blocks.Sources.RealExpression realExpression23(y=T_Chambre3.T)
     annotation (Placement(transformation(extent={{34,-228},{40,-222}})));
   Modelica.Blocks.Sources.RealExpression realExpression24(y=
         schedules_RT2012_MI.HeaSetRT12 + delta_ST_rad)
     annotation (Placement(transformation(extent={{34,-224},{40,-218}})));
-  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad_SDB(
+  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radBth(
     redeclare package Medium = MediumW,
     Q_flow_nominal=P_rad_SDB,
     T_a_nominal=TSup_nominal,
@@ -919,7 +923,7 @@ public
     use_inputFilter=false)
     annotation (Placement(transformation(extent={{4,-198},{14,-208}})));
   Building.Control.ConHeaZon conHeaBth(Khea=1, Ti=300,
-    zone="Bth")
+    zone="Bth") "Heating controller for zone Bth"
     annotation (Placement(transformation(extent={{-12,-222},{-2,-216}})));
   Modelica.Blocks.Sources.RealExpression realExpression25(y=T_SDB.T)
     annotation (Placement(transformation(extent={{-26,-224},{-20,-218}})));
@@ -954,7 +958,7 @@ public
         extent={{-5,-5},{5,5}},
         rotation=0,
         origin={29,-123})));
-  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad_Couloir(
+  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radHal(
     redeclare package Medium = MediumW,
     Q_flow_nominal=300,
     T_a_nominal=TSup_nominal,
@@ -1044,8 +1048,8 @@ public
     annotation (Placement(transformation(extent={{-84,-136},{-78,-130}})));
   Modelica.Blocks.Sources.RealExpression realExpression31(y=T_Salon.T)
     annotation (Placement(transformation(extent={{-84,-140},{-78,-134}})));
-  Building.Control.ConHeaZon conHeaSal(Khea=1, Ti=300,
-    zone="Sal")
+  Building.Control.ConHeaZon conHeaLiv(Khea=1, Ti=300,
+    zone="Liv")
     annotation (Placement(transformation(extent={{-74,-138},{-64,-132}})));
   Buildings.Fluid.FixedResistances.Junction inSplVal1(
     redeclare package Medium = MediumW,
@@ -1146,7 +1150,8 @@ public
         origin={42,-190})));
   Building.Schedules.Schedules_RT2012_MI schedules_RT2012_MI
     annotation (Placement(transformation(extent={{-372,20},{-352,42}})));
-  Building.Control.Regul_Clim_1 regul_Couloir
+  Building.Control.ConCoo conCooHal(zone="Hal")
+    "Cooling controller for zone Hal"
     annotation (Placement(transformation(extent={{68,-16},{78,-10}})));
   Modelica.Blocks.Sources.RealExpression realExpression8( y=
         schedules_MI_ZoneNuit.CooSetRT12)
@@ -1196,7 +1201,7 @@ public
     TRet_nominal=TRet_nominal,
     TOut_nominal(displayUnit="degC") = 268.15)
     annotation (Placement(transformation(extent={{-130,-126},{-126,-122}})));
-  Building.Control.ConHea conHeaBoiler(Khea=1)
+  Building.Control.ConHea conHeaTSup(Khea=1, zone="supply water")
     annotation (Placement(transformation(extent={{-122,-126},{-116,-122}})));
   Modelica.Blocks.Sources.RealExpression realExpression29(y=schedules_RT2012_MI.HeaSetRT12
          + delta_ST_rad)
@@ -1219,12 +1224,13 @@ public
   Building.Control.ConHea conPumHea(
     Khea=mBoi_flow_nominal,
     k=1,
-    Ti=600) annotation (Placement(transformation(
+    Ti=600,
+    zone="emission system pump")
+            annotation (Placement(transformation(
         extent={{8.00015,-5},{-8.00025,5.00001}},
         rotation=180,
         origin={-202,-209})));
-  Buildings.Fluid.Movers.FlowControlled_m_flow
-                                           pompe_chaudiere(
+  Buildings.Fluid.Movers.FlowControlled_m_flow pumEmiSystem(
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare package Medium = MediumW,
     addPowerToMedium=false,
@@ -1232,7 +1238,7 @@ public
     m_flow_nominal=mBoi_flow_nominal,
     redeclare Buildings.Fluid.Movers.Data.Generic per,
     use_inputFilter=false,
-    nominalValuesDefineDefaultPressureCurve=true)
+    nominalValuesDefineDefaultPressureCurve=true) "Pump for emission system"
     annotation (Placement(transformation(extent={{5,5},{-5,-5}}, origin={-83,-175})));
   Modelica.Blocks.Sources.RealExpression HeaSet_LivingRoom(y=
         schedules_RT2012_MI.HeaSetRT12 + delta_ST_rad)
@@ -1245,67 +1251,68 @@ public
   IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"),
-    description="Zone air setpoint temperature")
+    description="Building heating air setpoint temperature")
     annotation (Placement(transformation(extent={{-332,40},{-326,46}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"),
-    description="Zone air setpoint temperature")
+    description="Building cooling air setpoint temperature")
     annotation (Placement(transformation(extent={{-332,30},{-326,36}})));
 
   Modelica.Blocks.Sources.RealExpression realExpression13(y=
         heatFlowSensor_Salon_Conv.Q_flow + heatFlowSensor_Salon_Rad.Q_flow)
     annotation (Placement(transformation(extent={{-84,-148},{-78,-142}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaHeaSal(description=
-        "Read heating delivered to Salon", y(unit="W"))
+  IBPSA.Utilities.IO.SignalExchange.Read reaHeaLiv(description=
+        "Heating delivered to Liv",        y(unit="W"))
     annotation (Placement(transformation(extent={{-70,-148},{-64,-142}})));
   Modelica.Blocks.Sources.RealExpression realExpression15(y=
         heatFlowSensor_Chambre1_Conv.Q_flow + heatFlowSensor_Chambre1_Rad.Q_flow)
     annotation (Placement(transformation(extent={{-24,-152},{-18,-146}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaHeaRo1(description=
-        "Read heating delivered to room 1", y(unit="W"))
+        "Heating delivered to Ro1",         y(unit="W"))
     annotation (Placement(transformation(extent={{-10,-152},{-4,-146}})));
   Modelica.Blocks.Sources.RealExpression realExpression16(y=
         heatFlowSensor_Chambre2_Conv.Q_flow + heatFlowSensor_Chambre2_Rad.Q_flow)
     annotation (Placement(transformation(extent={{32,-152},{38,-146}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaHeaRo2(description=
-        "Read heating delivered to room 2", y(unit="W"))
+        "Heating delivered to Ro2",         y(unit="W"))
     annotation (Placement(transformation(extent={{46,-152},{52,-146}})));
   Modelica.Blocks.Sources.RealExpression realExpression18(y=
         heatFlowSensor_Chambre3_Conv.Q_flow + heatFlowSensor_Chambre3_Rad.Q_flow)
     annotation (Placement(transformation(extent={{34,-234},{40,-228}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaHeaRo3(description=
-        "Read heating delivered to room 3", y(unit="W"))
+        "Heating delivered to Ro3",         y(unit="W"))
     annotation (Placement(transformation(extent={{46,-234},{52,-228}})));
   Modelica.Blocks.Sources.RealExpression realExpression27(y=
         heatFlowSensor_SDB_Conv.Q_flow + heatFlowSensor_SDB_Rad.Q_flow)
     annotation (Placement(transformation(extent={{-24,-230},{-18,-224}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaHeaBth(description=
-        "Read heating delivered to bathroom", y(unit="W"))
+        "Heating delivered to Bth",           y(unit="W"))
     annotation (Placement(transformation(extent={{-12,-230},{-6,-224}})));
   Modelica.Blocks.Sources.RealExpression realExpression32(y=
         heatFlowSensor_Couloir_Conv.Q_flow + heatFlowSensor_Couloir_Rad.Q_flow)
     annotation (Placement(transformation(extent={{42,-172},{48,-166}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaHeaHal(description=
-        "Read heating delivered to Hall", y(unit="W"))
+        "Heating delivered to Hal",       y(unit="W"))
     annotation (Placement(transformation(extent={{52,-172},{58,-166}})));
   Modelica.Blocks.Sources.RealExpression realExpression28(y=T_Couloir.T)
     annotation (Placement(transformation(extent={{60,-172},{66,-166}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTHal(description=
-        "Read hall temperature", y(unit="K"),
+  IBPSA.Utilities.IO.SignalExchange.Read reaTHal(
+    description="Air temperature of zone Hal",
+                                 y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     zone="Hal")
     annotation (Placement(transformation(extent={{70,-172},{76,-166}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read reaTAti(
-    description="Read attic air temperature",
+    description="Air temperature of zone Ati",
     y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     zone="Hal")
     annotation (Placement(transformation(extent={{-196,-12},{-190,-6}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaTGar(
-    description="Read garage temperature",
+    description="Air temperature of zone Gar",
     y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     zone="Hal")
@@ -1323,7 +1330,8 @@ equation
 
   // Consumptions
 //  Consommation_Gaz_Chaudiere =Boiler.QWat_flow;
-  Consommation_Elec_Pompe = pompe_chaudiere.m_flow/pompe_chaudiere.m_flow_nominal*P_Pompe_nominal;
+  Consommation_Elec_Pompe =pumEmiSystem.m_flow/pumEmiSystem.m_flow_nominal*
+    P_Pompe_nominal;
 
   connect(Salon.heaPorAir, T_Salon.port) annotation (Line(points={{-88.4,22},{-83.2,
           22},{-78,22}},        color={191,0,0}));
@@ -1712,11 +1720,11 @@ equation
   connect(T_Combles.port, Combles.heaPorAir)
     annotation (Line(points={{-210,-10},{-220.4,-10}},
                                                    color={191,0,0}));
-  connect(regul_Chambre2.T, T_Chambre2.T)
+  connect(conCooRo2.T, T_Chambre2.T)
     annotation (Line(points={{65.2,13},{64,13},{64,18}}, color={0,0,127}));
-  connect(regul_Chambre3.T, T_Chambre3.T) annotation (Line(points={{65.2,-43},{64,
-          -43},{64,-54}},          color={0,0,127}));
-  connect(regul_SDB.T, T_SDB.T)
+  connect(conCooRo3.T, T_Chambre3.T)
+    annotation (Line(points={{65.2,-43},{64,-43},{64,-54}}, color={0,0,127}));
+  connect(conCooBth.T, T_SDB.T)
     annotation (Line(points={{5.2,-45},{4,-45},{4,-54}}, color={0,0,127}));
   connect(temSoil.y, T_sol.T) annotation (Line(points={{34.5,87},{37.25,87},{39.4,
           87}}, color={0,0,127}));
@@ -1759,32 +1767,28 @@ equation
       points={{-31,-62.6},{-31,-76},{-31,-94},{-2.84,-94},{-2.84,-46.84}},
       color={255,204,51},
       thickness=0.5));
-  connect(regul_Chambre1.P, Chambre1.heaPorAir) annotation (Line(points={{18,16},
-          {20,16},{20,22},{0,22},{0,18},{-8.4,18}},                  color={191,
-          0,0}));
-  connect(regul_Chambre2.P, Chambre2.heaPorAir) annotation (Line(points={{76,13},
-          {80,13},{80,22},{58,22},{58,18},{49.6,18}},           color={191,0,0}));
-  connect(regul_Chambre3.P, Chambre3.heaPorAir) annotation (Line(points={{76,-43},
-          {78,-43},{78,-42},{78,-60},{60,-60},{60,-56},{49.6,-56},{49.6,
-          -54}},
+  connect(conCooRo1.P, Chambre1.heaPorAir) annotation (Line(points={{18,16},{20,
+          16},{20,22},{0,22},{0,18},{-8.4,18}}, color={191,0,0}));
+  connect(conCooRo2.P, Chambre2.heaPorAir) annotation (Line(points={{76,13},{80,
+          13},{80,22},{58,22},{58,18},{49.6,18}}, color={191,0,0}));
+  connect(conCooRo3.P, Chambre3.heaPorAir) annotation (Line(points={{76,-43},{
+          78,-43},{78,-42},{78,-60},{60,-60},{60,-56},{49.6,-56},{49.6,-54}},
         color={191,0,0}));
-  connect(regul_SDB.P, SDB.heaPorAir) annotation (Line(points={{16,-45},{
+  connect(conCooBth.P, SDB.heaPorAir) annotation (Line(points={{16,-45},{
           18,-45},{18,-44},{18,-60},{2,-60},{2,-54},{-10.4,-54}},
                                                           color={191,0,0}));
-  connect(regul_Salon.P, Salon.heaPorAir) annotation (Line(points={{-56,21},{
-          -54,21},{-54,22},{-52,22},{-52,28},{-78,28},{-78,22},{-88.4,22}},
-                color={191,0,0}));
-  connect(regul_Salon.T, T_Salon.T) annotation (Line(points={{-66.8,21},{-70.4,21},
-          {-70.4,22},{-74,22}},     color={0,0,127}));
-  connect(realExpression9.y, regul_Chambre1.ConsigneClim) annotation (
-      Line(points={{6.2,12},{9.36,12},{9.36,14.6667}},
-                                                     color={0,0,127}));
-  connect(realExpression10.y, regul_Chambre2.ConsigneClim) annotation (
-      Line(points={{64.2,10},{65.2,10},{65.2,11}},       color={0,0,127}));
-  connect(realExpression12.y, regul_Chambre3.ConsigneClim) annotation (
-      Line(points={{62.2,-48},{64,-48},{64,-45},{65.2,-45}},    color={0,
-          0,127}));
-  connect(realExpression14.y, regul_SDB.ConsigneClim) annotation (Line(
+  connect(conCooLiv.P, Salon.heaPorAir) annotation (Line(points={{-56,21},{-54,
+          21},{-54,22},{-52,22},{-52,28},{-78,28},{-78,22},{-88.4,22}}, color={
+          191,0,0}));
+  connect(conCooLiv.T, T_Salon.T) annotation (Line(points={{-66.8,21},{-70.4,21},
+          {-70.4,22},{-74,22}}, color={0,0,127}));
+  connect(realExpression9.y, conCooRo1.ConsigneClim) annotation (Line(points={{
+          6.2,12},{9.36,12},{9.36,14.6667}}, color={0,0,127}));
+  connect(realExpression10.y, conCooRo2.ConsigneClim)
+    annotation (Line(points={{64.2,10},{65.2,10},{65.2,11}}, color={0,0,127}));
+  connect(realExpression12.y, conCooRo3.ConsigneClim) annotation (Line(points={
+          {62.2,-48},{64,-48},{64,-45},{65.2,-45}}, color={0,0,127}));
+  connect(realExpression14.y,conCooBth. ConsigneClim) annotation (Line(
         points={{2.2,-46},{4,-46},{4,-47},{5.2,-47}},     color={0,0,127}));
   connect(weaDat.weaBus, Garage.weaBus) annotation (Line(
       points={{-276,56},{-164,56},{-164,-94},{-122.84,-94},{-122.84,-40.84}},
@@ -1811,35 +1815,35 @@ equation
       points={{-31,-62.6},{-31,-76},{-31,-94},{-2.84,-94},{-2.84,-46.84}},
       color={255,204,51},
       thickness=0.5));
-  connect(rad_Chambre1.port_b,val_Chambre1. port_a) annotation (Line(points={{-8,-123},
-          {-8,-123},{-6,-123}},        color={0,127,255}));
+  connect(radRo1.port_b, val_Chambre1.port_a) annotation (Line(points={{-8,-123},
+          {-8,-123},{-6,-123}}, color={0,127,255}));
   connect(realExpression19.y, conHeaRo1.T) annotation (Line(points={{-17.7,-143},
           {-16,-143},{-16,-141},{-12.8,-141}}, color={0,0,127}));
   connect(realExpression20.y, conHeaRo1.ConsigneCh)
     annotation (Line(points={{-17.7,-139},{-12.8,-139}}, color={0,0,127}));
-  connect(rad_Chambre2.port_b,val_Chambre2. port_a) annotation (Line(points={{50,-123},
-          {50,-123},{52,-123}},       color={0,127,255}));
+  connect(radRo2.port_b, val_Chambre2.port_a) annotation (Line(points={{50,-123},
+          {50,-123},{52,-123}}, color={0,127,255}));
   connect(realExpression21.y, conHeaRo2.T) annotation (Line(points={{38.3,-143},
           {42,-143},{42,-141},{43.2,-141}}, color={0,0,127}));
   connect(realExpression22.y, conHeaRo2.ConsigneCh)
     annotation (Line(points={{38.3,-139},{43.2,-139}}, color={0,0,127}));
-  connect(rad_Chambre3.port_b,val_Chambre3. port_a) annotation (Line(points={{52,-203},
-          {52,-203},{54,-203}},       color={0,127,255}));
+  connect(radRo3.port_b, val_Chambre3.port_a) annotation (Line(points={{52,-203},
+          {52,-203},{54,-203}}, color={0,127,255}));
   connect(conHeaRo3.yHea, val_Chambre3.y)
     annotation (Line(points={{57,-223},{59,-223},{59,-209}}, color={0,0,127}));
   connect(realExpression24.y, conHeaRo3.ConsigneCh)
     annotation (Line(points={{40.3,-221},{45.2,-221}}, color={0,0,127}));
-  connect(rad_SDB.port_b,val_SDB. port_a) annotation (Line(points={{-2,-203},{4,
-          -203}},          color={0,127,255}));
+  connect(radBth.port_b, val_SDB.port_a)
+    annotation (Line(points={{-2,-203},{4,-203}}, color={0,127,255}));
   connect(conHeaBth.yHea, val_SDB.y)
     annotation (Line(points={{-1,-219},{9,-219},{9,-209}}, color={0,0,127}));
   connect(realExpression25.y, conHeaBth.T) annotation (Line(points={{-19.7,-221},
           {-16,-221},{-16,-219},{-12.8,-219}}, color={0,0,127}));
   connect(realExpression26.y, conHeaBth.ConsigneCh)
     annotation (Line(points={{-19.7,-217},{-12.8,-217}}, color={0,0,127}));
-  connect(inSplVal2.port_2,rad_Chambre1. port_a) annotation (Line(points={{
-          -26,-123},{-26,-123},{-22,-123}}, color={0,127,255}));
-  connect(inSplVal3.port_2,rad_Chambre2. port_a)
+  connect(inSplVal2.port_2, radRo1.port_a) annotation (Line(points={{-26,-123},
+          {-26,-123},{-22,-123}}, color={0,127,255}));
+  connect(inSplVal3.port_2, radRo2.port_a)
     annotation (Line(points={{34,-123},{36,-123}}, color={0,127,255}));
   connect(inSplVal2.port_3,inSplVal3. port_1) annotation (Line(points={{-31,
           -128},{-32,-128},{-32,-156},{22,-156},{22,-123},{24,-123}}, color=
@@ -1849,11 +1853,11 @@ equation
                             color={0,127,255}));
   connect(inSplVal5.port_1,inSplVal4. port_3) annotation (Line(points={{24,
           -203},{24,-203},{22,-203},{22,-174},{-11,-174}}, color={0,127,255}));
-  connect(inSplVal5.port_2,rad_Chambre3. port_a)
+  connect(inSplVal5.port_2, radRo3.port_a)
     annotation (Line(points={{34,-203},{38,-203}}, color={0,127,255}));
-  connect(inSplVal5.port_3,rad_SDB. port_a) annotation (Line(points={{29,-208},
-          {30,-208},{30,-244},{-38,-244},{-38,-203},{-16,-203}},
-                  color={0,127,255}));
+  connect(inSplVal5.port_3, radBth.port_a) annotation (Line(points={{29,-208},{
+          30,-208},{30,-244},{-38,-244},{-38,-203},{-16,-203}}, color={0,127,
+          255}));
   connect(val_Chambre1.port_b,outSplVal2. port_1)
     annotation (Line(points={{4,-123},{6,-123}}, color={0,127,255}));
   connect(val_Chambre3.port_b,outSplVal5. port_1)
@@ -1864,28 +1868,28 @@ equation
   connect(outSplVal5.port_2,outSplVal4. port_3) annotation (Line(points={{
           76,-203},{78,-203},{78,-204},{78,-192},{78,-190},{33,-190},{33,
           -174}}, color={0,127,255}));
-  connect(rad_Couloir.port_b,outSplVal4. port_1) annotation (Line(points={{24,-169},
-          {28,-169}},                     color={0,127,255}));
+  connect(radHal.port_b, outSplVal4.port_1)
+    annotation (Line(points={{24,-169},{28,-169}}, color={0,127,255}));
   connect(conHeaRo2.yHea, val_Chambre2.y)
     annotation (Line(points={{55,-141},{57,-141},{57,-129}}, color={0,0,127}));
   connect(val_Chambre2.port_b,outSplVal3. port_1) annotation (Line(points={{62,-123},
           {64,-123}},           color={0,127,255}));
   connect(outSplVal3.port_2,outSplVal2. port_3) annotation (Line(points={{74,-123},
-          {76,-123},{76,-162},{11,-162},{11,-128}},           color={0,127,255}));
+          {42,-123},{42,-186},{11,-186},{11,-128}},           color={0,127,255}));
   connect(outSplVal4.port_2,outSplVal3. port_3) annotation (Line(points={{38,-169},
           {38,-174},{78,-174},{78,-134},{69,-134},{69,-128}},
                                                     color={0,127,255}));
   connect(inSplVal4.port_2,res. port_a)
     annotation (Line(points={{-6,-169},{-2,-169}}, color={0,127,255}));
-  connect(res.port_b,rad_Couloir. port_a)
+  connect(res.port_b, radHal.port_a)
     annotation (Line(points={{6,-169},{10,-169}}, color={0,127,255}));
   connect(conHeaRo1.yHea, val_Chambre1.y)
     annotation (Line(points={{-1,-141},{-1,-129}}, color={0,0,127}));
-  connect(realExpression30.y, conHeaSal.ConsigneCh)
+  connect(realExpression30.y,conHeaLiv. ConsigneCh)
     annotation (Line(points={{-77.7,-133},{-74.8,-133}}, color={0,0,127}));
-  connect(realExpression31.y, conHeaSal.T) annotation (Line(points={{-77.7,-137},
+  connect(realExpression31.y,conHeaLiv. T) annotation (Line(points={{-77.7,-137},
           {-75.85,-137},{-75.85,-135},{-74.8,-135}}, color={0,0,127}));
-  connect(conHeaSal.yHea, val_Salon.y) annotation (Line(points={{-63,-135},{-64,
+  connect(conHeaLiv.yHea, val_Salon.y) annotation (Line(points={{-63,-135},{-64,
           -135},{-64,-136},{-58,-136},{-58,-125},{-59,-125}}, color={0,0,127}));
   connect(inSplVal1.port_2,rad_Salon. port_a) annotation (Line(points={{-82,
           -119},{-80,-119}},      color={0,127,255}));
@@ -1910,73 +1914,72 @@ equation
   connect(heatFlowSensor_Salon_Rad.port_b, Salon.heaPorRad) annotation (Line(
         points={{-70,-96},{-70,-96},{-74,-96},{-74,-74},{-86,-74},{-86,8},{-80,8},
           {-80,20.48},{-88.4,20.48}}, color={191,0,0}));
-  connect(rad_Chambre1.heatPortRad,heatFlowSensor_Chambre1_Rad. port_a)
-    annotation (Line(points={{-13.6,-117.96},{-13.6,-114.98},{-10,-114.98},{-10,
-          -104}}, color={191,0,0}));
+  connect(radRo1.heatPortRad, heatFlowSensor_Chambre1_Rad.port_a) annotation (
+      Line(points={{-13.6,-117.96},{-13.6,-114.98},{-10,-114.98},{-10,-104}},
+        color={191,0,0}));
   connect(heatFlowSensor_Chambre1_Rad.port_b, Chambre1.heaPorRad) annotation (
       Line(points={{-10,-96},{-10,-96},{86,-96},{86,8},{0,8},{0,16},{-4,16},{-4,
           16.48},{-8.4,16.48}}, color={191,0,0}));
-  connect(rad_Chambre1.heatPortCon,heatFlowSensor_Chambre1_Conv. port_a)
-    annotation (Line(points={{-16.4,-117.96},{-16.4,-115.98},{-16,-115.98},{-16,
-          -104}}, color={191,0,0}));
+  connect(radRo1.heatPortCon, heatFlowSensor_Chambre1_Conv.port_a) annotation (
+      Line(points={{-16.4,-117.96},{-16.4,-115.98},{-16,-115.98},{-16,-104}},
+        color={191,0,0}));
   connect(heatFlowSensor_Chambre1_Conv.port_b, Chambre1.heaPorAir) annotation (
       Line(points={{-16,-96},{-16,-96},{86,-96},{86,8},{0,8},{0,18},{-8.4,18}},
         color={191,0,0}));
-  connect(rad_Chambre2.heatPortCon,heatFlowSensor_Chambre2_Conv. port_a)
-    annotation (Line(points={{41.6,-117.96},{41.6,-116.98},{40,-116.98},{40,-104}},
-        color={191,0,0}));
+  connect(radRo2.heatPortCon, heatFlowSensor_Chambre2_Conv.port_a) annotation (
+      Line(points={{41.6,-117.96},{41.6,-116.98},{40,-116.98},{40,-104}}, color
+        ={191,0,0}));
   connect(heatFlowSensor_Chambre2_Conv.port_b, Chambre2.heaPorAir) annotation (
       Line(points={{40,-96},{40,-96},{86,-96},{86,8},{58,8},{58,18},{49.6,18}},
         color={191,0,0}));
-  connect(rad_Chambre2.heatPortRad,heatFlowSensor_Chambre2_Rad. port_a)
-    annotation (Line(points={{44.4,-117.96},{44.4,-115.98},{46,-115.98},{46,-104}},
-        color={191,0,0}));
+  connect(radRo2.heatPortRad, heatFlowSensor_Chambre2_Rad.port_a) annotation (
+      Line(points={{44.4,-117.96},{44.4,-115.98},{46,-115.98},{46,-104}}, color
+        ={191,0,0}));
   connect(heatFlowSensor_Chambre2_Rad.port_b, Chambre2.heaPorRad) annotation (
       Line(points={{46,-96},{46,-96},{86,-96},{86,8},{58,8},{58,16},{54,16},{54,
           16.48},{49.6,16.48}}, color={191,0,0}));
-  connect(rad_Couloir.heatPortCon,heatFlowSensor_Couloir_Conv. port_a)
-    annotation (Line(points={{15.6,-163.96},{15.6,-153.98},{14,-153.98},{14,-104}},
-        color={191,0,0}));
+  connect(radHal.heatPortCon, heatFlowSensor_Couloir_Conv.port_a) annotation (
+      Line(points={{15.6,-163.96},{15.6,-153.98},{14,-153.98},{14,-104}}, color
+        ={191,0,0}));
   connect(heatFlowSensor_Couloir_Conv.port_b, Couloir.heaPorAir) annotation (
       Line(points={{14,-96},{14,-96},{86,-96},{86,-12},{60,-12},{60,-10},{51.6,-10}},
         color={191,0,0}));
-  connect(rad_Couloir.heatPortRad,heatFlowSensor_Couloir_Rad. port_a)
-    annotation (Line(points={{18.4,-163.96},{18.4,-104},{20,-104}},
-        color={191,0,0}));
+  connect(radHal.heatPortRad, heatFlowSensor_Couloir_Rad.port_a) annotation (
+      Line(points={{18.4,-163.96},{18.4,-104},{20,-104}}, color={191,0,0}));
   connect(heatFlowSensor_Couloir_Rad.port_b, Couloir.heaPorRad) annotation (
       Line(points={{20,-96},{20,-96},{86,-96},{86,-14},{60,-14},{60,-12},{51.6,-12},
           {51.6,-11.52}}, color={191,0,0}));
-  connect(rad_SDB.heatPortCon,heatFlowSensor_SDB_Conv. port_a) annotation (Line(
+  connect(radBth.heatPortCon, heatFlowSensor_SDB_Conv.port_a) annotation (Line(
         points={{-10.4,-197.96},{-10.4,-195.98},{-12,-195.98},{-12,-194}},
         color={191,0,0}));
   connect(heatFlowSensor_SDB_Conv.port_b, SDB.heaPorAir) annotation (Line(
         points={{-12,-186},{-12,-180},{86,-180},{86,-76},{-2,-76},{-2,-54},{
           -10.4,-54}},
                  color={191,0,0}));
-  connect(rad_SDB.heatPortRad,heatFlowSensor_SDB_Rad. port_a) annotation (Line(
-        points={{-7.6,-197.96},{-7.6,-195.98},{-6,-195.98},{-6,-194}}, color={191,
-          0,0}));
+  connect(radBth.heatPortRad, heatFlowSensor_SDB_Rad.port_a) annotation (Line(
+        points={{-7.6,-197.96},{-7.6,-195.98},{-6,-195.98},{-6,-194}}, color={
+          191,0,0}));
   connect(heatFlowSensor_SDB_Rad.port_b, SDB.heaPorRad) annotation (Line(points={{-6,-186},
           {-6,-180},{86,-180},{86,-76},{-2,-76},{-2,-55.52},{-10.4,-55.52}},
         color={191,0,0}));
-  connect(rad_Chambre3.heatPortCon,heatFlowSensor_Chambre3_Conv. port_a)
-    annotation (Line(points={{43.6,-197.96},{43.6,-196.98},{42,-196.98},{42,-194}},
-        color={191,0,0}));
+  connect(radRo3.heatPortCon, heatFlowSensor_Chambre3_Conv.port_a) annotation (
+      Line(points={{43.6,-197.96},{43.6,-196.98},{42,-196.98},{42,-194}}, color
+        ={191,0,0}));
   connect(heatFlowSensor_Chambre3_Conv.port_b, Chambre3.heaPorAir) annotation (
       Line(points={{42,-186},{42,-178},{86,-178},{86,-74},{60,-74},{60,-54},{49.6,
           -54}}, color={191,0,0}));
-  connect(rad_Chambre3.heatPortRad,heatFlowSensor_Chambre3_Rad. port_a)
-    annotation (Line(points={{46.4,-197.96},{46.4,-196.98},{48,-196.98},{48,-194}},
-        color={191,0,0}));
+  connect(radRo3.heatPortRad, heatFlowSensor_Chambre3_Rad.port_a) annotation (
+      Line(points={{46.4,-197.96},{46.4,-196.98},{48,-196.98},{48,-194}}, color
+        ={191,0,0}));
   connect(heatFlowSensor_Chambre3_Rad.port_b, Chambre3.heaPorRad) annotation (
       Line(points={{48,-186},{48,-178},{86,-178},{86,-74},{60,-74},{60,-55.52},{
           49.6,-55.52}}, color={191,0,0}));
-  connect(T_Couloir.T, regul_Couloir.T) annotation (Line(points={{66,-12},{66.6,
-          -12},{66.6,-13},{67.2,-13}}, color={0,0,127}));
-  connect(regul_Couloir.ConsigneClim, realExpression8.y) annotation (Line(
-        points={{67.2,-15},{66.7,-15},{66.7,-16},{66.2,-16}}, color={0,0,127}));
-  connect(regul_Couloir.P, Couloir.heaPorAir) annotation (Line(points={{78,-13},
-          {80,-13},{80,-12},{60,-12},{60,-10},{51.6,-10}}, color={191,0,0}));
+  connect(T_Couloir.T, conCooHal.T) annotation (Line(points={{66,-12},{66.6,-12},
+          {66.6,-13},{67.2,-13}}, color={0,0,127}));
+  connect(conCooHal.ConsigneClim, realExpression8.y) annotation (Line(points={{
+          67.2,-15},{66.7,-15},{66.7,-16},{66.2,-16}}, color={0,0,127}));
+  connect(conCooHal.P, Couloir.heaPorAir) annotation (Line(points={{78,-13},{80,
+          -13},{80,-12},{60,-12},{60,-10},{51.6,-10}}, color={191,0,0}));
   connect(spl.port_1, temRet.port_b) annotation (Line(points={{-108,-175},{-108,
           -174},{-102,-174}}, color={0,127,255}));
   connect(spl.port_3,val_chaudiere. port_3) annotation (Line(points={{-113,-170},
@@ -1991,9 +1994,9 @@ equation
       extent={{-6,3},{-6,3}}));
   connect(realExpression29.y,heaCha. TRoo_in) annotation (Line(points={{-143.7,-125},
           {-131.85,-125},{-131.85,-125.2},{-130.38,-125.2}}, color={0,0,127}));
-  connect(heaCha.TSup, conHeaBoiler.ConsigneCh) annotation (Line(points={{-125.8,
-          -122.8},{-123.9,-122.8},{-123.9,-122.667},{-122.48,-122.667}}, color={
-          0,0,127}));
+  connect(heaCha.TSup, conHeaTSup.ConsigneCh) annotation (Line(points={{-125.8,
+          -122.8},{-123.9,-122.8},{-123.9,-122.667},{-122.48,-122.667}}, color=
+          {0,0,127}));
   connect(val_chaudiere.port_2, temSup.port_a) annotation (Line(points={{-108,
           -139},{-104,-139}},       color={0,127,255}));
   connect(boi.port_b, val_chaudiere.port_1) annotation (Line(points={{-129.8,
@@ -2005,11 +2008,10 @@ equation
   connect(temSup.port_b, massFlowRate.port_a) annotation (Line(points={{-94,
           -139},{-92,-139},{-92,-140},{-91,-140}},
                                              color={0,127,255}));
-  connect(temRet.port_a, pompe_chaudiere.port_b) annotation (Line(points={{-94,
-          -174},{-92,-174},{-92,-175},{-88,-175}},
-                                             color={0,127,255}));
-  connect(pompe_chaudiere.port_a, outSplVal1.port_3) annotation (Line(points={{-78,
-          -175},{-78,-174},{-47,-174},{-47,-124}},            color={0,127,255}));
+  connect(temRet.port_a, pumEmiSystem.port_b) annotation (Line(points={{-94,-174},
+          {-92,-174},{-92,-175},{-88,-175}}, color={0,127,255}));
+  connect(pumEmiSystem.port_a, outSplVal1.port_3) annotation (Line(points={{-78,
+          -175},{-78,-174},{-47,-174},{-47,-124}}, color={0,127,255}));
   connect(boolean_ModeDHW.y, boi.Mode_ECS) annotation (Line(points={{-177.4,
           -162},{-158,-162},{-158,-146.909},{-152,-146.909}},
                                                         color={255,0,255}));
@@ -2025,13 +2027,12 @@ equation
   connect(product1.u2,product1. u2)
     annotation (Line(points={{-240,-182},{-240,-182}},
                                                      color={0,0,127}));
-  connect(SetSecurityBoiler.y, regul_Chaudiere_Securite.ConsigneCh) annotation (
-     Line(points={{-313.3,-178},{-308.04,-178},{-308.04,-180.167}}, color={0,0,127}));
+  connect(SetSecurityBoiler.y, conBoiSaf.ConsigneCh) annotation (Line(points={{
+          -313.3,-178},{-308.04,-178},{-308.04,-180.167}}, color={0,0,127}));
   connect(booleanToReal1.u,realToBoolean1. y) annotation (Line(points={{-269.2,-182},
           {-273.4,-182}},            color={255,0,255}));
-  connect(regul_Chaudiere_Securite.yHea,realToBoolean1. u) annotation (Line(
-        points={{-292.7,-182.5},{-286.35,-182.5},{-286.35,-182},{-287.2,-182}},
-        color={0,0,127}));
+  connect(conBoiSaf.yHea, realToBoolean1.u) annotation (Line(points={{-292.7,-182.5},
+          {-286.35,-182.5},{-286.35,-182},{-287.2,-182}}, color={0,0,127}));
   connect(booleanToReal1.y,product1. u2) annotation (Line(points={{-255.4,-182},
           {-240,-182}},                color={0,0,127}));
   connect(con_HeaModeBoiler.y, switch4.u1) annotation (Line(points={{-259.4,-216},
@@ -2046,11 +2047,11 @@ equation
           -328.1,-210},{-306,-210},{-306,-216},{-273.2,-216}}, color={0,0,127}));
   connect(Meas_T_LivingRoom.y, con_HeaModeBoiler.u_m) annotation (Line(points={{
           -326.1,-247},{-266,-247},{-266,-223.2}}, color={0,0,127}));
-  connect(boi.T, regul_Chaudiere_Securite.T) annotation (Line(points={{-128.2,
-          -134},{-122,-134},{-122,-130},{-216,-130},{-216,-144},{-336,-144},{-336,
-          -182.5},{-308.04,-182.5}}, color={0,0,127}));
-  connect(conPumHea.yHea, pompe_chaudiere.m_flow_in) annotation (Line(points={{-192.4,
-          -209},{-83,-209},{-83,-181}},        color={0,0,127}));
+  connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-134},{-122,-134},
+          {-122,-130},{-216,-130},{-216,-144},{-336,-144},{-336,-182.5},{-308.04,
+          -182.5}}, color={0,0,127}));
+  connect(conPumHea.yHea, pumEmiSystem.m_flow_in) annotation (Line(points={{
+          -192.4,-209},{-83,-209},{-83,-181}}, color={0,0,127}));
   connect(Meas_T_LivingRoom.y, onOffController.u) annotation (Line(points={{-326.1,
           -247},{-314,-247},{-314,-238},{-298,-238}}, color={0,0,127}));
   connect(product1.y, switch1.u1) annotation (Line(points={{-217,-176},{-208,-176},
@@ -2066,23 +2067,21 @@ equation
   connect(bou.ports[1], temRet.port_a) annotation (Line(points={{-102,-190},{
           -94,-190},{-94,-174}},
                              color={0,127,255}));
-  connect(realExpression17.y, regul_Salon.ConsigneClim) annotation (Line(points=
-         {{-73.8,16},{-70,16},{-70,19},{-66.8,19}}, color={0,0,127}));
+  connect(realExpression17.y, conCooLiv.ConsigneClim) annotation (Line(points={
+          {-73.8,16},{-70,16},{-70,19},{-66.8,19}}, color={0,0,127}));
   connect(switch1.y, boi.y) annotation (Line(points={{-239.5,-119},{-184,-119},
           {-184,-134},{-152,-134}}, color={0,0,127}));
-  connect(T_Chambre1.T, regul_Chambre1.T) annotation (Line(points={{6,18},{8,18},
-          {8,16},{9.36,16}}, color={0,0,127}));
+  connect(T_Chambre1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,
+          16},{9.36,16}}, color={0,0,127}));
   connect(HeaSet_LivingRoom.y, onOffController.reference) annotation (Line(
         points={{-328.1,-210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
   connect(HeaSet_LivingRoom.y, conPumHea.ConsigneCh) annotation (Line(points={{-328.1,
           -210},{-314,-210},{-314,-202},{-226,-202},{-226,-212.333},{-211.28,
           -212.333}},         color={0,0,127}));
-  connect(conHeaBoiler.yHea, val_chaudiere.y) annotation (Line(points={{-115.4,
-          -124},{-113,-124},{-113,-133}},
-                                    color={0,0,127}));
-  connect(temSup.T, conHeaBoiler.T) annotation (Line(points={{-99,-133.5},{-99,
-          -128},{-124,-128},{-124,-124},{-122.48,-124}},
-                                                   color={0,0,127}));
+  connect(conHeaTSup.yHea, val_chaudiere.y) annotation (Line(points={{-115.4,-124},
+          {-113,-124},{-113,-133}}, color={0,0,127}));
+  connect(temSup.T, conHeaTSup.T) annotation (Line(points={{-99,-133.5},{-99,-128},
+          {-124,-128},{-124,-124},{-122.48,-124}}, color={0,0,127}));
   connect(massFlowRate.port_b, inSplVal1.port_1) annotation (Line(points={{-91,
           -132},{-92,-132},{-92,-119},{-88,-119}}, color={0,127,255}));
   connect(schedules_RT2012_MI.HeaSetRT12, reaTSetHea.u) annotation (Line(points=
@@ -2092,7 +2091,7 @@ equation
   connect(conPumHea.yHea, boi.m_PompeCirc) annotation (Line(points={{-192.4,
           -209},{-162,-209},{-162,-144},{-152,-144},{-152,-143.636}},
                                                                 color={0,0,127}));
-  connect(realExpression13.y, reaHeaSal.u)
+  connect(realExpression13.y,reaHeaLiv. u)
     annotation (Line(points={{-77.7,-145},{-70.6,-145}}, color={0,0,127}));
   connect(realExpression15.y, reaHeaRo1.u)
     annotation (Line(points={{-17.7,-149},{-10.6,-149}}, color={0,0,127}));
@@ -2133,25 +2132,25 @@ equation
         Rectangle(extent={{20,-18},{80,-88}},  lineColor={28,108,200},
           lineThickness=1),
         Text(
-          extent={{-156,8},{-130,-36}},
+          extent={{-156,8},{-114,-44}},
           lineColor={28,108,200},
-          textString="Garage"),
+          textString="Garage (Gar)"),
         Text(
-          extent={{-36,70},{-10,26}},
+          extent={{-38,74},{0,22}},
           lineColor={28,108,200},
-          textString="Room1"),
+          textString="Room1 (Ro1)"),
         Text(
-          extent={{50,-2},{76,-46}},
+          extent={{36,-52},{74,-110}},
           lineColor={28,108,200},
-          textString="Room3"),
+          textString="Room3 (Ro3)"),
         Text(
-          extent={{22,70},{48,26}},
+          extent={{20,72},{56,22}},
           lineColor={28,108,200},
-          textString="Room2"),
+          textString="Room2 (Ro2)"),
         Text(
-          extent={{-24,-68},{10,-96}},
+          extent={{-30,-64},{14,-98}},
           lineColor={28,108,200},
-          textString="Bathroom (SDB)"),
+          textString="Bathroom (Bth)"),
         Rectangle(
           extent={{-40,52},{20,-2}},
           lineColor={28,108,200},
@@ -2169,9 +2168,9 @@ equation
           lineColor={28,108,200},
           lineThickness=1),
         Text(
-          extent={{-256,22},{-240,-6}},
+          extent={{-256,22},{-220,-6}},
           lineColor={28,108,200},
-          textString="Attic"),
+          textString="Attic (Ati)"),
         Polygon(points={{-160,-166},{-160,-106},{-40,-106},{-40,-246},{-100,-246},
               {-160,-246},{-160,-166}},
                          lineColor={28,108,200},
@@ -2182,13 +2181,13 @@ equation
         Rectangle(extent={{20,-176},{80,-246}},lineColor={28,108,200},
           lineThickness=1),
         Text(
-          extent={{-36,-90},{-10,-134}},
+          extent={{-30,-88},{6,-136}},
           lineColor={28,108,200},
-          textString="Room1"),
+          textString="Room1 (Ro1)"),
         Text(
-          extent={{22,-90},{48,-134}},
+          extent={{42,-86},{78,-138}},
           lineColor={28,108,200},
-          textString="Room2"),
+          textString="Room2 (Ro2)"),
         Rectangle(
           extent={{-40,-106},{20,-160}},
           lineColor={28,108,200},
@@ -2204,25 +2203,25 @@ equation
           lineColor={28,108,200},
           lineThickness=1),
         Text(
-          extent={{38,-218},{64,-262}},
+          extent={{30,-210},{70,-266}},
           lineColor={28,108,200},
-          textString="Room3"),
+          textString="Room3 (Ro3)"),
         Text(
-          extent={{-36,-156},{-24,-178}},
+          extent={{-42,-156},{-16,-188}},
           lineColor={28,108,200},
-          textString="Hall"),
+          textString="Hall (Hal)"),
         Text(
-          extent={{-154,22},{-110,-22}},
+          extent={{-98,-36},{-40,-86}},
           lineColor={28,108,200},
-          textString="Living room"),
+          textString="Living room (Liv)"),
         Text(
-          extent={{-36,-218},{16,-262}},
+          extent={{-32,-220},{12,-256}},
           lineColor={28,108,200},
-          textString="Bathroom (SDB)"),
+          textString="Bathroom (Bth)"),
         Text(
-          extent={{64,12},{76,-10}},
+          extent={{48,16},{74,-12}},
           lineColor={28,108,200},
-          textString="Hall"),
+          textString="Hall (Hal)"),
         Text(
           extent={{-316,-158},{-252,-174}},
           lineColor={0,0,0},
@@ -2236,9 +2235,9 @@ temperature of the boiler
           textString="Anti-cycling
 of the boiler
 "),     Text(
-          extent={{-154,-210},{-106,-262}},
+          extent={{-128,-202},{-66,-270}},
           lineColor={28,108,200},
-          textString="Living room")}),
+          textString="Living room (Liv)")}),
     Documentation(info="<html>
 <p>
 This is a single zone residential hydronic system model 
@@ -2269,12 +2268,12 @@ The building consists of six thermal zones that are actively controlled and two 
 zones:
 </p>
 <ul>
-<li>1 living room/kitchen </li>
-<li>3 bedrooms (2 South facing, 1 North facing) </li>
-<li>1 bathroom </li>
-<li>1 hallway/corridor serving the sleeping area (bedrooms and bathroom) </li>
-<li>1 unheated garage </li>
-<li>1 unheated attic </li>
+<li>1 Living room/kitchen (<b>Liv</b>) </li>
+<li>3 Bedrooms: two south facing (<b>Ro1</b>, <b>Ro2</b>), and one north facing (<b>Ro3</b>) </li>
+<li>1 Bathroom (<b>Bth</b>) </li>
+<li>1 Hallway/corridor (<b>Hal</b>) serving the sleeping area: bedrooms and bathroom </li>
+<li>1 Unheated garage (<b>Gar</b>) </li>
+<li>1 Unheated attic (<b>Ati</b>) </li>
 </ul>
 
 <p>
@@ -2438,178 +2437,169 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <p>The model inputs are: </p>
 <ul>
 <li>
-<code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal
+<code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal for part load ratio
 </li>
 <li>
-<code>conHeaBoiler_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conBoiSaf_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for boiler safety controller
 </li>
 <li>
-<code>conHeaBoiler_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+<code>conBoiSaf_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for boiler safety controller
 </li>
 <li>
-<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooBth_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Bth
 </li>
 <li>
-<code>conHeaBth_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooBth_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Bth
 </li>
 <li>
-<code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooHal_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Hal
 </li>
 <li>
-<code>conHeaRo1_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooHal_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Hal
 </li>
 <li>
-<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooLiv_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Liv
 </li>
 <li>
-<code>conHeaRo2_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooLiv_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Liv
 </li>
 <li>
-<code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooRo1_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Ro1
 </li>
 <li>
-<code>conHeaRo3_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooRo1_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Ro1
 </li>
 <li>
-<code>conHeaSal_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooRo2_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Ro2
 </li>
 <li>
-<code>conHeaSal_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooRo2_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Ro2
 </li>
 <li>
-<code>conPumHea_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooRo3_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Ro3
 </li>
 <li>
-<code>conPumHea_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+<code>conCooRo3_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Ro3
 </li>
 <li>
-<code>regul_Chambre1_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Bth
 </li>
 <li>
-<code>regul_Chambre1_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaBth_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Bth
 </li>
 <li>
-<code>regul_Chambre2_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaLiv_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Liv
 </li>
 <li>
-<code>regul_Chambre2_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaLiv_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Liv
 </li>
 <li>
-<code>regul_Chambre3_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro1
 </li>
 <li>
-<code>regul_Chambre3_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaRo1_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro1
 </li>
 <li>
-<code>regul_Chaudiere_Securite_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro2
 </li>
 <li>
-<code>regul_Chaudiere_Securite_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+<code>conHeaRo2_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro2
 </li>
 <li>
-<code>regul_Couloir_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro3
 </li>
 <li>
-<code>regul_Couloir_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaRo3_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro3
 </li>
 <li>
-<code>regul_SDB_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaTSup_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for supply water
 </li>
 <li>
-<code>regul_SDB_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaTSup_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for supply water
 </li>
 <li>
-<code>regul_Salon_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conPumHea_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for emission system pump
 </li>
 <li>
-<code>regul_Salon_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conPumHea_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for emission system pump
 </li>
+
 </ul>
 
 <h4>Outputs</h4>
 <p>The model outputs are: </p>
-
 <ul>
 <li>
-<code>boi_reaHeaBoi_y</code> [W] [min=None, max=None]: Boiler thermal energy usage
+<code>boi_reaHeaBoi_y</code> [W] [min=None, max=None]: Boiler thermal power use
 </li>
 <li>
-<code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power consumption
+<code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power use
 </li>
 <li>
-<code>conHeaBth_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooBth_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Bth
 </li>
 <li>
-<code>conHeaRo1_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooHal_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Hal
 </li>
 <li>
-<code>conHeaRo2_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooLiv_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Liv
 </li>
 <li>
-<code>conHeaRo3_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooRo1_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro1
 </li>
 <li>
-<code>conHeaSal_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooRo2_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro2
 </li>
 <li>
-<code>q_conv_Jour_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
+<code>conCooRo3_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro3
 </li>
 <li>
-<code>q_conv_Nuit_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
+<code>conHeaBth_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Bth
 </li>
 <li>
-<code>reaHeaBth_y</code> [W] [min=None, max=None]: Read heating delivered to bathroom
+<code>conHeaLiv_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Liv
 </li>
 <li>
-<code>reaHeaHal_y</code> [W] [min=None, max=None]: Read heating delivered to Hall
+<code>conHeaRo1_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro1
 </li>
 <li>
-<code>reaHeaRo1_y</code> [W] [min=None, max=None]: Read heating delivered to room 1
+<code>conHeaRo2_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro2
 </li>
 <li>
-<code>reaHeaRo2_y</code> [W] [min=None, max=None]: Read heating delivered to room 2
+<code>conHeaRo3_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro3
 </li>
 <li>
-<code>reaHeaRo3_y</code> [W] [min=None, max=None]: Read heating delivered to room 3
+<code>reaHeaBth_y</code> [W] [min=None, max=None]: Heating delivered to Bth
 </li>
 <li>
-<code>reaHeaSal_y</code> [W] [min=None, max=None]: Read heating delivered to Salon
+<code>reaHeaHal_y</code> [W] [min=None, max=None]: Heating delivered to Hal
 </li>
 <li>
-<code>reaTAti_y</code> [K] [min=None, max=None]: Read attic air temperature
+<code>reaHeaLiv_y</code> [W] [min=None, max=None]: Heating delivered to Liv
 </li>
 <li>
-<code>reaTGar_y</code> [K] [min=None, max=None]: Read garage temperature
+<code>reaHeaRo1_y</code> [W] [min=None, max=None]: Heating delivered to Ro1
 </li>
 <li>
-<code>reaTHal_y</code> [K] [min=None, max=None]: Read hall temperature
+<code>reaHeaRo2_y</code> [W] [min=None, max=None]: Heating delivered to Ro2
 </li>
 <li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
+<code>reaHeaRo3_y</code> [W] [min=None, max=None]: Heating delivered to Ro3
 </li>
 <li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
+<code>reaTAti_y</code> [K] [min=None, max=None]: Air temperature of zone Ati
 </li>
 <li>
-<code>regul_Chambre1_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>reaTGar_y</code> [K] [min=None, max=None]: Air temperature of zone Gar
 </li>
 <li>
-<code>regul_Chambre2_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>reaTHal_y</code> [K] [min=None, max=None]: Air temperature of zone Hal
 </li>
 <li>
-<code>regul_Chambre3_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Building cooling air setpoint temperature
 </li>
 <li>
-<code>regul_Couloir_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
-</li>
-<li>
-<code>regul_SDB_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
-</li>
-<li>
-<code>regul_Salon_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
-</li>
-<li>
-<code>ventil_Salon_rearelHum_y</code> [1] [min=None, max=None]: Zone relative humidity
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Building heating air setpoint temperature
 </li>
 <li>
 <code>weatherStation_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
@@ -2680,7 +2670,6 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <li>
 <code>weatherStation_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
-
 </ul>
 
 <h3>Additional System Design</h3>
