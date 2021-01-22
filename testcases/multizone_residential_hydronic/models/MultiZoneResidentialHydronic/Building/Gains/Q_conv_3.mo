@@ -17,11 +17,6 @@ model Q_conv_3
         iconTransformation(extent={{-44,62},{-20,86}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=Q_occupant)
     annotation (Placement(transformation(extent={{18,78},{38,98}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaConOcc(
-    description="Convective heat gains",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="W/m2"))
-    annotation (Placement(transformation(extent={{88,92},{98,102}})));
 equation
   connect(product.y, Q_conv)
     annotation (Line(points={{77,70},{116,70}},          color={0,0,127}));
@@ -32,8 +27,6 @@ equation
                          color={0,0,127}));
   connect(realExpression.y, product.u1) annotation (Line(points={{39,88},{46,88},
           {46,76},{54,76}}, color={0,0,127}));
-  connect(product.y, reaConOcc.u) annotation (Line(points={{77,70},{80,70},{80,
-          97},{87,97}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-20,20},{
             100,120}})),
