@@ -189,7 +189,8 @@ protected
     annotation (Placement(transformation(extent={{-284,-144},{-270,-128}})));
   Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=0.01)
     annotation (Placement(transformation(extent={{-300,-124},{-290,-114}})));
-  Building.Control.ConHea regul_Chaudiere_Securite(Khea=1)
+  Building.Control.ConHea conBoiSaf(Khea=1, zone="boiler safety controller")
+    "Boiler safety controller"
     annotation (Placement(transformation(extent={{-307,-186},{-294,-179}})));
   Modelica.Blocks.Sources.RealExpression SetSecurityBoiler(y=273.15 + 90)
     "Security temperature setpoint for the boiler"
