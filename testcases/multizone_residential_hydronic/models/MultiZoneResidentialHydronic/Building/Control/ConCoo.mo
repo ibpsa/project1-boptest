@@ -1,5 +1,5 @@
 within MultiZoneResidentialHydronic.Building.Control;
-model Regul_Clim_1
+model ConCoo "Controller for cooling"
 
   Buildings.Controls.Continuous.LimPID conCoo(
     initType=Modelica.Blocks.Types.InitPID.InitialState,
@@ -24,24 +24,29 @@ model Regul_Clim_1
           extent={{-132,-34},{-100,-2}}), iconTransformation(extent={{-116,
             -18},{-100,-2}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b P annotation (Placement(
-        transformation(rotation=0, extent={{-10,7},{10,13}})));
+        transformation(rotation=0, extent={{-6,4},{6,16}})));
   parameter Real Kcoo=1e6 "Gain value for the cooling controller";
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTsetCoo(u(
+
+  parameter String zone="1" "Zone designation";
+
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       min=273.15 + 10,
       max=273.15 + 30,
-      unit="K"), description="Zone air temperature setpoint for cooling")
+      unit="K"), description="Air temperature cooling setpoint for " + zone)
     annotation (Placement(transformation(extent={{-84,16},{-76,24}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPcoo(description=
-        "Cooling electrical power consumption", KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+  IBPSA.Utilities.IO.SignalExchange.Read reaPCoo(
+    description="Cooling electrical power use in zone " + zone,
+                                                KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W"))
     annotation (Placement(transformation(extent={{-8,26},{0,34}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite ovePCoo(description=
-        "Precribed cooling power", u(
+        "Prescribed cooling power for " + zone,
+                                   u(
       min=-1e4,
       max=0,
       unit="W"))
     annotation (Placement(transformation(extent={{-40,16},{-32,24}})));
-  Modelica.Blocks.Math.Gain HeaToPowFactor(k=-3)
+  Modelica.Blocks.Math.Gain HeaToPowFactor(k=-1/3)
     "Heating to power factor related to the energy efficiency of the air conditioner"
     annotation (Placement(transformation(extent={{-22,26},{-14,34}})));
 equation
@@ -49,20 +54,20 @@ equation
         color={0,0,127}));
   connect(conCoo.y, gaiCoo.u)
     annotation (Line(points={{-59.6,20},{-54.8,20}}, color={0,0,127}));
-  connect(preHea.port, P)
-    annotation (Line(points={{-12,10},{0,10}}, color={191,0,0}));
-  connect(conCoo.u_s, oveTsetCoo.y)
+  connect(conCoo.u_s,oveTSetCoo. y)
     annotation (Line(points={{-68.8,20},{-75.6,20}}, color={0,0,127}));
-  connect(oveTsetCoo.u, ConsigneClim) annotation (Line(points={{-84.8,20},{-96,
+  connect(oveTSetCoo.u, ConsigneClim) annotation (Line(points={{-84.8,20},{-96,
           20},{-96,-18},{-116,-18}}, color={0,0,127}));
   connect(gaiCoo.y, ovePCoo.u)
     annotation (Line(points={{-45.6,20},{-40.8,20}}, color={0,0,127}));
   connect(ovePCoo.y, preHea.Q_flow) annotation (Line(points={{-31.6,20},{-28,20},
           {-28,10},{-24,10}}, color={0,0,127}));
-  connect(reaPcoo.u, HeaToPowFactor.y)
+  connect(reaPCoo.u, HeaToPowFactor.y)
     annotation (Line(points={{-8.8,30},{-13.6,30}}, color={0,0,127}));
   connect(HeaToPowFactor.u, preHea.Q_flow) annotation (Line(points={{-22.8,30},
           {-28,30},{-28,10},{-24,10}}, color={0,0,127}));
+  connect(preHea.port, P)
+    annotation (Line(points={{-12,10},{0,10}}, color={191,0,0}));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-20},{0,40}},   preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-20},{0,40}})),
@@ -70,4 +75,4 @@ equation
 <h4>Control</h4>
 <p>PID cooling control to match a setpoint of temperature.</p>
 </html>"));
-end Regul_Clim_1;
+end ConCoo;
