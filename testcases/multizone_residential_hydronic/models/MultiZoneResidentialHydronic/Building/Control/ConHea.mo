@@ -29,21 +29,22 @@ model ConHea "General controller for heating system"
   parameter Real k=1e-2 "Gain of controller";
   parameter Modelica.SIunits.Time Ti=1e2
     "Time constant of Integrator block";
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTsetHea(u(
+  parameter String zone="1" "Zone designation";
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
       min=273.15 + 10,
       max=273.15 + 95,
-      unit="K"), description="Zone air temperature setpoint for heating")
+      unit="K"), description="Air temperature heating setpoint for " + zone)
     annotation (Placement(transformation(extent={{-92,26},{-84,34}})));
 
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveActHea(u(
       min=0,
       max=1,
-      unit="1"), description="Actuator signal for heating")
+      unit="1"), description="Actuator heating signal for " + zone)
     annotation (Placement(transformation(extent={{-58,16},{-50,24}})));
 equation
-  connect(ConsigneCh, oveTsetHea.u)
+  connect(ConsigneCh,oveTSetHea. u)
     annotation (Line(points={{-108,30},{-92.8,30}}, color={0,0,127}));
-  connect(oveTsetHea.y, conHea.u_s) annotation (Line(points={{-83.6,30},{-82,30},
+  connect(oveTSetHea.y, conHea.u_s) annotation (Line(points={{-83.6,30},{-82,30},
           {-82,20},{-78.8,20}}, color={0,0,127}));
   connect(T, conHea.u_m)
     annotation (Line(points={{-108,12},{-74,12},{-74,15.2}}, color={0,0,127}));
