@@ -70,17 +70,17 @@ model GenerateData
     y(unit="K"),
     description="Zone setpoint temperature")
     annotation (Placement(transformation(extent={{-24,64},{-18,70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiSalRad(
+  IBPSA.Utilities.IO.SignalExchange.Read heaGaiLivRad(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{74,54},{80,60}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiSalCon(
+  IBPSA.Utilities.IO.SignalExchange.Read heaGaiLivCon(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{76,46},{82,52}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiSalLat(
+  IBPSA.Utilities.IO.SignalExchange.Read heaGaiLivLat(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
@@ -142,7 +142,7 @@ model GenerateData
   Modelica.Blocks.Sources.RealExpression realExpression12(y=
         schedules_MI_ZoneJour.OccupRateRT12*4)
     annotation (Placement(transformation(extent={{-2,-68},{4,-62}})));
-  IBPSA.Utilities.IO.SignalExchange.Read occSal(
+  IBPSA.Utilities.IO.SignalExchange.Read occLiv(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
@@ -248,11 +248,11 @@ equation
           {-28,72},{-28,77},{-24.6,77}},              color={0,0,127}));
   connect(schedules_RT2012_MI.CooSetRT12,reaTSetCoo. u) annotation (Line(points={{-44,
           68.6},{-38,68.6},{-38,67},{-24.6,67}},          color={0,0,127}));
-  connect(heaGaiSal.QRad_flow, heaGaiSalRad.u) annotation (Line(points={{61.4,47.2},
+  connect(heaGaiSal.QRad_flow,heaGaiLivRad. u) annotation (Line(points={{61.4,47.2},
           {67.7,47.2},{67.7,57},{73.4,57}}, color={0,0,127}));
-  connect(heaGaiSal.QCon_flow, heaGaiSalCon.u) annotation (Line(points={{61.4,43},
+  connect(heaGaiSal.QCon_flow,heaGaiLivCon. u) annotation (Line(points={{61.4,43},
           {70,43},{70,50},{72,50},{72,49},{75.4,49}}, color={0,0,127}));
-  connect(heaGaiSal.QLat_flow, heaGaiSalLat.u) annotation (Line(points={{61.4,38.8},
+  connect(heaGaiSal.QLat_flow,heaGaiLivLat. u) annotation (Line(points={{61.4,38.8},
           {66.7,38.8},{66.7,41},{77.4,41}}, color={0,0,127}));
   connect(heaGaiRo1.QRad_flow, heaGaiRo1Rad.u) annotation (Line(points={{67.4,27.2},
           {72.7,27.2},{72.7,29},{77.4,29}}, color={0,0,127}));
@@ -272,7 +272,7 @@ equation
           {78.7,-31},{78.7,-31},{85.4,-31}}, color={0,0,127}));
   connect(heaGaiRo3.QLat_flow, heaGaiRo3Lat.u) annotation (Line(points={{71.4,-35.2},
           {79.7,-35.2},{79.7,-39},{87.4,-39}}, color={0,0,127}));
-  connect(realExpression12.y, occSal.u) annotation (Line(points={{4.3,-65},{8.15,
+  connect(realExpression12.y,occLiv. u) annotation (Line(points={{4.3,-65},{8.15,
           -65},{8.15,-63},{13.4,-63}}, color={0,0,127}));
   connect(realExpression10.y, occRo1.u) annotation (Line(points={{4.3,-71},{8.15,
           -71},{8.15,-71},{13.4,-71}}, color={0,0,127}));
