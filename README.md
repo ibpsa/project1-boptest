@@ -59,9 +59,9 @@ Example RESTful interaction:
 | Initialize simulation to a start time using a warmup period in seconds     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
 | Receive communication step in seconds                                 |  GET ``step``                                             |
 | Set communication step in seconds                                     |  PUT ``step`` with argument ``step=<value>``              |
-| Receive sensor signal names (y) and metadata                          |  GET ``measurements``                                     |
-| Receive control signals names (u) and metadata                        |  GET ``inputs``                                           |
-| Receive test result data                                              |  GET ``results``                                          |
+| Receive sensor signal point names (y) and metadata                          |  GET ``measurements``                                     |
+| Receive control signal point names (u) and metadata                        |  GET ``inputs``                                           |
+| Receive test result data for the given point name between the start and final time in seconds |  PUT ``results`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
 | Receive test KPIs                                                     |  GET ``kpi``                                              |
 | Receive test case name                                                |  GET ``name``                                             |
 | Receive boundary condition forecast from current communication step   |  GET ``forecast``                                         |
