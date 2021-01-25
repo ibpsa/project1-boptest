@@ -257,7 +257,7 @@ boptestRoutes.get('/results/:id', async (req, res, next) => {
 boptestRoutes.get('/forecast_parameters/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    redis.hmget(req.params.id, 'forecast:horizon', 'forecast:interval' (err, redisres) => {
+    redis.hmget(req.params.id, 'forecast:horizon', 'forecast:interval', (err, redisres) => {
       if (err) {
         next(err);
       } else {
