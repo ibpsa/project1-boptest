@@ -274,7 +274,7 @@ boptestRoutes.put('/forecast_parameters/:id', async (req, res, next) => {
     const redis = req.app.get('redis');
     const horizon = req.body['horizon'];
     const interval = req.body['interval'];
-    redis.hmset(req.params.id, 'horizon', horizon, 'interval', interval, (err) => {
+    redis.hmset(req.params.id, 'forecast:horizon', horizon, 'forecast:interval', interval, (err) => {
       if (err) {
         next(err);
       } else {
