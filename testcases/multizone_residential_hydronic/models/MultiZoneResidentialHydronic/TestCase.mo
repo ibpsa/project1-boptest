@@ -6,7 +6,7 @@ model TestCase "Multi zone residential hydronic example model"
   package MediumW = Buildings.Media.Water "Medium model";
 
   ///////////////
-  //  ENTREES  //
+  //  INPUTS   //
   ///////////////
   parameter Modelica.SIunits.Area S = 100 "Building surface";
   parameter Real OpenDoors = 1 "Doors opening - 0=closed, 1 = open";
@@ -24,19 +24,19 @@ model TestCase "Multi zone residential hydronic example model"
     "Nominal temperature difference for boiler loop" annotation(Dialog(group = "Boiler"));
   parameter Modelica.SIunits.MassFlowRate mBoi_flow_nominal = scaFacRad*Q_flow_nominal/dTBoi_nominal/4200
     "Nominal mass flow rate of boiler loop" annotation(Dialog(group = "Boiler"));
-  parameter Modelica.SIunits.Power P_Pompe_nominal = 45 "Pump electrical power" annotation(Dialog(group = "Boiler"));
+  parameter Modelica.SIunits.Power P_pum_nominal = 45 "Pump electrical power" annotation(Dialog(group = "Boiler"));
  parameter Modelica.SIunits.Power Pmin_Ch = 800 "Boiler minimum power" annotation(Dialog(group = "Chauffage"));
  parameter Modelica.SIunits.Power Pmax_Ch = Q_flow_nominal "Boiler maximum power" annotation(Dialog(group = "Chauffage"));
  parameter Modelica.SIunits.Time t_anticourtcycle=600 "Anti short cycle duration for the boiler" annotation(Dialog(group="Cractristiques de la chaudire"));
 
   // Radiators
   parameter Real delta_ST_rad = 0 "Coefficient for spatial variation of the control system" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power P_rad_Salon = 1800 "Living room radiator power" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power P_rad_Chambre1 = 1000 "Room 1 radiator power" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power P_rad_Chambre2 = 900 "Room 2 radiator power2" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power P_rad_Chambre3 = 1100 "Room 3 radiator power" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power P_rad_SDB = 800 "Bathroom radiator power" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power P_rad_Couloir = 1000 "Hall radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.SIunits.Power Q_rad_liv = 1800 "Living room radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.SIunits.Power Q_rad_ro1 = 1000 "Room 1 radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.SIunits.Power Q_rad_ro2 = 900  "Room 2 radiator power2" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.SIunits.Power Q_rad_ro3 = 1100 "Room 3 radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.SIunits.Power Q_rad_bth = 800  "Bathroom radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.SIunits.Power Q_rad_hal = 1000 "Hall radiator power" annotation(Dialog(group = "Radiators"));
 
   ///////////////
   //  OUTPUTS  //
@@ -239,7 +239,6 @@ public
       layers={ExtWall,ExtWall,ExtWall},
       A={Spe_Garage_Nord,Spe_Garage_Est,Spe_Garage_Ouest},
       til={Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall}),
-
     nConBou=2,
     datConBou(
       layers={IntWall,FloorWall},
@@ -272,7 +271,6 @@ public
     nSurBou=3,
     surBou(A={Spi_Salon_Chambre1,Spi_Salon_SDB,Spi_Salon_Couloir}, til={
           Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall}),
-
     nPorts=4,
     nConExt=1,
     datConExt(
@@ -284,7 +282,6 @@ public
       layers={IntWall,ExtWall,FloorWall},
       A={Spl_Salon_Combles,Spi_Salon_Garage,Spl_Salon_exterieur},
       til={Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Floor},
-
       stateAtSurface_a={true,true,false}),
     T_start=273.15 + 19) "Living room zone"
     annotation (Placement(transformation(extent={{-96,14},{-80,30}})));
@@ -320,7 +317,6 @@ public
       layers={IntWall,IntWall,FloorWall},
       A={Spl_Chambre1_Combles,Spi_Chambre1_Salon,Spl_Chambre1_exterieur},
       til={Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Floor},
-
       stateAtSurface_a={true,true,false}),
     T_start=273.15 + 19) "Room1 zone"
     annotation (Placement(transformation(extent={{-16,10},{0,26}})));
@@ -359,7 +355,6 @@ public
       layers={IntWall,IntWall,FloorWall},
       A={Spl_Chambre2_Combles,Spi_Chambre2_Chambre1,Spl_Chambre2_exterieur},
       til={Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Floor},
-
       stateAtSurface_a={true,true,false}),
     T_start=273.15 + 19) "Room2 zone"
     annotation (Placement(transformation(extent={{42,10},{58,26}})));
@@ -855,7 +850,7 @@ public
     annotation (Placement(transformation(extent={{-78,14},{-74,18}})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo1(
     redeclare package Medium = MediumW,
-    Q_flow_nominal=P_rad_Chambre1,
+    Q_flow_nominal=Q_rad_ro1,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{-22,-130},{-8,-116}})));
@@ -877,7 +872,7 @@ public
     annotation (Placement(transformation(extent={{-24,-142},{-18,-136}})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo2(
     redeclare package Medium = MediumW,
-    Q_flow_nominal=P_rad_Chambre2,
+    Q_flow_nominal=Q_rad_ro2,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{36,-130},{50,-116}})));
@@ -897,7 +892,7 @@ public
     annotation (Placement(transformation(extent={{32,-142},{38,-136}})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radRo3(
     redeclare package Medium = MediumW,
-    Q_flow_nominal=P_rad_Chambre3,
+    Q_flow_nominal=Q_rad_ro3,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{38,-210},{52,-196}})));
@@ -917,7 +912,7 @@ public
     annotation (Placement(transformation(extent={{34,-224},{40,-218}})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 radBth(
     redeclare package Medium = MediumW,
-    Q_flow_nominal=P_rad_SDB,
+    Q_flow_nominal=Q_rad_bth,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{-16,-210},{-2,-196}})));
@@ -1072,7 +1067,7 @@ public
         origin={-85,-119})));
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad_Salon(
     redeclare package Medium = MediumW,
-    Q_flow_nominal=P_rad_Salon,
+    Q_flow_nominal=Q_rad_liv,
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{-80,-126},{-66,-112}})));
@@ -1336,7 +1331,7 @@ equation
   // Consumptions
 //  Consommation_Gaz_Chaudiere =Boiler.QWat_flow;
   Consommation_Elec_Pompe =pumEmiSystem.m_flow/pumEmiSystem.m_flow_nominal*
-    P_Pompe_nominal;
+    P_pum_nominal;
 
   connect(liv.heaPorAir, T_Salon.port) annotation (Line(points={{-88.4,22},{-83.2,
           22},{-78,22}}, color={191,0,0}));
@@ -1344,12 +1339,12 @@ equation
     annotation (Line(points={{-8.4,18},{-4,18},{2,18}}, color={191,0,0}));
   connect(ro2.heaPorAir, T_Chambre2.port)
     annotation (Line(points={{49.6,18},{54.8,18},{60,18}}, color={191,0,0}));
-  connect(ro3.heaPorAir, T_Chambre3.port) annotation (Line(points={{49.6,-54},{
-          54.8,-54},{60,-54}}, color={191,0,0}));
+  connect(ro3.heaPorAir, T_Chambre3.port) annotation (Line(points={{49.6,-54},{54.8,
+          -54},{60,-54}}, color={191,0,0}));
   connect(bth.heaPorAir, T_SDB.port) annotation (Line(points={{-10.4,-54},{-5.2,
           -54},{0,-54}},       color={191,0,0}));
-  connect(gar.heaPorAir, T_Garage.port) annotation (Line(points={{-130.4,-48},{
-          -125.2,-48},{-120,-48}}, color={191,0,0}));
+  connect(gar.heaPorAir, T_Garage.port) annotation (Line(points={{-130.4,-48},{-125.2,
+          -48},{-120,-48}}, color={191,0,0}));
   connect(weaDat.weaBus, liv.weaBus) annotation (Line(
       points={{-276,56},{-80.84,56},{-80.84,29.16}},
       color={255,204,51},
@@ -1414,8 +1409,8 @@ equation
       points={{-153.8,-52},{-152,-52},{-152,-47.4},{-148.4,-47.4}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(multiplex3_Garage.y, gar.qGai_flow) annotation (Line(points={{-143.8,
-          -46},{-138.64,-46},{-138.64,-44.8}}, color={0,0,127}));
+  connect(multiplex3_Garage.y, gar.qGai_flow) annotation (Line(points={{-143.8,-46},
+          {-138.64,-46},{-138.64,-44.8}}, color={0,0,127}));
   connect(multiplex3_SDB.y,bth. qGai_flow) annotation (Line(points={{-23.8,-52},
           {-18.64,-52},{-18.64,-50.8}},    color={0,0,127}));
   connect(qRad_SDB.y, multiplex3_SDB.u1[1]) annotation (Line(points={{-33.8,-46},
@@ -1442,8 +1437,8 @@ equation
         points={{28.3,19},{30,19},{30,20},{33.6,20}}, color={0,0,127}));
   connect(multiplex3_Chambre2.u1[1], realExpression2.y) annotation (Line(
         points={{33.6,21.4},{32,21.4},{32,23},{28.3,23}}, color={0,0,127}));
-  connect(multiplex3_Chambre2.y, ro2.qGai_flow) annotation (Line(points={{38.2,
-          20},{41.36,20},{41.36,21.2}}, color={0,0,127}));
+  connect(multiplex3_Chambre2.y, ro2.qGai_flow) annotation (Line(points={{38.2,20},
+          {41.36,20},{41.36,21.2}}, color={0,0,127}));
   connect(qLat_Chambre3.y, multiplex3_Chambre3.u3[1]) annotation (Line(
         points={{28.2,-58},{30,-58},{30,-53.4},{33.6,-53.4}}, color={0,0,
           127}));
@@ -1452,8 +1447,8 @@ equation
   connect(multiplex3_Chambre3.u1[1], realExpression4.y) annotation (Line(
         points={{33.6,-50.6},{30,-50.6},{30,-49},{28.3,-49}}, color={0,0,
           127}));
-  connect(multiplex3_Chambre3.y, ro3.qGai_flow) annotation (Line(points={{38.2,
-          -52},{41.36,-52},{41.36,-50.8}}, color={0,0,127}));
+  connect(multiplex3_Chambre3.y, ro3.qGai_flow) annotation (Line(points={{38.2,-52},
+          {41.36,-52},{41.36,-50.8}}, color={0,0,127}));
   connect(qLat_Chambre4.y, multiplex3_Chambre4.u3[1]) annotation (Line(
         points={{-111.8,18},{-110,18},{-110,22.6},{-106.4,22.6}},
                                                               color={0,0,
@@ -1470,10 +1465,10 @@ equation
   connect(uSha_Salon.y, replicator_Salon.u)
     annotation (Line(points={{-109.8,36},{-106.4,36}},
                                                      color={0,0,127}));
-  connect(replicator_Salon.y[1], liv.uSha[1]) annotation (Line(points={{-101.8,
-          36},{-100,36},{-100,28.88},{-96.64,28.88}}, color={0,0,127}));
-  connect(replicator_Salon.y[2], liv.uSha[2]) annotation (Line(points={{-101.8,
-          36},{-100,36},{-100,29.52},{-96.64,29.52}}, color={0,0,127}));
+  connect(replicator_Salon.y[1], liv.uSha[1]) annotation (Line(points={{-101.8,36},
+          {-100,36},{-100,28.88},{-96.64,28.88}}, color={0,0,127}));
+  connect(replicator_Salon.y[2], liv.uSha[2]) annotation (Line(points={{-101.8,36},
+          {-100,36},{-100,29.52},{-96.64,29.52}}, color={0,0,127}));
   connect(uSha_Chambre1.y, replicator_Chambre1.u)
     annotation (Line(points={{-29.8,32},{-26.4,32}},
                                                    color={0,0,127}));
@@ -1515,55 +1510,56 @@ equation
       smooth=Smooth.None));
   connect(multiplex3_Combles.y, ati.qGai_flow) annotation (Line(points={{-239.8,
           -8},{-234,-8},{-234,-6.8},{-228.64,-6.8}}, color={0,0,127}));
-  connect(ati.surf_surBou[1], gar.surf_conBou[1]) annotation (Line(points={{
-          -221.52,-15.9429},{-222,-15.9429},{-222,-76},{-127.6,-76},{-127.6,
-          -54.6}}, color={191,0,0}));
-  connect(ati.surf_surBou[2], liv.surf_conBou[1]) annotation (Line(points={{
-          -221.52,-15.8286},{-222,-15.8286},{-222,-76},{-85.6,-76},{-85.6,
-          15.3333}}, color={191,0,0}));
-  connect(ati.surf_surBou[3], ro1.surf_conBou[1]) annotation (Line(points={{
-          -221.52,-15.7143},{-221.52,-44},{-176,-44},{-176,6},{-5.6,6},{-5.6,
-          11.3333}}, color={191,0,0}));
-  connect(ati.surf_surBou[4], ro2.surf_conBou[1]) annotation (Line(points={{
-          -221.52,-15.6},{-221.52,-44},{-176,-44},{-176,6},{52.4,6},{52.4,
-          11.3333}}, color={191,0,0}));
-  connect(ati.surf_surBou[5], ro3.surf_conBou[1]) annotation (Line(points={{
-          -221.52,-15.4857},{-221.52,-76},{52.4,-76},{52.4,-60.6}}, color={191,
-          0,0}));
-  connect(ati.surf_surBou[6], bth.surf_conBou[1]) annotation (Line(points={{
-          -221.52,-15.3714},{-221.52,-76},{-7.6,-76},{-7.6,-60.7}}, color={191,
-          0,0}));
-  connect(ati.surf_surBou[7], hal.surf_conBou[1]) annotation (Line(points={{
-          -221.52,-15.2571},{-192,-15.2571},{-192,-32},{-68,-32},{-68,-16.7429},
-          {54.4,-16.7429}}, color={191,0,0}));
+  connect(ati.surf_surBou[1], gar.surf_conBou[1]) annotation (Line(points={{-221.52,
+          -15.9429},{-222,-15.9429},{-222,-76},{-127.6,-76},{-127.6,-54.6}},
+        color={191,0,0}));
+  connect(ati.surf_surBou[2], liv.surf_conBou[1]) annotation (Line(points={{-221.52,
+          -15.8286},{-222,-15.8286},{-222,-76},{-85.6,-76},{-85.6,15.3333}},
+        color={191,0,0}));
+  connect(ati.surf_surBou[3], ro1.surf_conBou[1]) annotation (Line(points={{-221.52,
+          -15.7143},{-221.52,-44},{-176,-44},{-176,6},{-5.6,6},{-5.6,11.3333}},
+        color={191,0,0}));
+  connect(ati.surf_surBou[4], ro2.surf_conBou[1]) annotation (Line(points={{-221.52,
+          -15.6},{-221.52,-44},{-176,-44},{-176,6},{52.4,6},{52.4,11.3333}},
+        color={191,0,0}));
+  connect(ati.surf_surBou[5], ro3.surf_conBou[1]) annotation (Line(points={{-221.52,
+          -15.4857},{-221.52,-76},{52.4,-76},{52.4,-60.6}}, color={191,0,0}));
+  connect(ati.surf_surBou[6], bth.surf_conBou[1]) annotation (Line(points={{-221.52,
+          -15.3714},{-221.52,-76},{-7.6,-76},{-7.6,-60.7}}, color={191,0,0}));
+  connect(ati.surf_surBou[7], hal.surf_conBou[1]) annotation (Line(points={{-221.52,
+          -15.2571},{-192,-15.2571},{-192,-32},{-68,-32},{-68,-16.7429},{54.4,
+          -16.7429}},
+        color={191,0,0}));
   connect(gar.surf_surBou[1], liv.surf_conBou[2]) annotation (Line(points={{-131.52,
           -53.6},{-131.52,-54},{-132,-54},{-132,-74},{-85.6,-74},{-85.6,15.6}},
         color={191,0,0}));
-  connect(liv.surf_surBou[1], ro1.surf_conBou[2]) annotation (Line(points={{
-          -89.52,16.1333},{-89.52,8},{-6,8},{-6,12},{-5.6,12},{-5.6,11.6}},
-        color={191,0,0}));
+  connect(liv.surf_surBou[1], ro1.surf_conBou[2]) annotation (Line(points={{-89.52,
+          16.1333},{-89.52,8},{-6,8},{-6,12},{-5.6,12},{-5.6,11.6}}, color={191,
+          0,0}));
   connect(liv.surf_surBou[2], bth.surf_conBou[2]) annotation (Line(points={{-89.52,
-          16.4},{-89.52,8},{-86,8},{-86,-74},{-7.6,-74},{-7.6,-60.5}}, color={
-          191,0,0}));
-  connect(liv.surf_surBou[3], hal.surf_conBou[6]) annotation (Line(points={{
-          -89.52,16.6667},{-89.52,8},{86,8},{86,-16},{70,-16},{62,-16},{62,
-          -16.1714},{54.4,-16.1714}}, color={191,0,0}));
-  connect(ro1.surf_surBou[1], hal.surf_conBou[2]) annotation (Line(points={{
-          -9.52,12.2},{-9.52,8},{86,8},{86,-16},{70,-16},{70,-16.6286},{54.4,
-          -16.6286}}, color={191,0,0}));
+          16.4},{-89.52,8},{-86,8},{-86,-74},{-7.6,-74},{-7.6,-60.5}}, color={191,
+          0,0}));
+  connect(liv.surf_surBou[3], hal.surf_conBou[6]) annotation (Line(points={{-89.52,
+          16.6667},{-89.52,8},{86,8},{86,-16},{70,-16},{62,-16},{62,-16.1714},{
+          54.4,-16.1714}},
+                      color={191,0,0}));
+  connect(ro1.surf_surBou[1], hal.surf_conBou[2]) annotation (Line(points={{-9.52,
+          12.2},{-9.52,8},{86,8},{86,-16},{70,-16},{70,-16.6286},{54.4,-16.6286}},
+        color={191,0,0}));
   connect(ro1.surf_surBou[2], ro2.surf_conBou[2]) annotation (Line(points={{-9.52,
           12.6},{-9.52,8},{52.4,8},{52.4,11.6}}, color={191,0,0}));
-  connect(ro2.surf_surBou[1], hal.surf_conBou[3]) annotation (Line(points={{
-          48.48,12.4},{48.48,8},{86,8},{86,-16},{70,-16},{70,-16.5143},{54.4,
-          -16.5143}}, color={191,0,0}));
-  connect(ro3.surf_surBou[1], bth.surf_conBou[3]) annotation (Line(points={{
-          48.48,-59.8},{48.48,-74},{-7.6,-74},{-7.6,-60.3}}, color={191,0,0}));
-  connect(ro3.surf_surBou[2], hal.surf_conBou[4]) annotation (Line(points={{
-          48.48,-59.4},{48.48,-74},{86,-74},{86,-16},{70,-16},{70,-16.4},{54.4,
-          -16.4}}, color={191,0,0}));
-  connect(bth.surf_surBou[1], hal.surf_conBou[5]) annotation (Line(points={{
-          -11.52,-59.6},{-11.52,-74},{86,-74},{86,-16},{70,-16},{70,-16.2857},{
-          54.4,-16.2857}}, color={191,0,0}));
+  connect(ro2.surf_surBou[1], hal.surf_conBou[3]) annotation (Line(points={{48.48,
+          12.4},{48.48,8},{86,8},{86,-16},{70,-16},{70,-16.5143},{54.4,-16.5143}},
+        color={191,0,0}));
+  connect(ro3.surf_surBou[1], bth.surf_conBou[3]) annotation (Line(points={{48.48,
+          -59.8},{48.48,-74},{-7.6,-74},{-7.6,-60.3}}, color={191,0,0}));
+  connect(ro3.surf_surBou[2], hal.surf_conBou[4]) annotation (Line(points={{48.48,
+          -59.4},{48.48,-74},{86,-74},{86,-16},{70,-16},{70,-16.4},{54.4,-16.4}},
+        color={191,0,0}));
+  connect(bth.surf_surBou[1], hal.surf_conBou[5]) annotation (Line(points={{-11.52,
+          -59.6},{-11.52,-74},{86,-74},{86,-16},{70,-16},{70,-16.2857},{54.4,
+          -16.2857}},
+        color={191,0,0}));
   connect(weaDat.weaBus, hal.weaBus) annotation (Line(
       points={{-276,56},{59.16,56},{59.16,-2.84}},
       color={255,204,51},
@@ -1577,10 +1573,10 @@ equation
           191,0,0}));
   connect(con_Salon.port_b, liv.heaPorAir) annotation (Line(points={{-86,37},{-86,
           37},{-86,36},{-84,36},{-84,32},{-88.4,32},{-88.4,22}}, color={191,0,0}));
-  connect(con_Chambre1.port_b, ro1.heaPorAir) annotation (Line(points={{-6,33},
-          {-6,33},{-6,32},{-2,32},{-2,28},{-8.4,28},{-8.4,18}}, color={191,0,0}));
-  connect(con_Chambre2.port_b, ro2.heaPorAir) annotation (Line(points={{52,33},
-          {54,33},{54,32},{54,28},{49.6,28},{49.6,18}}, color={191,0,0}));
+  connect(con_Chambre1.port_b, ro1.heaPorAir) annotation (Line(points={{-6,33},{
+          -6,33},{-6,32},{-2,32},{-2,28},{-8.4,28},{-8.4,18}}, color={191,0,0}));
+  connect(con_Chambre2.port_b, ro2.heaPorAir) annotation (Line(points={{52,33},{
+          54,33},{54,32},{54,28},{49.6,28},{49.6,18}}, color={191,0,0}));
   connect(con_Chambre3.port_b, ro3.heaPorAir) annotation (Line(points={{50,-39},
           {56,-39},{56,-44},{49.6,-44},{49.6,-54}}, color={191,0,0}));
   connect(con_SDB.port_b,bth. heaPorAir) annotation (Line(points={{-8,-39},{-6,-39},
@@ -1612,19 +1608,16 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(ventil_Garage.ports1, gar.ports[2:2]) annotation (Line(points={{-139.92,
-          -53.35},{-137.96,-53.35},{-137.96,-51.2},{-136,-51.2}}, color={0,127,
-          255}));
+          -53.35},{-137.96,-53.35},{-137.96,-51.2},{-136,-51.2}}, color={0,127,255}));
   connect(ventil_Garage.weaBus, weaDat.weaBus) annotation (Line(
       points={{-144.4,-53.3},{-146,-53.3},{-146,-94},{-164,-94},{-164,56},{-276,
           56}},
       color={255,204,51},
       thickness=0.5));
-  connect(ventil_Chambre2.ports2, ro2.ports[1:1]) annotation (Line(points={{
-          42.12,13.85},{43.06,13.85},{43.06,12.9333},{44,12.9333}}, color={0,
-          127,255}));
-  connect(ventil_Chambre3.ports2, ro3.ports[1:1]) annotation (Line(points={{
-          42.12,-58.15},{43.06,-58.15},{43.06,-59.0667},{44,-59.0667}}, color={
-          0,127,255}));
+  connect(ventil_Chambre2.ports2, ro2.ports[1:1]) annotation (Line(points={{42.12,
+          13.85},{43.06,13.85},{43.06,12.9333},{44,12.9333}}, color={0,127,255}));
+  connect(ventil_Chambre3.ports2, ro3.ports[1:1]) annotation (Line(points={{42.12,
+          -58.15},{43.06,-58.15},{43.06,-59.0667},{44,-59.0667}}, color={0,127,255}));
   connect(weaDat.weaBus, ventil_Salon.weaBus) annotation (Line(
       points={{-276,56},{-126,56},{-126,6},{-104.6,6},{-104.6,16.7}},
       color={255,204,51},
@@ -1643,8 +1636,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(ventil_Combles.ports1, ati.ports[1:1]) annotation (Line(points={{-231.92,
-          -15.35},{-228.96,-15.35},{-228.96,-14.8},{-226,-14.8}}, color={0,127,
-          255}));
+          -15.35},{-228.96,-15.35},{-228.96,-14.8},{-226,-14.8}}, color={0,127,255}));
   connect(weaDat.weaBus, ventil_Combles.weaBus) annotation (Line(
       points={{-276,56},{-236.4,56},{-236.4,-15.3}},
       color={255,204,51},
@@ -1657,59 +1649,56 @@ equation
           2.45},{27.5,4},{-48,4},{-48,-11},{-53.8,-11}}, color={0,0,127}));
   connect(dooOpeClo_Chambre3.y, realExpression11.y) annotation (Line(points={{29.5,
           -23.45},{29.5,-30},{-48,-30},{-48,-11},{-53.8,-11}}, color={0,0,127}));
-  connect(dooOpeClo_Chambre2.port_b2, ro2.ports[2]) annotation (Line(points={{
-          24.8,2},{26,2},{26,6},{38,6},{38,10},{44,10},{44,14}}, color={0,127,
-          255}));
-  connect(dooOpeClo_Chambre2.port_a1, ro2.ports[3]) annotation (Line(points={{
-          30.2,2},{32,2},{32,6},{38,6},{38,10},{44,10},{44,15.0667}}, color={0,
-          127,255}));
-  connect(dooOpeClo_Chambre2.port_b1, hal.ports[1]) annotation (Line(points={{
-          30.2,-7},{30.2,-15.44},{46,-15.44}}, color={0,127,255}));
-  connect(dooOpeClo_Chambre2.port_a2, hal.ports[2]) annotation (Line(points={{
-          24.8,-7},{24.8,-15.12},{46,-15.12}}, color={0,127,255}));
-  connect(dooOpeClo_Chambre3.port_a2, hal.ports[3]) annotation (Line(points={{
-          32.2,-14},{46,-14},{46,-14.8}}, color={0,127,255}));
-  connect(dooOpeClo_Chambre3.port_b1, hal.ports[4]) annotation (Line(points={{
-          26.8,-14},{46,-14},{46,-14.48}}, color={0,127,255}));
+  connect(dooOpeClo_Chambre2.port_b2, ro2.ports[2]) annotation (Line(points={{24.8,
+          2},{26,2},{26,6},{38,6},{38,10},{44,10},{44,14}}, color={0,127,255}));
+  connect(dooOpeClo_Chambre2.port_a1, ro2.ports[3]) annotation (Line(points={{30.2,2},
+          {32,2},{32,6},{38,6},{38,10},{44,10},{44,15.0667}},    color={0,127,255}));
+  connect(dooOpeClo_Chambre2.port_b1, hal.ports[1]) annotation (Line(points={{30.2,
+          -7},{30.2,-15.44},{46,-15.44}}, color={0,127,255}));
+  connect(dooOpeClo_Chambre2.port_a2, hal.ports[2]) annotation (Line(points={{24.8,
+          -7},{24.8,-15.12},{46,-15.12}}, color={0,127,255}));
+  connect(dooOpeClo_Chambre3.port_a2, hal.ports[3]) annotation (Line(points={{32.2,
+          -14},{46,-14},{46,-14.8}}, color={0,127,255}));
+  connect(dooOpeClo_Chambre3.port_b1, hal.ports[4]) annotation (Line(points={{26.8,
+          -14},{46,-14},{46,-14.48}}, color={0,127,255}));
   connect(dooOpeClo_SDB.port_a2, hal.ports[5]) annotation (Line(points={{-7.8,-14},
           {46,-14},{46,-14.16}}, color={0,127,255}));
-  connect(dooOpeClo_SDB.port_b1, hal.ports[6]) annotation (Line(points={{-13.2,
-          -14},{16,-14},{16,-13.84},{46,-13.84}}, color={0,127,255}));
+  connect(dooOpeClo_SDB.port_b1, hal.ports[6]) annotation (Line(points={{-13.2,-14},
+          {16,-14},{16,-13.84},{46,-13.84}}, color={0,127,255}));
   connect(dooOpeClo_Chambre1.port_b1, hal.ports[7]) annotation (Line(points={{-7.8,
           -7},{19.1,-7},{19.1,-13.52},{46,-13.52}}, color={0,127,255}));
   connect(dooOpeClo_Chambre1.port_a2, hal.ports[8]) annotation (Line(points={{-13.2,
           -7},{16.4,-7},{16.4,-13.2},{46,-13.2}}, color={0,127,255}));
-  connect(dooOpeClo_Salon.port_b1, hal.ports[9]) annotation (Line(points={{-36,
-          -7.8},{6,-7.8},{6,-12.88},{46,-12.88}}, color={0,127,255}));
-  connect(dooOpeClo_Chambre3.port_b2, ro3.ports[2]) annotation (Line(points={{
-          32.2,-23},{32.2,-58},{44,-58}}, color={0,127,255}));
-  connect(dooOpeClo_Chambre3.port_a1, ro3.ports[3]) annotation (Line(points={{
-          26.8,-23},{26.8,-56.9333},{44,-56.9333}}, color={0,127,255}));
+  connect(dooOpeClo_Salon.port_b1, hal.ports[9]) annotation (Line(points={{-36,-7.8},
+          {6,-7.8},{6,-12.88},{46,-12.88}}, color={0,127,255}));
+  connect(dooOpeClo_Chambre3.port_b2, ro3.ports[2]) annotation (Line(points={{32.2,
+          -23},{32.2,-58},{44,-58}}, color={0,127,255}));
+  connect(dooOpeClo_Chambre3.port_a1, ro3.ports[3]) annotation (Line(points={{26.8,
+          -23},{26.8,-56.9333},{44,-56.9333}}, color={0,127,255}));
   connect(dooOpeClo_SDB.port_a1,bth. ports[1]) annotation (Line(points={{-13.2,
           -23},{-13.2,-32},{-16,-32},{-16,-59.0667}},
                                             color={0,127,255}));
   connect(dooOpeClo_SDB.port_b2,bth. ports[2]) annotation (Line(points={{-7.8,-23},
           {-7.8,-32},{-16,-32},{-16,-58}},      color={0,127,255}));
-  connect(ventil_Chambre1.ports2, ro1.ports[1:1]) annotation (Line(points={{
-          -15.88,13.85},{-14.94,13.85},{-14.94,12.9333},{-14,12.9333}}, color={
-          0,127,255}));
+  connect(ventil_Chambre1.ports2, ro1.ports[1:1]) annotation (Line(points={{-15.88,
+          13.85},{-14.94,13.85},{-14.94,12.9333},{-14,12.9333}}, color={0,127,255}));
   connect(dooOpeClo_Chambre1.port_b2, ro1.ports[2])
     annotation (Line(points={{-13.2,2},{-14,2},{-14,14}}, color={0,127,255}));
-  connect(dooOpeClo_Chambre1.port_a1, ro1.ports[3]) annotation (Line(points={{
-          -7.8,2},{-14,2},{-14,15.0667}}, color={0,127,255}));
+  connect(dooOpeClo_Chambre1.port_a1, ro1.ports[3]) annotation (Line(points={{-7.8,2},
+          {-14,2},{-14,15.0667}},    color={0,127,255}));
   connect(dooOpeClo_Salon.port_a2, hal.ports[10]) annotation (Line(points={{-36,
           -13.2},{6,-13.2},{6,-12.56},{46,-12.56}}, color={0,127,255}));
   connect(ventil_Salon.ports3, liv.ports[1:1]) annotation (Line(points={{-97.88,
           18.05},{-95.94,18.05},{-95.94,16.8},{-94,16.8}}, color={0,127,255}));
   connect(ventil_Salon.ports1, liv.ports[2:2]) annotation (Line(points={{-97.88,
           16.55},{-95.94,16.55},{-95.94,17.6},{-94,17.6}}, color={0,127,255}));
-  connect(dooOpeClo_Salon.port_a1, liv.ports[3]) annotation (Line(points={{-45,
-          -7.8},{-94,-7.8},{-94,18.4}}, color={0,127,255}));
-  connect(dooOpeClo_Salon.port_b2, liv.ports[4]) annotation (Line(points={{-45,
-          -13.2},{-94,-13.2},{-94,19.2}}, color={0,127,255}));
+  connect(dooOpeClo_Salon.port_a1, liv.ports[3]) annotation (Line(points={{-45,-7.8},
+          {-94,-7.8},{-94,18.4}}, color={0,127,255}));
+  connect(dooOpeClo_Salon.port_b2, liv.ports[4]) annotation (Line(points={{-45,-13.2},
+          {-94,-13.2},{-94,19.2}}, color={0,127,255}));
 
-  connect(T_Couloir.port, hal.heaPorAir) annotation (Line(points={{62,-12},{60,
-          -12},{60,-10},{51.6,-10}}, color={191,0,0}));
+  connect(T_Couloir.port, hal.heaPorAir) annotation (Line(points={{62,-12},{60,-12},
+          {60,-10},{51.6,-10}}, color={191,0,0}));
   connect(T_Combles.port, ati.heaPorAir)
     annotation (Line(points={{-210,-10},{-220.4,-10}}, color={191,0,0}));
   connect(conCooRo2.T, T_Chambre2.T)
@@ -1724,33 +1713,33 @@ equation
           87},{58,86},{58,66},{58,64},{86,64},{86,8},{-85.6,8},{-85.6,15.8667}},
         color={191,0,0}));
   connect(T_sol.port, ro1.surf_conBou[3]) annotation (Line(points={{46,87},{58,
-          87},{58,86},{58,64},{86,64},{86,8},{-5.6,8},{-5.6,11.8667}}, color={
-          191,0,0}));
+          87},{58,86},{58,64},{86,64},{86,8},{-5.6,8},{-5.6,11.8667}},
+                                                                   color={191,0,
+          0}));
   connect(T_sol.port, ro2.surf_conBou[3]) annotation (Line(points={{46,87},{58,
           87},{58,86},{58,64},{86,64},{86,8},{54,8},{52.4,8},{52.4,11.8667}},
-        color={191,0,0}));
-  connect(T_sol.port, ro3.surf_conBou[2]) annotation (Line(points={{46,87},{58,
-          87},{58,64},{86,64},{86,-74},{52.4,-74},{52.4,-60.2}}, color={191,0,0}));
+                                                                          color=
+         {191,0,0}));
+  connect(T_sol.port, ro3.surf_conBou[2]) annotation (Line(points={{46,87},{58,87},
+          {58,64},{86,64},{86,-74},{52.4,-74},{52.4,-60.2}}, color={191,0,0}));
   connect(T_sol.port,bth. surf_conBou[4]) annotation (Line(points={{46,87},
           {58,87},{58,86},{58,64},{86,64},{86,-74},{-7.6,-74},{-7.6,-60.1}},
         color={191,0,0}));
   connect(T_sol.port, hal.surf_conBou[7]) annotation (Line(points={{46,87},{58,
-          87},{58,86},{58,64},{86,64},{86,-16.0571},{54.4,-16.0571}}, color={
+          87},{58,86},{58,64},{86,64},{86,-16.0571},{54.4,-16.0571}},
+                                                                  color={191,0,0}));
+  connect(T_sol.port, gar.surf_conBou[2]) annotation (Line(points={{46,87},{58,87},
+          {58,88},{58,66},{86,66},{86,-74},{-127.6,-74},{-127.6,-54.2}}, color={
           191,0,0}));
-  connect(T_sol.port, gar.surf_conBou[2]) annotation (Line(points={{46,87},{58,
-          87},{58,88},{58,66},{86,66},{86,-74},{-127.6,-74},{-127.6,-54.2}},
-        color={191,0,0}));
   connect(dooOpeClo_SDB.y, realExpression11.y) annotation (Line(points={{
           -10.5,-23.45},{-10.5,-30},{-48,-30},{-48,-11},{-53.8,-11}}, color=
          {0,0,127}));
-  connect(con_Couloir.port_b, hal.heaPorAir) annotation (Line(points={{64,-5},{
-          64,-5},{64,-6},{51.6,-6},{51.6,-10}}, color={191,0,0}));
+  connect(con_Couloir.port_b, hal.heaPorAir) annotation (Line(points={{64,-5},{64,
+          -5},{64,-6},{51.6,-6},{51.6,-10}}, color={191,0,0}));
   connect(ventil_Combles.ports2, ati.ports[2:2]) annotation (Line(points={{-231.92,
-          -14.15},{-228.96,-14.15},{-228.96,-13.2},{-226,-13.2}}, color={0,127,
-          255}));
+          -14.15},{-228.96,-14.15},{-228.96,-13.2},{-226,-13.2}}, color={0,127,255}));
   connect(ventil_Garage.ports2, gar.ports[1:1]) annotation (Line(points={{-139.92,
-          -52.15},{-137.96,-52.15},{-137.96,-52.8},{-136,-52.8}}, color={0,127,
-          255}));
+          -52.15},{-137.96,-52.15},{-137.96,-52.8},{-136,-52.8}}, color={0,127,255}));
   connect(ventil_SDB.ports1,bth. ports[3:3]) annotation (Line(points={{-19.8,
           -62.9},{-19.8,-60.45},{-16,-60.45},{-16,-56.9333}},
                                                        color={0,127,255}));
@@ -1758,19 +1747,19 @@ equation
       points={{-31,-62.6},{-31,-76},{-31,-94},{-2.84,-94},{-2.84,-46.84}},
       color={255,204,51},
       thickness=0.5));
-  connect(conCooRo1.P, ro1.heaPorAir) annotation (Line(points={{18,16},{20,16},
-          {20,22},{0,22},{0,18},{-8.4,18}}, color={191,0,0}));
-  connect(conCooRo2.P, ro2.heaPorAir) annotation (Line(points={{76,13},{80,13},
-          {80,22},{58,22},{58,18},{49.6,18}}, color={191,0,0}));
+  connect(conCooRo1.P, ro1.heaPorAir) annotation (Line(points={{18,16},{20,16},{
+          20,22},{0,22},{0,18},{-8.4,18}}, color={191,0,0}));
+  connect(conCooRo2.P, ro2.heaPorAir) annotation (Line(points={{76,13},{80,13},{
+          80,22},{58,22},{58,18},{49.6,18}}, color={191,0,0}));
   connect(conCooRo3.P, ro3.heaPorAir) annotation (Line(points={{76,-43},{78,-43},
-          {78,-42},{78,-60},{60,-60},{60,-56},{49.6,-56},{49.6,-54}}, color={
-          191,0,0}));
+          {78,-42},{78,-60},{60,-60},{60,-56},{49.6,-56},{49.6,-54}}, color={191,
+          0,0}));
   connect(conCooBth.P,bth. heaPorAir) annotation (Line(points={{16,-45},{
           18,-45},{18,-44},{18,-60},{2,-60},{2,-54},{-10.4,-54}},
                                                           color={191,0,0}));
   connect(conCooLiv.P, liv.heaPorAir) annotation (Line(points={{-56,21},{-54,21},
-          {-54,22},{-52,22},{-52,28},{-78,28},{-78,22},{-88.4,22}}, color={191,
-          0,0}));
+          {-54,22},{-52,22},{-52,28},{-78,28},{-78,22},{-88.4,22}}, color={191,0,
+          0}));
   connect(conCooLiv.T, T_Salon.T) annotation (Line(points={{-66.8,21},{-70.4,21},
           {-70.4,22},{-74,22}}, color={0,0,127}));
   connect(realExpression9.y, conCooRo1.ConsigneClim) annotation (Line(points={{6.2,12},
@@ -1897,20 +1886,20 @@ equation
       Line(points={{-74.4,-113.96},{-74.4,-112.98},{-76,-112.98},{-76,-104}},
         color={191,0,0}));
   connect(heatFlowSensor_Salon_Conv.port_b, liv.heaPorAir) annotation (Line(
-        points={{-76,-96},{-76,-96},{-74,-96},{-74,-74},{-86,-74},{-86,8},{-80,
-          8},{-80,22},{-88.4,22}}, color={191,0,0}));
+        points={{-76,-96},{-76,-96},{-74,-96},{-74,-74},{-86,-74},{-86,8},{-80,8},
+          {-80,22},{-88.4,22}}, color={191,0,0}));
   connect(rad_Salon.heatPortRad,heatFlowSensor_Salon_Rad. port_a) annotation (
       Line(points={{-71.6,-113.96},{-71.6,-112.98},{-70,-112.98},{-70,-104}},
         color={191,0,0}));
   connect(heatFlowSensor_Salon_Rad.port_b, liv.heaPorRad) annotation (Line(
-        points={{-70,-96},{-70,-96},{-74,-96},{-74,-74},{-86,-74},{-86,8},{-80,
-          8},{-80,20.48},{-88.4,20.48}}, color={191,0,0}));
+        points={{-70,-96},{-70,-96},{-74,-96},{-74,-74},{-86,-74},{-86,8},{-80,8},
+          {-80,20.48},{-88.4,20.48}}, color={191,0,0}));
   connect(radRo1.heatPortRad, heatFlowSensor_Chambre1_Rad.port_a) annotation (
       Line(points={{-13.6,-117.96},{-13.6,-114.98},{-10,-114.98},{-10,-104}},
         color={191,0,0}));
   connect(heatFlowSensor_Chambre1_Rad.port_b, ro1.heaPorRad) annotation (Line(
-        points={{-10,-96},{-10,-96},{86,-96},{86,8},{0,8},{0,16},{-4,16},{-4,
-          16.48},{-8.4,16.48}}, color={191,0,0}));
+        points={{-10,-96},{-10,-96},{86,-96},{86,8},{0,8},{0,16},{-4,16},{-4,16.48},
+          {-8.4,16.48}}, color={191,0,0}));
   connect(radRo1.heatPortCon, heatFlowSensor_Chambre1_Conv.port_a) annotation (
       Line(points={{-16.4,-117.96},{-16.4,-115.98},{-16,-115.98},{-16,-104}},
         color={191,0,0}));
@@ -1927,8 +1916,8 @@ equation
       Line(points={{44.4,-117.96},{44.4,-115.98},{46,-115.98},{46,-104}}, color=
          {191,0,0}));
   connect(heatFlowSensor_Chambre2_Rad.port_b, ro2.heaPorRad) annotation (Line(
-        points={{46,-96},{46,-96},{86,-96},{86,8},{58,8},{58,16},{54,16},{54,
-          16.48},{49.6,16.48}}, color={191,0,0}));
+        points={{46,-96},{46,-96},{86,-96},{86,8},{58,8},{58,16},{54,16},{54,16.48},
+          {49.6,16.48}}, color={191,0,0}));
   connect(radHal.heatPortCon, heatFlowSensor_Couloir_Conv.port_a) annotation (
       Line(points={{15.6,-163.96},{15.6,-153.98},{14,-153.98},{14,-104}}, color=
          {191,0,0}));
@@ -1957,14 +1946,14 @@ equation
       Line(points={{43.6,-197.96},{43.6,-196.98},{42,-196.98},{42,-194}}, color=
          {191,0,0}));
   connect(heatFlowSensor_Chambre3_Conv.port_b, ro3.heaPorAir) annotation (Line(
-        points={{42,-186},{42,-178},{86,-178},{86,-74},{60,-74},{60,-54},{49.6,
-          -54}}, color={191,0,0}));
+        points={{42,-186},{42,-178},{86,-178},{86,-74},{60,-74},{60,-54},{49.6,-54}},
+        color={191,0,0}));
   connect(radRo3.heatPortRad, heatFlowSensor_Chambre3_Rad.port_a) annotation (
       Line(points={{46.4,-197.96},{46.4,-196.98},{48,-196.98},{48,-194}}, color=
          {191,0,0}));
   connect(heatFlowSensor_Chambre3_Rad.port_b, ro3.heaPorRad) annotation (Line(
-        points={{48,-186},{48,-178},{86,-178},{86,-74},{60,-74},{60,-55.52},{
-          49.6,-55.52}}, color={191,0,0}));
+        points={{48,-186},{48,-178},{86,-178},{86,-74},{60,-74},{60,-55.52},{49.6,
+          -55.52}}, color={191,0,0}));
   connect(T_Couloir.T, conCooHal.T) annotation (Line(points={{66,-12},{66.6,-12},
           {66.6,-13},{67.2,-13}}, color={0,0,127}));
   connect(conCooHal.ConsigneClim, realExpression8.y) annotation (Line(points={{
