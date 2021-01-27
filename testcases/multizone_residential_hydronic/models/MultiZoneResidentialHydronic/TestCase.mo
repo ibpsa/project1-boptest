@@ -2,8 +2,6 @@ within MultiZoneResidentialHydronic;
 model TestCase "Multi zone residential hydronic example model"
 
   extends Modelica.Icons.Example;
-  package MediumA = Buildings.Media.Air "Medium model";
-  package MediumW = Buildings.Media.Water "Medium model";
 
   ///////////////
   //  INPUTS   //

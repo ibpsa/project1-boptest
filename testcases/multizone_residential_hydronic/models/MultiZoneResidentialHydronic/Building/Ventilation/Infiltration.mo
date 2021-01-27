@@ -1,6 +1,6 @@
 within MultiZoneResidentialHydronic.Building.Ventilation;
 model Infiltration "Infiltration source for ventilation"
-  extends BaseClass(ports_b(redeclare package Medium = MediumA));
+  extends BaseClass;
   Buildings.Fluid.Sources.MassFlowSource_T infSou(
     m_flow=1,
     use_m_flow_in=true,

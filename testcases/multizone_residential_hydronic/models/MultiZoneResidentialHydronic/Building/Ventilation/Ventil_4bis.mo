@@ -1,8 +1,6 @@
 within MultiZoneResidentialHydronic.Building.Ventilation;
 model Ventil_4bis
 
-  package MediumA = Buildings.Media.Air "Medium model";
-
   parameter Modelica.SIunits.MassFlowRate Q = 1
     "Debit du a la permeabilite";
 

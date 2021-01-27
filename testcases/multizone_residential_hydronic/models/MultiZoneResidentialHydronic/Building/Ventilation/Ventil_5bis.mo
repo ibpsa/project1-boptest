@@ -1,8 +1,6 @@
 within MultiZoneResidentialHydronic.Building.Ventilation;
 model Ventil_5bis
 
-  package MediumA = Buildings.Media.Air "Medium model";
-
   parameter Modelica.SIunits.MassFlowRate Q = 1
     "Dbit d'extraction";
 

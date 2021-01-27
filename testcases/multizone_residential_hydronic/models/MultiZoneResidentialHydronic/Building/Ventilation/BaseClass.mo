@@ -7,9 +7,9 @@ model BaseClass "Base class for ventilation"
   parameter Integer nPorts=1 "Number of ports";
   parameter Modelica.SIunits.MassFlowRate m_flow_vent = 1
     "Ventilation airflow that is infiltrated or extracted";
-  package MediumA = Buildings.Media.Air "Medium model";
 
-  Modelica.Fluid.Interfaces.FluidPorts_b ports_b[nPorts]
+  Modelica.Fluid.Interfaces.FluidPorts_b ports_b[nPorts](redeclare package
+      Medium = MediumA)
     annotation (Placement(transformation(extent={{80,-40},{100,40}})));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
