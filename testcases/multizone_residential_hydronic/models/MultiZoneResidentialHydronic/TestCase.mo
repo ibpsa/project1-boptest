@@ -286,6 +286,7 @@ public
 
   Buildings.ThermalZones.Detailed.MixedAir ro1(
     redeclare package Medium = MediumA,
+    use_C_flow=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
@@ -321,6 +322,7 @@ public
 
   Buildings.ThermalZones.Detailed.MixedAir ro2(
     redeclare package Medium = MediumA,
+    use_C_flow=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
@@ -359,6 +361,7 @@ public
 
   Buildings.ThermalZones.Detailed.MixedAir ro3(
     redeclare package Medium = MediumA,
+    use_C_flow=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
@@ -490,29 +493,29 @@ public
   Modelica.Blocks.Sources.Constant qLat_SDB(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-38,-60},{-34,-56}})));
   Modelica.Blocks.Sources.Constant qLat_Chambre1(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-34,12},{-30,16}})));
+    annotation (Placement(transformation(extent={{-36,18},{-32,22}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_Chambre1
     annotation (Placement(transformation(extent={{-24,18},{-20,22}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=q_rad_Nuit.Q_rad)
-    annotation (Placement(transformation(extent={{-36,20},{-30,26}})));
+    annotation (Placement(transformation(extent={{-36,26},{-30,32}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=q_conv_Nuit.Q_conv)
-    annotation (Placement(transformation(extent={{-36,16},{-30,22}})));
+    annotation (Placement(transformation(extent={{-36,22},{-30,28}})));
   Modelica.Blocks.Sources.Constant qLat_Chambre2(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{24,12},{28,16}})));
+    annotation (Placement(transformation(extent={{22,22},{26,26}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_Chambre2
-    annotation (Placement(transformation(extent={{34,18},{38,22}})));
+    annotation (Placement(transformation(extent={{32,28},{36,32}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=q_rad_Nuit.Q_rad)
-    annotation (Placement(transformation(extent={{22,20},{28,26}})));
+    annotation (Placement(transformation(extent={{20,30},{26,36}})));
   Modelica.Blocks.Sources.RealExpression realExpression3(y=q_conv_Nuit.Q_conv)
-    annotation (Placement(transformation(extent={{22,16},{28,22}})));
+    annotation (Placement(transformation(extent={{20,26},{26,32}})));
   Modelica.Blocks.Sources.Constant qLat_Chambre3(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{24,-60},{28,-56}})));
+    annotation (Placement(transformation(extent={{24,-56},{28,-52}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_Chambre3
-    annotation (Placement(transformation(extent={{34,-54},{38,-50}})));
+    annotation (Placement(transformation(extent={{34,-52},{38,-48}})));
   Modelica.Blocks.Sources.RealExpression realExpression4(y=q_rad_Nuit.Q_rad)
-    annotation (Placement(transformation(extent={{22,-52},{28,-46}})));
+    annotation (Placement(transformation(extent={{22,-48},{28,-42}})));
   Modelica.Blocks.Sources.RealExpression realExpression5(y=q_conv_Nuit.Q_conv)
-    annotation (Placement(transformation(extent={{22,-56},{28,-50}})));
+    annotation (Placement(transformation(extent={{22,-52},{28,-46}})));
   Modelica.Blocks.Sources.Constant qLat_Chambre4(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-116,16},{-112,20}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_Chambre4
@@ -529,15 +532,15 @@ public
   Modelica.Blocks.Sources.Constant uSha_Chambre1(
                                                 k=0)
     "Control signal for the shading device"
-    annotation (Placement(transformation(extent={{-34,30},{-30,34}})));
+    annotation (Placement(transformation(extent={{-36,34},{-32,38}})));
   Modelica.Blocks.Routing.Replicator replicator_Chambre1(nout=max(1, 1))
-    annotation (Placement(transformation(extent={{-26,30},{-22,34}})));
+    annotation (Placement(transformation(extent={{-28,34},{-24,38}})));
   Modelica.Blocks.Sources.Constant uSha_Chambre2(
                                                 k=0)
     "Control signal for the shading device"
-    annotation (Placement(transformation(extent={{26,28},{30,32}})));
+    annotation (Placement(transformation(extent={{24,38},{28,42}})));
   Modelica.Blocks.Routing.Replicator replicator_Chambre2(nout=max(1, 1))
-    annotation (Placement(transformation(extent={{32,28},{36,32}})));
+    annotation (Placement(transformation(extent={{30,38},{34,42}})));
   Modelica.Blocks.Sources.Constant uSha_SDB(k=0)
     "Control signal for the shading device"
     annotation (Placement(transformation(extent={{-34,-40},{-30,-36}})));
@@ -546,9 +549,9 @@ public
   Modelica.Blocks.Sources.Constant uSha_Chambre3(
                                                 k=0)
     "Control signal for the shading device"
-    annotation (Placement(transformation(extent={{26,-44},{30,-40}})));
+    annotation (Placement(transformation(extent={{24,-38},{28,-34}})));
   Modelica.Blocks.Routing.Replicator replicator_Chambre3(nout=max(1, 1))
-    annotation (Placement(transformation(extent={{32,-44},{36,-40}})));
+    annotation (Placement(transformation(extent={{30,-38},{34,-34}})));
 public
   Buildings.ThermalZones.Detailed.MixedAir hal(
     redeclare package Medium = MediumA,
@@ -753,10 +756,10 @@ public
     annotation (Placement(transformation(extent={{-210,-12},{-206,-8}})));
   Building.Control.ConCoo conCooRo1(zone="Ro1")
     "Cooling controller for zone Ro1"
-    annotation (Placement(transformation(extent={{10,14},{18,18}})));
+    annotation (Placement(transformation(extent={{10,14},{14,16}})));
   Building.Control.ConCoo conCooRo2(zone="Ro2")
     "Cooling controller for zone Ro2"
-    annotation (Placement(transformation(extent={{66,10},{76,16}})));
+    annotation (Placement(transformation(extent={{68,12},{74,16}})));
   Building.Control.ConCoo conCooRo3(zone="Ro3")
     "Cooling controller for zone Ro3"
     annotation (Placement(transformation(extent={{66,-46},{76,-40}})));
@@ -1316,10 +1319,25 @@ public
     annotation (Placement(transformation(extent={{-24,8},{-20,12}})));
   Building.Ventilation.Infiltration venRo2(m_flow_vent=Q_Chambre2, zone="Ro2")
     "Ventilation of room 2"
-    annotation (Placement(transformation(extent={{36,12},{40,16}})));
+    annotation (Placement(transformation(extent={{32,10},{36,14}})));
   Building.Ventilation.Infiltration venRo3(m_flow_vent=Q_Chambre3, zone="Ro3")
     "Ventilation of room 3"
-    annotation (Placement(transformation(extent={{36,-66},{40,-62}})));
+    annotation (Placement(transformation(extent={{32,-72},{36,-68}})));
+  Building.Ventilation.GenCO2 genCO2Ro1(nOcc=1)  "CO2 generation in room 1"
+    annotation (Placement(transformation(extent={{-24,12},{-20,16}})));
+  Modelica.Blocks.Sources.RealExpression nightSch1(y=schedules_MI_ZoneNuit.OccupRateRT12)
+    "Night schedule"
+    annotation (Placement(transformation(extent={{-36,12},{-30,16}})));
+  Building.Ventilation.GenCO2 genCO2Ro2(nOcc=1) "CO2 generation in room 2"
+    annotation (Placement(transformation(extent={{32,14},{36,18}})));
+  Modelica.Blocks.Sources.RealExpression nightSch2(y=schedules_MI_ZoneNuit.OccupRateRT12)
+    "Night schedule"
+    annotation (Placement(transformation(extent={{22,14},{28,18}})));
+  Modelica.Blocks.Sources.RealExpression nightSch3(y=schedules_MI_ZoneNuit.OccupRateRT12)
+    "Night schedule"
+    annotation (Placement(transformation(extent={{22,-68},{28,-64}})));
+  Building.Ventilation.GenCO2 genCO2Ro3(nOcc=2) "CO2 generation in room 3"
+    annotation (Placement(transformation(extent={{32,-68},{36,-64}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1424,32 +1442,34 @@ equation
   connect(multiplex3_Chambre1.y, ro1.qGai_flow) annotation (Line(points={{-19.8,
           20},{-16.64,20},{-16.64,21.2}}, color={0,0,127}));
   connect(qLat_Chambre1.y, multiplex3_Chambre1.u3[1]) annotation (Line(
-        points={{-29.8,14},{-28,14},{-28,18.6},{-24.4,18.6}},
+        points={{-31.8,20},{-30,20},{-30,18.6},{-24.4,18.6}},
                                                           color={0,0,127}));
   connect(realExpression1.y, multiplex3_Chambre1.u2[1]) annotation (Line(
-        points={{-29.7,19},{-28,19},{-28,20},{-24.4,20}},
+        points={{-29.7,25},{-28,25},{-28,20},{-24.4,20}},
                                                       color={0,0,127}));
   connect(multiplex3_Chambre1.u1[1], realExpression.y) annotation (Line(
-        points={{-24.4,21.4},{-28,21.4},{-28,23},{-29.7,23}},
+        points={{-24.4,21.4},{-26,21.4},{-26,29},{-29.7,29}},
                                                           color={0,0,127}));
   connect(qLat_Chambre2.y, multiplex3_Chambre2.u3[1]) annotation (Line(
-        points={{28.2,14},{30,14},{30,18.6},{33.6,18.6}}, color={0,0,127}));
+        points={{26.2,24},{30,24},{30,28.6},{31.6,28.6}}, color={0,0,127}));
   connect(realExpression3.y, multiplex3_Chambre2.u2[1]) annotation (Line(
-        points={{28.3,19},{30,19},{30,20},{33.6,20}}, color={0,0,127}));
+        points={{26.3,29},{30,29},{30,30},{31.6,30}}, color={0,0,127}));
   connect(multiplex3_Chambre2.u1[1], realExpression2.y) annotation (Line(
-        points={{33.6,21.4},{32,21.4},{32,23},{28.3,23}}, color={0,0,127}));
-  connect(multiplex3_Chambre2.y, ro2.qGai_flow) annotation (Line(points={{38.2,20},
-          {41.36,20},{41.36,21.2}}, color={0,0,127}));
+        points={{31.6,31.4},{32,31.4},{32,33},{26.3,33}}, color={0,0,127}));
+  connect(multiplex3_Chambre2.y, ro2.qGai_flow) annotation (Line(points={{36.2,30},
+          {38,30},{38,22},{41.36,22},{41.36,21.2}},
+                                    color={0,0,127}));
   connect(qLat_Chambre3.y, multiplex3_Chambre3.u3[1]) annotation (Line(
-        points={{28.2,-58},{30,-58},{30,-53.4},{33.6,-53.4}}, color={0,0,
+        points={{28.2,-54},{30,-54},{30,-51.4},{33.6,-51.4}}, color={0,0,
           127}));
   connect(realExpression5.y, multiplex3_Chambre3.u2[1]) annotation (Line(
-        points={{28.3,-53},{30,-53},{30,-52},{33.6,-52}}, color={0,0,127}));
+        points={{28.3,-49},{30,-49},{30,-50},{33.6,-50}}, color={0,0,127}));
   connect(multiplex3_Chambre3.u1[1], realExpression4.y) annotation (Line(
-        points={{33.6,-50.6},{30,-50.6},{30,-49},{28.3,-49}}, color={0,0,
+        points={{33.6,-48.6},{30,-48.6},{30,-45},{28.3,-45}}, color={0,0,
           127}));
-  connect(multiplex3_Chambre3.y, ro3.qGai_flow) annotation (Line(points={{38.2,-52},
-          {41.36,-52},{41.36,-50.8}}, color={0,0,127}));
+  connect(multiplex3_Chambre3.y, ro3.qGai_flow) annotation (Line(points={{38.2,
+          -50},{40,-50},{40,-52},{41.36,-52},{41.36,-50.8}},
+                                      color={0,0,127}));
   connect(qLat_Chambre4.y, multiplex3_Chambre4.u3[1]) annotation (Line(
         points={{-111.8,18},{-110,18},{-110,22.6},{-106.4,22.6}},
                                                               color={0,0,
@@ -1471,18 +1491,19 @@ equation
   connect(replicator_Salon.y[2], liv.uSha[2]) annotation (Line(points={{-101.8,36},
           {-100,36},{-100,29.52},{-96.64,29.52}}, color={0,0,127}));
   connect(uSha_Chambre1.y, replicator_Chambre1.u)
-    annotation (Line(points={{-29.8,32},{-26.4,32}},
+    annotation (Line(points={{-31.8,36},{-28.4,36}},
                                                    color={0,0,127}));
-  connect(replicator_Chambre1.y[1], ro1.uSha[1]) annotation (Line(points={{-21.8,
-          32},{-20,32},{-20,25.2},{-16.64,25.2}}, color={0,0,127}));
+  connect(replicator_Chambre1.y[1], ro1.uSha[1]) annotation (Line(points={{-23.8,
+          36},{-20,36},{-20,25.2},{-16.64,25.2}}, color={0,0,127}));
   connect(uSha_Chambre2.y, replicator_Chambre2.u)
-    annotation (Line(points={{30.2,30},{31.6,30}}, color={0,0,127}));
-  connect(replicator_Chambre2.y[1], ro2.uSha[1]) annotation (Line(points={{36.2,
-          30},{38,30},{38,25.2},{41.36,25.2}}, color={0,0,127}));
+    annotation (Line(points={{28.2,40},{29.6,40}}, color={0,0,127}));
+  connect(replicator_Chambre2.y[1], ro2.uSha[1]) annotation (Line(points={{34.2,40},
+          {40,40},{40,25.2},{41.36,25.2}},     color={0,0,127}));
   connect(uSha_Chambre3.y, replicator_Chambre3.u)
-    annotation (Line(points={{30.2,-42},{31.6,-42}}, color={0,0,127}));
-  connect(replicator_Chambre3.y[1], ro3.uSha[1]) annotation (Line(points={{36.2,
-          -42},{38,-42},{38,-46.8},{41.36,-46.8}}, color={0,0,127}));
+    annotation (Line(points={{28.2,-36},{29.6,-36}}, color={0,0,127}));
+  connect(replicator_Chambre3.y[1], ro3.uSha[1]) annotation (Line(points={{34.2,
+          -36},{36,-36},{36,-44},{38,-44},{38,-46.8},{41.36,-46.8}},
+                                                   color={0,0,127}));
   connect(uSha_SDB.y, replicator_SDB.u)
     annotation (Line(points={{-29.8,-38},{-28.4,-38}},
                                                      color={0,0,127}));
@@ -1687,7 +1708,7 @@ equation
   connect(T_Combles.port, ati.heaPorAir)
     annotation (Line(points={{-210,-10},{-220.4,-10}}, color={191,0,0}));
   connect(conCooRo2.T, T_Chambre2.T)
-    annotation (Line(points={{65.2,13},{64,13},{64,18}}, color={0,0,127}));
+    annotation (Line(points={{67.52,14},{64,14},{64,18}},color={0,0,127}));
   connect(conCooRo3.T, T_Chambre3.T)
     annotation (Line(points={{65.2,-43},{64,-43},{64,-54}}, color={0,0,127}));
   connect(conCooBth.T, T_SDB.T)
@@ -1732,10 +1753,10 @@ equation
       points={{-31,-62.6},{-31,-76},{-31,-94},{-2.84,-94},{-2.84,-46.84}},
       color={255,204,51},
       thickness=0.5));
-  connect(conCooRo1.P, ro1.heaPorAir) annotation (Line(points={{18,16},{20,16},{
-          20,22},{0,22},{0,18},{-8.4,18}}, color={191,0,0}));
-  connect(conCooRo2.P, ro2.heaPorAir) annotation (Line(points={{76,13},{80,13},{
-          80,22},{58,22},{58,18},{49.6,18}}, color={191,0,0}));
+  connect(conCooRo1.P, ro1.heaPorAir) annotation (Line(points={{14,15},{16,15},
+          {16,22},{0,22},{0,18},{-8.4,18}},color={191,0,0}));
+  connect(conCooRo2.P, ro2.heaPorAir) annotation (Line(points={{74,14},{76,14},
+          {76,22},{58,22},{58,18},{49.6,18}},color={191,0,0}));
   connect(conCooRo3.P, ro3.heaPorAir) annotation (Line(points={{76,-43},{78,-43},
           {78,-42},{78,-60},{60,-60},{60,-56},{49.6,-56},{49.6,-54}}, color={191,
           0,0}));
@@ -1748,9 +1769,10 @@ equation
   connect(conCooLiv.T, T_Salon.T) annotation (Line(points={{-66.8,21},{-70.4,21},
           {-70.4,22},{-74,22}}, color={0,0,127}));
   connect(realExpression9.y, conCooRo1.ConsigneClim) annotation (Line(points={{6.2,12},
-          {9.36,12},{9.36,14.6667}},         color={0,0,127}));
+          {9.68,12},{9.68,14.3333}},         color={0,0,127}));
   connect(realExpression10.y, conCooRo2.ConsigneClim)
-    annotation (Line(points={{64.2,10},{65.2,10},{65.2,11}}, color={0,0,127}));
+    annotation (Line(points={{64.2,10},{67.52,10},{67.52,12.6667}},
+                                                             color={0,0,127}));
   connect(realExpression12.y, conCooRo3.ConsigneClim) annotation (Line(points={
           {62.2,-48},{64,-48},{64,-45},{65.2,-45}}, color={0,0,127}));
   connect(realExpression14.y,conCooBth. ConsigneClim) annotation (Line(
@@ -2033,7 +2055,7 @@ equation
   connect(switch1.y, boi.y) annotation (Line(points={{-239.5,-119},{-184,-119},
           {-184,-134},{-152,-134}}, color={0,0,127}));
   connect(T_Chambre1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,
-          16},{9.36,16}}, color={0,0,127}));
+          15},{9.68,15}}, color={0,0,127}));
   connect(HeaSet_LivingRoom.y, onOffController.reference) annotation (Line(
         points={{-328.1,-210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
   connect(HeaSet_LivingRoom.y, conPumHea.ConsigneCh) annotation (Line(points={{-328.1,
@@ -2081,19 +2103,31 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(venRo1.ports_b, ro1.ports[3:4]) annotation (Line(points={{-20.2,10},{
-          -18,10},{-18,15.2},{-14,15.2}}, color={0,127,255}));
-  connect(venRo2.ports_b, ro2.ports[3:4]) annotation (Line(points={{39.8,14},{
-          42,14},{42,15.2},{44,15.2}}, color={0,127,255}));
+          -16,10},{-16,15.2},{-14,15.2}}, color={0,127,255}));
+  connect(venRo2.ports_b, ro2.ports[3:4]) annotation (Line(points={{35.8,12},{
+          42,12},{42,15.2},{44,15.2}}, color={0,127,255}));
   connect(venRo2.weaBus, weaDat.weaBus) annotation (Line(
-      points={{36,14},{36,56},{-276,56}},
+      points={{32,12},{18,12},{18,56},{-276,56}},
       color={255,204,51},
       thickness=0.5));
-  connect(venRo3.ports_b, ro3.ports[3:4]) annotation (Line(points={{39.8,-64},{
-          42,-64},{42,-56.8},{44,-56.8}}, color={0,127,255}));
+  connect(venRo3.ports_b, ro3.ports[3:4]) annotation (Line(points={{35.8,-70},{
+          42,-70},{42,-56.8},{44,-56.8}}, color={0,127,255}));
   connect(venRo3.weaBus, weaDat.weaBus) annotation (Line(
-      points={{36,-64},{30,-64},{30,-94},{-164,-94},{-164,56},{-276,56}},
+      points={{32,-70},{30,-70},{30,-94},{-164,-94},{-164,56},{-276,56}},
       color={255,204,51},
       thickness=0.5));
+  connect(nightSch1.y, genCO2Ro1.occFrac)
+    annotation (Line(points={{-29.7,14},{-24.4,14}}, color={0,0,127}));
+  connect(genCO2Ro1.y, ro1.C_flow[1]) annotation (Line(points={{-19.8,14},{-18,
+          14},{-18,19.12},{-16.64,19.12}}, color={0,0,127}));
+  connect(nightSch2.y, genCO2Ro2.occFrac)
+    annotation (Line(points={{28.3,16},{31.6,16}}, color={0,0,127}));
+  connect(genCO2Ro2.y, ro2.C_flow[1]) annotation (Line(points={{36.2,16},{38,16},
+          {38,19.12},{41.36,19.12}}, color={0,0,127}));
+  connect(nightSch3.y, genCO2Ro3.occFrac)
+    annotation (Line(points={{28.3,-66},{31.6,-66}}, color={0,0,127}));
+  connect(genCO2Ro3.y, ro3.C_flow[1]) annotation (Line(points={{36.2,-66},{40,
+          -66},{40,-52.88},{41.36,-52.88}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
