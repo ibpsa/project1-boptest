@@ -25,7 +25,9 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(infCnt.y, infSou.m_flow_in) annotation (Line(points={{-39,30},{-8,30},
           {-8,18},{-2,18}}, color={0,0,127}));
-  connect(infSou.ports[1:1], ports_b) annotation (Line(points={{20,10},{54,10},{54,
-          0},{90,0}}, color={0,127,255}));
 
+  connect(venPort, ports_b[2])
+    annotation (Line(points={{60,-20},{90,-20}}, color={0,127,255}));
+  connect(infSou.ports[1], venPort) annotation (Line(points={{20,10},{40,10},{
+          40,-20},{60,-20}}, color={0,127,255}));
 end Infiltration;

@@ -1318,9 +1318,6 @@ public
   Building.Ventilation.Infiltration venRo1(m_flow_vent=Q_Chambre1)
     "Ventilation of room 1"
     annotation (Placement(transformation(extent={{-24,8},{-20,12}})));
-  Modelica.Fluid.Sensors.TraceSubstances senCO2(redeclare package Medium =
-        MediumA, substanceName="CO2") "CO2 sensor for room 1"
-    annotation (Placement(transformation(extent={{-24,14},{-22,16}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1678,11 +1675,11 @@ equation
                                             color={0,127,255}));
   connect(dooOpeClo_SDB.port_b2,bth. ports[2]) annotation (Line(points={{-7.8,-23},
           {-7.8,-32},{-16,-32},{-16,-58}},      color={0,127,255}));
-  connect(dooOpeClo_Chambre1.port_b2, ro1.ports[2])
-    annotation (Line(points={{-13.2,2},{-14,2},{-14,13.6}},
+  connect(dooOpeClo_Chambre1.port_b2, ro1.ports[1])
+    annotation (Line(points={{-13.2,2},{-14,2},{-14,12.8}},
                                                           color={0,127,255}));
-  connect(dooOpeClo_Chambre1.port_a1, ro1.ports[3]) annotation (Line(points={{-7.8,2},
-          {-14,2},{-14,14.4}},       color={0,127,255}));
+  connect(dooOpeClo_Chambre1.port_a1, ro1.ports[2]) annotation (Line(points={{-7.8,2},
+          {-14,2},{-14,13.6}},       color={0,127,255}));
   connect(dooOpeClo_Salon.port_a2, hal.ports[10]) annotation (Line(points={{-36,
           -13.2},{6,-13.2},{6,-12.56},{46,-12.56}}, color={0,127,255}));
   connect(ventil_Salon.ports3, liv.ports[1:1]) annotation (Line(points={{-97.88,
@@ -2096,10 +2093,8 @@ equation
       points={{-276,56},{-42,56},{-42,10},{-24,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(venRo1.ports_b, ro1.ports[1:1]) annotation (Line(points={{-20.2,10},{
-          -18,10},{-18,12.8},{-14,12.8}},       color={0,127,255}));
-  connect(senCO2.port, ro1.ports[4]) annotation (Line(points={{-23,14},{-18,14},
-          {-18,15.2},{-14,15.2}}, color={0,127,255}));
+  connect(venRo1.ports_b, ro1.ports[3:4]) annotation (Line(points={{-20.2,10},{
+          -18,10},{-18,15.2},{-14,15.2}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
