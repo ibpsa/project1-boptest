@@ -162,8 +162,8 @@ model GenerateData
     y(unit="W"),
     description="occupancy")
     annotation (Placement(transformation(extent={{-26,-80},{-20,-74}})));
-  Modelica.Blocks.Sources.RealExpression limCO2LivSch(y=schedules_MI_ZoneJour.OccupRateRT12
-        *limCO2Occ.y + schedules_MI_ZoneNuit.OccupRateRT12*limCO2Uno.y)
+  Modelica.Blocks.Sources.RealExpression limCO2LivSch(y=limCO2Uno.y -
+        schedules_MI_ZoneJour.OccupRateRT12*(limCO2Uno.y - limCO2Occ.y))
     "living room limit CO2 schedule"
     annotation (Placement(transformation(extent={{40,-56},{46,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read limCO2Liv(
@@ -193,8 +193,8 @@ model GenerateData
   Modelica.Blocks.Sources.Constant limCO2Uno(k=1500)
     "Upper CO2 limit when zone is unoccupied"
     annotation (Placement(transformation(extent={{20,-68},{26,-62}})));
-  Modelica.Blocks.Sources.RealExpression limCO2RooSch(y=schedules_MI_ZoneJour.OccupRateRT12
-        *limCO2Uno.y + schedules_MI_ZoneNuit.OccupRateRT12*limCO2Occ.y)
+  Modelica.Blocks.Sources.RealExpression limCO2RooSch(y=limCO2Uno.y -
+        schedules_MI_ZoneNuit.OccupRateRT12*(limCO2Uno.y - limCO2Occ.y))
     "Rooms limit CO2 schedule"
     annotation (Placement(transformation(extent={{40,-64},{46,-58}})));
   IBPSA.Utilities.IO.SignalExchange.Read limCO2Hal(
