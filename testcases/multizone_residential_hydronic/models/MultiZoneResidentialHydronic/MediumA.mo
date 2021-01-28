@@ -1,2 +1,2 @@
 within MultiZoneResidentialHydronic;
-package MediumA = Buildings.Media.Air "Medium air for model";
+package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium air for model";
