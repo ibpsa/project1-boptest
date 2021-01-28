@@ -130,6 +130,16 @@ keysMap['Occupancy[Liv]'] = 'occLiv.y'
 keysMap['Occupancy[Ro1]'] = 'occRo1.y' 
 keysMap['Occupancy[Ro2]'] = 'occRo2.y' 
 keysMap['Occupancy[Ro3]'] = 'occRo3.y' 
+keysMap['Occupancy[Bth]'] = 'occBth.y'
+keysMap['Occupancy[Hal]'] = 'occHal.y'
+
+# CO2 limits
+keysMap['UpperCO2[Liv]'] = 'limCO2Liv.y'
+keysMap['UpperCO2[Ro1]'] = 'limCO2Ro1.y'
+keysMap['UpperCO2[Ro2]'] = 'limCO2Ro2.y'
+keysMap['UpperCO2[Ro3]'] = 'limCO2Ro3.y'
+keysMap['UpperCO2[Bth]'] = 'limCO2Bth.y'
+keysMap['UpperCO2[Hal]'] = 'limCO2Hal.y'
 
 # Internal gains
 keysMap['InternalGainsRad[Liv]'] = 'heaGaiLivRad.y' 
@@ -167,18 +177,6 @@ for out in output_names:
     # Interpolate to avoid problems with events from Modelica
     g = interpolate.interp1d(res['time'],res[keysMap[out]],kind='linear')
     df.loc[:,out] = g(gen.time)
-
-# Add CO2 limits
-keysMap['UpperCO2[Liv]'] = 894.
-keysMap['UpperCO2[Ro1]'] = 894.
-keysMap['UpperCO2[Ro2]'] = 894.
-keysMap['UpperCO2[Ro3]'] = 894.
-keysMap['UpperCO2[Bth]'] = 894.
-keysMap['UpperCO2[Hal]'] = 894.
-
-# Missing null occupancy variables
-df['Occupancy[Bth]'] = 0.
-df['Occupancy[Hal]'] = 0. 
 
 # Missing null InternalGains variables
 df['InternalGainsRad[Bth]'] = 0. 

@@ -132,36 +132,93 @@ model GenerateData
     annotation (Placement(transformation(extent={{88,-42},{94,-36}})));
   Modelica.Blocks.Sources.RealExpression realExpression9(y=
         schedules_MI_ZoneNuit.OccupRateRT12*1)
-    annotation (Placement(transformation(extent={{-2,-82},{4,-76}})));
+    annotation (Placement(transformation(extent={{-42,-72},{-36,-66}})));
   Modelica.Blocks.Sources.RealExpression realExpression10(y=
         schedules_MI_ZoneNuit.OccupRateRT12*1)
-    annotation (Placement(transformation(extent={{-2,-74},{4,-68}})));
+    annotation (Placement(transformation(extent={{-42,-64},{-36,-58}})));
   Modelica.Blocks.Sources.RealExpression realExpression11(y=
         schedules_MI_ZoneNuit.OccupRateRT12*2)
-    annotation (Placement(transformation(extent={{-2,-88},{4,-82}})));
+    annotation (Placement(transformation(extent={{-42,-78},{-36,-72}})));
   Modelica.Blocks.Sources.RealExpression realExpression12(y=
         schedules_MI_ZoneJour.OccupRateRT12*4)
-    annotation (Placement(transformation(extent={{-2,-68},{4,-62}})));
+    annotation (Placement(transformation(extent={{-42,-58},{-36,-52}})));
   IBPSA.Utilities.IO.SignalExchange.Read occLiv(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
-    annotation (Placement(transformation(extent={{14,-66},{20,-60}})));
+    annotation (Placement(transformation(extent={{-26,-56},{-20,-50}})));
   IBPSA.Utilities.IO.SignalExchange.Read occRo1(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
-    annotation (Placement(transformation(extent={{14,-74},{20,-68}})));
+    annotation (Placement(transformation(extent={{-26,-64},{-20,-58}})));
   IBPSA.Utilities.IO.SignalExchange.Read occRo2(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
-    annotation (Placement(transformation(extent={{14,-82},{20,-76}})));
+    annotation (Placement(transformation(extent={{-26,-72},{-20,-66}})));
   IBPSA.Utilities.IO.SignalExchange.Read occRo3(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
-    annotation (Placement(transformation(extent={{14,-90},{20,-84}})));
+    annotation (Placement(transformation(extent={{-26,-80},{-20,-74}})));
+  Modelica.Blocks.Sources.RealExpression limCO2LivSch(y=schedules_MI_ZoneJour.OccupRateRT12
+        *limCO2Occ.y + schedules_MI_ZoneNuit.OccupRateRT12*limCO2Uno.y)
+    "living room limit CO2 schedule"
+    annotation (Placement(transformation(extent={{40,-56},{46,-50}})));
+  IBPSA.Utilities.IO.SignalExchange.Read limCO2Liv(
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="ppm"),
+    description="Upper CO2 limit for living room")
+    "Upper CO2 limit for living room"
+    annotation (Placement(transformation(extent={{60,-56},{66,-50}})));
+  IBPSA.Utilities.IO.SignalExchange.Read limCO2Ro1(
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="ppm"),
+    description="Upper CO2 limit for room 1") "Upper CO2 limit for room 1"
+    annotation (Placement(transformation(extent={{60,-64},{66,-58}})));
+  IBPSA.Utilities.IO.SignalExchange.Read limCO2Ro2(
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="ppm"),
+    description="Upper CO2 limit for room 2") "Upper CO2 limit for room 2"
+    annotation (Placement(transformation(extent={{60,-72},{66,-66}})));
+  IBPSA.Utilities.IO.SignalExchange.Read limCO2Ro3(
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="ppm"),
+    description="Upper CO2 limit for room 3") "Upper CO2 limit for room 3"
+    annotation (Placement(transformation(extent={{60,-80},{66,-74}})));
+  Modelica.Blocks.Sources.Constant limCO2Occ(k=894)
+    "Upper CO2 limit when zone is occupied"
+    annotation (Placement(transformation(extent={{20,-56},{26,-50}})));
+  Modelica.Blocks.Sources.Constant limCO2Uno(k=1500)
+    "Upper CO2 limit when zone is unoccupied"
+    annotation (Placement(transformation(extent={{20,-68},{26,-62}})));
+  Modelica.Blocks.Sources.RealExpression limCO2RooSch(y=schedules_MI_ZoneJour.OccupRateRT12
+        *limCO2Uno.y + schedules_MI_ZoneNuit.OccupRateRT12*limCO2Occ.y)
+    "Rooms limit CO2 schedule"
+    annotation (Placement(transformation(extent={{40,-64},{46,-58}})));
+  IBPSA.Utilities.IO.SignalExchange.Read limCO2Hal(
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="ppm"),
+    description="Upper CO2 limit for hall") "Upper CO2 limit for hall"
+    annotation (Placement(transformation(extent={{60,-98},{66,-92}})));
+  IBPSA.Utilities.IO.SignalExchange.Read limCO2Bth(
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="ppm"),
+    description="Upper CO2 limit for bathroom") "Upper CO2 limit for bathroom"
+    annotation (Placement(transformation(extent={{60,-90},{66,-84}})));
+  IBPSA.Utilities.IO.SignalExchange.Read occBth(
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="W"),
+    description="occupancy")
+    annotation (Placement(transformation(extent={{-26,-90},{-20,-84}})));
+  IBPSA.Utilities.IO.SignalExchange.Read occHal(
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    y(unit="W"),
+    description="occupancy")
+    annotation (Placement(transformation(extent={{-26,-98},{-20,-92}})));
+  Modelica.Blocks.Sources.Constant occNul(k=0) "Zero occupancy"
+    annotation (Placement(transformation(extent={{-44,-88},{-38,-82}})));
 protected
   Buildings.ThermalZones.Detailed.BaseClasses.HeatGain heaGaiSal(final AFlo=
         S_Salon)
@@ -272,14 +329,32 @@ equation
           {78.7,-31},{78.7,-31},{85.4,-31}}, color={0,0,127}));
   connect(heaGaiRo3.QLat_flow, heaGaiRo3Lat.u) annotation (Line(points={{71.4,-35.2},
           {79.7,-35.2},{79.7,-39},{87.4,-39}}, color={0,0,127}));
-  connect(realExpression12.y,occLiv. u) annotation (Line(points={{4.3,-65},{8.15,
-          -65},{8.15,-63},{13.4,-63}}, color={0,0,127}));
-  connect(realExpression10.y, occRo1.u) annotation (Line(points={{4.3,-71},{8.15,
-          -71},{8.15,-71},{13.4,-71}}, color={0,0,127}));
-  connect(realExpression9.y, occRo2.u) annotation (Line(points={{4.3,-79},{9.15,
-          -79},{9.15,-79},{13.4,-79}}, color={0,0,127}));
-  connect(realExpression11.y, occRo3.u) annotation (Line(points={{4.3,-85},{9.15,
-          -85},{9.15,-87},{13.4,-87}}, color={0,0,127}));
+  connect(realExpression12.y,occLiv. u) annotation (Line(points={{-35.7,-55},{
+          -31.85,-55},{-31.85,-53},{-26.6,-53}},
+                                       color={0,0,127}));
+  connect(realExpression10.y, occRo1.u) annotation (Line(points={{-35.7,-61},{
+          -26.6,-61}},                 color={0,0,127}));
+  connect(realExpression9.y, occRo2.u) annotation (Line(points={{-35.7,-69},{
+          -26.6,-69}},                 color={0,0,127}));
+  connect(realExpression11.y, occRo3.u) annotation (Line(points={{-35.7,-75},{
+          -30.85,-75},{-30.85,-77},{-26.6,-77}},
+                                       color={0,0,127}));
+  connect(limCO2LivSch.y, limCO2Liv.u) annotation (Line(points={{46.3,-53},{
+          52.15,-53},{52.15,-53},{59.4,-53}}, color={0,0,127}));
+  connect(limCO2RooSch.y, limCO2Ro1.u) annotation (Line(points={{46.3,-61},{
+          53.15,-61},{53.15,-61},{59.4,-61}}, color={0,0,127}));
+  connect(limCO2RooSch.y, limCO2Ro2.u) annotation (Line(points={{46.3,-61},{
+          52.15,-61},{52.15,-69},{59.4,-69}}, color={0,0,127}));
+  connect(limCO2RooSch.y, limCO2Ro3.u) annotation (Line(points={{46.3,-61},{52,
+          -61},{52,-77},{59.4,-77}}, color={0,0,127}));
+  connect(limCO2Uno.y, limCO2Hal.u) annotation (Line(points={{26.3,-65},{40,-65},
+          {40,-95},{59.4,-95}}, color={0,0,127}));
+  connect(limCO2Uno.y, limCO2Bth.u) annotation (Line(points={{26.3,-65},{40,-65},
+          {40,-87},{59.4,-87}}, color={0,0,127}));
+  connect(occNul.y, occBth.u) annotation (Line(points={{-37.7,-85},{-33.85,-85},
+          {-33.85,-87},{-26.6,-87}}, color={0,0,127}));
+  connect(occNul.y, occHal.u) annotation (Line(points={{-37.7,-85},{-33.85,-85},
+          {-33.85,-95},{-26.6,-95}}, color={0,0,127}));
   annotation (
     Icon(coordinateSystem(preserveAspectRatio=false)),
     Diagram(coordinateSystem(preserveAspectRatio=false)),
