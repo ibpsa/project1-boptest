@@ -223,7 +223,6 @@ public
     nConPar=0,
     hRoo=HSP,
     lat=weaDat.lat,
-    nPorts=2,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
     extConMod=Buildings.HeatTransfer.Types.ExteriorConvection.Fixed,
@@ -242,7 +241,8 @@ public
       layers={IntWall,FloorWall},
       A={Spl_Garage_Combles,Spl_Garage_exterieur},
       til={Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Floor},
-      stateAtSurface_a={true,false})) "Garage zone"
+      stateAtSurface_a={true,false}),
+    nPorts=3)                         "Garage zone"
     annotation (Placement(transformation(extent={{-138,-56},{-122,-40}})));
 
   Buildings.ThermalZones.Detailed.MixedAir liv(
@@ -270,7 +270,6 @@ public
     nSurBou=3,
     surBou(A={Spi_Salon_Chambre1,Spi_Salon_SDB,Spi_Salon_Couloir}, til={
           Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall}),
-    nPorts=4,
     nConExt=1,
     datConExt(
       layers={ExtWall},
@@ -282,7 +281,8 @@ public
       A={Spl_Salon_Combles,Spi_Salon_Garage,Spl_Salon_exterieur},
       til={Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Floor},
       stateAtSurface_a={true,true,false}),
-    T_start=273.15 + 19) "Living room zone"
+    T_start=273.15 + 19,
+    nPorts=5)            "Living room zone"
     annotation (Placement(transformation(extent={{-96,14},{-80,30}})));
 
   Buildings.ThermalZones.Detailed.MixedAir ro1(
@@ -601,7 +601,6 @@ public
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     lat=weaDat.lat,
-    nPorts=2,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
     extConMod=Buildings.HeatTransfer.Types.ExteriorConvection.Fixed,
@@ -625,7 +624,8 @@ public
           Buildings.Types.Tilt.Ceiling},
       azi={Buildings.Types.Azimuth.N,Buildings.Types.Azimuth.E,Buildings.Types.Azimuth.W,
           Buildings.Types.Azimuth.S}),
-    T_start=273.15 + 19) "Attic zone"
+    T_start=273.15 + 19,
+    nPorts=3)            "Attic zone"
     annotation (Placement(transformation(extent={{-228,-18},{-212,-2}})));
   Modelica.Blocks.Sources.Constant qCon_Combles(
                                                k=0) "Convective heat gain"
@@ -667,13 +667,6 @@ public
         L_ext_Couloir*k_PT)
     "Thermal conductor used to take into acount thermal bridges effect"
     annotation (Placement(transformation(extent={{70,-8},{64,-2}})));
-  Building.Ventilation.Ventil_4bis ventil_Garage(Q=Q_Garage)
-    annotation (Placement(transformation(extent={{-144,-54},{-140,-50}})));
-  Building.Ventilation.Ventil_5bis ventil_Salon(Q=Q_Salon + 0.2*(Q_Chambre1 +
-        Q_Chambre2 + Q_Chambre3)*OpenDoors)
-    annotation (Placement(transformation(extent={{-104,16},{-98,20}})));
-  Building.Ventilation.Ventil_4bis ventil_Combles(Q=Q_Combles)
-    annotation (Placement(transformation(extent={{-236,-16},{-232,-12}})));
   Buildings.Airflow.Multizone.DoorDiscretizedOperable dooOpeClo_Salon(
     LClo=20*1E-4,
     hA=3/2,
@@ -1312,14 +1305,14 @@ public
     annotation (Placement(transformation(extent={{-110,-50},{-104,-44}})));
   IBPSA.Utilities.IO.SignalExchange.WeatherStation weatherStation
     annotation (Placement(transformation(extent={{-220,68},{-200,88}})));
-  Building.Ventilation.Infiltration venRo1(m_flow_vent=Q_Chambre1, zone="Ro1")
-    "Ventilation of room 1"
+  Building.Ventilation.InfiltrationExtraction infRo1(m_flow_vent=Q_Chambre1,
+      zone="Ro1") "Infiltration to room 1"
     annotation (Placement(transformation(extent={{-24,8},{-20,12}})));
-  Building.Ventilation.Infiltration venRo2(m_flow_vent=Q_Chambre2, zone="Ro2")
-    "Ventilation of room 2"
+  Building.Ventilation.InfiltrationExtraction infRo2(m_flow_vent=Q_Chambre2,
+      zone="Ro2") "Infiltration to room 2"
     annotation (Placement(transformation(extent={{32,10},{36,14}})));
-  Building.Ventilation.Infiltration venRo3(m_flow_vent=Q_Chambre3, zone="Ro3")
-    "Ventilation of room 3"
+  Building.Ventilation.InfiltrationExtraction infRo3(m_flow_vent=Q_Chambre3,
+      zone="Ro3") "Infiltration to room 3"
     annotation (Placement(transformation(extent={{32,-72},{36,-68}})));
   Building.Ventilation.GenCO2 genCO2Ro1(nOcc=1)  "CO2 generation in room 1"
     annotation (Placement(transformation(extent={{-24,12},{-20,16}})));
@@ -1336,18 +1329,32 @@ public
     annotation (Placement(transformation(extent={{22,-68},{28,-64}})));
   Building.Ventilation.GenCO2 genCO2Ro3(nOcc=2) "CO2 generation in room 3"
     annotation (Placement(transformation(extent={{32,-68},{36,-64}})));
-  Building.Ventilation.Infiltration venHal(m_flow_vent=0, zone="Hal")
-    "Ventilation of hall"
+  Building.Ventilation.InfiltrationExtraction infHal(m_flow_vent=0, zone="Hal")
+    "Infiltration to hall"
     annotation (Placement(transformation(extent={{36,-10},{40,-6}})));
-  Building.Ventilation.Infiltration venBth(m_flow_vent=-0.8*(Q_Chambre1 +
-        Q_Chambre2 + Q_Chambre3)*OpenDoors - 0.001,  zone="Bth")
-    "Ventilation of bathroom"
+  Building.Ventilation.InfiltrationExtraction extBth(m_flow_vent=-0.8*(
+        Q_Chambre1 + Q_Chambre2 + Q_Chambre3)*OpenDoors - 0.001, zone="Bth")
+    "Extraction from bathroom"
     annotation (Placement(transformation(extent={{-28,-62},{-24,-58}})));
   Modelica.Blocks.Sources.RealExpression daySch(y=schedules_MI_ZoneJour.OccupRateRT12)
     "Day schedule"
-    annotation (Placement(transformation(extent={{-124,20},{-118,24}})));
+    annotation (Placement(transformation(extent={{-118,20},{-112,24}})));
   Building.Ventilation.GenCO2 genCO2Liv(nOcc=4) "CO2 generation in living room"
-    annotation (Placement(transformation(extent={{-112,20},{-108,24}})));
+    annotation (Placement(transformation(extent={{-108,20},{-104,24}})));
+  Building.Ventilation.InfiltrationExtractionBoundary venLiv(m_flow_vent=-
+        Q_Salon - 0.2*(Q_Chambre1 + Q_Chambre2 + Q_Chambre3)*OpenDoors, zone=
+        "Liv") "Ventilation to living room"
+    annotation (Placement(transformation(extent={{-108,16},{-104,20}})));
+  Building.Ventilation.InfiltrationExtractionBoundary infAti(
+    m_flow_vent=Q_Combles,
+    zone="Ati",
+    isConditionedZone=false) "Infiltration to attic"
+    annotation (Placement(transformation(extent={{-238,-26},{-234,-22}})));
+  Building.Ventilation.InfiltrationExtractionBoundary infGar(
+    m_flow_vent=Q_Garage,
+    zone="Gar",
+    isConditionedZone=false) "Infiltration to garage"
+    annotation (Placement(transformation(extent={{-148,-58},{-144,-54}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1642,24 +1649,7 @@ equation
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}}));
-  connect(ventil_Garage.ports1, gar.ports[2:2]) annotation (Line(points={{-139.92,
-          -53.35},{-137.96,-53.35},{-137.96,-51.2},{-136,-51.2}}, color={0,127,255}));
-  connect(ventil_Garage.weaBus, weaDat.weaBus) annotation (Line(
-      points={{-144.4,-53.3},{-146,-53.3},{-146,-94},{-164,-94},{-164,56},{-276,
-          56}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(weaDat.weaBus, ventil_Salon.weaBus) annotation (Line(
-      points={{-276,56},{-126,56},{-126,6},{-104.6,6},{-104.6,16.7}},
-      color={255,204,51},
-      thickness=0.5));
 
-  connect(ventil_Combles.ports1, ati.ports[1:1]) annotation (Line(points={{-231.92,
-          -15.35},{-228.96,-15.35},{-228.96,-14.8},{-226,-14.8}}, color={0,127,255}));
-  connect(weaDat.weaBus, ventil_Combles.weaBus) annotation (Line(
-      points={{-276,56},{-236.4,56},{-236.4,-15.3}},
-      color={255,204,51},
-      thickness=0.5));
   connect(realExpression11.y, dooOpeClo_Salon.y) annotation (Line(points={{-53.7,
           -11},{-45.45,-11},{-45.45,-10.5}}, color={0,0,127}));
   connect(dooOpeClo_Chambre1.y, realExpression11.y) annotation (Line(points={{-10.5,
@@ -1714,14 +1704,6 @@ equation
   connect(dooOpeClo_Salon.port_a2, hal.ports[10]) annotation (Line(points={{-36,
           -13.2},{6,-13.2},{6,-13.0667},{46,-13.0667}},
                                                     color={0,127,255}));
-  connect(ventil_Salon.ports3, liv.ports[1:1]) annotation (Line(points={{-97.88,
-          18.05},{-95.94,18.05},{-95.94,16.8},{-94,16.8}}, color={0,127,255}));
-  connect(ventil_Salon.ports1, liv.ports[2:2]) annotation (Line(points={{-97.88,
-          16.55},{-95.94,16.55},{-95.94,17.6},{-94,17.6}}, color={0,127,255}));
-  connect(dooOpeClo_Salon.port_a1, liv.ports[3]) annotation (Line(points={{-45,-7.8},
-          {-94,-7.8},{-94,18.4}}, color={0,127,255}));
-  connect(dooOpeClo_Salon.port_b2, liv.ports[4]) annotation (Line(points={{-45,-13.2},
-          {-94,-13.2},{-94,19.2}}, color={0,127,255}));
 
   connect(T_Couloir.port, hal.heaPorAir) annotation (Line(points={{62,-12},{60,-12},
           {60,-10},{51.6,-10}}, color={191,0,0}));
@@ -1762,10 +1744,6 @@ equation
          {0,0,127}));
   connect(con_Couloir.port_b, hal.heaPorAir) annotation (Line(points={{64,-5},{64,
           -5},{64,-6},{51.6,-6},{51.6,-10}}, color={191,0,0}));
-  connect(ventil_Combles.ports2, ati.ports[2:2]) annotation (Line(points={{-231.92,
-          -14.15},{-228.96,-14.15},{-228.96,-13.2},{-226,-13.2}}, color={0,127,255}));
-  connect(ventil_Garage.ports2, gar.ports[1:1]) annotation (Line(points={{-139.92,
-          -52.15},{-137.96,-52.15},{-137.96,-52.8},{-136,-52.8}}, color={0,127,255}));
   connect(conCooRo1.P, ro1.heaPorAir) annotation (Line(points={{14,15},{16,15},
           {16,22},{0,22},{0,18},{-8.4,18}},color={191,0,0}));
   connect(conCooRo2.P, ro2.heaPorAir) annotation (Line(points={{74,14},{76,14},
@@ -1800,11 +1778,6 @@ equation
       thickness=0.5));
   connect(weaDat.weaBus, ro3.weaBus) annotation (Line(
       points={{-276,56},{-164,56},{-164,-94},{57.16,-94},{57.16,-46.84}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(ventil_Garage.weaBus, weaDat.weaBus) annotation (Line(
-      points={{-144.4,-53.3},{-146,-53.3},{-146,-94},{-164,-94},{-164,56},{-276,
-          56}},
       color={255,204,51},
       thickness=0.5));
   connect(radRo1.port_b, val_Chambre1.port_a) annotation (Line(points={{-8,-123},
@@ -2107,21 +2080,21 @@ equation
       points={{-276,56},{-226,56},{-226,77.9},{-219.9,77.9}},
       color={255,204,51},
       thickness=0.5));
-  connect(weaDat.weaBus, venRo1.weaBus) annotation (Line(
+  connect(weaDat.weaBus,infRo1. weaBus) annotation (Line(
       points={{-276,56},{-42,56},{-42,10},{-24,10}},
       color={255,204,51},
       thickness=0.5));
-  connect(venRo1.ports_b, ro1.ports[3:4]) annotation (Line(points={{-20.2,10},{
+  connect(infRo1.ports_b, ro1.ports[3:4]) annotation (Line(points={{-20.2,10},{
           -16,10},{-16,15.2},{-14,15.2}}, color={0,127,255}));
-  connect(venRo2.ports_b, ro2.ports[3:4]) annotation (Line(points={{35.8,12},{
+  connect(infRo2.ports_b, ro2.ports[3:4]) annotation (Line(points={{35.8,12},{
           42,12},{42,15.2},{44,15.2}}, color={0,127,255}));
-  connect(venRo2.weaBus, weaDat.weaBus) annotation (Line(
+  connect(infRo2.weaBus, weaDat.weaBus) annotation (Line(
       points={{32,12},{18,12},{18,56},{-276,56}},
       color={255,204,51},
       thickness=0.5));
-  connect(venRo3.ports_b, ro3.ports[3:4]) annotation (Line(points={{35.8,-70},{
+  connect(infRo3.ports_b, ro3.ports[3:4]) annotation (Line(points={{35.8,-70},{
           42,-70},{42,-56.8},{44,-56.8}}, color={0,127,255}));
-  connect(venRo3.weaBus, weaDat.weaBus) annotation (Line(
+  connect(infRo3.weaBus, weaDat.weaBus) annotation (Line(
       points={{32,-70},{30,-70},{30,-94},{-164,-94},{-164,56},{-276,56}},
       color={255,204,51},
       thickness=0.5));
@@ -2137,22 +2110,45 @@ equation
     annotation (Line(points={{28.3,-66},{31.6,-66}}, color={0,0,127}));
   connect(genCO2Ro3.y, ro3.C_flow[1]) annotation (Line(points={{36.2,-66},{40,
           -66},{40,-52.88},{41.36,-52.88}}, color={0,0,127}));
-  connect(venHal.ports_b, hal.ports[11:12]) annotation (Line(points={{39.8,-8},
+  connect(infHal.ports_b, hal.ports[11:12]) annotation (Line(points={{39.8,-8},
           {42,-8},{42,-12.5333},{46,-12.5333}}, color={0,127,255}));
-  connect(venBth.ports_b, bth.ports[3:4]) annotation (Line(points={{-24.2,-60},
+  connect(extBth.ports_b, bth.ports[3:4]) annotation (Line(points={{-24.2,-60},
           {-20,-60},{-20,-56.8},{-16,-56.8}}, color={0,127,255}));
-  connect(venBth.weaBus, bth.weaBus) annotation (Line(
+  connect(extBth.weaBus, bth.weaBus) annotation (Line(
       points={{-28,-60},{-32,-60},{-32,-94},{-2.84,-94},{-2.84,-46.84}},
       color={255,204,51},
       thickness=0.5));
-  connect(venHal.weaBus, hal.weaBus) annotation (Line(
+  connect(infHal.weaBus, hal.weaBus) annotation (Line(
       points={{36,-8},{36,-2.84},{59.16,-2.84}},
       color={255,204,51},
       thickness=0.5));
   connect(daySch.y, genCO2Liv.occFrac)
-    annotation (Line(points={{-117.7,22},{-112.4,22}}, color={0,0,127}));
-  connect(genCO2Liv.y, liv.C_flow[1]) annotation (Line(points={{-107.8,22},{
+    annotation (Line(points={{-111.7,22},{-108.4,22}}, color={0,0,127}));
+  connect(genCO2Liv.y, liv.C_flow[1]) annotation (Line(points={{-103.8,22},{
           -102,22},{-102,23.12},{-96.64,23.12}}, color={0,0,127}));
+  connect(dooOpeClo_Salon.port_a1, liv.ports[1]) annotation (Line(points={{-45,
+          -7.8},{-94,-7.8},{-94,16.72}}, color={0,127,255}));
+  connect(dooOpeClo_Salon.port_b2, liv.ports[2]) annotation (Line(points={{-45,
+          -13.2},{-94,-13.2},{-94,17.36}}, color={0,127,255}));
+  connect(venLiv.ports_b, liv.ports[3:5]) annotation (Line(points={{-104.2,18},
+          {-100,18},{-100,19.28},{-94,19.28}}, color={0,127,255}));
+  connect(venLiv.weaBus, liv.weaBus) annotation (Line(
+      points={{-108,18},{-132,18},{-132,56},{-80.84,56},{-80.84,29.16}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(infAti.ports_b, ati.ports[1:3]) annotation (Line(points={{-234.2,-24},
+          {-230,-24},{-230,-12.9333},{-226,-12.9333}}, color={0,127,255}));
+  connect(infAti.weaBus, weaDat.weaBus) annotation (Line(
+      points={{-238,-24},{-266,-24},{-266,56},{-276,56}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(infGar.ports_b, gar.ports[1:3]) annotation (Line(points={{-144.2,-56},
+          {-140,-56},{-140,-50.9333},{-136,-50.9333}}, color={0,127,255}));
+  connect(infGar.weaBus, gar.weaBus) annotation (Line(
+      points={{-148,-56},{-152,-56},{-152,-94},{-122.84,-94},{-122.84,-40.84}},
+
+      color={255,204,51},
+      thickness=0.5));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
