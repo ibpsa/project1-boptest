@@ -8,6 +8,7 @@ model BaseClass "Base class for ventilation"
   parameter Modelica.SIunits.MassFlowRate m_flow_vent = 1
     "Ventilation airflow that is infiltrated or extracted";
   parameter String zone="1" "Zone designation";
+  parameter Boolean isConditionedZone=true "True if the zone is conditioned";
 
   Modelica.Fluid.Interfaces.FluidPorts_b ports_b[nPorts](redeclare package
       Medium = MediumA)
@@ -27,11 +28,11 @@ model BaseClass "Base class for ventilation"
     annotation (Placement(transformation(extent={{50,60},{70,80}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="Air CO2 concentration of zone " + zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
+    KPIs=if isConditionedZone then IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration else IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm"),
-    zone=zone)   "Read room air CO2 concentration"
+    zone=zone) "Read room air CO2 concentration"
     annotation (Placement(transformation(extent={{80,60},{100,80}})));
+
 equation
   connect(ports_b[1], senCO2.port) annotation (Line(points={{90,20},{17,20},{17,
           60},{-10,60}},
