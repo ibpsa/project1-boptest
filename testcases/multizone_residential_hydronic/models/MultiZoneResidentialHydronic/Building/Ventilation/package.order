@@ -3,5 +3,6 @@ Ventil_5
 Ventil_4bis
 Ventil_5bis
 BaseClass
-Infiltration
+InfiltrationExtraction
+InfiltrationExtractionBoundary
 GenCO2
