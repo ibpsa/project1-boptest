@@ -247,6 +247,7 @@ public
 
   Buildings.ThermalZones.Detailed.MixedAir liv(
     redeclare package Medium = MediumA,
+    use_C_flow=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
@@ -517,18 +518,18 @@ public
   Modelica.Blocks.Sources.RealExpression realExpression5(y=q_conv_Nuit.Q_conv)
     annotation (Placement(transformation(extent={{22,-52},{28,-46}})));
   Modelica.Blocks.Sources.Constant qLat_Chambre4(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-116,16},{-112,20}})));
+    annotation (Placement(transformation(extent={{-120,28},{-116,32}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_Chambre4
-    annotation (Placement(transformation(extent={{-106,22},{-102,26}})));
+    annotation (Placement(transformation(extent={{-110,32},{-106,36}})));
   Modelica.Blocks.Sources.RealExpression realExpression6(y=q_rad_Jour.Q_rad)
-    annotation (Placement(transformation(extent={{-118,24},{-112,30}})));
+    annotation (Placement(transformation(extent={{-122,36},{-116,42}})));
   Modelica.Blocks.Sources.RealExpression realExpression7(y=q_conv_Jour.Q_conv)
-    annotation (Placement(transformation(extent={{-118,20},{-112,26}})));
+    annotation (Placement(transformation(extent={{-122,32},{-116,38}})));
   Modelica.Blocks.Sources.Constant uSha_Salon(k=0)
     "Control signal for the shading device"
-    annotation (Placement(transformation(extent={{-114,34},{-110,38}})));
+    annotation (Placement(transformation(extent={{-118,44},{-114,48}})));
   Modelica.Blocks.Routing.Replicator replicator_Salon(nout=max(1, 2))
-    annotation (Placement(transformation(extent={{-106,34},{-102,38}})));
+    annotation (Placement(transformation(extent={{-110,44},{-106,48}})));
   Modelica.Blocks.Sources.Constant uSha_Chambre1(
                                                 k=0)
     "Control signal for the shading device"
@@ -747,7 +748,7 @@ public
         rotation=90,
         origin={29.5,-18.5})));
   Modelica.Blocks.Sources.RealExpression realExpression11(y=OpenDoors)
-    annotation (Placement(transformation(extent={{-58,-14},{-54,-8}})));
+    annotation (Placement(transformation(extent={{-60,-14},{-54,-8}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor T_Couloir
     "Temprature de la zone"
     annotation (Placement(transformation(extent={{62,-14},{66,-10}})));
@@ -1342,6 +1343,11 @@ public
         Q_Chambre2 + Q_Chambre3)*OpenDoors - 0.001,  zone="Bth")
     "Ventilation of bathroom"
     annotation (Placement(transformation(extent={{-28,-62},{-24,-58}})));
+  Modelica.Blocks.Sources.RealExpression daySch(y=schedules_MI_ZoneJour.OccupRateRT12)
+    "Day schedule"
+    annotation (Placement(transformation(extent={{-124,20},{-118,24}})));
+  Building.Ventilation.GenCO2 genCO2Liv(nOcc=4) "CO2 generation in living room"
+    annotation (Placement(transformation(extent={{-112,20},{-108,24}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1475,25 +1481,28 @@ equation
           -50},{40,-50},{40,-52},{41.36,-52},{41.36,-50.8}},
                                       color={0,0,127}));
   connect(qLat_Chambre4.y, multiplex3_Chambre4.u3[1]) annotation (Line(
-        points={{-111.8,18},{-110,18},{-110,22.6},{-106.4,22.6}},
+        points={{-115.8,30},{-110,30},{-110,32.6},{-110.4,32.6}},
                                                               color={0,0,
           127}));
   connect(realExpression7.y, multiplex3_Chambre4.u2[1]) annotation (Line(
-        points={{-111.7,23},{-110,23},{-110,24},{-106.4,24}},
+        points={{-115.7,35},{-110,35},{-110,34},{-110.4,34}},
                                                           color={0,0,127}));
   connect(multiplex3_Chambre4.u1[1], realExpression6.y) annotation (Line(
-        points={{-106.4,25.4},{-110,25.4},{-110,27},{-111.7,27}},
+        points={{-110.4,35.4},{-114,35.4},{-114,39},{-115.7,39}},
                                                               color={0,0,
           127}));
-  connect(multiplex3_Chambre4.y, liv.qGai_flow) annotation (Line(points={{-101.8,
-          24},{-96.64,24},{-96.64,25.2}}, color={0,0,127}));
+  connect(multiplex3_Chambre4.y, liv.qGai_flow) annotation (Line(points={{-105.8,
+          34},{-104,34},{-104,26},{-96.64,26},{-96.64,25.2}},
+                                          color={0,0,127}));
   connect(uSha_Salon.y, replicator_Salon.u)
-    annotation (Line(points={{-109.8,36},{-106.4,36}},
+    annotation (Line(points={{-113.8,46},{-110.4,46}},
                                                      color={0,0,127}));
-  connect(replicator_Salon.y[1], liv.uSha[1]) annotation (Line(points={{-101.8,36},
-          {-100,36},{-100,28.88},{-96.64,28.88}}, color={0,0,127}));
-  connect(replicator_Salon.y[2], liv.uSha[2]) annotation (Line(points={{-101.8,36},
-          {-100,36},{-100,29.52},{-96.64,29.52}}, color={0,0,127}));
+  connect(replicator_Salon.y[1], liv.uSha[1]) annotation (Line(points={{-105.8,
+          46},{-100,46},{-100,28.88},{-96.64,28.88}},
+                                                  color={0,0,127}));
+  connect(replicator_Salon.y[2], liv.uSha[2]) annotation (Line(points={{-105.8,
+          46},{-100,46},{-100,29.52},{-96.64,29.52}},
+                                                  color={0,0,127}));
   connect(uSha_Chambre1.y, replicator_Chambre1.u)
     annotation (Line(points={{-31.8,36},{-28.4,36}},
                                                    color={0,0,127}));
@@ -1595,7 +1604,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(prescribedText.port, con_Salon.port_a) annotation (Line(points={{-142,63},
-          {-122,63},{-122,62},{-122,44},{-94,44},{-94,37},{-92,37}},     color={
+          {-122,63},{-122,50},{-94,50},{-94,37},{-92,37}},               color={
           191,0,0}));
   connect(con_Salon.port_b, liv.heaPorAir) annotation (Line(points={{-86,37},{-86,
           37},{-86,36},{-84,36},{-84,32},{-88.4,32},{-88.4,22}}, color={191,0,0}));
@@ -1651,14 +1660,14 @@ equation
       points={{-276,56},{-236.4,56},{-236.4,-15.3}},
       color={255,204,51},
       thickness=0.5));
-  connect(realExpression11.y, dooOpeClo_Salon.y) annotation (Line(points={{-53.8,
+  connect(realExpression11.y, dooOpeClo_Salon.y) annotation (Line(points={{-53.7,
           -11},{-45.45,-11},{-45.45,-10.5}}, color={0,0,127}));
   connect(dooOpeClo_Chambre1.y, realExpression11.y) annotation (Line(points={{-10.5,
-          2.45},{-10.5,4},{-48,4},{-48,-11},{-53.8,-11}}, color={0,0,127}));
+          2.45},{-10.5,4},{-48,4},{-48,-11},{-53.7,-11}}, color={0,0,127}));
   connect(dooOpeClo_Chambre2.y, realExpression11.y) annotation (Line(points={{27.5,
-          2.45},{27.5,4},{-48,4},{-48,-11},{-53.8,-11}}, color={0,0,127}));
+          2.45},{27.5,4},{-48,4},{-48,-11},{-53.7,-11}}, color={0,0,127}));
   connect(dooOpeClo_Chambre3.y, realExpression11.y) annotation (Line(points={{29.5,
-          -23.45},{29.5,-30},{-48,-30},{-48,-11},{-53.8,-11}}, color={0,0,127}));
+          -23.45},{29.5,-30},{-48,-30},{-48,-11},{-53.7,-11}}, color={0,0,127}));
   connect(dooOpeClo_Chambre2.port_b2, ro2.ports[1]) annotation (Line(points={{24.8,2},
           {26,2},{26,6},{38,6},{38,10},{44,10},{44,12.8}},  color={0,127,255}));
   connect(dooOpeClo_Chambre2.port_a1, ro2.ports[2]) annotation (Line(points={{30.2,2},
@@ -1748,8 +1757,8 @@ equation
   connect(T_sol.port, gar.surf_conBou[2]) annotation (Line(points={{46,87},{58,87},
           {58,88},{58,66},{86,66},{86,-74},{-127.6,-74},{-127.6,-54.2}}, color={
           191,0,0}));
-  connect(dooOpeClo_SDB.y, realExpression11.y) annotation (Line(points={{
-          -10.5,-23.45},{-10.5,-30},{-48,-30},{-48,-11},{-53.8,-11}}, color=
+  connect(dooOpeClo_SDB.y, realExpression11.y) annotation (Line(points={{-10.5,
+          -23.45},{-10.5,-30},{-48,-30},{-48,-11},{-53.7,-11}},       color=
          {0,0,127}));
   connect(con_Couloir.port_b, hal.heaPorAir) annotation (Line(points={{64,-5},{64,
           -5},{64,-6},{51.6,-6},{51.6,-10}}, color={191,0,0}));
@@ -2140,6 +2149,10 @@ equation
       points={{36,-8},{36,-2.84},{59.16,-2.84}},
       color={255,204,51},
       thickness=0.5));
+  connect(daySch.y, genCO2Liv.occFrac)
+    annotation (Line(points={{-117.7,22},{-112.4,22}}, color={0,0,127}));
+  connect(genCO2Liv.y, liv.C_flow[1]) annotation (Line(points={{-107.8,22},{
+          -102,22},{-102,23.12},{-96.64,23.12}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
