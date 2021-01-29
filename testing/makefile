@@ -168,7 +168,7 @@ test_multizone_residential_hydronic:
 	cd .. &&  make build TESTCASE=multizone_residential_hydronic
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=multizone_residential_hydronic
-	python sleep10.py
+	python sleep10.py && python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_multizone_residential_hydronic.py
 # Stop testcase container
