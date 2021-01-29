@@ -57,7 +57,7 @@ protected
   parameter Modelica.SIunits.Length H_Combles = 1.84 "Attic height";
   parameter Modelica.SIunits.ThermalConductivity k_PT = 9.7/42.8 "Thermal bridges coefficient";
   parameter Modelica.SIunits.Density d_air = 1.184 "Air density";
-  parameter Modelica.SIunits.MassFlowRate Q_batiment = 113.4/3600*d_air "Global mechanical ventilation airflow";
+  Modelica.SIunits.MassFlowRate Q_batiment = conVentilation.m_flow_extraction "Global mechanical ventilation airflow";
 
   // ===================================================================== //
   // =================== DO NOT MODIFY  =================== //
@@ -80,7 +80,7 @@ protected
   parameter Modelica.SIunits.Area Spi_Garage_Salon = 8.5 * HSP * sqrt(S/S_ref);
   parameter Modelica.SIunits.Area Spl_Garage_Combles = S_Garage;
   parameter Modelica.SIunits.Area Spl_Garage_exterieur = S_Garage;
-  parameter Modelica.SIunits.MassFlowRate Q_Garage = 0.5*S_Garage*HSP/3600*d_air;
+  Modelica.SIunits.MassFlowRate Q_Garage = 0.5*S_Garage*HSP/3600*d_air;
 
   // Living room
   parameter Modelica.SIunits.Area S_Salon = 30.32 * S/S_ref;
@@ -96,7 +96,7 @@ protected
   parameter Modelica.SIunits.Area Spl_Salon_exterieur = S_Salon;
   parameter Modelica.SIunits.Area Sf_Salon_Nord = 3.65 * sqrt(S/S_ref);
   parameter Modelica.SIunits.Area Sf_Salon_Sud = 5.52 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.MassFlowRate Q_Salon = Q_batiment * S_Salon/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  Modelica.SIunits.MassFlowRate Q_Salon = Q_batiment * S_Salon/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
 
   // Room 1
   parameter Modelica.SIunits.Area S_Chambre1 = 11.16 * S/S_ref;
@@ -108,7 +108,7 @@ protected
   parameter Modelica.SIunits.Area Spl_Chambre1_Combles = S_Chambre1;
   parameter Modelica.SIunits.Area Spl_Chambre1_exterieur = S_Chambre1;
   parameter Modelica.SIunits.Area Sf_Chambre1_Sud = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.MassFlowRate Q_Chambre1 = Q_batiment * S_Chambre1/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  Modelica.SIunits.MassFlowRate Q_Chambre1 = Q_batiment * S_Chambre1/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
 
   // Room 2
   parameter Modelica.SIunits.Area S_Chambre2 = 9.85 * S/S_ref;
@@ -120,7 +120,7 @@ protected
   parameter Modelica.SIunits.Area Spl_Chambre2_Combles = S_Chambre2;
   parameter Modelica.SIunits.Area Spl_Chambre2_exterieur = S_Chambre2;
   parameter Modelica.SIunits.Area Sf_Chambre2_Sud = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.MassFlowRate Q_Chambre2 = Q_batiment * S_Chambre2/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  Modelica.SIunits.MassFlowRate Q_Chambre2 = Q_batiment * S_Chambre2/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
 
   // Room 3
   parameter Modelica.SIunits.Area S_Chambre3 = 14.28 * S/S_ref;
@@ -132,7 +132,7 @@ protected
   parameter Modelica.SIunits.Area Spl_Chambre3_Combles = S_Chambre3;
   parameter Modelica.SIunits.Area Spl_Chambre3_exterieur = S_Chambre3;
   parameter Modelica.SIunits.Area Sf_Chambre3_Nord = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.MassFlowRate Q_Chambre3 = Q_batiment * S_Chambre3/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  Modelica.SIunits.MassFlowRate Q_Chambre3 = Q_batiment * S_Chambre3/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
 
   // Bathroom
   parameter Modelica.SIunits.Area S_SDB = 6.46 * S/S_ref;
@@ -171,7 +171,7 @@ protected
   parameter Modelica.SIunits.Area Spl_Combles_Chambre3 = Spl_Chambre3_Combles;
   parameter Modelica.SIunits.Area Spl_Combles_SDB = Spl_SDB_Combles;
   parameter Modelica.SIunits.Area Spl_Combles_Couloir = Spl_Couloir_Combles;
-  parameter Modelica.SIunits.MassFlowRate Q_Combles = 0.5*S_Combles*H_Combles/2/3600*d_air;
+  Modelica.SIunits.MassFlowRate Q_Combles = 0.5*S_Combles*H_Combles/2/3600*d_air;
 
   Modelica.Blocks.Sources.BooleanExpression boolean_ModeDHW(y=false)
     annotation (Placement(transformation(extent={{-190,-170},{-178,-154}})));
@@ -494,13 +494,13 @@ public
   Modelica.Blocks.Sources.Constant qLat_SDB(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-38,-60},{-34,-56}})));
   Modelica.Blocks.Sources.Constant qLat_Chambre1(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-36,18},{-32,22}})));
+    annotation (Placement(transformation(extent={{-36,22},{-32,26}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_Chambre1
-    annotation (Placement(transformation(extent={{-24,18},{-20,22}})));
+    annotation (Placement(transformation(extent={{-24,20},{-20,24}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=q_rad_Nuit.Q_rad)
-    annotation (Placement(transformation(extent={{-36,26},{-30,32}})));
+    annotation (Placement(transformation(extent={{-36,30},{-30,36}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=q_conv_Nuit.Q_conv)
-    annotation (Placement(transformation(extent={{-36,22},{-30,28}})));
+    annotation (Placement(transformation(extent={{-36,26},{-30,32}})));
   Modelica.Blocks.Sources.Constant qLat_Chambre2(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{22,22},{26,26}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_Chambre2
@@ -533,9 +533,9 @@ public
   Modelica.Blocks.Sources.Constant uSha_Chambre1(
                                                 k=0)
     "Control signal for the shading device"
-    annotation (Placement(transformation(extent={{-36,34},{-32,38}})));
+    annotation (Placement(transformation(extent={{-36,38},{-32,42}})));
   Modelica.Blocks.Routing.Replicator replicator_Chambre1(nout=max(1, 1))
-    annotation (Placement(transformation(extent={{-28,34},{-24,38}})));
+    annotation (Placement(transformation(extent={{-28,38},{-24,42}})));
   Modelica.Blocks.Sources.Constant uSha_Chambre2(
                                                 k=0)
     "Control signal for the shading device"
@@ -1305,56 +1305,81 @@ public
     annotation (Placement(transformation(extent={{-110,-50},{-104,-44}})));
   IBPSA.Utilities.IO.SignalExchange.WeatherStation weatherStation
     annotation (Placement(transformation(extent={{-220,68},{-200,88}})));
-  Building.Ventilation.InfiltrationExtraction infRo1(m_flow_vent=Q_Chambre1,
+  Building.Ventilation.InfiltrationExtraction infRo1(
       zone="Ro1") "Infiltration to room 1"
     annotation (Placement(transformation(extent={{-24,8},{-20,12}})));
-  Building.Ventilation.InfiltrationExtraction infRo2(m_flow_vent=Q_Chambre2,
+  Building.Ventilation.InfiltrationExtraction infRo2(
       zone="Ro2") "Infiltration to room 2"
     annotation (Placement(transformation(extent={{32,10},{36,14}})));
-  Building.Ventilation.InfiltrationExtraction infRo3(m_flow_vent=Q_Chambre3,
+  Building.Ventilation.InfiltrationExtraction infRo3(
       zone="Ro3") "Infiltration to room 3"
     annotation (Placement(transformation(extent={{32,-72},{36,-68}})));
   Building.Ventilation.GenCO2 genCO2Ro1(nOcc=1)  "CO2 generation in room 1"
     annotation (Placement(transformation(extent={{-24,12},{-20,16}})));
   Modelica.Blocks.Sources.RealExpression nightSch1(y=schedules_MI_ZoneNuit.OccupRateRT12)
     "Night schedule"
-    annotation (Placement(transformation(extent={{-36,12},{-30,16}})));
+    annotation (Placement(transformation(extent={{-36,16},{-30,20}})));
   Building.Ventilation.GenCO2 genCO2Ro2(nOcc=1) "CO2 generation in room 2"
     annotation (Placement(transformation(extent={{32,14},{36,18}})));
   Modelica.Blocks.Sources.RealExpression nightSch2(y=schedules_MI_ZoneNuit.OccupRateRT12)
     "Night schedule"
-    annotation (Placement(transformation(extent={{22,14},{28,18}})));
+    annotation (Placement(transformation(extent={{22,16},{28,20}})));
   Modelica.Blocks.Sources.RealExpression nightSch3(y=schedules_MI_ZoneNuit.OccupRateRT12)
     "Night schedule"
-    annotation (Placement(transformation(extent={{22,-68},{28,-64}})));
+    annotation (Placement(transformation(extent={{22,-66},{28,-62}})));
   Building.Ventilation.GenCO2 genCO2Ro3(nOcc=2) "CO2 generation in room 3"
     annotation (Placement(transformation(extent={{32,-68},{36,-64}})));
-  Building.Ventilation.InfiltrationExtraction infHal(m_flow_vent=0, zone="Hal")
+  Building.Ventilation.InfiltrationExtraction infHal(               zone="Hal")
     "Infiltration to hall"
-    annotation (Placement(transformation(extent={{36,-10},{40,-6}})));
-  Building.Ventilation.InfiltrationExtraction extBth(m_flow_vent=-0.8*(
-        Q_Chambre1 + Q_Chambre2 + Q_Chambre3)*OpenDoors - 0.001, zone="Bth")
+    annotation (Placement(transformation(extent={{36,-12},{40,-8}})));
+  Building.Ventilation.InfiltrationExtraction extBth(zone="Bth")
     "Extraction from bathroom"
-    annotation (Placement(transformation(extent={{-28,-62},{-24,-58}})));
+    annotation (Placement(transformation(extent={{-26,-68},{-22,-64}})));
   Modelica.Blocks.Sources.RealExpression daySch(y=schedules_MI_ZoneJour.OccupRateRT12)
     "Day schedule"
-    annotation (Placement(transformation(extent={{-118,20},{-112,24}})));
+    annotation (Placement(transformation(extent={{-120,22},{-114,26}})));
   Building.Ventilation.GenCO2 genCO2Liv(nOcc=4) "CO2 generation in living room"
     annotation (Placement(transformation(extent={{-108,20},{-104,24}})));
-  Building.Ventilation.InfiltrationExtractionBoundary venLiv(m_flow_vent=-
-        Q_Salon - 0.2*(Q_Chambre1 + Q_Chambre2 + Q_Chambre3)*OpenDoors, zone=
-        "Liv") "Ventilation to living room"
+  Building.Ventilation.InfiltrationExtractionBoundary extLiv(zone=
+        "Liv") "Extraction from living room"
     annotation (Placement(transformation(extent={{-108,16},{-104,20}})));
   Building.Ventilation.InfiltrationExtractionBoundary infAti(
-    m_flow_vent=Q_Combles,
     zone="Ati",
     isConditionedZone=false) "Infiltration to attic"
     annotation (Placement(transformation(extent={{-238,-26},{-234,-22}})));
   Building.Ventilation.InfiltrationExtractionBoundary infGar(
-    m_flow_vent=Q_Garage,
     zone="Gar",
     isConditionedZone=false) "Infiltration to garage"
-    annotation (Placement(transformation(extent={{-148,-58},{-144,-54}})));
+    annotation (Placement(transformation(extent={{-148,-66},{-144,-62}})));
+  Building.Control.ConVentilation conVentilation(d_air=d_air)
+    "Sets global mass flow rate for mechanical ventilation"
+    annotation (Placement(transformation(extent={{-360,-100},{-340,-80}})));
+  Modelica.Blocks.Sources.RealExpression extLivExp(y=-Q_Salon - 0.2*(Q_Chambre1 +
+        Q_Chambre2 + Q_Chambre3)*OpenDoors)
+    "Expression for extraction from living room"
+    annotation (Placement(transformation(extent={{-120,18},{-114,22}})));
+  Modelica.Blocks.Sources.RealExpression infRo1Exp(y=Q_Chambre1)
+    "Expression for infiltration to room 1"
+    annotation (Placement(transformation(extent={{-36,10},{-30,14}})));
+  Modelica.Blocks.Sources.RealExpression infRo2Exp(y=Q_Chambre2)
+    "Expression for infiltration to room 2"
+    annotation (Placement(transformation(extent={{22,12},{28,16}})));
+  Modelica.Blocks.Sources.RealExpression infHalExp(y=0)
+    "Expression for infiltration to hall"
+    annotation (Placement(transformation(extent={{12,-6},{18,-2}})));
+  Modelica.Blocks.Sources.RealExpression infRo3Exp(y=Q_Chambre3)
+    "Expression for infiltration to room 3"
+    annotation (Placement(transformation(extent={{22,-70},{28,-66}})));
+  Modelica.Blocks.Sources.RealExpression extBthExp(y=-0.8*(Q_Chambre1 +
+        Q_Chambre2 + Q_Chambre3)*OpenDoors - 0.001)
+    "Expression for estraction from bathroom"
+    annotation (Placement(transformation(extent={{-36,-66},{-30,-62}})));
+  Modelica.Blocks.Sources.RealExpression infGarExp(y=Q_Garage)
+    "Expression for infiltration to garage"
+    annotation (Placement(transformation(extent={{-158,-62},{-152,-58}})));
+  Modelica.Blocks.Sources.RealExpression infAtiExp(y=Q_Combles)
+    "Expression for infiltration to attic"
+    annotation (Placement(transformation(extent={{-248,-24},{-242,-20}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1457,15 +1482,15 @@ equation
   connect(qLat_SDB.y, multiplex3_SDB.u3[1]) annotation (Line(points={{-33.8,-58},
           {-32,-58},{-32,-53.4},{-28.4,-53.4}}, color={0,0,127}));
   connect(multiplex3_Chambre1.y, ro1.qGai_flow) annotation (Line(points={{-19.8,
-          20},{-16.64,20},{-16.64,21.2}}, color={0,0,127}));
+          22},{-16.64,22},{-16.64,21.2}}, color={0,0,127}));
   connect(qLat_Chambre1.y, multiplex3_Chambre1.u3[1]) annotation (Line(
-        points={{-31.8,20},{-30,20},{-30,18.6},{-24.4,18.6}},
+        points={{-31.8,24},{-30,24},{-30,20.6},{-24.4,20.6}},
                                                           color={0,0,127}));
   connect(realExpression1.y, multiplex3_Chambre1.u2[1]) annotation (Line(
-        points={{-29.7,25},{-28,25},{-28,20},{-24.4,20}},
+        points={{-29.7,29},{-28,29},{-28,22},{-24.4,22}},
                                                       color={0,0,127}));
   connect(multiplex3_Chambre1.u1[1], realExpression.y) annotation (Line(
-        points={{-24.4,21.4},{-26,21.4},{-26,29},{-29.7,29}},
+        points={{-24.4,23.4},{-26,23.4},{-26,33},{-29.7,33}},
                                                           color={0,0,127}));
   connect(qLat_Chambre2.y, multiplex3_Chambre2.u3[1]) annotation (Line(
         points={{26.2,24},{30,24},{30,28.6},{31.6,28.6}}, color={0,0,127}));
@@ -1511,10 +1536,10 @@ equation
           46},{-100,46},{-100,29.52},{-96.64,29.52}},
                                                   color={0,0,127}));
   connect(uSha_Chambre1.y, replicator_Chambre1.u)
-    annotation (Line(points={{-31.8,36},{-28.4,36}},
+    annotation (Line(points={{-31.8,40},{-28.4,40}},
                                                    color={0,0,127}));
   connect(replicator_Chambre1.y[1], ro1.uSha[1]) annotation (Line(points={{-23.8,
-          36},{-20,36},{-20,25.2},{-16.64,25.2}}, color={0,0,127}));
+          40},{-20,40},{-20,25.2},{-16.64,25.2}}, color={0,0,127}));
   connect(uSha_Chambre2.y, replicator_Chambre2.u)
     annotation (Line(points={{28.2,40},{29.6,40}}, color={0,0,127}));
   connect(replicator_Chambre2.y[1], ro2.uSha[1]) annotation (Line(points={{34.2,40},
@@ -2099,40 +2124,44 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(nightSch1.y, genCO2Ro1.occFrac)
-    annotation (Line(points={{-29.7,14},{-24.4,14}}, color={0,0,127}));
+    annotation (Line(points={{-29.7,18},{-28,18},{-28,14},{-24.4,14}},
+                                                     color={0,0,127}));
   connect(genCO2Ro1.y, ro1.C_flow[1]) annotation (Line(points={{-19.8,14},{-18,
           14},{-18,19.12},{-16.64,19.12}}, color={0,0,127}));
   connect(nightSch2.y, genCO2Ro2.occFrac)
-    annotation (Line(points={{28.3,16},{31.6,16}}, color={0,0,127}));
+    annotation (Line(points={{28.3,18},{30,18},{30,16},{31.6,16}},
+                                                   color={0,0,127}));
   connect(genCO2Ro2.y, ro2.C_flow[1]) annotation (Line(points={{36.2,16},{38,16},
           {38,19.12},{41.36,19.12}}, color={0,0,127}));
   connect(nightSch3.y, genCO2Ro3.occFrac)
-    annotation (Line(points={{28.3,-66},{31.6,-66}}, color={0,0,127}));
+    annotation (Line(points={{28.3,-64},{30,-64},{30,-66},{31.6,-66}},
+                                                     color={0,0,127}));
   connect(genCO2Ro3.y, ro3.C_flow[1]) annotation (Line(points={{36.2,-66},{40,
           -66},{40,-52.88},{41.36,-52.88}}, color={0,0,127}));
-  connect(infHal.ports_b, hal.ports[11:12]) annotation (Line(points={{39.8,-8},
-          {42,-8},{42,-12.5333},{46,-12.5333}}, color={0,127,255}));
-  connect(extBth.ports_b, bth.ports[3:4]) annotation (Line(points={{-24.2,-60},
-          {-20,-60},{-20,-56.8},{-16,-56.8}}, color={0,127,255}));
+  connect(infHal.ports_b, hal.ports[11:12]) annotation (Line(points={{39.8,-10},
+          {42,-10},{42,-12.5333},{46,-12.5333}},color={0,127,255}));
+  connect(extBth.ports_b, bth.ports[3:4]) annotation (Line(points={{-22.2,-66},
+          {-20,-66},{-20,-56.8},{-16,-56.8}}, color={0,127,255}));
   connect(extBth.weaBus, bth.weaBus) annotation (Line(
-      points={{-28,-60},{-32,-60},{-32,-94},{-2.84,-94},{-2.84,-46.84}},
+      points={{-26,-66},{-30,-66},{-30,-94},{-2.84,-94},{-2.84,-46.84}},
       color={255,204,51},
       thickness=0.5));
   connect(infHal.weaBus, hal.weaBus) annotation (Line(
-      points={{36,-8},{36,-2.84},{59.16,-2.84}},
+      points={{36,-10},{36,-2.84},{59.16,-2.84}},
       color={255,204,51},
       thickness=0.5));
   connect(daySch.y, genCO2Liv.occFrac)
-    annotation (Line(points={{-111.7,22},{-108.4,22}}, color={0,0,127}));
+    annotation (Line(points={{-113.7,24},{-110,24},{-110,22},{-108.4,22}},
+                                                       color={0,0,127}));
   connect(genCO2Liv.y, liv.C_flow[1]) annotation (Line(points={{-103.8,22},{
           -102,22},{-102,23.12},{-96.64,23.12}}, color={0,0,127}));
   connect(dooOpeClo_Salon.port_a1, liv.ports[1]) annotation (Line(points={{-45,
           -7.8},{-94,-7.8},{-94,16.72}}, color={0,127,255}));
   connect(dooOpeClo_Salon.port_b2, liv.ports[2]) annotation (Line(points={{-45,
           -13.2},{-94,-13.2},{-94,17.36}}, color={0,127,255}));
-  connect(venLiv.ports_b, liv.ports[3:5]) annotation (Line(points={{-104.2,18},
+  connect(extLiv.ports_b, liv.ports[3:5]) annotation (Line(points={{-104.2,18},
           {-100,18},{-100,19.28},{-94,19.28}}, color={0,127,255}));
-  connect(venLiv.weaBus, liv.weaBus) annotation (Line(
+  connect(extLiv.weaBus, liv.weaBus) annotation (Line(
       points={{-108,18},{-132,18},{-132,56},{-80.84,56},{-80.84,29.16}},
       color={255,204,51},
       thickness=0.5));
@@ -2142,13 +2171,29 @@ equation
       points={{-238,-24},{-266,-24},{-266,56},{-276,56}},
       color={255,204,51},
       thickness=0.5));
-  connect(infGar.ports_b, gar.ports[1:3]) annotation (Line(points={{-144.2,-56},
-          {-140,-56},{-140,-50.9333},{-136,-50.9333}}, color={0,127,255}));
+  connect(infGar.ports_b, gar.ports[1:3]) annotation (Line(points={{-144.2,-64},
+          {-140,-64},{-140,-50.9333},{-136,-50.9333}}, color={0,127,255}));
   connect(infGar.weaBus, gar.weaBus) annotation (Line(
-      points={{-148,-56},{-152,-56},{-152,-94},{-122.84,-94},{-122.84,-40.84}},
-
+      points={{-148,-64},{-152,-64},{-152,-94},{-122.84,-94},{-122.84,-40.84}},
       color={255,204,51},
       thickness=0.5));
+
+  connect(extLivExp.y, extLiv.m_flow) annotation (Line(points={{-113.7,20},{-110,
+          20},{-110,18.6},{-108.4,18.6}}, color={0,0,127}));
+  connect(infRo1Exp.y, infRo1.m_flow) annotation (Line(points={{-29.7,12},{-26,12},
+          {-26,10.6},{-24.4,10.6}}, color={0,0,127}));
+  connect(infRo2Exp.y, infRo2.m_flow) annotation (Line(points={{28.3,14},{30,14},
+          {30,12.6},{31.6,12.6}}, color={0,0,127}));
+  connect(infHalExp.y, infHal.m_flow) annotation (Line(points={{18.3,-4},{20,-4},
+          {20,-9.4},{35.6,-9.4}}, color={0,0,127}));
+  connect(infRo3Exp.y, infRo3.m_flow) annotation (Line(points={{28.3,-68},{30,-68},
+          {30,-69.4},{31.6,-69.4}}, color={0,0,127}));
+  connect(extBthExp.y, extBth.m_flow) annotation (Line(points={{-29.7,-64},{-28,
+          -64},{-28,-65.4},{-26.4,-65.4}}, color={0,0,127}));
+  connect(infGarExp.y, infGar.m_flow) annotation (Line(points={{-151.7,-60},{-150,
+          -60},{-150,-63.4},{-148.4,-63.4}}, color={0,0,127}));
+  connect(infAtiExp.y, infAti.m_flow) annotation (Line(points={{-241.7,-22},{-240,
+          -22},{-240,-23.4},{-238.4,-23.4}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,

@@ -5,8 +5,6 @@ model BaseClass "Base class for ventilation"
                                                     iconTransformation(extent={{-110,
             -10},{-90,10}})));
   parameter Integer nPorts=2 "Number of ports";
-  parameter Modelica.SIunits.MassFlowRate m_flow_vent = 1
-    "Ventilation airflow that is infiltrated or extracted";
   parameter String zone="1" "Zone designation";
   parameter Boolean isConditionedZone=true "True if the zone is conditioned";
 
@@ -33,6 +31,9 @@ model BaseClass "Base class for ventilation"
     zone=zone) "Read room air CO2 concentration"
     annotation (Placement(transformation(extent={{80,60},{100,80}})));
 
+  Modelica.Blocks.Interfaces.RealInput m_flow
+    "Ventilation airflow that is infiltrated or extracted"
+    annotation (Placement(transformation(extent={{-140,10},{-100,50}})));
 equation
   connect(ports_b[1], senCO2.port) annotation (Line(points={{90,20},{17,20},{17,
           60},{-10,60}},
