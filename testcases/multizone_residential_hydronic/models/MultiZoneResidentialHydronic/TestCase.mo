@@ -1,4 +1,4 @@
-within MultiZoneResidentialHydronic;
+﻿within MultiZoneResidentialHydronic;
 model TestCase "Multi zone residential hydronic example model"
 
   extends Modelica.Icons.Example;
@@ -57,7 +57,7 @@ protected
   parameter Modelica.SIunits.Length H_Combles = 1.84 "Attic height";
   parameter Modelica.SIunits.ThermalConductivity k_PT = 9.7/42.8 "Thermal bridges coefficient";
   parameter Modelica.SIunits.Density d_air = 1.184 "Air density";
-  parameter Modelica.SIunits.MassFlowRate Q_batiment = 113.4/3600*d_air "Global mechanical ventilation airflow";
+  parameter Modelica.SIunits.MassFlowRate Q_batiment = 113.4/3600*d_air "Global mechanical ventilation airflow, this is approximately 1 m3/h/m2 ";
 
   // ===================================================================== //
   // =================== DO NOT MODIFY  =================== //
@@ -2146,9 +2146,9 @@ equation
           {-140,-56},{-140,-50.9333},{-136,-50.9333}}, color={0,127,255}));
   connect(infGar.weaBus, gar.weaBus) annotation (Line(
       points={{-148,-56},{-152,-56},{-152,-94},{-122.84,-94},{-122.84,-40.84}},
-
       color={255,204,51},
       thickness=0.5));
+
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
@@ -2274,8 +2274,8 @@ of the boiler
           textString="Living room (Liv)")}),
     Documentation(info="<html>
 <p>
-This is a multi zone residential hydronic system model 
-for WP 1.2 of IBPSA project 1. 
+This is the multi zone residential hydronic emulator model 
+of BOPTEST. 
 </p>
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
@@ -2365,9 +2365,8 @@ Each space (room) has its own thermal behaviour as a result of the boundary cond
 (climate, adjacent spaces, etc.) and the internal conditions (internal loads, scenarios, etc.)
 </p>
 <p>
-The thermal bridges effect was taken into account by the intermediate of thermal resistance 
-parameterized with the length building element assimilated to the thermal bridge and a thermal 
-bridges coefficient (<i>k_PT</i>).
+The thermal bridges effect is modeled through thermal resistances that are
+parameterized with the length of the bridge element and a thermal coefficient (<i>k_PT</i>).
 </p>
 
 <h4>Occupancy schedules</h4>
@@ -2380,9 +2379,15 @@ M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 20
 <p>
 For example, the building is considered occupied continuously by four adults from 19PM to 10AM 
 for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends. 
+During the periods that the building is occupied, the occupants are considered to be either
+all in the living room during day-time, or distributed in their rooms during night-time. 
+There is a short transition period (one hour) on the switching between day- and night-time when 
+the living room and bedrooms are considered to be occupied to half of their nominal capacity each. 
+A reduction of 30&percnt; of the internal loads due to occupants is observed during the night-time. 
+</p>
+<p>
 On a yearly basis, the building is considered unoccupied one week at the end of December and 
-two weeks in August. A reduction of 30&percnt; of the internal loads due to occupants is observed 
-during the nighttime. 
+two weeks in August. 
 </p>
 <p>
 The building heating temperature setpoint is fixed conventionally at 19&deg;C during 
@@ -2397,7 +2402,7 @@ Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;gle
 thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat. 
 Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM 
 and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all 
-day long during weekends. Otherwise, this level is reduced by 80&percnt;. All this elements can be 
+day long during weekends. Otherwise, this level is reduced by 80&percnt;. 
 </p>
 <h4>Climate data</h4>
 <p>
@@ -2460,7 +2465,7 @@ air temperature from the thermostat in the living room.
 </li>
 <li>
 There is one radiator per zone with a motorized valve controlled by a PI controller
-that follows the air zone temperature set point. Only the hallway zone has no valve and its hydronic 
+that follows the air zone temperature setpoint. Only the hallway zone has no valve and its hydronic 
 circuit remains always open to ensure that there iswater flow. This is a typical layout that avoids
 vacuum failures when all valves are closed while the distribution pump is working.
 </li>
@@ -2720,7 +2725,7 @@ No shading model is included.
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
 <p>
-The model uses moist air despite that no condensation is modelled in any of the used components. 
+The model uses moist air despite that no condensation is modeled in any of the used components. 
 </p>
 <h4>Pressure-flow models</h4>
 <p>
@@ -2728,7 +2733,29 @@ A circulation loop with one parallel branch per zone is used to model the heatin
 </p>
 <h4>Infiltration models</h4>
 <p>
-Mechanical ventilation from outside air and air exchange between zones are considered in the model. 
+Mechanical ventilation from outside air and air exchange between zones are considered in the model.
+The total value of the volumetric airflow exchanged is established according to the French
+national regulations.
+Specifically, outside fresh air is infiltrated in the garage and the attic at a rate of 0.5 ACH. 
+In the living room and bedrooms the total infiltrated air is of 113.4 m3/h, which is distributed
+proportionally to the area of these zones. 
+There is not infiltration considered in the bathroom nor the hallway. 
+80&percnt; of the infiltrated air is exhausted through a fan in the bathroom. 
+This fan is not controllable and its electricity use is neglected. 
+The other 20&percnt; of the infiltrated air is assumed to be leaked in the living room. 
+
+</p>
+<h4>Other assumptions</h4>
+<p>
+The CO2 generation in each zone is based on number of occupants in that zone.
+CO2 generation is 0.004 L/s per person (Table 5, Persily and De Jonge 2017) 
+and density of CO2 assumed to be 1.8 kg/m^3, making CO2 generation 7.2e-6 kg/s per person. 
+Outside air CO2 concentration is 400 ppm. However, CO2 concentration is not controlled for in the model. 
+</p>
+<p>
+Persily, A. and De Jonge, L. (2017).
+Carbon dioxide generation rates for building occupants.
+Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 
 <h3>Scenario Information</h3>
