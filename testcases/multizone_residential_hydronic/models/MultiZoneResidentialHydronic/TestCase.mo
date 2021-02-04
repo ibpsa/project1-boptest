@@ -2827,6 +2827,14 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </html>", revisions="<html>
 <ul>
 <li>
+February 04, 2020 by Javier Arroyo:<br/>
+Improve documentation. 
+</li>
+<li>
+January 29, 2020 by Javier Arroyo:<br/>
+Add CO2 generation and readings. 
+</li>
+<li>
 December 08, 2020 by Javier Arroyo:<br/>
 Add weather station. 
 </li>
