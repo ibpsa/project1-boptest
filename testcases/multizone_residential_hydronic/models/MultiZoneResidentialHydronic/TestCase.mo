@@ -1325,9 +1325,9 @@ public
     annotation (Placement(transformation(extent={{-118,20},{-112,24}})));
   Building.Ventilation.GenCO2 genCO2Liv(nOcc=4) "CO2 generation in living room"
     annotation (Placement(transformation(extent={{-108,20},{-104,24}})));
-  Building.Ventilation.InfiltrationExtractionBoundary venLiv(m_flow_vent=-
+  Building.Ventilation.InfiltrationExtractionBoundary extLiv(m_flow_vent=-
         Q_Salon - 0.2*(Q_Chambre1 + Q_Chambre2 + Q_Chambre3)*OpenDoors, zone=
-        "Liv") "Ventilation to living room"
+        "Liv") "Extraction from living room"
     annotation (Placement(transformation(extent={{-108,16},{-104,20}})));
   Building.Ventilation.InfiltrationExtractionBoundary infAti(
     m_flow_vent=Q_Combles,
@@ -2068,9 +2068,9 @@ equation
           -7.8},{-94,16.72}}, color={0,127,255}));
   connect(dooLiv.port_b2, liv.ports[2]) annotation (Line(points={{-45,-13.2},{-94,
           -13.2},{-94,17.36}}, color={0,127,255}));
-  connect(venLiv.ports_b, liv.ports[3:5]) annotation (Line(points={{-104.2,18},
+  connect(extLiv.ports_b, liv.ports[3:5]) annotation (Line(points={{-104.2,18},
           {-100,18},{-100,19.28},{-94,19.28}}, color={0,127,255}));
-  connect(venLiv.weaBus, liv.weaBus) annotation (Line(
+  connect(extLiv.weaBus, liv.weaBus) annotation (Line(
       points={{-108,18},{-132,18},{-132,56},{-80.84,56},{-80.84,29.16}},
       color={255,204,51},
       thickness=0.5));
@@ -2506,7 +2506,6 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <li>
 <code>conPumHea_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for emission system pump
 </li>
-
 </ul>
 
 <h4>Outputs</h4>
