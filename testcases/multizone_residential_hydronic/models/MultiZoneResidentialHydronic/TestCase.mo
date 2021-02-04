@@ -2298,7 +2298,7 @@ through the BOPTEST interface. The dimensions are provided in metres.
 <p>
 The orientation of each building was chosen to maximize the natural light during winter. 
 Thus, the main surface of windows of the building is south oriented. 
-The building consists of six thermal zones that are actively controlled and two unheated
+The building consists of six thermal zones that are actively controlled and two unconditioned
 zones:
 </p>
 <ul>
@@ -2306,8 +2306,8 @@ zones:
 <li>3 Bedrooms: two south facing (<b>Ro1</b>, <b>Ro2</b>), and one north facing (<b>Ro3</b>) </li>
 <li>1 Bathroom (<b>Bth</b>) </li>
 <li>1 Hallway/corridor (<b>Hal</b>) serving the sleeping area: bedrooms and bathroom </li>
-<li>1 Unheated garage (<b>Gar</b>) </li>
-<li>1 Unheated attic (<b>Ati</b>) </li>
+<li>1 Unconditioned garage (<b>Gar</b>) </li>
+<li>1 Unconditioned attic (<b>Ati</b>) </li>
 </ul>
 
 <p>
@@ -2423,6 +2423,11 @@ The water through the heating emission system is heated by a gas boiler.
 The boiler is designed to provide power (sum of the radiators nominal 
 power) for spacial heating only, domestic hot water production is not taken 
 into account in this model.
+</p>
+<p>
+Air cooling is modeled in all conditioned zones with a constant energy efficiency ratio 
+of 3. Ideal cooling is thus considered with a PI controller in each zone that 
+provides the cooling thermal power required to comply with the cooling setpoint in every zone. 
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
