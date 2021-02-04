@@ -20,6 +20,7 @@ weatherStation_reaWeaSolZen_y,2.7613031191165067
 reaHeaLiv_y,993.0429438633807
 conHeaRo3_reaTZon_y,292.7665404485012
 weatherStation_reaWeaLat_y,0.7824311036690579
+extLiv_reaCO2RooAir_y,131.08773423495953
 weatherStation_reaWeaSolTim_y,-385.53466260925086
 boi_reaPpum_y,141.0
 infRo1_reaCO2RooAir_y,318.9374201384358
@@ -45,7 +46,6 @@ weatherStation_reaWeaLon_y,-0.012217304763960306
 conCooRo3_reaPCoo_y,0.0
 weatherStation_reaWeaTDewPoi_y,273.75775862068963
 weatherStation_reaWeaTWetBul_y,275.2590506911414
-venLiv_reaCO2RooAir_y,131.08773423495953
 conHeaBth_reaTZon_y,292.35389425293135
 weatherStation_reaWeaWinSpe_y,5.25
 reaHeaRo2_y,230.0375556301973
