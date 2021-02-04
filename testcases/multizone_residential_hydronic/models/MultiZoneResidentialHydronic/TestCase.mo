@@ -1164,7 +1164,7 @@ public
         extent={{5,5},{-5,-5}},
         rotation=0,
         origin={-113,-175})));
-  Buildings.Controls.SetPoints.HotWaterTemperatureReset heaCha(
+  Building.Control.HotWaterTemperatureReset             heaCha(
     dTOutHeaBal=0,
     use_TRoo_in=true,
     TSup_nominal=TSup_nominal,
@@ -1401,8 +1401,8 @@ equation
   connect(schNight.OccupRateRT12, qConvNight.Occupation) annotation (Line(
         points={{-350,-44.2},{-342,-44.2},{-342,-36.6},{-333.2,-36.6}}, color={
           0,0,127}));
-  connect(qRadNight.Occupation, schNight.OccupRateRT12) annotation (Line(points
-        ={{-333.2,-50.125},{-342,-50.125},{-342,-44.2},{-350,-44.2}}, color={0,
+  connect(qRadNight.Occupation, schNight.OccupRateRT12) annotation (Line(points=
+         {{-333.2,-50.125},{-342,-50.125},{-342,-44.2},{-350,-44.2}}, color={0,
           0,127}));
   connect(qRadNight.Eclairage, schNight.LightRT12) annotation (Line(points={{-333.2,
           -52.625},{-344,-52.625},{-344,-47.2},{-350,-47.2}}, color={0,0,127}));
@@ -1701,12 +1701,12 @@ equation
           {-70.4,22},{-74,22}}, color={0,0,127}));
   connect(expCooRo1.y, conCooRo1.ConsigneClim) annotation (Line(points={{6.2,12},
           {9.68,12},{9.68,14.3333}}, color={0,0,127}));
-  connect(expCooRo2.y, conCooRo2.ConsigneClim) annotation (Line(points={{64.2,
-          10},{67.68,10},{67.68,14.3333}}, color={0,0,127}));
+  connect(expCooRo2.y, conCooRo2.ConsigneClim) annotation (Line(points={{64.2,10},
+          {67.68,10},{67.68,14.3333}},     color={0,0,127}));
   connect(expCooRo3.y, conCooRo3.ConsigneClim) annotation (Line(points={{62.2,
           -38},{64,-38},{64,-39.6667},{67.68,-39.6667}}, color={0,0,127}));
-  connect(expCooBth.y, conCooBth.ConsigneClim) annotation (Line(points={{2.2,
-          -46},{4,-46},{4,-47.6667},{5.68,-47.6667}}, color={0,0,127}));
+  connect(expCooBth.y, conCooBth.ConsigneClim) annotation (Line(points={{2.2,-46},
+          {4,-46},{4,-47.6667},{5.68,-47.6667}},      color={0,0,127}));
   connect(weaDat.weaBus, gar.weaBus) annotation (Line(
       points={{-276,56},{-164,56},{-164,-94},{-122.84,-94},{-122.84,-40.84}},
       color={255,204,51},
