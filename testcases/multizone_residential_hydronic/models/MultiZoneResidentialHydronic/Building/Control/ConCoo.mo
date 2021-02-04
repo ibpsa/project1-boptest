@@ -6,7 +6,7 @@ model ConCoo "Controller for cooling"
     Td=1e4,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     Ti=300,
-    reverseAction=true,
+    reverseActing=false,
     k=5e-2) "Controller for cooling"
     annotation (Placement(transformation(extent={{-68,16},{-60,24}})));
   Modelica.Blocks.Interfaces.RealInput T annotation (Placement(transformation(
