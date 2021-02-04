@@ -2425,15 +2425,16 @@ power) for spacial heating only, domestic hot water production is not taken
 into account in this model.
 </p>
 <p>
-Air cooling is modeled in all conditioned zones with a constant energy efficiency ratio 
-of 3. Ideal cooling is thus considered with a PI controller in each zone that 
-provides the cooling thermal power required to comply with the cooling setpoint in every zone. 
+The building is in cooling mode until March 29th (day 88 of the year), and from October 28th (day 301 of the year). 
+During this period, ideal cooling is considered in all conditioned zones with a PI controller in each zone. 
+This controller provides the cooling thermal power required to comply with the cooling setpoint in every zone. 
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
 The boiler uses an efficiency curve constant with coefficient 0.9.
 The heating system circulation pump uses an efficiency curve that is function of the
 mass flow rate of water through the emission system. 
+Air cooling is modeled with a constant energy efficiency ratio of 3. 
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
