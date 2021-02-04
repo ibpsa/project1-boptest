@@ -14,9 +14,9 @@ model GenerateData
   // Room 3
   parameter Modelica.SIunits.Area S_Chambre3 = 14.28;
 
-  Building.Schedules.Schedules_MI_ZoneJour schedules_MI_ZoneJour(delta_ST=0)
+  Building.Schedules.ScheduleDay schedules_MI_ZoneJour(delta_ST=0)
     annotation (Placement(transformation(extent={{-64,6},{-42,28}})));
-  Building.Schedules.Schedules_MI_ZoneNuit schedules_MI_ZoneNuit(delta_ST=0)
+  Building.Schedules.ScheduleNight schedules_MI_ZoneNuit(delta_ST=0)
     annotation (Placement(transformation(extent={{-64,-32},{-42,-10}})));
   Building.Gains.Q_conv_3 q_conv_Jour
     annotation (Placement(transformation(extent={{-24,18},{-12,28}})));
@@ -58,7 +58,7 @@ model GenerateData
     annotation (Placement(transformation(extent={{32,-38},{36,-34}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_Chambre3
     annotation (Placement(transformation(extent={{42,-32},{46,-28}})));
-  Building.Schedules.Schedules_RT2012_MI schedules_RT2012_MI
+  Building.Schedules.ScheduleGeneral schedules_RT2012_MI
     annotation (Placement(transformation(extent={{-64,54},{-44,76}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,

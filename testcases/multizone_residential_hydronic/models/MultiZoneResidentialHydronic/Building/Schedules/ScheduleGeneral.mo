@@ -1,5 +1,5 @@
 within MultiZoneResidentialHydronic.Building.Schedules;
-model Schedules_RT2012_MI "French thermal regulation schedules"
+model ScheduleGeneral "French thermal regulation schedules"
 
 parameter Modelica.SIunits.Temperature SetHeaOccup=19+273.15
     "Heating setpoint during occupation";
@@ -304,4 +304,4 @@ equation
 <li></li>
 </ul>
 </html>"));
-end Schedules_RT2012_MI;
+end ScheduleGeneral;

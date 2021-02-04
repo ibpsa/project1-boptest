@@ -1,5 +1,5 @@
 within MultiZoneResidentialHydronic.Building.Schedules;
-model Schedules_MI_ZoneNuit "French thermal regulation schedules"
+model ScheduleDay "French thermal regulation schedules for day time"
 
 parameter Modelica.SIunits.Temperature SetHeaOccup=19+273.15
     "Heating setpoint during occupation";
@@ -10,7 +10,7 @@ parameter Modelica.SIunits.Temperature SetHeaInoccupb=7+273.15
 parameter Modelica.SIunits.Temperature SetHeaFictif=2+273.15
     "Heating setpoint during no heating period";
 
-parameter Real delta_ST=0.2
+parameter Real delta_ST=1.8
     "Delta pour prendre en compte la variation spatio-temporelle";
 
   Modelica.Blocks.Interfaces.RealOutput HeaSetRT12(unit="K")
@@ -27,22 +27,12 @@ parameter Real delta_ST=0.2
   Modelica.Blocks.Interfaces.RealOutput LightRT12 "Lighting permission"
     annotation (Placement(transformation(extent={{100,-62},{120,-42}}),
         iconTransformation(extent={{90,-42},{110,-22}})));
-  Schedules_RT2012_MI schedules_RT2012_MI(
+  ScheduleGeneral schGeneral(
     SetHeaOccup=SetHeaOccup,
     SetHeaInoccupa=SetHeaInoccupa,
     SetHeaInoccupb=SetHeaInoccupb,
     SetHeaFictif=SetHeaFictif)
     annotation (Placement(transformation(extent={{-84,36},{-12,100}})));
-  Buildings.Controls.SetPoints.OccupancySchedule ZoneNuit_100(
-    occupancy=3600*{7,23},
-    firstEntryOccupied=false,
-    period=86400) "Occupation de la zone jour a 100%"
-    annotation (Placement(transformation(extent={{-70,-10},{-60,0}})));
-  Buildings.Controls.SetPoints.OccupancySchedule ZoneNuit_50(
-    firstEntryOccupied=true,
-    occupancy=3600*{7,8,22,23},
-    period=86400) "Occupation de la zone jour a 50%"
-    annotation (Placement(transformation(extent={{-70,-30},{-60,-20}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal
     annotation (Placement(transformation(extent={{-44,-10},{-32,2}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal1(realTrue=0.5)
@@ -61,52 +51,53 @@ parameter Real delta_ST=0.2
     annotation (Placement(transformation(extent={{44,-80},{60,-64}})));
   Modelica.Blocks.Logical.Switch switch1
     annotation (Placement(transformation(extent={{38,92},{50,104}})));
-  Modelica.Blocks.Sources.Constant SetHeaOccupa(k=schedules_RT2012_MI.SetHeaOccup
-         + delta_ST)
-    "Heating setpoint"
+  Modelica.Blocks.Sources.Constant SetHeaOccupa(k=schGeneral.SetHeaOccup +
+        delta_ST) "Heating setpoint"
     annotation (Placement(transformation(extent={{18,102},{26,110}})));
-  Modelica.Blocks.Sources.Constant SetHeaInoccup(k=schedules_RT2012_MI.SetHeaInoccupa
-         + delta_ST)
-    "Inoccupation for less than 48 hours"
+  Modelica.Blocks.Sources.Constant SetHeaInoccup(k=schGeneral.SetHeaInoccupa +
+        delta_ST) "Inoccupation for less than 48 hours"
     annotation (Placement(transformation(extent={{18,86},{26,94}})));
-  Modelica.Blocks.Sources.Constant SetHeafictifa(k=schedules_RT2012_MI.SetHeaFictif)
+  Modelica.Blocks.Sources.Constant SetHeafictifa(k=schGeneral.SetHeaFictif)
     "Heating setpoint"
     annotation (Placement(transformation(extent={{60,80},{68,88}})));
   Modelica.Blocks.Logical.Switch switch3
     annotation (Placement(transformation(extent={{78,86},{90,98}})));
-  Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=
-        schedules_RT2012_MI.Noheating.occupied)
+  Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=schGeneral.Noheating.occupied)
     annotation (Placement(transformation(extent={{58,88},{68,98}})));
+  Buildings.Controls.SetPoints.OccupancySchedule ZoneJour_100(
+    period=604800,
+    occupancy=3600*{8,10,18,22,32,34,42,46,56,58,66,70,80,82,90,94,104,106,
+        114,118,128,142,152,166},
+    firstEntryOccupied=true) "Occupation de la zone jour a 100%"
+    annotation (Placement(transformation(extent={{-70,-10},{-60,0}})));
+  Buildings.Controls.SetPoints.OccupancySchedule ZoneJour_50(
+    firstEntryOccupied=true,
+    occupancy=3600*{7,8,22,23},
+    period=86400) "Occupation de la zone jour a 50%"
+    annotation (Placement(transformation(extent={{-70,-30},{-60,-20}})));
   Modelica.Blocks.Math.RealToBoolean realToBoolean1(
                                                    threshold=0.1)
     annotation (Placement(transformation(extent={{6,94},{14,102}})));
   Modelica.Blocks.Logical.Switch switch2
     annotation (Placement(transformation(extent={{34,62},{46,74}})));
-  Modelica.Blocks.Sources.Constant SetHeaOccupa1(k=schedules_RT2012_MI.SetCooOccup
-         + delta_ST)
-    "Heating setpoint"
+  Modelica.Blocks.Sources.Constant SetHeaOccupa1(k=schGeneral.SetCooOccup +
+        delta_ST) "Heating setpoint"
     annotation (Placement(transformation(extent={{14,72},{22,80}})));
-  Modelica.Blocks.Sources.Constant SetHeaInoccup1(k=schedules_RT2012_MI.SetCooInoccupa
-         + delta_ST)
-    "Inoccupation for less than 48 hours"
+  Modelica.Blocks.Sources.Constant SetHeaInoccup1(k=schGeneral.SetCooInoccupa
+         + delta_ST) "Inoccupation for less than 48 hours"
     annotation (Placement(transformation(extent={{12,56},{20,64}})));
-  Modelica.Blocks.Sources.Constant SetHeafictifa1(k=schedules_RT2012_MI.SetCooFictif)
+  Modelica.Blocks.Sources.Constant SetHeafictifa1(k=schGeneral.SetCooFictif)
     "Heating setpoint"
     annotation (Placement(transformation(extent={{56,50},{64,58}})));
   Modelica.Blocks.Logical.Switch switch4
     annotation (Placement(transformation(extent={{74,56},{86,68}})));
-  Modelica.Blocks.Sources.BooleanExpression booleanExpression1(y=
-        schedules_RT2012_MI.Nocooling.occupied)
+  Modelica.Blocks.Sources.BooleanExpression booleanExpression1(y=schGeneral.Nocooling.occupied)
     annotation (Placement(transformation(extent={{54,58},{64,68}})));
   Modelica.Blocks.Interfaces.RealOutput CooSetRT12
     "Connector of Real output signal"
     annotation (Placement(transformation(extent={{100,52},{120,72}})));
 equation
 
-  connect(ZoneNuit_50.occupied, booleanToReal1.u) annotation (Line(points={
-          {-59.5,-28},{-52,-28},{-52,-24},{-45.2,-24}}, color={255,0,255}));
-  connect(ZoneNuit_100.occupied, booleanToReal.u) annotation (Line(points={
-          {-59.5,-8},{-52,-8},{-52,-4},{-45.2,-4}}, color={255,0,255}));
   connect(booleanToReal.y, add.u1) annotation (Line(points={{-31.4,-4},{-28,
           -4},{-28,-8},{-20,-8}}, color={0,0,127}));
   connect(booleanToReal1.y, add.u2) annotation (Line(points={{-31.4,-24},{
@@ -115,9 +106,8 @@ equation
     annotation (Line(points={{43,0},{110,0}}, color={0,0,127}));
   connect(add.y, product.u2) annotation (Line(points={{3,-14},{10,-14},{10,
           -6},{20,-6}}, color={0,0,127}));
-  connect(schedules_RT2012_MI.OccupRateRT12, product.u1) annotation (Line(
-        points={{-12,64.5091},{12,64.5091},{12,62},{12,18},{12,6},{20,6}},
-        color={0,0,127}));
+  connect(schGeneral.OccupRateRT12, product.u1) annotation (Line(points={{-12,
+          64.5091},{12,64.5091},{12,62},{12,18},{12,6},{20,6}}, color={0,0,127}));
   connect(product.y, realToBoolean.u) annotation (Line(points={{43,0},{46,0},
           {46,2},{46,29},{51,29}}, color={0,0,127}));
   connect(realToBoolean.y, booleanToReal2.u) annotation (Line(points={{62.5,
@@ -132,12 +122,12 @@ equation
   connect(booleanToReal2.y, product4.u2) annotation (Line(points={{78.5,29},
           {92,29},{92,-28},{28,-28},{28,-76.8},{42.4,-76.8}}, color={0,0,
           127}));
-  connect(schedules_RT2012_MI.LightRT12, product3.u1) annotation (Line(
-        points={{-12,55.7818},{-2,55.7818},{-2,56},{8,56},{8,-47.2},{42.4,-47.2}},
-                   color={0,0,127}));
-  connect(schedules_RT2012_MI.OtherLoadsRateRT12, product4.u1) annotation (
-      Line(points={{-12,46.4727},{-4,46.4727},{-4,46},{6,46},{6,-67.2},{42.4,
-          -67.2}},      color={0,0,127}));
+  connect(schGeneral.LightRT12, product3.u1) annotation (Line(points={{-12,
+          55.7818},{-2,55.7818},{-2,56},{8,56},{8,-47.2},{42.4,-47.2}}, color={
+          0,0,127}));
+  connect(schGeneral.OtherLoadsRateRT12, product4.u1) annotation (Line(points={
+          {-12,46.4727},{-4,46.4727},{-4,46},{6,46},{6,-67.2},{42.4,-67.2}},
+        color={0,0,127}));
   connect(SetHeaInoccup.y,switch1. u3) annotation (Line(
       points={{26.4,90},{30,90},{30,93.2},{36.8,93.2}},
       color={0,0,127},
@@ -157,11 +147,14 @@ equation
           {94,90},{96,90},{96,90},{110,90},{110,90}}, color={0,0,127}));
   connect(booleanExpression.y, switch3.u2) annotation (Line(points={{68.5,
           93},{73.25,93},{73.25,92},{76.8,92}}, color={255,0,255}));
+  connect(ZoneJour_100.occupied, booleanToReal.u) annotation (Line(points={
+          {-59.5,-8},{-52,-8},{-52,-4},{-45.2,-4}}, color={255,0,255}));
+  connect(ZoneJour_50.occupied, booleanToReal1.u) annotation (Line(points={
+          {-59.5,-28},{-52,-28},{-52,-24},{-45.2,-24}}, color={255,0,255}));
   connect(realToBoolean1.y, switch1.u2) annotation (Line(points={{14.4,98},
-          {36.8,98},{36.8,98}}, color={255,0,255}));
-  connect(realToBoolean1.u, schedules_RT2012_MI.OccupRateRT12) annotation (
-      Line(points={{5.2,98},{0,98},{0,64.5091},{-12,64.5091}}, color={0,0,
-          127}));
+          {25.25,98},{36.8,98}}, color={255,0,255}));
+  connect(realToBoolean1.u, schGeneral.OccupRateRT12) annotation (Line(points={
+          {5.2,98},{0,98},{0,64.5091},{-12,64.5091}}, color={0,0,127}));
   connect(SetHeaInoccup1.y, switch2.u3) annotation (Line(
       points={{20.4,60},{24,60},{24,63.2},{32.8,63.2}},
       color={0,0,127},
@@ -273,8 +266,232 @@ equation
           textString="LightRt12
 ")}),
     Documentation(info="<html>
-<h4>Schedules (night use)</h4>
+<h4>Schedules (day use)</h4>
 <p>Conventional (building energy regulation compliance calculation) for the French context. </p>
 <p>Weekly based and then repeated over the entire year (1 week of holiday in December and in August).</p>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\"><tr>
+<td><p><br>Day / Hour </p><p>Occupancy (occpied=1; unoccupied=0)</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>8</p></td>
+<td><p>9</p></td>
+<td><p>10</p></td>
+<td><p>11</p></td>
+<td><p>12</p></td>
+<td><p>13</p></td>
+<td><p>14</p></td>
+<td><p>15</p></td>
+<td><p>16</p></td>
+<td><p>17</p></td>
+<td><p>18</p></td>
+<td><p>19</p></td>
+<td><p>20</p></td>
+<td><p>21</p></td>
+<td><p>22</p></td>
+<td><p>23</p></td>
+<td><p>24</p></td>
+</tr>
+<tr>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr>
+<td><p>3</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr>
+<td><p>4</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr>
+<td><p>5</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr>
+<td><p>6</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr>
+<td><p>7</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+</table>
+<p><br><br><br><br><br>Year starts on Monday</p>
+<p>Week/Month 1 2 3 4 5 6 7 8 9 10 11 12</p>
+<p>1 1 1 1 1 1 1 1 0 1 1 1 1</p>
+<p>2 1 1 1 1 1 1 1 0 1 1 1 1</p>
+<p>3 1 1 1 1 1 1 1 1 1 1 1 1</p>
+<p>4 1 1 1 1 1 1 1 1 1 1 1 0</p>
+<p>5 1 1 1 1 </p>
 </html>"));
-end Schedules_MI_ZoneNuit;
+end ScheduleDay;
