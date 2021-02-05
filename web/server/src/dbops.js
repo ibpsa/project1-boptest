@@ -1,5 +1,5 @@
 // The purpose of this file is to consolidate operations to the database
-// in a single place. Clients may transform the data into and out of 
+// in a single place. Clients may transform the data into and out of
 // these functions for their own api purposes. ie Haystack api, GraphQL api.
 
 class WriteArray {
@@ -50,7 +50,7 @@ function writePoint(id, siteRef, level, val, who, dur, db) {
     let mrecs = db.collection('recs');
 
     if (! level) { level = 1; }
-  
+
     writearrays.findOne({_id: id}).then((array) => {
       if( array ) {
         // In this case the array already exists because it has been written to before
@@ -109,4 +109,3 @@ function writePoint(id, siteRef, level, val, who, dur, db) {
 }
 
 module.exports = { writePoint, getPoint };
-

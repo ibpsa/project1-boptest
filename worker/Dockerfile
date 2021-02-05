@@ -35,4 +35,3 @@ ENV PYTHONPATH $PYTHONPATH:$JMODELICA_HOME/Python:$JMODELICA_HOME/Python/pymodel
 
 
 CMD [ "python3", "-m", "boptest" ]
-

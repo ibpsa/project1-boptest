@@ -303,9 +303,9 @@ class Sites extends React.Component {
                 {this.props.data.viewer.sites.map((site, i) => {
                    const isSelected = this.isSelected(site.siteRef);
                    return (
-                    <TableRow key={site.siteRef} 
+                    <TableRow key={site.siteRef}
                       selected={false}
-                      onClick={event => this.handleRowClick(event, site.siteRef)} 
+                      onClick={event => this.handleRowClick(event, site.siteRef)}
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
@@ -407,10 +407,9 @@ const withRemove = graphql(removeSiteQL, {
 })(withStop);
 
 const withSites = graphql(sitesQL, {
-  options: { 
+  options: {
     pollInterval: 1000,
   },
-})(withRemove) 
+})(withRemove)
 
 export default withSites;
-

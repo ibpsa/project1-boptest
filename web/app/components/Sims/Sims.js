@@ -150,7 +150,7 @@ class Sims extends React.Component {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
       xhr.responseType = 'blob';
-      xhr.onload = (e) => { 
+      xhr.onload = (e) => {
 			  downloadjs(e.target.response, sim.name + '.tar.gz');
 			};
       xhr.send();
@@ -244,7 +244,7 @@ const simsQL = gql`
 `;
 
 const withSims = graphql(simsQL, {
-  options: { 
+  options: {
     pollInterval: 1000,
   }
 })(Sims);
@@ -261,4 +261,3 @@ const styles = theme => ({
 const withStyle = withStyles(styles)(withSims);
 
 export default withStyle;
-

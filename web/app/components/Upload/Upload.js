@@ -263,4 +263,3 @@ export default graphql(addJobQL, {
     addJobProp: (osmName, uploadID) => mutate({ variables: { osmName, uploadID } }),
   }),
 })(withRunSim);
-

@@ -72,4 +72,3 @@ for var_output in output_names:
 # 6.0 write tags to the json file
 with open(jsonpath, 'w') as outfile:
     json.dump(tags, outfile)
-

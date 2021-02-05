@@ -42,13 +42,13 @@ function addJobToQueue(jobName, args) {
   Object.entries(args).forEach(([key,value]) => {
     body[key] = value;
   });
-  
+
   const params = {
    MessageBody: JSON.stringify(body),
    QueueUrl: process.env.JOB_QUEUE_URL,
    MessageGroupId: "Alfalfa"
   };
-  
+
   sqs.sendMessage(params, (err, data) => {
     if (err) {
       console.log(err);
@@ -215,16 +215,15 @@ function writePointResolver(context,siteRef, pointName, value, level) {
   });
 }
 
-module.exports = { 
-  addSiteResolver, 
-  sitesResolver, 
-  runSiteResolver, 
-  stopSiteResolver, 
-  removeSiteResolver, 
-  sitePointResolver, 
-  simsResolver, 
+module.exports = {
+  addSiteResolver,
+  sitesResolver,
+  runSiteResolver,
+  stopSiteResolver,
+  removeSiteResolver,
+  sitePointResolver,
+  simsResolver,
   advanceResolver,
   writePointResolver,
   forecastsResolver
 };
-

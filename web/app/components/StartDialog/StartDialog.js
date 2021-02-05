@@ -40,7 +40,7 @@ import * as moment from 'moment';
 
 const styles = theme => ({
   label: {
-   whiteSpace: 'nowrap' 
+   whiteSpace: 'nowrap'
   },
   button: {
     margin: theme.spacing(1),
@@ -101,9 +101,9 @@ class StartDialog extends React.Component {
 
     let start;
     let stop;
-    start = 
+    start =
     <Grid item xs={6}>
-      <TextField 
+      <TextField
         label="FMU Start Time"
         value={selectedStartSeconds}
         onChange={this.handleStartSecondChange}
@@ -113,9 +113,9 @@ class StartDialog extends React.Component {
       />
     </Grid>;
 
-    stop = 
+    stop =
     <Grid item xs={6}>
-      <TextField 
+      <TextField
         label="FMU Stop Time"
         value={selectedEndSeconds}
         onChange={this.handleEndSecondChange}
@@ -135,7 +135,7 @@ class StartDialog extends React.Component {
               {start}
               {stop}
               <Grid item xs={12}>
-                <TextField 
+                <TextField
                   label="Timescale"
                   value={this.state.timescale}
                   onChange={this.handleTimescaleChange}
@@ -185,4 +185,3 @@ class StartDialog extends React.Component {
 }
 
 export default withStyles(styles)(StartDialog);
-

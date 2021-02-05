@@ -80,4 +80,3 @@ class Worker:
                     self.process_message(message)
             except BaseException as e:
                 self.worker_logger.logger.info("Exception while processing messages in worker: {}".format(e))
-
