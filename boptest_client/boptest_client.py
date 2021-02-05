@@ -164,4 +164,3 @@ def stop_one(args):
     response = requests.post(url + '/graphql', json=payload)
 
     wait(url, site_id, "Stopped")
-

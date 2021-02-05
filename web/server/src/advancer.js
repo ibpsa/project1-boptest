@@ -5,14 +5,14 @@ class Advancer {
   // After notifying the simulation alfalfa_worker of a request to advance, the webserver must
   // wait for the simulation step to complete, and only then return a response to the http client.
   //
-  // A redis database is used as the primary mechanism to 
+  // A redis database is used as the primary mechanism to
   // communicate between the webserver and the simulation alfalfa_worker
   //
   // For each request to advance a simulation, communication involves
   // 1. A redis key of the form ${siteRef}:control which can have the value idle | advance | running
   //    A request to advance can only be fulfilled if the simulatoin is currently in idle state
   // 2. A redis notification from the webserver on the channel "siteRef" with message "advance"
-  // 3. A redis notification from the alfalfa_worker on the channel "siteRef" with message "complete", 
+  // 3. A redis notification from the alfalfa_worker on the channel "siteRef" with message "complete",
   //    signaling that the simulation is done advancing to the simulation
   constructor(redis, pub, sub) {
     this.redis = redis;
@@ -38,7 +38,7 @@ class Advancer {
         const channel = siteref;
 
         // Cleanup the resrouces for advance and finalize the promise
-        let interval; 
+        let interval;
         const finalize = (success, message='') => {
           clearInterval(interval);
           this.sub.unsubscribe(channel);
@@ -103,7 +103,7 @@ class Advancer {
       };
 
       for (var site of siteRefs) {
-        advanceSite(site);      
+        advanceSite(site);
       }
     });
 
@@ -112,4 +112,3 @@ class Advancer {
 }
 
 export {Advancer};
-

@@ -2,9 +2,9 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which must already be running.  A controller is tested, which is 
+which must already be running.  A controller is tested, which is
 imported from a different module.
-  
+
 """
 
 #%% GENERAL PACKAGE IMPORT
@@ -68,7 +68,7 @@ print('Stopping test case and reporting KPIs.')
 res = requests.put('{0}/stop/{1}'.format(url,testid))
 print('\nTest case complete.')
 # -------------
-    
+
 #%% VIEW KPIS
 # ---------
 # Report KPIs
@@ -89,7 +89,7 @@ for key in kpi.keys():
         unit = ''
     print('{0}: {1} {2}'.format(key, kpi[key], unit))
 # ----------
-   
+
 #%% POST-PROCESS RESULTS
 # --------------------
 # Get result data
