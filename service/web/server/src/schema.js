@@ -179,11 +179,11 @@ var userType = new GraphQLObjectType({
   fields: () => ({
     username: {
       type: GraphQLString,
-      description: 'The username of a person', 
+      description: 'The username of a person',
     },
     sites: {
       type: new GraphQLList(siteType),
-      description: 'The Haystack sites', 
+      description: 'The Haystack sites',
       args: {
         siteRef: { type: GraphQLString }
       },
@@ -193,7 +193,7 @@ var userType = new GraphQLObjectType({
     },
     sims: {
       type: new GraphQLList(simType),
-      description: 'The simulations', 
+      description: 'The simulations',
       args: {
         siteRef: { type: GraphQLString },
         simRef: { type: GraphQLString }
@@ -218,7 +218,7 @@ var queryType = new GraphQLObjectType({
 const mutationType = new GraphQLObjectType({
   name: 'Mutations',
   fields: () => ({
-    addSite: { 
+    addSite: {
       name: 'AddSite',
       type: GraphQLString,
       args: {
@@ -295,4 +295,3 @@ export var Schema = new GraphQLSchema({
   // Uncomment the following after adding some mutation fields:
   mutation: mutationType,
 });
-

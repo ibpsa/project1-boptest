@@ -151,4 +151,3 @@ if __name__ == "__main__":
 
     adder = AddSite(file_name, upload_id)
     adder.main()
-

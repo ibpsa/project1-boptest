@@ -40,7 +40,7 @@ from pymongo import MongoClient
 import imp
 import requests
 config_module = imp.new_module('config')
-sys.modules['config'] = config_module 
+sys.modules['config'] = config_module
 
 import boptest.lib
 import boptest.lib.testcase
@@ -365,7 +365,7 @@ def get_config():
             if key != 'time':
                 output_id = self.tagid_and_outputs[key]
                 value_y = y_output[key]
-                self.mongo_db_recs.update_one( {"_id": output_id }, {"$set": {"rec.curVal":"n:%s" %value_y, "rec.curStatus":"s:ok","rec.cur": "m:" }} )        
+                self.mongo_db_recs.update_one( {"_id": output_id }, {"$set": {"rec.curVal":"n:%s" %value_y, "rec.curStatus":"s:ok","rec.cur": "m:" }} )
 
         self.update_forecast(self.tc.get_forecast())
         # This takes a lot of timek, so only do it at the end
@@ -383,4 +383,3 @@ if __name__ == "__main__":
 
     runFMUSite = RunFMUSite(site_ref=site_ref, real_time_flag=real_time_flag, time_scale=time_scale, startTime=startTime, endTime=endTime, externalClock=externalClock)
     runFMUSite.run()
-

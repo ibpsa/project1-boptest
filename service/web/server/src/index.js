@@ -50,7 +50,7 @@ const advancer = new Advancer(redis, pub, sub);
 MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   var app = express();
   app.set('redis', redis);
-  
+
   if( process.env.NODE_ENV == "production" ) {
     app.get('*.js', function(req, res, next) {
       req.url = req.url + '.gz';
@@ -87,7 +87,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
       })(request,response)
     }
   );
-  
+
   app.use(bodyParser.text({ type: 'text/*' }));
   app.use(bodyParser.json()); // if you are using JSON instead of ZINC you need this
   app.use('/', boptestRoutes)
@@ -122,21 +122,20 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
       }
     });
   });
-  
+
   app.use(historyApiFallback());
   app.use('/', express.static(path.join(__dirname, './app')));
 
   let server = app.listen(80, () => {
-  
+
     var host = server.address().address;
     var port = server.address().port;
-  
+
     if (host.length === 0 || host === "::") host = "localhost";
-  
+
     console.log('Node Haystack Toolkit listening at http://%s:%s', host, port);
-  
+
   });
 }).catch((err) => {
   console.log(err);
 });
-

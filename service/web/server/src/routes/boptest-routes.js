@@ -36,7 +36,7 @@ const baseurlFromReq = (req) => {
   return req.protocol + '://' + req.get('host');
 };
 
-// Remove any preceeding haystack style type specifier. 
+// Remove any preceeding haystack style type specifier.
 // ie given "n:1.0" will return "1.0"
 const strip = (text) => {
   return text.replace(/^\w:/,"");
@@ -110,9 +110,9 @@ boptestRoutes.post('/advance/:id', async (req, res, next) => {
         // Resets the input, ie. not activated
         writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", level: 1 ) }`;
       }
-      await graphqlPost(writestring, baseurl); 
+      await graphqlPost(writestring, baseurl);
     }
-    
+
     // Advance the sim
     const advancestring = `mutation { advance(siteRefs: "${req.params.id}") }`;
     await graphqlPost(advancestring, baseurl);
@@ -137,9 +137,9 @@ boptestRoutes.put('/initialize/:id', async (req, res, next) => {
       	timescale: 1.0
       )
     }`;
-    
+
     const baseurl = baseurlFromReq(req);
-    await graphqlPost(querystring, baseurl); 
+    await graphqlPost(querystring, baseurl);
     await waitForSimStatus(req.params.id, baseurl, "Running", 0, 3);
     res.end();
   } catch (e) {
@@ -154,9 +154,9 @@ boptestRoutes.put('/stop/:id', async (req, res, next) => {
         siteRef: "${req.params.id}"
       )
     }`;
-    
+
     const baseurl = baseurlFromReq(req);
-    await graphqlPost(querystring, baseurl); 
+    await graphqlPost(querystring, baseurl);
     await waitForSimStatus(req.params.id, baseurl, "Stopped", 0, 3);
     res.end();
   } catch (e) {
@@ -302,6 +302,3 @@ boptestRoutes.get('/forecast/:id', async (req, res, next) => {
 });
 
 export default boptestRoutes;
-
-
-
