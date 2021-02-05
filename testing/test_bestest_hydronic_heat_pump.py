@@ -90,14 +90,11 @@ class Run(unittest.TestCase, utilities.partialChecks):
                 ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
                 self.compare_ref_values_df(df, ref_filepath)
         requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
-        # Report results
-        res_results = requests.get('{0}/results'.format(self.url)).json()
         # Check results
-        df = self.results_to_df(res_results)
         points = self.get_all_points(self.url)
         df = self.results_to_df(points, start_time, start_time+self.length, self.url)
         if event_test:
-            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_event_test.csv'.format(season))
+            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_event_test.csv')
         else:
             ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
         self.compare_ref_timeseries_df(df,ref_filepath)
