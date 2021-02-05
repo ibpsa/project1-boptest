@@ -7,6 +7,7 @@ from requests_toolbelt import MultipartEncoder
 from multiprocessing import Pool
 from collections import OrderedDict
 
+
 class BoptestClient:
 
     # The url argument is the address of the Alfalfa server
@@ -39,6 +40,151 @@ class BoptestClient:
     def stop(self, site_id):
         args = {"url": self.url, "site_id": site_id}
         return stop_one(args)
+
+    # The methods below are for interacting with the standard BOPTEST interface where the client has
+    # configured a testcase
+    def name(self):
+        """Return the name of the testcase that is loaded in BOPTEST.
+
+        Note that this method only returns a single value and not a
+        dictionary. For example, it returns b'60.0\n', which is not JSON, but when calling json() it returns
+        the value. It is recommended to update the /name method in BOPTEST to return JSON (e.g., {"name": "tc1"}
+
+        Returns
+            String
+        """
+        return requests.get(f'{self.url}/name').json()
+
+    def inputs(self):
+        """Return the list of inputs for the BOPTEST testcase that has been loaded
+
+        Returns:
+            Dict of inputs
+        """
+        return requests.get(f'{self.url}/inputs').json()
+
+    def measurements(self):
+        """Return a list of measurements available in the loaded BOPTEST testcase
+
+        Returns:
+            Dict of measurements
+        """
+        return requests.get(f'{self.url}/measurements').json()
+
+    def get_step(self, test_id=None):
+        """Return the timestep configuration.
+
+        Note that this method only returns a single value and not a
+        dictionary. For example, it returns b'60.0\n', which is not JSON, but when calling json() it returns
+        the value. It is recommended to update the /step method in BOPTEST to return JSON (e.g., {"step": 60}
+
+        Parameters:
+            test_id (str): if provided, then the test_id to initialize. If None, then it will assume that a testcase
+                           was initialized.
+
+        Returns:
+            String
+        """
+        if test_id:
+            url = f'{self.url}/step/{test_id}'
+        else:
+            url = f'{self.url}/step'
+
+        return requests.get(url).json()
+
+    def set_step(self, test_id=None, step=60):
+        """Set the step duration the simulation through time at step level defined
+
+        Note that this method only returns a single value and not a
+        dictionary. For example, it returns b'60.0\n', which is not JSON, but when calling json() it returns
+        the value. It is recommended to update the /step method in BOPTEST to return JSON (e.g., {"step": 60}
+
+        Parameters:
+            test_id (str): if provided, then the test_id to initialize. If None, then it will assume that a testcase
+                           was initialized.
+            step (int): the value of the simulation step.
+
+        Returns:
+            step size (str): the value of the step that was set
+        """
+        if test_id:
+            url = f'{self.url}/step/{test_id}'
+        else:
+            url = f'{self.url}/step'
+        res = requests.put(url, data={'step': step})
+        return res
+
+    def initialize(self, test_id=None, **kwargs):
+        """Initialize a testcase
+
+        Parameters:
+            test_id (str): if provided, then the test_id to initialize. If None, then it will assume that a testcase
+                           was initialized.
+            **kwargs: other options to pass as the data. Valid options are start_time, warmup_period
+
+        Returns:
+            initial values (dict): the initialized conditions.
+
+        """
+        # merge the default args with the kwargs
+        default = {'start_time': 0, 'warmup_period': 0}
+        data = {**default, **kwargs}
+        if test_id:
+            url = f'{self.url}/initialize/{test_id}'
+        else:
+            url = f'{self.url}/initialize'
+        res = requests.put(url, data=data)
+        if res:
+            return res.json()
+        else:
+            result = {"status": "error", "message": "unable to submit simulation"}
+            raise Exception(result)
+
+    def advance(self, test_id=None, control_u=None):
+        """Advance the simulation through time at step level defined
+
+        TODO: We should set the test_id as a member variable, then make control_u a non-defaulted parameter.
+
+        Parameters:
+            test_id (str): if provided, then the test_id to initialize. If None, then it will assume that a testcase
+                           was initialized.
+            control_u (dict): control values to set
+
+        Returns:
+            simulation results (dict): values of the model at the the last step
+        """
+        if test_id:
+            url = f'{self.url}/advance/{test_id}'
+        else:
+            url = f'{self.url}/advance'
+        return requests.post(url, data=control_u).json()
+
+    def kpis(self, test_id=None):
+        """Return the KPIs of the testcase.
+
+        Parameters:
+            test_id (str): if provided, then the test_id to initialize. If None, then it will assume that a testcase
+                           was initialized.
+
+        Returns:
+            kpis (dict): results of the kpis
+        """
+        if test_id:
+            url = f'{self.url}/kpi/{test_id}'
+        else:
+            url = f'{self.url}/kpi'
+        return requests.get(url).json()
+
+    def results(self, test_id=None):
+        """Return the results of the simulation.
+
+        """
+        if test_id:
+            url = f'{self.url}/results/{test_id}'
+        else:
+            url = f'{self.url}/results'
+        return requests.get(url).json()
+
 
 def status(url, siteref):
     status = ''
@@ -164,4 +310,3 @@ def stop_one(args):
     response = requests.post(url + '/graphql', json=payload)
 
     wait(url, site_id, "Stopped")
-
