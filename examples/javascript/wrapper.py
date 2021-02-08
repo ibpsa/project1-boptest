@@ -40,28 +40,33 @@ while try_results:
         div = results[0]
         if div.value !='':
              result= eval(div.value)
-        tab=pd.DataFrame(result['u'])
+        tab=pd.DataFrame(result)
         try_results = False
     except:
         try_results = True
 
-tab_y = pd.DataFrame(result['y'])
-tab = tab.merge(tab_y, on=['time'], how='inner')
+tab_y = pd.DataFrame(result)
 tab = tab.set_index('time')
 tab.to_csv('/home/result_{}.csv'.format(testcase))
 
 ########## extract the kpi output ##########
 
-kpis = browser.find_by_id("kpi")
+try_kpi = True
+while try_kpi:
+    try:
+        kpis = browser.find_by_id("kpi")
 
-div = kpis[0]
+        div = kpis[0]
 
-if div.value !='':
-     kpis= eval(div.value)
+        if div.value !='':
+             kpis= eval(div.value)
 
-tab_kpi = pd.DataFrame.from_dict(kpis, orient='index', columns=['value'])
-tab_kpi.index.name = 'keys'
-tab_kpi.to_csv('/home/kpi_{}.csv'.format(testcase))
+        tab_kpi = pd.DataFrame.from_dict(kpis, orient='index', columns=['value'])
+        tab_kpi.index.name = 'keys'
+        tab_kpi.to_csv('/home/kpi_{}.csv'.format(testcase))
+        try_kpi = False
+    except:
+        try_kpi = True
 
 ########## kill the browser process ##########
 
