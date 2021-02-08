@@ -2551,6 +2551,30 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>conHeaRo3_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro3
 </li>
 <li>
+<code>extBth_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Bth
+</li>
+<li>
+<code>extLiv_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Liv
+</li>
+<li>
+<code>infAti_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ati
+</li>
+<li>
+<code>infGar_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Gar
+</li>
+<li>
+<code>infHal_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Hal
+</li>
+<li>
+<code>infRo1_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro1
+</li>
+<li>
+<code>infRo2_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro2
+</li>
+<li>
+<code>infRo3_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro3
+</li>
+<li>
 <code>reaHeaBth_y</code> [W] [min=None, max=None]: Heating delivered to Bth
 </li>
 <li>
