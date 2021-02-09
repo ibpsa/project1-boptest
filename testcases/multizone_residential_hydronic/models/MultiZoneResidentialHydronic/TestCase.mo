@@ -1193,7 +1193,7 @@ public
         origin={-91,-127})));
   Building.Control.ConHea conPumHea(
     Khea=mBoi_flow_nominal,
-    k=1,
+    k=0.1,
     Ti=600,
     zone="emission system pump")
             annotation (Placement(transformation(
