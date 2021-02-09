@@ -1172,7 +1172,8 @@ public
     TRet_nominal=TRet_nominal,
     TOut_nominal(displayUnit="degC") = 268.15)
     annotation (Placement(transformation(extent={{-130,-126},{-126,-122}})));
-  Building.Control.ConHea conHeaTSup(Khea=1, zone="supply water")
+  Building.Control.ConHea conHeaTSup(Khea=1,
+    k=1e-3,                                  zone="supply water")
     annotation (Placement(transformation(extent={{-122,-126},{-116,-122}})));
   Modelica.Blocks.Sources.RealExpression realExpression29(y=schGeneral.HeaSetRT12
          + delta_ST_rad)
