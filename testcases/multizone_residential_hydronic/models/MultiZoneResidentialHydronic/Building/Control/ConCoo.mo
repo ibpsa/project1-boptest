@@ -25,7 +25,7 @@ model ConCoo "Controller for cooling"
             -18},{-100,-2}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b P annotation (Placement(
         transformation(rotation=0, extent={{-6,4},{6,16}})));
-  parameter Real Kcoo=1e6 "Gain value for the cooling controller";
+  parameter Real Kcoo=1e3 "Gain value for the cooling controller";
 
   parameter String zone="1" "Zone designation";
 
