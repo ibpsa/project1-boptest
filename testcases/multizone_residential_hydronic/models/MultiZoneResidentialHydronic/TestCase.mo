@@ -760,7 +760,8 @@ public
     phase=0) annotation (Placement(transformation(extent={{24,80},{32,88}})));
   Buildings.HeatTransfer.Sources.PrescribedTemperature T_sol
     annotation (Placement(transformation(extent={{40,80},{48,88}})));
-  Building.Control.ConCoo conCooLiv(zone="Liv")
+  Building.Control.ConCoo conCooLiv(Kcoo=2e3,
+                                    zone="Liv")
     annotation (Placement(transformation(extent={{-66,18},{-62,20}})));
   parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic CeilingWall(final
       nLay=1, material={Buildings.HeatTransfer.Data.Solids.Generic(
