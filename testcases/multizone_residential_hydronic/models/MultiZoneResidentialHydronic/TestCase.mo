@@ -2810,9 +2810,10 @@ First implementation.
 </ul>
 </html>"),
     experiment(
-      StopTime=604800,
+      StopTime=31536000,
       Interval=600,
-      __Dymola_Algorithm="Dassl"),
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,
     __Dymola_Commands(file="Scripts/plot_temp.mos" "plot_temp"));
 end TestCase;
