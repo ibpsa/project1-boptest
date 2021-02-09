@@ -1019,7 +1019,8 @@ public
     annotation (Placement(transformation(extent={{-80,-146},{-74,-140}})));
   Modelica.Blocks.Sources.RealExpression realExpression31(y=TLiv.T)
     annotation (Placement(transformation(extent={{-80,-150},{-74,-144}})));
-  Building.Control.ConHeaZon conHeaLiv(Khea=1, Ti=300,
+  Building.Control.ConHeaZon conHeaLiv(Khea=1,
+    k=3e-2,                                    Ti=300,
     zone="Liv")
     annotation (Placement(transformation(extent={{-68,-146},{-60,-142}})));
   Buildings.Fluid.FixedResistances.Junction inSplVal1(
