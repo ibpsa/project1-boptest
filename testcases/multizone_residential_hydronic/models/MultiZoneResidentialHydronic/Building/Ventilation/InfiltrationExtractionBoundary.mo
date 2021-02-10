@@ -22,6 +22,6 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   annotation (Documentation(info="<html>
-Models air infiltration or extraction and sets Medium to have boundary conditions. 
+Models air infiltration or extraction and sets Medium to have boundary conditions.
 </html>"));
 end InfiltrationExtractionBoundary;

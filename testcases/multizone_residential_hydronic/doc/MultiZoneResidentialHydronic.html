@@ -8,7 +8,7 @@
 <style type="text/css">
 *       { font-size: 100%; font-family: Arial, sans-serif; }
 .modelica, .modelica * { font-size: 90%; font-family: Courier, monospace; white-space: pre; } /* For the Modelica code (in exported html). */
-h4      { font-size: 100%; font-weight: bold; color: green; } 
+h4      { font-size: 100%; font-weight: bold; color: green; }
 h3      { font-size: 110%; font-weight: bold; color: green; }
 h2      { font-size: 130%; font-weight: bold; color: green; }
 address { font-weight: normal; }
@@ -48,8 +48,8 @@ pre {white-space: pre; overflow-x : hidden;}
 <h3>Information</h3>
 
 <p>
-This is the multi zone residential hydronic emulator model 
-of BOPTEST. 
+This is the multi zone residential hydronic emulator model
+of BOPTEST.
 </p>
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
@@ -60,19 +60,19 @@ i.e. the French national building energy regulation. Therefore,
 the typology is defined to be representative of French new
 dwellings. Its area is approximately 120 m&sup2; (<i>S_ref</i>).
 The following figure shows the building layout and
-a sketch of the hydraulic system. The coloured elements in the scheme 
+a sketch of the hydraulic system. The coloured elements in the scheme
 represent the controllable components
 through the BOPTEST interface. The dimensions are provided in metres.
 
 </p>
 <p align="center">
-<img alt="Simulated residential dwelling" 
+<img alt="Simulated residential dwelling"
 src="images/layout.png">
 </p>
 
 <p>
-The orientation of each building was chosen to maximize the natural light during winter. 
-Thus, the main surface of windows of the building is south oriented. 
+The orientation of each building was chosen to maximize the natural light during winter.
+Thus, the main surface of windows of the building is south oriented.
 The building consists of six thermal zones that are actively controlled and two unconditioned
 zones:
 </p>
@@ -86,9 +86,9 @@ zones:
 </ul>
 
 <p>
-The building envelope was defined in order to cover the new construction 
-modes existing on the market. Thus, each of these modes was characterized 
-by a different level of insulation (Table 1). 
+The building envelope was defined in order to cover the new construction
+modes existing on the market. Thus, each of these modes was characterized
+by a different level of insulation (Table 1).
 </p>
 
 <p><span style="font-family: Arial,sans-serif;">Table 1.Building envelope characteristic</span> </p>
@@ -133,10 +133,10 @@ by a different level of insulation (Table 1).
 
 <p>
 These values are in accordance with the French Thermal regulation 2012.
-The building was subject to a detailed modeling according to the architecture plans. 
-The volume was divided into 8 thermal zones according to space function 
-(an additional thermal zone was created to simulate the behaviour of the attic). 
-Each space (room) has its own thermal behaviour as a result of the boundary conditions 
+The building was subject to a detailed modeling according to the architecture plans.
+The volume was divided into 8 thermal zones according to space function
+(an additional thermal zone was created to simulate the behaviour of the attic).
+Each space (room) has its own thermal behaviour as a result of the boundary conditions
 (climate, adjacent spaces, etc.) and the internal conditions (internal loads, scenarios, etc.)
 </p>
 <p>
@@ -146,107 +146,107 @@ parameterized with the length of the bridge element and a thermal coefficient (<
 
 <h4>Occupancy schedules</h4>
 <p>
-The thermal zones of the building, except the unheated zones, are subject to conventional 
-scenarios (occupation, heating, cooling, ventilation, lighting, internal loads) defined in the 
-French Thermal Regulation 2012 (CSTB - Centre Scientifique et Technique du B&acirc;timent), 2012. 
-M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 2012). 
+The thermal zones of the building, except the unheated zones, are subject to conventional
+scenarios (occupation, heating, cooling, ventilation, lighting, internal loads) defined in the
+French Thermal Regulation 2012 (CSTB - Centre Scientifique et Technique du B&acirc;timent), 2012.
+M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 2012).
 </p>
 <p>
-For example, the building is considered occupied continuously by four adults from 19PM to 10AM 
-for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends. 
+For example, the building is considered occupied continuously by four adults from 19PM to 10AM
+for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends.
 During the periods that the building is occupied, the occupants are considered to be either
-all in the living room during day-time, or distributed in their rooms during night-time. 
-There is a short transition period (one hour) on the switching between day- and night-time when 
-the living room and bedrooms are considered to be occupied to half of their nominal capacity each. 
-A reduction of 30&percnt; of the internal loads due to occupants is observed during the night-time. 
+all in the living room during day-time, or distributed in their rooms during night-time.
+There is a short transition period (one hour) on the switching between day- and night-time when
+the living room and bedrooms are considered to be occupied to half of their nominal capacity each.
+A reduction of 30&percnt; of the internal loads due to occupants is observed during the night-time.
 </p>
 <p>
-On a yearly basis, the building is considered unoccupied one week at the end of December and 
-two weeks in August. 
+On a yearly basis, the building is considered unoccupied one week at the end of December and
+two weeks in August.
 </p>
 <p>
-The building heating temperature setpoint is fixed conventionally at 19&deg;C during 
-occupied periods, 16&deg;C during unoccupied periods shorter than 48 hours and 7&deg;C otherwise. 
-The scenario for cooling is similar, cooling temperature setpoints are 28&deg;C / 30&deg;C / 30&deg;C. 
+The building heating temperature setpoint is fixed conventionally at 19&deg;C during
+occupied periods, 16&deg;C during unoccupied periods shorter than 48 hours and 7&deg;C otherwise.
+The scenario for cooling is similar, cooling temperature setpoints are 28&deg;C / 30&deg;C / 30&deg;C.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
-The internal loads considered are mainly due to lighting and appliances. For lighting, 
-approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et 
-Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation 
-thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat. 
-Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM 
-and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all 
-day long during weekends. Otherwise, this level is reduced by 80&percnt;. 
+The internal loads considered are mainly due to lighting and appliances. For lighting,
+approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et
+Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation
+thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat.
+Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM
+and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all
+day long during weekends. Otherwise, this level is reduced by 80&percnt;.
 </p>
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
-of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos). 
+of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos).
 The ground temperature is assumed to be a sinusoidal signal with an amplitude
-of 2&deg;C oscilating with a yearly period around 15&deg;C. 
+of 2&deg;C oscilating with a yearly period around 15&deg;C.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-Each building zone has its own radiator equipped with a thermostatic valve that is modeled 
-using a PI controller. The radiators are sized accordingly to the building envelope characteristics 
+Each building zone has its own radiator equipped with a thermostatic valve that is modeled
+using a PI controller. The radiators are sized accordingly to the building envelope characteristics
 and to the specific climate of Bordeaux, France.
 </p>
 <p>
-The water through the heating emission system is heated by a gas boiler. 
-The boiler is designed to provide power (sum of the radiators nominal 
-power) for spacial heating only, domestic hot water production is not taken 
+The water through the heating emission system is heated by a gas boiler.
+The boiler is designed to provide power (sum of the radiators nominal
+power) for spacial heating only, domestic hot water production is not taken
 into account in this model.
 </p>
 <p>
-The building is in cooling mode until March 29th (day 88 of the year), and from October 28th (day 301 of the year). 
-During this period, ideal cooling is considered in all conditioned zones with a PI controller in each zone. 
-This controller provides the cooling thermal power required to comply with the cooling setpoint in every zone. 
+The building is in cooling mode until March 29th (day 88 of the year), and from October 28th (day 301 of the year).
+During this period, ideal cooling is considered in all conditioned zones with a PI controller in each zone.
+This controller provides the cooling thermal power required to comply with the cooling setpoint in every zone.
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
 The boiler uses an efficiency curve constant with coefficient 0.9.
 The heating system circulation pump uses an efficiency curve that is function of the
-mass flow rate of water through the emission system. 
-Air cooling is modeled with a constant energy efficiency ratio of 3. 
+mass flow rate of water through the emission system.
+Air cooling is modeled with a constant energy efficiency ratio of 3.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-The following set of controllers drive the baseline controller implemented in this model: 
+The following set of controllers drive the baseline controller implemented in this model:
 </p>
 <ul>
 <li>
-A security system of the boiler follows a nominal supply water temperature of 90&deg;C. 
+A security system of the boiler follows a nominal supply water temperature of 90&deg;C.
 </li>
 <li>
-A hysteresis controller reads the indoor air temperature setpoint (from the occupancy schedule) and the actual 
-indoor air temperature to decide on the boiler mode: either on or off. 
-The living room temperature is chosen to represent the indoor temperature of the whole building. 
-Therefore, the thermostat is considered to be placed in the living room. 
+A hysteresis controller reads the indoor air temperature setpoint (from the occupancy schedule) and the actual
+indoor air temperature to decide on the boiler mode: either on or off.
+The living room temperature is chosen to represent the indoor temperature of the whole building.
+Therefore, the thermostat is considered to be placed in the living room.
 </li>
 <li>
-An anti short cycle system of the boiler compares the operating 
-time of the boiler between two start/stops. This operating time should be greater than 600 seconds to allow 
+An anti short cycle system of the boiler compares the operating
+time of the boiler between two start/stops. This operating time should be greater than 600 seconds to allow
 the boiler to switch mode. This system should improve the overall boiler performance. &nbsp;
 </li>
 <li>
-When the boiler mode is on, an additional PI controller  
-controls the load ratio of the boiler. A minimum partial load ratio of Pmin_Ch/Pmax_Ch 
+When the boiler mode is on, an additional PI controller
+controls the load ratio of the boiler. A minimum partial load ratio of Pmin_Ch/Pmax_Ch
 equal to 11&percnt; is imposed in this controller.
 </li>
 <li>
 A heating curve is implemented to modulate the supply water temperature from the boiler to the emission
-circuit based on outdoor temperature readings. A 3 way valve is used for this modulation. 
+circuit based on outdoor temperature readings. A 3 way valve is used for this modulation.
 </li>
 <li>
-The emission circuit pump is switched on based on a signal of a PI controller 
-that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor 
+The emission circuit pump is switched on based on a signal of a PI controller
+that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor
 air temperature from the thermostat in the living room.
 </li>
 <li>
 There is one radiator per zone with a motorized valve controlled by a PI controller
-that follows the air zone temperature setpoint. Only the hallway zone has no valve and its hydronic 
+that follows the air zone temperature setpoint. Only the hallway zone has no valve and its hydronic
 circuit remains always open to ensure that there iswater flow. This is a typical layout that avoids
 vacuum failures when all valves are closed while the distribution pump is working.
 </li>
@@ -518,9 +518,9 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
-For lighting, approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et 
-Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation 
-thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat. 
+For lighting, approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et
+Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation
+thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat.
 </p>
 <h4>Shading</h4>
 <p>
@@ -529,32 +529,32 @@ No shading model is included.
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
 <p>
-The model uses moist air despite that no condensation is modeled in any of the used components. 
+The model uses moist air despite that no condensation is modeled in any of the used components.
 </p>
 <h4>Pressure-flow models</h4>
 <p>
-A circulation loop with one parallel branch per zone is used to model the heating emission system. 
+A circulation loop with one parallel branch per zone is used to model the heating emission system.
 </p>
 <h4>Infiltration models</h4>
 <p>
 Mechanical ventilation from outside air and air exchange between zones are considered in the model.
 The total value of the volumetric airflow exchanged is established according to the French
 national regulations.
-Specifically, outside fresh air is infiltrated in the garage and the attic at a rate of 0.5 ACH. 
+Specifically, outside fresh air is infiltrated in the garage and the attic at a rate of 0.5 ACH.
 In the living room and bedrooms the total infiltrated air is of 113.4 m3/h, which is distributed
-proportionally to the area of these zones. 
-There is not infiltration considered in the bathroom nor the hallway. 
-80&percnt; of the infiltrated air is exhausted through a fan in the bathroom. 
-This fan is not controllable and its electricity use is neglected. 
-The other 20&percnt; of the infiltrated air is assumed to be leaked in the living room. 
+proportionally to the area of these zones.
+There is not infiltration considered in the bathroom nor the hallway.
+80&percnt; of the infiltrated air is exhausted through a fan in the bathroom.
+This fan is not controllable and its electricity use is neglected.
+The other 20&percnt; of the infiltrated air is assumed to be leaked in the living room.
 
 </p>
 <h4>Other assumptions</h4>
 <p>
 The CO2 generation in each zone is based on number of occupants in that zone.
-CO2 generation is 0.004 L/s per person (Table 5, Persily and De Jonge 2017) 
-and density of CO2 assumed to be 1.8 kg/m^3, making CO2 generation 7.2e-6 kg/s per person. 
-Outside air CO2 concentration is 400 ppm. However, CO2 concentration is not controlled for in the model. 
+CO2 generation is 0.004 L/s per person (Table 5, Persily and De Jonge 2017)
+and density of CO2 assumed to be 1.8 kg/m^3, making CO2 generation 7.2e-6 kg/s per person.
+Outside air CO2 concentration is 400 ppm. However, CO2 concentration is not controlled for in the model.
 </p>
 <p>
 Persily, A. and De Jonge, L. (2017).
@@ -567,60 +567,60 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 <h5>Constant electricity price profile</h5>
 <p>
 The constant electricity price scenario uses a constant price of 0.108 EUR/kWh,
-as obtained from the Engie's "Elec Ajust" deal before taxes (HTT) in 
+as obtained from the Engie's "Elec Ajust" deal before taxes (HTT) in
 <a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf">
-https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a> 
-(accessed on July 2020). 
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a>
+(accessed on July 2020).
 The tariff used is the one for households with contracted power installations higher than 6 kVA.
 </p>
 <h5>Dynamic electricity price profile</h5>
 <p>
-The dynamic electricity price scenario uses a dual rate of 0.126 EUR/kWh during 
+The dynamic electricity price scenario uses a dual rate of 0.126 EUR/kWh during
 day time and 0.086 EUR/kWh during night time,
-as obtained from the the Engie's "Elec Ajust" deal before taxes (HTT) in 
+as obtained from the the Engie's "Elec Ajust" deal before taxes (HTT) in
 <a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf">
-https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a> 
-(accessed on July 2020). 
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a>
+(accessed on July 2020).
 The tariff used is the one for households with contracted power installations higher than 6 kVA.
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
-The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
 </p>
 <h5>Highly dynamic electricity price profile</h5>
 <p>
-For the highly dynamic scenario, the French day-ahead prices of 2019 are used. 
+For the highly dynamic scenario, the French day-ahead prices of 2019 are used.
 Obtained from:
 <a href="https://www.epexspot.com/en">
-https://www.epexspot.com/en</a> 
+https://www.epexspot.com/en</a>
 The prices are parsed and exported using this repository:
 <a href="https://github.com/JavierArroyoBastida/epex-spot-data">
-https://github.com/JavierArroyoBastida/epex-spot-data</a> 
+https://github.com/JavierArroyoBastida/epex-spot-data</a>
 </p>
 <h5>Gas price profile</h5>
 <p>
-The gas price is assumed constant and of 0.0491 EUR/kWh 
+The gas price is assumed constant and of 0.0491 EUR/kWh
 as obtained from the "Gaz Energie Garantie 1 an" deal for gas in
 <a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf">
-https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf</a> 
-(accessed on July 2020). 
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf</a>
+(accessed on July 2020).
 Price before taxes (HTT) for a contracted anual tariff between 0 - 6000 kWh.
 </p>
 <h4>Emission Factors</h4>
 <h5>Electricity emissions factor profile</h5>
 <p>
-It is used a constant emission factor for electricity of 0.047 kgCO2/kWh 
+It is used a constant emission factor for electricity of 0.047 kgCO2/kWh
 which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
 for year 2019 in France. For reference, see:
  <a href="https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf">
-https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
 </p>
 <h5>Gas emissions factor profile</h5>
 <p>
-Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+Based on the kgCO2 emitted per amount of natural gas burned in terms of
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see:
 <a href="https://www.eia.gov/environment/emissions/co2_vol_mass.php">
-https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 
 <p><span class="ModelicaBaseClass">Extends from Modelica.Icons.Example (Icon for runnable examples).</span></p>

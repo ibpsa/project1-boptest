@@ -31,12 +31,12 @@ equation
     Documentation(info="<html>
 Models CO2 generation in a zone based on number of occupants in that zone
 <code>nOcc</code> and the CO2 generation per person.
-CO2 generation is 0.004 L/s per person (Table 5, Persily and De Jonge 2017) 
-and density of CO2 assumed to be 1.8 kg/m^3, making CO2 generation 7.2e-6 kg/s per person. 
-Outside air CO2 concentration is 400 ppm. However, CO2 concentration is not controlled for in the model. 
+CO2 generation is 0.004 L/s per person (Table 5, Persily and De Jonge 2017)
+and density of CO2 assumed to be 1.8 kg/m^3, making CO2 generation 7.2e-6 kg/s per person.
+Outside air CO2 concentration is 400 ppm. However, CO2 concentration is not controlled for in the model.
 
-The number of occupants of the room is multiplied by the occupancy fraction 
-<code>occFrac</code>, which follows the building occupancy schedules. 
+The number of occupants of the room is multiplied by the occupancy fraction
+<code>occFrac</code>, which follows the building occupancy schedules.
 
 <p>
 Persily, A. and De Jonge, L. (2017).

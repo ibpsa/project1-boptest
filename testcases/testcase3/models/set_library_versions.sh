@@ -1,5 +1,5 @@
 # This file is used by unit testing to specify library versions.
-# Commands here should maintain alignment with the environment generated in 
+# Commands here should maintain alignment with the environment generated in
 # testing/Dockerfile.
 
 # Set modelica library commits here

@@ -48,10 +48,10 @@ equation
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-Base class model for ventilation. 
-There should be one ventilation block connected to the fluid ports of each zone. 
-Set <code>isConditionedTrue=true</code> when zone is conditioned. In these cases 
+Base class model for ventilation.
+There should be one ventilation block connected to the fluid ports of each zone.
+Set <code>isConditionedTrue=true</code> when zone is conditioned. In these cases
 the CO2 readings from that zone will be accounted for indoor air quality. Otherwise
-the CO2 readings of the zone are still taken but not accounted for indoor air quality. 
+the CO2 readings of the zone are still taken but not accounted for indoor air quality.
 </html>"));
 end BaseClass;

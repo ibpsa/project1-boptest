@@ -32,9 +32,9 @@ equation
   connect(infSouExtSin.ports[1], venPort) annotation (Line(points={{20,-4},{40,
           -4},{40,-20},{60,-20}}, color={0,127,255}));
   annotation (Documentation(info="<html>
-Models either air infiltration or air extraction in a building zone. 
-The air flow direction is determined by the sign of the <code>m_flow_vent</code> 
+Models either air infiltration or air extraction in a building zone.
+The air flow direction is determined by the sign of the <code>m_flow_vent</code>
 parameter: a negative sign indicates air flowing out of the room,
-and a positive sign indicates air flowing into the room. 
+and a positive sign indicates air flowing into the room.
 </html>"));
 end InfiltrationExtraction;
