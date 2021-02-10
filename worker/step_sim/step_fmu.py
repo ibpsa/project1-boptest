@@ -101,6 +101,8 @@ def get_config():
     c['step'] = 60
     c['horizon'] = 86400
     c['interval'] = 3600
+    c['scenario'] = dict()
+    c['scenario']['electricity_price'] = 'constant'
     return c
 """
 
