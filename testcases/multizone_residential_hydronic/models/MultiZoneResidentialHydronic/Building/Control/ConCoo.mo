@@ -2,6 +2,7 @@ within MultiZoneResidentialHydronic.Building.Control;
 model ConCoo "Controller for cooling"
 
   Buildings.Controls.Continuous.LimPID conCoo(
+    Ni=0.1,
     initType=Modelica.Blocks.Types.InitPID.InitialState,
     Td=1e4,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
