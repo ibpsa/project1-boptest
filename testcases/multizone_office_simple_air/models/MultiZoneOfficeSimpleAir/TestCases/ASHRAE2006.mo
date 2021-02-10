@@ -123,6 +123,8 @@ model ASHRAE2006
   Modelica.Blocks.Sources.RealExpression PCoo(y=cooCoi.Q1_flow/cop)
     "Electrical power for cooling coil"
     annotation (Placement(transformation(extent={{140,300},{160,320}})));
+  IBPSA.Utilities.IO.SignalExchange.WeatherStation weaSta
+    annotation (Placement(transformation(extent={{240,360},{260,380}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
       points={{320,-40},{320,0},{320,-10},{320,-10}},
@@ -154,7 +156,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(TRet.T, conEco.TRet) annotation (Line(
-      points={{100,151},{100,172},{-94,172},{-94,153.333},{-81.3333,153.333}},
+      points={{100,151},{100,172},{-94,172},{-94,157.333},{-81.3333,157.333}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -170,7 +172,7 @@ equation
       pattern=LinePattern.Dash));
 
   connect(conEco.VOut_flow, VOut1.V_flow) annotation (Line(
-      points={{-81.3333,142.667},{-90,142.667},{-90,80},{-61,80},{-61,-20.9}},
+      points={{-81.3333,149.333},{-90,149.333},{-90,80},{-61,80},{-61,-20.9}},
       color={0,0,127},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -218,17 +220,16 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(conEco.controlBus, controlBus) annotation (Line(
-      points={{-70.6667,141.467},{-70.6667,120},{-240,120},{-240,-342}},
+      points={{-76,150.667},{-76,120},{-240,120},{-240,-342}},
       color={255,204,51},
       thickness=0.5));
-  connect(modeSelector.yFan, conFanSup.uFan) annotation (Line(points={{-179.091,
-          -305.455},{260,-305.455},{260,-30},{226,-30},{226,6},{238,6}},
-                                                                 color={255,0,
+  connect(modeSelector.yFan, conFanSup.uFan) annotation (Line(points={{-179.545,
+          -310},{260,-310},{260,-30},{226,-30},{226,6},{238,6}}, color={255,0,
           255}));
-  connect(freSta.y, or2.u1) annotation (Line(points={{22,-90},{40,-90},{40,-160},
+  connect(freSta.y, or2.u1) annotation (Line(points={{22,-92},{40,-92},{40,-160},
           {-80,-160},{-80,-240},{-62,-240}},                 color={255,0,255}));
   connect(or2.u2, modeSelector.yFan) annotation (Line(points={{-62,-248},{-80,
-          -248},{-80,-305.455},{-179.091,-305.455}},
+          -248},{-80,-310},{-179.545,-310}},
                                      color={255,0,255}));
   connect(cor.y_actual, pSetDuc.u[1]) annotation (Line(points={{612,58},{620,58},
           {620,74},{140,74},{140,-7.6},{158,-7.6}}, color={0,0,127}));
@@ -256,7 +257,8 @@ equation
           -314.545},{-160,-314.545},{-160,100},{-73.3333,100},{-73.3333,137.333}},
         color={255,0,255}));
   connect(TMix.T, conEco.TMix) annotation (Line(points={{40,-29},{40,166},{-90,
-          166},{-90,148},{-81.3333,148}}, color={0,0,127}));
+          166},{-90,153.333},{-81.3333,153.333}},
+                                          color={0,0,127}));
   connect(controlBus, TSupSet.controlBus) annotation (Line(
       points={{-240,-342},{-240,-228},{-190,-228}},
       color={255,204,51},
@@ -463,9 +465,6 @@ equation
         color={0,0,127}));
   connect(conFanSup.y, oveAhu.uFan_in) annotation (Line(points={{261,0},{270,0},
           {270,20},{220,20},{220,67.8571},{238,67.8571}}, color={0,0,127}));
-  connect(oveAhu.yFan, fanSup.y) annotation (Line(points={{261,67.8571},{280,
-          67.8571},{280,-20},{310,-20},{310,-28}},
-                                          color={0,0,127}));
   connect(conTSup.yCoo, oveAhu.uCoo_in) annotation (Line(points={{52,-226},{148,
           -226},{148,59.2857},{238,59.2857}}, color={0,0,127}));
   connect(oveAhu.yCoo, gaiCooCoi.u) annotation (Line(points={{261,59.2857},{276,
@@ -487,7 +486,7 @@ equation
   connect(oveAhu.TSupSet_out, conTSup.TSupSet) annotation (Line(points={{261,55},
           {268,55},{268,56},{274,56},{274,32},{-168,32},{-168,-220},{28,-220}},
         color={0,0,127}));
-  connect(conEco.yOA, oveAhu.uOA_in) annotation (Line(points={{-58.6667,152},{0,
+  connect(conEco.yOA, oveAhu.uOA_in) annotation (Line(points={{-59.3333,152},{0,
           152},{0,46.4286},{238,46.4286}}, color={0,0,127}));
   connect(oveAhu.yOA, eco.yOut) annotation (Line(points={{261,46.4286},{270,
           46.4286},{270,36},{-10,36},{-10,-34}},
@@ -497,7 +496,7 @@ equation
   connect(oveAhu.yRet, eco.yRet) annotation (Line(points={{261,42.1429},{268,
           42.1429},{268,38},{-18,38},{-18,-34},{-16.8,-34}},
                                                     color={0,0,127}));
-  connect(conEco.yRet, oveAhu.uRet_in) annotation (Line(points={{-58.6667,
+  connect(conEco.yRet, oveAhu.uRet_in) annotation (Line(points={{-59.3333,
           146.667},{-4,146.667},{-4,42.1429},{238,42.1429}},
                                                     color={0,0,127}));
   connect(fanSup.y, reaAhu.yFan_in) annotation (Line(points={{310,-28},{280,-28},
@@ -534,6 +533,13 @@ equation
           200,306},{238,306}}, color={0,0,127}));
   connect(fanSup.P, reaAhu.PFanSup_in) annotation (Line(points={{321,-31},{338,
           -31},{338,98},{220,98},{220,309},{238,309}}, color={0,0,127}));
+  connect(weaSta.weaBus, flo.weaBus) annotation (Line(
+      points={{240.1,369.9},{-20,369.9},{-266,369.9},{-320,369.9},{-320,506},{
+          988.714,506}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(oveAhu.yFan, fanSup.y) annotation (Line(points={{261,67.8571},{284,
+          67.8571},{284,-20},{310,-20},{310,-28}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1440,
             660}})),
@@ -653,7 +659,10 @@ This is for
           "modelica://Buildings/Resources/Scripts/Dymola/Examples/VAVReheat/ASHRAE2006.mos"
         "Simulate and plot"),
     experiment(
-      StopTime=172800,
-      Tolerance=1e-06),
+      StartTime=6380000,
+      StopTime=6780000,
+      Interval=60,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
 end ASHRAE2006;
