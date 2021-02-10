@@ -94,9 +94,9 @@ for key in kpi.keys():
 # --------------------
 # Get result data
 res = requests.get('{0}/results/{1}'.format(url,testid)).json()
-time = [x/3600 for x in res['y']['time']] # convert s --> hr
-TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-PHeat = res['y']['PHea_y']
+time = [x/3600 for x in res['time']] # convert s --> hr
+TZone = [x-273.15 for x in res['TRooAir_y']] # convert K --> C
+PHeat = res['PHea_y']
 # Plot results
 #if True:
 #    from matplotlib import pyplot as plt

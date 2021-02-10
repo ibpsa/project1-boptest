@@ -39,6 +39,7 @@ from distutils import util
 from pymongo import MongoClient
 import imp
 import requests
+import numpy as np
 config_module = imp.new_module('config')
 sys.modules['config'] = config_module
 
@@ -229,7 +230,7 @@ def get_config():
         kpis = self.tc.get_kpis()
         kpidump = json.dumps(kpis)
         self.update_kpis(kpis)
-        self.update_results(self.tc.get_results())
+        self.update_results()
 
         # Clear all current values from the database when the simulation is no longer running
         self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.simStatus": "s:Stopped"}, "$unset": {"rec.datetime": ""}}, False)
@@ -305,7 +306,13 @@ def get_config():
     def update_kpis(self, kpis):
         self.redis.hset(self.site_ref, 'kpis', json.dumps(kpis))
 
-    def update_results(self, results):
+    def update_results(self):
+        results = {}
+        for key in self.tc.get_inputs().keys() + self.tc.get_measurements().keys():
+            results_key = self.tc.get_results(key, -np.inf, np.inf)
+            if 'time' not in results.keys():
+                results['time'] = results_key['time'].tolist()
+            results[key] = results_key[key].tolist()
         self.redis.hset(self.site_ref, 'results', json.dumps(results))
 
     def clear_forecast(self):
