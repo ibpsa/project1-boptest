@@ -345,10 +345,10 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 class FindDaysTest(unittest.TestCase, utilities.partialChecks):
     '''Tests module to find peak and typical heating and cooling
     days for a test case. These days are used to define the
-    test case scenarios. 
-    
+    test case scenarios.
+
     '''
-    
+
     def setUp(self):
         '''Setup for each test.
 
@@ -356,21 +356,21 @@ class FindDaysTest(unittest.TestCase, utilities.partialChecks):
 
         self.sim_data = os.path.join(testing_root_dir,'references',
                             'data', 'find_days', 'sim_test_days.csv')
-        
+
         self.days_ref = os.path.join(testing_root_dir,'references',
                             'data', 'find_days', 'days_ref.json')
 
-    
+
     def test_find_days(self):
-        '''The test uses one month simulation data as obtained from 
-        the bestest_air case. 
-        
+        '''The test uses one month simulation data as obtained from
+        the bestest_air case.
+
         '''
-        
-        days = find_days(heat='fcu_reaPCoo_y', cool='fcu_reaPHea_y', 
+
+        days = find_days(heat='fcu_reaPCoo_y', cool='fcu_reaPHea_y',
                          data=self.sim_data)
-        
-        self.compare_ref_json(days, self.days_ref)        
-    
+
+        self.compare_ref_json(days, self.days_ref)
+
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
