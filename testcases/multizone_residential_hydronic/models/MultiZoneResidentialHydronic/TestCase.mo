@@ -741,16 +741,20 @@ public
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor T_Combles
     "Temprature de la zone"
     annotation (Placement(transformation(extent={{-210,-12},{-206,-8}})));
-  Building.Control.ConCoo conCooRo1(zone="Ro1")
+  Building.Control.ConCoo conCooRo1(Kcoo=3e3,
+                                    zone="Ro1")
     "Cooling controller for zone Ro1"
     annotation (Placement(transformation(extent={{10,14},{14,16}})));
-  Building.Control.ConCoo conCooRo2(zone="Ro2")
+  Building.Control.ConCoo conCooRo2(Kcoo=3e3,
+                                    zone="Ro2")
     "Cooling controller for zone Ro2"
     annotation (Placement(transformation(extent={{68,14},{72,16}})));
-  Building.Control.ConCoo conCooRo3(zone="Ro3")
+  Building.Control.ConCoo conCooRo3(Kcoo=3e3,
+                                    zone="Ro3")
     "Cooling controller for zone Ro3"
     annotation (Placement(transformation(extent={{68,-40},{72,-38}})));
-  Building.Control.ConCoo conCooBth(zone="Bth")
+  Building.Control.ConCoo conCooBth(Kcoo=3e3,
+                                    zone="Bth")
     "Cooling controller for zone Bth"
     annotation (Placement(transformation(extent={{6,-48},{10,-46}})));
   Modelica.Blocks.Sources.Sine temSoil(
@@ -760,7 +764,7 @@ public
     phase=0) annotation (Placement(transformation(extent={{24,80},{32,88}})));
   Buildings.HeatTransfer.Sources.PrescribedTemperature T_sol
     annotation (Placement(transformation(extent={{40,80},{48,88}})));
-  Building.Control.ConCoo conCooLiv(Kcoo=2e3,
+  Building.Control.ConCoo conCooLiv(Kcoo=5e3,
                                     zone="Liv")
     annotation (Placement(transformation(extent={{-66,18},{-62,20}})));
   parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic CeilingWall(final
@@ -1122,7 +1126,8 @@ public
         origin={42,-190})));
   Building.Schedules.ScheduleGeneral schGeneral "General schedule"
     annotation (Placement(transformation(extent={{-372,20},{-352,42}})));
-  Building.Control.ConCoo conCooHal(zone="Hal")
+  Building.Control.ConCoo conCooHal(Kcoo=3e3,
+                                    zone="Hal")
     "Cooling controller for zone Hal"
     annotation (Placement(transformation(extent={{74,-10},{78,-8}})));
   Modelica.Blocks.Sources.RealExpression expCooHal(y=schNight.CooSetRT12)
