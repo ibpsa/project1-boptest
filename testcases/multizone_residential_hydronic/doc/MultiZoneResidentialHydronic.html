@@ -48,8 +48,8 @@ pre {white-space: pre; overflow-x : hidden;}
 <h3>Information</h3>
 
 <p>
-This is a single zone residential hydronic system model 
-for WP 1.2 of IBPSA project 1. 
+This is the multi zone residential hydronic emulator model 
+of BOPTEST. 
 </p>
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
@@ -63,25 +63,26 @@ The following figure shows the building layout and
 a sketch of the hydraulic system. The coloured elements in the scheme 
 represent the controllable components
 through the BOPTEST interface. The dimensions are provided in metres.
-</p>
 
+</p>
 <p align="center">
-<img alt="Simulated residential dwelling" src="../../Resources/layout.png">
+<img alt="Simulated residential dwelling" 
+src="images/layout.png">
 </p>
 
 <p>
 The orientation of each building was chosen to maximize the natural light during winter. 
 Thus, the main surface of windows of the building is south oriented. 
-The building consists of six thermal zones that are actively controlled and two unheated
+The building consists of six thermal zones that are actively controlled and two unconditioned
 zones:
 </p>
 <ul>
-<li>1 living room/kitchen </li>
-<li>3 bedrooms (2 South facing, 1 North facing) </li>
-<li>1 bathroom </li>
-<li>1 hallway/corridor serving the sleeping area (bedrooms and bathroom) </li>
-<li>1 unheated garage </li>
-<li>1 unheated attic </li>
+<li>1 Living room/kitchen (<b>Liv</b>) </li>
+<li>3 Bedrooms: two south facing (<b>Ro1</b>, <b>Ro2</b>), and one north facing (<b>Ro3</b>) </li>
+<li>1 Bathroom (<b>Bth</b>) </li>
+<li>1 Hallway/corridor (<b>Hal</b>) serving the sleeping area: bedrooms and bathroom </li>
+<li>1 Unconditioned garage (<b>Gar</b>) </li>
+<li>1 Unconditioned attic (<b>Ati</b>) </li>
 </ul>
 
 <p>
@@ -139,9 +140,8 @@ Each space (room) has its own thermal behaviour as a result of the boundary cond
 (climate, adjacent spaces, etc.) and the internal conditions (internal loads, scenarios, etc.)
 </p>
 <p>
-The thermal bridges effect was taken into account by the intermediate of thermal resistance 
-parameterized with the length building element assimilated to the thermal bridge and a thermal 
-bridges coefficient (<i>k_PT</i>).
+The thermal bridges effect is modeled through thermal resistances that are
+parameterized with the length of the bridge element and a thermal coefficient (<i>k_PT</i>).
 </p>
 
 <h4>Occupancy schedules</h4>
@@ -154,9 +154,15 @@ M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 20
 <p>
 For example, the building is considered occupied continuously by four adults from 19PM to 10AM 
 for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends. 
+During the periods that the building is occupied, the occupants are considered to be either
+all in the living room during day-time, or distributed in their rooms during night-time. 
+There is a short transition period (one hour) on the switching between day- and night-time when 
+the living room and bedrooms are considered to be occupied to half of their nominal capacity each. 
+A reduction of 30&percnt; of the internal loads due to occupants is observed during the night-time. 
+</p>
+<p>
 On a yearly basis, the building is considered unoccupied one week at the end of December and 
-two weeks in August. A reduction of 30&percnt; of the internal loads due to occupants is observed 
-during the nighttime. 
+two weeks in August. 
 </p>
 <p>
 The building heating temperature setpoint is fixed conventionally at 19&deg;C during 
@@ -171,7 +177,7 @@ Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;gle
 thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat. 
 Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM 
 and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all 
-day long during weekends. Otherwise, this level is reduced by 80&percnt;. All this elements can be 
+day long during weekends. Otherwise, this level is reduced by 80&percnt;. 
 </p>
 <h4>Climate data</h4>
 <p>
@@ -193,11 +199,17 @@ The boiler is designed to provide power (sum of the radiators nominal
 power) for spacial heating only, domestic hot water production is not taken 
 into account in this model.
 </p>
+<p>
+The building is in cooling mode until March 29th (day 88 of the year), and from October 28th (day 301 of the year). 
+During this period, ideal cooling is considered in all conditioned zones with a PI controller in each zone. 
+This controller provides the cooling thermal power required to comply with the cooling setpoint in every zone. 
+</p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
 The boiler uses an efficiency curve constant with coefficient 0.9.
 The heating system circulation pump uses an efficiency curve that is function of the
 mass flow rate of water through the emission system. 
+Air cooling is modeled with a constant energy efficiency ratio of 3. 
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
@@ -234,7 +246,7 @@ air temperature from the thermostat in the living room.
 </li>
 <li>
 There is one radiator per zone with a motorized valve controlled by a PI controller
-that follows the air zone temperature set point. Only the hallway zone has no valve and its hydronic 
+that follows the air zone temperature setpoint. Only the hallway zone has no valve and its hydronic 
 circuit remains always open to ensure that there iswater flow. This is a typical layout that avoids
 vacuum failures when all valves are closed while the distribution pump is working.
 </li>
@@ -245,178 +257,192 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <p>The model inputs are: </p>
 <ul>
 <li>
-<code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal
+<code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal for part load ratio
 </li>
 <li>
-<code>conHeaBoiler_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conBoiSaf_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for boiler safety controller
 </li>
 <li>
-<code>conHeaBoiler_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+<code>conBoiSaf_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for boiler safety controller
 </li>
 <li>
-<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooBth_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Bth
 </li>
 <li>
-<code>conHeaBth_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooBth_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Bth
 </li>
 <li>
-<code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooHal_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Hal
 </li>
 <li>
-<code>conHeaRo1_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooHal_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Hal
 </li>
 <li>
-<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooLiv_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Liv
 </li>
 <li>
-<code>conHeaRo2_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooLiv_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Liv
 </li>
 <li>
-<code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooRo1_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Ro1
 </li>
 <li>
-<code>conHeaRo3_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooRo1_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Ro1
 </li>
 <li>
-<code>conHeaSal_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooRo2_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Ro2
 </li>
 <li>
-<code>conHeaSal_oveTsetHea_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for heating
+<code>conCooRo2_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Ro2
 </li>
 <li>
-<code>conPumHea_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conCooRo3_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Ro3
 </li>
 <li>
-<code>conPumHea_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+<code>conCooRo3_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Ro3
 </li>
 <li>
-<code>regul_Chambre1_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Bth
 </li>
 <li>
-<code>regul_Chambre1_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaBth_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Bth
 </li>
 <li>
-<code>regul_Chambre2_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaLiv_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Liv
 </li>
 <li>
-<code>regul_Chambre2_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaLiv_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Liv
 </li>
 <li>
-<code>regul_Chambre3_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro1
 </li>
 <li>
-<code>regul_Chambre3_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaRo1_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro1
 </li>
 <li>
-<code>regul_Chaudiere_Securite_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating
+<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro2
 </li>
 <li>
-<code>regul_Chaudiere_Securite_oveTsetHea_u</code> [K] [min=283.15, max=368.15]: Zone air temperature setpoint for heating
+<code>conHeaRo2_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro2
 </li>
 <li>
-<code>regul_Couloir_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro3
 </li>
 <li>
-<code>regul_Couloir_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaRo3_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro3
 </li>
 <li>
-<code>regul_SDB_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conHeaTSup_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for supply water
 </li>
 <li>
-<code>regul_SDB_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conHeaTSup_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for supply water
 </li>
 <li>
-<code>regul_Salon_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Precribed cooling power
+<code>conPumHea_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for emission system pump
 </li>
 <li>
-<code>regul_Salon_oveTsetCoo_u</code> [K] [min=283.15, max=303.15]: Zone air temperature setpoint for cooling
+<code>conPumHea_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for emission system pump
 </li>
 </ul>
 
 <h4>Outputs</h4>
 <p>The model outputs are: </p>
-
 <ul>
 <li>
-<code>boi_reaHeaBoi_y</code> [W] [min=None, max=None]: Boiler thermal energy usage
+<code>boi_reaHeaBoi_y</code> [W] [min=None, max=None]: Boiler thermal power use
 </li>
 <li>
-<code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power consumption
+<code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power use
 </li>
 <li>
-<code>conHeaBth_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooBth_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Bth
 </li>
 <li>
-<code>conHeaRo1_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooHal_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Hal
 </li>
 <li>
-<code>conHeaRo2_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooLiv_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Liv
 </li>
 <li>
-<code>conHeaRo3_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooRo1_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro1
 </li>
 <li>
-<code>conHeaSal_reaTzon_y</code> [K] [min=None, max=None]: Zone air temperature
+<code>conCooRo2_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro2
 </li>
 <li>
-<code>q_conv_Jour_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
+<code>conCooRo3_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro3
 </li>
 <li>
-<code>q_conv_Nuit_reaConOcc_y</code> [W/m2] [min=None, max=None]: Convective heat gains
+<code>conHeaBth_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Bth
 </li>
 <li>
-<code>reaHeaBth_y</code> [W] [min=None, max=None]: Read heating delivered to bathroom
+<code>conHeaLiv_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Liv
 </li>
 <li>
-<code>reaHeaHal_y</code> [W] [min=None, max=None]: Read heating delivered to Hall
+<code>conHeaRo1_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro1
 </li>
 <li>
-<code>reaHeaRo1_y</code> [W] [min=None, max=None]: Read heating delivered to room 1
+<code>conHeaRo2_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro2
 </li>
 <li>
-<code>reaHeaRo2_y</code> [W] [min=None, max=None]: Read heating delivered to room 2
+<code>conHeaRo3_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro3
 </li>
 <li>
-<code>reaHeaRo3_y</code> [W] [min=None, max=None]: Read heating delivered to room 3
+<code>extBth_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Bth
 </li>
 <li>
-<code>reaHeaSal_y</code> [W] [min=None, max=None]: Read heating delivered to Salon
+<code>extLiv_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Liv
 </li>
 <li>
-<code>reaTAti_y</code> [K] [min=None, max=None]: Read attic air temperature
+<code>infAti_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ati
 </li>
 <li>
-<code>reaTGar_y</code> [K] [min=None, max=None]: Read garage temperature
+<code>infGar_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Gar
 </li>
 <li>
-<code>reaTHal_y</code> [K] [min=None, max=None]: Read hall temperature
+<code>infHal_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Hal
 </li>
 <li>
-<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
+<code>infRo1_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro1
 </li>
 <li>
-<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone air setpoint temperature
+<code>infRo2_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro2
 </li>
 <li>
-<code>regul_Chambre1_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>infRo3_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro3
 </li>
 <li>
-<code>regul_Chambre2_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>reaHeaBth_y</code> [W] [min=None, max=None]: Heating delivered to Bth
 </li>
 <li>
-<code>regul_Chambre3_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>reaHeaHal_y</code> [W] [min=None, max=None]: Heating delivered to Hal
 </li>
 <li>
-<code>regul_Couloir_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>reaHeaLiv_y</code> [W] [min=None, max=None]: Heating delivered to Liv
 </li>
 <li>
-<code>regul_SDB_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>reaHeaRo1_y</code> [W] [min=None, max=None]: Heating delivered to Ro1
 </li>
 <li>
-<code>regul_Salon_reaPcoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
+<code>reaHeaRo2_y</code> [W] [min=None, max=None]: Heating delivered to Ro2
 </li>
 <li>
-<code>ventil_Salon_rearelHum_y</code> [1] [min=None, max=None]: Zone relative humidity
+<code>reaHeaRo3_y</code> [W] [min=None, max=None]: Heating delivered to Ro3
+</li>
+<li>
+<code>reaTAti_y</code> [K] [min=None, max=None]: Air temperature of zone Ati
+</li>
+<li>
+<code>reaTGar_y</code> [K] [min=None, max=None]: Air temperature of zone Gar
+</li>
+<li>
+<code>reaTHal_y</code> [K] [min=None, max=None]: Air temperature of zone Hal
+</li>
+<li>
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Building cooling air setpoint temperature
+</li>
+<li>
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Building heating air setpoint temperature
 </li>
 <li>
 <code>weatherStation_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
@@ -487,7 +513,6 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <li>
 <code>weatherStation_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
-
 </ul>
 
 <h3>Additional System Design</h3>
@@ -504,7 +529,7 @@ No shading model is included.
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
 <p>
-The model uses moist air despite that no condensation is modelled in any of the used components. 
+The model uses moist air despite that no condensation is modeled in any of the used components. 
 </p>
 <h4>Pressure-flow models</h4>
 <p>
@@ -512,7 +537,29 @@ A circulation loop with one parallel branch per zone is used to model the heatin
 </p>
 <h4>Infiltration models</h4>
 <p>
-Mechanical ventilation from outside air and air exchange between zones are considered in the model. 
+Mechanical ventilation from outside air and air exchange between zones are considered in the model.
+The total value of the volumetric airflow exchanged is established according to the French
+national regulations.
+Specifically, outside fresh air is infiltrated in the garage and the attic at a rate of 0.5 ACH. 
+In the living room and bedrooms the total infiltrated air is of 113.4 m3/h, which is distributed
+proportionally to the area of these zones. 
+There is not infiltration considered in the bathroom nor the hallway. 
+80&percnt; of the infiltrated air is exhausted through a fan in the bathroom. 
+This fan is not controllable and its electricity use is neglected. 
+The other 20&percnt; of the infiltrated air is assumed to be leaked in the living room. 
+
+</p>
+<h4>Other assumptions</h4>
+<p>
+The CO2 generation in each zone is based on number of occupants in that zone.
+CO2 generation is 0.004 L/s per person (Table 5, Persily and De Jonge 2017) 
+and density of CO2 assumed to be 1.8 kg/m^3, making CO2 generation 7.2e-6 kg/s per person. 
+Outside air CO2 concentration is 400 ppm. However, CO2 concentration is not controlled for in the model. 
+</p>
+<p>
+Persily, A. and De Jonge, L. (2017).
+Carbon dioxide generation rates for building occupants.
+Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 
 <h3>Scenario Information</h3>
@@ -594,7 +641,7 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 <tr><td>scaFacRad</td><td>Scaling factor to scale the power (and mass flow rate) of the radiator loop</td></tr>
 <tr><td>dTBoi_nominal</td><td>Nominal temperature difference for boiler loop [K]</td></tr>
 <tr><td>mBoi_flow_nominal</td><td>Nominal mass flow rate of boiler loop [kg/s]</td></tr>
-<tr><td>P_Pompe_nominal</td><td>Pump electrical power [W]</td></tr>
+<tr><td>P_pum_nominal</td><td>Pump electrical power [W]</td></tr>
 <tr class="ModelicaParameterGroup"><td colspan="2">Chauffage</td></tr>
 <tr><td>Pmin_Ch</td><td>Boiler minimum power [W]</td></tr>
 <tr><td>Pmax_Ch</td><td>Boiler maximum power [W]</td></tr>
@@ -602,12 +649,12 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 <tr><td>t_anticourtcycle</td><td>Anti short cycle duration for the boiler [s]</td></tr>
 <tr class="ModelicaParameterGroup"><td colspan="2">Radiators</td></tr>
 <tr><td>delta_ST_rad</td><td>Coefficient for spatial variation of the control system</td></tr>
-<tr><td>P_rad_Salon</td><td>Living room radiator power [W]</td></tr>
-<tr><td>P_rad_Chambre1</td><td>Room 1 radiator power [W]</td></tr>
-<tr><td>P_rad_Chambre2</td><td>Room 2 radiator power2 [W]</td></tr>
-<tr><td>P_rad_Chambre3</td><td>Room 3 radiator power [W]</td></tr>
-<tr><td>P_rad_SDB</td><td>Bathroom radiator power [W]</td></tr>
-<tr><td>P_rad_Couloir</td><td>Hall radiator power [W]</td></tr>
+<tr><td>Q_rad_liv</td><td>Living room radiator power [W]</td></tr>
+<tr><td>Q_rad_ro1</td><td>Room 1 radiator power [W]</td></tr>
+<tr><td>Q_rad_ro2</td><td>Room 2 radiator power2 [W]</td></tr>
+<tr><td>Q_rad_ro3</td><td>Room 3 radiator power [W]</td></tr>
+<tr><td>Q_rad_bth</td><td>Bathroom radiator power [W]</td></tr>
+<tr><td>Q_rad_hal</td><td>Hall radiator power [W]</td></tr>
 </table>
 <h3>Connectors</h3>
 <table summary="Connectors" class="ModelicaTableConnectors">
@@ -615,7 +662,7 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 <tr><td>weaBus</td><td>&nbsp;</td></tr>
 </table>
 <address>
-<a href="http://www.3ds.com/">Automatically generated</a> Tue Dec  8 19:26:24 2020.
+<a href="http://www.3ds.com/">Automatically generated</a> Wed Feb 10 09:20:19 2021.
 </address>
 </body>
 </html>

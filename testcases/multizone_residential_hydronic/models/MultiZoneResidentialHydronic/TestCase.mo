@@ -2230,10 +2230,11 @@ The following figure shows the building layout and
 a sketch of the hydraulic system. The coloured elements in the scheme 
 represent the controllable components
 through the BOPTEST interface. The dimensions are provided in metres.
-</p>
 
+</p>
 <p align=\"center\">
-<img alt=\"Simulated residential dwelling\" src=\"../../Resources/layout.png\">
+<img alt=\"Simulated residential dwelling\" 
+src=\"../../Resources/layout.png\">
 </p>
 
 <p>
