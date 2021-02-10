@@ -1020,8 +1020,7 @@ public
     annotation (Placement(transformation(extent={{-80,-146},{-74,-140}})));
   Modelica.Blocks.Sources.RealExpression realExpression31(y=TLiv.T)
     annotation (Placement(transformation(extent={{-80,-150},{-74,-144}})));
-  Building.Control.ConHeaZon conHeaLiv(Khea=1,
-    k=3e-2,                                    Ti=300,
+  Building.Control.ConHeaZon conHeaLiv(Khea=1, Ti=300,
     zone="Liv")
     annotation (Placement(transformation(extent={{-68,-146},{-60,-142}})));
   Buildings.Fluid.FixedResistances.Junction inSplVal1(
@@ -1196,7 +1195,7 @@ public
         origin={-91,-127})));
   Building.Control.ConHea conPumHea(
     Khea=mBoi_flow_nominal,
-    k=0.1,
+    k=1,
     Ti=600,
     zone="emission system pump")
             annotation (Placement(transformation(
