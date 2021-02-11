@@ -11,7 +11,8 @@ case. This case needs to be deployed.
 from data.find_days import find_days
 import json
 
-days = find_days(heat='reaQHea_y', cool=None, data='simulate')
+days = find_days(heat='reaQHea.y', cool=None,
+                 data='simulate', img_name='boptest_bestest_hydronic')
 
 with open('days.json', 'w') as f:
     json.dump(days, f)
