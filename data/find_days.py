@@ -7,7 +7,7 @@ Created on Thu Jan  7 13:20:58 2021
 Module to perform a test case yearly simulation and find the peak and
 typical days for heating and cooling. These days are used to define
 the test case scenarios. The case needs to be deployed if the data is
-to be simulated.  
+to be simulated.
 
 """
 
@@ -34,8 +34,8 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
         `path_to_data.csv` indicates path to .csv file with the yearly
         simulation data.
     img_name: string
-        Image name of the container where the simulation is to be 
-        performed. 
+        Image name of the container where the simulation is to be
+        performed.
     plot: boolean
         Set to True to show an overview of the days found
 
@@ -49,10 +49,10 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
     days = {}
 
     if data=='simulate':
-        
+
         length = 3.1536e+7
         start_time = 0
-        
+
         # Simulate in container
         if heat is not None and cool is not None:
             points = heat+','+cool
@@ -62,13 +62,13 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
             points = cool
         cmd_docker ='docker exec -t {} /bin/bash -c '.format(img_name).split()
         cmd_python = ['python data/simulate_skip_API.py {} {} {}'.format(start_time,length,points)]
-        cmd = cmd_docker + cmd_python 
+        cmd = cmd_docker + cmd_python
         subprocess.call(cmd)
-        
+
         # Copy results to host
         cmd='docker cp {}:/home/developer/simulation.csv .'.format(img_name)
         subprocess.call(cmd)
-        
+
         # Read results to data frame
         df = pd.read_csv('simulation.csv', index_col='Time')
 

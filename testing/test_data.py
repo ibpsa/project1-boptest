@@ -345,8 +345,8 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 class FindDaysTest(unittest.TestCase, utilities.partialChecks):
     '''Tests module to find peak and typical heating and cooling
     days for a test case. These days are used to define the
-    test case scenarios. The test uses a simulation dataset of 28 
-    days. 
+    test case scenarios. The test uses a simulation dataset of 28
+    days.
 
     '''
 
