@@ -345,7 +345,8 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 class FindDaysTest(unittest.TestCase, utilities.partialChecks):
     '''Tests module to find peak and typical heating and cooling
     days for a test case. These days are used to define the
-    test case scenarios.
+    test case scenarios. The test uses a simulation dataset of 28 
+    days. 
 
     '''
 
@@ -367,7 +368,7 @@ class FindDaysTest(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        days = find_days(heat='fcu_reaPCoo_y', cool='fcu_reaPHea_y',
+        days = find_days(heat='fcu.powHeaThe.y', cool='fcu.powCooThe.y',
                          data=self.sim_data)
 
         self.compare_ref_json(days, self.days_ref)
