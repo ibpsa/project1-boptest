@@ -6,16 +6,16 @@ Created on Thu Jan  7 13:20:58 2021
 
 Module to perform a test case yearly simulation and find the peak and
 typical days for heating and cooling. These days are used to define
-the test case scenarios. The case needs to be deployed.
+the test case scenarios. The case needs to be deployed if the data is
+to be simulated.  
 
 """
 
+import subprocess
 import pandas as pd
-import requests
 import os
 
-def find_days(heat, cool, data='simulate',
-              url = 'http://127.0.0.1:5000',
+def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
               plot = False):
     '''Find the start and final times for the test case scenarios.
 
@@ -33,9 +33,9 @@ def find_days(heat, cool, data='simulate',
         to generate the data.
         `path_to_data.csv` indicates path to .csv file with the yearly
         simulation data.
-    url: string
-        url address to deployed testcase. Needed only if simulation
-        is required.
+    img_name: string
+        Image name of the container where the simulation is to be 
+        performed. 
     plot: boolean
         Set to True to show an overview of the days found
 
@@ -49,36 +49,28 @@ def find_days(heat, cool, data='simulate',
     days = {}
 
     if data=='simulate':
-        # Initialize
-        requests.put('{0}/initialize'.format(url), data={'start_time':0,
-                                                         'warmup_period':0})
-
-        # Set simulation step to be one year
-        length= 3.1536e+7
-        requests.put('{0}/step'.format(url), data={'step':length})
-
-        # Advance simulation with baseline controller
-        requests.post('{0}/advance'.format(url), data={}).json()
-
-        # Initialize results data frame
-        df = pd.DataFrame()
-
-        # Obtain results
-        points = [heat, cool]
-        for point in points:
-            if point is not None:
-                res = requests.put('{0}/results'.format(url),
-                                   data={'point_name':point,
-                                         'start_time':0,
-                                         'final_time':length}).json()
-                df = pd.concat((df,pd.DataFrame(data=res[point],
-                                                index=res['time'],
-                                                columns=[point])),
-                                                axis=1)
-        df.index.name = 'Time'
-
-        # Store results to file
-        df.to_csv('yearly_simulation.csv')
+        
+        length = 3.1536e+7
+        start_time = 0
+        
+        # Simulate in container
+        if heat is not None and cool is not None:
+            points = heat+','+cool
+        elif heat is not None and cool is None:
+            points = heat
+        elif heat is None and cool is not None:
+            points = cool
+        cmd_docker ='docker exec -t {} /bin/bash -c '.format(img_name).split()
+        cmd_python = ['python data/simulate_skip_API.py {} {} {}'.format(start_time,length,points)]
+        cmd = cmd_docker + cmd_python 
+        subprocess.call(cmd)
+        
+        # Copy results to host
+        cmd='docker cp {}:/home/developer/simulation.csv .'.format(img_name)
+        subprocess.call(cmd)
+        
+        # Read results to data frame
+        df = pd.read_csv('simulation.csv', index_col='Time')
 
     elif os.path.isfile(data) and data.endswith('.csv'):
         df = pd.read_csv(data, index_col='Time')
