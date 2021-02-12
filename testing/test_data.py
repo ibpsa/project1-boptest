@@ -18,6 +18,7 @@ import utilities
 import json
 from data.data_generator import Data_Generator
 from data.data_manager import Data_Manager
+from data.find_days import find_days
 
 testing_root_dir = os.path.join(utilities.get_root_path(), 'testing')
 
@@ -340,6 +341,37 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
             'references', 'data', 'testcase3', 'tc3_data_retrieved_default.csv')
         self.ref_data_index = os.path.join(testing_root_dir,
             'references', 'data', 'testcase3', 'tc3_data_retrieved_index.csv')
+
+class FindDaysTest(unittest.TestCase, utilities.partialChecks):
+    '''Tests module to find peak and typical heating and cooling
+    days for a test case. These days are used to define the
+    test case scenarios. The test uses a simulation dataset of 28
+    days.
+
+    '''
+
+    def setUp(self):
+        '''Setup for each test.
+
+        '''
+
+        self.sim_data = os.path.join(testing_root_dir,'references',
+                            'data', 'find_days', 'sim_test_days.csv')
+
+        self.days_ref = os.path.join(testing_root_dir,'references',
+                            'data', 'find_days', 'days_ref.json')
+
+
+    def test_find_days(self):
+        '''The test uses one month simulation data as obtained from
+        the bestest_air case.
+
+        '''
+
+        days = find_days(heat='fcu.powHeaThe.y', cool='fcu.powCooThe.y',
+                         data=self.sim_data)
+
+        self.compare_ref_json(days, self.days_ref)
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
