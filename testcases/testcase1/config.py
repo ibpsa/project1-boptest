@@ -27,7 +27,8 @@ def get_config():
     'step'     : 60,
     'horizon'  : 86400,
     'interval' : 3600,
-    'scenario' : {'electricity_price':'constant'}
+    'scenario' : {'electricity_price':'constant',
+                  'time_period':None}
     }
 
     return config
