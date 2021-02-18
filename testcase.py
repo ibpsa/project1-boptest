@@ -39,7 +39,7 @@ class TestCase(object):
         # Instantiate a data manager for this test case
         self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
-        self.data_manager.load_data_and_kpisjson()
+        self.data_manager.load_data_and_jsons()
         # Instantiate a forecaster for this test case
         self.forecaster = Forecaster(testcase=self)
         # Instantiate a KPI calculator for the test case
