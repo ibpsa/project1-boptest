@@ -264,7 +264,7 @@ class TestCase(object):
         # Process result
         if res is not None:
             # Get result
-            self.__get_results(res, store=False)
+            self.__get_results(res, store=True)
             # Set internal start time to start_time
             self.start_time = start_time
 
