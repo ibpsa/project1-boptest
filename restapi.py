@@ -50,6 +50,7 @@ for arg in forecast_parameters:
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
 parser_scenario.add_argument('electricity_price')
+parser_scenario.add_argument('time_period')
 # ``results`` interface
 results_var = reqparse.RequestParser()
 results_var.add_argument('point_name')

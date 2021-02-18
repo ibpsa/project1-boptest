@@ -467,7 +467,10 @@ class TestCase(object):
         Parameters
         ----------
         scenario : dict
-            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>}
+            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
+             'time_period': see available keys for test case
+             }
+            If any value is None, it will not change existing.
 
         Returns
         -------
@@ -475,7 +478,18 @@ class TestCase(object):
 
         '''
 
-        self.scenario = scenario
+        if not hasattr(self,'scenario'):
+            self.scenario = {}
+        # Handle electricity price
+        if scenario['electricity_price']:
+            self.scenario['electricity_price'] = scenario['electricity_price']
+        # Handle timeperiod
+        if scenario['time_period']:
+            self.scenario['time_period'] = scenario['time_period']
+            warmup_period = 7*24*3600
+            key = self.scenario['time_period']
+            start_time = self.days_json[key]*24*3600-7*24*3600
+            self.initialize(start_time, warmup_period)
 
         return None
 
