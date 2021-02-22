@@ -4,11 +4,7 @@ This module implements a simple P controller.
 
 """
 
-def compute_control(y,
-                    LowerSetpNor,
-                    UpperSetpNor,
-                    LowerSetpSou,
-                    UpperSetpSou):
+def compute_control(y,Setp):
     '''Compute the control input from the measurement.
 
     Parameters
@@ -16,14 +12,8 @@ def compute_control(y,
     y : dict
         Contains the current values of the measurements.
         {<measurement_name>:<measurement_value>}
-    LowerSetpNor : float
-        Lower temperature set point for north zone.
-    UpperSetpNor : float
-        Upper temperature set point for north zone.
-    LowerSetpSou : float
-        Lower temperature set point for south zone.
-    UpperSetpSou : float
-        Upper temperature set point for south zone.
+    Setp : list
+        Temperature set point bounds.
 
     Returns
     -------
@@ -32,6 +22,12 @@ def compute_control(y,
         {<input_name> : <input_value>}
 
     '''
+    
+    # Extract set point information   
+    LowerSetpNor = Setp[0]
+    UpperSetpNor = Setp[1]
+    LowerSetpSou = Setp[2]
+    UpperSetpSou = Setp[3]    
 
     # Controller parameters
     k_p = 2000
