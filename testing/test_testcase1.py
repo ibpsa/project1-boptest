@@ -10,6 +10,7 @@ import pandas as pd
 import os
 import utilities
 import requests
+#from examples.python import twoday_p
 from examples.python import twoday_p
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
@@ -107,7 +108,7 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/initialize'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
         # Check kpis
-        value = float(y['PHea_y'])
+        value = float(y['result']['PHea_y'])
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
         
     def test_max(self):
@@ -119,7 +120,7 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/initialize'.format(self.url))
         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":500000}).json()
         # Check kpis
-        value = float(y['PHea_y'])
+        value = float(y['result']['PHea_y'])
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
         
 class API(unittest.TestCase, utilities.partialTestAPI):

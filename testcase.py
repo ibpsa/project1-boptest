@@ -30,7 +30,7 @@ class TestCase(object):
         # Define simulation model
         self.fmupath = con['fmupath']
         # Load fmu
-        self.fmu = load_fmu(self.fmupath)
+        self.fmu = load_fmu(self.fmupath)                                
         self.fmu.set_log_level(7)
         # Get version and check is 2.0
         self.fmu_version = self.fmu.get_version()
@@ -121,11 +121,10 @@ class TestCase(object):
                                      options=self.options, 
                                      input=input_object)
         except Exception as e:
-            return None
+            return {'message':'failure','error':e,'result':res}
         # Set internal fmu initialization
         self.initialize_fmu = False
-
-        return res            
+        return {'message':'success','error':None,'result':res}            
            
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -146,6 +145,7 @@ class TestCase(object):
         
         # Calculate and store the elapsed time 
         if hasattr(self, 'tic_time'):
+
             self.tac_time = time.time()
             self.elapsed_control_time.append(self.tac_time-self.tic_time)
             
@@ -185,24 +185,21 @@ class TestCase(object):
         # Simulate
         res = self.__simulation(self.start_time,self.final_time,input_object) 
         # Process results
-        if res is not None:        
+        if res['message'] == 'success':        
             # Get result and store measurement
             for key in self.y.keys():
-                self.y[key] = res[key][-1]
-                self.y_store[key] = self.y_store[key] + res[key].tolist()[1:]
+                self.y[key] = res['result'][key][-1]
+                self.y_store[key] = self.y_store[key] + res['result'][key].tolist()[1:]
             # Store control inputs
             for key in self.u.keys():
-                self.u_store[key] = self.u_store[key] + res[key].tolist()[1:] 
+                self.u_store[key] = self.u_store[key] + res['result'][key].tolist()[1:] 
             # Advance start time
             self.start_time = self.final_time
             # Raise the flag to compute time lapse
             self.tic_time = time.time()
-
-            return self.y
-
+            return {'message':'success','error':None,'result':self.y}
         else:
-
-            return None        
+            return {'message':'failure','error':res['error'],'result':None}        
 
     def initialize(self, start_time, warmup_period):
         '''Initialize the test simulation.
@@ -232,15 +229,12 @@ class TestCase(object):
         # Do not allow negative starting time to avoid confusions
         res = self.__simulation(max(start_time-warmup_period,0), start_time)
         # Process result
-        if res is not None:
+        if res['message'] == 'success': 
             # Set internal start time to start_time
             self.start_time = start_time
-
-            return True
-        
+            return {'message':'success','error':None,'result':None}
         else:
-
-            return False
+            return {'message':'failure','error':res['error'],'result':None} 
         
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
@@ -260,10 +254,10 @@ class TestCase(object):
         None
         
         '''
+      
+        self.step = float(step)  
         
-        self.step = float(step)
-        
-        return None
+        return 
         
     def get_inputs(self):
         '''Returns a dictionary of control inputs and their meta-data.
@@ -362,10 +356,10 @@ class TestCase(object):
         
         '''
         
-        self.horizon = float(horizon)
+        self.horizon = float(horizon)        
         self.interval = float(interval)
         
-        return None
+        return             
     
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.'''
@@ -521,6 +515,5 @@ class TestCase(object):
             print('WARNING: Value of {0} for {1} is below minimum of {2}.  Using {2}.'.format(value, var, mini))
         else:
             checked_value = value
-
         return checked_value
             
