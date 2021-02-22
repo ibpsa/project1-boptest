@@ -30,7 +30,6 @@ from testcase import TestCase
 # ------------------
 app = Flask(__name__)
 api = Api(app)
-
 # ------------------
 
 # INSTANTIATE TEST CASE
@@ -203,7 +202,7 @@ class Forecast_Parameters(Resource):
         try:        
             result = case.set_forecast_parameters(horizon, interval)            
         except Exception as e:        
-            app.logger.error("Fail to return the KPI:{}".format(e))        
+            app.logger.error("Fail to return the forecast result:{}".format(e))        
             return {'message':'failure','error':e,'result':None}
         forecast_parameters = case.get_forecast_parameters()            
         return {'message':'success','error':None,'result':forecast_parameters}

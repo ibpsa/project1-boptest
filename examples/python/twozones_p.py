@@ -12,9 +12,7 @@ imported from a different module.
 import requests
 import time
 import pandas as pd
-
 # ----------------------
-
 # TEST CONTROLLER IMPORT
 # ----------------------
 from controllers import pidTwoZones
@@ -82,27 +80,25 @@ def run(plot=False):
     start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
-    res = requests.put('{0}/initialize'.format(url), json={'start_time':0,'warmup_period':0}).json()
+    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0}).json()
     if res['message'] == 'success':
         print('Successfully initialized the simulation')
     else:
         print('Error when initializing the simulation:{}'.format(res['error']))   
     # Set simulation step
     print('Setting simulation step to {0}.'.format(step))
-    res = requests.put('{0}/step'.format(url), json={'step':step}).json()
+    res = requests.put('{0}/step'.format(url), data={'step':step}).json()
     if res['message'] == 'success':
         print('Successfully set the simulation step')
     else:
         print('Error when setting the simulation step:{}'.format(res['error']))   
-
     # Set forecast parameters
     print('Setting forecast parameters')
-    res = requests.put('{0}/forecast_parameters'.format(url), json={'horizon':step, 'interval':step}).json()
+    res = requests.put('{0}/forecast_parameters'.format(url), data={'horizon':step, 'interval':step}).json()
     if res['message'] == 'success':
         print('Successfully set the forecast parameters')
     else:
         print('Error when setting the forecast parameters:{}'.format(res['error']))   
-
     print('\nRunning test case...')
     # Initialize u
     u = pidTwoZones.initialize()
@@ -114,11 +110,11 @@ def run(plot=False):
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
-        y = requests.post('{0}/advance'.format(url), json=u).json()
-        if y['message'] == 'success':
+        res = requests.post('{0}/advance'.format(url), data=u).json()
+        if res['message'] == 'success':
             print('Successfully advanced the simulation')
         else:
-            print('Error when advancing the simulation:{}'.format(y['error']))  
+            print('Error when advancing the simulation:{}'.format(res['error']))  
         # Get set points for each zone
         forecast = requests.get('{0}/forecast'.format(url)).json()
         if forecast['message'] == 'success':
@@ -131,8 +127,11 @@ def run(plot=False):
            UpperSetpSou = forecast['UpperSetp[South]'][0]
            setpoints.loc[(i+1)*step, setpoints.columns] = \
             [LowerSetpNor, UpperSetpNor, LowerSetpSou, UpperSetpSou]
+        else:
+           print('Error when getting the forecast:{}'.format(forecast['error']))
         # Compute next control signal
-        u = pidTwoZones.compute_control(y['result'], 
+        y = res['result']
+        u = pidTwoZones.compute_control(y, 
                                         LowerSetpNor, UpperSetpNor,
                                         LowerSetpSou, UpperSetpSou)
         
@@ -160,6 +159,8 @@ def run(plot=False):
           elif key == 'time_rat':
               unit = ''
           print('{0}: {1} {2}'.format(key, kpi[key], unit))
+    else:
+          print('Error when getting the KPI RESULTS:{}'.format(kpi['error'])) 
     # ------------ 
         
     # POST PROCESS RESULTS
@@ -175,6 +176,8 @@ def run(plot=False):
        TZoneSou = [x-273.15 for x in result['y']['TRooAirSou_y']] # convert K --> C
        PHeatSou = result['y']['PHeaSou_y']
        setpoints= setpoints - 273.15 # convert K --> C
+    else:
+       print('Error when getting the RESULTS:{}'.format(res['error'])) 
     # Plot results
     if plot and res['message'] == 'success':
         from matplotlib import pyplot as plt

@@ -13,9 +13,7 @@ import requests
 import time
 from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
-
 # ----------------------
-
 # TEST CONTROLLER IMPORT
 # ----------------------
 from controllers import sup
@@ -87,32 +85,32 @@ def run(plot=False, customized_kpi_config=None):
     customizedkpis_result['time']=[]           
     # --------------------
 
-
     # RUN TEST CASE
     # -------------
     start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
-    res = requests.put('{0}/initialize'.format(url), json={'start_time':0,'warmup_period':0}).json()
+    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0}).json()
     if res['message'] == 'success':
         print('Successfully initialized the simulation')
     else:
         print('Error when initializing the simulation:{}'.format(res['error']))    
     print('\nRunning test case...')
     # Set simulation step
-    res = requests.put('{0}/step'.format(url), json={'step':step})
+    res = requests.put('{0}/step'.format(url), data={'step':step})
     # Initialize u
     u = sup.initialize()
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
-        y = requests.post('{0}/advance'.format(url), json=u).json()
-        if y['message'] == 'success':
+        res = requests.post('{0}/advance'.format(url), data=u).json()
+        if res['message'] == 'success':
             print('Successfully advanced the simulation')
         else:
-            print('Error when advancing the simulation:{}'.format(y['error']))   
+            print('Error when advancing the simulation:{}'.format(res['error']))   
         # Compute next control signal
-        u = sup.compute_control(y['result'])
+        y = res['result']
+        u = sup.compute_control(y)
         # Compute customized KPIs if any
         if customized_kpi_config is not None:
              for customizedkpi in customizedkpis:
@@ -128,8 +126,7 @@ def run(plot=False, customized_kpi_config=None):
     # VIEW RESULTS
     # ------------
     # Report KPIs
-    kpi = requests.get('{0}/kpi'.format(url)).json()
-    
+    kpi = requests.get('{0}/kpi'.format(url)).json()   
     if kpi['message'] == 'success':
        print('\nKPI RESULTS \n-----------')
        kpi = kpi['result']
@@ -147,6 +144,8 @@ def run(plot=False, customized_kpi_config=None):
           else:
                unit = None
           print('{0}: {1} {2}'.format(key, kpi[key], unit))
+    else:
+          print('Error when getting the KPI RESULTS:{}'.format(kpi['error'])) 
     # ------------ 
         
     # POST PROCESS RESULTS
@@ -163,6 +162,8 @@ def run(plot=False, customized_kpi_config=None):
         PCoo = result['y']['PCoo_y']
         PHea = result['y']['PHea_y']
         PPum = result['y']['PPum_y']
+    else:
+        print('Error when getting the RESULTS:{}'.format(res['error'])) 
     # Plot results
     if plot and res['message'] == 'success':
         from matplotlib import pyplot as plt

@@ -358,6 +358,7 @@ class TestCase(object):
         
         self.horizon = float(horizon)        
         self.interval = float(interval)
+        
         return             
     
     def get_forecast_parameters(self):

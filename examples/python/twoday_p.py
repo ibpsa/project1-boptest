@@ -14,9 +14,7 @@ import time
 import numpy as np
 from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
-
 # ----------------------
-
 # TEST CONTROLLER IMPORT
 # ----------------------
 from controllers import pid
@@ -54,7 +52,6 @@ def run(plot=False, customized_kpi_config=None):
     # Set simulation parameters
     length = 48*3600
     step = 300
-    global time
     # ---------------
     
     # GET TEST INFORMATION
@@ -76,7 +73,6 @@ def run(plot=False, customized_kpi_config=None):
     step_def = requests.get('{0}/step'.format(url)).json()
     if step_def['message'] == 'success':
         print('Default Simulation Step:\t{0}'.format(step_def['result']))
-
     # Define customized KPI if any
     customizedkpis=[] # Initialize customzied kpi calculation list
     customizedkpis_result={} # Initialize tracking of customized kpi calculation results
@@ -88,50 +84,49 @@ def run(plot=False, customized_kpi_config=None):
                customizedkpis_result[kpicalculation.cutomizedKPI(config[key]).name]=[]
     customizedkpis_result['time']=[]           
     # --------------------
-
-
+    
     # RUN TEST CASE
     # -------------
     start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
-    res = requests.put('{0}/initialize'.format(url), json={'start_time':0,'warmup_period':0}).json()
+    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0}).json()
     if res['message'] == 'success':
         print('Successfully initialized the simulation')
     else:
         print('Error when initializing the simulation:{}'.format(res['error']))    
     print('\nRunning test case...')
     # Set simulation step
-    res = requests.put('{0}/step'.format(url), json={'step':step}).json()
+    res = requests.put('{0}/step'.format(url), data={'step':step}).json()
     if res['message'] == 'success':
         print('Successfully set the simulation step')
     else:
         print('Error when setting the simulation step:{}'.format(res['error']))   
-
     # Initialize u
     u = pid.initialize()
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
-        y = requests.post('{0}/advance'.format(url), json=u).json()
-        if y['message'] == 'success':
+        res = requests.post('{0}/advance'.format(url), data=u).json()
+        if res['message'] == 'success':
             print('Successfully advanced the simulation')
         else:
-            print('Error when advancing the simulation:{}'.format(y['error']))   
+            print('Error when advancing the simulation:{}'.format(res['error']))   
         # Compute next control signal
-        u = pid.compute_control(y['result'])
+        y = res['result']
+        u = pid.compute_control(y)
         # Compute customized KPIs if any
         if customized_kpi_config is not None:
              for customizedkpi in customizedkpis:
-                  customizedkpi.processing_data(y['result']) # Process data as needed for custom KPI
+                  customizedkpi.processing_data(y) # Process data as needed for custom KPI
                   customizedkpi_value = customizedkpi.calculation() # Calculate custom KPI value
                   customizedkpis_result[customizedkpi.name].append(round(customizedkpi_value,2)) # Track custom KPI value
                   print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi_value,2))) # Print custom KPI value
-             customizedkpis_result['time'].append(y['result']['time']) # Track custom KPI calculation time  
+             customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time  
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
-    # -------------
-        
+    # ------------- 
+    
     # VIEW RESULTS
     # ------------
     # Report KPIs
@@ -153,6 +148,8 @@ def run(plot=False, customized_kpi_config=None):
           elif key == 'time_rat':
               unit = ''
           print('{0}: {1} {2}'.format(key, kpi[key], unit))
+    else:
+          print('Error when getting the KPI RESULTS:{}'.format(kpi['error'])) 
     # ------------ 
         
     # POST PROCESS RESULTS
@@ -165,6 +162,8 @@ def run(plot=False, customized_kpi_config=None):
         TZone = [x-273.15 for x in result['y']['TRooAir_y']] # convert K --> C
         PHeat = result['y']['PHea_y']
         QHeat = result['u']['oveAct_u']
+    else:
+        print('Error when getting the RESULTS:{}'.format(res['error'])) 
     # Plot results
     if plot and res['message'] == 'success':
         from matplotlib import pyplot as plt
