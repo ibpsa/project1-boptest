@@ -56,17 +56,19 @@ class Run(unittest.TestCase, utilities.partialChecks):
             start_time = 118*24*3600
         else:
             raise ValueError('Season {0} unknown.'.format(season))
-        # Initialize test case
-        res_initialize = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
-        # Get default simulation step
-        step_def = requests.get('{0}/step'.format(self.url)).json()
-        # Simulation Loop
-        for i in range(int(self.length/step_def)):
-            # Advance simulation
-            y = requests.post('{0}/advance'.format(self.url), data={}).json()
-        # Report KPIs
+        # For each price scenario
         for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+            # Set scenario
             requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
+            # Initialize test case
+            res_initialize = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
+            # Get default simulation step
+            step_def = requests.get('{0}/step'.format(self.url)).json()
+            # Simulation Loop
+            for i in range(int(self.length/step_def)):
+                # Advance simulation
+                y = requests.post('{0}/advance'.format(self.url), data={}).json()
+            # Report kpis
             res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
             # Check kpis
             df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
