@@ -416,6 +416,12 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_initial.csv')
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check kpis
+        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_initial.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Advance
         step_advance = 1*24*3600
         requests.put('{0}/step'.format(self.url), data={'step':step_advance})
@@ -426,6 +432,12 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_advance.csv')
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check kpis
+        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_advance.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Set step back to step
         requests.put('{0}/step'.format(self.url), data={'step':step})
 
