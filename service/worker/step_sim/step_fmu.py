@@ -76,6 +76,7 @@ def get_config():
     c['step'] = 60
     c['horizon'] = 86400
     c['interval'] = 3600
+    c['scenario'] = {{'electricity_price': 'constant'}}
     return c
 """
 
@@ -120,7 +121,7 @@ def get_config():
         else:
             self.redis.hset(self.site_ref, 'forecast:interval', forecast['interval'])
 
-        self.tc.set_forecast_parameters(forecast)
+        self.tc.set_forecast_parameters(forecast['horizon'], forecast['interval'])
 
     def create_tag_dictionaries(self, tag_filepath):
         '''
@@ -313,7 +314,7 @@ def get_config():
         if forecast_params['interval'] != redis_interval:
             forecast_params['interval'] = redis_interval
 
-        self.tc.set_forecast_parameters(forecast_params)
+        self.tc.set_forecast_parameters(forecast_params['horizon'], forecast_params['interval'])
 
         # u represents simulation input values
         u = self.default_input.copy()
