@@ -129,7 +129,7 @@ class TestCase(object):
 
         return res
 
-    def __get_results(self, res, store=True):
+    def __get_results(self, res, store=True, store_initial=False):
         '''Get results at the end of a simulation and throughout the
         simulation period for storage. This method assigns these results
         to `self.y` and, if `store=True`, also to `self.y_store` and
@@ -145,19 +145,26 @@ class TestCase(object):
         store: boolean
             Set to true if desired to store results in `self.y_store` and
             `self.u_store`
+        store_initial: boolean
+            Set to true if desired to store initial point.
 
         '''
 
+        # Determine if store initial point
+        if store_initial:
+            i = 0
+        else:
+            i = 1
         # Get result and store measurement
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = np.append(self.y_store[key], res[key][1:])
+                self.y_store[key] = np.append(self.y_store[key], res[key][i:])
 
         # Store control inputs
         if store:
             for key in self.u.keys():
-                self.u_store[key] = np.append(self.u_store[key], res[key][1:])
+                self.u_store[key] = np.append(self.u_store[key], res[key][i:])
 
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -264,7 +271,7 @@ class TestCase(object):
         # Process result
         if res is not None:
             # Get result
-            self.__get_results(res, store=True)
+            self.__get_results(res, store=True, store_initial=True)
             # Set internal start time to start_time
             self.start_time = start_time
 
