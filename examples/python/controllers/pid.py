@@ -4,6 +4,7 @@ This module implements a simple P controller.
 
 """
 
+
 def compute_control(y):
     '''Compute the control input from the measurement.
 

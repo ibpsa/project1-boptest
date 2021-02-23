@@ -12,13 +12,14 @@ imported from a different module.
 import requests
 import time
 import numpy as np
-from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
+from examples.python.custom_kpi.custom_kpi_calculator import CustomKPI
 import json,collections
 import pandas as pd
 import importlib
 
+
 def control_test(config):
-    '''Run test case.
+    """Run test case.
 
     Parameters
     ----------
@@ -36,34 +37,24 @@ def control_test(config):
         {kpi_name : value}
     res : dict
         Dictionary of trajectories of inputs and outputs.
-    customizedkpis_result: dict
+    custom_kpi_result: dict
         Dictionary of tracked custom KPI calculations.
         Empty if no customized KPI calculations defined.
 
-    '''
+    """
     # SETUP TEST CASE
     # ---------------
     # Set URL for testcase
-    url = 'http://127.0.0.1:5000'
+    url = 'http://127.0.0.1:5200'
     # Set simulation parameters
     length = config['length']
     step = config['step']
     # optional customzied kpi calculation
-    if "customized_kpi_config" in config:
-        customized_kpi_config = config['customized_kpi_config']
-    else:
-        customized_kpi_config = None 
-    if "prediction_config" in config:
-        prediction_config = config['prediction_config']
-    else:
-        prediction_config = None        
-    # ---------------
-
-    # TEST CONTROLLER IMPORT
+    custom_kpi_config = config.get('customized_kpi_config')
+    prediction_config = config.get('prediction_config')
+    # Test controller import
     # ----------------------
     control = importlib.import_module(config["control_module"])
-    # ----------------------    
-
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -81,15 +72,15 @@ def control_test(config):
     print('Default Simulation Step:\t{0}'.format(step_def))
 
     # Define customized KPI if any
-    customizedkpis=[] # Initialize customzied kpi calculation list
-    customizedkpis_result={} # Initialize tracking of customized kpi calculation results
-    if customized_kpi_config is not None:
-        with open(customized_kpi_config) as f:
-                config=json.load(f,object_pairs_hook=collections.OrderedDict)
+    custom_kpis = []  # Initialize customzied kpi calculation list
+    custom_kpi_result = {}  # Initialize tracking of customized kpi calculation results
+    if custom_kpi_config is not None:
+        with open(custom_kpi_config) as f:
+            config = json.load(f, object_pairs_hook=collections.OrderedDict)
         for key in config.keys():
-               customizedkpis.append(kpicalculation.cutomizedKPI(config[key]))
-               customizedkpis_result[kpicalculation.cutomizedKPI(config[key]).name]=[]
-    customizedkpis_result['time']=[]
+            custom_kpis.append(CustomKPI(config[key]))
+            custom_kpi_result[CustomKPI(config[key]).name] = []
+    custom_kpi_result['time'] = []
     # --------------------
 
     # RUN TEST CASE
@@ -121,17 +112,17 @@ def control_test(config):
             for j in range(len(prediction_config)):
                 predictions.append(forecast[prediction_config[j]][0])  
             predictions_store.loc[(i+1)*step, predictions_store.columns] = predictions                 
-            u = control.compute_control(y,predictions)                
+            u = control.compute_control(y, predictions)
         else:                
             u = control.compute_control(y)
         # Compute customized KPIs if any
-        if customized_kpi_config is not None:
-             for customizedkpi in customizedkpis:
-                  customizedkpi.processing_data(y) # Process data as needed for custom KPI
-                  customizedkpi_value = customizedkpi.calculation() # Calculate custom KPI value
-                  customizedkpis_result[customizedkpi.name].append(round(customizedkpi_value,2)) # Track custom KPI value
-                  print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi_value,2))) # Print custom KPI value
-             customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time
+        if custom_kpi_config is not None:
+            for kpi in custom_kpis:
+                kpi.processing_data(y)  # Process data as needed for custom KPI
+                custom_kpi_value = kpi.calculation()  # Calculate custom KPI value
+                custom_kpi_result[kpi.name].append(round(custom_kpi_value, 2))  # Track custom KPI value
+                print('KPI:\t{0}:\t{1}'.format(kpi.name, round(custom_kpi_value, 2)))  # Print custom KPI value
+             custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
@@ -169,4 +160,4 @@ def control_test(config):
         df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
     df_res.index.name = 'time'
     
-    return kpi,df_res,customizedkpis_result,predictions_store
+    return kpi, df_res, custom_kpi_result, predictions_store
