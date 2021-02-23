@@ -13,6 +13,7 @@ import requests
 import numpy as np
 from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
+import pandas as pd
 from boptest_client import BoptestClient
 
 # ----------------------
@@ -140,14 +141,19 @@ def run(plot=False, customized_kpi_config=None):
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
     # ------------
 
-    # POST PROCESS RESULTS
-    # --------------------
-    # Get result data
-    #### res = requests.get('{0}/results/{1}'.format(url,testid)).json()
-    #### time = [x/3600 for x in res['y']['time']] # convert s --> hr
-    #### TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-    #### PHeat = res['y']['PHea_y']
-    #### QHeat = res['u']['oveAct_u']
+    #### # POST PROCESS RESULTS
+    #### # --------------------
+    #### # Get result data into result df
+    #### points = measurements.keys() + inputs.keys()
+    #### df_res = pd.DataFrame()
+    #### for point in points:
+    ####     res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+    ####     df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
+    #### df_res.index.name = 'time'
+    #### time = df_res.index.values/3600 # convert s --> hr
+    #### TZone = df_res['TRooAir_y'].values-273.15 # convert K --> C
+    #### PHeat = df_res['PHea_y'].values
+    #### QHeat = df_res['oveAct_u'].values
     #### # Plot results
     #### if plot:
     ####     from matplotlib import pyplot as plt
@@ -166,8 +172,8 @@ def run(plot=False, customized_kpi_config=None):
     ####     plt.show()
     #### # --------------------
 
-    #### return kpi,res,customizedkpis_result
+    #### return kpi,df_res,customizedkpis_result
     return None,None,None
 
 if __name__ == "__main__":
-    kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
+    kpi,df_res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')

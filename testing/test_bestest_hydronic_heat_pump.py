@@ -35,13 +35,19 @@ class Run(unittest.TestCase, utilities.partialChecks):
     def test_shoulder(self):
         self._run('shoulder')
 
-    def _run(self, season):
+    def test_event(self):
+        self._run('shoulder', True)
+
+    def _run(self, season, event_test=False):
         '''Runs the example and tests the kpi and trajectory results for season.
 
         Parameters
         ----------
         season: str
             'winter' or 'summer' or 'shoulder'
+        event: boolean, optional
+            True to test event handling resulting from input change
+            Default is False.
 
         Returns
         -------
@@ -57,6 +63,8 @@ class Run(unittest.TestCase, utilities.partialChecks):
             start_time = 118*24*3600
         else:
             raise ValueError('Season {0} unknown.'.format(season))
+        if event_test:
+            self.length = self.length/12
         # Initialize test case
         res_initialize = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
         # Get default simulation step
@@ -64,22 +72,31 @@ class Run(unittest.TestCase, utilities.partialChecks):
         # Simulation Loop
         for i in range(int(self.length/step_def)):
             # Advance simulation
-            y = requests.post('{0}/advance'.format(self.url), data={}).json()
+            if event_test:
+                #switch pump on/off for each timestep
+                pump = 0 if (i % 2) == 0 else 1
+                u = {'ovePum_activate':1, 'ovePum_u':pump}
+            else:
+                u = {}
+            requests.post('{0}/advance'.format(self.url), data=u).json()
         # Report KPIs
-        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
-            requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
-            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
-            # Check kpis
-            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
-            df.index.name = 'keys'
-            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
-            self.compare_ref_values_df(df, ref_filepath)
+        if not event_test:
+            for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+                requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
+                res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+                # Check kpis
+                df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+                df.index.name = 'keys'
+                ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
+                self.compare_ref_values_df(df, ref_filepath)
         requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
-        # Report results
-        res_results = requests.get('{0}/results'.format(self.url)).json()
         # Check results
-        df = self.results_to_df(res_results)
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
+        points = self.get_all_points(self.url)
+        df = self.results_to_df(points, start_time, start_time+self.length, self.url)
+        if event_test:
+            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_event_test.csv')
+        else:
+            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
         self.compare_ref_timeseries_df(df,ref_filepath)
 
 class API(unittest.TestCase, utilities.partialTestAPI):

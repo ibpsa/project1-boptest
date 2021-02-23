@@ -9,6 +9,7 @@ The API is implemented using the ``flask`` package.
 # ----------------------
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS
 # ----------------------
 
 # TEST CASE IMPORT
@@ -19,6 +20,7 @@ from testcase import TestCase
 # FLASK REQUIREMENTS
 # ------------------
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 api = Api(app)
 # ------------------
 
@@ -48,6 +50,11 @@ for arg in forecast_parameters:
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
 parser_scenario.add_argument('electricity_price')
+# ``results`` interface
+results_var = reqparse.RequestParser()
+results_var.add_argument('point_name')
+results_var.add_argument('start_time')
+results_var.add_argument('final_time')
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -107,18 +114,17 @@ class Measurements(Resource):
 class Results(Resource):
     '''Interface to test case result data.'''
 
-    def get(self):
-        '''GET request to receive measurement data.'''
-        Y = case.get_results()
-        y_lists = {}
-        u_lists = {}
-        # np array to list
-        for key in Y['y']:
-            y_lists[key] = Y['y'][key].tolist()
-        for key in Y['u']:
-            u_lists[key] = Y['u'][key].tolist()
-        Y_lists = {'y':y_lists, 'u':u_lists}
-        return Y_lists
+    def put(self):
+        '''PUT request to receive measurement data.'''
+        args = results_var.parse_args()
+        var  = args['point_name']
+        start_time  = float(args['start_time'])
+        final_time  = float(args['final_time'])
+        Y = case.get_results(var, start_time, final_time)
+        for key in Y:
+            Y[key] = Y[key].tolist()
+
+        return Y
 
 class KPI(Resource):
     '''Interface to test case KPIs.'''
