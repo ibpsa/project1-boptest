@@ -41,11 +41,10 @@ def control_test(config):
         Empty if no customized KPI calculations defined.
 
     '''
-
     # SETUP TEST CASE
     # ---------------
     # Set URL for testcase
-    url = 'http://127.0.0.1:5200'
+    url = 'http://127.0.0.1:5000'
     # Set simulation parameters
     length = config['length']
     step = config['step']
@@ -57,15 +56,13 @@ def control_test(config):
     if "prediction_config" in config:
         prediction_config = config['prediction_config']
     else:
-        prediction_config = None
-        
+        prediction_config = None        
     # ---------------
-
-    # ----------------------
 
     # TEST CONTROLLER IMPORT
     # ----------------------
     control = importlib.import_module(config["control_module"])
+    # ----------------------    
 
     # GET TEST INFORMATION
     # --------------------
