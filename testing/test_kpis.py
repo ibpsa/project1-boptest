@@ -93,15 +93,15 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_constant')
 
-        # Reset KPI Calculator
-        self.cal.initialize()
+        # Reset testcase and kpi calculator
+        self._initialize_testcase(self.testcase_name, self.ref_data_filepath)
         # Calculate operational cost dynamic
         self.cal.get_cost(scenario='Dynamic')
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_dynamic')
 
-        # Reset KPI Calculator
-        self.cal.initialize()
+        # Reset testcase and kpi calculator
+        self._initialize_testcase(self.testcase_name, self.ref_data_filepath)
         # Calculate operational cost highly dynamic
         self.cal.get_cost(scenario='HighlyDynamic')
         # Check results
@@ -207,29 +207,25 @@ class partialKpiCalculatorTest(utilities.partialChecks):
             ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'kpis', '{0}_dict_{1}.csv'.format(label, self.name))
             self.compare_ref_values_df(df, ref_filepath)
 
-class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
-    '''Tests the Forecaster class in a single-zone example.
-
-    '''
-
-    def setUp(self):
-        '''Setup for each test.
+    def _initialize_testcase(self, testcase, ref_data_filepath):
+        '''Initialize the test case.
 
         '''
-
-        self.name = 'SingleZone'
         # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
+        os.chdir(os.path.join(testing_root_dir,testcase))
+        if testcase == 'testcase2':
+            from testcase2.testcase import TestCase
+        elif testcase=='testcase3':
+            from testcase3.testcase import TestCase
+        else:
+            raise ValueError('Testcase {0} unknown.'.format(testcase))
         self.case=TestCase()
 
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
 
         # Read the reference data
-        ref_filepath = os.path.join(utilities.get_root_path(),
-            'testing', 'references', 'kpis', 'tc2_results_python.csv')
-        df = pd.read_csv(ref_filepath)
+        df = pd.read_csv(ref_data_filepath)
 
         # Fill the test case with the refernce data
         for var in df.keys():
@@ -242,6 +238,22 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
+
+class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
+    '''Tests the Forecaster class in a single-zone example.
+
+    '''
+
+    def setUp(self):
+        '''Setup for each test.
+
+        '''
+
+        self.name = 'SingleZone'
+        self.testcase_name = 'testcase2'
+        self.ref_data_filepath = os.path.join(utilities.get_root_path(),
+            'testing', 'references', 'kpis', 'tc2_results_python.csv')
+        self._initialize_testcase(self.testcase_name, self.ref_data_filepath)
 
 class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
     '''Tests the Forecaster class in a multi-zone example.
@@ -254,30 +266,10 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
         '''
 
         self.name = 'MultiZone'
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
-
-        # Instantiate a KPI calculator linked to an empty case
-        self.cal = KPI_Calculator(self.case)
-
-        # Read the reference data
-        ref_filepath = os.path.join(utilities.get_root_path(),
+        self.testcase_name = 'testcase3'
+        self.ref_data_filepath = os.path.join(utilities.get_root_path(),
             'testing', 'references', 'kpis', 'tc3_results_python.csv')
-        df = pd.read_csv(ref_filepath)
-
-        # Fill the test case with the refernce data
-        for var in df.keys():
-            # Assign time
-            if var=='time':
-                self.case.y_store[var] = df.loc[:,var]
-            # Assign inputs
-            elif var.endswith('_u'):
-                self.case.u_store[var] = df.loc[:,var]
-            # Assign outputs
-            elif var.endswith('_y'):
-                self.case.y_store[var] = df.loc[:,var]
+        self._initialize_testcase(self.testcase_name, self.ref_data_filepath)
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
