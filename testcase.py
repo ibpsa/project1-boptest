@@ -42,14 +42,16 @@ class TestCase(object):
         self.data_manager.load_data_and_kpisjson()
         # Instantiate a forecaster for this test case
         self.forecaster = Forecaster(testcase=self)
-        # Instantiate a KPI calculator for the test case
-        self.cal = KPI_Calculator(testcase=self)
         # Get available control inputs and outputs
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Get input and output meta-data
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
+        # Initialize simulation data arrays
+        self.__initilize_data()
+        # Instantiate a KPI calculator for the test case
+        self.cal = KPI_Calculator(testcase=self)
         # Set default communication step
         self.set_step(con['step'])
         # Set default forecast parameters
@@ -63,8 +65,6 @@ class TestCase(object):
         self.start_time = 0
         self.initialize_fmu = True
         self.options['initialize'] = self.initialize_fmu
-        # Initialize simulation data arrays
-        self.__initilize_data()
         self.elapsed_control_time = []
 
     def __initilize_data(self):
@@ -261,8 +261,6 @@ class TestCase(object):
         # Reset simulation data storage
         self.__initilize_data()
         self.elapsed_control_time = []
-        # Reset KPI Calculator
-        self.cal.initialize(int(start_time))
         # Set fmu intitialization
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
@@ -274,7 +272,8 @@ class TestCase(object):
             self.__get_results(res, store=True, store_initial=True)
             # Set internal start time to start_time
             self.start_time = start_time
-
+            # Initialize KPI Calculator
+            self.cal.initialize()
             return self.y
 
         else:
