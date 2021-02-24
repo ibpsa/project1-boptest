@@ -200,10 +200,6 @@ class KPI_Calculator(object):
 
         self.tdis_tot = 0.
         index = self._get_data_from_last_index('time',self.i_last_tdis)
-        print(self.i_last_tdis)
-        print(index)
-
-
 
         for source in self.sources_tdis:
             # This is a potential source of thermal discomfort
