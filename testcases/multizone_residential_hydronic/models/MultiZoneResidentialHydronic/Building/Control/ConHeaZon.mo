@@ -13,9 +13,9 @@ model ConHeaZon "Controller for zone heating"
     y(unit="K"),
     description="Air temperature of zone " + zone,
     zone=zone)
-    annotation (Placement(transformation(extent={{-88,0},{-80,8}})));
+    annotation (Placement(transformation(extent={{-80,-8},{-72,0}})));
 
 equation
-  connect(reaTZon.u, T) annotation (Line(points={{-88.8,4},{-94,4},{-94,12},{
+  connect(reaTZon.u, T) annotation (Line(points={{-80.8,-4},{-90,-4},{-90,12},{
           -108,12}}, color={0,0,127}));
 end ConHeaZon;

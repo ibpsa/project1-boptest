@@ -20,10 +20,10 @@ model ConCoo "Controller for cooling"
     annotation (Placement(transformation(extent={{-24,4},{-12,16}})));
   Modelica.Blocks.Math.Gain gaiCoo(k=-Kcoo)
     annotation (Placement(transformation(extent={{-54,16},{-46,24}})));
-  Modelica.Blocks.Interfaces.RealInput ConsigneClim
+  Modelica.Blocks.Interfaces.RealInput TSet
     "Connector of setpoint input signal" annotation (Placement(transformation(
-          extent={{-132,-34},{-100,-2}}), iconTransformation(extent={{-116,
-            -18},{-100,-2}})));
+          extent={{-132,-34},{-100,-2}}), iconTransformation(extent={{-116,-18},
+            {-100,-2}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b P annotation (Placement(
         transformation(rotation=0, extent={{-6,4},{6,16}})));
   parameter Real Kcoo=1e3 "Gain value for the cooling controller";
@@ -57,8 +57,8 @@ equation
     annotation (Line(points={{-59.6,20},{-54.8,20}}, color={0,0,127}));
   connect(conCoo.u_s,oveTSetCoo. y)
     annotation (Line(points={{-68.8,20},{-75.6,20}}, color={0,0,127}));
-  connect(oveTSetCoo.u, ConsigneClim) annotation (Line(points={{-84.8,20},{-96,
-          20},{-96,-18},{-116,-18}}, color={0,0,127}));
+  connect(oveTSetCoo.u, TSet) annotation (Line(points={{-84.8,20},{-96,20},{-96,
+          -18},{-116,-18}}, color={0,0,127}));
   connect(gaiCoo.y, ovePCoo.u)
     annotation (Line(points={{-45.6,20},{-40.8,20}}, color={0,0,127}));
   connect(ovePCoo.y, preHea.Q_flow) annotation (Line(points={{-31.6,20},{-28,20},
