@@ -549,24 +549,24 @@ class KPI_Calculator(object):
             i = 0
         setattr(self, 'i_last_{}'.format(label),i)
 
-    def _get_data_from_last_index(self,key,t):
-        '''Get data from last index indicated by t.
+    def _get_data_from_last_index(self,point,i):
+        '''Get data from last index indicated by i.
 
         Parameters
         ----------
-        key: str
+        point: str
             Name of point to get data for from case.y_store
-        t: num
-            Numeric to indicate the first time to get data
+        i: int
+            Integer to indicate the first time to get data
 
         Returns
         -------
-        data : np array
-            Array of data from key from t onward
+        data: np array
+            Array of data from key from i onward
 
         '''
 
-        data=self.case.y_store[key][t:]
+        data=self.case.y_store[point][i:]
 
         return data
 
