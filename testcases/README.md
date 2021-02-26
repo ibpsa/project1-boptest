@@ -9,5 +9,5 @@ This directory contains test cases for BOPTEST.  A summary of available test cas
 | ``testcase3``| Prototype test case for development purposes.  Two single-zone R1C1 room models with sinusoidal ambient temperature and individual heaters.|
 | ``bestest_air``| BESTEST Case 900 room model with idealized fan coil unit.|
 | ``bestest_hydronic``| BESTEST Case 900 room model with gas boiler and radiator.|
-| ``bestest_hydronic_heat_pump``| BESTEST Case 900 room model, scaled by five in floor area, that uses a heat pump as heating production system and floor heating as heating emission system.|
+| ``bestest_hydronic_heat_pump``| BESTEST Case 900 room model, scaled by four in floor area, that uses a heat pump as heating production system and floor heating as heating emission system.|
 | ``multizone_residential_hydronic``| Multi-zone residential hydronic model with gas boiler and radiators. |
