@@ -226,7 +226,7 @@ class TestCase(object):
         # Process results
         if res is not None:
             # Get result and store measurement and control inputs
-            self.__get_results(res, store=True)
+            self.__get_results(res, store=True, store_initial=False)
             # Advance start time
             self.start_time = self.final_time
             # Raise the flag to compute time lapse
