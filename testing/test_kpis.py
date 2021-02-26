@@ -211,7 +211,7 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         '''Initialize the test case.
 
         '''
-        # Change directory to testcase 2
+        # Change directory to specific testcase folder
         os.chdir(os.path.join(testing_root_dir,testcase))
         if testcase == 'testcase2':
             from testcase2.testcase import TestCase
