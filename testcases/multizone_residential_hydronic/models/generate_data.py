@@ -45,12 +45,22 @@ gen.generate_weather()
 # For the "Gaz Energie Garantie 1 an" deal
 # price before taxes (HTT) for a contracted anual tariff between 0 - 6000 kWh
 
+# All pricing scenarios include the same constant value for transmission fees and taxes
+# of each commodity. The used value is the typical price that household users pay 
+# for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+# https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN
+# For the assumed location of the test case, this value is of
+# 0.125 EUR/kWh for electricity and of 0.042 EUR/kWh for gas. 
+
+fees_and_taxes_ele = 0.125
+fees_and_taxes_gas = 0.042
+
 gen.generate_prices(start_day_time = '07:00:00',
                     end_day_time = '22:00:00',
-                    price_constant = 0.108,
-                    price_day = 0.126,
-                    price_night = 0.086,
-                    price_gas_power = 0.0491)
+                    price_constant = 0.108+fees_and_taxes_ele,
+                    price_day = 0.126+fees_and_taxes_ele,
+                    price_night = 0.086+fees_and_taxes_ele,
+                    price_gas_power = 0.0491+fees_and_taxes_gas)
 
 # Remove prices that are not used within the model
 prices_boptest = pd.read_csv(os.path.join(gen.resources_dir, 'prices.csv'),
@@ -83,7 +93,9 @@ np.asarray(prices_epex.loc[(prices_epex.index>=31190400) &
           (prices_epex.index<=31363200), 'price_euros_mwh'])
 
 # Overwrite testcase highly dynamic price profile and save
-prices_boptest['PriceElectricPowerHighlyDynamic'] = prices_epex['price_euros_mwh']/1000. # Convert EUR/MWh to EUR/kWh
+# Convert EUR/MWh to EUR/kWh and add fees and taxes to epex
+prices_boptest['PriceElectricPowerHighlyDynamic'] = \
+    prices_epex['price_euros_mwh']/1000. + fees_and_taxes_ele
 prices_boptest.to_csv(os.path.join(gen.resources_dir, 'prices.csv'), index=True)
 
 # Electricity emission factor obtained from: https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf
