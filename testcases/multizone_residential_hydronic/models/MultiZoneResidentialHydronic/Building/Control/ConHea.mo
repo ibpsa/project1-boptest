@@ -28,7 +28,7 @@ model ConHea "General controller for heating system"
     annotation (Placement(transformation(extent={{-28,16},{-20,24}})));
   parameter Real Khea=1e6 "Gain value for the heating controller";
   parameter Real k=1e-2 "Gain of controller";
-  parameter Modelica.SIunits.Time Ti=1e2
+  parameter Modelica.SIunits.Time Ti=300
     "Time constant of Integrator block";
   parameter String zone="1" "Zone designation";
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(

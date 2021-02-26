@@ -842,8 +842,6 @@ public
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{-6,-118},{4,-128}})));
   Building.Control.ConHeaZon conHeaRo1(Khea=1,
-    k=0.1,
-    Ti=120,
     zone="Ro1") "Heating controller for zone Ro1"
     annotation (Placement(transformation(extent={{-12,-142},{-4,-138}})));
   Modelica.Blocks.Sources.RealExpression realExpression19(y=TRo1.T)
@@ -866,8 +864,6 @@ public
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{52,-118},{62,-128}})));
   Building.Control.ConHeaZon conHeaRo2(Khea=1,
-    k=0.1,
-    Ti=120,
     zone="Ro2") "Heating controller for zone Ro2"
     annotation (Placement(transformation(extent={{48,-142},{54,-138}})));
   Modelica.Blocks.Sources.RealExpression realExpression21(y=TRo2.T)
@@ -890,8 +886,6 @@ public
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{54,-198},{64,-208}})));
   Building.Control.ConHeaZon conHeaRo3(Khea=1,
-    k=0.1,
-    Ti=120,
     zone="Ro3") "Heating controller for zone Ro3"
     annotation (Placement(transformation(extent={{50,-224},{56,-220}})));
   Modelica.Blocks.Sources.RealExpression realExpression23(y=TRo3.T)
@@ -914,8 +908,6 @@ public
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{4,-198},{14,-208}})));
   Building.Control.ConHeaZon conHeaBth(Khea=1,
-    k=0.1,
-    Ti=120,
     zone="Bth") "Heating controller for zone Bth"
     annotation (Placement(transformation(extent={{-12,-222},{-6,-218}})));
   Modelica.Blocks.Sources.RealExpression realExpression25(y=TBth.T)
@@ -1041,8 +1033,6 @@ public
   Modelica.Blocks.Sources.RealExpression realExpression31(y=TLiv.T)
     annotation (Placement(transformation(extent={{-80,-150},{-74,-144}})));
   Building.Control.ConHeaZon conHeaLiv(Khea=1,
-    k=0.1,
-    Ti=120,
     zone="Liv")
     annotation (Placement(transformation(extent={{-68,-146},{-60,-142}})));
   Buildings.Fluid.FixedResistances.Junction inSplVal1(
@@ -1196,9 +1186,7 @@ public
     TRet_nominal=TRet_nominal,
     TOut_nominal(displayUnit="degC") = 268.15)
     annotation (Placement(transformation(extent={{-130,-126},{-126,-122}})));
-  Building.Control.ConHea conHeaTSup(Khea=1,
-    k=0.1,
-    Ti=120,                                  zone="supply water")
+  Building.Control.ConHea conHeaTSup(Khea=1, zone="supply water")
     annotation (Placement(transformation(extent={{-122,-126},{-116,-122}})));
   Modelica.Blocks.Sources.RealExpression realExpression29(y=schGeneral.HeaSetRT12
          + delta_ST_rad)
@@ -2853,8 +2841,8 @@ First implementation.
 </ul>
 </html>"),
     experiment(
-      StopTime=31536000,
-      Interval=600,
+      StopTime=172800,
+      Interval=599.999616,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,
