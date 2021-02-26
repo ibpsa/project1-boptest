@@ -538,7 +538,7 @@ class KPI_Calculator(object):
         Parameters
         ----------
         label: str
-            Name of point to get data for from case.y_store
+            Suffix of last index variable for which to set.
 
         '''
 
