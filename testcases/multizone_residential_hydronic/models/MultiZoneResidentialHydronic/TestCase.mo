@@ -833,13 +833,17 @@ public
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{-22,-130},{-8,-116}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valRo1(
+  Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
+                                                valRo1(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1e-3,
+    dpValve_nominal=1000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false)
+    use_inputFilter=false,
+    dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{-6,-118},{4,-128}})));
-  Building.Control.ConHeaZon conHeaRo1(Khea=1, Ti=300,
+  Building.Control.ConHeaZon conHeaRo1(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Ro1") "Heating controller for zone Ro1"
     annotation (Placement(transformation(extent={{-12,-142},{-4,-138}})));
   Modelica.Blocks.Sources.RealExpression realExpression19(y=TRo1.T)
@@ -853,13 +857,17 @@ public
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{36,-130},{50,-116}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valRo2(
+  Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
+                                                valRo2(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1e-3,
+    dpValve_nominal=1000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false)
+    use_inputFilter=false,
+    dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{52,-118},{62,-128}})));
-  Building.Control.ConHeaZon conHeaRo2(Khea=1, Ti=300,
+  Building.Control.ConHeaZon conHeaRo2(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Ro2") "Heating controller for zone Ro2"
     annotation (Placement(transformation(extent={{48,-142},{54,-138}})));
   Modelica.Blocks.Sources.RealExpression realExpression21(y=TRo2.T)
@@ -873,13 +881,17 @@ public
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{38,-210},{52,-196}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valRo3(
+  Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
+                                                valRo3(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1e-3,
+    dpValve_nominal=1000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false)
+    use_inputFilter=false,
+    dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{54,-198},{64,-208}})));
-  Building.Control.ConHeaZon conHeaRo3(Khea=1, Ti=300,
+  Building.Control.ConHeaZon conHeaRo3(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Ro3") "Heating controller for zone Ro3"
     annotation (Placement(transformation(extent={{50,-224},{56,-220}})));
   Modelica.Blocks.Sources.RealExpression realExpression23(y=TRo3.T)
@@ -893,13 +905,17 @@ public
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{-16,-210},{-2,-196}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valBth(
+  Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
+                                                valBth(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1e-3,
+    dpValve_nominal=1000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false)
+    use_inputFilter=false,
+    dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{4,-198},{14,-208}})));
-  Building.Control.ConHeaZon conHeaBth(Khea=1, Ti=300,
+  Building.Control.ConHeaZon conHeaBth(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Bth") "Heating controller for zone Bth"
     annotation (Placement(transformation(extent={{-12,-222},{-6,-218}})));
   Modelica.Blocks.Sources.RealExpression realExpression25(y=TBth.T)
@@ -1016,7 +1032,7 @@ public
         origin={71,-203})));
   Buildings.Fluid.FixedResistances.PressureDrop       res(
     redeclare package Medium = MediumW,
-    dp_nominal=1e-3,
+    dp_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal)
     annotation (Placement(transformation(extent={{-2,-174},{6,-164}})));
   Modelica.Blocks.Sources.RealExpression realExpression30(y=schGeneral.HeaSetRT12
@@ -1024,7 +1040,9 @@ public
     annotation (Placement(transformation(extent={{-80,-146},{-74,-140}})));
   Modelica.Blocks.Sources.RealExpression realExpression31(y=TLiv.T)
     annotation (Placement(transformation(extent={{-80,-150},{-74,-144}})));
-  Building.Control.ConHeaZon conHeaLiv(Khea=1, Ti=300,
+  Building.Control.ConHeaZon conHeaLiv(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Liv")
     annotation (Placement(transformation(extent={{-68,-146},{-60,-142}})));
   Buildings.Fluid.FixedResistances.Junction inSplVal1(
@@ -1047,11 +1065,13 @@ public
     T_a_nominal=TSup_nominal,
     T_b_nominal=TRet_nominal)
     annotation (Placement(transformation(extent={{-80,-126},{-66,-112}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valLiv(
+  Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
+                                                valLiv(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1e-3,
+    dpValve_nominal=1000,
     m_flow_nominal=mBoi_flow_nominal,
-    use_inputFilter=false)
+    use_inputFilter=false,
+    dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{-64,-114},{-54,-124}})));
   Buildings.Fluid.FixedResistances.Junction outSplVal1(
     redeclare package Medium = MediumW,
@@ -1141,18 +1161,17 @@ public
         extent={{-5,-5},{5,5}},
         rotation=0,
         origin={-99,-139})));
-  Buildings.Fluid.Actuators.Valves.ThreeWayLinear                val_chaudiere(
+  Buildings.Fluid.Actuators.Valves.ThreeWayEqualPercentageLinear valBoi(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1e-3,
+    dpValve_nominal=6000,
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Entering,
     m_flow_nominal=mBoi_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     from_dp=false,
-    use_inputFilter=false)
-                          annotation (Placement(transformation(extent={{-118,
-            -144},{-108,-134}})));
+    use_inputFilter=false) "Boiler valve"
+    annotation (Placement(transformation(extent={{-118,-144},{-108,-134}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort temRet(
     redeclare package Medium = MediumW,
     m_flow_nominal=mBoi_flow_nominal,
@@ -1178,7 +1197,8 @@ public
     TOut_nominal(displayUnit="degC") = 268.15)
     annotation (Placement(transformation(extent={{-130,-126},{-126,-122}})));
   Building.Control.ConHea conHeaTSup(Khea=1,
-    k=1e-3,                                  zone="supply water")
+    k=0.1,
+    Ti=120,                                  zone="supply water")
     annotation (Placement(transformation(extent={{-122,-126},{-116,-122}})));
   Modelica.Blocks.Sources.RealExpression realExpression29(y=schGeneral.HeaSetRT12
          + delta_ST_rad)
@@ -1211,6 +1231,7 @@ public
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare package Medium = MediumW,
     addPowerToMedium=false,
+    dp_nominal=20000,
     constantMassFlowRate=0.15,
     m_flow_nominal=mBoi_flow_nominal,
     redeclare Buildings.Fluid.Movers.Data.Generic per,
@@ -1706,14 +1727,14 @@ equation
           0}));
   connect(conCooLiv.T, TLiv.T) annotation (Line(points={{-66.32,19},{-70.4,19},
           {-70.4,22},{-74,22}}, color={0,0,127}));
-  connect(expCooRo1.y, conCooRo1.ConsigneClim) annotation (Line(points={{6.2,12},
-          {9.68,12},{9.68,14.3333}}, color={0,0,127}));
-  connect(expCooRo2.y, conCooRo2.ConsigneClim) annotation (Line(points={{64.2,10},
-          {67.68,10},{67.68,14.3333}},     color={0,0,127}));
-  connect(expCooRo3.y, conCooRo3.ConsigneClim) annotation (Line(points={{62.2,
-          -38},{64,-38},{64,-39.6667},{67.68,-39.6667}}, color={0,0,127}));
-  connect(expCooBth.y, conCooBth.ConsigneClim) annotation (Line(points={{2.2,-46},
-          {4,-46},{4,-47.6667},{5.68,-47.6667}},      color={0,0,127}));
+  connect(expCooRo1.y, conCooRo1.TSet) annotation (Line(points={{6.2,12},{9.68,
+          12},{9.68,14.3333}}, color={0,0,127}));
+  connect(expCooRo2.y, conCooRo2.TSet) annotation (Line(points={{64.2,10},{
+          67.68,10},{67.68,14.3333}}, color={0,0,127}));
+  connect(expCooRo3.y, conCooRo3.TSet) annotation (Line(points={{62.2,-38},{64,
+          -38},{64,-39.6667},{67.68,-39.6667}}, color={0,0,127}));
+  connect(expCooBth.y, conCooBth.TSet) annotation (Line(points={{2.2,-46},{4,
+          -46},{4,-47.6667},{5.68,-47.6667}}, color={0,0,127}));
   connect(weaDat.weaBus, gar.weaBus) annotation (Line(
       points={{-276,56},{-164,56},{-164,-94},{-122.84,-94},{-122.84,-40.84}},
       color={255,204,51},
@@ -1730,32 +1751,28 @@ equation
           -123},{-6,-123}}, color={0,127,255}));
   connect(realExpression19.y, conHeaRo1.T) annotation (Line(points={{-17.7,-143},
           {-16,-143},{-16,-140},{-12.64,-140}},color={0,0,127}));
-  connect(realExpression20.y, conHeaRo1.ConsigneCh)
-    annotation (Line(points={{-17.7,-139},{-14,-139},{-14,-138.667},{-12.64,
-          -138.667}},                                    color={0,0,127}));
+  connect(realExpression20.y, conHeaRo1.TSet) annotation (Line(points={{-17.7,
+          -139},{-14,-139},{-14,-138.667},{-12.64,-138.667}}, color={0,0,127}));
   connect(radRo2.port_b, valRo2.port_a) annotation (Line(points={{50,-123},{50,
           -123},{52,-123}}, color={0,127,255}));
   connect(realExpression21.y, conHeaRo2.T) annotation (Line(points={{38.3,-143},
           {44,-143},{44,-140},{47.52,-140}},color={0,0,127}));
-  connect(realExpression22.y, conHeaRo2.ConsigneCh)
-    annotation (Line(points={{38.3,-139},{44,-139},{44,-138.667},{47.52,
-          -138.667}},                                  color={0,0,127}));
+  connect(realExpression22.y, conHeaRo2.TSet) annotation (Line(points={{38.3,
+          -139},{44,-139},{44,-138.667},{47.52,-138.667}}, color={0,0,127}));
   connect(radRo3.port_b, valRo3.port_a) annotation (Line(points={{52,-203},{52,
           -203},{54,-203}}, color={0,127,255}));
   connect(conHeaRo3.yHea, valRo3.y) annotation (Line(points={{56.6,-222},{59,
           -222},{59,-209}}, color={0,0,127}));
-  connect(realExpression24.y, conHeaRo3.ConsigneCh)
-    annotation (Line(points={{40.3,-219},{44,-219},{44,-220.667},{49.52,
-          -220.667}},                                  color={0,0,127}));
+  connect(realExpression24.y, conHeaRo3.TSet) annotation (Line(points={{40.3,
+          -219},{44,-219},{44,-220.667},{49.52,-220.667}}, color={0,0,127}));
   connect(radBth.port_b, valBth.port_a)
     annotation (Line(points={{-2,-203},{4,-203}}, color={0,127,255}));
   connect(conHeaBth.yHea, valBth.y)
     annotation (Line(points={{-5.4,-220},{9,-220},{9,-209}}, color={0,0,127}));
   connect(realExpression25.y, conHeaBth.T) annotation (Line(points={{-19.7,-221},
           {-16,-221},{-16,-220},{-12.48,-220}},color={0,0,127}));
-  connect(realExpression26.y, conHeaBth.ConsigneCh)
-    annotation (Line(points={{-19.7,-217},{-16,-217},{-16,-218.667},{-12.48,
-          -218.667}},                                    color={0,0,127}));
+  connect(realExpression26.y, conHeaBth.TSet) annotation (Line(points={{-19.7,
+          -217},{-16,-217},{-16,-218.667},{-12.48,-218.667}}, color={0,0,127}));
   connect(inSplVal2.port_2, radRo1.port_a) annotation (Line(points={{-26,-123},
           {-26,-123},{-22,-123}}, color={0,127,255}));
   connect(inSplVal3.port_2, radRo2.port_a)
@@ -1799,9 +1816,8 @@ equation
     annotation (Line(points={{6,-169},{10,-169}}, color={0,127,255}));
   connect(conHeaRo1.yHea, valRo1.y) annotation (Line(points={{-3.2,-140},{-1,
           -140},{-1,-129}}, color={0,0,127}));
-  connect(realExpression30.y,conHeaLiv. ConsigneCh)
-    annotation (Line(points={{-73.7,-143},{-72,-143},{-72,-142.667},{-68.64,
-          -142.667}},                                    color={0,0,127}));
+  connect(realExpression30.y, conHeaLiv.TSet) annotation (Line(points={{-73.7,
+          -143},{-72,-143},{-72,-142.667},{-68.64,-142.667}}, color={0,0,127}));
   connect(realExpression31.y,conHeaLiv. T) annotation (Line(points={{-73.7,-147},
           {-71.85,-147},{-71.85,-144},{-68.64,-144}},color={0,0,127}));
   connect(conHeaLiv.yHea, valLiv.y) annotation (Line(points={{-59.2,-144},{-56,
@@ -1891,14 +1907,14 @@ equation
           -55.52}}, color={191,0,0}));
   connect(THal.T, conCooHal.T) annotation (Line(points={{64,-10},{68,-10},{68,
           -9},{73.68,-9}}, color={0,0,127}));
-  connect(conCooHal.ConsigneClim, expCooHal.y) annotation (Line(points={{73.68,
-          -9.66667},{70.7,-9.66667},{70.7,-12},{70.2,-12}}, color={0,0,127}));
+  connect(conCooHal.TSet, expCooHal.y) annotation (Line(points={{73.68,-9.66667},
+          {70.7,-9.66667},{70.7,-12},{70.2,-12}}, color={0,0,127}));
   connect(conCooHal.P, hal.heaPorAir) annotation (Line(points={{78,-9},{86,-9},
           {86,-14},{60,-14},{60,-10},{51.6,-10}}, color={191,0,0}));
   connect(spl.port_1, temRet.port_b) annotation (Line(points={{-108,-175},{-108,
           -174},{-102,-174}}, color={0,127,255}));
-  connect(spl.port_3,val_chaudiere. port_3) annotation (Line(points={{-113,-170},
-          {-113,-144}},                   color={0,127,255}));
+  connect(spl.port_3, valBoi.port_3)
+    annotation (Line(points={{-113,-170},{-113,-144}}, color={0,127,255}));
   connect(weaBus.TDryBul,heaCha. TOut) annotation (Line(
       points={{-164,56},{-164,-94},{-140,-94},{-140,-122.8},{-130.4,-122.8}},
       color={255,204,51},
@@ -1908,14 +1924,12 @@ equation
       extent={{-6,3},{-6,3}}));
   connect(realExpression29.y,heaCha. TRoo_in) annotation (Line(points={{-143.7,-125},
           {-131.85,-125},{-131.85,-125.2},{-130.38,-125.2}}, color={0,0,127}));
-  connect(heaCha.TSup, conHeaTSup.ConsigneCh) annotation (Line(points={{-125.8,
-          -122.8},{-123.9,-122.8},{-123.9,-122.667},{-122.48,-122.667}}, color=
-          {0,0,127}));
-  connect(val_chaudiere.port_2, temSup.port_a) annotation (Line(points={{-108,
-          -139},{-104,-139}},       color={0,127,255}));
-  connect(boi.port_b, val_chaudiere.port_1) annotation (Line(points={{-129.8,
-          -139.091},{-124,-139.091},{-124,-139},{-118,-139}},
-                                                    color={0,127,255}));
+  connect(heaCha.TSup, conHeaTSup.TSet) annotation (Line(points={{-125.8,-122.8},
+          {-123.9,-122.8},{-123.9,-122.667},{-122.48,-122.667}}, color={0,0,127}));
+  connect(valBoi.port_2, temSup.port_a)
+    annotation (Line(points={{-108,-139},{-104,-139}}, color={0,127,255}));
+  connect(boi.port_b, valBoi.port_1) annotation (Line(points={{-129.8,-139.091},
+          {-124,-139.091},{-124,-139},{-118,-139}}, color={0,127,255}));
   connect(spl.port_2, boi.port_a) annotation (Line(points={{-118,-175},{-118,
           -176},{-156,-176},{-156,-139.091},{-150.4,-139.091}},
                                                           color={0,127,255}));
@@ -1940,8 +1954,8 @@ equation
   connect(product1.u2,product1. u2)
     annotation (Line(points={{-240,-182},{-240,-182}},
                                                      color={0,0,127}));
-  connect(SetSecurityBoiler.y, conBoiSaf.ConsigneCh) annotation (Line(points={{-313.3,
-          -178},{-308.04,-178},{-308.04,-180.167}},        color={0,0,127}));
+  connect(SetSecurityBoiler.y, conBoiSaf.TSet) annotation (Line(points={{-313.3,
+          -178},{-308.04,-178},{-308.04,-180.167}}, color={0,0,127}));
   connect(booleanToReal1.u,realToBoolean1. y) annotation (Line(points={{-269.2,-182},
           {-273.4,-182}},            color={255,0,255}));
   connect(conBoiSaf.yHea, realToBoolean1.u) annotation (Line(points={{-292.7,-182.5},
@@ -1978,19 +1992,19 @@ equation
   connect(bou.ports[1], temRet.port_a) annotation (Line(points={{-102,-190},{
           -94,-190},{-94,-174}},
                              color={0,127,255}));
-  connect(expCooLiv.y, conCooLiv.ConsigneClim) annotation (Line(points={{-73.8,
-          16},{-70,16},{-70,18.3333},{-66.32,18.3333}}, color={0,0,127}));
+  connect(expCooLiv.y, conCooLiv.TSet) annotation (Line(points={{-73.8,16},{-70,
+          16},{-70,18.3333},{-66.32,18.3333}}, color={0,0,127}));
   connect(switch1.y, boi.y) annotation (Line(points={{-239.5,-119},{-184,-119},
           {-184,-134},{-152,-134}}, color={0,0,127}));
   connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,15},{
           9.68,15}}, color={0,0,127}));
   connect(HeaSetLiv.y, onOffController.reference) annotation (Line(points={{-328.1,
           -210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
-  connect(HeaSetLiv.y, conPumHea.ConsigneCh) annotation (Line(points={{-328.1,
-          -210},{-314,-210},{-314,-204},{-226,-204},{-226,-201},{-208.8,-201}},
-        color={0,0,127}));
-  connect(conHeaTSup.yHea, val_chaudiere.y) annotation (Line(points={{-115.4,-124},
-          {-113,-124},{-113,-133}}, color={0,0,127}));
+  connect(HeaSetLiv.y, conPumHea.TSet) annotation (Line(points={{-328.1,-210},{
+          -314,-210},{-314,-204},{-226,-204},{-226,-201},{-208.8,-201}}, color=
+          {0,0,127}));
+  connect(conHeaTSup.yHea, valBoi.y) annotation (Line(points={{-115.4,-124},{-113,
+          -124},{-113,-133}}, color={0,0,127}));
   connect(temSup.T, conHeaTSup.T) annotation (Line(points={{-99,-133.5},{-99,-128},
           {-124,-128},{-124,-124},{-122.48,-124}}, color={0,0,127}));
   connect(massFlowRate.port_b, inSplVal1.port_1) annotation (Line(points={{-91,
