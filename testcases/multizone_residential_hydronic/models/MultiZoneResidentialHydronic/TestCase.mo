@@ -2777,7 +2777,7 @@ Obtained from:
 https://www.epexspot.com/en</a> 
 The prices are parsed and exported using this repository:
 <a href=\"https://github.com/JavierArroyoBastida/epex-spot-data\">
-https://github.com/JavierArroyoBastida/epex-spot-data</a> 
+https://github.com/JavierArroyoBastida/epex-spot-data</a>. 
 Notice that the same constant transmission fees and taxes of 0.125 EUR/kWh are 
 added up on top of these prices. 
 </p>
