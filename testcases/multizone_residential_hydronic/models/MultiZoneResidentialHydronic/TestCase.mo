@@ -2735,6 +2735,15 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
+<p>
+All pricing scenarios include the same constant value for transmission fees and taxes
+of each commodity. The used value is the typical price that household users pay 
+for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+<a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
+\"The energy prices and costs in Europe report\"</a>.
+For the assumed location of the test case, this value is of
+0.125 EUR/kWh for electricity and of 0.042 for gas. 
+</p>
 <h5>Constant electricity price profile</h5>
 <p>
 The constant electricity price scenario uses a constant price of 0.108 EUR/kWh,
@@ -2743,6 +2752,8 @@ as obtained from the Engie's \"Elec Ajust\" deal before taxes (HTT) in
 https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a> 
 (accessed on July 2020). 
 The tariff used is the one for households with contracted power installations higher than 6 kVA.
+Adding up the transmission fees and taxes, the final constant electricity price is
+of 0.233 EUR/kWh. 
 </p>
 <h5>Dynamic electricity price profile</h5>
 <p>
@@ -2755,6 +2766,8 @@ https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descript
 The tariff used is the one for households with contracted power installations higher than 6 kVA.
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+Adding up the transmission fees and taxes, the final dynamic electricity prices are
+of 0.251 EUR/kWh during on-peak periods and of 0.211 during off-peak periods. 
 </p>
 <h5>Highly dynamic electricity price profile</h5>
 <p>
@@ -2765,6 +2778,8 @@ https://www.epexspot.com/en</a>
 The prices are parsed and exported using this repository:
 <a href=\"https://github.com/JavierArroyoBastida/epex-spot-data\">
 https://github.com/JavierArroyoBastida/epex-spot-data</a> 
+Notice that the same constant transmission fees and taxes of 0.125 EUR/kWh are 
+added up on top of these prices. 
 </p>
 <h5>Gas price profile</h5>
 <p>
@@ -2774,6 +2789,8 @@ as obtained from the \"Gaz Energie Garantie 1 an\" deal for gas in
 https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf</a> 
 (accessed on July 2020). 
 Price before taxes (HTT) for a contracted anual tariff between 0 - 6000 kWh.
+Adding up the transmission fees and taxes the final constant gas price is
+of 0.0911 EUR/kWh.
 </p>
 <h4>Emission Factors</h4>
 <h5>Electricity emissions factor profile</h5>
@@ -2796,11 +2813,15 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </html>", revisions="<html>
 <ul>
 <li>
-February 04, 2020 by Javier Arroyo:<br/>
+February 26, 2021 by Javier Arroyo:<br/>
+Add transmission fees and taxes to pricing scenarios. 
+</li>
+<li>
+February 04, 2021 by Javier Arroyo:<br/>
 Improve documentation. 
 </li>
 <li>
-January 29, 2020 by Javier Arroyo:<br/>
+January 29, 2021 by Javier Arroyo:<br/>
 Add CO2 generation and readings. 
 </li>
 <li>
