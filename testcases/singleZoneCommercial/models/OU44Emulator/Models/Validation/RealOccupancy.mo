@@ -4,14 +4,14 @@ model RealOccupancy
     districtHeating(m_flow_nominal=2),
     infiltration(ach=0.2),
     scale_factor(k=4),
-    rad(dp_nominal=20000),
+    rad(dp_nominal=0),
     conPIDcoil(
       yMax=1,
       controllerType=Modelica.Blocks.Types.SimpleController.PI,
-      Ti=600,
-      k=0.01),
-    conPIDfan(k=0.05, Ti=200),
-    conPIDrad(k=0.1, Ti=600),
+      k=0.05,
+      Ti=800),
+    conPIDfan(k=0.1, Ti=600),
+    conPIDrad(k=0.05, Ti=800),
     Occupancy_schedule(occupancy=3600*{31,43,55,67,79,91,103,115,127,139}),
     valRad(use_inputFilter=false),
     valCoil(use_inputFilter=false),
@@ -44,8 +44,6 @@ model RealOccupancy
     fileName=ModelicaServices.ExternalReferences.loadResource(
         "modelica://OU44Emulator/occ.txt"))
     annotation (Placement(transformation(extent={{-188,130},{-168,150}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=conPIDrad.y)
-    annotation (Placement(transformation(extent={{-212,-206},{-192,-186}})));
   Buildings.Controls.SetPoints.OccupancySchedule Occupancy_schedule1(
     occupancy=3600*{31,43,55,67,79,91,103,115,127,139},
     period=604800,
@@ -117,6 +115,9 @@ model RealOccupancy
     description="Electrical power consumption of pump")
     "Read electrical power consumption of pump"
     annotation (Placement(transformation(extent={{80,-118},{96,-102}})));
+  Modelica.Blocks.Sources.Constant Pump_sp(k=1)
+    "speed signal for pump in district heating"
+    annotation (Placement(transformation(extent={{-220,-204},{-200,-184}})));
 equation
   connect(occupancy.y[1], gaiCO2.u) annotation (Line(points={{-167,140},{-140,
           140},{-140,112},{-105.6,112}},
@@ -136,9 +137,6 @@ equation
           130,16},{124,16}}, color={0,0,127}));
   connect(add.y, OverTzone.u)
     annotation (Line(points={{101,22},{95,22},{95,7.4}}, color={0,0,127}));
-  connect(realExpression.y, over_pump_DH.u)
-    annotation (Line(points={{-191,-196},{-186,-196},{-186,-194},{-182,-194}},
-                                                       color={0,0,127}));
   connect(over_pump_DH.y, districtHeating.y)
     annotation (Line(points={{-159,-194},{-152,-194},{-152,-196},{-143,-196}},
                                                        color={0,0,127}));
@@ -167,6 +165,8 @@ equation
           -110},{106,-102.8},{124.4,-102.8}}, color={0,0,127}));
   connect(add1.y, read_Q_el.u)
     annotation (Line(points={{142.8,-98},{158.4,-98}}, color={0,0,127}));
+  connect(Pump_sp.y, over_pump_DH.u)
+    annotation (Line(points={{-199,-194},{-182,-194}}, color={0,0,127}));
   annotation (experiment(StopTime=2678400),                Diagram(
         coordinateSystem(extent={{-260,-240},{240,220}}),          graphics={
         Rectangle(
