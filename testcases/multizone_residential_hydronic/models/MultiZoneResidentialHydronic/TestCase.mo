@@ -842,6 +842,8 @@ public
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{-6,-118},{4,-128}})));
   Building.Control.ConHeaZon conHeaRo1(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Ro1") "Heating controller for zone Ro1"
     annotation (Placement(transformation(extent={{-12,-142},{-4,-138}})));
   Modelica.Blocks.Sources.RealExpression realExpression19(y=TRo1.T)
@@ -864,6 +866,8 @@ public
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{52,-118},{62,-128}})));
   Building.Control.ConHeaZon conHeaRo2(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Ro2") "Heating controller for zone Ro2"
     annotation (Placement(transformation(extent={{48,-142},{54,-138}})));
   Modelica.Blocks.Sources.RealExpression realExpression21(y=TRo2.T)
@@ -886,6 +890,8 @@ public
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{54,-198},{64,-208}})));
   Building.Control.ConHeaZon conHeaRo3(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Ro3") "Heating controller for zone Ro3"
     annotation (Placement(transformation(extent={{50,-224},{56,-220}})));
   Modelica.Blocks.Sources.RealExpression realExpression23(y=TRo3.T)
@@ -908,6 +914,8 @@ public
     dpFixed_nominal=6000)
     annotation (Placement(transformation(extent={{4,-198},{14,-208}})));
   Building.Control.ConHeaZon conHeaBth(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Bth") "Heating controller for zone Bth"
     annotation (Placement(transformation(extent={{-12,-222},{-6,-218}})));
   Modelica.Blocks.Sources.RealExpression realExpression25(y=TBth.T)
@@ -1033,6 +1041,8 @@ public
   Modelica.Blocks.Sources.RealExpression realExpression31(y=TLiv.T)
     annotation (Placement(transformation(extent={{-80,-150},{-74,-144}})));
   Building.Control.ConHeaZon conHeaLiv(Khea=1,
+    k=0.1,
+    Ti=120,
     zone="Liv")
     annotation (Placement(transformation(extent={{-68,-146},{-60,-142}})));
   Buildings.Fluid.FixedResistances.Junction inSplVal1(
@@ -1186,7 +1196,9 @@ public
     TRet_nominal=TRet_nominal,
     TOut_nominal(displayUnit="degC") = 268.15)
     annotation (Placement(transformation(extent={{-130,-126},{-126,-122}})));
-  Building.Control.ConHea conHeaTSup(Khea=1, zone="supply water")
+  Building.Control.ConHea conHeaTSup(Khea=1,
+    k=0.1,
+    Ti=120,                                  zone="supply water")
     annotation (Placement(transformation(extent={{-122,-126},{-116,-122}})));
   Modelica.Blocks.Sources.RealExpression realExpression29(y=schGeneral.HeaSetRT12
          + delta_ST_rad)
@@ -1527,8 +1539,8 @@ equation
           -15.9429},{-222,-15.9429},{-222,-76},{-127.6,-76},{-127.6,-54.6}},
         color={191,0,0}));
   connect(ati.surf_surBou[2], liv.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.8286},{-222,-15.8286},{-222,-76},{-82,-76},{-82,4},{-85.6,4},{
-          -85.6,15.3333}},
+          -15.8286},{-222,-15.8286},{-222,-76},{-82,-76},{-82,4},{-85.6,4},{-85.6,
+          15.3333}},
         color={191,0,0}));
   connect(ati.surf_surBou[3], ro1.surf_conBou[1]) annotation (Line(points={{-221.52,
           -15.7143},{-221.52,-44},{-176,-44},{-176,6},{-5.6,6},{-5.6,11.3333}},
@@ -1541,8 +1553,8 @@ equation
   connect(ati.surf_surBou[6], bth.surf_conBou[1]) annotation (Line(points={{-221.52,
           -15.3714},{-221.52,-76},{-7.6,-76},{-7.6,-60.7}}, color={191,0,0}));
   connect(ati.surf_surBou[7], hal.surf_conBou[1]) annotation (Line(points={{-221.52,
-          -15.2571},{-192,-15.2571},{-192,-32},{54,-32},{54,-16},{54.4,-16},{
-          54.4,-16.7429}},
+          -15.2571},{-192,-15.2571},{-192,-32},{54,-32},{54,-16},{54.4,-16},{54.4,
+          -16.7429}},
         color={191,0,0}));
   connect(gar.surf_surBou[1], liv.surf_conBou[2]) annotation (Line(points={{-131.52,
           -53.6},{-131.52,-54},{-132,-54},{-132,-76},{-82,-76},{-82,4},{-85.6,4},
@@ -1555,8 +1567,8 @@ equation
           16.4},{-89.52,8},{-82,8},{-82,-74},{-7.6,-74},{-7.6,-60.5}}, color={191,
           0,0}));
   connect(liv.surf_surBou[3], hal.surf_conBou[6]) annotation (Line(points={{-89.52,
-          16.6667},{-89.52,8},{86,8},{86,-16},{70,-16},{62,-16},{62,-16.1714},{
-          54.4,-16.1714}},
+          16.6667},{-89.52,8},{86,8},{86,-16},{70,-16},{62,-16},{62,-16.1714},
+          {54.4,-16.1714}},
                       color={191,0,0}));
   connect(ro1.surf_surBou[1], hal.surf_conBou[2]) annotation (Line(points={{-9.52,
           12.2},{-9.52,8},{86,8},{86,-16},{70,-16},{70,-16.6286},{54.4,-16.6286}},
@@ -1572,8 +1584,7 @@ equation
           -59.4},{48.48,-74},{86,-74},{86,-16},{70,-16},{70,-16.4},{54.4,-16.4}},
         color={191,0,0}));
   connect(bth.surf_surBou[1], hal.surf_conBou[5]) annotation (Line(points={{-11.52,
-          -59.6},{-11.52,-74},{86,-74},{86,-16},{70,-16},{70,-16.2857},{54.4,
-          -16.2857}},
+          -59.6},{-11.52,-74},{86,-74},{86,-16},{70,-16},{70,-16.2857},{54.4,-16.2857}},
         color={191,0,0}));
   connect(weaDat.weaBus, hal.weaBus) annotation (Line(
       points={{-276,56},{59.16,56},{59.16,-2.84}},
@@ -1632,8 +1643,8 @@ equation
           {26,6},{38,6},{38,10},{44,10},{44,12.8}}, color={0,127,255}));
   connect(dooRo2.port_a1, ro2.ports[2]) annotation (Line(points={{30.2,2},{32,2},
           {32,6},{38,6},{38,10},{44,10},{44,13.6}}, color={0,127,255}));
-  connect(dooRo2.port_b1, hal.ports[1]) annotation (Line(points={{30.2,-7},{
-          30.2,-15.4667},{46,-15.4667}}, color={0,127,255}));
+  connect(dooRo2.port_b1, hal.ports[1]) annotation (Line(points={{30.2,-7},{30.2,
+          -15.4667},{46,-15.4667}},      color={0,127,255}));
   connect(dooRo2.port_a2, hal.ports[2]) annotation (Line(points={{24.8,-7},{
           24.8,-15.2},{46,-15.2}}, color={0,127,255}));
   connect(dooRo3.port_a2, hal.ports[3]) annotation (Line(points={{32.2,-14},{46,
@@ -1648,8 +1659,8 @@ equation
           -7},{-6,-14},{18,-14},{18,-13.8667},{46,-13.8667}}, color={0,127,255}));
   connect(dooRo1.port_a2, hal.ports[8]) annotation (Line(points={{-13.2,-7},{
           -12,-7},{-12,-13.6},{46,-13.6}}, color={0,127,255}));
-  connect(dooLiv.port_b1, hal.ports[9]) annotation (Line(points={{-36,-7.8},{
-          -18,-7.8},{-18,-13.3333},{46,-13.3333}}, color={0,127,255}));
+  connect(dooLiv.port_b1, hal.ports[9]) annotation (Line(points={{-36,-7.8},{-18,
+          -7.8},{-18,-13.3333},{46,-13.3333}},     color={0,127,255}));
   connect(dooRo3.port_b2, ro3.ports[1]) annotation (Line(points={{32.2,-23},{
           32.2,-59.2},{44,-59.2}}, color={0,127,255}));
   connect(dooRo3.port_a1, ro3.ports[2]) annotation (Line(points={{26.8,-23},{
@@ -1662,8 +1673,8 @@ equation
           2},{-14,12.8}}, color={0,127,255}));
   connect(dooRo1.port_a1, ro1.ports[2])
     annotation (Line(points={{-7.8,2},{-14,2},{-14,13.6}}, color={0,127,255}));
-  connect(dooLiv.port_a2, hal.ports[10]) annotation (Line(points={{-36,-13.2},{
-          6,-13.2},{6,-13.0667},{46,-13.0667}}, color={0,127,255}));
+  connect(dooLiv.port_a2, hal.ports[10]) annotation (Line(points={{-36,-13.2},
+          {6,-13.2},{6,-13.0667},{46,-13.0667}},color={0,127,255}));
 
   connect(THal.port, hal.heaPorAir)
     annotation (Line(points={{60,-10},{51.6,-10}}, color={191,0,0}));
@@ -1717,12 +1728,12 @@ equation
           {-70.4,22},{-74,22}}, color={0,0,127}));
   connect(expCooRo1.y, conCooRo1.TSet) annotation (Line(points={{6.2,12},{9.68,
           12},{9.68,14.3333}}, color={0,0,127}));
-  connect(expCooRo2.y, conCooRo2.TSet) annotation (Line(points={{64.2,10},{
-          67.68,10},{67.68,14.3333}}, color={0,0,127}));
+  connect(expCooRo2.y, conCooRo2.TSet) annotation (Line(points={{64.2,10},{67.68,
+          10},{67.68,14.3333}},       color={0,0,127}));
   connect(expCooRo3.y, conCooRo3.TSet) annotation (Line(points={{62.2,-38},{64,
           -38},{64,-39.6667},{67.68,-39.6667}}, color={0,0,127}));
-  connect(expCooBth.y, conCooBth.TSet) annotation (Line(points={{2.2,-46},{4,
-          -46},{4,-47.6667},{5.68,-47.6667}}, color={0,0,127}));
+  connect(expCooBth.y, conCooBth.TSet) annotation (Line(points={{2.2,-46},{4,-46},
+          {4,-47.6667},{5.68,-47.6667}},      color={0,0,127}));
   connect(weaDat.weaBus, gar.weaBus) annotation (Line(
       points={{-276,56},{-164,56},{-164,-94},{-122.84,-94},{-122.84,-40.84}},
       color={255,204,51},
@@ -1745,14 +1756,14 @@ equation
           -123},{52,-123}}, color={0,127,255}));
   connect(realExpression21.y, conHeaRo2.T) annotation (Line(points={{38.3,-143},
           {44,-143},{44,-140},{47.52,-140}},color={0,0,127}));
-  connect(realExpression22.y, conHeaRo2.TSet) annotation (Line(points={{38.3,
-          -139},{44,-139},{44,-138.667},{47.52,-138.667}}, color={0,0,127}));
+  connect(realExpression22.y, conHeaRo2.TSet) annotation (Line(points={{38.3,-139},
+          {44,-139},{44,-138.667},{47.52,-138.667}},       color={0,0,127}));
   connect(radRo3.port_b, valRo3.port_a) annotation (Line(points={{52,-203},{52,
           -203},{54,-203}}, color={0,127,255}));
   connect(conHeaRo3.yHea, valRo3.y) annotation (Line(points={{56.6,-222},{59,
           -222},{59,-209}}, color={0,0,127}));
-  connect(realExpression24.y, conHeaRo3.TSet) annotation (Line(points={{40.3,
-          -219},{44,-219},{44,-220.667},{49.52,-220.667}}, color={0,0,127}));
+  connect(realExpression24.y, conHeaRo3.TSet) annotation (Line(points={{40.3,-219},
+          {44,-219},{44,-220.667},{49.52,-220.667}},       color={0,0,127}));
   connect(radBth.port_b, valBth.port_a)
     annotation (Line(points={{-2,-203},{4,-203}}, color={0,127,255}));
   connect(conHeaBth.yHea, valBth.y)
@@ -1918,9 +1929,8 @@ equation
     annotation (Line(points={{-108,-139},{-104,-139}}, color={0,127,255}));
   connect(boi.port_b, valBoi.port_1) annotation (Line(points={{-129.8,-139.091},
           {-124,-139.091},{-124,-139},{-118,-139}}, color={0,127,255}));
-  connect(spl.port_2, boi.port_a) annotation (Line(points={{-118,-175},{-118,
-          -176},{-156,-176},{-156,-139.091},{-150.4,-139.091}},
-                                                          color={0,127,255}));
+  connect(spl.port_2, boi.port_a) annotation (Line(points={{-118,-175},{-118,-176},
+          {-156,-176},{-156,-139.091},{-150.4,-139.091}}, color={0,127,255}));
   connect(temSup.port_b, massFlowRate.port_a) annotation (Line(points={{-94,
           -139},{-92,-139},{-92,-130},{-91,-130}},
                                              color={0,127,255}));
@@ -1988,8 +1998,8 @@ equation
           9.68,15}}, color={0,0,127}));
   connect(HeaSetLiv.y, onOffController.reference) annotation (Line(points={{-328.1,
           -210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
-  connect(HeaSetLiv.y, conPumHea.TSet) annotation (Line(points={{-328.1,-210},{
-          -314,-210},{-314,-204},{-226,-204},{-226,-201},{-208.8,-201}}, color=
+  connect(HeaSetLiv.y, conPumHea.TSet) annotation (Line(points={{-328.1,-210},
+          {-314,-210},{-314,-204},{-226,-204},{-226,-201},{-208.8,-201}},color=
           {0,0,127}));
   connect(conHeaTSup.yHea, valBoi.y) annotation (Line(points={{-115.4,-124},{-113,
           -124},{-113,-133}}, color={0,0,127}));
@@ -2841,8 +2851,8 @@ First implementation.
 </ul>
 </html>"),
     experiment(
-      StopTime=172800,
-      Interval=599.999616,
+      StopTime=31536000,
+      Interval=300,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,
