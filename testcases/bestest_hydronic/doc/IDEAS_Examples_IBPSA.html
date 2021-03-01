@@ -1,0 +1,344 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</title>
+<meta name="HTML-Generator" content="Dymola">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="&quot;Single zone residential hydronic example model&quot;">
+<style type="text/css">
+*       { font-size: 100%; font-family: Arial, sans-serif; }
+.modelica, .modelica * { font-size: 90%; font-family: Courier, monospace; white-space: pre; } /* For the Modelica code (in exported html). */
+h4      { font-size: 100%; font-weight: bold; color: green; } 
+h3      { font-size: 110%; font-weight: bold; color: green; }
+h2      { font-size: 130%; font-weight: bold; color: green; }
+address { font-weight: normal; }
+td      { padding: 2px; border: 1px solid #808080; vertical-align: top; }
+th      { padding: 2px; border: 1px solid #808080; vertical-align: top; font-weight: bold; }
+table   { border: 1px solid #808080; border-collapse: collapse; }
+pre, code {font-family: "Courier New", monospace;}
+pre {white-space: pre; overflow-x : hidden;}
+.ModelicaDescription {font-weight: bold;} /* For the description string of the class. */
+.ModelicaBaseClass {} /* For the list of base-classes at the of the description. */
+.ModelicaKeyword { color: blue; font-weight: normal; font-style: normal; } /* Keywords in Modelica. */
+.ModelicaComment { color: #006400;  font-weight: normal; font-style: normal;} /* All three variants of comments in Modelica.  */
+.ModelicaString { color: #006400;  font-weight: normal; font-style: normal;} /* String constants. */
+.ModelicaClass { color: red; font-weight: normal; font-style: normal;} /* Formatting the names of referenced classes (for base-class and components). */
+.ModelicaFunction { color: red; font-weight: normal; font-style: normal;} /* Formatting for called functions. */
+.ModelicaTablePackageContent { } /* The table of contents for each package. */
+.ModelicaTableCrossReference { } /* The optional cross-reference table. */
+.ModelicaTableInputs {} /* The table of inputs for a function. */
+.ModelicaTableOutputs {} /* The table of outputs for a function. */
+.ModelicaTableParameters {} /* The table of parameters for a model/block. */
+.ModelicaTableConnectors {} /* The table of connectors for a model/block. */
+.ModelicaTableContents {} /* The table of contents for a connector. */
+.ModelicaStartAttribute { font-weight: bold; } /* The formatting used for start-attribute in the table of parameters, to separate them from parameter values. */
+.ModelicaParameterTab { background-color: #c0c0c0; font-weight: bold; } /* The tab-heading in the table of parameters */
+.ModelicaParameterGroup { background-color: #e0e0e0; } /* The group-heading in the table of parameters */
+</style>
+</head>
+<body>
+<!--[if supportFields]><span style="mso-element:field-begin"></span>
+<span style="mso-spacerun:yes"></span>XE SingleZoneResidentialHydronic<![endif]-->
+<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
+<h2><img src="IDEAS.Examples.IBPSA.Sing7927f73c58652d5bronicI.png" alt="IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic" align="right" style="border: 1px solid" width="80" height="80">
+<a name="IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic"></a>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</h2>
+<p>
+<span class="ModelicaDescription">Single zone residential hydronic example model</span>
+</p>
+<h3>Information</h3>
+
+<p>
+This is a single zone residential hydronic system model 
+for WP 1.2 of IBPSA project 1. 
+</p>
+<h3>Building Design and Use</h3>
+<h4>Architecture</h4>
+<p>
+This building envelope model corresponds to the BESTEST case 900 test case. 
+It consists of a single zone with a rectangular floor plan of 6 by 8 meters 
+and a height of 2.7 m. The zone further consists of two south-oriented windows 
+of 6 m2 each, which are modelled using a single window of 12 m2. 
+</p>
+<h4>Constructions</h4>
+<p>
+The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation. 
+For more details see 
+<a  >
+IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>. 
+The floor consists of 8 cm of concrete and 1 m of insulation, representing a 
+perfectly insulated floor. The roof consists of a light construction and 11 cm 
+of fibreglass. 
+</p>
+<h4>Occupancy schedules</h4>
+<p>
+The zone is occupied by one person before 7 am and after 8 pm each weekday 
+and full time during weekends. 
+</p>
+<h4>Internal loads and schedules</h4>
+<p>
+There are no internal loads other than the occupants. 
+</p>
+<h4>Climate data</h4>
+<p>
+The model uses a climate file containing one year
+of weather data for Uccle, Belgium.
+</p>
+<h3>HVAC System Design</h3>
+<h4>Primary and secondary system designs</h4>
+<p>
+The model only has a primary heating system that heats the zone using a 
+single radiator with thermostatic valve, a circulation pump and a water heater. 
+The radiator nominal thermal power and heater maximum thermal power is 5 kW. 
+The heating setpoint is set to 21 &#176;C during occupied 
+periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to 
+24 &#176;C during occupied peridos and 30 &#176;C during unoccupied periods. 
+The gas heater efficiency is computed using a polynomial curve and it uses a PI 
+controller to modulate supply water temperature between 20 and 80 &#176;C to 
+track a reference for the operative zone temperature 
+that equals the heating setpoint plus an offset 
+of 0.1 &#176;C by default. 
+</p>
+<h4>Equipment specifications and performance maps</h4>
+<p>
+The heating system circulation pump has the default efficiency of the pump 
+model, which is 49%; at the time of writing. The heater efficiency is 
+computed using a polynomial curve. 
+</p>
+<h4>Rule-based or local-loop controllers (if included)</h4>
+<p>
+The model assumes a pump with a constant head, 
+which results in a fixed flow rate due to the fixed pressure drop coefficient of the radiator.
+The supply water temperature of the boiler is modulated using a PI
+controller that tracks indoor temperature to follow a reference defined as 
+the heating setpoint plus an offset of 0.1 &#176;C. 
+</p>
+<h3>Model IO's</h3>
+<h4>Inputs</h4>
+<p>The model inputs are: </p>
+<ul>
+<li>
+<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
+</li>
+<li>
+<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
+</li>
+<li>
+<code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
+</li>
+<li>
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the pump either on or off
+</li>
+</ul>
+<h4>Outputs</h4>
+<p>The model outputs are: </p>
+<ul>
+<li>
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for heating
+</li>
+<li>
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Zone operative temperature setpoint for cooling
+</li>
+<li>
+<code>reaTSetSup_y</code> [K] [min=None, max=None]: Supply temperature setpoint of heater
+</li>
+<li>
+<code>reaQHea_y</code> [W] [min=None, max=None]: Heating thermal power
+</li>
+<li>
+<code>reaPum_y</code> [1] [min=None, max=None]: Control signal for pump
+</li>
+<li>
+<code>reaPPum_y</code> [W] [min=None, max=None]: Pump electrical power
+</li>
+<li>
+<code>reaCO2RooAir_y</code> [ppm] [min=None, max=None]: CO2 concentration in the zone
+</li>
+<li>
+<code>reaTRoo_y</code> [K] [min=None, max=None]: Operative zone temperature
+</li>
+<li>
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
+</ul>
+<h3>Additional System Design</h3>
+<h4>Lighting</h4>
+<p>No lighting model is included. </p>
+<h4>Shading</h4>
+<p>
+No shading model is included.
+</p>
+<h3>Model Implementation Details</h3>
+<h4>Moist vs. dry air</h4>
+<p>
+The model uses moist air despite that no condensation is modelled in any of the used components. 
+</p>
+<h4>Pressure-flow models</h4>
+<p>
+A simple, single circulation loop is used to model the heating system. 
+</p>
+<h4>Infiltration models</h4>
+<p>
+Fixed air infiltration corresponding to an n50 value of 10
+is modelled.
+</p>
+<h3>Scenario Information</h3>
+<h4>Energy Pricing</h4>
+<p>
+All pricing scenarios include the same constant value for transmission fees and taxes
+of each commodity. The used value is the typical price that household users pay 
+for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN">
+"The energy prices and costs in Europe report"</a>.
+For the assumed location of the test case, this value is of
+0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas. 
+</p>
+<h5>Constant electricity price profile</h5>
+<p>
+The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
+as obtained from the "Easy Indexed" deal for electricity (normal rate) in 
+<a href="https://www.energyprice.be/products-list/Engie">
+https://www.energyprice.be/products-list/Engie</a> 
+(accessed on June 2020). 
+Adding up the transmission fees and taxes, the final constant electricity price is
+of 0.2535 EUR/kWh. 
+</p>
+<h5>Dynamic electricity price profile</h5>
+<p>
+The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during 
+day time and 0.0383 EUR/kWh during night time,
+as obtained from the "Easy Indexed" deal for electricity (dual rate) in 
+<a href="https://www.energyprice.be/products-list/Engie">
+https://www.energyprice.be/products-list/Engie</a> 
+(accessed on June 2020). 
+The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m. 
+Adding up the transmission fees and taxes, the final dynamic electricity prices are
+of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods. 
+</p>
+<h5>Highly dynamic electricity price profile</h5>
+<p>
+The highly dynamic electricity price scenario is based on the the
+Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity 
+market in the year 2019.
+Obtained from:
+<a href="https://my.elexys.be/MarketInformation/SpotBelpex.aspx">
+https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a> 
+Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are 
+added up on top of these prices. 
+</p>
+<h5>Gas price profile</h5>
+<p>
+The gas price is assumed constant and of 0.0198 EUR/kWh 
+as obtained from the "Easy Indexed" deal for gas
+<a href="https://www.energyprice.be/products-list/Engie">
+https://www.energyprice.be/products-list/Engie</a> 
+(accessed on June 2020). 
+Adding up the transmission fees and taxes, the final constant gas price is
+of 0.0498 EUR/kWh. 
+</p>
+<h4>Emission Factors</h4>
+<h5>Electricity emissions factor profile</h5>
+<p>
+It is used a constant emission factor for electricity of 0.167 kgCO2/kWh 
+which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
+for year 2018. For reference, see:
+ <a href="https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf">
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a> 
+</p>
+<h5>Gas emissions factor profile</h5>
+<p>
+Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference,
+see:
+<a href="https://www.eia.gov/environment/emissions/co2_vol_mass.php">
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a> 
+</p>
+
+<p><span class="ModelicaBaseClass">Extends from Modelica.Icons.Example (Icon for runnable examples).</span></p>
+<h3>Parameters</h3>
+<table summary="Parameters" class="ModelicaTableParameters">
+<tr><th>Name</th><th>Description</th></tr>
+<tr class="ModelicaParameterGroup"><td colspan="2">Setpoints</td></tr>
+<tr><td>TSetCooUno</td><td>Unoccupied cooling setpoint [K]</td></tr>
+<tr><td>TSetCooOcc</td><td>Occupied cooling setpoint [K]</td></tr>
+<tr><td>TSetHeaUno</td><td>Unoccupied heating setpoint [K]</td></tr>
+<tr><td>TSetHeaOcc</td><td>Occupied heating setpoint [K]</td></tr>
+</table>
+<h3>Connectors</h3>
+<table summary="Connectors" class="ModelicaTableConnectors">
+<tr><th>Name</th><th>Description</th></tr>
+<tr><td>Q</td><td>Thermal power use of heater [W]</td></tr>
+<tr><td>TZone</td><td>Zone operative temperature [K]</td></tr>
+</table>
+<address>
+<a href="http://www.3ds.com/">Automatically generated</a> Thu Feb 25 17:30:50 2021.
+</address>
+</body>
+</html>
