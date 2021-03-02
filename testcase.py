@@ -61,6 +61,8 @@ class TestCase(object):
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6
+        # Assign initial testing time
+        self.initial_time = 0
         # Set initial fmu simulation start
         self.start_time = 0
         self.initialize_fmu = True
