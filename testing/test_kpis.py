@@ -93,15 +93,15 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_constant')
 
-        # Reset testcase and kpi calculator
-        self._initialize_testcase(self.testcase_name, self.ref_data_filepath)
+        # Reset kpi calculator
+        self.cal.initialize()
         # Calculate operational cost dynamic
         self.cal.get_cost(scenario='Dynamic')
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_dynamic')
 
-        # Reset testcase and kpi calculator
-        self._initialize_testcase(self.testcase_name, self.ref_data_filepath)
+        # Reset kpi calculator
+        self.cal.initialize()
         # Calculate operational cost highly dynamic
         self.cal.get_cost(scenario='HighlyDynamic')
         # Check results
@@ -180,6 +180,37 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost')
         self._perform_test(self.case.emis_tot, self.case.emis_dict, 'emis')
 
+    def test_change_scenario_with_warmup(self):
+        '''Checks that KPI calculator can change the scenario and
+        re-calculate the KPIs from the beginning of the simulation
+        even when a warmup period is used for initialization.
+
+        '''
+
+        # Emulate a test case with warmup period
+        self.cal.case.initial_time = 24*3600
+
+        # Reset kpi calculator
+        self.cal.initialize()
+        # Calculate operational cost default (Constant)
+        self.cal.get_cost(scenario='Constant')
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_warmup_constant')
+
+        # Reset kpi calculator
+        self.cal.initialize()
+        # Calculate operational cost dynamic
+        self.cal.get_cost(scenario='Dynamic')
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_warmup_dynamic')
+
+        # Reset kpi calculator
+        self.cal.initialize()
+        # Calculate operational cost highly dynamic
+        self.cal.get_cost(scenario='HighlyDynamic')
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_warmup_highly_dynamic')
+
     def _perform_test(self, tot, dictionary, label):
         '''Common function for performing the tests.
 
@@ -220,6 +251,9 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         else:
             raise ValueError('Testcase {0} unknown.'.format(testcase))
         self.case=TestCase()
+
+        # Assign initial testing time
+        self.case.initial_time = 0
 
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)

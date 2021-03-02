@@ -61,6 +61,8 @@ class TestCase(object):
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6
+        # Assign initial testing time
+        self.initial_time = 0
         # Set initial fmu simulation start
         self.start_time = 0
         self.initialize_fmu = True
@@ -261,6 +263,8 @@ class TestCase(object):
         # Reset simulation data storage
         self.__initilize_data()
         self.elapsed_control_time = []
+        # Record initial testing time
+        self.initial_time = start_time
         # Set fmu intitialization
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
@@ -482,6 +486,9 @@ class TestCase(object):
         '''
 
         self.scenario = scenario
+
+        # It's needed to reset KPI Calculator when scenario is changed
+        self.cal.initialize()
 
         return None
 

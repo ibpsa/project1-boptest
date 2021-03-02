@@ -72,7 +72,7 @@ class KPI_Calculator(object):
 
         '''
         # Initialize index
-        self._set_last_index(label)
+        self._set_last_index(label, set_initial=True)
         # Dictionary to store energy usage by element
         setattr(self, '{}_dict'.format(label), OrderedDict())
         # Dictionary to store energy usage by source
@@ -230,7 +230,7 @@ class KPI_Calculator(object):
         self.case.tdis_dict = self.tdis_dict
 
         # Update last integration index
-        self._set_last_index('tdis')
+        self._set_last_index('tdis', set_initial=False)
 
         if plot:
             self.case.tdis_tree = self.get_dict_tree(self.tdis_dict)
@@ -281,7 +281,7 @@ class KPI_Calculator(object):
         self.case.idis_dict = self.idis_dict
 
         # Update last integration index
-        self._set_last_index('idis')
+        self._set_last_index('idis', set_initial=False)
 
         if plot:
             self.case.idis_tree = self.get_dict_tree(self.idis_dict)
@@ -332,7 +332,7 @@ class KPI_Calculator(object):
         self.case.ener_dict_by_source = self.ener_dict_by_source
 
         # Update last integration index
-        self._set_last_index('ener')
+        self._set_last_index('ener', set_initial=False)
 
         if plot:
             self.case.ener_tree = self.get_dict_tree(self.ener_dict)
@@ -417,7 +417,7 @@ class KPI_Calculator(object):
         self.case.cost_dict_by_source = self.cost_dict_by_source
 
         # Update last integration index
-        self._set_last_index('cost')
+        self._set_last_index('cost', set_initial=False)
 
         if plot:
             self.case.cost_tree = self.get_dict_tree(self.cost_dict)
@@ -472,7 +472,7 @@ class KPI_Calculator(object):
                     self.emis_tot = self.emis_tot + self.emis_dict[signal]
 
         # Update last integration index
-        self._set_last_index('emis')
+        self._set_last_index('emis', set_initial=False)
 
         # Assign to case
         self.case.emis_tot            = self.emis_tot
@@ -532,19 +532,26 @@ class KPI_Calculator(object):
 
         return time_rat
 
-    def _set_last_index(self,label):
+    def _set_last_index(self,label, set_initial=False):
         '''Set last index for kpi calcualtion.
 
         Parameters
         ----------
         label: str
             Suffix of last index variable for which to set.
+        set_initial: boolean
+            True to force index to be set at initial testing time.
 
         '''
 
         # Initialize index
         if self.case.y_store['time'].size > 0:
-            i = len(self.case.y_store['time'])-1
+            if set_initial:
+                # Find initial testing time index
+                i = len(self.case.y_store['time'][self.case.y_store['time']<self.case.initial_time])
+            else:
+                # Use index since last integration
+                i = len(self.case.y_store['time'])-1
         else:
             i = 0
         setattr(self, 'i_last_{}'.format(label),i)
