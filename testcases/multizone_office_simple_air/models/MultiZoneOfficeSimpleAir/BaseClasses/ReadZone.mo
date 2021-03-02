@@ -8,12 +8,12 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     annotation (Placement(transformation(extent={{0,90},{20,110}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read yDamAct(
-    description="Damper position setpoint feedback for zone " + zone,
+    description="Damper position set point feedback for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,50},{20,70}})));
   IBPSA.Utilities.IO.SignalExchange.Read yReaHea(
-    description="Reheat control signal feedback for zone " + zone,
+    description="Reheat control signal set point feedback for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Reheat control signal feedback"
     annotation (Placement(transformation(extent={{0,10},{20,30}})));
@@ -30,12 +30,13 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     RadiativeZoneTemperature, OperativeZoneTemperature, RelativeHumidity,
     or CO2Concentration";
   IBPSA.Utilities.IO.SignalExchange.Read TSup(
-    description="Supply air temperature to zone measurement for zone " + zone,
+    description="Discharge air temperature to zone measurement for zone " +
+        zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Supply air temperature to zone measurement"
     annotation (Placement(transformation(extent={{0,-30},{20,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Read V_flow(
-    description="Supply air flowrate to zone measurement for zone " + zone,
+    description="Discharge air flowrate to zone measurement for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s")) "Supply air flowrate to zone measurement"
     annotation (Placement(transformation(extent={{0,-70},{20,-50}})));

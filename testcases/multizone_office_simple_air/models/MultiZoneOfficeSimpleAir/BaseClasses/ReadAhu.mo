@@ -56,22 +56,22 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     y(unit="Pa"))  "Discharge pressure of supply fan"
     annotation (Placement(transformation(extent={{0,50},{20,70}})));
   IBPSA.Utilities.IO.SignalExchange.Read yOA(
-    description="Outside air damper position setpoint feedback for AHU",
+    description="Outside air damper position set point feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Outside air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
-  IBPSA.Utilities.IO.SignalExchange.Read yExh(
-    description="Exhaust air damper position setpoint feedback for AHU",
+  IBPSA.Utilities.IO.SignalExchange.Read yRel(
+    description="Relief air damper position set point feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="1")) "Exhaust air damper position setpoint feedback"
+    y(unit="1")) "Relief air damper position set point feedback"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   IBPSA.Utilities.IO.SignalExchange.Read yRet(
-    description="Return air damper position setpoint feedback for AHU",
+    description="Return air damper position set point feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Return air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Read yFan(
-    description="Supply fan speed setpoint feedback for AHU",
+    description="Supply fan speed set point feedback for AHU",
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Supply fan speed setpoint feedback"
     annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
@@ -151,7 +151,7 @@ equation
       points={{-120,30},{-61,30},{-2,30}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(yExh_in, yExh.u) annotation (Line(
+  connect(yExh_in,yRel. u) annotation (Line(
       points={{-120,0},{-62,0},{-2,0}},
       color={0,0,127},
       smooth=Smooth.Bezier));
