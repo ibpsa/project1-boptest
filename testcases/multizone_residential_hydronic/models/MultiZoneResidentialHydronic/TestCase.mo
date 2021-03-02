@@ -836,7 +836,7 @@ public
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
                                                 valRo1(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1000,
+    dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
     use_inputFilter=false,
     dpFixed_nominal=6000)
@@ -860,7 +860,7 @@ public
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
                                                 valRo2(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1000,
+    dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
     use_inputFilter=false,
     dpFixed_nominal=6000)
@@ -884,7 +884,7 @@ public
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
                                                 valRo3(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1000,
+    dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
     use_inputFilter=false,
     dpFixed_nominal=6000)
@@ -908,7 +908,7 @@ public
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
                                                 valBth(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1000,
+    dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
     use_inputFilter=false,
     dpFixed_nominal=6000)
@@ -1068,7 +1068,7 @@ public
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage
                                                 valLiv(
     redeclare package Medium = MediumW,
-    dpValve_nominal=1000,
+    dpValve_nominal=6000,
     m_flow_nominal=mBoi_flow_nominal,
     use_inputFilter=false,
     dpFixed_nominal=6000)
