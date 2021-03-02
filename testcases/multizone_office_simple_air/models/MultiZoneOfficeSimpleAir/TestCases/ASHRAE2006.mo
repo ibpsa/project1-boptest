@@ -631,11 +631,145 @@ The model outputs are:
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
 <p>
-…
+Constant electricity prices are based on those from ComEd [1], the utility serving
+the greater Chicago area.  The price is based on the Basic Electricity Service (BES)
+rate provided to the Watt-Hour customer class for applicable charges per kWh.
+This calculation is an approximation to obtain a reasonable estimate of price.
+The charges included are as follows:
+</p>
+<ul>
+<li>
+PJM Services Charge: $0.01211
+</li>
+<li>
+Retail Purchased Electricity Charge: $0.05158
+</li>
+<li>
+Delivery Services Charge:
+i) Distribution Facilities Charge: $0.01935
+ii) Illinois Electricity Distribution Tax Charge: $0.00121
+</li>
+<li>
+Rider ECR - Environmental Cost Recovery Adjustment: $0.00031
+</li>
+<li>
+Rider EEPP - Energy Efficiency Pricing and Performance: $0.0026
+</li>
+<li>
+Rider REA - Renewable Energy Adjustment: $0.00189
+</li>
+<li>
+Rider TAX - Municipal and State Tax Additions: $0.003
+</li>
+<li>
+Rider ZEA - Zero Emission Adjustment: $0.00195
+</li>
+</ul>
+
+<p>
+The total constant electricity price is $0.094/kWh
+</p>
+<p>
+Dynamic electricity prices are based on those from ComEd [1], the utility serving
+the greater Chicago area.  The price is based on the Residential Time of Use Pricing Pilot
+(RTOUPP) rate for applicable charges per kWh.
+This calculation is an approximation to obtain a reasonable estimate of dynamic
+price.  The charges included are the same as the constant scenario (using BES)
+except for the following change:
+
+<li>
+Retail Purchased Electricity Charge:
+<p>
+Summer (Jun, Jul, Aug, Sep):
+<ul>
+<li>
+i) Super Peak Period: $0.12727, 2pm-7pm
+</li>
+<li>
+ii) Peak Period: $0.02868, 6am-2pm and 7pm-10pm
+</li>
+<li>
+iii) Off Peak Period: $0.01584, 10pm-6am
+</li>
+</ul>
+Winter:
+<ul>
+<li>
+i) Super Peak Period: $0.11748, 2pm-7pm
+</li>
+<li>
+ii) Peak Period: $0.02664, 6am-2pm and 7pm-10pm
+</li>
+<li>
+iii) Off Peak Period: $0.01629, 10pm-6am
+</li>
+</ul>
+</p>
+</li>
+</p>
+<p>
+Highly Dynamic electricity prices are based on those from ComEd [1], the utility serving
+the greater Chicago area.  The price is based on the Basic Electric Service Hourly Pricing
+(BESH) rate for applicable charges per kWh.
+This calculation is an approximation to obtain a reasonable estimate of
+highly dynamic price.  The charges included are the same as the constant
+scenario (using BES) except for the following change:
+
+<li>
+PJM Services Charge: $0.00836
+</li>
+<li>
+Retail Purchased Electricity Charge: Based on Wholesale Day-Ahead Prices
+for the year of 2019 based on [2].
+</li>
+</p>
+<p>
+Gas prices are based on those from Peoples Gas, the utility [3] serving
+the greater Chicago area.  The price is based on the Rate 2 General Service
+for commercial customers for applicable charges per therm.
+This calculation is an approximation to obtain a reasonable estimate of
+gas prices.  The charges included are the following:
+</p>
+<ul>
+<li>
+Volumetric Distribution Charge: $0.16289
+</li>
+<li>
+Storage charge: $0.03555
+</li>
+<li>
+Gas Charge: $0.30
+</li>
+</ul>
+
+<p>
+The total gas price is $0.49844/therm or $0.017/kWh.
+</p>
+
+<p>
+References:
+<li>
+[1] https://www.comed.com/MyAccount/MyBillUsage/Pages/CurrentRatesTariffs.aspx
+</li>
+<li>
+[2] https://secure.comed.com/MyAccount/MyBillUsage/Pages/RatesPricing.aspx
+</li>
+<li>
+[3] https://www.peoplesgasdelivery.com/payment-bill/business/gas-rates
+</li>
 </p>
 <h4>Emission Factors</h4>
 <p>
-…
+The Electricity Emissions Factor profile is based on the average annual emissions
+from 2019 for the state of Illinois, USA per the EIA.
+It is 752 lbs/MWh or 0.341 kgCO2/kWh.
+For reference, see https://www.eia.gov/electricity/state/illinois/
+</p>
+<p>
+The Gas Emissions Factor profile is based on the kgCO2 emitted per amount of
+natural gas burned in terms of energy content.
+It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference, see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </p>
 </html>", revisions="<html>
 <ul>
@@ -646,9 +780,8 @@ First implementation.
 </ul>
 </html>"),
     experiment(
-      StartTime=6380000,
-      StopTime=6780000,
-      Interval=60,
+      StopTime=31536000,
+      Interval=600,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
