@@ -487,6 +487,9 @@ class TestCase(object):
 
         self.scenario = scenario
 
+        # It's needed to reset KPI Calculator when scenario is changed
+        self.cal.initialize()
+
         return None
 
     def get_scenario(self):

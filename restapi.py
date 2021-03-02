@@ -172,8 +172,6 @@ class Scenario(Resource):
         scenario = parser_scenario.parse_args()
         case.set_scenario(scenario)
         scenario = case.get_scenario()
-        # It's needed to reset KPI Calculator when scenario is changed
-        case.cal.initialize()
         return scenario
 
 class Name(Resource):
