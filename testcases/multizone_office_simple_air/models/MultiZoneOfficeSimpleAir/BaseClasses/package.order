@@ -2,3 +2,7 @@ ReadAhu
 ReadZone
 WriteZone
 WriteAhu
+PartialOpenLoop
+RoomLeakage
+Floor
+PartialFloor
