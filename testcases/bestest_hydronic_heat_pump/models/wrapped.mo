@@ -1,21 +1,24 @@
 model wrapped "Wrapped model"
 	// Input overwrite
-	Modelica.Blocks.Interfaces.RealInput ovePum_u(unit="1", min=0.0, max=1.0) "Integer signal to control the emission circuit pump either on or off";
-	Modelica.Blocks.Interfaces.BooleanInput ovePum_activate "Activation for Integer signal to control the emission circuit pump either on or off";
 	Modelica.Blocks.Interfaces.RealInput oveHeaPumY_u(unit="1", min=0.0, max=1.0) "Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)";
 	Modelica.Blocks.Interfaces.BooleanInput oveHeaPumY_activate "Activation for Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)";
-	Modelica.Blocks.Interfaces.RealInput oveTSetHea_u(unit="K", min=288.15, max=296.15) "Zone operative temperature setpoint for heating";
+	Modelica.Blocks.Interfaces.RealInput oveTSetHea_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetHea_activate "Activation for Zone operative temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.RealInput oveFan_u(unit="1", min=0.0, max=1.0) "Integer signal to control the heat pump evaporator fan either on or off";
 	Modelica.Blocks.Interfaces.BooleanInput oveFan_activate "Activation for Integer signal to control the heat pump evaporator fan either on or off";
-	Modelica.Blocks.Interfaces.RealInput oveTSetCoo_u(unit="K", min=296.15, max=303.15) "Zone operative temperature setpoint for cooling";
+	Modelica.Blocks.Interfaces.RealInput oveTSetCoo_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint for cooling";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetCoo_activate "Activation for Zone operative temperature setpoint for cooling";
+	Modelica.Blocks.Interfaces.RealInput ovePum_u(unit="1", min=0.0, max=1.0) "Integer signal to control the emission circuit pump either on or off";
+	Modelica.Blocks.Interfaces.BooleanInput ovePum_activate "Activation for Integer signal to control the emission circuit pump either on or off";
+	Modelica.Blocks.Interfaces.RealInput oveTSet_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint";
+	Modelica.Blocks.Interfaces.BooleanInput oveTSet_activate "Activation for Zone operative temperature setpoint";
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolHouAng_y(unit="rad") = mod.weaSta.reaWeaSolHouAng.y "Solar hour angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaWinDir_y(unit="rad") = mod.weaSta.reaWeaWinDir.y "Wind direction measurement";
 	Modelica.Blocks.Interfaces.RealOutput reaQFloHea_y(unit="W") = mod.reaQFloHea.y "Floor heating thermal power released to the zone";
+	Modelica.Blocks.Interfaces.RealOutput reaTSet_y(unit="K") = mod.reaTSet.y "Zone operative temperature setpoint";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTBlaSky_y(unit="K") = mod.weaSta.reaWeaTBlaSky.y "Black-body sky temperature measurement";
-	Modelica.Blocks.Interfaces.RealOutput reaTZon_y(unit="K") = mod.reaTZon.y "Operative zone temperature";
+	Modelica.Blocks.Interfaces.RealOutput reaTZon_y(unit="K") = mod.reaTZon.y "Zone operative temperature";
 	Modelica.Blocks.Interfaces.RealOutput reaHeaPumY_y(unit="1") = mod.reaHeaPumY.y "Block for reading the heat pump modulating signal";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaNTot_y(unit="1") = mod.weaSta.reaWeaNTot.y "Sky cover measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaWinSpe_y(unit="m/s") = mod.weaSta.reaWeaWinSpe.y "Wind speed measurement";
@@ -52,9 +55,10 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTWetBul_y(unit="K") = mod.weaSta.reaWeaTWetBul.y "Wet bulb temperature measurement";
 	// Original model
 	BESTESTHydronicHeatPump.TestCase mod(
-		ovePum(uExt(y=ovePum_u),activate(y=ovePum_activate)),
 		oveHeaPumY(uExt(y=oveHeaPumY_u),activate(y=oveHeaPumY_activate)),
 		oveTSetHea(uExt(y=oveTSetHea_u),activate(y=oveTSetHea_activate)),
 		oveFan(uExt(y=oveFan_u),activate(y=oveFan_activate)),
-		oveTSetCoo(uExt(y=oveTSetCoo_u),activate(y=oveTSetCoo_activate))) "Original model with overwrites";
+		oveTSetCoo(uExt(y=oveTSetCoo_u),activate(y=oveTSetCoo_activate)),
+		ovePum(uExt(y=ovePum_u),activate(y=ovePum_activate)),
+		oveTSet(uExt(y=oveTSet_u),activate(y=oveTSet_activate))) "Original model with overwrites";
 end wrapped;
