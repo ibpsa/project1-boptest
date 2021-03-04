@@ -1204,8 +1204,8 @@ public
          + delta_ST_rad)
     annotation (Placement(transformation(extent={{-156,-116},{-150,-110}})));
   Building.Equipement.Heating.Boiler boi(
-    effCur=Buildings.Fluid.Types.EfficiencyCurves.Polynomial,
-    a={1.191,-0.214,0,0,0,0},
+    effCur=Buildings.Fluid.Types.EfficiencyCurves.Constant,
+    a={0.9},
     redeclare package MediumW = MediumW,
     fue=Buildings.Fluid.Data.Fuels.NaturalGasLowerHeatingValue(),
     Q_flow_nominal=Q_flow_nominal,
