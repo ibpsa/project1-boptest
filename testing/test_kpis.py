@@ -252,9 +252,6 @@ class partialKpiCalculatorTest(utilities.partialChecks):
             raise ValueError('Testcase {0} unknown.'.format(testcase))
         self.case=TestCase()
 
-        # Assign initial testing time
-        self.case.initial_time = 0
-
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
 
