@@ -2148,8 +2148,8 @@ equation
     annotation (Line(points={{-197,-199},{-190.6,-199}}, color={0,0,127}));
   connect(oveEmiPum.y, pumEmiSystem.m_flow_in) annotation (Line(points={{-183.7,
           -199},{-83,-199},{-83,-181}}, color={0,0,127}));
-  connect(boi.m_PompeCirc, pumEmiSystem.m_flow_in) annotation (Line(points={{
-          -152,-143.636},{-168,-143.636},{-168,-199},{-83,-199},{-83,-181}},
+  connect(boi.m_PompeCirc, pumEmiSystem.m_flow_in) annotation (Line(points={{-152,
+          -143.636},{-168,-143.636},{-168,-199},{-83,-199},{-83,-181}},
         color={0,0,127}));
   connect(HeaSetLiv.y, oveTSetPum.u) annotation (Line(points={{-328.1,-210},{
           -314,-210},{-314,-206},{-238.8,-206}}, color={0,0,127}));
@@ -2472,7 +2472,7 @@ A heating curve is implemented to modulate the supply water temperature from the
 circuit based on outdoor temperature readings. A 3 way valve is used for this modulation. 
 </li>
 <li>
-The emission circuit pump is switched on based on a signal of a PI controller 
+The emission circuit pump is modulated by a PI controller 
 that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor 
 air temperature from the thermostat in the living room.
 </li>
