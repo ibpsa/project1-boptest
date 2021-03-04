@@ -1,15 +1,11 @@
 model wrapped "Wrapped model"
 	// Input overwrite
-	Modelica.Blocks.Interfaces.RealInput oveHeaPumY_u(unit="1", min=0.0, max=1.0) "Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)";
-	Modelica.Blocks.Interfaces.BooleanInput oveHeaPumY_activate "Activation for Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)";
-	Modelica.Blocks.Interfaces.RealInput oveTSetHea_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint for heating";
-	Modelica.Blocks.Interfaces.BooleanInput oveTSetHea_activate "Activation for Zone operative temperature setpoint for heating";
-	Modelica.Blocks.Interfaces.RealInput oveFan_u(unit="1", min=0.0, max=1.0) "Integer signal to control the heat pump evaporator fan either on or off";
-	Modelica.Blocks.Interfaces.BooleanInput oveFan_activate "Activation for Integer signal to control the heat pump evaporator fan either on or off";
-	Modelica.Blocks.Interfaces.RealInput oveTSetCoo_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint for cooling";
-	Modelica.Blocks.Interfaces.BooleanInput oveTSetCoo_activate "Activation for Zone operative temperature setpoint for cooling";
 	Modelica.Blocks.Interfaces.RealInput ovePum_u(unit="1", min=0.0, max=1.0) "Integer signal to control the emission circuit pump either on or off";
 	Modelica.Blocks.Interfaces.BooleanInput ovePum_activate "Activation for Integer signal to control the emission circuit pump either on or off";
+	Modelica.Blocks.Interfaces.RealInput oveHeaPumY_u(unit="1", min=0.0, max=1.0) "Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)";
+	Modelica.Blocks.Interfaces.BooleanInput oveHeaPumY_activate "Activation for Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)";
+	Modelica.Blocks.Interfaces.RealInput oveFan_u(unit="1", min=0.0, max=1.0) "Integer signal to control the heat pump evaporator fan either on or off";
+	Modelica.Blocks.Interfaces.BooleanInput oveFan_activate "Activation for Integer signal to control the heat pump evaporator fan either on or off";
 	Modelica.Blocks.Interfaces.RealInput oveTSet_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSet_activate "Activation for Zone operative temperature setpoint";
 	// Out read
@@ -55,10 +51,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTWetBul_y(unit="K") = mod.weaSta.reaWeaTWetBul.y "Wet bulb temperature measurement";
 	// Original model
 	BESTESTHydronicHeatPump.TestCase mod(
-		oveHeaPumY(uExt(y=oveHeaPumY_u),activate(y=oveHeaPumY_activate)),
-		oveTSetHea(uExt(y=oveTSetHea_u),activate(y=oveTSetHea_activate)),
-		oveFan(uExt(y=oveFan_u),activate(y=oveFan_activate)),
-		oveTSetCoo(uExt(y=oveTSetCoo_u),activate(y=oveTSetCoo_activate)),
 		ovePum(uExt(y=ovePum_u),activate(y=ovePum_activate)),
+		oveHeaPumY(uExt(y=oveHeaPumY_u),activate(y=oveHeaPumY_activate)),
+		oveFan(uExt(y=oveFan_u),activate(y=oveFan_activate)),
 		oveTSet(uExt(y=oveTSet_u),activate(y=oveTSet_activate))) "Original model with overwrites";
 end wrapped;
