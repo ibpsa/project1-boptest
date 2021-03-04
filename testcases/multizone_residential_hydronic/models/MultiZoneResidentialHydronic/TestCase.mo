@@ -187,8 +187,7 @@ protected
     annotation (Placement(transformation(extent={{-284,-144},{-270,-128}})));
   Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=0.01)
     annotation (Placement(transformation(extent={{-300,-124},{-290,-114}})));
-  Building.Control.ConHea conBoiSaf(Khea=1, zone="boiler safety controller")
-    "Boiler safety controller"
+  Building.Control.ConHea conBoiSaf(Khea=1) "Boiler safety controller"
     annotation (Placement(transformation(extent={{-307,-186},{-294,-179}})));
   Modelica.Blocks.Sources.RealExpression SetSecurityBoiler(y=273.15 + 90)
     "Security temperature setpoint for the boiler"
@@ -1195,14 +1194,15 @@ public
     TSup_nominal=TSup_nominal,
     TRet_nominal=TRet_nominal,
     TOut_nominal(displayUnit="degC") = 268.15)
-    annotation (Placement(transformation(extent={{-130,-126},{-126,-122}})));
-  Building.Control.ConHea conHeaTSup(Khea=1,
+    annotation (Placement(transformation(extent={{-144,-114},{-140,-110}})));
+  Building.Control.ConHea conHeaTSup(
+    Khea=1,
     k=0.1,
-    Ti=120,                                  zone="supply water")
-    annotation (Placement(transformation(extent={{-122,-126},{-116,-122}})));
+    Ti=120)
+    annotation (Placement(transformation(extent={{-122,-114},{-116,-110}})));
   Modelica.Blocks.Sources.RealExpression realExpression29(y=schGeneral.HeaSetRT12
          + delta_ST_rad)
-    annotation (Placement(transformation(extent={{-150,-128},{-144,-122}})));
+    annotation (Placement(transformation(extent={{-156,-116},{-150,-110}})));
   Building.Equipement.Heating.Boiler boi(
     effCur=Buildings.Fluid.Types.EfficiencyCurves.Polynomial,
     a={1.191,-0.214,0,0,0,0},
@@ -1221,9 +1221,7 @@ public
   Building.Control.ConHea conPumHea(
     Khea=mBoi_flow_nominal,
     k=1,
-    Ti=600,
-    zone="emission system pump")
-            annotation (Placement(transformation(
+    Ti=600) annotation (Placement(transformation(
         extent={{4.99991,-2.99998},{-4.99997,2.99997}},
         rotation=180,
         origin={-203,-199})));
@@ -1367,6 +1365,43 @@ public
     zone="Gar",
     isConditionedZone=false) "Infiltration to garage"
     annotation (Placement(transformation(extent={{-148,-58},{-144,-54}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaTSup(description=
+        "Supply water temperature measurement to radiators")
+    "Read the supply water temperature"
+    annotation (Placement(transformation(extent={{-102,-132},{-110,-124}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetSup(u(
+      min=273.15 + 10,
+      max=273.15 + 95,
+      unit="K"), description="Supply water temperature setpoint to radiators")
+    "Overwrite the supply water temperature setpoint to radiators"
+    annotation (Placement(transformation(extent={{-134,-114},{-128,-108}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveMixValSup(u(
+      min=0,
+      max=1,
+      unit="1"), description=
+        "Actuator signal for 0three-way mixing valve controlling supply water temperature to radiators")
+    "Overwrite the three-way mixing valve controlling supply water temperature to radiators"
+    annotation (Placement(transformation(
+        extent={{-3,-3},{3,3}},
+        rotation=-90,
+        origin={-113,-119})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveEmiPum(u(
+      min=0,
+      max=1,
+      unit="1"), description=
+        "Control signal to the circulation pump of the emission system")
+    "Overwrite the control signal to the circulation pump of the emission system"
+    annotation (Placement(transformation(
+        extent={{-3,-3},{3,3}},
+        rotation=0,
+        origin={-187,-199})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetPum(u(
+      min=273.15 + 10,
+      max=273.15 + 95,
+      unit="K"), description=
+        "Heating zone air temperature setpoint used to control circulation pump of the emission system")
+    "Overwrite the heating setpoint used to control circulation pump of the emission system"
+    annotation (Placement(transformation(extent={{-238,-210},{-230,-202}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1916,16 +1951,14 @@ equation
   connect(spl.port_3, valBoi.port_3)
     annotation (Line(points={{-113,-170},{-113,-144}}, color={0,127,255}));
   connect(weaBus.TDryBul,heaCha. TOut) annotation (Line(
-      points={{-164,56},{-164,-94},{-140,-94},{-140,-122.8},{-130.4,-122.8}},
+      points={{-164,56},{-164,-94},{-146,-94},{-146,-110.8},{-144.4,-110.8}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}}));
-  connect(realExpression29.y,heaCha. TRoo_in) annotation (Line(points={{-143.7,-125},
-          {-131.85,-125},{-131.85,-125.2},{-130.38,-125.2}}, color={0,0,127}));
-  connect(heaCha.TSup, conHeaTSup.TSet) annotation (Line(points={{-125.8,-122.8},
-          {-123.9,-122.8},{-123.9,-122.667},{-122.48,-122.667}}, color={0,0,127}));
+  connect(realExpression29.y,heaCha. TRoo_in) annotation (Line(points={{-149.7,
+          -113},{-146,-113},{-146,-113.2},{-144.38,-113.2}}, color={0,0,127}));
   connect(valBoi.port_2, temSup.port_a)
     annotation (Line(points={{-108,-139},{-104,-139}}, color={0,127,255}));
   connect(boi.port_b, valBoi.port_1) annotation (Line(points={{-129.8,-139.091},
@@ -1973,10 +2006,9 @@ equation
   connect(expTLiv.y, conHeaModeBoiler.u_m) annotation (Line(points={{-326.1,-247},
           {-266,-247},{-266,-223.2}}, color={0,0,127}));
   connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-134},{-122,-134},
-          {-122,-130},{-216,-130},{-216,-144},{-336,-144},{-336,-182.5},{-308.04,
-          -182.5}}, color={0,0,127}));
-  connect(conPumHea.yHea, pumEmiSystem.m_flow_in) annotation (Line(points={{-197,
-          -199},{-83,-199},{-83,-181}},        color={0,0,127}));
+          {-122,-130},{-216,-130},{-216,-144},{-336,-144},{-336,-182.267},{
+          -308.04,-182.267}},
+                    color={0,0,127}));
   connect(expTLiv.y, onOffController.u) annotation (Line(points={{-326.1,-247},
           {-314,-247},{-314,-238},{-298,-238}}, color={0,0,127}));
   connect(product1.y, switch1.u1) annotation (Line(points={{-217,-176},{-208,-176},
@@ -1988,7 +2020,8 @@ equation
           -226},{-218,-196},{-248,-196},{-248,-170},{-240,-170}},
                                                             color={0,0,127}));
   connect(expTLiv.y, conPumHea.T) annotation (Line(points={{-326.1,-247},{-314,
-          -247},{-314,-199},{-208.8,-199}}, color={0,0,127}));
+          -247},{-314,-199.2},{-208.8,-199.2}},
+                                            color={0,0,127}));
   connect(bou.ports[1], temRet.port_a) annotation (Line(points={{-102,-190},{
           -94,-190},{-94,-174}},
                              color={0,127,255}));
@@ -2000,21 +2033,12 @@ equation
           9.68,15}}, color={0,0,127}));
   connect(HeaSetLiv.y, onOffController.reference) annotation (Line(points={{-328.1,
           -210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
-  connect(HeaSetLiv.y, conPumHea.TSet) annotation (Line(points={{-328.1,-210},{
-          -314,-210},{-314,-204},{-226,-204},{-226,-201},{-208.8,-201}}, color=
-          {0,0,127}));
-  connect(conHeaTSup.yHea, valBoi.y) annotation (Line(points={{-115.4,-124},{-113,
-          -124},{-113,-133}}, color={0,0,127}));
-  connect(temSup.T, conHeaTSup.T) annotation (Line(points={{-99,-133.5},{-99,-128},
-          {-124,-128},{-124,-124},{-122.48,-124}}, color={0,0,127}));
   connect(massFlowRate.port_b, inSplVal1.port_1) annotation (Line(points={{-91,
           -124},{-92,-124},{-92,-119},{-88,-119}}, color={0,127,255}));
   connect(schGeneral.HeaSetRT12, reaTSetHea.u) annotation (Line(points={{-352,
           38},{-336,38},{-336,43},{-332.6,43}}, color={0,0,127}));
   connect(schGeneral.CooSetRT12, reaTSetCoo.u) annotation (Line(points={{-352,
           34.6},{-346,34.6},{-346,33},{-332.6,33}}, color={0,0,127}));
-  connect(conPumHea.yHea, boi.m_PompeCirc) annotation (Line(points={{-197,-199},
-          {-162,-199},{-162,-144},{-152,-144},{-152,-143.636}}, color={0,0,127}));
   connect(realExpression13.y,reaHeaLiv. u)
     annotation (Line(points={{-77.7,-157},{-70.6,-157}}, color={0,0,127}));
   connect(realExpression15.y, reaHeaRo1.u)
@@ -2108,6 +2132,29 @@ equation
       color={255,204,51},
       thickness=0.5));
 
+  connect(temSup.T, reaTSup.u) annotation (Line(points={{-99,-133.5},{-99,-128},
+          {-101.2,-128}}, color={0,0,127}));
+  connect(reaTSup.y, conHeaTSup.T) annotation (Line(points={{-110.4,-128},{-124,
+          -128},{-124,-111.867},{-122.48,-111.867}}, color={0,0,127}));
+  connect(heaCha.TSup, oveTSetSup.u) annotation (Line(points={{-139.8,-110.8},{
+          -137.2,-110.8},{-137.2,-111},{-134.6,-111}}, color={0,0,127}));
+  connect(oveTSetSup.y, conHeaTSup.TSet) annotation (Line(points={{-127.7,-111},
+          {-123.9,-111},{-123.9,-110.667},{-122.48,-110.667}}, color={0,0,127}));
+  connect(conHeaTSup.yHea, oveMixValSup.u) annotation (Line(points={{-115.4,
+          -112},{-113,-112},{-113,-115.4}}, color={0,0,127}));
+  connect(oveMixValSup.y, valBoi.y)
+    annotation (Line(points={{-113,-122.3},{-113,-133}}, color={0,0,127}));
+  connect(conPumHea.yHea, oveEmiPum.u)
+    annotation (Line(points={{-197,-199},{-190.6,-199}}, color={0,0,127}));
+  connect(oveEmiPum.y, pumEmiSystem.m_flow_in) annotation (Line(points={{-183.7,
+          -199},{-83,-199},{-83,-181}}, color={0,0,127}));
+  connect(boi.m_PompeCirc, pumEmiSystem.m_flow_in) annotation (Line(points={{
+          -152,-143.636},{-168,-143.636},{-168,-199},{-83,-199},{-83,-181}},
+        color={0,0,127}));
+  connect(HeaSetLiv.y, oveTSetPum.u) annotation (Line(points={{-328.1,-210},{
+          -314,-210},{-314,-206},{-238.8,-206}}, color={0,0,127}));
+  connect(oveTSetPum.y, conPumHea.TSet) annotation (Line(points={{-229.6,-206},
+          {-226,-206},{-226,-201},{-208.8,-201}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
