@@ -115,11 +115,11 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
       max=1,
       unit="1"))
     annotation (Placement(transformation(extent={{-60,46},{-40,66}})));
-  Modelica.Blocks.Sources.RealExpression QWat_flow(y=chaudiere.QWat_flow)
+  Modelica.Blocks.Sources.RealExpression QWat_flow(y=chaudiere.QFue_flow)
     annotation (Placement(transformation(extent={{16,80},{62,100}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaHeaBoi(
+  IBPSA.Utilities.IO.SignalExchange.Read reaGasBoi(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    description="Boiler thermal power use",
+    description="Boiler gas power use",
     y(unit="W"))
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
 
@@ -167,7 +167,7 @@ equation
           {58,-30},{78,-30}},  color={0,0,127}));
   connect(y, oveBoi.u)
     annotation (Line(points={{-120,56},{-62,56}},  color={0,0,127}));
-  connect(QWat_flow.y, reaHeaBoi.u)
+  connect(QWat_flow.y,reaGasBoi. u)
     annotation (Line(points={{64.3,90},{78,90}}, color={0,0,127}));
   connect(oveBoi.y, chaudiere.y) annotation (Line(points={{-39,56},{-20,56},{
           -20,8},{-12,8}}, color={0,0,127}));
