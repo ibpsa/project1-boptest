@@ -2492,12 +2492,6 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal for part load ratio
 </li>
 <li>
-<code>conBoiSaf_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for boiler safety controller
-</li>
-<li>
-<code>conBoiSaf_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for boiler safety controller
-</li>
-<li>
 <code>conCooBth_ovePCoo_u</code> [W] [min=-10000.0, max=0.0]: Prescribed cooling power for Bth
 </li>
 <li>
@@ -2534,46 +2528,46 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>conCooRo3_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for Ro3
 </li>
 <li>
-<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Bth
+<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Bth
 </li>
 <li>
-<code>conHeaBth_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Bth
+<code>conHeaBth_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for Bth
 </li>
 <li>
-<code>conHeaLiv_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Liv
+<code>conHeaLiv_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Liv
 </li>
 <li>
-<code>conHeaLiv_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Liv
+<code>conHeaLiv_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for Liv
 </li>
 <li>
-<code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro1
+<code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro1
 </li>
 <li>
-<code>conHeaRo1_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro1
+<code>conHeaRo1_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for Ro1
 </li>
 <li>
-<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro2
+<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro2
 </li>
 <li>
-<code>conHeaRo2_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro2
+<code>conHeaRo2_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for Ro2
 </li>
 <li>
-<code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for Ro3
+<code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro3
 </li>
 <li>
-<code>conHeaRo3_oveTSetHea_u</code> [K] [min=283.15, max=303.15]: Air temperature heating setpoint for Ro3
+<code>conHeaRo3_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for Ro3
 </li>
 <li>
-<code>conHeaTSup_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for supply water
+<code>oveEmiPum_u</code> [1] [min=0.0, max=1.0]: Control signal to the circulation pump of the emission system
 </li>
 <li>
-<code>conHeaTSup_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for supply water
+<code>oveMixValSup_u</code> [1] [min=0.0, max=1.0]: Actuator signal for 0three-way mixing valve controlling supply water temperature to radiators
 </li>
 <li>
-<code>conPumHea_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator heating signal for emission system pump
+<code>oveTSetPum_u</code> [K] [min=283.15, max=368.15]: Heating zone air temperature setpoint used to control circulation pump of the emission system
 </li>
 <li>
-<code>conPumHea_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for emission system pump
+<code>oveTSetSup_u</code> [K] [min=283.15, max=368.15]: Supply water temperature setpoint to radiators
 </li>
 </ul>
 
@@ -2581,7 +2575,7 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <p>The model outputs are: </p>
 <ul>
 <li>
-<code>boi_reaHeaBoi_y</code> [W] [min=None, max=None]: Boiler thermal power use
+<code>boi_reaGasBoi_y</code> [W] [min=None, max=None]: Boiler gas power use
 </li>
 <li>
 <code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power use
@@ -2675,6 +2669,9 @@ vacuum failures when all valves are closed while the distribution pump is workin
 </li>
 <li>
 <code>reaTSetHea_y</code> [K] [min=None, max=None]: Building heating air setpoint temperature
+</li>
+<li>
+<code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature measurement to radiators
 </li>
 <li>
 <code>weatherStation_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
