@@ -39,7 +39,8 @@ model ConHeaZon "Zone controller for heating system"
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveActHea(u(
       min=0,
       max=1,
-      unit="1"), description="Actuator heating signal for " + zone)
+      unit="1"), description="Actuator signal for heating valve for zone " +
+        zone)
     annotation (Placement(transformation(extent={{-44,16},{-36,24}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaTZon(
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
