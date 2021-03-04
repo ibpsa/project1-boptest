@@ -1366,7 +1366,7 @@ public
     isConditionedZone=false) "Infiltration to garage"
     annotation (Placement(transformation(extent={{-148,-58},{-144,-54}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaTSup(description=
-        "Supply water temperature measurement to radiators")
+        "Supply water temperature measurement to radiators", y(unit="K"))
     "Read the supply water temperature"
     annotation (Placement(transformation(extent={{-102,-132},{-110,-124}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetSup(u(
