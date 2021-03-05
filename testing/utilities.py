@@ -405,15 +405,23 @@ class partialTestAPI(partialChecks):
         # Initialize
         start_time = 0.5*24*3600
         y = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0.5*24*3600}).json()
-        # Check that initialize returns the right initial values
+        # Check that initialize returns the right initial values and results
         df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
         self.compare_ref_values_df(df, ref_filepath)
-        # Check results are empty again
-        for point in points:
-            res = requests.put('{0}/results'.format(self.url), data={'point_name':point,'start_time':0, 'final_time':step}).json()
-            self.assertEqual(len(res[point]), 0)
+        # Check trajectories
+        df = self.results_to_df(points, 0, start_time, self.url)
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_initial.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check kpis
+        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_initial.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Advance
         step_advance = 1*24*3600
         requests.put('{0}/step'.format(self.url), data={'step':step_advance})
@@ -421,9 +429,15 @@ class partialTestAPI(partialChecks):
         # Check trajectories
         df = self.results_to_df(points, start_time, start_time+step_advance, self.url)
         # Set reference file path
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_advance.csv')
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check kpis
+        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_advance.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Set step back to step
         requests.put('{0}/step'.format(self.url), data={'step':step})
 
