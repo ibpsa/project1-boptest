@@ -1,5 +1,6 @@
 import express from 'express';
 import got from 'got'
+import {getResults} from '../controllers/result';
 const boptestRoutes = express.Router();
 
 
@@ -241,14 +242,8 @@ boptestRoutes.get('/kpi/:id', async (req, res, next) => {
 
 boptestRoutes.get('/results/:id', async (req, res, next) => {
   try {
-    const redis = req.app.get('redis');
-    redis.hget(req.params.id, 'results', (err, redisres) => {
-      if (err) {
-        next(err);
-      } else {
-        res.send(redisres);
-      }
-    });
+    const results = await getResults()
+    res.send(results)
   } catch (e) {
     next(e);
   }

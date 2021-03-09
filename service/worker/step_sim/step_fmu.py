@@ -93,8 +93,9 @@ def get_config():
         self.stop = False
         self.simtime = 0
 
-        if self.externalClock:
-            self.redis_pubsub.subscribe(self.site_ref)
+        # subscribe to two channels, one named after the site ref,
+        # and another channel dedicated to results requests
+        self.redis_pubsub.subscribe(self.site_ref, self.results_request_channel(self.site_ref))
 
         # stepsize
         redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
@@ -122,6 +123,12 @@ def get_config():
             self.redis.hset(self.site_ref, 'forecast:interval', forecast['interval'])
 
         self.tc.set_forecast_parameters(forecast['horizon'], forecast['interval'])
+
+    def results_request_channel()
+        return self.site_ref + ":results:request"
+
+    def results_response_channel()
+        return self.site_ref + ":results:request"
 
     def create_tag_dictionaries(self, tag_filepath):
         '''
@@ -160,38 +167,37 @@ def get_config():
     def run(self):
         self.init_sim_status()
 
-        if self.externalClock:
-            sys.stdout.flush()
-            while True:
-                message = self.redis_pubsub.get_message()
-                if message:
-                    data = message['data']
-                    if data == 'advance':
-                        self.step()
-                        self.redis.publish(self.site_ref, 'complete')
-                        self.set_idle_state()
-                    elif data == 'stop':
-                        self.set_idle_state()
-                        break
-        else:
-            while self.simtime < self.endTime:
-                if self.db_stop_set():
-                    break
+        #sys.stdout.flush()
+        while True:
+            data = None
+            channel = None
+            message = self.redis_pubsub.get_message()
+            if message:
+                channel = message['channel']
+                data = message['data']
+            if self.simtime >= self.endTime:
+                break
+            if channel == self.site_ref and data == 'stop':
+                break
+            if channel == self.results_request_channel(self.site_ref):
+                result_params = json.loads(data)
+                results_name = result_params['name']
+                results_start_time = result_params['start_time']
+                results_final_time = result_params['final_time']
+                self.update_results(self.tc.get_results(results_name, results_start_time, results_final_time))
+                self.redis.publish(self.results_response_channel(self.site_ref), 'ready')
+
+            if self.externalClock:
+                if channel == self.site_ref and data == 'advance':
+                    self.step()
+                    self.redis.publish(self.site_ref, 'complete')
+                    self.set_idle_state()
+            else:
                 self.step()
                 # TODO: Make this respect time scale provided by user
                 time.sleep(5)
 
         self.cleanup()
-
-    # Check the database for a stop signal
-    # and return true if stop is requested
-    def db_stop_set(self):
-        # A client may have requested that the simulation stop early,
-        # look for a signal to stop from the database
-        self.site = self.mongo_db_recs.find_one({"_id": self.site_ref})
-        if self.site and (self.site.get("rec", {}).get("simStatus") == "s:Stopping"):
-            self.stop = True
-        return self.stop
 
     def reset(self, tarinfo):
         tarinfo.uid = tarinfo.gid = 0
@@ -346,7 +352,6 @@ def get_config():
         self.update_forecast(self.tc.get_forecast())
         # This takes a lot of timek, so only do it at the end
         #self.update_kpis(self.tc.get_kpis())
-        #self.update_results(self.tc.get_results())
 
 if __name__ == "__main__":
     body = json.loads(sys.argv[1])
