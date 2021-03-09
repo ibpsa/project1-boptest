@@ -75,6 +75,8 @@ as a hook on all commits by calling `pre-commit install` in the root directory o
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
 
+BOPTEST can be deployed as a web service allowing a centralized host to support multiple simultaneous testing clients, much like a conventional web based application. The BOPTEST Service software is maintained in the `boptest-service` branch of this repository. The architecture of BOPTEST Service follows patterns defined by a related project called Alfalfa, and a description of the architecture is available here https://docs.google.com/presentation/d/1q5NzNkJOXVooEuLRElrdNbumxR_2c9Q60j4v-jLYCEQ/edit#slide=id.gbdec11e637_2_129. 
+
 ## Proposed Interface Design
 A proposed BOPTEST home page and interface for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.
 
