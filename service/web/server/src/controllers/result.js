@@ -29,7 +29,7 @@ export function getResults(id, name, start_time, end_time, redis) {
           } else {
             resolve(redisres);
           }
-        }
+        })
       }
     });
 
@@ -40,5 +40,5 @@ export function getResults(id, name, start_time, end_time, redis) {
 
     sub.subscribe(responseChannel(id))
     pub.publish(requestChannel(id), {name, start_time, final_time});
-  }
+  })
 }
