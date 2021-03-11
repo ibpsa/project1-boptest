@@ -95,7 +95,7 @@ def get_config():
 
         # subscribe to two channels, one named after the site ref,
         # and another channel dedicated to results requests
-        self.redis_pubsub.subscribe(self.site_ref, self.results_request_channel(self.site_ref))
+        self.redis_pubsub.subscribe(self.site_ref, self.results_request_channel())
 
         # stepsize
         redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
@@ -124,11 +124,11 @@ def get_config():
 
         self.tc.set_forecast_parameters(forecast['horizon'], forecast['interval'])
 
-    def results_request_channel()
-        return self.site_ref + ":results:request"
+    def results_request_channel(self):
+        return (self.site_ref + ":results:request")
 
-    def results_response_channel()
-        return self.site_ref + ":results:request"
+    def results_response_channel(self):
+        return (self.site_ref + ":results:response")
 
     def create_tag_dictionaries(self, tag_filepath):
         '''
@@ -167,7 +167,7 @@ def get_config():
     def run(self):
         self.init_sim_status()
 
-        #sys.stdout.flush()
+        sys.stdout.flush()
         while True:
             data = None
             channel = None
@@ -175,17 +175,19 @@ def get_config():
             if message:
                 channel = message['channel']
                 data = message['data']
+                message_type = message['type']
             if self.simtime >= self.endTime:
                 break
             if channel == self.site_ref and data == 'stop':
                 break
-            if channel == self.results_request_channel(self.site_ref):
+            if channel == self.results_request_channel() and message_type == 'message':
                 result_params = json.loads(data)
-                results_name = result_params['name']
-                results_start_time = result_params['start_time']
-                results_final_time = result_params['final_time']
-                self.update_results(self.tc.get_results(results_name, results_start_time, results_final_time))
-                self.redis.publish(self.results_response_channel(self.site_ref), 'ready')
+                point_name = result_params['point_name']
+                results_start_time = float(result_params['start_time'])
+                results_final_time = float(result_params['final_time'])
+                results = self.tc.get_results(point_name, results_start_time, results_final_time)
+                self.update_results(results)
+                self.redis.publish(self.results_response_channel(), 'ready')
 
             if self.externalClock:
                 if channel == self.site_ref and data == 'advance':
@@ -209,7 +211,6 @@ def get_config():
         kpis = self.tc.get_kpis()
         kpidump = json.dumps(kpis)
         self.update_kpis(kpis)
-        self.update_results(self.tc.get_results())
 
         # Clear all current values from the database when the simulation is no longer running
         self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.simStatus": "s:Stopped"}, "$unset": {"rec.datetime": ""}}, False)
@@ -286,7 +287,10 @@ def get_config():
         self.redis.hset(self.site_ref, 'kpis', json.dumps(kpis))
 
     def update_results(self, results):
-        self.redis.hset(self.site_ref, 'results', json.dumps(results))
+        for key in results:
+            results[key] = results[key].tolist()
+        results = json.dumps(results)
+        self.redis.hset(self.site_ref, 'results', results)
 
     def clear_forecast(self):
         self.redis.hdel(self.site_ref, 'forecast')
