@@ -39,11 +39,11 @@ gen.generate_weather()
 # More info in https://www.energyprice.be/blog/2017/12/07/gas-price-belgium/
 
 # All pricing scenarios include the same constant value for transmission fees and taxes
-# of each commodity. The used value is the typical price that household users pay 
-# for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+# of each commodity. The used value is the typical price that household users pay
+# for the network, taxes and levies, as calculateed by Eurostat and obtained from:
 # https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN
 # For the assumed location of the test case, this value is of
-# 0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas. 
+# 0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas.
 
 fees_and_taxes_ele = 0.20
 fees_and_taxes_gas = 0.03
@@ -83,7 +83,7 @@ prices_belpex = prices_belpex.reindex(prices_boptest.index, method='ffill')
 # Overwrite testcase highly dynamic price profile and save
 # Convert EUR/MWh to EUR/kWh and add fees and taxes to belpex
 prices_boptest['PriceElectricPowerHighlyDynamic'] = \
-    prices_belpex['Euro']/1000. + fees_and_taxes_ele 
+    prices_belpex['Euro']/1000. + fees_and_taxes_ele
 prices_boptest.to_csv(os.path.join(gen.resources_dir, 'prices.csv'), index=True)
 
 gen.generate_emissions(emissions_electric_power = 0.167,

@@ -42,14 +42,16 @@ class TestCase(object):
         self.data_manager.load_data_and_jsons()
         # Instantiate a forecaster for this test case
         self.forecaster = Forecaster(testcase=self)
-        # Instantiate a KPI calculator for the test case
-        self.cal = KPI_Calculator(testcase=self)
         # Get available control inputs and outputs
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Get input and output meta-data
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
+        # Initialize simulation data arrays
+        self.__initilize_data()
+        # Instantiate a KPI calculator for the test case
+        self.cal = KPI_Calculator(testcase=self)
         # Set default communication step
         self.set_step(con['step'])
         # Set default forecast parameters
@@ -59,12 +61,12 @@ class TestCase(object):
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6
+        # Assign initial testing time
+        self.initial_time = 0
         # Set initial fmu simulation start
         self.start_time = 0
         self.initialize_fmu = True
         self.options['initialize'] = self.initialize_fmu
-        # Initialize simulation data arrays
-        self.__initilize_data()
         self.elapsed_control_time = []
 
     def __initilize_data(self):
@@ -129,7 +131,7 @@ class TestCase(object):
 
         return res
 
-    def __get_results(self, res, store=True):
+    def __get_results(self, res, store=True, store_initial=False):
         '''Get results at the end of a simulation and throughout the
         simulation period for storage. This method assigns these results
         to `self.y` and, if `store=True`, also to `self.y_store` and
@@ -145,19 +147,26 @@ class TestCase(object):
         store: boolean
             Set to true if desired to store results in `self.y_store` and
             `self.u_store`
+        store_initial: boolean
+            Set to true if desired to store initial point.
 
         '''
 
+        # Determine if store initial point
+        if store_initial:
+            i = 0
+        else:
+            i = 1
         # Get result and store measurement
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = np.append(self.y_store[key], res[key][1:])
+                self.y_store[key] = np.append(self.y_store[key], res[key][i:])
 
         # Store control inputs
         if store:
             for key in self.u.keys():
-                self.u_store[key] = np.append(self.u_store[key], res[key][1:])
+                self.u_store[key] = np.append(self.u_store[key], res[key][i:])
 
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -219,7 +228,7 @@ class TestCase(object):
         # Process results
         if res is not None:
             # Get result and store measurement and control inputs
-            self.__get_results(res, store=True)
+            self.__get_results(res, store=True, store_initial=False)
             # Advance start time
             self.start_time = self.final_time
             # Raise the flag to compute time lapse
@@ -254,8 +263,8 @@ class TestCase(object):
         # Reset simulation data storage
         self.__initilize_data()
         self.elapsed_control_time = []
-        # Reset KPI Calculator
-        self.cal.initialize()
+        # Record initial testing time
+        self.initial_time = start_time
         # Set fmu intitialization
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
@@ -264,10 +273,11 @@ class TestCase(object):
         # Process result
         if res is not None:
             # Get result
-            self.__get_results(res, store=False)
+            self.__get_results(res, store=True, store_initial=True)
             # Set internal start time to start_time
             self.start_time = start_time
-
+            # Initialize KPI Calculator
+            self.cal.initialize()
             return self.y
 
         else:
@@ -490,6 +500,9 @@ class TestCase(object):
             key = self.scenario['time_period']
             start_time = self.days_json[key]*24*3600-7*24*3600
             self.initialize(start_time, warmup_period)
+
+        # It's needed to reset KPI Calculator when scenario is changed
+        self.cal.initialize()
 
         return None
 
