@@ -543,25 +543,28 @@ class partialTestAPI(partialChecks):
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
-    def test_get_scenario(self):
-        '''Test getting the scenario of test.
+    def test_set_get_scenario(self):
+        '''Test setting and getting the scenario of test.
 
         '''
 
-        scenario = requests.get('{0}/scenario'.format(self.url)).json()
-        self.assertEqual(scenario['electricity_price'], 'constant')
-
-    def test_set_scenario(self):
-        '''Test setting the scenario of test.
-
-        '''
-
+        # Set scenario
         scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
-        scenario = {'electricity_price':'highly_dynamic'}
+        scenario = {'electricity_price':'highly_dynamic',
+                    'time_period':self.test_time_period}
         requests.put('{0}/scenario'.format(self.url), data=scenario)
         scenario_set = requests.get('{0}/scenario'.format(self.url)).json()
         self.assertEqual(scenario, scenario_set)
+        # Check initialized correctly
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_set_scenario.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Return scenario to original
         requests.put('{0}/scenario'.format(self.url), data=scenario_current)
+
 
     def test_partial_results_inner(self):
         '''Test getting results for start time after and final time before.
