@@ -614,15 +614,13 @@ class partialTestTimePeriod(partialChecks):
 
         '''
 
-        length = 14*24*3600
         # Set time period scenario
         requests.put('{0}/scenario'.format(self.url), data={'time_period':time_period})
-        # Get default simulation step
-        step_def = requests.get('{0}/step'.format(self.url)).json()
         # Simulation Loop
-        for i in range(int(length/step_def)):
+        y = 1
+        while y:
             # Advance simulation
-            requests.post('{0}/advance'.format(self.url), data={}).json()
+            y = requests.post('{0}/advance'.format(self.url), data={}).json()
         # Check results
         df = self.results_to_df(self.points_check, -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))

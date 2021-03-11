@@ -182,6 +182,7 @@ class TestCase(object):
         y : dict
             Contains the measurement data at the end of the step.
             {<measurement_name> : <measurement_value>}
+            If empty, simulation end time has been reached.
 
         '''
 
@@ -223,24 +224,33 @@ class TestCase(object):
         # Otherwise, input object is None
         else:
             input_object = None
-        # Simulate
-        res = self.__simulation(self.start_time,self.final_time,input_object)
-        # Process results
-        if res is not None:
-            # Get result and store measurement and control inputs
-            self.__get_results(res, store=True, store_initial=False)
-            # Advance start time
-            self.start_time = self.final_time
-            # Raise the flag to compute time lapse
-            self.tic_time = time.time()
+        # Simulate if not end of test
+        if self.start_time < self.end_time:
+            # Make sure stop at end of test
+            if self.final_time > self.end_time:
+                self.final_time = self.end_time
+            res = self.__simulation(self.start_time,self.final_time,input_object)
+            # Process results
+            if res is not None:
+                # Get result and store measurement and control inputs
+                self.__get_results(res, store=True, store_initial=False)
+                # Advance start time
+                self.start_time = self.final_time
+                # Raise the flag to compute time lapse
+                self.tic_time = time.time()
 
-            return self.y
+                return self.y
 
+            else:
+                # Error in simulation
+                return None
         else:
+            # Simulation at end time
+            return dict()
 
-            return None
 
-    def initialize(self, start_time, warmup_period):
+
+    def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
 
         Parameters
@@ -249,6 +259,9 @@ class TestCase(object):
             Start time of simulation to initialize to in seconds.
         warmup_period: int
             Length of time before start_time to simulate for warmup in seconds.
+        end_time: int, optional
+            Specifies a finite end time to allow simulation to continue
+            Default value is infinite.
 
         Returns
         -------
@@ -265,6 +278,8 @@ class TestCase(object):
         self.elapsed_control_time = []
         # Record initial testing time
         self.initial_time = start_time
+        # Record end testing time
+        self.end_time = end_time
         # Set fmu intitialization
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
@@ -499,7 +514,8 @@ class TestCase(object):
             warmup_period = 7*24*3600
             key = self.scenario['time_period']
             start_time = self.days_json[key]*24*3600-7*24*3600
-            self.initialize(start_time, warmup_period)
+            end_time = start_time + 14*24*3600
+            self.initialize(start_time, warmup_period, end_time=end_time)
 
         # It's needed to reset KPI Calculator when scenario is changed
         self.cal.initialize()

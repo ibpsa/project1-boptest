@@ -10,6 +10,7 @@ import pandas as pd
 import os
 import utilities
 import requests
+import numpy as np
 from examples.python import testcase1
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
@@ -153,6 +154,59 @@ class MinMax(unittest.TestCase):
         value = float(y['PHea_y'])
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
 
+class TimePeriodEnd(unittest.TestCase, utilities.partialChecks):
+    '''Tests that the scenario time period end is followed.
+
+    '''
+
+    def setUp(self):
+        '''Setup for each test.
+
+        '''
+
+        self.name = 'testcase1'
+        self.url = 'http://127.0.0.1:5000'
+
+    def test_extra_step(self):
+        '''Test that simulation stops if try to take extra step.
+
+        '''
+
+        scenario = {'time_period':'test_day'}
+        url = 'http://127.0.0.1:5000'
+        requests.put('{0}/scenario'.format(self.url), data=scenario)
+        # Try simulating past test period
+        step = 7*24*3600
+        requests.put('{0}/step'.format(self.url), data={'step':step})
+        for i in [0,1,2]:
+            y = requests.post('{0}/advance'.format(self.url), data={}).json()
+        # Check y[2] indicates no simulation (empty dict)
+        self.assertDictEqual(y,dict())
+        # Check results
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, url)
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_extra_step.csv')
+        self.compare_ref_timeseries_df(df,ref_filepath)
+
+    def test_larger_step(self):
+        '''Test that simulation stops at end of test if try to take larger step.
+
+        '''
+
+        scenario = {'time_period':'test_day'}
+        url = 'http://127.0.0.1:5000'
+        requests.put('{0}/scenario'.format(self.url), data=scenario)
+        # Try simulating past test period
+        step = 5*7*24*3600
+        requests.put('{0}/step'.format(self.url), data={'step':step})
+        requests.post('{0}/advance'.format(self.url), data={}).json()
+        # Check results
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, url)
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_larger_step.csv')
+        self.compare_ref_timeseries_df(df,ref_filepath)
+
+
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 1.
 
@@ -170,6 +224,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.url = 'http://127.0.0.1:5000'
         self.name_ref = 'wrapped'
         self.step_ref = 60.0
+        self.test_time_period = 'test_day'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
