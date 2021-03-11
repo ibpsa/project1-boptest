@@ -240,9 +240,14 @@ boptestRoutes.get('/kpi/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.get('/results/:id', async (req, res, next) => {
+boptestRoutes.put('/results/:id', async (req, res, next) => {
   try {
-    const results = await getResults()
+    const redis = req.app.get('redis');
+    const id = req.params.id
+    const point_name = req.body['point_name']
+    const start_time = req.body['start_time']
+    const final_time = req.body['final_time']
+    const results = await getResults(id, point_name, start_time, final_time, redis)
     res.send(results)
   } catch (e) {
     next(e);

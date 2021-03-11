@@ -7,14 +7,14 @@ function requestChannel(id) {
   return id + ":results:request"
 }
 
-export function getResults(id, name, start_time, end_time, redis) {
+export function getResults(id, point_name, start_time, final_time, redis) {
   return new Promise((resolve, reject) => {
     let sub = redis.duplicate()
     let pub = redis.duplicate()
-    let interval
+    let timeout
 
-    cleanup = () => {
-      clearInterval(interval)
+    const cleanup = () => {
+      clearTimeout(timeout)
       sub.unsubscribe()
       sub.quit()
       pub.quit()
@@ -33,12 +33,13 @@ export function getResults(id, name, start_time, end_time, redis) {
       }
     });
 
-    interval = setTimeout(() => {
+    timeout = setTimeout(() => {
       cleanup()
       reject("No results available")
     }, 10000)
 
     sub.subscribe(responseChannel(id))
-    pub.publish(requestChannel(id), {name, start_time, final_time});
+    const data = JSON.stringify({point_name, start_time, final_time})
+    pub.publish(requestChannel(id), data)
   })
 }

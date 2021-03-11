@@ -89,6 +89,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   );
 
   app.use(bodyParser.text({ type: 'text/*' }));
+  app.use(bodyParser.urlencoded())
   app.use(bodyParser.json()); // if you are using JSON instead of ZINC you need this
   app.use('/', boptestRoutes)
 
