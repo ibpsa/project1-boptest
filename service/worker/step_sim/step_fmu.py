@@ -86,7 +86,6 @@ def get_config():
         # initiate the testcase
         self.tc = boptest.lib.testcase.TestCase()
         self.update_forecast(self.tc.get_forecast())
-        self.update_kpis(self.tc.get_kpis())
 
         # run the FMU simulation
         self.kstep = 0
@@ -95,7 +94,7 @@ def get_config():
 
         # subscribe to two channels, one named after the site ref,
         # and another channel dedicated to results requests
-        self.redis_pubsub.subscribe(self.site_ref, self.results_request_channel())
+        self.redis_pubsub.psubscribe(str(self.site_ref) + "*")
 
         # stepsize
         redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
@@ -129,6 +128,12 @@ def get_config():
 
     def results_response_channel(self):
         return (self.site_ref + ":results:response")
+
+    def kpis_request_channel(self):
+        return (self.site_ref + ":kpis:request")
+
+    def kpis_response_channel(self):
+        return (self.site_ref + ":kpis:response")
 
     def create_tag_dictionaries(self, tag_filepath):
         '''
@@ -180,14 +185,16 @@ def get_config():
                 break
             if channel == self.site_ref and data == 'stop':
                 break
-            if channel == self.results_request_channel() and message_type == 'message':
+            if channel == self.results_request_channel() and message_type == 'pmessage':
                 result_params = json.loads(data)
                 point_name = result_params['point_name']
                 results_start_time = float(result_params['start_time'])
                 results_final_time = float(result_params['final_time'])
-                results = self.tc.get_results(point_name, results_start_time, results_final_time)
-                self.update_results(results)
+                self.update_results(point_name, results_start_time, results_final_time)
                 self.redis.publish(self.results_response_channel(), 'ready')
+            if channel == self.kpis_request_channel() and message_type == 'pmessage':
+                self.update_kpis()
+                self.redis.publish(self.kpis_response_channel(), 'ready')
 
             if self.externalClock:
                 if channel == self.site_ref and data == 'advance':
@@ -210,7 +217,6 @@ def get_config():
     def cleanup(self):
         kpis = self.tc.get_kpis()
         kpidump = json.dumps(kpis)
-        self.update_kpis(kpis)
 
         # Clear all current values from the database when the simulation is no longer running
         self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.simStatus": "s:Stopped"}, "$unset": {"rec.datetime": ""}}, False)
@@ -283,10 +289,13 @@ def get_config():
     def update_forecast(self, forecast):
         self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
 
-    def update_kpis(self, kpis):
-        self.redis.hset(self.site_ref, 'kpis', json.dumps(kpis))
+    def update_kpis(self):
+        kpis = self.tc.get_kpis()
+        kpis = json.dumps(kpis)
+        self.redis.hset(self.site_ref, 'kpis', kpis)
 
-    def update_results(self, results):
+    def update_results(self, point_name, results_start_time, results_final_time):
+        results = self.tc.get_results(point_name, results_start_time, results_final_time)
         for key in results:
             results[key] = results[key].tolist()
         results = json.dumps(results)
@@ -354,8 +363,6 @@ def get_config():
                 self.mongo_db_recs.update_one( {"_id": output_id }, {"$set": {"rec.curVal":"n:%s" %value_y, "rec.curStatus":"s:ok","rec.cur": "m:" }} )
 
         self.update_forecast(self.tc.get_forecast())
-        # This takes a lot of timek, so only do it at the end
-        #self.update_kpis(self.tc.get_kpis())
 
 if __name__ == "__main__":
     body = json.loads(sys.argv[1])

@@ -1,18 +1,8 @@
 import express from 'express';
 import got from 'got'
 import {getResults} from '../controllers/result';
+import {getKPIs} from '../controllers/kpi';
 const boptestRoutes = express.Router();
-
-
-//let response = {};
-//for (let point of points) {
-//  const tags = point["tags"];
-//  // This is a string. Should it be returned as a number?
-//  const curVal = strip(tags.find(tag => tag["key"] == "curVal") ["value"]);
-//  const dis = strip(point["dis"]);
-//  response[dis] = curVal;
-//}
-//res.send(response);
 
 // Given an array of points with tags, return an object,
 // "dis" values are the keys, and "curVal" are the values
@@ -228,13 +218,9 @@ boptestRoutes.put('/step/:id', async (req, res, next) => {
 boptestRoutes.get('/kpi/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    redis.hget(req.params.id, 'kpis', (err, redisres) => {
-      if (err) {
-        next(err);
-      } else {
-        res.send(redisres);
-      }
-    });
+    const id = req.params.id
+    const kpis = await getKPIs(id, redis)
+    res.send(kpis)
   } catch (e) {
     next(e);
   }
