@@ -53,7 +53,8 @@ def run(plot=False, customized_kpi_config=None):
     # Set URL for testcase
     url = 'http://127.0.0.1'
     # Set simulation parameters
-    length = 48*3600
+    #length = 48*3600
+    length = 2*3600
     step = 300
     # Submit testcase fmu
     client = BoptestClient(url)
