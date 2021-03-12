@@ -2,10 +2,10 @@
 
 This directory contains test cases for BOPTEST.  A summary of available test cases is provided in the table below.  For more detail on a particular test case, go to ``/<testcase_dir_name>/docs``.
 
-| Test Case                                                             | Description                                               | Scenarios |
-|-----------------------------------------------------------------------|-----------------------------------------------------------|--------------------|
+| Test Case                                                  | Description                                   | Scenarios |
+|------------------------------------------------------------|-----------------------------------------------|--------------------|
 | ``testcase1`` | Prototype test case for development purposes.  Single-zone R1C1 room model with sinusoidal ambient temperature and heater. |NA|
-| ``testcase2``| Prototype test case for development purposes.  Based on the single-zone AHU model found in ``Buildings.Air.Systems.SingleZone.VAV.Examples.ChillerDXHeatingEconomizer``. |NA|
+| ``testcase2``| Prototype test case for development purposes.  Based on the single-zone AHU model found in Modelica Buildings Library. |NA|
 | ``testcase3``| Prototype test case for development purposes.  Two single-zone R1C1 room models with sinusoidal ambient temperature and individual heaters. |NA|
 | ``bestest_air``| BESTEST Case 900 room model with idealized fan coil unit.|**Electricity Prices**: ``'constant'``, ``'dynamic'``, ``'highly_dynamic'`` **Time Periods**: ``'peak_heat_day'``, ``'typical_heat_day'``, ``'peak_cool_day'``, ``'typical_cool_day'``|
 | ``bestest_hydronic``| BESTEST Case 900 room model with gas boiler and radiator.|**Electricity Prices**: ``'constant'``, ``'dynamic'``, ``'highly_dynamic'`` **Time Periods**: ``'peak_heat_day'``, ``'typical_heat_day'``|
