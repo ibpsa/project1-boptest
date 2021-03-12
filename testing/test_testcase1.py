@@ -206,6 +206,20 @@ class TimePeriodEnd(unittest.TestCase, utilities.partialChecks):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_larger_step.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 
+    def test_longer_initialize(self):
+        '''Test that simulation has no end time if use /initialize directly.
+
+        '''
+        start_time = 14*86400
+        url = 'http://127.0.0.1:5000'
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0}).json()
+        # Try simulating past a typical test period
+        step = 5*7*24*3600
+        requests.put('{0}/step'.format(self.url), data={'step':step})
+        y = requests.post('{0}/advance'.format(self.url), data={}).json()
+        # Check results
+        self.assertEqual(y['time'], start_time+step)
+
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 1.
