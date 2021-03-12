@@ -557,7 +557,12 @@ class partialTestAPI(partialChecks):
         self.assertEqual(scenario, scenario_set)
         # Check initialized correctly
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
+        # Don't check weather
+        points_check = []
+        for key in measurements.keys():
+            if 'weaSta' not in key:
+                points_check.append(key)
+        df = self.results_to_df(points_check, -np.inf, np.inf, self.url)
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_set_scenario.csv')
         # Check results
