@@ -213,13 +213,13 @@ class PartialDataManagerTest(object):
 
     '''
 
-    def test_save_data_and_kpisjson(self):
-        '''Check if the data manager can store data and the kpis.json
+    def test_save_data_and_jsons(self):
+        '''Check if the data manager can store data, kpis.json, days.json
         file within the fmu
 
         '''
 
-        self.man.save_data_and_kpisjson(fmu_path=self.case.fmupath)
+        self.man.save_data_and_jsons(fmu_path=self.case.fmupath)
 
         files_in_fmu = []
         for f in self.man.z_fmu.infolist():
@@ -232,24 +232,31 @@ class PartialDataManagerTest(object):
         self.assertTrue('resources/internalGains.csv' in files_in_fmu)
         self.assertTrue('resources/setpoints.csv' in files_in_fmu)
         self.assertTrue('resources/kpis.json' in files_in_fmu)
+        self.assertTrue('resources/days.json' in files_in_fmu)
 
-    def test_load_data_and_kpisjson(self):
-        '''Check if the data manager can load the data and the kpis.json
+    def test_load_data_and_jsons(self):
+        '''Check if the data manager can load the data, kpis.json, and days.json
         file into a test case
 
         '''
 
         # Load the data into the test case
-        self.man.load_data_and_kpisjson()
+        self.man.load_data_and_jsons()
 
-        # Check if test case has kpi_json and data attributes
+        # Check if test case has kpi_json, days_json, and data attributes
         self.assertTrue(hasattr(self.case, 'kpi_json'))
+        self.assertTrue(hasattr(self.case, 'days_json'))
         self.assertTrue(hasattr(self.case, 'data'))
 
         # Check content of the kpis.json loaded
         with open(os.path.join(self.ref_kpis),'r') as f:
             kpi_json_ref = json.loads(f.read())
         self.assertDictEqual(self.case.kpi_json, kpi_json_ref)
+
+        # Check content of the days.json loaded
+        with open(os.path.join(self.ref_days),'r') as f:
+            days_json_ref = json.loads(f.read())
+        self.assertDictEqual(self.case.days_json, days_json_ref)
 
         # Check the content of the data loaded
         df_man = self.case.data
@@ -306,6 +313,8 @@ class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         # Set reference file paths
         self.ref_kpis = os.path.join(testing_root_dir,
             'references', 'data', 'testcase2', 'kpis.json')
+        self.ref_days = os.path.join(testing_root_dir,
+            'references', 'data', 'testcase2', 'days.json')
         self.ref_data_loaded = os.path.join(testing_root_dir,
             'references', 'data', 'testcase2', 'tc2_data_loaded.csv')
         self.ref_data_default = os.path.join(testing_root_dir,
@@ -335,6 +344,8 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
         # Set reference file paths
         self.ref_kpis = os.path.join(testing_root_dir,
             'references', 'data', 'testcase3', 'kpis.json')
+        self.ref_days = os.path.join(testing_root_dir,
+            'references', 'data', 'testcase3', 'days.json')
         self.ref_data_loaded = os.path.join(testing_root_dir,
             'references', 'data', 'testcase3', 'tc3_data_loaded.csv')
         self.ref_data_default = os.path.join(testing_root_dir,

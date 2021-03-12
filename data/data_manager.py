@@ -291,7 +291,7 @@ class Data_Manager(object):
         Notes
         -----
         The loading and pre-processing of the data happens only
-        once (at load_data_and_kpisjson) to reduce the computational
+        once (at load_data_and_jsons) to reduce the computational
         load during the co-simulation
 
         '''
