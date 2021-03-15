@@ -60,13 +60,14 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     annotation (Placement(transformation(extent={{-60,-130},{-40,-110}})));
   Modelica.Blocks.Math.Gain gaiPPM(k=1e6) "Convert mass fraction to PPM"
     annotation (Placement(transformation(extent={{-30,-130},{-10,-110}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
+  IBPSA.Utilities.IO.SignalExchange.Read CO2Zon(
     description="Zone air CO2 measurement for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
 
     y(unit="ppm"),
-    zone=zone)   "Read room air CO2 concentration"
+    zone=zone) "Zone air CO2 concentration measurement"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
+
   Modelica.Blocks.Interfaces.RealInput C_In "Mass fraction of CO2"
     annotation (Placement(transformation(extent={{-140,-140},{-100,-100}})));
 equation
@@ -87,7 +88,7 @@ equation
   connect(conMasVolFra.V,gaiPPM. u)
     annotation (Line(points={{-39,-120},{-32,-120}},
                                                  color={0,0,127}));
-  connect(gaiPPM.y,reaCO2RooAir. u)
+  connect(gaiPPM.y, CO2Zon.u)
     annotation (Line(points={{-9,-120},{-2,-120}}, color={0,0,127}));
   connect(conMasVolFra.m, C_In)
     annotation (Line(points={{-61,-120},{-120,-120}}, color={0,0,127}));
