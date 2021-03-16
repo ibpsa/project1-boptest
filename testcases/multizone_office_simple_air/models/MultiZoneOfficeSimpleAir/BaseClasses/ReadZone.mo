@@ -47,12 +47,13 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     "Supply air flowrate to zone measurement"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
   IBPSA.Utilities.IO.SignalExchange.Read PHea(
-    description="Gas power consumption for reheat for zone " + zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    y(unit="W")) "Gas power consumption for reheat"
+    description="Electrical power consumption for reheat for zone " + zone,
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+    y(unit="W")) "Electrical power consumption for reheat"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
 
-  Modelica.Blocks.Interfaces.RealInput PHea_in "Gas power used for reheat"
+  Modelica.Blocks.Interfaces.RealInput PHea_in
+    "Electrical power used for reheat"
     annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
   Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra(MMMea=
         Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
@@ -63,7 +64,6 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   IBPSA.Utilities.IO.SignalExchange.Read CO2Zon(
     description="Zone air CO2 measurement for zone " + zone,
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
     y(unit="ppm"),
     zone=zone) "Zone air CO2 concentration measurement"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));

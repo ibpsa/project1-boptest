@@ -121,13 +121,13 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput PCoo_in "Electrical power of cooling"
     annotation (Placement(transformation(extent={{-140,-200},{-100,-160}})));
   IBPSA.Utilities.IO.SignalExchange.Read PHea(
-    description="Gas power consumption for heating coil for AHU",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    y(unit="W")) "Gas power consumption for heating coil"
+    description="Electrical power consumption for heating coil for AHU",
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+    y(unit="W")) "Electrical power consumption for heating coil"
     annotation (Placement(transformation(extent={{0,-220},{20,-200}})));
 
   Modelica.Blocks.Interfaces.RealInput PHea_in
-    "Gas power used for heating coil"
+    "Electrical power used for heating coil"
     annotation (Placement(transformation(extent={{-140,-230},{-100,-190}})));
 equation
   connect(TSup.u, TSup_in)

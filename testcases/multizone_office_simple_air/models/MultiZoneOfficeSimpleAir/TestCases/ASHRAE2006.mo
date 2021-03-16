@@ -2,8 +2,8 @@
 model ASHRAE2006
   "Variable air volume flow system with terminal reheat and five thermal zones"
   extends Modelica.Icons.Example;
-  parameter Modelica.SIunits.DimensionlessRatio cop=3 "Cooling coefficient of performance";
-  parameter Modelica.SIunits.DimensionlessRatio eff_gas=0.8 "Gas efficiency";
+  parameter Modelica.SIunits.DimensionlessRatio cop_coo=3.2 "Cooling coefficient of performance";
+  parameter Modelica.SIunits.DimensionlessRatio cop_hea=4.0 "Heating coefficient of performance";
   extends MultiZoneOfficeSimpleAir.BaseClasses.PartialOpenLoop(
     heaCoi(show_T=true),
     cooCoi(show_T=true),
@@ -127,10 +127,10 @@ model ASHRAE2006
   Modelica.Blocks.Sources.RealExpression PHeaWes(y=wes.terHea.Q1_flow/eff_gas)
     "Gas power for reheat"
     annotation (Placement(transformation(extent={{1180,70},{1200,90}})));
-  Modelica.Blocks.Sources.RealExpression PHea(y=-heaCoi.Q1_flow/eff_gas)
+  Modelica.Blocks.Sources.RealExpression PHea(y=-heaCoi.Q1_flow/cop_hea)
     "Gas power for heating coil"
     annotation (Placement(transformation(extent={{140,286},{160,306}})));
-  Modelica.Blocks.Sources.RealExpression PCoo(y=cooCoi.Q1_flow/cop)
+  Modelica.Blocks.Sources.RealExpression PCoo(y=cooCoi.Q1_flow/cop_coo)
     "Electrical power for cooling coil"
     annotation (Placement(transformation(extent={{140,300},{160,320}})));
   IBPSA.Utilities.IO.SignalExchange.WeatherStation weaSta
@@ -768,28 +768,6 @@ Retail Purchased Electricity Charge: Based on Wholesale Day-Ahead Prices
 for the year of 2019 based on [2].
 </li>
 </p>
-<p>
-Gas prices are based on those from Peoples Gas, the utility [3] serving
-the greater Chicago area.  The price is based on the Rate 2 General Service
-for commercial customers for applicable charges per therm.
-This calculation is an approximation to obtain a reasonable estimate of
-gas prices.  The charges included are the following:
-</p>
-<ul>
-<li>
-Volumetric Distribution Charge: $0.16289
-</li>
-<li>
-Storage charge: $0.03555
-</li>
-<li>
-Gas Charge: $0.30
-</li>
-</ul>
-
-<p>
-The total gas price is $0.49844/therm or $0.017/kWh.
-</p>
 
 <p>
 References:
@@ -798,9 +776,6 @@ References:
 </li>
 <li>
 [2] https://secure.comed.com/MyAccount/MyBillUsage/Pages/RatesPricing.aspx
-</li>
-<li>
-[3] https://www.peoplesgasdelivery.com/payment-bill/business/gas-rates
 </li>
 </p>
 <h4>Emission Factors</h4>
