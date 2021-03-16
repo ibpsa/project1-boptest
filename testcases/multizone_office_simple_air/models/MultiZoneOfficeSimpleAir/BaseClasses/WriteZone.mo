@@ -15,27 +15,27 @@ model WriteZone "Collection of zone overwrite points for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput uReaHea_in
     "Control signal for terminal box reheat"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite TZonHeaSet(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite TZonHeaSet(description=
         "Zone air temperature heating setpoint for zone " + zone, u(
       unit="K",
       min=285.15,
       max=313.15))
     "Zone air temperature heating setpoint"
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite TZonCooSet(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite TZonCooSet(description=
         "Zone air temperature cooling setpoint for zone " + zone, u(
       unit="K",
       min=285.15,
       max=313.15))
     "Zone air temperature cooling setpoint"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite uDam(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite uDam(description=
         "Damper position setpoint for zone " + zone, u(
       unit="1",
       min=0,
       max=1)) "Damper position setpoint"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite uReaHea(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite uReaHea(description=
         "Reheat control signal for zone " + zone, u(
       unit="1",
       min=0,

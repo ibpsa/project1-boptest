@@ -1,20 +1,20 @@
 within MultiZoneOfficeSimpleAir.BaseClasses;
 model ReadZone "Collection of zone measurements for BOPTEST"
-  IBPSA.Utilities.IO.SignalExchange.Read TZon(
+  Buildings.Utilities.IO.SignalExchange.Read TZon(
     description="Zone air temperature measurement for zone " + zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K"),
     zone=zone) "Zone air temperature measurement"
     annotation (Placement(transformation(extent={{0,110},{20,130}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read yDamAct(
+  Buildings.Utilities.IO.SignalExchange.Read yDamAct(
     description="Damper position set point feedback for zone " + zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Read yReaHea(
+  Buildings.Utilities.IO.SignalExchange.Read yReaHea(
     description="Reheat control signal set point feedback for zone " + zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Reheat control signal feedback"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
   Modelica.Blocks.Interfaces.RealInput TZon_in
@@ -29,15 +29,15 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   parameter String zone="1" "Zone designation, required if KPIs is AirZoneTemperature,
     RadiativeZoneTemperature, OperativeZoneTemperature, RelativeHumidity,
     or CO2Concentration";
-  IBPSA.Utilities.IO.SignalExchange.Read TSup(
+  Buildings.Utilities.IO.SignalExchange.Read TSup(
     description="Discharge air temperature to zone measurement for zone " +
         zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Supply air temperature to zone measurement"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  IBPSA.Utilities.IO.SignalExchange.Read V_flow(
+  Buildings.Utilities.IO.SignalExchange.Read V_flow(
     description="Discharge air flowrate to zone measurement for zone " + zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s")) "Supply air flowrate to zone measurement"
     annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
   Modelica.Blocks.Interfaces.RealInput TSup_in
@@ -46,9 +46,9 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput V_flow_in
     "Supply air flowrate to zone measurement"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
-  IBPSA.Utilities.IO.SignalExchange.Read PHea(
+  Buildings.Utilities.IO.SignalExchange.Read PHea(
     description="Electrical power consumption for reheat for zone " + zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electrical power consumption for reheat"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
 
@@ -61,9 +61,9 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     annotation (Placement(transformation(extent={{-60,-130},{-40,-110}})));
   Modelica.Blocks.Math.Gain gaiPPM(k=1e6) "Convert mass fraction to PPM"
     annotation (Placement(transformation(extent={{-30,-130},{-10,-110}})));
-  IBPSA.Utilities.IO.SignalExchange.Read CO2Zon(
+  Buildings.Utilities.IO.SignalExchange.Read CO2Zon(
     description="Zone air CO2 measurement for zone " + zone,
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm"),
     zone=zone) "Zone air CO2 concentration measurement"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));

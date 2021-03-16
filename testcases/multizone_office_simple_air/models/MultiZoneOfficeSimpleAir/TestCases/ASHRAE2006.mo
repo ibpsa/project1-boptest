@@ -133,7 +133,7 @@ model ASHRAE2006
   Modelica.Blocks.Sources.RealExpression PCoo(y=cooCoi.Q1_flow/cop_coo)
     "Electrical power for cooling coil"
     annotation (Placement(transformation(extent={{140,300},{160,320}})));
-  IBPSA.Utilities.IO.SignalExchange.WeatherStation weaSta
+  Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
     annotation (Placement(transformation(extent={{240,360},{260,380}})));
 equation
   connect(fanSup.port_b, dpDisSupFan.port_a) annotation (Line(
