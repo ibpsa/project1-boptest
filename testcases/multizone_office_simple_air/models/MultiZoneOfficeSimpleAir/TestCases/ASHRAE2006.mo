@@ -592,39 +592,272 @@ equation
 <p>
 This is the multi zone office air simple emulator model
 of BOPTEST.
+</p>
+<h4>Architecture</h4>
 <p>
-…
+The test case represents one floor with five zones of the new construction
+medium office building for Chicago, IL, as described in the set of DOE
+Commercial Building Benchmarks (Deru et al, 2009).
+There are four perimeter zones and one core zone, with each perimeter zone
+having a window-to-wall ratio of 0.33.  The height of each zone is 2.74 m
+and the areas are as follows:
+<ul>
+<li>
+North and South: 207.58 m^2
+</li>
+<li>
+East and West: 131.416 m^2
+</li>
+<li>
+Core: 984.672 m^2
+</li>
+</ul>
 </p>
 <h4>Constructions</h4>
 <p>
-…
+The envelope thermal properties meet ASHRAE Standard 90.1-2004.
 </p>
 <h4>Occupancy schedules</h4>
 <p>
-…
+The design occupancy density is 0.05 people/m^2.  The number of occupants
+present in each zone at any time coincides with the internal gain schedule
+defined in the next section.
+The occupied time for the HVAC system is between 6 AM and 7 PM each day.  The
+unoccupied time is outside of this period.
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
-…
-
+The design internal gains including lighting, plug loads, and people
+are combined 20 W/m^2 with a radiant-convective-latent split of 40%-40%-20%.
+The internal gains are activated according to the schedule in the figure below.
+</p>
+<p align=\"center\">
+<img alt=\"Internal gains schedule.\"
+src=\"../../../doc/images/InternalGainsSchedule.png\" width=600 />
 </p>
 <h4>Climate data</h4>
 <p>
-…
+The weather data is from TMY3 for Chicago O'Hare International Airport.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-…
+The HVAC system is a multi-zone single-duct Variable Air Volume (VAV) system
+with pressure-independent terminal boxes with reheat.
+A schematic of the system is shown in the
+figure below.  The cooling and heating coils are water-based.
+Only the air distribution system is included, while the central plant is
+ideally modeled using water sources with prescribed temperatures and constant
+plant equipment efficiencies. The sensor and control points included, marked
+on the figure below, are those specified as required by
+ASHRAE Guideline 36 Sec XX, as well as many that are specified as
+application specific or optional.
+</p>
+<p align=\"center\">
+<img alt=\"Schematic of HVAC system.\"
+src=\"../../../doc/images/Schematic.png\"/>
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
-…
+The terminal box dampers have exponential opening characteristics with design
+airflow rates defined in the table below.  The design system airflow rate includes
+a 0.7 load diversity factor and is defined in the table below.
+
+The minimum outside airflow for each zone is calculated using outside
+airflow rates of 0.3e-3 m^3/s-m^2 and 2.5e-3 m^3/s-person.  The limiting
+zone air distribution effectiveness is 0.8 and the occupant diversity
+ratio is 0.7.  This leads to the minimum outside airflow rates for each zone
+and system defined in the table below.
+</p>
+<p>
+<b>Table 1: Zone and System Specifications Summary</b>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>Design Airflow [m^3/s]</th>
+  <th>Min OA Airflow [m^3/s]</th>
+  </tr>
+  <tr>
+  <td>North</td>
+  <td>0.947948667</td>
+  <td>0.1102769</td>
+  </tr>
+  <tr>
+  <td>South</td>
+  <td>0.947948667</td>
+  <td>0.1102769</td>
+  </tr>
+  <tr>
+  <td>East</td>
+  <td>0.9001996</td>
+  <td>0.0698148</td>
+  </tr>
+  <tr>
+  <td>west</td>
+  <td>0.700155244</td>
+  <td>0.0698148</td>
+  </tr>
+  <tr>
+  <td>Core</td>
+  <td>4.4966688</td>
+  <td>0.5231070</td>
+  </tr>
+  <tr>
+  <td>System</td>
+  <td>5.595044684</td>
+  <td>0.8590431</td>
+  </tr>
+</table>
+</p>
+
+<p>
+The supply fan hydraulic efficiency is constant at 0.7 and the motor
+efficiency is constant at 0.7.  The cooling coil is served by a heat pump
+with constant COP of 3.2 and the heating coils are served by a heat pump
+with constant COP of 4.0.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
-…
+The baseline control emulates a typical scheme seen in practice and is based on
+the ASHRAE VAV 2A2-21232 of the Sequences of Operation for Common HVAC Systems 2006
+as well as that which is implemented as baseline control in the Modelica Buildings
+Library model <code>Buildings.Examples.VAVReheat.ASHRAE2006</code>.  Setpoints
+and equipment enable/disable are determined by a schedule-based supervisory control
+scheme that defines a set of operating modes.  This scheme is summarized in
+Table 2 below.
 </p>
+<p>
+<b>Table 2: HVAC Operating Mode Summary</b>
+<table>
+  <tr>
+  <th>Name</th>
+  <th>Condition </th>
+  <th>TZonHeaSet [degC]</th>
+  <th>TZonCooSet [degC]</th>
+  <th>Fan [degC]</th>
+  <th>TSupSet [degC]</th>
+  <th>Economizer</th>
+  <th>Min OA Flow</th>
+  </tr>
+  <tr>
+  <td>Occupied</td>
+  <td>In occupied period</td>
+  <td>20</td>
+  <td>24</td>
+  <td>Enabled</td>
+  <td>12</td>
+  <td>Enabled</td>
+  <td>Ventilation</td>
+  </tr>
+  <tr>
+  <td>Unoccupied off</td>
+  <td>In unoccupied period, all TZon within setback deadband</td>
+  <td>12</td>
+  <td>30</td>
+  <td>Disabled</td>
+  <td>12</td>
+  <td>Disabled</td>
+  <td>Zero</td>
+  </tr>
+  <tr>
+  <td>Unoccupied, night setback</td>
+  <td>In unoccupied period, minimum TZon below unoccupied TZonHeaSet</td>
+  <td>12</td>
+  <td>30</td>
+  <td>Enabled</td>
+  <td>35</td>
+  <td>Disabled</td>
+  <td>Zero</td>
+  </tr>
+  <tr>
+  <td>Unoccupied, warm-up</td>
+  <td>In unoccupied period, within 30 minutes of occupied period, average TZon below occupied TZonHeaSet</td>
+  <td>20</td>
+  <td>30</td>
+  <td>Enabled</td>
+  <td>35</td>
+  <td>Disabled</td>
+  <td>Zero</td>
+  </tr>
+  <tr>
+  <td>Unoccupied, pre-cool</td>
+  <td>In unoccupied period, within 30 minutes of occupied period, outside TDryBul below limit of 13 degC, average TZon above occupied TZonCooSet</td>
+  <td>12</td>
+  <td>24</td>
+  <td>Enabled</td>
+  <td>12</td>
+  <td>Enabled</td>
+  <td>Zero</td>
+  </tr>
+</table>
+</p>
+<p>
+Once the operating mode is determined, a number of low-level, local-loop
+controllers are used to maintain the desired setpoints using the available
+actuators.  The primary local-loop controllers are specified on the diagram above
+as C1 to C3.
+</p>
+<p>
+C1 is responsible for maintaining the zone temperature setpoints as
+determined by the operating mode of the system and implements
+dual-maximum logic, as shown in the Figure below.  It takes
+as inputs the zone temperature heating and cooling setpoints and zone temperature
+measurement, and outputs the desired airflow rate of the damper and position
+of the reheat valve.  Seperate PI controllers are used for control of the
+damper airflow for cooling and reheat valve position for heating.  If the
+zone requires heating, the desired airflow rate of the damper is mapped
+to the specified maximum value for heating.
+</p>
+
+<p align=\"center\">
+<img alt=\"Controller C1.\"
+src=\"../../../doc/images/C1.png\"/>
+</p>
+
+<p>
+C2 is responsible for maintaining the duct static pressure setpoint
+and implements a duct static pressure reset strategy.  The first step of
+the controller takes as input all of the terminal box damper positions and
+outputs a duct static pressure setpoint using a PI controller such that the
+maximum damper position is maintained at 0.9.  The second step then maintains
+this setpoint using a PI controller and measured duct static pressure as input
+to output a fan speed setpoint.
+</p>
+
+<p align=\"center\">
+<img alt=\"Controller C2.\"
+src=\"../../../doc/images/C2.png\"/>
+</p>
+
+<p>
+C3 is responsible for maintaining the supply air temperature setpoint as well
+as the minimum outside air flow rate as determined by the operating mode
+of the system.  It takes as inputs the
+supply air temperature setpoint, supply air temperature measurement, outside
+airflow rate setpoint, and outside airflow rate measurement.  The first part
+of the controller uses a PI controller for supply air temperature setpoint
+tracking to output a signal that is then mapped to position
+setpoints for the heating coil valve, cooling coil valve, and outside air
+damper position.  The second part of the controller uses a PI controller
+for outside airflow setpoint tracking to output a second signal for
+outside air damper position.  The maximum of the two outside air damper position
+signals is finally output to ensure at least enough enough airflow is delivered
+for ventilation when needed.
+</p>
+
+<p align=\"center\">
+<img alt=\"Controller C3.\"
+src=\"../../../doc/images/C3.png\"/>
+</p>
+
+<p>
+Also present, but not depicted in the diagrams above, is a freeze stat controller.
+This controller detects potentially freezing conditions by measuring the
+mixed air temperature and determining if it is less than a limit, 3 degC.
+If true, the controller will enable C3 to track the supply air temperature setpoint.
+In this case, the heating coil will be activated to do so.
+</p>
+
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 The model inputs are:
@@ -646,32 +879,43 @@ The model outputs are:
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
-…
+Lighting heat gain is included in the internal heat gains and is not controllable.
 </p>
 <h4>Shading</h4>
 <p>
-…
+There is no shading on this building.
 </p>
 <h4>Onsite Generation and Storage</h4>
 <p>
-…
+There is no onsite generation or storage on this building site.
 </p>
 <h3>Model Implementation Details</h3>
 <h4>Moist vs. dry air</h4>
 <p>
-…
+A moist air model is used.  Relative humidity is tracked based on latent
+heat gain from occupants, outside air relative humidity, and a cooling
+coil model that includes condensation.
 </p>
 <h4>Pressure-flow models</h4>
 <p>
-…
+The duct airflow is modeled using a pressure-flow network.
 </p>
 <h4>Infiltration models</h4>
 <p>
-…
+Airflow due to infiltration is calculated based on time-varying
+wind pressure coefficients for each facade.
 </p>
 <h4>CO2 models</h4>
 <p>
-…
+CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017)
+and density of CO2 assumed to be 1.8 kg/m^3,
+making CO2 generation 8.64e-6 kg/s per person.
+Outside air CO2 concentration is 400 ppm.
+</p>
+<p>
+Persily, A. and De Jonge, L. (2017).
+Carbon dioxide generation rates for building occupants.
+Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
