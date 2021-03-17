@@ -9,10 +9,10 @@ model WriteZone "Collection of zone overwrite points for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput TZonCooSet_in
     "Zone air temperature cooling setpoint"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
-  Modelica.Blocks.Interfaces.RealInput uDam_in
+  Modelica.Blocks.Interfaces.RealInput yDam_in
     "Control signal for terminal box damper"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-  Modelica.Blocks.Interfaces.RealInput uReaHea_in
+  Modelica.Blocks.Interfaces.RealInput yReaHea_in
     "Control signal for terminal box reheat"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite TZonHeaSet(description=
@@ -29,13 +29,13 @@ model WriteZone "Collection of zone overwrite points for BOPTEST"
       max=313.15))
     "Zone air temperature cooling setpoint"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite uDam(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite yDam(description=
         "Damper position setpoint for zone " + zone, u(
       unit="1",
       min=0,
       max=1)) "Damper position setpoint"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite uReaHea(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite yReaHea(description=
         "Reheat control signal for zone " + zone, u(
       unit="1",
       min=0,
@@ -47,10 +47,10 @@ model WriteZone "Collection of zone overwrite points for BOPTEST"
   Modelica.Blocks.Interfaces.RealOutput TZoneCooSet_out
     "Zone air temperature cooling setpoint"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Interfaces.RealOutput yDam
+  Modelica.Blocks.Interfaces.RealOutput yDam_out
     "Control signal for terminal box damper"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.RealOutput yReaHea
+  Modelica.Blocks.Interfaces.RealOutput yReaHea_out
     "Control signal for terminal box reheat"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
@@ -62,11 +62,11 @@ equation
       points={{-120,40},{-62,40},{-2,40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uDam_in, uDam.u) annotation (Line(
+  connect(yDam_in,yDam. u) annotation (Line(
       points={{-120,0},{-61,0},{-2,0}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uReaHea_in, uReaHea.u) annotation (Line(
+  connect(yReaHea_in,yReaHea. u) annotation (Line(
       points={{-120,-40},{-2,-40},{-2,-40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
@@ -78,11 +78,11 @@ equation
       points={{21,40},{110,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uDam.y, yDam) annotation (Line(
+  connect(yDam.y, yDam_out) annotation (Line(
       points={{21,0},{110,0},{110,0}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uReaHea.y, yReaHea) annotation (Line(
+  connect(yReaHea.y, yReaHea_out) annotation (Line(
       points={{21,-40},{110,-40},{110,-40}},
       color={0,0,127},
       smooth=Smooth.Bezier));

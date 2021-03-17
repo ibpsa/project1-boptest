@@ -1,29 +1,29 @@
 within MultiZoneOfficeSimpleAir.BaseClasses;
 model WriteAhu "Collection of AHU overwrite points for BOPTEST"
-  Modelica.Blocks.Interfaces.RealInput uFan_in "Supply fan speed setpoint"
+  Modelica.Blocks.Interfaces.RealInput yFan_in "Supply fan speed setpoint"
     annotation (Placement(transformation(extent={{-140,100},{-100,140}})));
-  Modelica.Blocks.Interfaces.RealInput uHea_in "Heating coil control signal"
+  Modelica.Blocks.Interfaces.RealInput yHea_in "Heating coil control signal"
     annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-  Modelica.Blocks.Interfaces.RealInput uCoo_in "Cooling coil control signal"
+  Modelica.Blocks.Interfaces.RealInput yCoo_in "Cooling coil control signal"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
   Modelica.Blocks.Interfaces.RealInput TSupSet_in
     "Supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite uFan(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite yFan(description=
         "Supply fan speed setpoint for AHU",
                                      u(
       unit="1",
       min=0,
       max=1)) "Supply fan speed setpoint for AHU"
     annotation (Placement(transformation(extent={{0,110},{20,130}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite uCoo(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite yCoo(description=
         "Cooling coil control signal for AHU",
                                        u(
       unit="1",
       min=0,
       max=1)) "Cooling coil control signal"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite uHea(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite yHea(description=
         "Heating coil control signal for AHU",
                                        u(
       unit="1",
@@ -46,11 +46,11 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
     annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
   Modelica.Blocks.Interfaces.RealInput dpSet_in "Supply duct pressure setpoint"
     annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
-  Modelica.Blocks.Interfaces.RealOutput yFan "Supply fan speed setpoint"
+  Modelica.Blocks.Interfaces.RealOutput yFan_out "Supply fan speed setpoint"
     annotation (Placement(transformation(extent={{100,110},{120,130}})));
-  Modelica.Blocks.Interfaces.RealOutput yHea "Heating coil control signal"
+  Modelica.Blocks.Interfaces.RealOutput yHea_out "Heating coil control signal"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  Modelica.Blocks.Interfaces.RealOutput yCoo "Cooling coil control signal"
+  Modelica.Blocks.Interfaces.RealOutput yCoo_out "Cooling coil control signal"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
   Modelica.Blocks.Interfaces.RealOutput TSupSet_out
     "Supply air temperature setpoint"
@@ -58,30 +58,30 @@ model WriteAhu "Collection of AHU overwrite points for BOPTEST"
   Modelica.Blocks.Interfaces.RealOutput dpSet_out
     "Supply duct pressure setpoint"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite uOA(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite yOA(description=
         "Outside air damper position setpoint for AHU",
       u(
       unit="1",
       min=0,
       max=1)) "Outside air damper position setpoint"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
-  Modelica.Blocks.Interfaces.RealOutput yOA
+  Modelica.Blocks.Interfaces.RealOutput yOA_out
     "Outside air damper position septoint"
     annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
-  Modelica.Blocks.Interfaces.RealOutput yRet
+  Modelica.Blocks.Interfaces.RealOutput yRet_out
     "Return air damper position septoint"
     annotation (Placement(transformation(extent={{100,-130},{120,-110}})));
-  Modelica.Blocks.Interfaces.RealInput uOA_in
+  Modelica.Blocks.Interfaces.RealInput yOA_in
     "Outside air damper position septoint"
     annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite uRet(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite yRet(description=
         "Return air damper position setpoint for AHU",
       u(
       unit="1",
       min=0,
       max=1)) "Return air damper position setpoint"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
-  Modelica.Blocks.Interfaces.RealInput uRet_in
+  Modelica.Blocks.Interfaces.RealInput yRet_in
     "Return air damper position septoint"
     annotation (Placement(transformation(extent={{-140,-140},{-100,-100}})));
 equation
@@ -89,15 +89,15 @@ equation
       points={{-2,-40},{-120,-40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uFan_in, uFan.u) annotation (Line(
+  connect(yFan_in,yFan. u) annotation (Line(
       points={{-120,120},{-2,120}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uHea_in, uHea.u) annotation (Line(
+  connect(yHea_in,yHea. u) annotation (Line(
       points={{-120,80},{-61,80},{-2,80}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uCoo_in, uCoo.u) annotation (Line(
+  connect(yCoo_in,yCoo. u) annotation (Line(
       points={{-120,40},{-61,40},{-2,40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
@@ -105,15 +105,15 @@ equation
       points={{-120,0},{-2,0}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uFan.y, yFan) annotation (Line(
+  connect(yFan.y, yFan_out) annotation (Line(
       points={{21,120},{110,120}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uHea.y, yHea) annotation (Line(
+  connect(yHea.y, yHea_out) annotation (Line(
       points={{21,80},{110,80}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uCoo.y, yCoo) annotation (Line(
+  connect(yCoo.y, yCoo_out) annotation (Line(
       points={{21,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
@@ -125,13 +125,13 @@ equation
       points={{21,-40},{110,-40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(uOA.u, uOA_in)
+  connect(yOA.u,yOA_in)
     annotation (Line(points={{-2,-80},{-120,-80}}, color={0,0,127}));
-  connect(uOA.y, yOA)
+  connect(yOA.y, yOA_out)
     annotation (Line(points={{21,-80},{110,-80}}, color={0,0,127}));
-  connect(uRet.y, yRet)
+  connect(yRet.y, yRet_out)
     annotation (Line(points={{21,-120},{110,-120}}, color={0,0,127}));
-  connect(uRet_in, uRet.u) annotation (Line(points={{-120,-120},{-62,-120},{-62,
+  connect(yRet_in,yRet. u) annotation (Line(points={{-120,-120},{-62,-120},{-62,
           -120},{-2,-120}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}),                                        graphics={

@@ -60,19 +60,22 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Outside air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
-  Buildings.Utilities.IO.SignalExchange.Read yRel(
+  Buildings.Utilities.IO.SignalExchange.Read yRelAct(
     description="Relief air damper position set point feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="1")) "Relief air damper position set point feedback"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
-  Buildings.Utilities.IO.SignalExchange.Read yRet(
+  Buildings.Utilities.IO.SignalExchange.Read yRetAct(
     description="Return air damper position set point feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="1")) "Return air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
-  Buildings.Utilities.IO.SignalExchange.Read yFan(
+  Buildings.Utilities.IO.SignalExchange.Read yFanAct(
     description="Supply fan speed set point feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="1")) "Supply fan speed setpoint feedback"
     annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
   Modelica.Blocks.Interfaces.RealInput yOA_in
@@ -87,9 +90,10 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput yFan_in
     "Actual supply fan speed feedback"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-  Buildings.Utilities.IO.SignalExchange.Read yHea(
+  Buildings.Utilities.IO.SignalExchange.Read yHeaAct(
     description="Heating coil control signal feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="1")) "Heating coil control signal feedback"
     annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
   Modelica.Blocks.Interfaces.RealInput yHea_in
@@ -98,9 +102,10 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput yCoo_in
     "Actual cooling coil signal feedback"
     annotation (Placement(transformation(extent={{-140,-140},{-100,-100}})));
-  Buildings.Utilities.IO.SignalExchange.Read yCoo(
+  Buildings.Utilities.IO.SignalExchange.Read yCooAct(
     description="Cooling coil control signal feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="1")) "Cooling coil control signal feedback"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
   Buildings.Utilities.IO.SignalExchange.Read PFanSup(
@@ -151,23 +156,23 @@ equation
       points={{-120,30},{-61,30},{-2,30}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(yExh_in,yRel. u) annotation (Line(
+  connect(yExh_in, yRelAct.u) annotation (Line(
       points={{-120,0},{-62,0},{-2,0}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(yRet_in, yRet.u) annotation (Line(
+  connect(yRet_in, yRetAct.u) annotation (Line(
       points={{-120,-30},{-2,-30}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(yFan_in, yFan.u) annotation (Line(
+  connect(yFan_in, yFanAct.u) annotation (Line(
       points={{-120,-60},{-62,-60},{-2,-60}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(yHea_in, yHea.u) annotation (Line(
+  connect(yHea_in, yHeaAct.u) annotation (Line(
       points={{-120,-90},{-62,-90},{-2,-90}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(yCoo_in, yCoo.u) annotation (Line(
+  connect(yCoo_in, yCooAct.u) annotation (Line(
       points={{-120,-120},{-62,-120},{-2,-120}},
       color={0,0,127},
       smooth=Smooth.Bezier));

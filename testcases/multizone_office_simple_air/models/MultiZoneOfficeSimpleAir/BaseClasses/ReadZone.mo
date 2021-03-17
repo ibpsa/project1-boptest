@@ -12,9 +12,10 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1")) "Damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
-  Buildings.Utilities.IO.SignalExchange.Read yReaHea(
+  Buildings.Utilities.IO.SignalExchange.Read yReaHeaAct(
     description="Reheat control signal set point feedback for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="1")) "Reheat control signal feedback"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
   Modelica.Blocks.Interfaces.RealInput TZon_in
@@ -76,9 +77,8 @@ equation
                                                  color={0,0,127}));
   connect(yDamAct_in, yDamAct.u)
     annotation (Line(points={{-120,80},{-2,80}}, color={0,0,127}));
-  connect(yReaHea_in, yReaHea.u)
-    annotation (Line(points={{-120,40},{-2,40}},
-                                               color={0,0,127}));
+  connect(yReaHea_in, yReaHeaAct.u)
+    annotation (Line(points={{-120,40},{-2,40}}, color={0,0,127}));
   connect(TSup.u, TSup_in)
     annotation (Line(points={{-2,0},{-120,0}},     color={0,0,127}));
   connect(V_flow.u, V_flow_in)
