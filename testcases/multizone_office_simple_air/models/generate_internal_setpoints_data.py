@@ -14,11 +14,11 @@ mapper_names = {'qGai_flow[1]':'InternalGainsRad',
                 'qGai_flow[3]':'InternalGainsLat',
                 'TRooHeaSet':'LowerSetp',
                 'TRooCooSet':'UpperSetp'}
-mapper_zones = {'nor':'North',
-                'sou':'South',
-                'eas':'East',
-                'wes':'West',
-                'cor':'Core'}
+mapper_zones = {'nor.':'North',
+                'sou.':'South',
+                'eas.':'East',
+                'wes.':'West',
+                'cor.':'Core'}
 
 area = {'North':207.58, # m^2
         'South':207.58,
@@ -52,4 +52,5 @@ for key in df.columns:
 for zone in mapper_zones:
     df['UpperCO2[{0}]'.format(mapper_zones[zone])] = 894
 
+df = df.drop(columns=['occSch.occupied'])
 df.to_csv('Resources/internal_setpoints_occupancy.csv')
