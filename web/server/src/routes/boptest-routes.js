@@ -4,7 +4,7 @@ import {getResults} from '../controllers/result';
 import {getKPIs} from '../controllers/kpi';
 import {getInputs} from '../controllers/input';
 import {getMeasurements} from '../controllers/measurement';
-import {getStep} from '../controllers/step';
+import {getStep, setStep} from '../controllers/step';
 const boptestRoutes = express.Router();
 
 // Given an array of points with tags, return an object,
@@ -191,17 +191,13 @@ boptestRoutes.get('/step/:id', async (req, res, next) => {
 
 boptestRoutes.put('/step/:id', async (req, res, next) => {
   try {
-    const redis = req.app.get('redis');
-    const stepsize = req.body['step'];
-    redis.hset(req.params.id, 'stepsize', stepsize, (err) => {
-      if (err) {
-        next(err);
-      } else {
-        res.end();
-      }
-    });
+    const redis = req.app.get('redis')
+    const db = req.app.get('db')
+    const step = req.body['step']
+    await setStep(req.params.id, step, db, redis)
+    res.sendStatus(200)
   } catch (e) {
-    next(e);
+    next(e)
   }
 });
 

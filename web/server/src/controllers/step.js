@@ -25,3 +25,24 @@ export async function getStep(site_ref, db, redis) {
   })
 }
 
+export async function setStep(site_ref, step, db, redis) {
+  return new Promise((resolve, reject) => {
+    redis.hset(site_ref, 'step', step, async (err) => {
+      if (err) {
+        reject(err)
+      } else {
+        try {
+          const testcases = db.collection('testcases')
+          const query = {site_ref}
+          const update = { $set: { step } }
+          const options = {}
+          await testcases.updateOne(query, update, options)
+          resolve()
+        } catch (e) {
+          reject(e)
+        }
+      }
+    })
+  })
+}
+

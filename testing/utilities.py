@@ -302,14 +302,9 @@ class partialChecks(object):
 
         return df
 
-    def get_all_points(self, url='localhost:5000'):
+    def get_all_points(self):
         '''Get all of the input and measurement point names from boptest.
 
-        Parameters
-        ----------
-        url: str, optional
-            URL pointing to deployed boptest test case.
-            Default is localhost:5000.
 
         Returns
         -------
@@ -318,8 +313,8 @@ class partialChecks(object):
 
         '''
 
-        measurements = requests.get('{0}/measurements'.format(url)).json()
-        inputs = requests.get('{0}/inputs'.format(url)).json()
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()
+        inputs = requests.get('{0}/inputs/{1}'.format(self.url, self.testid)).json()
         points = measurements.keys() + inputs.keys()
 
         return points
@@ -381,35 +376,35 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_step.csv')
         self.compare_ref_values_df(df, ref_filepath)
 
-    ## def test_set_step(self):
-    ##     '''Test setting the communication step of test.
+    def test_set_step(self):
+        '''Test setting the communication step of test.
 
-    ##     '''
+        '''
 
-    ##     step_current = requests.get('{0}/step'.format(self.url)).json()
-    ##     step = 101
-    ##     requests.put('{0}/step'.format(self.url), data={'step':step})
-    ##     step_set = requests.get('{0}/step'.format(self.url)).json()
-    ##     self.assertEqual(step, step_set)
-    ##     requests.put('{0}/step'.format(self.url), data={'step':step_current})
+        step_current = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()
+        step = 101
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step})
+        step_set = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()
+        self.assertEqual(step, step_set)
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step_current})
 
-    ## def test_initialize(self):
-    ##     '''Test initialization of test simulation.
+    def test_initialize(self):
+        '''Test initialization of test simulation.
 
-    ##     '''
+        '''
 
-    ##     # Get measurements and inputs
-    ##     points = self.get_all_points(self.url)
-    ##     # Get current step
-    ##     step = requests.get('{0}/step'.format(self.url)).json()
-    ##     # Initialize
-    ##     start_time = 0.5*24*3600
-    ##     y = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0.5*24*3600}).json()
-    ##     # Check that initialize returns the right initial values
-    ##     df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
-    ##     df.index.name = 'keys'
-    ##     ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
-    ##     self.compare_ref_values_df(df, ref_filepath)
+        # Get measurements and inputs
+        points = self.get_all_points()
+        # Get current step
+        step = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()
+        # Initialize
+        start_time = 0.5*24*3600
+        y = requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':start_time, 'warmup_period':0.5*24*3600}).json()
+        # Check that initialize returns the right initial values
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
+        self.compare_ref_values_df(df, ref_filepath)
     ##     # Check results are empty again
     ##     for point in points:
     ##         res = requests.put('{0}/results'.format(self.url), data={'point_name':point,'start_time':0, 'final_time':step}).json()

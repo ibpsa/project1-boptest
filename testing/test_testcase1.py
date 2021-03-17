@@ -161,21 +161,22 @@ class API(unittest.TestCase, utilities.partialTestAPI):
     attributes defined there for particular testcase in setUp method here.
 
     '''
+    @classmethod
+    def setUpClass(cls):
+        cls.name = 'testcase1'
+        cls.url = 'http://127.0.0.1:80'
+        client = BoptestClient(cls.url)
+        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
 
     def setUp(self):
         '''Setup for testcase.
 
         '''
-
-        self.name = 'testcase1'
-        self.url = 'http://127.0.0.1:80'
+        self.name = API.name
+        self.url = API.url
         self.name_ref = 'wrapped'
         self.step_ref = 60.0
-
-        if not hasattr(self, 'testid'):
-            print('submitting...')
-            client = BoptestClient(self.url)
-            self.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(self.name))
+        self.testid = API.testid
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
