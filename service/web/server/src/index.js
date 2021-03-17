@@ -49,7 +49,6 @@ const advancer = new Advancer(redis, pub, sub);
 
 MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   var app = express();
-  app.set('redis', redis);
 
   if( process.env.NODE_ENV == "production" ) {
     app.get('*.js', function(req, res, next) {
@@ -70,6 +69,9 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   }
 
   const db = mongoClient.db(process.env.MONGO_DB_NAME);
+
+  app.set('redis', redis);
+  app.set('db', db);
 
   app.use('/graphql', (request, response) => {
       return graphQLHTTP({

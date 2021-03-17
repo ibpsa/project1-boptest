@@ -2,6 +2,9 @@ import express from 'express';
 import got from 'got'
 import {getResults} from '../controllers/result';
 import {getKPIs} from '../controllers/kpi';
+import {getInputs} from '../controllers/input';
+import {getMeasurements} from '../controllers/measurement';
+import {getStep} from '../controllers/step';
 const boptestRoutes = express.Router();
 
 // Given an array of points with tags, return an object,
@@ -157,47 +160,34 @@ boptestRoutes.put('/stop/:id', async (req, res, next) => {
 
 boptestRoutes.get('/measurements/:id', async (req, res, next) => {
   try {
-    const baseurl = baseurlFromReq(req);
-    const querystring = `query { viewer { sites(siteRef: "${req.params.id}") { datetime, points(cur: true) { dis tags { key value } } } } }`;
-    const jsondata = JSON.parse(await graphqlPost(querystring, baseurl));
-    const points = jsondata["data"]["viewer"]["sites"][0]["points"];
-    const response = pointsToCurVals(points);
-
-    // BOPTEST includes 'time' key in the measurements
-    response['time'] = jsondata["data"]["viewer"]["sites"][0]["datetime"];
-
-    res.send(response);
+    const db = req.app.get('db');
+    const measurements = await getMeasurements(req.params.id, db)
+    res.send(measurements)
   } catch (e) {
-    next(e);
+    next(e)
   }
 });
 
 boptestRoutes.get('/inputs/:id', async (req, res, next) => {
   try {
-    const baseurl = baseurlFromReq(req);
-    const querystring = `query { viewer { sites(siteRef: "${req.params.id}") { points(writable: true) { dis tags { key value } } } } }`;
-    const points = JSON.parse(await graphqlPost(querystring, baseurl))["data"]["viewer"]["sites"][0]["points"];
-    const response = pointsToCurVals(points);
-    res.send(response);
+    const db = req.app.get('db');
+    const inputs = await getInputs(req.params.id, db)
+    res.send(inputs)
   } catch (e) {
-    next(e);
+    next(e)
   }
-});
+})
 
 boptestRoutes.get('/step/:id', async (req, res, next) => {
   try {
-    const redis = req.app.get('redis');
-    redis.hget(req.params.id, 'stepsize', (err, redisres) => {
-      if (err) {
-        next(err);
-      } else {
-        res.send(redisres);
-      }
-    });
+    const redis = req.app.get('redis')
+    const db = req.app.get('db')
+    const step = await getStep(req.params.id, db, redis)
+    res.send(step.toString())
   } catch (e) {
-    next(e);
+    next(e)
   }
-});
+})
 
 boptestRoutes.put('/step/:id', async (req, res, next) => {
   try {

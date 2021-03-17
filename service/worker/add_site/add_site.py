@@ -13,6 +13,8 @@ import json
 from boptest.add_site.add_site_logger import AddSiteLogger
 from boptest.lib import make_ids_unique, replace_site_id
 from boptest.lib.alfalfa_connections import AlfalfaConnections
+from boptest.lib.test_config import get_test_config
+from boptest.lib.testcase import TestCase
 
 class AddSite:
     """A wrapper class around adding sites"""
@@ -104,6 +106,15 @@ class AddSite:
         """
         f = self.fmu_json
         self.site_ref = self.get_site_ref(f)
+
+        get_test_config(self.fmu_path)
+        tc = TestCase()
+        inputs = tc.get_inputs()
+        self.ac.add_boptest_inputs_to_mongo(inputs, self.site_ref)
+        measurements = tc.get_measurements()
+        self.ac.add_boptest_measurements_to_mongo(measurements, self.site_ref)
+        step = tc.get_step()
+        self.ac.add_boptest_step_to_mongo(step, self.site_ref)
 
         # Check mongo upload works correctly
         mongo_response = self.ac.add_site_to_mongo(f, self.site_ref)
