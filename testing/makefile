@@ -67,19 +67,19 @@ generate_testcase_data:
 # Tests
 ###############################################################################
 test_testcase1:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=testcase1
-# Build testcase image
-	cd .. &&  make build TESTCASE=testcase1
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=testcase1
-	python sleep10.py
-# Run testcase tests
-# Julia
-	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
-# Javascript
-	cd ../examples/javascript && make build Script=testcase1 && make run Script=testcase1
-# Python and checks
+## # Compile testcase model
+## 	make compile_testcase_model TESTCASE=testcase1
+## # Build testcase image
+## 	cd .. &&  make build TESTCASE=testcase1
+## # Deploy testcase container
+## 	cd .. && make run-detached TESTCASE=testcase1
+## 	python sleep10.py
+## # Run testcase tests
+## # Julia
+## 	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
+## # Javascript
+## 	cd ../examples/javascript && make build Script=testcase1 && make run Script=testcase1
+## # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase1
@@ -241,13 +241,13 @@ test_all:
 	make test_data
 	make test_forecast
 	make test_kpis
-	make test_testcase1
-	make test_testcase2
-	make test_testcase3
-	make test_bestest_air
-	make test_bestest_hydronic
-	make test_bestest_hydronic_heat_pump
-# Remove jm
-	make remove_jm_image
-# Report test results
-	python report.py
+## 	make test_testcase1
+## 	make test_testcase2
+## 	make test_testcase3
+## 	make test_bestest_air
+## 	make test_bestest_hydronic
+## 	make test_bestest_hydronic_heat_pump
+## # Remove jm
+## 	make remove_jm_image
+## # Report test results
+## 	python report.py

@@ -36,6 +36,23 @@ class AlfalfaConnections:
         self.mongo_db_write_arrays = self.mongo_db.writearrays
         self.mongo_db_sims = self.mongo_db.sims
 
+        # BOPTEST specific
+        self.mongo_db_inputs = self.mongo_db.inputs
+        self.mongo_db_measurements = self.mongo_db.measurements
+        self.mongo_db_testcases = self.mongo_db.testcases
+
+    def add_boptest_inputs_to_mongo(self, boptest_inputs, site_ref):
+        data = {'site_ref': site_ref, 'inputs': boptest_inputs}
+        self.mongo_db_inputs.insert_one(data)
+
+    def add_boptest_measurements_to_mongo(self, boptest_measurements, site_ref):
+        data = {'site_ref': site_ref, 'measurements': boptest_measurements}
+        self.mongo_db_measurements.insert_one(data)
+
+    def add_boptest_step_to_mongo(self, step, site_ref):
+        data = {'site_ref': site_ref, 'step': step}
+        self.mongo_db_testcases.insert_one(data)
+
     def add_site_to_mongo(self, haystack_json, site_ref):
         """
         Upload JSON documents to mongo.  The documents look as follows:

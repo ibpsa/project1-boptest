@@ -1,7 +1,7 @@
+import sys
 import json
 import os
 import shutil
-import sys
 import tarfile
 import time
 import uuid
@@ -10,15 +10,11 @@ from datetime import datetime
 import boto3
 import pytz
 import redis
-from distutils import util
 from pymongo import MongoClient
-import imp
 import requests
-config_module = imp.new_module('config')
-sys.modules['config'] = config_module
+from boptest.lib.test_config import get_test_config
+from boptest.lib.testcase import TestCase
 
-import boptest.lib
-import boptest.lib.testcase
 
 class RunFMUSite:
     def __init__(self, **kwargs):
@@ -69,22 +65,9 @@ class RunFMUSite:
 
         (self.tagid_and_outputs, self.id_and_dis, self.default_input) = self.create_tag_dictionaries(tagpath)
 
-        config_code = """
-def get_config():
-    c = dict()
-    c['fmupath'] = '{}'
-    c['step'] = 60
-    c['horizon'] = 86400
-    c['interval'] = 3600
-    c['scenario'] = {{'electricity_price': 'constant'}}
-    return c
-"""
-
-        config_code = config_code.format(fmupath)
-        exec config_code in config_module.__dict__
-
         # initiate the testcase
-        self.tc = boptest.lib.testcase.TestCase()
+        get_test_config(fmupath)
+        self.tc = TestCase()
         self.update_forecast(self.tc.get_forecast())
 
         # run the FMU simulation
@@ -97,12 +80,12 @@ def get_config():
         self.redis_pubsub.psubscribe(str(self.site_ref) + "*")
 
         # stepsize
-        redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
+        redis_step_size = self.redis.hget(self.site_ref, 'step')
         if redis_step_size:
             self.tc.set_step(redis_step_size)
         else:
-            stepsize = self.tc.get_step();
-            self.redis.hset(self.site_ref, 'stepsize', stepsize)
+            stepsize = self.tc.get_step()
+            self.redis.hset(self.site_ref, 'step', stepsize)
 
         # forecast
         forecast = self.tc.get_forecast_parameters()
@@ -319,7 +302,7 @@ def get_config():
 
     def step(self):
         # look for a change in step size
-        redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
+        redis_step_size = self.redis.hget(self.site_ref, 'step')
         current_step_size = self.tc.get_step()
         if current_step_size != redis_step_size:
             self.tc.set_step(redis_step_size)
@@ -363,6 +346,7 @@ def get_config():
                 self.mongo_db_recs.update_one( {"_id": output_id }, {"$set": {"rec.curVal":"n:%s" %value_y, "rec.curStatus":"s:ok","rec.cur": "m:" }} )
 
         self.update_forecast(self.tc.get_forecast())
+
 
 if __name__ == "__main__":
     body = json.loads(sys.argv[1])
