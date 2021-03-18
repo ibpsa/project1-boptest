@@ -13,6 +13,18 @@ function promiseTaskLater(task, time, ...args) {
   });
 };
 
+function setU(site_ref, u, redis) {
+  return new Promise((resolve, reject) => {
+    redis.hset(site_ref, 'u', JSON.stringify(u), (err) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
 export function simStatus(site_ref, redis) {
   return new Promise((resolve, reject) => {
     redis.hget(site_ref, 'status', (err, data) => {
@@ -65,6 +77,12 @@ export async function initialize(site_ref, start_time, warmup_period, redis, sqs
   await setStatus(site_ref, "Starting", redis)
   await addJobToQueue("runSite", sqs, {site_ref, start_time, warmup_period})
   await waitForStatus(site_ref, redis, "Running", 0, 3)
+  return await getY(site_ref, redis)
+}
+
+export async function advance(site_ref, redis, advancer, u) {
+  await setU(site_ref, u, redis)
+  await advancer.advance([site_ref])
   return await getY(site_ref, redis)
 }
 

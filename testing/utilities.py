@@ -272,7 +272,7 @@ class partialChecks(object):
 
         return s_test
 
-    def results_to_df(self, points, start_time, final_time, url='http://127.0.0.1:5000'):
+    def results_to_df(self, points, start_time, final_time):
         '''Convert results from boptest into pandas DataFrame timeseries.
 
         Parameters
@@ -296,7 +296,7 @@ class partialChecks(object):
 
         df = pd.DataFrame()
         for point in points:
-            res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':start_time, 'final_time':final_time}).json()
+            res = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':point,'start_time':start_time, 'final_time':final_time}).json()
             df = pd.concat((df,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
         df.index.name = 'time'
 
@@ -412,15 +412,15 @@ class partialTestAPI(partialChecks):
         # Advance
         step_advance = 1*24*3600
         requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step_advance})
-    ##     y = requests.post('{0}/advance'.format(self.url),data = {}).json()
-    ##     # Check trajectories
-    ##     df = self.results_to_df(points, start_time, start_time+step_advance, self.url)
-    ##     # Set reference file path
-    ##     ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
-    ##     # Check results
-    ##     self.compare_ref_timeseries_df(df,ref_filepath)
-    ##     # Set step back to step
-    ##     requests.put('{0}/step'.format(self.url), data={'step':step})
+        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid),data = {}).json()
+        # Check trajectories
+        df = self.results_to_df(points, start_time, start_time+step_advance)
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Set step back to step
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step})
 
     ## def test_advance_no_data(self):
     ##     '''Test advancing of simulation with no input data.

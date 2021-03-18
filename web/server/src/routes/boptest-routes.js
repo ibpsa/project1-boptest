@@ -5,7 +5,7 @@ import {getKPIs} from '../controllers/kpi';
 import {getInputs} from '../controllers/input';
 import {getMeasurements} from '../controllers/measurement';
 import {getStep, setStep} from '../controllers/step';
-import {initialize} from '../controllers/test';
+import {initialize, advance} from '../controllers/test';
 const boptestRoutes = express.Router();
 
 
@@ -60,38 +60,17 @@ const waitForSimStatus = async (id, baseurl, desiredStatus, count, maxCount) => 
   }
 };
 
-//boptestRoutes.post('/advance/:id', async (req, res, next) => {
-//  try {
-//    const baseurl = baseurlFromReq(req);
-//
-//    // Set inputs
-//    const inputdata = req.body;
-//    const inputnames = Object.keys(inputdata).filter(key => (key.endsWith('_activate'))).map(key => key.replace(/_activate$/,""));
-//    for (let inputname of inputnames) {
-//      const inputvalue = inputdata['inputname' + '_u'];
-//      const inputactivate = inputdata['inputname' + '_activate'];
-//      let writestring = '';
-//      if (inputvalue && inputactivate) {
-//        writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", value: ${inputvalue}, level: 1 ) }`;
-//      } else {
-//        // Resets the input, ie. not activated
-//        writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", level: 1 ) }`;
-//      }
-//      await graphqlPost(writestring, baseurl);
-//    }
-//
-//    // Advance the sim
-//    const advancestring = `mutation { advance(siteRefs: "${req.params.id}") }`;
-//    await graphqlPost(advancestring, baseurl);
-//
-//    // Send back measurements
-//    const {body} = await got.get(`${baseurl}/measurements/${req.params.id}`);
-//    res.send(body);
-//  } catch (e) {
-//    next(e);
-//  }
-//  // TODO do the above in a single operation against Redis. This is very inefficient
-//});
+boptestRoutes.post('/advance/:id', async (req, res, next) => {
+  try {
+    const redis = req.app.get('redis')
+    const advancer = req.app.get('advancer')
+    const u = req.body
+    const y = await advance(req.params.id, redis, advancer, u)
+    res.send(y)
+  } catch (e) {
+    next(e)
+  }
+});
 
 boptestRoutes.put('/initialize/:id', async (req, res, next) => {
   try {
