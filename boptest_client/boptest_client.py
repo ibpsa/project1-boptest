@@ -215,8 +215,6 @@ def wait(url, siteref, desired_status):
         current_status = status(url, siteref)
 
         if desired_status:
-            if attempts % 2 == 0:
-                print("Desired status: {}\t\tCurrent status: {}".format(desired_status, current_status))
             if current_status == desired_status:
                 break
         elif current_status:

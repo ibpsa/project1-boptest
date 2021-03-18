@@ -405,13 +405,13 @@ class partialTestAPI(partialChecks):
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
         self.compare_ref_values_df(df, ref_filepath)
-    ##     # Check results are empty again
-    ##     for point in points:
-    ##         res = requests.put('{0}/results'.format(self.url), data={'point_name':point,'start_time':0, 'final_time':step}).json()
-    ##         self.assertEqual(len(res[point]), 0)
-    ##     # Advance
-    ##     step_advance = 1*24*3600
-    ##     requests.put('{0}/step'.format(self.url), data={'step':step_advance})
+        # Check results are empty again
+        for point in points:
+            res = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':point,'start_time':0, 'final_time':step}).json()
+            self.assertEqual(len(res[point]), 0)
+        # Advance
+        step_advance = 1*24*3600
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step_advance})
     ##     y = requests.post('{0}/advance'.format(self.url),data = {}).json()
     ##     # Check trajectories
     ##     df = self.results_to_df(points, start_time, start_time+step_advance, self.url)

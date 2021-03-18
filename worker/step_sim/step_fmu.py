@@ -32,11 +32,8 @@ class RunFMUSite:
         # get arguments from calling program
         # which is the processMessage program
         self.site_ref = kwargs['site_ref']
-        self.real_time_flag = kwargs['real_time_flag']
-        self.time_scale = kwargs['time_scale']
-        self.startTime = kwargs['startTime']
-        self.endTime = kwargs['endTime']
-        self.externalClock = kwargs['externalClock']
+        self.start_time = kwargs['start_time']
+        self.warmup_period = kwargs['warmup_period']
 
         self.site = self.mongo_db_recs.find_one({"_id": self.site_ref})
 
@@ -68,15 +65,14 @@ class RunFMUSite:
         # initiate the testcase
         get_test_config(fmupath)
         self.tc = TestCase()
+        y_output = self.tc.initialize(start_time, warmup_period)
+        self.update_y(y_output)
         self.update_forecast(self.tc.get_forecast())
 
-        # run the FMU simulation
-        self.kstep = 0
-        self.stop = False
+        # simtime
         self.simtime = 0
 
-        # subscribe to two channels, one named after the site ref,
-        # and another channel dedicated to results requests
+        # subscribe to channels related to this test
         self.redis_pubsub.psubscribe(str(self.site_ref) + "*")
 
         # stepsize
@@ -105,6 +101,9 @@ class RunFMUSite:
             self.redis.hset(self.site_ref, 'forecast:interval', forecast['interval'])
 
         self.tc.set_forecast_parameters(forecast['horizon'], forecast['interval'])
+
+        self.init_sim_status()
+
 
     def results_request_channel(self):
         return (self.site_ref + ":results:request")
@@ -153,9 +152,6 @@ class RunFMUSite:
         return (outputs_and_ID, id_and_dis, default_input)
 
     def run(self):
-        self.init_sim_status()
-
-        sys.stdout.flush()
         while True:
             data = None
             channel = None
@@ -164,8 +160,6 @@ class RunFMUSite:
                 channel = message['channel']
                 data = message['data']
                 message_type = message['type']
-            if self.simtime >= self.endTime:
-                break
             if channel == self.site_ref and data == 'stop':
                 break
             if channel == self.results_request_channel() and message_type == 'pmessage':
@@ -179,15 +173,10 @@ class RunFMUSite:
                 self.update_kpis()
                 self.redis.publish(self.kpis_response_channel(), 'ready')
 
-            if self.externalClock:
-                if channel == self.site_ref and data == 'advance':
-                    self.step()
-                    self.redis.publish(self.site_ref, 'complete')
-                    self.set_idle_state()
-            else:
+            if channel == self.site_ref and data == 'advance':
                 self.step()
-                # TODO: Make this respect time scale provided by user
-                time.sleep(5)
+                self.redis.publish(self.site_ref, 'complete')
+                self.set_idle_state()
 
         self.cleanup()
 
@@ -205,6 +194,9 @@ class RunFMUSite:
         self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.simStatus": "s:Stopped"}, "$unset": {"rec.datetime": ""}}, False)
         self.mongo_db_recs.update_many({"site_ref": self.site_ref, "rec.cur": "m:"}, {"$unset": {"rec.curVal": "", "rec.curErr": ""}, "$set": {"rec.curStatus": "s:disabled"}}, False)
         self.mongo_db_recs.update_many({"site_ref": self.site_ref, "rec.writable": "m:"}, {"$unset": {"rec.writeLevel": "", "rec.writeVal": ""}, "$set": {"rec.writeStatus": "s:disabled"}}, False)
+
+        self.redis.hset(self.site_ref, 'status', 'Stopped')
+        self.redis.hdel(self.site_ref, 'time')
 
         self.clear_forecast()
 
@@ -269,6 +261,9 @@ class RunFMUSite:
         except:
             print("Unable to post results to dashboard located at: %s" % dashboard_url)
 
+    def update_y(self, y):
+        self.redis.hset(self.site_ref, 'y', json.dumps(y))
+
     def update_forecast(self, forecast):
         self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
 
@@ -294,11 +289,15 @@ class RunFMUSite:
         self.set_idle_state()
         output_time_string = 's:%s' % (self.simtime)
         self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.datetime": output_time_string, "rec.simStatus": "s:Running"}})
+        self.redis.hset(self.site_ref, 'status', 'Running')
+        self.redis.hset(self.site_ref, 'time', self.simtime)
 
     def update_sim_status(self):
         self.simtime = self.tc.final_time
         output_time_string = 's:%s' % (self.simtime)
         self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.datetime": output_time_string, "rec.simStatus": "s:Running"}})
+        self.redis.hset(self.site_ref, 'status', 'Running')
+        self.redis.hset(self.site_ref, 'time', self.simtime)
 
     def step(self):
         # look for a change in step size
@@ -336,6 +335,8 @@ class RunFMUSite:
                         break
 
         y_output = self.tc.advance(u)
+        self.update_y(y_output)
+
         self.update_sim_status()
 
         # get each of the simulation output values and feed to the database
@@ -350,12 +351,9 @@ class RunFMUSite:
 
 if __name__ == "__main__":
     body = json.loads(sys.argv[1])
-    site_ref = body.get('siteRef')
-    real_time_flag = bool(body.get('realtime'))
-    time_scale = float(body.get('timescale'))
-    startTime = float(body.get('startDatetime'))
-    endTime = float(body.get('endDatetime'))
-    externalClock = body.get('externalClock')
+    site_ref = body.get('site_ref')
+    start_time = float(body.get('start_time'))
+    warmup_period = float(body.get('warmup_period'))
 
-    runFMUSite = RunFMUSite(site_ref=site_ref, real_time_flag=real_time_flag, time_scale=time_scale, startTime=startTime, endTime=endTime, externalClock=externalClock)
+    runFMUSite = RunFMUSite(site_ref=site_ref, start_time=start_time, warmup_period=warmup_period)
     runFMUSite.run()

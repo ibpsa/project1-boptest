@@ -5,36 +5,9 @@ import {getKPIs} from '../controllers/kpi';
 import {getInputs} from '../controllers/input';
 import {getMeasurements} from '../controllers/measurement';
 import {getStep, setStep} from '../controllers/step';
+import {initialize} from '../controllers/test';
 const boptestRoutes = express.Router();
 
-// Given an array of points with tags, return an object,
-// "dis" values are the keys, and "curVal" are the values
-const pointsToCurVals = (points) => {
-  let response = {};
-  for (let point of points) {
-    const tags = point["tags"];
-    // This is a string. Should it be returned as a number?
-    const curValTag = tags.find(tag => tag["key"] == "curVal");
-    // What do return if there is no curVal?
-    let curVal = null;
-    if (curValTag) {
-      curVal = Number.parseFloat(strip(curValTag["value"]));
-    }
-    const dis = strip(point["dis"]);
-    response[dis] = curVal;
-  }
-  return response;
-};
-
-const baseurlFromReq = (req) => {
-  return req.protocol + '://' + req.get('host');
-};
-
-// Remove any preceeding haystack style type specifier.
-// ie given "n:1.0" will return "1.0"
-const strip = (text) => {
-  return text.replace(/^\w:/,"");
-}
 
 // Post a query to the graphql api
 const graphqlPost = async (querystring, baseurl) => {
@@ -87,57 +60,49 @@ const waitForSimStatus = async (id, baseurl, desiredStatus, count, maxCount) => 
   }
 };
 
-boptestRoutes.post('/advance/:id', async (req, res, next) => {
-  try {
-    const baseurl = baseurlFromReq(req);
-
-    // Set inputs
-    const inputdata = req.body;
-    const inputnames = Object.keys(inputdata).filter(key => (key.endsWith('_activate'))).map(key => key.replace(/_activate$/,""));
-    for (let inputname of inputnames) {
-      const inputvalue = inputdata['inputname' + '_u'];
-      const inputactivate = inputdata['inputname' + '_activate'];
-      let writestring = '';
-      if (inputvalue && inputactivate) {
-        writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", value: ${inputvalue}, level: 1 ) }`;
-      } else {
-        // Resets the input, ie. not activated
-        writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", level: 1 ) }`;
-      }
-      await graphqlPost(writestring, baseurl);
-    }
-
-    // Advance the sim
-    const advancestring = `mutation { advance(siteRefs: "${req.params.id}") }`;
-    await graphqlPost(advancestring, baseurl);
-
-    // Send back measurements
-    const {body} = await got.get(`${baseurl}/measurements/${req.params.id}`);
-    res.send(body);
-  } catch (e) {
-    next(e);
-  }
-  // TODO do the above in a single operation against Redis. This is very inefficient
-});
+//boptestRoutes.post('/advance/:id', async (req, res, next) => {
+//  try {
+//    const baseurl = baseurlFromReq(req);
+//
+//    // Set inputs
+//    const inputdata = req.body;
+//    const inputnames = Object.keys(inputdata).filter(key => (key.endsWith('_activate'))).map(key => key.replace(/_activate$/,""));
+//    for (let inputname of inputnames) {
+//      const inputvalue = inputdata['inputname' + '_u'];
+//      const inputactivate = inputdata['inputname' + '_activate'];
+//      let writestring = '';
+//      if (inputvalue && inputactivate) {
+//        writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", value: ${inputvalue}, level: 1 ) }`;
+//      } else {
+//        // Resets the input, ie. not activated
+//        writestring = `mutation { writePoint(siteRef: "${req.params.id}", pointName: "${inputname}", level: 1 ) }`;
+//      }
+//      await graphqlPost(writestring, baseurl);
+//    }
+//
+//    // Advance the sim
+//    const advancestring = `mutation { advance(siteRefs: "${req.params.id}") }`;
+//    await graphqlPost(advancestring, baseurl);
+//
+//    // Send back measurements
+//    const {body} = await got.get(`${baseurl}/measurements/${req.params.id}`);
+//    res.send(body);
+//  } catch (e) {
+//    next(e);
+//  }
+//  // TODO do the above in a single operation against Redis. This is very inefficient
+//});
 
 boptestRoutes.put('/initialize/:id', async (req, res, next) => {
   try {
-    const querystring = `mutation{
-      runSite(
-        siteRef: "${req.params.id}",
-        startDatetime: "0",
-        endDatetime: "86400",
-        externalClock: true,
-      	timescale: 1.0
-      )
-    }`;
-
-    const baseurl = baseurlFromReq(req);
-    await graphqlPost(querystring, baseurl);
-    await waitForSimStatus(req.params.id, baseurl, "Running", 0, 3);
-    res.end();
+    const redis = req.app.get('redis')
+    const sqs = req.app.get('sqs')
+    const start_time = req.body['start_time']
+    const warmup_period = req.body['warmup_period']
+    const y = await initialize(req.params.id, start_time, warmup_period, redis, sqs)
+    res.send(y)
   } catch (e) {
-    next(e);
+    next(e)
   }
 });
 

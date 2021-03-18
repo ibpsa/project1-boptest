@@ -40,7 +40,9 @@ import morgan from 'morgan';
 import { URL } from "url";
 import AWS from 'aws-sdk';
 
+//AWS.config.update({region: process.env.REGION});
 var client = new AWS.S3({endpoint: process.env.S3_URL});
+const sqs = new AWS.SQS();
 
 const redis = node_redis.createClient({host: process.env.REDIS_HOST});
 const pub = redis.duplicate();
@@ -72,6 +74,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
 
   app.set('redis', redis);
   app.set('db', db);
+  app.set('sqs', sqs);
 
   app.use('/graphql', (request, response) => {
       return graphQLHTTP({
