@@ -589,8 +589,8 @@ partial model PartialOpenLoop
   Results res(
     final A=ATot,
     PFan=fanSup.P + 0,
-    PHea=heaCoi.Q2_flow + cor.terHea.Q1_flow + nor.terHea.Q1_flow + wes.terHea.Q1_flow
-         + eas.terHea.Q1_flow + sou.terHea.Q1_flow,
+    PHea=heaCoi.Q2_flow + cor.terHea.Q2_flow + nor.terHea.Q2_flow + wes.terHea.Q2_flow
+         + eas.terHea.Q2_flow + sou.terHea.Q2_flow,
     PCooSen=cooCoi.QSen2_flow,
     PCooLat=cooCoi.QLat2_flow) "Results of the simulation";
   /*fanRet*/
