@@ -190,11 +190,6 @@ class RunFMUSite:
         kpis = self.tc.get_kpis()
         kpidump = json.dumps(kpis)
 
-        # Clear all current values from the database when the simulation is no longer running
-        self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.simStatus": "s:Stopped"}, "$unset": {"rec.datetime": ""}}, False)
-        self.mongo_db_recs.update_many({"site_ref": self.site_ref, "rec.cur": "m:"}, {"$unset": {"rec.curVal": "", "rec.curErr": ""}, "$set": {"rec.curStatus": "s:disabled"}}, False)
-        self.mongo_db_recs.update_many({"site_ref": self.site_ref, "rec.writable": "m:"}, {"$unset": {"rec.writeLevel": "", "rec.writeVal": ""}, "$set": {"rec.writeStatus": "s:disabled"}}, False)
-
         self.redis.hset(self.site_ref, 'status', 'Stopped')
         self.redis.hdel(self.site_ref, 'time')
 
@@ -264,6 +259,10 @@ class RunFMUSite:
     def update_y(self, y):
         self.redis.hset(self.site_ref, 'y', json.dumps(y))
 
+    def get_u(self):
+        ustring = self.redis.hget(self.site_ref, 'u')
+        return json.loads(ustring)
+
     def update_forecast(self, forecast):
         self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
 
@@ -287,15 +286,11 @@ class RunFMUSite:
 
     def init_sim_status(self):
         self.set_idle_state()
-        output_time_string = 's:%s' % (self.simtime)
-        self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.datetime": output_time_string, "rec.simStatus": "s:Running"}})
         self.redis.hset(self.site_ref, 'status', 'Running')
         self.redis.hset(self.site_ref, 'time', self.simtime)
 
     def update_sim_status(self):
         self.simtime = self.tc.final_time
-        output_time_string = 's:%s' % (self.simtime)
-        self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.datetime": output_time_string, "rec.simStatus": "s:Running"}})
         self.redis.hset(self.site_ref, 'status', 'Running')
         self.redis.hset(self.site_ref, 'time', self.simtime)
 
@@ -317,35 +312,10 @@ class RunFMUSite:
 
         self.tc.set_forecast_parameters(forecast_params['horizon'], forecast_params['interval'])
 
-        # u represents simulation input values
-        u = self.default_input.copy()
-        # look in the database for current write arrays
-        # for each write array there is an array of controller
-        # input values, the first element in the array with a value
-        # is what should be applied to the simulation according to Project Haystack
-        # convention
-        for array in self.write_arrays.find({"siteRef": self.site_ref}):
-            _id = array.get('_id')
-            for val in array.get('val'):
-                if val is not None:
-                    dis = self.id_and_dis.get(_id)
-                    if dis:
-                        u[dis] = val
-                        u[dis.replace('_u', '_activate')] = 1
-                        break
-
+        u = self.get_u()
         y_output = self.tc.advance(u)
         self.update_y(y_output)
-
         self.update_sim_status()
-
-        # get each of the simulation output values and feed to the database
-        for key in y_output.keys():
-            if key != 'time':
-                output_id = self.tagid_and_outputs[key]
-                value_y = y_output[key]
-                self.mongo_db_recs.update_one( {"_id": output_id }, {"$set": {"rec.curVal":"n:%s" %value_y, "rec.curStatus":"s:ok","rec.cur": "m:" }} )
-
         self.update_forecast(self.tc.get_forecast())
 
 

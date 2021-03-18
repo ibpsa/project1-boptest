@@ -75,6 +75,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   app.set('redis', redis);
   app.set('db', db);
   app.set('sqs', sqs);
+  app.set('advancer', advancer);
 
   app.use('/graphql', (request, response) => {
       return graphQLHTTP({
