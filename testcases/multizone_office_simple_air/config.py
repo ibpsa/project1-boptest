@@ -10,7 +10,7 @@ def get_config():
     'step'     : int, default control step size in seconds
     'horizon'  : int, default forecast horizon in seconds
     'interval' : int, default forecast interval in seconds
-    'price_scenario' : string, default price_scenario
+    'scenario' : string, default price_scenario
     }
 
     '''
