@@ -147,13 +147,13 @@ partial model PartialOpenLoop
     m2_flow_nominal=m_flow_nominal,
     show_T=true,
     configuration=Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow,
-    Q_flow_nominal=m_flow_nominal*1006*(16.7 - 8.5),
+    Q_flow_nominal=m_flow_nominal*1006*(16.7 - 4),
     dp1_nominal=0,
     dp2_nominal=200 + 200 + 100 + 40,
     allowFlowReversal1=false,
     allowFlowReversal2=allowFlowReversal,
-    T_a1_nominal=318.15,
-    T_a2_nominal=281.65) "Heating coil"
+    T_a1_nominal=THotWatInl_nominal,
+    T_a2_nominal=277.15) "Heating coil"
     annotation (Placement(transformation(extent={{118,-36},{98,-56}})));
 
   Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(
@@ -259,7 +259,7 @@ partial model PartialOpenLoop
     annotation (Placement(transformation(extent={{30,-50},{50,-30}})));
   Buildings.Fluid.Sources.MassFlowSource_T souHea(
     redeclare package Medium = MediumW,
-    T=318.15,
+    T=THotWatInl_nominal,
     use_m_flow_in=true,
     nPorts=1)           "Source for heating coil" annotation (Placement(
         transformation(
@@ -580,7 +580,6 @@ partial model PartialOpenLoop
         rotation=0,
         origin={-10,-46})));
 
-protected
   constant Modelica.SIunits.SpecificHeatCapacity cpAir=
     Buildings.Utilities.Psychrometrics.Constants.cpAir
     "Air specific heat capacity";
@@ -596,7 +595,6 @@ protected
     PCooLat=cooCoi.QLat2_flow) "Results of the simulation";
   /*fanRet*/
 
-protected
   model Results "Model to store the results of the simulation"
     parameter Modelica.SIunits.Area A "Floor area";
     input Modelica.SIunits.Power PFan "Fan energy";
