@@ -863,17 +863,311 @@ In this case, the heating coil will be activated to do so.
 The model inputs are:
 <ul>
 <li>
-<code>Input1</code> [UNIT1]: Description
+<code>oveAhu_TSupSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
+</li>
+<li>
+<code>oveAhu_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU
+</li>
+<li>
+<code>oveAhu_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil control signal for AHU
+</li>
+<li>
+<code>oveAhu_yFan_u</code> [1] [min=0.0, max=1.0]: Supply fan speed setpoint for AHU
+</li>
+<li>
+<code>oveAhu_yHea_u</code> [1] [min=0.0, max=1.0]: Heating coil control signal for AHU
+</li>
+<li>
+<code>oveAhu_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU
+</li>
+<li>
+<code>oveAhu_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU
+</li>
+<li>
+<code>oveCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone Core
+</li>
+<li>
+<code>oveCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone Core
+</li>
+<li>
+<code>oveCor_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone Core
+</li>
+<li>
+<code>oveCor_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone Core
+</li>
+<li>
+<code>oveEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone East
+</li>
+<li>
+<code>oveEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone East
+</li>
+<li>
+<code>oveEas_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone East
+</li>
+<li>
+<code>oveEas_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone East
+</li>
+<li>
+<code>oveNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone North
+</li>
+<li>
+<code>oveNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone North
+</li>
+<li>
+<code>oveNor_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone North
+</li>
+<li>
+<code>oveNor_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone North
+</li>
+<li>
+<code>oveSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone South
+</li>
+<li>
+<code>oveSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone South
+</li>
+<li>
+<code>oveSou_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone South
+</li>
+<li>
+<code>oveSou_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone South
+</li>
+<li>
+<code>oveWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone West
+</li>
+<li>
+<code>oveWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone West
+</li>
+<li>
+<code>oveWes_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone West
+</li>
+<li>
+<code>oveWes_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone West
 </li>
 </ul>
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
 <li>
-<code>Output1</code> [UNIT1]: Description
+<code>reaAhu_PCoo_y</code> [W] [min=None, max=None]: Electrical power measurement of cooling for AHU
 </li>
 <li>
-<code>Output2</code> [UNIT2]: Description
+<code>reaAhu_PFanSup_y</code> [W] [min=None, max=None]: Electrical power measurement of supply fan for AHU
+</li>
+<li>
+<code>reaAhu_PHea_y</code> [W] [min=None, max=None]: Electrical power consumption for heating coil for AHU
+</li>
+<li>
+<code>reaAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+</li>
+<li>
+<code>reaAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+</li>
+<li>
+<code>reaAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+</li>
+<li>
+<code>reaAhu_V_flow_out_y</code> [m3/s] [min=None, max=None]: Outside air flowrate measurement for AHU
+</li>
+<li>
+<code>reaAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+</li>
+<li>
+<code>reaAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+</li>
+<li>
+<code>reaAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU
+</li>
+<li>
+<code>reaAhu_yCooAct_y</code> [1] [min=None, max=None]: Cooling coil control signal feedback for AHU
+</li>
+<li>
+<code>reaAhu_yFanAct_y</code> [1] [min=None, max=None]: Supply fan speed set point feedback for AHU
+</li>
+<li>
+<code>reaAhu_yHeaAct_y</code> [1] [min=None, max=None]: Heating coil control signal feedback for AHU
+</li>
+<li>
+<code>reaAhu_yOA_y</code> [1] [min=None, max=None]: Outside air damper position set point feedback for AHU
+</li>
+<li>
+<code>reaAhu_yRelAct_y</code> [1] [min=None, max=None]: Relief air damper position set point feedback for AHU
+</li>
+<li>
+<code>reaAhu_yRetAct_y</code> [1] [min=None, max=None]: Return air damper position set point feedback for AHU
+</li>
+<li>
+<code>reaCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone Core
+</li>
+<li>
+<code>reaCor_PHea_y</code> [W] [min=None, max=None]: Electrical power consumption for reheat for zone Core
+</li>
+<li>
+<code>reaCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone Core
+</li>
+<li>
+<code>reaCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone Core
+</li>
+<li>
+<code>reaCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone Core
+</li>
+<li>
+<code>reaCor_yDamAct_y</code> [1] [min=None, max=None]: Damper position set point feedback for zone Core
+</li>
+<li>
+<code>reaCor_yReaHeaAct_y</code> [1] [min=None, max=None]: Reheat control signal set point feedback for zone Core
+</li>
+<li>
+<code>reaEas_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone East
+</li>
+<li>
+<code>reaEas_PHea_y</code> [W] [min=None, max=None]: Electrical power consumption for reheat for zone East
+</li>
+<li>
+<code>reaEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone East
+</li>
+<li>
+<code>reaEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone East
+</li>
+<li>
+<code>reaEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone East
+</li>
+<li>
+<code>reaEas_yDamAct_y</code> [1] [min=None, max=None]: Damper position set point feedback for zone East
+</li>
+<li>
+<code>reaEas_yReaHeaAct_y</code> [1] [min=None, max=None]: Reheat control signal set point feedback for zone East
+</li>
+<li>
+<code>reaNor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone North
+</li>
+<li>
+<code>reaNor_PHea_y</code> [W] [min=None, max=None]: Electrical power consumption for reheat for zone North
+</li>
+<li>
+<code>reaNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone North
+</li>
+<li>
+<code>reaNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone North
+</li>
+<li>
+<code>reaNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone North
+</li>
+<li>
+<code>reaNor_yDamAct_y</code> [1] [min=None, max=None]: Damper position set point feedback for zone North
+</li>
+<li>
+<code>reaNor_yReaHeaAct_y</code> [1] [min=None, max=None]: Reheat control signal set point feedback for zone North
+</li>
+<li>
+<code>reaSou_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone South
+</li>
+<li>
+<code>reaSou_PHea_y</code> [W] [min=None, max=None]: Electrical power consumption for reheat for zone South
+</li>
+<li>
+<code>reaSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone South
+</li>
+<li>
+<code>reaSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone South
+</li>
+<li>
+<code>reaSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone South
+</li>
+<li>
+<code>reaSou_yDamAct_y</code> [1] [min=None, max=None]: Damper position set point feedback for zone South
+</li>
+<li>
+<code>reaSou_yReaHeaAct_y</code> [1] [min=None, max=None]: Reheat control signal set point feedback for zone South
+</li>
+<li>
+<code>reaWes_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone West
+</li>
+<li>
+<code>reaWes_PHea_y</code> [W] [min=None, max=None]: Electrical power consumption for reheat for zone West
+</li>
+<li>
+<code>reaWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone West
+</li>
+<li>
+<code>reaWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone West
+</li>
+<li>
+<code>reaWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone West
+</li>
+<li>
+<code>reaWes_yDamAct_y</code> [1] [min=None, max=None]: Damper position set point feedback for zone West
+</li>
+<li>
+<code>reaWes_yReaHeaAct_y</code> [1] [min=None, max=None]: Reheat control signal set point feedback for zone West
+</li>
+<li>
+<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+</li>
+<li>
+<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
 <h3>Additional System Design</h3>
