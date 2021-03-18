@@ -96,19 +96,19 @@ model ASHRAE2006
     annotation (Placement(transformation(extent={{240,300},{260,348}})));
   BaseClasses.WriteAhu oveAhu "Overwrite blocks for AHU"
     annotation (Placement(transformation(extent={{240,40},{260,70}})));
-  Modelica.Blocks.Sources.RealExpression PHeaCor(y=cor.terHea.Q1_flow/cop_hea)
+  Modelica.Blocks.Sources.RealExpression PHeaCor(y=-cor.terHea.Q1_flow/cop_hea)
     "Electrical power for reheat"
     annotation (Placement(transformation(extent={{480,70},{500,90}})));
-  Modelica.Blocks.Sources.RealExpression PHeaSou(y=sou.terHea.Q1_flow/cop_hea)
+  Modelica.Blocks.Sources.RealExpression PHeaSou(y=-sou.terHea.Q1_flow/cop_hea)
     "Electrical power for reheat"
     annotation (Placement(transformation(extent={{650,70},{670,90}})));
-  Modelica.Blocks.Sources.RealExpression PHeaEas(y=eas.terHea.Q1_flow/cop_hea)
+  Modelica.Blocks.Sources.RealExpression PHeaEas(y=-eas.terHea.Q1_flow/cop_hea)
     "Electrical power for reheat"
     annotation (Placement(transformation(extent={{840,70},{860,90}})));
-  Modelica.Blocks.Sources.RealExpression PHeaNor(y=nor.terHea.Q1_flow/cop_hea)
+  Modelica.Blocks.Sources.RealExpression PHeaNor(y=-nor.terHea.Q1_flow/cop_hea)
     "Electrical power for reheat"
     annotation (Placement(transformation(extent={{1004,70},{1024,90}})));
-  Modelica.Blocks.Sources.RealExpression PHeaWes(y=wes.terHea.Q1_flow/cop_hea)
+  Modelica.Blocks.Sources.RealExpression PHeaWes(y=-wes.terHea.Q1_flow/cop_hea)
     "Electrical power for reheat"
     annotation (Placement(transformation(extent={{1180,70},{1200,90}})));
   Modelica.Blocks.Sources.RealExpression PHea(y=-heaCoi.Q1_flow/cop_hea)
