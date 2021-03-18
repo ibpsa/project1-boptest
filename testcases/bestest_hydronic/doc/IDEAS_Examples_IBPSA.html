@@ -1,4 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<head>
+<title>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</title>
+<meta name="HTML-Generator" content="Dymola">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="&quot;Single zone residential hydronic example model&quot;">
+<style type="text/css">
+*       { font-size: 100%; font-family: Arial, sans-serif; }
+.modelica, .modelica * { font-size: 90%; font-family: Courier, monospace; white-space: pre; } /* For the Modelica code (in exported html). */
+h4      { font-size: 100%; font-weight: bold; color: green; }
+h3      { font-size: 110%; font-weight: bold; color: green; }
+h2      { font-size: 130%; font-weight: bold; color: green; }
+address { font-weight: normal; }
+td      { padding: 2px; border: 1px solid #808080; vertical-align: top; }
+th      { padding: 2px; border: 1px solid #808080; vertical-align: top; font-weight: bold; }
+table   { border: 1px solid #808080; border-collapse: collapse; }
+pre, code {font-family: "Courier New", monospace;}
+pre {white-space: pre; overflow-x : hidden;}
+.ModelicaDescription {font-weight: bold;} /* For the description string of the class. */
+.ModelicaBaseClass {} /* For the list of base-classes at the of the description. */
+.ModelicaKeyword { color: blue; font-weight: normal; font-style: normal; } /* Keywords in Modelica. */
+.ModelicaComment { color: #006400;  font-weight: normal; font-style: normal;} /* All three variants of comments in Modelica.  */
+.ModelicaString { color: #006400;  font-weight: normal; font-style: normal;} /* String constants. */
+.ModelicaClass { color: red; font-weight: normal; font-style: normal;} /* Formatting the names of referenced classes (for base-class and components). */
+.ModelicaFunction { color: red; font-weight: normal; font-style: normal;} /* Formatting for called functions. */
+.ModelicaTablePackageContent { } /* The table of contents for each package. */
+.ModelicaTableCrossReference { } /* The optional cross-reference table. */
+.ModelicaTableInputs {} /* The table of inputs for a function. */
+.ModelicaTableOutputs {} /* The table of outputs for a function. */
+.ModelicaTableParameters {} /* The table of parameters for a model/block. */
+.ModelicaTableConnectors {} /* The table of connectors for a model/block. */
+.ModelicaTableContents {} /* The table of contents for a connector. */
+.ModelicaStartAttribute { font-weight: bold; } /* The formatting used for start-attribute in the table of parameters, to separate them from parameter values. */
+.ModelicaParameterTab { background-color: #c0c0c0; font-weight: bold; } /* The tab-heading in the table of parameters */
+.ModelicaParameterGroup { background-color: #e0e0e0; } /* The group-heading in the table of parameters */
+</style>
+</head>
+<body>
+<!--[if supportFields]><span style="mso-element:field-begin"></span>
+<span style="mso-spacerun:yes"></span>XE SingleZoneResidentialHydronic<![endif]-->
+<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
+<h2><img src="IDEAS.Examples.IBPSA.Sing7927f73c58652d5bronicI.png" alt="IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic" align="right" style="border: 1px solid" width="80" height="80">
+<a name="IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic"></a>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</h2>
+<p>
+<span class="ModelicaDescription">Single zone residential hydronic example model</span>
+</p>
+<h3>Information</h3>
+
 <p>
 This is a single zone residential hydronic system model
 for WP 1.2 of IBPSA project 1.
@@ -15,7 +63,7 @@ of 6 m2 each, which are modelled using a single window of 12 m2.
 <p>
 The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation.
 For more details see
-<a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
+<a  >
 IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>.
 The floor consists of 8 cm of concrete and 1 m of insulation, representing a
 perfectly insulated floor. The roof consists of a light construction and 11 cm
@@ -201,24 +249,37 @@ is modelled.
 </p>
 <h3>Scenario Information</h3>
 <h4>Energy Pricing</h4>
+<p>
+All pricing scenarios include the same constant value for transmission fees and taxes
+of each commodity. The used value is the typical price that household users pay
+for the network, taxes and levies, as calculateed by Eurostat and obtained from:
+<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN">
+"The energy prices and costs in Europe report"</a>.
+For the assumed location of the test case, this value is of
+0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas.
+</p>
 <h5>Constant electricity price profile</h5>
 <p>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
-as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in
-<a href=\"https://www.energyprice.be/products-list/Engie\">
+as obtained from the "Easy Indexed" deal for electricity (normal rate) in
+<a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
+Adding up the transmission fees and taxes, the final constant electricity price is
+of 0.2535 EUR/kWh.
 </p>
 <h5>Dynamic electricity price profile</h5>
 <p>
 The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during
 day time and 0.0383 EUR/kWh during night time,
-as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in
-<a href=\"https://www.energyprice.be/products-list/Engie\">
+as obtained from the "Easy Indexed" deal for electricity (dual rate) in
+<a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
+Adding up the transmission fees and taxes, the final dynamic electricity prices are
+of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods.
 </p>
 <h5>Highly dynamic electricity price profile</h5>
 <p>
@@ -226,16 +287,20 @@ The highly dynamic electricity price scenario is based on the the
 Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity
 market in the year 2019.
 Obtained from:
-<a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
+<a href="https://my.elexys.be/MarketInformation/SpotBelpex.aspx">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a>
+Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are
+added up on top of these prices.
 </p>
 <h5>Gas price profile</h5>
 <p>
 The gas price is assumed constant and of 0.0198 EUR/kWh
-as obtained from the \"Easy Indexed\" deal for gas
-<a href=\"https://www.energyprice.be/products-list/Engie\">
+as obtained from the "Easy Indexed" deal for gas
+<a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
+Adding up the transmission fees and taxes, the final constant gas price is
+of 0.0498 EUR/kWh.
 </p>
 <h4>Emission Factors</h4>
 <h5>Electricity emissions factor profile</h5>
@@ -243,7 +308,7 @@ https://www.energyprice.be/products-list/Engie</a>
 It is used a constant emission factor for electricity of 0.167 kgCO2/kWh
 which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
 for year 2018. For reference, see:
- <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
+ <a href="https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
 </p>
 <h5>Gas emissions factor profile</h5>
@@ -252,31 +317,28 @@ Based on the kgCO2 emitted per amount of natural gas burned in terms of
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see:
-<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
+<a href="https://www.eia.gov/environment/emissions/co2_vol_mass.php">
 https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
-</html>", revisions="<html>
-<ul>
-<li>
-June 12, 2020 by Javier Arroyo:<br/>
-Implemented PI controller for boiler supply temperature.
-</li>
-<li>
-June 2, 2020 by Javier Arroyo:<br/>
-Implemented temperature setpoint setback.
-</li>
-<li>
-March 21, 2019 by Filip Jorissen:<br/>
-Revised implementation based on first review for
-<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>.
-</li>
-<li>
-January 22nd, 2019 by Filip Jorissen:<br/>
-Revised implementation by adding external inputs.
-</li>
-<li>
-May 2, 2018 by Filip Jorissen:<br/>
-First implementation.
-</li>
-</ul>
+
+<p><span class="ModelicaBaseClass">Extends from Modelica.Icons.Example (Icon for runnable examples).</span></p>
+<h3>Parameters</h3>
+<table summary="Parameters" class="ModelicaTableParameters">
+<tr><th>Name</th><th>Description</th></tr>
+<tr class="ModelicaParameterGroup"><td colspan="2">Setpoints</td></tr>
+<tr><td>TSetCooUno</td><td>Unoccupied cooling setpoint [K]</td></tr>
+<tr><td>TSetCooOcc</td><td>Occupied cooling setpoint [K]</td></tr>
+<tr><td>TSetHeaUno</td><td>Unoccupied heating setpoint [K]</td></tr>
+<tr><td>TSetHeaOcc</td><td>Occupied heating setpoint [K]</td></tr>
+</table>
+<h3>Connectors</h3>
+<table summary="Connectors" class="ModelicaTableConnectors">
+<tr><th>Name</th><th>Description</th></tr>
+<tr><td>Q</td><td>Thermal power use of heater [W]</td></tr>
+<tr><td>TZone</td><td>Zone operative temperature [K]</td></tr>
+</table>
+<address>
+<a href="http://www.3ds.com/">Automatically generated</a> Thu Feb 25 17:30:50 2021.
+</address>
+</body>
 </html>
