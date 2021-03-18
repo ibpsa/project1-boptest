@@ -25,6 +25,10 @@ function setU(site_ref, u, redis) {
   })
 }
 
+function sendStopSignal(site_ref, pub) {
+  pub.publish(site_ref, "stop");
+}
+
 export function simStatus(site_ref, redis) {
   return new Promise((resolve, reject) => {
     redis.hget(site_ref, 'status', (err, data) => {
@@ -84,5 +88,14 @@ export async function advance(site_ref, redis, advancer, u) {
   await setU(site_ref, u, redis)
   await advancer.advance([site_ref])
   return await getY(site_ref, redis)
+}
+
+export async function stop(site_ref, redis, pub) {
+  const stat = await simStatus(site_ref, redis)
+  if (stat == "Running") {
+    await setStatus(site_ref, "Stopping", redis)
+    sendStopSignal(site_ref, pub)
+    await waitForStatus(site_ref, redis, "Stopped", 0, 3)
+  }
 }
 

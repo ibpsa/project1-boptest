@@ -5,7 +5,7 @@ import {getKPIs} from '../controllers/kpi';
 import {getInputs} from '../controllers/input';
 import {getMeasurements} from '../controllers/measurement';
 import {getStep, setStep} from '../controllers/step';
-import {initialize, advance} from '../controllers/test';
+import {initialize, advance, stop} from '../controllers/test';
 const boptestRoutes = express.Router();
 
 
@@ -87,18 +87,12 @@ boptestRoutes.put('/initialize/:id', async (req, res, next) => {
 
 boptestRoutes.put('/stop/:id', async (req, res, next) => {
   try {
-    const querystring = `mutation{
-      stopSite(
-        siteRef: "${req.params.id}"
-      )
-    }`;
-
-    const baseurl = baseurlFromReq(req);
-    await graphqlPost(querystring, baseurl);
-    await waitForSimStatus(req.params.id, baseurl, "Stopped", 0, 3);
-    res.end();
+    const pub = req.app.get('pub')
+    const redis = req.app.get('redis')
+    await stop(req.params.id, redis, pub)
+    res.sendStatus(200)
   } catch (e) {
-    next(e);
+    next(e)
   }
 });
 
@@ -177,6 +171,7 @@ boptestRoutes.get('/forecast_parameters/:id', async (req, res, next) => {
       if (err) {
         next(err);
       } else {
+        console.log('Forecast_Parameters: ', redisres)
         res.send(redisres);
       }
     });
