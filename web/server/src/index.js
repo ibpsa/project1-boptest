@@ -73,6 +73,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   const db = mongoClient.db(process.env.MONGO_DB_NAME);
 
   app.set('redis', redis);
+  app.set('pub', pub);
   app.set('db', db);
   app.set('sqs', sqs);
   app.set('advancer', advancer);

@@ -422,68 +422,68 @@ class partialTestAPI(partialChecks):
         # Set step back to step
         requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step})
 
-    ## def test_advance_no_data(self):
-    ##     '''Test advancing of simulation with no input data.
+    def test_advance_no_data(self):
+        '''Test advancing of simulation with no input data.
 
-    ##     This is a basic test of functionality.
-    ##     Tests for advancing with overwriting are done in the example tests.
+        This is a basic test of functionality.
+        Tests for advancing with overwriting are done in the example tests.
 
-    ##     '''
+        '''
 
-    ##     requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-    ##     requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
-    ##     y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
-    ##     df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
-    ##     df.index.name = 'keys'
-    ##     ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_no_data.csv')
-    ##     self.compare_ref_values_df(df, ref_filepath)
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
+        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=dict()).json()
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_no_data.csv')
+        self.compare_ref_values_df(df, ref_filepath)
 
-    ## def test_advance_false_overwrite(self):
-    ##     '''Test advancing of simulation with overwriting as false.
+    def test_advance_false_overwrite(self):
+        '''Test advancing of simulation with overwriting as false.
 
-    ##     This is a basic test of functionality.
-    ##     Tests for advancing with overwriting are done in the example tests.
+        This is a basic test of functionality.
+        Tests for advancing with overwriting are done in the example tests.
 
-    ##     '''
+        '''
 
-    ##     if self.name == 'testcase1':
-    ##         u = {'oveAct_activate':0, 'oveAct_u':1500}
-    ##     elif self.name == 'testcase2':
-    ##         u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
-    ##     elif self.name == 'testcase3':
-    ##         u = {'oveActNor_activate':0, 'oveActNor_u':1500,
-    ##              'oveActSou_activate':0, 'oveActSou_u':1500}
-    ##     elif self.name == 'bestest_air':
-    ##         u = {'fcu_oveTSup_activate':0, 'fcu_oveTSup_u':290}
-    ##     elif self.name == 'bestest_hydronic':
-    ##         u = {'oveTSetSup_activate':0, 'oveTSetSup_u':273.15+60,
-    ##              'ovePum_activate':0, 'ovePum_u':1}
-    ##     elif self.name == 'bestest_hydronic_heat_pump':
-    ##         u = {'oveTSetHea_activate':0, 'oveTSetHea_u':273.15+22}
-    ##     requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-    ##     requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
-    ##     y = requests.post('{0}/advance'.format(self.url), data=u).json()
-    ##     df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
-    ##     df.index.name = 'keys'
-    ##     ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
-    ##     self.compare_ref_values_df(df, ref_filepath)
+        if self.name == 'testcase1':
+            u = {'oveAct_activate':0, 'oveAct_u':1500}
+        elif self.name == 'testcase2':
+            u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
+        elif self.name == 'testcase3':
+            u = {'oveActNor_activate':0, 'oveActNor_u':1500,
+                 'oveActSou_activate':0, 'oveActSou_u':1500}
+        elif self.name == 'bestest_air':
+            u = {'fcu_oveTSup_activate':0, 'fcu_oveTSup_u':290}
+        elif self.name == 'bestest_hydronic':
+            u = {'oveTSetSup_activate':0, 'oveTSetSup_u':273.15+60,
+                 'ovePum_activate':0, 'ovePum_u':1}
+        elif self.name == 'bestest_hydronic_heat_pump':
+            u = {'oveTSetHea_activate':0, 'oveTSetHea_u':273.15+22}
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
+        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u).json()
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
+        self.compare_ref_values_df(df, ref_filepath)
 
-    ## def test_get_forecast_default(self):
-    ##     '''Check that the forecaster is able to retrieve the data.
+    def test_get_forecast_default(self):
+        '''Check that the forecaster is able to retrieve the data.
 
-    ##     Default forecast parameters for testcase used.
+        Default forecast parameters for testcase used.
 
-    ##     '''
+        '''
 
-    ##     # Initialize
-    ##     requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-    ##     # Test case forecast
-    ##     forecast = requests.get('{0}/forecast'.format(self.url)).json()
-    ##     df_forecaster = pd.DataFrame(forecast).set_index('time')
-    ##     # Set reference file path
-    ##     ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_default.csv')
-    ##     # Check the forecast
-    ##     self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        # Initialize
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        # Test case forecast
+        forecast = requests.get('{0}/forecast/{1}'.format(self.url, self.testid)).json()
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_default.csv')
+        # Check the forecast
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
     ## def test_put_and_get_parameters(self):
     ##     '''Check PUT and GET of forecast settings.
@@ -493,10 +493,10 @@ class partialTestAPI(partialChecks):
     ##     # Define forecast parameters
     ##     forecast_parameters_ref = {'horizon':3600, 'interval':300}
     ##     # Set forecast parameters
-    ##     ret = requests.put('{0}/forecast_parameters'.format(self.url),
+    ##     ret = requests.put('{0}/forecast_parameters/{1}'.format(self.url, self.testid),
     ##                        data=forecast_parameters_ref)
     ##     # Get forecast parameters
-    ##     forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
+    ##     forecast_parameters = requests.get('{0}/forecast_parameters/{1}'.format(self.url, self.testid)).json()
     ##     # Check the forecast parameters
     ##     self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
     ##     # Check the return on the put request
@@ -544,34 +544,34 @@ class partialTestAPI(partialChecks):
     ##     self.assertEqual(scenario, scenario_set)
     ##     requests.put('{0}/scenario'.format(self.url), data=scenario_current)
 
-    ## def test_partial_results_inner(self):
-    ##     '''Test getting results for start time after and final time before.
+    def test_partial_results_inner(self):
+        '''Test getting results for start time after and final time before.
 
-    ##     '''
+        '''
 
-    ##     requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-    ##     requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
-    ##     measurements = requests.get('{0}/measurements'.format(self.url)).json()
-    ##     requests.post('{0}/advance'.format(self.url), data=dict()).json()
-    ##     res_inner = requests.put('{0}/results'.format(self.url), data={'point_name':measurements.keys()[0], \
-    ##                                                              'start_time':self.step_ref*0.25, \
-    ##                                                              'final_time':self.step_ref*0.75}).json()
-    ##     df = pd.DataFrame.from_dict(res_inner).set_index('time')
-    ##     ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_inner.csv')
-    ##     self.compare_ref_timeseries_df(df, ref_filepath)
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()
+        requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=dict()).json()
+        res_inner = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':measurements.keys()[0], \
+                                                                 'start_time':self.step_ref*0.25, \
+                                                                 'final_time':self.step_ref*0.75}).json()
+        df = pd.DataFrame.from_dict(res_inner).set_index('time')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_inner.csv')
+        self.compare_ref_timeseries_df(df, ref_filepath)
 
-    ## def test_partial_results_outer(self):
-    ##     '''Test getting results for start time before and final time after.
+    def test_partial_results_outer(self):
+        '''Test getting results for start time before and final time after.
 
-    ##     '''
+        '''
 
-    ##     requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-    ##     requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
-    ##     measurements = requests.get('{0}/measurements'.format(self.url)).json()
-    ##     requests.post('{0}/advance'.format(self.url), data=dict()).json()
-    ##     res_outer = requests.put('{0}/results'.format(self.url), data={'point_name':measurements.keys()[0], \
-    ##                                                              'start_time':0-self.step_ref, \
-    ##                                                              'final_time':self.step_ref*2}).json()
-    ##     df = pd.DataFrame.from_dict(res_outer).set_index('time')
-    ##     ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
-    ##     self.compare_ref_timeseries_df(df, ref_filepath)
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()
+        requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=dict()).json()
+        res_outer = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':measurements.keys()[0], \
+                                                                 'start_time':0-self.step_ref, \
+                                                                 'final_time':self.step_ref*2}).json()
+        df = pd.DataFrame.from_dict(res_outer).set_index('time')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
+        self.compare_ref_timeseries_df(df, ref_filepath)

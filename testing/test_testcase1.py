@@ -122,13 +122,23 @@ from boptest_client import BoptestClient
 ##     '''Test the use of min/max attributes to truncate the controller input.
 ## 
 ##     '''
+##     @classmethod
+##     def setUpClass(cls):
+##         cls.name = 'testcase1'
+##         cls.url = 'http://127.0.0.1:80'
+##         client = BoptestClient(cls.url)
+##         cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
 ## 
 ##     def setUp(self):
 ##         '''Setup for each test.
 ## 
 ##         '''
 ## 
-##         self.url = 'http://127.0.0.1:80'
+##         self.url = MinMax.url
+##         self.testid = MinMax.testid
+## 
+##     def tearDown(self):
+##         requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 ## 
 ##     def test_min(self):
 ##         '''Tests that if input is below min, input is set to min.
@@ -136,8 +146,8 @@ from boptest_client import BoptestClient
 ##         '''
 ## 
 ##         # Run test
-##         requests.put('{0}/initialize'.format(self.url))
-##         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
+##         requests.put('{0}/initialize/{1}'.format(self.url, self.testid))
+##         y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
 ##         # Check kpis
 ##         value = float(y['PHea_y'])
 ##         self.assertAlmostEqual(value, 10101.010101010103, places=3)
@@ -148,8 +158,8 @@ from boptest_client import BoptestClient
 ##         '''
 ## 
 ##         # Run test
-##         requests.put('{0}/initialize'.format(self.url))
-##         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":500000}).json()
+##         requests.put('{0}/initialize/{1}'.format(self.url, self.testid))
+##         y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveAct_activate":1,"oveAct_u":500000}).json()
 ##         # Check kpis
 ##         value = float(y['PHea_y'])
 ##         self.assertAlmostEqual(value, 10101.010101010103, places=3)
@@ -177,6 +187,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.name_ref = 'wrapped'
         self.step_ref = 60.0
         self.testid = API.testid
+
+    def tearDown(self):
+        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

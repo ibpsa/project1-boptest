@@ -60,8 +60,6 @@ class RunFMUSite:
         zzip = zipfile.ZipFile(fmupath)
         zzip.extract('resources/kpis.json', self.directory)
 
-        (self.tagid_and_outputs, self.id_and_dis, self.default_input) = self.create_tag_dictionaries(tagpath)
-
         # initiate the testcase
         get_test_config(fmupath)
         self.tc = TestCase()
@@ -116,40 +114,6 @@ class RunFMUSite:
 
     def kpis_response_channel(self):
         return (self.site_ref + ":kpis:response")
-
-    def create_tag_dictionaries(self, tag_filepath):
-        '''
-        Purpose: matching the haystack display-name and IDs
-        Inputs:  a json file containing all the tagged data
-        Returns: a dictionary matching all outputs and IDs
-                 a dictionary matching all IDs and display-names
-                 a dictionary for every _enable input, set to value 0
-        '''
-        outputs_and_ID = {}
-        id_and_dis = {}
-        # default_input is a dictionay
-        # with keys for every "_enable" input, set to value 0
-        # in other words, disable everything
-        default_input = {}
-
-        # Get Haystack tag data, from tag_filepath
-        tag_data = {}
-        with open(tag_filepath) as json_data:
-            tag_data = json.load(json_data)
-
-        for point in tag_data:
-            var_name = point['dis'].replace('s:', '')
-            var_id = point['id'].replace('r:', '')
-
-            id_and_dis[var_id] = var_name
-
-            if 'writable' in point.keys():
-                default_input[var_name.replace('_u', '_activate')] = 0
-
-            if 'writable' not in point.keys() and 'point' in point.keys():
-                outputs_and_ID[var_name] = var_id
-
-        return (outputs_and_ID, id_and_dis, default_input)
 
     def run(self):
         while True:
@@ -208,7 +172,7 @@ class RunFMUSite:
         time = str(datetime.now(tz=pytz.UTC))
         name = self.site.get("rec", {}).get("dis", "Test Case").replace('s:', '')
         self.mongo_db_sims.insert_one({"_id": self.sim_id, "name": name, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
-        self.post_results_to_dashboard(kpis, time)
+        #self.post_results_to_dashboard(kpis, time)
 
         shutil.rmtree(self.directory)
 
