@@ -2,7 +2,8 @@ within MultiZoneResidentialHydronic.Building.Ventilation;
 model InfiltrationExtractionBoundary
   "Infiltraction or extraction model set at outside boundary condition data"
   extends InfiltrationExtraction(nPorts=3);
-  Buildings.Fluid.Sources.Outside     bou(nPorts=1, redeclare package Medium =
+  Buildings.Fluid.Sources.Outside     bou(
+    use_C_in=true,                        nPorts=1, redeclare package Medium =
         MediumA)
     annotation (Placement(transformation(extent={{0,-60},{20,-40}})));
   Modelica.Fluid.Interfaces.FluidPort_a bouPort(redeclare package Medium =
@@ -21,6 +22,8 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(conCO2Out.y, bou.C_in[1]) annotation (Line(points={{-79,-30},{-40,-30},
+          {-40,-58},{-2,-58}}, color={0,0,127}));
   annotation (Documentation(info="<html>
 Models air infiltration or extraction and sets Medium to have boundary conditions.
 </html>"));

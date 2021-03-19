@@ -241,6 +241,8 @@ public
       A={Spl_Garage_Combles,Spl_Garage_exterieur},
       til={Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Floor},
       stateAtSurface_a={true,false}),
+    C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=3)                         "Garage zone"
     annotation (Placement(transformation(extent={{-138,-56},{-122,-40}})));
 
@@ -281,6 +283,8 @@ public
       til={Buildings.Types.Tilt.Ceiling,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Floor},
       stateAtSurface_a={true,true,false}),
     T_start=273.15 + 19,
+    C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=5)            "Living room zone"
     annotation (Placement(transformation(extent={{-96,14},{-80,30}})));
 
@@ -291,6 +295,8 @@ public
     nConPar=0,
     hRoo=HSP,
     lat=weaDat.lat,
+    C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=4,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
@@ -327,6 +333,8 @@ public
     nConPar=0,
     hRoo=HSP,
     lat=weaDat.lat,
+    C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=4,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
@@ -366,6 +374,8 @@ public
     nConPar=0,
     hRoo=HSP,
     lat=weaDat.lat,
+    C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=4,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
@@ -405,6 +415,8 @@ public
     nConPar=0,
     hRoo=HSP,
     lat=weaDat.lat,
+    C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=4,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
@@ -555,6 +567,8 @@ public
     nConPar=0,
     hRoo=HSP,
     lat=weaDat.lat,
+    C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=12,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
@@ -617,6 +631,8 @@ public
       azi={Buildings.Types.Azimuth.N,Buildings.Types.Azimuth.E,Buildings.Types.Azimuth.W,
           Buildings.Types.Azimuth.S}),
     T_start=273.15 + 19,
+    C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=3)            "Attic zone"
     annotation (Placement(transformation(extent={{-228,-18},{-212,-2}})));
   Modelica.Blocks.Sources.Constant qCon_Combles(
@@ -1416,18 +1432,18 @@ equation
   Consommation_Elec_Pompe =pumEmiSystem.m_flow/pumEmiSystem.m_flow_nominal*
     P_pum_nominal;
 
-  connect(liv.heaPorAir, TLiv.port) annotation (Line(points={{-88.4,22},{-83.2,
-          22},{-78,22}}, color={191,0,0}));
+  connect(liv.heaPorAir, TLiv.port) annotation (Line(points={{-88.4,22},{-78,22}},
+                         color={191,0,0}));
   connect(ro1.heaPorAir, TRo1.port)
-    annotation (Line(points={{-8.4,18},{-4,18},{2,18}}, color={191,0,0}));
+    annotation (Line(points={{-8.4,18},{2,18}},         color={191,0,0}));
   connect(ro2.heaPorAir, TRo2.port)
-    annotation (Line(points={{49.6,18},{54.8,18},{60,18}}, color={191,0,0}));
+    annotation (Line(points={{49.6,18},{60,18}},           color={191,0,0}));
   connect(ro3.heaPorAir, TRo3.port) annotation (Line(points={{49.6,-54},{54.8,-54},
           {60,-54}}, color={191,0,0}));
   connect(bth.heaPorAir, TBth.port) annotation (Line(points={{-10.4,-54},{-5.2,
           -54},{0,-54}}, color={191,0,0}));
-  connect(gar.heaPorAir, TGar.port) annotation (Line(points={{-130.4,-48},{-125.2,
-          -48},{-120,-48}}, color={191,0,0}));
+  connect(gar.heaPorAir, TGar.port) annotation (Line(points={{-130.4,-48},{-120,
+          -48}},            color={191,0,0}));
   connect(weaDat.weaBus, liv.weaBus) annotation (Line(
       points={{-276,56},{-80.84,56},{-80.84,29.16}},
       color={255,204,51},
@@ -1602,9 +1618,8 @@ equation
           16.4},{-89.52,8},{-82,8},{-82,-74},{-7.6,-74},{-7.6,-60.5}}, color={191,
           0,0}));
   connect(liv.surf_surBou[3], hal.surf_conBou[6]) annotation (Line(points={{-89.52,
-          16.6667},{-89.52,8},{86,8},{86,-16},{70,-16},{62,-16},{62,-16.1714},{
-          54.4,-16.1714}},
-                      color={191,0,0}));
+          16.6667},{-89.52,8},{86,8},{86,-16},{62,-16},{62,-16.1714},{54.4,
+          -16.1714}}, color={191,0,0}));
   connect(ro1.surf_surBou[1], hal.surf_conBou[2]) annotation (Line(points={{-9.52,
           12.2},{-9.52,8},{86,8},{86,-16},{70,-16},{70,-16.6286},{54.4,-16.6286}},
         color={191,0,0}));
@@ -1884,26 +1899,26 @@ equation
       Line(points={{-13.6,-117.96},{-13.6,-114.98},{-10,-114.98},{-10,-104}},
         color={191,0,0}));
   connect(heatFlowSensor_Chambre1_Rad.port_b, ro1.heaPorRad) annotation (Line(
-        points={{-10,-96},{-10,-96},{86,-96},{86,8},{0,8},{0,16},{-4,16},{-4,16.48},
-          {-8.4,16.48}}, color={191,0,0}));
+        points={{-10,-96},{86,-96},{86,8},{0,8},{0,16},{-4,16},{-4,16.48},{-8.4,
+          16.48}},       color={191,0,0}));
   connect(radRo1.heatPortCon, heatFlowSensor_Chambre1_Conv.port_a) annotation (
       Line(points={{-16.4,-117.96},{-16.4,-115.98},{-16,-115.98},{-16,-104}},
         color={191,0,0}));
   connect(heatFlowSensor_Chambre1_Conv.port_b, ro1.heaPorAir) annotation (Line(
-        points={{-16,-96},{-16,-96},{86,-96},{86,8},{0,8},{0,18},{-8.4,18}},
+        points={{-16,-96},{86,-96},{86,8},{0,8},{0,18},{-8.4,18}},
         color={191,0,0}));
   connect(radRo2.heatPortCon, heatFlowSensor_Chambre2_Conv.port_a) annotation (
       Line(points={{41.6,-117.96},{41.6,-116.98},{40,-116.98},{40,-104}}, color=
          {191,0,0}));
   connect(heatFlowSensor_Chambre2_Conv.port_b, ro2.heaPorAir) annotation (Line(
-        points={{40,-96},{40,-96},{86,-96},{86,8},{58,8},{58,18},{49.6,18}},
+        points={{40,-96},{86,-96},{86,8},{58,8},{58,18},{49.6,18}},
         color={191,0,0}));
   connect(radRo2.heatPortRad, heatFlowSensor_Chambre2_Rad.port_a) annotation (
       Line(points={{44.4,-117.96},{44.4,-115.98},{46,-115.98},{46,-104}}, color=
          {191,0,0}));
   connect(heatFlowSensor_Chambre2_Rad.port_b, ro2.heaPorRad) annotation (Line(
-        points={{46,-96},{46,-96},{86,-96},{86,8},{58,8},{58,16},{54,16},{54,16.48},
-          {49.6,16.48}}, color={191,0,0}));
+        points={{46,-96},{86,-96},{86,8},{58,8},{58,16},{54,16},{54,16.48},{
+          49.6,16.48}},  color={191,0,0}));
   connect(radHal.heatPortCon, heatFlowSensor_Couloir_Conv.port_a) annotation (
       Line(points={{15.6,-163.96},{15.6,-153.98},{14,-153.98},{14,-104}}, color=
          {191,0,0}));
@@ -1913,8 +1928,8 @@ equation
   connect(radHal.heatPortRad, heatFlowSensor_Couloir_Rad.port_a) annotation (
       Line(points={{18.4,-163.96},{18.4,-104},{20,-104}}, color={191,0,0}));
   connect(heatFlowSensor_Couloir_Rad.port_b, hal.heaPorRad) annotation (Line(
-        points={{20,-96},{20,-96},{86,-96},{86,-14},{60,-14},{60,-12},{51.6,-12},
-          {51.6,-11.52}}, color={191,0,0}));
+        points={{20,-96},{86,-96},{86,-14},{60,-14},{60,-12},{51.6,-12},{51.6,
+          -11.52}},       color={191,0,0}));
   connect(radBth.heatPortCon, heatFlowSensor_SDB_Conv.port_a) annotation (Line(
         points={{-10.4,-197.96},{-10.4,-195.98},{-12,-195.98},{-12,-194}},
         color={191,0,0}));
