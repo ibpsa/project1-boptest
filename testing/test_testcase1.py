@@ -154,8 +154,8 @@ class MinMax(unittest.TestCase):
         value = float(y['PHea_y'])
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
 
-class TimePeriodEnd(unittest.TestCase, utilities.partialChecks):
-    '''Tests that the scenario time period end is followed.
+class Scenario(unittest.TestCase, utilities.partialChecks):
+    '''Test details about setting the scenario.
 
     '''
 
@@ -168,12 +168,11 @@ class TimePeriodEnd(unittest.TestCase, utilities.partialChecks):
         self.url = 'http://127.0.0.1:5000'
 
     def test_extra_step(self):
-        '''Test that simulation stops if try to take extra step.
+        '''Test that simulation stops if try to take extra step than scenario.
 
         '''
 
         scenario = {'time_period':'test_day'}
-        url = 'http://127.0.0.1:5000'
         requests.put('{0}/scenario'.format(self.url), data=scenario)
         # Try simulating past test period
         step = 7*24*3600
@@ -184,17 +183,16 @@ class TimePeriodEnd(unittest.TestCase, utilities.partialChecks):
         self.assertDictEqual(y,dict())
         # Check results
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, url)
+        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_extra_step.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 
     def test_larger_step(self):
-        '''Test that simulation stops at end of test if try to take larger step.
+        '''Test that simulation stops if try to take larger step than scenario.
 
         '''
 
         scenario = {'time_period':'test_day'}
-        url = 'http://127.0.0.1:5000'
         requests.put('{0}/scenario'.format(self.url), data=scenario)
         # Try simulating past test period
         step = 5*7*24*3600
@@ -202,7 +200,7 @@ class TimePeriodEnd(unittest.TestCase, utilities.partialChecks):
         requests.post('{0}/advance'.format(self.url), data={}).json()
         # Check results
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, url)
+        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_larger_step.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 
@@ -211,7 +209,6 @@ class TimePeriodEnd(unittest.TestCase, utilities.partialChecks):
 
         '''
         start_time = 14*86400
-        url = 'http://127.0.0.1:5000'
         requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0}).json()
         # Try simulating past a typical test period
         step = 5*7*24*3600
@@ -219,6 +216,40 @@ class TimePeriodEnd(unittest.TestCase, utilities.partialChecks):
         y = requests.post('{0}/advance'.format(self.url), data={}).json()
         # Check results
         self.assertEqual(y['time'], start_time+step)
+
+    def test_return(self):
+        '''Test that scenario returns properly.
+
+        '''
+
+        scenario_both = {'time_period':'test_day',
+                         'electricity_price':'dynamic'}
+        scenario_time = {'time_period':'test_day'}
+        scenario_elec = {'electricity_price':'dynamic'}
+        # Both
+        res = requests.put('{0}/scenario'.format(self.url), data=scenario_both).json()
+        # Check return is valid for electricity price
+        self.assertTrue(res['electricity_price'])
+        # Check return is valid for time period
+        df = pd.DataFrame.from_dict(res['time_period'], orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'initial_values_set_scenario.csv')
+        self.compare_ref_values_df(df, ref_filepath)
+        # Time only
+        res = requests.put('{0}/scenario'.format(self.url), data=scenario_time).json()
+        # Check return is valid for electricity price
+        self.assertTrue(res['electricity_price'] is None)
+        # Check return is valid for time period
+        df = pd.DataFrame.from_dict(res['time_period'], orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'initial_values_set_scenario.csv')
+        self.compare_ref_values_df(df, ref_filepath)
+        # Electricity price only
+        res = requests.put('{0}/scenario'.format(self.url), data=scenario_elec).json()
+        # Check return is valid for electricity price
+        self.assertTrue(res['electricity_price'])
+        # Check return is valid for time period
+        self.assertTrue(res['time_period'] is None)
 
 
 class API(unittest.TestCase, utilities.partialTestAPI):

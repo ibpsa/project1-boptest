@@ -171,9 +171,8 @@ class Scenario(Resource):
     def put(self):
         '''PUT request to set scenario.'''
         scenario = parser_scenario.parse_args()
-        case.set_scenario(scenario)
-        scenario = case.get_scenario()
-        return scenario
+        result = case.set_scenario(scenario)
+        return result
 
 class Name(Resource):
     '''Interface to test case name.'''

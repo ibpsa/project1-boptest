@@ -499,28 +499,40 @@ class TestCase(object):
 
         Returns
         -------
-        None
-
+        result : dict
+            {'electricity_price': if succeeded in changing then True, else None,
+             'time_period': if succeeded then initial measurements, else None
+             }
         '''
+
+        result = {'electricity_price':None,
+                  'time_period':None}
 
         if not hasattr(self,'scenario'):
             self.scenario = {}
         # Handle electricity price
         if scenario['electricity_price']:
-            self.scenario['electricity_price'] = scenario['electricity_price']
+            try:
+                self.scenario['electricity_price'] = scenario['electricity_price']
+                result['electricity_price'] = True
+            except Exception as e:
+                pass
         # Handle timeperiod
         if scenario['time_period']:
-            self.scenario['time_period'] = scenario['time_period']
-            warmup_period = 7*24*3600
-            key = self.scenario['time_period']
-            start_time = self.days_json[key]*24*3600-7*24*3600
-            end_time = start_time + 14*24*3600
-            self.initialize(start_time, warmup_period, end_time=end_time)
+            try:
+                self.scenario['time_period'] = scenario['time_period']
+                warmup_period = 7*24*3600
+                key = self.scenario['time_period']
+                start_time = self.days_json[key]*24*3600-7*24*3600
+                end_time = start_time + 14*24*3600
+                result['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)
+            except Exception as e:
+                pass
 
         # It's needed to reset KPI Calculator when scenario is changed
         self.cal.initialize()
 
-        return None
+        return result
 
     def get_scenario(self):
         '''Returns the current case scenario.'''
