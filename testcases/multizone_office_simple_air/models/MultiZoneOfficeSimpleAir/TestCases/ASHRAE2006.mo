@@ -591,7 +591,9 @@ equation
     Documentation(info="<html>
 <p>
 This is the multi zone office air simple emulator model
-of BOPTEST.
+of BOPTEST.  It is based on the Modelica model
+<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Examples_VAVReheat.html#Buildings.Examples.VAVReheat.ASHRAE2006\"><code>Buildings.Examples.VAVReheat.ASHRAE2006</code></a>.
+with the addition of CO2 concentration tracking and BOPTEST signal exchange blocks.
 </p>
 <h4>Architecture</h4>
 <p>
@@ -612,6 +614,13 @@ East and West: 131.416 m^2
 Core: 984.672 m^2
 </li>
 </ul>
+</p>
+<p>
+Deru M., K. Field, D. Studer, K. Benne, B. Griffith, P. Torcellini,
+ M. Halverson, D. Winiarski, B. Liu, M. Rosenberg, J. Huang, M. Yazdanian, and D. Crawley.
+<i>DOE commercial building research benchmarks for commercial buildings</i>.
+Technical report, U.S. Department of Energy, Energy Efficiency and
+Renewable Energy, Office of Building Technologies, Washington, DC, 2009.
 </p>
 <h4>Constructions</h4>
 <p>
@@ -648,9 +657,12 @@ A schematic of the system is shown in the
 figure below.  The cooling and heating coils are water-based.
 Only the air distribution system is included, while the central plant is
 ideally modeled using water sources with prescribed temperatures and constant
-plant equipment efficiencies. The sensor and control points included, marked
-on the figure below, are those specified as required by
-ASHRAE Guideline 36 Sec XX, as well as many that are specified as
+plant equipment efficiencies. The available sensor and control points, marked
+on the figure below and described in more detail in the Section Model IO's,
+are those specified as required by ASHRAE Guideline 36 2018
+Section 4 List of Hardwired Points, specifically
+Table 4.2 VAV Terminal Unit with Reheat and Table 4.6 Multiplie-Zone VAV Air
+Handling Unit, as well as many that are specified as
 application specific or optional.
 </p>
 <p align=\"center\">
@@ -721,8 +733,9 @@ with constant COP of 4.0.
 The baseline control emulates a typical scheme seen in practice and is based on
 the ASHRAE VAV 2A2-21232 of the Sequences of Operation for Common HVAC Systems 2006
 as well as that which is implemented as baseline control in the Modelica Buildings
-Library model <code>Buildings.Examples.VAVReheat.ASHRAE2006</code>.  Setpoints
-and equipment enable/disable are determined by a schedule-based supervisory control
+Library model
+<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Examples_VAVReheat.html#Buildings.Examples.VAVReheat.ASHRAE2006\"><code>Buildings.Examples.VAVReheat.ASHRAE2006</code></a>.
+Setpoints and equipment enable/disable are determined by a schedule-based supervisory control
 scheme that defines a set of operating modes.  This scheme is summarized in
 Table 2 below.
 </p>
@@ -834,7 +847,8 @@ C3 is responsible for maintaining the supply air temperature setpoint as well
 as the minimum outside air flow rate as determined by the operating mode
 of the system.  It takes as inputs the
 supply air temperature setpoint, supply air temperature measurement, outside
-airflow rate setpoint, and outside airflow rate measurement.  The first part
+airflow rate setpoint, outside airflow rate measurement, and outside
+drybulb temperature measurement.  The first part
 of the controller uses a PI controller for supply air temperature setpoint
 tracking to output a signal that is then mapped to position
 setpoints for the heating coil valve, cooling coil valve, and outside air
@@ -842,7 +856,8 @@ damper position.  The second part of the controller uses a PI controller
 for outside airflow setpoint tracking to output a second signal for
 outside air damper position.  The maximum of the two outside air damper position
 signals is finally output to ensure at least enough enough airflow is delivered
-for ventilation when needed.
+for ventilation when needed.  The economizer is enabled only if the outside
+drybulb temperature is lower than the return air temperature.
 </p>
 
 <p align=\"center\">
@@ -1197,7 +1212,8 @@ The duct airflow is modeled using a pressure-flow network.
 <h4>Infiltration models</h4>
 <p>
 Airflow due to infiltration is calculated based on time-varying
-wind pressure coefficients for each facade.
+wind pressure coefficients for each facade using
+<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_Sources.html#Buildings.Fluid.Sources.Outside_CpLowRise\"><code>Buildings.Fluid.Sources.Outside_CpLowRise</code></a>.
 </p>
 <h4>CO2 models</h4>
 <p>
@@ -1332,7 +1348,7 @@ For reference, see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </html>", revisions="<html>
 <ul>
 <li>
-March 2, 2021 by David Blum:<br/>
+March 19, 2021 by David Blum:<br/>
 First implementation.
 </li>
 </ul>
