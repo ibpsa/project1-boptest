@@ -60,73 +60,73 @@ model GenerateData
     annotation (Placement(transformation(extent={{42,-32},{46,-28}})));
   Building.Schedules.ScheduleGeneral schedules_RT2012_MI
     annotation (Placement(transformation(extent={{-64,54},{-44,76}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read reaTSetHea(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"),
     description="Zone setpoint temperature")
     annotation (Placement(transformation(extent={{-24,74},{-18,80}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read reaTSetCoo(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"),
     description="Zone setpoint temperature")
     annotation (Placement(transformation(extent={{-24,64},{-18,70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiLivRad(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiLivRad(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{74,54},{80,60}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiLivCon(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiLivCon(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{76,46},{82,52}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiLivLat(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiLivLat(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{78,38},{84,44}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo1Rad(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo1Rad(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{78,26},{84,32}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo1Con(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo1Con(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{80,18},{86,24}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo1Lat(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo1Lat(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{82,10},{88,16}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo2Rad(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo2Rad(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{82,0},{88,6}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo2Con(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo2Con(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{84,-8},{90,-2}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo2Lat(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo2Lat(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{86,-16},{92,-10}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo3Rad(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo3Rad(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{84,-26},{90,-20}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo3Con(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo3Con(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{86,-34},{92,-28}})));
-  IBPSA.Utilities.IO.SignalExchange.Read heaGaiRo3Lat(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read heaGaiRo3Lat(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="heat gains")
     annotation (Placement(transformation(extent={{88,-42},{94,-36}})));
@@ -142,23 +142,23 @@ model GenerateData
   Modelica.Blocks.Sources.RealExpression realExpression12(y=
         schedules_MI_ZoneJour.OccupRateRT12*4)
     annotation (Placement(transformation(extent={{-42,-58},{-36,-52}})));
-  IBPSA.Utilities.IO.SignalExchange.Read occLiv(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read occLiv(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
     annotation (Placement(transformation(extent={{-26,-56},{-20,-50}})));
-  IBPSA.Utilities.IO.SignalExchange.Read occRo1(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read occRo1(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
     annotation (Placement(transformation(extent={{-26,-64},{-20,-58}})));
-  IBPSA.Utilities.IO.SignalExchange.Read occRo2(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read occRo2(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
     annotation (Placement(transformation(extent={{-26,-72},{-20,-66}})));
-  IBPSA.Utilities.IO.SignalExchange.Read occRo3(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read occRo3(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
     annotation (Placement(transformation(extent={{-26,-80},{-20,-74}})));
@@ -166,24 +166,24 @@ model GenerateData
         schedules_MI_ZoneJour.OccupRateRT12*(limCO2Uno.y - limCO2Occ.y))
     "living room limit CO2 schedule"
     annotation (Placement(transformation(extent={{40,-56},{46,-50}})));
-  IBPSA.Utilities.IO.SignalExchange.Read limCO2Liv(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read limCO2Liv(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm"),
     description="Upper CO2 limit for living room")
     "Upper CO2 limit for living room"
     annotation (Placement(transformation(extent={{60,-56},{66,-50}})));
-  IBPSA.Utilities.IO.SignalExchange.Read limCO2Ro1(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read limCO2Ro1(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm"),
     description="Upper CO2 limit for room 1") "Upper CO2 limit for room 1"
     annotation (Placement(transformation(extent={{60,-64},{66,-58}})));
-  IBPSA.Utilities.IO.SignalExchange.Read limCO2Ro2(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read limCO2Ro2(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm"),
     description="Upper CO2 limit for room 2") "Upper CO2 limit for room 2"
     annotation (Placement(transformation(extent={{60,-72},{66,-66}})));
-  IBPSA.Utilities.IO.SignalExchange.Read limCO2Ro3(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read limCO2Ro3(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm"),
     description="Upper CO2 limit for room 3") "Upper CO2 limit for room 3"
     annotation (Placement(transformation(extent={{60,-80},{66,-74}})));
@@ -197,23 +197,23 @@ model GenerateData
         schedules_MI_ZoneNuit.OccupRateRT12*(limCO2Uno.y - limCO2Occ.y))
     "Rooms limit CO2 schedule"
     annotation (Placement(transformation(extent={{40,-64},{46,-58}})));
-  IBPSA.Utilities.IO.SignalExchange.Read limCO2Hal(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read limCO2Hal(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm"),
     description="Upper CO2 limit for hall") "Upper CO2 limit for hall"
     annotation (Placement(transformation(extent={{60,-98},{66,-92}})));
-  IBPSA.Utilities.IO.SignalExchange.Read limCO2Bth(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read limCO2Bth(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm"),
     description="Upper CO2 limit for bathroom") "Upper CO2 limit for bathroom"
     annotation (Placement(transformation(extent={{60,-90},{66,-84}})));
-  IBPSA.Utilities.IO.SignalExchange.Read occBth(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read occBth(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
     annotation (Placement(transformation(extent={{-26,-90},{-20,-84}})));
-  IBPSA.Utilities.IO.SignalExchange.Read occHal(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+  Buildings.Utilities.IO.SignalExchange.Read occHal(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="W"),
     description="occupancy")
     annotation (Placement(transformation(extent={{-26,-98},{-20,-92}})));

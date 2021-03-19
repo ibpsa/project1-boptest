@@ -19,8 +19,7 @@ package MultiZoneResidentialHydronic "Package for the development of the multi z
       Construction(version="3"),
       ModelicaServices(version="3.2.3"),
     ARTEMIS(version="1"),
-    Buildings(version="8.0.0"),
-    IBPSA(version="3.0.0")),
+    Buildings(version="8.0.0")),
     version="2",
     conversion(from(version="", script="ConvertFromARTEMIS_.mos"),
       noneFromVersion="1"));
