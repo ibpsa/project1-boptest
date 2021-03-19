@@ -42,8 +42,8 @@ First, check if Docker image ``jm`` exists.  If not, run command: ``$ make build
 
 Then, run the test with command: ``$ make test_data``
 1. Compiles testcase2 model
-2. Copies the data and testcase2/models folders as well as the testcase2/config.py, the testcase.py and kpis.json files into the ``jm`` Docker container. 
-3. Runs ``test_data.py`` within the ``jm`` Docker container. The tests are performed within the container because some of them require JModelica.  
+2. Copies the data and testcase2/models folders as well as the testcase2/config.py, the testcase.py and kpis.json files into the ``jm`` Docker container.
+3. Runs ``test_data.py`` within the ``jm`` Docker container. The tests are performed within the container because some of them require JModelica.
 
 ## Run tests for forecaster
 First, check if Docker image ``jm`` exists.  If not, run command: ``$ make build_jm_image``.
@@ -51,9 +51,9 @@ First, check if Docker image ``jm`` exists.  If not, run command: ``$ make build
 Then, run the test with command: ``$ make test_forecast``
 1. Compiles testcase2 model
 2. Copies the data and testcase2/models folders as well as the testcase2/config.py
-and the testcase.py files into the ``jm`` Docker container. 
+and the testcase.py files into the ``jm`` Docker container.
 3. Runs ``test_forecast.py`` within the ``jm`` Docker container. The tests are performed within the container because the test case object requires JModelica
-to be initialized.  
+to be initialized.
 
 ## Other notes
 - ``utilities.py`` is used for common testing functions in Python.

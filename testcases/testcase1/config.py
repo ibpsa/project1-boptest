@@ -6,7 +6,7 @@ This file is used to configure the test case.
 
 def get_config():
     '''Returns the configuration structure for the test case.
-    
+
     Returns
     -------
     config : dict()
@@ -16,16 +16,18 @@ def get_config():
     'step'     : int, default control step size in seconds
     'horizon'  : int, default forecast horizon in seconds
     'interval' : int, default forecast interval in seconds
+    'price_scenario' : string, default price_scenario
     }
-    
+
     '''
-        
+
     config = {
     # Enter configuration information
     'fmupath'  : 'models/wrapped.fmu',
     'step'     : 60,
     'horizon'  : 86400,
-    'interval' : 3600
+    'interval' : 3600,
+    'scenario' : {'electricity_price':'constant'}
     }
-    
+
     return config

@@ -2,9 +2,9 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which mus already be running.  A controller is tested, which is 
+which mus already be running.  A controller is tested, which is
 imported from a different module.
-  
+
 """
 
 # GENERAL PACKAGE IMPORT
@@ -13,6 +13,7 @@ import requests
 import time
 from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
+import pandas as pd
 
 # ----------------------
 
@@ -23,7 +24,7 @@ from controllers import sup
 
 def run(plot=False, customized_kpi_config=None):
     '''Run test case.
-    
+
     Parameters
     ----------
     plot : bool, optional
@@ -43,7 +44,7 @@ def run(plot=False, customized_kpi_config=None):
     customizedkpis_result: dict
         Dictionary of tracked custom KPI calculations.
         Empty if no customized KPI calculations defined.
-    
+
     '''
 
     # SETUP TEST CASE
@@ -54,7 +55,7 @@ def run(plot=False, customized_kpi_config=None):
     length = 24*3600*2
     step = 3600
     # ---------------
-    
+
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -80,7 +81,7 @@ def run(plot=False, customized_kpi_config=None):
         for key in config.keys():
                customizedkpis.append(kpicalculation.cutomizedKPI(config[key]))
                customizedkpis_result[kpicalculation.cutomizedKPI(config[key]).name]=[]
-    customizedkpis_result['time']=[]           
+    customizedkpis_result['time']=[]
     # --------------------
 
 
@@ -110,11 +111,11 @@ def run(plot=False, customized_kpi_config=None):
                   customizedkpi_value = customizedkpi.calculation() # Calculate custom KPI value
                   customizedkpis_result[customizedkpi.name].append(round(customizedkpi_value,2)) # Track custom KPI value
                   print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi_value,2))) # Print custom KPI value
-             customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time  
+             customizedkpis_result['time'].append(y['time']) # Track custom KPI calculation time
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
-        
+
     # VIEW RESULTS
     # ------------
     # Report KPIs
@@ -134,20 +135,25 @@ def run(plot=False, customized_kpi_config=None):
         else:
             unit = None
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
-    # ------------ 
-        
+    # ------------
+
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    res = requests.get('{0}/results'.format(url)).json()
-    t = [x/3600 for x in res['y']['time']] # convert s --> hr
-    TRooAir = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-    TSetRooHea = [x-273.15 for x in res['u']['oveTSetRooHea_u']] # convert K --> C
-    TSetRooCoo = [x-273.15 for x in res['u']['oveTSetRooCoo_u']] # convert K --> C
-    PFan = res['y']['PFan_y']
-    PCoo = res['y']['PCoo_y']
-    PHea = res['y']['PHea_y']
-    PPum = res['y']['PPum_y']
+    points = measurements.keys() + inputs.keys()
+    df_res = pd.DataFrame()
+    for point in points:
+        res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
+    df_res.index.name = 'time'
+    t = df_res.index.values/3600 # convert s --> hr
+    TRooAir = df_res['TRooAir_y'].values-273.15 # convert K --> C
+    TSetRooHea = df_res['oveTSetRooHea_u'].values-273.15 # convert K --> C
+    TSetRooCoo = df_res['oveTSetRooCoo_u'].values-273.15 # convert K --> C
+    PFan = df_res['PFan_y'].values
+    PCoo = df_res['PCoo_y'].values
+    PHea = df_res['PHea_y'].values
+    PPum = df_res['PPum_y'].values
     # Plot results
     if plot:
         from matplotlib import pyplot as plt
@@ -169,8 +175,8 @@ def run(plot=False, customized_kpi_config=None):
         plt.legend()
         plt.show()
     # --------------------
-   
-    return kpi,res,customizedkpis_result 
-        
+
+    return kpi,df_res,customizedkpis_result
+
 if __name__ == "__main__":
-    kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
+    kpi,df_res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')

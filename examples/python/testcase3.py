@@ -2,9 +2,9 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which must already be running.  A controller is tested, which is 
+which must already be running.  A controller is tested, which is
 imported from a different module.
-  
+
 """
 
 # GENERAL PACKAGE IMPORT
@@ -21,7 +21,7 @@ from controllers import pidTwoZones
 
 def run(plot=False):
     '''Run test case.
-    
+
     Parameters
     ----------
     plot : bool, optional
@@ -41,7 +41,7 @@ def run(plot=False):
     customizedkpis_result: dict
         Dictionary of tracked custom KPI calculations.
         Empty if no customized KPI calculations defined.
-    
+
     '''
 
     # SETUP TEST CASE
@@ -52,7 +52,7 @@ def run(plot=False):
     length = 48*3600
     step = 300
     # ---------------
-    
+
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -69,7 +69,7 @@ def run(plot=False):
     step_def = requests.get('{0}/step'.format(url)).json()
     print('Default Simulation Step:\t{0}'.format(step_def))
     # --------------------
-    
+
     # RUN TEST CASE
     # -------------
     # Initialize test case
@@ -102,13 +102,13 @@ def run(plot=False):
         setpoints.loc[(i+1)*step, setpoints.columns] = \
             [LowerSetpNor, UpperSetpNor, LowerSetpSou, UpperSetpSou]
         # Compute next control signal
-        u = pidTwoZones.compute_control(y, 
+        u = pidTwoZones.compute_control(y,
                                         LowerSetpNor, UpperSetpNor,
                                         LowerSetpSou, UpperSetpSou)
-        
+
     print('\nTest case complete.')
     # -------------
-        
+
     # VIEW RESULTS
     # ------------
     # Report KPIs
@@ -128,18 +128,23 @@ def run(plot=False):
         elif key == 'time_rat':
             unit = ''
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
-    # ------------ 
-        
+    # ------------
+
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    res = requests.get('{0}/results'.format(url)).json()
-    time = [x/3600 for x in res['y']['time']] # convert s --> hr
+    points = measurements.keys() + inputs.keys()
+    df_res = pd.DataFrame()
+    for point in points:
+        res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
+    df_res.index.name = 'time'
+    time = df_res.index.values/3600 # convert s --> hr
     setpoints.index = setpoints.index/3600 # convert s --> hr
-    TZoneNor = [x-273.15 for x in res['y']['TRooAirNor_y']] # convert K --> C
-    PHeatNor = res['y']['PHeaNor_y']
-    TZoneSou = [x-273.15 for x in res['y']['TRooAirSou_y']] # convert K --> C
-    PHeatSou = res['y']['PHeaSou_y']
+    TZoneNor = df_res['TRooAirNor_y'].values-273.15 # convert K --> C
+    PHeatNor = df_res['PHeaNor_y'].values
+    TZoneSou = df_res['TRooAirSou_y'].values-273.15 # convert K --> C
+    PHeatSou = df_res['PHeaSou_y'].values
     setpoints= setpoints - 273.15 # convert K --> C
     # Plot results
     if plot:
@@ -162,8 +167,8 @@ def run(plot=False):
         plt.legend()
         plt.show()
     # --------------------
-            
-    return kpi,res 
+
+    return kpi,df_res
 
 if __name__ == "__main__":
-    kpi,res = run(plot=False)
+    kpi,df_res = run(plot=False)

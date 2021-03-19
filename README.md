@@ -9,7 +9,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
-- ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in both Python (Version 2.7) and Julia (Version 1.0.3).
+- ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (Version 2.7), Julia (Version 1.0.3), and JavaScript (Version ECMAScript 2018).
 - ``/parsing`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/template`` contains template Modelica code for a test case emulator model.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
@@ -23,7 +23,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 2) Build the test case by ``$ make build TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
 3) Deploy the test case by ``$ make run TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
 4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described in the next step.
-5) Run an example test controller: 
+5) Run an example test controller:
 
 * For Python-based example controllers:
   * Add the root directory of the BOPTEST repository to the PYTHONPATH environment variable.
@@ -34,6 +34,12 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
+
+* For JavaScript based controllers:
+  * in a separate terminal, use ``$ cd examples/javascript && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
+  * in a separate terminal, use ``$ cd examples/javascript && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on the testcase2 over a two-day period.
+  * once the test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images.
+  * noted that those two controllers can also be executed by web browers, such as chrome or firefox.
 
 6) Shutdown a test case container by selecting the container terminal window, ``Ctrl+C`` to close port, and ``Ctrl+D`` to exit the Docker container.
 7) Remove the test case Docker image by ``$ make remove-image TESTCASE=<testcase_dir_name>``.
@@ -53,14 +59,24 @@ Example RESTful interaction:
 | Initialize simulation to a start time using a warmup period in seconds     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
 | Receive communication step in seconds                                 |  GET ``step``                                             |
 | Set communication step in seconds                                     |  PUT ``step`` with argument ``step=<value>``              |
-| Receive sensor signal names (y) and metadata                          |  GET ``measurements``                                     |
-| Receive control signals names (u) and metadata                        |  GET ``inputs``                                           |
-| Receive test result data                                              |  GET ``results``                                          |
+| Receive sensor signal point names (y) and metadata                          |  GET ``measurements``                                     |
+| Receive control signal point names (u) and metadata                        |  GET ``inputs``                                           |
+| Receive test result data for the given point name between the start and final time in seconds |  PUT ``results`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
 | Receive test KPIs                                                     |  GET ``kpi``                                              |
 | Receive test case name                                                |  GET ``name``                                             |
 | Receive boundary condition forecast from current communication step   |  GET ``forecast``                                         |
 | Receive boundary condition forecast parameters in seconds             |  GET ``forecast_parameters``                              |
-| Set boundary condition forecast parameters in seconds  		        |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Set boundary condition forecast parameters in seconds                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Receive current test scenario                                         |  GET ``scenario``                                   |
+| Set test scenario  		                                             |  PUT ``scenario`` with arguments ``electricity_price=<'constant' or 'dynamic' or 'highly_dynamic'>``|
+
+## Development
+
+This repository uses pre-commit to ensure that the files meet standard formatting conventions (such as line spacing, layout, etc).
+Presently only a handful of checks are enabled and will expanded in the near future. To run pre-commit first install
+pre-commit into your Python version using pip `pip install pre-commit`. Pre-commit can either be manually by calling
+`pre-commit run --all-files` from within the BOPTEST checkout directory, or you can install pre-commit to be run automatically
+as a hook on all commits by calling `pre-commit install` in the root directory of the BOPTEST GitHub checkout.
 
 ## More Information
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.

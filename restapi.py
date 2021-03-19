@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module implements the REST API used to interact with the test case.  
-The API is implemented using the ``flask`` package.  
+This module implements the REST API used to interact with the test case.
+The API is implemented using the ``flask`` package.
 
 """
 
@@ -9,6 +9,7 @@ The API is implemented using the ``flask`` package.
 # ----------------------
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS
 # ----------------------
 
 # TEST CASE IMPORT
@@ -19,6 +20,7 @@ from testcase import TestCase
 # FLASK REQUIREMENTS
 # ------------------
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 api = Api(app)
 # ------------------
 
@@ -45,15 +47,23 @@ parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon','interval']
 for arg in forecast_parameters:
     parser_forecast_parameters.add_argument(arg)
+# ``price_scenario`` interface
+parser_scenario = reqparse.RequestParser()
+parser_scenario.add_argument('electricity_price')
+# ``results`` interface
+results_var = reqparse.RequestParser()
+results_var.add_argument('point_name')
+results_var.add_argument('start_time')
+results_var.add_argument('final_time')
 # -----------------------
 
 # DEFINE REST REQUESTS
 # --------------------
 class Advance(Resource):
-    '''Interface to advance the test case simulation.'''    
-    
+    '''Interface to advance the test case simulation.'''
+
     def post(self):
-        '''POST request with input data to advance the simulation one step 
+        '''POST request with input data to advance the simulation one step
         and receive current measurements.'''
         u = parser_advance.parse_args()
         y = case.advance(u)
@@ -61,18 +71,18 @@ class Advance(Resource):
 
 class Initialize(Resource):
     '''Interface to initialize the test case simulation.'''
-    
+
     def put(self):
         '''PUT request to initialize the test.'''
         args = parser_initialize.parse_args()
         start_time = float(args['start_time'])
         warmup_period = float(args['warmup_period'])
-        y = case.initialize(start_time,warmup_period)      
+        y = case.initialize(start_time,warmup_period)
         return y
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''
-    
+
     def get(self):
         '''GET request to receive current simulation step in seconds.'''
         step = case.get_step()
@@ -84,47 +94,54 @@ class Step(Resource):
         step = args['step']
         case.set_step(step)
         return step, 201
-        
+
 class Inputs(Resource):
     '''Interface to test case inputs.'''
-    
+
     def get(self):
         '''GET request to receive list of available inputs.'''
         u_list = case.get_inputs()
         return u_list
-        
+
 class Measurements(Resource):
     '''Interface to test case measurements.'''
-    
+
     def get(self):
         '''GET request to receive list of available measurements.'''
         y_list = case.get_measurements()
         return y_list
-        
+
 class Results(Resource):
     '''Interface to test case result data.'''
-    
-    def get(self):
-        '''GET request to receive measurement data.'''
-        Y = case.get_results()
+
+    def put(self):
+        '''PUT request to receive measurement data.'''
+        args = results_var.parse_args()
+        var  = args['point_name']
+        start_time  = float(args['start_time'])
+        final_time  = float(args['final_time'])
+        Y = case.get_results(var, start_time, final_time)
+        for key in Y:
+            Y[key] = Y[key].tolist()
+
         return Y
-        
+
 class KPI(Resource):
     '''Interface to test case KPIs.'''
-    
+
     def get(self):
         '''GET request to receive KPI data.'''
         kpi = case.get_kpis()
         return kpi
-    
+
 class Forecast_Parameters(Resource):
     '''Interface to test case forecast parameters.'''
-    
+
     def get(self):
         '''GET request to receive forecast parameters.'''
         forecast_parameters = case.get_forecast_parameters()
         return forecast_parameters
-    
+
     def put(self):
         '''PUT request to set forecast horizon and interval inseconds.'''
         args = parser_forecast_parameters.parse_args()
@@ -133,24 +150,39 @@ class Forecast_Parameters(Resource):
         case.set_forecast_parameters(horizon, interval)
         forecast_parameters = case.get_forecast_parameters()
         return forecast_parameters
-    
+
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
-    
+
     def get(self):
         '''GET request to receive forecast data.'''
         forecast = case.get_forecast()
         return forecast
-        
+
+class Scenario(Resource):
+    '''Interface to test case scenario.'''
+
+    def get(self):
+        '''GET request to receive current scenario.'''
+        scenario = case.get_scenario()
+        return scenario
+
+    def put(self):
+        '''PUT request to set scenario.'''
+        scenario = parser_scenario.parse_args()
+        case.set_scenario(scenario)
+        scenario = case.get_scenario()
+        return scenario
+
 class Name(Resource):
     '''Interface to test case name.'''
-    
+
     def get(self):
         '''GET request to receive test case name.'''
         name = case.get_name()
         return name
 # --------------------
-        
+
 # ADD REQUESTS TO API WITH URL EXTENSION
 # --------------------------------------
 api.add_resource(Advance, '/advance')
@@ -162,6 +194,7 @@ api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
 api.add_resource(Forecast_Parameters, '/forecast_parameters')
 api.add_resource(Forecast, '/forecast')
+api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')
 # --------------------------------------
 
