@@ -61,6 +61,7 @@ class TestCase(object):
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6
+	self.options['CVode_options']['store_event_points'] = False 
         # Assign initial testing time
         self.initial_time = 0
         # Set initial fmu simulation start
@@ -73,8 +74,9 @@ class TestCase(object):
         '''Initializes objects for simulation data storage.
 
         Uses self.output_names and self.input_names to create
-        self.y, self.y_store, self.u, and self.u_store.
-
+        self.y, self.y_store, self.u, and self.u_store. Also sets the 
+        'filter' option for pyfmi simulation.
+        
         Parameters
         ----------
         None
@@ -95,7 +97,8 @@ class TestCase(object):
         for key in self.input_names:
             self.u[key] = np.array([])
         self.u_store = copy.deepcopy(self.u)
-
+	# Results filtering for pyfmi
+        self.options['filter'] = self.output_names + self.input_names                
     def __simulation(self,start_time,end_time,input_object=None):
         '''Simulates the FMU using the pyfmi fmu.simulate function.
 
@@ -118,6 +121,8 @@ class TestCase(object):
 
         # Set fmu initialization option
         self.options['initialize'] = self.initialize_fmu
+        # Set sample rate
+        self.options['ncp'] = int((end_time-start_time)/30)
         # Simulate fmu
         try:
              res = self.fmu.simulate(start_time = start_time,
