@@ -5,60 +5,9 @@ import {getKPIs} from '../controllers/kpi';
 import {getInputs} from '../controllers/input';
 import {getMeasurements} from '../controllers/measurement';
 import {getStep, setStep} from '../controllers/step';
-import {initialize, advance, stop} from '../controllers/test';
+import {initialize, advance, stop, getForecastParameters, setForecastParameters, getForecast} from '../controllers/test';
 const boptestRoutes = express.Router();
 
-
-// Post a query to the graphql api
-const graphqlPost = async (querystring, baseurl) => {
-  const {body} = await got.post( baseurl + '/graphql', {
-    json: {
-      query: querystring
-    }
-  });
-  return body;
-};
-
-const graphqlPostAndRespond = (querystring, req, res, next) => {
-  const baseurl = baseurlFromReq(req);
-  graphqlPost(querystring, baseurl).then((body) => res.send(body)).catch((e) => next(e));
-};
-
-const promiseTaskLater = (task, time, ...args) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      try {
-        await task(...args);
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
-    }, time);
-  });
-};
-
-const simStatus = async (id, baseurl) => {
-  try {
-    const querystring = `{ viewer{ sites(siteRef: "${id}") { simStatus } } }`;
-    const body = await graphqlPost(querystring, baseurl);
-    return JSON.parse(body)["data"]["viewer"]["sites"][0]["simStatus"];
-  } catch (e) {
-    console.log("Error retriving sim status");
-    throw(e);
-  }
-};
-
-const waitForSimStatus = async (id, baseurl, desiredStatus, count, maxCount) => {
-  let i = 0;
-  const currentStatus = await simStatus(id, baseurl);
-  if (currentStatus == desiredStatus) {
-    return;
-  } else if (count == maxCount) {
-    throw(`Timeout waiting for sim: ${id} to reach status: ${desiredStatus}`);
-  } else {
-    await promiseTaskLater(waitForSimStatus, 2000, id, baseurl, desiredStatus, count, maxCount);
-  }
-};
 
 boptestRoutes.post('/advance/:id', async (req, res, next) => {
   try {
@@ -167,14 +116,9 @@ boptestRoutes.put('/results/:id', async (req, res, next) => {
 boptestRoutes.get('/forecast_parameters/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    redis.hmget(req.params.id, 'forecast:horizon', 'forecast:interval', (err, redisres) => {
-      if (err) {
-        next(err);
-      } else {
-        console.log('Forecast_Parameters: ', redisres)
-        res.send(redisres);
-      }
-    });
+    const id = req.params.id
+    const forecast_parameters = await getForecastParameters(id, redis)
+    res.send(forecast_parameters)
   } catch (e) {
     next(e);
   }
@@ -183,15 +127,11 @@ boptestRoutes.get('/forecast_parameters/:id', async (req, res, next) => {
 boptestRoutes.put('/forecast_parameters/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    const horizon = req.body['horizon'];
-    const interval = req.body['interval'];
-    redis.hmset(req.params.id, 'forecast:horizon', horizon, 'forecast:interval', interval, (err) => {
-      if (err) {
-        next(err);
-      } else {
-        res.end();
-      }
-    });
+    const id = req.params.id
+    const horizon = req.body['horizon']
+    const interval = req.body['interval']
+    const forecast_parameters = await setForecastParameters(id, horizon, interval, redis)
+    res.send(forecast_parameters)
   } catch (e) {
     next(e);
   }
@@ -200,13 +140,9 @@ boptestRoutes.put('/forecast_parameters/:id', async (req, res, next) => {
 boptestRoutes.get('/forecast/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    redis.hget(req.params.id, 'forecast', (err, redisres) => {
-      if (err) {
-        next(err);
-      } else {
-        res.send(redisres);
-      }
-    });
+    const id = req.params.id
+    const forecast = await getForecast(id, redis)
+    res.send(forecast)
   } catch (e) {
     next(e);
   }
