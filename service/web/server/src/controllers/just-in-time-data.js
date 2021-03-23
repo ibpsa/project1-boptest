@@ -45,7 +45,7 @@ export function getWorkerData(id, dataname, redis, params) {
     timeout = setTimeout(() => {
       cleanup()
       reject("No results available")
-    }, 10000)
+    }, 30000)
 
     sub.subscribe(responseChannel(id, dataname))
     const stringy_params = JSON.stringify(params)

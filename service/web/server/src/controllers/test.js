@@ -43,14 +43,19 @@ export function simStatus(site_ref, redis) {
 };
 
 export async function waitForStatus(id, redis, desiredStatus, count, maxCount) {
-  let i = 0;
+  // The default maxCount is 30, which will result in waiting up to 30 seconds
+  maxCount = typeof maxCount !== 'undefined' ? maxCount : 30
+  // The default starting count is 0
+  count = typeof count !== 'undefined' ? count : 0
   const currentStatus = await simStatus(id, redis);
   if (currentStatus == desiredStatus) {
     return;
   } else if (count == maxCount) {
     throw(`Timeout waiting for test: ${id} to reach status: ${desiredStatus}`);
   } else {
-    await promiseTaskLater(waitForStatus, 2000, id, redis, desiredStatus, count, maxCount);
+    // check status every 1000 miliseconds
+    await promiseTaskLater(waitForStatus, 1000, id, redis, desiredStatus, count, maxCount);
+    count++
   }
 };
 
@@ -110,7 +115,7 @@ export function getForecast(site_ref, redis) {
 export async function initialize(site_ref, start_time, warmup_period, redis, sqs) {
   await setStatus(site_ref, "Starting", redis)
   await addJobToQueue("runSite", sqs, {site_ref, start_time, warmup_period})
-  await waitForStatus(site_ref, redis, "Running", 0, 3)
+  await waitForStatus(site_ref, redis, "Running")
   return await getY(site_ref, redis)
 }
 
@@ -168,7 +173,7 @@ export async function stop(site_ref, redis, pub) {
   if (stat == "Running") {
     await setStatus(site_ref, "Stopping", redis)
     sendStopSignal(site_ref, pub)
-    await waitForStatus(site_ref, redis, "Stopped", 0, 3)
+    await waitForStatus(site_ref, redis, "Stopped")
   }
 }
 
