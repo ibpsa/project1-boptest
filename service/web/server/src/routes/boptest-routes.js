@@ -5,9 +5,18 @@ import {getKPIs} from '../controllers/kpi';
 import {getInputs} from '../controllers/input';
 import {getMeasurements} from '../controllers/measurement';
 import {getStep, setStep} from '../controllers/step';
-import {initialize, advance, stop, getForecastParameters, setForecastParameters, getForecast} from '../controllers/test';
-const boptestRoutes = express.Router();
+import {
+  initialize,
+  advance,
+  stop,
+  getForecastParameters,
+  setForecastParameters,
+  getForecast,
+  setScenario,
+  getScenario
+} from '../controllers/test';
 
+const boptestRoutes = express.Router();
 
 boptestRoutes.post('/advance/:id', async (req, res, next) => {
   try {
@@ -40,6 +49,31 @@ boptestRoutes.put('/stop/:id', async (req, res, next) => {
     const redis = req.app.get('redis')
     await stop(req.params.id, redis, pub)
     res.sendStatus(200)
+  } catch (e) {
+    next(e)
+  }
+});
+
+boptestRoutes.put('/scenario/:id', async (req, res, next) => {
+  try {
+    const db = req.app.get('db')
+    const redis = req.app.get('redis')
+    const sqs = req.app.get('sqs')
+    const electricity_price = req.body['electricity_price']
+    const scenario = {electricity_price}
+    const scenario_set = await setScenario(req.params.id, scenario, db, redis, sqs)
+    res.send(scenario_set)
+  } catch (e) {
+    next(e)
+  }
+});
+
+boptestRoutes.get('/scenario/:id', async (req, res, next) => {
+  try {
+    const db = req.app.get('db')
+    const redis = req.app.get('redis')
+    const scenario = await getScenario(req.params.id, db, redis)
+    res.send(scenario)
   } catch (e) {
     next(e)
   }

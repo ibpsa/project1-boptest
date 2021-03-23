@@ -114,6 +114,49 @@ export async function initialize(site_ref, start_time, warmup_period, redis, sqs
   return await getY(site_ref, redis)
 }
 
+export async function getScenario(site_ref, db, redis) {
+  const scenario = await new Promise((resolve, reject) => {
+    // Look in redis first for a cached value,
+    // running tests should have a cached value.
+    // Fallback to the testcase default from database
+    redis.hget(site_ref, 'scenario', (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+  // Running tests should have a scenario in redis.
+  // If there is no running test then look for the default
+  // value stored in db
+  if (scenario) {
+    return scenario
+  } else {
+    const testcases = db.collection('testcases')
+    const query = {site_ref}
+    const doc = await testcases.findOne(query)
+    return doc.scenario
+  }
+}
+
+export async function setScenario(site_ref, scenario, db, redis, sqs) {
+  await new Promise((resolve, reject) => {
+    redis.hset(site_ref, 'scenario', JSON.stringify(scenario), (err) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+  // What should these values be?
+  const start_time = 0
+  const warmup_period = 0
+  await initialize(site_ref, start_time, warmup_period, redis, sqs)
+  return await getScenario(site_ref, db, redis)
+}
+
 export async function advance(site_ref, redis, advancer, u) {
   await setU(site_ref, u, redis)
   await advancer.advance([site_ref])
