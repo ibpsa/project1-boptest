@@ -65,7 +65,6 @@ class RunFMUSite:
         self.tc = TestCase()
         y_output = self.tc.initialize(start_time, warmup_period)
         self.update_y(y_output)
-        self.update_forecast(self.tc.get_forecast())
 
         # simtime
         self.simtime = 0
@@ -115,6 +114,12 @@ class RunFMUSite:
     def kpis_response_channel(self):
         return (self.site_ref + ":kpis:response")
 
+    def forecast_request_channel(self):
+        return (self.site_ref + ":forecast:request")
+
+    def forecast_response_channel(self):
+        return (self.site_ref + ":forecast:response")
+
     def run(self):
         while True:
             data = None
@@ -136,7 +141,9 @@ class RunFMUSite:
             if channel == self.kpis_request_channel() and message_type == 'pmessage':
                 self.update_kpis()
                 self.redis.publish(self.kpis_response_channel(), 'ready')
-
+            if channel == self.forecast_request_channel() and message_type == 'pmessage':
+                self.update_forecast()
+                self.redis.publish(self.forecast_response_channel(), 'ready')
             if channel == self.site_ref and data == 'advance':
                 self.step()
                 self.redis.publish(self.site_ref, 'complete')
@@ -227,7 +234,15 @@ class RunFMUSite:
         ustring = self.redis.hget(self.site_ref, 'u')
         return json.loads(ustring)
 
-    def update_forecast(self, forecast):
+    def update_forecast(self):
+        forecast_parameters = self.redis.hget(self.site_ref, 'forecast_parameters')
+        if forecast_parameters:
+            forecast_parameters = json.loads(forecast_parameters)
+            horizon = forecast_parameters['horizon']
+            interval = forecast_parameters['interval']
+            self.tc.set_forecast_parameters(horizon, interval)
+            
+        forecast = self.tc.get_forecast()
         self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
 
     def update_kpis(self):
@@ -280,7 +295,6 @@ class RunFMUSite:
         y_output = self.tc.advance(u)
         self.update_y(y_output)
         self.update_sim_status()
-        self.update_forecast(self.tc.get_forecast())
 
 
 if __name__ == "__main__":

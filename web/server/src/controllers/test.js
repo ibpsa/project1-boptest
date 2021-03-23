@@ -1,4 +1,5 @@
 import {addJobToQueue} from './job';
+import {getWorkerData} from './just-in-time-data.js';
 
 function promiseTaskLater(task, time, ...args) {
   return new Promise((resolve, reject) => {
@@ -75,6 +76,35 @@ export function getY(site_ref, redis) {
       }
     })
   })
+}
+
+export function getForecastParameters(site_ref, redis) {
+  return new Promise((resolve, reject) => {
+    redis.hget(site_ref, 'forecast_parameters', (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+export function setForecastParameters(site_ref, horizon, interval, redis) {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify({horizon: Number(horizon), interval: Number(interval)})
+    redis.hset(site_ref, 'forecast_parameters', data, (err) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+export function getForecast(site_ref, redis) {
+  return getWorkerData(site_ref, "forecast", redis, {});
 }
 
 export async function initialize(site_ref, start_time, warmup_period, redis, sqs) {

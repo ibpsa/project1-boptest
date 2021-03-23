@@ -485,44 +485,47 @@ class partialTestAPI(partialChecks):
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
-    ## def test_put_and_get_parameters(self):
-    ##     '''Check PUT and GET of forecast settings.
+    def test_put_and_get_parameters(self):
+        '''Check PUT and GET of forecast settings.
 
-    ##     '''
+        '''
 
-    ##     # Define forecast parameters
-    ##     forecast_parameters_ref = {'horizon':3600, 'interval':300}
-    ##     # Set forecast parameters
-    ##     ret = requests.put('{0}/forecast_parameters/{1}'.format(self.url, self.testid),
-    ##                        data=forecast_parameters_ref)
-    ##     # Get forecast parameters
-    ##     forecast_parameters = requests.get('{0}/forecast_parameters/{1}'.format(self.url, self.testid)).json()
-    ##     # Check the forecast parameters
-    ##     self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
-    ##     # Check the return on the put request
-    ##     self.assertDictEqual(ret.json(), forecast_parameters_ref)
+        # Initialize - BOPTEST Service needs the test to be initialized before put and get forecast parameters
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
 
-    ## def test_get_forecast_with_parameters(self):
-    ##     '''Check that the forecaster is able to retrieve the data.
+        # Define forecast parameters
+        forecast_parameters_ref = {'horizon':3600, 'interval':300}
+        # Set forecast parameters
+        ret = requests.put('{0}/forecast_parameters/{1}'.format(self.url, self.testid),
+                           data=forecast_parameters_ref)
+        # Get forecast parameters
+        forecast_parameters = requests.get('{0}/forecast_parameters/{1}'.format(self.url, self.testid)).json()
+        # Check the forecast parameters
+        self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
+        # Check the return on the put request
+        self.assertDictEqual(ret.json(), forecast_parameters_ref)
 
-    ##     Custom forecast parameters used.
+    def test_get_forecast_with_parameters(self):
+        '''Check that the forecaster is able to retrieve the data.
 
-    ##     '''
+        Custom forecast parameters used.
 
-    ##     # Define forecast parameters
-    ##     forecast_parameters_ref = {'horizon':3600, 'interval':300}
-    ##     # Initialize
-    ##     requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-    ##     # Set forecast parameters
-    ##     requests.put('{0}/forecast_parameters'.format(self.url),
-    ##                  data=forecast_parameters_ref)
-    ##     # Test case forecast
-    ##     forecast = requests.get('{0}/forecast'.format(self.url)).json()
-    ##     df_forecaster = pd.DataFrame(forecast).set_index('time')
-    ##     # Set reference file path
-    ##     ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
-    ##     # Check the forecast
-    ##     self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+        '''
+
+        # Define forecast parameters
+        forecast_parameters_ref = {'horizon':3600, 'interval':300}
+        # Initialize
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        # Set forecast parameters
+        requests.put('{0}/forecast_parameters/{1}'.format(self.url, self.testid),
+                     data=forecast_parameters_ref)
+        # Test case forecast
+        forecast = requests.get('{0}/forecast/{1}'.format(self.url, self.testid)).json()
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
+        # Check the forecast
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
     ## def test_get_scenario(self):
     ##     '''Test getting the scenario of test.

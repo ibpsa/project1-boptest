@@ -75,8 +75,8 @@ def run(plot=False, customized_kpi_config=None):
     measurements = requests.get('{0}/measurements/{1}'.format(url,testid)).json()
     print('Measurements:\t\t\t{0}'.format(measurements))
     # Default simulation step
-    #### step_def = requests.get('{0}/step/{1}'.format(url,testid)).json()
-    #### print('Default Simulation Step:\t{0}'.format(step_def))
+    step_def = requests.get('{0}/step/{1}'.format(url,testid)).json()
+    print('Default Simulation Step:\t{0}'.format(step_def))
     # --------------------
 
     # Define customized KPI if any
