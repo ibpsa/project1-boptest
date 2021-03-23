@@ -527,25 +527,28 @@ class partialTestAPI(partialChecks):
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
-    ## def test_get_scenario(self):
-    ##     '''Test getting the scenario of test.
+    def test_get_scenario(self):
+        '''Test getting the scenario of test.
 
-    ##     '''
+        '''
 
-    ##     scenario = requests.get('{0}/scenario'.format(self.url)).json()
-    ##     self.assertEqual(scenario['electricity_price'], 'constant')
+        scenario = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()
+        self.assertEqual(scenario['electricity_price'], 'constant')
 
-    ## def test_set_scenario(self):
-    ##     '''Test setting the scenario of test.
+    def test_set_scenario(self):
+        '''Test setting the scenario of test.
 
-    ##     '''
+        '''
 
-    ##     scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
-    ##     scenario = {'electricity_price':'highly_dynamic'}
-    ##     requests.put('{0}/scenario'.format(self.url), data=scenario)
-    ##     scenario_set = requests.get('{0}/scenario'.format(self.url)).json()
-    ##     self.assertEqual(scenario, scenario_set)
-    ##     requests.put('{0}/scenario'.format(self.url), data=scenario_current)
+        scenario_current = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()
+        scenario = {'electricity_price':'highly_dynamic'}
+        requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario)
+        scenario_set = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()
+        self.assertEqual(scenario, scenario_set)
+        # put scenario starts a worker. Assuming only one worker is available, then 
+        # the test must be stopped before putting a new scenario
+        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
+        requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario_current)
 
     def test_partial_results_inner(self):
         '''Test getting results for start time after and final time before.

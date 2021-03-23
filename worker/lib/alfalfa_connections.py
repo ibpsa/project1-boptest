@@ -49,8 +49,8 @@ class AlfalfaConnections:
         data = {'site_ref': site_ref, 'measurements': boptest_measurements}
         self.mongo_db_measurements.insert_one(data)
 
-    def add_boptest_step_to_mongo(self, step, site_ref):
-        data = {'site_ref': site_ref, 'step': step}
+    def add_boptest_testcase_mongo(self, site_ref, step, scenario):
+        data = {'site_ref': site_ref, 'step': step, 'scenario': scenario}
         self.mongo_db_testcases.insert_one(data)
 
     def add_site_to_mongo(self, haystack_json, site_ref):

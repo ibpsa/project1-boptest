@@ -114,7 +114,8 @@ class AddSite:
         measurements = tc.get_measurements()
         self.ac.add_boptest_measurements_to_mongo(measurements, self.site_ref)
         step = tc.get_step()
-        self.ac.add_boptest_step_to_mongo(step, self.site_ref)
+        scenario = tc.get_scenario()
+        self.ac.add_boptest_testcase_mongo(self.site_ref, step, scenario)
 
         # Check mongo upload works correctly
         mongo_response = self.ac.add_site_to_mongo(f, self.site_ref)

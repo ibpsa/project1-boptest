@@ -63,6 +63,7 @@ class RunFMUSite:
         # initiate the testcase
         get_test_config(fmupath)
         self.tc = TestCase()
+        self.init_scenario()
         y_output = self.tc.initialize(start_time, warmup_period)
         self.update_y(y_output)
 
@@ -79,25 +80,6 @@ class RunFMUSite:
         else:
             stepsize = self.tc.get_step()
             self.redis.hset(self.site_ref, 'step', stepsize)
-
-        # forecast
-        forecast = self.tc.get_forecast_parameters()
-
-        # forecast_horizon
-        redis_horizon = self.redis.hget(self.site_ref, 'forecast:horizon')
-        if redis_horizon:
-            forecast['horizon'] = redis_horizon
-        else:
-            self.redis.hset(self.site_ref, 'forecast:horizon', forecast['horizon'])
-
-        # forecast_interval
-        redis_interval = self.redis.hget(self.site_ref, 'forecast:interval')
-        if redis_interval:
-            forecast['interval'] = redis_interval
-        else:
-            self.redis.hset(self.site_ref, 'forecast:interval', forecast['interval'])
-
-        self.tc.set_forecast_parameters(forecast['horizon'], forecast['interval'])
 
         self.init_sim_status()
 
@@ -227,6 +209,12 @@ class RunFMUSite:
         except:
             print("Unable to post results to dashboard located at: %s" % dashboard_url)
 
+    def init_scenario(self):
+        scenario = self.redis.hget(self.site_ref, 'scenario')
+        if scenario:
+            scenario = json.loads(scenario)
+            self.tc.set_scenario(scenario)
+
     def update_y(self, y):
         self.redis.hset(self.site_ref, 'y', json.dumps(y))
 
@@ -279,17 +267,6 @@ class RunFMUSite:
         current_step_size = self.tc.get_step()
         if current_step_size != redis_step_size:
             self.tc.set_step(redis_step_size)
-
-        # look for a change in forecast
-        forecast_params = self.tc.get_forecast_parameters()
-        redis_horizon = self.redis.hget(self.site_ref, 'forecast:horizon')
-        if forecast_params['horizon'] != redis_horizon:
-            forecast_params['horizon'] = redis_horizon
-        redis_interval = self.redis.hget(self.site_ref, 'forecast:interval')
-        if forecast_params['interval'] != redis_interval:
-            forecast_params['interval'] = redis_interval
-
-        self.tc.set_forecast_parameters(forecast_params['horizon'], forecast_params['interval'])
 
         u = self.get_u()
         y_output = self.tc.advance(u)
