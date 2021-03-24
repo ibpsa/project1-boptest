@@ -215,3 +215,12 @@ export async function setStep(site_ref, step, db, redis) {
   })
 }
 
+export function getKPIs(id, redis) {
+  return getWorkerData(id, "kpis", redis, {});
+}
+
+export function getResults(id, point_name, start_time, final_time, redis) {
+  const params = {point_name, start_time, final_time}
+  return getWorkerData(id, "results", redis, params);
+}
+

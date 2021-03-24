@@ -339,13 +339,13 @@ class partialTestAPI(partialChecks):
 
     '''
 
-    ## def test_get_name(self):
-    ##     '''Test getting the name of test.
+    def test_get_name(self):
+        '''Test getting the name of test.
 
-    ##     '''
+        '''
 
-    ##     name = requests.get('{0}/name/{1}'.format(self.url, self.testid)).json()
-    ##     self.assertEqual(name, self.name_ref)
+        name = requests.get('{0}/name/{1}'.format(self.url, self.testid)).json()
+        self.assertEqual(name, self.name_ref)
 
     def test_get_inputs(self):
         '''Test getting the input list of tests.

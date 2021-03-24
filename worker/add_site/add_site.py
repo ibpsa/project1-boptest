@@ -30,7 +30,7 @@ class AddSite:
         self.file_name = fn
         self.upload_id = up_id
         self.bucket_parsed_site_id_dir = os.path.join('/parse', self.upload_id)
-        _, self.file_ext = os.path.splitext(self.file_name)
+        self.name, self.file_ext = os.path.splitext(self.file_name)
         self.key = "uploads/%s/%s" % (self.upload_id, self.file_name)
 
         # Define FMU specific attributes
@@ -115,7 +115,7 @@ class AddSite:
         self.ac.add_boptest_measurements_to_mongo(measurements, self.site_ref)
         step = tc.get_step()
         scenario = tc.get_scenario()
-        self.ac.add_boptest_testcase_mongo(self.site_ref, step, scenario)
+        self.ac.add_boptest_testcase_mongo(self.site_ref, self.name, step, scenario)
 
         # Check mongo upload works correctly
         mongo_response = self.ac.add_site_to_mongo(f, self.site_ref)
