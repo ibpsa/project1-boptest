@@ -53,13 +53,12 @@ def run(plot=False, customized_kpi_config=None):
     # Set URL for testcase
     url = 'http://127.0.0.1'
     # Set simulation parameters
-    #length = 48*3600
-    length = 2*3600
+    length = 48*3600
     step = 300
     # Submit testcase fmu
     client = BoptestClient(url)
     testcase = 'testcase1'
-    testid = client.submit('../../testcases/{0}/models/wrapped.fmu'.format(testcase))
+    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase))
     # ---------------
 
     # GET TEST INFORMATION
@@ -173,6 +172,7 @@ def run(plot=False, customized_kpi_config=None):
     ####     plt.show()
     #### # --------------------
 
+    requests.put('{0}/stop/{1}'.format(url, testid))
     return kpi,df_res,customizedkpis_result
 
 if __name__ == "__main__":

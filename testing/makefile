@@ -67,13 +67,13 @@ generate_testcase_data:
 # Tests
 ###############################################################################
 test_testcase1:
-## # Compile testcase model
-## 	make compile_testcase_model TESTCASE=testcase1
-## # Build testcase image
-## 	cd .. &&  make build TESTCASE=testcase1
-## # Deploy testcase container
-## 	cd .. && make run-detached TESTCASE=testcase1
-## 	python sleep10.py
+# Compile testcase model
+	make compile_testcase_model TESTCASE=testcase1
+# Build testcase image
+	cd .. &&  make build
+# Deploy testcase container
+	cd .. && make run-detached
+	python sleep10.py
 ## # Run testcase tests
 ## # Julia
 ## 	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
@@ -82,10 +82,10 @@ test_testcase1:
 ## # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=testcase1
+	cd .. && make stop
 # Remove testcase image
-	cd ../examples/julia && make remove-image Script=testcase1
-	cd ../examples/javascript && make remove-image Script=testcase1
+##  cd ../examples/julia && make remove-image Script=testcase1
+##  cd ../examples/javascript && make remove-image Script=testcase1
 
 test_testcase2:
 # Compile testcase model
