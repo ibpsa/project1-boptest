@@ -4,7 +4,6 @@ import {getResults} from '../controllers/result';
 import {getKPIs} from '../controllers/kpi';
 import {getInputs} from '../controllers/input';
 import {getMeasurements} from '../controllers/measurement';
-import {getStep, setStep} from '../controllers/step';
 import {
   initialize,
   advance,
@@ -13,7 +12,9 @@ import {
   setForecastParameters,
   getForecast,
   setScenario,
-  getScenario
+  getScenario,
+  setStep,
+  getStep
 } from '../controllers/test';
 
 const boptestRoutes = express.Router();
