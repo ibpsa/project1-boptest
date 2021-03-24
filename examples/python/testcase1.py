@@ -99,7 +99,7 @@ def run(plot=False, customized_kpi_config=None):
         print('Successfully initialized the simulation')
     # Set simulation step
     print('Setting simulation step to {0}.'.format(step))
-    res = requests.put('{0}/step'.format(url), data={'step':step})
+    res = requests.put('{0}/step/{1}'.format(url, testid), data={'step':step})
     print('\nRunning test case...')
     # Initialize u
     u = pid.initialize()
@@ -176,4 +176,4 @@ def run(plot=False, customized_kpi_config=None):
     return kpi,df_res,customizedkpis_result
 
 if __name__ == "__main__":
-    kpi,df_res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
+    kpi,df_res,customizedkpis_result = run(customized_kpi_config='examples/python/custom_kpi/custom_kpis_example.config')

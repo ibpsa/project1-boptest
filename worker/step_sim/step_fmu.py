@@ -73,14 +73,6 @@ class RunFMUSite:
         # subscribe to channels related to this test
         self.redis_pubsub.psubscribe(str(self.site_ref) + "*")
 
-        # stepsize
-        redis_step_size = self.redis.hget(self.site_ref, 'step')
-        if redis_step_size:
-            self.tc.set_step(redis_step_size)
-        else:
-            stepsize = self.tc.get_step()
-            self.redis.hset(self.site_ref, 'step', stepsize)
-
         self.init_sim_status()
 
 
@@ -265,7 +257,7 @@ class RunFMUSite:
         # look for a change in step size
         redis_step_size = self.redis.hget(self.site_ref, 'step')
         current_step_size = self.tc.get_step()
-        if current_step_size != redis_step_size:
+        if redis_step_size and (current_step_size != redis_step_size):
             self.tc.set_step(redis_step_size)
 
         u = self.get_u()
