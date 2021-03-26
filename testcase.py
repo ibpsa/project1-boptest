@@ -508,12 +508,12 @@ class TestCase(object):
 
         Returns
         -------
-        name : str
-            Name of test case fmu.
+        name : dict
+            Name of test case as {'name': <str>}
 
         '''
 
-        name = self.fmupath[7:-4]
+        name = {'name':self.name}
 
         return name
 
