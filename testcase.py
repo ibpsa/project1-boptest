@@ -27,6 +27,8 @@ class TestCase(object):
 
         # Get configuration information
         con = config.get_config()
+        # Define name
+        self.name = con['name']
         # Define simulation model
         self.fmupath = con['fmupath']
         # Load fmu

@@ -6,6 +6,7 @@ def get_config():
     config : dict()
     Dictionary containing configuration information.
     {
+    'name'     : string, name of test case
     'fmupath'  : string, location of model fmu
     'step'     : int, default control step size in seconds
     'horizon'  : int, default forecast horizon in seconds
@@ -17,6 +18,7 @@ def get_config():
 
     config = {
     # Enter configuration information
+    'name'     : 'bestest_air',
     'fmupath'  : 'models/wrapped.fmu',
     'step'     : 3600,
     'horizon'  : 86400,
