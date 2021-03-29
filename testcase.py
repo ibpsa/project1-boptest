@@ -27,6 +27,8 @@ class TestCase(object):
 
         # Get configuration information
         con = config.get_config()
+        # Define name
+        self.name = con['name']
         # Define simulation model
         self.fmupath = con['fmupath']
         # Load fmu
@@ -508,12 +510,12 @@ class TestCase(object):
 
         Returns
         -------
-        name : str
-            Name of test case fmu.
+        name : dict
+            Name of test case as {'name': <str>}
 
         '''
 
-        name = self.fmupath[7:-4]
+        name = {'name':self.name}
 
         return name
 
