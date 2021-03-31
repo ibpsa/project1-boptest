@@ -10,3 +10,4 @@ This directory contains test cases for BOPTEST.  A summary of available test cas
 | ``bestest_air``| BESTEST Case 900 room model with idealized fan coil unit.|
 | ``bestest_hydronic``| BESTEST Case 900 room model with gas boiler and radiator.|
 | ``bestest_hydronic_heat_pump``| BESTEST Case 900 room model, scaled by four in floor area, that uses a heat pump as heating production system and floor heating as heating emission system.|
+| ``multizone_office_simple_air``| 5-Zone office multizone VAV system with typical core-perimeter zone layout and without detailed central plant modeling.  Based on the model found in the Modelica Buildings Library ``Buildings.Examples.VAVReheat.ASHRAE2006``.|
