@@ -28,12 +28,13 @@ for i in range(len(df.index)):
                 drop_list.append(i)
 df = df.drop(index=drop_list)
 df = df.set_index('Time')
+df.index.name = 'time'
 
 # Convert W/m^2 to W
 A = 48 # m^2
 for key in ['zon.roo.qGai_flow[1]','zon.roo.qGai_flow[2]','zon.roo.qGai_flow[3]']:
     df[key] = df[key]*A
-    
+
 # Add occupancy
 df['Occupancy[1]'] = 0
 df['Occupancy[1]'][df['zon.roo.qGai_flow[3]']>0]=2
