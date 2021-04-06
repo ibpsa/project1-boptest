@@ -1,20 +1,19 @@
 '''
-Created on Feb 20, 2020
+Generates internal load, setpoint, and occupancy boundary data for
+bestest_air case.  Uses csv result file from one-year simulation that needs
+to already be run using baseline control, containing the following output
+variables:
 
-@author: Javier Arroyo
+zon.roo.qGai_flow[1]
+zon.roo.qGai_flow[2]
+zon.roo.qGai_flow[3]
+con.TSetCoo.y[1]
+con.TSetHea.y[1]
+
 '''
 
-from data.data_generator import Data_Generator
-import os
 import pandas as pd
-from pymodelica import compile_fmu
-from pyfmi import load_fmu
-from scipy import interpolate
 import numpy as np
-
-#=====================================================================
-# Generate variables from model
-#=====================================================================
 
 # Remove duplicate states
 df = pd.read_csv('Resources/TestCase_Ideal.csv')
