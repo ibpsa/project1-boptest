@@ -133,13 +133,18 @@ def run(plot=False):
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    res = requests.get('{0}/results'.format(url)).json()
-    time = [x/3600 for x in res['y']['time']] # convert s --> hr
+    points = measurements.keys() + inputs.keys()
+    df_res = pd.DataFrame()
+    for point in points:
+        res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
+    df_res.index.name = 'time'
+    time = df_res.index.values/3600 # convert s --> hr
     setpoints.index = setpoints.index/3600 # convert s --> hr
-    TZoneNor = [x-273.15 for x in res['y']['TRooAirNor_y']] # convert K --> C
-    PHeatNor = res['y']['PHeaNor_y']
-    TZoneSou = [x-273.15 for x in res['y']['TRooAirSou_y']] # convert K --> C
-    PHeatSou = res['y']['PHeaSou_y']
+    TZoneNor = df_res['TRooAirNor_y'].values-273.15 # convert K --> C
+    PHeatNor = df_res['PHeaNor_y'].values
+    TZoneSou = df_res['TRooAirSou_y'].values-273.15 # convert K --> C
+    PHeatSou = df_res['PHeaSou_y'].values
     setpoints= setpoints - 273.15 # convert K --> C
     # Plot results
     if plot:
@@ -163,7 +168,7 @@ def run(plot=False):
         plt.show()
     # --------------------
 
-    return kpi,res
+    return kpi,df_res
 
 if __name__ == "__main__":
-    kpi,res = run(plot=False)
+    kpi,df_res = run(plot=False)

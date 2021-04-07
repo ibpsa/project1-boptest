@@ -77,12 +77,15 @@ test_testcase1:
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
+# Javascript
+	cd ../examples/javascript && make build Script=testcase1 && make run Script=testcase1
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase1
 # Remove testcase image
 	cd ../examples/julia && make remove-image Script=testcase1
+	cd ../examples/javascript && make remove-image Script=testcase1
 
 test_testcase2:
 # Compile testcase model
@@ -95,12 +98,15 @@ test_testcase2:
 # Run testcase tests
 # Julia
 	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
+# Javascript
+	cd ../examples/javascript && make build Script=testcase2 && make run Script=testcase2
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
 # Remove testcase image
 	cd ../examples/julia && make remove-image Script=testcase2
+	cd ../examples/javascript && make remove-image Script=testcase2
 
 test_bestest_air:
 # Compile testcase model

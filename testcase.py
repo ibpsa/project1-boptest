@@ -333,25 +333,48 @@ class TestCase(object):
 
         return measurements
 
-    def get_results(self):
+    def get_results(self, var, start_time, final_time):
         '''Returns measurement and control input trajectories.
 
         Parameters
         ----------
-        None
+        var : str
+            Name of variable.
+        start_time : float
+            Start time of data to return in seconds.
+        final_time : float
+            Start time of data to return in seconds.
 
         Returns
         -------
-        Y : dict
-            Dictionary of measurement and control input names and their
-            trajectories as lists.
-            {'y':{<measurement_name>:<measurement_trajectory>},
-             'u':{<input_name>:<input_trajectory>}
+        Y : dict or None
+            Dictionary of variable trajectories with time as lists.
+            {'time':[<time_data>],
+             'var':[<var_data>]
             }
+            Returns None if no variable can be found
 
         '''
 
-        Y = {'y':self.y_store, 'u':self.u_store}
+        # Get correct point
+        if var in self.y_store.keys():
+            Y = {'time':self.y_store['time'],
+                 var:self.y_store[var]
+                 }
+        elif var in self.u_store.keys():
+            Y = {'time':self.u_store['time'],
+                 var:self.u_store[var]
+                 }
+        else:
+            Y = None
+            return Y
+
+        # Get correct time
+        time1 = Y['time']
+        for key in [var,'time']:
+            Y[key] = Y[key][time1>=start_time]
+            time2 = time1[time1>=start_time]
+            Y[key] = Y[key][time2<=final_time]
 
         return Y
 

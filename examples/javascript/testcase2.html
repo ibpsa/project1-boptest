@@ -1,0 +1,310 @@
+<html>
+<head>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript">
+
+<!-- SETUP TEST CASE -->
+
+count=1;
+point = "";
+step = 3600;
+length = 48*3600
+
+url = "http://127.0.0.1:5000/";
+control_interval = 5;
+
+
+<!-- DATA CONTAINER -->
+
+var json = [];
+var data;
+
+<!-- GET TEST INFORMATION -->
+
+<!-- Test case name -->
+
+xhr_get_name = new XMLHttpRequest();
+
+xhr_get_name.open("GET", url+"name", false);
+xhr_get_name.onreadystatechange = function() {
+        if (xhr_get_name.readyState == 4) {
+            if (xhr_get_name.status != 200) {
+                console.log( "ERR in getting name" );
+            }
+            else {
+                console.log( "SUCCESS in getting name" );
+				console.log(xhr_get_name.response);
+            }
+        }
+    };
+xhr_get_name.send(null);
+
+<!-- Inputs available -->
+
+xhr_get_input = new XMLHttpRequest();
+
+xhr_get_input.open("GET", url+"inputs", false);
+xhr_get_input.onreadystatechange = function() {
+        if (xhr_get_input.readyState == 4) {
+            if (xhr_get_input.status != 200) {
+                console.log( "ERR in getting inputs" );
+            }
+            else {
+                console.log( "SUCCESS in getting inputs" );
+				console.log(xhr_get_input.response);
+            }
+        }
+    };
+xhr_get_input.send(null);
+
+<!-- Measurements available -->
+
+xhr_get_output = new XMLHttpRequest();
+
+xhr_get_output.open("GET", url+"measurements", false);
+xhr_get_output.onreadystatechange = function() {
+        if (xhr_get_output.readyState == 4) {
+            if (xhr_get_output.status != 200) {
+                console.log( "ERR in getting measurements" );
+            }
+            else {
+                console.log( "SUCCESS in getting measurements" );
+				console.log(xhr_get_output.response);
+            }
+        }
+    };
+xhr_get_output.send(null);
+
+<!-- Default simulation step -->
+
+xhr_get_step = new XMLHttpRequest();
+xhr_get_step.open("GET", url+"step", false);
+xhr_get_step.onreadystatechange = function() {
+        if (xhr_get_step.readyState == 4) {
+            if (xhr_get_step.status != 200) {
+                console.log( "ERR in getting steps" );
+            }
+            else {
+                console.log( "SUCCESS in getting steps" );
+				console.log(xhr_get_step.response);
+            }
+        }
+    };
+
+xhr_get_step.send(null);
+
+<!-- Resetting test case if needed. -->
+
+xhr_reset = new XMLHttpRequest();
+xhr_reset.open("PUT", url+"initialize", false);
+xhr_reset.setRequestHeader("Content-type", "application/json");
+xhr_reset.onreadystatechange = function() {
+        if (xhr_reset.readyState == 4) {
+            if (xhr_reset.status != 200 && xhr_reset.status != 201) {
+                console.log( "ERR in initialize" );
+            }
+            else {
+                console.log( "SUCCESS in reset" );
+
+
+            }
+        }
+    };
+   var reset_string='{"start_time":0,"warmup_period":0}'
+   xhr_reset.send(reset_string);
+
+
+
+function send()
+{
+   if (count>length/step)
+   {
+      xhr_get_result = new XMLHttpRequest();
+      xhr_get_result.open("PUT", url+"results", false);
+      xhr_get_result.setRequestHeader("Content-type", "application/json");
+      xhr_get_result.onreadystatechange = function() {
+            if (xhr_get_result.readyState == 4) {
+    		              if (xhr_get_result.status != 200) {
+    								 console.log( "ERR in getting results" );
+    		              }
+    		              else {
+    								 console.log( "SUCCESS in getting results" );
+								 result.value = xhr_get_result.response;
+    		              }
+            }
+      };
+      var results = {};
+
+      var results_arg='{"point_name":"TRooAir_y","start_time":0,"final_time":'+length.toString()+'}';
+      xhr_get_result.send(results_arg);
+
+      xhr_get_kpi = new XMLHttpRequest();
+      xhr_get_kpi.open("GET", url+"kpi", false);
+      xhr_get_kpi.onreadystatechange = function() {
+            if (xhr_get_kpi.readyState == 4) {
+    		              if (xhr_get_kpi.status != 200) {
+    								 console.log( "ERR in getting kpi" );
+    		              }
+    		              else {
+    								 console.log( "SUCCESS in getting kpi" );
+    								 kpi.value = xhr_get_kpi.response;
+    		              }
+            }
+      };
+
+      xhr_get_kpi.send(null);
+
+   }
+   else {
+
+       if (count ==1)
+       {
+       <!-- Setting simulation step to $step -->
+
+       xhr_restep = new XMLHttpRequest();
+       xhr_restep.open("PUT", url+"step", false);
+       xhr_restep.setRequestHeader("Content-type", "application/json");
+       xhr_restep.onreadystatechange = function() {
+            if (xhr_restep.readyState == 4) {
+                if (xhr_restep.status != 200 && xhr_restep.status != 201) {
+                    console.log( "ERR in setting step" );
+                }
+                else {
+                    console.log( "SUCCESS in setting step" );
+
+                }
+            }
+        };
+
+       var step_string='{"step":'+step.toString()+'}'
+       xhr_restep.send(step_string);
+       }
+
+       <!-- Controller implementation -->
+       if (count ==1) {
+            data = request.value;
+       }
+       else {
+
+            data = '{"oveTSetRooHea_u":295.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_u":296.15,"oveTSetRooCoo_activate":1}'
+       };
+       console.log(data);
+
+       <!-- Advance simulation -->
+       xhr = new XMLHttpRequest();
+       xhr.open("POST", url+"advance", false);
+       xhr.setRequestHeader("Content-type", "application/json");
+       xhr.onreadystatechange = function () {
+       if (xhr.readyState == 4 && xhr.status == 200) {
+            output.value = xhr.response;
+            json = JSON.parse(xhr.responseText);
+       <!-- initialize the information for the select box and plotting-->
+    		if (count ==1) {
+    		              for (key in json) {
+    								 var x = document.getElementById("variables")
+    								 if (count<2)
+    			                     {var option = document.createElement("option")
+    			                     option.value = key
+    			                     option.text = key
+    			                     x.add(option)}
+    		              };
+    		};
+            count += 1
+    		if (point in json){
+    		              Highcharts.charts.forEach((chart) => {
+    								 if (chart == chart1){
+    		                               chart.series[0].addPoint([json['time'],json[point]]);
+    		                               chart.yAxis[0].axisTitle.attr({
+                                                                 text: point
+    		                               });
+
+    								 }})
+    		}}
+    		var select = document.getElementById("variables");
+    		              select.addEventListener('change', (e) => {
+    								 point = e.target.value;
+    		              })
+      }
+
+
+      xhr.send(data);
+    }
+};
+
+// schedule the first invocation:
+setInterval(send, control_interval);
+
+</script>
+</head>
+<body>
+<div>
+Request:
+<br><textarea rows="10" cols="150" id='request' value="">
+{"oveTSetRooHea_u":295.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_u":296.15,"oveTSetRooCoo_activate":1}
+</textarea>
+<br>
+
+<button type="button" class="button" value="send" onclick="send()">Send request</button>
+<br>
+output:
+<br> <textarea rows="10" cols="150" id='output' value="output" >
+</textarea>
+<br>
+<br>
+result:
+<br> <textarea rows="10" cols="150" id='result' value="result" >
+</textarea>
+<br>
+<br>
+kpi:
+<br> <textarea rows="10" cols="150" id='kpi' value="kpi" >
+</textarea>
+<br>
+</div>
+<br>
+<label>Simulation Output</label>
+<form>
+<select name="variables" id="variables">
+</select>
+</form>
+<div id="container"></div>
+<script type="text/javascript">
+chart1=Highcharts.chart('container', {
+
+    title: {
+        text: 'Data from Emulator'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Number'
+        }
+    },
+
+
+    series: [{
+        name: 'Time [s]',
+        data: []
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+});
+</script>
+
+</textarea>
+
+</body>
+<html>

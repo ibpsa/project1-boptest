@@ -83,16 +83,23 @@ end
 # POST PROCESS RESULTS
 # --------------------
 # Get result data
-res = JSON.parse(String(HTTP.get("$url/results").body))
-time = [x/3600 for x in res["y"]["time"]] # convert s --> hr
-TRooAir  = [x-273.15 for x in res["y"]["TRooAir_y"]] # convert K --> C
-CO2RooAir  = [x for x in res["y"]["CO2RooAir_y"]]
-TSetRooHea   = [x-273.15 for x in res["u"]["oveTSetRooHea_u"]] # convert K --> C
-TSetRooCoo   = [x-273.15 for x in res["u"]["oveTSetRooCoo_u"]] # convert K --> C
-PFan  = res["y"]["PFan_y"]
-PCoo  = res["y"]["PCoo_y"]
-PHea  = res["y"]["PHea_y"]
-PPum  = res["y"]["PPum_y"]
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "TRooAir_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+time = [x/3600 for x in res["time"]] # convert s --> hr
+TRooAir  = [x-273.15 for x in res["TRooAir_y"]] # convert K --> C
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "CO2RooAir_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+CO2RooAir  = [x for x in res["CO2RooAir_y"]]
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "oveTSetRooHea_u","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+TSetRooHea   = [x-273.15 for x in res["oveTSetRooHea_u"]] # convert K --> C
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "oveTSetRooCoo_u","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+TSetRooCoo   = [x-273.15 for x in res["oveTSetRooCoo_u"]] # convert K --> C
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PFan_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+PFan  = res["PFan_y"]
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PCoo_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+PCoo  = res["PCoo_y"]
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PHea_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+PHea  = res["PHea_y"]
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PPum_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+PPum  = res["PPum_y"]
 tab=DataFrame([time,TRooAir,CO2RooAir,TSetRooHea,TSetRooCoo,PFan,PCoo,PHea,PPum],[:time,:TRooAir,:CO2RooAir,:TSetRooHea,:TSetRooCoo,:PFan,:PCoo,:PHea,:PPum])
 CSV.write("result_testcase2.csv",tab)
 tab_kpi = DataFrame([[kpi["ener_tot"]], [kpi["tdis_tot"]], [kpi["idis_tot"]], [kpi["cost_tot"]], [kpi["time_rat"]], [kpi["emis_tot"]]], [:ener_tot, :tdis_tot, :idis_tot, :cost_tot, :time_rat, :emis_tot])

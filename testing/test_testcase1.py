@@ -31,17 +31,16 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
 
         # Run test
         custom_kpi_config_path = os.path.join(utilities.get_root_path(), 'examples', 'python', 'custom_kpi', 'custom_kpis_example.config')
-        kpi,res,customizedkpis_result = testcase1.run(customized_kpi_config=custom_kpi_config_path)
+        kpi,df_res,customizedkpis_result = testcase1.run(customized_kpi_config=custom_kpi_config_path)
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'kpis_python.csv')
         self.compare_ref_values_df(df, ref_filepath)
         # Check trajectories
-        df = self.results_to_df(res)
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results_python.csv')
-        self.compare_ref_timeseries_df(df,ref_filepath)
+        self.compare_ref_timeseries_df(df_res,ref_filepath)
         # Check customized kpi trajectories
         df = pd.DataFrame()
         for x in customizedkpis_result.keys():
@@ -85,6 +84,38 @@ class ExampleProportionalJulia(unittest.TestCase, utilities.partialChecks):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results_julia.csv')
         # Test
         self.compare_ref_timeseries_df(df,ref_filepath)
+
+class ExampleProportionalJavaScript(unittest.TestCase, utilities.partialChecks):
+    '''Tests the example test of proportional feedback controller in JavaScript.
+
+    '''
+
+    def setUp(self):
+        '''Setup for each test.
+
+        '''
+
+        pass
+
+    def test_run(self):
+        '''Runs the example and tests the kpi and trajectory results.
+
+        '''
+
+        # Run test
+        kpi_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'kpi_testcase1.csv')
+        res_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'result_testcase1.csv')
+        # Check kpis
+        df = pd.read_csv(kpi_path, index_col = 'keys')
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'kpis_javascript.csv')
+        self.compare_ref_values_df(df, ref_filepath)
+        # Check trajectories
+        df = pd.read_csv(res_path, index_col = 'time')
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'results_javascript.csv')
+        # Test
+        self.compare_ref_timeseries_df(df,ref_filepath)
+
 
 class MinMax(unittest.TestCase):
     '''Test the use of min/max attributes to truncate the controller input.
