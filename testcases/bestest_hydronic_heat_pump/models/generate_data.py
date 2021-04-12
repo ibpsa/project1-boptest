@@ -157,8 +157,8 @@ df['UpperCO2[1]'] = 894.
 
 def hold_step_values_in_event_times(df, var, event_freq):
     ''' This method goes through the index of a data frame to inspect
-    when step changes take place for a variable and makes sure that
-    the event times hold the values when the step is active.
+    when positive step changes take place for a variable and makes sure 
+    that the event times hold the values when the step is active.
 
     Parameters
     ----------
