@@ -26,9 +26,9 @@ model BaseClass "Base class for ventilation"
     annotation (Placement(transformation(extent={{20,60},{40,80}})));
   Modelica.Blocks.Math.Gain gaiPPM(k=1e6) "Convert mass fraction to PPM"
     annotation (Placement(transformation(extent={{50,60},{70,80}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="Air CO2 concentration of zone " + zone,
-    KPIs=if isConditionedZone then IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration else IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=if isConditionedZone then Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration else Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm"),
     zone=zone) "Read room air CO2 concentration"
     annotation (Placement(transformation(extent={{80,60},{100,80}})));

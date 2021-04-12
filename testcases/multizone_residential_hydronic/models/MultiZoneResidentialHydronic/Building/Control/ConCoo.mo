@@ -30,17 +30,17 @@ model ConCoo "Controller for cooling"
 
   parameter String zone="1" "Zone designation";
 
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       min=273.15 + 10,
       max=273.15 + 30,
       unit="K"), description="Air temperature cooling setpoint for " + zone)
     annotation (Placement(transformation(extent={{-84,16},{-76,24}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPCoo(
+  Buildings.Utilities.IO.SignalExchange.Read reaPCoo(
     description="Cooling electrical power use in zone " + zone,
-                                                KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+                                                KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W"))
     annotation (Placement(transformation(extent={{-8,26},{0,34}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite ovePCoo(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite ovePCoo(description=
         "Prescribed cooling power for " + zone,
                                    u(
       min=-1e4,

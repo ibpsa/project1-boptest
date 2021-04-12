@@ -30,20 +30,20 @@ model ConHeaZon "Zone controller for heating system"
         origin={-108,30}), iconTransformation(extent={{-116,22},{-100,38}})));
   Modelica.Blocks.Math.Gain gaiHea(k=Khea)
     annotation (Placement(transformation(extent={{-28,16},{-20,24}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
       min=273.15 + 10,
       max=273.15 + 95,
       unit="K"), description="Air temperature heating setpoint for " + zone)
     annotation (Placement(transformation(extent={{-94,26},{-86,34}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveActHea(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveActHea(u(
       min=0,
       max=1,
       unit="1"), description="Actuator signal for heating valve for zone " +
         zone)
     annotation (Placement(transformation(extent={{-44,16},{-36,24}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTZon(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+  Buildings.Utilities.IO.SignalExchange.Read reaTZon(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K"),
     description="Air temperature of zone " + zone,
     zone=zone)

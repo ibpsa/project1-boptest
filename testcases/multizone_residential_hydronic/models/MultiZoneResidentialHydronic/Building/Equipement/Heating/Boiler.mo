@@ -35,11 +35,11 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
 //  Modelica.SIunits.Power QWat_flow "Heat transfer from gas into water";
   Modelica.SIunits.Efficiency eta "Boiler efficiency";
 
-  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium
-      = MediumW) annotation (Placement(transformation(rotation=0, extent={{-94,-10},
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium =
+        MediumW) annotation (Placement(transformation(rotation=0, extent={{-94,-10},
             {-114,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare final package Medium
-      = MediumW)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare final package Medium =
+        MediumW)
     annotation (Placement(transformation(rotation=0, extent={{92,-10},{112,10}})));
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort
@@ -66,8 +66,8 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
         MediumW)
     annotation (Placement(transformation(extent={{-86,10},{-66,-10}})));
 
-  Buildings.Fluid.Sensors.Temperature        T_retour(redeclare package Medium
-      =        MediumW)                                annotation (
+  Buildings.Fluid.Sensors.Temperature        T_retour(redeclare package Medium =
+               MediumW)                                annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
@@ -101,11 +101,11 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
     annotation (Placement(transformation(extent={{38,-68},{50,-56}})));
   Modelica.Blocks.Interfaces.RealOutput consoElec_ch
     annotation (Placement(transformation(extent={{100,-82},{140,-42}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPpum(KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+  Buildings.Utilities.IO.SignalExchange.Read reaPpum(KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     description="Boiler pump electrical power use",
     y(unit="W"))
     annotation (Placement(transformation(extent={{80,-40},{100,-20}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveBoi(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveBoi(description=
         "Boiler control signal for part load ratio",
       u(
       min=0,
@@ -114,8 +114,8 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
     annotation (Placement(transformation(extent={{-60,46},{-40,66}})));
   Modelica.Blocks.Sources.RealExpression QWat_flow(y=chaudiere.QFue_flow)
     annotation (Placement(transformation(extent={{16,80},{62,100}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaGasBoi(
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+  Buildings.Utilities.IO.SignalExchange.Read reaGasBoi(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Boiler gas power use",
     y(unit="W"))
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
