@@ -33,7 +33,8 @@ model ConHeaZon "Zone controller for heating system"
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
       min=273.15 + 10,
       max=273.15 + 95,
-      unit="K"), description="Air temperature heating setpoint for " + zone)
+      unit="K"), description="Air temperature heating setpoint for zone " +
+        zone)
     annotation (Placement(transformation(extent={{-94,26},{-86,34}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveActHea(u(

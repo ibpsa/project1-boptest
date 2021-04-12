@@ -33,7 +33,8 @@ model ConCoo "Controller for cooling"
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       min=273.15 + 10,
       max=273.15 + 30,
-      unit="K"), description="Air temperature cooling setpoint for " + zone)
+      unit="K"), description="Air temperature cooling setpoint for zone " +
+        zone)
     annotation (Placement(transformation(extent={{-92,16},{-84,24}})));
   Buildings.Utilities.IO.SignalExchange.Read reaPCoo(
     description="Cooling electrical power use in zone " + zone,
@@ -41,7 +42,7 @@ model ConCoo "Controller for cooling"
     y(unit="W"))
     annotation (Placement(transformation(extent={{-8,26},{0,34}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveCoo(description=
-        "Cooling control signal as fraction of maximum for " + zone, u(
+        "Cooling control signal as fraction of maximum for zone " + zone, u(
       min=0,
       max=1,
       unit="1"))
