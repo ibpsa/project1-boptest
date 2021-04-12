@@ -50,8 +50,9 @@ model ConCoo "Controller for cooling"
     "Heating to power factor related to the energy efficiency of the air conditioner"
     annotation (Placement(transformation(extent={{-22,26},{-14,34}})));
   Buildings.Utilities.IO.SignalExchange.Read reaCoo(
-    description="Cooling control signal as fraction of maximum for zone " +
-        zone,
+    description=
+        "Cooling control signal measurement as fraction of maximum for zone "
+         + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
 
     y(unit="1"))

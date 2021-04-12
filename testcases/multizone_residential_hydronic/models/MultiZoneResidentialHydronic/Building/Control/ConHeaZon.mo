@@ -29,7 +29,7 @@ model ConHeaZon "Zone controller for heating system"
         extent={{-8,-8},{8,8}},
         origin={-108,30}), iconTransformation(extent={{-116,22},{-100,38}})));
   Modelica.Blocks.Math.Gain gaiHea(k=Khea)
-    annotation (Placement(transformation(extent={{-28,16},{-20,24}})));
+    annotation (Placement(transformation(extent={{-24,16},{-16,24}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
       min=273.15 + 10,
       max=273.15 + 95,
@@ -41,7 +41,7 @@ model ConHeaZon "Zone controller for heating system"
       max=1,
       unit="1"), description="Actuator signal for heating valve for zone " +
         zone)
-    annotation (Placement(transformation(extent={{-44,16},{-36,24}})));
+    annotation (Placement(transformation(extent={{-48,16},{-40,24}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTZon(
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K"),
@@ -49,14 +49,18 @@ model ConHeaZon "Zone controller for heating system"
     zone=zone)
     annotation (Placement(transformation(extent={{-80,-4},{-72,4}})));
 
+  Buildings.Utilities.IO.SignalExchange.Read reaActHea(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+    y(unit="1"),
+    description="Actuator signal measurement for heating valve for zone " +
+        zone,
+    zone=zone)
+    annotation (Placement(transformation(extent={{-36,16},{-28,24}})));
 equation
   connect(TSet, oveTSetHea.u)
     annotation (Line(points={{-108,30},{-94.8,30}}, color={0,0,127}));
-  connect(conHea.y, oveActHea.u)
-    annotation (Line(points={{-51.6,20},{-44.8,20}}, color={0,0,127}));
-  connect(gaiHea.u, oveActHea.y)
-    annotation (Line(points={{-28.8,20},{-35.6,20}}, color={0,0,127}));
-  connect(gaiHea.y, yHea) annotation (Line(points={{-19.6,20},{-14,20},{-14,10},
+  connect(gaiHea.y, yHea) annotation (Line(points={{-15.6,20},{-14,20},{-14,10},
           {10,10}}, color={0,0,127}));
   connect(oveTSetHea.y, conHea.u_s) annotation (Line(points={{-85.6,30},{-70,30},
           {-70,20},{-60.8,20}}, color={0,0,127}));
@@ -64,6 +68,12 @@ equation
     annotation (Line(points={{-108,12},{-56,12},{-56,15.2}}, color={0,0,127}));
   connect(reaTZon.u, T) annotation (Line(points={{-80.8,0},{-90,0},{-90,12},{-108,
           12}},      color={0,0,127}));
+  connect(oveActHea.y, reaActHea.u)
+    annotation (Line(points={{-39.6,20},{-36.8,20}}, color={0,0,127}));
+  connect(reaActHea.y, gaiHea.u)
+    annotation (Line(points={{-27.6,20},{-24.8,20}}, color={0,0,127}));
+  connect(oveActHea.u, conHea.y)
+    annotation (Line(points={{-48.8,20},{-51.6,20}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-20},{0,40}},   preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-20},{0,40}})),
