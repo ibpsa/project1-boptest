@@ -458,6 +458,16 @@ the maximum 15-minute system cooling load that is closest from below to the
 median of all 15-minute maximum cooling loads of all days in the year.
 </ul>
 </p>
+<p>
+The <b>Mix Day</b> (specifier for <code>/scenario</code> API is <code>'mix_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the maximimum
+sum of daily heating and cooling loads minus the difference between
+daily heating and cooling loads.  This is a day with both significant heating
+and cooling loads.
+</ul>
+</p>
 <h4>Energy Pricing</h4>
 <p>
 The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:

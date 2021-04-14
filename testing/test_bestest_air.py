@@ -40,6 +40,9 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     def test_typical_cool_day(self):
         self.run_time_period('typical_cool_day')
 
+    def test_mix_day(self):
+        self.run_time_period('mix_day')
+
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase.
 
