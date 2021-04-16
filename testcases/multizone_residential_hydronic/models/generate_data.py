@@ -198,5 +198,56 @@ df['InternalGainsRad[Hal]'] = 0.
 df['InternalGainsCon[Hal]'] = 0.
 df['InternalGainsLat[Hal]'] = 0.
 
+def hold_step_values_in_event_times(df, cols, event_freq):
+    ''' This method goes through the index of a data frame to inspect
+    when positive step changes take place for a variable and makes sure 
+    that the event times hold the values when the step is active.
+
+    Parameters
+    ----------
+    df: DataFrame
+        Data frame with the data to be changed. Index should be
+        a DatetimeIndex type
+    cols: string
+        Columns of the data frame used to find step changes and perform 
+        the inspection. These columns will be edited if required. 
+    event_freq: integer
+        Frequency of possible step changes in seconds. Choose the
+        greatest common divisor of all event times. One hour is a
+        safe choice, unless step changes happen more frequently, which
+        is not normally the case.
+
+    Returns
+    -------
+    df: DataFrame
+        The modified data frame that holds the step values in the
+        event times.
+
+    '''
+
+    time_original = df.time
+
+    for col in cols:
+        for i in df.index[1:-1]:
+            # Check if we are in a potential event time
+            if int((i - df.index[0]).total_seconds())%event_freq == 0:
+                # Check the cases that we want to avoid:
+                if df.loc[i+i.freq,col]>df.loc[i,col]:
+                    # A step has been activated but event time is not
+                    # holding the value during activation. Change that:
+                    df.loc[i,col] = df.loc[i+i.freq,col]
+                if df.loc[i-i.freq,col]>df.loc[i,col]:
+                    # A step has been deactivated but event time is not
+                    # holding the value during activation. Change that:
+                    df.loc[i,col] = df.loc[i-i.freq,col]
+
+    df.time = time_original
+
+    return df
+
+df = hold_step_values_in_event_times(df=df,
+                                     cols=keysMap.keys(),
+                                     event_freq=3600)
+
 # Store in csv
 gen.store_df(df,'dataFromModel')
