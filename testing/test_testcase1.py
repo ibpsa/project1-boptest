@@ -12,6 +12,7 @@ import utilities
 import requests
 import numpy as np
 from examples.python import testcase1
+from examples.python import testcase1_scenario
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller in Python.
@@ -51,6 +52,31 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'customizedkpis.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
+
+class ExampleScenarioPython(unittest.TestCase, utilities.partialChecks):
+    '''Tests the example test of feedback controller with scenario options in Python.
+
+    '''
+
+    def setUp(self):
+        '''Setup for each test.
+
+        '''
+
+        pass
+
+    def test_run(self):
+        '''Runs the example and tests the kpi results.
+
+        '''
+
+        # Run test
+        kpi = testcase1_scenario.run(plot=False)
+        # Check kpis
+        df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase1', 'kpis_python_scenario.csv')
+        self.compare_ref_values_df(df, ref_filepath)
 
 class ExampleProportionalJulia(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller in Julia.
