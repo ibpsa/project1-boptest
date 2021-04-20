@@ -83,40 +83,45 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
     # Load data
     df.index = pd.TimedeltaIndex(df.index.values, unit='s')
     df = df.resample('15T').mean()
-    df = df.loc[pd.Timedelta(days=7):pd.Timedelta(days=365-7)]
     df.dropna(axis=0, inplace=True)
+    # Since assume two-week test period with one-week warmup,
+    # edges of year are not available to choose from
+    df_available = df.loc[pd.Timedelta(days=14):pd.Timedelta(days=365-7)]
+
 
     # Find peak
     if heat is not None:
-        peak_heat_day = df[heat].idxmax().days
+        peak_heat_day = df_available[heat].idxmax().days
         days['peak_heat_day'] = peak_heat_day
         print('Peak heat is day {0}.'.format(peak_heat_day))
 
     if cool is not None:
-        peak_cool_day = df[cool].idxmax().days
+        peak_cool_day = df_available[cool].idxmax().days
         days['peak_cool_day'] = peak_cool_day
         print('Peak cool is day {0}.'.format(peak_cool_day))
 
     # Find typical
     df_daily = df.resample('D').max()
+    df_available_daily = df.resample('D').max()
 
     if heat is not None:
         median_heat = df_daily[heat][df_daily[heat]>1].median()
-        typical_heat_day = df_daily[heat][df_daily[heat].values <= median_heat].sort_values(ascending=False).index[0].days
+        typical_heat_day = df_available_daily[heat][df_available_daily[heat].values <= median_heat].sort_values(ascending=False).index[0].days
         days['typical_heat_day'] = typical_heat_day
         print('Typical heat is day {0}.'.format(typical_heat_day))
 
     if cool is not None:
         median_cool = df_daily[cool][df_daily[cool]>1].median()
-        typical_cool_day = df_daily[cool][df_daily[cool].values <= median_cool].sort_values(ascending=False).index[0].days
+        typical_cool_day = df_available_daily[cool][df_available_daily[cool].values <= median_cool].sort_values(ascending=False).index[0].days
         days['typical_cool_day'] = typical_cool_day
         print('Typical cool is day {0}.'.format(typical_cool_day))
 
     # Find heat cool mix
     df_daily = df.resample('D').max()
+    df_available_daily = df.resample('D').max()
 
     if (heat is not None) and (cool is not None):
-        mix = df_daily[heat]+df_daily[cool]-abs(df_daily[heat]-df_daily[cool])
+        mix = df_available_daily[heat]+df_available_daily[cool]-abs(df_available_daily[heat]-df_available_daily[cool])
         mix_day = mix.idxmax().days
         days['mix_day'] = mix_day
         print('Mix is day {0}.'.format(mix_day))
