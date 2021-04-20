@@ -333,7 +333,7 @@ class partialTestAPI(partialChecks):
 
     url : str
         URL to deployed testcase.
-    name_ref : str
+    name : str
         Name given to test
     inputs_ref : list of str
         List of names of inputs
@@ -350,7 +350,7 @@ class partialTestAPI(partialChecks):
         '''
 
         name = requests.get('{0}/name'.format(self.url)).json()
-        self.assertEqual(name, self.name_ref)
+        self.assertEqual(name['name'], self.name)
 
     def test_get_inputs(self):
         '''Test getting the input list of tests.

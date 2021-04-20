@@ -293,7 +293,6 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.name = 'testcase1'
         self.url = 'http://127.0.0.1:5000'
-        self.name_ref = 'wrapped'
         self.step_ref = 60.0
         self.test_time_period = 'test_day'
 

@@ -58,7 +58,6 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.name = 'bestest_air'
         self.url = 'http://127.0.0.1:5000'
-        self.name_ref = 'wrapped'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
 
