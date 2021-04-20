@@ -130,8 +130,8 @@ def compare_references(vars_timeseries = ['reaTRoo_y'],
                             for v in vars_to_plot:
                                 if v in df_old.keys():
                                     _, ax = plt.subplots(1, figsize=(10,8))
-                                    df_old[v].plot(ax=ax, label='old', kind=kind, alpha=0.5, color='orange')
-                                    df_new[v].plot(ax=ax, label='new', kind=kind, alpha=0.5, color='blue')
+                                    df_old[v].plot(ax=ax, label='old '+v, kind=kind, alpha=0.5, color='orange')
+                                    df_new[v].plot(ax=ax, label='new '+v, kind=kind, alpha=0.5, color='blue')
                                     ax.set_title(str(f_new))
                                     ax.legend()
                         else:
