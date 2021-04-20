@@ -162,7 +162,7 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
         # Check kpis
         value = float(y['PHea_y'])
@@ -174,7 +174,7 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":500000}).json()
         # Check kpis
         value = float(y['PHea_y'])
