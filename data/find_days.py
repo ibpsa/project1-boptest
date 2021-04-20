@@ -102,7 +102,7 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
 
     # Find typical
     df_daily = df.resample('D').max()
-    df_available_daily = df.resample('D').max()
+    df_available_daily = df_available.resample('D').max()
 
     if heat is not None:
         median_heat = df_daily[heat][df_daily[heat]>1].median()
@@ -117,8 +117,6 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
         print('Typical cool is day {0}.'.format(typical_cool_day))
 
     # Find heat cool mix
-    df_daily = df.resample('D').max()
-    df_available_daily = df.resample('D').max()
 
     if (heat is not None) and (cool is not None):
         mix = df_available_daily[heat]+df_available_daily[cool]-abs(df_available_daily[heat]-df_available_daily[cool])
