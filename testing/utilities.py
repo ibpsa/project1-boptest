@@ -67,42 +67,42 @@ def run_tests(test_file_name):
     log_file = os.path.splitext(test_file_name)[0] + '.log'
     with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
-        
 
-def compare_references(vars_timeseries = ['reaTRoo_y'], 
+
+def compare_references(vars_timeseries = ['reaTRoo_y'],
                        refs_old = 'multizone_residential_hydronic_old',
                        refs_new = 'multizone_residential_hydronic'):
     '''Method to perform visual inspection on how references have changed
-    with respect to a previous version. 
-    
+    with respect to a previous version.
+
     Parameters
     ----------
     vars_timeseries : list
-        List with strings indicating the variables to be plotted in time 
+        List with strings indicating the variables to be plotted in time
         series graphs.
     refs_old : str
         Name of the folder containing the old references.
     refs_new : str
-        Name of the folder containing the new references. 
-    
+        Name of the folder containing the new references.
+
     '''
-    
+
     dir_old = os.path.join(get_root_path(), 'testing', 'references', refs_old)
-    
+
     for subdir, _, files in os.walk(dir_old):
         for filename in files:
             f_old = os.path.join(subdir, filename)
             f_new = os.path.join(subdir.replace(refs_old,refs_new), filename)
             if not os.path.exists(f_new):
                 print('File: {} has not been compared since it does not exist anymore.'.format(f_new))
-                
+
             elif not f_old.endswith('.csv'):
                 print('File: {} has not been compared since it is not a csv file.'.format(f_old))
-                
+
             else:
                 df_old = pd.read_csv(f_old)
                 df_new = pd.read_csv(f_new)
-                    
+
                 if not('time' in df_old.columns or 'keys' in df_old.columns):
                     print('File: {} has not been compared because the format is not recognized.'.format(f_old))
                 else:
@@ -116,7 +116,7 @@ def compare_references(vars_timeseries = ['reaTRoo_y'],
                         df_new = df_new.set_index('keys')
                         kind = 'bar'
                         vars_to_plot = df_old.columns
-                    
+
                     if 'kpis_' in filename:
                         fig, axs = plt.subplots(nrows=1, ncols=len(df_old.index), figsize=(10,8))
                         for i,k in enumerate(df_old.index):
@@ -136,7 +136,7 @@ def compare_references(vars_timeseries = ['reaTRoo_y'],
                                     ax.legend()
                         else:
                             print('File: {} has not been compared because it does not contain any of the variables to plot'.format(f_old))
-            
+
     plt.show()
 
 class partialChecks(object):
