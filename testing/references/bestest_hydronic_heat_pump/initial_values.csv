@@ -10,7 +10,7 @@ weaSta_reaWeaNTot_y,1.0
 weaSta_reaWeaSolAlt_y,0.26951205822196367
 reaPum_y,1.0
 reaTZon_y,293.684671032185
-weaSta_reaWeaHHorIR_y,318.0
+reaTSetHea_y,288.15
 reaTSup_y,296.3284076959031
 weaSta_reaWeaSolTim_y,40411.60682633145
 weaSta_reaWeaCloTim_y,43200.0
@@ -18,7 +18,7 @@ reaPPumEmi_y,20.498644281163177
 weaSta_reaWeaHGloHor_y,79.11375661375662
 weaSta_reaWeaHDifHor_y,79.11375661375662
 weaSta_reaWeaRelHum_y,0.65
-reaTSetHea_y,288.15
+weaSta_reaWeaHHorIR_y,318.0
 reaFan_y,1.0
 reaTSet_y,293.65
 reaCO2RooAir_y,432.600992405339

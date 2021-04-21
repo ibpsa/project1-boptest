@@ -45,6 +45,7 @@ following structure:
 	|  |--model.fmu 		// BOPTEST ready FMU
 	|  |  |--resources 		// Resources directory
 	|  |  |  |--kpis.json 		// JSON mapping outputs to KPI calculations
+	|  |  |  |--days.json 		// JSON mapping time period names to day number for simulation
 	|  |  |  |--weather.mos 	// Weather data for model simulation in Modelica
 	|  |  |  |--weather.csv 	// Weather data for forecasting
 	|  |  |  |--occupancy.csv 	// Occupancy schedules
@@ -168,7 +169,8 @@ KPI Tagging and JSON Mapping
 
 In order to facilitate the calculation of KPIs, a map needs to be created that
 identifies which model outputs are to be included in the calculation of KPIs.
-This map will take the form of a JSON with the structure:
+This map will take the form of a JSON saved as :code:`kpis.json` and with
+the structure:
 
 ::
 
@@ -212,6 +214,23 @@ AND
 AND
 
 3. :code:`CO2Concentration[z]`
+
+Time Period Specification and JSON Mapping
+------------------------------------------
+In order to associate a time period scenario name with a concrete simulation
+time, a map needs to be created that defines the day number in the year
+around which the time period is based.  This map takes the form of a JSON saved
+as :code:`days.json` with structure:
+
+::
+
+	{<time_period_ID> :    // Unique identifier for specifying time period
+		<day_number>    // Integer value indicating day number to use for specifying time period
+	}
+
+Currently available time periods are defined as two-week test periods with
+one-week warmup period utilizing baseline control.  The two-week period is
+centered on the day defined by the day # in days.json.
 
 Data Generation and Collection Module
 -------------------------------------
@@ -381,6 +400,7 @@ should be included:
 **Important Model Implementation Assumption**
 	- (e.g. moist vs. dry air, airflow network, and infiltration models)
 **Scenario Information**
+	- Time Periods
 	- Energy pricing
 	- Emission factors
 

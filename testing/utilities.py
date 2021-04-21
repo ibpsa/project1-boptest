@@ -543,25 +543,33 @@ class partialTestAPI(partialChecks):
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
-    def test_get_scenario(self):
-        '''Test getting the scenario of test.
+    def test_set_get_scenario(self):
+        '''Test setting and getting the scenario of test.
 
         '''
 
-        scenario = requests.get('{0}/scenario'.format(self.url)).json()
-        self.assertEqual(scenario['electricity_price'], 'constant')
-
-    def test_set_scenario(self):
-        '''Test setting the scenario of test.
-
-        '''
-
+        # Set scenario
         scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
-        scenario = {'electricity_price':'highly_dynamic'}
+        scenario = {'electricity_price':'highly_dynamic',
+                    'time_period':self.test_time_period}
         requests.put('{0}/scenario'.format(self.url), data=scenario)
         scenario_set = requests.get('{0}/scenario'.format(self.url)).json()
         self.assertEqual(scenario, scenario_set)
+        # Check initialized correctly
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        # Don't check weather
+        points_check = []
+        for key in measurements.keys():
+            if 'weaSta' not in key:
+                points_check.append(key)
+        df = self.results_to_df(points_check, -np.inf, np.inf, self.url)
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_set_scenario.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Return scenario to original
         requests.put('{0}/scenario'.format(self.url), data=scenario_current)
+
 
     def test_partial_results_inner(self):
         '''Test getting results for start time after and final time before.
@@ -594,3 +602,101 @@ class partialTestAPI(partialChecks):
         df = pd.DataFrame.from_dict(res_outer).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
+
+class partialTestTimePeriod(partialChecks):
+    '''Partial class for testing the time periods for each test case
+
+    '''
+
+    def run_time_period(self, time_period):
+        '''Runs the example and tests the kpi and trajectory results for time period.
+
+        Parameters
+        ----------
+        time_period: str
+            Name of test_period to run
+
+        Returns
+        -------
+        None
+
+        '''
+
+        # Set time period scenario
+        requests.put('{0}/scenario'.format(self.url), data={'time_period':time_period})
+        # Simulation Loop
+        y = 1
+        while y:
+            # Advance simulation
+            y = requests.post('{0}/advance'.format(self.url), data={}).json()
+        # Check results
+        df = self.results_to_df(self.points_check, -np.inf, np.inf, self.url)
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # For each price scenario
+        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+            # Set scenario
+            requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
+            # Report kpis
+            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+            # Check kpis
+            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
+            self.compare_ref_values_df(df, ref_filepath)
+        requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
+
+class partialTestSeason(partialChecks):
+    '''Partial class for testing the time periods for each test case
+
+    '''
+
+    def run_season(self, season):
+        '''Runs the example and tests the kpi and trajectory results for a season.
+
+        Parameters
+        ----------
+        season: str
+            Name of season to run.
+            'winter' or 'summer' or 'shoulder'
+
+        Returns
+        -------
+        None
+
+        '''
+
+        if season == 'winter':
+            start_time = 1*24*3600
+        elif season == 'summer':
+            start_time = 248*24*3600
+        elif season == 'shoulder':
+            start_time = 118*24*3600
+        else:
+            raise ValueError('Season {0} unknown.'.format(season))
+        length = 48*3600
+        # Initialize test case
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
+        # Get default simulation step
+        step_def = requests.get('{0}/step'.format(self.url)).json()
+        # Simulation Loop
+        for i in range(int(length/step_def)):
+            # Advance simulation
+            requests.post('{0}/advance'.format(self.url), data={}).json()
+        requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
+        # Check results
+        points = self.get_all_points(self.url)
+        df = self.results_to_df(points, start_time, start_time+length, self.url)
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # For each price scenario
+        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+            # Set scenario
+            requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
+            # Report kpis
+            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+            # Check kpis
+            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
+            self.compare_ref_values_df(df, ref_filepath)

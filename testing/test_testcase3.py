@@ -56,6 +56,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.name = 'testcase3'
         self.url = 'http://127.0.0.1:5000'
         self.step_ref = 60.0
+        self.test_time_period = 'test_day'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

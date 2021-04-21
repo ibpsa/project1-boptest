@@ -28,6 +28,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 * For Python-based example controllers:
   * Add the root directory of the BOPTEST repository to the PYTHONPATH environment variable.
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1.py`` to test a simple proportional feedback controller on this test case over a two-day period.
+  * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1_scenario.py`` to test a simple proportional feedback controller on this test case over a test period defined using the ``/scenario`` API.
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase2.py`` to test a simple supervisory controller on this test case over a two-day period.
 
 * For Julia-based example controllers:
@@ -55,20 +56,20 @@ Example RESTful interaction:
 
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements        |  POST ``advance`` with json data "{<input_name>:<value>}" |
-| Initialize simulation to a start time using a warmup period in seconds     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
-| Receive communication step in seconds                                 |  GET ``step``                                             |
-| Set communication step in seconds                                     |  PUT ``step`` with argument ``step=<value>``              |
-| Receive sensor signal point names (y) and metadata                          |  GET ``measurements``                                     |
-| Receive control signal point names (u) and metadata                        |  GET ``inputs``                                           |
-| Receive test result data for the given point name between the start and final time in seconds |  PUT ``results`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
-| Receive test KPIs                                                     |  GET ``kpi``                                              |
-| Receive test case name                                                |  GET ``name``                                             |
-| Receive boundary condition forecast from current communication step   |  GET ``forecast``                                         |
-| Receive boundary condition forecast parameters in seconds             |  GET ``forecast_parameters``                              |
-| Set boundary condition forecast parameters in seconds                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
-| Receive current test scenario                                         |  GET ``scenario``                                   |
-| Set test scenario  		                                             |  PUT ``scenario`` with arguments ``electricity_price=<'constant' or 'dynamic' or 'highly_dynamic'>``|
+| Advance simulation with control input and receive measurements.        |  POST ``advance`` with json data "{<input_name>:<value>}" |
+| Initialize simulation to a start time using a warmup period in seconds.     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
+| Receive communication step in seconds.                                 |  GET ``step``                                             |
+| Set communication step in seconds.                                     |  PUT ``step`` with argument ``step=<value>``              |
+| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements``                                     |
+| Receive control signal point names (u) and metadata.                        |  GET ``inputs``                                           |
+| Receive test result data for the given point name between the start and final time in seconds. |  PUT ``results`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
+| Receive test KPIs.                                                     |  GET ``kpi``                                              |
+| Receive test case name.                                                |  GET ``name``                                             |
+| Receive boundary condition forecast from current communication step.   |  GET ``forecast``                                         |
+| Receive boundary condition forecast parameters in seconds.             |  GET ``forecast_parameters``                              |
+| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Receive current test scenario.                                         |  GET ``scenario``                                   |
+| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/issue270_scenarioTime_2/testcases) for options and test case documentation for details.|
 
 ## Development
 
