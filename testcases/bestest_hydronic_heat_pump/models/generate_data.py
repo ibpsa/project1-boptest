@@ -39,11 +39,11 @@ gen.generate_weather()
 # More info in https://www.energyprice.be/blog/2017/12/07/gas-price-belgium/
 
 # All pricing scenarios include the same constant value for transmission fees and taxes
-# of each commodity. The used value is the typical price that household users pay 
-# for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+# of each commodity. The used value is the typical price that household users pay
+# for the network, taxes and levies, as calculateed by Eurostat and obtained from:
 # https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN
 # For the assumed location of the test case, this value is of
-# 0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas. 
+# 0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas.
 
 fees_and_taxes_ele = 0.20
 fees_and_taxes_gas = 0.03
@@ -83,7 +83,7 @@ prices_belpex = prices_belpex.reindex(prices_boptest.index, method='ffill')
 # Overwrite testcase highly dynamic price profile and save
 # Convert EUR/MWh to EUR/kWh and add fees and taxes to belpex
 prices_boptest['PriceElectricPowerHighlyDynamic'] = \
-    prices_belpex['Euro']/1000. + fees_and_taxes_ele 
+    prices_belpex['Euro']/1000. + fees_and_taxes_ele
 prices_boptest.to_csv(os.path.join(gen.resources_dir, 'prices.csv'), index=True)
 
 gen.generate_emissions(emissions_electric_power = 0.167,
@@ -154,6 +154,54 @@ df['InternalGainsCon[1]'] = -df['InternalGainsCon[1]']
 
 # Add CO2 limits
 df['UpperCO2[1]'] = 894.
+
+def hold_step_values_in_event_times(df, var, event_freq):
+    ''' This method goes through the index of a data frame to inspect
+    when positive step changes take place for a variable and makes sure
+    that the event times hold the values when the step is active.
+
+    Parameters
+    ----------
+    df: DataFrame
+        Data frame with the data to be changed. Index should be
+        a DatetimeIndex type
+    var: string
+        Column of the data frame used to find step changes
+    event_freq: integer
+        Frequency of possible step changes in seconds. Choose the
+        greatest common divisor of all event times. One hours is a
+        safe choice, unless step changes happen more frequently, which
+        is not normally the case.
+
+    Returns
+    df: DataFrame
+        The modified data frame that holds the step values in the
+        event times.
+
+    '''
+
+    time_original = df.time
+
+    for i in df.index[1:-1]:
+        # Check if we are in a potential event time
+        if int((i - df.index[0]).total_seconds())%event_freq == 0:
+            # Check the cases that we want to avoid:
+            if df.loc[i+i.freq,var]>df.loc[i,var]:
+                # A step has been activated but event time is not
+                # holding the value during activation. Change that:
+                df.loc[i,:] = df.loc[i+i.freq,:]
+            if df.loc[i-i.freq,var]>df.loc[i,var]:
+                # A step has been deactivated but event time is not
+                # holding the value during activation. Change that:
+                df.loc[i,:] = df.loc[i-i.freq,:]
+
+    df.time = time_original
+
+    return df
+
+df = hold_step_values_in_event_times(df=df,
+                                     var='Occupancy[1]',
+                                     event_freq=3600)
 
 # Store in csv
 gen.store_df(df,'dataFromModel')

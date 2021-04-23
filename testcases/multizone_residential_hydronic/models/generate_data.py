@@ -46,11 +46,11 @@ gen.generate_weather()
 # price before taxes (HTT) for a contracted anual tariff between 0 - 6000 kWh
 
 # All pricing scenarios include the same constant value for transmission fees and taxes
-# of each commodity. The used value is the typical price that household users pay 
-# for the network, taxes and levies, as calculateed by Eurostat and obtained from: 
+# of each commodity. The used value is the typical price that household users pay
+# for the network, taxes and levies, as calculateed by Eurostat and obtained from:
 # https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN
 # For the assumed location of the test case, this value is of
-# 0.125 EUR/kWh for electricity and of 0.042 EUR/kWh for gas. 
+# 0.125 EUR/kWh for electricity and of 0.042 EUR/kWh for gas.
 
 fees_and_taxes_ele = 0.125
 fees_and_taxes_gas = 0.042
@@ -200,7 +200,7 @@ df['InternalGainsLat[Hal]'] = 0.
 
 def hold_step_values_in_event_times(df, cols, event_freq):
     ''' This method goes through the index of a data frame to inspect
-    when positive step changes take place for a variable and makes sure 
+    when positive step changes take place for a variable and makes sure
     that the event times hold the values when the step is active.
 
     Parameters
@@ -209,8 +209,8 @@ def hold_step_values_in_event_times(df, cols, event_freq):
         Data frame with the data to be changed. Index should be
         a DatetimeIndex type
     cols: string
-        Columns of the data frame used to find step changes and perform 
-        the inspection. These columns will be edited if required. 
+        Columns of the data frame used to find step changes and perform
+        the inspection. These columns will be edited if required.
     event_freq: integer
         Frequency of possible step changes in seconds. Choose the
         greatest common divisor of all event times. One hour is a

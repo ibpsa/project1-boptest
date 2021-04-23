@@ -423,9 +423,84 @@ Carbon dioxide generation rates for building occupants.
 Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 <h3>Scenario Information</h3>
+<h4>Time Periods</h4>
+<p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 334.
+</ul>
+<ul>
+End Time: Day 348.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with day with
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 44.
+</ul>
+<ul>
+End Time: Day 58.
+</ul>
+</p>
+<p>
+The <b>Peak Cool Day</b> (specifier for <code>/scenario</code> API is <code>'peak_cool_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system cooling load in the year.
+</ul>
+<ul>
+Start Time: Day 282.
+</ul>
+<ul>
+End Time: Day 296.
+</ul>
+</p>
+<p>
+The <b>Typical Cool Day</b> (specifier for <code>/scenario</code> API is <code>'typical_cool_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with day with
+the maximum 15-minute system cooling load that is closest from below to the
+median of all 15-minute maximum cooling loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 146.
+</ul>
+<ul>
+End Time: Day 160.
+</ul>
+</p>
+<p>
+The <b>Mix Day</b> (specifier for <code>/scenario</code> API is <code>'mix_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the maximimum
+sum of daily heating and cooling loads minus the difference between
+daily heating and cooling loads.  This is a day with both significant heating
+and cooling loads.
+</ul>
+<ul>
+Start Time: Day 343.
+</ul>
+<ul>
+End Time: Day 357.
+</ul>
+</p>
 <h4>Energy Pricing</h4>
 <p>
-The <b>Constant Electricity Price</b> profile is:
+The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
 <ul>
 Based on the Schedule R tariff
 for winter season and summer season first 500 kWh as defined by the
@@ -434,9 +509,12 @@ For reference,
 see https://www.xcelenergy.com/company/rates_and_regulations/rates/rate_books
 in the section on Current Tariffs/Electric Rate Books (PDF).
 </ul>
+<ul>
+Specifier for <code>/scenario</code> API is <code>'constant'</code>.
+</ul>
 </p>
 <p>
-The <b>Dynamic Electricity Price</b> profile is:
+The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
 <ul>
 Based on the Schedule RE-TOU tariff
 as defined by the utility servicing the assumed location of the test case.
@@ -500,7 +578,7 @@ Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time.
 </ul>
 </p>
 <p>
-The <b>Highly Dynamic Electricity Price</b> profile is:
+The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
 <ul>
 Based on the the
 day-ahead energy prices (LMP) as determined in the Southwest Power Pool
@@ -542,6 +620,10 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 13, 2021, by David Blum:<br/>
+Add time period documentation.
+</li>
 <li>
 November 10, 2020, by David Blum:<br/>
 Add weather station measurements.

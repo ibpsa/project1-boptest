@@ -12,6 +12,7 @@ def get_config():
     config : dict()
     Dictionary contatinin configuration information.
     {
+    'name'     : string, name of test case
     'fmupath'  : string, location of model fmu
     'step'     : int, default control step size in seconds
     'horizon'  : int, default forecast horizon in seconds
@@ -23,11 +24,13 @@ def get_config():
 
     config = {
     # Enter configuration information
+    'name'     : 'testcase3',
     'fmupath'  : 'models/wrapped.fmu',
     'step'     : 60,
     'horizon'  : 86400,
     'interval' : 3600,
-    'scenario' : {'electricity_price':'constant'}
+    'scenario' : {'electricity_price':'constant',
+                  'time_period':None}
     }
 
     return config
