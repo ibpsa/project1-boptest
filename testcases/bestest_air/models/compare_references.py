@@ -15,6 +15,7 @@ compare_references(vars_timeseries = ['fcu_reaPHea_y',
                                       'con_reaTSetCoo_y',
                                       'con_reaTSetHea_y',
                                       'zon_reaTRooAir_y',
+                                      'TDryBul',
                                       'LowerSetp[1]'],
                    refs_old = 'bestest_air_old',
                    refs_new = 'bestest_air')

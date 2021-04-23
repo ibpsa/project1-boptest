@@ -13,6 +13,7 @@ compare_references(vars_timeseries = ['reaPHeaPum_y',
                                       'reaTSup_y',
                                       'reaTSetHea_y',
                                       'reaTZon_y',
+                                      'TDryBul',
                                       'LowerSetp[1]'],
                    refs_old = 'bestest_hydronic_heat_pump_old',
                    refs_new = 'bestest_hydronic_heat_pump')
