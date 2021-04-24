@@ -16,18 +16,20 @@ def get_config():
     'kpipath'  : string, location of kpi json
     'horizon'  : int, default forecast horizon in seconds
     'interval' : int, default forecast interval in seconds
-    'price_scenario' : string, default price_scenario
+    'scenario' : dict, default electricity_price and time_period
     }
 
     '''
 
     config = {
     # Enter configuration information
+    'name'     : 'multizone_residential_hydronic',
     'fmupath'  : 'models/wrapped.fmu',
     'step'     : 3600,
     'horizon'  : 86400,
     'interval' : 3600,
-    'scenario' : {'electricity_price':'constant'}
+    'scenario' : {'electricity_price':'constant',
+                  'time_period':None}
     }
 
     return config
