@@ -546,6 +546,39 @@ Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 
 <h3>Scenario Information</h3>
+<h4>Time Periods</h4>
+<p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 30.
+</ul>
+<ul>
+End Time: Day 44.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with day with
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+Only days in which the heating system is active was considered in determining
+the median.
+</ul>
+<ul>
+Start Time: Day 318.
+</ul>
+<ul>
+End Time: Day 332.
+</ul>
+</p>
+<p>
 <h4>Energy Pricing</h4>
 <p>
 All pricing scenarios include the same constant value for transmission fees and taxes
@@ -556,7 +589,7 @@ for the network, taxes and levies, as calculateed by Eurostat and obtained from:
 For the assumed location of the test case, this value is of
 0.125 EUR/kWh for electricity and of 0.042 for gas.
 </p>
-<h5>Constant electricity price profile</h5>
+<h5>Constant electricity price profile</h5> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
 <p>
 The constant electricity price scenario uses a constant price of 0.108 EUR/kWh,
 as obtained from the Engie's \"Elec Ajust\" deal before taxes (HTT) in
@@ -567,7 +600,7 @@ The tariff used is the one for households with contracted power installations hi
 Adding up the transmission fees and taxes, the final constant electricity price is
 of 0.233 EUR/kWh.
 </p>
-<h5>Dynamic electricity price profile</h5>
+<h5>Dynamic electricity price profile</h5> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
 <p>
 The dynamic electricity price scenario uses a dual rate of 0.126 EUR/kWh during
 day time and 0.086 EUR/kWh during night time,
@@ -581,7 +614,7 @@ The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
 Adding up the transmission fees and taxes, the final dynamic electricity prices are
 of 0.251 EUR/kWh during on-peak periods and of 0.211 during off-peak periods.
 </p>
-<h5>Highly dynamic electricity price profile</h5>
+<h5>Highly dynamic electricity price profile</h5> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
 <p>
 For the highly dynamic scenario, the French day-ahead prices of 2019 are used.
 Obtained from:
