@@ -30,7 +30,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
                              'conCooHal_reaPCoo_y', 'conCooLiv_reaPCoo_y',
                              'conCooRo1_reaPCoo_y', 'conCooRo2_reaPCoo_y',
                              'conCooRo3_reaPCoo_y', 'conHeaBth_reaActHea_y',
-                             'conHeaBth_reaActHea_y', 'conHeaLiv_reaActHea_y',
+                             'conHeaLiv_reaActHea_y',
                              'conHeaRo1_reaActHea_y', 'conHeaRo2_reaActHea_y',
                              'conHeaRo3_reaActHea_y']
 
