@@ -83,9 +83,10 @@ test_testcase1:
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase1
-# Remove testcase image
+# Remove testcase image and javascript geckodriver
 	cd ../examples/julia && make remove-image Script=testcase1
 	cd ../examples/javascript && make remove-image Script=testcase1
+	cd ../examples/javascript && rm geckodriver
 
 test_testcase2:
 # Compile testcase model
@@ -104,9 +105,10 @@ test_testcase2:
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
-# Remove testcase image
+# Remove testcase image and javascript geckodriver
 	cd ../examples/julia && make remove-image Script=testcase2
 	cd ../examples/javascript && make remove-image Script=testcase2
+	cd ../examples/javascript && rm geckodriver
 
 test_bestest_air:
 # Compile testcase model

@@ -186,8 +186,8 @@ class Data_Manager(object):
                     'seconds from the beginning of the year', Warning)
                     print(f)
 
-    def save_data_and_kpisjson(self, fmu_path):
-        '''Store all of the .csv and kpis.json test case data within the
+    def save_data_and_jsons(self, fmu_path):
+        '''Store all of the .csv, kpis.json, and days.json test case data within the
         resources folder of the fmu.
 
         Parameters
@@ -211,6 +211,8 @@ class Data_Manager(object):
 
         # Find the kpis.json path
         self.kpi_path = os.path.join(models_dir, 'kpis.json')
+        # Find the days.json path
+        self.days_path = os.path.join(models_dir, 'days.json')
 
         if os.path.exists(resources_dir):
             # Find all files within Resources folder
@@ -231,7 +233,15 @@ class Data_Manager(object):
                              os.path.join('resources', 'kpis.json'))
         else:
             warnings.warn('No kpis.json found for this test case, ' \
-                          'use the parser to get this file or otherwise create it.')
+                          'use the parsing/parser.py to get this file or otherwise create it.')
+
+        # Write a copy of the days.json within the fmu resources folder
+        if os.path.exists(self.days_path):
+            self.z_fmu.write(self.days_path,
+                             os.path.join('resources', 'days.json'))
+        else:
+            warnings.warn('No days.json found for this test case, ' \
+                          'use the data/find_days.py to get this file or otherwise create it.')
 
         # Close the fmu
         self.z_fmu.close()
@@ -281,7 +291,7 @@ class Data_Manager(object):
         Notes
         -----
         The loading and pre-processing of the data happens only
-        once (at load_data_and_kpisjson) to reduce the computational
+        once (at load_data_and_jsons) to reduce the computational
         load during the co-simulation
 
         '''
@@ -343,8 +353,8 @@ class Data_Manager(object):
         # Transform data frame to dictionary
         return data_slice_reindexed.reset_index().to_dict('list')
 
-    def load_data_and_kpisjson(self):
-        '''Load the data and kpis.json from the resources folder of the fmu
+    def load_data_and_jsons(self):
+        '''Load the data, kpis.json, and days.json from the resources folder of the fmu
         into the test case object.  The data is resampled according to the
         minimum sampling rate, where weather is linearly interpolated and
         schedules use a forward-fill.
@@ -359,6 +369,9 @@ class Data_Manager(object):
         # Load kpi json
         json_str = z_fmu.open('resources/kpis.json').read()
         self.case.kpi_json = json.loads(json_str)
+        # Load days json
+        json_str = z_fmu.open('resources/days.json').read()
+        self.case.days_json = json.loads(json_str)
 
         # Find the test case data files
         files = []

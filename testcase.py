@@ -41,7 +41,7 @@ class TestCase(object):
         # Instantiate a data manager for this test case
         self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
-        self.data_manager.load_data_and_kpisjson()
+        self.data_manager.load_data_and_jsons()
         # Instantiate a forecaster for this test case
         self.forecaster = Forecaster(testcase=self)
         # Get available control inputs and outputs
@@ -184,6 +184,7 @@ class TestCase(object):
         y : dict
             Contains the measurement data at the end of the step.
             {<measurement_name> : <measurement_value>}
+            If empty, simulation end time has been reached.
 
         '''
 
@@ -225,24 +226,33 @@ class TestCase(object):
         # Otherwise, input object is None
         else:
             input_object = None
-        # Simulate
-        res = self.__simulation(self.start_time,self.final_time,input_object)
-        # Process results
-        if res is not None:
-            # Get result and store measurement and control inputs
-            self.__get_results(res, store=True, store_initial=False)
-            # Advance start time
-            self.start_time = self.final_time
-            # Raise the flag to compute time lapse
-            self.tic_time = time.time()
+        # Simulate if not end of test
+        if self.start_time < self.end_time:
+            # Make sure stop at end of test
+            if self.final_time > self.end_time:
+                self.final_time = self.end_time
+            res = self.__simulation(self.start_time,self.final_time,input_object)
+            # Process results
+            if res is not None:
+                # Get result and store measurement and control inputs
+                self.__get_results(res, store=True, store_initial=False)
+                # Advance start time
+                self.start_time = self.final_time
+                # Raise the flag to compute time lapse
+                self.tic_time = time.time()
 
-            return self.y
+                return self.y
 
+            else:
+                # Error in simulation
+                return None
         else:
+            # Simulation at end time
+            return dict()
 
-            return None
 
-    def initialize(self, start_time, warmup_period):
+
+    def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
 
         Parameters
@@ -251,6 +261,9 @@ class TestCase(object):
             Start time of simulation to initialize to in seconds.
         warmup_period: int
             Length of time before start_time to simulate for warmup in seconds.
+        end_time: int, optional
+            Specifies a finite end time to allow simulation to continue
+            Default value is infinite.
 
         Returns
         -------
@@ -267,6 +280,8 @@ class TestCase(object):
         self.elapsed_control_time = []
         # Record initial testing time
         self.initial_time = start_time
+        # Record end testing time
+        self.end_time = end_time
         # Set fmu intitialization
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
@@ -479,20 +494,47 @@ class TestCase(object):
         Parameters
         ----------
         scenario : dict
-            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>}
+            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
+             'time_period': see available keys for test case
+             }
+            If any value is None, it will not change existing.
 
         Returns
         -------
-        None
-
+        result : dict
+            {'electricity_price': if succeeded in changing then True, else None,
+             'time_period': if succeeded then initial measurements, else None
+             }
         '''
 
-        self.scenario = scenario
+        result = {'electricity_price':None,
+                  'time_period':None}
+
+        if not hasattr(self,'scenario'):
+            self.scenario = {}
+        # Handle electricity price
+        if scenario['electricity_price']:
+            try:
+                self.scenario['electricity_price'] = scenario['electricity_price']
+                result['electricity_price'] = True
+            except Exception as e:
+                pass
+        # Handle timeperiod
+        if scenario['time_period']:
+            try:
+                self.scenario['time_period'] = scenario['time_period']
+                warmup_period = 7*24*3600
+                key = self.scenario['time_period']
+                start_time = self.days_json[key]*24*3600-7*24*3600
+                end_time = start_time + 14*24*3600
+                result['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)
+            except Exception as e:
+                pass
 
         # It's needed to reset KPI Calculator when scenario is changed
         self.cal.initialize()
 
-        return None
+        return result
 
     def get_scenario(self):
         '''Returns the current case scenario.'''
