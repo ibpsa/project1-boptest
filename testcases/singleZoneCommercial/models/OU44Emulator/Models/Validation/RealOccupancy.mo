@@ -167,7 +167,7 @@ equation
     annotation (Line(points={{142.8,-98},{158.4,-98}}, color={0,0,127}));
   connect(Pump_sp.y, over_pump_DH.u)
     annotation (Line(points={{-199,-194},{-182,-194}}, color={0,0,127}));
-  annotation (experiment(StopTime=2678400),                Diagram(
+  annotation (experiment(StopTime=31536000),               Diagram(
         coordinateSystem(extent={{-260,-240},{240,220}}),          graphics={
         Rectangle(
           extent={{-192,168},{-44,100}},
