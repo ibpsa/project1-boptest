@@ -10,6 +10,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput senTSetRooCoo_y(unit="K") = mod.senTSetRooCoo.y "Room cooling setpoint";
 	Modelica.Blocks.Interfaces.RealOutput PCoo_y(unit="W") = mod.PCoo.y "Cooling electrical power";
 	Modelica.Blocks.Interfaces.RealOutput TRooAir_y(unit="K") = mod.TRooAir.y "Room air temperature";
+	Modelica.Blocks.Interfaces.RealOutput CO2RooAir_y(unit="ppm") = mod.CO2RooAir.y "Room air CO2 concentration";
 	Modelica.Blocks.Interfaces.RealOutput PPum_y(unit="W") = mod.PPum.y "Pump electrical power";
 	Modelica.Blocks.Interfaces.RealOutput senTSetRooHea_y(unit="K") = mod.senTSetRooHea.y "Room heating setpoint";
 	// Original model

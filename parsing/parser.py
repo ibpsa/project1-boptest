@@ -4,7 +4,7 @@ Implements the parsing and code generation for signal exchange blocks.
 
 The steps are:
 1) Compile Modelica code into fmu
-2) Use signal exchange block id parameters to find block instance paths and 
+2) Use signal exchange block id parameters to find block instance paths and
 read any associated signals for KPIs, units, min/max, and descriptions.
 3) Write Modelica wrapper around instantiated model and associated KPI list.
 4) Export as wrapper FMU and save KPI json.
@@ -34,7 +34,7 @@ def parse_instances(model_path, file_name):
     -------
     instances : dict
         Dictionary of overwrite and read block class instance lists.
-        {'Overwrite': {input_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}}, 
+        {'Overwrite': {input_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}},
          'Read': {output_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}}}
     signals : dict
         {'signal_type' : [output_name]}
@@ -85,13 +85,20 @@ def parse_instances(model_path, file_name):
             instances[label][instance]['Maximum'] = maxi
         else:
             signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
+            # Split certain signal types for multi-zone
+            if signal_type in ['AirZoneTemperature',
+                               'RadiativeZoneTemperature',
+                               'OperativeZoneTemperature',
+                               'RelativeHumidity',
+                               'CO2Concentration']:
+                signal_type = '{0}[{1}]'.format(signal_type, fmu.get(instance+'.zone')[0])
             if signal_type is 'None':
                 continue
             elif signal_type in signals:
                 signals[signal_type].append(_make_var_name(instance,style='output'))
             else:
                 signals[signal_type] = [_make_var_name(instance,style='output')]
-                
+
     # Clean up
     os.remove(fmu_path)
     os.remove(fmu_path.replace('.fmu', '_log.txt'))
@@ -168,8 +175,8 @@ def write_wrapper(model_path, file_name, instances):
                         f.write(',\n')
             else:
                 f.write(') "Original model without overwrites";\n')
-            # End file
-            f.write('end wrapped;')
+            # End file -- with hard line ending
+            f.write('end wrapped;\n')
         # Export as fmu
         fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name)
     # If there are not, write and export wrapper model
@@ -212,13 +219,13 @@ def export_fmu(model_path, file_name):
         json.dump(signals, f)
     # Generate test case data
     man = Data_Manager()
-    man.save_data_and_kpisjson(fmu_path=fmu_path)
-    
+    man.save_data_and_jsons(fmu_path=fmu_path)
+
     return fmu_path, kpi_path
 
 def _make_var_name(block, style, description='', attribute=''):
     '''Make a variable name from block instance name.
-    
+
     Parameters
     ----------
     block : str
@@ -231,12 +238,12 @@ def _make_var_name(block, style, description='', attribute=''):
     attribute : str, optional
         Attribute string of variable.
         Default is empty.
-        
+
     Returns
     -------
     var_name : str
         Variable name associated with block
-        
+
     '''
 
     # General modification
@@ -246,7 +253,7 @@ def _make_var_name(block, style, description='', attribute=''):
         description = ''
     else:
         description = ' "{0}"'.format(description)
-        
+
     # Specific modification
     if style is 'input_signal':
         var_name = '{0}_u{1}{2}'.format(name,attribute, description)
@@ -258,7 +265,7 @@ def _make_var_name(block, style, description='', attribute=''):
         raise ValueError('Style {0} unknown.'.format(style))
 
     return var_name
-        
+
 
 if __name__ == '__main__':
     # Define model

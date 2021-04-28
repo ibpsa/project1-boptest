@@ -20,5 +20,3 @@ run-detached:
 
 stop:
 	docker stop ${IMG_NAME}
-
-	

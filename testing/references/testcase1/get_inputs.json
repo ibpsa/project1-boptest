@@ -1,0 +1,1 @@
+{"oveAct_u": {"Minimum": -10000.0, "Description": "Heater thermal power", "Unit": "W", "Maximum": 10000.0}, "oveAct_activate": {"Minimum": null, "Description": "Activation for Heater thermal power", "Unit": null, "Maximum": null}}
