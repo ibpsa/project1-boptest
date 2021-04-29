@@ -24,5 +24,3 @@ $ make html
 ```
 
 Then, check the subdirectory that is created ``/build``.
-
-
