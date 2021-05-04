@@ -71,15 +71,14 @@ class TestCase(object):
         self.elapsed_control_time = []
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
-        # Set default price scenario
+        # Set default scenario
         self.set_scenario(con['scenario'])
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
 
         Uses self.output_names and self.input_names to create
-        self.y, self.y_store, self.u, and self.u_store. Also sets the
-        'filter' option for pyfmi simulation.
+        self.y, self.y_store, self.u, and self.u_store.
 
         Parameters
         ----------
