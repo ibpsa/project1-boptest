@@ -163,6 +163,19 @@ test_bestest_hydronic_heat_pump:
 # Stop testcase container
 	cd .. && make stop TESTCASE=bestest_hydronic_heat_pump
 
+test_multizone_residential_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=multizone_residential_hydronic
+# Build testcase image
+	cd .. &&  make build TESTCASE=multizone_residential_hydronic
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=multizone_residential_hydronic
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_multizone_residential_hydronic.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=multizone_residential_hydronic
+
 test_multizone_office_simple_air:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=multizone_office_simple_air
@@ -262,6 +275,7 @@ test_all:
 	make test_bestest_air
 	make test_bestest_hydronic
 	make test_bestest_hydronic_heat_pump
+	make test_multizone_residential_hydronic
 	make test_multizone_office_simple_air
 # Remove jm
 	make remove_jm_image

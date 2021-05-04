@@ -1,0 +1,658 @@
+<html>
+<p>
+This is the multi zone residential hydronic emulator model
+of BOPTEST.
+</p>
+<h3>Building Design and Use</h3>
+<h4>Architecture</h4>
+<p>
+The emulator building model represents a residential French
+dwelling compliant with the French Thermal regulation of 2012,
+i.e. the French national building energy regulation. Therefore,
+the typology is defined to be representative of French new
+dwellings. Its area is approximately 120 m&sup2; (<i>S_ref</i>).
+The following figure shows the building layout and
+a sketch of the hydraulic system. The coloured elements in the scheme
+represent the controllable components
+through the BOPTEST interface. The dimensions are provided in metres.
+
+</p>
+<p align=\"center\">
+<img alt=\"Simulated residential dwelling\"
+src="images/layout.png">
+</p>
+
+<p>
+The orientation of the building was chosen to maximize the natural light during winter.
+Thus, the main surface of windows of the building is south oriented.
+The building consists of six thermal zones that are actively controlled and two unconditioned
+zones:
+</p>
+<ul>
+<li>1 Living room/kitchen (<b>Liv</b>) </li>
+<li>3 Bedrooms: two south facing (<b>Ro1</b>, <b>Ro2</b>), and one north facing (<b>Ro3</b>) </li>
+<li>1 Bathroom (<b>Bth</b>) </li>
+<li>1 Hallway/corridor (<b>Hal</b>) serving the sleeping area: bedrooms and bathroom </li>
+<li>1 Unconditioned garage (<b>Gar</b>) </li>
+<li>1 Unconditioned attic (<b>Ati</b>) </li>
+</ul>
+
+<p>
+The building envelope was defined in order to cover the new construction
+modes existing on the market. Thus, each of these modes was characterized
+by a different level of insulation (Table 1).
+</p>
+
+<p><span style=\"font-family: Arial,sans-serif;\">Table 1.Building envelope characteristic</span> </p>
+<table cellspacing=\"0\" cellpadding=\"2\" border=\"1\" width=\"100%\"><tr>
+<td><p><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Wall type </span></b></p></td>
+<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Characteristics</span></b></p></td>
+</tr>
+<tr>
+<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">External wall</span></b></p></td>
+<td><p><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Brick (200 mm, &lambda;=0.2 W/mK) + polystyrene (80 mm, &lambda;=0.032 W/mK)</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U = 0.272 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Floor</span></b></p></td>
+<td><p><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Hollow block (150 mm, &lambda;=0.92 W/mK) + polyurethane (60 mm, &lambda;=0.022 W/mK)</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U<sub>e</sub> = 0.327 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Ceiling</span></b></p></td>
+<td><p><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Glass wool (200 mm, &lambda;=0.04 W/mK)</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U = 0.193 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Fenestration</span></b></p></td>
+<td><p><span style=\"font-size: 10pt;\">Double glazing with Argon and PVC frame 4/16/4, <span style=\"font-family: Arial,sans-serif;\">Planitherm glass g=0.6, TL=76&percnt; with external solar protection</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U<sub>w</sub> = 1.40 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+</table>
+
+
+<p>
+These values are in accordance with the French Thermal regulation 2012.
+The building was subject to a detailed modeling according to the architecture plans.
+The volume was divided into 8 thermal zones according to space function
+(an additional thermal zone was created to simulate the behaviour of the attic).
+Each space (room) has its own thermal behaviour as a result of the boundary conditions
+(climate, adjacent spaces, etc.) and the internal conditions (internal loads, scenarios, etc.)
+</p>
+<p>
+The thermal bridges effect is modeled through thermal resistances that are
+parameterized with the length of the bridge element and a thermal coefficient (<i>k_PT</i>).
+</p>
+
+<h4>Occupancy schedules</h4>
+<p>
+The thermal zones of the building, except the unheated zones, are subject to conventional
+scenarios (occupation, heating, cooling, ventilation, lighting, internal loads) defined in the
+French Thermal Regulation 2012 (CSTB - Centre Scientifique et Technique du B&acirc;timent), 2012.
+M&eacute;thode de calcul Th-BCE - R&eacute;glementation thermique 2012; CSTB, 2012).
+</p>
+<p>
+For example, the building is considered occupied continuously by four adults from 19PM to 10AM
+for 4 weekdays, from 15PM to 10AM during all Wednesdays and all day long during weekends.
+During the periods that the building is occupied, the occupants are considered to be either
+all in the living room during day-time, or distributed in their rooms during night-time.
+There is a short transition period (one hour) on the switching between day- and night-time when
+the living room and bedrooms are considered to be occupied to half of their nominal capacity each.
+A reduction of 30&percnt; of the internal loads due to occupants is observed during the night-time.
+</p>
+<p>
+On a yearly basis, the building is considered unoccupied one week at the end of December and
+two weeks in August.
+</p>
+<p>
+The building heating temperature setpoint is fixed conventionally at 19&deg;C during
+occupied periods, 16&deg;C during unoccupied periods shorter than 48 hours and 7&deg;C otherwise.
+The scenario for cooling is similar, cooling temperature setpoints are 28&deg;C / 30&deg;C / 30&deg;C.
+</p>
+<h4>Internal loads and schedules</h4>
+<p>
+The internal loads considered are mainly due to lighting and appliances. For lighting,
+approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et
+Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation
+thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat.
+Appliances contribution to internal loads are considered at a level of 5.7 W/m&sup2; from 7AM to 10AM
+and from 19PM to 22PM for 4 weekdays, 7AM to 10AM and from 15PM to 22PM during all Wednesdays and all
+day long during weekends. Otherwise, this level is reduced by 80&percnt;.
+</p>
+<h4>Climate data</h4>
+<p>
+The model uses a climate file containing one year
+of weather data for Bordeaux, France  (FRA_Bordeaux.075100_IWEC.mos).
+The ground temperature is assumed to be a sinusoidal signal with an amplitude
+of 2&deg;C oscilating with a yearly period around 15&deg;C.
+</p>
+<h3>HVAC System Design</h3>
+<h4>Primary and secondary system designs</h4>
+<p>
+Each building zone has its own radiator equipped with a thermostatic valve that is modeled
+using a PI controller. The radiators are sized accordingly to the building envelope characteristics
+and to the specific climate of Bordeaux, France.
+</p>
+<p>
+The water through the heating emission system is heated by a gas boiler.
+The boiler is designed to provide power (sum of the radiators nominal
+power) for spacial heating only, domestic hot water production is not taken
+into account in this model.
+</p>
+<p>
+The building is in cooling mode until March 29th (day 88 of the year), and from October 28th (day 301 of the year).
+During this period, ideal cooling is considered in all conditioned zones with a PI controller in each zone.
+This controller provides the cooling thermal power required to comply with the cooling setpoint in every zone.
+</p>
+<h4>Equipment specifications and performance maps</h4>
+<p>
+The boiler uses an efficiency curve constant with coefficient 0.9.
+The heating system circulation pump uses an efficiency curve that is function of the
+mass flow rate of water through the emission system.
+Air cooling is modeled with a constant energy efficiency ratio of 3.
+</p>
+<h4>Rule-based or local-loop controllers (if included)</h4>
+<p>
+The following set of controllers drive the baseline controller implemented in this model:
+</p>
+<ul>
+<li>
+A security system of the boiler follows a nominal supply water temperature of 90&deg;C.
+</li>
+<li>
+A hysteresis controller reads the indoor air temperature setpoint (from the occupancy schedule) and the actual
+indoor air temperature to decide on the boiler mode: either on or off.
+The living room temperature is chosen to represent the indoor temperature of the whole building.
+Therefore, the thermostat is considered to be placed in the living room.
+</li>
+<li>
+An anti short cycle system of the boiler compares the operating
+time of the boiler between two start/stops. This operating time should be greater than 600 seconds to allow
+the boiler to switch mode. This system should improve the overall boiler performance. &nbsp;
+</li>
+<li>
+When the boiler mode is on, an additional PI controller
+controls the load ratio of the boiler. A minimum partial load ratio of Pmin_Ch/Pmax_Ch
+equal to 11&percnt; is imposed in this controller.
+</li>
+<li>
+A heating curve is implemented to modulate the supply water temperature from the boiler to the emission
+circuit based on outdoor temperature readings. A 3 way valve is used for this modulation.
+</li>
+<li>
+The emission circuit pump is modulated by a PI controller
+that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor
+air temperature from the thermostat in the living room.
+</li>
+<li>
+There is one radiator per zone with a motorized valve controlled by a PI controller
+that follows the air zone temperature setpoint. Only the hallway zone has no valve and its hydronic
+circuit remains always open to ensure that there iswater flow. This is a typical layout that avoids
+vacuum failures when all valves are closed while the distribution pump is working.
+</li>
+</ul>
+
+<h3>Model IO's</h3>
+<h4>Inputs</h4>
+<p>The model inputs are: </p>
+<ul>
+<li>
+<code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal for part load ratio
+</li>
+<li>
+<code>conCooBth_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Bth
+</li>
+<li>
+<code>conCooBth_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Bth
+</li>
+<li>
+<code>conCooHal_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Hal
+</li>
+<li>
+<code>conCooHal_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Hal
+</li>
+<li>
+<code>conCooLiv_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Liv
+</li>
+<li>
+<code>conCooLiv_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Liv
+</li>
+<li>
+<code>conCooRo1_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro1
+</li>
+<li>
+<code>conCooRo1_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro1
+</li>
+<li>
+<code>conCooRo2_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro2
+</li>
+<li>
+<code>conCooRo2_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro2
+</li>
+<li>
+<code>conCooRo3_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro3
+</li>
+<li>
+<code>conCooRo3_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro3
+</li>
+<li>
+<code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Bth
+</li>
+<li>
+<code>conHeaBth_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Bth
+</li>
+<li>
+<code>conHeaLiv_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Liv
+</li>
+<li>
+<code>conHeaLiv_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Liv
+</li>
+<li>
+<code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro1
+</li>
+<li>
+<code>conHeaRo1_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro1
+</li>
+<li>
+<code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro2
+</li>
+<li>
+<code>conHeaRo2_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro2
+</li>
+<li>
+<code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro3
+</li>
+<li>
+<code>conHeaRo3_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro3
+</li>
+<li>
+<code>oveEmiPum_u</code> [1] [min=0.0, max=1.0]: Control signal to the circulation pump of the emission system
+</li>
+<li>
+<code>oveMixValSup_u</code> [1] [min=0.0, max=1.0]: Actuator signal for 0three-way mixing valve controlling supply water temperature to radiators
+</li>
+<li>
+<code>oveTSetPum_u</code> [K] [min=283.15, max=368.15]: Heating zone air temperature setpoint used to control circulation pump of the emission system
+</li>
+<li>
+<code>oveTSetSup_u</code> [K] [min=283.15, max=368.15]: Supply water temperature setpoint to radiators
+</li>
+</ul>
+
+<h4>Outputs</h4>
+<p>The model outputs are: </p>
+<ul>
+<li>
+<code>boi_reaGasBoi_y</code> [W] [min=None, max=None]: Boiler gas power use
+</li>
+<li>
+<code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power use
+</li>
+<li>
+<code>conCooBth_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Bth
+</li>
+<li>
+<code>conCooBth_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Bth
+</li>
+<li>
+<code>conCooHal_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Hal
+</li>
+<li>
+<code>conCooHal_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Hal
+</li>
+<li>
+<code>conCooLiv_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Liv
+</li>
+<li>
+<code>conCooLiv_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Liv
+</li>
+<li>
+<code>conCooRo1_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro1
+</li>
+<li>
+<code>conCooRo1_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro1
+</li>
+<li>
+<code>conCooRo2_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro2
+</li>
+<li>
+<code>conCooRo2_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro2
+</li>
+<li>
+<code>conCooRo3_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro3
+</li>
+<li>
+<code>conCooRo3_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro3
+</li>
+<li>
+<code>conHeaBth_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Bth
+</li>
+<li>
+<code>conHeaBth_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Bth
+</li>
+<li>
+<code>conHeaLiv_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Liv
+</li>
+<li>
+<code>conHeaLiv_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Liv
+</li>
+<li>
+<code>conHeaRo1_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro1
+</li>
+<li>
+<code>conHeaRo1_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro1
+</li>
+<li>
+<code>conHeaRo2_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro2
+</li>
+<li>
+<code>conHeaRo2_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro2
+</li>
+<li>
+<code>conHeaRo3_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro3
+</li>
+<li>
+<code>conHeaRo3_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro3
+</li>
+<li>
+<code>extBth_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Bth
+</li>
+<li>
+<code>extLiv_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Liv
+</li>
+<li>
+<code>infAti_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ati
+</li>
+<li>
+<code>infGar_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Gar
+</li>
+<li>
+<code>infHal_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Hal
+</li>
+<li>
+<code>infRo1_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro1
+</li>
+<li>
+<code>infRo2_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro2
+</li>
+<li>
+<code>infRo3_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro3
+</li>
+<li>
+<code>reaHeaBth_y</code> [W] [min=None, max=None]: Heating delivered to Bth
+</li>
+<li>
+<code>reaHeaHal_y</code> [W] [min=None, max=None]: Heating delivered to Hal
+</li>
+<li>
+<code>reaHeaLiv_y</code> [W] [min=None, max=None]: Heating delivered to Liv
+</li>
+<li>
+<code>reaHeaRo1_y</code> [W] [min=None, max=None]: Heating delivered to Ro1
+</li>
+<li>
+<code>reaHeaRo2_y</code> [W] [min=None, max=None]: Heating delivered to Ro2
+</li>
+<li>
+<code>reaHeaRo3_y</code> [W] [min=None, max=None]: Heating delivered to Ro3
+</li>
+<li>
+<code>reaTAti_y</code> [K] [min=None, max=None]: Air temperature of zone Ati
+</li>
+<li>
+<code>reaTGar_y</code> [K] [min=None, max=None]: Air temperature of zone Gar
+</li>
+<li>
+<code>reaTHal_y</code> [K] [min=None, max=None]: Air temperature of zone Hal
+</li>
+<li>
+<code>reaTSetCoo_y</code> [K] [min=None, max=None]: Building cooling air setpoint temperature
+</li>
+<li>
+<code>reaTSetHea_y</code> [K] [min=None, max=None]: Building heating air setpoint temperature
+</li>
+<li>
+<code>reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature measurement to radiators
+</li>
+<li>
+<code>weatherStation_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+</li>
+<li>
+<code>weatherStation_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weatherStation_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weatherStation_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weatherStation_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weatherStation_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weatherStation_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weatherStation_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weatherStation_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weatherStation_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weatherStation_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weatherStation_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weatherStation_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weatherStation_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>weatherStation_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
+<li>
+<code>weatherStation_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weatherStation_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weatherStation_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weatherStation_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weatherStation_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weatherStation_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weatherStation_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weatherStation_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+</ul>
+
+<h3>Additional System Design</h3>
+<h4>Lighting</h4>
+<p>
+For lighting, approximately 1.1 W/m&sup2; are considered according to CSTB - Centre Scientifique et
+Technique du B&acirc;timent, 2012 M&eacute;thode de calcul Th-BCE - R&eacute;glementation
+thermique 2012; CSTB, 2012, 80&percnt; of the 1.1 W/m&sup2; installed power is transformed in heat.
+</p>
+<h4>Shading</h4>
+<p>
+No shading model is included.
+</p>
+<h3>Model Implementation Details</h3>
+<h4>Moist vs. dry air</h4>
+<p>
+The model uses moist air despite that no condensation is modeled in any of the used components.
+Also, latent heat gain by occupants is not modeled.
+</p>
+<h4>Pressure-flow models</h4>
+<p>
+A circulation loop with one parallel branch per zone is used to model the heating emission system.
+</p>
+<h4>Infiltration models</h4>
+<p>
+Mechanical ventilation from outside air and air exchange between zones are considered in the model.
+The total value of the volumetric airflow exchanged is established according to the French
+national regulations.
+Specifically, outside fresh air is infiltrated in the garage and the attic at a rate of 0.5 ACH.
+In the living room and bedrooms the total infiltrated air is of 113.4 m3/h, which is distributed
+proportionally to the area of these zones.
+There is not infiltration considered in the bathroom nor the hallway.
+80&percnt; of the infiltrated air is exhausted through a fan in the bathroom.
+This fan is not controllable and its electricity use is neglected.
+The other 20&percnt; of the infiltrated air is assumed to be leaked in the living room.
+
+</p>
+<h4>Other assumptions</h4>
+<p>
+The CO2 generation in each zone is based on number of occupants in that zone.
+CO2 generation is 0.004 L/s per person (Table 5, Persily and De Jonge 2017)
+and density of CO2 assumed to be 1.8 kg/m^3, making CO2 generation 7.2e-6 kg/s per person.
+Outside air CO2 concentration is 400 ppm. However, CO2 concentration is not controlled for in the model.
+</p>
+<p>
+Persily, A. and De Jonge, L. (2017).
+Carbon dioxide generation rates for building occupants.
+Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
+</p>
+
+<h3>Scenario Information</h3>
+<h4>Time Periods</h4>
+<p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 30.
+</ul>
+<ul>
+End Time: Day 44.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with day with
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+Only days in which the heating system is active was considered in determining
+the median.
+</ul>
+<ul>
+Start Time: Day 318.
+</ul>
+<ul>
+End Time: Day 332.
+</ul>
+</p>
+<p>
+<h4>Energy Pricing</h4>
+<p>
+All pricing scenarios include the same constant value for transmission fees and taxes
+of each commodity. The used value is the typical price that household users pay
+for the network, taxes and levies, as calculateed by Eurostat and obtained from:
+<a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
+\"The energy prices and costs in Europe report\"</a>.
+For the assumed location of the test case, this value is of
+0.125 EUR/kWh for electricity and of 0.042 for gas.
+</p>
+<h5>Constant electricity price profile</h5> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
+<p>
+The constant electricity price scenario uses a constant price of 0.108 EUR/kWh,
+as obtained from the Engie's \"Elec Ajust\" deal before taxes (HTT) in
+<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf\">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a>
+(accessed on July 2020).
+The tariff used is the one for households with contracted power installations higher than 6 kVA.
+Adding up the transmission fees and taxes, the final constant electricity price is
+of 0.233 EUR/kWh.
+</p>
+<h5>Dynamic electricity price profile</h5> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
+<p>
+The dynamic electricity price scenario uses a dual rate of 0.126 EUR/kWh during
+day time and 0.086 EUR/kWh during night time,
+as obtained from the the Engie's \"Elec Ajust\" deal before taxes (HTT) in
+<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf\">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a>
+(accessed on July 2020).
+The tariff used is the one for households with contracted power installations higher than 6 kVA.
+The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
+The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
+Adding up the transmission fees and taxes, the final dynamic electricity prices are
+of 0.251 EUR/kWh during on-peak periods and of 0.211 during off-peak periods.
+</p>
+<h5>Highly dynamic electricity price profile</h5> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
+<p>
+For the highly dynamic scenario, the French day-ahead prices of 2019 are used.
+Obtained from:
+<a href=\"https://www.epexspot.com/en\">
+https://www.epexspot.com/en</a>
+The prices are parsed and exported using this repository:
+<a href=\"https://github.com/JavierArroyoBastida/epex-spot-data\">
+https://github.com/JavierArroyoBastida/epex-spot-data</a>.
+Notice that the same constant transmission fees and taxes of 0.125 EUR/kWh are
+added up on top of these prices.
+</p>
+<h5>Gas price profile</h5>
+<p>
+The gas price is assumed constant and of 0.0491 EUR/kWh
+as obtained from the \"Gaz Energie Garantie 1 an\" deal for gas in
+<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf\">
+https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf</a>
+(accessed on July 2020).
+Price before taxes (HTT) for a contracted anual tariff between 0 - 6000 kWh.
+Adding up the transmission fees and taxes the final constant gas price is
+of 0.0911 EUR/kWh.
+</p>
+<h4>Emission Factors</h4>
+<h5>Electricity emissions factor profile</h5>
+<p>
+It is used a constant emission factor for electricity of 0.047 kgCO2/kWh
+which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
+for year 2019 in France. For reference, see:
+ <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
+https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
+</p>
+<h5>Gas emissions factor profile</h5>
+<p>
+Based on the kgCO2 emitted per amount of natural gas burned in terms of
+energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference,
+see:
+<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
+https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
+</p>
+</html>

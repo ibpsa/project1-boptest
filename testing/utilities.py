@@ -479,6 +479,9 @@ class partialTestAPI(partialChecks):
                  'ovePum_activate':0, 'ovePum_u':1}
         elif self.name == 'bestest_hydronic_heat_pump':
             u = {'oveTSetHea_activate':0, 'oveTSetHea_u':273.15+22}
+        elif self.name == 'multizone_residential_hydronic':
+            u = {'conHeaSal_oveTsetHea_activate':0, 'conHeaSal_oveTsetHea_u':273.15+22,
+                 'conPumHea_oveActHea_activate':0, 'conPumHea_oveActHea_u':1}
         elif self.name == 'multizone_office_simple_air':
             u = {'oveAhu_TSupSet_activate':0, 'oveAhu_TSupSet_u':273.15+22}
         else:
