@@ -11,7 +11,7 @@ zon_reaPPlu_y,25.92
 zon_weaSta_reaWeaSolTim_y,3416.0653373907476
 zon_weaSta_reaWeaWinSpe_y,2.8
 zon_weaSta_reaWeaNOpa_y,0.30000000000000004
-zon_reaCO2RooAir_y,316.77010565060374
+zon_reaCO2RooAir_y,316.77010565059743
 fcu_reaPCoo_y,-0.0
 fcu_reaPHea_y,0.0
 zon_weaSta_reaWeaLat_y,0.6939429105929453
@@ -22,7 +22,7 @@ zon_weaSta_reaWeaCeiHei_y,77777.0
 zon_weaSta_reaWeaHDifHor_y,0.0
 zon_weaSta_reaWeaHGloHor_y,0.0
 fcu_reaTSup_y,294.15
-zon_reaTRooAir_y,290.4050972682761
+zon_reaTRooAir_y,290.40509726267624
 zon_weaSta_reaWeaPAtm_y,101325.0
 zon_weaSta_reaWeaTBlaSky_y,258.4543868019217
 zon_weaSta_reaWeaNTot_y,0.7000000000000001
