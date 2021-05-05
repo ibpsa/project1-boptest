@@ -1,0 +1,1 @@
+This directory contains documentation of the test case-single zone commercial building from SDU.
