@@ -15,9 +15,9 @@ model ReadZone "Collection of zone measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read yReaHeaAct(
     description="Reheat control signal set point feedback for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="1")) "Reheat control signal feedback"
     annotation (Placement(transformation(extent={{0,30},{20,50}})));
+
   Modelica.Blocks.Interfaces.RealInput TZon_in
     "Zone air temperature measurement"
     annotation (Placement(transformation(extent={{-140,100},{-100,140}})));

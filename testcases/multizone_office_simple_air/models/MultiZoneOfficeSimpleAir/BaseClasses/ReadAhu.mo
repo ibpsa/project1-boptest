@@ -63,21 +63,21 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read yRelAct(
     description="Relief air damper position set point feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="1")) "Relief air damper position set point feedback"
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
+
   Buildings.Utilities.IO.SignalExchange.Read yRetAct(
     description="Return air damper position set point feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="1")) "Return air damper position setpoint feedback"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
+
   Buildings.Utilities.IO.SignalExchange.Read yFanAct(
     description="Supply fan speed set point feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="1")) "Supply fan speed setpoint feedback"
     annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
+
   Modelica.Blocks.Interfaces.RealInput yOA_in
     "Actual outside air damper position feedback"
     annotation (Placement(transformation(extent={{-140,10},{-100,50}})));
@@ -93,9 +93,9 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read yHeaAct(
     description="Heating coil control signal feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="1")) "Heating coil control signal feedback"
     annotation (Placement(transformation(extent={{0,-100},{20,-80}})));
+
   Modelica.Blocks.Interfaces.RealInput yHea_in
     "Actual heating coil signal feedback"
     annotation (Placement(transformation(extent={{-140,-110},{-100,-70}})));
@@ -105,9 +105,9 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read yCooAct(
     description="Cooling coil control signal feedback for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="1")) "Cooling coil control signal feedback"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
+
   Buildings.Utilities.IO.SignalExchange.Read PFanSup(
     description="Electrical power measurement of supply fan for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
