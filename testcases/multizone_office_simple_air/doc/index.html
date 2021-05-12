@@ -15,13 +15,13 @@ having a window-to-wall ratio of 0.33.  The height of each zone is 2.74 m
 and the areas are as follows:
 <ul>
 <li>
-North and South: 207.58 m^2
+North and South: 207.58 m<sup>2</sup>
 </li>
 <li>
-East and West: 131.416 m^2
+East and West: 131.416 m<sup>2</sup>
 </li>
 <li>
-Core: 984.672 m^2
+Core: 984.672 m<sup>2</sup>
 </li>
 </ul>
 </p>
@@ -38,7 +38,7 @@ The envelope thermal properties meet ASHRAE Standard 90.1-2004.
 </p>
 <h4>Occupancy schedules</h4>
 <p>
-The design occupancy density is 0.05 people/m^2.  The number of occupants
+The design occupancy density is 0.05 people/m<sup>2</sup>.  The number of occupants
 present in each zone at any time coincides with the internal gain schedule
 defined in the next section.
 The occupied time for the HVAC system is between 6 AM and 7 PM each day.  The
@@ -47,7 +47,7 @@ unoccupied time is outside of this period.
 <h4>Internal loads and schedules</h4>
 <p>
 The design internal gains including lighting, plug loads, and people
-are combined 20 W/m^2 with a radiant-convective-latent split of 40%-40%-20%.
+are combined 20 W/m<sup>2</sup> with a radiant-convective-latent split of 40%-40%-20%.
 The internal gains are activated according to the schedule in the figure below.
 </p>
 <p align=\"center\">
@@ -77,7 +77,7 @@ application specific or optional.
 </p>
 <p align=\"center\">
 <img alt=\"Schematic of HVAC system.\"
-src="images/Schematic.png">
+src="images/Schematic.png"/>
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -86,7 +86,7 @@ airflow rates defined in the table below.  The design system airflow rate includ
 a 0.7 load diversity factor and is defined in the table below.
 
 The minimum outside airflow for each zone is calculated using outside
-airflow rates of 0.3e-3 m^3/s-m^2 and 2.5e-3 m^3/s-person.  The limiting
+airflow rates of 0.3e-3 m<sup>3</sup>/s-m<sup>2</sup> and 2.5e-3 m<sup>3</sup>/s-person.  The limiting
 zone air distribution effectiveness is 0.8 and the occupant diversity
 ratio is 0.7.  This leads to the minimum outside airflow rates for each zone
 and system defined in the table below.
@@ -96,8 +96,8 @@ and system defined in the table below.
 <table>
   <tr>
   <th>Name</th>
-  <th>Design Airflow [m^3/s]</th>
-  <th>Min OA Airflow [m^3/s]</th>
+  <th>Design Airflow [m<sup>3</sup>/s]</th>
+  <th>Min OA Airflow [m<sup>3</sup>/s]</th>
   </tr>
   <tr>
   <td>North</td>
@@ -234,7 +234,7 @@ to the specified maximum value for heating.
 
 <p align=\"center\">
 <img alt=\"Controller C1.\"
-src="images/C1.png">
+src="images/C1.png"/>
 </p>
 
 <p>
@@ -249,7 +249,7 @@ to output a fan speed setpoint.
 
 <p align=\"center\">
 <img alt=\"Controller C2.\"
-src="images/C2.png">
+src="images/C2.png"/>
 </p>
 
 <p>
@@ -272,7 +272,7 @@ drybulb temperature is lower than the return air temperature.
 
 <p align=\"center\">
 <img alt=\"Controller C3.\"
-src="images/C3.png">
+src="images/C3.png"/>
 </p>
 
 <p>
@@ -309,64 +309,64 @@ The model inputs are:
 <code>oveAhu_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU
 </li>
 <li>
-<code>oveCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone Core
+<code>oveCorLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone Core
 </li>
 <li>
-<code>oveCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone Core
+<code>oveCorLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone Core
 </li>
 <li>
-<code>oveCor_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone Core
+<code>oveCorSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone Core
 </li>
 <li>
-<code>oveCor_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone Core
+<code>oveCorSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone Core
 </li>
 <li>
-<code>oveEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone East
+<code>oveEasLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone East
 </li>
 <li>
-<code>oveEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone East
+<code>oveEasLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone East
 </li>
 <li>
-<code>oveEas_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone East
+<code>oveEasSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone East
 </li>
 <li>
-<code>oveEas_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone East
+<code>oveEasSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone East
 </li>
 <li>
-<code>oveNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone North
+<code>oveNorLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone North
 </li>
 <li>
-<code>oveNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone North
+<code>oveNorLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone North
 </li>
 <li>
-<code>oveNor_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone North
+<code>oveNorSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone North
 </li>
 <li>
-<code>oveNor_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone North
+<code>oveNorSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone North
 </li>
 <li>
-<code>oveSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone South
+<code>oveSouLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone South
 </li>
 <li>
-<code>oveSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone South
+<code>oveSouLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone South
 </li>
 <li>
-<code>oveSou_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone South
+<code>oveSouSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone South
 </li>
 <li>
-<code>oveSou_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone South
+<code>oveSouSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone South
 </li>
 <li>
-<code>oveWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone West
+<code>oveWesLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone West
 </li>
 <li>
-<code>oveWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone West
+<code>oveWesLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone West
 </li>
 <li>
-<code>oveWes_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone West
+<code>oveWesSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone West
 </li>
 <li>
-<code>oveWes_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone West
+<code>oveWesSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone West
 </li>
 </ul>
 <h4>Outputs</h4>
@@ -628,7 +628,7 @@ wind pressure coefficients for each facade using
 <h4>CO2 models</h4>
 <p>
 CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017)
-and density of CO2 assumed to be 1.8 kg/m^3,
+and density of CO2 assumed to be 1.8 kg/m<sup>3</sup>,
 making CO2 generation 8.64e-6 kg/s per person.
 Outside air CO2 concentration is 400 ppm.
 </p>

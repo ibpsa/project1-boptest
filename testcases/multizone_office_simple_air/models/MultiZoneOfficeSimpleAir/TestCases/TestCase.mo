@@ -872,64 +872,64 @@ The model inputs are:
 <code>oveAhu_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU
 </li>
 <li>
-<code>oveCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone Core
+<code>oveCorLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone Core
 </li>
 <li>
-<code>oveCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone Core
+<code>oveCorLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone Core
 </li>
 <li>
-<code>oveCor_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone Core
+<code>oveCorSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone Core
 </li>
 <li>
-<code>oveCor_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone Core
+<code>oveCorSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone Core
 </li>
 <li>
-<code>oveEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone East
+<code>oveEasLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone East
 </li>
 <li>
-<code>oveEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone East
+<code>oveEasLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone East
 </li>
 <li>
-<code>oveEas_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone East
+<code>oveEasSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone East
 </li>
 <li>
-<code>oveEas_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone East
+<code>oveEasSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone East
 </li>
 <li>
-<code>oveNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone North
+<code>oveNorLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone North
 </li>
 <li>
-<code>oveNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone North
+<code>oveNorLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone North
 </li>
 <li>
-<code>oveNor_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone North
+<code>oveNorSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone North
 </li>
 <li>
-<code>oveNor_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone North
+<code>oveNorSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone North
 </li>
 <li>
-<code>oveSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone South
+<code>oveSouLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone South
 </li>
 <li>
-<code>oveSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone South
+<code>oveSouLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone South
 </li>
 <li>
-<code>oveSou_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone South
+<code>oveSouSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone South
 </li>
 <li>
-<code>oveSou_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone South
+<code>oveSouSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone South
 </li>
 <li>
-<code>oveWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone West
+<code>oveWesLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone West
 </li>
 <li>
-<code>oveWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone West
+<code>oveWesLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone West
 </li>
 <li>
-<code>oveWes_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone West
+<code>oveWesSup_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone West
 </li>
 <li>
-<code>oveWes_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone West
+<code>oveWesSup_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone West
 </li>
 </ul>
 <h4>Outputs</h4>
