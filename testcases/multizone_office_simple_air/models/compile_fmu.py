@@ -12,7 +12,7 @@ def compile_fmu():
 
     # DEFINE MODEL
     mopath = 'MultiZoneOfficeSimpleAir/package.mo'
-    modelpath = 'MultiZoneOfficeSimpleAir.TestCases.ASHRAE2006'
+    modelpath = 'MultiZoneOfficeSimpleAir.TestCases.TestCase'
 
     # COMPILE FMU
     fmupath = parser.export_fmu(modelpath, [mopath])
