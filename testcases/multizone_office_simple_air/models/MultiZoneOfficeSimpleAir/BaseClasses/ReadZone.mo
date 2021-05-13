@@ -103,6 +103,11 @@ equation
           lineColor={28,108,200},
           fillColor={255,170,170},
           fillPattern=FillPattern.Solid,
-          textString="%name")}), Diagram(coordinateSystem(preserveAspectRatio=
+          textString="%name"),
+        Text(
+          extent={{-28,24},{38,-16}},
+          lineColor={0,0,0},
+          textString="Read
+Zone")}),                        Diagram(coordinateSystem(preserveAspectRatio=
             false, extent={{-100,-140},{100,140}})));
 end ReadZone;

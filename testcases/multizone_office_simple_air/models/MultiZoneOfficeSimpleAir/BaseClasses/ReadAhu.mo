@@ -196,6 +196,11 @@ equation
           lineColor={28,108,200},
           fillColor={255,170,170},
           fillPattern=FillPattern.Solid,
-          textString="%name")}), Diagram(coordinateSystem(preserveAspectRatio=
+          textString="%name"),
+        Text(
+          extent={{-32,24},{34,-16}},
+          lineColor={0,0,0},
+          textString="Read
+AHU")}),                         Diagram(coordinateSystem(preserveAspectRatio=
             false, extent={{-100,-240},{100,240}})));
 end ReadAhu;

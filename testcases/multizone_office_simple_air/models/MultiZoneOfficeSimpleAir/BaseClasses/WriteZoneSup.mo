@@ -57,6 +57,12 @@ equation
           lineColor={28,108,200},
           fillColor={255,170,170},
           fillPattern=FillPattern.Solid,
-          textString="%name")}), Diagram(coordinateSystem(preserveAspectRatio=
+          textString="%name"),
+        Text(
+          extent={{-34,22},{32,-18}},
+          lineColor={0,0,0},
+          textString="Write
+Zone
+Sup")}),                         Diagram(coordinateSystem(preserveAspectRatio=
             false)));
 end WriteZoneSup;

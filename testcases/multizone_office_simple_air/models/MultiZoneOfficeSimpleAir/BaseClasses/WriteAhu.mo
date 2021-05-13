@@ -144,6 +144,11 @@ equation
           lineColor={28,108,200},
           fillColor={255,170,170},
           fillPattern=FillPattern.Solid,
-          textString="%name")}), Diagram(coordinateSystem(preserveAspectRatio=false, extent={
+          textString="%name"),
+        Text(
+          extent={{-36,22},{30,-18}},
+          lineColor={0,0,0},
+          textString="Write
+AHU")}),                         Diagram(coordinateSystem(preserveAspectRatio=false, extent={
             {-100,-140},{100,140}})));
 end WriteAhu;
