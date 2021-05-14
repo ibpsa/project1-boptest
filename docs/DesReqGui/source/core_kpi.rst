@@ -113,15 +113,15 @@ Computational time ratio
    simulation step of that iteration, :math:`T_s(k)`.
    The ratio between :math:`t_c(k)` and :math:`T_s(k)` helps indicate the
    practicality of the controller as well as potential for increasing
-   computational time.
+   computational time.  This is called the computational time ratio.
 
    As the computational time and the simulation step duration may not be the
-   same for every simulation step, an average of these variables is used from
+   same for every simulation step, an average of the computational time ratio from
    all of the simulation steps that take place between the initial time :math:`t_0`
    and the final time :math:`t_f` for which this KPI is calculated. Thus,
    the computational time ratio is computed as follows:
 
-   .. math:: t(t_0,t_f) =\frac{\frac{\sum_{k=1}^{n}t_c(k)}{n}}{\frac{\sum_{k=1}^{n}T_s(k)}{n}}= \sum_{k=1}^{n}\frac{t_c(k)}{T_s(k)}
+   .. math:: t(t_0,t_f) = \frac{\sum_{k=1}^{n}\frac{t_c(k)}{T_s(k)}}{n}
 
    Where :math:`n` is the number of simulation steps that take place between
    :math:`t_0` and :math:`t_f`.
