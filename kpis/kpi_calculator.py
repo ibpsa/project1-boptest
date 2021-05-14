@@ -491,9 +491,9 @@ class KPI_Calculator(object):
         return self.emis_tot
 
     def get_computational_time_ratio(self, plot=False):
-        '''Obtain the computational time ratio as the ratio between
-        the average of the elapsed control time and the test case
-        sampling time. The elapsed control time is measured as the
+        '''Obtain the computational time ratio as the average ratio between
+        the elapsed control time and the test case control step
+        time. The elapsed control time is measured as the
         time between two emulator simulations. A time counter starts
         at the end of the 'advance' test case method and finishes at
         the beginning of the following call to the same method.
@@ -504,7 +504,7 @@ class KPI_Calculator(object):
         Parameters
         ----------
         plot: boolean, optional
-            True if it it is desired to make a plot of the elapsed
+            True if it is desired to make a plot of the elapsed
             controller time.
             Default is False.
 
@@ -515,19 +515,18 @@ class KPI_Calculator(object):
 
         '''
 
-        elapsed_control_time = self.case.get_elapsed_control_time()
-        elapsed_time_average = np.mean(np.asarray(elapsed_control_time))
-        time_rat = elapsed_time_average/self.case.step
+        elapsed_control_time_ratio = self.case.get_elapsed_control_time_ratio()
+        time_rat = np.mean(np.asarray(elapsed_control_time_ratio))
 
         self.case.time_rat = time_rat
 
         if plot:
             plt.figure()
-            n=len(elapsed_control_time)
+            n=len(elapsed_control_time_ratio)
             bgn=int(self.case.step)
             end=int(self.case.step + n*self.case.step)
             plt.plot(range(bgn,end,int(self.case.step)),
-                     elapsed_control_time)
+                     elapsed_control_time_ratio)
             plt.show()
 
         return time_rat

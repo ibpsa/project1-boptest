@@ -68,7 +68,7 @@ class TestCase(object):
         self.start_time = 0
         self.initialize_fmu = True
         self.options['initialize'] = self.initialize_fmu
-        self.elapsed_control_time = []
+        self.elapsed_control_time_ratio = []
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Set default scenario
@@ -196,7 +196,7 @@ class TestCase(object):
         # Calculate and store the elapsed time
         if hasattr(self, 'tic_time'):
             self.tac_time = time.time()
-            self.elapsed_control_time.append(self.tac_time-self.tic_time)
+            self.elapsed_control_time_ratio.append((self.tac_time-self.tic_time)/self.step)
 
         # Set final time
         self.final_time = self.start_time + self.step
@@ -282,7 +282,7 @@ class TestCase(object):
         self.fmu.reset()
         # Reset simulation data storage
         self.__initilize_data()
-        self.elapsed_control_time = []
+        self.elapsed_control_time_ratio = []
         # Record initial testing time
         self.initial_time = start_time
         # Record end testing time
@@ -566,7 +566,7 @@ class TestCase(object):
 
         return name
 
-    def get_elapsed_control_time(self):
+    def get_elapsed_control_time_ratio(self):
         '''Returns the elapsed control time vector for the case.
 
         Parameters
@@ -575,14 +575,14 @@ class TestCase(object):
 
         Returns
         -------
-        elapsed_control_time : list of floats
-            elapsed_control_time for each control step.
+        elapsed_control_time_ratio : list of floats
+            elapsed_control_time_ratio for each control step.
 
         '''
 
-        elapsed_control_time = self.elapsed_control_time
+        elapsed_control_time_ratio = self.elapsed_control_time_ratio
 
-        return elapsed_control_time
+        return elapsed_control_time_ratio
 
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
