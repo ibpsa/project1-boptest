@@ -195,7 +195,7 @@ There are no internal loads other than the occupants.
 
 <h4>Climate data</h4>
 <p>
-The model uses a climate file containing one year of weather data for Uccle,
+The model uses a climate file containing one year of weather data for Brussels,
 Belgium.
 </p>
 
@@ -436,7 +436,37 @@ as well as the air circulation through the heat pump evaporator.
 Fixed air infiltration corresponding to an n50 value of 10 is modelled.
 </p>
 <h3>Scenario Information</h3>
-<p><b>Energy Pricing</b> </p>
+<h4>Time Periods</h4>
+<p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 16.
+</ul>
+<ul>
+End Time: Day 30.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 108.
+</ul>
+<ul>
+End Time: Day 122.
+</ul>
+</p>
+<h4>Energy Pricing</h4>
 <p>
 All pricing scenarios include the same constant value for transmission fees and taxes
 of each commodity. The used value is the typical price that household users pay
@@ -447,20 +477,19 @@ For the assumed location of the test case, this value is of
 0.20 EUR/kWh for electricity.
 </p>
 <p>
-The <b>Constant Electricity Price</b> profile is:
-</p>
-<p>
+The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
+<ul>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
 as obtained from the &quot;Easy Indexed&quot; deal for electricity (normal rate) in
 <a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020).
 Adding up the transmission fees and taxes, the final constant electricity price is
 of 0.2535 EUR/kWh.
+</ul>
 </p>
 <p>
-The <b>Dynamic Electricity Price</b> profile is:
-</p>
-<p>
+The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
+<ul>
 The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during
 day time and 0.0383 EUR/kWh during night time, as obtained from the &quot;Easy Indexed&quot;
 deal for electricity (dual rate) in <a href="https://www.energyprice.be/products-list/Engie">
@@ -469,28 +498,29 @@ The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
 Adding up the transmission fees and taxes, the final dynamic electricity prices are
 of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods.
+</ul>
 </p>
 <p>
-The <b>Highly Dynamic Electricity Price</b> profile is:
-</p>
-<p>
+The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
+<ul>
 The highly dynamic electricity price scenario is based on the the Belgian day-ahead
 energy prices as determined by the BELPEX wholescale electricity market in the year 2019.
 Obtained from: <a href="https://my.elexys.be/MarketInformation/SpotBelpex.aspx">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a>.
 Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are
 added up on top of these prices.
+</ul>
 </p>
 <h4>Emission Factors</h4>
 <p>
 The <b>Electricity Emissions Factor</b> profile is:
-</p>
-<p>
+<ul>
 It is used a constant emission factor for electricity of 0.167 kgCO2/kWh,
 which is the grid electricity emission factor reported by the Association of Issuing Bodies
 (AIB) for year 2018. For reference, see:
 <a href="https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
+</ul>
 </p>
 
 <p><span class="ModelicaBaseClass">Extends from Modelica.Icons.Example (Icon for runnable examples).</span></p>
@@ -506,7 +536,7 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 <tr><td>TSetHeaOcc</td><td>Occupied heating setpoint [K]</td></tr>
 </table>
 <address>
-<a href="http://www.3ds.com/">Automatically generated</a> Thu Mar  4 09:15:59 2021.
+<a href="http://www.3ds.com/">Automatically generated</a> Mon Apr 26 12:40:26 2021.
 </address>
 </body>
 </html>
