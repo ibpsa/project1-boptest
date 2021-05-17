@@ -567,7 +567,7 @@ class TestCase(object):
         return name
 
     def get_elapsed_control_time_ratio(self):
-        '''Returns the elapsed control time vector for the case.
+        '''Returns the elapsed control time ratio vector for the case.
 
         Parameters
         ----------
