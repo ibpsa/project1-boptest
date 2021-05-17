@@ -11,6 +11,7 @@ import os
 import utilities
 import requests
 import numpy as np
+import time
 from examples.python import testcase1
 from examples.python import testcase1_scenario
 
@@ -277,6 +278,51 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         # Check return is valid for time period
         self.assertTrue(res['time_period'] is None)
 
+class ComputationalTimeRatio(unittest.TestCase):
+    '''Test the computational time ratio KPI explicitly.
+
+    '''
+
+    def setUp(self):
+        '''Setup for each test.
+
+        '''
+
+        self.url = 'http://127.0.0.1:5000'
+
+    def test_constant_step(self):
+        '''Tests the calculation of the kpi with a constant step.
+
+        '''
+
+        # Run test
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        step = requests.get('{0}/step'.format(self.url)).json()
+        for i in range(5):
+            requests.post('{0}/advance'.format(self.url), data={}).json()
+            time.sleep(2)
+        # Check kpis
+        kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        self.assertAlmostEqual(kpi['time_rat'], 2.0/step, places=2)
+        requests.put('{0}/step'.format(self.url), data={'step':step})
+
+    def test_variable_step(self):
+        '''Tests the calculation of the kpi with a variable step.
+
+        '''
+
+        # Run test
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        step = requests.get('{0}/step'.format(self.url)).json()
+        for i in range(5):
+            if i > 2:
+                requests.put('{0}/step'.format(self.url), data={'step':2*step})
+            requests.post('{0}/advance'.format(self.url), data={}).json()
+            time.sleep(2)
+        # Check kpis
+        kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        self.assertAlmostEqual(kpi['time_rat'], (3*2.0/step+2*2.0/(2*step))/5, places=2)
+        requests.put('{0}/step'.format(self.url), data={'step':step})
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 1.
