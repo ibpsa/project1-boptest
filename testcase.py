@@ -38,6 +38,8 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
+        # Get building area
+        self.area = con['area']
         # Instantiate a data manager for this test case
         self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
@@ -671,3 +673,17 @@ class TestCase(object):
             checked_value = value
 
         return checked_value
+
+    def _get_area(self):
+        '''Get the building floor area in m^2.
+
+        Returns
+        -------
+        area : float
+            Building floor area in m^2
+
+        '''
+
+        area = self.area
+
+        return area

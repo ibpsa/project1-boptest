@@ -321,7 +321,7 @@ class KPI_Calculator(object):
                     pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_ener))
                     self.ener_dict[signal] += \
                         trapz(pow_data,
-                              self._get_data_from_last_index('time',self.i_last_ener))*2.77778e-7 # Convert to kWh
+                              self._get_data_from_last_index('time',self.i_last_ener))*2.77778e-7/self.case._get_area() # Convert to kWh/m^2
                     self.ener_dict_by_source[source+'_'+signal] += \
                         self.ener_dict[signal]
                     self.ener_tot = self.ener_tot + self.ener_dict[signal]
