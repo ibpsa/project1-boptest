@@ -321,10 +321,10 @@ class KPI_Calculator(object):
                     pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_ener))
                     self.ener_dict[signal] += \
                         trapz(pow_data,
-                              self._get_data_from_last_index('time',self.i_last_ener))*2.77778e-7/self.case._get_area() # Convert to kWh/m^2
+                              self._get_data_from_last_index('time',self.i_last_ener))*2.77778e-7 # Convert to kWh
                     self.ener_dict_by_source[source+'_'+signal] += \
                         self.ener_dict[signal]
-                    self.ener_tot = self.ener_tot + self.ener_dict[signal]
+                    self.ener_tot = self.ener_tot + self.ener_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Assign to case
         self.case.ener_tot            = self.ener_tot
@@ -406,10 +406,10 @@ class KPI_Calculator(object):
                 pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_cost))
                 self.cost_dict[signal] += \
                     trapz(np.multiply(source_price_data,pow_data),
-                          self._get_data_from_last_index('time',self.i_last_cost))*factor/self.case._get_area() # Normalize by area
+                          self._get_data_from_last_index('time',self.i_last_cost))*factor
                 self.cost_dict_by_source[source+'_'+signal] += \
                     self.cost_dict[signal]
-                self.cost_tot = self.cost_tot + self.cost_dict[signal]
+                self.cost_tot = self.cost_tot + self.cost_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Assign to case
         self.case.cost_tot            = self.cost_tot
@@ -466,10 +466,10 @@ class KPI_Calculator(object):
                     pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_emis))
                     self.emis_dict[signal] += \
                         trapz(np.multiply(source_emissions_data,pow_data),
-                              self._get_data_from_last_index('time',self.i_last_emis))*2.77778e-7/self.case._get_area() # Convert to kWh/m^2
+                              self._get_data_from_last_index('time',self.i_last_emis))*2.77778e-7 # Convert to kWh
                     self.emis_dict_by_source[source+'_'+signal] += \
                         self.emis_dict[signal]
-                    self.emis_tot = self.emis_tot + self.emis_dict[signal]
+                    self.emis_tot = self.emis_tot + self.emis_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Update last integration index
         self._set_last_index('emis', set_initial=False)
