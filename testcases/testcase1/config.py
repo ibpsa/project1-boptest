@@ -27,7 +27,7 @@ def get_config():
     # Enter configuration information
     'name'     : 'testcase1',
     'fmupath'  : 'models/wrapped.fmu',
-    'area'     : 1.0,
+    'area'     : 10,
     'step'     : 60,
     'horizon'  : 86400,
     'interval' : 3600,
