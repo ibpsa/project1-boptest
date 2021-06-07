@@ -27,7 +27,7 @@ def get_config():
     # Enter configuration information
     'name'     : 'bestest_hydronic',
     'fmupath'  : 'models/wrapped.fmu',
-    'area'     : 48.0,
+    'area'     : 6*8,
     'step'     : 3600,
     'horizon'  : 86400,
     'interval' : 3600,
