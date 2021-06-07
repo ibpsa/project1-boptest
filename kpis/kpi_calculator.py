@@ -223,8 +223,8 @@ class KPI_Calculator(object):
                 self.tdis_dict[signal[:-1]+'dTupper_y'] += \
                     trapz(dT_upper,self._get_data_from_last_index('time',self.i_last_tdis))/3600.
                 self.tdis_tot = self.tdis_tot + \
-                    self.tdis_dict[signal[:-1]+'dTlower_y']/len(self.sources_idis) + \
-                    self.tdis_dict[signal[:-1]+'dTupper_y']/len(self.sources_idis) # Normalize total by number of sources
+                    self.tdis_dict[signal[:-1]+'dTlower_y']/len(self.sources_tdis) + \
+                    self.tdis_dict[signal[:-1]+'dTupper_y']/len(self.sources_tdis) # Normalize total by number of sources
 
         self.case.tdis_tot  = self.tdis_tot
         self.case.tdis_dict = self.tdis_dict
