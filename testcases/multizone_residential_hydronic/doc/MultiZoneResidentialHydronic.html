@@ -1,4 +1,5 @@
 <html>
+
 <p>
 This is the multi zone residential hydronic emulator model
 of BOPTEST.
@@ -10,20 +11,22 @@ The emulator building model represents a residential French
 dwelling compliant with the French Thermal regulation of 2012,
 i.e. the French national building energy regulation. Therefore,
 the typology is defined to be representative of French new
-dwellings. Its area is approximately 120 m&sup2; (<i>S_ref</i>).
+dwellings. 
+The area not including the unconditioned attic and unconditioned 
+garage is of 81.08 m&sup2;.
 The following figure shows the building layout and
 a sketch of the hydraulic system. The coloured elements in the scheme
 represent the controllable components
 through the BOPTEST interface. The dimensions are provided in metres.
 
 </p>
-<p align=\"center\">
-<img alt=\"Simulated residential dwelling\"
+<p align="center">
+<img alt="Simulated residential dwelling"
 src="images/layout.png">
 </p>
 
 <p>
-The orientation of the building was chosen to maximize the natural light during winter.
+The orientation of each building was chosen to maximize the natural light during winter.
 Thus, the main surface of windows of the building is south oriented.
 The building consists of six thermal zones that are actively controlled and two unconditioned
 zones:
@@ -43,42 +46,42 @@ modes existing on the market. Thus, each of these modes was characterized
 by a different level of insulation (Table 1).
 </p>
 
-<p><span style=\"font-family: Arial,sans-serif;\">Table 1.Building envelope characteristic</span> </p>
-<table cellspacing=\"0\" cellpadding=\"2\" border=\"1\" width=\"100%\"><tr>
-<td><p><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Wall type </span></b></p></td>
-<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Characteristics</span></b></p></td>
+<p><span style="font-family: Arial,sans-serif;">Table 1.Building envelope characteristic</span> </p>
+<table cellspacing="0" cellpadding="2" border="1" width="100%"><tr>
+<td><p><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Wall type </span></b></p></td>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Characteristics</span></b></p></td>
 </tr>
 <tr>
-<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">External wall</span></b></p></td>
-<td><p><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Brick (200 mm, &lambda;=0.2 W/mK) + polystyrene (80 mm, &lambda;=0.032 W/mK)</span></p></td>
-</tr>
-<tr>
-<td></td>
-<td><p><br><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U = 0.272 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
-</tr>
-<tr>
-<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Floor</span></b></p></td>
-<td><p><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Hollow block (150 mm, &lambda;=0.92 W/mK) + polyurethane (60 mm, &lambda;=0.022 W/mK)</span></p></td>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">External wall</span></b></p></td>
+<td><p><span style="font-family: Arial,sans-serif; font-size: 10pt;">Brick (200 mm, &lambda;=0.2 W/mK) + polystyrene (80 mm, &lambda;=0.032 W/mK)</span></p></td>
 </tr>
 <tr>
 <td></td>
-<td><p><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U<sub>e</sub> = 0.327 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+<td><p><br><br><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">U = 0.272 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
 </tr>
 <tr>
-<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Ceiling</span></b></p></td>
-<td><p><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Glass wool (200 mm, &lambda;=0.04 W/mK)</span></p></td>
-</tr>
-<tr>
-<td></td>
-<td><p><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U = 0.193 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
-</tr>
-<tr>
-<td><p><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">Fenestration</span></b></p></td>
-<td><p><span style=\"font-size: 10pt;\">Double glazing with Argon and PVC frame 4/16/4, <span style=\"font-family: Arial,sans-serif;\">Planitherm glass g=0.6, TL=76&percnt; with external solar protection</span></p></td>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Floor</span></b></p></td>
+<td><p><span style="font-family: Arial,sans-serif; font-size: 10pt;">Hollow block (150 mm, &lambda;=0.92 W/mK) + polyurethane (60 mm, &lambda;=0.022 W/mK)</span></p></td>
 </tr>
 <tr>
 <td></td>
-<td><p><br><br><b><span style=\"font-family: Arial,sans-serif; font-size: 10pt;\">U<sub>w</sub> = 1.40 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+<td><p><br><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">U<sub>e</sub> = 0.327 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Ceiling</span></b></p></td>
+<td><p><span style="font-family: Arial,sans-serif; font-size: 10pt;">Glass wool (200 mm, &lambda;=0.04 W/mK)</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">U = 0.193 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
+</tr>
+<tr>
+<td><p><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">Fenestration</span></b></p></td>
+<td><p><span style="font-size: 10pt;">Double glazing with Argon and PVC frame 4/16/4, <span style="font-family: Arial,sans-serif;">Planitherm glass g=0.6, TL=76&percnt; with external solar protection</span></p></td>
+</tr>
+<tr>
+<td></td>
+<td><p><br><br><b><span style="font-family: Arial,sans-serif; font-size: 10pt;">U<sub>w</sub> = 1.40 W.m<sup>-2</sup>.K<sup>-1</span></b></sup></p></td>
 </tr>
 </table>
 
@@ -584,16 +587,16 @@ End Time: Day 332.
 All pricing scenarios include the same constant value for transmission fees and taxes
 of each commodity. The used value is the typical price that household users pay
 for the network, taxes and levies, as calculateed by Eurostat and obtained from:
-<a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
-\"The energy prices and costs in Europe report\"</a>.
+<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN">
+"The energy prices and costs in Europe report"</a>.
 For the assumed location of the test case, this value is of
 0.125 EUR/kWh for electricity and of 0.042 for gas.
 </p>
 <h5>Constant electricity price profile</h5> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
 <p>
 The constant electricity price scenario uses a constant price of 0.108 EUR/kWh,
-as obtained from the Engie's \"Elec Ajust\" deal before taxes (HTT) in
-<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf\">
+as obtained from the Engie's "Elec Ajust" deal before taxes (HTT) in
+<a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf">
 https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a>
 (accessed on July 2020).
 The tariff used is the one for households with contracted power installations higher than 6 kVA.
@@ -604,8 +607,8 @@ of 0.233 EUR/kWh.
 <p>
 The dynamic electricity price scenario uses a dual rate of 0.126 EUR/kWh during
 day time and 0.086 EUR/kWh during night time,
-as obtained from the the Engie's \"Elec Ajust\" deal before taxes (HTT) in
-<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf\">
+as obtained from the the Engie's "Elec Ajust" deal before taxes (HTT) in
+<a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf">
 https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-elec-ajust.pdf</a>
 (accessed on July 2020).
 The tariff used is the one for households with contracted power installations higher than 6 kVA.
@@ -618,10 +621,10 @@ of 0.251 EUR/kWh during on-peak periods and of 0.211 during off-peak periods.
 <p>
 For the highly dynamic scenario, the French day-ahead prices of 2019 are used.
 Obtained from:
-<a href=\"https://www.epexspot.com/en\">
+<a href="https://www.epexspot.com/en">
 https://www.epexspot.com/en</a>
 The prices are parsed and exported using this repository:
-<a href=\"https://github.com/JavierArroyoBastida/epex-spot-data\">
+<a href="https://github.com/JavierArroyoBastida/epex-spot-data">
 https://github.com/JavierArroyoBastida/epex-spot-data</a>.
 Notice that the same constant transmission fees and taxes of 0.125 EUR/kWh are
 added up on top of these prices.
@@ -629,8 +632,8 @@ added up on top of these prices.
 <h5>Gas price profile</h5>
 <p>
 The gas price is assumed constant and of 0.0491 EUR/kWh
-as obtained from the \"Gaz Energie Garantie 1 an\" deal for gas in
-<a href=\"https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf\">
+as obtained from the "Gaz Energie Garantie 1 an" deal for gas in
+<a href="https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf">
 https://particuliers.engie.fr/content/dam/pdf/fiches-descriptives/fiche-descriptive-sommaire-gaz-energie-garantie.pdf</a>
 (accessed on July 2020).
 Price before taxes (HTT) for a contracted anual tariff between 0 - 6000 kWh.
@@ -643,7 +646,7 @@ of 0.0911 EUR/kWh.
 It is used a constant emission factor for electricity of 0.047 kgCO2/kWh
 which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
 for year 2019 in France. For reference, see:
- <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
+ <a href="https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
 </p>
 <h5>Gas emissions factor profile</h5>
@@ -652,7 +655,9 @@ Based on the kgCO2 emitted per amount of natural gas burned in terms of
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see:
-<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
+<a href="https://www.eia.gov/environment/emissions/co2_vol_mass.php">
 https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
+
+</body>
 </html>
