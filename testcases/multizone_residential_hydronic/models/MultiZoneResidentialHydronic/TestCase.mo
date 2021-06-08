@@ -2305,7 +2305,9 @@ The emulator building model represents a residential French
 dwelling compliant with the French Thermal regulation of 2012,
 i.e. the French national building energy regulation. Therefore,
 the typology is defined to be representative of French new
-dwellings. Its area is approximately 100 m&sup2; (<i>S_ref</i>).
+dwellings. 
+The area not including the unconditioned attic and unconditioned 
+garage is of 81.08 m&sup2;.
 The following figure shows the building layout and
 a sketch of the hydraulic system. The coloured elements in the scheme
 represent the controllable components
