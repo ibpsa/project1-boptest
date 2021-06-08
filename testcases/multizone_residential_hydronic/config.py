@@ -26,7 +26,7 @@ def get_config():
     # Enter configuration information
     'name'     : 'multizone_residential_hydronic',
     'fmupath'  : 'models/wrapped.fmu',
-    'area'     : 8.3*14.4,
+    'area'     : 81.08,
     'step'     : 3600,
     'horizon'  : 86400,
     'interval' : 3600,
