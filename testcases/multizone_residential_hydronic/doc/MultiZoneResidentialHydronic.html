@@ -1,51 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<title>MultiZoneResidentialHydronic.TestCase</title>
-<meta name="HTML-Generator" content="Dymola">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="&quot;Multi zone residential hydronic example model&quot;">
-<style type="text/css">
-*       { font-size: 100%; font-family: Arial, sans-serif; }
-.modelica, .modelica * { font-size: 90%; font-family: Courier, monospace; white-space: pre; } /* For the Modelica code (in exported html). */
-h4      { font-size: 100%; font-weight: bold; color: green; } 
-h3      { font-size: 110%; font-weight: bold; color: green; }
-h2      { font-size: 130%; font-weight: bold; color: green; }
-address { font-weight: normal; }
-td      { padding: 2px; border: 1px solid #808080; vertical-align: top; }
-th      { padding: 2px; border: 1px solid #808080; vertical-align: top; font-weight: bold; }
-table   { border: 1px solid #808080; border-collapse: collapse; }
-pre, code {font-family: "Courier New", monospace;}
-pre {white-space: pre; overflow-x : hidden;}
-.ModelicaDescription {font-weight: bold;} /* For the description string of the class. */
-.ModelicaBaseClass {} /* For the list of base-classes at the of the description. */
-.ModelicaKeyword { color: blue; font-weight: normal; font-style: normal; } /* Keywords in Modelica. */
-.ModelicaComment { color: #006400;  font-weight: normal; font-style: normal;} /* All three variants of comments in Modelica.  */
-.ModelicaString { color: #006400;  font-weight: normal; font-style: normal;} /* String constants. */
-.ModelicaClass { color: red; font-weight: normal; font-style: normal;} /* Formatting the names of referenced classes (for base-class and components). */
-.ModelicaFunction { color: red; font-weight: normal; font-style: normal;} /* Formatting for called functions. */
-.ModelicaTablePackageContent { } /* The table of contents for each package. */
-.ModelicaTableCrossReference { } /* The optional cross-reference table. */
-.ModelicaTableInputs {} /* The table of inputs for a function. */
-.ModelicaTableOutputs {} /* The table of outputs for a function. */
-.ModelicaTableParameters {} /* The table of parameters for a model/block. */
-.ModelicaTableConnectors {} /* The table of connectors for a model/block. */
-.ModelicaTableContents {} /* The table of contents for a connector. */
-.ModelicaStartAttribute { font-weight: bold; } /* The formatting used for start-attribute in the table of parameters, to separate them from parameter values. */
-.ModelicaParameterTab { background-color: #c0c0c0; font-weight: bold; } /* The tab-heading in the table of parameters */
-.ModelicaParameterGroup { background-color: #e0e0e0; } /* The group-heading in the table of parameters */
-</style>
-</head>
-<body>
-<!--[if supportFields]><span style="mso-element:field-begin"></span>
-<span style="mso-spacerun:yes"></span>XE TestCase<![endif]-->
-<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
-<h2><img src="MultiZoneResidentialHydronic.TestCaseI.png" alt="MultiZoneResidentialHydronic.TestCase" align="right" style="border: 1px solid" width="80" height="80">
-<a name="MultiZoneResidentialHydronic.TestCase"></a>MultiZoneResidentialHydronic.TestCase</h2>
-<p>
-<span class="ModelicaDescription">Multi zone residential hydronic example model</span>
-</p>
-<h3>Information</h3>
 
 <p>
 This is the multi zone residential hydronic emulator model
@@ -706,46 +659,5 @@ see:
 https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 
-<p><span class="ModelicaBaseClass">Extends from Modelica.Icons.Example (Icon for runnable examples).</span></p>
-<h3>Parameters</h3>
-<table summary="Parameters" class="ModelicaTableParameters">
-<tr><th>Name</th><th>Description</th></tr>
-<tr><td>S</td><td>Building surface [m2]</td></tr>
-<tr><td>OpenDoors</td><td>Doors opening - 0=closed, 1 = open</td></tr>
-<tr><td>TSup_nominal</td><td>Nominal supply temperature for radiators [K]</td></tr>
-<tr><td>TRet_nominal</td><td>Nominal return temperature for radiators [K]</td></tr>
-<tr><td>CeilingWall</td><td>&nbsp;</td></tr>
-<tr><td>IntWall</td><td>Murs intrieurs</td></tr>
-<tr><td>FloorWall</td><td>&nbsp;</td></tr>
-<tr><td>ExtWall</td><td>Murs extrieurs</td></tr>
-<tr><td>Window</td><td>&nbsp;</td></tr>
-<tr class="ModelicaParameterGroup"><td colspan="2">Boiler</td></tr>
-<tr><td>Q_flow_nominal</td><td>Nominal power of heating plant [W]</td></tr>
-<tr><td>scaFacRad</td><td>Scaling factor to scale the power (and mass flow rate) of the radiator loop</td></tr>
-<tr><td>dTBoi_nominal</td><td>Nominal temperature difference for boiler loop [K]</td></tr>
-<tr><td>mBoi_flow_nominal</td><td>Nominal mass flow rate of boiler loop [kg/s]</td></tr>
-<tr><td>P_pum_nominal</td><td>Pump electrical power [W]</td></tr>
-<tr class="ModelicaParameterGroup"><td colspan="2">Chauffage</td></tr>
-<tr><td>Pmin_Ch</td><td>Boiler minimum power [W]</td></tr>
-<tr><td>Pmax_Ch</td><td>Boiler maximum power [W]</td></tr>
-<tr class="ModelicaParameterGroup"><td colspan="2">Cractristiques de la chaudire</td></tr>
-<tr><td>t_anticourtcycle</td><td>Anti short cycle duration for the boiler [s]</td></tr>
-<tr class="ModelicaParameterGroup"><td colspan="2">Radiators</td></tr>
-<tr><td>delta_ST_rad</td><td>Coefficient for spatial variation of the control system</td></tr>
-<tr><td>Q_rad_liv</td><td>Living room radiator power [W]</td></tr>
-<tr><td>Q_rad_ro1</td><td>Room 1 radiator power [W]</td></tr>
-<tr><td>Q_rad_ro2</td><td>Room 2 radiator power2 [W]</td></tr>
-<tr><td>Q_rad_ro3</td><td>Room 3 radiator power [W]</td></tr>
-<tr><td>Q_rad_bth</td><td>Bathroom radiator power [W]</td></tr>
-<tr><td>Q_rad_hal</td><td>Hall radiator power [W]</td></tr>
-</table>
-<h3>Connectors</h3>
-<table summary="Connectors" class="ModelicaTableConnectors">
-<tr><th>Name</th><th>Description</th></tr>
-<tr><td>weaBus</td><td>&nbsp;</td></tr>
-</table>
-<address>
-<a href="http://www.3ds.com/">Automatically generated</a> Tue Jun  8 16:50:28 2021.
-</address>
 </body>
 </html>
