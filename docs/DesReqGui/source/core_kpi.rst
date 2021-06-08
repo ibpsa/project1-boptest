@@ -15,8 +15,8 @@ assessing the performance of a controller. The definitions consist of a
 description, mathematical formula for quantification, and KPI tagging
 notation.  Note that floor areas used for normalization are calculated
 according to the definitions of the
-Commercial Buildings Energy Consumption Survey \cite{cbecs_terms}
-and Residential Energy Consumption Survey \cite{recs_terms}.
+Commercial Buildings Energy Consumption Survey (see https://www.eia.gov/consumption/commercial/terminology.php)
+and Residential Energy Consumption Survey (see https://www.eia.gov/consumption/residential/reports/2015/squarefootage/).
 
 Thermal discomfort in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
