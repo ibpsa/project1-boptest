@@ -223,8 +223,8 @@ class KPI_Calculator(object):
                 self.tdis_dict[signal[:-1]+'dTupper_y'] += \
                     trapz(dT_upper,self._get_data_from_last_index('time',self.i_last_tdis))/3600.
                 self.tdis_tot = self.tdis_tot + \
-                    self.tdis_dict[signal[:-1]+'dTlower_y'] + \
-                    self.tdis_dict[signal[:-1]+'dTupper_y']
+                    self.tdis_dict[signal[:-1]+'dTlower_y']/len(self.sources_tdis) + \
+                    self.tdis_dict[signal[:-1]+'dTupper_y']/len(self.sources_tdis) # Normalize total by number of sources
 
         self.case.tdis_tot  = self.tdis_tot
         self.case.tdis_dict = self.tdis_dict
@@ -275,7 +275,7 @@ class KPI_Calculator(object):
                 self.idis_dict[signal[:-1]+'dIupper_y'] += \
                     trapz(dI_upper, self._get_data_from_last_index('time',self.i_last_idis))/3600.
                 self.idis_tot = self.idis_tot + \
-                          self.idis_dict[signal[:-1]+'dIupper_y']
+                          self.idis_dict[signal[:-1]+'dIupper_y']/len(self.sources_idis) # Normalize total by number of sources
 
         self.case.idis_tot  = self.idis_tot
         self.case.idis_dict = self.idis_dict
@@ -324,7 +324,7 @@ class KPI_Calculator(object):
                               self._get_data_from_last_index('time',self.i_last_ener))*2.77778e-7 # Convert to kWh
                     self.ener_dict_by_source[source+'_'+signal] += \
                         self.ener_dict[signal]
-                    self.ener_tot = self.ener_tot + self.ener_dict[signal]
+                    self.ener_tot = self.ener_tot + self.ener_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Assign to case
         self.case.ener_tot            = self.ener_tot
@@ -409,7 +409,7 @@ class KPI_Calculator(object):
                           self._get_data_from_last_index('time',self.i_last_cost))*factor
                 self.cost_dict_by_source[source+'_'+signal] += \
                     self.cost_dict[signal]
-                self.cost_tot = self.cost_tot + self.cost_dict[signal]
+                self.cost_tot = self.cost_tot + self.cost_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Assign to case
         self.case.cost_tot            = self.cost_tot
@@ -469,7 +469,7 @@ class KPI_Calculator(object):
                               self._get_data_from_last_index('time',self.i_last_emis))*2.77778e-7 # Convert to kWh
                     self.emis_dict_by_source[source+'_'+signal] += \
                         self.emis_dict[signal]
-                    self.emis_tot = self.emis_tot + self.emis_dict[signal]
+                    self.emis_tot = self.emis_tot + self.emis_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Update last integration index
         self._set_last_index('emis', set_initial=False)

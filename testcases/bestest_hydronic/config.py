@@ -14,6 +14,7 @@ def get_config():
     {
     'name'     : string, name of test case
     'fmupath'  : string, location of model fmu
+    'area'     : float, test case building floor area in m^2
     'kpipath'  : string, location of kpi json
     'horizon'  : int, default forecast horizon in seconds
     'interval' : int, default forecast interval in seconds
@@ -26,6 +27,7 @@ def get_config():
     # Enter configuration information
     'name'     : 'bestest_hydronic',
     'fmupath'  : 'models/wrapped.fmu',
+    'area'     : 6*8,
     'step'     : 3600,
     'horizon'  : 86400,
     'interval' : 3600,
