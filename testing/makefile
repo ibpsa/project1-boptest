@@ -82,10 +82,11 @@ test_testcase1:
 ## # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
-	cd .. && make stop
-# Remove testcase image
-##  cd ../examples/julia && make remove-image Script=testcase1
-##  cd ../examples/javascript && make remove-image Script=testcase1
+	cd .. && make stop TESTCASE=testcase1
+# Remove testcase image and javascript geckodriver
+	cd ../examples/julia && make remove-image Script=testcase1
+	cd ../examples/javascript && make remove-image Script=testcase1
+	cd ../examples/javascript && rm geckodriver
 
 test_testcase2:
 # Compile testcase model
@@ -104,9 +105,10 @@ test_testcase2:
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
-# Remove testcase image
+# Remove testcase image and javascript geckodriver
 	cd ../examples/julia && make remove-image Script=testcase2
 	cd ../examples/javascript && make remove-image Script=testcase2
+	cd ../examples/javascript && rm geckodriver
 
 test_bestest_air:
 # Compile testcase model
@@ -160,6 +162,19 @@ test_bestest_hydronic_heat_pump:
 	cd .. && python testing/test_bestest_hydronic_heat_pump.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=bestest_hydronic_heat_pump
+
+test_multizone_residential_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=multizone_residential_hydronic
+# Build testcase image
+	cd .. &&  make build TESTCASE=multizone_residential_hydronic
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=multizone_residential_hydronic
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_multizone_residential_hydronic.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=multizone_residential_hydronic
 
 test_parser:
 	make run_jm
@@ -241,13 +256,14 @@ test_all:
 	make test_data
 	make test_forecast
 	make test_kpis
-## 	make test_testcase1
-## 	make test_testcase2
-## 	make test_testcase3
-## 	make test_bestest_air
-## 	make test_bestest_hydronic
-## 	make test_bestest_hydronic_heat_pump
-## # Remove jm
-## 	make remove_jm_image
-## # Report test results
-## 	python report.py
+	make test_testcase1
+	make test_testcase2
+	make test_testcase3
+	make test_bestest_air
+	make test_bestest_hydronic
+	make test_bestest_hydronic_heat_pump
+	make test_multizone_residential_hydronic
+# Remove jm
+	make remove_jm_image
+# Report test results
+	python report.py

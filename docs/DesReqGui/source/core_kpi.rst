@@ -13,84 +13,87 @@ approaches for buildings. Additional KPIs may be calculated and used for
 specific purposes, but the core KPIs are considered the basis for
 assessing the performance of a controller. The definitions consist of a
 description, mathematical formula for quantification, and KPI tagging
-notation.
+notation.  Note that floor areas used for normalization are calculated
+according to the definitions of the
+Commercial Buildings Energy Consumption Survey (see https://www.eia.gov/consumption/commercial/terminology.php)
+and Residential Energy Consumption Survey (see https://www.eia.gov/consumption/residential/reports/2015/squarefootage/).
 
 Thermal discomfort in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    The thermal discomfort is the integral of the deviation of the
    temperature with respect to a predefined comfort range during a
-   given period of time.  The units are :math:`Kh` and is
-   quantified as:
+   given period of time averaged over all zones.
+   The units are :math:`K.h/zone` and is quantified as:
 
-   .. math:: D(t_0, t_f) = \sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \left \|s_z (t) \right \| dt
+   .. math:: D(t_0, t_f) = \frac{\sum_z^N \int_{t_0}^{t_f} \left \|s_z (t) \right \| dt}{N}
 
    Where :math:`D(t_0, t_f)` is the total discomfort between the initial
-   time :math:`t_0` and the final time :math:`t_f`; :math:`z` is the zone index for
-   the set of zones in the building :math:`\mathbb{Z}`; :math:`s_z(t)` is the
+   time :math:`t_0` and the final time :math:`t_f`; :math:`z` is the zone index out
+   of :math:`N` zones in the building; :math:`s_z(t)` is the
    deviation (slack) from the lower and upper set point temperatures
    established in zone :math:`z`.
 
-Total building energy use in a given period of time
+Energy use in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   This KPI is the measure of the total building site energy use in :math:`kWh`
+   This KPI is the measure of the site HVAC energy use in :math:`kWh/m^2`
    when accounting for the sum of all energy vectors present in the test
-   case building. Each test case determines the energy vectors and conversion factors
-   necessary for HVAC (heating, cooling, fans, pumps), lighting, etc.
+   case HVAC system. Each test case determines the energy vectors and conversion factors
+   necessary for HVAC (heating, cooling, fans, pumps).
    The mathematical formulation for this KPI is the following:
 
-   .. math:: E(t_0, t_f) = \sum_{i\in \xi} \int_{t=t_0}^{t=t_f}\ P_i(t) dt
+   .. math:: E(t_0, t_f) = \frac{\sum_{i\in \xi} \int_{t=t_0}^{t=t_f}\ P_i(t) dt}{A}
 
    Where :math:`E(t_0, t_f)` is the total amount of energy use from the
    initial time :math:`t_0` up to the final time :math:`t_f`; :math:`\xi` denotes
    the set of equipment in the system with an associated energy use of
    any type; finally, :math:`P_i` is the instantaneous power used by the
-   energy vector :math:`i`.
+   energy vector :math:`i`; :math:`A` is the total floor area of the building.
 
-Total Building CO2 emissions in a given period of time
+CO2 emissions in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   This KPI is the measure of the total amount of source CO2 emissions in
-   :math:`kg` when accounting for the sum of all energy vectors in the test
-   case building, each using an emission factor profile based on the source of energy.
+   This KPI is the measure of the amount of source CO2 emissions in
+   :math:`kgCO_2/m^2` when accounting for the sum of all energy vectors in the test
+   case HVAC system, each using an emission factor profile based on the source of energy.
    The emission factors are to be related with the energy mix associated with
-   the location of the test case building. According to this, the total
-   amount of CO2 emissions are calculated as:
+   the location of the test case building. According to this, the
+   CO2 emissions are calculated as:
 
-   .. math:: \epsilon (t_0, t_f) = \sum_{i\in \xi} \int_{t=t_0}^{t=t_f}e_i(t)P_i(t) dt
+   .. math:: \epsilon (t_0, t_f) = \frac{\sum_{i\in \xi} \int_{t=t_0}^{t=t_f}e_i(t)P_i(t) dt}{A}
 
    Where :math:`\epsilon (t_0, t_f)` is the equivalent total amount of CO2
    emissions during the period of time between :math:`t_0` and :math:`t_f`.
    :math:`e_i` is the emission factor of component :math:`i` and has units of
-   :math:`kg_{CO_2}/kW`.
+   :math:`kgCO_2/kWh`; :math:`A` is the total floor area of the building.
 
-Total operational cost in a given period of time
+Operational cost in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   This KPI is the measure of the total operational cost in :math:`\$` when
-   accounting for the sum of all energy vectors in the test case building,
+   This KPI is the measure of the HVAC operational cost in :math:`\$/m^2` when
+   accounting for the sum of all energy vectors in the test case HVAC system,
    each using a price profile based on the source of energy and given tariff
    archetype.  Three tariff archetypes are defined:
    constant, moderately dynamic (e.g. day/peak and night/off-peak pricing),
    and highly dynamic (e.g. real-time pricing).
 
-   .. math:: C^\tau(t_0, t_f) = \sum_{i\in \xi}\int_{t=t_0}^{t=t_f}p_i^\tau(t) P_i(t) dt
+   .. math:: C^\tau(t_0, t_f) = \frac{\sum_{i\in \xi}\int_{t=t_0}^{t=t_f}p_i^\tau(t) P_i(t) dt}{A}
 
    Where :math:`C^\tau(t_0, t_f)` is the total cost during the period
    between time :math:`t_0` and :math:`t_f` with a tariff :math:`\tau`; :math:`p_i^\tau`
    is the price profile of equipment :math:`i` with a tariff :math:`\tau` and
-   has units of :math:`\$/kW`.
+   has units of :math:`\$/kWh`; :math:`A` is the total floor area of the building.
 
 Indoor air quality violation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    The indoor air quality violation is the integral of the deviation of the
    CO2 concentration above a predefined threshold during a
-   given period of time.  The units are :math:`ppmh` and is
+   given period of time averaged over all zones.  The units are :math:`ppm.h/m^2` and is
    quantified as:
 
-   .. math:: \Phi(t_0, t_f) = \sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \phi_z(t) dt
+   .. math:: \Phi(t_0, t_f) = \frac{\sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \phi_z(t) dt}{N}
 
    .. math:: \phi_z(t)=\gamma_z(t)-\gamma_{r,z}(t), \quad if \quad\gamma_z(t)>\gamma_{r,z}(t)
 
@@ -99,8 +102,8 @@ Indoor air quality violation
    Where
    :math:`\Phi` is the total violation of carbon dioxide CO2
    concentration in :math:`ppmh` between the initial time :math:`t_0` and the final
-   time :math:`t_f`. :math:`z` is the zone index for the set of zones in the
-   building :math:`\mathbb{Z}`. :math:`\phi_z` is the deviation of measured
+   time :math:`t_f`. :math:`z` is the zone index out
+   of :math:`N` zones in the building. :math:`\phi_z` is the deviation of measured
    zone CO2 concentration :math:`\gamma_z` from the zone CO2 concentration
    threshold :math:`\gamma_{r,z}`.
 
@@ -113,15 +116,15 @@ Computational time ratio
    simulation step of that iteration, :math:`T_s(k)`.
    The ratio between :math:`t_c(k)` and :math:`T_s(k)` helps indicate the
    practicality of the controller as well as potential for increasing
-   computational time.
+   computational time.  This is called the computational time ratio.
 
    As the computational time and the simulation step duration may not be the
-   same for every simulation step, an average of these variables is used from
+   same for every simulation step, an average of the computational time ratio from
    all of the simulation steps that take place between the initial time :math:`t_0`
    and the final time :math:`t_f` for which this KPI is calculated. Thus,
    the computational time ratio is computed as follows:
 
-   .. math:: t(t_0,t_f) =\frac{\frac{\sum_{k=1}^{n}t_c(k)}{n}}{\frac{\sum_{k=1}^{n}T_s(k)}{n}}= \sum_{k=1}^{n}\frac{t_c(k)}{T_s(k)}
+   .. math:: t(t_0,t_f) = \frac{\sum_{k=1}^{n}\frac{t_c(k)}{T_s(k)}}{n}
 
    Where :math:`n` is the number of simulation steps that take place between
    :math:`t_0` and :math:`t_f`.

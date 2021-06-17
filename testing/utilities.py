@@ -11,6 +11,7 @@ import unittest
 import numpy as np
 import json
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def get_root_path():
     '''Returns the path to the root repository directory.
@@ -66,6 +67,77 @@ def run_tests(test_file_name):
     log_file = os.path.splitext(test_file_name)[0] + '.log'
     with open(os.path.join(get_root_path(),'testing',log_file), 'w') as f:
         json.dump(log_json, f)
+
+
+def compare_references(vars_timeseries = ['reaTRoo_y'],
+                       refs_old = 'multizone_residential_hydronic_old',
+                       refs_new = 'multizone_residential_hydronic'):
+    '''Method to perform visual inspection on how references have changed
+    with respect to a previous version.
+
+    Parameters
+    ----------
+    vars_timeseries : list
+        List with strings indicating the variables to be plotted in time
+        series graphs.
+    refs_old : str
+        Name of the folder containing the old references.
+    refs_new : str
+        Name of the folder containing the new references.
+
+    '''
+
+    dir_old = os.path.join(get_root_path(), 'testing', 'references', refs_old)
+
+    for subdir, _, files in os.walk(dir_old):
+        for filename in files:
+            f_old = os.path.join(subdir, filename)
+            f_new = os.path.join(subdir.replace(refs_old,refs_new), filename)
+            if not os.path.exists(f_new):
+                print('File: {} has not been compared since it does not exist anymore.'.format(f_new))
+
+            elif not f_old.endswith('.csv'):
+                print('File: {} has not been compared since it is not a csv file.'.format(f_old))
+
+            else:
+                df_old = pd.read_csv(f_old)
+                df_new = pd.read_csv(f_new)
+
+                if not('time' in df_old.columns or 'keys' in df_old.columns):
+                    print('File: {} has not been compared because the format is not recognized.'.format(f_old))
+                else:
+                    if 'time' in df_old.columns:
+                        df_old.drop('time', axis=1, inplace=True)
+                        df_new.drop('time', axis=1, inplace=True)
+                        kind = 'line'
+                        vars_to_plot = vars_timeseries
+                    elif 'keys' in df_old.columns:
+                        df_old = df_old.set_index('keys')
+                        df_new = df_new.set_index('keys')
+                        kind = 'bar'
+                        vars_to_plot = df_old.columns
+
+                    if 'kpis_' in filename:
+                        fig, axs = plt.subplots(nrows=1, ncols=len(df_old.index), figsize=(10,8))
+                        for i,k in enumerate(df_old.index):
+                            axs[i].bar(0, df_old.loc[k,'value'], label='old', alpha=0.5, color='orange')
+                            axs[i].bar(0, df_new.loc[k,'value'], label='new', alpha=0.5, color='blue')
+                            axs[i].set_title(k)
+                        fig.suptitle(str(f_new))
+                        plt.legend()
+                    else:
+                        if any([v in df_old.keys() for v in vars_to_plot]):
+                            for v in vars_to_plot:
+                                if v in df_old.keys():
+                                    _, ax = plt.subplots(1, figsize=(10,8))
+                                    df_old[v].plot(ax=ax, label='old '+v, kind=kind, alpha=0.5, color='orange')
+                                    df_new[v].plot(ax=ax, label='new '+v, kind=kind, alpha=0.5, color='blue')
+                                    ax.set_title(str(f_new))
+                                    ax.legend()
+                        else:
+                            print('File: {} has not been compared because it does not contain any of the variables to plot'.format(f_old))
+
+    plt.show()
 
 class partialChecks(object):
     '''This partial class implements common ref data check methods.
@@ -328,7 +400,7 @@ class partialTestAPI(partialChecks):
 
     url : str
         URL to deployed testcase.
-    name_ref : str
+    name : str
         Name given to test
     inputs_ref : list of str
         List of names of inputs
@@ -345,7 +417,7 @@ class partialTestAPI(partialChecks):
         '''
 
         name = requests.get('{0}/name/{1}'.format(self.url, self.testid)).json()
-        self.assertEqual(name, self.name_ref)
+        self.assertEqual(name['name'], self.name)
 
     def test_get_inputs(self):
         '''Test getting the input list of tests.
@@ -400,15 +472,23 @@ class partialTestAPI(partialChecks):
         # Initialize
         start_time = 0.5*24*3600
         y = requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':start_time, 'warmup_period':0.5*24*3600}).json()
-        # Check that initialize returns the right initial values
+        # Check that initialize returns the right initial values and results
         df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
         self.compare_ref_values_df(df, ref_filepath)
-        # Check results are empty again
-        for point in points:
-            res = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':point,'start_time':0, 'final_time':step}).json()
-            self.assertEqual(len(res[point]), 0)
+        # Check trajectories
+        df = self.results_to_df(points, 0, start_time, self.url)
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_initial.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check kpis
+        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_initial.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Advance
         step_advance = 1*24*3600
         requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step_advance})
@@ -416,9 +496,15 @@ class partialTestAPI(partialChecks):
         # Check trajectories
         df = self.results_to_df(points, start_time, start_time+step_advance)
         # Set reference file path
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize.csv')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_advance.csv')
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
+        # Check kpis
+        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_advance.csv')
+        self.compare_ref_values_df(df, ref_filepath)
         # Set step back to step
         requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step})
 
@@ -460,6 +546,9 @@ class partialTestAPI(partialChecks):
                  'ovePum_activate':0, 'ovePum_u':1}
         elif self.name == 'bestest_hydronic_heat_pump':
             u = {'oveTSetHea_activate':0, 'oveTSetHea_u':273.15+22}
+        elif self.name == 'multizone_residential_hydronic':
+            u = {'conHeaSal_oveTsetHea_activate':0, 'conHeaSal_oveTsetHea_u':273.15+22,
+                 'conPumHea_oveActHea_activate':0, 'conPumHea_oveActHea_u':1}
         requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
         y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u).json()
@@ -527,28 +616,33 @@ class partialTestAPI(partialChecks):
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
-    def test_get_scenario(self):
-        '''Test getting the scenario of test.
+    def test_set_get_scenario(self):
+        '''Test setting and getting the scenario of test.
 
         '''
 
-        scenario = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()
-        self.assertEqual(scenario['electricity_price'], 'constant')
-
-    def test_set_scenario(self):
-        '''Test setting the scenario of test.
-
-        '''
-
+        # Set scenario
         scenario_current = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()
-        scenario = {'electricity_price':'highly_dynamic'}
+        scenario = {'electricity_price':'highly_dynamic',
+                    'time_period':self.test_time_period}
         requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario)
         scenario_set = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()
         self.assertEqual(scenario, scenario_set)
-        # put scenario starts a worker. Assuming only one worker is available, then 
-        # the test must be stopped before putting a new scenario
-        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
+        # Check initialized correctly
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()
+        # Don't check weather
+        points_check = []
+        for key in measurements.keys():
+            if 'weaSta' not in key:
+                points_check.append(key)
+        df = self.results_to_df(points_check, -np.inf, np.inf, self.url)
+        # Set reference file path
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_set_scenario.csv')
+        # Check results
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # Return scenario to original
         requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario_current)
+
 
     def test_partial_results_inner(self):
         '''Test getting results for start time after and final time before.
@@ -581,3 +675,101 @@ class partialTestAPI(partialChecks):
         df = pd.DataFrame.from_dict(res_outer).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
+
+class partialTestTimePeriod(partialChecks):
+    '''Partial class for testing the time periods for each test case
+
+    '''
+
+    def run_time_period(self, time_period):
+        '''Runs the example and tests the kpi and trajectory results for time period.
+
+        Parameters
+        ----------
+        time_period: str
+            Name of test_period to run
+
+        Returns
+        -------
+        None
+
+        '''
+
+        # Set time period scenario
+        requests.put('{0}/scenario'.format(self.url), data={'time_period':time_period})
+        # Simulation Loop
+        y = 1
+        while y:
+            # Advance simulation
+            y = requests.post('{0}/advance'.format(self.url), data={}).json()
+        # Check results
+        df = self.results_to_df(self.points_check, -np.inf, np.inf, self.url)
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # For each price scenario
+        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+            # Set scenario
+            requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
+            # Report kpis
+            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+            # Check kpis
+            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
+            self.compare_ref_values_df(df, ref_filepath)
+        requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
+
+class partialTestSeason(partialChecks):
+    '''Partial class for testing the time periods for each test case
+
+    '''
+
+    def run_season(self, season):
+        '''Runs the example and tests the kpi and trajectory results for a season.
+
+        Parameters
+        ----------
+        season: str
+            Name of season to run.
+            'winter' or 'summer' or 'shoulder'
+
+        Returns
+        -------
+        None
+
+        '''
+
+        if season == 'winter':
+            start_time = 1*24*3600
+        elif season == 'summer':
+            start_time = 248*24*3600
+        elif season == 'shoulder':
+            start_time = 118*24*3600
+        else:
+            raise ValueError('Season {0} unknown.'.format(season))
+        length = 48*3600
+        # Initialize test case
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
+        # Get default simulation step
+        step_def = requests.get('{0}/step'.format(self.url)).json()
+        # Simulation Loop
+        for i in range(int(length/step_def)):
+            # Advance simulation
+            requests.post('{0}/advance'.format(self.url), data={}).json()
+        requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
+        # Check results
+        points = self.get_all_points(self.url)
+        df = self.results_to_df(points, start_time, start_time+length, self.url)
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
+        self.compare_ref_timeseries_df(df,ref_filepath)
+        # For each price scenario
+        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+            # Set scenario
+            requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
+            # Report kpis
+            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+            # Check kpis
+            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
+            self.compare_ref_values_df(df, ref_filepath)

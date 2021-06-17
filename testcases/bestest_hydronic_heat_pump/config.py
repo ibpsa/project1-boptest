@@ -12,7 +12,9 @@ def get_config():
     config : dict()
     Dictionary contatinin configuration information.
     {
+    'name'     : string, name of test case
     'fmupath'  : string, location of model fmu
+    'area'     : float, test case building floor area in m^2
     'kpipath'  : string, location of kpi json
     'horizon'  : int, default forecast horizon in seconds
     'interval' : int, default forecast interval in seconds
@@ -23,11 +25,14 @@ def get_config():
 
     config = {
     # Enter configuration information
+    'name'     : 'bestest_hydronic_heat_pump',
     'fmupath'  : 'models/wrapped.fmu',
+    'area'     : 12.0*16.0,
     'step'     : 3600,
     'horizon'  : 86400,
     'interval' : 3600,
-    'scenario' : {'electricity_price':'constant'}
+    'scenario' : {'electricity_price':'constant',
+                  'time_period':None}
     }
 
     return config

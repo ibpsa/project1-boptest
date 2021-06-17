@@ -21,7 +21,8 @@ RUN mkdir $HOME/MODELICAPATH && mkdir git && \
     ln -s $HOME/git/modelica-buildings/Buildings $HOME/MODELICAPATH/Buildings && \
     ln -s $HOME/git/modelica-ibpsa/IBPSA $HOME/MODELICAPATH/IBPSA && \
     ln -s $ROOT_DIR/JModelica/ThirdParty/MSL/Modelica $HOME/MODELICAPATH/Modelica && \
-    ln -s $ROOT_DIR/JModelica/ThirdParty/MSL/ModelicaServices $HOME/MODELICAPATH/ModelicaServices
+    ln -s $ROOT_DIR/JModelica/ThirdParty/MSL/ModelicaServices $HOME/MODELICAPATH/ModelicaServices && \
+    ln -s $ROOT_DIR/JModelica/ThirdParty/MSL/Complex.mo $HOME/MODELICAPATH/Complex.mo
 ENV MODELICAPATH $HOME/MODELICAPATH
 
 RUN python -m pip install --user flask-restful pandas requests
