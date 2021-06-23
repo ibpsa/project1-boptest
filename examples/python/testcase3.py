@@ -9,9 +9,12 @@ imported from a different module.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
+import sys
+import pathlib
 import requests
 import pandas as pd
-
+# Add BOPTEST repository to PYTHONPATH for this example
+sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
 # ----------------------
 
 # TEST CONTROLLER IMPORT

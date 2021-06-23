@@ -5,6 +5,11 @@ using the scenario options with the prototype test case called "testcase1".
 
 '''
 
+import sys
+import pathlib
+# Add BOPTEST repository to PYTHONPATH for this example
+sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+
 def run(plot=False):
     '''This is the main script.
 

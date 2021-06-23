@@ -9,11 +9,16 @@ imported from a different module.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
+import sys
+import pathlib
 import requests
 import time
-from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
 import pandas as pd
+# Add BOPTEST repository to PYTHONPATH for this example
+sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+# Add custom KPI calculation
+from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 
 # ----------------------
 
