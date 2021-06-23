@@ -16,10 +16,9 @@ install:
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
 
-matrix:
+jobs:
   include:
-    python: 2.7
+  - python: 2.7
     script: cd testing && make test_all
-
-    python: 3.9
+  - python: 3.9
     script: cd testing && make test_python3
