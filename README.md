@@ -11,7 +11,6 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
 - ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (Version 2.7), Julia (Version 1.0.3), and JavaScript (Version ECMAScript 2018).
 - ``/parsing`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
-- ``/template`` contains template Modelica code for a test case emulator model.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
 - ``/data`` contains prototype code for generating and managing data associated with test cases.  This includes boundary conditions, such as weather, schedules, and energy prices, as well as a map of test case FMU outputs needed to calculate KPIs.
 - ``/forecast`` contains prototype code for returning boundary condition forecast, such as weather, schedules, and energy prices.
