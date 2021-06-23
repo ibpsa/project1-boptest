@@ -140,7 +140,7 @@ def run(plot=False, customized_kpi_config=None):
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    points = measurements.keys() + inputs.keys()
+    points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()
     for point in points:
         res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':0, 'final_time':length}).json()

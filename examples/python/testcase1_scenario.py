@@ -5,7 +5,7 @@ using the scenario options with the prototype test case called "testcase1".
 
 '''
 
-def run(plot=True):
+def run(plot=False):
     '''This is the main script.
 
     Parameters

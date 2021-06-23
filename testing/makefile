@@ -244,6 +244,28 @@ test_kpis:
 # Stop jm docker container
 	make stop_jm
 
+test_python3:
+# Build testcase images
+	cd .. &&  make build TESTCASE=testcase1
+	cd .. &&  make build TESTCASE=testcase2
+	cd .. &&  make build TESTCASE=testcase3
+# Test testcase1
+	cd .. && make run-detached TESTCASE=testcase1
+	python sleep10.py
+	cd ../examples/python && python testcase1.py
+	cd ../examples/python && python testcase1_scenario.py
+	cd .. && make stop TESTCASE=testcase1
+# Test testcase2
+	cd .. && make run-detached TESTCASE=testcase2
+	python sleep10.py
+	cd ../examples/python && python testcase2.py
+	cd .. && make stop TESTCASE=testcase2
+# Test testcase3
+	cd .. && make run-detached TESTCASE=testcase3
+	python sleep10.py
+	cd ../examples/python && python testcase3.py
+	cd .. && make stop TESTCASE=testcase3
+
 ###############################################################################
 
 # Run all tests
