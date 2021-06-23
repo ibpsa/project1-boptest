@@ -70,7 +70,7 @@ Example RESTful interaction:
 | Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
 | Receive current test scenario.                                         |  GET ``scenario``                                   |
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
-
+| Receive BOPTEST version.                                               |  GET ``version``                                             |
 ## Development
 
 This repository uses pre-commit to ensure that the files meet standard formatting conventions (such as line spacing, layout, etc).
