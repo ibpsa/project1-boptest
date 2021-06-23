@@ -245,6 +245,7 @@ test_kpis:
 	make stop_jm
 
 test_python3:
+# Test python examples run with python 3
 # Build testcase images
 	cd .. &&  make build TESTCASE=testcase1
 	cd .. &&  make build TESTCASE=testcase2
