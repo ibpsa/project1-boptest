@@ -11,7 +11,7 @@ services:
 
 install:
   - pip install --upgrade pip
-  - pip install pandas numpy matplotlib requests
+  - pip install pandas numpy matplotlib requests pathlib
 
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
