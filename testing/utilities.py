@@ -11,7 +11,9 @@ import unittest
 import numpy as np
 import json
 import pandas as pd
+import re
 import matplotlib.pyplot as plt
+
 
 def get_root_path():
     '''Returns the path to the root repository directory.
@@ -415,6 +417,18 @@ class partialTestAPI(partialChecks):
         Default simulation step
 
     '''
+
+    def test_get_version(self):
+        '''Test getting the version of BOPTEST.
+
+        '''
+
+        version = requests.get('{0}/version'.format(self.url)).json()
+        r = re.compile('\d.\d.\d')
+        if r.match(version['version']):
+            self.assertTrue(True)
+        else:
+            self.assertTrue(False, '/version did not return correctly. Returned {0}.'.format(version))
 
     def test_get_name(self):
         '''Test getting the name of test.

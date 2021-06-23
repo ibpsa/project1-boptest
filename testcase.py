@@ -25,6 +25,8 @@ class TestCase(object):
 
         '''
 
+        # Set BOPTEST version number
+        self.version = '0.0.0'
         # Get configuration information
         con = config.get_config()
         # Define name
@@ -585,6 +587,22 @@ class TestCase(object):
         elapsed_control_time_ratio = self.elapsed_control_time_ratio
 
         return elapsed_control_time_ratio
+
+    def get_version(self):
+        '''Returns the version number of BOPTEST.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        version : dict
+            Version of BOPTEST as {'version': <str>}
+
+        '''
+
+        return {'version':self.version}
 
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.

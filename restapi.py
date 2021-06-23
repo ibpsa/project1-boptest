@@ -181,6 +181,14 @@ class Name(Resource):
         '''GET request to receive test case name.'''
         name = case.get_name()
         return name
+
+class Version(Resource):
+    '''Interface to BOPTEST version.'''
+
+    def get(self):
+        '''GET request to receive BOPTEST version.'''
+        version = case.get_version()
+        return version
 # --------------------
 
 # ADD REQUESTS TO API WITH URL EXTENSION
@@ -196,6 +204,7 @@ api.add_resource(Forecast_Parameters, '/forecast_parameters')
 api.add_resource(Forecast, '/forecast')
 api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')
+api.add_resource(Version, '/version')
 # --------------------------------------
 
 if __name__ == '__main__':
