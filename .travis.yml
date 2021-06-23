@@ -1,8 +1,5 @@
 language: python
 
-python:
-  - "2.7"
-
 git:
   depth: 10
 
@@ -19,5 +16,12 @@ install:
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
 
-script:
-  - (cd testing && make test_all)
+matrix:
+  include:
+    - python: 2.7
+    script:
+      - (cd testing && make test_all)
+
+    - python: 3.9
+    script:
+      - (cd testing && make test_python3)
