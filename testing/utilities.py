@@ -759,7 +759,7 @@ class partialTestSeason(partialChecks):
             requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={}).json()
         requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':'constant'})
         # Check results
-        points = self.get_all_points(self.url)
+        points = self.get_all_points()
         df = self.results_to_df(points, start_time, start_time+length, self.url)
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
         self.compare_ref_timeseries_df(df,ref_filepath)

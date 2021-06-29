@@ -261,7 +261,7 @@ test_all:
 	make test_testcase3
 	make test_bestest_air
 	make test_bestest_hydronic
-	#make test_bestest_hydronic_heat_pump
+	make test_bestest_hydronic_heat_pump
 	#make test_multizone_residential_hydronic
 # Remove jm
 	make remove_jm_image

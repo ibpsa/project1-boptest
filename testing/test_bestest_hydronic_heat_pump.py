@@ -11,19 +11,27 @@ import pandas as pd
 import os
 import utilities
 import requests
+from boptest_client import BoptestClient
 
 class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialTestSeason):
     '''Tests the example test case.
 
     '''
 
+    @classmethod
+    def setUpClass(cls):
+        cls.name = 'bestest_hydronic_heat_pump'
+        cls.url = 'http://127.0.0.1:80'
+        client = BoptestClient(cls.url)
+        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+
     def setUp(self):
         '''Setup for each test.
 
         '''
 
-        self.name = 'bestest_hydronic_heat_pump'
-        self.url = 'http://127.0.0.1:5000'
+        self.name = Run.name
+        self.url = Run.url
         self.points_check = ['reaPFan_y', 'reaQHeaPumCon_y',
                              'reaTRet_y', 'reaQHeaPumEva_y',
                              'reaPum_y', 'reaTZon_y',
@@ -31,6 +39,9 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
                              'reaFan_y', 'reaPHeaPum_y',
                              'reaHeaPumY_y', 'reaQFloHea_y',
                              'reaCOP_y']
+
+    def tearDown(self):
+        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
@@ -60,18 +71,18 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         start_time = 118*24*3600
         length = 48*3600/12
         # Initialize test case
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':start_time, 'warmup_period':0})
         # Get default simulation step
-        step_def = requests.get('{0}/step'.format(self.url)).json()
+        step_def = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()
         # Simulation Loop
         for i in range(int(length/step_def)):
             # Advance simulation
             #switch pump on/off for each timestep
             pump = 0 if (i % 2) == 0 else 1
             u = {'ovePum_activate':1, 'ovePum_u':pump}
-            requests.post('{0}/advance'.format(self.url), data=u).json()
+            requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u).json()
         # Check results
-        points = self.get_all_points(self.url)
+        points = self.get_all_points()
         df = self.results_to_df(points, start_time, start_time+length, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_event_test.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
@@ -84,15 +95,25 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
     '''
 
+    @classmethod
+    def setUpClass(cls):
+        cls.name = 'bestest_hydronic_heat_pump'
+        cls.url = 'http://127.0.0.1:80'
+        client = BoptestClient(cls.url)
+        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+
     def setUp(self):
         '''Setup for testcase.
 
         '''
-
-        self.name = 'bestest_hydronic_heat_pump'
-        self.url = 'http://127.0.0.1:5000'
-        self.step_ref = 3600
+        self.name = API.name
+        self.url = API.url
+        self.step_ref = 3600.0
+        self.testid = API.testid
         self.test_time_period = 'peak_heat_day'
+
+    def tearDown(self):
+        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
