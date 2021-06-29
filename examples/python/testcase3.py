@@ -19,7 +19,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
 
 # TEST CONTROLLER IMPORT
 # ----------------------
-from controllers import pidTwoZones
+from examples.python.controllers import pidTwoZones
 # ----------------------
 
 def run(plot=False):

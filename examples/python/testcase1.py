@@ -24,7 +24,7 @@ from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 
 # TEST CONTROLLER IMPORT
 # ----------------------
-from controllers import pid
+from examples.python.controllers import pid
 # ----------------------
 
 def run(plot=False, customized_kpi_config=None):

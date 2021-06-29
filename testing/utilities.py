@@ -176,8 +176,8 @@ class partialChecks(object):
                 self.assertTrue(key in df_ref.columns.to_list(), 'Test key {0} not in reference data.'.format(key))
             # Check trajectories
             for key in df.columns:
-                y_test = self.create_test_points(df[key]).get_values()
-                y_ref = self.create_test_points(df_ref[key]).get_values()
+                y_test = self.create_test_points(df[key]).to_numpy()
+                y_ref = self.create_test_points(df_ref[key]).to_numpy()
                 results = self.check_trajectory(y_test, y_ref)
                 self.assertTrue(results['Pass'], '{0} Key is {1}.'.format(results['Message'],key))
         else:
@@ -331,7 +331,7 @@ class partialChecks(object):
         '''
 
         # Get data
-        data = s.get_values()
+        data = s.to_numpy()
         index = s.index.values
         # Make interpolated index
         t_min = index.min()
@@ -394,7 +394,7 @@ class partialChecks(object):
 
         measurements = requests.get('{0}/measurements'.format(url)).json()
         inputs = requests.get('{0}/inputs'.format(url)).json()
-        points = measurements.keys() + inputs.keys()
+        points = list(measurements.keys()) + list(inputs.keys())
 
         return points
 
@@ -672,7 +672,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
         requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        res_inner = requests.put('{0}/results'.format(self.url), data={'point_name':measurements.keys()[0], \
+        res_inner = requests.put('{0}/results'.format(self.url), data={'point_name':list(measurements.keys())[0], \
                                                                  'start_time':self.step_ref*0.25, \
                                                                  'final_time':self.step_ref*0.75}).json()
         df = pd.DataFrame.from_dict(res_inner).set_index('time')
@@ -688,7 +688,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
         requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        res_outer = requests.put('{0}/results'.format(self.url), data={'point_name':measurements.keys()[0], \
+        res_outer = requests.put('{0}/results'.format(self.url), data={'point_name':list(measurements.keys())[0], \
                                                                  'start_time':0-self.step_ref, \
                                                                  'final_time':self.step_ref*2}).json()
         df = pd.DataFrame.from_dict(res_outer).set_index('time')
