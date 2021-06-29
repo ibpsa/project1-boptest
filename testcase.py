@@ -26,7 +26,8 @@ class TestCase(object):
         '''
 
         # Set BOPTEST version number
-        self.version = '0.0.0'
+        with open('version.txt', 'r') as f:
+            self.version = f.read()
         # Get configuration information
         con = config.get_config()
         # Define name
