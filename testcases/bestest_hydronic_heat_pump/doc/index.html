@@ -9,8 +9,7 @@ heat pump and floor heating for WP 1.2 of IBPSA project 1.
 This model represents a simplified residential dwelling for a family of 5 members.
 The building envelope model is based on the BESTEST case 900 test case.
 The envelope model is therefore similar to the one used in
-<a href=\"modelica://IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic\">
-IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a>
+IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic
 but it is scaled to an area that is 4 times larger. Particularly, the model consists
 of a single zone with a rectangular floor plan of 12 by 16 meters and a
 height of 2.7 m. The internal wall mass is modelled using a single wall with a
@@ -23,8 +22,7 @@ which are modelled using a single window of 24 m2.
 <p><b>Exterior walls</b> </p>
 <p>
 The walls are modelled using
-<a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
-IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
+IDEAS.Buildings.Components.OuterWall and consist of the following layers:
 </p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
@@ -59,8 +57,8 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 <p><b>Floor</b> </p>
 <p>
 The floor is modelled using
-<a href=\"modelica://IDEAS.Buildings.Components.SlabOnGround\">
-IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers:
+IDEAS.Buildings.Components.SlabOnGround
+IDEAS.Buildings.Components.SlabOnGround and consists of the following layers:
 </p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
@@ -102,8 +100,7 @@ IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers
 <p><b>Roof</b> </p>
 <p>
 The roof is modelled using
-<a href=\"modelica://IDEAS.Buildings.Components.OuterWall\">
-IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
+IDEAS.Buildings.Components.OuterWall and consist of the following layers:
 </p>
 <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
@@ -193,16 +190,16 @@ H. Jin. <i>Parameter estimation based models of water source heat pumps.
 with air instead of water blowing through the evaporator. Air condensation is
 therefore neglected. The model parameters are obtained by calibration of the heat pump model to manufacturer
 performance data following the procedure explained in
-<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps_Calibration.html\">
+<a href="https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps_Calibration.html">
 this heat pump calibration guide</a>
 using manufacturer performance data from a Carrier air-to-water heat pump model 30AW015
 which data can be found in
-<a href=\"https://www.ahi-carrier.gr/el/wp-content/uploads/sites/3/2017/10/PSD-30AW_-LR-3.pdf\">
+<a href="https://www.ahi-carrier.gr/el/wp-content/uploads/sites/3/2017/10/PSD-30AW_-LR-3.pdf">
 this manufacturer datasheet</a>.
 </p>
 <p>
 For more information of the heat pump model we refer to the
-<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps.html#Buildings.Fluid.HeatPumps.ScrollWaterToWater\">
+<a href="https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_HeatPumps.html#Buildings.Fluid.HeatPumps.ScrollWaterToWater">
 model documentation</a>.
 </p>
 <p><b>Fluid movers</b> </p>
@@ -456,8 +453,8 @@ End Time: Day 122.
 All pricing scenarios include the same constant value for transmission fees and taxes
 of each commodity. The used value is the typical price that household users pay
 for the network, taxes and levies, as calculateed by Eurostat and obtained from:
-<a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN\">
-\"The energy prices and costs in Europe report\"</a>.
+<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN">
+The energy prices and costs in Europe report</a>.
 For the assumed location of the test case, this value is of
 0.20 EUR/kWh for electricity.
 </p>
@@ -466,7 +463,7 @@ The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API 
 <ul>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
 as obtained from the &quot;Easy Indexed&quot; deal for electricity (normal rate) in
-<a href=\"https://www.energyprice.be/products-list/Engie\">
+<a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020).
 Adding up the transmission fees and taxes, the final constant electricity price is
 of 0.2535 EUR/kWh.
@@ -477,7 +474,7 @@ The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API i
 <ul>
 The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during
 day time and 0.0383 EUR/kWh during night time, as obtained from the &quot;Easy Indexed&quot;
-deal for electricity (dual rate) in <a href=\"https://www.energyprice.be/products-list/Engie\">
+deal for electricity (dual rate) in <a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a> (accessed on June 2020).
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
@@ -490,7 +487,7 @@ The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code
 <ul>
 The highly dynamic electricity price scenario is based on the the Belgian day-ahead
 energy prices as determined by the BELPEX wholescale electricity market in the year 2019.
-Obtained from: <a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
+Obtained from: <a href="https://my.elexys.be/MarketInformation/SpotBelpex.aspx">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a>.
 Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are
 added up on top of these prices.
@@ -503,7 +500,7 @@ The <b>Electricity Emissions Factor</b> profile is:
 It is used a constant emission factor for electricity of 0.167 kgCO2/kWh,
 which is the grid electricity emission factor reported by the Association of Issuing Bodies
 (AIB) for year 2018. For reference, see:
-<a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
+<a href="https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
 </ul>
 </p>
