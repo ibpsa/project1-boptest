@@ -5,14 +5,13 @@ import shutil
 import tarfile
 import time
 import uuid
-import zipfile
 from datetime import datetime
 import boto3
 import pytz
 import redis
 from pymongo import MongoClient
 import requests
-from boptest.lib.test_config import get_test_config
+from boptest.lib.define_config import define_config
 from boptest.lib.testcase import TestCase
 
 
@@ -40,7 +39,7 @@ class RunFMUSite:
         key = "parsed/%s" % tar_name
         tarpath = os.path.join(self.directory, tar_name)
         fmupath = os.path.join(self.directory, 'model.fmu')
-        tagpath = os.path.join(self.directory, 'tags.json')
+        configpath = os.path.join(self.directory, 'config.py')
 
         if not os.path.exists(self.directory):
             os.makedirs(self.directory)
@@ -53,11 +52,8 @@ class RunFMUSite:
         tar.extractall(sim_path)
         tar.close()
 
-        zzip = zipfile.ZipFile(fmupath)
-        zzip.extract('resources/kpis.json', self.directory)
-
         # initiate the testcase
-        get_test_config(fmupath)
+        define_config(fmupath)
         self.tc = TestCase()
         self.init_test()
 
