@@ -5,7 +5,7 @@ using the scenario options with the prototype test case called "testcase1".
 
 '''
 
-def run(testid, plot=True):
+def run(plot=True):
     '''This is the main script.
 
     Parameters
@@ -25,6 +25,7 @@ def run(testid, plot=True):
     # -----------------------------------------------------------------------------
     import requests
     import numpy as np
+    from boptest_client import BoptestClient
     # -----------------------------------------------------------------------------
     # TEST CONTROLLER IMPORT
     # -----------------------------------------------------------------------------
@@ -34,6 +35,12 @@ def run(testid, plot=True):
     # -----------------------------------------------------------------------------
     # Set URL for test case
     url = 'http://127.0.0.1:80'
+    # -----------------------------------------------------------------------------
+    # Submit testcase fmu
+    client = BoptestClient(url)
+    testcase = 'testcase1'
+    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase))
+    # ---------------
     # Set testing scenario
     scenario = {'time_period':'test_day', 'electricity_price':'dynamic'}
     # Set control step
@@ -99,6 +106,8 @@ def run(testid, plot=True):
         plt.ylabel('Temperature [C]')
         plt.xlabel('Time [hr]')
         plt.show()
+
+    requests.put('{0}/stop/{1}'.format(url, testid))
 
     return kpi
 

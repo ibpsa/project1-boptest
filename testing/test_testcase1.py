@@ -60,33 +60,13 @@ class ExampleScenarioPython(unittest.TestCase, utilities.partialChecks):
 
     '''
 
-    @classmethod
-    def setUpClass(cls):
-        cls.name = 'testcase1'
-        cls.url = 'http://127.0.0.1:80'
-        client = BoptestClient(cls.url)
-        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
-
-    def setUp(self):
-        '''Setup for testcase.
-
-        '''
-        self.name = ExampleScenarioPython.name
-        self.url = ExampleScenarioPython.url
-        self.step_ref = 60.0
-        self.testid = API.testid
-        self.test_time_period = 'test_day'
-
-    def tearDown(self):
-        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
-
     def test_run(self):
         '''Runs the example and tests the kpi results.
 
         '''
 
         # Run test
-        kpi = testcase1_scenario.run(self.testid, plot=False)
+        kpi = testcase1_scenario.run(plot=False)
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
