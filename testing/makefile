@@ -258,7 +258,7 @@ test_all:
 	make test_kpis
 	make test_testcase1
 	make test_testcase2
-	#make test_testcase3
+	make test_testcase3
 	#make test_bestest_air
 	#make test_bestest_hydronic
 	#make test_bestest_hydronic_heat_pump
