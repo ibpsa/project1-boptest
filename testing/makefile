@@ -27,6 +27,7 @@ copy_to_jm:
 copy_testcase_to_jm:
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing/${TESTCASE}
+	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing/${TESTCASE}
 	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
 
 copy_from_jm:
