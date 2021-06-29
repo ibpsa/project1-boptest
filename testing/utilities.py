@@ -697,12 +697,12 @@ class partialTestTimePeriod(partialChecks):
         '''
 
         # Set time period scenario
-        requests.put('{0}/scenario'.format(self.url), data={'time_period':time_period})
+        requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'time_period':time_period})
         # Simulation Loop
         y = 1
         while y:
             # Advance simulation
-            y = requests.post('{0}/advance'.format(self.url), data={}).json()
+            y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={}).json()
         # Check results
         df = self.results_to_df(self.points_check, -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))
@@ -710,15 +710,15 @@ class partialTestTimePeriod(partialChecks):
         # For each price scenario
         for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
             # Set scenario
-            requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
+            requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':price_scenario})
             # Report kpis
-            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+            res_kpi = requests.get('{0}/kpi/{1}'.format(self.url, self.testid)).json()
             # Check kpis
             df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
             df.index.name = 'keys'
             ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
             self.compare_ref_values_df(df, ref_filepath)
-        requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
+        requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':'constant'})
 
 class partialTestSeason(partialChecks):
     '''Partial class for testing the time periods for each test case
