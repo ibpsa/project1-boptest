@@ -1,8 +1,8 @@
 keys,value
-reaQHea_y,0.00028081000356218027
+reaQHea_y,0.00028081001018772994
 weaSta_reaWeaPAtm_y,101325.0
 weaSta_reaWeaHGloHor_y,0.0
-reaTRoo_y,295.22522073341077
+reaTRoo_y,295.2252409617538
 weaSta_reaWeaNOpa_y,0.0
 weaSta_reaWeaTBlaSky_y,258.06665856765153
 weaSta_reaWeaNTot_y,0.10625000000000002
@@ -14,13 +14,13 @@ weaSta_reaWeaSolTim_y,869.665337390749
 weaSta_reaWeaCloTim_y,3600.0
 weaSta_reaWeaLon_y,0.07906341511534314
 weaSta_reaWeaRelHum_y,0.650625
-reaTSetHea_y,294.15
-reaCO2RooAir_y,528.898788911883
+reaTSetHea_y,294.25
+reaCO2RooAir_y,528.8987758372341
 weaSta_reaWeaSolDec_y,-0.40283294927680513
 weaSta_reaWeaHDirNor_y,0.0
 reaTSetCoo_y,297.15
 weaSta_reaWeaWinDir_y,3.490658503988659
-reaTSetSup_y,313.86581536316527
+reaTSetSup_y,313.86524770570816
 reaPPum_y,12.248233915608973
 weaSta_reaWeaTWetBul_y,272.72919866260827
 weaSta_reaWeaTDewPoi_y,269.4766304347826
