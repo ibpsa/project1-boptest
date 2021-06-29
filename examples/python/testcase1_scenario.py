@@ -5,7 +5,7 @@ using the scenario options with the prototype test case called "testcase1".
 
 '''
 
-def run(plot=True):
+def run(testid, plot=True):
     '''This is the main script.
 
     Parameters
@@ -33,7 +33,7 @@ def run(plot=True):
     # SET TEST PARAMETERS
     # -----------------------------------------------------------------------------
     # Set URL for test case
-    url = 'http://127.0.0.1:5000'
+    url = 'http://127.0.0.1:80'
     # Set testing scenario
     scenario = {'time_period':'test_day', 'electricity_price':'dynamic'}
     # Set control step
@@ -42,18 +42,18 @@ def run(plot=True):
     # GET TEST INFORMATION
     # -----------------------------------------------------------------------------
     # Get test case name
-    name = requests.get('{0}/name'.format(url)).json()
+    name = requests.get('{0}/name/{1}'.format(url, testid)).json()
     # Get inputs available
-    inputs = requests.get('{0}/inputs'.format(url)).json()
+    inputs = requests.get('{0}/inputs/{1}'.format(url, testid)).json()
     # Get measurements available
-    measurements = requests.get('{0}/measurements'.format(url)).json()
+    measurements = requests.get('{0}/measurements/{1}'.format(url, testid)).json()
     # -----------------------------------------------------------------------------
     # RUN TEST CASE
     # -----------------------------------------------------------------------------
     # Set control step
-    requests.put('{0}/step'.format(url), data={'step':step})
+    requests.put('{0}/step/{1}'.format(url, testid), data={'step':step})
     # Set test case scenario
-    y = requests.put('{0}/scenario'.format(url), data=scenario).json()['time_period']
+    y = requests.put('{0}/scenario/{1}'.format(url, testid), data=scenario).json()['time_period']
     # Record test start time
     start_time = y['time']
     # Simulation Loop
@@ -61,15 +61,15 @@ def run(plot=True):
         # Compute control signal
         u = pid.compute_control(y)
         # Advance simulation with control signal
-        y = requests.post('{0}/advance'.format(url), data=u).json()
+        y = requests.post('{0}/advance/{1}'.format(url, testid), data=u).json()
     # -----------------------------------------------------------------------------
     # GET RESULTS
     # -----------------------------------------------------------------------------
     # Get KPIs
-    kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = requests.get('{0}/kpi/{1}'.format(url, testid)).json()
     # Get zone temperature over test period
     args = {'point_name':'TRooAir_y', 'start_time':start_time, 'final_time':np.inf}
-    res = requests.put('{0}/results'.format(url), data=args).json()
+    res = requests.put('{0}/results/{1}'.format(url, testid), data=args).json()
     # -----------------------------------------------------------------------------
     # PRINT AND VIEW RESULTS
     # -----------------------------------------------------------------------------

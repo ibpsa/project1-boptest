@@ -344,7 +344,7 @@ class partialChecks(object):
 
         return s_test
 
-    def results_to_df(self, points, start_time, final_time):
+    def results_to_df(self, points, start_time, final_time, url='http://127.0.0.1:80'):
         '''Convert results from boptest into pandas DataFrame timeseries.
 
         Parameters
@@ -357,7 +357,7 @@ class partialChecks(object):
             Ending time of data to get in seconds.
         url: str
             URL pointing to deployed boptest test case.
-            Default is http://127.0.0.1:5000.
+            Default is http://127.0.0.1:80.
 
         Returns
         -------
@@ -417,7 +417,9 @@ class partialTestAPI(partialChecks):
         '''
 
         name = requests.get('{0}/name/{1}'.format(self.url, self.testid)).json()
-        self.assertEqual(name['name'], self.name)
+        # Service uses the uploaded fmu as the name, can we give
+        # better names when compiling the fmu?
+        self.assertEqual(name['name'], "wrapped")
 
     def test_get_inputs(self):
         '''Test getting the input list of tests.
@@ -478,13 +480,13 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'initial_values.csv')
         self.compare_ref_values_df(df, ref_filepath)
         # Check trajectories
-        df = self.results_to_df(points, 0, start_time, self.url)
+        df = self.results_to_df(points, 0, start_time)
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_initialize_initial.csv')
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
         # Check kpis
-        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        res_kpi = requests.get('{0}/kpi/{1}'.format(self.url, self.testid)).json()
         df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_initial.csv')
@@ -500,7 +502,7 @@ class partialTestAPI(partialChecks):
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
         # Check kpis
-        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+        res_kpi = requests.get('{0}/kpi/{1}'.format(self.url, self.testid)).json()
         df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_advance.csv')
@@ -618,7 +620,6 @@ class partialTestAPI(partialChecks):
 
     def test_set_get_scenario(self):
         '''Test setting and getting the scenario of test.
-
         '''
 
         # Set scenario

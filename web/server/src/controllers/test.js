@@ -30,31 +30,50 @@ function sendStopSignal(site_ref, pub) {
   pub.publish(site_ref, "stop");
 }
 
-export function simStatus(site_ref, redis) {
+export function getStatus(site_ref, db, redis) {
   return new Promise((resolve, reject) => {
-    redis.hget(site_ref, 'status', (err, data) => {
-      if (err) {
-        reject(err)
+    redis.hexists(site_ref, 'status', async (existserr, existsdata) => {
+      if (existserr) {
+          reject(existserr)
       } else {
-        resolve(data)
+        if (existsdata) {
+          redis.hget(site_ref, 'status', (err, data) => {
+            if (err) {
+              reject(err)
+            } else {
+              resolve(data)
+            }
+          })
+        } else {
+          // If there is no status in redis, see if the test exists in the db, and if it does
+          // consider status "Stopped". This should be reconsidered if testcase id and test id are separated
+          const testcases = db.collection('testcases')
+          const query = {site_ref}
+          const doc = await testcases.findOne(query)
+          if (doc) {
+            resolve("Stopped")
+          } else {
+            resolve("Unknown")
+          }
+        }
       }
     })
   })
 };
 
-export async function waitForStatus(id, redis, desiredStatus, count, maxCount) {
+export async function waitForStatus(id, db, redis, desiredStatus, count, maxCount) {
   // The default maxCount is 30, which will result in waiting up to 30 seconds
   maxCount = typeof maxCount !== 'undefined' ? maxCount : 30
   // The default starting count is 0
   count = typeof count !== 'undefined' ? count : 0
-  const currentStatus = await simStatus(id, redis);
+  const currentStatus = await getStatus(id, db, redis);
   if (currentStatus == desiredStatus) {
     return;
   } else if (count == maxCount) {
     throw(`Timeout waiting for test: ${id} to reach status: ${desiredStatus}`);
   } else {
     // check status every 1000 miliseconds
-    await promiseTaskLater(waitForStatus, 1000, id, redis, desiredStatus, count, maxCount);
+    await promiseTaskLater(waitForStatus, 1000, id, db, redis, desiredStatus, count, maxCount);
     count++
   }
 };
@@ -112,10 +131,10 @@ export function getForecast(site_ref, redis) {
   return getWorkerData(site_ref, "forecast", redis, {});
 }
 
-export async function initialize(site_ref, start_time, warmup_period, redis, sqs) {
+export async function initialize(site_ref, start_time, warmup_period, db, redis, sqs) {
   await setStatus(site_ref, "Starting", redis)
   await addJobToQueue("runSite", sqs, {site_ref, start_time, warmup_period})
-  await waitForStatus(site_ref, redis, "Running")
+  await waitForStatus(site_ref, db, redis, "Running")
   return await getY(site_ref, redis)
 }
 
@@ -145,7 +164,7 @@ export async function getScenario(site_ref, db, redis) {
   }
 }
 
-export async function setScenario(site_ref, scenario, db, redis, sqs) {
+export async function setScenario(site_ref, scenario, db, redis, sqs, pub) {
   await new Promise((resolve, reject) => {
     redis.hset(site_ref, 'scenario', JSON.stringify(scenario), (err) => {
       if (err) {
@@ -155,11 +174,26 @@ export async function setScenario(site_ref, scenario, db, redis, sqs) {
       }
     })
   })
-  // What should these values be?
-  const start_time = 0
-  const warmup_period = 0
-  await initialize(site_ref, start_time, warmup_period, redis, sqs)
-  return await getScenario(site_ref, db, redis)
+
+  // If the test is already running then stop it first
+  if (getStatus(site_ref, db, redis) != "Stopped") {
+    await stop(site_ref, db, redis, pub)
+  }
+
+  // Starting a test job will initialize it with the given scenario
+  await setStatus(site_ref, "Starting", redis)
+  await addJobToQueue("runSite", sqs, {site_ref})
+  await waitForStatus(site_ref, db, redis, "Running")
+
+  return await new Promise((resolve, reject) => {
+    redis.hget(site_ref, 'scenario_result', (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
 }
 
 export async function advance(site_ref, redis, advancer, u) {
@@ -168,12 +202,12 @@ export async function advance(site_ref, redis, advancer, u) {
   return await getY(site_ref, redis)
 }
 
-export async function stop(site_ref, redis, pub) {
-  const stat = await simStatus(site_ref, redis)
+export async function stop(site_ref, db, redis, pub) {
+  const stat = await getStatus(site_ref, db, redis)
   if (stat == "Running") {
     await setStatus(site_ref, "Stopping", redis)
     sendStopSignal(site_ref, pub)
-    await waitForStatus(site_ref, redis, "Stopped")
+    await waitForStatus(site_ref, db, redis, "Stopped")
   }
 }
 

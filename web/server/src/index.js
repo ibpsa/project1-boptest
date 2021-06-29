@@ -131,9 +131,6 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
     });
   });
 
-  app.use(historyApiFallback());
-  app.use('/', express.static(path.join(__dirname, './app')));
-
   let server = app.listen(80, () => {
 
     var host = server.address().address;

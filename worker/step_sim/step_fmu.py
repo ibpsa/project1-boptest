@@ -17,7 +17,8 @@ from boptest.lib.testcase import TestCase
 
 
 class RunFMUSite:
-    def __init__(self, **kwargs):
+    def __init__(self, parameters):
+        self.parameters = parameters
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
@@ -29,12 +30,7 @@ class RunFMUSite:
         self.write_arrays = self.mongo_db.writearrays
         self.mongo_db_sims = self.mongo_db.sims
 
-        # get arguments from calling program
-        # which is the processMessage program
-        self.site_ref = kwargs['site_ref']
-        self.start_time = kwargs['start_time']
-        self.warmup_period = kwargs['warmup_period']
-
+        self.site_ref = parameters.get('site_ref')
         self.site = self.mongo_db_recs.find_one({"_id": self.site_ref})
 
         # build the path for zipped-file, fmu, json
@@ -63,9 +59,7 @@ class RunFMUSite:
         # initiate the testcase
         get_test_config(fmupath)
         self.tc = TestCase()
-        self.init_scenario()
-        y_output = self.tc.initialize(start_time, warmup_period)
-        self.update_y(y_output)
+        self.init_test()
 
         # simtime
         self.simtime = 0
@@ -201,11 +195,17 @@ class RunFMUSite:
         except:
             print("Unable to post results to dashboard located at: %s" % dashboard_url)
 
-    def init_scenario(self):
+    def init_test(self):
         scenario = self.redis.hget(self.site_ref, 'scenario')
         if scenario:
             scenario = json.loads(scenario)
-            self.tc.set_scenario(scenario)
+            scenario_result = self.tc.set_scenario(scenario)
+            self.redis.hset(self.site_ref, 'scenario_result', json.dumps(scenario_result))
+        else:
+            start_time = float(self.parameters.get('start_time'))
+            warmup_period = float(self.parameters.get('warmup_period'))
+            y_output = self.tc.initialize(start_time, warmup_period)
+            self.update_y(y_output)
 
     def update_y(self, y):
         self.redis.hset(self.site_ref, 'y', json.dumps(y))
@@ -267,10 +267,6 @@ class RunFMUSite:
 
 
 if __name__ == "__main__":
-    body = json.loads(sys.argv[1])
-    site_ref = body.get('site_ref')
-    start_time = float(body.get('start_time'))
-    warmup_period = float(body.get('warmup_period'))
-
-    runFMUSite = RunFMUSite(site_ref=site_ref, start_time=start_time, warmup_period=warmup_period)
+    parameters = json.loads(sys.argv[1])
+    runFMUSite = RunFMUSite(parameters)
     runFMUSite.run()

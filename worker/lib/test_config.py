@@ -9,11 +9,13 @@ def get_test_config(fmupath):
     source = """
 def get_config():
     c = dict()
+    c['name'] = 'testcase1'
     c['fmupath'] = '{}'
+    c['area'] = 10
     c['step'] = 60
     c['horizon'] = 86400
     c['interval'] = 3600
-    c['scenario'] = {{'electricity_price': 'constant'}}
+    c['scenario'] = {{'electricity_price': 'constant', 'time_period': None}}
     return c
 """
 

@@ -22,8 +22,8 @@ class BoptestClient:
         self.writable_site_points = None  # Populated by get_write_site_points
         self.readable_writable_site_points = None  # Populated by get_read_write_site_points
 
-    def status(self, siteref):
-        return status(self.url, siteref)
+    def status(self, test_id):
+        return status(self.url, test_id)
 
     def wait(self, siteref, desired_status):
         return wait(self.url, siteref, desired_status)
@@ -187,32 +187,19 @@ class BoptestClient:
         return requests.get(url).json()
 
 
-def status(url, siteref):
-    status = ''
-
-    query = '{ viewer{ sites(siteRef: "%s") { simStatus } } }' % siteref
-    for i in range(3):
-        response = requests.post(url + '/graphql', json={'query': query})
-        if response.status_code == 200:
-            break
-    if response.status_code != 200:
-        print("Could not get status")
-
-    j = json.loads(response.text)
-    sites = j["data"]["viewer"]["sites"]
-    if sites:
-        status = sites[0]["simStatus"]
-
-    return status
+def status(url, test_id):
+    url = '{}/status/{}'.format(url, test_id)
+    s = requests.get(url)
+    return s.text
 
 
-def wait(url, siteref, desired_status):
+def wait(url, test_id, desired_status):
     sites = []
 
     attempts = 0
     while attempts < 6000:
         attempts = attempts + 1
-        current_status = status(url, siteref)
+        current_status = status(url, test_id)
 
         if desired_status:
             if current_status == desired_status:
