@@ -5,7 +5,6 @@ import os
 import shutil
 import sys
 import tarfile
-import zipfile
 from subprocess import call
 import json
 
@@ -13,7 +12,7 @@ import json
 from boptest.add_site.add_site_logger import AddSiteLogger
 from boptest.lib import make_ids_unique, replace_site_id
 from boptest.lib.alfalfa_connections import AlfalfaConnections
-from boptest.lib.test_config import get_test_config
+from boptest.lib.define_config import define_config
 from boptest.lib.testcase import TestCase
 
 class AddSite:
@@ -83,8 +82,9 @@ class AddSite:
         f = self.fmu_json
         self.site_ref = self.get_site_ref(f)
 
-        get_test_config(self.fmu_path)
+        define_config(self.fmu_path)
         tc = TestCase()
+
         inputs = tc.get_inputs()
         measurements = tc.get_measurements()
         step = tc.get_step()
