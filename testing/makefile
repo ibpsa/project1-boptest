@@ -244,8 +244,8 @@ test_kpis:
 # Stop jm docker container
 	make stop_jm
 
-test_python3:
-# Test python examples run with python 3
+test_python2:
+# Test example controllers written in python run with python 2
 # Build testcase images
 	cd .. &&  make build TESTCASE=testcase1
 	cd .. &&  make build TESTCASE=testcase2

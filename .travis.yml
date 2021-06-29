@@ -18,7 +18,7 @@ before_script:
 
 jobs:
   include:
-  - python: 2.7
-    script: cd testing && make test_all
   - python: 3.9
-    script: cd testing && make test_python3
+    script: cd testing && make test_all
+  - python: 2.7
+    script: cd testing && make test_python2
