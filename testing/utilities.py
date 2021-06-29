@@ -750,14 +750,14 @@ class partialTestSeason(partialChecks):
             raise ValueError('Season {0} unknown.'.format(season))
         length = 48*3600
         # Initialize test case
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':start_time, 'warmup_period':0})
         # Get default simulation step
-        step_def = requests.get('{0}/step'.format(self.url)).json()
+        step_def = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()
         # Simulation Loop
         for i in range(int(length/step_def)):
             # Advance simulation
-            requests.post('{0}/advance'.format(self.url), data={}).json()
-        requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
+            requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={}).json()
+        requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':'constant'})
         # Check results
         points = self.get_all_points(self.url)
         df = self.results_to_df(points, start_time, start_time+length, self.url)
@@ -766,9 +766,9 @@ class partialTestSeason(partialChecks):
         # For each price scenario
         for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
             # Set scenario
-            requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
+            requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':price_scenario})
             # Report kpis
-            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
+            res_kpi = requests.get('{0}/kpi/{1}'.format(self.url, self.testid)).json()
             # Check kpis
             df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
             df.index.name = 'keys'
