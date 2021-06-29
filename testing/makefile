@@ -98,17 +98,17 @@ test_testcase2:
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
+#	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
 # Javascript
-	cd ../examples/javascript && make build Script=testcase2 && make run Script=testcase2
+#	cd ../examples/javascript && make build Script=testcase2 && make run Script=testcase2
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
 # Remove testcase image and javascript geckodriver
-	cd ../examples/julia && make remove-image Script=testcase2
-	cd ../examples/javascript && make remove-image Script=testcase2
-	cd ../examples/javascript && rm geckodriver
+#	cd ../examples/julia && make remove-image Script=testcase2
+#	cd ../examples/javascript && make remove-image Script=testcase2
+#	cd ../examples/javascript && rm geckodriver
 
 test_bestest_air:
 # Compile testcase model
@@ -257,7 +257,7 @@ test_all:
 	make test_forecast
 	make test_kpis
 	make test_testcase1
-	#make test_testcase2
+	make test_testcase2
 	#make test_testcase3
 	#make test_bestest_air
 	#make test_bestest_hydronic
