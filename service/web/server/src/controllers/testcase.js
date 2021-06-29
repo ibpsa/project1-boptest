@@ -26,9 +26,32 @@ export async function getName(site_ref, db) {
     const testcases = db.collection('testcases')
     const query = {site_ref}
     const doc = await testcases.findOne(query)
-    return doc.name
+    const name = doc.name
+    return {name}
   } catch(e) {
     console.log(e)
   }
 }
+
+//export async function getScenario(site_ref, db) {
+//  try {
+//    const testcases = db.collection('testcases')
+//    const query = {site_ref}
+//    const doc = await testcases.findOne(query)
+//    return doc.scenario
+//  } catch(e) {
+//    console.log(e)
+//  }
+//}
+//
+//export async function setScenario(site_ref, db, scenario) {
+//  try {
+//    const testcases = db.collection('testcases')
+//    const query = {site_ref}
+//    const newdata = { $set: {scenario: scenario} }
+//    testcases.updateOne(query, newdata)
+//  } catch(e) {
+//    console.log(e)
+//  }
+//}
 

@@ -13,10 +13,23 @@ import {
   setStep,
   getStep,
   getKPIs,
-  getResults
+  getResults,
+  getStatus
 } from '../controllers/test';
 
 const boptestRoutes = express.Router();
+
+
+boptestRoutes.get('/status/:id', async (req, res, next) => {
+  try {
+    const db = req.app.get('db')
+    const redis = req.app.get('redis')
+    const s = await getStatus(req.params.id, db, redis)
+    res.send(s)
+  } catch (e) {
+    next(e)
+  }
+})
 
 boptestRoutes.get('/name/:id', async (req, res, next) => {
   try {
@@ -43,10 +56,11 @@ boptestRoutes.post('/advance/:id', async (req, res, next) => {
 boptestRoutes.put('/initialize/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
+    const db = req.app.get('db')
     const sqs = req.app.get('sqs')
     const start_time = req.body['start_time']
     const warmup_period = req.body['warmup_period']
-    const y = await initialize(req.params.id, start_time, warmup_period, redis, sqs)
+    const y = await initialize(req.params.id, start_time, warmup_period, db, redis, sqs)
     res.send(y)
   } catch (e) {
     next(e)
@@ -57,7 +71,8 @@ boptestRoutes.put('/stop/:id', async (req, res, next) => {
   try {
     const pub = req.app.get('pub')
     const redis = req.app.get('redis')
-    await stop(req.params.id, redis, pub)
+    const db = req.app.get('db')
+    await stop(req.params.id, db, redis, pub)
     res.sendStatus(200)
   } catch (e) {
     next(e)
@@ -69,9 +84,11 @@ boptestRoutes.put('/scenario/:id', async (req, res, next) => {
     const db = req.app.get('db')
     const redis = req.app.get('redis')
     const sqs = req.app.get('sqs')
-    const electricity_price = req.body['electricity_price']
-    const scenario = {electricity_price}
-    const scenario_set = await setScenario(req.params.id, scenario, db, redis, sqs)
+    const pub = req.app.get('pub')
+    const electricity_price = req.body['electricity_price'] || null
+    const time_period = req.body['time_period'] || null
+    const scenario = { electricity_price, time_period }
+    const scenario_set = await setScenario(req.params.id, scenario, db, redis, sqs, pub)
     res.send(scenario_set)
   } catch (e) {
     next(e)
