@@ -1,10 +1,7 @@
-{
-"name"     : "testcase1",
-"fmupath"  : "models/wrapped.fmu",
-"area"     : 10,
-"step"     : 60,
-"horizon"  : 86400,
-"interval" : 3600,
+{"name"     : "testcase1",
+"area"     : 10.0,
+"step"     : 60.0,
+"horizon"  : 86400.0,
+"interval" : 3600.0,
 "scenario" : {"electricity_price":"constant",
-              "time_period":None}
-}
+              "time_period":null}}
