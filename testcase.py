@@ -19,8 +19,14 @@ class TestCase(object):
 
     '''
 
-    def __init__(self):
+    def __init__(self, fmupath='models/wrapped.fmu'):
         '''Constructor.
+
+        Parameters
+        ----------
+        fmupath : str, optional
+            Path to the test case fmu.
+            Default is assuming a particular directory structure.
 
         '''
 
@@ -28,7 +34,7 @@ class TestCase(object):
         with open('version.txt', 'r') as f:
             self.version = f.read()
         # Set test case fmu path
-        self.fmupath = 'models/wrapped.fmu'
+        self.fmupath = fmupath
         # Instantiate a data manager for this test case
         self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
