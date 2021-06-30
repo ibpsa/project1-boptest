@@ -46,7 +46,8 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 7) Remove the test case Docker image by ``$ make remove-image TESTCASE=<testcase_dir_name>``.
 
 ## Test Case RESTful API
-- To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
+- To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:80/<request>``
+- In BOPTEST Service, all API endpoints require a ``testid`` parameter because the service is designed to manage multiple test cases simultaneously. In order to receive a ``testid``, a testcase must be submitted using the submit method of the Python client https://github.com/ibpsa/project1-boptest/blob/f7f11dce574dc1bc91bbbb33dd2a3726d6f10cdc/boptest_client/boptest_client.py#L32. In the near future test cases will be prepopulated, and the ``initialize`` and ``scenario`` APIs will return a ``testid`` when given the name of a test case to initialize.
 
 Example RESTful interaction:
 
@@ -56,20 +57,20 @@ Example RESTful interaction:
 
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements.        |  POST ``advance`` with json data "{<input_name>:<value>}" |
-| Initialize simulation to a start time using a warmup period in seconds.     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
-| Receive communication step in seconds.                                 |  GET ``step``                                             |
-| Set communication step in seconds.                                     |  PUT ``step`` with argument ``step=<value>``              |
-| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements``                                     |
-| Receive control signal point names (u) and metadata.                        |  GET ``inputs``                                           |
-| Receive test result data for the given point name between the start and final time in seconds. |  PUT ``results`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
-| Receive test KPIs.                                                     |  GET ``kpi``                                              |
-| Receive test case name.                                                |  GET ``name``                                             |
-| Receive boundary condition forecast from current communication step.   |  GET ``forecast``                                         |
-| Receive boundary condition forecast parameters in seconds.             |  GET ``forecast_parameters``                              |
-| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
-| Receive current test scenario.                                         |  GET ``scenario``                                   |
-| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
+| Advance simulation with control input and receive measurements.        |  POST ``advance/{testid}`` with json data "{<input_name>:<value>}" |
+| Initialize simulation to a start time using a warmup period in seconds.     |  PUT ``initialize/{testid}`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
+| Receive communication step in seconds.                                 |  GET ``step/{testid}``                                             |
+| Set communication step in seconds.                                     |  PUT ``step/{testid}`` with argument ``step=<value>``              |
+| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements/{testid}``                                     |
+| Receive control signal point names (u) and metadata.                        |  GET ``inputs/{testid}``                                           |
+| Receive test result data for the given point name between the start and final time in seconds. |  PUT ``results/{testid}`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
+| Receive test KPIs.                                                     |  GET ``kpi/{testid}``                                              |
+| Receive test case name.                                                |  GET ``name/{testid}``                                             |
+| Receive boundary condition forecast from current communication step.   |  GET ``forecast/{testid}``                                         |
+| Receive boundary condition forecast parameters in seconds.             |  GET ``forecast_parameters/{testid}``                              |
+| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters/{testid}`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Receive current test scenario.                                         |  GET ``scenario/{testid}``                                   |
+| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario/{testid}`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
 
 ## Development
 
