@@ -11,6 +11,7 @@ imported from a different module.
 # ----------------------
 import requests
 import pandas as pd
+from boptest_client import BoptestClient
 
 # ----------------------
 
@@ -47,26 +48,31 @@ def run(plot=False):
     # SETUP TEST CASE
     # ---------------
     # Set URL for testcase
-    url = 'http://127.0.0.1:5000'
+    url = 'http://127.0.0.1:80'
     # Set simulation parameters
     length = 48*3600
     step = 300
+    # ---------------
+    # Submit testcase fmu
+    client = BoptestClient(url)
+    testcase = 'testcase3'
+    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase))
     # ---------------
 
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
     # Test case name
-    name = requests.get('{0}/name'.format(url)).json()
+    name = requests.get('{0}/name/{1}'.format(url, testid)).json()
     print('Name:\t\t\t\t{0}'.format(name))
     # Inputs available
-    inputs = requests.get('{0}/inputs'.format(url)).json()
+    inputs = requests.get('{0}/inputs/{1}'.format(url, testid)).json()
     print('Control Inputs:\t\t\t{0}'.format(inputs))
     # Measurements available
-    measurements = requests.get('{0}/measurements'.format(url)).json()
+    measurements = requests.get('{0}/measurements/{1}'.format(url, testid)).json()
     print('Measurements:\t\t\t{0}'.format(measurements))
     # Default simulation step
-    step_def = requests.get('{0}/step'.format(url)).json()
+    step_def = requests.get('{0}/step/{1}'.format(url, testid)).json()
     print('Default Simulation Step:\t{0}'.format(step_def))
     # --------------------
 
@@ -74,13 +80,13 @@ def run(plot=False):
     # -------------
     # Initialize test case
     print('Initializing test case simulation.')
-    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0})
+    res = requests.put('{0}/initialize/{1}'.format(url, testid), data={'start_time':0,'warmup_period':0})
     # Set simulation step
     print('Setting simulation step to {0}.'.format(step))
-    res = requests.put('{0}/step'.format(url), data={'step':step})
+    res = requests.put('{0}/step/{1}'.format(url, testid), data={'step':step})
     # Set forecast parameters
     print('Setting forecast parameters')
-    res = requests.put('{0}/forecast_parameters'.format(url), data={'horizon':step, 'interval':step})
+    res = requests.put('{0}/forecast_parameters/{1}'.format(url, testid), data={'horizon':step, 'interval':step})
     print('\nRunning test case...')
     # Initialize u
     u = pidTwoZones.initialize()
@@ -92,9 +98,9 @@ def run(plot=False):
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
-        y = requests.post('{0}/advance'.format(url), data=u).json()
+        y = requests.post('{0}/advance/{1}'.format(url, testid), data=u).json()
         # Get set points for each zone
-        forecast = requests.get('{0}/forecast'.format(url)).json()
+        forecast = requests.get('{0}/forecast/{1}'.format(url, testid)).json()
         LowerSetpNor = forecast['LowerSetp[North]'][0]
         UpperSetpNor = forecast['UpperSetp[North]'][0]
         LowerSetpSou = forecast['LowerSetp[South]'][0]
@@ -112,7 +118,7 @@ def run(plot=False):
     # VIEW RESULTS
     # ------------
     # Report KPIs
-    kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = requests.get('{0}/kpi/{1}'.format(url, testid)).json()
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
         if key == 'tdis_tot':
@@ -133,13 +139,18 @@ def run(plot=False):
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    res = requests.get('{0}/results'.format(url)).json()
-    time = [x/3600 for x in res['y']['time']] # convert s --> hr
+    points = measurements.keys() + inputs.keys()
+    df_res = pd.DataFrame()
+    for point in points:
+        res = requests.put('{0}/results/{1}'.format(url, testid), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
+    df_res.index.name = 'time'
+    time = df_res.index.values/3600 # convert s --> hr
     setpoints.index = setpoints.index/3600 # convert s --> hr
-    TZoneNor = [x-273.15 for x in res['y']['TRooAirNor_y']] # convert K --> C
-    PHeatNor = res['y']['PHeaNor_y']
-    TZoneSou = [x-273.15 for x in res['y']['TRooAirSou_y']] # convert K --> C
-    PHeatSou = res['y']['PHeaSou_y']
+    TZoneNor = df_res['TRooAirNor_y'].values-273.15 # convert K --> C
+    PHeatNor = df_res['PHeaNor_y'].values
+    TZoneSou = df_res['TRooAirSou_y'].values-273.15 # convert K --> C
+    PHeatSou = df_res['PHeaSou_y'].values
     setpoints= setpoints - 273.15 # convert K --> C
     # Plot results
     if plot:
@@ -163,7 +174,9 @@ def run(plot=False):
         plt.show()
     # --------------------
 
-    return kpi,res
+    requests.put('{0}/stop/{1}'.format(url, testid))
+
+    return kpi,df_res
 
 if __name__ == "__main__":
-    kpi,res = run(plot=False)
+    kpi,df_res = run(plot=False)

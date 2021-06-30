@@ -13,6 +13,8 @@ import requests
 import time
 from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
+import pandas as pd
+from boptest_client import BoptestClient
 
 # ----------------------
 
@@ -26,6 +28,7 @@ def run(plot=False, customized_kpi_config=None):
 
     Parameters
     ----------
+    testid : A unique idenifier of the test.
     plot : bool, optional
         True to plot timeseries results.
         Default is False.
@@ -49,26 +52,30 @@ def run(plot=False, customized_kpi_config=None):
     # SETUP TEST CASE
     # ---------------
     # Set URL for testcase
-    url = 'http://127.0.0.1:5000'
+    url = 'http://127.0.0.1:80'
     # Set simulation parameters
     length = 24*3600*2
     step = 3600
     # ---------------
+    # Submit testcase fmu
+    client = BoptestClient(url)
+    testcase = 'testcase2'
+    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase))
 
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
     # Test case name
-    name = requests.get('{0}/name'.format(url)).json()
+    name = requests.get('{0}/name/{1}'.format(url, testid)).json()
     print('Name:\t\t\t\t{0}'.format(name))
     # Inputs available
-    inputs = requests.get('{0}/inputs'.format(url)).json()
+    inputs = requests.get('{0}/inputs/{1}'.format(url, testid)).json()
     print('Control Inputs:\t\t\t{0}'.format(inputs))
     # Measurements available
-    measurements = requests.get('{0}/measurements'.format(url)).json()
+    measurements = requests.get('{0}/measurements/{1}'.format(url, testid)).json()
     print('Measurements:\t\t\t{0}'.format(measurements))
     # Default simulation step
-    step_def = requests.get('{0}/step'.format(url)).json()
+    step_def = requests.get('{0}/step/{1}'.format(url, testid)).json()
     print('Default Simulation Step:\t{0}'.format(step_def))
 
     # Define customized KPI if any
@@ -89,18 +96,18 @@ def run(plot=False, customized_kpi_config=None):
     start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
-    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0}).json()
+    res = requests.put('{0}/initialize/{1}'.format(url, testid), data={'start_time':0,'warmup_period':0}).json()
     if res:
         print('Successfully initialized the simulation')
     print('\nRunning test case...')
     # Set simulation step
-    res = requests.put('{0}/step'.format(url), data={'step':step})
+    res = requests.put('{0}/step/{1}'.format(url, testid), data={'step':step})
     # Initialize u
     u = sup.initialize()
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
-        y = requests.post('{0}/advance'.format(url), data=u).json()
+        y = requests.post('{0}/advance/{1}'.format(url, testid), data=u).json()
         # Compute next control signal
         u = sup.compute_control(y)
         # Compute customized KPIs if any
@@ -118,7 +125,7 @@ def run(plot=False, customized_kpi_config=None):
     # VIEW RESULTS
     # ------------
     # Report KPIs
-    kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = requests.get('{0}/kpi/{1}'.format(url, testid)).json()
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
         if key == 'ener_tot':
@@ -139,15 +146,20 @@ def run(plot=False, customized_kpi_config=None):
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    res = requests.get('{0}/results'.format(url)).json()
-    t = [x/3600 for x in res['y']['time']] # convert s --> hr
-    TRooAir = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-    TSetRooHea = [x-273.15 for x in res['u']['oveTSetRooHea_u']] # convert K --> C
-    TSetRooCoo = [x-273.15 for x in res['u']['oveTSetRooCoo_u']] # convert K --> C
-    PFan = res['y']['PFan_y']
-    PCoo = res['y']['PCoo_y']
-    PHea = res['y']['PHea_y']
-    PPum = res['y']['PPum_y']
+    points = measurements.keys() + inputs.keys()
+    df_res = pd.DataFrame()
+    for point in points:
+        res = requests.put('{0}/results/{1}'.format(url, testid), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
+    df_res.index.name = 'time'
+    t = df_res.index.values/3600 # convert s --> hr
+    TRooAir = df_res['TRooAir_y'].values-273.15 # convert K --> C
+    TSetRooHea = df_res['oveTSetRooHea_u'].values-273.15 # convert K --> C
+    TSetRooCoo = df_res['oveTSetRooCoo_u'].values-273.15 # convert K --> C
+    PFan = df_res['PFan_y'].values
+    PCoo = df_res['PCoo_y'].values
+    PHea = df_res['PHea_y'].values
+    PPum = df_res['PPum_y'].values
     # Plot results
     if plot:
         from matplotlib import pyplot as plt
@@ -170,7 +182,8 @@ def run(plot=False, customized_kpi_config=None):
         plt.show()
     # --------------------
 
-    return kpi,res,customizedkpis_result
+    requests.put('{0}/stop/{1}'.format(url, testid))
+    return kpi,df_res,customizedkpis_result
 
 if __name__ == "__main__":
-    kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
+    kpi,df_res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')

@@ -5,7 +5,6 @@ import os
 import shutil
 import sys
 import tarfile
-import zipfile
 from subprocess import call
 import json
 
@@ -13,6 +12,8 @@ import json
 from boptest.add_site.add_site_logger import AddSiteLogger
 from boptest.lib import make_ids_unique, replace_site_id
 from boptest.lib.alfalfa_connections import AlfalfaConnections
+from boptest.lib.define_config import define_config
+from boptest.lib.testcase import TestCase
 
 class AddSite:
     """A wrapper class around adding sites"""
@@ -28,7 +29,7 @@ class AddSite:
         self.file_name = fn
         self.upload_id = up_id
         self.bucket_parsed_site_id_dir = os.path.join('/parse', self.upload_id)
-        _, self.file_ext = os.path.splitext(self.file_name)
+        self.name, self.file_ext = os.path.splitext(self.file_name)
         self.key = "uploads/%s/%s" % (self.upload_id, self.file_name)
 
         # Define FMU specific attributes
@@ -56,15 +57,6 @@ class AddSite:
             self.add_site_logger.logger.error("Unsupported file extension: {}".format(self.file_ext))
             os.exit(1)
 
-    def extract_workflow_tar(self):
-        """
-        Extract workflow tarball into this directory
-        :return:
-        """
-        tar = tarfile.open("workflow.tar.gz")
-        tar.extractall(self.bucket_parsed_site_id_dir)
-        tar.close()
-
     def get_site_ref(self, haystack_json):
         """
         Find the site given the haystack JSON file.  Remove 'r:' from string.
@@ -81,21 +73,6 @@ class AddSite:
                         break
         return site_ref
 
-    def os_files_final_touches_and_upload(self):
-        """
-        Make unique ids and replace site_id.  Upload to mongo and filestore.
-        :return:
-        """
-
-        """ When ids are generated from a user provided file they might not be unique,
-        the purpose of this function is to ensure uniqueness
-        """
-        make_ids_unique(self.upload_id, self.report_haystack_json, self.report_mapping_json)
-        replace_site_id(self.upload_id, self.report_haystack_json, self.report_mapping_json)
-
-        # Upload to mongo & filestore, clean local directory
-        self.add_to_mongo_and_filestore()
-
     def add_to_mongo_and_filestore(self):
         """
         Attempt upload to mongo and filestore.  Function exits if not uploaded correctly
@@ -105,25 +82,22 @@ class AddSite:
         f = self.fmu_json
         self.site_ref = self.get_site_ref(f)
 
-        # Check mongo upload works correctly
-        mongo_response = self.ac.add_site_to_mongo(f, self.site_ref)
-        if len(mongo_response.inserted_ids) > 0:
-            self.add_site_logger.logger.info('added {} ids to MongoDB under site_ref: {}'.format(len(mongo_response.inserted_ids), self.site_ref))
-        else:
-            self.add_site_logger.logger.warning('site not added to MongoDB under site_ref: {}'.format(self.site_ref))
-            sys.exit(1)
+        define_config(self.fmu_path)
+        tc = TestCase()
 
-        # Check filestore upload works correctly
-        filestore_response, output = self.ac.add_site_to_filestore(self.bucket_parsed_site_id_dir, self.site_ref)
+        inputs = tc.get_inputs()
+        measurements = tc.get_measurements()
+        step = tc.get_step()
+        scenario = tc.get_scenario()
+
+        self.ac.add_boptest_inputs_to_mongo(inputs, self.site_ref)
+        self.ac.add_boptest_measurements_to_mongo(measurements, self.site_ref)
+        self.ac.add_boptest_testcase_tags_to_mongo(f, self.site_ref)
+        self.ac.add_boptest_testcase_to_filestore(self.bucket_parsed_site_id_dir, self.site_ref)
+        self.ac.add_boptest_testcase_to_mongo(self.site_ref, self.name, step, scenario)
 
         # Clean local directory
         shutil.rmtree(self.bucket_parsed_site_id_dir)
-        if filestore_response:
-            self.add_site_logger.logger.info(
-                'added to filestore: {}'.format(output))
-        else:
-            self.add_site_logger.logger.warning('site not added to filestore - exception: {}'.format(output))
-            sys.exit(1)
 
     def add_fmu(self):
         """

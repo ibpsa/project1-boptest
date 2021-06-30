@@ -9,7 +9,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
-- ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in both Python (Version 2.7) and Julia (Version 1.0.3).
+- ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (Version 2.7), Julia (Version 1.0.3), and JavaScript (Version ECMAScript 2018).
 - ``/parsing`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/template`` contains template Modelica code for a test case emulator model.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
@@ -28,6 +28,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 * For Python-based example controllers:
   * Add the root directory of the BOPTEST repository to the PYTHONPATH environment variable.
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1.py`` to test a simple proportional feedback controller on this test case over a two-day period.
+  * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1_scenario.py`` to test a simple proportional feedback controller on this test case over a test period defined using the ``/scenario`` API.
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase2.py`` to test a simple supervisory controller on this test case over a two-day period.
 
 * For Julia-based example controllers:
@@ -35,11 +36,18 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
+* For JavaScript based controllers:
+  * In a separate terminal, use ``$ cd examples/javascript && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
+  * In a separate terminal, use ``$ cd examples/javascript && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on the testcase2 over a two-day period.
+  * Ince the test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images, and use ``$ cd examples/javascript && rm geckodriver`` to remove the geckodriver file.
+  * Note that those two controllers can also be executed by web browers, such as chrome or firefox.
+
 6) Shutdown a test case container by selecting the container terminal window, ``Ctrl+C`` to close port, and ``Ctrl+D`` to exit the Docker container.
 7) Remove the test case Docker image by ``$ make remove-image TESTCASE=<testcase_dir_name>``.
 
 ## Test Case RESTful API
-- To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
+- To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:80/<request>``
+- In BOPTEST Service, all API endpoints require a ``testid`` parameter because the service is designed to manage multiple test cases simultaneously. In order to receive a ``testid``, a testcase must be submitted using the submit method of the Python client https://github.com/ibpsa/project1-boptest/blob/f7f11dce574dc1bc91bbbb33dd2a3726d6f10cdc/boptest_client/boptest_client.py#L32. In the near future test cases will be prepopulated, and the ``initialize`` and ``scenario`` APIs will return a ``testid`` when given the name of a test case to initialize.
 
 Example RESTful interaction:
 
@@ -49,20 +57,20 @@ Example RESTful interaction:
 
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements        |  POST ``advance`` with json data "{<input_name>:<value>}" |
-| Initialize simulation to a start time using a warmup period in seconds     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
-| Receive communication step in seconds                                 |  GET ``step``                                             |
-| Set communication step in seconds                                     |  PUT ``step`` with argument ``step=<value>``              |
-| Receive sensor signal names (y) and metadata                          |  GET ``measurements``                                     |
-| Receive control signals names (u) and metadata                        |  GET ``inputs``                                           |
-| Receive test result data                                              |  GET ``results``                                          |
-| Receive test KPIs                                                     |  GET ``kpi``                                              |
-| Receive test case name                                                |  GET ``name``                                             |
-| Receive boundary condition forecast from current communication step   |  GET ``forecast``                                         |
-| Receive boundary condition forecast parameters in seconds             |  GET ``forecast_parameters``                              |
-| Set boundary condition forecast parameters in seconds                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
-| Receive current test scenario                                         |  GET ``scenario``                                   |
-| Set test scenario  		                                             |  PUT ``scenario`` with arguments ``electricity_price=<'constant' or 'dynamic' or 'highly_dynamic'>``|
+| Advance simulation with control input and receive measurements.        |  POST ``advance/{testid}`` with json data "{<input_name>:<value>}" |
+| Initialize simulation to a start time using a warmup period in seconds.     |  PUT ``initialize/{testid}`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
+| Receive communication step in seconds.                                 |  GET ``step/{testid}``                                             |
+| Set communication step in seconds.                                     |  PUT ``step/{testid}`` with argument ``step=<value>``              |
+| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements/{testid}``                                     |
+| Receive control signal point names (u) and metadata.                        |  GET ``inputs/{testid}``                                           |
+| Receive test result data for the given point name between the start and final time in seconds. |  PUT ``results/{testid}`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
+| Receive test KPIs.                                                     |  GET ``kpi/{testid}``                                              |
+| Receive test case name.                                                |  GET ``name/{testid}``                                             |
+| Receive boundary condition forecast from current communication step.   |  GET ``forecast/{testid}``                                         |
+| Receive boundary condition forecast parameters in seconds.             |  GET ``forecast_parameters/{testid}``                              |
+| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters/{testid}`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Receive current test scenario.                                         |  GET ``scenario/{testid}``                                   |
+| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario/{testid}`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
 
 ## Development
 

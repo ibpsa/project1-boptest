@@ -5,11 +5,13 @@ already be deployed.
 
 """
 
+import requests
 import unittest
 import pandas as pd
 import os
 import utilities
 from examples.python import testcase3
+from boptest_client import BoptestClient
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller with
@@ -30,17 +32,15 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Run test
-        kpi,res = testcase3.run()
+        kpi,df_res = testcase3.run()
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase3', 'kpis_python.csv')
         self.compare_ref_values_df(df, ref_filepath)
-        # Check trajectories
-        df = self.results_to_df(res)
         # Set reference file path
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase3', 'results_python.csv')
-        self.compare_ref_timeseries_df(df,ref_filepath)
+        self.compare_ref_timeseries_df(df_res,ref_filepath)
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 3.
@@ -50,15 +50,25 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
     '''
 
+    @classmethod
+    def setUpClass(cls):
+        cls.name = 'testcase3'
+        cls.url = 'http://127.0.0.1:80'
+        client = BoptestClient(cls.url)
+        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+
     def setUp(self):
         '''Setup for testcase.
 
         '''
-
-        self.name = 'testcase3'
-        self.url = 'http://127.0.0.1:5000'
-        self.name_ref = 'wrapped'
+        self.name = API.name
+        self.url = API.url
         self.step_ref = 60.0
+        self.testid = API.testid
+        self.test_time_period = 'test_day'
+
+    def tearDown(self):
+        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

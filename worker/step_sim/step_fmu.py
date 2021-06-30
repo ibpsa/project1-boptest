@@ -1,52 +1,23 @@
-########################################################################################################################
-#  Copyright (c) 2008-2018, Alliance for Sustainable Energy, LLC, and other contributors. All rights reserved.
-#
-#  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
-#  following conditions are met:
-#
-#  (1) Redistributions of source code must retain the above copyright notice, this list of conditions and the following
-#  disclaimer.
-#
-#  (2) Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
-#  disclaimer in the documentation and/or other materials provided with the distribution.
-#
-#  (3) Neither the name of the copyright holder nor the names of any contributors may be used to endorse or promote products
-#  derived from this software without specific prior written permission from the respective party.
-#
-#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER(S) AND ANY CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-#  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-#  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER(S), ANY CONTRIBUTORS, THE UNITED STATES GOVERNMENT, OR THE UNITED
-#  STATES DEPARTMENT OF ENERGY, NOR ANY OF THEIR EMPLOYEES, BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-#  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
-#  USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-#  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-########################################################################################################################
-
+import sys
 import json
 import os
 import shutil
-import sys
 import tarfile
 import time
 import uuid
-import zipfile
 from datetime import datetime
 import boto3
 import pytz
 import redis
-from distutils import util
 from pymongo import MongoClient
-import imp
 import requests
-config_module = imp.new_module('config')
-sys.modules['config'] = config_module
+from boptest.lib.define_config import define_config
+from boptest.lib.testcase import TestCase
 
-import boptest.lib
-import boptest.lib.testcase
 
 class RunFMUSite:
-    def __init__(self, **kwargs):
+    def __init__(self, parameters):
+        self.parameters = parameters
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
@@ -58,15 +29,7 @@ class RunFMUSite:
         self.write_arrays = self.mongo_db.writearrays
         self.mongo_db_sims = self.mongo_db.sims
 
-        # get arguments from calling program
-        # which is the processMessage program
-        self.site_ref = kwargs['site_ref']
-        self.real_time_flag = kwargs['real_time_flag']
-        self.time_scale = kwargs['time_scale']
-        self.startTime = kwargs['startTime']
-        self.endTime = kwargs['endTime']
-        self.externalClock = kwargs['externalClock']
-
+        self.site_ref = parameters.get('site_ref')
         self.site = self.mongo_db_recs.find_one({"_id": self.site_ref})
 
         # build the path for zipped-file, fmu, json
@@ -76,7 +39,7 @@ class RunFMUSite:
         key = "parsed/%s" % tar_name
         tarpath = os.path.join(self.directory, tar_name)
         fmupath = os.path.join(self.directory, 'model.fmu')
-        tagpath = os.path.join(self.directory, 'tags.json')
+        configpath = os.path.join(self.directory, 'config.py')
 
         if not os.path.exists(self.directory):
             os.makedirs(self.directory)
@@ -89,133 +52,77 @@ class RunFMUSite:
         tar.extractall(sim_path)
         tar.close()
 
-        zzip = zipfile.ZipFile(fmupath)
-        zzip.extract('resources/kpis.json', self.directory)
-
-        (self.tagid_and_outputs, self.id_and_dis, self.default_input) = self.create_tag_dictionaries(tagpath)
-
-        config_code = """
-def get_config():
-    c = dict()
-    c['fmupath'] = '{}'
-    c['step'] = 60
-    c['horizon'] = 86400
-    c['interval'] = 3600
-    return c
-"""
-
-        config_code = config_code.format(fmupath)
-        exec config_code in config_module.__dict__
-
         # initiate the testcase
-        self.tc = boptest.lib.testcase.TestCase()
-        self.update_forecast(self.tc.get_forecast())
-        self.update_kpis(self.tc.get_kpis())
+        define_config(fmupath)
+        self.tc = TestCase()
+        self.init_test()
 
-        # run the FMU simulation
-        self.kstep = 0
-        self.stop = False
+        # simtime
         self.simtime = 0
 
-        if self.externalClock:
-            self.redis_pubsub.subscribe(self.site_ref)
+        # subscribe to channels related to this test
+        self.redis_pubsub.psubscribe(str(self.site_ref) + "*")
 
-        # stepsize
-        redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
-        if redis_step_size:
-            self.tc.set_step(redis_step_size)
-        else:
-            stepsize = self.tc.get_step();
-            self.redis.hset(self.site_ref, 'stepsize', stepsize)
-
-        # forecast
-        forecast = self.tc.get_forecast_parameters()
-
-        # forecast_horizon
-        redis_horizon = self.redis.hget(self.site_ref, 'forecast:horizon')
-        if redis_horizon:
-            forecast['horizon'] = redis_horizon
-        else:
-            self.redis.hset(self.site_ref, 'forecast:horizon', forecast['horizon'])
-
-        # forecast_interval
-        redis_interval = self.redis.hget(self.site_ref, 'forecast:interval')
-        if redis_interval:
-            forecast['interval'] = redis_interval
-        else:
-            self.redis.hset(self.site_ref, 'forecast:interval', forecast['interval'])
-
-        self.tc.set_forecast_parameters(forecast)
-
-    def create_tag_dictionaries(self, tag_filepath):
-        '''
-        Purpose: matching the haystack display-name and IDs
-        Inputs:  a json file containing all the tagged data
-        Returns: a dictionary matching all outputs and IDs
-                 a dictionary matching all IDs and display-names
-                 a dictionary for every _enable input, set to value 0
-        '''
-        outputs_and_ID = {}
-        id_and_dis = {}
-        # default_input is a dictionay
-        # with keys for every "_enable" input, set to value 0
-        # in other words, disable everything
-        default_input = {}
-
-        # Get Haystack tag data, from tag_filepath
-        tag_data = {}
-        with open(tag_filepath) as json_data:
-            tag_data = json.load(json_data)
-
-        for point in tag_data:
-            var_name = point['dis'].replace('s:', '')
-            var_id = point['id'].replace('r:', '')
-
-            id_and_dis[var_id] = var_name
-
-            if 'writable' in point.keys():
-                default_input[var_name.replace('_u', '_activate')] = 0
-
-            if 'writable' not in point.keys() and 'point' in point.keys():
-                outputs_and_ID[var_name] = var_id
-
-        return (outputs_and_ID, id_and_dis, default_input)
-
-    def run(self):
         self.init_sim_status()
 
-        if self.externalClock:
-            sys.stdout.flush()
-            while True:
-                message = self.redis_pubsub.get_message()
-                if message:
-                    data = message['data']
-                    if data == 'advance':
-                        self.step()
-                        self.redis.publish(self.site_ref, 'complete')
-                        self.set_idle_state()
-                    elif data == 'stop':
-                        self.set_idle_state()
-                        break
-        else:
-            while self.simtime < self.endTime:
-                if self.db_stop_set():
-                    break
+
+    def results_request_channel(self):
+        return (self.site_ref + ":results:request")
+
+    def results_response_channel(self):
+        return (self.site_ref + ":results:response")
+
+    def kpis_request_channel(self):
+        return (self.site_ref + ":kpis:request")
+
+    def kpis_response_channel(self):
+        return (self.site_ref + ":kpis:response")
+
+    def forecast_request_channel(self):
+        return (self.site_ref + ":forecast:request")
+
+    def forecast_response_channel(self):
+        return (self.site_ref + ":forecast:response")
+
+    def scenario_result_request_channel(self):
+        return (self.site_ref + ":scenario_result:request")
+
+    def scenario_result_response_channel(self):
+        return (self.site_ref + ":scenario_result:response")
+
+    def run(self):
+        while True:
+            data = None
+            channel = None
+            message = self.redis_pubsub.get_message()
+            if message:
+                channel = message['channel']
+                data = message['data']
+                message_type = message['type']
+            if channel == self.site_ref and data == 'stop':
+                break
+            if channel == self.results_request_channel() and message_type == 'pmessage':
+                result_params = json.loads(data)
+                point_name = result_params['point_name']
+                results_start_time = float(result_params['start_time'])
+                results_final_time = float(result_params['final_time'])
+                self.update_results(point_name, results_start_time, results_final_time)
+                self.redis.publish(self.results_response_channel(), 'ready')
+            if channel == self.kpis_request_channel() and message_type == 'pmessage':
+                self.update_kpis()
+                self.redis.publish(self.kpis_response_channel(), 'ready')
+            if channel == self.forecast_request_channel() and message_type == 'pmessage':
+                self.update_forecast()
+                self.redis.publish(self.forecast_response_channel(), 'ready')
+            if channel == self.scenario_result_request_channel() and message_type == 'pmessage':
+                self.update_scenario()
+                self.redis.publish(self.scenario_result_response_channel(), 'ready')
+            if channel == self.site_ref and data == 'advance':
                 self.step()
-                # TODO: Make this respect time scale provided by user
-                time.sleep(5)
+                self.redis.publish(self.site_ref, 'complete')
+                self.set_idle_state()
 
         self.cleanup()
-
-    # Check the database for a stop signal
-    # and return true if stop is requested
-    def db_stop_set(self):
-        # A client may have requested that the simulation stop early,
-        # look for a signal to stop from the database
-        self.site = self.mongo_db_recs.find_one({"_id": self.site_ref})
-        if self.site and (self.site.get("rec", {}).get("simStatus") == "s:Stopping"):
-            self.stop = True
-        return self.stop
 
     def reset(self, tarinfo):
         tarinfo.uid = tarinfo.gid = 0
@@ -226,13 +133,11 @@ def get_config():
     def cleanup(self):
         kpis = self.tc.get_kpis()
         kpidump = json.dumps(kpis)
-        self.update_kpis(kpis)
-        self.update_results(self.tc.get_results())
 
-        # Clear all current values from the database when the simulation is no longer running
-        self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.simStatus": "s:Stopped"}, "$unset": {"rec.datetime": ""}}, False)
-        self.mongo_db_recs.update_many({"site_ref": self.site_ref, "rec.cur": "m:"}, {"$unset": {"rec.curVal": "", "rec.curErr": ""}, "$set": {"rec.curStatus": "s:disabled"}}, False)
-        self.mongo_db_recs.update_many({"site_ref": self.site_ref, "rec.writable": "m:"}, {"$unset": {"rec.writeLevel": "", "rec.writeVal": ""}, "$set": {"rec.writeStatus": "s:disabled"}}, False)
+        self.redis.hset(self.site_ref, 'status', 'Stopped')
+        self.redis.hdel(self.site_ref, 'time')
+        self.redis.hdel(self.site_ref, 'scenario')
+        self.redis.hdel(self.site_ref, 'scenario_result')
 
         self.clear_forecast()
 
@@ -249,7 +154,7 @@ def get_config():
         time = str(datetime.now(tz=pytz.UTC))
         name = self.site.get("rec", {}).get("dis", "Test Case").replace('s:', '')
         self.mongo_db_sims.insert_one({"_id": self.sim_id, "name": name, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
-        self.post_results_to_dashboard(kpis, time)
+        #self.post_results_to_dashboard(kpis, time)
 
         shutil.rmtree(self.directory)
 
@@ -297,14 +202,52 @@ def get_config():
         except:
             print("Unable to post results to dashboard located at: %s" % dashboard_url)
 
-    def update_forecast(self, forecast):
+    def init_test(self):
+        scenario = self.redis.hget(self.site_ref, 'scenario')
+        if scenario:
+            self.tc.initialize(0.0, 0.0)
+            self.update_scenario()
+        else:
+            start_time = float(self.parameters.get('start_time'))
+            warmup_period = float(self.parameters.get('warmup_period'))
+            y_output = self.tc.initialize(start_time, warmup_period)
+            self.update_y(y_output)
+
+    def update_y(self, y):
+        self.redis.hset(self.site_ref, 'y', json.dumps(y))
+
+    def get_u(self):
+        ustring = self.redis.hget(self.site_ref, 'u')
+        return json.loads(ustring)
+
+    def update_forecast(self):
+        forecast_parameters = self.redis.hget(self.site_ref, 'forecast_parameters')
+        if forecast_parameters:
+            forecast_parameters = json.loads(forecast_parameters)
+            horizon = forecast_parameters['horizon']
+            interval = forecast_parameters['interval']
+            self.tc.set_forecast_parameters(horizon, interval)
+            
+        forecast = self.tc.get_forecast()
         self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
 
-    def update_kpis(self, kpis):
-        self.redis.hset(self.site_ref, 'kpis', json.dumps(kpis))
+    def update_scenario(self):
+        scenario = self.redis.hget(self.site_ref, 'scenario')
+        scenario = json.loads(scenario)
+        scenario_result = self.tc.set_scenario(scenario)
+        self.redis.hset(self.site_ref, 'scenario_result', json.dumps(scenario_result))
 
-    def update_results(self, results):
-        self.redis.hset(self.site_ref, 'results', json.dumps(results))
+    def update_kpis(self):
+        kpis = self.tc.get_kpis()
+        kpis = json.dumps(kpis)
+        self.redis.hset(self.site_ref, 'kpis', kpis)
+
+    def update_results(self, point_name, results_start_time, results_final_time):
+        results = self.tc.get_results(point_name, results_start_time, results_final_time)
+        for key in results:
+            results[key] = results[key].tolist()
+        results = json.dumps(results)
+        self.redis.hset(self.site_ref, 'results', results)
 
     def clear_forecast(self):
         self.redis.hdel(self.site_ref, 'forecast')
@@ -314,72 +257,28 @@ def get_config():
 
     def init_sim_status(self):
         self.set_idle_state()
-        output_time_string = 's:%s' % (self.simtime)
-        self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.datetime": output_time_string, "rec.simStatus": "s:Running"}})
+        self.redis.hset(self.site_ref, 'status', 'Running')
+        self.redis.hset(self.site_ref, 'time', self.simtime)
 
     def update_sim_status(self):
         self.simtime = self.tc.final_time
-        output_time_string = 's:%s' % (self.simtime)
-        self.mongo_db_recs.update_one({"_id": self.site_ref}, {"$set": {"rec.datetime": output_time_string, "rec.simStatus": "s:Running"}})
+        self.redis.hset(self.site_ref, 'status', 'Running')
+        self.redis.hset(self.site_ref, 'time', self.simtime)
 
     def step(self):
         # look for a change in step size
-        redis_step_size = self.redis.hget(self.site_ref, 'stepsize')
+        redis_step_size = self.redis.hget(self.site_ref, 'step')
         current_step_size = self.tc.get_step()
-        if current_step_size != redis_step_size:
+        if redis_step_size and (current_step_size != redis_step_size):
             self.tc.set_step(redis_step_size)
 
-        # look for a change in forecast
-        forecast_params = self.tc.get_forecast_parameters()
-        redis_horizon = self.redis.hget(self.site_ref, 'forecast:horizon')
-        if forecast_params['horizon'] != redis_horizon:
-            forecast_params['horizon'] = redis_horizon
-        redis_interval = self.redis.hget(self.site_ref, 'forecast:interval')
-        if forecast_params['interval'] != redis_interval:
-            forecast_params['interval'] = redis_interval
-
-        self.tc.set_forecast_parameters(forecast_params)
-
-        # u represents simulation input values
-        u = self.default_input.copy()
-        # look in the database for current write arrays
-        # for each write array there is an array of controller
-        # input values, the first element in the array with a value
-        # is what should be applied to the simulation according to Project Haystack
-        # convention
-        for array in self.write_arrays.find({"siteRef": self.site_ref}):
-            _id = array.get('_id')
-            for val in array.get('val'):
-                if val is not None:
-                    dis = self.id_and_dis.get(_id)
-                    if dis:
-                        u[dis] = val
-                        u[dis.replace('_u', '_activate')] = 1
-                        break
-
+        u = self.get_u()
         y_output = self.tc.advance(u)
+        self.update_y(y_output)
         self.update_sim_status()
 
-        # get each of the simulation output values and feed to the database
-        for key in y_output.keys():
-            if key != 'time':
-                output_id = self.tagid_and_outputs[key]
-                value_y = y_output[key]
-                self.mongo_db_recs.update_one( {"_id": output_id }, {"$set": {"rec.curVal":"n:%s" %value_y, "rec.curStatus":"s:ok","rec.cur": "m:" }} )
-
-        self.update_forecast(self.tc.get_forecast())
-        # This takes a lot of timek, so only do it at the end
-        #self.update_kpis(self.tc.get_kpis())
-        #self.update_results(self.tc.get_results())
 
 if __name__ == "__main__":
-    body = json.loads(sys.argv[1])
-    site_ref = body.get('siteRef')
-    real_time_flag = bool(body.get('realtime'))
-    time_scale = float(body.get('timescale'))
-    startTime = float(body.get('startDatetime'))
-    endTime = float(body.get('endDatetime'))
-    externalClock = body.get('externalClock')
-
-    runFMUSite = RunFMUSite(site_ref=site_ref, real_time_flag=real_time_flag, time_scale=time_scale, startTime=startTime, endTime=endTime, externalClock=externalClock)
+    parameters = json.loads(sys.argv[1])
+    runFMUSite = RunFMUSite(parameters)
     runFMUSite.run()

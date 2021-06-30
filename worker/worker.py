@@ -59,7 +59,7 @@ class Worker:
                 # The version of pyfmi that is installed needs python 2.x, not 3.x
                 subprocess.call(['python', '/boptest/step_sim/step_fmu.py', json.dumps(message_body)])
             elif action == 'addSite':
-                subprocess.call(['python3', '/boptest/add_site/add_site.py', json.dumps(message_body)])
+                subprocess.call(['python', '/boptest/add_site/add_site.py', json.dumps(message_body)])
 
     def run(self):
         """

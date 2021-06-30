@@ -13,6 +13,8 @@ import requests
 import numpy as np
 from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
+import pandas as pd
+from boptest_client import BoptestClient
 
 # ----------------------
 
@@ -49,26 +51,30 @@ def run(plot=False, customized_kpi_config=None):
     # SETUP TEST CASE
     # ---------------
     # Set URL for testcase
-    url = 'http://127.0.0.1:5000'
+    url = 'http://127.0.0.1'
     # Set simulation parameters
     length = 48*3600
     step = 300
+    # Submit testcase fmu
+    client = BoptestClient(url)
+    testcase = 'testcase1'
+    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase))
     # ---------------
 
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
     # Test case name
-    name = requests.get('{0}/name'.format(url)).json()
-    print('Name:\t\t\t\t{0}'.format(name))
+    ## name = requests.get('{0}/{1}/name'.format(url,testid)).json()
+    #### print('Name:\t\t\t\t{0}'.format(name))
     # Inputs available
-    inputs = requests.get('{0}/inputs'.format(url)).json()
+    inputs = requests.get('{0}/inputs/{1}'.format(url,testid)).json()
     print('Control Inputs:\t\t\t{0}'.format(inputs))
     # Measurements available
-    measurements = requests.get('{0}/measurements'.format(url)).json()
+    measurements = requests.get('{0}/measurements/{1}'.format(url,testid)).json()
     print('Measurements:\t\t\t{0}'.format(measurements))
     # Default simulation step
-    step_def = requests.get('{0}/step'.format(url)).json()
+    step_def = requests.get('{0}/step/{1}'.format(url,testid)).json()
     print('Default Simulation Step:\t{0}'.format(step_def))
     # --------------------
 
@@ -88,19 +94,19 @@ def run(plot=False, customized_kpi_config=None):
     # -------------
     # Reset test case
     print('Initializing the simualation.')
-    res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0})
+    res = requests.put('{0}/initialize/{1}'.format(url,testid), data={'start_time':0,'warmup_period':0})
     if res:
         print('Successfully initialized the simulation')
     # Set simulation step
     print('Setting simulation step to {0}.'.format(step))
-    res = requests.put('{0}/step'.format(url), data={'step':step})
+    res = requests.put('{0}/step/{1}'.format(url, testid), data={'step':step})
     print('\nRunning test case...')
     # Initialize u
     u = pid.initialize()
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
-        y = requests.post('{0}/advance'.format(url), data=u).json()
+        y = requests.post('{0}/advance/{1}'.format(url,testid), data=u).json()
         # Compute next control signal
         u = pid.compute_control(y)
         # Compute customized KPIs if any
@@ -117,7 +123,7 @@ def run(plot=False, customized_kpi_config=None):
     # VIEW RESULTS
     # ------------
     # Report KPIs
-    kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = requests.get('{0}/kpi/{1}'.format(url,testid)).json()
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
         if key == 'tdis_tot':
@@ -137,31 +143,37 @@ def run(plot=False, customized_kpi_config=None):
 
     # POST PROCESS RESULTS
     # --------------------
-    # Get result data
-    res = requests.get('{0}/results'.format(url)).json()
-    time = [x/3600 for x in res['y']['time']] # convert s --> hr
-    TZone = [x-273.15 for x in res['y']['TRooAir_y']] # convert K --> C
-    PHeat = res['y']['PHea_y']
-    QHeat = res['u']['oveAct_u']
-    # Plot results
-    if plot:
-        from matplotlib import pyplot as plt
-        plt.figure(1)
-        plt.title('Zone Temperature')
-        plt.plot(time, TZone)
-        plt.plot(time, 20*np.ones(len(time)), '--')
-        plt.plot(time, 23*np.ones(len(time)), '--')
-        plt.ylabel('Temperature [C]')
-        plt.xlabel('Time [hr]')
-        plt.figure(2)
-        plt.title('Heater Power')
-        plt.plot(time, PHeat)
-        plt.ylabel('Electrical Power [W]')
-        plt.xlabel('Time [hr]')
-        plt.show()
-    # --------------------
+    # Get result data into result df
+    points = list(measurements) + list(inputs)
+    df_res = pd.DataFrame()
+    for point in points:
+        res = requests.put('{0}/results/{1}'.format(url,testid), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
+    df_res.index.name = 'time'
+    time = df_res.index.values/3600 # convert s --> hr
+    TZone = df_res['TRooAir_y'].values-273.15 # convert K --> C
+    PHeat = df_res['PHea_y'].values
+    QHeat = df_res['oveAct_u'].values
+    #### # Plot results
+    #### if plot:
+    ####     from matplotlib import pyplot as plt
+    ####     plt.figure(1)
+    ####     plt.title('Zone Temperature')
+    ####     plt.plot(time, TZone)
+    ####     plt.plot(time, 20*np.ones(len(time)), '--')
+    ####     plt.plot(time, 23*np.ones(len(time)), '--')
+    ####     plt.ylabel('Temperature [C]')
+    ####     plt.xlabel('Time [hr]')
+    ####     plt.figure(2)
+    ####     plt.title('Heater Power')
+    ####     plt.plot(time, PHeat)
+    ####     plt.ylabel('Electrical Power [W]')
+    ####     plt.xlabel('Time [hr]')
+    ####     plt.show()
+    #### # --------------------
 
-    return kpi,res,customizedkpis_result
+    requests.put('{0}/stop/{1}'.format(url, testid))
+    return kpi,df_res,customizedkpis_result
 
 if __name__ == "__main__":
-    kpi,res,customizedkpis_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
+    kpi,df_res,customizedkpis_result = run(customized_kpi_config='examples/python/custom_kpi/custom_kpis_example.config')

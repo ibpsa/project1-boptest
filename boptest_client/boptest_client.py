@@ -4,7 +4,6 @@ import json
 import os
 import time
 from requests_toolbelt import MultipartEncoder
-from multiprocessing import Pool
 from collections import OrderedDict
 
 
@@ -23,8 +22,8 @@ class BoptestClient:
         self.writable_site_points = None  # Populated by get_write_site_points
         self.readable_writable_site_points = None  # Populated by get_read_write_site_points
 
-    def status(self, siteref):
-        return status(self.url, siteref)
+    def status(self, test_id):
+        return status(self.url, test_id)
 
     def wait(self, siteref, desired_status):
         return wait(self.url, siteref, desired_status)
@@ -53,7 +52,7 @@ class BoptestClient:
         Returns
             String
         """
-        return requests.get(f'{self.url}/name').json()
+        return requests.get('{}/name'.format(self.url)).json()
 
     def inputs(self):
         """Return the list of inputs for the BOPTEST testcase that has been loaded
@@ -61,7 +60,7 @@ class BoptestClient:
         Returns:
             Dict of inputs
         """
-        return requests.get(f'{self.url}/inputs').json()
+        return requests.get('{}/inputs'.format(self.url)).json()
 
     def measurements(self):
         """Return a list of measurements available in the loaded BOPTEST testcase
@@ -69,7 +68,7 @@ class BoptestClient:
         Returns:
             Dict of measurements
         """
-        return requests.get(f'{self.url}/measurements').json()
+        return requests.get('{}/measurements'.format(self.url)).json()
 
     def get_step(self, test_id=None):
         """Return the timestep configuration.
@@ -86,9 +85,9 @@ class BoptestClient:
             String
         """
         if test_id:
-            url = f'{self.url}/step/{test_id}'
+            url = '{}/step/{test_id}'.format(self.url)
         else:
-            url = f'{self.url}/step'
+            url = '{}/step'.format(self.url)
 
         return requests.get(url).json()
 
@@ -108,9 +107,9 @@ class BoptestClient:
             step size (str): the value of the step that was set
         """
         if test_id:
-            url = f'{self.url}/step/{test_id}'
+            url = '{}/step/{test_id}'.format(self.url)
         else:
-            url = f'{self.url}/step'
+            url = '{}/step'.format(self.url)
         res = requests.put(url, data={'step': step})
         return res
 
@@ -126,14 +125,16 @@ class BoptestClient:
             initial values (dict): the initialized conditions.
 
         """
-        # merge the default args with the kwargs
-        default = {'start_time': 0, 'warmup_period': 0}
-        data = {**default, **kwargs}
+        if not kwargs.has_key('start_time'):
+            kwargs['start_time'] = 0
+        if not kwargs.has_key('warmup_period'):
+            kwargs['warmup_period'] = 0
+
         if test_id:
-            url = f'{self.url}/initialize/{test_id}'
+            url = '{}/initialize/{}'.format(self.url, test_id)
         else:
-            url = f'{self.url}/initialize'
-        res = requests.put(url, data=data)
+            url = '{}/initialize'.format(self.url)
+        res = requests.put(url, data=kwargs)
         if res:
             return res.json()
         else:
@@ -154,9 +155,9 @@ class BoptestClient:
             simulation results (dict): values of the model at the the last step
         """
         if test_id:
-            url = f'{self.url}/advance/{test_id}'
+            url = '{}/advance/{}'.format(self.url, test_id)
         else:
-            url = f'{self.url}/advance'
+            url = '{}/advance'.format(self.url)
         return requests.post(url, data=control_u).json()
 
     def kpis(self, test_id=None):
@@ -170,9 +171,9 @@ class BoptestClient:
             kpis (dict): results of the kpis
         """
         if test_id:
-            url = f'{self.url}/kpi/{test_id}'
+            url = '{}/kpi/{}'.format(self.url, test_id)
         else:
-            url = f'{self.url}/kpi'
+            url = '{}/kpi'.format(self.url)
         return requests.get(url).json()
 
     def results(self, test_id=None):
@@ -180,42 +181,27 @@ class BoptestClient:
 
         """
         if test_id:
-            url = f'{self.url}/results/{test_id}'
+            url = '{}/results/{}'.format(self.url, test_id)
         else:
-            url = f'{self.url}/results'
+            url = '{}/results'.format(self.url)
         return requests.get(url).json()
 
 
-def status(url, siteref):
-    status = ''
-
-    query = '{ viewer{ sites(siteRef: "%s") { simStatus } } }' % siteref
-    for i in range(3):
-        response = requests.post(url + '/graphql', json={'query': query})
-        if response.status_code == 200:
-            break
-    if response.status_code != 200:
-        print("Could not get status")
-
-    j = json.loads(response.text)
-    sites = j["data"]["viewer"]["sites"]
-    if sites:
-        status = sites[0]["simStatus"]
-
-    return status
+def status(url, test_id):
+    url = '{}/status/{}'.format(url, test_id)
+    s = requests.get(url)
+    return s.text
 
 
-def wait(url, siteref, desired_status):
+def wait(url, test_id, desired_status):
     sites = []
 
     attempts = 0
     while attempts < 6000:
         attempts = attempts + 1
-        current_status = status(url, siteref)
+        current_status = status(url, test_id)
 
         if desired_status:
-            if attempts % 2 == 0:
-                print("Desired status: {}\t\tCurrent status: {}".format(desired_status, current_status))
             if current_status == desired_status:
                 break
         elif current_status:

@@ -40,7 +40,9 @@ import morgan from 'morgan';
 import { URL } from "url";
 import AWS from 'aws-sdk';
 
+//AWS.config.update({region: process.env.REGION});
 var client = new AWS.S3({endpoint: process.env.S3_URL});
+const sqs = new AWS.SQS();
 
 const redis = node_redis.createClient({host: process.env.REDIS_HOST});
 const pub = redis.duplicate();
@@ -49,7 +51,6 @@ const advancer = new Advancer(redis, pub, sub);
 
 MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   var app = express();
-  app.set('redis', redis);
 
   if( process.env.NODE_ENV == "production" ) {
     app.get('*.js', function(req, res, next) {
@@ -71,6 +72,12 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
 
   const db = mongoClient.db(process.env.MONGO_DB_NAME);
 
+  app.set('redis', redis);
+  app.set('pub', pub);
+  app.set('db', db);
+  app.set('sqs', sqs);
+  app.set('advancer', advancer);
+
   app.use('/graphql', (request, response) => {
       return graphQLHTTP({
         graphiql: true,
@@ -89,6 +96,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   );
 
   app.use(bodyParser.text({ type: 'text/*' }));
+  app.use(bodyParser.urlencoded())
   app.use(bodyParser.json()); // if you are using JSON instead of ZINC you need this
   app.use('/', boptestRoutes)
 
@@ -122,9 +130,6 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
       }
     });
   });
-
-  app.use(historyApiFallback());
-  app.use('/', express.static(path.join(__dirname, './app')));
 
   let server = app.listen(80, () => {
 

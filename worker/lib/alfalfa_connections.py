@@ -36,7 +36,24 @@ class AlfalfaConnections:
         self.mongo_db_write_arrays = self.mongo_db.writearrays
         self.mongo_db_sims = self.mongo_db.sims
 
-    def add_site_to_mongo(self, haystack_json, site_ref):
+        # BOPTEST specific
+        self.mongo_db_inputs = self.mongo_db.inputs
+        self.mongo_db_measurements = self.mongo_db.measurements
+        self.mongo_db_testcases = self.mongo_db.testcases
+
+    def add_boptest_inputs_to_mongo(self, boptest_inputs, site_ref):
+        data = {'site_ref': site_ref, 'inputs': boptest_inputs}
+        self.mongo_db_inputs.insert_one(data)
+
+    def add_boptest_measurements_to_mongo(self, boptest_measurements, site_ref):
+        data = {'site_ref': site_ref, 'measurements': boptest_measurements}
+        self.mongo_db_measurements.insert_one(data)
+
+    def add_boptest_testcase_to_mongo(self, site_ref, name, step, scenario):
+        data = {'site_ref': site_ref, 'name': name, 'step': step, 'scenario': scenario}
+        self.mongo_db_testcases.insert_one(data)
+
+    def add_boptest_testcase_tags_to_mongo(self, haystack_json, site_ref):
         """
         Upload JSON documents to mongo.  The documents look as follows:
         {
@@ -66,7 +83,7 @@ class AlfalfaConnections:
             response = self.mongo_db_recs.insert_many(array_to_insert)
             return response
 
-    def add_site_to_filestore(self, bucket_parsed_site_id_dir, site_ref):
+    def add_boptest_testcase_to_filestore(self, bucket_parsed_site_id_dir, site_ref):
         """
         Attempt to add to filestore.  Two exceptions are caught and returned back:
         1. S3 upload error
