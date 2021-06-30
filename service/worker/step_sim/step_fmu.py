@@ -84,6 +84,12 @@ class RunFMUSite:
     def forecast_response_channel(self):
         return (self.site_ref + ":forecast:response")
 
+    def scenario_result_request_channel(self):
+        return (self.site_ref + ":scenario_result:request")
+
+    def scenario_result_response_channel(self):
+        return (self.site_ref + ":scenario_result:response")
+
     def run(self):
         while True:
             data = None
@@ -108,6 +114,9 @@ class RunFMUSite:
             if channel == self.forecast_request_channel() and message_type == 'pmessage':
                 self.update_forecast()
                 self.redis.publish(self.forecast_response_channel(), 'ready')
+            if channel == self.scenario_result_request_channel() and message_type == 'pmessage':
+                self.update_scenario()
+                self.redis.publish(self.scenario_result_response_channel(), 'ready')
             if channel == self.site_ref and data == 'advance':
                 self.step()
                 self.redis.publish(self.site_ref, 'complete')
@@ -127,6 +136,8 @@ class RunFMUSite:
 
         self.redis.hset(self.site_ref, 'status', 'Stopped')
         self.redis.hdel(self.site_ref, 'time')
+        self.redis.hdel(self.site_ref, 'scenario')
+        self.redis.hdel(self.site_ref, 'scenario_result')
 
         self.clear_forecast()
 
@@ -194,9 +205,7 @@ class RunFMUSite:
     def init_test(self):
         scenario = self.redis.hget(self.site_ref, 'scenario')
         if scenario:
-            scenario = json.loads(scenario)
-            scenario_result = self.tc.set_scenario(scenario)
-            self.redis.hset(self.site_ref, 'scenario_result', json.dumps(scenario_result))
+            self.update_scenario()
         else:
             start_time = float(self.parameters.get('start_time'))
             warmup_period = float(self.parameters.get('warmup_period'))
@@ -220,6 +229,12 @@ class RunFMUSite:
             
         forecast = self.tc.get_forecast()
         self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
+
+    def update_scenario(self):
+        scenario = self.redis.hget(self.site_ref, 'scenario')
+        scenario = json.loads(scenario)
+        scenario_result = self.tc.set_scenario(scenario)
+        self.redis.hset(self.site_ref, 'scenario_result', json.dumps(scenario_result))
 
     def update_kpis(self):
         kpis = self.tc.get_kpis()
