@@ -205,6 +205,7 @@ class RunFMUSite:
     def init_test(self):
         scenario = self.redis.hget(self.site_ref, 'scenario')
         if scenario:
+            self.tc.initialize(0.0, 0.0)
             self.update_scenario()
         else:
             start_time = float(self.parameters.get('start_time'))

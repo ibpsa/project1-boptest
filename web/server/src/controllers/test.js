@@ -170,6 +170,8 @@ async function startNewScenario(site_ref, scenario, db, redis, sqs, pub) {
     await stop(site_ref, db, redis, pub)
   }
   
+  await storeScenario(site_ref, scenario, redis)
+
   // Starting a test job will initialize it with the given scenario
   await setStatus(site_ref, "Starting", redis)
   await addJobToQueue("runSite", sqs, {site_ref})
@@ -200,7 +202,6 @@ async function storeScenario(site_ref, scenario, redis) {
 }
 
 export async function setScenario(site_ref, scenario, db, redis, sqs, pub) {
-  await storeScenario(site_ref, scenario, redis)
   const stopped = getStatus(site_ref, db, redis) == "Stopped"
 
   if (scenario['time_period'] || stopped) {
@@ -211,6 +212,7 @@ export async function setScenario(site_ref, scenario, db, redis, sqs, pub) {
   } else {
     // Otherwise just send a signal for the already running test to reset the scenario
     // return the response from the testcase
+    await storeScenario(site_ref, scenario, redis)
     return getWorkerData(site_ref, "scenario_result", redis, {});
   }
 }
