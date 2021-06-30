@@ -708,17 +708,17 @@ class partialTestTimePeriod(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))
         self.compare_ref_timeseries_df(df,ref_filepath)
         # For each price scenario
-        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
-            # Set scenario
-            requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':price_scenario})
-            # Report kpis
-            res_kpi = requests.get('{0}/kpi/{1}'.format(self.url, self.testid)).json()
-            # Check kpis
-            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
-            df.index.name = 'keys'
-            ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
-            self.compare_ref_values_df(df, ref_filepath)
-        requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':'constant'})
+        #for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+        #    # Set scenario
+        #    requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':price_scenario})
+        #    # Report kpis
+        #    res_kpi = requests.get('{0}/kpi/{1}'.format(self.url, self.testid)).json()
+        #    # Check kpis
+        #    df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        #    df.index.name = 'keys'
+        #    ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
+        #    self.compare_ref_values_df(df, ref_filepath)
+        #requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':'constant'})
 
 class partialTestSeason(partialChecks):
     '''Partial class for testing the time periods for each test case
@@ -764,13 +764,13 @@ class partialTestSeason(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
         self.compare_ref_timeseries_df(df,ref_filepath)
         # For each price scenario
-        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
-            # Set scenario
-            requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':price_scenario})
-            # Report kpis
-            res_kpi = requests.get('{0}/kpi/{1}'.format(self.url, self.testid)).json()
-            # Check kpis
-            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
-            df.index.name = 'keys'
-            ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
-            self.compare_ref_values_df(df, ref_filepath)
+        #for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
+        #    # Set scenario
+        #    requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data={'electricity_price':price_scenario})
+        #    # Report kpis
+        #    res_kpi = requests.get('{0}/kpi/{1}'.format(self.url, self.testid)).json()
+        #    # Check kpis
+        #    df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
+        #    df.index.name = 'keys'
+        #    ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
+        #    self.compare_ref_values_df(df, ref_filepath)

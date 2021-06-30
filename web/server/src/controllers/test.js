@@ -164,27 +164,17 @@ export async function getScenario(site_ref, db, redis) {
   }
 }
 
-export async function setScenario(site_ref, scenario, db, redis, sqs, pub) {
-  await new Promise((resolve, reject) => {
-    redis.hset(site_ref, 'scenario', JSON.stringify(scenario), (err) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve()
-      }
-    })
-  })
-
+async function startNewScenario(site_ref, scenario, db, redis, sqs, pub) {
   // If the test is already running then stop it first
   if (getStatus(site_ref, db, redis) != "Stopped") {
     await stop(site_ref, db, redis, pub)
   }
-
+  
   // Starting a test job will initialize it with the given scenario
   await setStatus(site_ref, "Starting", redis)
   await addJobToQueue("runSite", sqs, {site_ref})
   await waitForStatus(site_ref, db, redis, "Running")
-
+  
   return await new Promise((resolve, reject) => {
     redis.hget(site_ref, 'scenario_result', (err, data) => {
       if (err) {
@@ -194,6 +184,35 @@ export async function setScenario(site_ref, scenario, db, redis, sqs, pub) {
       }
     })
   })
+}
+
+async function storeScenario(site_ref, scenario, redis) {
+  // Store the given scenario in redis
+  return await new Promise((resolve, reject) => {
+    redis.hset(site_ref, 'scenario', JSON.stringify(scenario), (err) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
+export async function setScenario(site_ref, scenario, db, redis, sqs, pub) {
+  await storeScenario(site_ref, scenario, redis)
+  const stopped = getStatus(site_ref, db, redis) == "Stopped"
+
+  if (scenario['time_period'] || stopped) {
+    // If the scenario has a time period or the test is not running, 
+    // then we start an new job/test
+    // This will start the new scenario according to the scenario parameters in redis
+    return startNewScenario(site_ref, scenario, db, redis, sqs, pub)
+  } else {
+    // Otherwise just send a signal for the already running test to reset the scenario
+    // return the response from the testcase
+    return getWorkerData(site_ref, "scenario_result", redis, {});
+  }
 }
 
 export async function advance(site_ref, redis, advancer, u) {
