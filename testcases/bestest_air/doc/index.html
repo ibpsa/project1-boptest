@@ -188,13 +188,28 @@ Denver-Stapleton,CO,USA,TMY.
 <h4>Primary and secondary system designs</h4>
 <p>
 Heating and cooling is provided to the office using an idealized four-pipe
-fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil,
+fan coil unit (FCU), presented in Figure 1 below.
+The FCU contains a fan, cooling coil, heating coil,
 and filter.  The fan draws room air into the unit, blows it over the coils
 and through the filter, and supplies the conditioned air back to the room.
 There is a variable speed drive serving the fan motor.  The cooling coil
 is served by chilled water produced by a chiller and the heating coil is
 served by hot water produced by a gas boiler.
 </p>
+
+<p>
+<br>
+</p>
+
+<p>
+<img src="images/Schematic.png"/>
+<figcaption><small>Figure 1: System schematic.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 <h4>Equipment specifications and performance maps</h4>
 <p>
 For the fan, the design airflow rate is 0.55 kg/s and design pressure rise is
@@ -208,19 +223,39 @@ gas boiler is assumed constant at 0.9.
 <p>
 A baseline thermostat controller provides heating and cooling as necessary
 to the room by modulating the supply air temperature and
-fan speed.  The thermostat uses two different PI controllers for heating and
-cooling, each taking the respective zone temperature setpoint and zone
+fan speed.  The thermostat, designated as C1 in Figure 1 and shown in Figure 2 below,
+uses two different PI controllers for heating and
+cooling, each taking the respective zone temperature set point and zone
 temperature measurement as inputs.  The outputs are used to control supply air
-temperature during heating and cooling, as well as the fan speed.  For
-heating, the maximum supply air temperature is 40 C and the minimum is the
+temperature set point and fan speed according to the map shown in Figure 3 below.
+The supply air temperature is exactly met by the coils using an ideal controller
+depicted as C2 in Figure 1.
+For heating, the maximum supply air temperature is 40 C and the minimum is the
 zone occupied heating temperature setpoint.  For cooling, the minimum supply
 air temperature is 12 C and the maximum is the zone occupied cooling
 temperature setpoint.
-
 </p>
-<p align=\"center\">
-<img alt=\"Control scheme diagram\"
-src="images/ControlSchematic_Ideal.png" width=600 />
+
+<p>
+<br>
+</p>
+
+<p>
+<img src="images/C1.png"/>
+<figcaption><small>Figure 2: Controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
+<p>
+<img src="images/ControlSchematic_Ideal.png" width=600 />
+<figcaption><small>Figure 3: Mapping of PI output to supply air temperature set point and fan speed in controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
 </p>
 
 <h3>Model IO's</h3>
