@@ -68,17 +68,11 @@ class TestCase(object):
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6
         self.options['CVode_options']['store_event_points'] = False
-        # Results filtering for pyfmi
         self.options['filter'] = self.output_names + self.input_names
-        # Assign initial testing time
-        self.initial_time = 0
-        # Set initial fmu simulation start
-        self.start_time = 0
-        self.initialize_fmu = True
-        self.options['initialize'] = self.initialize_fmu
-        self.elapsed_control_time_ratio = np.array([])
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
+        # Initialize test case
+        self.initialize(start_time=0, warmup_period=0)
         # Set default scenario
         self.set_scenario(self.config_json['scenario'])
 

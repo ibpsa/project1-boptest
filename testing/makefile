@@ -245,6 +245,16 @@ test_kpis:
 # Stop jm docker container
 	make stop_jm
 
+test_readme_commands:
+# Test readme commands work right after instantiation of test case container
+	cd .. &&  make build TESTCASE=testcase1
+	cd .. && make run-detached TESTCASE=testcase1
+	python sleep10.py
+	curl http://127.0.0.1:5000/measurements
+	curl http://127.0.0.1:5000/forecast
+	curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
+	cd .. && make stop TESTCASE=testcase1
+
 test_python2:
 # Test example controllers written in python run with python 2
 # Build testcase images
@@ -280,6 +290,7 @@ test_all:
 	make test_data
 	make test_forecast
 	make test_kpis
+	make test_readme_commands
 	make test_testcase1
 	make test_testcase2
 	make test_testcase3
