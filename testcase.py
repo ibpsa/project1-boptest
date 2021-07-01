@@ -9,7 +9,6 @@ information, and calculating and reporting results.
 from pyfmi import load_fmu
 import numpy as np
 import copy
-import config
 import time
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
@@ -20,20 +19,30 @@ class TestCase(object):
 
     '''
 
-    def __init__(self):
+    def __init__(self, fmupath='models/wrapped.fmu'):
         '''Constructor.
+
+        Parameters
+        ----------
+        fmupath : str, optional
+            Path to the test case fmu.
+            Default is assuming a particular directory structure.
 
         '''
 
         # Set BOPTEST version number
         with open('version.txt', 'r') as f:
             self.version = f.read()
-        # Get configuration information
-        con = config.get_config()
+        # Set test case fmu path
+        self.fmupath = fmupath
+        # Instantiate a data manager for this test case
+        self.data_manager = Data_Manager(testcase=self)
+        # Load data and the kpis_json for the test case
+        self.data_manager.load_data_and_jsons()
+        # Instantiate a forecaster for this test case
+        self.forecaster = Forecaster(testcase=self)
         # Define name
-        self.name = con['name']
-        # Define simulation model
-        self.fmupath = con['fmupath']
+        self.name = self.config_json['name']
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
         self.fmu.set_log_level(7)
@@ -42,13 +51,7 @@ class TestCase(object):
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
         # Get building area
-        self.area = con['area']
-        # Instantiate a data manager for this test case
-        self.data_manager = Data_Manager(testcase=self)
-        # Load data and the kpis_json for the test case
-        self.data_manager.load_data_and_jsons()
-        # Instantiate a forecaster for this test case
-        self.forecaster = Forecaster(testcase=self)
+        self.area = self.config_json['area']
         # Get available control inputs and outputs
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
@@ -56,9 +59,9 @@ class TestCase(object):
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Set default communication step
-        self.set_step(con['step'])
+        self.set_step(self.config_json['step'])
         # Set default forecast parameters
-        self.set_forecast_parameters(con['horizon'], con['interval'])
+        self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
         # Initialize simulation data arrays
         self.__initilize_data()
         # Set default fmu simulation options
@@ -77,7 +80,7 @@ class TestCase(object):
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Set default scenario
-        self.set_scenario(con['scenario'])
+        self.set_scenario(self.config_json['scenario'])
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.

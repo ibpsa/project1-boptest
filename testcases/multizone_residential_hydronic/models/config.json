@@ -1,0 +1,9 @@
+{
+"name"     : "multizone_residential_hydronic",
+"area"     : 81.08,
+"step"     : 3600.0,
+"horizon"  : 86400.0,
+"interval" : 3600.0,
+"scenario" : {"electricity_price":"constant",
+              "time_period":null}
+}

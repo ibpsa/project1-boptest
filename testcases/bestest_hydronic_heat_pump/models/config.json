@@ -1,0 +1,9 @@
+{
+"name"     : "bestest_hydronic_heat_pump",
+"area"     : 192.0,
+"step"     : 3600.0,
+"horizon"  : 86400.0,
+"interval" : 3600.0,
+"scenario" : {"electricity_price":"constant",
+              "time_period":null}
+}
