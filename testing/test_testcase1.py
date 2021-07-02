@@ -161,29 +161,29 @@ class MinMax(unittest.TestCase):
     def tearDown(self):
         requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
-    #def test_min(self):
-    #    '''Tests that if input is below min, input is set to min.
+    def test_min(self):
+        '''Tests that if input is below min, input is set to min.
 
-    #    '''
+        '''
 
-    #    # Run test
-    #    requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
-    #    y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveAct_activate":1,"oveAct_u":-8000}).json()
-    #    # Check kpis
-    #    value = float(y['PHea_y'])
-    #    self.assertAlmostEqual(value, 10101.010101010103, places=3)
+        # Run test
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveAct_activate":1,"oveAct_u":-500000}).json()
+        # Check kpis
+        value = float(y['PHea_y'])
+        self.assertAlmostEqual(value, 10101.010101010103, places=3)
 
-    #def test_max(self):
-    #    '''Tests that if input is above max, input is set to max.
+    def test_max(self):
+        '''Tests that if input is above max, input is set to max.
 
-    #    '''
+        '''
 
-    #    # Run test
-    #    requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
-    #    y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveAct_activate":1,"oveAct_u":8000}).json()
-    #    # Check kpis
-    #    value = float(y['PHea_y'])
-    #    self.assertAlmostEqual(value, 10101.010101010103, places=3)
+        # Run test
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveAct_activate":1,"oveAct_u":500000}).json()
+        # Check kpis
+        value = float(y['PHea_y'])
+        self.assertAlmostEqual(value, 10101.010101010103, places=3)
 
 class Scenario(unittest.TestCase, utilities.partialChecks):
     '''Test details about setting the scenario.
