@@ -72,7 +72,7 @@ class TestCase(object):
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Initialize test case
-        self.initialize(start_time=0, warmup_period=0)
+        self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
         self.set_scenario(self.config_json['scenario'])
 

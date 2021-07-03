@@ -241,13 +241,15 @@ for a test case upon loading in BOPTEST, a configuration JSON saved as
 ::
 
     {
-    "name"     : <str>,                         // Name of test case
-    "area"     : <float>,                       // Floor area in m^2
-    "step"     : <float>,                       // Default control step in seconds
-    "horizon"  : <float>,                       // Default forecast horizon in seconds
-    "interval" : <float>,                       // Default forecast interval in seconds
-    "scenario" : {"electricity_price":<str>,    // Default electricity price scenario
-                  "time_period":null}
+    "name"          : <str>,                         // Name of test case
+    "area"          : <float>,                       // Floor area in m^2
+    "start_time"    : <float>,                       // Default start time
+    "warmup_period" : <float>,                       // Default warmup_period
+    "step"          : <float>,                       // Default control step in seconds
+    "horizon"       : <float>,                       // Default forecast horizon in seconds
+    "interval"      : <float>,                       // Default forecast interval in seconds
+    "scenario"      : {"electricity_price":<str>,    // Default electricity price scenario
+                       "time_period":null}
     }
 
 
