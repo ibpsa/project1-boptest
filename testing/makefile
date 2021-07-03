@@ -247,13 +247,13 @@ test_kpis:
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
-	cd .. &&  make build TESTCASE=testcase1
-	cd .. && make run-detached TESTCASE=testcase1
+	cd .. &&  make build TESTCASE=testcase2
+	cd .. && make run-detached TESTCASE=testcase2
 	python sleep10.py
 	curl http://127.0.0.1:5000/measurements
 	curl http://127.0.0.1:5000/forecast
 	curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
-	cd .. && make stop TESTCASE=testcase1
+	cd .. && make stop TESTCASE=testcase2
 
 test_python2:
 # Test example controllers written in python run with python 2
