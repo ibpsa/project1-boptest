@@ -1,52 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<title>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronicHeatPump</title>
-<meta name="HTML-Generator" content="Dymola">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="&quot;Single zone residential hydronic example using a heat pump as heating production system&quot;">
-<style type="text/css">
-*       { font-size: 100%; font-family: Arial, sans-serif; }
-.modelica, .modelica * { font-size: 90%; font-family: Courier, monospace; white-space: pre; } /* For the Modelica code (in exported html). */
-h4      { font-size: 100%; font-weight: bold; color: green; }
-h3      { font-size: 110%; font-weight: bold; color: green; }
-h2      { font-size: 130%; font-weight: bold; color: green; }
-address { font-weight: normal; }
-td      { padding: 2px; border: 1px solid #808080; vertical-align: top; }
-th      { padding: 2px; border: 1px solid #808080; vertical-align: top; font-weight: bold; }
-table   { border: 1px solid #808080; border-collapse: collapse; }
-pre, code {font-family: "Courier New", monospace;}
-pre {white-space: pre; overflow-x : hidden;}
-.ModelicaDescription {font-weight: bold;} /* For the description string of the class. */
-.ModelicaBaseClass {} /* For the list of base-classes at the of the description. */
-.ModelicaKeyword { color: blue; font-weight: normal; font-style: normal; } /* Keywords in Modelica. */
-.ModelicaComment { color: #006400;  font-weight: normal; font-style: normal;} /* All three variants of comments in Modelica.  */
-.ModelicaString { color: #006400;  font-weight: normal; font-style: normal;} /* String constants. */
-.ModelicaClass { color: red; font-weight: normal; font-style: normal;} /* Formatting the names of referenced classes (for base-class and components). */
-.ModelicaFunction { color: red; font-weight: normal; font-style: normal;} /* Formatting for called functions. */
-.ModelicaTablePackageContent { } /* The table of contents for each package. */
-.ModelicaTableCrossReference { } /* The optional cross-reference table. */
-.ModelicaTableInputs {} /* The table of inputs for a function. */
-.ModelicaTableOutputs {} /* The table of outputs for a function. */
-.ModelicaTableParameters {} /* The table of parameters for a model/block. */
-.ModelicaTableConnectors {} /* The table of connectors for a model/block. */
-.ModelicaTableContents {} /* The table of contents for a connector. */
-.ModelicaStartAttribute { font-weight: bold; } /* The formatting used for start-attribute in the table of parameters, to separate them from parameter values. */
-.ModelicaParameterTab { background-color: #c0c0c0; font-weight: bold; } /* The tab-heading in the table of parameters */
-.ModelicaParameterGroup { background-color: #e0e0e0; } /* The group-heading in the table of parameters */
-</style>
-</head>
-<body>
-<!--[if supportFields]><span style="mso-element:field-begin"></span>
-<span style="mso-spacerun:yes"></span>XE SingleZoneResidentialHydronicHeatPump<![endif]-->
-<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
-<h2><img src="IDEAS.Examples.IBPSA.Sing6a05777ce04480f1tPumpI.png" alt="IDEAS.Examples.IBPSA.SingleZoneResidentialHydronicHeatPump" align="right" style="border: 1px solid" width="80" height="80">
-<a name="IDEAS.Examples.IBPSA.SingleZoneResidentialHydronicHeatPump"></a>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronicHeatPump</h2>
-<p>
-<span class="ModelicaDescription">Single zone residential hydronic example using a heat pump as heating production system</span>
-</p>
-<h3>Information</h3>
-
 <p>
 This is a single zone residential hydronic system model with an air-source
 heat pump and floor heating for WP 1.2 of IBPSA project 1.
@@ -57,8 +9,7 @@ heat pump and floor heating for WP 1.2 of IBPSA project 1.
 This model represents a simplified residential dwelling for a family of 5 members.
 The building envelope model is based on the BESTEST case 900 test case.
 The envelope model is therefore similar to the one used in
-<a  >
-IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</a>
+IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic
 but it is scaled to an area that is 4 times larger. Particularly, the model consists
 of a single zone with a rectangular floor plan of 12 by 16 meters and a
 height of 2.7 m. The internal wall mass is modelled using a single wall with a
@@ -71,10 +22,9 @@ which are modelled using a single window of 24 m2.
 <p><b>Exterior walls</b> </p>
 <p>
 The walls are modelled using
-<a  >
-IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
+IDEAS.Buildings.Components.OuterWall and consist of the following layers:
 </p>
-<table cellspacing="2" cellpadding="0" border="0" summary="Layers">
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
 <td><h4>Name</h4></td>
 <td><h4>Thickness [m]</h4></td>
@@ -107,10 +57,10 @@ IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
 <p><b>Floor</b> </p>
 <p>
 The floor is modelled using
-<a  >
-IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers:
+IDEAS.Buildings.Components.SlabOnGround
+IDEAS.Buildings.Components.SlabOnGround and consists of the following layers:
 </p>
-<table cellspacing="2" cellpadding="0" border="0" summary="Layers">
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
 <td><h4>Name</h4></td>
 <td><h4>Thickness [m]</h4></td>
@@ -150,10 +100,9 @@ IDEAS.Buildings.Components.SlabOnGround</a> and consists of the following layers
 <p><b>Roof</b> </p>
 <p>
 The roof is modelled using
-<a  >
-IDEAS.Buildings.Components.OuterWall</a> and consist of the following layers:
+IDEAS.Buildings.Components.OuterWall and consist of the following layers:
 </p>
-<table cellspacing="2" cellpadding="0" border="0" summary="Layers">
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
 <tr>
 <td><h4>Name</h4></td>
 <td><h4>Thickness [m]</h4></td>
@@ -204,12 +153,27 @@ Belgium.
 <p>
 An air-to-water modulating heat pump of 15 kW nominal heating capacity
 extracts energy from the ambient air to heat up the floor heating emission
-system. A fan blows ambient air through the heat pump evaporator
+system, as shown in Figure 1 below.
+A fan blows ambient air through the heat pump evaporator
 when the heat pump is operating.
 The floor heating system injects heat between
 Layer 2 (insulation) and Layer 3 (screed), with water as
 working fluid. The floor heating pump has a nominal mass flow rate of 0.5 kg/s when the heat pump
 is working.
+</p>
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src="images/SingleZoneResidentialHydronicHeatPump_Schematic.png\" alt=\"image\"/>
+<figcaption><small>Figure 1: System schematic.</small></figcaption>
+</p>
+
+<p>
+<br>
 </p>
 
 <h4>Equipment specifications and performance maps</h4>
@@ -253,19 +217,37 @@ the nominal pressure rise of the heat pump evaporator fan is of 0.1 kPa.
 <p>
 A baseline controller is implemented to procure comfort within the building zone.
 A PI controller is tuned with the zone operative temperature as the controlled variable
-and the heat pump modulation signal for compressor frequency as the control variable.
+and the heat pump modulation signal for compressor frequency as the control variable,
+as depicted as C1 in Figure 1 and shown in Figure 2 below.
 The control variable is limited between 0 and 1, and it is computed to drive the zone operative
-temperature towards a reference defined as the heating comfort set-point plus an offset
+temperature towards the zone operative temperature setpoint.  For baseline control, this setpoint is
+computed as the heating comfort setpoint plus an offset
 which varies depending on the occupancy schedule: during occupied periods the offset is
 set to only 0.2 degrees Celsius and is meant to avoid discomfort from slight oscilations
-around the set-point; during unoccupied periods the offset is set to 5.5 degrees Celsius
+around the setpoint; during unoccupied periods the offset is set to 5.5 degrees Celsius
 and is meant to compensate for the large temperature setback used during these periods.
 The latter offset prevents the need of abrubpt changes in the indoor temperature that may not
 be achievable because of the large thermal inertia of the floor heating system and
 which would consequently cause discomfort. All other equipment
 (fan for the heat pump evaporator circuit and floor heating emission system pump)
-are slaves of the heat pump functioning, i.e. they are switched on when the heat pump
-is working (modulating signal higher than 0) and switched off otherwise.
+are switched on when the heat pump
+is working (modulating signal higher than 0) and switched off otherwise.  This
+is depicted as controller C2 in Figure 1.
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src="images/SingleZoneResidentialHydronicHeatPump_C1.png\" alt=\"image\"/>
+<figcaption><small>Figure 2: Controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 </p>
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
@@ -472,7 +454,7 @@ All pricing scenarios include the same constant value for transmission fees and 
 of each commodity. The used value is the typical price that household users pay
 for the network, taxes and levies, as calculateed by Eurostat and obtained from:
 <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN">
-"The energy prices and costs in Europe report"</a>.
+The energy prices and costs in Europe report</a>.
 For the assumed location of the test case, this value is of
 0.20 EUR/kWh for electricity.
 </p>
@@ -522,21 +504,4 @@ which is the grid electricity emission factor reported by the Association of Iss
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
 </ul>
 </p>
-
-<p><span class="ModelicaBaseClass">Extends from Modelica.Icons.Example (Icon for runnable examples).</span></p>
-<h3>Parameters</h3>
-<table summary="Parameters" class="ModelicaTableParameters">
-<tr><th>Name</th><th>Description</th></tr>
-<tr><td>scalingFactor</td><td>Factor to scale up the model area</td></tr>
-<tr><td>nOccupants</td><td>Number of occupants</td></tr>
-<tr class="ModelicaParameterGroup"><td colspan="2">Setpoints</td></tr>
-<tr><td>TSetCooUno</td><td>Unoccupied cooling setpoint [K]</td></tr>
-<tr><td>TSetCooOcc</td><td>Occupied cooling setpoint [K]</td></tr>
-<tr><td>TSetHeaUno</td><td>Unoccupied heating setpoint [K]</td></tr>
-<tr><td>TSetHeaOcc</td><td>Occupied heating setpoint [K]</td></tr>
-</table>
-<address>
-<a href="http://www.3ds.com/">Automatically generated</a> Mon Apr 26 12:40:26 2021.
-</address>
-</body>
 </html>

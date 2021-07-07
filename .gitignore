@@ -1,6 +1,7 @@
 *.pyc
 *.txt
 !worker/requirements/*.txt
+!version.txt
 *.mat
 *.log
 *.err

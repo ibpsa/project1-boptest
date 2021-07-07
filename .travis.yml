@@ -1,8 +1,5 @@
 language: python
 
-python:
-  - "2.7"
-
 git:
   depth: 10
 
@@ -14,10 +11,14 @@ services:
 
 install:
   - pip install --upgrade pip
-  - pip install pandas numpy matplotlib requests requests_toolbelt
+  - pip install pandas numpy matplotlib requests pathlib requests_toolbelt
 
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
 
-script:
-  - (cd testing && make test_all)
+jobs:
+  include:
+  - python: 3.9
+    script: cd testing && make test_all
+  - python: 2.7
+    script: cd testing && make test_python2

@@ -9,18 +9,23 @@ imported from a different module.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
+import sys
+import pathlib
 import requests
 import numpy as np
-from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 import json,collections
 import pandas as pd
+# Add BOPTEST repository to PYTHONPATH for this example
+sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+# Add custom KPI calculation
+from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
 from boptest_client import BoptestClient
 
 # ----------------------
 
 # TEST CONTROLLER IMPORT
 # ----------------------
-from controllers import pid
+from examples.python.controllers import pid
 # ----------------------
 
 def run(plot=False, customized_kpi_config=None):
@@ -144,7 +149,7 @@ def run(plot=False, customized_kpi_config=None):
     # POST PROCESS RESULTS
     # --------------------
     # Get result data into result df
-    points = list(measurements) + list(inputs)
+    points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()
     for point in points:
         res = requests.put('{0}/results/{1}'.format(url,testid), data={'point_name':point,'start_time':0, 'final_time':length}).json()

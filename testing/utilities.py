@@ -11,7 +11,9 @@ import unittest
 import numpy as np
 import json
 import pandas as pd
+import re
 import matplotlib.pyplot as plt
+
 
 def get_root_path():
     '''Returns the path to the root repository directory.
@@ -174,8 +176,8 @@ class partialChecks(object):
                 self.assertTrue(key in df_ref.columns.to_list(), 'Test key {0} not in reference data.'.format(key))
             # Check trajectories
             for key in df.columns:
-                y_test = self.create_test_points(df[key]).get_values()
-                y_ref = self.create_test_points(df_ref[key]).get_values()
+                y_test = self.create_test_points(df[key]).to_numpy()
+                y_ref = self.create_test_points(df_ref[key]).to_numpy()
                 results = self.check_trajectory(y_test, y_ref)
                 self.assertTrue(results['Pass'], '{0} Key is {1}.'.format(results['Message'],key))
         else:
@@ -329,7 +331,7 @@ class partialChecks(object):
         '''
 
         # Get data
-        data = s.get_values()
+        data = s.to_numpy()
         index = s.index.values
         # Make interpolated index
         t_min = index.min()
@@ -387,7 +389,7 @@ class partialChecks(object):
 
         measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()
         inputs = requests.get('{0}/inputs/{1}'.format(self.url, self.testid)).json()
-        points = measurements.keys() + inputs.keys()
+        points = list(measurements.keys()) + list(inputs.keys())
 
         return points
 
@@ -410,6 +412,21 @@ class partialTestAPI(partialChecks):
         Default simulation step
 
     '''
+
+    def test_get_version(self):
+        '''Test getting the version of BOPTEST.
+
+        '''
+
+        # Get version from BOPTEST API
+        version = requests.get('{0}/version'.format(self.url)).json()
+        # Create a regex object as three decimal digits seperated by period
+        r = re.compile('\d.\d.\d')
+        # Test that the returned version matches the expected string format
+        if r.match(version['version']):
+            self.assertTrue(True)
+        else:
+            self.assertTrue(False, '/version did not return correctly. Returned {0}.'.format(version))
 
     def test_get_name(self):
         '''Test getting the name of test.
@@ -654,7 +671,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()
         requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=dict()).json()
-        res_inner = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':measurements.keys()[0], \
+        res_inner = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':list(measurements.keys())[0], \
                                                                  'start_time':self.step_ref*0.25, \
                                                                  'final_time':self.step_ref*0.75}).json()
         df = pd.DataFrame.from_dict(res_inner).set_index('time')
@@ -670,7 +687,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()
         requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=dict()).json()
-        res_outer = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':measurements.keys()[0], \
+        res_outer = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name':list(measurements.keys())[0], \
                                                                  'start_time':0-self.step_ref, \
                                                                  'final_time':self.step_ref*2}).json()
         df = pd.DataFrame.from_dict(res_outer).set_index('time')

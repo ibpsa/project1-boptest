@@ -1,7 +1,7 @@
 keys,value
-ener_tot,0.0
-emis_tot,0.0
-idis_tot,0.0
 tdis_tot,0.0
-time_rat,
+idis_tot,0.0
+ener_tot,0.0
 cost_tot,0.0
+emis_tot,0.0
+time_rat,

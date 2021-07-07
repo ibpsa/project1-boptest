@@ -25,9 +25,9 @@ RUN mkdir models && \
 
 COPY testcases/${testcase}/models/*.fmu models/
 COPY testcases/${testcase}/doc/ doc/
-COPY testcases/${testcase}/config.py ./
 COPY restapi.py ./
 COPY testcase.py ./
+COPY version.txt ./
 
 COPY data data/
 COPY forecast forecast/
