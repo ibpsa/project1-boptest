@@ -11,7 +11,6 @@ import pytz
 import redis
 from pymongo import MongoClient
 import requests
-from boptest.lib.define_config import define_config
 from boptest.lib.testcase import TestCase
 
 
@@ -52,9 +51,7 @@ class RunFMUSite:
         tar.extractall(sim_path)
         tar.close()
 
-        # initiate the testcase
-        define_config(fmupath)
-        self.tc = TestCase()
+        self.tc = TestCase(fmupath)
         self.init_test()
 
         # simtime
