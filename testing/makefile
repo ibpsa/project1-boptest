@@ -290,7 +290,7 @@ test_all:
 	make test_data
 	make test_forecast
 	make test_kpis
-	make test_readme_commands
+	# make test_readme_commands
 	make test_testcase1
 	make test_testcase2
 	make test_testcase3
