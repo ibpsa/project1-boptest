@@ -46,12 +46,11 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
     def tearDown(self):
         requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
-    # TODO: Fix this as there are large diffs
-    # def test_peak_heat_day(self):
-    #     self.run_time_period('peak_heat_day')
+    def test_peak_heat_day(self):
+        self.run_time_period('peak_heat_day')
 
-    # def test_typical_heat_day(self):
-    #     self.run_time_period('typical_heat_day')
+    def test_typical_heat_day(self):
+        self.run_time_period('typical_heat_day')
 
     def test_summer(self):
         self.run_season('summer')
@@ -81,7 +80,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
         self.name = API.name
         self.url = API.url
-        self.step_ref = 3600.0
+        self.step_ref = 3600
         self.testid = API.testid
         self.test_time_period = 'peak_heat_day'
 
