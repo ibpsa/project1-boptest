@@ -1,4 +1,5 @@
 import express from 'express';
+import {body} from 'express-validator';
 import got from 'got'
 import {getMeasurements, getInputs, getName} from '../controllers/testcase';
 import {
@@ -41,7 +42,25 @@ boptestRoutes.get('/name/:id', async (req, res, next) => {
   }
 })
 
-boptestRoutes.post('/advance/:id', async (req, res, next) => {
+// Sanitize body, such that it contains only valid control input names.
+// All invalid control input names will be removed
+// Consider making this a validator that returns an error, instead of a 
+// sanitizer that quietly removes invalid input requests.
+const sanitizeControlInputs = async (body, {req}) => {
+  const db = req.app.get('db')
+  const id = req.params.id
+  const input_names = Object.keys(await getInputs(id, db))
+
+  for (const key in body) {
+    if (! input_names.includes(key) ) {
+      delete body[key]
+    }
+  }
+
+  return body
+}
+
+boptestRoutes.post('/advance/:id', body().customSanitizer(sanitizeControlInputs), async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const advancer = req.app.get('advancer')
