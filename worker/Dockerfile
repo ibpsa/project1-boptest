@@ -24,6 +24,7 @@ COPY testcase.py boptest/lib/
 COPY data boptest/lib/data
 COPY forecast boptest/lib/forecast
 COPY kpis boptest/lib/kpis
+COPY version.txt /
 
 ENV ROOT_DIR /usr/local
 ENV JMODELICA_HOME $ROOT_DIR/JModelica

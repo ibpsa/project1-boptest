@@ -1,6 +1,7 @@
 import express from 'express';
 import {body} from 'express-validator';
 import got from 'got'
+import {getVersion} from '../controllers/utility';
 import {getMeasurements, getInputs, getName} from '../controllers/testcase';
 import {
   initialize,
@@ -20,6 +21,15 @@ import {
 
 const boptestRoutes = express.Router();
 
+
+boptestRoutes.get('/version', async (req, res, next) => {
+  try {
+    const v = await getVersion()
+    res.send(v)
+  } catch (e) {
+    next(e)
+  }
+})
 
 boptestRoutes.get('/status/:id', async (req, res, next) => {
   try {

@@ -6,13 +6,14 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
 
 RUN mkdir /root/server
 
-COPY server/package.json server/package-lock.json /root/server/
+COPY web/server/package.json web/server/package-lock.json /root/server/
+COPY version.txt /
 
 WORKDIR /root/server
 RUN npm install
 
 WORKDIR /root/server
-COPY server /root/server
+COPY web/server /root/server
 RUN npm run build
 
 CMD [ "npm", "start" ]
