@@ -521,22 +521,16 @@ class TestCase(object):
             self.scenario = {}
         # Handle electricity price
         if scenario['electricity_price']:
-            try:
-                self.scenario['electricity_price'] = scenario['electricity_price']
-                result['electricity_price'] = True
-            except Exception as e:
-                pass
+            self.scenario['electricity_price'] = scenario['electricity_price']
+            result['electricity_price'] = True
         # Handle timeperiod
         if scenario['time_period']:
-            try:
-                self.scenario['time_period'] = scenario['time_period']
-                warmup_period = 7*24*3600
-                key = self.scenario['time_period']
-                start_time = self.days_json[key]*24*3600-7*24*3600
-                end_time = start_time + 14*24*3600
-                result['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)
-            except Exception as e:
-                pass
+            self.scenario['time_period'] = scenario['time_period']
+            warmup_period = 7*24*3600
+            key = self.scenario['time_period']
+            start_time = self.days_json[key]*24*3600-7*24*3600
+            end_time = start_time + 14*24*3600
+            result['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)
 
         # It's needed to reset KPI Calculator when scenario is changed
         self.cal.initialize()
