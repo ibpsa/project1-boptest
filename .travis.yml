@@ -20,5 +20,3 @@ jobs:
   include:
   - python: 3.9
     script: cd testing && make test_all
-  - python: 2.7
-    script: cd testing && make test_python2
