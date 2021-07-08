@@ -52,25 +52,31 @@ boptestRoutes.get('/name/:id', async (req, res, next) => {
   }
 })
 
-// Sanitize body, such that it contains only valid control input names.
-// All invalid control input names will be removed
-// Consider making this a validator that returns an error, instead of a 
-// sanitizer that quietly removes invalid input requests.
-const sanitizeControlInputs = async (body, {req}) => {
+// Validate body, such that it contains only valid control input names.
+const validateControlInputs = async (body, {req}) => {
+  // This is a custom validator because the valid input names are
+  // a dynamic value based on the test case name
+  // Also, the entire body content is validated at once, rather than
+  // field by field validators so that getInputs is only called once, per request
   const db = req.app.get('db')
   const id = req.params.id
   const input_names = Object.keys(await getInputs(id, db))
+  const invalid_names = []
 
   for (const key in body) {
     if (! input_names.includes(key) ) {
-      delete body[key]
+      invalid_names.push(key)
     }
   }
 
-  return body
+  if (invalid_names.length > 0) {
+    throw new Error('Invalid control input: ', invalid_names.toString())
+  }
+
+  return true
 }
 
-boptestRoutes.post('/advance/:id', body().customSanitizer(sanitizeControlInputs), async (req, res, next) => {
+boptestRoutes.post('/advance/:id', body().custom(validateControlInputs), async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const advancer = req.app.get('advancer')
