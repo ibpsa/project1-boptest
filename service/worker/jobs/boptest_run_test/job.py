@@ -14,7 +14,7 @@ import requests
 from boptest.lib.testcase import TestCase
 
 
-class RunFMUSite:
+class Job:
     def __init__(self, parameters):
         self.parameters = parameters
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
@@ -24,12 +24,9 @@ class RunFMUSite:
         # Initiate Mongo Database
         mongo_client = MongoClient(os.environ['MONGO_URL'])
         self.mongo_db = mongo_client[os.environ['MONGO_DB_NAME']]
-        self.mongo_db_recs = self.mongo_db.recs
-        self.write_arrays = self.mongo_db.writearrays
         self.mongo_db_sims = self.mongo_db.sims
 
         self.site_ref = parameters.get('site_ref')
-        self.site = self.mongo_db_recs.find_one({"_id": self.site_ref})
 
         # build the path for zipped-file, fmu, json
         sim_path = '/simulate'
@@ -38,7 +35,6 @@ class RunFMUSite:
         key = "parsed/%s" % tar_name
         tarpath = os.path.join(self.directory, tar_name)
         fmupath = os.path.join(self.directory, 'model.fmu')
-        configpath = os.path.join(self.directory, 'config.py')
 
         if not os.path.exists(self.directory):
             os.makedirs(self.directory)
@@ -149,8 +145,7 @@ class RunFMUSite:
         os.remove(tarname)
 
         time = str(datetime.now(tz=pytz.UTC))
-        name = self.site.get("rec", {}).get("dis", "Test Case").replace('s:', '')
-        self.mongo_db_sims.insert_one({"_id": self.sim_id, "name": name, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
+        self.mongo_db_sims.insert_one({"_id": self.sim_id, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
         #self.post_results_to_dashboard(kpis, time)
 
         shutil.rmtree(self.directory)
@@ -273,9 +268,3 @@ class RunFMUSite:
         y_output = self.tc.advance(u)
         self.update_y(y_output)
         self.update_sim_status()
-
-
-if __name__ == "__main__":
-    parameters = json.loads(sys.argv[1])
-    runFMUSite = RunFMUSite(parameters)
-    runFMUSite.run()
