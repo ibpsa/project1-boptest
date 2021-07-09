@@ -12,16 +12,14 @@ from pymongo import MongoClient
 from redis import Redis
 
 
-class AlfalfaConnections:
-    """Create connections to data resources for Alfalfa"""
+class Resources:
+    """Create connections to data resources"""
 
     def __init__(self):
         """
         boto3 is the AWS SDK for Python for different types of services (S3, EC2, etc.)
         """
         # boto3
-        self.sqs = boto3.resource('sqs', region_name=os.environ['REGION'], endpoint_url=os.environ['JOB_QUEUE_URL'])
-        self.sqs_queue = self.sqs.Queue(url=os.environ['JOB_QUEUE_URL'])
         self.s3 = boto3.resource('s3', region_name=os.environ['REGION'], endpoint_url=os.environ['S3_URL'])
         self.s3_bucket = self.s3.Bucket(os.environ['S3_BUCKET'])
 
@@ -52,36 +50,6 @@ class AlfalfaConnections:
     def add_boptest_testcase_to_mongo(self, site_ref, name, step, scenario):
         data = {'site_ref': site_ref, 'name': name, 'step': step, 'scenario': scenario}
         self.mongo_db_testcases.insert_one(data)
-
-    def add_boptest_testcase_tags_to_mongo(self, haystack_json, site_ref):
-        """
-        Upload JSON documents to mongo.  The documents look as follows:
-        {
-            '_id': '...', # this maps to the 'id' below, the unique id of the entity record.
-            'site_ref': '...', # for easy finding of entities by site
-            'rec': {
-                'id': '...',
-                'siteRef': '...'
-                ...other Haystack tags for rec
-            }
-        }
-        :param haystack_json: json serialized Haystack document
-        :param site_ref: id of site
-        :return: pymongo.results.InsertManyResult
-        """
-        with open(haystack_json) as json_file:
-            data = json.load(json_file)
-
-        if site_ref:
-            array_to_insert = []
-            for entity in data:
-                array_to_insert.append({
-                    '_id': entity['id'].replace('r:', ''),
-                    'site_ref': site_ref,
-                    'rec': entity
-                })
-            response = self.mongo_db_recs.insert_many(array_to_insert)
-            return response
 
     def add_boptest_testcase_to_filestore(self, bucket_parsed_site_id_dir, site_ref):
         """

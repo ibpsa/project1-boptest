@@ -31,15 +31,17 @@ import os
 import subprocess
 import sys
 from datetime import datetime
-from .lib.alfalfa_connections import AlfalfaConnections
-from .worker_logger import WorkerLogger
+import boto3
+from .logger import Logger
 
 class Worker:
-    """The Alfalfa alfalfa_worker class.  Used for processing messages from the boto3 SQS Queue resource"""
+    """The main Worker class.  Used for processing messages from the boto3 SQS Queue resource"""
 
     def __init__(self):
-        self.ac = AlfalfaConnections()
-        self.worker_logger = WorkerLogger()
+        self.logger = Logger().logger
+        self.sqs = boto3.resource('sqs', region_name=os.environ['REGION'], endpoint_url=os.environ['JOB_QUEUE_URL'])
+        self.sqs_queue = self.sqs.Queue(url=os.environ['JOB_QUEUE_URL'])
+        self.logger.info("Worker initialized")
 
     def process_message(self, message):
         """
@@ -56,10 +58,9 @@ class Worker:
         if op == 'InvokeAction':
             action = message_body.get('action')
             if action == 'runSite':
-                # The version of pyfmi that is installed needs python 2.x, not 3.x
-                subprocess.call(['python', '/boptest/step_sim/step_fmu.py', json.dumps(message_body)])
+                subprocess.call(['python', '-m', 'boptest_run_test', json.dumps(message_body)])
             elif action == 'addSite':
-                subprocess.call(['python', '/boptest/add_site/add_site.py', json.dumps(message_body)])
+                subprocess.call(['python', '-m', 'boptest_add_testcase', json.dumps(message_body)])
 
     def run(self):
         """
@@ -67,16 +68,16 @@ class Worker:
 
         :return:
         """
-        self.worker_logger.logger.info("Enter alfalfa_worker run")
+        self.logger.info("Worker running")
         while True:
             # WaitTimeSeconds triggers long polling that will wait for events to enter queue
             # Receive Message
             try:
-                messages = self.ac.sqs_queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=20)
+                messages = self.sqs_queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=20)
                 if len(messages) > 0:
                     message = messages[0]
-                    self.worker_logger.logger.info('Message Received with payload: %s' % message.body)
+                    self.logger.info('Message Received with payload: %s' % message.body)
                     # Process Message
                     self.process_message(message)
             except BaseException as e:
-                self.worker_logger.logger.info("Exception while processing messages in worker: {}".format(e))
+                self.logger.info("Exception while processing messages in worker: {}".format(e))
