@@ -1,5 +1,5 @@
 
-export function addJobToQueue(jobName, sqs, args) {
+export function addJobToQueue(jobName, args, sqs) {
   return new Promise((resolve, reject) => {
     let body = {
       "op": "InvokeAction",

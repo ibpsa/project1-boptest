@@ -436,7 +436,7 @@ class partialTestAPI(partialChecks):
         name = requests.get('{0}/name/{1}'.format(self.url, self.testid)).json()
         # Service uses the uploaded fmu as the name, can we give
         # better names when compiling the fmu?
-        self.assertEqual(name['name'], "wrapped")
+        self.assertEqual(name['name'], self.name)
 
     def test_get_inputs(self):
         '''Test getting the input list of tests.

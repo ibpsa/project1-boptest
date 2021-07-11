@@ -44,7 +44,7 @@ def run(plot=False):
     # Submit testcase fmu
     client = BoptestClient(url)
     testcase = 'testcase1'
-    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase))
+    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase), testcase)
     # ---------------
     # Set testing scenario
     scenario = {'time_period':'test_day', 'electricity_price':'dynamic'}

@@ -63,7 +63,7 @@ def run(plot=False, customized_kpi_config=None):
     # Submit testcase fmu
     client = BoptestClient(url)
     testcase = 'testcase1'
-    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase))
+    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase), testcase)
     # ---------------
 
     # GET TEST INFORMATION

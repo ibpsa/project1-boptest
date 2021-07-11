@@ -23,7 +23,6 @@
 *  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************************************************************/
 
-// Module dependencies.
 import path from 'path';
 import hs from 'nodehaystack';
 import express from 'express';
@@ -31,19 +30,15 @@ import url from 'url';
 import bodyParser from 'body-parser';
 import {MongoClient} from 'mongodb';
 import node_redis from 'redis';
-import graphQLHTTP from 'express-graphql';
-import {Schema} from './schema';
-import boptestRoutes from './routes/boptest-routes.js';
-import {Advancer} from './advancer';
-import historyApiFallback from 'connect-history-api-fallback';
-import morgan from 'morgan';
 import { URL } from "url";
 import AWS from 'aws-sdk';
+import boptestRouter from './routes/boptest';
+import boptestAdminRouter from './routes/boptest-admin';
+import {Advancer} from './advancer';
 
-//AWS.config.update({region: process.env.REGION});
-var client = new AWS.S3({endpoint: process.env.S3_URL});
+AWS.config.update({ region: process.env.REGION });
+const client = new AWS.S3({ endpoint: process.env.S3_URL });
 const sqs = new AWS.SQS();
-
 const redis = node_redis.createClient({host: process.env.REDIS_HOST});
 const pub = redis.duplicate();
 const sub = redis.duplicate();
@@ -52,94 +47,27 @@ const advancer = new Advancer(redis, pub, sub);
 MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   var app = express();
 
-  if( process.env.NODE_ENV == "production" ) {
-    app.get('*.js', function(req, res, next) {
-      req.url = req.url + '.gz';
-      res.set('Content-Encoding', 'gzip');
-      res.set('Content-Type', 'text/javascript');
-      next();
-    });
-
-    app.get('*.css', function(req, res, next) {
-      req.url = req.url + '.gz';
-      res.set('Content-Encoding', 'gzip');
-      res.set('Content-Type', 'text/css');
-      next();
-    });
-  } else {
-    app.use(morgan('combined'))
-  }
-
   const db = mongoClient.db(process.env.MONGO_DB_NAME);
 
   app.set('redis', redis);
   app.set('pub', pub);
   app.set('db', db);
   app.set('sqs', sqs);
+  app.set('s3', client);
   app.set('advancer', advancer);
-
-  app.use('/graphql', (request, response) => {
-      return graphQLHTTP({
-        graphiql: true,
-        pretty: true,
-        schema: Schema,
-        context: {
-          ...request,
-          db,
-          advancer,
-          redis,
-          pub,
-          sub
-        }
-      })(request,response)
-    }
-  );
 
   app.use(bodyParser.text({ type: 'text/*' }));
   app.use(bodyParser.urlencoded())
-  app.use(bodyParser.json()); // if you are using JSON instead of ZINC you need this
-  app.use('/', boptestRoutes)
-
-  // Create a post url for file uploads
-  // from a browser
-  app.post('/upload-url', (req, res) => {
-    // Construct a new postPolicy.
-    const params = {
-      Bucket: process.env.S3_BUCKET,
-      Fields: {
-        key: req.body.name
-      }
-    };
-
-    client.createPresignedPost(params, function(err, data) {
-      if (err) {
-        throw err;
-      } else {
-        if ( process.env.S3_URL.indexOf("amazonaws") == -1 ) {
-          if (req.hostname.indexOf("web") == -1 ) {
-            const url = 'http://' + req.hostname + ':9000/' + process.env.S3_BUCKET;
-            data.url = url;
-          } else {
-            const url = 'http://minio:9000/alfalfa';
-            data.url = url;
-          }
-        }
-        res.send(JSON.stringify(data));
-        res.end();
-        return;
-      }
-    });
-  });
+  app.use(bodyParser.json());
+  app.use('/', boptestRouter)
+  app.use('/', boptestAdminRouter)
 
   let server = app.listen(80, () => {
-
     var host = server.address().address;
     var port = server.address().port;
 
     if (host.length === 0 || host === "::") host = "localhost";
-
-    console.log('Node Haystack Toolkit listening at http://%s:%s', host, port);
-
+    console.log('Server listening at http://%s:%s', host, port);
   });
 }).catch((err) => {
   console.log(err);

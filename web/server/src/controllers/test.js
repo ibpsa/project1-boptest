@@ -1,5 +1,6 @@
 import {addJobToQueue} from './job';
 import {getWorkerData} from './just-in-time-data.js';
+import {getS3KeyForTestcaseID} from './testcase.js';
 
 function promiseTaskLater(task, time, ...args) {
   return new Promise((resolve, reject) => {
@@ -30,14 +31,14 @@ function sendStopSignal(site_ref, pub) {
   pub.publish(site_ref, "stop");
 }
 
-export function getStatus(site_ref, db, redis) {
+export function getStatus(testcaseid, db, redis) {
   return new Promise((resolve, reject) => {
-    redis.hexists(site_ref, 'status', async (existserr, existsdata) => {
+    redis.hexists(testcaseid, 'status', async (existserr, existsdata) => {
       if (existserr) {
           reject(existserr)
       } else {
         if (existsdata) {
-          redis.hget(site_ref, 'status', (err, data) => {
+          redis.hget(testcaseid, 'status', (err, data) => {
             if (err) {
               reject(err)
             } else {
@@ -48,7 +49,7 @@ export function getStatus(site_ref, db, redis) {
           // If there is no status in redis, see if the test exists in the db, and if it does
           // consider status "Stopped". This should be reconsidered if testcase id and test id are separated
           const testcases = db.collection('testcases')
-          const query = {site_ref}
+          const query = {testcaseid}
           const doc = await testcases.findOne(query)
           if (doc) {
             resolve("Stopped")
@@ -131,19 +132,20 @@ export function getForecast(site_ref, redis) {
   return getWorkerData(site_ref, "forecast", redis, {});
 }
 
-export async function initialize(site_ref, start_time, warmup_period, db, redis, sqs) {
-  await setStatus(site_ref, "Starting", redis)
-  await addJobToQueue("runSite", sqs, {site_ref, start_time, warmup_period})
-  await waitForStatus(site_ref, db, redis, "Running")
-  return await getY(site_ref, redis)
+export async function initialize(testcaseid, start_time, warmup_period, db, redis, sqs) {
+  const key = getS3KeyForTestcaseID(testcaseid)
+  await setStatus(testcaseid, "Starting", redis)
+  await addJobToQueue("runSite", {testcaseid, key, start_time, warmup_period}, sqs)
+  await waitForStatus(testcaseid, db, redis, "Running")
+  return await getY(testcaseid, redis)
 }
 
-export async function getScenario(site_ref, db, redis) {
+export async function getScenario(testid, db, redis) {
   const scenario = await new Promise((resolve, reject) => {
     // Look in redis first for a cached value,
     // running tests should have a cached value.
     // Fallback to the testcase default from database
-    redis.hget(site_ref, 'scenario', (err, data) => {
+    redis.hget(testid, 'scenario', (err, data) => {
       if (err) {
         reject(err)
       } else {
@@ -158,27 +160,28 @@ export async function getScenario(site_ref, db, redis) {
     return scenario
   } else {
     const testcases = db.collection('testcases')
-    const query = {site_ref}
-    const doc = await testcases.findOne(query)
+    const query = { testcaseid: testid }
+    const doc = await testcases.findOne(query, { scenario: 1 })
     return doc.scenario
   }
 }
 
-async function startNewScenario(site_ref, scenario, db, redis, sqs, pub) {
+async function startNewScenario(testcaseid, scenario, db, redis, sqs, pub) {
   // If the test is already running then stop it first
-  if (getStatus(site_ref, db, redis) != "Stopped") {
-    await stop(site_ref, db, redis, pub)
+  if (getStatus(testcaseid, db, redis) != "Stopped") {
+    await stop(testcaseid, db, redis, pub)
   }
   
-  await storeScenario(site_ref, scenario, redis)
+  await storeScenario(testcaseid, scenario, redis)
 
   // Starting a test job will initialize it with the given scenario
-  await setStatus(site_ref, "Starting", redis)
-  await addJobToQueue("runSite", sqs, {site_ref})
-  await waitForStatus(site_ref, db, redis, "Running")
+  await setStatus(testcaseid, "Starting", redis)
+  const key = getS3KeyForTestcaseID(testcaseid)
+  await addJobToQueue("runSite", { testcaseid, key }, sqs)
+  await waitForStatus(testcaseid, db, redis, "Running")
   
   return await new Promise((resolve, reject) => {
-    redis.hget(site_ref, 'scenario_result', (err, data) => {
+    redis.hget(testcaseid, 'scenario_result', (err, data) => {
       if (err) {
         reject(err)
       } else {

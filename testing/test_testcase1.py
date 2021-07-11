@@ -148,7 +148,7 @@ class MinMax(unittest.TestCase):
         cls.name = 'testcase1'
         cls.url = 'http://127.0.0.1:80'
         client = BoptestClient(cls.url)
-        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name), cls.name)
 
     def setUp(self):
         '''Setup for each test.
@@ -195,7 +195,7 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         cls.name = 'testcase1'
         cls.url = 'http://127.0.0.1:80'
         client = BoptestClient(cls.url)
-        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name), cls.name)
 
     def setUp(self):
         '''Setup for each test.
@@ -302,7 +302,7 @@ class ComputationalTimeRatio(unittest.TestCase):
         cls.name = 'testcase1'
         cls.url = 'http://127.0.0.1:80'
         client = BoptestClient(cls.url)
-        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name), cls.name)
 
     def setUp(self):
         '''Setup for testcase.
@@ -361,7 +361,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         cls.name = 'testcase1'
         cls.url = 'http://127.0.0.1:80'
         client = BoptestClient(cls.url)
-        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name), cls.name)
 
     def setUp(self):
         '''Setup for testcase.

@@ -28,8 +28,8 @@ class BoptestClient:
     def wait(self, siteref, desired_status):
         return wait(self.url, siteref, desired_status)
 
-    def submit(self, path):
-        args = {"url": self.url, "path": path}
+    def submit(self, path, testcaseid):
+        args = {"url": self.url, "path": path, "testcaseid": testcaseid}
         return submit_one(args)
 
     def start(self, site_id, **kwargs):
@@ -210,23 +210,19 @@ def wait(url, test_id, desired_status):
 
 
 def submit_one(args):
-    url = args["url"]
+    server = args["url"]
     path = args["path"]
+    testcaseid = args["testcaseid"]
 
     filename = os.path.basename(path)
-    uid = str(uuid.uuid1())
-
-    key = 'uploads/' + uid + '/' + filename
-    payload = {'name': key}
+    url = server + '/testcases/' + testcaseid + '/post-form'
 
     # Get a template for the file upload form data
     # The server has an api to give this to us
-    for i in range(3):
-        response = requests.post(url + '/upload-url', json=payload)
-        if response.status_code == 200:
-            break
+    response = requests.get(url)
     if response.status_code != 200:
-        print("Could not get upload-url")
+        print("Could not get testcase upload url")
+        return
 
     json = response.json()
     postURL = json['url']
@@ -235,26 +231,24 @@ def submit_one(args):
 
     # Use the form data from the server to actually upload the file
     encoder = MultipartEncoder(fields=formData)
-    for _ in range(3):
-        response = requests.post(postURL, data=encoder, headers={'Content-Type': encoder.content_type})
-        if response.status_code == 204:
-            break
+    response = requests.post(postURL, data=encoder, headers={'Content-Type': encoder.content_type})
     if response.status_code != 204:
-        print("Could not post file")
+        print("Could not upload testcase")
+        return
 
     # After the file has been uploaded, then tell BOPTEST to process the site
     # This is done not via the haystack api, but through a graphql api
-    mutation = 'mutation { addSite(osmName: "%s", uploadID: "%s") }' % (filename, uid)
-    for _ in range(3):
-        response = requests.post(url + '/graphql', json={'query': mutation})
-        if response.status_code == 200:
-            break
+    url = server + '/testcases/' + testcaseid
+    response = requests.put(url)
     if response.status_code != 200:
-        print("Could not addSite")
+        print("Could not add testcase")
+        return
 
-    wait(url, uid, "Stopped")
+    # The previous step is asynchronous
+    # We have to wait for a worker job to be complete before the testcase is fully submitted
+    wait(server, testcaseid, "Stopped")
 
-    return uid
+    return testcaseid
 
 
 def start_one(args):

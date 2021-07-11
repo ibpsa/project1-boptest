@@ -5,13 +5,12 @@ import os
 import shutil
 import sys
 import tarfile
-from subprocess import call
+import boto3
 import json
-
+from pymongo import MongoClient
+from subprocess import call
 from boptest.lib.testcase import TestCase
-
 from .logger import Logger
-from .resources import Resources
 
 class Job:
     """A wrapper class around adding sites"""
@@ -22,60 +21,45 @@ class Job:
         """
 
         self.logger = Logger().logger
-        self.file_name = parameters.get('osmName')
-        self.upload_id = parameters.get('uploadID')
-        self.bucket_parsed_site_id_dir = os.path.join('/parse', self.upload_id)
-        self.name, self.file_ext = os.path.splitext(self.file_name)
-        self.key = "uploads/%s/%s" % (self.upload_id, self.file_name)
+        self.key = parameters.get('key')
+        self.testcaseid = parameters.get('testcaseid')
 
-        # Define FMU specific attributes
-        self.fmu_path = os.path.join(self.bucket_parsed_site_id_dir, 'model.fmu')
+        self.fmu_dir = "/parse/%s" % self.testcaseid
+        self.fmu_path = os.path.join(self.fmu_dir, "%s.fmu" % self.testcaseid)
 
-        self.resources = Resources()
+    def download_file(self):
+        if not os.path.exists(self.fmu_dir):
+            os.makedirs(self.fmu_dir)
 
-    def run(self):
-        """
-        Main entry point after init.  Adds site based on file ext.  Worfklow is generally as follows:
-        1. Download file from s3 bucket
-        2. Ingest model file and add tags
-        3. Send data to mongo and s3 bucket
-        4. Remove files generated during this process
-        :return:
-        """
-        if self.file_ext == '.fmu':
-            self.add_fmu()
-        else:
-            self.logger.error("Unsupported file extension: {}".format(self.file_ext))
-            os.exit(1)
+        s3 = boto3.resource('s3', region_name=os.environ['REGION'], endpoint_url=os.environ['S3_URL'])
+        s3_bucket = s3.Bucket(os.environ['S3_BUCKET'])
+        s3_bucket.download_file(self.key, self.fmu_path)
 
-    def add_to_mongo_and_filestore(self):
-        """
-        Attempt upload to mongo and filestore.  Function exits if not uploaded correctly
-        based on expected return values from methods in Connections.
-        :return:
-        """
+    def add_to_db(self):
         tc = TestCase(self.fmu_path)
         inputs = tc.get_inputs()
         measurements = tc.get_measurements()
         step = tc.get_step()
         scenario = tc.get_scenario()
 
-        self.resources.add_boptest_inputs_to_mongo(inputs, self.upload_id)
-        self.resources.add_boptest_measurements_to_mongo(measurements, self.upload_id)
-        self.resources.add_boptest_testcase_to_mongo(self.upload_id, self.name, step, scenario)
-        self.resources.add_boptest_testcase_to_filestore(self.bucket_parsed_site_id_dir, self.upload_id)
+        mongo_client = MongoClient(os.environ['MONGO_URL'])
+        mongo_db = mongo_client[os.environ['MONGO_DB_NAME']]
+
+        dbfilter = {
+            'testcaseid': self.testcaseid
+        }
+        data = {
+            'testcaseid': self.testcaseid, 
+            'step': step,
+            'scenario': scenario,
+            'inputs': inputs,
+            'measurements': measurements
+        }
+        mongo_db.testcases.replace_one(dbfilter, data, upsert=True)
 
         # Clean local directory
-        shutil.rmtree(self.bucket_parsed_site_id_dir)
+        shutil.rmtree(self.fmu_dir)
 
-    def add_fmu(self):
-        """
-        Workflow for fmu.  External call to python2 must be made since currently we are using an
-        old version of the Modelica Buildings Library and JModelica.
-        :return:
-        """
-        if not os.path.exists(self.bucket_parsed_site_id_dir):
-            os.makedirs(self.bucket_parsed_site_id_dir)
-        self.resources.s3_bucket.download_file(self.key, self.fmu_path)
-
-        self.add_to_mongo_and_filestore()
+    def run(self):
+        self.download_file()
+        self.add_to_db()
