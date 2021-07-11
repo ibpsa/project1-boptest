@@ -16,7 +16,15 @@ from boptest.lib.testcase import TestCase
 
 class Job:
     def __init__(self, parameters):
-        self.parameters = parameters
+        self.key = parameters.get('key')
+        self.testcaseid = parameters.get('testcaseid')
+        start_time = parameters.get('start_time')
+        warmup_period = parameters.get('warmup_period')
+
+        self.start_time = float(start_time) if start_time else 0.0
+        self.warmup_period = float(warmup_period) if warmup_period else 0.0
+        self.site_ref = self.testcaseid
+
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
@@ -26,28 +34,17 @@ class Job:
         self.mongo_db = mongo_client[os.environ['MONGO_DB_NAME']]
         self.mongo_db_sims = self.mongo_db.sims
 
-        self.site_ref = parameters.get('site_ref')
+        self.test_dir = os.path.join('/simulate', self.testcaseid)
+        self.fmu_path = os.path.join(self.test_dir, 'model.fmu')
 
-        # build the path for zipped-file, fmu, json
-        sim_path = '/simulate'
-        self.directory = os.path.join(sim_path, self.site_ref)
-        tar_name = "%s.tar.gz" % self.site_ref
-        key = "parsed/%s" % tar_name
-        tarpath = os.path.join(self.directory, tar_name)
-        fmupath = os.path.join(self.directory, 'model.fmu')
-
-        if not os.path.exists(self.directory):
-            os.makedirs(self.directory)
+        if not os.path.exists(self.test_dir):
+            os.makedirs(self.test_dir)
 
         # download the tar file and tag file
         self.s3_bucket = self.s3.Bucket('alfalfa')
-        self.s3_bucket.download_file(key, tarpath)
+        self.s3_bucket.download_file(self.key, self.fmu_path)
 
-        tar = tarfile.open(tarpath)
-        tar.extractall(sim_path)
-        tar.close()
-
-        self.tc = TestCase(fmupath)
+        self.tc = TestCase(self.fmu_path)
         self.init_test()
 
         # simtime
@@ -134,10 +131,10 @@ class Job:
 
         self.clear_forecast()
 
-        self.sim_id = str(uuid.uuid4())
-        tarname = "%s.tar.gz" % self.sim_id
+        sim_id = str(uuid.uuid4())
+        tarname = "%s.tar.gz" % sim_id
         tar = tarfile.open(tarname, "w:gz")
-        tar.add(self.directory, filter=self.reset, arcname=self.sim_id)
+        tar.add(self.test_dir, filter=self.reset, arcname=sim_id)
         tar.close()
 
         uploadkey = "simulated/%s" % tarname
@@ -145,10 +142,10 @@ class Job:
         os.remove(tarname)
 
         time = str(datetime.now(tz=pytz.UTC))
-        self.mongo_db_sims.insert_one({"_id": self.sim_id, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
+        self.mongo_db_sims.insert_one({"_id": sim_id, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
         #self.post_results_to_dashboard(kpis, time)
 
-        shutil.rmtree(self.directory)
+        shutil.rmtree(self.test_dir)
 
     def post_results_to_dashboard(self, kpis, time):
         # dashboard requires KPIs as ints, however this likely needs to change to float
@@ -197,12 +194,10 @@ class Job:
     def init_test(self):
         scenario = self.redis.hget(self.site_ref, 'scenario')
         if scenario:
-            self.tc.initialize(0.0, 0.0)
+            self.tc.initialize(self.start_time, self.warmup_period)
             self.update_scenario()
         else:
-            start_time = float(self.parameters.get('start_time'))
-            warmup_period = float(self.parameters.get('warmup_period'))
-            y_output = self.tc.initialize(start_time, warmup_period)
+            y_output = self.tc.initialize(self.start_time, self.warmup_period)
             self.update_y(y_output)
 
     def update_y(self, y):

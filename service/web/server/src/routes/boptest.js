@@ -2,7 +2,12 @@ import express from 'express';
 import {body} from 'express-validator';
 import got from 'got'
 import {getVersion} from '../controllers/utility';
-import {getMeasurements, getInputs, getName} from '../controllers/testcase';
+import {
+  createOrUpdateTestcase,
+  getMeasurements,
+  getInputs,
+  getName
+} from '../controllers/testcase';
 import {
   initialize,
   advance,
@@ -19,10 +24,9 @@ import {
   getStatus
 } from '../controllers/test';
 
-const boptestRoutes = express.Router();
+const boptestRouter = express.Router();
 
-
-boptestRoutes.get('/version', async (req, res, next) => {
+boptestRouter.get('/version', async (req, res, next) => {
   try {
     const v = await getVersion()
     res.send(v)
@@ -31,7 +35,7 @@ boptestRoutes.get('/version', async (req, res, next) => {
   }
 })
 
-boptestRoutes.get('/status/:id', async (req, res, next) => {
+boptestRouter.get('/status/:id', async (req, res, next) => {
   try {
     const db = req.app.get('db')
     const redis = req.app.get('redis')
@@ -42,7 +46,7 @@ boptestRoutes.get('/status/:id', async (req, res, next) => {
   }
 })
 
-boptestRoutes.get('/name/:id', async (req, res, next) => {
+boptestRouter.get('/name/:id', async (req, res, next) => {
   try {
     const db = req.app.get('db')
     const name = await getName(req.params.id, db)
@@ -76,7 +80,7 @@ const validateControlInputs = async (body, {req}) => {
   return true
 }
 
-boptestRoutes.post('/advance/:id', body().custom(validateControlInputs), async (req, res, next) => {
+boptestRouter.post('/advance/:id', body().custom(validateControlInputs), async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const advancer = req.app.get('advancer')
@@ -88,7 +92,7 @@ boptestRoutes.post('/advance/:id', body().custom(validateControlInputs), async (
   }
 });
 
-boptestRoutes.put('/initialize/:id', async (req, res, next) => {
+boptestRouter.put('/initialize/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const db = req.app.get('db')
@@ -102,7 +106,7 @@ boptestRoutes.put('/initialize/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.put('/stop/:id', async (req, res, next) => {
+boptestRouter.put('/stop/:id', async (req, res, next) => {
   try {
     const pub = req.app.get('pub')
     const redis = req.app.get('redis')
@@ -114,7 +118,7 @@ boptestRoutes.put('/stop/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.put('/scenario/:id', async (req, res, next) => {
+boptestRouter.put('/scenario/:id', async (req, res, next) => {
   try {
     const db = req.app.get('db')
     const redis = req.app.get('redis')
@@ -130,7 +134,7 @@ boptestRoutes.put('/scenario/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.get('/scenario/:id', async (req, res, next) => {
+boptestRouter.get('/scenario/:id', async (req, res, next) => {
   try {
     const db = req.app.get('db')
     const redis = req.app.get('redis')
@@ -141,7 +145,7 @@ boptestRoutes.get('/scenario/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.get('/measurements/:id', async (req, res, next) => {
+boptestRouter.get('/measurements/:id', async (req, res, next) => {
   try {
     const db = req.app.get('db');
     const measurements = await getMeasurements(req.params.id, db)
@@ -151,7 +155,7 @@ boptestRoutes.get('/measurements/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.get('/inputs/:id', async (req, res, next) => {
+boptestRouter.get('/inputs/:id', async (req, res, next) => {
   try {
     const db = req.app.get('db');
     const inputs = await getInputs(req.params.id, db)
@@ -161,7 +165,7 @@ boptestRoutes.get('/inputs/:id', async (req, res, next) => {
   }
 })
 
-boptestRoutes.get('/step/:id', async (req, res, next) => {
+boptestRouter.get('/step/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const db = req.app.get('db')
@@ -172,7 +176,7 @@ boptestRoutes.get('/step/:id', async (req, res, next) => {
   }
 })
 
-boptestRoutes.put('/step/:id', async (req, res, next) => {
+boptestRouter.put('/step/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const db = req.app.get('db')
@@ -184,7 +188,7 @@ boptestRoutes.put('/step/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.get('/kpi/:id', async (req, res, next) => {
+boptestRouter.get('/kpi/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
     const id = req.params.id
@@ -195,7 +199,7 @@ boptestRoutes.get('/kpi/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.put('/results/:id', async (req, res, next) => {
+boptestRouter.put('/results/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
     const id = req.params.id
@@ -209,7 +213,7 @@ boptestRoutes.put('/results/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.get('/forecast_parameters/:id', async (req, res, next) => {
+boptestRouter.get('/forecast_parameters/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
     const id = req.params.id
@@ -220,7 +224,7 @@ boptestRoutes.get('/forecast_parameters/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.put('/forecast_parameters/:id', async (req, res, next) => {
+boptestRouter.put('/forecast_parameters/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
     const id = req.params.id
@@ -233,7 +237,7 @@ boptestRoutes.put('/forecast_parameters/:id', async (req, res, next) => {
   }
 });
 
-boptestRoutes.get('/forecast/:id', async (req, res, next) => {
+boptestRouter.get('/forecast/:id', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
     const id = req.params.id
@@ -244,4 +248,4 @@ boptestRoutes.get('/forecast/:id', async (req, res, next) => {
   }
 });
 
-export default boptestRoutes;
+export default boptestRouter;
