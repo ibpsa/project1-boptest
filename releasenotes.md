@@ -2,6 +2,6 @@
 
 ## BOPTEST v0.1.0
 
-Released on MM/DD/YYYY.
+Released on 07/13/2021.
 
 This is an initial development release.
