@@ -5,7 +5,7 @@ Command: ``$ make test_all``
 
 A test report will be displayed and recorded to file upon completion called ``testing_report.txt``.
 
-## Run tests for test case with name <testcase>
+## Run tests for test case with name ``<testcase>``
 First, check if Docker image ``jm`` exists.  If not, run command: ``$ make build_jm_image``.
 
 Then, run the test with command: ``$ make test_<testcase>``.
