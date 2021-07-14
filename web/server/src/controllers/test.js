@@ -19,10 +19,6 @@ function promiseTaskLater(task, time, ...args) {
   });
 };
 
-function sendStopSignal(testid, pub) {
-  pub.publish(testid, "stop");
-}
-
 // Given testid, return the testcase id
 async function getTestcaseID(testid, redis) {
   return await new Promise((resolve, reject) => {
@@ -64,18 +60,6 @@ export async function getMeasurements(testid, db, redis) {
   } catch(e) {
     console.log(e)
   }
-}
-
-async function setU(testid, u, redis) {
-  return await new Promise((resolve, reject) => {
-    redis.hset(testid, 'u', JSON.stringify(u), (err) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve()
-      }
-    })
-  })
 }
 
 export async function getStatus(testid, db, redis) {
@@ -131,18 +115,6 @@ export async function setStatus(testid, stat, redis) {
   })
 }
 
-export async function getY(testid, redis) {
-  return await new Promise((resolve, reject) => {
-    redis.hget(testid, 'y', (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(data)
-      }
-    })
-  })
-}
-
 export async function getForecastParameters(testid, redis) {
   return await getWorkerData(testid, "get_forecast_parameters", redis, {});
 }
@@ -160,50 +132,27 @@ export async function initialize(testid, params, db, redis, sqs) {
 }
 
 export async function getScenario(testid, db, redis) {
-  return getWorkerData(testid, "get_scenario", redis, {});
+  return await getWorkerData(testid, "get_scenario", redis, {});
 }
 
 export async function setScenario(testid, scenario, db, redis, sqs, pub) {
-  return getWorkerData(testid, "set_scenario", redis, { scenario });
+  return await getWorkerData(testid, "set_scenario", redis, { scenario });
 }
 
-export async function advance(testid, redis, advancer, u) {
-  await setU(testid, u, redis)
-  await advancer.advance([testid])
-  return await getY(testid, redis)
+export async function advance(testid, redis, u) {
+  return await getWorkerData(testid, "advance", redis, { u });
 }
 
 export async function stop(testid, db, redis, pub) {
-  const stat = await getStatus(testid, db, redis)
-  if (stat == "Running") {
-    await setStatus(testid, "Stopping", redis)
-    sendStopSignal(testid, pub)
-    await waitForStatus(testid, db, redis, "Stopped")
-  }
+  return await getWorkerData(testid, "stop", redis, {});
 }
 
 export async function getStep(testid, db, redis) {
-  return await new Promise((resolve, reject) => {
-    redis.hget(testid, 'step', async (err, res) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(res)
-      }
-    })
-  })
+  return await getWorkerData(testid, "get_step", redis, {});
 }
 
 export async function setStep(testid, step, db, redis) {
-  return await new Promise((resolve, reject) => {
-    redis.hset(testid, 'step', step, async (err) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve()
-      }
-    })
-  })
+  return await getWorkerData(testid, "set_step", redis, { step });
 }
 
 export async function getKPIs(testid, redis) {

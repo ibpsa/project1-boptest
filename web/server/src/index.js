@@ -24,7 +24,6 @@
 ***********************************************************************************************************************/
 
 import path from 'path';
-import hs from 'nodehaystack';
 import express from 'express';
 import url from 'url';
 import bodyParser from 'body-parser';
@@ -34,7 +33,6 @@ import { URL } from "url";
 import AWS from 'aws-sdk';
 import boptestRouter from './routes/boptest';
 import boptestAdminRouter from './routes/boptest-admin';
-import {Advancer} from './advancer';
 
 AWS.config.update({ region: process.env.REGION });
 const client = new AWS.S3({ endpoint: process.env.S3_URL });
@@ -42,7 +40,6 @@ const sqs = new AWS.SQS();
 const redis = node_redis.createClient({host: process.env.REDIS_HOST});
 const pub = redis.duplicate();
 const sub = redis.duplicate();
-const advancer = new Advancer(redis, pub, sub);
 
 MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   var app = express();
@@ -54,7 +51,6 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   app.set('db', db);
   app.set('sqs', sqs);
   app.set('s3', client);
-  app.set('advancer', advancer);
 
   app.use(bodyParser.text({ type: 'text/*' }));
   app.use(bodyParser.urlencoded())
