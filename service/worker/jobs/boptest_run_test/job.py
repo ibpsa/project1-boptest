@@ -20,6 +20,7 @@ class Job:
         self.key = parameters.get('key')
         self.testcaseid = parameters.get('testcaseid')
         self.testid = parameters.get('testid')
+        self.keep_running = True
 
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
@@ -30,13 +31,13 @@ class Job:
         self.mongo_db = mongo_client[os.environ['MONGO_DB_NAME']]
         self.mongo_db_sims = self.mongo_db.sims
 
+        # Download the testcase FMU
         self.test_dir = os.path.join('/simulate', self.testcaseid)
         self.fmu_path = os.path.join(self.test_dir, 'model.fmu')
 
         if not os.path.exists(self.test_dir):
             os.makedirs(self.test_dir)
 
-        # download the tar file and tag file
         self.s3_bucket = self.s3.Bucket('alfalfa')
         self.s3_bucket.download_file(self.key, self.fmu_path)
 
@@ -46,6 +47,7 @@ class Job:
         self.redis_pubsub.psubscribe(str(self.testid) + "*")
         self.message_handlers = {}
         self.register_message_handler('initialize', self.initialize)
+        self.register_message_handler('advance', self.advance)
         self.register_message_handler('get_results', self.get_results)
         self.register_message_handler('get_kpis', self.get_kpis)
         self.register_message_handler('get_scenario', self.get_scenario)
@@ -53,9 +55,22 @@ class Job:
         self.register_message_handler('get_forecast_parameters', self.get_forecast_parameters)
         self.register_message_handler('set_forecast_parameters', self.set_forecast_parameters)
         self.register_message_handler('get_forecast', self.get_forecast)
+        self.register_message_handler('get_step', self.get_step)
+        self.register_message_handler('set_step', self.set_step)
+        self.register_message_handler('stop', self.stop)
 
         self.init_sim_status()
 
+    # This is the main Job entry point
+    def run(self):
+        while self.keep_running:
+            message = self.handle_messages()
+
+        self.cleanup()
+
+    # Begin methods for message passing between web and worker ###
+    # See comment in web/server/src/controllers/just-in-time-data.js
+    # for a description of how messages between web and worker are designed
     def get_request_channel(self, message_type):
         return (self.testid + ":" + message_type + ":request")
 
@@ -87,7 +102,11 @@ class Job:
                         self.redis.hset(self.testid, name, json.dumps(response_data))
                     self.redis.publish(response_channel, 'ready')
         return message
+    # End methods for message passing
 
+    # Begin message handling methods
+    # These are called when a message is received,
+    # See Job::register_message_handler
     def initialize(self, params):
         start_time = params.get('start_time')
         warmup_period = params.get('warmup_period')
@@ -130,24 +149,22 @@ class Job:
     def get_forecast(self, params):
         return self.tc.get_forecast()
 
-    def run(self):
-        while True:
-            data = None
-            channel = None
-            message_type = None
-            message = self.handle_messages()
-            if message:
-                channel = message['channel']
-                data = message['data']
-                message_type = message['type']
-            if channel == self.testid and data == 'stop':
-                break
-            if channel == self.testid and data == 'advance':
-                self.step()
-                self.redis.publish(self.testid, 'complete')
-                self.set_idle_state()
+    def get_step(self, params):
+        return self.tc.get_step()
 
-        self.cleanup()
+    def set_step(self, params):
+        step = params['step']
+        self.tc.set_step(step)
+        return self.tc.get_step()
+
+    def advance(self, params):
+        u = params['u']
+        return self.tc.advance(u)
+
+    def stop(self, params):
+        self.keep_running = False
+        return { 'status': 'ok' }
+    # End message handlers
 
     def reset(self, tarinfo):
         tarinfo.uid = tarinfo.gid = 0
@@ -223,33 +240,7 @@ class Job:
         except:
             print("Unable to post results to dashboard located at: %s" % dashboard_url)
 
-    def update_y(self, y):
-        self.redis.hset(self.testid, 'y', json.dumps(y))
-
-    def get_u(self):
-        ustring = self.redis.hget(self.testid, 'u')
-        return json.loads(ustring)
-
-    def set_idle_state(self):
-        self.redis.hset(self.testid, 'control', 'idle')
-
     def init_sim_status(self):
-        self.set_idle_state()
         self.redis.hset(self.testid, 'testcaseid', self.testcaseid)
-        self.redis.hset(self.testid, 'step', json.dumps(self.tc.get_step()))
         self.redis.hset(self.testid, 'status', 'Running')
 
-    def update_sim_status(self):
-        self.redis.hset(self.testid, 'status', 'Running')
-
-    def step(self):
-        # look for a change in step size
-        redis_step_size = self.redis.hget(self.testid, 'step')
-        current_step_size = self.tc.get_step()
-        if redis_step_size and (current_step_size != redis_step_size):
-            self.tc.set_step(redis_step_size)
-
-        u = self.get_u()
-        y_output = self.tc.advance(u)
-        self.update_y(y_output)
-        self.update_sim_status()

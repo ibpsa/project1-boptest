@@ -112,9 +112,8 @@ const validateControlInputs = async (body, {req}) => {
 boptestRouter.post('/advance/:testid', body().custom(validateControlInputs), async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
-    const advancer = req.app.get('advancer')
     const u = req.body
-    const y = await advance(req.params.testid, redis, advancer, u)
+    const y = await advance(req.params.testid, redis, u)
     res.send(y)
   } catch (e) {
     next(e)
