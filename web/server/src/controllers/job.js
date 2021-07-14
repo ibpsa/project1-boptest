@@ -1,22 +1,18 @@
 
-export function addJobToQueue(jobName, args, sqs) {
+export function addJobToQueue(jobtype, params, sqs) {
   return new Promise((resolve, reject) => {
     let body = {
-      "op": "InvokeAction",
-      "action": jobName
+      jobtype,
+      params
     }
 
-    Object.entries(args).forEach(([key,value]) => {
-      body[key] = value
-    })
-
-    const params = {
+    const m = {
       MessageBody: JSON.stringify(body),
       QueueUrl: process.env.JOB_QUEUE_URL,
       MessageGroupId: "Alfalfa"
     }
 
-    sqs.sendMessage(params, (err, data) => {
+    sqs.sendMessage(m, (err, data) => {
       if (err) {
         reject(err)
       } else {

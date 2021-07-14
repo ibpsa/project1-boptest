@@ -18,7 +18,3 @@ class Logger:
         self.fh = logging.FileHandler('worker.log')
         self.fh.setFormatter(self.formatter)
         self.logger.addHandler(self.fh)
-
-        self.ch = logging.StreamHandler()
-        self.ch.setFormatter(self.formatter)
-        self.logger.addHandler(self.ch)

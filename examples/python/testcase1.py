@@ -63,15 +63,17 @@ def run(plot=False, customized_kpi_config=None):
     # Submit testcase fmu
     client = BoptestClient(url)
     testcase = 'testcase1'
-    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase), testcase)
+    client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase), testcase)
+    testid = requests.post('{0}/testcases/{1}/select'.format(url,testcase)).json()['testid']
+    print('testid: ', testid)
     # ---------------
 
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
     # Test case name
-    ## name = requests.get('{0}/{1}/name'.format(url,testid)).json()
-    #### print('Name:\t\t\t\t{0}'.format(name))
+    name = requests.get('{0}/name/{1}'.format(url,testid)).json()
+    print('Name:\t\t\t\t{0}'.format(name))
     # Inputs available
     inputs = requests.get('{0}/inputs/{1}'.format(url,testid)).json()
     print('Control Inputs:\t\t\t{0}'.format(inputs))

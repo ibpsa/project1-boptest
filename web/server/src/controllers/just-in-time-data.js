@@ -44,7 +44,7 @@ export function getWorkerData(id, dataname, redis, params) {
 
     timeout = setTimeout(() => {
       cleanup()
-      reject("No results available")
+      reject("getWorkerData timed out for: ", dataname)
     }, 30000)
 
     sub.subscribe(responseChannel(id, dataname))

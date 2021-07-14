@@ -1,16 +1,21 @@
+import { v4 as uuidv4 } from 'uuid';
 import {addJobToQueue} from './job';
+import {
+  setStatus,
+  waitForStatus
+} from './test';
 
 export function getS3KeyForTestcaseID(testcaseid) {
   return `testcases/${testcaseid}/${testcaseid}.fmu`
 }
 
 export async function createOrUpdateTestcase(testcaseid, sqs) {
-  const args = {
+  const params = {
     'key': getS3KeyForTestcaseID(testcaseid),
     'testcaseid': testcaseid
   }
 
-  await addJobToQueue("addSite", args, sqs);
+  await addJobToQueue("boptest_add_testcase", params, sqs);
 }
 
 export function getTestcasePostForm(testcaseid, s3, s3url) {
@@ -36,36 +41,30 @@ export function getTestcasePostForm(testcaseid, s3, s3url) {
   })
 }
 
-export async function getInputs(testcaseid, db) {
-  try {
-    const testcases = db.collection('testcases')
-    const query = { testcaseid }
-    const doc = await testcases.findOne(query, { inputs: 1 })
-    return doc.inputs
-  } catch(e) {
-    console.log(e)
+export async function getTestcases(db) {
+  const testcases = db.collection('testcases')
+  const query = {}
+  const options = {
+    projection: {
+      _id: 0,
+      testcaseid: 1
+    }
   }
+  const ids = await testcases.find(query, options).toArray()
+  return ids
 }
 
-export async function getMeasurements(testcaseid, db) {
-  try {
-    const testcases = db.collection('testcases')
-    const query = { testcaseid }
-    const doc = await testcases.findOne(query, { measurements: 1 })
-    return doc.measurements
-  } catch(e) {
-    console.log(e)
-  }
+export async function isTestcase(id, db) {
+  const testcases = await getTestcases(db)
+  found = testcases.find( t => t.testcaseid == id )
+  return found != undefined
 }
 
-export async function getName(testcaseid, db) {
-  try {
-    const testcases = db.collection('testcases')
-    const query = { testcaseid }
-    const doc = await testcases.findOne(query, { testcaseid: 1 })
-    const name = doc.testcaseid
-    return {name}
-  } catch(e) {
-    console.log(e)
-  }
+export async function select(testcaseid, db, redis, sqs) {
+  const testid = uuidv4()
+  const key = getS3KeyForTestcaseID(testcaseid)
+  await setStatus(testid, "Starting", redis)
+  await addJobToQueue("boptest_run_test", {testcaseid, testid, key}, sqs)
+  await waitForStatus(testid, db, redis, "Running")
+  return { testid }
 }
