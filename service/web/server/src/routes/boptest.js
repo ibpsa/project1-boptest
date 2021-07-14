@@ -3,15 +3,16 @@ import {body} from 'express-validator';
 import got from 'got'
 import {getVersion} from '../controllers/utility';
 import {
-  createOrUpdateTestcase,
-  getMeasurements,
-  getInputs,
-  getName
+  getTestcases,
+  select
 } from '../controllers/testcase';
 import {
+  getName,
   initialize,
   advance,
   stop,
+  getMeasurements,
+  getInputs,
   getForecastParameters,
   setForecastParameters,
   getForecast,
@@ -21,7 +22,8 @@ import {
   getStep,
   getKPIs,
   getResults,
-  getStatus
+  getStatus,
+  getTestcaseID
 } from '../controllers/test';
 
 const boptestRouter = express.Router();
@@ -34,6 +36,31 @@ boptestRouter.get('/version', async (req, res, next) => {
     next(e)
   }
 })
+
+boptestRouter.post('/testcases/:testcaseid/select', async (req, res, next) => {
+  try {
+    const testcaseid = req.params.testcaseid
+    const db = req.app.get('db')
+    const redis = req.app.get('redis')
+    const sqs = req.app.get('sqs')
+    const response = await select(testcaseid, db, redis, sqs)
+    return res.send(response)
+  } catch (e) {
+    next(e)
+  }
+});
+
+boptestRouter.put('/stop/:testid', async (req, res, next) => {
+  try {
+    const pub = req.app.get('pub')
+    const redis = req.app.get('redis')
+    const db = req.app.get('db')
+    await stop(req.params.testid, db, redis, pub)
+    res.sendStatus(200)
+  } catch (e) {
+    next(e)
+  }
+});
 
 boptestRouter.get('/status/:id', async (req, res, next) => {
   try {
@@ -48,8 +75,8 @@ boptestRouter.get('/status/:id', async (req, res, next) => {
 
 boptestRouter.get('/name/:id', async (req, res, next) => {
   try {
-    const db = req.app.get('db')
-    const name = await getName(req.params.id, db)
+    const redis = req.app.get('redis')
+    const name = await getName(req.params.id, redis)
     res.send(name)
   } catch (e) {
     next(e)
@@ -63,8 +90,10 @@ const validateControlInputs = async (body, {req}) => {
   // Also, the entire body content is validated at once, rather than
   // field by field validators so that getInputs is only called once, per request
   const db = req.app.get('db')
-  const id = req.params.id
-  const input_names = Object.keys(await getInputs(id, db))
+  const redis = req.app.get('redis')
+  const testid = req.params.id
+  const testcaseid = getTestcaseID(testid, redis)
+  const input_names = Object.keys(await getInputs(testcaseid, db))
   const invalid_names = []
 
   for (const key in body) {
@@ -80,39 +109,26 @@ const validateControlInputs = async (body, {req}) => {
   return true
 }
 
-boptestRouter.post('/advance/:id', body().custom(validateControlInputs), async (req, res, next) => {
+boptestRouter.post('/advance/:testid', body().custom(validateControlInputs), async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const advancer = req.app.get('advancer')
     const u = req.body
-    const y = await advance(req.params.id, redis, advancer, u)
+    const y = await advance(req.params.testid, redis, advancer, u)
     res.send(y)
   } catch (e) {
     next(e)
   }
 });
 
-boptestRouter.put('/initialize/:id', async (req, res, next) => {
+boptestRouter.put('/initialize/:testid', async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const db = req.app.get('db')
     const sqs = req.app.get('sqs')
-    const start_time = req.body['start_time']
-    const warmup_period = req.body['warmup_period']
-    const y = await initialize(req.params.id, start_time, warmup_period, db, redis, sqs)
-    res.send(y)
-  } catch (e) {
-    next(e)
-  }
-});
-
-boptestRouter.put('/stop/:id', async (req, res, next) => {
-  try {
-    const pub = req.app.get('pub')
-    const redis = req.app.get('redis')
-    const db = req.app.get('db')
-    await stop(req.params.id, db, redis, pub)
-    res.sendStatus(200)
+    const params = req.body
+    const response = await initialize(req.params.testid, params, db, redis, sqs)
+    res.send(response)
   } catch (e) {
     next(e)
   }
@@ -145,107 +161,118 @@ boptestRouter.get('/scenario/:id', async (req, res, next) => {
   }
 });
 
-boptestRouter.get('/measurements/:id', async (req, res, next) => {
+boptestRouter.get('/measurements/:testid', async (req, res, next) => {
   try {
     const db = req.app.get('db');
-    const measurements = await getMeasurements(req.params.id, db)
+    const redis = req.app.get('redis')
+    const measurements = await getMeasurements(req.params.testid, db, redis)
     res.send(measurements)
   } catch (e) {
     next(e)
   }
 });
 
-boptestRouter.get('/inputs/:id', async (req, res, next) => {
+boptestRouter.get('/inputs/:testid', async (req, res, next) => {
   try {
     const db = req.app.get('db');
-    const inputs = await getInputs(req.params.id, db)
+    const redis = req.app.get('redis')
+    const inputs = await getInputs(req.params.testid, db, redis)
     res.send(inputs)
   } catch (e) {
     next(e)
   }
 })
 
-boptestRouter.get('/step/:id', async (req, res, next) => {
+boptestRouter.get('/step/:testid', async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const db = req.app.get('db')
-    const step = await getStep(req.params.id, db, redis)
-    res.send(step.toString())
+    const step = await getStep(req.params.testid, db, redis)
+    res.send(step)
   } catch (e) {
     next(e)
   }
 })
 
-boptestRouter.put('/step/:id', async (req, res, next) => {
+boptestRouter.put('/step/:testid', async (req, res, next) => {
   try {
     const redis = req.app.get('redis')
     const db = req.app.get('db')
     const step = req.body['step']
-    await setStep(req.params.id, step, db, redis)
+    await setStep(req.params.testid, step, db, redis)
     res.sendStatus(200)
   } catch (e) {
     next(e)
   }
 });
 
-boptestRouter.get('/kpi/:id', async (req, res, next) => {
+boptestRouter.get('/kpi/:testid', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    const id = req.params.id
-    const kpis = await getKPIs(id, redis)
+    const kpis = await getKPIs(req.params.testid, redis)
     res.send(kpis)
   } catch (e) {
     next(e);
   }
 });
 
-boptestRouter.put('/results/:id', async (req, res, next) => {
+boptestRouter.put('/results/:testid', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    const id = req.params.id
+    const testid = req.params.testid
     const point_name = req.body['point_name']
     const start_time = req.body['start_time']
     const final_time = req.body['final_time']
-    const results = await getResults(id, point_name, start_time, final_time, redis)
+    const results = await getResults(testid, point_name, start_time, final_time, redis)
     res.send(results)
   } catch (e) {
     next(e);
   }
 });
 
-boptestRouter.get('/forecast_parameters/:id', async (req, res, next) => {
+boptestRouter.get('/forecast_parameters/:testid', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    const id = req.params.id
-    const forecast_parameters = await getForecastParameters(id, redis)
+    const testid = req.params.testid
+    const forecast_parameters = await getForecastParameters(testid, redis)
     res.send(forecast_parameters)
   } catch (e) {
     next(e);
   }
 });
 
-boptestRouter.put('/forecast_parameters/:id', async (req, res, next) => {
+boptestRouter.put('/forecast_parameters/:testid', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    const id = req.params.id
+    const testid = req.params.testid
     const horizon = req.body['horizon']
     const interval = req.body['interval']
-    const forecast_parameters = await setForecastParameters(id, horizon, interval, redis)
+    const forecast_parameters = await setForecastParameters(testid, horizon, interval, redis)
     res.send(forecast_parameters)
   } catch (e) {
     next(e);
   }
 });
 
-boptestRouter.get('/forecast/:id', async (req, res, next) => {
+boptestRouter.get('/forecast/:testid', async (req, res, next) => {
   try {
     const redis = req.app.get('redis');
-    const id = req.params.id
-    const forecast = await getForecast(id, redis)
+    const testid = req.params.testid
+    const forecast = await getForecast(testid, redis)
     res.send(forecast)
   } catch (e) {
     next(e);
   }
 });
+
+boptestRouter.get('/testcases', async (req, res, next) => {
+  try {
+    const db = req.app.get('db')
+    const testcaseids = await getTestcases(db)
+    res.send(testcaseids)
+  } catch (e) {
+    next(e);
+  }
+})
 
 export default boptestRouter;

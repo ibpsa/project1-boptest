@@ -9,6 +9,7 @@ from datetime import datetime
 import boto3
 import pytz
 import redis
+import numpy as np
 from pymongo import MongoClient
 import requests
 from boptest.lib.testcase import TestCase
@@ -18,12 +19,7 @@ class Job:
     def __init__(self, parameters):
         self.key = parameters.get('key')
         self.testcaseid = parameters.get('testcaseid')
-        start_time = parameters.get('start_time')
-        warmup_period = parameters.get('warmup_period')
-
-        self.start_time = float(start_time) if start_time else 0.0
-        self.warmup_period = float(warmup_period) if warmup_period else 0.0
-        self.site_ref = self.testcaseid
+        self.testid = parameters.get('testid')
 
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
@@ -45,71 +41,110 @@ class Job:
         self.s3_bucket.download_file(self.key, self.fmu_path)
 
         self.tc = TestCase(self.fmu_path)
-        self.init_test()
-
-        # simtime
-        self.simtime = 0
 
         # subscribe to channels related to this test
-        self.redis_pubsub.psubscribe(str(self.site_ref) + "*")
+        self.redis_pubsub.psubscribe(str(self.testid) + "*")
+        self.message_handlers = {}
+        self.register_message_handler('initialize', self.initialize)
+        self.register_message_handler('get_results', self.get_results)
+        self.register_message_handler('get_kpis', self.get_kpis)
+        self.register_message_handler('get_scenario', self.get_scenario)
+        self.register_message_handler('set_scenario', self.set_scenario)
+        self.register_message_handler('get_forecast_parameters', self.get_forecast_parameters)
+        self.register_message_handler('set_forecast_parameters', self.set_forecast_parameters)
+        self.register_message_handler('get_forecast', self.get_forecast)
 
         self.init_sim_status()
 
+    def get_request_channel(self, message_type):
+        return (self.testid + ":" + message_type + ":request")
 
-    def results_request_channel(self):
-        return (self.site_ref + ":results:request")
+    def get_response_channel(self, message_type):
+        return (self.testid + ":" + message_type + ":response")
 
-    def results_response_channel(self):
-        return (self.site_ref + ":results:response")
+    def register_message_handler(self, name, callback):
+        request_channel = self.get_request_channel(name)
+        self.redis_pubsub.subscribe(request_channel)
+        self.message_handlers[request_channel] = {
+            'name': name,
+            'callback': callback
+        }
 
-    def kpis_request_channel(self):
-        return (self.site_ref + ":kpis:request")
+    def handle_messages(self):
+        message = self.redis_pubsub.get_message()
+        if message:
+            message_type = message['type']
+            if message_type == 'message':
+                request_channel = message['channel']
+                handler = self.message_handlers.get(request_channel)
+                if handler:
+                    name = handler['name']
+                    params = json.loads(message['data'])
+                    callback = handler['callback']
+                    response_channel = self.get_response_channel(name)
+                    response_data = callback(params)
+                    if response_data:
+                        self.redis.hset(self.testid, name, json.dumps(response_data))
+                    self.redis.publish(response_channel, 'ready')
+        return message
 
-    def kpis_response_channel(self):
-        return (self.site_ref + ":kpis:response")
+    def initialize(self, params):
+        start_time = params.get('start_time')
+        warmup_period = params.get('warmup_period')
+        end_time = params.get('end_time')
 
-    def forecast_request_channel(self):
-        return (self.site_ref + ":forecast:request")
+        start_time = float(start_time) if start_time else 0.0
+        warmup_period = float(warmup_period) if warmup_period else 0.0
+        end_time = float(end_time) if end_time else np.inf
+        return self.tc.initialize(start_time, warmup_period, end_time)
 
-    def forecast_response_channel(self):
-        return (self.site_ref + ":forecast:response")
+    def get_results(self, params):
+        point_name = params['point_name']
+        results_start_time = float(params['start_time'])
+        results_final_time = float(params['final_time'])
 
-    def scenario_result_request_channel(self):
-        return (self.site_ref + ":scenario_result:request")
+        results = self.tc.get_results(point_name, results_start_time, results_final_time)
+        for key in results:
+            results[key] = results[key].tolist()
+        return results
 
-    def scenario_result_response_channel(self):
-        return (self.site_ref + ":scenario_result:response")
+    def get_kpis(self, params):
+        return self.tc.get_kpis()
+
+    def get_scenario(self, params):
+        return self.tc.get_scenario()
+
+    def set_scenario(self, params):
+        scenario = params['scenario']
+        return self.tc.set_scenario(scenario)
+
+    def get_forecast_parameters(self, params):
+        return self.tc.get_forecast_parameters()
+
+    def set_forecast_parameters(self, params):
+        horizon = params['horizon']
+        interval = params['interval']
+        self.tc.set_forecast_parameters(horizon, interval)
+        return self.tc.get_forecast_parameters()
+
+    def get_forecast(self, params):
+        return self.tc.get_forecast()
 
     def run(self):
         while True:
             data = None
             channel = None
-            message = self.redis_pubsub.get_message()
+            message_type = None
+            message = self.handle_messages()
             if message:
                 channel = message['channel']
                 data = message['data']
                 message_type = message['type']
-            if channel == self.site_ref and data == 'stop':
+            if channel == self.testid and data == 'stop':
                 break
-            if channel == self.results_request_channel() and message_type == 'pmessage':
-                result_params = json.loads(data)
-                point_name = result_params['point_name']
-                results_start_time = float(result_params['start_time'])
-                results_final_time = float(result_params['final_time'])
-                self.update_results(point_name, results_start_time, results_final_time)
-                self.redis.publish(self.results_response_channel(), 'ready')
-            if channel == self.kpis_request_channel() and message_type == 'pmessage':
-                self.update_kpis()
-                self.redis.publish(self.kpis_response_channel(), 'ready')
-            if channel == self.forecast_request_channel() and message_type == 'pmessage':
-                self.update_forecast()
-                self.redis.publish(self.forecast_response_channel(), 'ready')
-            if channel == self.scenario_result_request_channel() and message_type == 'pmessage':
-                self.update_scenario()
-                self.redis.publish(self.scenario_result_response_channel(), 'ready')
-            if channel == self.site_ref and data == 'advance':
+            if channel == self.testid and data == 'advance':
                 self.step()
-                self.redis.publish(self.site_ref, 'complete')
+                self.redis.publish(self.testid, 'complete')
                 self.set_idle_state()
 
         self.cleanup()
@@ -124,12 +159,9 @@ class Job:
         kpis = self.tc.get_kpis()
         kpidump = json.dumps(kpis)
 
-        self.redis.hset(self.site_ref, 'status', 'Stopped')
-        self.redis.hdel(self.site_ref, 'time')
-        self.redis.hdel(self.site_ref, 'scenario')
-        self.redis.hdel(self.site_ref, 'scenario_result')
-
-        self.clear_forecast()
+        self.redis_pubsub.punsubscribe(str(self.testid) + "*")
+        self.redis_pubsub.unsubscribe()
+        self.redis.delete(self.testid)
 
         sim_id = str(uuid.uuid4())
         tarname = "%s.tar.gz" % sim_id
@@ -142,7 +174,7 @@ class Job:
         os.remove(tarname)
 
         time = str(datetime.now(tz=pytz.UTC))
-        self.mongo_db_sims.insert_one({"_id": sim_id, "siteRef": self.site_ref, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
+        self.mongo_db_sims.insert_one({"_id": sim_id, "testid": self.testid, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
         #self.post_results_to_dashboard(kpis, time)
 
         shutil.rmtree(self.test_dir)
@@ -154,7 +186,7 @@ class Job:
             {
               "dateRun": time,
               "isShared": True,
-              "uid": self.site_ref,
+              "uid": self.testid,
               "account": {
                 "apiKey": "jerrysapikey"
               },
@@ -191,70 +223,28 @@ class Job:
         except:
             print("Unable to post results to dashboard located at: %s" % dashboard_url)
 
-    def init_test(self):
-        scenario = self.redis.hget(self.site_ref, 'scenario')
-        if scenario:
-            self.tc.initialize(self.start_time, self.warmup_period)
-            self.update_scenario()
-        else:
-            y_output = self.tc.initialize(self.start_time, self.warmup_period)
-            self.update_y(y_output)
-
     def update_y(self, y):
-        self.redis.hset(self.site_ref, 'y', json.dumps(y))
+        self.redis.hset(self.testid, 'y', json.dumps(y))
 
     def get_u(self):
-        ustring = self.redis.hget(self.site_ref, 'u')
+        ustring = self.redis.hget(self.testid, 'u')
         return json.loads(ustring)
 
-    def update_forecast(self):
-        forecast_parameters = self.redis.hget(self.site_ref, 'forecast_parameters')
-        if forecast_parameters:
-            forecast_parameters = json.loads(forecast_parameters)
-            horizon = forecast_parameters['horizon']
-            interval = forecast_parameters['interval']
-            self.tc.set_forecast_parameters(horizon, interval)
-            
-        forecast = self.tc.get_forecast()
-        self.redis.hset(self.site_ref, 'forecast', json.dumps(forecast))
-
-    def update_scenario(self):
-        scenario = self.redis.hget(self.site_ref, 'scenario')
-        scenario = json.loads(scenario)
-        scenario_result = self.tc.set_scenario(scenario)
-        self.redis.hset(self.site_ref, 'scenario_result', json.dumps(scenario_result))
-
-    def update_kpis(self):
-        kpis = self.tc.get_kpis()
-        kpis = json.dumps(kpis)
-        self.redis.hset(self.site_ref, 'kpis', kpis)
-
-    def update_results(self, point_name, results_start_time, results_final_time):
-        results = self.tc.get_results(point_name, results_start_time, results_final_time)
-        for key in results:
-            results[key] = results[key].tolist()
-        results = json.dumps(results)
-        self.redis.hset(self.site_ref, 'results', results)
-
-    def clear_forecast(self):
-        self.redis.hdel(self.site_ref, 'forecast')
-
     def set_idle_state(self):
-        self.redis.hset(self.site_ref, 'control', 'idle')
+        self.redis.hset(self.testid, 'control', 'idle')
 
     def init_sim_status(self):
         self.set_idle_state()
-        self.redis.hset(self.site_ref, 'status', 'Running')
-        self.redis.hset(self.site_ref, 'time', self.simtime)
+        self.redis.hset(self.testid, 'testcaseid', self.testcaseid)
+        self.redis.hset(self.testid, 'step', json.dumps(self.tc.get_step()))
+        self.redis.hset(self.testid, 'status', 'Running')
 
     def update_sim_status(self):
-        self.simtime = self.tc.final_time
-        self.redis.hset(self.site_ref, 'status', 'Running')
-        self.redis.hset(self.site_ref, 'time', self.simtime)
+        self.redis.hset(self.testid, 'status', 'Running')
 
     def step(self):
         # look for a change in step size
-        redis_step_size = self.redis.hget(self.site_ref, 'step')
+        redis_step_size = self.redis.hget(self.testid, 'step')
         current_step_size = self.tc.get_step()
         if redis_step_size and (current_step_size != redis_step_size):
             self.tc.set_step(redis_step_size)

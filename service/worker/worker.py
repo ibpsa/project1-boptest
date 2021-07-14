@@ -54,13 +54,9 @@ class Worker:
         """
         message_body = json.loads(message.body)
         message.delete()
-        op = message_body.get('op')
-        if op == 'InvokeAction':
-            action = message_body.get('action')
-            if action == 'runSite':
-                subprocess.call(['python', '-m', 'boptest_run_test', json.dumps(message_body)])
-            elif action == 'addSite':
-                subprocess.call(['python', '-m', 'boptest_add_testcase', json.dumps(message_body)])
+        jobtype = message_body.get('jobtype')
+        params = message_body.get('params')
+        subprocess.call(['python', '-m', jobtype, json.dumps(params)])
 
     def run(self):
         """
@@ -70,14 +66,12 @@ class Worker:
         """
         self.logger.info("Worker running")
         while True:
-            # WaitTimeSeconds triggers long polling that will wait for events to enter queue
-            # Receive Message
             try:
+                # WaitTimeSeconds triggers long polling that will wait for events to enter queue
                 messages = self.sqs_queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=20)
                 if len(messages) > 0:
                     message = messages[0]
                     self.logger.info('Message Received with payload: %s' % message.body)
-                    # Process Message
                     self.process_message(message)
             except BaseException as e:
                 self.logger.info("Exception while processing messages in worker: {}".format(e))
