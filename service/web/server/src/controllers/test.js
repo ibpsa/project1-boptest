@@ -115,52 +115,52 @@ export async function setStatus(testid, stat, redis) {
   })
 }
 
-export async function getForecastParameters(testid, redis) {
-  return await getWorkerData(testid, "get_forecast_parameters", redis, {});
+export async function getForecastParameters(testid, redis, pub, sub) {
+  return await getWorkerData(testid, "get_forecast_parameters", redis, pub, sub, {});
 }
 
-export async function setForecastParameters(testid, horizon, interval, redis) {
-  return getWorkerData(testid, "set_forecast_parameters", redis, { horizon, interval });
+export async function setForecastParameters(testid, horizon, interval, redis, pub, sub) {
+  return getWorkerData(testid, "set_forecast_parameters", redis, pub, sub, { horizon, interval });
 }
 
-export async function getForecast(testid, redis) {
-  return await getWorkerData(testid, "get_forecast", redis, {});
+export async function getForecast(testid, redis, pub, sub) {
+  return await getWorkerData(testid, "get_forecast", redis, pub, sub, {});
 }
 
-export async function initialize(testid, params, db, redis, sqs) {
-  return await getWorkerData(testid, "initialize", redis, params);
+export async function initialize(testid, params, redis, pub, sub) {
+  return await getWorkerData(testid, "initialize", redis, pub, sub, params);
 }
 
-export async function getScenario(testid, db, redis) {
-  return await getWorkerData(testid, "get_scenario", redis, {});
+export async function getScenario(testid, redis, pub, sub) {
+  return await getWorkerData(testid, "get_scenario", redis, pub, sub, {});
 }
 
-export async function setScenario(testid, scenario, db, redis, sqs, pub) {
-  return await getWorkerData(testid, "set_scenario", redis, { scenario });
+export async function setScenario(testid, scenario, redis, pub, sub) {
+  return await getWorkerData(testid, "set_scenario", redis, pub, sub, { scenario });
 }
 
-export async function advance(testid, redis, u) {
-  return await getWorkerData(testid, "advance", redis, { u });
+export async function advance(testid, u, redis, pub, sub) {
+  return await getWorkerData(testid, "advance", redis, pub, sub, { u });
 }
 
-export async function stop(testid, db, redis, pub) {
-  return await getWorkerData(testid, "stop", redis, {});
+export async function stop(testid, redis, pub, sub) {
+  return await getWorkerData(testid, "stop", redis, pub, sub, {});
 }
 
-export async function getStep(testid, db, redis) {
-  return await getWorkerData(testid, "get_step", redis, {});
+export async function getStep(testid, redis, pub, sub) {
+  return await getWorkerData(testid, "get_step", redis, pub, sub, {});
 }
 
-export async function setStep(testid, step, db, redis) {
-  return await getWorkerData(testid, "set_step", redis, { step });
+export async function setStep(testid, step, redis, pub, sub) {
+  return await getWorkerData(testid, "set_step", redis, pub, sub, { step });
 }
 
-export async function getKPIs(testid, redis) {
-  return await getWorkerData(testid, "get_kpis", redis, {});
+export async function getKPIs(testid, redis, pub, sub) {
+  return await getWorkerData(testid, "get_kpis", redis, pub, sub, {});
 }
 
-export async function getResults(testid, point_name, start_time, final_time, redis) {
+export async function getResults(testid, point_name, start_time, final_time, redis, pub, sub) {
   const params = {point_name, start_time, final_time}
-  return await getWorkerData(testid, "get_results", redis, params);
+  return await getWorkerData(testid, "get_results", redis, pub, sub, params);
 }
 
