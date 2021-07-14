@@ -98,8 +98,7 @@ class Job:
                     callback = handler['callback']
                     response_channel = self.get_response_channel(name)
                     response_data = callback(params)
-                    if response_data:
-                        self.redis.hset(self.testid, name, json.dumps(response_data))
+                    self.redis.hset(self.testid, name, json.dumps(response_data))
                     self.redis.publish(response_channel, 'ready')
         return message
     # End methods for message passing
