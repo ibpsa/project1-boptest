@@ -16,21 +16,19 @@
 // 4. The worker publishes a message on the redis channel <simulation id>:<dataname>:response,
 //    indicating that the data is available
 // 5. The getWorkerData function resolves a returned Promise with the retrieved data
-export function getWorkerData(id, dataname, redis, params) {
+export function getWorkerData(id, dataname, redis, pub, sub, params) {
   return new Promise((resolve, reject) => {
-    let sub = redis.duplicate()
-    let pub = redis.duplicate()
     let timeout
+    const responseChannel = id + ":" + dataname + ":response"
+    const requestChannel = id + ":" + dataname + ":request"
 
     const cleanup = () => {
       clearTimeout(timeout)
-      sub.unsubscribe()
-      sub.quit()
-      pub.quit()
+      sub.unsubscribe(responseChannel)
     }
 
     sub.on('message', (channel, message) => {
-      if (message == 'ready') {
+      if ((message == 'ready') && (channel == responseChannel)) {
         redis.hget(id, dataname, (err, redisres) => {
           cleanup()
           if (err) {
@@ -44,19 +42,11 @@ export function getWorkerData(id, dataname, redis, params) {
 
     timeout = setTimeout(() => {
       cleanup()
-      reject("getWorkerData timed out for: ", dataname)
+      reject(`getWorkerData timed out for: ${dataname}`)
     }, 30000)
 
-    sub.subscribe(responseChannel(id, dataname))
+    sub.subscribe(responseChannel)
     const stringy_params = JSON.stringify(params)
-    pub.publish(requestChannel(id, dataname), stringy_params)
+    pub.publish(requestChannel, stringy_params)
   })
-}
-
-function responseChannel(id, dataname) {
-  return id + ":" + dataname + ":response"
-}
-
-function requestChannel(id, dataname) {
-  return id + ":" + dataname + ":request"
 }

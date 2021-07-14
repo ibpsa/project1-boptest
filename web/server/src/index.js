@@ -48,6 +48,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
 
   app.set('redis', redis);
   app.set('pub', pub);
+  app.set('sub', sub);
   app.set('db', db);
   app.set('sqs', sqs);
   app.set('s3', client);
