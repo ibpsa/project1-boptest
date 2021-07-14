@@ -23,19 +23,16 @@
 *  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************************************************************/
 
-import path from 'path';
 import express from 'express';
-import url from 'url';
 import bodyParser from 'body-parser';
 import {MongoClient} from 'mongodb';
 import node_redis from 'redis';
-import { URL } from "url";
 import AWS from 'aws-sdk';
 import boptestRouter from './routes/boptest';
 import boptestAdminRouter from './routes/boptest-admin';
 
 AWS.config.update({ region: process.env.REGION });
-const client = new AWS.S3({ endpoint: process.env.S3_URL });
+const s3 = new AWS.S3({ endpoint: process.env.S3_URL });
 const sqs = new AWS.SQS();
 const redis = node_redis.createClient({host: process.env.REDIS_HOST});
 const pub = redis.duplicate();
@@ -51,7 +48,7 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   app.set('sub', sub);
   app.set('db', db);
   app.set('sqs', sqs);
-  app.set('s3', client);
+  app.set('s3', s3);
 
   app.use(bodyParser.text({ type: 'text/*' }));
   app.use(bodyParser.urlencoded())

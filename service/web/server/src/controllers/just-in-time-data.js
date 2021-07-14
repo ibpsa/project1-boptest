@@ -42,7 +42,7 @@ export function getWorkerData(id, dataname, redis, pub, sub, params) {
 
     timeout = setTimeout(() => {
       cleanup()
-      reject(`getWorkerData timed out for: ${dataname}`)
+      reject(`Timeout while sending command '${dataname}' to testid '${id}'`)
     }, 30000)
 
     sub.subscribe(responseChannel)

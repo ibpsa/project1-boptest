@@ -21,6 +21,7 @@ class Job:
         self.testcaseid = parameters.get('testcaseid')
         self.testid = parameters.get('testid')
         self.keep_running = True
+        self.last_message_time = datetime.now()
 
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
@@ -65,8 +66,16 @@ class Job:
     def run(self):
         while self.keep_running:
             message = self.handle_messages()
+            self.check_idle_time(message)
 
         self.cleanup()
+
+    def check_idle_time(self, message):
+        if not message:
+            idle_time = datetime.now() - self.last_message_time
+            if idle_time.total_seconds() > 120.0:
+                print("Testid '%s' is terminating due to inactivity." % self.testid)
+                self.keep_running = False
 
     # Begin methods for message passing between web and worker ###
     # See comment in web/server/src/controllers/just-in-time-data.js
@@ -88,6 +97,7 @@ class Job:
     def handle_messages(self):
         message = self.redis_pubsub.get_message()
         if message:
+            self.last_message_time = datetime.now()
             message_type = message['type']
             if message_type == 'message':
                 request_channel = message['channel']
