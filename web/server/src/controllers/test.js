@@ -2,8 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {addJobToQueue} from './job';
 import {getWorkerData} from './just-in-time-data.js';
 import {
-  getS3KeyForTestcaseID,
-  isTestcase
+  getS3KeyForTestcaseID
 } from './testcase.js';
 
 function promiseTaskLater(task, time, ...args) {
@@ -20,8 +19,8 @@ function promiseTaskLater(task, time, ...args) {
 };
 
 // Given testid, return the testcase id
-async function getTestcaseID(testid, redis) {
-  return await new Promise((resolve, reject) => {
+export function getTestcaseID(testid, redis) {
+  return new Promise((resolve, reject) => {
     redis.hget(testid, 'testcaseid', (err, data) => {
       if (err) {
         reject(err)

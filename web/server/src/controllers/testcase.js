@@ -56,7 +56,7 @@ export async function getTestcases(db) {
 
 export async function isTestcase(id, db) {
   const testcases = await getTestcases(db)
-  found = testcases.find( t => t.testcaseid == id )
+  const found = testcases.find( t => t.testcaseid == id )
   return found != undefined
 }
 
