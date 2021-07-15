@@ -1,1 +1,1 @@
-from .boptest_client import BoptestClient
+from .boptest_submit import BoptestSubmit
