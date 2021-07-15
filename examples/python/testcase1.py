@@ -19,7 +19,7 @@ import pandas as pd
 sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
 # Add custom KPI calculation
 from examples.python.custom_kpi import custom_kpi_calculator as kpicalculation
-from boptest_client import BoptestClient
+from boptest_submit import BoptestSubmit
 
 # ----------------------
 
@@ -61,7 +61,7 @@ def run(plot=False, customized_kpi_config=None):
     length = 48*3600
     step = 300
     # Submit testcase fmu
-    client = BoptestClient(url)
+    client = BoptestSubmit(url)
     testcase = 'testcase1'
     client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase), testcase)
     testid = requests.post('{0}/testcases/{1}/select'.format(url,testcase)).json()['testid']
