@@ -1,5 +1,18 @@
 version: '3'
 services:
+  # A service to provision needed resources during development
+  # The main task is to upload test cases
+  # This is not a production container,
+  # but the "boptest_submit" python module that is executed
+  # by this service may be useful in provisioning a production environment
+  provision: 
+    build: provision
+    depends_on:
+      - web
+    environment:
+      - BOPTEST_SUBMIT_URL
+    volumes:
+      - ./:/usr/src/boptest
   web: # main haystack application
     build:
       dockerfile: web/Dockerfile

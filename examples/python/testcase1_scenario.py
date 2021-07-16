@@ -30,7 +30,6 @@ def run(plot=False):
     # -----------------------------------------------------------------------------
     import requests
     import numpy as np
-    from boptest_submit import BoptestSubmit
     # -----------------------------------------------------------------------------
     # TEST CONTROLLER IMPORT
     # -----------------------------------------------------------------------------
@@ -41,10 +40,7 @@ def run(plot=False):
     # Set URL for test case
     url = 'http://127.0.0.1:80'
     # -----------------------------------------------------------------------------
-    # Submit testcase fmu
-    client = BoptestSubmit(url)
     testcase = 'testcase1'
-    client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase), testcase)
     testid = requests.post('{0}/testcases/{1}/select'.format(url,testcase)).json()['testid']
     # ---------------
     # Set testing scenario

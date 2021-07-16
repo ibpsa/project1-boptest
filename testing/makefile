@@ -75,6 +75,8 @@ test_testcase1:
 # Deploy testcase container
 	cd .. && make run-detached
 	python sleep10.py
+# Upload the testcase fmu to the service
+	cd .. && make run-provision TESTCASE=testcase1
 # Run testcase tests
 # Julia
 # cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1

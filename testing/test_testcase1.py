@@ -14,7 +14,6 @@ import numpy as np
 import time
 from examples.python import testcase1
 from examples.python import testcase1_scenario
-from boptest_submit import BoptestSubmit
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller in Python.
@@ -147,8 +146,6 @@ class MinMax(unittest.TestCase):
     def setUpClass(cls):
         cls.name = 'testcase1'
         cls.url = 'http://127.0.0.1:80'
-        client = BoptestSubmit(cls.url)
-        client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name), cls.name)
         cls.testid = requests.post('{0}/testcases/{1}/select'.format(cls.url,cls.name)).json()['testid']
 
     def setUp(self):
@@ -196,8 +193,6 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
     def setUpClass(cls):
         cls.name = 'testcase1'
         cls.url = 'http://127.0.0.1:80'
-        client = BoptestSubmit(cls.url)
-        client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name), cls.name)
         cls.testid = requests.post('{0}/testcases/{1}/select'.format(cls.url,cls.name)).json()['testid']
 
     def setUp(self):
@@ -305,8 +300,6 @@ class ComputationalTimeRatio(unittest.TestCase):
     def setUpClass(cls):
         cls.name = 'testcase1'
         cls.url = 'http://127.0.0.1:80'
-        client = BoptestSubmit(cls.url)
-        client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name), cls.name)
         cls.testid = requests.post('{0}/testcases/{1}/select'.format(cls.url,cls.name)).json()['testid']
 
     def setUp(self):
@@ -366,8 +359,6 @@ class API(unittest.TestCase, utilities.partialTestAPI):
     def setUpClass(cls):
         cls.name = 'testcase1'
         cls.url = 'http://127.0.0.1:80'
-        client = BoptestSubmit(cls.url)
-        client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name), cls.name)
         cls.testid = requests.post('{0}/testcases/{1}/select'.format(cls.url,cls.name)).json()['testid']
 
     def setUp(self):
