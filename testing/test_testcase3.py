@@ -11,7 +11,6 @@ import pandas as pd
 import os
 import utilities
 from examples.python import testcase3
-from boptest_client import BoptestClient
 
 class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
     '''Tests the example test of proportional feedback controller with
@@ -54,8 +53,11 @@ class API(unittest.TestCase, utilities.partialTestAPI):
     def setUpClass(cls):
         cls.name = 'testcase3'
         cls.url = 'http://127.0.0.1:80'
-        client = BoptestClient(cls.url)
-        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+        cls.testid = requests.post('{0}/testcases/{1}/select'.format(cls.url, cls.name)).json()['testid']
+
+    @classmethod
+    def tearDownClass(cls):
+        requests.put('{0}/stop/{1}'.format(cls.url, cls.testid))
 
     def setUp(self):
         '''Setup for testcase.
@@ -66,9 +68,6 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.step_ref = 60.0
         self.testid = API.testid
         self.test_time_period = 'test_day'
-
-    def tearDown(self):
-        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

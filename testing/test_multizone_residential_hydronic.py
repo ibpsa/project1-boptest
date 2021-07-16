@@ -10,7 +10,6 @@ import requests
 import unittest
 import os
 import utilities
-from boptest_client import BoptestClient
 
 class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialTestSeason):
     '''Tests the example test case.
@@ -21,8 +20,11 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
     def setUpClass(cls):
         cls.name = 'multizone_residential_hydronic'
         cls.url = 'http://127.0.0.1:80'
-        client = BoptestClient(cls.url)
-        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+        cls.testid = requests.post('{0}/testcases/{1}/select'.format(cls.url, cls.name)).json()['testid']
+
+    @classmethod
+    def tearDownClass(cls):
+        requests.put('{0}/stop/{1}'.format(cls.url, cls.testid))
 
     def setUp(self):
         '''Setup for each test.
@@ -42,9 +44,6 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
                              'conHeaLiv_reaActHea_y',
                              'conHeaRo1_reaActHea_y', 'conHeaRo2_reaActHea_y',
                              'conHeaRo3_reaActHea_y']
-
-    def tearDown(self):
-        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
@@ -71,8 +70,11 @@ class API(unittest.TestCase, utilities.partialTestAPI):
     def setUpClass(cls):
         cls.name = 'multizone_residential_hydronic'
         cls.url = 'http://127.0.0.1:80'
-        client = BoptestClient(cls.url)
-        cls.testid = client.submit('testcases/{0}/models/wrapped.fmu'.format(cls.name))
+        cls.testid = requests.post('{0}/testcases/{1}/select'.format(cls.url, cls.name)).json()['testid']
+
+    @classmethod
+    def tearDownClass(cls):
+        requests.put('{0}/stop/{1}'.format(cls.url, cls.testid))
 
     def setUp(self):
         '''Setup for testcase.
@@ -83,9 +85,6 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.step_ref = 3600
         self.testid = API.testid
         self.test_time_period = 'peak_heat_day'
-
-    def tearDown(self):
-        requests.put('{0}/stop/{1}'.format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

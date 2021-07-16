@@ -99,6 +99,8 @@ test_testcase2:
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=testcase2
 	python sleep10.py
+# Upload the testcase fmu to the service
+	cd .. && make run-provision TESTCASE=testcase2
 # Run testcase tests
 # Julia
 #	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
@@ -121,6 +123,8 @@ test_bestest_air:
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=bestest_air
 	python sleep10.py
+# Upload the testcase fmu to the service
+	cd .. && make run-provision TESTCASE=bestest_air
 # Run testcase tests
 	cd .. && python testing/test_bestest_air.py
 # Stop testcase container
@@ -134,6 +138,8 @@ test_testcase3:
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=testcase3
 	python sleep10.py
+# Upload the testcase fmu to the service
+	cd .. && make run-provision TESTCASE=testcase3
 # Run testcase tests
 # Python and checks
 	cd .. && python testing/test_testcase3.py
@@ -148,6 +154,8 @@ test_bestest_hydronic:
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=bestest_hydronic
 	python sleep10.py
+# Upload the testcase fmu to the service
+	cd .. && make run-provision TESTCASE=bestest_hydronic
 # Run testcase tests
 	cd .. && python testing/test_bestest_hydronic.py
 # Stop testcase container
@@ -161,6 +169,8 @@ test_bestest_hydronic_heat_pump:
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=bestest_hydronic_heat_pump
 	python sleep10.py
+# Upload the testcase fmu to the service
+	cd .. && make run-provision TESTCASE=bestest_hydronic_heat_pump
 # Run testcase tests
 	cd .. && python testing/test_bestest_hydronic_heat_pump.py
 # Stop testcase container
@@ -174,6 +184,8 @@ test_multizone_residential_hydronic:
 # Deploy testcase container
 	cd .. && make run-detached TESTCASE=multizone_residential_hydronic
 	python sleep10.py && python sleep10.py
+# Upload the testcase fmu to the service
+	cd .. && make run-provision TESTCASE=multizone_residential_hydronic
 # Run testcase tests
 	cd .. && python testing/test_multizone_residential_hydronic.py
 # Stop testcase container

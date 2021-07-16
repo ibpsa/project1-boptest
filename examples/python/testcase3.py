@@ -15,7 +15,6 @@ import requests
 import pandas as pd
 # Add BOPTEST repository to PYTHONPATH for this example
 sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
-from boptest_client import BoptestClient
 # ----------------------
 
 # TEST CONTROLLER IMPORT
@@ -56,10 +55,8 @@ def run(plot=False):
     length = 48*3600
     step = 300
     # ---------------
-    # Submit testcase fmu
-    client = BoptestClient(url)
     testcase = 'testcase3'
-    testid = client.submit('./testcases/{0}/models/wrapped.fmu'.format(testcase))
+    testid = requests.post('{0}/testcases/{1}/select'.format(url,testcase)).json()['testid']
     # ---------------
 
     # GET TEST INFORMATION
