@@ -43,7 +43,7 @@ export function getWorkerData(id, dataname, redis, pub, sub, params) {
     timeout = setTimeout(() => {
       cleanup()
       reject(`Timeout while sending command '${dataname}' to testid '${id}'`)
-    }, 30000)
+    }, 1200000)
 
     sub.subscribe(responseChannel)
     const stringy_params = JSON.stringify(params)
