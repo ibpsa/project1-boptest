@@ -45,7 +45,6 @@ class Job:
         self.tc = TestCase(self.fmu_path)
 
         # subscribe to channels related to this test
-        self.redis_pubsub.psubscribe(str(self.testid) + "*")
         self.message_handlers = {}
         self.register_message_handler('initialize', self.initialize)
         self.register_message_handler('advance', self.advance)
@@ -185,7 +184,6 @@ class Job:
         kpis = self.tc.get_kpis()
         kpidump = json.dumps(kpis)
 
-        self.redis_pubsub.punsubscribe(str(self.testid) + "*")
         self.redis_pubsub.unsubscribe()
         self.redis.delete(self.testid)
 
