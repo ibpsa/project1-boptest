@@ -12,7 +12,7 @@ run-detached:
 	docker-compose up -d web worker
 
 run-provision:
-	docker-compose run -d --no-deps provision python3 -m boptest_submit ./testcases/${TESTCASE}
+	docker-compose run --no-deps provision python3 -m boptest_submit ./testcases/${TESTCASE}
 
 stop:
 	docker-compose down
