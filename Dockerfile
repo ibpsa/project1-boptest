@@ -18,7 +18,7 @@ USER developer
 
 WORKDIR $HOME
 
-RUN pip install --user flask-restful pandas flask_cors
+RUN pip install --user flask-restful==0.3.9 pandas==0.24.2 flask_cors==3.0.10
 
 RUN mkdir models && \
     mkdir doc
