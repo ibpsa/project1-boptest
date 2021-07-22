@@ -44,7 +44,7 @@ class Job:
 
         self.tc = TestCase(self.fmu_path)
 
-        # subscribe to channels related to this test
+        # subscribe to messages related to this test
         self.message_handlers = {}
         self.register_message_handler('initialize', self.initialize)
         self.register_message_handler('advance', self.advance)
@@ -58,6 +58,7 @@ class Job:
         self.register_message_handler('get_step', self.get_step)
         self.register_message_handler('set_step', self.set_step)
         self.register_message_handler('stop', self.stop)
+        self.subscribe()
 
         self.init_sim_status()
 
@@ -77,39 +78,58 @@ class Job:
                 self.keep_running = False
 
     # Begin methods for message passing between web and worker ###
-    # See comment in web/server/src/controllers/just-in-time-data.js
+    # See comment in web/server/src/controllers/redis.js
     # for a description of how messages between web and worker are designed
-    def get_request_channel(self, message_type):
-        return (self.testid + ":" + message_type + ":request")
+    def get_request_channel(self):
+        return (self.testid + ":request")
 
-    def get_response_channel(self, message_type):
-        return (self.testid + ":" + message_type + ":response")
+    def get_response_channel(self):
+        return (self.testid + ":response")
 
-    def register_message_handler(self, name, callback):
-        request_channel = self.get_request_channel(name)
+    def subscribe(self):
+        request_channel = self.get_request_channel()
         self.redis_pubsub.subscribe(request_channel)
-        self.message_handlers[request_channel] = {
-            'name': name,
-            'callback': callback
-        }
+
+    def unsubscribe(self):
+        self.redis_pubsub.unsubscribe()
+
+    def register_message_handler(self, method, callback):
+        self.message_handlers[method] = callback
+
+    def get_message_data(self, message):
+        return json.loads(message.get('data'))
 
     def handle_messages(self):
-        message = self.redis_pubsub.get_message()
-        if message:
-            self.last_message_time = datetime.now()
-            message_type = message['type']
-            if message_type == 'message':
-                request_channel = message['channel']
-                handler = self.message_handlers.get(request_channel)
-                if handler:
-                    name = handler['name']
-                    params = json.loads(message['data'])
-                    callback = handler['callback']
-                    response_channel = self.get_response_channel(name)
-                    response_data = callback(params)
-                    self.redis.hset(self.testid, name, json.dumps(response_data))
-                    self.redis.publish(response_channel, 'ready')
-        return message
+        handler = False
+        method = False
+        try:
+            message = self.redis_pubsub.get_message()
+            if message:
+                message_type = message['type']
+                if message_type == 'message':
+                    message_data = self.get_message_data(message)
+                    request_id = message_data.get('requestID')
+                    method = message_data.get('method')
+                    params = message_data.get('params')
+
+                    handler = self.message_handlers.get(method)
+                    callback_result = handler(params)
+
+                    self.redis.hset(self.testid, method, json.dumps(callback_result))
+                    message_response = { 'status': 'ok', 'requestID': request_id }
+                    self.redis.publish(self.get_response_channel(), json.dumps(message_response))
+
+                    self.last_message_time = datetime.now()
+        except:
+            error_message = str(sys.exc_info()[1])
+            print(error_message)
+            if handler and method:
+                # If the error happened late, and we have a handler and method,
+                # then try to send the error back to the client
+                self.redis.hset(self.testid, method, error_message)
+                response = { 'status': 'error', 'requestID': request_id }
+                self.redis.publish(self.get_response_channel(), json.dumps(response))
+
     # End methods for message passing
 
     # Begin message handling methods
@@ -181,16 +201,15 @@ class Job:
 
     # cleanup after the simulation is stopped
     def cleanup(self):
+        self.redis.delete(self.testid)
+        self.unsubscribe()
+
         kpis = self.tc.get_kpis()
         kpidump = json.dumps(kpis)
 
-        self.redis_pubsub.unsubscribe()
-        self.redis.delete(self.testid)
-
-        sim_id = str(uuid.uuid4())
-        tarname = "%s.tar.gz" % sim_id
+        tarname = "%s.tar.gz" % self.testid
         tar = tarfile.open(tarname, "w:gz")
-        tar.add(self.test_dir, filter=self.reset, arcname=sim_id)
+        tar.add(self.test_dir, filter=self.reset, arcname=self.testid)
         tar.close()
 
         uploadkey = "simulated/%s" % tarname
@@ -198,7 +217,7 @@ class Job:
         os.remove(tarname)
 
         time = str(datetime.now(tz=pytz.UTC))
-        self.mongo_db_sims.insert_one({"_id": sim_id, "testid": self.testid, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
+        self.mongo_db_sims.insert_one({"_id": self.testid, "testid": self.testid, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
         #self.post_results_to_dashboard(kpis, time)
 
         shutil.rmtree(self.test_dir)
