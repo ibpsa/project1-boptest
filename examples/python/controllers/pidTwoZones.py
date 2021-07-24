@@ -6,7 +6,7 @@ This module implements a simple P controller.
 """
 
 
-def compute_control(y, set_points):
+def compute_control(y, predictions):
     """Compute the control input from the measurement.
 
     Parameters
@@ -32,10 +32,10 @@ def compute_control(y, set_points):
         sys.exit()
 
     # Extract set point information   
-    north_sp_lower = set_points[0]
-    north_sp_upper = set_points[1]
-    lower_sp_south = set_points[2]
-    upper_sp_south = set_points[3]
+    north_sp_lower = predictions[0]
+    north_sp_upper = predictions[1]
+    lower_sp_south = predictions[2]
+    upper_sp_south = predictions[3]
 
     # Controller parameters
     k_p = 2000
@@ -82,10 +82,20 @@ def initialize():
     """
 
     u = {
-        'oveActNor_u':0,
+        'oveActNor_u': 0,
         'oveActNor_activate': 1,
-        'oveActSou_u':0,
+        'oveActSou_u': 0,
         'oveActSou_activate': 1
     }
 
     return u
+
+
+def update_predictions(prediction_config, forecast):
+    predictions = []
+    if forecast:
+        for j in range(len(prediction_config)):
+            predictions.append(forecast[prediction_config[j]][0])
+    else:
+        print("Cannot do controller prediction - No forecast!")
+    return predictions

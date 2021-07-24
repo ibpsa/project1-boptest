@@ -5,7 +5,7 @@ This module implements a simple P controller.
 """
 
 
-def compute_control(y):
+def compute_control(y, predictions):
     """Compute the control input from the measurement.
 
     Parameters

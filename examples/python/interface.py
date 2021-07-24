@@ -13,6 +13,7 @@ import requests
 import time
 import numpy as np
 from examples.python.custom_kpi.custom_kpi_calculator import CustomKPI
+from examples.python.controllers.controller import Control
 import json,collections
 import pandas as pd
 import importlib
@@ -54,7 +55,8 @@ def control_test(config):
     prediction_config = config.get('prediction_config')
     # Test controller import
     # ----------------------
-    control = importlib.import_module(config["control_module"])
+    module = importlib.import_module(config["control_module"])
+    control = Control(module, prediction_config, step)
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -97,24 +99,14 @@ def control_test(config):
     # Initialize u
     u = control.initialize()
     # Store prediction if any
-    if prediction_config is not None:
-        predictions_store = pd.DataFrame(columns=prediction_config)
-    else:  
-        predictions_store = None    
     # Simulation Loop
     for i in range(int(length/step)):
         # Advance simulation
         y = requests.post('{0}/advance'.format(url), data=u).json()
-        # Compute next control signal                
-        if prediction_config is not None:
-            forecast = requests.get('{0}/forecast'.format(url)).json() 
-            predictions = []            
-            for j in range(len(prediction_config)):
-                predictions.append(forecast[prediction_config[j]][0])  
-            predictions_store.loc[(i+1)*step, predictions_store.columns] = predictions                 
-            u = control.compute_control(y, predictions)
-        else:                
-            u = control.compute_control(y)
+        forecast = requests.get('{0}/forecast'.format(url)).json()
+        # Compute next control signal
+        predictions = control.prediction(forecast, i)
+        u = control.compute_control(y, predictions)
         # Compute customized KPIs if any
         if custom_kpi_config is not None:
             for kpi in custom_kpis:
@@ -122,7 +114,7 @@ def control_test(config):
                 custom_kpi_value = kpi.calculation()  # Calculate custom KPI value
                 custom_kpi_result[kpi.name].append(round(custom_kpi_value, 2))  # Track custom KPI value
                 print('KPI:\t{0}:\t{1}'.format(kpi.name, round(custom_kpi_value, 2)))  # Print custom KPI value
-             custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
+            custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
@@ -160,4 +152,4 @@ def control_test(config):
         df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
     df_res.index.name = 'time'
     
-    return kpi, df_res, custom_kpi_result, predictions_store
+    return kpi, df_res, custom_kpi_result, control.predictions_store
