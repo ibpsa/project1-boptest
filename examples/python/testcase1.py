@@ -33,14 +33,17 @@ def run(plot=False):
         Empty if no customized KPI calculations defined.
 
     """
+    ########################################
     # config for the control test
-    config = {
-        'length': 48*3600,
-        'step': 300,
-        'customized_kpi_config': 'custom_kpi/custom_kpis_example.config',
-        'control_module': 'controllers.pid'
-    }
-    kpi, df_res, custom_kpi_result, predictions_store = control_test(config)
+    length = 48*3600
+    step = 300
+    customized_kpi_config = 'custom_kpi/custom_kpis_example.config'
+    control_module = 'controllers.pid'
+    ########################################
+    kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
+                                                                    step=step,
+                                                                    control_module=control_module,
+                                                                    customized_kpi_config=customized_kpi_config)
     time = df_res.index.values/3600  # convert s --> hr
     zone_temperature = df_res['TRooAir_y'].values - 273.15  # convert K --> C
     heating_power = df_res['PHea_y'].values

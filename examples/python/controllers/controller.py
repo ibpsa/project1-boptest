@@ -1,3 +1,4 @@
+import sys
 import importlib
 import pandas as pd
 
@@ -16,12 +17,16 @@ class Control(object):
         step: int
             step size in simulation used to store predictions from forecast as simulation progresses
         """
+        try:
+            module = importlib.import_module(module)
+        except ModuleNotFoundError:
+            print("Cannot find specified controller: {}".format(module))
+            sys.exit()
         if prediction_config is not None:
             predictions_store = pd.DataFrame(columns=prediction_config)
             self.update_predictions = module.update_predictions
         else:
             predictions_store = None
-        module = importlib.import_module(module)
         self.compute_control = module.compute_control
         self.initialize = module.initialize
         self.predictions_store = predictions_store
@@ -30,7 +35,8 @@ class Control(object):
 
     def prediction(self, forecast, iteration):
         predictions = self.update_predictions(self.prediction_config, forecast)
-        self.predictions_store.loc[(iteration + 1) * self.step, self.predictions_store.columns] = predictions
+        if self.predictions_store is not None:
+            self.predictions_store.loc[(iteration + 1) * self.step, self.predictions_store.columns] = predictions
         return predictions
 
     def update_predictions(self, prediction_config, forecast):

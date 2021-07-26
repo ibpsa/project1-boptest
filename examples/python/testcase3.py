@@ -33,23 +33,26 @@ def run(plot=False):
         Empty if no customized KPI calculations defined.
 
     """
+    ########################################
     # config for the control test
-    config = {
-        'length': 48*3600,
-        'step": 300,'
-        'control_module': 'controllers.pidTwoZones',
-        'prediction_config': [
+    length = 48*3600
+    step = 300
+    control_module = 'controllers.pidTwoZones'
+    prediction_config = [
             'LowerSetp[North]',
             'UpperSetp[North]',
             'LowerSetp[South]',
             'UpperSetp[South]'
-        ]
-    }
-    kpi ,df_res, custom_kpi_result, prediction_store = control_test(config)
+    ]
+    ########################################
+    kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
+                                                                    step=step,
+                                                                    control_module=control_module,
+                                                                    prediction_config=prediction_config)
     setpoints = prediction_store
     time = df_res.index.values/3600  # convert s --> hr
     setpoints.index = setpoints.index/3600  # convert s --> hr
-    zone_temp_north = df_res['TRooAirNor_y'].values-273.15 # convert K --> C
+    zone_temp_north = df_res['TRooAirNor_y'].values-273.15  # convert K --> C
     power_heat_north = df_res['PHeaNor_y'].values
     zone_temp_south = df_res['TRooAirSou_y'].values-273.15  # convert K --> C
     power_heat_south = df_res['PHeaSou_y'].values
