@@ -11,8 +11,9 @@ imported from a different module.
 # ----------------------
 from interface import control_test
 
+
 def run(plot=False):
-    '''Run test case.
+    """Run test case.
 
     Parameters
     ----------
@@ -27,49 +28,57 @@ def run(plot=False):
         {kpi_name : value}
     res : dict
         Dictionary of trajectories of inputs and outputs.
-    customizedkpis_result: dict
+    custom_kpi_result: dict
         Dictionary of tracked custom KPI calculations.
         Empty if no customized KPI calculations defined.
 
-    '''
+    """
+    ########################################
     # config for the control test
-    config = {}
-    config['length'] = 24*3600*2
-    config['step'] = 3600
-    config['customized_kpi_config'] = 'custom_kpi/custom_kpis_example.config'   
-    config['control_module'] =  'controllers.sup'
-    
-    kpi,df_res,customizedkpis_result,predictions_store = control_test(config) 
-    TRooAir = df_res['TRooAir_y'].values-273.15 # convert K --> C
-    TSetRooHea = df_res['oveTSetRooHea_u'].values-273.15 # convert K --> C
-    TSetRooCoo = df_res['oveTSetRooCoo_u'].values-273.15 # convert K --> C
-    PFan = df_res['PFan_y'].values
-    PCoo = df_res['PCoo_y'].values
-    PHea = df_res['PHea_y'].values
-    PPum = df_res['PPum_y'].values
+    length = 24 * 3600 * 2
+    step = 3600
+    customized_kpi_config = 'custom_kpi/custom_kpis_example.config'
+    control_module = 'controllers.sup'
+    ########################################
+    kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
+                                                                    step=step,
+                                                                    control_module=control_module,
+                                                                    customized_kpi_config=customized_kpi_config)
+    time = df_res.index.values / 3600  # convert s --> hr
+    room_temperature = df_res['TRooAir_y'].values - 273.15  # convert K --> C
+    tset_heating = df_res['oveTSetRooHea_u'].values - 273.15  # convert K --> C
+    tset_cooling = df_res['oveTSetRooCoo_u'].values - 273.15  # convert K --> C
+    fan_power = df_res['PFan_y'].values
+    cooling_power = df_res['PCoo_y'].values
+    heating_power = df_res['PHea_y'].values
+    pump_power = df_res['PPum_y'].values
     # Plot results
     if plot:
-        from matplotlib import pyplot as plt
-        plt.figure(1)
-        plt.title('Zone Temperature')
-        plt.plot(t, TRooAir)
-        plt.plot(t, TSetRooHea)
-        plt.plot(t, TSetRooCoo)
-        plt.ylabel('Temperature [C]')
-        plt.xlabel('Time [hr]')
-        plt.figure(2)
-        plt.title('HVAC Power')
-        plt.plot(t, PHea, label='Heating')
-        plt.plot(t, PCoo, label='Cooling')
-        plt.plot(t, PFan, label='Fan')
-        plt.plot(t, PPum, label='Pump')
-        plt.ylabel('Electrical Power [W]')
-        plt.xlabel('Time [hr]')
-        plt.legend()
-        plt.show()
+        try:
+            from matplotlib import pyplot as plt
+            plt.figure(1)
+            plt.title('Zone Temperature')
+            plt.plot(time, room_temperature)
+            plt.plot(time, tset_heating)
+            plt.plot(time, tset_cooling)
+            plt.ylabel('Temperature [C]')
+            plt.xlabel('Time [hr]')
+            plt.figure(2)
+            plt.title('HVAC Power')
+            plt.plot(time, heating_power, label='Heating')
+            plt.plot(time, cooling_power, label='Cooling')
+            plt.plot(time, fan_power, label='Fan')
+            plt.plot(time, pump_power, label='Pump')
+            plt.ylabel('Electrical Power [W]')
+            plt.xlabel('Time [hr]')
+            plt.legend()
+            plt.show()
+        except ImportError:
+            print("Cannot import numpy or matplotlib for plot generation")
     # --------------------
 
-    return kpi,df_res,customizedkpis_result
+    return kpi, df_res, custom_kpi_result
+
 
 if __name__ == "__main__":
-    kpi,df_res,customizedkpis_result = run()
+    kpi, df_res, custom_kpi_result = run()

@@ -4,7 +4,8 @@ This module implements a simple P controller.
 
 """
 
-def compute_control(y):
+
+def compute_control(y, predictions):
     '''Compute the control input from the measurement.
 
     Parameters
@@ -27,18 +28,21 @@ def compute_control(y):
     k_p = 2000
 
     # Compute control
-    if y['TRooAir_y']<LowerSetp:
+    if y['TRooAir_y'] < LowerSetp:
         e = LowerSetp - y['TRooAir_y']
-    elif y['TRooAir_y']>UpperSetp:
+    elif y['TRooAir_y'] > UpperSetp:
         e = UpperSetp - y['TRooAir_y']
     else:
         e = 0
 
     value = k_p*e
-    u = {'oveAct_u':value,
-         'oveAct_activate': 1}
+    u = {
+        'oveAct_u': value,
+        'oveAct_activate': 1
+    }
 
     return u
+
 
 def initialize():
     '''Initialize the control input u.
@@ -55,7 +59,9 @@ def initialize():
 
     '''
 
-    u = {'oveAct_u':0,
-         'oveAct_activate': 1}
+    u = {
+        'oveAct_u': 0,
+        'oveAct_activate': 1
+    }
 
     return u

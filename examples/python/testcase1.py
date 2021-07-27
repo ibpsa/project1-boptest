@@ -11,8 +11,9 @@ imported from a different module.
 # ----------------------
 from interface import control_test
 
+
 def run(plot=False):
-    '''Run test case.
+    """Run test case.
 
     Parameters
     ----------
@@ -27,42 +28,50 @@ def run(plot=False):
         {kpi_name : value}
     res : dict
         Dictionary of trajectories of inputs and outputs.
-    customizedkpis_result: dict
+    custom_kpi_result: dict
         Dictionary of tracked custom KPI calculations.
         Empty if no customized KPI calculations defined.
 
-    '''
+    """
+    ########################################
     # config for the control test
-    config = {}
-    config['length'] = 48*3600
-    config['step'] = 300
-    config['customized_kpi_config'] = 'custom_kpi/custom_kpis_example.config'   
-    config['control_module'] =  'controllers.pid'
-    
-    kpi,df_res,customizedkpis_result,predictions_store = control_test(config)  
-    time = df_res.index.values/3600 # convert s --> hr
-    TZone = df_res['TRooAir_y'].values-273.15 # convert K --> C
-    PHeat = df_res['PHea_y'].values
-    QHeat = df_res['oveAct_u'].values
+    length = 48*3600
+    step = 300
+    customized_kpi_config = 'custom_kpi/custom_kpis_example.config'
+    control_module = 'controllers.pid'
+    ########################################
+    kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
+                                                                    step=step,
+                                                                    control_module=control_module,
+                                                                    customized_kpi_config=customized_kpi_config)
+    time = df_res.index.values/3600  # convert s --> hr
+    zone_temperature = df_res['TRooAir_y'].values - 273.15  # convert K --> C
+    heating_power = df_res['PHea_y'].values
+    q_heat = df_res['oveAct_u'].values
     # Plot results
     if plot:
-        from matplotlib import pyplot as plt
-        plt.figure(1)
-        plt.title('Zone Temperature')
-        plt.plot(time, TZone)
-        plt.plot(time, 20*np.ones(len(time)), '--')
-        plt.plot(time, 23*np.ones(len(time)), '--')
-        plt.ylabel('Temperature [C]')
-        plt.xlabel('Time [hr]')
-        plt.figure(2)
-        plt.title('Heater Power')
-        plt.plot(time, PHeat)
-        plt.ylabel('Electrical Power [W]')
-        plt.xlabel('Time [hr]')
-        plt.show()
+        try:
+            from matplotlib import pyplot as plt
+            import numpy as np
+            plt.figure(1)
+            plt.title('Zone Temperature')
+            plt.plot(time, zone_temperature)
+            plt.plot(time, 20*np.ones(len(time)), '--')
+            plt.plot(time, 23*np.ones(len(time)), '--')
+            plt.ylabel('Temperature [C]')
+            plt.xlabel('Time [hr]')
+            plt.figure(2)
+            plt.title('Heater Power')
+            plt.plot(time, heating_power)
+            plt.ylabel('Electrical Power [W]')
+            plt.xlabel('Time [hr]')
+            plt.show()
+        except ImportError:
+            print("Cannot import numpy or matplotlib for plot generation")
     # --------------------
 
-    return kpi,df_res,customizedkpis_result
+    return kpi, df_res, custom_kpi_result
+
 
 if __name__ == "__main__":
-    kpi,df_res,customizedkpis_result = run()
+    kpi, df_res, custom_kpi_result = run()
