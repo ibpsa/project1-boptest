@@ -27,14 +27,19 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
 
     length: int
         Simulation duration in seconds (e.g., 24*3600 is a 1 day simulation).
+        Default is 24*3600 (1-day).
     step: int
         Simulation step size in seconds.
+        Default is 300.
     control_module: str
         relative path to controller code without .py suffix (e.g., 'controllers.sup')
+        Default is '' (required).
     customized_kpi_config: str
         relative path to custom KPI (e.g., 'custom_kpi.custom_kpis_example.config')
+        default is None.
     prediction_config: list, str
         List of strings.  Each element is a point that will be passed to the /forecast restful call.
+        Default is None.
 
     Returns
     -------
@@ -97,12 +102,14 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     u = control.initialize()
     # Store prediction if any
     # Simulation Loop
+    predictions = None
     for i in range(int(length/step)):
         # Advance simulation
         y = requests.post('{0}/advance'.format(url), data=u).json()
-        forecast = requests.get('{0}/forecast'.format(url)).json()
-        # Compute next control signal
-        predictions = control.prediction(forecast, i)
+        if control.use_forecast:
+            forecast = requests.get('{0}/forecast'.format(url)).json()
+            # Compute next control signal
+            predictions = control.prediction(forecast, i)
         u = control.compute_control(y, predictions)
         # Compute customized KPIs if any
         for kpi in custom_kpis:

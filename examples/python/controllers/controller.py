@@ -22,11 +22,14 @@ class Control(object):
         except ModuleNotFoundError:
             print("Cannot find specified controller: {}".format(module))
             sys.exit()
+        print(prediction_config)
         if prediction_config is not None:
             predictions_store = pd.DataFrame(columns=prediction_config)
             self.update_predictions = module.update_predictions
+            self.use_forecast = True
         else:
             predictions_store = None
+            self.use_forecast = False
         self.compute_control = module.compute_control
         self.initialize = module.initialize
         self.predictions_store = predictions_store
@@ -34,10 +37,22 @@ class Control(object):
         self.step = step
 
     def prediction(self, forecast, iteration):
+        """Pass prediction value from interface to concrete implementation of the controller
+
+        Parameters
+        ----------
+        forecast : str, required
+            path to concrete implementation of controller.
+        iteration: int, required
+            Number of timesteps simulation has progressed though.
+
+        Returns
+        -----------
+        predictions: list
+        prediction for data point in simulation returned by call to /forecast
+        """
         predictions = self.update_predictions(self.prediction_config, forecast)
         if self.predictions_store is not None:
             self.predictions_store.loc[(iteration + 1) * self.step, self.predictions_store.columns] = predictions
         return predictions
 
-    def update_predictions(self, prediction_config, forecast):
-        return None

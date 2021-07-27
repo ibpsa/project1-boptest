@@ -6,7 +6,7 @@ This module implements a simple P controller.
 
 
 def compute_control(y, predictions):
-    '''Compute the control input from the measurement.
+    """Compute the control input from the measurement.
 
     Parameters
     ----------
@@ -20,7 +20,7 @@ def compute_control(y, predictions):
         Defines the control input to be used for the next step.
         {<input_name> : <input_value>}
 
-    '''
+    """
 
     # Controller parameters
     LowerSetp = 273.15+20
@@ -45,7 +45,7 @@ def compute_control(y, predictions):
 
 
 def initialize():
-    '''Initialize the control input u.
+    """Initialize the control input u.
 
     Parameters
     ----------
@@ -57,7 +57,7 @@ def initialize():
         Defines the control input to be used for the next step.
         {<input_name> : <input_value>}
 
-    '''
+    """
 
     u = {
         'oveAct_u': 0,
