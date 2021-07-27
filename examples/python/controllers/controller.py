@@ -4,7 +4,7 @@ import pandas as pd
 
 
 class Control(object):
-    def __init__(self, module, prediction_config, step):
+    def __init__(self, module, forecast_config, step):
         """Controller object - instantiates concrete implementation of controller configured
         in configuration
 
@@ -12,7 +12,7 @@ class Control(object):
         ----------
         module : str, required
             path to concrete implementation of controller
-        prediction_config : list of strings, dict
+        forecast_config : list of strings, dict
             list of data names obtained by instatiator get/forecast method
         step: int
             step size in simulation used to store predictions from forecast as simulation progresses
@@ -22,9 +22,9 @@ class Control(object):
         except ModuleNotFoundError:
             print("Cannot find specified controller: {}".format(module))
             sys.exit()
-        print(prediction_config)
-        if prediction_config is not None:
-            predictions_store = pd.DataFrame(columns=prediction_config)
+
+        if forecast_config is not None:
+            predictions_store = pd.DataFrame(columns=forecast_config)
             self.update_predictions = module.update_predictions
             self.use_forecast = True
         else:
@@ -33,7 +33,7 @@ class Control(object):
         self.compute_control = module.compute_control
         self.initialize = module.initialize
         self.predictions_store = predictions_store
-        self.prediction_config = prediction_config
+        self.forecast_config = forecast_config
         self.step = step
 
     def prediction(self, forecast, iteration):
@@ -51,7 +51,7 @@ class Control(object):
         predictions: list
         prediction for data point in simulation returned by call to /forecast
         """
-        predictions = self.update_predictions(self.prediction_config, forecast)
+        predictions = self.update_predictions(self.forecast_config, forecast)
         if self.predictions_store is not None:
             self.predictions_store.loc[(iteration + 1) * self.step, self.predictions_store.columns] = predictions
         return predictions

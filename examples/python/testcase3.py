@@ -43,7 +43,7 @@ def run(plot=False, customized_kpi_config=None):
     length = 48*3600
     step = 300
     control_module = 'examples.python.controllers.pidTwoZones'
-    prediction_config = [
+    forecast_config = [
             'LowerSetp[North]',
             'UpperSetp[North]',
             'LowerSetp[South]',
@@ -53,7 +53,7 @@ def run(plot=False, customized_kpi_config=None):
     kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
                                                                     step=step,
                                                                     control_module=control_module,
-                                                                    prediction_config=prediction_config)
+                                                                    forecast_config=forecast_config)
     setpoints = prediction_store
     time = df_res.index.values/3600  # convert s --> hr
     setpoints.index = setpoints.index/3600  # convert s --> hr
