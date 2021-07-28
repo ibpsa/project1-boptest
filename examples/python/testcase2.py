@@ -9,17 +9,22 @@ imported from a different module.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-from interface import control_test
+import sys
+import pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+from examples.python.interface import control_test
 
 
-def run(plot=False):
+def run(plot=False, customized_kpi_config=None):
     """Run test case.
-
     Parameters
     ----------
     plot : bool, optional
         True to plot timeseries results.
         Default is False.
+    customized_kpi_config : string, optional
+        The path of the json file which contains the customized kpi information.
+        Default is None.
 
     Returns
     -------
@@ -37,8 +42,7 @@ def run(plot=False):
     # config for the control test
     length = 24 * 3600 * 2
     step = 3600
-    customized_kpi_config = 'custom_kpi/custom_kpis_example.config'
-    control_module = 'controllers.sup'
+    control_module = 'examples.python.controllers.sup'
     ########################################
     kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
                                                                     step=step,
@@ -81,4 +85,4 @@ def run(plot=False):
 
 
 if __name__ == "__main__":
-    kpi, df_res, custom_kpi_result = run()
+    kpi, df_res, custom_kpi_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')

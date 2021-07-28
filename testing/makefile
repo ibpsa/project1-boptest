@@ -27,6 +27,7 @@ copy_to_jm:
 copy_testcase_to_jm:
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing/${TESTCASE}
+	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing/${TESTCASE}
 	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
 
 copy_from_jm:
@@ -83,9 +84,10 @@ test_testcase1:
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase1
-# Remove testcase image
+# Remove testcase image and javascript geckodriver
 	cd ../examples/julia && make remove-image Script=testcase1
 	cd ../examples/javascript && make remove-image Script=testcase1
+	cd ../examples/javascript && rm geckodriver
 
 test_testcase2:
 # Compile testcase model
@@ -104,9 +106,10 @@ test_testcase2:
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=testcase2
-# Remove testcase image
+# Remove testcase image and javascript geckodriver
 	cd ../examples/julia && make remove-image Script=testcase2
 	cd ../examples/javascript && make remove-image Script=testcase2
+	cd ../examples/javascript && rm geckodriver
 
 test_bestest_air:
 # Compile testcase model
@@ -160,6 +163,19 @@ test_bestest_hydronic_heat_pump:
 	cd .. && python testing/test_bestest_hydronic_heat_pump.py
 # Stop testcase container
 	cd .. && make stop TESTCASE=bestest_hydronic_heat_pump
+
+test_multizone_residential_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=multizone_residential_hydronic
+# Build testcase image
+	cd .. &&  make build TESTCASE=multizone_residential_hydronic
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=multizone_residential_hydronic
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_multizone_residential_hydronic.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=multizone_residential_hydronic
 
 test_parser:
 	make run_jm
@@ -229,6 +245,39 @@ test_kpis:
 # Stop jm docker container
 	make stop_jm
 
+test_readme_commands:
+# Test readme commands work right after instantiation of test case container
+	cd .. &&  make build TESTCASE=testcase2
+	cd .. && make run-detached TESTCASE=testcase2
+	python sleep10.py
+	curl http://127.0.0.1:5000/measurements
+	curl http://127.0.0.1:5000/forecast
+	curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
+	cd .. && make stop TESTCASE=testcase2
+
+test_python2:
+# Test example controllers written in python run with python 2
+# Build testcase images
+	cd .. &&  make build TESTCASE=testcase1
+	cd .. &&  make build TESTCASE=testcase2
+	cd .. &&  make build TESTCASE=testcase3
+# Test testcase1
+	cd .. && make run-detached TESTCASE=testcase1
+	python sleep10.py
+	cd ../examples/python && python testcase1.py
+	cd ../examples/python && python testcase1_scenario.py
+	cd .. && make stop TESTCASE=testcase1
+# Test testcase2
+	cd .. && make run-detached TESTCASE=testcase2
+	python sleep10.py
+	cd ../examples/python && python testcase2.py
+	cd .. && make stop TESTCASE=testcase2
+# Test testcase3
+	cd .. && make run-detached TESTCASE=testcase3
+	python sleep10.py
+	cd ../examples/python && python testcase3.py
+	cd .. && make stop TESTCASE=testcase3
+
 ###############################################################################
 
 # Run all tests
@@ -241,12 +290,14 @@ test_all:
 	make test_data
 	make test_forecast
 	make test_kpis
+	make test_readme_commands
 	make test_testcase1
 	make test_testcase2
 	make test_testcase3
 	make test_bestest_air
 	make test_bestest_hydronic
 	make test_bestest_hydronic_heat_pump
+	make test_multizone_residential_hydronic
 # Remove jm
 	make remove_jm_image
 # Report test results

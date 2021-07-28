@@ -9,17 +9,22 @@ imported from a different module.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-from interface import control_test
+import sys
+import pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+from examples.python.interface import control_test
 
 
-def run(plot=False):
+def run(plot=False, customized_kpi_config=None):
     """Run test case.
-
     Parameters
     ----------
     plot : bool, optional
         True to plot timeseries results.
         Default is False.
+    customized_kpi_config : string, optional
+        The path of the json file which contains the customized kpi information.
+        Default is None.
 
     Returns
     -------
@@ -37,8 +42,8 @@ def run(plot=False):
     # config for the control test
     length = 48*3600
     step = 300
-    control_module = 'controllers.pidTwoZones'
-    prediction_config = [
+    control_module = 'examples.python.controllers.pidTwoZones'
+    forecast_config = [
             'LowerSetp[North]',
             'UpperSetp[North]',
             'LowerSetp[South]',
@@ -48,7 +53,7 @@ def run(plot=False):
     kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
                                                                     step=step,
                                                                     control_module=control_module,
-                                                                    prediction_config=prediction_config)
+                                                                    forecast_config=forecast_config)
     setpoints = prediction_store
     time = df_res.index.values/3600  # convert s --> hr
     setpoints.index = setpoints.index/3600  # convert s --> hr
@@ -86,4 +91,4 @@ def run(plot=False):
 
 
 if __name__ == "__main__":
-    kpi, df_res = run(plot=False)
+    kpi, df_res = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')

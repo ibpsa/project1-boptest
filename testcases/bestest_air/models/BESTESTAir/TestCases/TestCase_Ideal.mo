@@ -216,13 +216,28 @@ Denver-Stapleton,CO,USA,TMY.
 <h4>Primary and secondary system designs</h4>
 <p>
 Heating and cooling is provided to the office using an idealized four-pipe
-fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil,
+fan coil unit (FCU), presented in Figure 1 below.
+The FCU contains a fan, cooling coil, heating coil,
 and filter.  The fan draws room air into the unit, blows it over the coils
 and through the filter, and supplies the conditioned air back to the room.
 There is a variable speed drive serving the fan motor.  The cooling coil
 is served by chilled water produced by a chiller and the heating coil is
 served by hot water produced by a gas boiler.
 </p>
+
+<p>
+<br>
+</p>
+
+<p>
+<img src=\"../../../doc/images/Schematic.png\"/>
+<figcaption><small>Figure 1: System schematic.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 <h4>Equipment specifications and performance maps</h4>
 <p>
 For the fan, the design airflow rate is 0.55 kg/s and design pressure rise is
@@ -236,19 +251,39 @@ gas boiler is assumed constant at 0.9.
 <p>
 A baseline thermostat controller provides heating and cooling as necessary
 to the room by modulating the supply air temperature and
-fan speed.  The thermostat uses two different PI controllers for heating and
-cooling, each taking the respective zone temperature setpoint and zone
+fan speed.  The thermostat, designated as C1 in Figure 1 and shown in Figure 2 below,
+uses two different PI controllers for heating and
+cooling, each taking the respective zone temperature set point and zone
 temperature measurement as inputs.  The outputs are used to control supply air
-temperature during heating and cooling, as well as the fan speed.  For
-heating, the maximum supply air temperature is 40 C and the minimum is the
+temperature set point and fan speed according to the map shown in Figure 3 below.
+The supply air temperature is exactly met by the coils using an ideal controller
+depicted as C2 in Figure 1.
+For heating, the maximum supply air temperature is 40 C and the minimum is the
 zone occupied heating temperature setpoint.  For cooling, the minimum supply
 air temperature is 12 C and the maximum is the zone occupied cooling
 temperature setpoint.
-
 </p>
-<p align=\"center\">
-<img alt=\"Control scheme diagram\"
-src=\"../../../doc/images/ControlSchematic_Ideal.png\" width=600 />
+
+<p>
+<br>
+</p>
+
+<p>
+<img src=\"../../../doc/images/C1.png\"/>
+<figcaption><small>Figure 2: Controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
+<p>
+<img src=\"../../../doc/images/ControlSchematic_Ideal.png\" width=600 />
+<figcaption><small>Figure 3: Mapping of PI output to supply air temperature set point and fan speed in controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
 </p>
 
 <h3>Model IO's</h3>
@@ -423,9 +458,84 @@ Carbon dioxide generation rates for building occupants.
 Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 <h3>Scenario Information</h3>
+<h4>Time Periods</h4>
+<p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 334.
+</ul>
+<ul>
+End Time: Day 348.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with day with
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 44.
+</ul>
+<ul>
+End Time: Day 58.
+</ul>
+</p>
+<p>
+The <b>Peak Cool Day</b> (specifier for <code>/scenario</code> API is <code>'peak_cool_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system cooling load in the year.
+</ul>
+<ul>
+Start Time: Day 282.
+</ul>
+<ul>
+End Time: Day 296.
+</ul>
+</p>
+<p>
+The <b>Typical Cool Day</b> (specifier for <code>/scenario</code> API is <code>'typical_cool_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with day with
+the maximum 15-minute system cooling load that is closest from below to the
+median of all 15-minute maximum cooling loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 146.
+</ul>
+<ul>
+End Time: Day 160.
+</ul>
+</p>
+<p>
+The <b>Mix Day</b> (specifier for <code>/scenario</code> API is <code>'mix_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the maximimum
+sum of daily heating and cooling loads minus the difference between
+daily heating and cooling loads.  This is a day with both significant heating
+and cooling loads.
+</ul>
+<ul>
+Start Time: Day 343.
+</ul>
+<ul>
+End Time: Day 357.
+</ul>
+</p>
 <h4>Energy Pricing</h4>
 <p>
-The <b>Constant Electricity Price</b> profile is:
+The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
 <ul>
 Based on the Schedule R tariff
 for winter season and summer season first 500 kWh as defined by the
@@ -434,9 +544,12 @@ For reference,
 see https://www.xcelenergy.com/company/rates_and_regulations/rates/rate_books
 in the section on Current Tariffs/Electric Rate Books (PDF).
 </ul>
+<ul>
+Specifier for <code>/scenario</code> API is <code>'constant'</code>.
+</ul>
 </p>
 <p>
-The <b>Dynamic Electricity Price</b> profile is:
+The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
 <ul>
 Based on the Schedule RE-TOU tariff
 as defined by the utility servicing the assumed location of the test case.
@@ -500,7 +613,7 @@ Summer and Winter daily, between 9:00 p.m. and 9:00 a.m. local time.
 </ul>
 </p>
 <p>
-The <b>Highly Dynamic Electricity Price</b> profile is:
+The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
 <ul>
 Based on the the
 day-ahead energy prices (LMP) as determined in the Southwest Power Pool
@@ -542,6 +655,10 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 13, 2021, by David Blum:<br/>
+Add time period documentation.
+</li>
 <li>
 November 10, 2020, by David Blum:<br/>
 Add weather station measurements.

@@ -9,7 +9,6 @@ information, and calculating and reporting results.
 from pyfmi import load_fmu
 import numpy as np
 import copy
-import config
 import time
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
@@ -20,15 +19,30 @@ class TestCase(object):
 
     '''
 
-    def __init__(self):
+    def __init__(self, fmupath='models/wrapped.fmu'):
         '''Constructor.
+
+        Parameters
+        ----------
+        fmupath : str, optional
+            Path to the test case fmu.
+            Default is assuming a particular directory structure.
 
         '''
 
-        # Get configuration information
-        con = config.get_config()
-        # Define simulation model
-        self.fmupath = con['fmupath']
+        # Set BOPTEST version number
+        with open('version.txt', 'r') as f:
+            self.version = f.read()
+        # Set test case fmu path
+        self.fmupath = fmupath
+        # Instantiate a data manager for this test case
+        self.data_manager = Data_Manager(testcase=self)
+        # Load data and the kpis_json for the test case
+        self.data_manager.load_data_and_jsons()
+        # Instantiate a forecaster for this test case
+        self.forecaster = Forecaster(testcase=self)
+        # Define name
+        self.name = self.config_json['name']
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
         self.fmu.set_log_level(7)
@@ -36,14 +50,8 @@ class TestCase(object):
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
             raise ValueError('FMU must be version 2.0.')
-        # Instantiate a data manager for this test case
-        self.data_manager = Data_Manager(testcase=self)
-        # Load data and the kpis_json for the test case
-        self.data_manager.load_data_and_kpisjson()
-        # Instantiate a forecaster for this test case
-        self.forecaster = Forecaster(testcase=self)
-        # Instantiate a KPI calculator for the test case
-        self.cal = KPI_Calculator(testcase=self)
+        # Get building area
+        self.area = self.config_json['area']
         # Get available control inputs and outputs
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
@@ -51,21 +59,22 @@ class TestCase(object):
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Set default communication step
-        self.set_step(con['step'])
+        self.set_step(self.config_json['step'])
         # Set default forecast parameters
-        self.set_forecast_parameters(con['horizon'], con['interval'])
-        # Set default price scenario
-        self.set_scenario(con['scenario'])
+        self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
+        # Initialize simulation data arrays
+        self.__initilize_data()
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
         self.options['CVode_options']['rtol'] = 1e-6
-        # Set initial fmu simulation start
-        self.start_time = 0
-        self.initialize_fmu = True
-        self.options['initialize'] = self.initialize_fmu
-        # Initialize simulation data arrays
-        self.__initilize_data()
-        self.elapsed_control_time = []
+        self.options['CVode_options']['store_event_points'] = False
+        self.options['filter'] = self.output_names + self.input_names
+        # Instantiate a KPI calculator for the test case
+        self.cal = KPI_Calculator(testcase=self)
+        # Initialize test case
+        self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
+        # Set default scenario
+        self.set_scenario(self.config_json['scenario'])
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
@@ -116,9 +125,11 @@ class TestCase(object):
 
         # Set fmu initialization option
         self.options['initialize'] = self.initialize_fmu
+        # Set sample rate
+        self.options['ncp'] = int((end_time-start_time)/30)
         # Simulate fmu
         try:
-             res = self.fmu.simulate(start_time = start_time,
+            res = self.fmu.simulate(start_time = start_time,
                                      final_time = end_time,
                                      options=self.options,
                                      input=input_object)
@@ -129,7 +140,7 @@ class TestCase(object):
 
         return res
 
-    def __get_results(self, res, store=True):
+    def __get_results(self, res, store=True, store_initial=False):
         '''Get results at the end of a simulation and throughout the
         simulation period for storage. This method assigns these results
         to `self.y` and, if `store=True`, also to `self.y_store` and
@@ -145,19 +156,26 @@ class TestCase(object):
         store: boolean
             Set to true if desired to store results in `self.y_store` and
             `self.u_store`
+        store_initial: boolean
+            Set to true if desired to store initial point.
 
         '''
 
+        # Determine if store initial point
+        if store_initial:
+            i = 0
+        else:
+            i = 1
         # Get result and store measurement
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = np.append(self.y_store[key], res[key][1:])
+                self.y_store[key] = np.append(self.y_store[key], res[key][i:])
 
         # Store control inputs
         if store:
             for key in self.u.keys():
-                self.u_store[key] = np.append(self.u_store[key], res[key][1:])
+                self.u_store[key] = np.append(self.u_store[key], res[key][i:])
 
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -173,13 +191,14 @@ class TestCase(object):
         y : dict
             Contains the measurement data at the end of the step.
             {<measurement_name> : <measurement_value>}
+            If empty, simulation end time has been reached.
 
         '''
 
         # Calculate and store the elapsed time
         if hasattr(self, 'tic_time'):
             self.tac_time = time.time()
-            self.elapsed_control_time.append(self.tac_time-self.tic_time)
+            self.elapsed_control_time_ratio = np.append(self.elapsed_control_time_ratio, (self.tac_time-self.tic_time)/self.step)
 
         # Set final time
         self.final_time = self.start_time + self.step
@@ -214,24 +233,33 @@ class TestCase(object):
         # Otherwise, input object is None
         else:
             input_object = None
-        # Simulate
-        res = self.__simulation(self.start_time,self.final_time,input_object)
-        # Process results
-        if res is not None:
-            # Get result and store measurement and control inputs
-            self.__get_results(res, store=True)
-            # Advance start time
-            self.start_time = self.final_time
-            # Raise the flag to compute time lapse
-            self.tic_time = time.time()
+        # Simulate if not end of test
+        if self.start_time < self.end_time:
+            # Make sure stop at end of test
+            if self.final_time > self.end_time:
+                self.final_time = self.end_time
+            res = self.__simulation(self.start_time,self.final_time,input_object)
+            # Process results
+            if res is not None:
+                # Get result and store measurement and control inputs
+                self.__get_results(res, store=True, store_initial=False)
+                # Advance start time
+                self.start_time = self.final_time
+                # Raise the flag to compute time lapse
+                self.tic_time = time.time()
 
-            return self.y
+                return self.y
 
+            else:
+                # Error in simulation
+                return None
         else:
+            # Simulation at end time
+            return dict()
 
-            return None
 
-    def initialize(self, start_time, warmup_period):
+
+    def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
 
         Parameters
@@ -240,6 +268,9 @@ class TestCase(object):
             Start time of simulation to initialize to in seconds.
         warmup_period: int
             Length of time before start_time to simulate for warmup in seconds.
+        end_time: int, optional
+            Specifies a finite end time to allow simulation to continue
+            Default value is infinite.
 
         Returns
         -------
@@ -253,9 +284,11 @@ class TestCase(object):
         self.fmu.reset()
         # Reset simulation data storage
         self.__initilize_data()
-        self.elapsed_control_time = []
-        # Reset KPI Calculator
-        self.cal.initialize()
+        self.elapsed_control_time_ratio =np.array([])
+        # Record initial testing time
+        self.initial_time = start_time
+        # Record end testing time
+        self.end_time = end_time
         # Set fmu intitialization
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
@@ -264,10 +297,11 @@ class TestCase(object):
         # Process result
         if res is not None:
             # Get result
-            self.__get_results(res, store=False)
+            self.__get_results(res, store=True, store_initial=True)
             # Set internal start time to start_time
             self.start_time = start_time
-
+            # Initialize KPI Calculator
+            self.cal.initialize()
             return self.y
 
         else:
@@ -467,17 +501,41 @@ class TestCase(object):
         Parameters
         ----------
         scenario : dict
-            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>}
+            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
+             'time_period': see available keys for test case
+             }
+            If any value is None, it will not change existing.
 
         Returns
         -------
-        None
-
+        result : dict
+            {'electricity_price': if succeeded in changing then True, else None,
+             'time_period': if succeeded then initial measurements, else None
+             }
         '''
 
-        self.scenario = scenario
+        result = {'electricity_price':None,
+                  'time_period':None}
 
-        return None
+        if not hasattr(self,'scenario'):
+            self.scenario = {}
+        # Handle electricity price
+        if scenario['electricity_price']:
+            self.scenario['electricity_price'] = scenario['electricity_price']
+            result['electricity_price'] = True
+        # Handle timeperiod
+        if scenario['time_period']:
+            self.scenario['time_period'] = scenario['time_period']
+            warmup_period = 7*24*3600
+            key = self.scenario['time_period']
+            start_time = self.days_json[key]*24*3600-7*24*3600
+            end_time = start_time + 14*24*3600
+            result['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)
+
+        # It's needed to reset KPI Calculator when scenario is changed
+        self.cal.initialize()
+
+        return result
 
     def get_scenario(self):
         '''Returns the current case scenario.'''
@@ -495,17 +553,17 @@ class TestCase(object):
 
         Returns
         -------
-        name : str
-            Name of test case fmu.
+        name : dict
+            Name of test case as {'name': <str>}
 
         '''
 
-        name = self.fmupath[7:-4]
+        name = {'name':self.name}
 
         return name
 
-    def get_elapsed_control_time(self):
-        '''Returns the elapsed control time vector for the case.
+    def get_elapsed_control_time_ratio(self):
+        '''Returns the elapsed control time ratio vector for the case.
 
         Parameters
         ----------
@@ -513,14 +571,30 @@ class TestCase(object):
 
         Returns
         -------
-        elapsed_control_time : list of floats
-            elapsed_control_time for each control step.
+        elapsed_control_time_ratio : np array of floats
+            elapsed_control_time_ratio for each control step.
 
         '''
 
-        elapsed_control_time = self.elapsed_control_time
+        elapsed_control_time_ratio = self.elapsed_control_time_ratio
 
-        return elapsed_control_time
+        return elapsed_control_time_ratio
+
+    def get_version(self):
+        '''Returns the version number of BOPTEST.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        version : dict
+            Version of BOPTEST as {'version': <str>}
+
+        '''
+
+        return {'version':self.version}
 
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
@@ -609,3 +683,17 @@ class TestCase(object):
             checked_value = value
 
         return checked_value
+
+    def _get_area(self):
+        '''Get the building floor area in m^2.
+
+        Returns
+        -------
+        area : float
+            Building floor area in m^2
+
+        '''
+
+        area = self.area
+
+        return area

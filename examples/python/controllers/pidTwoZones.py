@@ -14,7 +14,7 @@ def compute_control(y, predictions):
     y : dict
         Contains the current values of the measurements.
         {<measurement_name>:<measurement_value>}
-    set_points : list
+    predictions : list
         Temperature set point bounds.
 
     Returns
@@ -92,6 +92,24 @@ def initialize():
 
 
 def update_predictions(prediction_config, forecast):
+    """Compute the control input from the measurement.
+
+    Parameters
+    ----------
+    prediction_config : list
+        list of data points that names contained in forecast
+        [<input_name1>, <input_name2>]
+    forecast : dict
+        dictionary of arrays with forecast data
+        {<point_name1: [<data>]}
+
+    Returns
+    -------
+    predictions : dict
+        Defines the control input to be used for the next step.
+        {<input_name> : <input_value>}
+
+    """
     predictions = []
     if forecast:
         for j in range(len(prediction_config)):
