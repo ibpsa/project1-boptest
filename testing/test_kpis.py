@@ -93,14 +93,14 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_constant')
 
-        # Reset KPI Calculator
+        # Reset kpi calculator
         self.cal.initialize()
         # Calculate operational cost dynamic
         self.cal.get_cost(scenario='Dynamic')
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_dynamic')
 
-        # Reset KPI Calculator
+        # Reset kpi calculator
         self.cal.initialize()
         # Calculate operational cost highly dynamic
         self.cal.get_cost(scenario='HighlyDynamic')
@@ -180,6 +180,37 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost')
         self._perform_test(self.case.emis_tot, self.case.emis_dict, 'emis')
 
+    def test_change_scenario_with_warmup(self):
+        '''Checks that KPI calculator can change the scenario and
+        re-calculate the KPIs from the beginning of the simulation
+        even when a warmup period is used for initialization.
+
+        '''
+
+        # Emulate a test case with warmup period
+        self.cal.case.initial_time = 24*3600
+
+        # Reset kpi calculator
+        self.cal.initialize()
+        # Calculate operational cost default (Constant)
+        self.cal.get_cost(scenario='Constant')
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_warmup_constant')
+
+        # Reset kpi calculator
+        self.cal.initialize()
+        # Calculate operational cost dynamic
+        self.cal.get_cost(scenario='Dynamic')
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_warmup_dynamic')
+
+        # Reset kpi calculator
+        self.cal.initialize()
+        # Calculate operational cost highly dynamic
+        self.cal.get_cost(scenario='HighlyDynamic')
+        # Check results
+        self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_warmup_highly_dynamic')
+
     def _perform_test(self, tot, dictionary, label):
         '''Common function for performing the tests.
 
@@ -207,29 +238,25 @@ class partialKpiCalculatorTest(utilities.partialChecks):
             ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'kpis', '{0}_dict_{1}.csv'.format(label, self.name))
             self.compare_ref_values_df(df, ref_filepath)
 
-class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
-    '''Tests the Forecaster class in a single-zone example.
-
-    '''
-
-    def setUp(self):
-        '''Setup for each test.
+    def _initialize_testcase(self, testcase, ref_data_filepath):
+        '''Initialize the test case.
 
         '''
-
-        self.name = 'SingleZone'
-        # Change directory to testcase 2
-        os.chdir(os.path.join(testing_root_dir,'testcase2'))
-        from testcase2.testcase import TestCase
+        # Change directory to specific testcase folder
+        os.chdir(os.path.join(testing_root_dir,testcase))
+        if testcase == 'testcase2':
+            from testcase2.testcase import TestCase
+        elif testcase=='testcase3':
+            from testcase3.testcase import TestCase
+        else:
+            raise ValueError('Testcase {0} unknown.'.format(testcase))
         self.case=TestCase()
 
         # Instantiate a KPI calculator linked to an empty case
         self.cal = KPI_Calculator(self.case)
 
         # Read the reference data
-        ref_filepath = os.path.join(utilities.get_root_path(),
-            'testing', 'references', 'kpis', 'tc2_results_python.csv')
-        df = pd.read_csv(ref_filepath)
+        df = pd.read_csv(ref_data_filepath)
 
         # Fill the test case with the refernce data
         for var in df.keys():
@@ -242,6 +269,22 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
             # Assign outputs
             elif var.endswith('_y'):
                 self.case.y_store[var] = df.loc[:,var]
+
+class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
+    '''Tests the Forecaster class in a single-zone example.
+
+    '''
+
+    def setUp(self):
+        '''Setup for each test.
+
+        '''
+
+        self.name = 'SingleZone'
+        self.testcase_name = 'testcase2'
+        self.ref_data_filepath = os.path.join(utilities.get_root_path(),
+            'testing', 'references', 'kpis', 'tc2_results_python.csv')
+        self._initialize_testcase(self.testcase_name, self.ref_data_filepath)
 
 class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
     '''Tests the Forecaster class in a multi-zone example.
@@ -254,30 +297,10 @@ class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
         '''
 
         self.name = 'MultiZone'
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
-
-        # Instantiate a KPI calculator linked to an empty case
-        self.cal = KPI_Calculator(self.case)
-
-        # Read the reference data
-        ref_filepath = os.path.join(utilities.get_root_path(),
+        self.testcase_name = 'testcase3'
+        self.ref_data_filepath = os.path.join(utilities.get_root_path(),
             'testing', 'references', 'kpis', 'tc3_results_python.csv')
-        df = pd.read_csv(ref_filepath)
-
-        # Fill the test case with the refernce data
-        for var in df.keys():
-            # Assign time
-            if var=='time':
-                self.case.y_store[var] = df.loc[:,var]
-            # Assign inputs
-            elif var.endswith('_u'):
-                self.case.u_store[var] = df.loc[:,var]
-            # Assign outputs
-            elif var.endswith('_y'):
-                self.case.y_store[var] = df.loc[:,var]
+        self._initialize_testcase(self.testcase_name, self.ref_data_filepath)
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

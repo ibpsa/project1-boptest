@@ -15,8 +15,7 @@ of 6 m2 each, which are modelled using a single window of 12 m2.
 <p>
 The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation.
 For more details see
-<a href=\"modelica://IDEAS.Buildings.Validation.Data.Constructions.HeavyWall\">
-IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>.
+IDEAS.Buildings.Validation.Data.Constructions.HeavyWall.
 The floor consists of 8 cm of concrete and 1 m of insulation, representing a
 perfectly insulated floor. The roof consists of a light construction and 11 cm
 of fibreglass.
@@ -33,13 +32,14 @@ There are no internal loads other than the occupants.
 <h4>Climate data</h4>
 <p>
 The model uses a climate file containing one year
-of weather data for Uccle, Belgium.
+of weather data for Brussels, Belgium.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
 The model only has a primary heating system that heats the zone using a
 single radiator with thermostatic valve, a circulation pump and a water heater.
+The system is presented in Figure 1 below.
 The radiator nominal thermal power and heater maximum thermal power is 5 kW.
 The heating setpoint is set to 21 &#176;C during occupied
 periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to
@@ -49,6 +49,21 @@ controller to modulate supply water temperature between 20 and 80 &#176;C to
 track a reference for the operative zone temperature
 that equals the heating setpoint plus an offset
 of 0.1 &#176;C by default.
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src="images/SingleZoneResidentialHydronic_Schematic.png" alt=\"image\"/>
+<figcaption><small>Figure 1: System schematic.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -60,10 +75,32 @@ computed using a polynomial curve.
 <p>
 The model assumes a pump with a constant head,
 which results in a fixed flow rate due to the fixed pressure drop coefficient of the radiator.
-The supply water temperature of the boiler is modulated using a PI
-controller that tracks indoor temperature to follow a reference defined as
-the heating setpoint plus an offset of 0.1 &#176;C.
+The supply water temperature set point of the boiler is modulated using a PI
+controller that tracks zone operative temperature to follow the zone operative temperature setpoint,
+depicted as controller C1 in Figure 1 and shown in Figure 2 below.
+For baseline control, this setpoint is defined as
+the heating comfort setpoint plus an offset of 0.1 &#176;C.
+The pump is switched on and off with hysteresis based on the indoor
+temperature with the heating set point as the low point and the cooling set point
+as the high point.  It is assumed that the boiler exactly
+outputs the supply water temperature set point using an ideal controller
+depicted as C2 in Figure 1.
 </p>
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src="images/SingleZoneResidentialHydronic_C1.png" alt=\"image\"/>
+<figcaption><small>Figure 2: Controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
@@ -200,83 +237,118 @@ Fixed air infiltration corresponding to an n50 value of 10
 is modelled.
 </p>
 <h3>Scenario Information</h3>
-<h4>Energy Pricing</h4>
-<h5>Constant electricity price profile</h5>
+<h4>Time Periods</h4>
 <p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 311.
+</ul>
+<ul>
+End Time: Day 325.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 334.
+</ul>
+<ul>
+End Time: Day 348.
+</ul>
+</p>
+<h4>Energy Pricing</h4>
+<p>
+All pricing scenarios include the same constant value for transmission fees and taxes
+of each commodity. The used value is the typical price that household users pay
+for the network, taxes and levies, as calculateed by Eurostat and obtained from:
+<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN">
+The energy prices and costs in Europe report</a>.
+For the assumed location of the test case, this value is of
+0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas.
+</p>
+<p>
+The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
+<ul>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
 as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in
-<a href=\"https://www.energyprice.be/products-list/Engie\">
+<a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
+Adding up the transmission fees and taxes, the final constant electricity price is
+of 0.2535 EUR/kWh.
+</ul>
 </p>
-<h5>Dynamic electricity price profile</h5>
 <p>
+The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
+<ul>
 The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during
 day time and 0.0383 EUR/kWh during night time,
 as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in
-<a href=\"https://www.energyprice.be/products-list/Engie\">
+<a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
+Adding up the transmission fees and taxes, the final dynamic electricity prices are
+of 0.2666 EUR/kWh during on-peak periods and of 0.2383 during off-peak periods.
+</ul>
 </p>
-<h5>Highly dynamic electricity price profile</h5>
 <p>
+The <b>Highly Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'highly_dynamic'</code>) profile is:
+<ul>
 The highly dynamic electricity price scenario is based on the the
 Belgian day-ahead energy prices as determined by the BELPEX wholescale electricity
 market in the year 2019.
 Obtained from:
-<a href=\"https://my.elexys.be/MarketInformation/SpotBelpex.aspx\">
+<a href="https://my.elexys.be/MarketInformation/SpotBelpex.aspx">
 https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a>
+Notice that the same constant transmission fees and taxes of 0.20 EUR/kWh are
+added up on top of these prices.
+</ul>
 </p>
-<h5>Gas price profile</h5>
+The <b>Gas Price</b> profile is:
 <p>
+<ul>
 The gas price is assumed constant and of 0.0198 EUR/kWh
 as obtained from the \"Easy Indexed\" deal for gas
-<a href=\"https://www.energyprice.be/products-list/Engie\">
+<a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
+Adding up the transmission fees and taxes, the final constant gas price is
+of 0.0498 EUR/kWh.
+</ul>
 </p>
 <h4>Emission Factors</h4>
-<h5>Electricity emissions factor profile</h5>
 <p>
+The <b>Electricity Emissions Factor</b> profile is:
+<ul>
 It is used a constant emission factor for electricity of 0.167 kgCO2/kWh
 which is the grid electricity emission factor reported by the Association of Issuing Bodies (AIB)
 for year 2018. For reference, see:
- <a href=\"https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf\">
+ <a href="https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf">
 https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</a>
+</ul>
 </p>
-<h5>Gas emissions factor profile</h5>
 <p>
+The <b>Gas Emissions Factor</b> profile is:
+<ul>
 Based on the kgCO2 emitted per amount of natural gas burned in terms of
 energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
 For reference,
 see:
-<a href=\"https://www.eia.gov/environment/emissions/co2_vol_mass.php\">
+<a href="https://www.eia.gov/environment/emissions/co2_vol_mass.php">
 https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
-</p>
-</html>", revisions="<html>
-<ul>
-<li>
-June 12, 2020 by Javier Arroyo:<br/>
-Implemented PI controller for boiler supply temperature.
-</li>
-<li>
-June 2, 2020 by Javier Arroyo:<br/>
-Implemented temperature setpoint setback.
-</li>
-<li>
-March 21, 2019 by Filip Jorissen:<br/>
-Revised implementation based on first review for
-<a href=\"https://github.com/open-ideas/IDEAS/issues/996\">#996</a>.
-</li>
-<li>
-January 22nd, 2019 by Filip Jorissen:<br/>
-Revised implementation by adding external inputs.
-</li>
-<li>
-May 2, 2018 by Filip Jorissen:<br/>
-First implementation.
-</li>
 </ul>
+</p>
 </html>
