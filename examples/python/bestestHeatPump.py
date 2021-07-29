@@ -176,13 +176,13 @@ def run(plot=False):
         if key == 'tdis_tot':
             unit = 'Kh/zone'
         if key == 'idis_tot':
-            unit = 'ppmh'
+            unit = 'ppmh/zone'
         elif key == 'ener_tot':
-            unit = 'kWh'
+            unit = 'kWh/m^2'
         elif key == 'cost_tot':
             unit = 'EUR/m^2'
         elif key == 'emis_tot':
-            unit = 'kg CO2'
+            unit = '(kg CO2)/m^2'
         elif key == 'time_rat':
             unit = ''
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
