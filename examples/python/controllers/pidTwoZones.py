@@ -91,8 +91,8 @@ def initialize():
     return u
 
 
-def update_predictions(prediction_config, forecast):
-    """Compute the control input from the measurement.
+def update_forecast(prediction_config, forecast):
+    """Update the control input from forecast.
 
     Parameters
     ----------

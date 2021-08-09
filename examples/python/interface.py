@@ -13,7 +13,7 @@ import requests
 import time
 import numpy as np
 from examples.python.custom_kpi.custom_kpi_calculator import CustomKPI
-from examples.python.controllers.controller import Control
+from examples.python.controllers.controller import Controller
 import json
 import collections
 import pandas as pd
@@ -58,7 +58,7 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
     # Set simulation parameters
-    control = Control(control_module, forecast_config, step)
+    controller = Controller(control_module, forecast_config, step)
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -99,18 +99,18 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     # Set simulation step
     res = requests.put('{0}/step'.format(url), data={'step': step})
     # Initialize u
-    u = control.initialize()
+    u = controller.initialize()
     # Store prediction if any
     # Simulation Loop
     forecast = None
     for i in range(int(length/step)):
         # Advance simulation
         y = requests.post('{0}/advance'.format(url), data=u).json()
-        if control.use_forecast:
+        if controller.use_forecast:
             forecast_data = requests.get('{0}/forecast'.format(url)).json()
-            # Compute next control signal
-            forecast = control.prediction(forecast_data, i)
-        u = control.compute_control(y, forecast)
+            # Compute the input from forecast
+            forecast = controller.prediction(forecast_data, i)
+        u = controller.compute_control(y, forecast)
         # Compute customized KPIs if any
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI
@@ -155,4 +155,4 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
     
-    return kpi, df_res, custom_kpi_result, control.predictions_store
+    return kpi, df_res, custom_kpi_result, controller.predictions_store

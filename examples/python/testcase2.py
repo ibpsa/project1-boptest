@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module is an example python-based testing interface.  It uses the
-``requests`` package to make REST API calls to the test case container,
-which mus already be running.  A controller is tested, which is
-imported from a different module.
+This script demonstrates a minimalistic example of testing a feedback controller
+with the prototype test case called "testcase2".
 
 """
 

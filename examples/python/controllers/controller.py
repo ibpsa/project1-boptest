@@ -3,7 +3,7 @@ import importlib
 import pandas as pd
 
 
-class Control(object):
+class Controller(object):
     def __init__(self, module, forecast_config, step):
         """Controller object - instantiates concrete implementation of controller configured
         in configuration
@@ -25,7 +25,7 @@ class Control(object):
 
         if forecast_config is not None:
             predictions_store = pd.DataFrame(columns=forecast_config)
-            self.update_predictions = module.update_predictions
+            self.update_forecast = module.update_forecast
             self.use_forecast = True
         else:
             predictions_store = None
@@ -51,7 +51,7 @@ class Control(object):
         predictions: list
         prediction for data point in simulation returned by call to /forecast
         """
-        predictions = self.update_predictions(self.forecast_config, forecast)
+        predictions = self.update_forecast(self.forecast_config, forecast)
         if self.predictions_store is not None:
             self.predictions_store.loc[(iteration + 1) * self.step, self.predictions_store.columns] = predictions
         return predictions
