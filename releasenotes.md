@@ -1,5 +1,13 @@
 # Release Notes
 
+## BOPTEST v0.x.x
+
+Released on xx/xx/xxx.
+
+**The following changes are backwards-compatible and do not change benchmark results:**
+
+- Fix path for documentation images for bestest_hydronic_heat_pump test case.  This is for [#351](https://github.com/ibpsa/project1-boptest/issues/351).
+
 ## BOPTEST v0.1.0
 
 Released on 07/13/2021.
