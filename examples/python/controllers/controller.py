@@ -15,7 +15,7 @@ class Controller(object):
         forecast_config : list of strings, dict
             list of data names obtained by instatiator get/forecast method
         step: int
-            step size in simulation used to store predictions from forecast as simulation progresses
+            step size in simulation used to store forecasts from forecast as simulation progresses
         """
         try:
             module = importlib.import_module(module)
@@ -24,20 +24,20 @@ class Controller(object):
             sys.exit()
 
         if forecast_config is not None:
-            predictions_store = pd.DataFrame(columns=forecast_config)
+            forecasts_store = pd.DataFrame(columns=forecast_config)
             self.update_forecast = module.update_forecast
             self.use_forecast = True
         else:
-            predictions_store = None
+            forecasts_store = None
             self.use_forecast = False
         self.compute_control = module.compute_control
         self.initialize = module.initialize
-        self.predictions_store = predictions_store
+        self.forecasts_store = forecasts_store
         self.forecast_config = forecast_config
         self.step = step
 
-    def prediction(self, forecast, iteration):
-        """Pass prediction value from interface to concrete implementation of the controller
+    def forecast(self, forecast, iteration):
+        """Pass forecast value from interface to concrete implementation of the controller
 
         Parameters
         ----------
@@ -48,11 +48,11 @@ class Controller(object):
 
         Returns
         -----------
-        predictions: list
-        prediction for data point in simulation returned by call to /forecast
+        forecasts: list
+        forecast for data point in simulation returned by call to /forecast
         """
-        predictions = self.update_forecast(self.forecast_config, forecast)
-        if self.predictions_store is not None:
-            self.predictions_store.loc[(iteration + 1) * self.step, self.predictions_store.columns] = predictions
-        return predictions
+        forecasts = self.update_forecast(self.forecast_config, forecast)
+        if self.forecasts_store is not None:
+            self.forecasts_store.loc[(iteration + 1) * self.step, self.forecasts_store.columns] = forecasts
+        return forecasts
 

@@ -100,7 +100,7 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     res = requests.put('{0}/step'.format(url), data={'step': step})
     # Initialize u
     u = controller.initialize()
-    # Store prediction if any
+    # Store forecast if any
     # Simulation Loop
     forecast = None
     for i in range(int(length/step)):
@@ -109,7 +109,7 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         if controller.use_forecast:
             forecast_data = requests.get('{0}/forecast'.format(url)).json()
             # Compute the input from forecast
-            forecast = controller.prediction(forecast_data, i)
+            forecast = controller.forecast(forecast_data, i)
         u = controller.compute_control(y, forecast)
         # Compute customized KPIs if any
         for kpi in custom_kpis:
@@ -155,4 +155,4 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
     
-    return kpi, df_res, custom_kpi_result, controller.predictions_store
+    return kpi, df_res, custom_kpi_result, controller.forecasts_store

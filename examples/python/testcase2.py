@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This script demonstrates a minimalistic example of testing a feedback controller
+This script demonstrates a minimalistic example of testing a supervisory controller
 with the prototype test case called "testcase2".
 
 """

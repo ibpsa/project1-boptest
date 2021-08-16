@@ -48,11 +48,11 @@ def run(plot=False, customized_kpi_config=None):
             'UpperSetp[South]'
     ]
     ########################################
-    kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
+    kpi, df_res, custom_kpi_result, forecast_store = control_test(length=length,
                                                                     step=step,
                                                                     control_module=control_module,
                                                                     forecast_config=forecast_config)
-    setpoints = prediction_store
+    setpoints = forecast_store
     time = df_res.index.values/3600  # convert s --> hr
     setpoints.index = setpoints.index/3600  # convert s --> hr
     zone_temp_north = df_res['TRooAirNor_y'].values-273.15  # convert K --> C

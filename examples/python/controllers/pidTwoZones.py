@@ -6,7 +6,7 @@ This module implements a simple P controller.
 """
 
 
-def compute_control(y, predictions=[]):
+def compute_control(y, forecasts=[]):
     """Compute the control input from the measurement.
 
     Parameters
@@ -14,8 +14,8 @@ def compute_control(y, predictions=[]):
     y : dict
         Contains the current values of the measurements.
         {<measurement_name>:<measurement_value>}
-    predictions : list
-        Temperature set point bounds.
+    forecasts : list
+        Forecast temperature set point bounds.
 
     Returns
     -------
@@ -32,10 +32,10 @@ def compute_control(y, predictions=[]):
         sys.exit()
 
     # Extract set point information   
-    north_sp_lower = predictions[0]
-    north_sp_upper = predictions[1]
-    lower_sp_south = predictions[2]
-    upper_sp_south = predictions[3]
+    north_sp_lower = forecasts[0]
+    north_sp_upper = forecasts[1]
+    lower_sp_south = forecasts[2]
+    upper_sp_south = forecasts[3]
 
     # Controller parameters
     k_p = 2000
