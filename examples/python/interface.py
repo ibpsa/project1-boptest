@@ -19,7 +19,7 @@ import collections
 import pandas as pd
 
 
-def control_test(length=24*3600, step=300, control_module='', customized_kpi_config=None, forecast_config=None):
+def control_test(length=24*3600, step=300, control_module='', customized_kpi_config=None, forecast_config=None, scenario=None):
     """Run test case.
 
     Parameters
@@ -92,7 +92,17 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
-    res = requests.put('{0}/initialize'.format(url), data={'start_time': 0, 'warmup_period': 0}).json()
+    if scenario is not None:
+        res = requests.put('{0}/scenario'.format(url), data=scenario).json()['time_period']
+        # Record test start time
+        start_time = res['time']
+        final_time = np.inf
+        total_time_steps = int((365 * 24 * 3600)/step)
+    else:
+        res = requests.put('{0}/initialize'.format(url), data={'start_time': 0, 'warmup_period': 0}).json()
+        start_time = 0
+        final_time = length
+        total_time_steps = int(length / step)  # calculate number of timesteps
     if res:
         print('Successfully initialized the simulation')
     print('\nRunning test case...')
@@ -103,13 +113,15 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     # Store prediction if any
     # Simulation Loop
     forecast = None
-    for i in range(int(length/step)):
+    for timestep in range(total_time_steps):
         # Advance simulation
         y = requests.post('{0}/advance'.format(url), data=u).json()
+        if not y:
+            break
         if control.use_forecast:
             forecast_data = requests.get('{0}/forecast'.format(url)).json()
             # Compute next control signal
-            forecast = control.prediction(forecast_data, i)
+            forecast = control.forecast(forecast_data, timestep)
         u = control.compute_control(y, forecast)
         # Compute customized KPIs if any
         for kpi in custom_kpis:
@@ -151,7 +163,7 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()
     for point in points:
-        res = requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': 0, 'final_time': length}).json()
+        res = requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}).json()
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
     
