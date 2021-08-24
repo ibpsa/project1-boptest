@@ -72,7 +72,7 @@ class ExampleScenarioPython(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Run test
-        kpi = testcase1_scenario.run(plot=False)
+        kpi, df_res, custom_kpi_result = testcase1_scenario.run(plot=False)
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
