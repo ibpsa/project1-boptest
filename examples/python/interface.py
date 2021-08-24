@@ -58,7 +58,10 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
     # Set simulation parameters
-    control = Control(control_module, forecast_config, step)
+    predictions_store = None
+    if forecast_config is not None:
+        predictions_store = pd.DataFrame(columns=forecast_config)
+    control = Control(control_module, forecast_config)
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -112,7 +115,7 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     u = control.initialize()
     # Store prediction if any
     # Simulation Loop
-    forecast = None
+    predictions = None
     for timestep in range(total_time_steps):
         # Advance simulation
         y = requests.post('{0}/advance'.format(url), data=u).json()
@@ -121,8 +124,10 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         if control.use_forecast:
             forecast_data = requests.get('{0}/forecast'.format(url)).json()
             # Compute next control signal
-            forecast = control.forecast(forecast_data, timestep)
-        u = control.compute_control(y, forecast)
+            predictions = control.update_predictions(forecast_config, forecast_data)
+            if predictions_store is not None:
+                predictions_store.loc[(timestep + 1) * step, predictions_store.columns] = predictions
+        u = control.compute_control(y, predictions)
         # Compute customized KPIs if any
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI
@@ -167,4 +172,4 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
     
-    return kpi, df_res, custom_kpi_result, control.predictions_store
+    return kpi, df_res, custom_kpi_result, predictions_store

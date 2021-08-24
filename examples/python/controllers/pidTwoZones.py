@@ -91,12 +91,12 @@ def initialize():
     return u
 
 
-def update_predictions(prediction_config, forecast):
+def update_predictions(forecast_config, forecast):
     """Compute the control input from the measurement.
 
     Parameters
     ----------
-    prediction_config : list
+    forecast_config : list
         list of data points that names contained in forecast
         [<input_name1>, <input_name2>]
     forecast : dict
@@ -112,8 +112,8 @@ def update_predictions(prediction_config, forecast):
     """
     predictions = []
     if forecast:
-        for j in range(len(prediction_config)):
-            predictions.append(forecast[prediction_config[j]][0])
+        for j in range(len(forecast_config)):
+            predictions.append(forecast[forecast_config[j]][0])
     else:
         print("Cannot do controller prediction - No forecast!")
     return predictions
