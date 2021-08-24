@@ -59,9 +59,10 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     url = 'http://127.0.0.1:5000'
     # Set simulation parameters
     forecasts_store = None
+    forecasts = []
     if forecast_config is not None:
         forecasts_store = pd.DataFrame(columns=forecast_config)
-    control = Control(control_module, forecast_config)
+    controller = Controller(control_module, forecast_config)
 
     # GET TEST INFORMATION
     # --------------------
@@ -122,13 +123,13 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         y = requests.post('{0}/advance'.format(url), data=u).json()
         if not y:
             break
-        if control.use_forecast:
+        if controller.use_forecast:
             forecast_data = requests.get('{0}/forecast'.format(url)).json()
             # Compute next control signal
-            forecasts = control.update_forecasts(forecast_config, forecast_data)
+            forecasts = controller.update_forecasts(forecast_config, forecast_data)
             if forecasts_store is not None:
                 forecasts_store.loc[(timestep + 1) * step, forecasts_store.columns] = forecasts
-        u = control.compute_control(y, forecasts)
+        u = controller.compute_control(y, forecasts)
         # Compute customized KPIs if any
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI

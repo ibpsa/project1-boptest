@@ -4,7 +4,7 @@ import pandas as pd
 
 
 
-class Control(object):
+class Controller(object):
     def __init__(self, module, forecast_config):
 
         """Controller object - instantiates concrete implementation of controller configured
@@ -31,8 +31,3 @@ class Control(object):
         self.compute_control = controller.compute_control
         self.initialize = controller.initialize
         self.controller = controller
-
-
-
-
-
