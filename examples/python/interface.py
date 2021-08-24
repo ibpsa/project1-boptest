@@ -13,7 +13,7 @@ import requests
 import time
 import numpy as np
 from examples.python.custom_kpi.custom_kpi_calculator import CustomKPI
-from examples.python.controllers.controller import Control
+from examples.python.controllers.controller import Controller
 import json
 import collections
 import pandas as pd
@@ -58,10 +58,11 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
     # Set simulation parameters
-    predictions_store = None
+    forecasts_store = None
     if forecast_config is not None:
-        predictions_store = pd.DataFrame(columns=forecast_config)
+        forecasts_store = pd.DataFrame(columns=forecast_config)
     control = Control(control_module, forecast_config)
+
     # GET TEST INFORMATION
     # --------------------
     print('\nTEST CASE INFORMATION\n---------------------')
@@ -112,8 +113,8 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     # Set simulation step
     res = requests.put('{0}/step'.format(url), data={'step': step})
     # Initialize u
-    u = control.initialize()
-    # Store prediction if any
+    u = controller.initialize()
+    # Store forecast if any
     # Simulation Loop
     predictions = None
     for timestep in range(total_time_steps):
@@ -124,10 +125,10 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         if control.use_forecast:
             forecast_data = requests.get('{0}/forecast'.format(url)).json()
             # Compute next control signal
-            predictions = control.update_predictions(forecast_config, forecast_data)
-            if predictions_store is not None:
-                predictions_store.loc[(timestep + 1) * step, predictions_store.columns] = predictions
-        u = control.compute_control(y, predictions)
+            forecasts = control.update_forecasts(forecast_config, forecast_data)
+            if forecasts_store is not None:
+                forecasts_store.loc[(timestep + 1) * step, forecasts_store.columns] = forecasts
+        u = control.compute_control(y, forecasts)
         # Compute customized KPIs if any
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI
@@ -172,4 +173,5 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
     
-    return kpi, df_res, custom_kpi_result, predictions_store
+    return kpi, df_res, custom_kpi_result, forecasts_store
+

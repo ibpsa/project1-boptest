@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module is an example python-based testing interface.  It uses the
-``requests`` package to make REST API calls to the test case container,
-which must already be running.  A controller is tested, which is
-imported from a different module.
+This script demonstrates a minimalistic example of testing a feedback controller
+with the prototype test case called "testcase3".
 
 """
 
@@ -50,11 +48,11 @@ def run(plot=False, customized_kpi_config=None):
             'UpperSetp[South]'
     ]
     ########################################
-    kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
+    kpi, df_res, custom_kpi_result, forecast_store = control_test(length=length,
                                                                     step=step,
                                                                     control_module=control_module,
                                                                     forecast_config=forecast_config)
-    setpoints = prediction_store
+    setpoints = forecast_store
     time = df_res.index.values/3600  # convert s --> hr
     setpoints.index = setpoints.index/3600  # convert s --> hr
     zone_temp_north = df_res['TRooAirNor_y'].values-273.15  # convert K --> C

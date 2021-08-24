@@ -5,7 +5,7 @@ This module implements a simple P controller.
 """
 
 
-def compute_control(y, predictions=None):
+def compute_control(y, forecasts=[]):
     """Compute the control input from the measurement.
 
     Parameters
@@ -13,8 +13,8 @@ def compute_control(y, predictions=None):
     y : dict
         Contains the current values of the measurements.
         {<measurement_name>:<measurement_value>}
-    predictions : list
-        Predictions used to calculate control, default [].
+    forecasts : list
+        Forecasts used to calculate control, default [].
 
     Returns
     -------
