@@ -73,7 +73,7 @@ class Job:
     def check_idle_time(self, message):
         if not message:
             idle_time = datetime.now() - self.last_message_time
-            if idle_time.total_seconds() > 120.0:
+            if idle_time.total_seconds() > 900.0:
                 print("Testid '%s' is terminating due to inactivity." % self.testid)
                 self.keep_running = False
 
