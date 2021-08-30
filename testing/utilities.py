@@ -426,9 +426,10 @@ class partialTestAPI(partialChecks):
         # Get version from BOPTEST API
         version = requests.get('{0}/version'.format(self.url)).json()
         # Create a regex object as three decimal digits seperated by period
-        r = re.compile('\d.\d.\d')
+        r_num = re.compile('\d.\d.\d')
+        r_x = re.compile('0.x.x')
         # Test that the returned version matches the expected string format
-        if r.match(version['version']):
+        if r_num.match(version['version']) or r_x.match(version['version']):
             self.assertTrue(True)
         else:
             self.assertTrue(False, '/version did not return correctly. Returned {0}.'.format(version))
