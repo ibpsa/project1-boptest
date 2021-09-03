@@ -15,7 +15,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/data`` contains code for generating and managing data associated with test cases.  This includes boundary conditions, such as weather, schedules, and energy prices, as well as a map of test case FMU outputs needed to calculate KPIs.
 - ``/forecast`` contains code for returning boundary condition forecast, such as weather, schedules, and energy prices.
 - ``/kpis`` contains code for calculating key performance indicators.
-- ``/docs`` contains design requirements and guide documentation.
+- ``/docs`` contains design documentation and delivered workshop content.
 
 ## Quick-Start to Run Test Cases
 1) Install [Docker](https://docs.docker.com/get-docker/).
