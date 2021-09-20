@@ -3,7 +3,10 @@ model InternalLoad "A model for internal loads"
   parameter Modelica.SIunits.HeatFlux senPower_nominal "Nominal sensible heat gain";
   parameter Modelica.SIunits.DimensionlessRatio radFraction "Fraction of sensible gain that is radiant";
   parameter Modelica.SIunits.HeatFlux latPower_nominal "Nominal latent heat gain";
-  Buildings.Air.Systems.SingleZone.VAV.Examples.BaseClasses.InternalLoads sch
+  Modelica.Blocks.Sources.CombiTimeTable sch(
+    extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
+    table=[0,0; 8*3600,0; 8*3600,1.0; 18*3600,1.0; 18*3600,0; 24*3600,0],
+    columns={2})
     "Occupancy schedule"
     annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
   Modelica.Blocks.Interfaces.RealOutput rad "Radiant load in W/m^2"
