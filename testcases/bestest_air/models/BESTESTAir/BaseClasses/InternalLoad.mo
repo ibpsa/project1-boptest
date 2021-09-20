@@ -5,7 +5,7 @@ model InternalLoad "A model for internal loads"
   parameter Modelica.SIunits.HeatFlux latPower_nominal "Nominal latent heat gain";
   Modelica.Blocks.Sources.CombiTimeTable sch(
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-    table=[0,0; 8*3600,0; 8*3600,1.0; 18*3600,1.0; 18*3600,0; 24*3600,0],
+    table=[0,0.1; 8*3600,0.1; 8*3600,1.0; 18*3600,1.0; 18*3600,0.1; 24*3600,0.1],
     columns={2})
     "Occupancy schedule"
     annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
