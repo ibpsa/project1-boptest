@@ -5,7 +5,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealInput oveActSou_u(unit="W", min=-10000.0, max=10000.0) "Heater thermal power of south zone";
 	Modelica.Blocks.Interfaces.BooleanInput oveActSou_activate "Activation for Heater thermal power of south zone";
 	// Out read
-	Modelica.Blocks.Interfaces.RealOutput TRooAirSou_y(unit="K") = mod.TRooAirSou.y "Zone air temperature of south zone";
+	Modelica.Blocks.Interfaces.RealOutput TRooAirSou_y(unit="K") = mod.TRooAirSou.y "Operative zone temperature of south zone";
 	Modelica.Blocks.Interfaces.RealOutput CO2RooAirSou_y(unit="ppm") = mod.CO2RooAirSou.y "Zone air CO2 concentration of south zone";
 	Modelica.Blocks.Interfaces.RealOutput PHeaNor_y(unit="W") = mod.PHeaNor.y "Heater power of north zone";
 	Modelica.Blocks.Interfaces.RealOutput CO2RooAirNor_y(unit="ppm") = mod.CO2RooAirNor.y "Zone air CO2 concentration of north zone";
