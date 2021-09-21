@@ -103,9 +103,9 @@ based on those inputs.
 
 .. figure:: images/Metrics_overview.png
     :scale: 50 %
-    
+
     An overview of the conceptual design of control performance metrics
-    
+
 
 
 
@@ -135,7 +135,7 @@ Power demand metrics
 
    .. math:: \dfrac{\sum_{e \in E}\max\limits_{{t_{0}}<t<{t_{1}}}{P_e(t_i)}}{\max\limits_{{t_{0}}<t<{t_{1}}}{\sum_{e \in E}P_e(t_i)}}
       :label: eq:1_1
-   
+
 #. Load factor can be expressed as follows based on the definition in :cite:`NCSTSD`:
 
    .. math:: \dfrac{\overline{P_e(t_i)}}{\max\limits_{{t_{0}}<t<{t_{1}}}{P_e(t_i)}}
@@ -217,7 +217,7 @@ Energy cost metrics
 
   .. math:: {\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)\lambda(t_i)dt}+\max\limits_{{t_{0}}<t<{t_{1}}}{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)\lambda_d(t_i)dt}
      :label: eq:9
-	 
+
 Thermal comfort metrics
 ^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -252,15 +252,15 @@ Thermal comfort metrics
 #. Number of excursions outside of the comfort set for zone :math:`z`:
 
    .. math:: |\{t_z ~|~ T_{t}^n \in S_c \land T_{t+1}^n \not\in S_c \}|
-      :label: eq:11 
-	  
+      :label: eq:11
+
 #. Total time when the comfort indicator :math:`T` is outside the
    comfort set :math:`S_c` for zone :math:`z`, during the time interval
    :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t_{u,z} = \sum_{t_i=t_0}^{t_1}s(t_i)
          :label: eq:12
-		 
+
    where :math:`s(t_i)=1`, if :math:`T^n_{t}\not \in S_c`, at time
    :math:`t_i`; :math:`s(t_i)=0`, if :math:`T^n_{t} \in S_c`, at time
    :math:`t_i`.
@@ -271,18 +271,18 @@ Thermal comfort metrics
 
    .. math:: t_{u,Z} = \sum_{z \in Z}\sum_{t_i=T_0}^{t_1}s(t_i)
        :label: eq:13
-	   
+
 #. Percent time when the comfort indicator :math:`T` is outside the
    comfort set :math:`S_c` for zone :math:`z`, during the time interval
    See :eq:`eq:percent`
    :math:`\{t_{0},t_{1}\}`:
 
-   .. math:: \dfrac{|t_{u,z}|}{t_{1} - t_{0}} 
+   .. math:: \dfrac{|t_{u,z}|}{t_{1} - t_{0}}
 	:label: eq:percent
 
 #. Maximum deviation from the comfort set for zone :math:`z`
 
-   .. math:: max\{T^n_{min} - T_{l},T_{u} - T^n_{max}\} 
+   .. math:: max\{T^n_{min} - T_{l},T_{u} - T^n_{max}\}
 	:label: eq:maxcom
 
    where :math:`T_{u} = \max\{T_t^n~|~T_t^n > T^n_{max}\}` and
@@ -306,7 +306,7 @@ System and equipment utilization metrics
 
      .. math:: \dfrac{1}{t_{1}-t_{0}}\sum_{t_i=t_{0}}^{t_{1}} O_{e}(i)
         :label: eq:14
-		
+
      Where :math:`O_{e}(i)=1`, if the equipment is ON, and :math:`O_{e}(i)=0`,
      if the equipment is OFF.
 
@@ -315,7 +315,7 @@ System and equipment utilization metrics
 
      .. math:: \dfrac{max\{C_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}{C_{e,r}}
         :label: eq:15
-		
+
      Where :math:`C_{e,r}` is the rated maximum capacity of of equipment
      :math:`e \in E` during the period :math:`[t_{0},t_{1}]`.
 
@@ -324,14 +324,14 @@ System and equipment utilization metrics
 
    .. math:: \dfrac{average\{C_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}{C_{e,r}}
       :label: eq:16
-	  
+
 #. The average efficiency coefficient (e.g.,energy efficiency ratio,
    seasonal energy efficiency ratio, and coefficient of performance) of
    equipment :math:`e \in E` during the period :math:`[t_{0},t_{1}]`:
 
    .. math:: {max\{\eta_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}
        :label: eq:17
-	   
+
 Control dynamics metrics
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -359,7 +359,7 @@ pre-disturbed value, and the disturbance value, respectively.
 
    .. math:: H=1-\frac{\delta^2_{mv}}{\delta^2_{y}}
      :label: eq:18
-	 
+
    Where :math:`\delta^2_{mv}` is the minimum variance of the control
    output obtained by maximum likelihood estimation method, and
    :math:`\delta^2_{y}` is the variance of control outputs with respect
@@ -369,12 +369,12 @@ pre-disturbed value, and the disturbance value, respectively.
 
    .. math:: t_{0-1}=t_1-t_0
      :label: eq:19
-	 
+
 #. Control response relative speed:
 
    .. math:: \frac{t_{0-1}}{|d_1-d_0|}
       :label: eq:20
-	  
+
 Fault sensitivity metrics
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -393,7 +393,7 @@ Fault sensitivity metrics
 
 .. math:: \frac{p'(t_i)-p(t_i)}{p(t_i)}
    :label: eq:21
-   
+
 Computation metrics
 ^^^^^^^^^^^^^^^^^^^
 
@@ -426,41 +426,41 @@ Computation metrics
 
    .. math:: t_p(i)=t_{p1}(i)-t_{p0}(i)
       :label: eq:22
-	  
+
 #. Model simulation (or real building system operation) time length at
    :math:`i^{th}` iteration can be calculated as:
 
    .. math:: t_s(i)=t_{s1}(i)-t_{s0}(i)
      :label: eq:23
-	 
+
    while total :math:`t_s(i)` over a period of :math:`[t_{0},t_{1}]`:
 
    .. math:: t_s=\sum_{t_i=t_{0}}^{t_{1}}t_s(i)
       :label: eq:24
-	  
+
 #. Real building system operation time length at :math:`i^{th}`
    iteration can be calculated as:
 
    .. math:: t_r(i)=t_{r1}(i)-t_{r0}(i)
       :label: eq:25
-	  
+
 #. Total :math:`t_r` over a period of :math:`[t_{0},t_{1}]` can be
    calculated as:
 
    .. math:: t_r=\sum_{i=t_{0}}^{t_{1}}t_r(i)
       :label: eq:26
-	  
+
 #. Total prediction-simulation time ratio:
 
    .. math:: \frac{t_p}{t_s}
       :label: eq:27
-	  
+
 #. Total modeling-operation time ratio:
 
    .. math:: \frac{t_s}{t_r}
        :label: eq:28
-	   
-	   
+
+
 Air quality metrics
 ^^^^^^^^^^^^^^^^^^^
 
@@ -501,20 +501,20 @@ Air quality metrics
 
    .. math:: \dfrac{1}{t_{1}-t_{0}}{\sum_{t_i=t_{0}}^{t_{1}}A_z(t_i)}
      :label: eq:29
-	 
+
 #. Maximum :math:`CO_2` concentration for zone :math:`z`, during the
    period :math:`[t_{0},t_{1}]`:
 
    .. math:: {max\{A_z(t_i) ~|~t_i \in \{t_{0},t_{1}\}\}}
      :label: eq:30
-	 
+
 #. Total time when :math:`CO_2` concentration :math:`A_z(t_i)` is higher
    than the ASHRAE recommended value :math:`A_r` for zone :math:`z`,
    during the time interval :math:`\{t_{0},t_{1}\}`:
 
    .. math:: t(CO_2)_{u,z} = \sum_{t_i=T_0}^{T_z}s(t_i)
     :label: eq:31
-	
+
    where :math:`s(t_i)=1`, if :math:`A_z(t_i)` :math:`>` :math:`A_r`, at
    time :math:`t_i`; :math:`s(t_i)=0`, if :math:`A_z(t_i)` :math:`\leq`
    :math:`A_r`, at time :math:`t_i`.
@@ -526,12 +526,26 @@ Air quality metrics
 
    .. math:: t(CO_2)_{u,Z} = \sum_{z \in Z}\sum_{t_i=T_0}^{T_z}s(t_i)
     :label: eq:32
-	
+
    where :math:`s(t_i)=1`, if :math:`A_z(t_i)` :math:`>` :math:`A_r`, at
    time :math:`t_i`; :math:`s(t_i)=0`, if :math:`A_z(t_i)` :math:`\leq`
    :math:`A_r`, at time :math:`t_i`.
 
 .. _ch:kpi_implementation:
+
+Capability of the controller to steer flexibility
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   A controller capable of estimating and steering the flexibility available
+   in a building supposes an added value, since it would be able to
+   provide demand repsonse and ancillary services to the electric grid or
+   district heating or cooling network.
+   However, the explicit quantification of this KPI is particularly challenging
+   because of the dependency of flexibility on the previous actions, current
+   state, and various flexibility objectives that exist.
+   For this reason, BOPTEST will utilize the operational cost KPI with dynamic
+   pricing as a proxy for how the controller steers flexibility.
+   Future work may specify dedicated tests and explicit quantification of flexibility.
 
 KPI Implementation
 ------------------
@@ -606,7 +620,7 @@ a dictionary as shown below:
 
 ::
 
-   {``energy'': [``ETotHVAC_y''], 
+   {``energy'': [``ETotHVAC_y''],
    ``comfort'': [``TRooAir_y'']}
 
 Then, the above dictionary is used to calculate the KPIs with the
@@ -616,26 +630,26 @@ following Python module:
 
    def get_kpis(self):
            ``Returns KPI data.
-           
+
            Requires standard sensor signals.
-           
+
            Parameters
            ----------
            None
-           
+
            Returns
            kpis : dict
                Dictionary containing KPI names and values.
                {<kpi_name>:<kpi_value>}
-           
+
            ''
            kpis = dict()
-           # Calculate each KPI using json for signalsand save 
+           # Calculate each KPI using json for signalsand save
            in dictionary
            for kpi in self.kpi_json.keys():
                print(kpi, type(kpi))
                if kpi == 'energy':
-                   # Calculate total energy [KWh - assumes measured 
+                   # Calculate total energy [KWh - assumes measured
                    in J]
                    E = 0
                    for signal in self.kpi_json[kpi]:
@@ -643,7 +657,7 @@ following Python module:
                    # Store result in dictionary
                    kpis[kpi] = E*2.77778e-7 # Convert to kWh
                elif kpi == 'comfort':
-                   # Calculate total discomfort [K-h = assumes 
+                   # Calculate total discomfort [K-h = assumes
                    measured in K]
                    tot_dis = 0
                    heat_setpoint = 273.15+20
@@ -677,8 +691,8 @@ To perform an analysis on the *customized KPI*, users must define the
 ::
 
    ``kpi1'':{
-       ``name'': ``Average_power'', 
-       ``kpi_class'': ``MovingAve'', 
+       ``name'': ``Average_power'',
+       ``kpi_class'': ``MovingAve'',
        ``kpi_file'': ``kpi.kpi_example'',
        ``data_point_num'': 30,
        ``data_points'':
@@ -718,7 +732,7 @@ module:
 
    class cutomizedKPI(object):
        '''
-         Class that implements the customized KPI calculation.    
+         Class that implements the customized KPI calculation.
        '''
        def __init__(self, config, **kwargs):
            # import the KPI class based on the config files
@@ -736,7 +750,7 @@ module:
            # initialize the data buffer
            self.data_buff=None
 
-       # a function to process the streaming data 
+       # a function to process the streaming data
        def processing_data(self,data,num):
        # initialize the data arrays
            if self.data_buff is None:
@@ -750,13 +764,13 @@ module:
               for point in self.data_points:
                   self.data_buff[point].
               append(data[self.data_points[point]])
-                  if len(self.data_buff[point])>=num:        
-                       self.data_buff[point].pop(0) 
+                  if len(self.data_buff[point])>=num:
+                       self.data_buff[point].pop(0)
 
-       # a function to process the streaming data 
+       # a function to process the streaming data
        def calculation(self):
            res = self.model.calculation(self.data_buff)
-           return res 
+           return res
 
 The above module reads the KPI information, instantiates the KPI
 calculation class, and creates data buffers for the KPI calculation.

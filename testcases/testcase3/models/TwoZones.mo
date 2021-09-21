@@ -46,9 +46,11 @@ model TwoZones
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
   IBPSA.Utilities.IO.SignalExchange.Read TRooAirSou(
     y(unit="K"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-    description="Zone air temperature of south zone",
-    zone=zonSouName)   "Read the room air temperature of south zone"
+    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
+
+    description="Operative zone temperature of south zone",
+    zone=zonSouName)
+    "Read the room air temperature of south zone. In this case it is assumed that the operative zone temperature is being read. "
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
 
   IBPSA.Utilities.IO.SignalExchange.Read PHeaSou(
