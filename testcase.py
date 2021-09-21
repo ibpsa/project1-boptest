@@ -134,11 +134,11 @@ class TestCase(object):
                                      options=self.options,
                                      input=input_object)
         except Exception as e:
-            return {'message':'failure','error':e,'result':res}
+            return {'message': 'failure', 'error': e, 'result': res}
         # Set internal fmu initialization
         self.initialize_fmu = False
 
-        return res
+        return {'message': 'success', 'error': None, 'result': res}
 
     def __get_results(self, res, store=True, store_initial=False):
         '''Get results at the end of a simulation and throughout the
@@ -177,7 +177,7 @@ class TestCase(object):
             for key in self.u.keys():
                 self.u_store[key] = np.append(self.u_store[key], res[key][i:])
 
-    def advance(self,u):
+    def advance(self, u):
         '''Advances the test case model simulation forward one step.
 
         Parameters
@@ -241,24 +241,22 @@ class TestCase(object):
                 self.final_time = self.end_time
             res = self.__simulation(self.start_time,self.final_time,input_object)
             # Process results
-            if res is not None:
+            if res['message'] == 'success':
                 # Get result and store measurement and control inputs
-                self.__get_results(res, store=True, store_initial=False)
+                result = res['result']
+                self.__get_results(result, store=True, store_initial=False)
                 # Advance start time
                 self.start_time = self.final_time
                 # Raise the flag to compute time lapse
                 self.tic_time = time.time()
-
-                return self.y
+                return {'message': 'success', 'error': None, 'result': self.y}
 
             else:
                 # Error in simulation
-                return None
+                return {'message': 'failure', 'error': res['error'], 'result': None}
         else:
             # Simulation at end time
             return dict()
-
-
 
     def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
@@ -296,18 +294,17 @@ class TestCase(object):
         # Do not allow negative starting time to avoid confusions
         res = self.__simulation(max(start_time-warmup_period,0), start_time)
         # Process result
-        if res is not None:
+        if res['message'] == 'success':
             # Get result
-            self.__get_results(res, store=True, store_initial=True)
+            result = res['result']
+            self.__get_results(result, store=True, store_initial=True)
             # Set internal start time to start_time
             self.start_time = start_time
             # Initialize KPI Calculator
             self.cal.initialize()
-            return self.y
-
+            return {'message': 'success', 'error': None, 'result': self.y}
         else:
-
-            return None
+            return {'message': 'failure', 'error': res['error'], 'result': None}
 
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
@@ -461,7 +458,7 @@ class TestCase(object):
         self.horizon = float(horizon)
         self.interval = float(interval)
 
-        return None
+        return
 
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.'''
