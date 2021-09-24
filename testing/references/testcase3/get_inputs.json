@@ -1,1 +1,30 @@
-{"oveActSou_u": {"Minimum": -10000.0, "Description": "Heater thermal power of south zone", "Unit": "W", "Maximum": 10000.0}, "oveActNor_activate": {"Minimum": null, "Description": "Activation for Heater thermal power of north zone", "Unit": null, "Maximum": null}, "oveActNor_u": {"Minimum": -10000.0, "Description": "Heater thermal power of north zone", "Unit": "W", "Maximum": 10000.0}, "oveActSou_activate": {"Minimum": null, "Description": "Activation for Heater thermal power of south zone", "Unit": null, "Maximum": null}}
+{
+  "oveActSou_u": {
+    "Minimum": -10000,
+    "Description": "Heater thermal power of south zone",
+    "Unit": "W",
+    "Maximum": 10000,
+    "tags": null
+  },
+  "oveActNor_activate": {
+    "Minimum": null,
+    "Description": "Activation for Heater thermal power of north zone",
+    "Unit": null,
+    "Maximum": null,
+    "tags": null
+  },
+  "oveActNor_u": {
+    "Minimum": -10000,
+    "Description": "Heater thermal power of north zone",
+    "Unit": "W",
+    "Maximum": 10000,
+    "tags": null
+  },
+  "oveActSou_activate": {
+    "Minimum": null,
+    "Description": "Activation for Heater thermal power of south zone",
+    "Unit": null,
+    "Maximum": null,
+    "tags": null
+  }
+}
