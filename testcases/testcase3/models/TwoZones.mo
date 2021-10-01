@@ -48,7 +48,7 @@ model TwoZones
   Buildings.Utilities.IO.SignalExchange.Read
                                          TRooAirSou(
     y(unit="K"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
     description="Operative zone temperature of south zone",
     zone=zonSouName)
     "Read the room air temperature of south zone. In this case it is assumed that the operative zone temperature is being read. "
@@ -57,7 +57,7 @@ model TwoZones
   Buildings.Utilities.IO.SignalExchange.Read
                                          PHeaSou(
     y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power of south zone")
                                 "Read the heater power consumed in south zone"
     annotation (Placement(transformation(extent={{80,-90},{100,-70}})));
@@ -67,7 +67,7 @@ model TwoZones
   Buildings.Utilities.IO.SignalExchange.Read
                                          CO2RooAirSou(
     y(unit="ppm"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration of south zone",
     zone=zonSouName)   "Read the room air CO2 concentration in south zone"
     annotation (Placement(transformation(extent={{160,-40},{180,-20}})));
@@ -113,7 +113,7 @@ model TwoZones
   Buildings.Utilities.IO.SignalExchange.Read
                                          TRooAirNor(
     y(unit="K"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     description="Zone air temperature of north zone",
     zone=zonNorName)   "Read the room air temperature of north zone"
     annotation (Placement(transformation(extent={{80,120},{60,140}})));
@@ -121,7 +121,7 @@ model TwoZones
   Buildings.Utilities.IO.SignalExchange.Read
                                          PHeaNor(
     y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power of north zone")
                                 "Read the heater power consumed in north zone"
     annotation (Placement(transformation(extent={{80,150},{100,170}})));
@@ -131,7 +131,7 @@ model TwoZones
   Buildings.Utilities.IO.SignalExchange.Read
                                          CO2RooAirNor(
     y(unit="ppm"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration of north zone",
     zone=zonNorName)   "Read the room air CO2 concentration in north zone"
     annotation (Placement(transformation(extent={{160,80},{180,100}})));

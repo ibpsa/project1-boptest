@@ -43,12 +43,12 @@ model SimpleRC
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
   Buildings.Utilities.IO.SignalExchange.Read
                       TRooAir(                y(unit="K"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     description="Zone air temperature") "Read the room air temperature"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
   Buildings.Utilities.IO.SignalExchange.Read
                       PHea(y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power")
                            "Read the heater power"
     annotation (Placement(transformation(extent={{80,-90},{100,-70}})));
@@ -57,7 +57,7 @@ model SimpleRC
   Buildings.Utilities.IO.SignalExchange.Read
                                          CO2RooAir(
     y(unit="ppm"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration")
     "Read the room air CO2 concentration"
     annotation (Placement(transformation(extent={{80,50},{100,70}})));
