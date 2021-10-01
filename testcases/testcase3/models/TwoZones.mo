@@ -33,7 +33,8 @@ model TwoZones
     yMax=100000)
     "Feedback controller of south zone for the heater based on room temperature"
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveActSou(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              oveActSou(u(
       unit="W",
       min=-10000,
       max=10000), description="Heater thermal power of south zone")
@@ -44,16 +45,17 @@ model TwoZones
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   Modelica.Blocks.Math.Gain effSou(k=1/0.99) "Heater efficiency in south zone"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read TRooAirSou(
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         TRooAirSou(
     y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.OperativeZoneTemperature,
-
     description="Operative zone temperature of south zone",
     zone=zonSouName)
     "Read the room air temperature of south zone. In this case it is assumed that the operative zone temperature is being read. "
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read PHeaSou(
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         PHeaSou(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power of south zone")
@@ -62,7 +64,8 @@ model TwoZones
 
   Modelica.Blocks.Math.Abs absSou
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read CO2RooAirSou(
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         CO2RooAirSou(
     y(unit="ppm"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration of south zone",
@@ -95,7 +98,8 @@ model TwoZones
     yMax=100000)
     "Feedback controller of north zone for the heater based on room temperature"
     annotation (Placement(transformation(extent={{-70,110},{-50,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveActNor(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              oveActNor(u(
       unit="W",
       min=-10000,
       max=10000), description="Heater thermal power of north zone")
@@ -106,14 +110,16 @@ model TwoZones
     annotation (Placement(transformation(extent={{0,90},{20,110}})));
   Modelica.Blocks.Math.Gain effNor(k=1/0.99) "Heater efficiency in north zone"
     annotation (Placement(transformation(extent={{0,150},{20,170}})));
-  IBPSA.Utilities.IO.SignalExchange.Read TRooAirNor(
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         TRooAirNor(
     y(unit="K"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     description="Zone air temperature of north zone",
     zone=zonNorName)   "Read the room air temperature of north zone"
     annotation (Placement(transformation(extent={{80,120},{60,140}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read PHeaNor(
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         PHeaNor(
     y(unit="W"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power of north zone")
@@ -122,7 +128,8 @@ model TwoZones
 
   Modelica.Blocks.Math.Abs absNor
     annotation (Placement(transformation(extent={{30,150},{50,170}})));
-  IBPSA.Utilities.IO.SignalExchange.Read CO2RooAirNor(
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         CO2RooAirNor(
     y(unit="ppm"),
     KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration of north zone",
@@ -190,7 +197,7 @@ equation
     annotation (Line(points={{59,130},{-60,130},{-60,112}}, color={0,0,127}));
   connect(preHeaNor.port, capNor.port)
     annotation (Line(points={{20,100},{40,100},{40,60}}, color={191,0,0}));
-  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")),
+  annotation (uses(Modelica(version="3.2.3"), Buildings(version="8.0.0")),
       experiment(
       StopTime=60,
       Interval=1,
