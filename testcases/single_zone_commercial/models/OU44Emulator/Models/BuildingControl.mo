@@ -16,7 +16,6 @@ model BuildingControl
   Modelica.Blocks.Sources.Constant stpCO2(k=800) "CO2 setpoint [ppm]"
     annotation (Placement(transformation(extent={{-238,132},{-218,152}})));
   Buildings.Controls.Continuous.LimPID conPIDfan(
-    reverseAction=true,
     Td=300,
     Ti=600,
     k=0.005,
