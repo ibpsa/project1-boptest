@@ -2,7 +2,7 @@ within OU44Emulator.Models.Validation;
 model RealOccupancy
   extends BuildingControl(
     readTsupsetpoint(y(unit="K")),
-    readTzone(KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    readTzone(KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
         y(unit="K")),
     districtHeating(m_flow_nominal=2),
     infiltration(ach=0.2),
@@ -56,7 +56,8 @@ model RealOccupancy
     annotation (Placement(transformation(extent={{154,40},{138,56}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{122,12},{102,32}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite OverTzone(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              OverTzone(description=
         "Zone temperature setpoint for heating", u(
       unit="K",
       min=273.15 + 10,
@@ -66,27 +67,28 @@ model RealOccupancy
         extent={{-7,-7},{7,7}},
         rotation=-90,
         origin={95,-1})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite over_pump_DH(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              over_pump_DH(description=
         "District heating pump speed control signal", u(
       min=0,
       max=1,
       unit="1")) "overwrite pump speed for district heating"
     annotation (Placement(transformation(extent={{-180,-204},{-160,-184}})));
-  IBPSA.Utilities.IO.SignalExchange.Read readTzonesetpoint(
+  Buildings.Utilities.IO.SignalExchange.Read readTzonesetpoint(
     description="Zone air temperature setpoint for heating",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Read zone air temperature setpoint"
     annotation (Placement(transformation(extent={{104,-24},{116,-12}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read readCO2(
+  Buildings.Utilities.IO.SignalExchange.Read readCO2(
     description="Indoor CO2 concentration",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm")) "Read CO2 concentration [ppm]"
     annotation (Placement(transformation(extent={{-104,72},{-118,86}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read readQh(
+  Buildings.Utilities.IO.SignalExchange.Read readQh(
     description="Heating thermal power consumption",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.DistrictHeatingPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.DistrictHeatingPower,
     y(unit="W")) "Read heating power consumption "
     annotation (Placement(transformation(extent={{-28,-224},{-8,-204}})));
 
@@ -96,21 +98,21 @@ model RealOccupancy
     annotation (Placement(transformation(extent={{126,-182},{144,-164}})));
   Modelica.Blocks.Math.Add add1
     annotation (Placement(transformation(extent={{126,-106},{142,-90}})));
-  IBPSA.Utilities.IO.SignalExchange.Read read_Q_el(
+  Buildings.Utilities.IO.SignalExchange.Read read_Q_el(
     description="Electrical power consumption for fan and pump",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Read electrical power consumption "
     annotation (Placement(transformation(extent={{160,-106},{176,-90}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read readQelfan(
+  Buildings.Utilities.IO.SignalExchange.Read readQelfan(
     y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     description="Electrical power consumption of fan")
     "Read electrical power consumption of fan"
     annotation (Placement(transformation(extent={{80,-92},{96,-76}})));
-  IBPSA.Utilities.IO.SignalExchange.Read readQelpump(
+  Buildings.Utilities.IO.SignalExchange.Read readQelpump(
     y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     description="Electrical power consumption of pump")
     "Read electrical power consumption of pump"
     annotation (Placement(transformation(extent={{80,-118},{96,-102}})));

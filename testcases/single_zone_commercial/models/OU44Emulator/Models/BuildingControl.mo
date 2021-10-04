@@ -39,26 +39,27 @@ model BuildingControl
     annotation (Placement(transformation(extent={{190,-60},{176,-46}})));
   Modelica.Blocks.Math.Product product
     annotation (Placement(transformation(extent={{152,-54},{136,-38}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite overTsup(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              overTsup(description=
         "Supply air temperature for heating", u(
       max=273.15 + 40,
       unit="K",
       min=273.15 + 15))
                  "overwrite for supply air temperature for heating"
     annotation (Placement(transformation(extent={{-38,-14},{-50,-2}})));
-  IBPSA.Utilities.IO.SignalExchange.Read readTzone(
+  Buildings.Utilities.IO.SignalExchange.Read readTzone(
     description="Zone air temperature",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K")) "Read zone air temperature"
     annotation (Placement(transformation(extent={{62,50},{74,62}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read readTsupsetpoint(
+  Buildings.Utilities.IO.SignalExchange.Read readTsupsetpoint(
     description="Supply air temperature setpoint",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "read supply air setpoint"
     annotation (Placement(transformation(extent={{-58,-14},{-70,-2}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite Over_CO2_setpoint(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              Over_CO2_setpoint(description=
         "Indoor CO2 concentration setpoint", u(min=400, max=1000))
     "Overwrite CO2 setpoint [ppm]"          annotation (Placement(
         transformation(

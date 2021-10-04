@@ -427,13 +427,13 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
       redeclare package Medium = Water,
       m_flow_nominal=m2_flow_nominal)
       annotation (Placement(transformation(extent={{94,-82},{74,-62}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite OverFan_exhaust(description=
+    Buildings.Utilities.IO.SignalExchange.Overwrite OverFan_exhaust(description=
           "Fan speed control signal", u(
         min=0,
         max=1,
         unit="1")) "Overwirte for fan speed control signal"
       annotation (Placement(transformation(extent={{-34,62},{-14,82}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite OverFan_sup(description=
+    Buildings.Utilities.IO.SignalExchange.Overwrite OverFan_sup(description=
           "fan speed control signal", u(
         min=0,
         max=1,
@@ -442,16 +442,16 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
           extent={{8,-8},{-8,8}},
           rotation=90,
           origin={-60,52})));
-    IBPSA.Utilities.IO.SignalExchange.Read readTsupair(
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    Buildings.Utilities.IO.SignalExchange.Read readTsupair(
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
       y(unit="K"),
       description="Supply air temperature") "Read supply air temperature"
       annotation (Placement(transformation(
           extent={{7,-7},{-7,7}},
           rotation=90,
           origin={131,-65})));
-    IBPSA.Utilities.IO.SignalExchange.Read readTretair(
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    Buildings.Utilities.IO.SignalExchange.Read readTretair(
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
       y(unit="K"),
       description="Return air temperature") "Read returrn air temperature"
       annotation (Placement(transformation(
@@ -461,8 +461,8 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
     Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
           Air)
       annotation (Placement(transformation(extent={{76,-52},{96,-32}})));
-    IBPSA.Utilities.IO.SignalExchange.Read readsupair(
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+    Buildings.Utilities.IO.SignalExchange.Read readsupair(
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
       y(unit="kg/s"),
       description="Supply air mass flowrate") "Read supply air mass flow rate"
       annotation (Placement(transformation(
