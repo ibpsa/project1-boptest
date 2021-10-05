@@ -1,0 +1,9 @@
+{"name"         : "testcase1",
+"area"          : 10.0,
+"start_time"    : 0.0,
+"warmup_period" : 0.0,
+"step"          : 60.0,
+"horizon"       : 86400.0,
+"interval"      : 3600.0,
+"scenario"      : {"electricity_price":"constant",
+                   "time_period":null}}

@@ -4,19 +4,18 @@
 
 Building Optimization Performance Tests
 
-This repository contains prototype code for the Building Optimization Performance Test framework (BOPTEST)
+This repository contains code for the Building Optimization Performance Test framework (BOPTEST)
 that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/project1/).
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
-- ``/examples`` contains prototype code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (Version 2.7), Julia (Version 1.0.3), and JavaScript (Version ECMAScript 2018).
-- ``/parsing`` contains prototype code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
-- ``/template`` contains template Modelica code for a test case emulator model.
+- ``/examples`` contains code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (Version 2.7 and 3.9), Julia (Version 1.0.3), and JavaScript (Version ECMAScript 2018).
+- ``/parsing`` contains code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
-- ``/data`` contains prototype code for generating and managing data associated with test cases.  This includes boundary conditions, such as weather, schedules, and energy prices, as well as a map of test case FMU outputs needed to calculate KPIs.
-- ``/forecast`` contains prototype code for returning boundary condition forecast, such as weather, schedules, and energy prices.
-- ``/kpis`` contains prototype code for calculating key performance indicators.
-- ``/docs`` contains design requirements and guide documentation.
+- ``/data`` contains code for generating and managing data associated with test cases.  This includes boundary conditions, such as weather, schedules, and energy prices, as well as a map of test case FMU outputs needed to calculate KPIs.
+- ``/forecast`` contains code for returning boundary condition forecast, such as weather, schedules, and energy prices.
+- ``/kpis`` contains code for calculating key performance indicators.
+- ``/docs`` contains design documentation and delivered workshop content.
 
 ## Quick-Start to Run Test Cases
 1) Install [Docker](https://docs.docker.com/get-docker/).
@@ -26,7 +25,6 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 5) Run an example test controller:
 
 * For Python-based example controllers:
-  * Add the root directory of the BOPTEST repository to the PYTHONPATH environment variable.
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1.py`` to test a simple proportional feedback controller on this test case over a two-day period.
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1_scenario.py`` to test a simple proportional feedback controller on this test case over a test period defined using the ``/scenario`` API.
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase2.py`` to test a simple supervisory controller on this test case over a two-day period.
@@ -70,7 +68,7 @@ Example RESTful interaction:
 | Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
 | Receive current test scenario.                                         |  GET ``scenario``                                   |
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
-
+| Receive BOPTEST version.                                               |  GET ``version``                                             |
 ## Development
 
 This repository uses pre-commit to ensure that the files meet standard formatting conventions (such as line spacing, layout, etc).
@@ -80,10 +78,18 @@ pre-commit into your Python version using pip `pip install pre-commit`. Pre-comm
 as a hook on all commits by calling `pre-commit install` in the root directory of the BOPTEST GitHub checkout.
 
 ## More Information
-See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
 
-## Proposed Interface Design
-A proposed BOPTEST home page and interface for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.
+### Use Cases and Development Requirements
+See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
+ 
+### Deployment as a Web-Service
+BOPTEST is implemented as a web-service in the ``boptest-service`` [branch](https://github.com/ibpsa/project1-boptest/tree/boptest-service) of this repository.
+
+### OpenAI-Gym Environment
+An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-gym](https://github.com/ibpsa/project1-boptest-gym).
+
+### Results Dashboard
+A proposed BOPTEST home page and dashboard for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.
 
 ## Publications
 D. Blum, F. Jorissen, S. Huang, Y. Chen, J. Arroyo, K. Benne, Y. Li, V. Gavan, L. Rivalin, L. Helsen, D. Vrabie, M. Wetter, and M. Sofos. (2019). “Prototyping the BOPTEST framework for simulation-based testing of advanced control strategies in buildings.” In *Proc. of the 16th International Conference of IBPSA*, Sep 2 – 4. Rome, Italy.

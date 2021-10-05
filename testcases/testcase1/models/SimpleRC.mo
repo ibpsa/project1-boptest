@@ -29,7 +29,7 @@ model SimpleRC
     yMin=0,
     yMax=100000) "Feedback controller for the heater based on room temperature"
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite
+  Buildings.Utilities.IO.SignalExchange.Overwrite
                            oveAct(u(
       unit="W",
       min=-10000,
@@ -41,22 +41,23 @@ model SimpleRC
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
   Modelica.Blocks.Math.Gain eff(k=1/0.99) "Heater efficiency"
     annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read
+  Buildings.Utilities.IO.SignalExchange.Read
                       TRooAir(                y(unit="K"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     description="Zone air temperature") "Read the room air temperature"
     annotation (Placement(transformation(extent={{80,-60},{60,-40}})));
-  IBPSA.Utilities.IO.SignalExchange.Read
+  Buildings.Utilities.IO.SignalExchange.Read
                       PHea(y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heater power")
                            "Read the heater power"
     annotation (Placement(transformation(extent={{80,-90},{100,-70}})));
   Modelica.Blocks.Math.Abs abs
     annotation (Placement(transformation(extent={{30,-90},{50,-70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read CO2RooAir(
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         CO2RooAir(
     y(unit="ppm"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     description="Zone air CO2 concentration")
     "Read the room air CO2 concentration"
     annotation (Placement(transformation(extent={{80,50},{100,70}})));
@@ -95,7 +96,8 @@ equation
     annotation (Line(points={{51,-80},{78,-80}}, color={0,0,127}));
   connect(conCO2.y, CO2RooAir.u)
     annotation (Line(points={{61,60},{78,60}}, color={0,0,127}));
-  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")),
+  annotation (uses(Modelica(version="3.2.3"),
+      Buildings(version="8.0.0")),
       experiment(
       StopTime=60,
       Interval=1,

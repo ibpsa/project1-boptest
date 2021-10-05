@@ -1,52 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<title>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</title>
-<meta name="HTML-Generator" content="Dymola">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="&quot;Single zone residential hydronic example model&quot;">
-<style type="text/css">
-*       { font-size: 100%; font-family: Arial, sans-serif; }
-.modelica, .modelica * { font-size: 90%; font-family: Courier, monospace; white-space: pre; } /* For the Modelica code (in exported html). */
-h4      { font-size: 100%; font-weight: bold; color: green; }
-h3      { font-size: 110%; font-weight: bold; color: green; }
-h2      { font-size: 130%; font-weight: bold; color: green; }
-address { font-weight: normal; }
-td      { padding: 2px; border: 1px solid #808080; vertical-align: top; }
-th      { padding: 2px; border: 1px solid #808080; vertical-align: top; font-weight: bold; }
-table   { border: 1px solid #808080; border-collapse: collapse; }
-pre, code {font-family: "Courier New", monospace;}
-pre {white-space: pre; overflow-x : hidden;}
-.ModelicaDescription {font-weight: bold;} /* For the description string of the class. */
-.ModelicaBaseClass {} /* For the list of base-classes at the of the description. */
-.ModelicaKeyword { color: blue; font-weight: normal; font-style: normal; } /* Keywords in Modelica. */
-.ModelicaComment { color: #006400;  font-weight: normal; font-style: normal;} /* All three variants of comments in Modelica.  */
-.ModelicaString { color: #006400;  font-weight: normal; font-style: normal;} /* String constants. */
-.ModelicaClass { color: red; font-weight: normal; font-style: normal;} /* Formatting the names of referenced classes (for base-class and components). */
-.ModelicaFunction { color: red; font-weight: normal; font-style: normal;} /* Formatting for called functions. */
-.ModelicaTablePackageContent { } /* The table of contents for each package. */
-.ModelicaTableCrossReference { } /* The optional cross-reference table. */
-.ModelicaTableInputs {} /* The table of inputs for a function. */
-.ModelicaTableOutputs {} /* The table of outputs for a function. */
-.ModelicaTableParameters {} /* The table of parameters for a model/block. */
-.ModelicaTableConnectors {} /* The table of connectors for a model/block. */
-.ModelicaTableContents {} /* The table of contents for a connector. */
-.ModelicaStartAttribute { font-weight: bold; } /* The formatting used for start-attribute in the table of parameters, to separate them from parameter values. */
-.ModelicaParameterTab { background-color: #c0c0c0; font-weight: bold; } /* The tab-heading in the table of parameters */
-.ModelicaParameterGroup { background-color: #e0e0e0; } /* The group-heading in the table of parameters */
-</style>
-</head>
-<body>
-<!--[if supportFields]><span style="mso-element:field-begin"></span>
-<span style="mso-spacerun:yes"></span>XE SingleZoneResidentialHydronic<![endif]-->
-<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
-<h2><img src="IDEAS.Examples.IBPSA.Sing7927f73c58652d5bronicI.png" alt="IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic" align="right" style="border: 1px solid" width="80" height="80">
-<a name="IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic"></a>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</h2>
-<p>
-<span class="ModelicaDescription">Single zone residential hydronic example model</span>
-</p>
-<h3>Information</h3>
-
 <p>
 This is a single zone residential hydronic system model
 for WP 1.2 of IBPSA project 1.
@@ -63,8 +15,7 @@ of 6 m2 each, which are modelled using a single window of 12 m2.
 <p>
 The walls consist of 10 cm thick concrete blocks and 6 cm of foam insulation.
 For more details see
-<a  >
-IDEAS.Buildings.Validation.Data.Constructions.HeavyWall</a>.
+IDEAS.Buildings.Validation.Data.Constructions.HeavyWall.
 The floor consists of 8 cm of concrete and 1 m of insulation, representing a
 perfectly insulated floor. The roof consists of a light construction and 11 cm
 of fibreglass.
@@ -88,6 +39,7 @@ of weather data for Brussels, Belgium.
 <p>
 The model only has a primary heating system that heats the zone using a
 single radiator with thermostatic valve, a circulation pump and a water heater.
+The system is presented in Figure 1 below.
 The radiator nominal thermal power and heater maximum thermal power is 5 kW.
 The heating setpoint is set to 21 &#176;C during occupied
 periods and 15 &#176;C during unoccupied periods. The cooling setpoint is set to
@@ -97,6 +49,21 @@ controller to modulate supply water temperature between 20 and 80 &#176;C to
 track a reference for the operative zone temperature
 that equals the heating setpoint plus an offset
 of 0.1 &#176;C by default.
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src="images/SingleZoneResidentialHydronic_Schematic.png" alt=\"image\"/>
+<figcaption><small>Figure 1: System schematic.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -108,10 +75,32 @@ computed using a polynomial curve.
 <p>
 The model assumes a pump with a constant head,
 which results in a fixed flow rate due to the fixed pressure drop coefficient of the radiator.
-The supply water temperature of the boiler is modulated using a PI
-controller that tracks indoor temperature to follow a reference defined as
-the heating setpoint plus an offset of 0.1 &#176;C.
+The supply water temperature set point of the boiler is modulated using a PI
+controller that tracks zone operative temperature to follow the zone operative temperature setpoint,
+depicted as controller C1 in Figure 1 and shown in Figure 2 below.
+For baseline control, this setpoint is defined as
+the heating comfort setpoint plus an offset of 0.1 &#176;C.
+The pump is switched on and off with hysteresis based on the indoor
+temperature with the heating set point as the low point and the cooling set point
+as the high point.  It is assumed that the boiler exactly
+outputs the supply water temperature set point using an ideal controller
+depicted as C2 in Figure 1.
 </p>
+
+<p>
+<br>
+</p>
+
+</p>
+<p align=\"center\">
+<img src="images/SingleZoneResidentialHydronic_C1.png" alt=\"image\"/>
+<figcaption><small>Figure 2: Controller C1.</small></figcaption>
+</p>
+
+<p>
+<br>
+</p>
+
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
@@ -284,7 +273,7 @@ All pricing scenarios include the same constant value for transmission fees and 
 of each commodity. The used value is the typical price that household users pay
 for the network, taxes and levies, as calculateed by Eurostat and obtained from:
 <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:52020DC0951&from=EN">
-"The energy prices and costs in Europe report"</a>.
+The energy prices and costs in Europe report</a>.
 For the assumed location of the test case, this value is of
 0.20 EUR/kWh for electricity and of 0.03 EUR/kWh for gas.
 </p>
@@ -292,7 +281,7 @@ For the assumed location of the test case, this value is of
 The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
 <ul>
 The constant electricity price scenario uses a constant price of 0.0535 EUR/kWh,
-as obtained from the "Easy Indexed" deal for electricity (normal rate) in
+as obtained from the \"Easy Indexed\" deal for electricity (normal rate) in
 <a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
@@ -305,7 +294,7 @@ The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API i
 <ul>
 The dynamic electricity price scenario uses a dual rate of 0.0666 EUR/kWh during
 day time and 0.0383 EUR/kWh during night time,
-as obtained from the "Easy Indexed" deal for electricity (dual rate) in
+as obtained from the \"Easy Indexed\" deal for electricity (dual rate) in
 <a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
@@ -332,7 +321,7 @@ The <b>Gas Price</b> profile is:
 <p>
 <ul>
 The gas price is assumed constant and of 0.0198 EUR/kWh
-as obtained from the "Easy Indexed" deal for gas
+as obtained from the \"Easy Indexed\" deal for gas
 <a href="https://www.energyprice.be/products-list/Engie">
 https://www.energyprice.be/products-list/Engie</a>
 (accessed on June 2020).
@@ -362,25 +351,4 @@ see:
 https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </ul>
 </p>
-
-<p><span class="ModelicaBaseClass">Extends from Modelica.Icons.Example (Icon for runnable examples).</span></p>
-<h3>Parameters</h3>
-<table summary="Parameters" class="ModelicaTableParameters">
-<tr><th>Name</th><th>Description</th></tr>
-<tr class="ModelicaParameterGroup"><td colspan="2">Setpoints</td></tr>
-<tr><td>TSetCooUno</td><td>Unoccupied cooling setpoint [K]</td></tr>
-<tr><td>TSetCooOcc</td><td>Occupied cooling setpoint [K]</td></tr>
-<tr><td>TSetHeaUno</td><td>Unoccupied heating setpoint [K]</td></tr>
-<tr><td>TSetHeaOcc</td><td>Occupied heating setpoint [K]</td></tr>
-</table>
-<h3>Connectors</h3>
-<table summary="Connectors" class="ModelicaTableConnectors">
-<tr><th>Name</th><th>Description</th></tr>
-<tr><td>Q</td><td>Thermal power use of heater [W]</td></tr>
-<tr><td>TZone</td><td>Zone operative temperature [K]</td></tr>
-</table>
-<address>
-<a href="http://www.3ds.com/">Automatically generated</a> Mon Apr 26 12:40:04 2021.
-</address>
-</body>
 </html>

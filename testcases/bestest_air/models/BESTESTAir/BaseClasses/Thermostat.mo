@@ -31,11 +31,11 @@ model Thermostat
   Modelica.Blocks.Interfaces.RealOutput yCooVal
     "Control signal for cooling valve"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(y(unit="K"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTSetCoo(y(unit="K"), description=
         "Zone air temperature setpoint for cooling")
     "Read zone cooling setpoint"
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(y(unit="K"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTSetHea(y(unit="K"), description=
         "Zone air temperature setpoint for heating")
                                                     "Read zone cooling heating"
     annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
@@ -48,7 +48,7 @@ model Thermostat
     "Fan hysteresis"
     annotation (Placement(transformation(extent={{70,-50},{90,-30}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
       min=273.15 + 23,
       max=273.15 + 30), description="Zone temperature setpoint for cooling")
@@ -60,7 +60,7 @@ model Thermostat
     table=[0,TSetCooUno; occSta,TSetCooOcc; occEnd,TSetCooUno; 24*3600,
         TSetCooUno]) "Cooling temperature setpoint for zone air"
     annotation (Placement(transformation(extent={{-100,70},{-80,90}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetHea(description="Zone temperature setpoint for heating",
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetHea(description="Zone temperature setpoint for heating",
       u(
       max=273.15 + 23,
       unit="K",

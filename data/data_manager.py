@@ -213,6 +213,8 @@ class Data_Manager(object):
         self.kpi_path = os.path.join(models_dir, 'kpis.json')
         # Find the days.json path
         self.days_path = os.path.join(models_dir, 'days.json')
+        # Find the config.json path
+        self.config_path = os.path.join(models_dir, 'config.json')
 
         if os.path.exists(resources_dir):
             # Find all files within Resources folder
@@ -242,6 +244,13 @@ class Data_Manager(object):
         else:
             warnings.warn('No days.json found for this test case, ' \
                           'use the data/find_days.py to get this file or otherwise create it.')
+
+        # Write a copy of config.json to the fmu resources folder
+        if os.path.exists(self.config_path):
+            self.z_fmu.write(self.config_path,
+                             os.path.join('resources', 'config.json'))
+        else:
+            warnings.warn('No config.json found for this test case')
 
         # Close the fmu
         self.z_fmu.close()
@@ -372,6 +381,9 @@ class Data_Manager(object):
         # Load days json
         json_str = z_fmu.open('resources/days.json').read()
         self.case.days_json = json.loads(json_str)
+        # Load config json
+        json_str = z_fmu.open('resources/config.json').read()
+        self.case.config_json = json.loads(json_str)
 
         # Find the test case data files
         files = []

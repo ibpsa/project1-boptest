@@ -46,6 +46,7 @@ following structure:
 	|  |  |--resources 		// Resources directory
 	|  |  |  |--kpis.json 		// JSON mapping outputs to KPI calculations
 	|  |  |  |--days.json 		// JSON mapping time period names to day number for simulation
+	|  |  |  |--config.json 	// BOPTEST configuration file and sets defaults
 	|  |  |  |--weather.mos 	// Weather data for model simulation in Modelica
 	|  |  |  |--weather.csv 	// Weather data for forecasting
 	|  |  |  |--occupancy.csv 	// Occupancy schedules
@@ -57,7 +58,6 @@ following structure:
 	|  |--doc.html 			// Copy of .mo file documentation
 	|  |--images 			// Image directory
 	|  |  |--image1.png 		// Image for model documentation
-	|--config.py 			// BOPTEST configuration file
 
 Control and Sensor Signal Exchange in Modelica
 ----------------------------------------------
@@ -231,6 +231,27 @@ as :code:`days.json` with structure:
 Currently available time periods are defined as two-week test periods with
 one-week warmup period utilizing baseline control.  The two-week period is
 centered on the day defined by the day # in days.json.
+
+Test Case Configuration and JSON Mapping
+-----------------------------------------
+In order to assign particular configuration and default values
+for a test case upon loading in BOPTEST, a configuration JSON saved as
+:code:`config.json` will have the structure::
+
+::
+
+    {
+    "name"          : <str>,                         // Name of test case
+    "area"          : <float>,                       // Floor area in m^2
+    "start_time"    : <float>,                       // Default start time
+    "warmup_period" : <float>,                       // Default warmup_period
+    "step"          : <float>,                       // Default control step in seconds
+    "horizon"       : <float>,                       // Default forecast horizon in seconds
+    "interval"      : <float>,                       // Default forecast interval in seconds
+    "scenario"      : {"electricity_price":<str>,    // Default electricity price scenario
+                       "time_period":null}
+    }
+
 
 Data Generation and Collection Module
 -------------------------------------

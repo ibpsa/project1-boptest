@@ -5,7 +5,12 @@ using the scenario options with the prototype test case called "testcase1".
 
 '''
 
-def run(plot=True):
+import sys
+import pathlib
+# Add BOPTEST repository to PYTHONPATH for this example
+sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+
+def run(plot=False):
     '''This is the main script.
 
     Parameters
@@ -28,7 +33,7 @@ def run(plot=True):
     # -----------------------------------------------------------------------------
     # TEST CONTROLLER IMPORT
     # -----------------------------------------------------------------------------
-    from controllers import pid
+    from examples.python.controllers import pid
     # -----------------------------------------------------------------------------
     # SET TEST PARAMETERS
     # -----------------------------------------------------------------------------

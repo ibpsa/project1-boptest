@@ -27,6 +27,7 @@ copy_to_jm:
 copy_testcase_to_jm:
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing/${TESTCASE}
+	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing/${TESTCASE}
 	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
 
 copy_from_jm:
@@ -258,6 +259,39 @@ test_kpis:
 # Stop jm docker container
 	make stop_jm
 
+test_readme_commands:
+# Test readme commands work right after instantiation of test case container
+	cd .. &&  make build TESTCASE=testcase2
+	cd .. && make run-detached TESTCASE=testcase2
+	python sleep10.py
+	curl http://127.0.0.1:5000/measurements
+	curl http://127.0.0.1:5000/forecast
+	curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
+	cd .. && make stop TESTCASE=testcase2
+
+test_python2:
+# Test example controllers written in python run with python 2
+# Build testcase images
+	cd .. &&  make build TESTCASE=testcase1
+	cd .. &&  make build TESTCASE=testcase2
+	cd .. &&  make build TESTCASE=testcase3
+# Test testcase1
+	cd .. && make run-detached TESTCASE=testcase1
+	python sleep10.py
+	cd ../examples/python && python testcase1.py
+	cd ../examples/python && python testcase1_scenario.py
+	cd .. && make stop TESTCASE=testcase1
+# Test testcase2
+	cd .. && make run-detached TESTCASE=testcase2
+	python sleep10.py
+	cd ../examples/python && python testcase2.py
+	cd .. && make stop TESTCASE=testcase2
+# Test testcase3
+	cd .. && make run-detached TESTCASE=testcase3
+	python sleep10.py
+	cd ../examples/python && python testcase3.py
+	cd .. && make stop TESTCASE=testcase3
+
 ###############################################################################
 
 # Run all tests
@@ -270,6 +304,7 @@ test_all:
 	make test_data
 	make test_forecast
 	make test_kpis
+	make test_readme_commands
 	make test_testcase1
 	make test_testcase2
 	make test_testcase3
