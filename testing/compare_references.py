@@ -117,6 +117,11 @@ def compare(testcase='bestest_air'):
                                               'TDryBul'],
                            refs_old = 'multizone_residential_hydronic_old',
                            refs_new = 'multizone_residential_hydronic')
+        
+    elif testcase == 'single_zone_commercial':
+        compare_references(vars_timeseries = ['readCO2_y','readQelfan_y','readQelpump_y','readQh_y','airHandlingUnit_readTsupair_y','airHandlingUnit_readTretair_y'],
+                           refs_old = 'single_zone_commercial_old',
+                           refs_new = 'single_zone_commercial')
 
 if __name__ == '__main__':
-    compare(testcase='bestest_air')
+    compare(testcase='single_zone_commercial')
