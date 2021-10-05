@@ -66,8 +66,8 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
-      redeclare Buildings.Fluid.Movers.Data.Pumps.Wilo.Stratos50slash1to12 per)
-                                  annotation (Placement(transformation(
+      redeclare Buildings.Fluid.Movers.Data.Pumps.Wilo.Stratos50slash1to12 per,
+      y_start=1)                  annotation (Placement(transformation(
             extent={{-10,-10},{10,10}},
             rotation=0,
             origin={-42,38})));
