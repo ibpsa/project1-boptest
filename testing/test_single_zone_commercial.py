@@ -7,9 +7,10 @@ bestest_air must already be deployed.
 
 import unittest
 import os
+import requests
 import utilities
 
-class Run(unittest.TestCase, utilities.partialTestTimePeriod):
+class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialTestSeason):
     '''Tests the example test case.
 
     '''
@@ -31,24 +32,46 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
 
-    #def test_peak_cool_day(self):
-    #    self.run_time_period('peak_cool_day')
-
     def test_typical_heat_day(self):
         self.run_time_period('typical_heat_day')
+        
+    def test_summer(self):
+        self.run_season('summer')
 
-    #def test_typical_cool_day(self):
-    #    self.run_time_period('typical_cool_day')
+    def test_shoulder(self):
+        self.run_season('shoulder')
 
-    #def test_mix_day(self):
-    #    self.run_time_period('mix_day')
+    def test_zero_flow(self):
+        '''Runs the example to test for ability to turn off pump.
 
-    #def test_summer(self):
-    #    self.run_season('summer')
+        Parameters
+        ----------
+        None
 
-    #def test_shoulder(self):
-    #    self.run_season('shoulder')
+        Returns
+        -------
+        None
 
+        '''
+
+        start_time = 15*24*3600
+        length = 48*3600/12
+        # Initialize test case
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':7*24*3600})
+        # Get default simulation step
+        step_def = requests.get('{0}/step'.format(self.url)).json()
+        # Simulation Loop
+        for i in range(int(length/step_def)):
+            # Advance simulation
+            #switch pump on/off for each timestep
+            pump = 0 if (i % 2) == 0 else 1
+            u = {'over_pump_DH_activate':1, 'over_pump_DH_u':pump}
+            requests.post('{0}/advance'.format(self.url), data=u).json()
+        # Check results
+        points = self.get_all_points(self.url)
+        df = self.results_to_df(points, start_time, start_time+length, self.url)
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_zero_flow_test.csv')
+        self.compare_ref_timeseries_df(df,ref_filepath)
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase.
