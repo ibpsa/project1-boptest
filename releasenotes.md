@@ -6,6 +6,7 @@ Released on xx/xx/xxx.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
+- Add ``CMD`` and ``EXPOSE`` to ``Dockerfile`` to embed default behavior.  This is for [#365](https://github.com/ibpsa/project1-boptest/issues/365).
 - Update test cases to use Buildings v8.0.0 and IDEAS v2.2.1.  This is for [#362](https://github.com/ibpsa/project1-boptest/issues/362).
 - Add content to ``/docs/workshops`` for workshop at IBPSA Building Simulation 2021 Conference.  This is for [#348](https://github.com/ibpsa/project1-boptest/issues/348).
 - Update README.md to add links to ``boptest-service`` and ``boptest-gym``.  This is for [#353](https://github.com/ibpsa/project1-boptest/issues/353).
