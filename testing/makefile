@@ -312,6 +312,7 @@ test_all:
 	make test_bestest_hydronic
 	make test_bestest_hydronic_heat_pump
 	make test_multizone_residential_hydronic
+	make test_single_zone_commercial
 # Remove jm
 	make remove_jm_image
 # Report test results
