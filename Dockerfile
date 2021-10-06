@@ -35,3 +35,5 @@ COPY kpis kpis/
 ENV PYTHONPATH $PYTHONPATH:$HOME
 
 CMD python restapi.py && bash
+
+EXPOSE 5000
