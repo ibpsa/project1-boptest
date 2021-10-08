@@ -29,8 +29,8 @@ instantiates concrete controllers defined in ``pid.py``, ``pidTwoZones.py``, and
 using results from BOPTEST.
 
 ## Run an Example Test
-- First, deploy the correct BOPTEST test case (see repository root ``README.md``).
-- Then, use ``$ python testcase<...>.py`` depending on the examples defined above.
+- First, deploy the test case corresponding to the desired example as described above (see repository root ``README.md`` for instructions on deploying a test case).
+- Then, use ``$ python testcase<...>.py`` depending on the desired example from those defined above.
 
 ## Quick-Start for Testing Your Controller
 
