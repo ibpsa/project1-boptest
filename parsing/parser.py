@@ -219,7 +219,7 @@ def export_fmu(model_path, file_name):
         json.dump(signals, f)
     # Generate test case data
     man = Data_Manager()
-    man.save_data_and_kpisjson(fmu_path=fmu_path)
+    man.save_data_and_jsons(fmu_path=fmu_path)
 
     return fmu_path, kpi_path
 

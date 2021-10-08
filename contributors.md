@@ -6,10 +6,12 @@ Thank you to all who have provided guidance on the development of this software.
 - Kyle Benne, National Renewable Energy Laboratory
 - David Blum, Lawrence Berkeley National Laboratory
 - Yan Chen, Pacific Northwest National Laboratory
+- Valentin Gavan, ENGIE
 - Lieve Helsen, KU Leuven
 - Sen Huang, Pacific Northwest National Laboratory
 - Filip Jorissen, KU Leuven
 - Yanfei Li, National Renewable Energy Laboratory
 - Nicholas Long, National Renewable Energy Laboratory
 - Draguna Vrabie, Pacific Northwest National Laboratory
+- Harald Walnum, SINTEF
 - Michael Wetter, Lawrence Berkeley National Laboratory
