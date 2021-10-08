@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module implements a simple P controller.
+This module implements a supervisory controller for room temperature set points
+specifically for testcase2.
 
 """
 
@@ -13,16 +14,17 @@ def compute_control(y, forecasts=[]):
     y : dict
         Contains the current values of the measurements.
         {<measurement_name>:<measurement_value>}
+    forecasts : list
+        Forecasts used to calculate control, default [].
 
     Returns
     -------
     u : dict
         Defines the control input to be used for the next step.
         {<input_name> : <input_value>}
-    forecasts : list
-        Forecasts used to calculate control, default [].
 
     """
+
     # Compute control
     u = {
         'oveTSetRooHea_u': 22 + 273.15,
@@ -30,6 +32,7 @@ def compute_control(y, forecasts=[]):
         'oveTSetRooCoo_u': 23 + 273.15,
         'oveTSetRooCoo_activate': 1
     }
+
     return u
 
 
@@ -53,4 +56,5 @@ def initialize():
         'oveTSetRooCoo_u': 23 + 273.15,
         'oveTSetRooCoo_activate': 1
     }
+
     return u

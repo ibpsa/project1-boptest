@@ -1,22 +1,28 @@
+# -*- coding: utf-8 -*-
+"""
+This module contains a generic controller class that is used to instantiate
+concrete controller methods, found in pid.py, pidTwoZones.py, and sup.py.
+
+"""
+
 import sys
 import importlib
-import pandas as pd
-
 
 
 class Controller(object):
-    def __init__(self, module, forecast_config):
-
-        """Controller object - instantiates concrete implementation of controller configured
-        in configuration
+    def __init__(self, module, forecast_config=None):
+        """Controller object that instantiates concrete controller methods.
 
         Parameters
         ----------
-        module : str, required
+        module : str
             path to concrete implementation of controller
-        forecast_config : list of strings, dict
-            list of data names obtained by instatiator get/forecast method
+        forecast_config : list, optional
+            list of point names contained in a forecast
+            [<input_name1>, <input_name2>].
+            Default is None.
         """
+
         try:
             controller = importlib.import_module(module)
         except ModuleNotFoundError:

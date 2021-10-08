@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+"""
+This module implements a simple P controller for room heater control specifically
+for testcase3.  Note that it uses BOPTEST forecasts to retrieve the
+zone temperature set points.
+
+"""
+
 import sys
-"""
-This module implements a simple P controller.
-
-"""
-
 
 def compute_control(y, forecasts=[]):
     """Compute the control input from the measurement.
@@ -24,6 +26,7 @@ def compute_control(y, forecasts=[]):
         {<input_name> : <input_value>}
 
     """
+
     try:
         north_temp = y['TRooAirNor_y']
         south_temp = y['TRooAirSou_y']
@@ -31,7 +34,7 @@ def compute_control(y, forecasts=[]):
         print("Temperature values ['TRooAirNor_y', 'TRooAirSou_y'] not in input: %s", y)
         sys.exit()
 
-    # Extract set point information   
+    # Extract set point information
     north_sp_lower = forecasts[0]
     north_sp_upper = forecasts[1]
     lower_sp_south = forecasts[2]
@@ -98,7 +101,7 @@ def update_forecasts(forecast_config, forecast):
     Parameters
     ----------
     forecast_config : list
-        list of data points that names contained in forecast
+        list of point names contained in a forecast
         [<input_name1>, <input_name2>]
     forecast : dict
         dictionary of arrays with forecast data
@@ -106,11 +109,13 @@ def update_forecasts(forecast_config, forecast):
 
     Returns
     -------
-    forecasts : dict
-        Defines the control input to be used for the next step.
-        {<input_name> : <input_value>}
+    forecasts : list
+        Returns data from the forecasts needed to compute control according
+        to the forecast_config.
+        This data structure is specific for this controller.
 
     """
+
     forecasts = []
     if forecast:
         for j in range(len(forecast_config)):

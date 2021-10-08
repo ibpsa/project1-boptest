@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module implements a simple P controller.
+This module implements a simple P controller of heater power control specifically
+for testcase1.
 
 """
 

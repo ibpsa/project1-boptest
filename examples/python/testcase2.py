@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 This script demonstrates a minimalistic example of testing a supervisory controller
-with the prototype test case called "testcase2".
+with the prototype test case called "testcase2". It uses the testing
+interface implemented in interface.py and the concrete controller implemented
+in controllers/sup.py.
 
 """
 
@@ -9,20 +11,18 @@ with the prototype test case called "testcase2".
 # ----------------------
 import sys
 import pathlib
-sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
 from examples.python.interface import control_test
+sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
 
 
-def run(plot=False, customized_kpi_config=None):
-    """Run test case.
+def run(plot=False):
+    """Run controller test.
+
     Parameters
     ----------
     plot : bool, optional
         True to plot timeseries results.
         Default is False.
-    customized_kpi_config : string, optional
-        The path of the json file which contains the customized kpi information.
-        Default is None.
 
     Returns
     -------
@@ -36,16 +36,27 @@ def run(plot=False, customized_kpi_config=None):
         Empty if no customized KPI calculations defined.
 
     """
-    ########################################
-    # config for the control test
+
+    # CONFIGURATION FOR THE CONTROL TEST
+    # ----------------------------------
+    control_module = 'examples.python.controllers.sup'
+    start_time = 0
+    warmup_period = 0
     length = 24 * 3600 * 2
     step = 3600
-    control_module = 'examples.python.controllers.sup'
-    ########################################
-    kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
-                                                                    step=step,
-                                                                    control_module=control_module,
-                                                                    customized_kpi_config=customized_kpi_config)
+    customized_kpi_config = 'custom_kpi/custom_kpis_example.config'
+
+    # RUN THE CONTROL TEST
+    # --------------------
+    kpi, df_res, custom_kpi_result, forecast_store = control_test(control_module,
+                                                                  start_time=start_time,
+                                                                  warmup_period=warmup_period,
+                                                                  length=length,
+                                                                  step=step,
+                                                                  customized_kpi_config= customized_kpi_config)
+
+    # POST-PROCESS RESULTS
+    # --------------------
     time = df_res.index.values / 3600  # convert s --> hr
     room_temperature = df_res['TRooAir_y'].values - 273.15  # convert K --> C
     tset_heating = df_res['oveTSetRooHea_u'].values - 273.15  # convert K --> C
@@ -54,7 +65,7 @@ def run(plot=False, customized_kpi_config=None):
     cooling_power = df_res['PCoo_y'].values
     heating_power = df_res['PHea_y'].values
     pump_power = df_res['PPum_y'].values
-    # Plot results
+    # Plot results if needed
     if plot:
         try:
             from matplotlib import pyplot as plt
@@ -83,4 +94,4 @@ def run(plot=False, customized_kpi_config=None):
 
 
 if __name__ == "__main__":
-    kpi, df_res, custom_kpi_result = run(customized_kpi_config='custom_kpi/custom_kpis_example.config')
+    kpi, df_res, custom_kpi_result = run()

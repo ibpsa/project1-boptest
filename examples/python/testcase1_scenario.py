@@ -13,16 +13,13 @@ sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
 from examples.python.interface import control_test
 
 
-def run(plot=False, customized_kpi_config=None):
+def run(plot=False):
     """Run test case.
     Parameters
     ----------
     plot : bool, optional
         True to plot timeseries results.
         Default is False.
-    customized_kpi_config : string, optional
-        The path of the json file which contains the customized kpi information.
-        Default is None.
 
     Returns
     -------
@@ -36,18 +33,21 @@ def run(plot=False, customized_kpi_config=None):
         Empty if no customized KPI calculations defined.
 
     """
-    ########################################
-    # config for the control test
-    length = 48*3600
-    step = 300
+
+    # RUN THE CONTROL TEST
+    # --------------------
     control_module = 'examples.python.controllers.pid'
     scenario = {'time_period': 'test_day', 'electricity_price': 'dynamic'}
-    ########################################
-    kpi, df_res, custom_kpi_result, prediction_store = control_test(length=length,
-                                                                    step=step,
-                                                                    control_module=control_module,
-                                                                    customized_kpi_config=customized_kpi_config,
-                                                                    scenario=scenario)
+    step = 300
+
+    # RUN THE CONTROL TEST
+    # --------------------
+    kpi, df_res, custom_kpi_result, forecast_store = control_test(control_module,
+                                                                  scenario=scenario,
+                                                                  step=step)
+
+    # POST-PROCESS RESULTS
+    # --------------------
     time = df_res.index.values / 3600  # convert s --> hr
     zone_temperature = df_res['TRooAir_y'].values - 273.15  # convert K --> C
     # Plot results
@@ -65,7 +65,6 @@ def run(plot=False, customized_kpi_config=None):
             plt.show()
         except ImportError:
             print("Cannot import numpy or matplotlib for plot generation")
-    # --------------------
 
     return kpi, df_res, custom_kpi_result
 

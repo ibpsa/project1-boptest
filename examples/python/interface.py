@@ -2,7 +2,7 @@
 """
 This module is an example python-based testing interface.  It uses the
 ``requests`` package to make REST API calls to the test case container,
-which mus already be running.  A controller is tested, which is
+which must already be running.  A controller is tested, which is
 imported from a different module.
 
 """
@@ -19,26 +19,39 @@ import collections
 import pandas as pd
 
 
-def control_test(length=24*3600, step=300, control_module='', customized_kpi_config=None, forecast_config=None, scenario=None):
+def control_test(control_module='', start_time=0, warmup_period=0, length=24*3600, scenario=None, step=300, customized_kpi_config=None, forecast_config=None):
     """Run test case.
 
     Parameters
     ----------
 
-    length: int
+    control_module: str
+        relative path to controller code without .py suffix (e.g., 'controllers.sup').
+    start_time: int, optional
+        Simulation start time in seconds from midnight January 1st.
+        Not used if scenario defined.
+        Default is 0.
+    warmup_period: int, optional
+        Simulation warmup-period in seconds before start_time.
+        Not used if scenario defined.
+        Default is 0.
+    length: int, optional
         Simulation duration in seconds (e.g., 24*3600 is a 1 day simulation).
+        Not used if scenario defined.
         Default is 24*3600 (1-day).
-    step: int
+    scenario: dict, optional
+        Dictionary defining the predefined test scenario.
+        {'time_period': str, 'electricity_price': str}.
+        If specified, start_time, warmup_period, and length not used.
+        Default is None.
+    step: int, optional
         Simulation step size in seconds.
         Default is 300.
-    control_module: str
-        relative path to controller code without .py suffix (e.g., 'controllers.sup')
-        Default is '' (required).
-    customized_kpi_config: str
+    customized_kpi_config: str, optional
         relative path to custom KPI (e.g., 'custom_kpi.custom_kpis_example.config')
-        default is None.
-    forecast_config: list, str
-        List of strings.  Each element is a point that will be passed to the /forecast restful call.
+        Default is None.
+    forecast_config: list of str, optional
+        List of strings.  Each element is a point that needs to be passed from the /forecast API endpoint.
         Default is None.
 
     Returns
@@ -53,16 +66,17 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         Empty if no customized KPI calculations defined.
 
     """
+
     # SETUP TEST CASE
     # ---------------
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
-    # Set simulation parameters
+    # Instantiate controller
+    controller = Controller(control_module, forecast_config)
+    # Initialize storage structure for forecasts if needed
     forecasts_store = None
-    forecasts = []
     if forecast_config is not None:
         forecasts_store = pd.DataFrame(columns=forecast_config)
-    controller = Controller(control_module, forecast_config)
 
     # GET TEST INFORMATION
     # --------------------
@@ -80,7 +94,8 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     step_def = requests.get('{0}/step'.format(url)).json()
     print('Default Simulation Step:\t{0}'.format(step_def))
 
-    # Define customized KPI if any
+    # DEFINE CUSTOM KPI CALCULATION STRUCTURES IF ANY
+    # -----------------------------------------------
     custom_kpis = []  # Initialize customized kpi calculation list
     custom_kpi_result = {}  # Initialize tracking of customized kpi calculation results
     if customized_kpi_config is not None:
@@ -94,18 +109,18 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
 
     # RUN TEST CASE
     # -------------
+    # Record real starting time
     start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
     if scenario is not None:
         res = requests.put('{0}/scenario'.format(url), data=scenario).json()['time_period']
-        # Record test start time
+        # Record test simulation start time
         start_time = res['time']
         final_time = np.inf
         total_time_steps = int((365 * 24 * 3600)/step)
     else:
-        res = requests.put('{0}/initialize'.format(url), data={'start_time': 0, 'warmup_period': 0}).json()
-        start_time = 0
+        res = requests.put('{0}/initialize'.format(url), data={'start_time': start_time, 'warmup_period': warmup_period}).json()
         final_time = length
         total_time_steps = int(length / step)  # calculate number of timesteps
     if res:
@@ -115,21 +130,10 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     res = requests.put('{0}/step'.format(url), data={'step': step})
     # Initialize u
     u = controller.initialize()
-    # Store forecast if any
     # Simulation Loop
-    predictions = None
-    for timestep in range(total_time_steps):
-        # Advance simulation
+    for t in range(total_time_steps):
+        # Advance simulation with control input value(s)
         y = requests.post('{0}/advance'.format(url), data=u).json()
-        if not y:
-            break
-        if controller.use_forecast:
-            forecast_data = requests.get('{0}/forecast'.format(url)).json()
-            # Compute next control signal
-            forecasts = controller.update_forecasts(forecast_config, forecast_data)
-            if forecasts_store is not None:
-                forecasts_store.loc[(timestep + 1) * step, forecasts_store.columns] = forecasts
-        u = controller.compute_control(y, forecasts)
         # Compute customized KPIs if any
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI
@@ -137,6 +141,20 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
             custom_kpi_result[kpi.name].append(round(custom_kpi_value, 2))  # Track custom KPI value
             print('KPI:\t{0}:\t{1}'.format(kpi.name, round(custom_kpi_value, 2)))  # Print custom KPI value
         custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
+        # If reach end of scenario, stop
+        if not y:
+            break
+        # If controller needs a forecast, get the forecast data
+        if controller.use_forecast:
+            # Get forecast from BOPTEST
+            forecast_data = requests.get('{0}/forecast'.format(url)).json()
+            # Use BOPTEST forecast data to update controller-specific forecast data
+            forecasts = controller.update_forecasts(forecast_config, forecast_data)
+            # TODO Store forecast data used in controller
+            if forecasts_store is not None:
+                forecasts_store.loc[(t + 1) * step, forecasts_store.columns] = forecasts
+        # Compute control signal for next step
+        u = controller.compute_control(y, forecasts)
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
     # -------------
@@ -148,17 +166,17 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
         if key == 'ener_tot':
-            unit = 'kWh'
+            unit = 'kWh/m$^2$'
         elif key == 'tdis_tot':
-            unit = 'Kh'
+            unit = 'Kh/zone'
         elif key == 'idis_tot':
-            unit = 'ppmh'
+            unit = 'ppmh/zone'
         elif key == 'cost_tot':
-            unit = 'Euro or $'
+            unit = 'Euro or \$/m$^2$'
         elif key == 'emis_tot':
-            unit = 'KgCO2'
+            unit = 'KgCO2/m$^2$'
         elif key == 'time_rat':
-            unit = 'KgCO2'            
+            unit = 's/s'
         else:
             unit = None
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
@@ -173,6 +191,5 @@ def control_test(length=24*3600, step=300, control_module='', customized_kpi_con
         res = requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}).json()
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
-    
-    return kpi, df_res, custom_kpi_result, forecasts_store
 
+    return kpi, df_res, custom_kpi_result, forecasts_store
