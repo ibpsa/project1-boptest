@@ -10,7 +10,9 @@ package SingleZoneVAV
     parameter Modelica.SIunits.Temperature TSupChi_nominal=279.15
       "Design value for chiller leaving water temperature";
 
-    Buildings.Air.Systems.SingleZone.VAV.ChillerDXHeatingEconomizerController con(
+    Buildings.Air.Systems.SingleZone.VAV.BaseClasses.ControllerChillerDXHeatingEconomizer
+                                                                              con(
+      minAirFlo=0.1,
       minOAFra=0.2,
       kFan=4,
       kEco=4,
@@ -63,57 +65,61 @@ package SingleZoneVAV
       table=[0,23 + 273.15; 8*3600,23 + 273.15; 18*3600,23 + 273.15; 24*3600,23
            + 273.15]) "Cooling setpoint for room temperature"
       annotation (Placement(transformation(extent={{-180,-20},{-160,0}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite
+    Buildings.Utilities.IO.SignalExchange.Overwrite
                              oveTSetRooHea(
                               u(
         unit="K",
         min=273.15 + 10,
         max=273.15 + 35), description="Heating setpoint")
       annotation (Placement(transformation(extent={{-140,20},{-120,40}})));
-    IBPSA.Utilities.IO.SignalExchange.Overwrite
+    Buildings.Utilities.IO.SignalExchange.Overwrite
                              oveTSetRooCoo(
                               u(
         unit="K",
         min=273.15 + 10,
         max=273.15 + 35), description="Cooling setpoint")
       annotation (Placement(transformation(extent={{-140,-20},{-120,0}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
+    Buildings.Utilities.IO.SignalExchange.Read
                         PPum(y(unit="W"),
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
       description="Pump electrical power")
       annotation (Placement(transformation(extent={{120,70},{140,90}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
+    Buildings.Utilities.IO.SignalExchange.Read
                         PCoo(y(unit="W"),
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
       description="Cooling electrical power")
       annotation (Placement(transformation(extent={{140,90},{160,110}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
+    Buildings.Utilities.IO.SignalExchange.Read
                         PHea(y(unit="W"),
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
       description="Heater power")
       annotation (Placement(transformation(extent={{120,110},{140,130}})));
-    IBPSA.Utilities.IO.SignalExchange.Read
+    Buildings.Utilities.IO.SignalExchange.Read
                         PFan(y(unit="W"),
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
       description="Fan electrical power")
       annotation (Placement(transformation(extent={{140,130},{160,150}})));
-    IBPSA.Utilities.IO.SignalExchange.Read TRooAir(               y(unit="K"),
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    Buildings.Utilities.IO.SignalExchange.Read
+                                           TRooAir(               y(unit="K"),
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
       description="Room air temperature")
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
-    IBPSA.Utilities.IO.SignalExchange.Read senTSetRooCoo(
+    Buildings.Utilities.IO.SignalExchange.Read
+                                           senTSetRooCoo(
       y(unit="K"),
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
       description="Room cooling setpoint")
       annotation (Placement(transformation(extent={{-100,-80},{-80,-60}})));
-    IBPSA.Utilities.IO.SignalExchange.Read senTSetRooHea(
+    Buildings.Utilities.IO.SignalExchange.Read
+                                           senTSetRooHea(
       y(unit="K"),
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
       description="Room heating setpoint")
       annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
-    IBPSA.Utilities.IO.SignalExchange.Read CO2RooAir(
+    Buildings.Utilities.IO.SignalExchange.Read
+                                           CO2RooAir(
       y(unit="ppm"),
-      KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
       description="Room air CO2 concentration") "CO2 concentration of room air"
       annotation (Placement(transformation(extent={{120,-40},{140,-20}})));
 
@@ -126,30 +132,30 @@ package SingleZoneVAV
         index=1,
         extent={{6,3},{6,3}}));
 
-    connect(con.yFan, hvac.uFan) annotation (Line(points={{-79,9},{-60,9},{-60,18},
+    connect(con.yFan, hvac.uFan) annotation (Line(points={{-78,8},{-60,8},{-60,18},
             {-42,18}},               color={0,0,127}));
-    connect(con.yHea, hvac.uHea) annotation (Line(points={{-79,6},{-40,6},{-56,6},
+    connect(con.yHea, hvac.uHea) annotation (Line(points={{-78,5},{-40,5},{-56,5},
             {-56,12},{-42,12}},        color={0,0,127}));
-    connect(con.yCooCoiVal, hvac.uCooVal) annotation (Line(points={{-79,0},{-54,0},
+    connect(con.yCooCoiVal, hvac.uCooVal) annotation (Line(points={{-78,-2},{-54,-2},
             {-54,5},{-42,5}},             color={0,0,127}));
-    connect(con.yOutAirFra, hvac.uEco) annotation (Line(points={{-79,3},{-50,3},{
-            -50,-2},{-42,-2}},             color={0,0,127}));
-    connect(hvac.chiOn, con.chiOn) annotation (Line(points={{-42,-10},{-60,-10},{
-            -60,-4},{-79,-4}},                                color={255,0,255}));
-    connect(con.TSetSupChi, hvac.TSetChi) annotation (Line(points={{-79,-8},{-70,
-            -8},{-70,-15},{-42,-15}},           color={0,0,127}));
-    connect(con.TMix, hvac.TMix) annotation (Line(points={{-102,2},{-112,2},{
-            -112,-40},{10,-40},{10,-4},{1,-4}},             color={0,0,127}));
+    connect(con.yOutAirFra, hvac.uEco) annotation (Line(points={{-78,2},{-50,2},{-50,
+            -2},{-42,-2}},                 color={0,0,127}));
+    connect(hvac.chiOn, con.chiOn) annotation (Line(points={{-42,-10},{-60,-10},{-60,
+            -5},{-78,-5}},                                    color={255,0,255}));
+    connect(con.TSetSupChi, hvac.TSetChi) annotation (Line(points={{-78,-8},{-70,-8},
+            {-70,-18},{-42,-18}},               color={0,0,127}));
+    connect(con.TMix, hvac.TMix) annotation (Line(points={{-102,9},{-112,9},{-112,
+            -40},{10,-40},{10,-4},{1.2,-4}},                color={0,0,127}));
 
-    connect(hvac.supplyAir, zon.supplyAir) annotation (Line(points={{0,8},{10,8},
+    connect(hvac.supplyAir, zon.supplyAir) annotation (Line(points={{0.2,8},{10,8},
             {10,2},{40,2}},          color={0,127,255}));
-    connect(hvac.returnAir, zon.returnAir) annotation (Line(points={{0,0},{6,0},{
-            6,-2},{10,-2},{40,-2}},  color={0,127,255}));
+    connect(hvac.returnAir, zon.returnAir) annotation (Line(points={{0.2,0},{6,0},
+            {6,-2},{10,-2},{40,-2}}, color={0,127,255}));
 
-    connect(con.TOut, weaBus.TDryBul) annotation (Line(points={{-102,-2},{-108,
-            -2},{-108,130}},              color={0,0,127}));
+    connect(con.TOut, weaBus.TDryBul) annotation (Line(points={{-102,-3},{-108,-3},
+            {-108,130}},                  color={0,0,127}));
     connect(hvac.weaBus, weaBus) annotation (Line(
-        points={{-36,17.8},{-36,130},{-108,130}},
+        points={{-35.8,17.8},{-35.8,130},{-108,130}},
         color={255,204,51},
         thickness=0.5));
     connect(zon.weaBus, weaBus) annotation (Line(
@@ -157,21 +163,21 @@ package SingleZoneVAV
         color={255,204,51},
         thickness=0.5));
     connect(con.TSup, hvac.TSup) annotation (Line(points={{-102,-9},{-108,-9},{-108,
-            -32},{4,-32},{4,-8},{1,-8}},
+            -32},{4,-32},{4,-8},{1.2,-8}},
           color={0,0,127}));
     connect(con.TRoo, zon.TRooAir) annotation (Line(points={{-102,-6},{-110,-6},{
             -110,-36},{6,-36},{6,-22},{90,-22},{90,0},{81,0}},      color={0,0,
             127}));
 
-    connect(hvac.PFan, EFan.u) annotation (Line(points={{1,18},{24,18},{24,-40},{
-            38,-40}},  color={0,0,127}));
-    connect(hvac.QHea_flow, EHea.u) annotation (Line(points={{1,16},{22,16},{22,
+    connect(hvac.PFan, EFan.u) annotation (Line(points={{1.2,18},{24,18},{24,-40},
+            {38,-40}}, color={0,0,127}));
+    connect(hvac.QHea_flow, EHea.u) annotation (Line(points={{1.2,16},{22,16},{22,
             -70},{38,-70}},
                        color={0,0,127}));
-    connect(hvac.PCoo, ECoo.u) annotation (Line(points={{1,14},{20,14},{20,-100},
+    connect(hvac.PCoo, ECoo.u) annotation (Line(points={{1.2,14},{20,14},{20,-100},
             {38,-100}},color={0,0,127}));
-    connect(hvac.PPum, EPum.u) annotation (Line(points={{1,12},{18,12},{18,-130},{
-            38,-130}},   color={0,0,127}));
+    connect(hvac.PPum, EPum.u) annotation (Line(points={{1.2,12},{18,12},{18,-130},
+            {38,-130}},  color={0,0,127}));
 
     connect(EFan.y, EHVAC.u[1]) annotation (Line(points={{61,-40},{70,-40},{70,-54.75},
             {80,-54.75}},         color={0,0,127}));
@@ -184,20 +190,20 @@ package SingleZoneVAV
             {80,-65.25}},         color={0,0,127}));
     connect(TSetRooHea.y[1], oveTSetRooHea.u)
       annotation (Line(points={{-159,30},{-142,30}}, color={0,0,127}));
-    connect(oveTSetRooHea.y, con.TSetRooHea) annotation (Line(points={{-119,30},
-            {-116,30},{-116,10},{-102,10}}, color={0,0,127}));
+    connect(oveTSetRooHea.y, con.TSetRooHea) annotation (Line(points={{-119,30},{-116,
+            30},{-116,6},{-102,6}},         color={0,0,127}));
     connect(TSetRooCoo.y[1], oveTSetRooCoo.u)
       annotation (Line(points={{-159,-10},{-142,-10}}, color={0,0,127}));
-    connect(oveTSetRooCoo.y, con.TSetRooCoo) annotation (Line(points={{-119,-10},
-            {-116,-10},{-116,6},{-102,6}}, color={0,0,127}));
-    connect(hvac.PPum, PPum.u) annotation (Line(points={{1,12},{18,12},{18,80},
-            {118,80}}, color={0,0,127}));
-    connect(hvac.PCoo, PCoo.u) annotation (Line(points={{1,14},{14,14},{14,100},
+    connect(oveTSetRooCoo.y, con.TSetRooCoo) annotation (Line(points={{-119,-10},{
+            -116,-10},{-116,3},{-102,3}},  color={0,0,127}));
+    connect(hvac.PPum, PPum.u) annotation (Line(points={{1.2,12},{18,12},{18,80},{
+            118,80}},  color={0,0,127}));
+    connect(hvac.PCoo, PCoo.u) annotation (Line(points={{1.2,14},{14,14},{14,100},
             {138,100}}, color={0,0,127}));
-    connect(hvac.QHea_flow, PHea.u) annotation (Line(points={{1,16},{10,16},{10,
+    connect(hvac.QHea_flow, PHea.u) annotation (Line(points={{1.2,16},{10,16},{10,
             120},{118,120}}, color={0,0,127}));
-    connect(hvac.PFan, PFan.u) annotation (Line(points={{1,18},{6,18},{6,140},{
-            138,140}}, color={0,0,127}));
+    connect(hvac.PFan, PFan.u) annotation (Line(points={{1.2,18},{6,18},{6,140},{138,
+            140}},     color={0,0,127}));
     connect(zon.TRooAir, TRooAir.u)
       annotation (Line(points={{81,0},{118,0}}, color={0,0,127}));
     connect(oveTSetRooCoo.y, senTSetRooCoo.u) annotation (Line(points={{-119,
@@ -206,6 +212,8 @@ package SingleZoneVAV
             {-116,30},{-116,50},{-102,50}}, color={0,0,127}));
     connect(zon.CO2, CO2RooAir.u) annotation (Line(points={{81,-4},{100,-4},{100,-30},
             {118,-30}}, color={0,0,127}));
+    connect(zon.yOcc, con.uOcc) annotation (Line(points={{81,20},{92,20},{92,-24},
+            {-104,-24},{-104,0},{-102,0}}, color={255,0,255}));
     annotation (
       experiment(
         StopTime=504800,
@@ -255,9 +263,6 @@ First implementation.
     model Room "Room model for test case"
       extends Buildings.Air.Systems.SingleZone.VAV.Examples.BaseClasses.Room(roo(
             use_C_flow=true, nPorts=6), sinInf(use_C_in=true));
-      Modelica.Blocks.Math.Gain gaiCO2Gen(k=2)
-        "Number of people for CO2 generation"
-        annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
       Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra(MMMea=
             Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
         "Conversion from mass fraction CO2 to volume fraction CO2"
@@ -275,12 +280,8 @@ First implementation.
       Modelica.Blocks.Interfaces.RealOutput CO2(unit="ppm") "Room air CO2 concentration"
         annotation (Placement(transformation(extent={{200,-50},{220,-30}}),
             iconTransformation(extent={{200,-50},{220,-30}})));
-      Modelica.Blocks.Sources.Constant mCO2Gai_flow(k=2.5*8.64e-6)
-        "CO2 generation per person in kg/s (elevated by 2.5x to force ppm above limit for testing)"
-        annotation (Placement(transformation(extent={{-180,80},{-160,100}})));
-    protected
-      Modelica.Blocks.Math.Product pro4 "Product for internal gain"
-        annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
+      Modelica.Blocks.Interfaces.BooleanOutput yOcc "Occupied signal"
+        annotation (Placement(transformation(extent={{200,190},{220,210}})));
     equation
       connect(conCO2Out.y, sinInf.C_in[1]) annotation (Line(points={{-99,-60},{-70,-60},
               {-70,-18},{-40,-18}}, color={0,0,127}));
@@ -292,14 +293,8 @@ First implementation.
         annotation (Line(points={{121,-30},{138,-30}}, color={0,0,127}));
       connect(gaiPpm.y, CO2) annotation (Line(points={{161,-30},{180,-30},{180,-40},
               {210,-40}}, color={0,0,127}));
-      connect(mCO2Gai_flow.y, gaiCO2Gen.u) annotation (Line(points={{-159,90},{-132,
-              90},{-132,30},{-82,30}}, color={0,0,127}));
-      connect(gaiCO2Gen.y, pro4.u2) annotation (Line(points={{-59,30},{-50,30},{-50,
-              24},{-42,24}}, color={0,0,127}));
-      connect(intLoad.y[1], pro4.u1) annotation (Line(points={{-99,160},{-94,160},{-94,
-              158},{-90,158},{-90,56},{-48,56},{-48,36},{-42,36}}, color={0,0,127}));
-      connect(pro4.y, roo.C_flow[1]) annotation (Line(points={{-19,30},{10,30},{10,3.64},
-              {31.92,3.64}}, color={0,0,127}));
+      connect(greThr.y, yOcc) annotation (Line(points={{-39,160},{-34,160},{-34,
+              200},{210,200}}, color={255,0,255}));
     end Room;
 
     model ChillerDXHeatingEconomizer "RTU model for test case"
@@ -315,7 +310,6 @@ First implementation.
     end ChillerDXHeatingEconomizer;
   end BaseClasses;
   annotation (uses(Modelica(version="3.2.3"),
-      Buildings(version="7.0.0"),
-      IBPSA(version="3.0.0")),
+      Buildings(version="8.0.0")),
     version="1");
 end SingleZoneVAV;
