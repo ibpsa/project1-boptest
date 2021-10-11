@@ -153,6 +153,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
             # TODO Store forecast data used in controller
             if forecasts_store is not None:
                 forecasts_store.loc[(t + 1) * step, forecasts_store.columns] = forecasts
+        else:
+            forecasts = []
         # Compute control signal for next step
         u = controller.compute_control(y, forecasts)
     print('\nTest case complete.')
