@@ -22,7 +22,8 @@ model BuildingControl
     initType=Modelica.Blocks.Types.InitPID.InitialState,
     xi_start=0,
     xd_start=0,
-    controllerType=Modelica.Blocks.Types.SimpleController.PI)
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    reverseActing=false)
     annotation (Placement(transformation(extent={{-194,72},{-174,92}})));
   Buildings.Controls.Continuous.LimPID conPIDrad(
     Ti=600,
