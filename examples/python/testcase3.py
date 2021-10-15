@@ -44,7 +44,6 @@ def run(plot=False):
     warmup_period = 0
     length = 48*3600
     step = 300
-    customized_kpi_config = 'custom_kpi/custom_kpis_example.config'
     forecast_config = [
             'LowerSetp[North]',
             'UpperSetp[North]',
@@ -59,7 +58,6 @@ def run(plot=False):
                                                                   warmup_period=warmup_period,
                                                                   length=length,
                                                                   step=step,
-                                                                  customized_kpi_config= customized_kpi_config,
                                                                   forecast_config=forecast_config)
 
     # POST-PROCESS RESULTS

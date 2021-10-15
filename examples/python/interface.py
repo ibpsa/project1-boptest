@@ -140,7 +140,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
             custom_kpi_value = kpi.calculation()  # Calculate custom KPI value
             custom_kpi_result[kpi.name].append(round(custom_kpi_value, 2))  # Track custom KPI value
             print('KPI:\t{0}:\t{1}'.format(kpi.name, round(custom_kpi_value, 2)))  # Print custom KPI value
-        custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
+            custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
         # If reach end of scenario, stop
         if not y:
             break
