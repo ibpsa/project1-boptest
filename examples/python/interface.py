@@ -134,6 +134,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     for t in range(total_time_steps):
         # Advance simulation with control input value(s)
         y = requests.post('{0}/advance'.format(url), data=u).json()
+        # If reach end of scenario, stop
+        if not y:
+            break
         # Compute customized KPIs if any
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI
@@ -141,9 +144,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
             custom_kpi_result[kpi.name].append(round(custom_kpi_value, 2))  # Track custom KPI value
             print('KPI:\t{0}:\t{1}'.format(kpi.name, round(custom_kpi_value, 2)))  # Print custom KPI value
         custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
-        # If reach end of scenario, stop
-        if not y:
-            break
         # If controller needs a forecast, get the forecast data
         if controller.use_forecast:
             # Get forecast from BOPTEST
