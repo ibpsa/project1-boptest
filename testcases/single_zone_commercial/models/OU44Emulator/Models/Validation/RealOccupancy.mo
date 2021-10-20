@@ -1,9 +1,17 @@
 within OU44Emulator.Models.Validation;
 model RealOccupancy
   extends BuildingControl(
-    readTsupsetpoint(y(unit="K")),
-    readTzone(KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    oveCO2ZonSet(u(
+        min=400,
+        max=1000,
+        unit="ppm")),
+    reaTZon(KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
         y(unit="K")),
+    reaTSupSet(y(unit="K")),
+    oveTSupSet(u(
+        min=273.15 + 15,
+        max=273.15 + 40,
+        unit="K")),
     districtHeating(m_flow_nominal=2),
     infiltration(ach=0.2),
     scale_factor(k=4),
@@ -18,14 +26,6 @@ model RealOccupancy
     Occupancy_schedule(occupancy=3600*{31,43,55,67,79,91,103,115,127,139}),
     valRad(use_inputFilter=false),
     valCoil(use_inputFilter=false),
-    Over_CO2_setpoint(u(
-        min=400,
-        max=1000,
-        unit="ppm")),
-    overTsup(u(
-        min=273.15 + 15,
-        max=273.15 + 40,
-        unit="K")),
     intWall(roughness_a=Buildings.HeatTransfer.Types.SurfaceRoughness.Medium),
     floor(roughness_a=Buildings.HeatTransfer.Types.SurfaceRoughness.Medium),
     const5(k=283.15),
@@ -56,40 +56,37 @@ model RealOccupancy
     annotation (Placement(transformation(extent={{154,40},{138,56}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{122,12},{102,32}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite
-                                              OverTzone(description=
-        "Zone temperature setpoint for heating", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonSet(description=
+        "Zone temperature set point for heating", u(
       unit="K",
       min=273.15 + 10,
-      max=273.15 + 30))
-                 "zone temperature setpoint for heating" annotation (Placement(
-        transformation(
+      max=273.15 + 30)) "Overwrite for zone temperature set point for heating"
+    annotation (Placement(transformation(
         extent={{-7,-7},{7,7}},
         rotation=-90,
         origin={95,-1})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite
-                                              over_pump_DH(description=
-        "District heating pump speed control signal", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite ovePum(description=
+        "Pump speed control signal for heating distribution system", u(
       min=0,
       max=1,
-      unit="1")) "overwrite pump speed for district heating"
+      unit="1")) "Overwrite pump speed serving heating distribution system"
     annotation (Placement(transformation(extent={{-180,-204},{-160,-184}})));
-  Buildings.Utilities.IO.SignalExchange.Read readTzonesetpoint(
-    description="Zone air temperature setpoint for heating",
+  Buildings.Utilities.IO.SignalExchange.Read reaTZonSet(
+    description="Zone temperature set point for heating",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="K")) "Read zone air temperature setpoint"
+    y(unit="K")) "Read zone air temperature set point for heating"
     annotation (Placement(transformation(extent={{104,-24},{116,-12}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read readCO2(
-    description="Indoor CO2 concentration",
+  Buildings.Utilities.IO.SignalExchange.Read reaCO2Zon(
+    description="Zone CO2 concentration",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-    y(unit="ppm")) "Read CO2 concentration [ppm]"
+    y(unit="ppm")) "Read CO2 concentration"
     annotation (Placement(transformation(extent={{-104,72},{-118,86}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read readQh(
-    description="Heating thermal power consumption",
+  Buildings.Utilities.IO.SignalExchange.Read reaQHea(
+    description="District heating thermal power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.DistrictHeatingPower,
-    y(unit="W")) "Read heating power consumption "
+    y(unit="W")) "Read heating thermal power consumption "
     annotation (Placement(transformation(extent={{-28,-224},{-8,-204}})));
 
   Modelica.Blocks.Continuous.Integrator Qel_fan(k=2.7778E-7) "Output in kWh"
@@ -98,27 +95,32 @@ model RealOccupancy
     annotation (Placement(transformation(extent={{126,-182},{144,-164}})));
   Modelica.Blocks.Math.Add add1
     annotation (Placement(transformation(extent={{126,-106},{142,-90}})));
-  Buildings.Utilities.IO.SignalExchange.Read read_Q_el(
-    description="Electrical power consumption for fan and pump",
+  Buildings.Utilities.IO.SignalExchange.Read reaPEle(
+    description=
+        "Electrical power consumption for AHU fans and heating system pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-    y(unit="W")) "Read electrical power consumption "
+    y(unit="W")) "Read fans and pump electrical power consumption "
     annotation (Placement(transformation(extent={{160,-106},{176,-90}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read readQelfan(
+  Buildings.Utilities.IO.SignalExchange.Read reaPFan(
     y(unit="W"),
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    description="Electrical power consumption of fan")
-    "Read electrical power consumption of fan"
+    description="Electrical power consumption of AHU supply and return fans")
+    "Read electrical power consumption of AHU fans"
     annotation (Placement(transformation(extent={{80,-92},{96,-76}})));
-  Buildings.Utilities.IO.SignalExchange.Read readQelpump(
+
+  Buildings.Utilities.IO.SignalExchange.Read reaPPum(
     y(unit="W"),
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     description="Electrical power consumption of pump")
-    "Read electrical power consumption of pump"
+    "Read electrical power consumption of distribution system pump"
     annotation (Placement(transformation(extent={{80,-118},{96,-102}})));
+
   Modelica.Blocks.Sources.Constant Pump_sp(k=1)
     "speed signal for pump in district heating"
     annotation (Placement(transformation(extent={{-220,-204},{-200,-184}})));
+  Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta "Weather station"
+    annotation (Placement(transformation(extent={{90,120},{110,140}})));
 equation
   connect(occupancy.y[1], gaiCO2.u) annotation (Line(points={{-167,140},{-140,
           140},{-140,112},{-105.6,112}},
@@ -136,38 +138,44 @@ equation
           28},{124,28}}, color={0,0,127}));
   connect(product.y, add.u2) annotation (Line(points={{135.2,-46},{130,-46},{
           130,16},{124,16}}, color={0,0,127}));
-  connect(add.y, OverTzone.u)
+  connect(add.y, oveTZonSet.u)
     annotation (Line(points={{101,22},{95,22},{95,7.4}}, color={0,0,127}));
-  connect(over_pump_DH.y, districtHeating.y)
-    annotation (Line(points={{-159,-194},{-152,-194},{-152,-196},{-143,-196}},
-                                                       color={0,0,127}));
-  connect(OverTzone.y, readTzonesetpoint.u) annotation (Line(points={{95,-8.7},
-          {95,-18},{102.8,-18}}, color={0,0,127}));
-  connect(readTzonesetpoint.y, conPIDrad.u_s) annotation (Line(points={{116.6,-18},
-          {126,-18},{126,-44},{117.6,-44}}, color={0,0,127}));
-  connect(senCO2.ppm, readCO2.u) annotation (Line(points={{-67,66},{-84,66},{-84,
-          79},{-102.6,79}}, color={0,0,127}));
-  connect(districtHeating.qdh, readQh.u) annotation (Line(points={{-121.4,-208},
+  connect(ovePum.y, districtHeating.y) annotation (Line(points={{-159,-194},{-152,
+          -194},{-152,-196},{-143,-196}}, color={0,0,127}));
+  connect(oveTZonSet.y, reaTZonSet.u) annotation (Line(points={{95,-8.7},{95,-18},
+          {102.8,-18}}, color={0,0,127}));
+  connect(reaTZonSet.y, conPIDrad.u_s) annotation (Line(points={{116.6,-18},{
+          126,-18},{126,-44},{117.6,-44}}, color={0,0,127}));
+  connect(senCO2.ppm, reaCO2Zon.u) annotation (Line(points={{-67,66},{-84,66},{
+          -84,79},{-102.6,79}}, color={0,0,127}));
+  connect(districtHeating.qdh, reaQHea.u) annotation (Line(points={{-121.4,-208},
           {-78,-208},{-78,-214},{-30,-214}}, color={0,0,127}));
-  connect(readQh.y, Qh_tot.u) annotation (Line(points={{-7,-214},{36,-214},{36,
+  connect(reaQHea.y, Qh_tot.u) annotation (Line(points={{-7,-214},{36,-214},{36,
           -216},{78,-216}}, color={0,0,127}));
-  connect(airHandlingUnit.qel, readQelfan.u) annotation (Line(points={{-146,
-          33.4},{-146,6},{-106,6},{-106,-48},{70,-48},{70,-84},{78.4,-84}},
-        color={0,0,127}));
-  connect(districtHeating.qel, readQelpump.u) annotation (Line(points={{-121.4,
-          -196},{70,-196},{70,-110},{78.4,-110}}, color={0,0,127}));
-  connect(readQelfan.y, Qel_fan.u) annotation (Line(points={{96.8,-84},{106,-84},
-          {106,-141},{124.2,-141}}, color={0,0,127}));
-  connect(readQelpump.y, Qel_pmp.u) annotation (Line(points={{96.8,-110},{106,-110},
+  connect(ahu.qel, reaPFan.u) annotation (Line(points={{-146,33.4},{-146,6},{-106,
+          6},{-106,-48},{70,-48},{70,-84},{78.4,-84}}, color={0,0,127}));
+  connect(districtHeating.qel, reaPPum.u) annotation (Line(points={{-121.4,-196},
+          {70,-196},{70,-110},{78.4,-110}}, color={0,0,127}));
+  connect(reaPFan.y, Qel_fan.u) annotation (Line(points={{96.8,-84},{106,-84},{
+          106,-141},{124.2,-141}}, color={0,0,127}));
+  connect(reaPPum.y, Qel_pmp.u) annotation (Line(points={{96.8,-110},{106,-110},
           {106,-173},{124.2,-173}}, color={0,0,127}));
-  connect(readQelfan.y, add1.u1) annotation (Line(points={{96.8,-84},{106,-84},
-          {106,-93.2},{124.4,-93.2}}, color={0,0,127}));
-  connect(readQelpump.y, add1.u2) annotation (Line(points={{96.8,-110},{106,-110},
-          {106,-102.8},{124.4,-102.8}}, color={0,0,127}));
-  connect(add1.y, read_Q_el.u)
+  connect(reaPFan.y, add1.u1) annotation (Line(points={{96.8,-84},{106,-84},{
+          106,-93.2},{124.4,-93.2}}, color={0,0,127}));
+  connect(reaPPum.y, add1.u2) annotation (Line(points={{96.8,-110},{106,-110},{
+          106,-102.8},{124.4,-102.8}}, color={0,0,127}));
+  connect(add1.y, reaPEle.u)
     annotation (Line(points={{142.8,-98},{158.4,-98}}, color={0,0,127}));
-  connect(Pump_sp.y, over_pump_DH.u)
+  connect(Pump_sp.y, ovePum.u)
     annotation (Line(points={{-199,-194},{-182,-194}}, color={0,0,127}));
+  connect(weaSta.weaBus, weaBus) annotation (Line(
+      points={{90.1,129.9},{38,129.9},{38,90}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (experiment(StopTime=31536000),               Diagram(
         coordinateSystem(extent={{-260,-240},{240,220}}),          graphics={
         Rectangle(

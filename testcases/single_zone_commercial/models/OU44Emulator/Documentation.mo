@@ -71,18 +71,138 @@ package Documentation "Documentation"
 <p><br><b><span style=\"font-size: 10pt;\">Model IO&apos;s</span></b></p>
 <h4>Inputs</h4>
 <p>The model inputs are</p>
-<p>input1: OverTzone [K], range [273.15+10, 273.15+30], description: Zone temperature setpoint for heating</p>
-<p>input2: Over_CO2_setpoint [ppm], range [400,1000], description: Indoor CO2 concentration setpoint</p>
-<p>input3: OverTsup [K], range [273.15+15, 273.15+40], description: Supply air temperature for heating</p>
-<p>input4: Over_pump_DH [-], range [0, 1], description: District heating pump speed control signal</p>
+<ul>
+<li>
+<code>ahu_oveFanRet_u</code> [1] [min=0.0, max=1.0]: AHU return fan speed control signal
+</li>
+<li>
+<code>ahu_oveFanSup_u</code> [1] [min=0.0, max=1.0]: AHU supply fan speed control signal
+</li>
+<li>
+<code>oveCO2ZonSet_u</code> [ppm] [min=400.0, max=1000.0]: Zone CO2 concentration setpoint
+</li>
+<li>
+<code>ovePum_u</code> [1] [min=0.0, max=1.0]: Pump speed control signal for heating distribution system
+</li>
+<li>
+<code>oveTSupSet_u</code> [K] [min=288.15, max=313.15]: AHU supply air temperature set point for heating
+</li>
+<li>
+<code>oveTZonSet_u</code> [K] [min=283.15, max=303.15]: Zone temperature set point for heating
+</li>
+</ul>
 <h4>Outputs</h4>
 <p>The model outputs are</p>
-<p>output1: read_Tzone [K], description: Zone air temperature</p>
-<p>output2: read_T_zone_setpoint [K], description: Zone air temperature setpoint for heating</p>
-<p>output3: read_T_sup_setpoint [K], description: supply air temperature setpoint</p>
-<p>output4: read_CO2 [ppm], description: Indoor CO2 concentration</p>
-<p>output5: read_Q_el_fan [W], description: Electrical power consumption of fan</p>
-<p>output6: read_Q_el_pump [W], description: Electrical power consumption of pump</p><p>output7: read_Q_el [W], description: Electrical power consumption for fan and pump</p><p>output8: read_Q_h [W], description: Heating thermal power consumption</p>
+<ul>
+<li>
+<code>ahu_reaFloSupAir_y</code> [kg/s] [min=None, max=None]: AHU supply air mass flowrate
+</li>
+<li>
+<code>ahu_reaPFanRet_y</code> [W] [min=None, max=None]: AHU return fan electrical power consumption
+</li>
+<li>
+<code>ahu_reaPFanSup_y</code> [W] [min=None, max=None]: AHU supply fan electrical power consumption
+</li>
+<li>
+<code>ahu_reaTRetAir_y</code> [K] [min=None, max=None]: AHU return air temperature
+</li>
+<li>
+<code>ahu_reaTSupAir_y</code> [K] [min=None, max=None]: AHU supply air temperature
+</li>
+<li>
+<code>reaCO2Zon_y</code> [ppm] [min=None, max=None]: Zone CO2 concentration
+</li>
+<li>
+<code>reaPEle_y</code> [W] [min=None, max=None]: Electrical power consumption for AHU fans and heating system pump
+</li>
+<li>
+<code>reaPFan_y</code> [W] [min=None, max=None]: Electrical power consumption of AHU supply and return fans
+</li>
+<li>
+<code>reaPPum_y</code> [W] [min=None, max=None]: Electrical power consumption of pump
+</li>
+<li>
+<code>reaQHea_y</code> [W] [min=None, max=None]: District heating thermal power consumption
+</li>
+<li>
+<code>reaTSupSet_y</code> [K] [min=None, max=None]: AHU supply air temperature setpoint for heating
+</li>
+<li>
+<code>reaTZonSet_y</code> [K] [min=None, max=None]: Zone temperature set point for heating
+</li>
+<li>
+<code>reaTZon_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+</li>
+<li>
+<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+</li>
+<li>
+<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+</li>
+<li>
+<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+</ul>
 <p><br><b><span style=\"font-size: 10pt;\">Additional System Design</span></b> </p>
 <p><b>Lighting</b> </p>
 <p>Lighting is not considered in the model.</p>

@@ -22,11 +22,11 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
 
         self.name = 'single_zone_commercial'
         self.url = 'http://127.0.0.1:5000'
-        self.points_check = ['readTzonesetpoint_y','readTsupsetpoint_y',
-                             'readCO2_y','readTzone_y',
-                             'readQelfan_y','readQelpump_y',
-                             'readQh_y','airHandlingUnit_readTsupair_y',
-                             'airHandlingUnit_readTretair_y']
+        self.points_check = ['reaTZonSet_y','reaTSupSet_y',
+                             'reaCO2Zon_y','reaTZon_y',
+                             'reaPFan_y','reaPPum_y',
+                             'reaQHea_y','ahu_reaTSupAir_y',
+                             'ahu_reaTRetAir_y']
 
 
     def test_peak_heat_day(self):
