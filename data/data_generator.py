@@ -463,9 +463,9 @@ class Data_Generator(object):
         df.loc[df.index.isin(day_time_index),
                'LowerSetp[{0}]'.format(zone_id)] = THeaOcc
         df.loc[df.index.isin(day_time_index),
-               'UpperSetp[{0}]'.format(zone_id)] = TCooUnocc
+               'UpperSetp[{0}]'.format(zone_id)] = TCooOcc
         df.loc[~df.index.isin(day_time_index),
-               'LowerSetp[{0}]'.format(zone_id)] = THeaOcc
+               'LowerSetp[{0}]'.format(zone_id)] = THeaUnocc
         df.loc[~df.index.isin(day_time_index),
                'UpperSetp[{0}]'.format(zone_id)] = TCooUnocc
         df.loc[~df.index.isin(day_time_index),
