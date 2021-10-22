@@ -105,6 +105,12 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 <p>The model outputs are</p>
 <ul>
 <li>
+<code>ahu_reaFanRet_y</code> [1] [min=None, max=None]: AHU return fan speed control signal
+</li>
+<li>
+<code>ahu_reaFanSup_y</code> [1] [min=None, max=None]: AHU supply fan speed control signal
+</li>
+<li>
 <code>ahu_reaFloSupAir_y</code> [kg/s] [min=None, max=None]: AHU supply air mass flowrate
 </li>
 <li>
@@ -112,6 +118,12 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 </li>
 <li>
 <code>ahu_reaPFanSup_y</code> [W] [min=None, max=None]: AHU supply fan electrical power consumption
+</li>
+<li>
+<code>ahu_reaTCoiSup_y</code> [K] [min=None, max=None]: AHU heating coil supply water temperature
+</li>
+<li>
+<code>ahu_reaTHeaRec_y</code> [K] [min=None, max=None]: AHU air temperature exiting heat recovery in supply air stream
 </li>
 <li>
 <code>ahu_reaTRetAir_y</code> [K] [min=None, max=None]: AHU return air temperature
@@ -132,7 +144,13 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 <code>reaPPum_y</code> [W] [min=None, max=None]: Electrical power consumption of pump
 </li>
 <li>
+<code>reaPum_y</code> [1] [min=None, max=None]: Pump speed control signal for heating distribution system
+</li>
+<li>
 <code>reaQHea_y</code> [W] [min=None, max=None]: District heating thermal power consumption
+</li>
+<li>
+<code>reaTCoiRet_y</code> [K] [min=None, max=None]: AHU heating coil return water temperature
 </li>
 <li>
 <code>reaTSupSet_y</code> [K] [min=None, max=None]: AHU supply air temperature setpoint for heating

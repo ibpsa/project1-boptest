@@ -394,12 +394,12 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
             origin={-100,-106})));
       Modelica.Blocks.Math.Add add
         annotation (Placement(transformation(extent={{-60,-84},{-80,-64}})));
-      Buildings.Fluid.Sources.Outside outEx(nPorts=1, redeclare package Medium =
-            Air,
+      Buildings.Fluid.Sources.Outside outEx(nPorts=1, redeclare package Medium
+        =   Air,
       use_C_in=true)
         annotation (Placement(transformation(extent={{-140,30},{-120,50}})));
-      Buildings.Fluid.Sources.Outside outSu(nPorts=1, redeclare package Medium =
-            Air,
+      Buildings.Fluid.Sources.Outside outSu(nPorts=1, redeclare package Medium
+        =   Air,
       use_C_in=true)
         annotation (Placement(transformation(extent={{-140,-50},{-120,-30}})));
       Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
@@ -452,7 +452,7 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
         min=0,
         max=1,
         unit="1")) "Overwirte for return fan speed control signal"
-      annotation (Placement(transformation(extent={{-34,62},{-14,82}})));
+      annotation (Placement(transformation(extent={{-46,62},{-26,82}})));
     Buildings.Utilities.IO.SignalExchange.Overwrite oveFanSup(description=
           "AHU supply fan speed control signal", u(
         min=0,
@@ -464,52 +464,93 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
           origin={-60,52})));
     Buildings.Utilities.IO.SignalExchange.Read reaTSupAir(
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
       y(unit="K"),
       description="AHU supply air temperature") "Read supply air temperature"
       annotation (Placement(transformation(
           extent={{7,-7},{-7,7}},
           rotation=90,
           origin={131,-65})));
+
     Buildings.Utilities.IO.SignalExchange.Read reaTRetAir(
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
       y(unit="K"),
       description="AHU return air temperature") "Read returrn air temperature"
       annotation (Placement(transformation(
           extent={{6,6},{-6,-6}},
           rotation=180,
           origin={42,72})));
+
     Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
           Air)
       annotation (Placement(transformation(extent={{76,-52},{96,-32}})));
     Buildings.Utilities.IO.SignalExchange.Read reaFloSupAir(
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
       y(unit="kg/s"),
       description="AHU supply air mass flowrate")
       "Read supply air mass flow rate" annotation (Placement(transformation(
           extent={{6,6},{-6,-6}},
           rotation=180,
           origin={98,2})));
+
     Buildings.Utilities.IO.SignalExchange.Read reaPFanSup(
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
       y(unit="W"),
       description="AHU supply fan electrical power consumption")
       "Read supply fan power consumption" annotation (Placement(transformation(
           extent={{-6,6},{6,-6}},
           rotation=180,
           origin={-24,-80})));
+
     Buildings.Utilities.IO.SignalExchange.Read reaPFanRet(
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
       y(unit="W"),
       description="AHU return fan electrical power consumption")
       "Read return fan power consumption" annotation (Placement(transformation(
           extent={{-6,6},{6,-6}},
           rotation=180,
           origin={-28,-18})));
+
+    Buildings.Utilities.IO.SignalExchange.Read reaTCoiSup(
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+      y(unit="K"),
+      description="AHU heating coil supply water temperature")
+      "Read heating coil supply water temperature" annotation (Placement(
+          transformation(
+          extent={{6,6},{-6,-6}},
+          rotation=180,
+          origin={120,-90})));
+    Buildings.Utilities.IO.SignalExchange.Read reaTHeaRec(
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+      y(unit="K"),
+      description=
+          "AHU air temperature exiting heat recovery in supply air stream")
+      "Read air temperature exiting heat recovery in supply air stream"
+      annotation (Placement(transformation(
+          extent={{6,6},{-6,-6}},
+          rotation=180,
+          origin={20,-14})));
+    Buildings.Utilities.IO.SignalExchange.Read reaFanRet(
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+      y(unit="1"),
+      description="AHU return fan speed control signal")
+      "Read for return fan speed control signal" annotation (Placement(
+          transformation(
+          extent={{6,6},{-6,-6}},
+          rotation=180,
+          origin={-8,72})));
+    Buildings.Utilities.IO.SignalExchange.Read reaFanSup(
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+      y(unit="1"),
+      description="AHU supply fan speed control signal")
+      "Read for supply fan speed control signal" annotation (Placement(
+          transformation(
+          extent={{6,6},{-6,-6}},
+          rotation=90,
+          origin={-60,30})));
   equation
       connect(fanSu.port_b, senVolFloIn.port_a)
         annotation (Line(points={{10,-40},{20,-40}}, color={0,127,255}));
@@ -557,9 +598,6 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
           extent={{-6,3},{-6,3}}));
       connect(senVolFloIn.port_b, hex1.port_a1)
         annotation (Line(points={{40,-40},{48,-40}}, color={0,127,255}));
-      connect(port_b2, hex1.port_b2) annotation (Line(points={{40,-100},{40,-72},
-            {48,-72},{48,-52}},
-                              color={0,127,255}));
     connect(cCO2.y, outEx.C_in[1]) annotation (Line(points={{-119,0},{-146,0},{-146,
             32},{-142,32}}, color={0,0,127}));
     connect(cCO2.y, outSu.C_in[1]) annotation (Line(points={{-119,0},{-146,0},{-146,
@@ -572,14 +610,10 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
             -72},{94,-72}}, color={0,127,255}));
     connect(senTemCoilIn.port_b, hex1.port_a2)
       annotation (Line(points={{74,-72},{68,-72},{68,-52}}, color={0,127,255}));
-    connect(fanEx.y, oveFanRet.y)
-      annotation (Line(points={{10,52},{10,72},{-13,72}}, color={0,0,127}));
     connect(oveFanRet.u, y)
-      annotation (Line(points={{-36,72},{-60,72},{-60,110}}, color={0,0,127}));
+      annotation (Line(points={{-48,72},{-60,72},{-60,110}}, color={0,0,127}));
     connect(y, oveFanSup.u)
       annotation (Line(points={{-60,110},{-60,61.6}}, color={0,0,127}));
-    connect(oveFanSup.y, fanSu.y) annotation (Line(points={{-60,43.2},{-60,18},
-            {0,18},{0,-28}}, color={0,0,127}));
     connect(senTemIn3.T, reaTSupAir.u) annotation (Line(points={{118,-29},{118,
             -20},{131,-20},{131,-56.6}}, color={0,0,127}));
     connect(reaTSupAir.y, Tsu) annotation (Line(points={{131,-72.7},{131,-80},{
@@ -602,6 +636,20 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
             -10,50},{-10,-18},{-20.8,-18}}, color={0,0,127}));
     connect(reaPFanRet.y, add.u1) annotation (Line(points={{-34.6,-18},{-48,-18},
             {-48,-68},{-58,-68}}, color={0,0,127}));
+    connect(senTemCoilIn.T, reaTCoiSup.u) annotation (Line(points={{84,-61},{92,
+            -61},{92,-60},{106,-60},{106,-90},{112.8,-90}}, color={0,0,127}));
+    connect(hex1.port_b2, port_b2) annotation (Line(points={{48,-52},{40,-52},{
+            40,-100}}, color={0,127,255}));
+    connect(senTemIn2.T, reaTHeaRec.u) annotation (Line(points={{-26,-29},{-26,
+            -26},{-6,-26},{-6,-14},{12.8,-14}}, color={0,0,127}));
+    connect(fanEx.y, reaFanRet.y)
+      annotation (Line(points={{10,52},{10,72},{-1.4,72}}, color={0,0,127}));
+    connect(reaFanRet.u, oveFanRet.y)
+      annotation (Line(points={{-15.2,72},{-25,72}}, color={0,0,127}));
+    connect(oveFanSup.y, reaFanSup.u)
+      annotation (Line(points={{-60,43.2},{-60,37.2}}, color={0,0,127}));
+    connect(reaFanSup.y, fanSu.y) annotation (Line(points={{-60,23.4},{-60,18},
+            {0,18},{0,-28}}, color={0,0,127}));
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,
                 -100},{160,100}}), graphics={
             Rectangle(
@@ -920,7 +968,7 @@ EnergyMeter energyMeterAhu(m_flow_nominal=m_flow_nominal_water, redeclare
       package Water=Water) annotation (Placement(transformation(
       extent={{-10,-10},{10,10}},
       rotation=90,
-      origin={-132,-44})));
+      origin={-132,-58})));
 EnergyMeter energyMeterRad(m_flow_nominal=m_flow_nominal_water, redeclare
       package Water=Water) annotation (Placement(transformation(
       extent={{-10,10},{10,-10}},
@@ -995,6 +1043,13 @@ final parameter Buildings.HeatTransfer.Data.Solids.Generic insulationFloor(
   parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic intWall(
       material={lightPartition}, nLay=1)
     annotation (Placement(transformation(extent={{178,166},{198,186}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemCoiRet(redeclare package
+      Medium = Buildings.Media.Water, m_flow_nominal=m_flow_nominal_water)
+    "Sensor for AHU heating coil return water temperature" annotation (
+      Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={-152,-32})));
 equation
 connect(weaBus, ou44Bdg.weaBus) annotation (Line(
     points={{38,90},{38,73.9},{19.9,73.9}},
@@ -1050,9 +1105,10 @@ connect(jun1.port_3, valRad.port_3)
 connect(jun1.port_1, tRadOut.port_b)
   annotation (Line(points={{-48,-122},{-40,-122}}, color={0,127,255}));
 connect(jun2.port_2, energyMeterAhu.port_a)
-  annotation (Line(points={{-126,-74},{-126,-54}}, color={0,127,255}));
-connect(energyMeterAhu.port_b2, jun3.port_1) annotation (Line(points={{-138,-54},
-        {-138,-64},{-152,-64},{-152,-98}}, color={0,127,255}));
+  annotation (Line(points={{-126,-74},{-126,-68}}, color={0,127,255}));
+connect(energyMeterAhu.port_b2, jun3.port_1) annotation (Line(points={{-138,-68},
+          {-138,-72},{-152,-72},{-152,-98}},
+                                           color={0,127,255}));
 connect(jun2.port_3, energyMeterRad.port_a) annotation (Line(points={{-116,-84},
           {-112,-84},{-112,-96},{-106,-96}},
                                            color={0,127,255}));
@@ -1071,13 +1127,11 @@ connect(jun3.port_2, energyMeterMain.port_a2) annotation (Line(points={{-152,-11
 connect(energyMeterMain.port_b2, districtHeating.port_a)
   annotation (Line(points={{-138,-180},{-138,-192}}, color={0,127,255}));
 connect(energyMeterAhu.port_b,valCoil. port_1)
-  annotation (Line(points={{-126,-34},{-126,-18}}, color={0,127,255}));
+  annotation (Line(points={{-126,-48},{-126,-18}}, color={0,127,255}));
 connect(valCoil.port_3, jun4.port_3)
   annotation (Line(points={{-136,-8},{-142,-8}}, color={0,127,255}));
   connect(ahu.port_b2, jun4.port_1) annotation (Line(points={{-132,34},{-132,28},
           {-152,28},{-152,2}}, color={0,127,255}));
-connect(jun4.port_2, energyMeterAhu.port_a2) annotation (Line(points={{-152,-18},
-        {-152,-26},{-138,-26},{-138,-34}}, color={0,127,255}));
   connect(ahu.port_a2, valCoil.port_2)
     annotation (Line(points={{-126,34},{-126,2}}, color={0,127,255}));
 connect(matrixGain.u[1], metHeat.y)
@@ -1096,8 +1150,9 @@ connect(matrixGain.u[1], metHeat.y)
           47.6},{-13,47.6}}, color={0,127,255}));
   connect(energyMeterRad.q, Qh_rad.u) annotation (Line(points={{-96,-112.6},{-96,
           -172},{78,-172}}, color={0,0,127}));
-  connect(energyMeterAhu.q, Qh_coil.u) annotation (Line(points={{-142.6,-44},{-148,
-          -44},{-148,-58},{-80,-58},{-80,-140},{78,-140}}, color={0,0,127}));
+  connect(energyMeterAhu.q, Qh_coil.u) annotation (Line(points={{-142.6,-58},{
+          -148,-58},{-148,-70},{-80,-70},{-80,-140},{78,-140}},
+                                                           color={0,0,127}));
   connect(infiltration.port_b, senTemOut.port_a) annotation (Line(points={{-60,
           18},{-56,18},{-56,30},{-50,30}}, color={0,127,255}));
   connect(senTemOut.port_b, ou44Bdg.ports[5]) annotation (Line(points={{-30,30},
@@ -1111,6 +1166,10 @@ connect(matrixGain.u[1], metHeat.y)
           {48,-122},{-20,-122}}, color={0,127,255}));
   connect(exp.port_a, tRadOut.port_a) annotation (Line(points={{42,-78},{42,-82},
           {48,-82},{48,-122},{-20,-122}}, color={0,127,255}));
+  connect(jun4.port_2, senTemCoiRet.port_a)
+    annotation (Line(points={{-152,-18},{-152,-22}}, color={0,127,255}));
+  connect(senTemCoiRet.port_b, energyMeterAhu.port_a2) annotation (Line(points=
+          {{-152,-42},{-152,-44},{-138,-44},{-138,-48}}, color={0,127,255}));
 annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-240,-240},
             {240,220}}),     graphics={Bitmap(
         extent={{-160,-162},{178,180}}, fileName=

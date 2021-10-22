@@ -68,6 +68,16 @@ model BuildingControl
         extent={{-8,-8},{8,8}},
         rotation=-90,
         origin={-208,112})));
+  Buildings.Utilities.IO.SignalExchange.Read reaTCoiRet(
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+    y(unit="K"),
+    description="AHU heating coil return water temperature")
+    "Read heating coil return water temperature" annotation (Placement(
+        transformation(
+        extent={{6,6},{-6,-6}},
+        rotation=180,
+        origin={-114,-32})));
 equation
   connect(conPIDcoil.y,valCoil.y)  annotation (Line(points={{-92.8,-8},{-114,-8}},
                                   color={0,0,127}));
@@ -103,6 +113,8 @@ equation
           142},{-208,121.6}}, color={0,0,127}));
   connect(oveCO2ZonSet.y, conPIDfan.u_s) annotation (Line(points={{-208,103.2},
           {-208,82},{-196,82}}, color={0,0,127}));
+  connect(senTemCoiRet.T, reaTCoiRet.u)
+    annotation (Line(points={{-141,-32},{-121.2,-32}}, color={0,0,127}));
   annotation (
     experiment(StopTime=2678400, Interval=600),
     __Dymola_experimentSetupOutput,
