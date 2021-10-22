@@ -572,7 +572,7 @@ class partialTestAPI(partialChecks):
         elif self.name == 'multizone_residential_hydronic':
             u = {'conHeaRo1_oveTSetHea_activate':0, 'conHeaRo1_oveTSetHea_u':273.15+22,
                  'oveEmiPum_activate':0, 'oveEmiPum_u':1}
-        elif self.name == 'single_zone_commercial':
+        elif self.name == 'singlezone_commercial_hydronic':
             u = {'oveTSupSet_activate':0, 'oveTSupSet_u':273.15+25,
                  'oveTZonSet_activate':0, 'oveTZonSet_u':273.15+25}
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
