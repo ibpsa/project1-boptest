@@ -1,12 +1,7 @@
-within OU44Emulator;
-package Documentation "Documentation"
-  extends Modelica.Icons.Information;
-
-  annotation (preferredView="info",
-  Documentation(info="<html>
+<html>
 <p><b><span style=\"font-size: 10pt;\">Single-zone emulator (SDU)</span></b> </p>
-<p><b><span style=\"font-size: 10pt;\">General model description</span></b></p>
-<p><br><img src=\"modelica://OU44Emulator/Resources/Images/ou44.jpg\" alt=\"OU44 building\"/> </p>
+<p><b><span style=\"font-size: 10pt;\">Gereral model description</span></b></p>
+<p><br><img src="images/ou44.jpg"/> </p>
 <p><h3>Building Design and Use</h3></p>
 <p>The overall description of the actual building can be found in the following paper: 
 <a href=\"https://www.sciencedirect.com/science/article/pii/S1876610217347720\">M. Jradi et al., A World Class Energy Efficient University Building by Danish 2020 Standards, Energy Procedia 132 (2017), 21-26.</a> 
@@ -72,9 +67,9 @@ the simplified building validattion can be found in the following paper:
 <p><h4>Primary and secondary system designs</h4></p>
 <p>The actual building is equipped with 4 balanced Air Handling Units (AHU) with heat recovery wheels and pre-heating coils (Fig. 1) and each room is equipped with radiator heating. The heating is provided by district heating grid. Since the model is a single-zone model, all AHUs are modeled with a single AHU oversized by a factor of 4, and all radiators are modeled with a single radiator. The following description covers the HVAC design as implemented in the model, and not the HVAC system in the actual building. The AHU contains two identical fans, one for supply air and one for extract air. The nominal air volume flow rate capacity is 140000 m3/h. Both the radiator and the pre-heating coil in the AHU are connected to the main heat exchanger connected to the district heating grid. The water flow to the radiator and AHU&apos;s pre-heating coil is controlled with two 3-way valves. In real building, supply air of ventilation is controlled via adjusting damper position, and temperature of supply air from ventilation has been controlled to be 21<span style=\"font-family: arial,sans-serif; font-size: 7pt; color: #222222; background-color: #ffffff;\">&deg; C.</span></p>
 <p><b>Fig. 1:</b> Air Handling Unit diagram with exemplary measurements from the BMS system (screenshot).</p>
-<p><img src=\"modelica://OU44Emulator/Resources/Images/bms_ahu.png\" alt=\"AHU\"/> </p>
+<p><img src="images/bms_ahu.png"/> </p>
 <p><b>Fig. 2:</b> Hydronic heating system as modeled.</p>
-<p><img src=\"../../../doc/images/HydronicSchematic.png\"/> </p>
+<p><img src="images/HydronicSchematic.png"/> </p>
 
 <p><h4>Rule-based or local-loop controllers</h4></p>
 <p>The model implements three PI controllers.  
@@ -292,7 +287,4 @@ End Time: Day 282.
 <li>emission factor for district heating=0.1163 kg CO2e/kWh, source from: https://www.banktrack.org/download/carbon_accounting_report_2018/dnb_asa_carbon_footprint_report_2018.pdf</li>
 <li>emission factor for electric power=0.2090 kg CO2e/kWh, source from: https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</li>
 </ul>
-</html>"),
-    experiment(StopTime=2678400));
-
-end Documentation;
+</html>
