@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  boptest:
+    image: boptest_${TESTCASE}
+    build:
+      context: .
+      args:
+        testcase: ${TESTCASE}
+    ports:
+      - 5000:5000
+    networks:
+      - boptest-net
+
+networks:
+  boptest-net:
+    name: boptest-net
+    attachable: true
