@@ -18,11 +18,12 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/docs`` contains design documentation and delivered workshop content.
 
 ## Quick-Start to Run Test Cases
-1) Install [Docker](https://docs.docker.com/get-docker/).
-2) Build the test case by ``$ make build TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
-3) Deploy the test case by ``$ make run TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
-4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described in the next step.
-5) Run an example test controller:
+1) Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
+2) Build and deploy a test case by ``$ TESTCASE=<testcase_dir_name> docker-compose up`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
+3) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described below.
+4) Shutdown the test case ``$ TESTCASE=<testcase_dir_name> docker-compose down`` where <testcase_dir_name> is the name of the test case deployed in step 2).
+
+Run an example test controller:
 
 * For Python-based example controllers:
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1.py`` to test a simple proportional feedback controller on this test case over a two-day period.
@@ -34,14 +35,11 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
-* For JavaScript based controllers:
+* For JavaScript-based example controllers:
   * In a separate terminal, use ``$ cd examples/javascript && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
   * In a separate terminal, use ``$ cd examples/javascript && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on the testcase2 over a two-day period.
   * Ince the test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images, and use ``$ cd examples/javascript && rm geckodriver`` to remove the geckodriver file.
   * Note that those two controllers can also be executed by web browers, such as chrome or firefox.
-
-6) Shutdown a test case container by selecting the container terminal window, ``Ctrl+C`` to close port, and ``Ctrl+D`` to exit the Docker container.
-7) Remove the test case Docker image by ``$ make remove-image TESTCASE=<testcase_dir_name>``.
 
 ## Test Case RESTful API
 - To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
@@ -81,7 +79,7 @@ as a hook on all commits by calling `pre-commit install` in the root directory o
 
 ### Use Cases and Development Requirements
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
- 
+
 ### Deployment as a Web-Service
 BOPTEST is implemented as a web-service in the ``boptest-service`` [branch](https://github.com/ibpsa/project1-boptest/tree/boptest-service) of this repository.
 
