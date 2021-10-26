@@ -1,0 +1,24 @@
+// Script for testing the Thermal Comfort Model
+simulateModel("BESTESTAir.TestCase", method="Cvode", tolerance=1e-6, stopTime=604800, resultFile="TestCase");
+// Plot commands
+//removePlots();
+createPlot(id = 1,
+ y = {"con.TSetHea","con.TSetCoo","zon.TRooAir"},
+ autoscale = true,
+ autoerase = true,
+ autoreplot = true,
+ grid = true,
+ color = true,
+ filename = "TestCase.mat",
+ leftTitleType = 1,
+ bottomTitleType = 1);
+createPlot(id = 2,
+y = {"fcu.PFan","fcu.PHea","fcu.PCoo"},
+ autoscale = true,
+ autoerase = true,
+ autoreplot = true,
+ grid = true,
+ color = true,
+ filename = "TestCase.mat",
+ leftTitleType = 1,
+ bottomTitleType = 1);
