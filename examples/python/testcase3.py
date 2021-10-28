@@ -44,25 +44,20 @@ def run(plot=False):
     warmup_period = 0
     length = 48*3600
     step = 300
-    forecast_config = [
-            'LowerSetp[North]',
-            'UpperSetp[North]',
-            'LowerSetp[South]',
-            'UpperSetp[South]'
-    ]
+    use_forecast = True
 
     # RUN THE CONTROL TEST
     # --------------------
-    kpi, df_res, custom_kpi_result, forecast_store = control_test(control_module,
-                                                                  start_time=start_time,
-                                                                  warmup_period=warmup_period,
-                                                                  length=length,
-                                                                  step=step,
-                                                                  forecast_config=forecast_config)
+    kpi, df_res, custom_kpi_result, forecasts = control_test(control_module,
+                                                             start_time=start_time,
+                                                             warmup_period=warmup_period,
+                                                             length=length,
+                                                             step=step,
+                                                             use_forecast=use_forecast)
 
     # POST-PROCESS RESULTS
     # --------------------
-    setpoints = forecast_store
+    setpoints = forecasts
     time = df_res.index.values/3600  # convert s --> hr
     setpoints.index = setpoints.index/3600  # convert s --> hr
     zone_temp_north = df_res['TRooAirNor_y'].values-273.15  # convert K --> C
@@ -99,4 +94,4 @@ def run(plot=False):
 
 
 if __name__ == "__main__":
-    kpi, df_res, custom_kpi_result = run()
+    kpi, df_res, custom_kpi_result = run(True)

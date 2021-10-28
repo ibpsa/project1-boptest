@@ -42,7 +42,7 @@ def run(plot=False):
 
     # RUN THE CONTROL TEST
     # --------------------
-    kpi, df_res, custom_kpi_result, forecast_store = control_test(control_module,
+    kpi, df_res, custom_kpi_result, forecasts = control_test(control_module,
                                                                   scenario=scenario,
                                                                   step=step)
 

@@ -50,12 +50,12 @@ def run(plot=False):
 
     # RUN THE CONTROL TEST
     # --------------------
-    kpi, df_res, custom_kpi_result, forecast_store = control_test(control_module,
-                                                                  start_time=start_time,
-                                                                  warmup_period=warmup_period,
-                                                                  length=length,
-                                                                  step=step,
-                                                                  customized_kpi_config= customized_kpi_config)
+    kpi, df_res, custom_kpi_result, forecasts = control_test(control_module,
+                                                             start_time=start_time,
+                                                             warmup_period=warmup_period,
+                                                             length=length,
+                                                             step=step,
+                                                             customized_kpi_config= customized_kpi_config)
     # POST-PROCESS RESULTS
     # --------------------
     time = df_res.index.values/3600  # convert s --> hr

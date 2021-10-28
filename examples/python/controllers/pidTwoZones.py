@@ -7,8 +7,9 @@ zone temperature set points.
 """
 
 import sys
+import pandas as pd
 
-def compute_control(y, forecasts=[]):
+def compute_control(y, forecasts=None):
     """Compute the control input from the measurement.
 
     Parameters
@@ -16,8 +17,9 @@ def compute_control(y, forecasts=[]):
     y : dict
         Contains the current values of the measurements.
         {<measurement_name>:<measurement_value>}
-    forecasts : list
-        Forecast temperature set point bounds.
+    forecasts : structure depends on controller, optional
+        Forecasts used to calculate control, defined in ``update_forecasts``.
+        Default is None.
 
     Returns
     -------
@@ -27,18 +29,21 @@ def compute_control(y, forecasts=[]):
 
     """
 
+    # Check measurements
     try:
         north_temp = y['TRooAirNor_y']
         south_temp = y['TRooAirSou_y']
     except KeyError:
-        print("Temperature values ['TRooAirNor_y', 'TRooAirSou_y'] not in input: %s", y)
-        sys.exit()
+        raise KeyError("Temperature values ['TRooAirNor_y', 'TRooAirSou_y'] not in input: {0}".format(y))
 
-    # Extract set point information
-    north_sp_lower = forecasts[0]
-    north_sp_upper = forecasts[1]
-    lower_sp_south = forecasts[2]
-    upper_sp_south = forecasts[3]
+    # Check forecasts and extract set point information
+    try:
+        north_sp_lower = forecasts['LowerSetp[North]'].values[-1]
+        north_sp_upper = forecasts['UpperSetp[North]'].values[-1]
+        lower_sp_south = forecasts['LowerSetp[South]'].values[-1]
+        upper_sp_south = forecasts['UpperSetp[South]'].values[-1]
+    except KeyError:
+        raise KeyError("Temperature values ['LowerSetp[North]', 'UpperSetp[North]', 'LowerSetp[South]', 'UpperSetp[South]'] not in forecasts: {0}".format(forecasts.columns))
 
     # Controller parameters
     k_p = 2000
@@ -94,32 +99,36 @@ def initialize():
     return u
 
 
-def update_forecasts(forecast_config, forecast):
-    """Compute the control input from the measurement.
+def update_forecasts(forecast_data, forecasts):
+    """Update forecast_store within the controller.
+
+    This controller only uses the first timestep of the forecast for upper
+    and lower temperature limits.
 
 
     Parameters
     ----------
-    forecast_config : list
-        list of point names contained in a forecast
-        [<input_name1>, <input_name2>]
-    forecast : dict
-        dictionary of arrays with forecast data
+    forecast_data: dict
+        Dictionary of arrays with forecast data from BOPTEST
         {<point_name1: [<data>]}
+    forecasts: DataFrame
+        DataFrame of forecast values used over time.
 
     Returns
     -------
-    forecasts : list
-        Returns data from the forecasts needed to compute control according
-        to the forecast_config.
-        This data structure is specific for this controller.
+    forecasts: DataFrame
+        Updated DataFrame of forcast values used over time.
 
     """
 
-    forecasts = []
-    if forecast:
-        for j in range(len(forecast_config)):
-            forecasts.append(forecast[forecast_config[j]][0])
-    else:
-        print("Cannot do controller prediction - No forecast!")
+    forecast_config = ['LowerSetp[North]',
+                       'UpperSetp[North]',
+                       'LowerSetp[South]',
+                       'UpperSetp[South]']
+    if forecasts is None:
+        forecasts = pd.DataFrame(columns=forecast_config)
+    for i in forecast_config:
+        t = forecast_data['time'][0]
+        forecasts.loc[t,i] = forecast_data[i][0]
+
     return forecasts

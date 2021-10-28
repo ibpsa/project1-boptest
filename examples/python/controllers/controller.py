@@ -10,17 +10,17 @@ import importlib
 
 
 class Controller(object):
-    def __init__(self, module, forecast_config=None):
+    def __init__(self, module, use_forecast=False):
         """Controller object that instantiates concrete controller methods.
 
         Parameters
         ----------
         module : str
             path to concrete implementation of controller
-        forecast_config : list, optional
-            list of point names contained in a forecast
-            [<input_name1>, <input_name2>].
-            Default is None.
+        use_forecast : bool
+            True if controller uses forecasts.
+            Default is False.
+
         """
 
         try:
@@ -29,7 +29,7 @@ class Controller(object):
             print("Cannot find specified controller: {}".format(module))
             sys.exit()
 
-        if forecast_config is not None:
+        if use_forecast:
             self.update_forecasts = controller.update_forecasts
             self.use_forecast = True
         else:

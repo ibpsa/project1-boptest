@@ -19,7 +19,7 @@ import collections
 import pandas as pd
 
 
-def control_test(control_module='', start_time=0, warmup_period=0, length=24*3600, scenario=None, step=300, customized_kpi_config=None, forecast_config=None):
+def control_test(control_module='', start_time=0, warmup_period=0, length=24*3600, scenario=None, step=300, customized_kpi_config=None, use_forecast=False):
     """Run test case.
 
     Parameters
@@ -50,9 +50,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     customized_kpi_config: str, optional
         relative path to custom KPI (e.g., 'custom_kpi.custom_kpis_example.config')
         Default is None.
-    forecast_config: list of str, optional
-        List of strings.  Each element is a point that needs to be passed from the /forecast API endpoint.
-        Default is None.
 
     Returns
     -------
@@ -64,6 +61,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     custom_kpi_result: dict
         Dictionary of tracked custom KPI calculations.
         Empty if no customized KPI calculations defined.
+    forecasts : structure depends on controller
+        Forecasts used to calculate control.
+        Default is None.
 
     """
 
@@ -72,11 +72,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
     # Instantiate controller
-    controller = Controller(control_module, forecast_config)
-    # Initialize storage structure for forecasts if needed
-    forecasts_store = None
-    if forecast_config is not None:
-        forecasts_store = pd.DataFrame(columns=forecast_config)
+    controller = Controller(control_module, use_forecast)
+    # Initialize forecast storage
+    forecasts = None
 
     # GET TEST INFORMATION
     # --------------------
@@ -144,17 +142,14 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
             custom_kpi_result[kpi.name].append(round(custom_kpi_value, 2))  # Track custom KPI value
             print('KPI:\t{0}:\t{1}'.format(kpi.name, round(custom_kpi_value, 2)))  # Print custom KPI value
         custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
-        # If controller needs a forecast, get the forecast data
+        # If controller needs a forecast, get the forecast data and update it with controller
         if controller.use_forecast:
             # Get forecast from BOPTEST
             forecast_data = requests.get('{0}/forecast'.format(url)).json()
             # Use BOPTEST forecast data to update controller-specific forecast data
-            forecasts = controller.update_forecasts(forecast_config, forecast_data)
-            # TODO Store forecast data used in controller
-            if forecasts_store is not None:
-                forecasts_store.loc[(t + 1) * step, forecasts_store.columns] = forecasts
+            forecasts = controller.update_forecasts(forecast_data, forecasts)
         else:
-            forecasts = []
+            forecasts = None
         # Compute control signal for next step
         u = controller.compute_control(y, forecasts)
     print('\nTest case complete.')
@@ -194,4 +189,4 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
 
-    return kpi, df_res, custom_kpi_result, forecasts_store
+    return kpi, df_res, custom_kpi_result, forecasts

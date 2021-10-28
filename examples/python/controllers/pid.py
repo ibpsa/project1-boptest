@@ -6,7 +6,7 @@ for testcase1.
 """
 
 
-def compute_control(y, forecasts=[]):
+def compute_control(y, forecasts=None):
     """Compute the control input from the measurement.
 
     Parameters
@@ -14,8 +14,9 @@ def compute_control(y, forecasts=[]):
     y : dict
         Contains the current values of the measurements.
         {<measurement_name>:<measurement_value>}
-    forecasts : list
-        Forecasts used to calculate control, default [].
+    forecasts : structure depends on controller, optional
+        Forecasts used to calculate control.
+        Default is None.
 
     Returns
     -------
