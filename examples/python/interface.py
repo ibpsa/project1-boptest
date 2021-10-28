@@ -68,7 +68,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     """
 
     # SETUP TEST CASE
-    # ---------------
+    # -------------------------------------------------------------------------
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
     # Instantiate controller
@@ -77,7 +77,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     forecasts = None
 
     # GET TEST INFORMATION
-    # --------------------
+    # -------------------------------------------------------------------------
     print('\nTEST CASE INFORMATION\n---------------------')
     # Test case name
     name = requests.get('{0}/name'.format(url)).json()
@@ -92,8 +92,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     step_def = requests.get('{0}/step'.format(url)).json()
     print('Default Simulation Step:\t{0}'.format(step_def))
 
-    # DEFINE CUSTOM KPI CALCULATION STRUCTURES IF ANY
-    # -----------------------------------------------
+    # IF ANY CUSTOM KPI CALCULATION, DEFINE STRUCTURES
+    # ------------------------------------------------
     custom_kpis = []  # Initialize customized kpi calculation list
     custom_kpi_result = {}  # Initialize tracking of customized kpi calculation results
     if customized_kpi_config is not None:
@@ -103,23 +103,26 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
             custom_kpis.append(CustomKPI(config[key]))
             custom_kpi_result[CustomKPI(config[key]).name] = []
     custom_kpi_result['time'] = []
-    # --------------------
 
     # RUN TEST CASE
-    # -------------
+    # -------------------------------------------------------------------------
     # Record real starting time
     start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
     if scenario is not None:
+        # Intialize test with a scenario time period
         res = requests.put('{0}/scenario'.format(url), data=scenario).json()['time_period']
         # Record test simulation start time
         start_time = res['time']
+        # Set final time and total time steps to be very large since scenario defines length
         final_time = np.inf
         total_time_steps = int((365 * 24 * 3600)/step)
     else:
+        # Intialize test with a specified start time and warmup period
         res = requests.put('{0}/initialize'.format(url), data={'start_time': start_time, 'warmup_period': warmup_period}).json()
-        final_time = length
+        # Set final time and total time steps according to specified length
+        final_time = start_time + length
         total_time_steps = int(length / step)  # calculate number of timesteps
     if res:
         print('Successfully initialized the simulation')
@@ -135,7 +138,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         # If reach end of scenario, stop
         if not y:
             break
-        # Compute customized KPIs if any
+        # If custom KPIs, compute them
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI
             custom_kpi_value = kpi.calculation()  # Calculate custom KPI value
@@ -154,10 +157,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         u = controller.compute_control(y, forecasts)
     print('\nTest case complete.')
     print('Elapsed time of test was {0} seconds.'.format(time.time()-start))
-    # -------------
 
     # VIEW RESULTS
-    # ------------
+    # -------------------------------------------------------------------------
     # Report KPIs
     kpi = requests.get('{0}/kpi'.format(url)).json()
     print('\nKPI RESULTS \n-----------')
@@ -177,10 +179,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         else:
             unit = None
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
-    # ------------
 
     # POST PROCESS RESULTS
-    # --------------------
+    # -------------------------------------------------------------------------
     # Get result data
     points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()

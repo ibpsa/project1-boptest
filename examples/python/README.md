@@ -23,7 +23,7 @@ well as forecast data.
 It uses the testing interface implemented in ``interface.py`` and the
 concrete controller implemented in ``controllers/pidTwoZones.py``.
 - ``/controllers`` contains a generic controller class ``controller.py`` that
-instantiates concrete controllers defined in ``pid.py``, ``pidTwoZones.py``, and
+instantiates concrete controller methods defined in ``pid.py``, ``pidTwoZones.py``, and
 ``sup.py``.
 - ``/custom_kpi`` contains a code base for implementing customized KPI calculation
 using results from BOPTEST.
@@ -42,10 +42,13 @@ This module should contain at least two functions: ``initialize`` and ``compute_
 The ``initialize`` function calculates the initial control inputs while the
 ``compute_control`` functions updates the control inputs of the BOPTEST
 test case based on recent measurements and forecasts, if needed.
+If the controller requires forecasts, the controller module should contain
+another function called ``update_forecasts``.
 Examples for control modules are provided in ``/controllers``.
 
 2. Develop a test script for performing the control test.
 In this script, instantiate the interface class implemented in ``interface.py``.
 Specify the ``controller_module.py`` to be used, as well as the combination of
 simulation start, warmup_period, and length or a predefined test case scenario.
-Optionally, users can also provide configurations of the customized KPIs and forecast information.
+Optionally, users can also provide a configuration of the customized KPIs and
+whether or not the controller uses forecast information.
