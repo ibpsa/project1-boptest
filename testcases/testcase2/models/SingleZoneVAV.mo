@@ -105,18 +105,6 @@ package SingleZoneVAV
       description="Room air temperature")
       annotation (Placement(transformation(extent={{120,-10},{140,10}})));
     Buildings.Utilities.IO.SignalExchange.Read
-                                           senTSetRooCoo(
-      y(unit="K"),
-      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-      description="Room cooling setpoint")
-      annotation (Placement(transformation(extent={{-100,-80},{-80,-60}})));
-    Buildings.Utilities.IO.SignalExchange.Read
-                                           senTSetRooHea(
-      y(unit="K"),
-      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-      description="Room heating setpoint")
-      annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
-    Buildings.Utilities.IO.SignalExchange.Read
                                            CO2RooAir(
       y(unit="ppm"),
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
@@ -206,10 +194,6 @@ package SingleZoneVAV
             140}},     color={0,0,127}));
     connect(zon.TRooAir, TRooAir.u)
       annotation (Line(points={{81,0},{118,0}}, color={0,0,127}));
-    connect(oveTSetRooCoo.y, senTSetRooCoo.u) annotation (Line(points={{-119,
-            -10},{-116,-10},{-116,-70},{-102,-70}}, color={0,0,127}));
-    connect(oveTSetRooHea.y, senTSetRooHea.u) annotation (Line(points={{-119,30},
-            {-116,30},{-116,50},{-102,50}}, color={0,0,127}));
     connect(zon.CO2, CO2RooAir.u) annotation (Line(points={{81,-4},{100,-4},{100,-30},
             {118,-30}}, color={0,0,127}));
     connect(zon.yOcc, con.uOcc) annotation (Line(points={{81,20},{92,20},{92,-24},
