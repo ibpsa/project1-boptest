@@ -2305,7 +2305,9 @@ The emulator building model represents a residential French
 dwelling compliant with the French Thermal regulation of 2012,
 i.e. the French national building energy regulation. Therefore,
 the typology is defined to be representative of French new
-dwellings. Its area is approximately 120 m&sup2; (<i>S_ref</i>).
+dwellings. 
+The area not including the unconditioned attic and unconditioned 
+garage is of 81.08 m&sup2;.
 The following figure shows the building layout and
 a sketch of the hydraulic system. The coloured elements in the scheme
 represent the controllable components
@@ -2952,6 +2954,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+June 07, 2021 by Javier Arroyo:<br/>
+Correct schema in documentation.
+</li>
 <li>
 April 24, 2021 by David Blum:<br/>
 Add scenario time periods.

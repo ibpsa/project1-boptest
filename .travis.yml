@@ -1,8 +1,5 @@
 language: python
 
-python:
-  - "2.7"
-
 git:
   depth: 10
 
@@ -12,12 +9,14 @@ notifications:
 services:
   - docker
 
-install:
-  - pip install --upgrade pip
-  - pip install pandas numpy matplotlib requests
-
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
 
-script:
-  - (cd testing && make test_all)
+jobs:
+  include:
+  - python: 3.9
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1 pathlib==1.0.1
+    script: cd testing && make test_all
+  - python: 2.7
+    install: pip install --upgrade pip && pip install pandas==0.24.2 numpy==1.16.6 matplotlib==2.1.1 requests==2.18.4 pathlib==1.0.1
+    script: cd testing && make test_python2
