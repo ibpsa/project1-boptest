@@ -6,10 +6,9 @@ zone temperature set points.
 
 """
 
-import sys
 import pandas as pd
 
-def compute_control(y, forecasts=None):
+def compute_control(y, forecasts):
     """Compute the control input from the measurement.
 
     Parameters
@@ -17,9 +16,8 @@ def compute_control(y, forecasts=None):
     y : dict
         Contains the current values of the measurements.
         {<measurement_name>:<measurement_value>}
-    forecasts : structure depends on controller, optional
-        Forecasts used to calculate control, defined in ``update_forecasts``.
-        Default is None.
+    forecasts : structure depends on controller
+        Forecasts used to calculate control, defined in ``update_forecasts``..
 
     Returns
     -------
