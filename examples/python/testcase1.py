@@ -94,7 +94,6 @@ def run(plot=False, customized_kpi_config=None):
 
     # RUN TEST CASE
     # -------------
-    start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
     res = requests.put('{0}/initialize'.format(url), data={'start_time':0,'warmup_period':0}).json()
@@ -121,6 +120,7 @@ def run(plot=False, customized_kpi_config=None):
             print('Error when advancing the simulation:{}'.format(res['error']))   
         # Compute next control signal
         y = res['result']
+        print(y)
         u = pid.compute_control(y)
         # Compute customized KPIs if any
         if customized_kpi_config is not None:
@@ -137,6 +137,7 @@ def run(plot=False, customized_kpi_config=None):
     # ------------
     # Report KPIs
     kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = kpi['result']
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
         if key == 'tdis_tot':
@@ -157,10 +158,11 @@ def run(plot=False, customized_kpi_config=None):
     # POST PROCESS RESULTS
     # --------------------
     # Get result data into result df
-    points = list(measurements.keys()) + list(inputs.keys())
+    points = list(measurements['result'].keys()) + list(inputs['result'].keys())
     df_res = pd.DataFrame()
     for point in points:
         res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        res = res['result']
         df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
     df_res.index.name = 'time'
     time = df_res.index.values/3600 # convert s --> hr

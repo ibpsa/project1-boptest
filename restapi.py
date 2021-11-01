@@ -9,6 +9,7 @@ The API is implemented using the ``flask`` package.
 # ----------------------
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS
 import logging
 import argparse
 
@@ -32,6 +33,7 @@ from testcase import TestCase
 # FLASK REQUIREMENTS
 # ------------------
 app = Flask(__name__)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 api = Api(app)
 
 # ------------------
@@ -63,7 +65,15 @@ parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
     parser_forecast_parameters.add_argument(arg)
-
+# ``price_scenario`` interface
+parser_scenario = reqparse.RequestParser()
+parser_scenario.add_argument('electricity_price')
+parser_scenario.add_argument('time_period')
+# ``results`` interface
+results_var = reqparse.RequestParser()
+results_var.add_argument('point_name')
+results_var.add_argument('start_time')
+results_var.add_argument('final_time')
 
 # -----------------------
 
@@ -75,10 +85,6 @@ class Advance(Resource):
     def post(self):
         '''POST request with input data to advance the simulation one step
         and receive current measurements.'''
-        parse = request.get_json(silent=True)
-        if parse is None:
-            app.logger.error("Receiving a invalid advance request")
-            return {'message': 'failure', 'error': 'invalid json input', 'result': None}
         u = parser_advance.parse_args()
         app.logger.info("Receiving a new advance request: {}".format(u))
         result = case.advance(u)
@@ -95,10 +101,6 @@ class Initialize(Resource):
 
     def put(self):
         '''PUT request to initialize the test.'''
-        parse = request.get_json(silent=True)
-        if parse is None:
-            app.logger.error("Receiving a invalid initialize request")
-            return {'message': 'failure', 'error': 'invalid json input', 'result': None}
         args = parser_initialize.parse_args()
         app.logger.info("Receiving a new initialize request: {}".format(args))
         try:
@@ -135,10 +137,6 @@ class Step(Resource):
 
     def put(self):
         '''PUT request to set simulation step in seconds.'''
-        parse = request.get_json(silent=True)
-        if parse is None:
-            app.logger.error("Receiving a invalid set step request")
-            return {'message': 'failure', 'error': 'invalid json input', 'result': None}
         args = parser_step.parse_args()
         app.logger.info("Receiving a new set step request: {}".format(args))
         step = args['step']
@@ -181,11 +179,18 @@ class Measurements(Resource):
 class Results(Resource):
     '''Interface to test case result data.'''
 
-    def get(self):
+    def put(self):
         '''GET request to receive measurement data.'''
-        app.logger.info("Receiving a new query for results")
+        app.logger.info("Receiving a new query for results")               
         try:
-            Y = case.get_results()
+            args = results_var.parse_args(strict=True) 
+            var  = args['point_name']
+            start_time  = float(args['start_time'])
+            final_time  = float(args['final_time'])
+            Y = case.get_results(var, start_time, final_time)
+            print Y
+            for key in Y:
+                  Y[key] = Y[key].tolist() 
         except Exception as e:
             app.logger.error("Fail to return the results:{}".format(e))
             return {'message': 'failure', 'error': e, 'result': None}
@@ -220,13 +225,9 @@ class Forecast_Parameters(Resource):
         return {'message': 'success', 'error': None, 'result': forecast_parameters}
 
     def put(self):
-        '''PUT request to set forecast horizon and interval inseconds.'''
-        parse = request.get_json(silent=True)
-        if parse is None:
-            app.logger.error("Receiving a invalid set forcast request")
-            return {'message': 'failure', 'error': 'invalid json input', 'result': None}
+        '''PUT request to set forecast horizon and interval inseconds.'''    
         args = parser_forecast_parameters.parse_args()
-        app.logger.info("Receiving a new request for setting the forecast: ()".format(args))
+        app.logger.info("Receiving a new request for setting the forecast: ()".format(args))           
         horizon = args['horizon']
         interval = args['interval']
         try:
@@ -234,7 +235,7 @@ class Forecast_Parameters(Resource):
         except Exception as e:
             app.logger.error("Fail to return the KPI:{}".format(e))
             return {'message': 'failure', 'error': e, 'result': None}
-        return {'message': 'success', 'error': None, 'result': None}
+        return {'message': 'success', 'error': None, 'result': result}
 
 
 class Forecast(Resource):
@@ -250,6 +251,29 @@ class Forecast(Resource):
             return {'message': 'failure', 'error': e, 'result': None}
         return {'message': 'success', 'result': forecast, 'error': None}
 
+class Scenario(Resource):
+    '''Interface to test case scenario.'''
+
+    def get(self):
+        '''GET request to receive current scenario.'''
+        app.logger.info("Receiving a new query for scenario")
+        try:        
+            scenario = case.get_scenario()
+        except Exception as e:
+            app.logger.error("Fail to return the scenario:{}".format(e))
+            return {'message': 'failure', 'error': e, 'result': None}
+        return {'message': 'success', 'result': scenario, 'error': None}
+
+    def put(self):
+        '''PUT request to set scenario.'''          
+        scenario = parser_scenario.parse_args(strict=True)
+        app.logger.info("Receiving a new request for setting the scenario: ()".format(scenario)) 
+        try:        
+            result = case.set_scenario(scenario)
+        except Exception as e:
+            app.logger.error("Fail to set the scenario:{}".format(e))
+            return {'message': 'failure', 'error': e, 'result': None}
+        return {'message': 'success', 'error': None, 'result': result}
 
 class Name(Resource):
     '''Interface to test case name.'''
@@ -292,6 +316,7 @@ api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
 api.add_resource(Forecast_Parameters, '/forecast_parameters')
 api.add_resource(Forecast, '/forecast')
+api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')
 api.add_resource(Version, '/version')
 # --------------------------------------
