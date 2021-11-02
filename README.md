@@ -92,4 +92,8 @@ An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-
 A proposed BOPTEST home page and dashboard for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.
 
 ## Publications
+### To cite, please use:
+D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. Benne, D. Vrabie, M. Wetter, and L. Helsen. (2021). ["Building optimization testing framework (BOPTEST) for simulation-based benchmarking of control strategies in buildings."](https://doi.org/10.1080/19401493.2021.1986574) *Journal of Building Performance Simulation*, 14(5), 586-610.
+
+### Additional publications:
 D. Blum, F. Jorissen, S. Huang, Y. Chen, J. Arroyo, K. Benne, Y. Li, V. Gavan, L. Rivalin, L. Helsen, D. Vrabie, M. Wetter, and M. Sofos. (2019). [“Prototyping the BOPTEST framework for simulation-based testing of advanced control strategies in buildings.”](http://www.ibpsa.org/proceedings/BS2019/BS2019_211276.pdf) In *Proc. of the 16th International Conference of IBPSA*, Sep 2 – 4. Rome, Italy.
