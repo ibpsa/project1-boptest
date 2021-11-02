@@ -24,10 +24,10 @@ model WriteZoneSup
       max=313.15))
     "Zone air temperature cooling setpoint"
     annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
-  Modelica.Blocks.Interfaces.RealOutput TZoneHeaSet_out
+  Modelica.Blocks.Interfaces.RealOutput TZonHeaSet_out
     "Zone air temperature heating setpoint"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Interfaces.RealOutput TZoneCooSet_out
+  Modelica.Blocks.Interfaces.RealOutput TZonCooSet_out
     "Zone air temperature cooling setpoint"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
 equation
@@ -39,11 +39,11 @@ equation
       points={{-120,-40},{-62,-40},{-2,-40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(TZonHeaSet.y, TZoneHeaSet_out) annotation (Line(
+  connect(TZonHeaSet.y, TZonHeaSet_out) annotation (Line(
       points={{21,40},{110,40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
-  connect(TZonCooSet.y, TZoneCooSet_out) annotation (Line(
+  connect(TZonCooSet.y, TZonCooSet_out) annotation (Line(
       points={{21,-40},{110,-40}},
       color={0,0,127},
       smooth=Smooth.Bezier));
