@@ -19,6 +19,9 @@ build_boptest_image:
 remove_jm_image:
 	docker rmi ${IMG_NAME}
 
+remove_boptest_image:
+	docker rmi boptest
+
 run_jm:
 	$(COMMAND_RUN)
 	docker cp . ${IMG_NAME}:/usr/local/testing
@@ -286,5 +289,7 @@ test_all:
 	make test_multizone_residential_hydronic
 # Remove jm
 	make remove_jm_image
+# Remove boptest base image
+	make remove_boptest_image
 # Report test results
 	python report.py
