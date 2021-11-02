@@ -13,6 +13,9 @@ COMMAND_RUN=docker run \
 build_jm_image:
 	docker build --no-cache --rm -t ${IMG_NAME} .
 
+build_boptest_image:
+	cd .. && docker-compose build
+
 remove_jm_image:
 	docker rmi ${IMG_NAME}
 
@@ -266,6 +269,8 @@ test_python2:
 test_all:
 # Build jm
 	make build_jm_image
+# Build boptest base image
+	make build_boptest_image
 # Run tests
 	make test_parser
 	make test_data

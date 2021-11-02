@@ -2,11 +2,18 @@ version: "3.7"
 
 services:
   boptest:
-    image: boptest_${TESTCASE}
+    image: boptest
     build:
       context: .
-      args:
-        testcase: ${TESTCASE}
+    volumes:
+      - ./testcases/${TESTCASE}/models/wrapped.fmu:${APP_PATH}/models/wrapped.fmu
+      - ./testcases/${TESTCASE}/doc/:${APP_PATH}/doc/
+      - ./restapi.py:${APP_PATH}/restapi.py
+      - ./testcase.py:${APP_PATH}/testcase.py
+      - ./version.txt:${APP_PATH}/version.txt
+      - ./data:${APP_PATH}/data/
+      - ./forecast:${APP_PATH}/forecast/
+      - ./kpis:${APP_PATH}/kpis/
     ports:
       - 5000:5000
     networks:
