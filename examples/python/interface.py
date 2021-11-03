@@ -63,18 +63,16 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         Empty if no customized KPI calculations defined.
     forecasts : structure depends on controller
         Forecasts used to calculate control.
-        Default is None.
+        None if controller does not use forecasts.
 
     """
 
-    # SETUP TEST CASE
+    # SETUP TEST
     # -------------------------------------------------------------------------
     # Set URL for testcase
     url = 'http://127.0.0.1:5000'
     # Instantiate controller
     controller = Controller(control_module, use_forecast)
-    # Initialize forecast storage
-    forecasts = None
 
     # GET TEST INFORMATION
     # -------------------------------------------------------------------------
@@ -88,9 +86,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Measurements available
     measurements = requests.get('{0}/measurements'.format(url)).json()
     print('Measurements:\t\t\t{0}'.format(measurements))
-    # Default simulation step
+    # Default control step
     step_def = requests.get('{0}/step'.format(url)).json()
-    print('Default Simulation Step:\t{0}'.format(step_def))
+    print('Default Control Step:\t{0}'.format(step_def))
 
     # IF ANY CUSTOM KPI CALCULATION, DEFINE STRUCTURES
     # ------------------------------------------------
@@ -127,10 +125,12 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     if res:
         print('Successfully initialized the simulation')
     print('\nRunning test case...')
-    # Set simulation step
+    # Set control step
     res = requests.put('{0}/step'.format(url), data={'step': step})
-    # Initialize u
+    # Initialize u from controller
     u = controller.initialize()
+    # Initialize forecast storage structure
+    forecasts = None
     # Simulation Loop
     for t in range(total_time_steps):
         # Advance simulation with control input value(s)
