@@ -29,25 +29,31 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolAlt_y(unit="rad") = mod.weaSta.reaWeaSolAlt.y "Solar altitude angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput reaTZon_y(unit="K") = mod.reaTZon.y "Zone air temperature";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHHorIR_y(unit="W/m2") = mod.weaSta.reaWeaHHorIR.y "Horizontal infrared irradiation measurement";
+	Modelica.Blocks.Interfaces.RealOutput ahu_reaFanRet_y(unit="1") = mod.ahu.reaFanRet.y "AHU return fan speed control signal";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolZen_y(unit="rad") = mod.weaSta.reaWeaSolZen.y "Solar zenith angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHDifHor_y(unit="W/m2") = mod.weaSta.reaWeaHDifHor.y "Horizontal diffuse solar radiation measurement";
 	Modelica.Blocks.Interfaces.RealOutput reaTSupSet_y(unit="K") = mod.reaTSupSet.y "AHU supply air temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTDewPoi_y(unit="K") = mod.weaSta.reaWeaTDewPoi.y "Dew point temperature measurement";
 	Modelica.Blocks.Interfaces.RealOutput reaPPum_y(unit="W") = mod.reaPPum.y "Electrical power consumption of pump";
-	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHDirNor_y(unit="W/m2") = mod.weaSta.reaWeaHDirNor.y "Direct normal radiation measurement";
+	Modelica.Blocks.Interfaces.RealOutput reaTCoiRet_y(unit="K") = mod.reaTCoiRet.y "AHU heating coil return water temperature";
 	Modelica.Blocks.Interfaces.RealOutput ahu_reaFloSupAir_y(unit="kg/s") = mod.ahu.reaFloSupAir.y "AHU supply air mass flowrate";
 	Modelica.Blocks.Interfaces.RealOutput reaTZonSet_y(unit="K") = mod.reaTZonSet.y "Zone temperature set point for heating";
 	Modelica.Blocks.Interfaces.RealOutput reaQHea_y(unit="W") = mod.reaQHea.y "District heating thermal power consumption";
 	Modelica.Blocks.Interfaces.RealOutput ahu_reaPFanRet_y(unit="W") = mod.ahu.reaPFanRet.y "AHU return fan electrical power consumption";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolTim_y(unit="s") = mod.weaSta.reaWeaSolTim.y "Solar time";
+	Modelica.Blocks.Interfaces.RealOutput ahu_reaTHeaRec_y(unit="K") = mod.ahu.reaTHeaRec.y "AHU air temperature exiting heat recovery in supply air stream";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTDryBul_y(unit="K") = mod.weaSta.reaWeaTDryBul.y "Outside drybulb temperature measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaLon_y(unit="rad") = mod.weaSta.reaWeaLon.y "Longitude of the location";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTBlaSky_y(unit="K") = mod.weaSta.reaWeaTBlaSky.y "Black-body sky temperature measurement";
+	Modelica.Blocks.Interfaces.RealOutput ahu_reaFanSup_y(unit="1") = mod.ahu.reaFanSup.y "AHU supply fan speed control signal";
+	Modelica.Blocks.Interfaces.RealOutput ahu_reaTCoiSup_y(unit="K") = mod.ahu.reaTCoiSup.y "AHU heating coil supply water temperature";
 	Modelica.Blocks.Interfaces.RealOutput ahu_reaTRetAir_y(unit="K") = mod.ahu.reaTRetAir.y "AHU return air temperature";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaLat_y(unit="rad") = mod.weaSta.reaWeaLat.y "Latitude of the location";
 	Modelica.Blocks.Interfaces.RealOutput reaPFan_y(unit="W") = mod.reaPFan.y "Electrical power consumption of AHU supply and return fans";
 	Modelica.Blocks.Interfaces.RealOutput reaCO2Zon_y(unit="ppm") = mod.reaCO2Zon.y "Zone CO2 concentration";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaPAtm_y(unit="Pa") = mod.weaSta.reaWeaPAtm.y "Atmospheric pressure measurement";
+	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHDirNor_y(unit="W/m2") = mod.weaSta.reaWeaHDirNor.y "Direct normal radiation measurement";
+	Modelica.Blocks.Interfaces.RealOutput reaPum_y(unit="1") = mod.reaPum.y "Pump speed control signal for heating distribution system";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTWetBul_y(unit="K") = mod.weaSta.reaWeaTWetBul.y "Wet bulb temperature measurement";
 	// Original model
 	OU44Emulator.Models.Validation.RealOccupancy mod(
