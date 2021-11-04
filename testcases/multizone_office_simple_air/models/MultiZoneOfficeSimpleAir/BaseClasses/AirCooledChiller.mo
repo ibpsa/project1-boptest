@@ -35,7 +35,8 @@ model AirCooledChiller "Air cooled chiller model"
     "Electric power consumed by chiller compressor"
     annotation (Placement(transformation(extent={{100,90},{120,110}})));
   Buildings.Utilities.IO.SignalExchange.Read reaPChi(description="Electric power consumed by chiller compressor",
-      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+    y(unit="W"))
     "Electric power consumed by chiller compressor"
     annotation (Placement(transformation(extent={{76,90},{96,110}})));
   parameter Modelica.SIunits.HeatFlowRate QEva_flow_min

@@ -23,7 +23,8 @@ model GasBoiler "Gas boiler model"
     annotation (Placement(transformation(extent={{100,90},{120,110}})));
   Buildings.Utilities.IO.SignalExchange.Read reaPGas(description="Gas power consumed by boiler for "
          + descriptor,
-                 KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
+                 KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+    y(unit="W"))
     "Gas power consumed by boiler"
     annotation (Placement(transformation(extent={{72,90},{92,110}})));
   parameter Modelica.SIunits.HeatFlowRate QMax_flow=Modelica.Constants.inf

@@ -1,7 +1,30 @@
 within MultiZoneOfficeSimpleAir.BaseClasses;
 model ASHRAE2006
   "Variable air volume flow system with terminal reheat and ASHRAE 2006 control sequence serving five thermal zones"
-  extends Buildings.Examples.VAVReheat.BaseClasses.PartialHVAC(amb(nPorts=3));
+  extends Buildings.Examples.VAVReheat.BaseClasses.PartialHVAC(amb(nPorts=3),
+    splHeaRet(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splHeaSup(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splCooRet(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splCooSup(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splRetNor(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splSupNor(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splRetEas(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splSupEas(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splRetSou(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splSupSou(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splRetRoo1(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
+
+    splSupRoo1(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial));
 
   parameter Real ratVMinCor_flow(final unit="1")=
     max(1.5*VCorOA_flow_nominal, 0.15*mCor_flow_nominal/1.2) /
@@ -364,14 +387,14 @@ equation
           {302,219.778},{302,182},{188,182},{188,0},{238,0}}, color={0,0,127}));
   connect(TRet.T, readAhu.TRet_in) annotation (Line(points={{100,151},{100,382},
           {198,382},{198,382.154}}, color={0,0,127}));
-  connect(senSupFlo.V_flow, readAhu.V_flow_sup_in) annotation (Line(points={{
-          410,-29},{410,296},{104,296},{104,378.462},{198,378.462}}, color={0,0,
+  connect(senSupFlo.V_flow, readAhu.V_flow_sup_in) annotation (Line(points={{410,-29},
+          {410,296},{104,296},{104,378.462},{198,378.462}},          color={0,0,
           127}));
-  connect(senRetFlo.V_flow, readAhu.V_flow_ret_in) annotation (Line(points={{
-          350,151},{350,302},{106,302},{106,374.769},{198,374.769}}, color={0,0,
+  connect(senRetFlo.V_flow, readAhu.V_flow_ret_in) annotation (Line(points={{350,151},
+          {350,302},{106,302},{106,374.769},{198,374.769}},          color={0,0,
           127}));
-  connect(VOut1.V_flow, readAhu.V_flow_out_in) annotation (Line(points={{-80,
-          -29},{-80,54},{-120,54},{-120,371.077},{198,371.077}}, color={0,0,127}));
+  connect(VOut1.V_flow, readAhu.V_flow_out_in) annotation (Line(points={{-80,-29},
+          {-80,54},{-120,54},{-120,371.077},{198,371.077}},      color={0,0,127}));
   connect(readAhu.dp_in, dpDisSupFan.p_rel) annotation (Line(points={{198,
           367.385},{178,367.385},{178,368},{108,368},{108,306},{280,306},{280,
           4.44089e-16},{311,4.44089e-16}}, color={0,0,127}));

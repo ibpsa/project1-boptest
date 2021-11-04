@@ -17,7 +17,8 @@ model TestCase
     boiReh(descriptor="reheat", m_flow_nominal=hvac.cor.val.m_flow_nominal +
           hvac.sou.val.m_flow_nominal + hvac.eas.val.m_flow_nominal + hvac.nor.val.m_flow_nominal
            + hvac.wes.val.m_flow_nominal),
-    chi(QEva_flow_min=-hvac.mCooWat_flow_nominal*4200*10));
+    chi(QEva_flow_min=-hvac.mCooWat_flow_nominal*4200*10),
+    weaDat(computeWetBulbTemperature=true));
 
   parameter Real ACHCor(final unit="1/h")=6
     "Design air change per hour core";
@@ -930,7 +931,7 @@ This is for
         "Simulate and plot"),
     experiment(
       StopTime=31536000,
-      Interval=600,
+      Interval=3600,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
