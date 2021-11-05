@@ -32,9 +32,10 @@ model AirCooledChiller "Air cooled chiller model"
   Buildings.BoundaryConditions.WeatherData.Bus weaBus "Bus with weather data"
     annotation (Placement(transformation(extent={{-110,90},{-90,110}})));
   Modelica.Blocks.Interfaces.RealOutput PChi
-    "Electric power consumed by chiller compressor"
+    "Electric power consumed by chiller"
     annotation (Placement(transformation(extent={{100,90},{120,110}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaPChi(description="Electric power consumed by chiller compressor",
+  Buildings.Utilities.IO.SignalExchange.Read reaPChi(
+    description="Electric power consumed by chiller",
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W"))
     "Electric power consumed by chiller compressor"

@@ -2,23 +2,23 @@
 model TestCase
   "Variable air volume flow system with terminal reheat and five thermal zones based on Buildings.Examples.VAVReheat.ASHRAE2006"
   extends Modelica.Icons.Example;
-  extends BaseClasses.HVACBuilding(
+  extends MultiZoneOfficeSimpleAir.BaseClasses.HVACBuilding(
+    heaPumReh(descriptor="terminal box reheat coils",
+              QCon_flow_max=(hvac.cor.val.m_flow_nominal + hvac.sou.val.m_flow_nominal
+           + hvac.eas.val.m_flow_nominal + hvac.nor.val.m_flow_nominal + hvac.wes.val.m_flow_nominal)*4200*10),
     MediumA(extraPropertiesNames={"CO2"}),
     mCor_flow_nominal=ACHCor*VRooCor*conv,
     mSou_flow_nominal=ACHSou*VRooSou*conv,
     mEas_flow_nominal=ACHEas*VRooEas*conv,
     mNor_flow_nominal=ACHNor*VRooNor*conv,
     mWes_flow_nominal=ACHWes*VRooWes*conv,
-    redeclare BaseClasses.ASHRAE2006 hvac(
-      amb(C=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
-      /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumA.nC))),
+    redeclare MultiZoneOfficeSimpleAir.BaseClasses.ASHRAE2006 hvac(amb(C=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+            /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumA.nC))),
     redeclare Buildings.Examples.VAVReheat.Validation.BaseClasses.Floor flo,
-    boiCoi(descriptor="heating coil", m_flow_nominal=hvac.mHeaWat_flow_nominal),
-    boiReh(descriptor="reheat", m_flow_nominal=hvac.cor.val.m_flow_nominal +
-          hvac.sou.val.m_flow_nominal + hvac.eas.val.m_flow_nominal + hvac.nor.val.m_flow_nominal
-           + hvac.wes.val.m_flow_nominal),
     chi(QEva_flow_min=-hvac.mCooWat_flow_nominal*4200*10),
-    weaDat(computeWetBulbTemperature=true));
+    weaDat(computeWetBulbTemperature=true),
+    heaPumCoi(descriptor="heating coil in AHU",
+              QCon_flow_max=hvac.mHeaWat_flow_nominal*4200*10));
 
   parameter Real ACHCor(final unit="1/h")=6
     "Design air change per hour core";
@@ -207,9 +207,11 @@ and system defined in the table below.
 
 <p>
 The supply fan hydraulic efficiency is constant at 0.7 and the motor
-efficiency is constant at 0.7.  The cooling coil is served by a heat pump
-with constant COP of 3.2 and the heating coils are served by a heat pump
-with constant COP of 4.0.
+efficiency is constant at 0.7.  The cooling coil is served by an air-cooled
+chiller supply 12 degC water with varying COP as 0.3 of the carnot COP.
+The heating coil and terminal box reheat coils are served by air-to-water
+heat pumps supplying 45 degC water with varying COP as 0.3 of
+the carnot COP.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
@@ -356,8 +358,8 @@ src=\"../../../doc/images/C3.png\"/>
 Also present, but not depicted in the diagrams above, is a freeze stat controller.
 This controller detects potentially freezing conditions by measuring the
 mixed air temperature and determining if it is less than a limit, 3 degC.
-If true, the controller will enable C3 to track the supply air temperature setpoint.
-In this case, the heating coil will be activated to do so.
+If true, the controller will fully open the heating coil valve and enable the
+heating coil pump.
 </p>
 
 <h3>Model IO's</h3>
@@ -935,7 +937,7 @@ This is for
         "Simulate and plot"),
     experiment(
       StopTime=31536000,
-      Interval=3600,
+      Interval=300,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
