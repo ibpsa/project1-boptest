@@ -37,8 +37,7 @@ model AirCooledChiller "Air cooled chiller model"
   Buildings.Utilities.IO.SignalExchange.Read reaPChi(
     description="Electric power consumed by chiller",
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-    y(unit="W"))
-    "Electric power consumed by chiller compressor"
+    y(unit="W")) "Electric power consumed by chiller"
     annotation (Placement(transformation(extent={{76,90},{96,110}})));
   parameter Modelica.SIunits.HeatFlowRate QEva_flow_min
     "Maximum heat flow rate for cooling (negative)";
@@ -58,15 +57,33 @@ model AirCooledChiller "Air cooled chiller model"
         extent={{10,-10},{-10,10}},
         rotation=-90,
         origin={-50,-50})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemRet(redeclare package Medium
+      = MediumW, m_flow_nominal=chi.m2_flow_nominal)
+    "Return water tempearture sensor"
+    annotation (Placement(transformation(extent={{82,-10},{62,10}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaTRet(
+    description="Return water temperature of chiller",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+    y(unit="K")) "Return water temperature of chiller"
+    annotation (Placement(transformation(extent={{62,-60},{82,-40}})));
+  Buildings.Fluid.Sensors.VolumeFlowRate senSupFlo(redeclare package Medium =
+        MediumW, m_flow_nominal=chi.m2_flow_nominal)
+    "Supply flow sensor for heat pump"
+    annotation (Placement(transformation(extent={{-60,-10},{-80,10}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaFloSup(
+    description="Supply water flow rate of chiller",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+    y(unit="m3/s")) "Supply water flow rate of chiller"
+    annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
 equation
   connect(TSetChws.y, chi.TSet) annotation (Line(points={{39,90},{14,90},{14,0},
           {18,0},{18,-1}}, color={0,0,127}));
-  connect(conSou.ports[1], chi.port_a1) annotation (Line(points={{-60,30},{-20,30},
-          {-20,-4},{20,-4}}, color={0,127,255}));
+  connect(conSou.ports[1], chi.port_a1) annotation (Line(points={{-60,30},{0,30},
+          {0,-4},{20,-4}},   color={0,127,255}));
   connect(chi.port_b1, conSin.ports[1]) annotation (Line(points={{40,-4},{42,-4},
           {42,30},{80,30}}, color={0,127,255}));
-  connect(chi.port_a2, ret) annotation (Line(points={{40,-16},{60,-16},{60,0},{100,
-          0}}, color={0,127,255}));
   connect(conSou.weaBus, weaBus) annotation (Line(
       points={{-80,30.2},{-80,100},{-100,100}},
       color={255,204,51},
@@ -81,8 +98,19 @@ equation
     annotation (Line(points={{97,100},{110,100}}, color={0,0,127}));
   connect(chi.port_b2, sinChw.ports[1])
     annotation (Line(points={{20,-16},{10,-16},{10,-40}}, color={0,127,255}));
-  connect(souChw.ports[1], sup)
-    annotation (Line(points={{-50,-40},{-50,0},{-100,0}}, color={0,127,255}));
+  connect(senTemRet.T,reaTRet. u) annotation (Line(points={{72,11},{72,14},{92,
+          14},{92,-20},{50,-20},{50,-50},{60,-50}},
+                                                color={0,0,127}));
+  connect(senSupFlo.V_flow,reaFloSup. u) annotation (Line(points={{-70,11},{-70,
+          16},{-60,16},{-60,10},{-42,10}}, color={0,0,127}));
+  connect(souChw.ports[1], senSupFlo.port_a)
+    annotation (Line(points={{-50,-40},{-50,0},{-60,0}}, color={0,127,255}));
+  connect(senSupFlo.port_b, sup)
+    annotation (Line(points={{-80,0},{-100,0}}, color={0,127,255}));
+  connect(chi.port_a2, senTemRet.port_b) annotation (Line(points={{40,-16},{60,
+          -16},{60,0},{62,0}}, color={0,127,255}));
+  connect(senTemRet.port_a, ret)
+    annotation (Line(points={{82,0},{100,0}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end AirCooledChiller;
