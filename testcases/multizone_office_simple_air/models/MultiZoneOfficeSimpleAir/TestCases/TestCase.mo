@@ -335,7 +335,11 @@ drybulb temperature measurement.  The first part
 of the controller uses a PI controller for supply air temperature setpoint
 tracking to output a signal that is then mapped to position
 setpoints for the heating coil valve, cooling coil valve, and outside air
-damper position.  The second part of the controller uses a PI controller
+damper position.  If the heating valve is commanded to open and the supply
+fan is determined to be enabled
+(either by schedule or by supply air flow detection of at least 5% design air flow),
+the heating coil pump is enabled.  Similar for cooling coil.
+The second part of the controller uses a PI controller
 for outside airflow setpoint tracking to output a second signal for
 outside air damper position.  The maximum of the two outside air damper position
 signals is finally output to ensure at least enough enough airflow is delivered
