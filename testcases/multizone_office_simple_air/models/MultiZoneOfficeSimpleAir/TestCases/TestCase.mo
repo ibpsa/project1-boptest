@@ -452,7 +452,13 @@ The model inputs are:
 The model outputs are:
 <ul>
 <li>
+<code>chi_reaFloSup_y</code> [m3/s] [min=None, max=None]: Supply water flow rate of chiller
+</li>
+<li>
 <code>chi_reaPChi_y</code> [W] [min=None, max=None]: Electric power consumed by chiller
+</li>
+<li>
+<code>chi_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of chiller
 </li>
 <li>
 <code>heaPumCoi_reaFloSup_y</code> [m3/s] [min=None, max=None]: Supply water flow rate of heat pump for heating coil in AHU
