@@ -3,27 +3,16 @@ model ASHRAE2006
   "Variable air volume flow system with terminal reheat and ASHRAE 2006 control sequence serving five thermal zones"
   extends Buildings.Examples.VAVReheat.BaseClasses.PartialHVAC(amb(nPorts=3),
     splHeaRet(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splHeaSup(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splCooRet(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splCooSup(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splRetNor(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splSupNor(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splRetEas(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splSupEas(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splRetSou(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splSupSou(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splRetRoo1(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial),
-
     splSupRoo1(energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial));
 
   parameter Real ratVMinCor_flow(final unit="1")=
@@ -386,25 +375,25 @@ equation
   connect(oveAhu.dpSet_out, conFanSup.u) annotation (Line(points={{221,219.778},
           {302,219.778},{302,182},{188,182},{188,0},{238,0}}, color={0,0,127}));
   connect(TRet.T, readAhu.TRet_in) annotation (Line(points={{100,151},{100,382},
-          {198,382},{198,382.154}}, color={0,0,127}));
+          {198,382},{198,385.143}}, color={0,0,127}));
   connect(senSupFlo.V_flow, readAhu.V_flow_sup_in) annotation (Line(points={{410,-29},
-          {410,296},{104,296},{104,378.462},{198,378.462}},          color={0,0,
+          {410,296},{104,296},{104,381.714},{198,381.714}},          color={0,0,
           127}));
   connect(senRetFlo.V_flow, readAhu.V_flow_ret_in) annotation (Line(points={{350,151},
-          {350,302},{106,302},{106,374.769},{198,374.769}},          color={0,0,
+          {350,302},{106,302},{106,378.286},{198,378.286}},          color={0,0,
           127}));
   connect(VOut1.V_flow, readAhu.V_flow_out_in) annotation (Line(points={{-80,-29},
-          {-80,54},{-120,54},{-120,371.077},{198,371.077}},      color={0,0,127}));
+          {-80,54},{-120,54},{-120,374.857},{198,374.857}},      color={0,0,127}));
   connect(readAhu.dp_in, dpDisSupFan.p_rel) annotation (Line(points={{198,
-          367.385},{178,367.385},{178,368},{108,368},{108,306},{280,306},{280,
+          371.429},{178,371.429},{178,368},{108,368},{108,306},{280,306},{280,
           4.44089e-16},{311,4.44089e-16}}, color={0,0,127}));
   connect(TSup.T, readAhu.TSup_in) annotation (Line(points={{340,-29},{340,98},
-          {332,98},{332,310},{98,310},{98,389.538},{198,389.538}}, color={0,0,
+          {332,98},{332,310},{98,310},{98,392},{198,392}},         color={0,0,
           127}));
   connect(TMix.T, readAhu.TMix_in) annotation (Line(points={{40,-29},{40,
-          385.846},{198,385.846}}, color={0,0,127}));
+          388.571},{198,388.571}}, color={0,0,127}));
   connect(fanSup.P, readAhu.PFanSup_in) annotation (Line(points={{321,-31},{330,
-          -31},{330,358},{180,358},{180,363.692},{198,363.692}}, color={0,0,127}));
+          -31},{330,358},{180,358},{180,368},{198,368}},         color={0,0,127}));
   connect(conVAVCor.TRoo, reaZonCor.TZon_in) annotation (Line(points={{455,-121},
           {452,-121},{452,-120},{440,-120},{440,98},{648,98}}, color={0,0,127}));
   connect(cor.VSup_flow, reaZonCor.V_flow_in) annotation (Line(points={{612,58},
@@ -589,6 +578,10 @@ equation
           {64,-247},{64,226},{198,226}}, color={0,0,127}));
   connect(oveAhu.yPumCoo_out, pumCooCoi.y) annotation (Line(points={{221,226},{
           294,226},{294,-120},{192,-120}}, color={0,0,127}));
+  connect(pumHeaCoi.P, readAhu.PPumHea_in) annotation (Line(points={{137,-109},
+          {137,361.143},{198,361.143}}, color={0,0,127}));
+  connect(pumCooCoi.P, readAhu.PPumCoo_in) annotation (Line(points={{189,-131},
+          {189,-134},{164,-134},{164,364.571},{198,364.571}}, color={0,0,127}));
   annotation (
   defaultComponentName="hvac",
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1420,
