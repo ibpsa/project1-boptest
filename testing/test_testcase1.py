@@ -33,8 +33,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Run test
-        custom_kpi_config_path = os.path.join(utilities.get_root_path(), 'examples', 'python', 'custom_kpi', 'custom_kpis_example.config')
-        kpi,df_res,customizedkpis_result = testcase1.run(customized_kpi_config=custom_kpi_config_path)
+        kpi,df_res,customizedkpis_result = testcase1.run()
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
@@ -72,7 +71,7 @@ class ExampleScenarioPython(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Run test
-        kpi = testcase1_scenario.run(plot=False)
+        kpi, df_res, custom_kpi_result = testcase1_scenario.run(plot=False)
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
