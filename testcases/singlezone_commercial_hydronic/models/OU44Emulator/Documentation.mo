@@ -310,6 +310,42 @@ End Time: Day 282.
 <li>emission factor for district heating=0.1163 kg CO2e/kWh, source from: https://www.banktrack.org/download/carbon_accounting_report_2018/dnb_asa_carbon_footprint_report_2018.pdf</li>
 <li>emission factor for electric power=0.2090 kg CO2e/kWh, source from: https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_electricity.pdf</li>
 </ul>
+</html>", revisions="<html>
+<ul>
+<li>
+October 22, 2021 by David Blum:<br/>
+Updates based on review at
+<a href=\"https://github.com/ibpsa/project1-boptest/pull/160#issuecomment-940499611\">
+https://github.com/ibpsa/project1-boptest/pull/160#issuecomment-940499611</a>.
+</li>
+<li>
+October 11, 2021 by David Blum:<br/>
+Make reverseActing=false for fan controller.
+</li>
+<li>
+October 5, 2021 by David Blum:<br/>
+Update to use Buildings Library v8.0.0, remove Modelica IBPSA dependencies.<br/>
+Add state to flow junctions to be able to simulate with pump off.
+</li>
+<li>
+February 28, 2021 by Tao Yang:<br/>
+Change control parameters.
+</li>
+<li>
+August 27, 2020 by Tao Yang:<br/>
+Update documentation.
+</li>
+<li>
+July 27, 2020 by Tao Yang:<br/>
+Updates based on review at
+<a href=\"https://github.com/ibpsa/project1-boptest/pull/160#issuecomment-614947833\">
+https://github.com/ibpsa/project1-boptest/pull/160#issuecomment-614947833</a>.
+</li>
+<li>
+March 18, 2020 by Tao Yang:<br/>
+First implementation for BOPTEST after initial review by Valentin Gavan.
+</li>
+</ul>
 </html>"),
     experiment(StopTime=2678400));
 
