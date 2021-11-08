@@ -4,7 +4,7 @@ package Documentation "Documentation"
 
   annotation (preferredView="info",
   Documentation(info="<html>
-<p><b><span style=\"font-size: 10pt;\">Single-zone emulator (SDU)</span></b> </p>
+  <p><b><span style=\"font-size: 10pt;\">Single-zone emulator (by University of Southern Denmark)</span></b> </p>
 <p><b><span style=\"font-size: 10pt;\">General model description</span></b></p>
 <p><br><img src=\"modelica://OU44Emulator/Resources/Images/ou44.jpg\" alt=\"OU44 building\"/> </p>
 <p><h3>Building Design and Use</h3></p>
