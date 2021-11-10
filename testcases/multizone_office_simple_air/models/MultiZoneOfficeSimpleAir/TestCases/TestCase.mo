@@ -4,8 +4,10 @@ model TestCase
   extends Modelica.Icons.Example;
   extends MultiZoneOfficeSimpleAir.BaseClasses.HVACBuilding(
     heaPumReh(descriptor="terminal box reheat coils",
-              QCon_flow_max=(hvac.cor.val.m_flow_nominal + hvac.sou.val.m_flow_nominal
-           + hvac.eas.val.m_flow_nominal + hvac.nor.val.m_flow_nominal + hvac.wes.val.m_flow_nominal)*4200*10),
+      TSetSup=318.15,
+      QCon_flow_max=(hvac.cor.val.m_flow_nominal + hvac.sou.val.m_flow_nominal
+           + hvac.eas.val.m_flow_nominal + hvac.nor.val.m_flow_nominal + hvac.wes.val.m_flow_nominal)
+          *4200*10),
     MediumA(extraPropertiesNames={"CO2"}),
     mCor_flow_nominal=ACHCor*VRooCor*conv,
     mSou_flow_nominal=ACHSou*VRooSou*conv,
@@ -15,10 +17,11 @@ model TestCase
     redeclare MultiZoneOfficeSimpleAir.BaseClasses.ASHRAE2006 hvac(amb(C=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
             /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumA.nC))),
     redeclare Buildings.Examples.VAVReheat.Validation.BaseClasses.Floor flo,
-    chi(QEva_flow_min=-hvac.mCooWat_flow_nominal*4200*10),
+    chi(TSetSup=279.15, QEva_flow_min=-hvac.mCooWat_flow_nominal*4200*10),
     weaDat(computeWetBulbTemperature=true),
     heaPumCoi(descriptor="heating coil in AHU",
-              QCon_flow_max=hvac.mHeaWat_flow_nominal*4200*10));
+      TSetSup=318.15,
+      QCon_flow_max=hvac.mHeaWat_flow_nominal*4200*10));
 
   parameter Real ACHCor(final unit="1/h")=6
     "Design air change per hour core";
@@ -208,7 +211,7 @@ and system defined in the table below.
 <p>
 The supply fan hydraulic efficiency is constant at 0.7 and the motor
 efficiency is constant at 0.7.  The cooling coil is served by an air-cooled
-chiller supply 12 degC water with varying COP as 0.3 of the carnot COP.
+chiller supplying 6 degC water with varying COP as 0.3 of the carnot COP.
 The heating coil and terminal box reheat coils are served by air-to-water
 heat pumps supplying 45 degC water with varying COP as 0.3 of
 the carnot COP.

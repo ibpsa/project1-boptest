@@ -3,7 +3,7 @@ model AirToWaterHeatPump "Air to water heat pump model"
   replaceable package MediumA = Buildings.Media.Air "Medium model for air";
   replaceable package MediumW = Buildings.Media.Water "Medium model for water";
   parameter String descriptor "Descriptor of heat pump";
-  Modelica.Blocks.Sources.Constant TSetHws(k=273.15 + 45)
+  Modelica.Blocks.Sources.Constant TSetHws(k=TSetSup)
     "Heat pump water supply temperature set point"
     annotation (Placement(transformation(extent={{60,80},{40,100}})));
   Buildings.Fluid.Sources.MassFlowSource_WeatherData conSou(
@@ -32,25 +32,10 @@ model AirToWaterHeatPump "Air to water heat pump model"
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electric power consumed by heat pump"
     annotation (Placement(transformation(extent={{76,90},{96,110}})));
-
-  parameter Modelica.SIunits.HeatFlowRate QCon_flow_max
+  parameter Modelica.SIunits.Temperature TSetSup
+  "Supply water temperature set point";
+  parameter Modelica.SIunits.HeatFlowRate QCon_flow_max = Modelica.Constants.inf
     "Maximum heat flow rate for heating";
-  Buildings.Fluid.Sources.Boundary_pT sinChw(
-    redeclare package Medium = MediumW,
-    p=300000,
-    T=318.15,
-    nPorts=1) "Sink" annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=-90,
-        origin={10,-50})));
-  Buildings.Fluid.Sources.Boundary_pT souChw(
-    redeclare package Medium = MediumW,
-    p(displayUnit="Pa") = 300000 + 6000,
-    T=318.15,
-    nPorts=1) "Source" annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        rotation=-90,
-        origin={-50,-50})));
   Buildings.Fluid.HeatPumps.Carnot_TCon heaPum(
     redeclare package Medium1 = MediumW,
     redeclare package Medium2 = MediumA,
@@ -63,11 +48,11 @@ model AirToWaterHeatPump "Air to water heat pump model"
   Buildings.Fluid.Sensors.VolumeFlowRate senSupFlo(redeclare package Medium =
         MediumW, m_flow_nominal=heaPum.m1_flow_nominal)
     "Supply flow sensor for heat pump"
-    annotation (Placement(transformation(extent={{-60,-10},{-80,10}})));
+    annotation (Placement(transformation(extent={{-70,-10},{-90,10}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTemRet(redeclare package Medium =
         MediumW, m_flow_nominal=heaPum.m1_flow_nominal)
     "Return water tempearture sensor"
-    annotation (Placement(transformation(extent={{80,-10},{60,10}})));
+    annotation (Placement(transformation(extent={{80,10},{60,-10}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTRet(
     description="Return water temperature of heat pump for " + descriptor,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
@@ -78,8 +63,31 @@ model AirToWaterHeatPump "Air to water heat pump model"
     description="Supply water flow rate of heat pump for " + descriptor,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s")) "Supply water flow rate of heat pump"
-    annotation (Placement(transformation(extent={{-40,0},{-20,20}})));
+    annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
 
+  Buildings.Fluid.Movers.FlowControlled_dp pum(
+    redeclare package Medium = MediumW,
+    m_flow_nominal=heaPum.m1_flow_nominal,
+    addPowerToMedium=false) "Heat pump water pump"
+    annotation (Placement(transformation(extent={{-20,-30},{-40,-10}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium
+      = MediumW, m_flow_nominal=heaPum.m1_flow_nominal)
+           "Return water tempearture sensor" annotation (Placement(
+        transformation(
+        extent={{10,10},{-10,-10}},
+        rotation=0,
+        origin={0,-20})));
+  Buildings.Fluid.Sources.Boundary_pT refPres(redeclare package Medium =
+        MediumW, nPorts=1) "Reference pressure"
+    annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
+  Modelica.Blocks.Sources.Constant dp(k=6000) "Chilled water pump"
+    annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaTSup(
+    description="Supply water temperature of heat pump for " + descriptor,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+    y(unit="K")) "Supply water temperature of heat pump"
+    annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
 equation
   connect(conSou.weaBus, weaBus) annotation (Line(
       points={{-80,30.2},{-80,100},{-100,100}},
@@ -91,8 +99,6 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(reaPHeaPum.y, PHeaPum)
     annotation (Line(points={{97,100},{110,100}}, color={0,0,127}));
-  connect(heaPum.port_b1, sinChw.ports[1])
-    annotation (Line(points={{20,0},{10,0},{10,-40}}, color={0,127,255}));
   connect(TSetHws.y, heaPum.TSet) annotation (Line(points={{39,90},{30,90},{30,40},
           {52,40},{52,-3},{42,-3}}, color={0,0,127}));
   connect(conSou.ports[1], heaPum.port_a2) annotation (Line(points={{-60,30},{0,
@@ -101,18 +107,29 @@ equation
           12},{60,30},{80,30}}, color={0,127,255}));
   connect(reaPHeaPum.u, heaPum.P) annotation (Line(points={{74,100},{68,100},{68,
           20},{10,20},{10,6},{19,6}}, color={0,0,127}));
-  connect(souChw.ports[1], senSupFlo.port_a)
-    annotation (Line(points={{-50,-40},{-50,0},{-60,0}}, color={0,127,255}));
   connect(senSupFlo.port_b, sup)
-    annotation (Line(points={{-80,0},{-100,0}}, color={0,127,255}));
+    annotation (Line(points={{-90,0},{-100,0}}, color={0,127,255}));
   connect(ret, senTemRet.port_a)
     annotation (Line(points={{100,0},{80,0}}, color={0,127,255}));
   connect(senTemRet.port_b, heaPum.port_a1)
     annotation (Line(points={{60,0},{40,0}}, color={0,127,255}));
-  connect(senTemRet.T, reaTRet.u) annotation (Line(points={{70,11},{70,14},{90,14},
-          {90,-20},{48,-20},{48,-50},{58,-50}}, color={0,0,127}));
-  connect(senSupFlo.V_flow, reaFloSup.u) annotation (Line(points={{-70,11},{-70,
-          16},{-60,16},{-60,10},{-42,10}}, color={0,0,127}));
+  connect(senTemRet.T, reaTRet.u) annotation (Line(points={{70,-11},{70,-20},{
+          50,-20},{50,-50},{58,-50}},           color={0,0,127}));
+  connect(senSupFlo.V_flow, reaFloSup.u) annotation (Line(points={{-80,11},{-80,
+          16},{-50,16},{-50,-70},{-42,-70}},
+                                           color={0,0,127}));
+  connect(heaPum.port_b1, senTemSup.port_a) annotation (Line(points={{20,0},{14,
+          0},{14,-20},{10,-20}}, color={0,127,255}));
+  connect(senTemSup.port_b, pum.port_a)
+    annotation (Line(points={{-10,-20},{-20,-20}}, color={0,127,255}));
+  connect(pum.port_b, senSupFlo.port_a) annotation (Line(points={{-40,-20},{-60,
+          -20},{-60,0},{-70,0}}, color={0,127,255}));
+  connect(refPres.ports[1], senSupFlo.port_a)
+    annotation (Line(points={{-60,-70},{-60,0},{-70,0}}, color={0,127,255}));
+  connect(dp.y, pum.dp_in)
+    annotation (Line(points={{-39,90},{-30,90},{-30,-8}}, color={0,0,127}));
+  connect(senTemSup.T, reaTSup.u)
+    annotation (Line(points={{0,-31},{0,-80},{58,-80}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end AirToWaterHeatPump;
