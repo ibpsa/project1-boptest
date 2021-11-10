@@ -204,8 +204,8 @@ partial model PartialHVAC
     m_flow_nominal=m_flow_nominal,
     allowFlowReversal=allowFlowReversal)
     annotation (Placement(transformation(extent={{330,-50},{350,-30}})));
-  Buildings.Fluid.Sensors.RelativePressure dpDisSupFan(redeclare package Medium
-      = MediumA) "Supply fan static discharge pressure" annotation (Placement(
+  Buildings.Fluid.Sensors.RelativePressure dpDisSupFan(redeclare package Medium =
+        MediumA) "Supply fan static discharge pressure" annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
@@ -555,33 +555,69 @@ partial model PartialHVAC
         rotation=90,
         origin={128,-170})));
 
-  Modelica.Fluid.Interfaces.FluidPort_a portHeaCoiSup(redeclare package Medium
-      = MediumW) "Heating coil loop supply"
+  Modelica.Fluid.Interfaces.FluidPort_a portHeaCoiSup(redeclare package Medium =
+        MediumW) "Heating coil loop supply"
     annotation (Placement(transformation(extent={{70,-310},{90,-290}}),
         iconTransformation(extent={{-30,-150},{-10,-130}})));
-  Modelica.Fluid.Interfaces.FluidPort_b portHeaCoiRet(redeclare package Medium
-      = MediumW) "Heating coil loop return" annotation (Placement(
+  Modelica.Fluid.Interfaces.FluidPort_b portHeaCoiRet(redeclare package Medium =
+        MediumW) "Heating coil loop return" annotation (Placement(
         transformation(extent={{110,-310},{130,-290}}),
                                                       iconTransformation(extent={{30,-150},
             {50,-130}})));
-  Modelica.Fluid.Interfaces.FluidPort_a portHeaTerSup(redeclare package Medium
-      = MediumW) "Terminal heat loop supply"
+  Modelica.Fluid.Interfaces.FluidPort_a portHeaTerSup(redeclare package Medium =
+        MediumW) "Terminal heat loop supply"
     annotation (Placement(transformation(extent={{450,-310},{470,-290}}),
         iconTransformation(extent={{250,-150},{270,-130}})));
-  Modelica.Fluid.Interfaces.FluidPort_b portHeaTerRet(redeclare package Medium
-      = MediumW) "Terminal heat loop return" annotation (Placement(
+  Modelica.Fluid.Interfaces.FluidPort_b portHeaTerRet(redeclare package Medium =
+        MediumW) "Terminal heat loop return" annotation (Placement(
         transformation(extent={{490,-310},{510,-290}}),
                                                       iconTransformation(extent={{310,
             -150},{330,-130}})));
-  Modelica.Fluid.Interfaces.FluidPort_a portCooCoiSup(redeclare package Medium
-      = MediumW) "Cooling coil loop supply"
+  Modelica.Fluid.Interfaces.FluidPort_a portCooCoiSup(redeclare package Medium =
+        MediumW) "Cooling coil loop supply"
     annotation (Placement(transformation(extent={{190,-310},{210,-290}}),
         iconTransformation(extent={{110,-150},{130,-130}})));
-  Modelica.Fluid.Interfaces.FluidPort_b portCooCoiRet(redeclare package Medium
-      = MediumW)
+  Modelica.Fluid.Interfaces.FluidPort_b portCooCoiRet(redeclare package Medium =
+        MediumW)
     "Coolin coil loop return"
     annotation (Placement(transformation(extent={{230,-310},{250,-290}}),
         iconTransformation(extent={{170,-150},{190,-130}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemCooCoiSup(
+    redeclare package Medium = MediumW,
+    m_flow_nominal=mCooWat_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
+    "Supply water temperature sensor to cooling coil" annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={220,-90})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemCooCoiRet(
+    redeclare package Medium = MediumW,
+    m_flow_nominal=mCooWat_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
+    "Return water temperature sensor from cooling coil" annotation (Placement(
+        transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=90,
+        origin={180,-90})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemHeaCoiRet(
+    redeclare package Medium = MediumW,
+    m_flow_nominal=mHeaWat_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
+    "Return water temperature sensorfrom heating coil" annotation (Placement(
+        transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=90,
+        origin={88,-90})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemHeaCoiSup(
+    redeclare package Medium = MediumW,
+    m_flow_nominal=mHeaWat_flow_nominal,
+    allowFlowReversal=allowFlowReversal)
+    "Supply water temperature sensor to heating coil" annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={128,-90})));
 protected
   constant Modelica.SIunits.SpecificHeatCapacity cpAir=
     Buildings.Utilities.Psychrometrics.Constants.cpAir
@@ -755,20 +791,12 @@ equation
     annotation (Line(points={{0,0},{0,140},{90,140}}, color={0,127,255}));
   connect(damRet.port_b, TMix.port_a)
     annotation (Line(points={{0,-20},{0,-40},{30,-40}}, color={0,127,255}));
-  connect(pumHeaCoi.port_b, heaCoi.port_a1) annotation (Line(points={{128,-110},
-          {128,-52},{118,-52}}, color={0,127,255}));
-  connect(cooCoi.port_b1,pumCooCoi. port_a) annotation (Line(points={{190,-52},{
-          180,-52},{180,-110}}, color={0,127,255}));
-  connect(splCooSup.port_2, cooCoi.port_a1) annotation (Line(points={{220,-160},
-          {220,-52},{210,-52}}, color={0,127,255}));
   connect(splCooRet.port_3,splCooSup. port_3)
     annotation (Line(points={{190,-170},{210,-170}}, color={0,127,255}));
   connect(pumCooCoi.port_b, splCooRet.port_2)
     annotation (Line(points={{180,-130},{180,-160}}, color={0,127,255}));
   connect(splHeaSup.port_2, pumHeaCoi.port_a)
     annotation (Line(points={{128,-160},{128,-130}}, color={0,127,255}));
-  connect(heaCoi.port_b1, splHeaRet.port_2)
-    annotation (Line(points={{98,-52},{88,-52},{88,-160}}, color={0,127,255}));
   connect(splHeaRet.port_3, splHeaSup.port_3)
     annotation (Line(points={{98,-170},{118,-170}}, color={0,127,255}));
   connect(sou.port_bAir, port_supAir[1]) annotation (Line(points={{770,60},{770,
@@ -828,6 +856,22 @@ equation
           460,-180},{1270,-180},{1270,40},{1290,40}}, color={0,127,255}));
   connect(portHeaTerRet, wes.port_bHotWat) annotation (Line(points={{500,-300},{
           500,-186},{1278,-186},{1278,28},{1290,28}}, color={0,127,255}));
+  connect(splCooSup.port_2, senTemCooCoiSup.port_a)
+    annotation (Line(points={{220,-160},{220,-100}}, color={0,127,255}));
+  connect(senTemCooCoiSup.port_b, cooCoi.port_a1) annotation (Line(points={{220,
+          -80},{220,-52},{210,-52}}, color={0,127,255}));
+  connect(cooCoi.port_b1, senTemCooCoiRet.port_a) annotation (Line(points={{190,
+          -52},{180,-52},{180,-80}}, color={0,127,255}));
+  connect(senTemCooCoiRet.port_b, pumCooCoi.port_a)
+    annotation (Line(points={{180,-100},{180,-110}}, color={0,127,255}));
+  connect(heaCoi.port_b1, senTemHeaCoiRet.port_a)
+    annotation (Line(points={{98,-52},{88,-52},{88,-80}}, color={0,127,255}));
+  connect(senTemHeaCoiRet.port_b, splHeaRet.port_2)
+    annotation (Line(points={{88,-100},{88,-160}}, color={0,127,255}));
+  connect(pumHeaCoi.port_b, senTemHeaCoiSup.port_a)
+    annotation (Line(points={{128,-110},{128,-100}}, color={0,127,255}));
+  connect(senTemHeaCoiSup.port_b, heaCoi.port_a1) annotation (Line(points={{128,
+          -80},{128,-52},{118,-52}}, color={0,127,255}));
   annotation (
   Diagram(
     coordinateSystem(

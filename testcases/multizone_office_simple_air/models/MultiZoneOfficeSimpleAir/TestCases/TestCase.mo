@@ -464,6 +464,9 @@ The model outputs are:
 <code>chi_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of chiller
 </li>
 <li>
+<code>chi_reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature of chiller
+</li>
+<li>
 <code>heaPumCoi_reaFloSup_y</code> [m3/s] [min=None, max=None]: Supply water flow rate of heat pump for heating coil in AHU
 </li>
 <li>
@@ -473,6 +476,9 @@ The model outputs are:
 <code>heaPumCoi_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of heat pump for heating coil in AHU
 </li>
 <li>
+<code>heaPumCoi_reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature of heat pump for heating coil in AHU
+</li>
+<li>
 <code>heaPumReh_reaFloSup_y</code> [m3/s] [min=None, max=None]: Supply water flow rate of heat pump for terminal box reheat coils
 </li>
 <li>
@@ -480,6 +486,9 @@ The model outputs are:
 </li>
 <li>
 <code>heaPumReh_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of heat pump for terminal box reheat coils
+</li>
+<li>
+<code>heaPumReh_reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature of heat pump for terminal box reheat coils
 </li>
 <li>
 <code>hvac_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone cor
@@ -549,6 +558,18 @@ The model outputs are:
 </li>
 <li>
 <code>hvac_readAhu_PPumHea_y</code> [W] [min=None, max=None]: Electrical power measurement of heating coil pump for AHU
+</li>
+<li>
+<code>hvac_readAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+</li>
+<li>
+<code>hvac_readAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+</li>
+<li>
+<code>hvac_readAhu_THeaCoiRet_y</code> [K] [min=None, max=None]: Heating coil return water temperature measurement for AHU
+</li>
+<li>
+<code>hvac_readAhu_THeaCoiSup_y</code> [K] [min=None, max=None]: Heating coil supply water temperature measurement for AHU
 </li>
 <li>
 <code>hvac_readAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
