@@ -693,6 +693,85 @@ Carbon dioxide generation rates for building occupants.
 Indoor Air, 27, 868–879.  https://doi.org/10.1111/ina.12383.
 </p>
 <h3>Scenario Information</h3>
+<h4>Time Periods</h4>
+<p>
+The <b>Peak Heat Day</b> (specifier for <code>/scenario</code> API is <code>'peak_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system heating load in the year.
+</ul>
+<ul>
+Start Time: Day 19.
+</ul>
+<ul>
+End Time: Day 33.
+</ul>
+</p>
+<p>
+The <b>Typical Heat Day</b> (specifier for <code>/scenario</code> API is <code>'typical_heat_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with day with
+the maximum 15-minute system heating load that is closest from below to the
+median of all 15-minute maximum heating loads of all days in the year.
+</ul>
+<ul>
+Start Time: Day 45.
+</ul>
+<ul>
+End Time: Day 59.
+</ul>
+</p>
+<p>
+The <b>Peak Cool Day</b> (specifier for <code>/scenario</code> API is <code>'peak_cool_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the
+maximum 15-minute system cooling load in the year considering only daytime hours
+(peaks due to morning start up, before 10 am, not included since many days have similar peaks
+due to start up).
+</ul>
+<ul>
+Start Time: Day 192.
+</ul>
+<ul>
+End Time: Day 206.
+</ul>
+</p>
+<p>
+The <b>Typical Cool Day</b> (specifier for <code>/scenario</code> API is <code>'typical_cool_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with
+the maximum 15-minute system cooling load that is closest from below to the
+median of all 15-minute maximum cooling loads of all days in the year
+(peaks due to morning start up, before 10 am, not included since many days have similar peaks
+due to start up).
+</ul>
+<ul>
+Start Time: Day 116.
+</ul>
+<ul>
+End Time: Day 130.
+</ul>
+</p>
+<p>
+The <b>Mix Day</b> (specifier for <code>/scenario</code> API is <code>'mix_day'</code>) period is:
+<ul>
+This testing time period is a two-week test with one-week warmup period utilizing
+baseline control.  The two-week period is centered on the day with the maximimum
+sum of daily heating and cooling loads minus the difference between
+daily heating and cooling loads.  This is a day with both significant heating
+and cooling loads.
+</ul>
+<ul>
+Start Time: Day 77.
+</ul>
+<ul>
+End Time: Day 91.
+</ul>
+</p>
 <h4>Energy Pricing</h4>
 <p>
 Constant electricity prices are based on those from ComEd [1], the utility serving
