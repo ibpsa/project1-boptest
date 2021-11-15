@@ -212,8 +212,8 @@ and system defined in the table below.
 The supply fan hydraulic efficiency is constant at 0.7 and the motor
 efficiency is constant at 0.7.  The cooling coil is served by an air-cooled
 chiller supplying 6 degC water with varying COP as 0.3 of the carnot COP.
-The heating coil and terminal box reheat coils are served by air-to-water
-heat pumps supplying 45 degC water with varying COP as 0.3 of
+The heating coil and terminal box reheat coils are served by a single air-to-water
+heat pump supplying 45 degC water with varying COP as 0.3 of
 the carnot COP.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
