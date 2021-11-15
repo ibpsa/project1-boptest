@@ -3,9 +3,9 @@ model TestCase
   "Variable air volume flow system with terminal reheat and five thermal zones based on Buildings.Examples.VAVReheat.ASHRAE2006"
   extends Modelica.Icons.Example;
   extends MultiZoneOfficeSimpleAir.BaseClasses.HVACBuilding(
-    heaPum(TSetSup=318.15, QCon_flow_max=(hvac.cor.val.m_flow_nominal + hvac.sou.val.m_flow_nominal
+    heaPum(TSetSup=318.15, QCon_flow_max=((hvac.cor.val.m_flow_nominal + hvac.sou.val.m_flow_nominal
            + hvac.eas.val.m_flow_nominal + hvac.nor.val.m_flow_nominal + hvac.wes.val.m_flow_nominal)
-          *4200*10 + hvac.mHeaWat_flow_nominal*4200*10),
+          *4200*10 + hvac.mHeaWat_flow_nominal*4200*10)*0.5),
     MediumA(extraPropertiesNames={"CO2"}),
     mCor_flow_nominal=ACHCor*VRooCor*conv,
     mSou_flow_nominal=ACHSou*VRooSou*conv,
@@ -212,9 +212,14 @@ and system defined in the table below.
 The supply fan hydraulic efficiency is constant at 0.7 and the motor
 efficiency is constant at 0.7.  The cooling coil is served by an air-cooled
 chiller supplying 6 degC water with varying COP as 0.3 of the carnot COP.
+The peak design load on the chiller is 100.7 kw, equal to the
+design load on the cooling coil.
 The heating coil and terminal box reheat coils are served by a single air-to-water
 heat pump supplying 45 degC water with varying COP as 0.3 of
-the carnot COP.
+the carnot COP.  The peak design load on the
+heat pump is 129.8 kW, equal to sum of design loads on the heating coil
+in the AHU plus zone terminal box reheat coils multiplied by a discount factor
+of 0.5.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
