@@ -2,7 +2,6 @@ within MultiZoneOfficeSimpleAir.BaseClasses;
 model AirToWaterHeatPump "Air to water heat pump model"
   replaceable package MediumA = Buildings.Media.Air "Medium model for air";
   replaceable package MediumW = Buildings.Media.Water "Medium model for water";
-  parameter String descriptor "Descriptor of heat pump";
   Modelica.Blocks.Sources.Constant TSetHws(k=TSetSup)
     "Heat pump water supply temperature set point"
     annotation (Placement(transformation(extent={{60,80},{40,100}})));
@@ -28,7 +27,7 @@ model AirToWaterHeatPump "Air to water heat pump model"
     "Electric power consumed by heat pump"
     annotation (Placement(transformation(extent={{100,90},{120,110}})));
   Buildings.Utilities.IO.SignalExchange.Read reaPHeaPum(
-    description="Electric power consumed by heat pump for " + descriptor,
+    description="Electric power consumed by heat pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electric power consumed by heat pump"
     annotation (Placement(transformation(extent={{76,90},{96,110}})));
@@ -54,13 +53,13 @@ model AirToWaterHeatPump "Air to water heat pump model"
     "Return water tempearture sensor"
     annotation (Placement(transformation(extent={{80,10},{60,-10}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTRet(
-    description="Return water temperature of heat pump for " + descriptor,
+    description="Return water temperature of heat pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Return water temperature of heat pump"
     annotation (Placement(transformation(extent={{60,-60},{80,-40}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaFloSup(
-    description="Supply water flow rate of heat pump for " + descriptor,
+    description="Supply water flow rate of heat pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s")) "Supply water flow rate of heat pump"
     annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
@@ -70,8 +69,8 @@ model AirToWaterHeatPump "Air to water heat pump model"
     m_flow_nominal=heaPum.m1_flow_nominal,
     addPowerToMedium=false) "Heat pump water pump"
     annotation (Placement(transformation(extent={{-20,-30},{-40,-10}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium
-      = MediumW, m_flow_nominal=heaPum.m1_flow_nominal)
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium =
+        MediumW, m_flow_nominal=heaPum.m1_flow_nominal)
            "Return water tempearture sensor" annotation (Placement(
         transformation(
         extent={{10,10},{-10,-10}},
@@ -83,11 +82,11 @@ model AirToWaterHeatPump "Air to water heat pump model"
   Modelica.Blocks.Sources.Constant dp(k=6000) "Chilled water pump"
     annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTSup(
-    description="Supply water temperature of heat pump for " + descriptor,
+    description="Supply water temperature of heat pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Supply water temperature of heat pump"
     annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
+
 equation
   connect(conSou.weaBus, weaBus) annotation (Line(
       points={{-80,30.2},{-80,100},{-100,100}},

@@ -82,10 +82,14 @@ partial model HVACBuilding
     annotation (Placement(transformation(extent={{-90,0},{-70,20}})));
   AirCooledChiller chi "Chiller"
     annotation (Placement(transformation(extent={{-10,-100},{10,-80}})));
-  AirToWaterHeatPump heaPumCoi "Heat pump for heating coil"
-    annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
-  AirToWaterHeatPump heaPumReh "Heat pump for reheat"
+  AirToWaterHeatPump heaPum "Heat pump for heating coil and reheat coils"
     annotation (Placement(transformation(extent={{40,-100},{60,-80}})));
+  Buildings.Fluid.FixedResistances.Junction jun(redeclare package Medium =
+        MediumW, dp_nominal={0,0,0})
+    annotation (Placement(transformation(extent={{22,-46},{12,-56}})));
+  Buildings.Fluid.FixedResistances.Junction jun1(redeclare package Medium =
+        MediumW, dp_nominal={0,0,0})
+    annotation (Placement(transformation(extent={{32,-36},{22,-46}})));
 equation
   connect(weaDat.weaBus, hvac.weaBus) annotation (Line(
       points={{-70,10},{-56,10},{-56,11.4444},{-40.225,11.4444}},
@@ -126,26 +130,26 @@ equation
           -90},{-20,-60},{-2,-60},{-2,-28}}, color={0,127,255}));
   connect(chi.ret, hvac.portCooCoiRet) annotation (Line(points={{10,-90},{20,
           -90},{20,-60},{6.25,-60},{6.25,-28}}, color={0,127,255}));
-  connect(hvac.portHeaCoiSup, heaPumCoi.sup) annotation (Line(points={{-21.25,-28},
-          {-22,-28},{-22,-40},{-70,-40},{-70,-90},{-60,-90}}, color={0,127,255}));
-  connect(heaPumCoi.ret, hvac.portHeaCoiRet) annotation (Line(points={{-40,-90},
-          {-30,-90},{-30,-52},{-13,-52},{-13,-28}}, color={0,127,255}));
-  connect(heaPumReh.sup, hvac.portHeaTerSup) annotation (Line(points={{40,-90},{
-          30,-90},{30,-52},{17.25,-52},{17.25,-28}}, color={0,127,255}));
-  connect(hvac.portHeaTerRet, heaPumReh.ret) annotation (Line(points={{25.5,-28},
-          {26,-28},{26,-40},{70,-40},{70,-90},{60,-90}}, color={0,127,255}));
   connect(weaDat.weaBus, chi.weaBus) annotation (Line(
       points={{-70,10},{-66,10},{-66,-68},{-10,-68},{-10,-80}},
       color={255,204,51},
       thickness=0.5));
-  connect(weaDat.weaBus, heaPumCoi.weaBus) annotation (Line(
-      points={{-70,10},{-66,10},{-66,-68},{-60,-68},{-60,-80}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(heaPumReh.weaBus, chi.weaBus) annotation (Line(
+  connect(heaPum.weaBus, chi.weaBus) annotation (Line(
       points={{40,-80},{40,-68},{-10,-68},{-10,-80}},
       color={255,204,51},
       thickness=0.5));
+  connect(jun.port_1, heaPum.sup) annotation (Line(points={{22,-51},{26,-51},{
+          26,-50},{30,-50},{30,-90},{40,-90}}, color={0,127,255}));
+  connect(jun.port_3, hvac.portHeaTerSup) annotation (Line(points={{17,-46},{
+          17.25,-46},{17.25,-28}}, color={0,127,255}));
+  connect(jun.port_2, hvac.portHeaCoiSup) annotation (Line(points={{12,-51},{-2,
+          -51},{-2,-50},{-21.25,-50},{-21.25,-28}}, color={0,127,255}));
+  connect(hvac.portHeaTerRet, jun1.port_3) annotation (Line(points={{25.5,-28},
+          {25.5,-32},{27,-32},{27,-36}}, color={0,127,255}));
+  connect(jun1.port_1, heaPum.ret) annotation (Line(points={{32,-41},{42,-41},{
+          42,-40},{72,-40},{72,-90},{60,-90}}, color={0,127,255}));
+  connect(jun1.port_2, hvac.portHeaCoiRet) annotation (Line(points={{22,-41},{6,
+          -41},{6,-40},{-13,-40},{-13,-28}}, color={0,127,255}));
   annotation (
     Documentation(info="<html>
 <p>

@@ -3,25 +3,25 @@ model TestCase
   "Variable air volume flow system with terminal reheat and five thermal zones based on Buildings.Examples.VAVReheat.ASHRAE2006"
   extends Modelica.Icons.Example;
   extends MultiZoneOfficeSimpleAir.BaseClasses.HVACBuilding(
-    heaPumReh(descriptor="terminal box reheat coils",
-      TSetSup=318.15,
-      QCon_flow_max=(hvac.cor.val.m_flow_nominal + hvac.sou.val.m_flow_nominal
+    heaPum(TSetSup=318.15, QCon_flow_max=(hvac.cor.val.m_flow_nominal + hvac.sou.val.m_flow_nominal
            + hvac.eas.val.m_flow_nominal + hvac.nor.val.m_flow_nominal + hvac.wes.val.m_flow_nominal)
-          *4200*10),
+          *4200*10 + hvac.mHeaWat_flow_nominal*4200*10),
     MediumA(extraPropertiesNames={"CO2"}),
     mCor_flow_nominal=ACHCor*VRooCor*conv,
     mSou_flow_nominal=ACHSou*VRooSou*conv,
     mEas_flow_nominal=ACHEas*VRooEas*conv,
     mNor_flow_nominal=ACHNor*VRooNor*conv,
     mWes_flow_nominal=ACHWes*VRooWes*conv,
-    redeclare MultiZoneOfficeSimpleAir.BaseClasses.ASHRAE2006 hvac(amb(C=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
-            /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumA.nC))),
+    redeclare MultiZoneOfficeSimpleAir.BaseClasses.ASHRAE2006 hvac(amb(C=fill(
+            400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+            Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumA.nC))),
     redeclare Buildings.Examples.VAVReheat.Validation.BaseClasses.Floor flo,
     chi(TSetSup=279.15, QEva_flow_min=-hvac.mCooWat_flow_nominal*4200*10),
     weaDat(computeWetBulbTemperature=true),
-    heaPumCoi(descriptor="heating coil in AHU",
-      TSetSup=318.15,
-      QCon_flow_max=hvac.mHeaWat_flow_nominal*4200*10));
+    jun(m_flow_nominal={hvac.mHeaWat_flow_nominal,hvac.mHeaWat_flow_nominal,
+          hvac.mHeaWat_flow_nominal}),
+    jun1(m_flow_nominal={hvac.mHeaWat_flow_nominal,hvac.mHeaWat_flow_nominal,
+          hvac.mHeaWat_flow_nominal}));
 
   parameter Real ACHCor(final unit="1/h")=6
     "Design air change per hour core";
@@ -467,28 +467,16 @@ The model outputs are:
 <code>chi_reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature of chiller
 </li>
 <li>
-<code>heaPumCoi_reaFloSup_y</code> [m3/s] [min=None, max=None]: Supply water flow rate of heat pump for heating coil in AHU
+<code>heaPum_reaFloSup_y</code> [m3/s] [min=None, max=None]: Supply water flow rate of heat pump
 </li>
 <li>
-<code>heaPumCoi_reaPHeaPum_y</code> [W] [min=None, max=None]: Electric power consumed by heat pump for heating coil in AHU
+<code>heaPum_reaPHeaPum_y</code> [W] [min=None, max=None]: Electric power consumed by heat pump
 </li>
 <li>
-<code>heaPumCoi_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of heat pump for heating coil in AHU
+<code>heaPum_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of heat pump
 </li>
 <li>
-<code>heaPumCoi_reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature of heat pump for heating coil in AHU
-</li>
-<li>
-<code>heaPumReh_reaFloSup_y</code> [m3/s] [min=None, max=None]: Supply water flow rate of heat pump for terminal box reheat coils
-</li>
-<li>
-<code>heaPumReh_reaPHeaPum_y</code> [W] [min=None, max=None]: Electric power consumed by heat pump for terminal box reheat coils
-</li>
-<li>
-<code>heaPumReh_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of heat pump for terminal box reheat coils
-</li>
-<li>
-<code>heaPumReh_reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature of heat pump for terminal box reheat coils
+<code>heaPum_reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature of heat pump
 </li>
 <li>
 <code>hvac_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone cor
