@@ -573,7 +573,7 @@ class partialTestAPI(partialChecks):
             u = {'conHeaRo1_oveTSetHea_activate':0, 'conHeaRo1_oveTSetHea_u':273.15+22,
                  'oveEmiPum_activate':0, 'oveEmiPum_u':1}
         elif self.name == 'multizone_office_simple_air':
-            u = {'oveAhu_TSupSet_activate':0, 'oveAhu_TSupSet_u':273.15+22}
+            u = {'hvac_oveAhu_TSupSet_activate':0, 'hvac_oveAhu_TSupSet_u':273.15+22}
         else:
             raise Exception('Need to specify u for this test case')
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})

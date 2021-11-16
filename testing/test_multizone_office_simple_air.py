@@ -25,7 +25,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
                              'hvac_reaZonCor_TZon_y', 'hvac_reaZonSou_TZon_y',
                              'hvac_reaZonNor_TZon_y', 'hvac_reaZonEas_TZon_y',
                              'hvac_reaZonWes_TZon_y', 'hvac_reaZonCor_CO2Zon_y',
-                             'hvac_reaZonCor_CO2Sou_y', 'hvac_reaZonNor_CO2Zon_y',
+                             'hvac_reaZonSou_CO2Zon_y', 'hvac_reaZonNor_CO2Zon_y',
                              'hvac_reaZonEas_CO2Zon_y', 'hvac_reaZonWes_CO2Zon_y',
                              'hvac_readAhu_PFanSup_y', 'hvac_readAhu_TMix_y',
                              'weaSta_reaWeaTDryBul_y', 'weaSta_reaWeaHGloHor_y']
