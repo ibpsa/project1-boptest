@@ -128,7 +128,7 @@ The internal gains are activated according to the schedule in the figure below.
 </p>
 <p align=\"center\">
 <img alt=\"Internal gains schedule.\"
-src=\"../../../doc/images/InternalGainsSchedule.png\" width=600 />
+src=\"modelica://MultiZoneOfficeSimpleAir/../../doc/images/InternalGainsSchedule.png\" width=600 />
 </p>
 <h4>Climate data</h4>
 <p>
@@ -153,7 +153,7 @@ application specific or optional.
 </p>
 <p align=\"center\">
 <img alt=\"Schematic of HVAC system.\"
-src=\"../../../doc/images/Schematic.png\"/>
+src=\"modelica://MultiZoneOfficeSimpleAir/../../doc/images/Schematic.png\"/>
 </p>
 <h4>Equipment specifications and performance maps</h4>
 <p>
@@ -317,7 +317,7 @@ to the specified maximum value for heating.
 
 <p align=\"center\">
 <img alt=\"Controller C1.\"
-src=\"../../../doc/images/C1.png\"/>
+src=\"modelica://MultiZoneOfficeSimpleAir/../../doc/images/C1.png\"/>
 </p>
 
 <p>
@@ -332,7 +332,7 @@ to output a fan speed setpoint.
 
 <p align=\"center\">
 <img alt=\"Controller C2.\"
-src=\"../../../doc/images/C2.png\"/>
+src=\"modelica://MultiZoneOfficeSimpleAir/../../doc/images/C2.png\"/>
 </p>
 
 <p>
@@ -359,7 +359,7 @@ drybulb temperature is lower than the return air temperature.
 
 <p align=\"center\">
 <img alt=\"Controller C3.\"
-src=\"../../../doc/images/C3.png\"/>
+src=\"modelica://MultiZoneOfficeSimpleAir/../../doc/images/C3.png\"/>
 </p>
 
 <p>
