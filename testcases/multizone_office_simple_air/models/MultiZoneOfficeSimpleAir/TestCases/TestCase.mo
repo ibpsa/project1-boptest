@@ -544,46 +544,46 @@ The model outputs are:
 <code>hvac_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone wes
 </li>
 <li>
-<code>hvac_readAhu_PFanSup_y</code> [W] [min=None, max=None]: Electrical power measurement of supply fan for AHU
+<code>hvac_reaAhu_PFanSup_y</code> [W] [min=None, max=None]: Electrical power measurement of supply fan for AHU
 </li>
 <li>
-<code>hvac_readAhu_PPumCoo_y</code> [W] [min=None, max=None]: Electrical power measurement of cooling coil pump for AHU
+<code>hvac_reaAhu_PPumCoo_y</code> [W] [min=None, max=None]: Electrical power measurement of cooling coil pump for AHU
 </li>
 <li>
-<code>hvac_readAhu_PPumHea_y</code> [W] [min=None, max=None]: Electrical power measurement of heating coil pump for AHU
+<code>hvac_reaAhu_PPumHea_y</code> [W] [min=None, max=None]: Electrical power measurement of heating coil pump for AHU
 </li>
 <li>
-<code>hvac_readAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+<code>hvac_reaAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+<code>hvac_reaAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_THeaCoiRet_y</code> [K] [min=None, max=None]: Heating coil return water temperature measurement for AHU
+<code>hvac_reaAhu_THeaCoiRet_y</code> [K] [min=None, max=None]: Heating coil return water temperature measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_THeaCoiSup_y</code> [K] [min=None, max=None]: Heating coil supply water temperature measurement for AHU
+<code>hvac_reaAhu_THeaCoiSup_y</code> [K] [min=None, max=None]: Heating coil supply water temperature measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+<code>hvac_reaAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+<code>hvac_reaAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+<code>hvac_reaAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_V_flow_out_y</code> [m3/s] [min=None, max=None]: Outside air flowrate measurement for AHU
+<code>hvac_reaAhu_V_flow_out_y</code> [m3/s] [min=None, max=None]: Outside air flowrate measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+<code>hvac_reaAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+<code>hvac_reaAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
 </li>
 <li>
-<code>hvac_readAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU
+<code>hvac_reaAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU
 </li>
 <li>
 <code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
@@ -993,7 +993,7 @@ This is for
 </ul>
 </html>"),
     __Dymola_Commands(file=
-          "modelica://Buildings/Resources/Scripts/Dymola/Examples/VAVReheat/ASHRAE2006.mos"
+          "modelica://MultiZoneOfficeSimpleAir/Resources/Scripts/Dymola/TestCases/TestCase.mos"
         "Simulate and plot"),
     experiment(
       StopTime=31536000,

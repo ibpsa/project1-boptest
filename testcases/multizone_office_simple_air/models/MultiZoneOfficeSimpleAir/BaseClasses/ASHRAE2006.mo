@@ -130,7 +130,7 @@ model ASHRAE2006
     annotation (Placement(transformation(extent={{-60,-90},{-40,-70}})));
   WriteAhu oveAhu "Overwrite signals for AHU"
     annotation (Placement(transformation(extent={{200,212},{220,240}})));
-  ReadAhu readAhu
+  ReadAhu reaAhu
     annotation (Placement(transformation(extent={{200,360},{220,392}})));
   ReadZone reaZonCor(zone="cor") "Read zone measurements"
     annotation (Placement(transformation(extent={{650,82},{670,100}})));
@@ -362,26 +362,23 @@ equation
           {186,222},{198,222}},         color={0,0,127}));
   connect(oveAhu.dpSet_out, conFanSup.u) annotation (Line(points={{221,222},{302,
           222},{302,182},{188,182},{188,0},{238,0}},          color={0,0,127}));
-  connect(TRet.T, readAhu.TRet_in) annotation (Line(points={{100,151},{100,382},
-          {198,382},{198,387.2}},   color={0,0,127}));
-  connect(senSupFlo.V_flow, readAhu.V_flow_sup_in) annotation (Line(points={{410,-29},
-          {410,296},{104,296},{104,384.8},{198,384.8}},              color={0,0,
-          127}));
-  connect(senRetFlo.V_flow, readAhu.V_flow_ret_in) annotation (Line(points={{350,151},
-          {350,302},{106,302},{106,382.4},{198,382.4}},              color={0,0,
-          127}));
-  connect(VOut1.V_flow, readAhu.V_flow_out_in) annotation (Line(points={{-80,-29},
-          {-80,54},{-120,54},{-120,380},{198,380}},              color={0,0,127}));
-  connect(readAhu.dp_in, dpDisSupFan.p_rel) annotation (Line(points={{198,377.6},
+  connect(TRet.T, reaAhu.TRet_in) annotation (Line(points={{100,151},{100,382},
+          {198,382},{198,387.2}}, color={0,0,127}));
+  connect(senSupFlo.V_flow, reaAhu.V_flow_sup_in) annotation (Line(points={{410,
+          -29},{410,296},{104,296},{104,384.8},{198,384.8}}, color={0,0,127}));
+  connect(senRetFlo.V_flow, reaAhu.V_flow_ret_in) annotation (Line(points={{350,
+          151},{350,302},{106,302},{106,382.4},{198,382.4}}, color={0,0,127}));
+  connect(VOut1.V_flow, reaAhu.V_flow_out_in) annotation (Line(points={{-80,-29},
+          {-80,54},{-120,54},{-120,380},{198,380}}, color={0,0,127}));
+  connect(reaAhu.dp_in, dpDisSupFan.p_rel) annotation (Line(points={{198,377.6},
           {178,377.6},{178,378},{108,378},{108,306},{280,306},{280,4.44089e-16},
-          {311,4.44089e-16}},              color={0,0,127}));
-  connect(TSup.T, readAhu.TSup_in) annotation (Line(points={{340,-29},{340,98},{
-          332,98},{332,310},{98,310},{98,392},{198,392}},          color={0,0,
-          127}));
-  connect(TMix.T, readAhu.TMix_in) annotation (Line(points={{40,-29},{40,389.6},
-          {198,389.6}},            color={0,0,127}));
-  connect(fanSup.P, readAhu.PFanSup_in) annotation (Line(points={{321,-31},{330,
-          -31},{330,358},{180,358},{180,375.2},{198,375.2}},     color={0,0,127}));
+          {311,4.44089e-16}}, color={0,0,127}));
+  connect(TSup.T, reaAhu.TSup_in) annotation (Line(points={{340,-29},{340,98},{
+          332,98},{332,310},{98,310},{98,392},{198,392}}, color={0,0,127}));
+  connect(TMix.T, reaAhu.TMix_in) annotation (Line(points={{40,-29},{40,389.6},
+          {198,389.6}}, color={0,0,127}));
+  connect(fanSup.P, reaAhu.PFanSup_in) annotation (Line(points={{321,-31},{330,
+          -31},{330,358},{180,358},{180,375.2},{198,375.2}}, color={0,0,127}));
   connect(conVAVCor.TRoo, reaZonCor.TZon_in) annotation (Line(points={{455,-121},
           {452,-121},{452,-120},{440,-120},{440,98},{648,98}}, color={0,0,127}));
   connect(cor.VSup_flow, reaZonCor.V_flow_in) annotation (Line(points={{612,58},
@@ -557,10 +554,10 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(pumHeaCoi.P, readAhu.PPumHea_in) annotation (Line(points={{137,-109},
-          {137,370.4},{198,370.4}},    color={0,0,127}));
-  connect(pumCooCoi.P, readAhu.PPumCoo_in) annotation (Line(points={{189,-131},
-          {189,-134},{164,-134},{164,372.8},{198,372.8}},    color={0,0,127}));
+  connect(pumHeaCoi.P, reaAhu.PPumHea_in) annotation (Line(points={{137,-109},{
+          137,370.4},{198,370.4}}, color={0,0,127}));
+  connect(pumCooCoi.P, reaAhu.PPumCoo_in) annotation (Line(points={{189,-131},{
+          189,-134},{164,-134},{164,372.8},{198,372.8}}, color={0,0,127}));
   connect(or1.u2, conFanSup.uFan) annotation (Line(points={{38,-278},{-8,-278},{
           -8,-305.455},{260,-305.455},{260,-30},{226,-30},{226,6},{238,6}},
         color={255,0,255}));
@@ -600,14 +597,14 @@ equation
   connect(oveAhu.yCoo_out, sysHysCoo.u) annotation (Line(points={{221,230},{306,
           230},{306,80},{50,80},{50,-110},{24,-110},{24,-240},{38,-240}}, color=
          {0,0,127}));
-  connect(senTemHeaCoiRet.T, readAhu.THeaCoiRet_in) annotation (Line(points={{
-          77,-90},{70,-90},{70,360.8},{198,360.8}}, color={0,0,127}));
-  connect(senTemHeaCoiSup.T, readAhu.THeaCoiSup_in) annotation (Line(points={{
+  connect(senTemHeaCoiRet.T, reaAhu.THeaCoiRet_in) annotation (Line(points={{77,
+          -90},{70,-90},{70,360.8},{198,360.8}}, color={0,0,127}));
+  connect(senTemHeaCoiSup.T, reaAhu.THeaCoiSup_in) annotation (Line(points={{
           117,-90},{112,-90},{112,-70},{72,-70},{72,363.2},{198,363.2}}, color=
           {0,0,127}));
-  connect(senTemCooCoiRet.T, readAhu.TCooCoiRet_in) annotation (Line(points={{
+  connect(senTemCooCoiRet.T, reaAhu.TCooCoiRet_in) annotation (Line(points={{
           169,-90},{170,-90},{170,366},{198,366},{198,365.6}}, color={0,0,127}));
-  connect(senTemCooCoiSup.T, readAhu.TCooCoiSup_in) annotation (Line(points={{
+  connect(senTemCooCoiSup.T, reaAhu.TCooCoiSup_in) annotation (Line(points={{
           209,-90},{200,-90},{200,-70},{172,-70},{172,368},{198,368}}, color={0,
           0,127}));
   annotation (
