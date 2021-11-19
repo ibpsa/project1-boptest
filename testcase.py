@@ -95,7 +95,14 @@ class TestCase(object):
         # Outputs data
         self.y = {'time':np.array([])}
         for key in self.output_names:
-            self.y[key] = np.array([])
+            # Do not store outputs that are current values of control inputs
+            flag = False
+            for key_u in self.input_names:
+                if key[:-2] == key_u[:-2]:
+                    flag = True
+                    break
+            if not flag:
+                self.y[key] = np.array([])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
         self.u = {'time':np.array([])}
@@ -166,16 +173,23 @@ class TestCase(object):
             i = 0
         else:
             i = 1
-        # Get result and store measurement
+        # Store measurements
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
                 self.y_store[key] = np.append(self.y_store[key], res[key][i:])
-
-        # Store control inputs
-        if store:
-            for key in self.u.keys():
-                self.u_store[key] = np.append(self.u_store[key], res[key][i:])
+        # Store control signals (will be baseline if not activated, test controller input if activated)
+        for key in self.u.keys():
+            # Replace '_u' and '_y' for key used to collect data and don't overwrite time
+            if key[-2:] == '_u':
+                key_data = key[:-2]+'_y'
+            elif key == 'time':
+                key_data = 'time'
+            else:
+                key_data = key
+            self.u[key] = res[key_data][-1]
+            if store:
+                self.u_store[key] = np.append(self.u_store[key], res[key_data][i:])
 
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -247,8 +261,10 @@ class TestCase(object):
                 self.start_time = self.final_time
                 # Raise the flag to compute time lapse
                 self.tic_time = time.time()
+                # Get full current state
+                z = self._get_full_current_state()
 
-                return self.y
+                return z
 
             else:
                 # Error in simulation
@@ -302,7 +318,10 @@ class TestCase(object):
             self.start_time = start_time
             # Initialize KPI Calculator
             self.cal.initialize()
-            return self.y
+            # Get full current state
+            z = self._get_full_current_state()
+
+            return z
 
         else:
 
@@ -697,3 +716,18 @@ class TestCase(object):
         area = self.area
 
         return area
+
+    def _get_full_current_state(self):
+        '''Combines the self.y and self.u dictionaries into one.
+
+        Returns
+        -------
+        z : dict
+            Combination of self.y and self.u dictionaries.
+
+        '''
+
+        z = self.y.copy()
+        z.update(self.u)
+
+        return z
