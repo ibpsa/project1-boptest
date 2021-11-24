@@ -55,9 +55,6 @@ class TestCase(object):
         # Get available control inputs and outputs
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
-        # Get input and output meta-data
-        self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
-        self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Set default communication step
         self.set_step(self.config_json['step'])
         # Set default forecast parameters
@@ -80,7 +77,8 @@ class TestCase(object):
         '''Initializes objects for simulation data storage.
 
         Uses self.output_names and self.input_names to create
-        self.y, self.y_store, self.u, and self.u_store.
+        self.y, self.y_store, self.u, self.u_store,
+        self.inputs_metadata, self.outputs_metadata.
 
         Parameters
         ----------
@@ -92,6 +90,9 @@ class TestCase(object):
 
         '''
 
+        # Get input and output meta-data
+        self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
+        self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Outputs data
         self.y = {'time':np.array([])}
         for key in self.output_names:
@@ -101,7 +102,11 @@ class TestCase(object):
                 if key[:-2] == key_u[:-2]:
                     flag = True
                     break
-            if not flag:
+            if flag:
+                # Remove outputs that are current values of control inputs
+                # from outputs metadata dictionary
+                self.outputs_metadata.pop(key)
+            else:
                 self.y[key] = np.array([])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
