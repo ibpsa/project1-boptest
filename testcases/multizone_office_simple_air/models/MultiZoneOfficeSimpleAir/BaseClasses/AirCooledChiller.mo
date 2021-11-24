@@ -1,34 +1,13 @@
 within MultiZoneOfficeSimpleAir.BaseClasses;
 model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
-  replaceable package MediumA = Modelica.Media.Air.DryAirNasa "Medium model for air";
+  replaceable package MediumA = Buildings.Media.Air "Medium model for air";
   replaceable package MediumW = Buildings.Media.Water "Medium model for water";
   Buildings.Fluid.Chillers.ElectricEIR chi(
     redeclare package Medium1 = MediumA,
     redeclare package Medium2 = MediumW,
-    m1_flow_nominal=13.7611,
-    m2_flow_nominal=2.407,
     dp1_nominal=0,
     dp2_nominal=0,
-    per(
-      QEva_flow_nominal=-100582,
-      COP_nominal=3.1,
-      PLRMax=1.15,
-      PLRMinUnl=0.1,
-      PLRMin=0.1,
-      etaMotor=1.0,
-      mEva_flow_nominal=2.407,
-      mCon_flow_nominal=13.7611,
-      TEvaLvg_nominal=279.82,
-      capFunT={-0.2660645697,0.0998714035,-0.0023814154,0.0628316481,-0.0009644649,
-          -0.0011249224},
-      EIRFunT={0.1807017787,0.0271530312,-0.0004553574,0.0188175079,0.0002623276,
-          -0.0012881189},
-      EIRFunPLR={0.0,1.0,0.0},
-      TEvaLvgMin=277.59,
-      TEvaLvgMax=283.15,
-      TConEnt_nominal=308.15,
-      TConEntMin=297.04,
-      TConEntMax=324.82))
+    per=Buildings.Fluid.Chillers.Data.ElectricEIR.ElectricEIRChiller_York_YCAL0033EE_101kW_3_1COP_AirCooled())
     annotation (Placement(transformation(extent={{20,-20},{40,0}})));
   Modelica.Blocks.Sources.Constant TSetChws(k=TSetSup)
     "Chilled water temperature set point"

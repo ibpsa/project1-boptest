@@ -211,7 +211,9 @@ and system defined in the table below.
 <p>
 The supply fan hydraulic efficiency is constant at 0.7 and the motor
 efficiency is constant at 0.7.  The cooling coil is served by an air-cooled
-chiller supplying 6 degC water with varying COP as 0.3 of the carnot COP.
+chiller supplying 6 degC water with varying COP according to a
+York YCAL0033EE chiller as modeled by the ElectricEIR model with
+coefficients defined in EnergyPlus v9.4.0.
 The peak design load on the chiller is 100.7 kw, equal to the
 design load on the cooling coil.
 The heating coil and terminal box reheat coils are served by a single air-to-water
