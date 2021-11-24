@@ -649,10 +649,10 @@ class partialTestAPI(partialChecks):
         scenario_set = requests.get('{0}/scenario'.format(self.url)).json()
         self.assertEqual(scenario, scenario_set)
         # Check initialized correctly
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        points = self.get_all_points(self.url)
         # Don't check weather
         points_check = []
-        for key in measurements.keys():
+        for key in points:
             if 'weaSta' not in key:
                 points_check.append(key)
         df = self.results_to_df(points_check, -np.inf, np.inf, self.url)
