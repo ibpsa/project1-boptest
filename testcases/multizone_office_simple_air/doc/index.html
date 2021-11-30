@@ -597,13 +597,15 @@ coil model that includes condensation.
 </p>
 <h4>Pressure-flow models</h4>
 <p>
-The duct airflow is modeled using a pressure-flow network.
+The duct airflow is modeled using a pressure-flow network.  Air exchange between
+zones is modeled through an open door model implemented with
+<a href="https://simulationresearch.lbl.gov/modelica/releases/v8.0.0/help/Buildings_Airflow_Multizone.html#Buildings.Airflow.Multizone.DoorOpen"><code>Buildings.Airflow.Multizone.DoorOpen</code></a>.
 </p>
 <h4>Infiltration models</h4>
 <p>
 Airflow due to infiltration is calculated based on time-varying
 wind pressure coefficients for each facade using
-<a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Fluid_Sources.html#Buildings.Fluid.Sources.Outside_CpLowRise\"><code>Buildings.Fluid.Sources.Outside_CpLowRise</code></a>.
+<a href="https://simulationresearch.lbl.gov/modelica/releases/v8.0.0/help/Buildings_Fluid_Sources.html#Buildings.Fluid.Sources.Outside_CpLowRise"><code>Buildings.Fluid.Sources.Outside_CpLowRise</code></a>.
 </p>
 <h4>CO2 models</h4>
 <p>
