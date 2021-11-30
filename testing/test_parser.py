@@ -277,7 +277,8 @@ class ExportSimulate(unittest.TestCase, utilities.partialChecks):
         res = simulate.simulate(overwrite=None)
         # Check results
         df = pd.DataFrame()
-        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveAct_y']:
+        # Note oveSet_y and oveAct_y used because simulate.simulate simulates actual FMU, which exposes overwrite block output as _y
+        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveSet_activate', 'oveAct_y', 'oveAct_activate']:
             df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'],columns=[key])), axis=1)
         df.index.name = 'time'
         # Set reference file path
@@ -294,7 +295,8 @@ class ExportSimulate(unittest.TestCase, utilities.partialChecks):
         res = simulate.simulate(overwrite='set')
         # Check results
         df = pd.DataFrame()
-        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveAct_y']:
+        # Note oveSet_y and oveAct_y used because simulate.simulate simulates actual FMU, which exposes overwrite block output as _y
+        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveSet_activate', 'oveAct_y', 'oveAct_activate']:
             df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'], columns=[key])), axis=1)
         df.index.name = 'time'
         # Set reference file path
@@ -311,7 +313,8 @@ class ExportSimulate(unittest.TestCase, utilities.partialChecks):
         res = simulate.simulate(overwrite='act')
         # Check results
         df = pd.DataFrame()
-        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveAct_y']:
+        # Note oveSet_y and oveAct_y used because simulate.simulate simulates actual FMU, which exposes overwrite block output as _y
+        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveSet_activate', 'oveAct_y', 'oveAct_activate']:
             df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'], columns=[key])), axis=1)
         df.index.name = 'time'
         # Set reference file path
