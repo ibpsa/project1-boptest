@@ -907,6 +907,10 @@ For reference, see https://www.eia.gov/electricity/state/illinois/
 </html>", revisions="<html>
 <ul>
 <li>
+December 1, 2021, by David Blum:<br/>
+Create BOPTEST test case.
+</li>
+<li>
 October 4, 2021, by Michael Wetter:<br/>
 Refactored <a href=\"modelica://Buildings.Examples.VAVReheat\">Buildings.Examples.VAVReheat</a>
 and its base classes to separate building from HVAC model.<br/>
