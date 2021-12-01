@@ -22,12 +22,10 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         self.name = 'multizone_office_simple_air'
         self.url = 'http://127.0.0.1:5000'
         self.points_check = ['chi_reaPChi_y', 'heaPum_reaPHeaPum_y',
-                             'hvac_reaZonCor_TZon_y', 'hvac_reaZonSou_TZon_y',
-                             'hvac_reaZonNor_TZon_y', 'hvac_reaZonEas_TZon_y',
-                             'hvac_reaZonWes_TZon_y', 'hvac_reaZonCor_CO2Zon_y',
-                             'hvac_reaZonSou_CO2Zon_y', 'hvac_reaZonNor_CO2Zon_y',
-                             'hvac_reaZonEas_CO2Zon_y', 'hvac_reaZonWes_CO2Zon_y',
-                             'hvac_readAhu_PFanSup_y', 'hvac_readAhu_TMix_y',
+                             'hvac_reaZonCor_TZon_y', 'hvac_reaZonNor_TZon_y',
+                             'hvac_reaZonWes_TZon_y', 'hvac_reaZonSou_CO2Zon_y',
+                             'hvac_reaZonEas_CO2Zon_y',
+                             'hvac_reaAhu_PFanSup_y', 'hvac_reaAhu_TMix_y',
                              'weaSta_reaWeaTDryBul_y', 'weaSta_reaWeaHGloHor_y']
 
     def test_peak_heat_day(self):
