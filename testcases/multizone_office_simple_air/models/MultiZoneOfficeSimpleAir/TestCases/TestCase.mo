@@ -75,11 +75,15 @@ equation
     Documentation(info="<html>
 <p>
 This is the multi zone office air simple emulator model
-of BOPTEST.  It is based on the Modelica model
+of BOPTEST, emulating a 5-zone single-duct VAV system.
+It is based on the Modelica model
 <a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Examples_VAVReheat.html#Buildings.Examples.VAVReheat.ASHRAE2006\"><code>Buildings.Examples.VAVReheat.ASHRAE2006</code></a>.
 with the addition of CO2 concentration tracking,
-constant efficiency boiler model, variable efficiency chiller model,
-and BOPTEST signal exchange blocks.
+variable efficiency heat pump model, variable efficiency chiller model,
+and BOPTEST signal exchange blocks.  The emphasis is on the control of
+the air distribution system and not on the control of the
+central plant equipment providing
+hot and chilled water to the distribution system.
 </p>
 <h4>Architecture</h4>
 <p>
@@ -140,10 +144,9 @@ The weather data is from TMY3 for Chicago O'Hare International Airport.
 The HVAC system is a multi-zone single-duct Variable Air Volume (VAV) system
 with pressure-independent terminal boxes with reheat.
 A schematic of the system is shown in the
-figure below.  The cooling and heating coils are water-based.
-Only the air distribution system is included, while the central plant is
-ideally modeled using water sources with prescribed temperatures and constant
-plant equipment efficiencies. The available sensor and control points, marked
+figure below.  The cooling and heating coils are water-based served by an
+air-cooled chiller and air-to-water heat pump respectively.
+The available sensor and control points, marked
 on the figure below and described in more detail in the Section Model IO's,
 are those specified as required by ASHRAE Guideline 36 2018
 Section 4 List of Hardwired Points, specifically
@@ -311,7 +314,8 @@ determined by the operating mode of the system and implements
 dual-maximum logic, as shown in the Figure below.  It takes
 as inputs the zone temperature heating and cooling setpoints and zone temperature
 measurement, and outputs the desired airflow rate of the damper and position
-of the reheat valve.  Seperate PI controllers are used for control of the
+of the reheat valve.  Seperate PI controllers (both k = 0.1 and Ti = 120 s)
+are used for control of the
 damper airflow for cooling and reheat valve position for heating.  If the
 zone requires heating, the desired airflow rate of the damper is mapped
 to the specified maximum value for heating.
@@ -326,9 +330,11 @@ src=\"modelica://MultiZoneOfficeSimpleAir/../../doc/images/C1.png\"/>
 C2 is responsible for maintaining the duct static pressure setpoint
 and implements a duct static pressure reset strategy.  The first step of
 the controller takes as input all of the terminal box damper positions and
-outputs a duct static pressure setpoint using a PI controller such that the
-maximum damper position is maintained at 0.9.  The second step then maintains
-this setpoint using a PI controller and measured duct static pressure as input
+outputs a duct static pressure setpoint using a PI controller (k = 0.1 and Ti = 60 s)
+such that the maximum damper position is maintained at 0.9.
+The second step then maintains
+this setpoint using a PI controller (k = 0.5 and Ti = 15 s)
+and measured duct static pressure as input
 to output a fan speed setpoint.
 </p>
 
@@ -344,14 +350,14 @@ of the system.  It takes as inputs the
 supply air temperature setpoint, supply air temperature measurement, outside
 airflow rate setpoint, outside airflow rate measurement, and outside
 drybulb temperature measurement.  The first part
-of the controller uses a PI controller for supply air temperature setpoint
+of the controller uses a PI controller (k = 0.01, Ti = 120 s) for supply air temperature setpoint
 tracking to output a signal that is then mapped to position
 setpoints for the heating coil valve, cooling coil valve, and outside air
 damper position.  If the heating valve is commanded to open and the supply
 fan is determined to be enabled
 (either by schedule or by supply air flow detection of at least 5% design air flow),
 the heating coil pump is enabled.  Similar for cooling coil.
-The second part of the controller uses a PI controller
+The second part of the controller uses a PI controller (k = 0.05, Ti = 120 s)
 for outside airflow setpoint tracking to output a second signal for
 outside air damper position.  The maximum of the two outside air damper position
 signals is finally output to ensure at least enough enough airflow is delivered
@@ -383,16 +389,22 @@ The model inputs are:
 <code>hvac_oveAhu_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU
 </li>
 <li>
-<code>hvac_oveAhu_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil control signal for AHU
+<code>hvac_oveAhu_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil valve control signal for AHU
 </li>
 <li>
 <code>hvac_oveAhu_yFan_u</code> [1] [min=0.0, max=1.0]: Supply fan speed setpoint for AHU
 </li>
 <li>
-<code>hvac_oveAhu_yHea_u</code> [1] [min=0.0, max=1.0]: Heating coil control signal for AHU
+<code>hvac_oveAhu_yHea_u</code> [1] [min=0.0, max=1.0]: Heating coil valve control signal for AHU
 </li>
 <li>
 <code>hvac_oveAhu_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU
+</li>
+<li>
+<code>hvac_oveAhu_yPumCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil pump control signal for AHU
+</li>
+<li>
+<code>hvac_oveAhu_yPumHea_u</code> [1] [min=0.0, max=1.0]: Heating coil pump control signal for AHU
 </li>
 <li>
 <code>hvac_oveAhu_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU
@@ -486,6 +498,48 @@ The model outputs are:
 <code>heaPum_reaTSup_y</code> [K] [min=None, max=None]: Supply water temperature of heat pump
 </li>
 <li>
+<code>hvac_reaAhu_PFanSup_y</code> [W] [min=None, max=None]: Electrical power measurement of supply fan for AHU
+</li>
+<li>
+<code>hvac_reaAhu_PPumCoo_y</code> [W] [min=None, max=None]: Electrical power measurement of cooling coil pump for AHU
+</li>
+<li>
+<code>hvac_reaAhu_PPumHea_y</code> [W] [min=None, max=None]: Electrical power measurement of heating coil pump for AHU
+</li>
+<li>
+<code>hvac_reaAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_THeaCoiRet_y</code> [K] [min=None, max=None]: Heating coil return water temperature measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_THeaCoiSup_y</code> [K] [min=None, max=None]: Heating coil supply water temperature measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_V_flow_out_y</code> [m3/s] [min=None, max=None]: Outside air flowrate measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+</li>
+<li>
+<code>hvac_reaAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU
+</li>
+<li>
 <code>hvac_reaZonCor_CO2Zon_y</code> [ppm] [min=None, max=None]: Zone air CO2 measurement for zone cor
 </li>
 <li>
@@ -544,48 +598,6 @@ The model outputs are:
 </li>
 <li>
 <code>hvac_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone wes
-</li>
-<li>
-<code>hvac_reaAhu_PFanSup_y</code> [W] [min=None, max=None]: Electrical power measurement of supply fan for AHU
-</li>
-<li>
-<code>hvac_reaAhu_PPumCoo_y</code> [W] [min=None, max=None]: Electrical power measurement of cooling coil pump for AHU
-</li>
-<li>
-<code>hvac_reaAhu_PPumHea_y</code> [W] [min=None, max=None]: Electrical power measurement of heating coil pump for AHU
-</li>
-<li>
-<code>hvac_reaAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_THeaCoiRet_y</code> [K] [min=None, max=None]: Heating coil return water temperature measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_THeaCoiSup_y</code> [K] [min=None, max=None]: Heating coil supply water temperature measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_V_flow_out_y</code> [m3/s] [min=None, max=None]: Outside air flowrate measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU
 </li>
 <li>
 <code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
@@ -891,12 +903,6 @@ The Electricity Emissions Factor profile is based on the average annual emission
 from 2019 for the state of Illinois, USA per the EIA.
 It is 752 lbs/MWh or 0.341 kgCO2/kWh.
 For reference, see https://www.eia.gov/electricity/state/illinois/
-</p>
-<p>
-The Gas Emissions Factor profile is based on the kgCO2 emitted per amount of
-natural gas burned in terms of energy content.
-It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
-For reference, see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </p>
 </html>", revisions="<html>
 <ul>
