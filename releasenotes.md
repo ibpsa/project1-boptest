@@ -14,6 +14,9 @@ Released on xx/xx/xxx.
 - Update README.md to add links to ``boptest-service`` and ``boptest-gym``.  This is for [#353](https://github.com/ibpsa/project1-boptest/issues/353).
 - Fix path for documentation images for bestest_hydronic_heat_pump test case.  This is for [#351](https://github.com/ibpsa/project1-boptest/issues/351).
 
+**The following changes are not backwards-compatible and do change benchmark results:**
+- Correct calculation of mix day scenario in ``/data/find_days.py``.  This changes the reference mix day for the ``bestest_air`` test case.  This is for [#381](https://github.com/ibpsa/project1-boptest/issues/381).
+
 ## BOPTEST v0.1.0
 
 Released on 07/13/2021.
