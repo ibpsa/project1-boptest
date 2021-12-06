@@ -35,7 +35,7 @@ echo Add design documentation as jekyll title page...
 for file in ./*html; do
 	echo $file
 	if [[ $file == "./index.html" ]]; then
-		echo -e '---\ntitle: Design Documentation\n---' | cat - index.html > temp && mv temp index.html
+		echo -e '---\ntitle: Design\n---' | cat - index.html > temp && mv temp index.html
 		echo index.html made jekyll title.
 	elif [[ $file == "./appendix_KPI.html" ]]; then
 		echo WARNING: Not including appendix_KPI.html as jekyll page.
