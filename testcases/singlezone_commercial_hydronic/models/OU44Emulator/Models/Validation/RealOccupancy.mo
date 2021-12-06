@@ -123,7 +123,6 @@ model RealOccupancy
     annotation (Placement(transformation(extent={{90,120},{110,140}})));
   Buildings.Utilities.IO.SignalExchange.Read reaPum(
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="1"),
     description="Pump speed control signal for heating distribution system")
     "Read pump speed serving heating distribution system" annotation (Placement(
@@ -131,12 +130,14 @@ model RealOccupancy
         extent={{6,6},{-6,-6}},
         rotation=180,
         origin={-158,-194})));
+
+  Buildings.Utilities.IO.SignalExchange.Read reaOcc(
+    description="Building occupancy count",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
+    y(unit="people")) "Occupancy count for building"
+    annotation (Placement(transformation(extent={{-148,132},{-132,148}})));
 equation
-  connect(occupancy.y[1], gaiCO2.u) annotation (Line(points={{-167,140},{-140,
-          140},{-140,112},{-105.6,112}},
-                                       color={0,0,127}));
-  connect(occupancy.y[1], metHeat.u) annotation (Line(points={{-167,140},{-140,
-          140},{-140,144},{-105.6,144}}, color={0,0,127}));
   connect(booleanToReal1.u, Occupancy_schedule1.occupied) annotation (Line(
         points={{166.6,79},{174.3,79},{174.3,71.2},{152.8,71.2}}, color={255,0,
           255}));
@@ -188,6 +189,12 @@ equation
     annotation (Line(points={{-171,-194},{-165.2,-194}}, color={0,0,127}));
   connect(reaPum.y, districtHeating.y) annotation (Line(points={{-151.4,-194},{
           -146,-194},{-146,-196},{-143,-196}}, color={0,0,127}));
+  connect(occupancy.y[1], reaOcc.u)
+    annotation (Line(points={{-167,140},{-149.6,140}}, color={0,0,127}));
+  connect(reaOcc.y, metHeat.u) annotation (Line(points={{-131.2,140},{-118,140},
+          {-118,144},{-105.6,144}}, color={0,0,127}));
+  connect(reaOcc.y, gaiCO2.u) annotation (Line(points={{-131.2,140},{-118,140},
+          {-118,112},{-105.6,112}}, color={0,0,127}));
   annotation (experiment(StopTime=31536000),               Diagram(
         coordinateSystem(extent={{-260,-240},{240,220}}),          graphics={
         Rectangle(

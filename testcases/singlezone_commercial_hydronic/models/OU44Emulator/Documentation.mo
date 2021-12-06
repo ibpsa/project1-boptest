@@ -140,6 +140,9 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 <code>reaCO2Zon_y</code> [ppm] [min=None, max=None]: Zone CO2 concentration
 </li>
 <li>
+<code>reaOcc_y</code> [people] [min=None, max=None]: Building occupancy count
+</li>
+<li>
 <code>reaPEle_y</code> [W] [min=None, max=None]: Electrical power consumption for AHU fans and heating system pump
 </li>
 <li>
@@ -313,6 +316,10 @@ End Time: Day 282.
 </ul>
 </html>", revisions="<html>
 <ul>
+<li>
+December 6, 2021 by David Blum:<br/>
+Add building occupancy count as measurement.
+</li>
 <li>
 October 22, 2021 by David Blum:<br/>
 Updates based on review at

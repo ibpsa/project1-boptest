@@ -28,6 +28,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput reaPEle_y(unit="W") = mod.reaPEle.y "Electrical power consumption for AHU fans and heating system pump";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolAlt_y(unit="rad") = mod.weaSta.reaWeaSolAlt.y "Solar altitude angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput reaTZon_y(unit="K") = mod.reaTZon.y "Zone air temperature";
+	Modelica.Blocks.Interfaces.RealOutput reaOcc_y(unit="people") = mod.reaOcc.y "Building occupancy count";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHHorIR_y(unit="W/m2") = mod.weaSta.reaWeaHHorIR.y "Horizontal infrared irradiation measurement";
 	Modelica.Blocks.Interfaces.RealOutput ahu_reaFanRet_y(unit="1") = mod.ahu.reaFanRet.y "AHU return fan speed control signal";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolZen_y(unit="rad") = mod.weaSta.reaWeaSolZen.y "Solar zenith angle measurement";
