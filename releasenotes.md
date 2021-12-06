@@ -15,7 +15,7 @@ Released on xx/xx/xxx.
 - Fix path for documentation images for bestest_hydronic_heat_pump test case.  This is for [#351](https://github.com/ibpsa/project1-boptest/issues/351).
 
 **The following changes are not backwards-compatible and do change benchmark results:**
-- Correct calculation of mix day scenario in ``/data/find_days.py``.  This changes the reference mix day for the ``bestest_air`` test case.  This is for [#381](https://github.com/ibpsa/project1-boptest/issues/381).
+- Correct calculation of mix day scenario in ``/data/find_days.py``.  This changes the reference day for the mix day scenario time period for the ``bestest_air`` test case.  This is for [#381](https://github.com/ibpsa/project1-boptest/issues/381).
 
 ## BOPTEST v0.1.0
 
