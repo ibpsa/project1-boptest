@@ -246,7 +246,9 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 <h4>Infiltration models</h4>
 <p>Inflitration is modeled with a fixed ACH parameter (0.2).</p>
 <h4>CO2 models</h4>
-<p>CO2 concentration of the zone is included in the model.</p>
+<p>CO2 concentration of the zone is included in the model.
+We introduce a scale factor of 4 for occupancy CO2 generation to calibrate control of the AHU with real building operation, since the model is lumping unoccupied zones with occupied zones that would drive AHU usage in real building operation.
+</p>
 <p><h4>Important Model Implementation Assumption<h4></p>
 <p>The major assumptions are as follows: </p>
 <ul>
@@ -254,7 +256,6 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 <li>Single Air Handling Unit (AHU) used to model 4 actual AHUs. Fans in the AHU oversized by a factor of 4. </li>
 <li>Single radiator representing all radiators in the building. </li>
 <li>Constant infiltration rate of 0.2 air changes per hour. </li>
-<li>We introduce a scale factor of 4 for occupancy CO2 generation as lumped to one single zone model.</li>
 <li>Constant ground temperature 10 degC. </li>
 <li>Constant efficiency of heat exchangers. </li>
 <li>Internal heat gains (100&percnt;) are divided into radiative (40&percnt;), convective (40&percnt;), and latent gains (20&percnt;). These proportions are constant. </li>
