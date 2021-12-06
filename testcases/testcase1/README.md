@@ -12,7 +12,7 @@ Structure
 Compile the Model
 -----------------
 
-The Modelica model makes use of the signal overwrite blocks and uses the 
+The Modelica model makes use of the signal overwrite blocks and uses the
 overwrite block parser (``<repo_root>/parser/parser.py``) to compile the FMU.
 
 1. Add the root of the BOPTEST repository to the PYTHONPATH environment variable.
