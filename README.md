@@ -100,7 +100,7 @@ J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. 2021. [“An OpenAI-Gym Enviro
  
 F. Bünning, C. Pfister, A. Aboudonia, P. Heer, and J. Lygeros. (2021). “Comparing Machine Learning Based Methods to Standard Regression Methods for MPC on a Virtual Testbed.” In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
 
-T. Yang, K. Filonenko, K. Arendt, and C. Veje. (2020). [“Implementation and Performance Analysis of a Multi-Energy Building Emulator.”](10.1109/ENERGYCon48941.2020.9236623) In *2020 6th IEEE International Energy Conference (ENERGYCon)*, Sep 28 - Oct 1. Gammarth, Tunisia, 451–456.
+T. Yang, K. Filonenko, K. Arendt, and C. Veje. (2020). [“Implementation and Performance Analysis of a Multi-Energy Building Emulator.”](https://ieeexplore.ieee.org/document/9236623) In *2020 6th IEEE International Energy Conference (ENERGYCon)*, Sep 28 - Oct 1. Gammarth, Tunisia, 451–456.
  
 H. T. Walnum, I. Sartori, and M. Bagle. (2020). [“Model Predictive Control of District Heating Substations for Flexible Heating of Buildings.”](https://sintef.brage.unit.no/sintef-xmlui/handle/11250/2683181) In *SINTEF Proceedings no 5, ser. BuildSim-Nordic 2020*, Oct 13–14. Oslo, Norway: International Conference Organised by IBPSA-Nordic, 123–130.
  
