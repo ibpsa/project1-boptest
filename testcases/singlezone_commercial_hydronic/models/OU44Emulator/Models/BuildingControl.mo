@@ -5,9 +5,9 @@ model BuildingControl
     Ti=600,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=0.005)
-    annotation (Placement(transformation(extent={{-76,-16},{-92,0}})));
+    annotation (Placement(transformation(extent={{-60,0},{-76,-16}})));
   Modelica.Blocks.Sources.Constant veAirSp(k=294.15)
-    annotation (Placement(transformation(extent={{-18,-16},{-34,0}})));
+    annotation (Placement(transformation(extent={{-4,-16},{-20,0}})));
   Modelica.Blocks.Math.MatrixGain splitFour(K=[1; 1; 1; 1])
     "Splits signal into four elevations"
     annotation (Placement(transformation(extent={{-70,172},{-50,192}})));
@@ -46,7 +46,7 @@ model BuildingControl
       unit="K",
       min=273.15 + 15))
     "Overwrite AHU supply air temperature set point for heating"
-    annotation (Placement(transformation(extent={{-38,-14},{-50,-2}})));
+    annotation (Placement(transformation(extent={{-26,-14},{-38,-2}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTZon(
     description="Zone air temperature",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
@@ -57,7 +57,7 @@ model BuildingControl
     description="AHU supply air temperature setpoint for heating",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Read AHU upply air temperature set point for heating"
-    annotation (Placement(transformation(extent={{-58,-14},{-70,-2}})));
+    annotation (Placement(transformation(extent={{-42,-14},{-54,-2}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveCO2ZonSet(description=
         "Zone CO2 concentration setpoint", u(
@@ -70,7 +70,6 @@ model BuildingControl
         origin={-208,112})));
   Buildings.Utilities.IO.SignalExchange.Read reaTCoiRet(
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K"),
     description="AHU heating coil return water temperature")
     "Read heating coil return water temperature" annotation (Placement(
@@ -78,11 +77,34 @@ model BuildingControl
         extent={{6,6},{-6,-6}},
         rotation=180,
         origin={-114,-32})));
+
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveValRad(u(
+      min=0,
+      max=1,
+      unit="1"), description="Radiator valve control signal")
+    "Overwrite radiator valve control signal"
+    annotation (Placement(transformation(extent={{38,-46},{26,-34}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaValRad(
+    y(unit="1"),
+    description="Radiator valve control signal",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+    "Read radiator valve control signal"
+    annotation (Placement(transformation(extent={{18,-46},{6,-34}})));
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveValCoi(u(
+      min=0,
+      max=1,
+      unit="1"), description="AHU heating coil valve control signal")
+    "Overwrite AHU heating coil control valve signal"
+    annotation (Placement(transformation(extent={{-82,-14},{-94,-2}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaValCoi(
+    y(unit="1"),
+    description="AHU heating coil valve control signal",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+    "Read AHU heating coil valve control signal"
+    annotation (Placement(transformation(extent={{-98,-14},{-110,-2}})));
 equation
-  connect(conPIDcoil.y,valCoil.y)  annotation (Line(points={{-92.8,-8},{-114,-8}},
-                                  color={0,0,127}));
-  connect(ahu.Tsu, conPIDcoil.u_m) annotation (Line(points={{-119.4,36},{-96,36},
-          {-96,-28},{-84,-28},{-84,-17.6}}, color={0,0,127}));
+  connect(ahu.Tsu, conPIDcoil.u_m) annotation (Line(points={{-119.4,36},{-116,
+          36},{-116,10},{-68,10},{-68,1.6}},color={0,0,127}));
   connect(splitFour.y, ou44Bdg.uSha) annotation (Line(points={{-49,182},{-28,
           182},{-28,74},{-19.6,74}}, color={0,0,127}));
   connect(shades.y, splitFour.u[1])
@@ -91,8 +113,6 @@ equation
     annotation (Line(points={{-67,66},{-184,66},{-184,70}}, color={0,0,127}));
   connect(conPIDfan.y, ahu.y)
     annotation (Line(points={{-173,82},{-142,82},{-142,55}}, color={0,0,127}));
-  connect(conPIDrad.y, valRad.y) annotation (Line(points={{99.2,-44},{-58,-44},
-          {-58,-70}}, color={0,0,127}));
   connect(Occupancy_schedule.occupied, booleanToReal.u) annotation (Line(points=
          {{152.8,-16.8},{164,-16.8},{164,-11},{170.6,-11}}, color={255,0,255}));
   connect(booleanToReal.y, product.u1) annotation (Line(points={{186.7,-11},{
@@ -100,21 +120,33 @@ equation
   connect(product.u2, Tset.y) annotation (Line(points={{153.6,-50.8},{170,-50.8},
           {170,-53},{175.3,-53}}, color={0,0,127}));
   connect(veAirSp.y, oveTSupSet.u)
-    annotation (Line(points={{-34.8,-8},{-36.8,-8}}, color={0,0,127}));
+    annotation (Line(points={{-20.8,-8},{-24.8,-8}}, color={0,0,127}));
   connect(Ti.T, reaTZon.u)
     annotation (Line(points={{54,56},{60.8,56}}, color={0,0,127}));
   connect(reaTZon.y, conPIDrad.u_m) annotation (Line(points={{74.6,56},{78,56},
           {78,-56},{108,-56},{108,-53.6}}, color={0,0,127}));
   connect(oveTSupSet.y, reaTSupSet.u)
-    annotation (Line(points={{-50.6,-8},{-56.8,-8}}, color={0,0,127}));
+    annotation (Line(points={{-38.6,-8},{-40.8,-8}}, color={0,0,127}));
   connect(reaTSupSet.y, conPIDcoil.u_s)
-    annotation (Line(points={{-70.6,-8},{-74.4,-8}}, color={0,0,127}));
+    annotation (Line(points={{-54.6,-8},{-58.4,-8}}, color={0,0,127}));
   connect(stpCO2.y, oveCO2ZonSet.u) annotation (Line(points={{-217,142},{-208,
           142},{-208,121.6}}, color={0,0,127}));
   connect(oveCO2ZonSet.y, conPIDfan.u_s) annotation (Line(points={{-208,103.2},
           {-208,82},{-196,82}}, color={0,0,127}));
   connect(senTemCoiRet.T, reaTCoiRet.u)
     annotation (Line(points={{-141,-32},{-121.2,-32}}, color={0,0,127}));
+  connect(conPIDrad.y, oveValRad.u) annotation (Line(points={{99.2,-44},{80,-44},
+          {80,-40},{39.2,-40}}, color={0,0,127}));
+  connect(oveValRad.y, reaValRad.u)
+    annotation (Line(points={{25.4,-40},{19.2,-40}}, color={0,0,127}));
+  connect(reaValRad.y, valRad.y)
+    annotation (Line(points={{5.4,-40},{-58,-40},{-58,-70}}, color={0,0,127}));
+  connect(oveValCoi.y, reaValCoi.u) annotation (Line(points={{-94.6,-8},{-96,-8},
+          {-96,-8},{-96.8,-8}}, color={0,0,127}));
+  connect(conPIDcoil.y, oveValCoi.u)
+    annotation (Line(points={{-76.8,-8},{-80.8,-8}}, color={0,0,127}));
+  connect(reaValCoi.y, valCoil.y)
+    annotation (Line(points={{-110.6,-8},{-114,-8}}, color={0,0,127}));
   annotation (
     experiment(StopTime=2678400, Interval=600),
     __Dymola_experimentSetupOutput,

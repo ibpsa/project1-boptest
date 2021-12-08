@@ -105,6 +105,12 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 <li>
 <code>oveTZonSet_u</code> [K] [min=283.15, max=303.15]: Zone temperature set point for heating
 </li>
+<li>
+<code>oveValCoi_u</code> [1] [min=0.0, max=1.0]: AHU heating coil valve control signal
+</li>
+<li>
+<code>oveValRad_u</code> [1] [min=0.0, max=1.0]: Radiator valve control signal
+</li>
 </ul>
 <h4>Outputs</h4>
 <p>The model outputs are</p>
@@ -168,6 +174,12 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 </li>
 <li>
 <code>reaTZon_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>reaValCoi_y</code> [1] [min=None, max=None]: AHU heating coil valve control signal
+</li>
+<li>
+<code>reaValRad_y</code> [1] [min=None, max=None]: Radiator valve control signal
 </li>
 <li>
 <code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
@@ -316,6 +328,10 @@ End Time: Day 282.
 </ul>
 </html>", revisions="<html>
 <ul>
+<li>
+December 8, 2021 by David Blum:<br/>
+Add overwrite signals for coil and radiator valves.
+</li>
 <li>
 December 6, 2021 by David Blum:<br/>
 Add building occupancy count as measurement.
