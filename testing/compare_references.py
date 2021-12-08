@@ -124,8 +124,8 @@ def compare(testcase='bestest_air'):
                              'reaPFan_y','reaPPum_y',
                              'reaQHea_y','ahu_reaTSupAir_y',
                              'ahu_reaTRetAir_y'],
-                           refs_old = 'single_zone_commercial_old',
-                           refs_new = 'single_zone_commercial')
+                           refs_old = 'singlezone_commercial_hydronic_old',
+                           refs_new = 'singlezone_commercial_hydronic')
 
 if __name__ == '__main__':
     compare(testcase='singlezone_commercial_hydronic')

@@ -14,12 +14,14 @@ reaTZon_y,291.6412716933967
 weaSta_reaWeaLat_y,0.9709266628844456
 reaPEle_y,504.1434874708858
 weaSta_reaWeaLon_y,0.22113321622768156
+reaValRad_y,0.0
 ahu_reaTSupAir_y,293.1500000000001
 weaSta_reaWeaSolTim_y,2823.265337390749
 weaSta_reaWeaSolZen_y,2.5535360792966664
 ahu_reaFanSup_y,0.0
 ahu_reaFloSupAir_y,0.0
 weaSta_reaWeaCloTim_y,3600.0
+ahu_reaTHeaRec_y,293.15
 weaSta_reaWeaHGloHor_y,0.0
 ahu_reaPFanRet_y,0.0
 weaSta_reaWeaRelHum_y,0.85375
@@ -31,7 +33,7 @@ ahu_reaFanRet_y,0.0
 weaSta_reaWeaHDirNor_y,0.0
 reaTSupSet_y,294.15
 weaSta_reaWeaWinDir_y,4.363323129985824
-ahu_reaTHeaRec_y,293.15
+reaValCoi_y,0.27499999999995756
 reaCO2Zon_y,421.4438849684455
 reaPPum_y,504.1434874708858
 weaSta_reaWeaTWetBul_y,279.0029367535673
