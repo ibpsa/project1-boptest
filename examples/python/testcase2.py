@@ -121,7 +121,7 @@ def run(plot=False, customized_kpi_config=None):
         # Compute customized KPIs if any
         if customized_kpi_config is not None:
              for customizedkpi in customizedkpis:
-                  customizedkpi.processing_data(y['result']) # Process data as needed for custom KPI
+                  customizedkpi.processing_data(y) # Process data as needed for custom KPI
                   customizedkpi_value = customizedkpi.calculation() # Calculate custom KPI value
                   customizedkpis_result[customizedkpi.name].append(round(customizedkpi_value,2)) # Track custom KPI value
                   print('KPI:\t{0}:\t{1}'.format(customizedkpi.name,round(customizedkpi_value,2))) # Print custom KPI value
@@ -154,10 +154,11 @@ def run(plot=False, customized_kpi_config=None):
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    points = list(measurements.keys()) + list(inputs.keys())
+    points = list(measurements['result'].keys()) + list(inputs['result'].keys())
     df_res = pd.DataFrame()
     for point in points:
         res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        res = res['result']
         df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
     df_res.index.name = 'time'
     t = df_res.index.values/3600 # convert s --> hr

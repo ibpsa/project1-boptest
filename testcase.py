@@ -257,7 +257,7 @@ class TestCase(object):
                 return {'message': 'failure', 'error': res['error'], 'result': None}
         else:
             # Simulation at end time
-            return dict()
+            return {'message': 'failure', 'error': None, 'result': dict()}
 
     def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
@@ -529,8 +529,9 @@ class TestCase(object):
             key = self.scenario['time_period']
             start_time = self.days_json[key]*24*3600-7*24*3600
             end_time = start_time + 14*24*3600
-            result['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)
-
+            result = self.initialize(start_time, warmup_period, end_time=end_time)
+            if result['message'] == 'success':
+                  result['time_period'] = result['result']
         # It's needed to reset KPI Calculator when scenario is changed
         self.cal.initialize()
 

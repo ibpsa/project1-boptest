@@ -134,7 +134,7 @@ def run(plot=False):
         else:
            print('Error when getting the forecast:{}'.format(forecast['error']))
         # Compute next control signal
-        u = pidTwoZones.compute_control(y,
+        u = pidTwoZones.compute_control(res['result'],
                                         LowerSetpNor, UpperSetpNor,
                                         LowerSetpSou, UpperSetpSou)
 
@@ -145,8 +145,10 @@ def run(plot=False):
     # ------------
     # Report KPIs
     kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = kpi['result']
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
+        print(key)
         if key == 'tdis_tot':
             unit = 'Kh'
         if key == 'idis_tot':
@@ -165,10 +167,11 @@ def run(plot=False):
     # POST PROCESS RESULTS
     # --------------------
     # Get result data
-    points = list(measurements.keys()) + list(inputs.keys())
+    points = list(measurements['result'].keys()) + list(inputs['result'].keys())
     df_res = pd.DataFrame()
     for point in points:
         res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':0, 'final_time':length}).json()
+        res = res['result']
         df_res = pd.concat((df_res,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
     df_res.index.name = 'time'
     time = df_res.index.values/3600 # convert s --> hr

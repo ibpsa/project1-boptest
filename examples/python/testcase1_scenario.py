@@ -58,20 +58,22 @@ def run(plot=False):
     # Set control step
     requests.put('{0}/step'.format(url), data={'step':step})
     # Set test case scenario
-    y = requests.put('{0}/scenario'.format(url), data=scenario).json()['time_period']
+    y = requests.put('{0}/scenario'.format(url), data=scenario).json()
+
     # Record test start time
-    start_time = y['time']
+    start_time = y['result']['time_period']['time']
+    y = y['result']['time_period']
     # Simulation Loop
     while y:
         # Compute control signal
         u = pid.compute_control(y)
         # Advance simulation with control signal
-        y = requests.post('{0}/advance'.format(url), data=u).json()
+        y = requests.post('{0}/advance'.format(url), data=u).json()['result']
     # -----------------------------------------------------------------------------
     # GET RESULTS
     # -----------------------------------------------------------------------------
     # Get KPIs
-    kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = requests.get('{0}/kpi'.format(url)).json()['result']
     # Get zone temperature over test period
     args = {'point_name':'TRooAir_y', 'start_time':start_time, 'final_time':np.inf}
     res = requests.put('{0}/results'.format(url), data=args).json()
