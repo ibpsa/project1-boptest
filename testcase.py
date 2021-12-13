@@ -14,6 +14,7 @@ from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
 from kpis.kpi_calculator import KPI_Calculator
 
+
 class TestCase(object):
     '''Class that implements the test case.
 
@@ -93,17 +94,17 @@ class TestCase(object):
         '''
 
         # Outputs data
-        self.y = {'time':np.array([])}
+        self.y = {'time': np.array([])}
         for key in self.output_names:
             self.y[key] = np.array([])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':np.array([])}
+        self.u = {'time': np.array([])}
         for key in self.input_names:
             self.u[key] = np.array([])
         self.u_store = copy.deepcopy(self.u)
 
-    def __simulation(self,start_time,end_time,input_object=None):
+    def __simulation(self, start_time, end_time, input_object=None):
         '''Simulates the FMU using the pyfmi fmu.simulate function.
 
         Parameters
@@ -129,12 +130,12 @@ class TestCase(object):
         self.options['ncp'] = int((end_time-start_time)/30)
         # Simulate fmu
         try:
-            res = self.fmu.simulate(start_time = start_time,
-                                     final_time = end_time,
-                                     options=self.options,
-                                     input=input_object)
+            res = self.fmu.simulate(start_time=start_time,
+                                    final_time=end_time,
+                                    options=self.options,
+                                    input=input_object)
         except Exception as e:
-            return {'message': 'failure', 'error': e, 'result': res}
+            return {'message': 'failure', 'error': e, 'result': None}
         # Set internal fmu initialization
         self.initialize_fmu = False
 
