@@ -575,12 +575,20 @@ class partialTestAPI(partialChecks):
         elif self.name == 'bestest_hydronic_heat_pump':
             u = {'oveTSet_activate': 0, 'oveTSet_u': 273.15+22}
         elif self.name == 'multizone_residential_hydronic':
+<<<<<<< HEAD
             u = {
                 'conHeaRo1_oveTSetHea_activate': 0,
                 'conHeaRo1_oveTSetHea_u': 273.15+22,
                  'oveEmiPum_activate': 0,
                 'oveEmiPum_u': 1
             }
+=======
+            u = {'conHeaRo1_oveTSetHea_activate':0, 'conHeaRo1_oveTSetHea_u':273.15+22,
+                 'oveEmiPum_activate':0, 'oveEmiPum_u':1}
+        elif self.name == 'singlezone_commercial_hydronic':
+            u = {'oveTSupSet_activate':0, 'oveTSupSet_u':273.15+25,
+                 'oveTZonSet_activate':0, 'oveTZonSet_u':273.15+25}
+>>>>>>> dd7ae8d4534c9a0ad17d4303bc7d3e0e896b2835
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
