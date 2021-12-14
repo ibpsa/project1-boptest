@@ -12,8 +12,8 @@ in controllers/sup.py.
 import sys
 import pathlib
 import os
-from examples.python.interface import control_test
 sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+from examples.python.interface import control_test
 
 
 def run(plot=False):

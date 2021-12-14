@@ -10,6 +10,7 @@ imported from a different module.
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import requests
+import sys
 import time
 import numpy as np
 from examples.python.custom_kpi.custom_kpi_calculator import CustomKPI
@@ -17,6 +18,21 @@ from examples.python.controllers.controller import Controller
 import json
 import collections
 import pandas as pd
+
+
+def parse_request(_request):
+    """
+    Parse restful API response and return pertinent result.  If there is an error print error and exit.
+    """
+    if 'message' in _request:
+        if _request['message'] != 'success':
+            error = _request.get("error", "No error returned by API!")
+            print("Error when making call to API: {}".format(_request))
+            sys.exit()
+        else:
+            if 'result' in _request:
+                return _request['result']
+    return {}
 
 
 def control_test(control_module='', start_time=0, warmup_period=0, length=24*3600, scenario=None, step=300, customized_kpi_config=None, use_forecast=False):
@@ -78,16 +94,16 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # -------------------------------------------------------------------------
     print('\nTEST CASE INFORMATION\n---------------------')
     # Test case name
-    name = requests.get('{0}/name'.format(url)).json()
+    name = parse_request(requests.get('{0}/name'.format(url)).json())
     print('Name:\t\t\t\t{0}'.format(name))
     # Inputs available
-    inputs = requests.get('{0}/inputs'.format(url)).json()
+    inputs = parse_request(requests.get('{0}/inputs'.format(url)).json())
     print('Control Inputs:\t\t\t{0}'.format(inputs))
     # Measurements available
-    measurements = requests.get('{0}/measurements'.format(url)).json()
+    measurements = parse_request(requests.get('{0}/measurements'.format(url)).json())
     print('Measurements:\t\t\t{0}'.format(measurements))
     # Default control step
-    step_def = requests.get('{0}/step'.format(url)).json()
+    step_def = parse_request(requests.get('{0}/step'.format(url)).json())
     print('Default Control Step:\t{0}'.format(step_def))
 
     # IF ANY CUSTOM KPI CALCULATION, DEFINE STRUCTURES
@@ -110,15 +126,16 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     print('Initializing test case simulation.')
     if scenario is not None:
         # Intialize test with a scenario time period
-        res = requests.put('{0}/scenario'.format(url), data=scenario).json()['time_period']
+        res = parse_request(requests.put('{0}/scenario'.format(url), data=scenario).json())['time_period']
         # Record test simulation start time
         start_time = res['time']
+        end_time = res['end_time']
         # Set final time and total time steps to be very large since scenario defines length
         final_time = np.inf
-        total_time_steps = int((365 * 24 * 3600)/step)
+        total_time_steps = int((end_time - start_time)/step)
     else:
         # Intialize test with a specified start time and warmup period
-        res = requests.put('{0}/initialize'.format(url), data={'start_time': start_time, 'warmup_period': warmup_period}).json()
+        res = parse_request(requests.put('{0}/initialize'.format(url), data={'start_time': start_time, 'warmup_period': warmup_period}).json())
         # Set final time and total time steps according to specified length
         final_time = start_time + length
         total_time_steps = int(length / step)  # calculate number of timesteps
@@ -126,7 +143,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         print('Successfully initialized the simulation')
     print('\nRunning test case...')
     # Set control step
-    res = requests.put('{0}/step'.format(url), data={'step': step})
+    res = parse_request(requests.put('{0}/step'.format(url), data={'step': step}))
     # Initialize u from controller
     u = controller.initialize()
     # Initialize forecast storage structure
@@ -134,7 +151,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Simulation Loop
     for t in range(total_time_steps):
         # Advance simulation with control input value(s)
-        y = requests.post('{0}/advance'.format(url), data=u).json()
+        y = parse_request(requests.post('{0}/advance'.format(url), data=u).json())
         # If reach end of scenario, stop
         if not y:
             break
@@ -148,7 +165,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         # If controller needs a forecast, get the forecast data and update it with controller
         if controller.use_forecast:
             # Get forecast from BOPTEST
-            forecast_data = requests.get('{0}/forecast'.format(url)).json()
+            forecast_data = parse_request(requests.get('{0}/forecast'.format(url)).json())
             # Use BOPTEST forecast data to update controller-specific forecast data
             forecasts = controller.update_forecasts(forecast_data, forecasts)
         else:
@@ -161,7 +178,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # VIEW RESULTS
     # -------------------------------------------------------------------------
     # Report KPIs
-    kpi = requests.get('{0}/kpi'.format(url)).json()
+    kpi = parse_request(requests.get('{0}/kpi'.format(url)).json())
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
         if key == 'ener_tot':
@@ -186,7 +203,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()
     for point in points:
-        res = requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}).json()
+        res = parse_request(requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}).json())
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
 

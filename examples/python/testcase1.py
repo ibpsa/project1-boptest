@@ -12,9 +12,8 @@ in controllers/pid.py.
 import sys
 import pathlib
 import os
-from examples.python.interface import control_test
 sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
-
+from examples.python.interface import control_test
 
 def run(plot=False):
     """Run controller test.
@@ -55,7 +54,7 @@ def run(plot=False):
                                                              warmup_period=warmup_period,
                                                              length=length,
                                                              step=step,
-                                                             customized_kpi_config= customized_kpi_config)
+                                                             customized_kpi_config=customized_kpi_config)
     # POST-PROCESS RESULTS
     # --------------------
     time = df_res.index.values/3600  # convert s --> hr

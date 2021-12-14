@@ -190,11 +190,10 @@ class Results(Resource):
         app.logger.info("Receiving a new query for results")               
         try:
             args = results_var.parse_args(strict=True) 
-            var  = args['point_name']
+            var = args['point_name']
             start_time  = float(args['start_time'])
             final_time  = float(args['final_time'])
             Y = case.get_results(var, start_time, final_time)
-            print Y
             for key in Y:
                   Y[key] = Y[key].tolist() 
         except Exception as e:
