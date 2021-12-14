@@ -207,10 +207,12 @@ class TestCase(object):
 
         Returns
         -------
-        y : dict
-            Contains the measurement data at the end of the step.
-            {<measurement_name> : <measurement_value>}
+        z : dict
+            Contains the full state of measurement and input data at the end
+            of the step.
+            {<point_name> : <point_value>}
             If empty, simulation end time has been reached.
+            If None, a simulation error has occured.
 
         '''
 
@@ -278,8 +280,6 @@ class TestCase(object):
             # Simulation at end time
             return dict()
 
-
-
     def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
 
@@ -295,9 +295,11 @@ class TestCase(object):
 
         Returns
         -------
-        y : dict
-            Contains the measurement data at the end of the initialization.
-            {<measurement_name> : <measurement_value>}
+        z : dict
+            Contains the full state of measurement and input data at the end
+            of the initialization.
+            {<point_name> : <point_value>}.
+            If None, a simulation error has occured.
 
         '''
 
