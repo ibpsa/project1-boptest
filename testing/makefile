@@ -177,6 +177,20 @@ test_multizone_residential_hydronic:
 # Stop testcase container
 	cd .. && make stop TESTCASE=multizone_residential_hydronic
 
+test_singlezone_commercial_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=singlezone_commercial_hydronic
+# Build testcase image
+	cd .. &&  make build TESTCASE=singlezone_commercial_hydronic
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=singlezone_commercial_hydronic
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_singlezone_commercial_hydronic.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=singlezone_commercial_hydronic
+
+
 test_parser:
 	make run_jm
 	make copy_to_jm ARGS=parsing
@@ -298,6 +312,7 @@ test_all:
 	make test_bestest_hydronic
 	make test_bestest_hydronic_heat_pump
 	make test_multizone_residential_hydronic
+	make test_singlezone_commercial_hydronic
 # Remove jm
 	make remove_jm_image
 # Report test results

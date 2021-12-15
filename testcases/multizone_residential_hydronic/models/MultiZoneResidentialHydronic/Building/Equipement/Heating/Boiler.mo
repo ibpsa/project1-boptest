@@ -66,12 +66,6 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
         MediumW)
     annotation (Placement(transformation(extent={{-86,10},{-66,-10}})));
 
-  Buildings.Fluid.Sensors.Temperature        T_retour(redeclare package Medium =
-               MediumW)                                annotation (
-      Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={-38,16})));
   Modelica.Blocks.Interfaces.RealOutput T annotation (Placement(
         transformation(extent={{100,38},{136,74}}),iconTransformation(
           extent={{100,38},{136,74}})));
@@ -81,9 +75,6 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
   Modelica.Blocks.Interfaces.RealInput m_PompeCirc
     "Connector of Real input signals"
     annotation (Placement(transformation(extent={{-140,-70},{-100,-30}})));
-  Buildings.Fluid.Sensors.Temperature T_depart(redeclare package Medium =
-        MediumW)
-    annotation (Placement(transformation(extent={{34,6},{54,26}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal3(realTrue=ConsoElec_PompeECS,
       realFalse=0)
     annotation (Placement(transformation(extent={{4,-94},{24,-74}})));
@@ -120,6 +111,18 @@ parameter Modelica.SIunits.Volume VWat=1.5E-6*chaudiere.Q_flow_nominal
     y(unit="W"))
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
 
+  Buildings.Fluid.Sensors.TemperatureTwoPort T_depart(redeclare package Medium
+      = MediumW, m_flow_nominal=m_flow_nominal) annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={50,0})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort T_retour(redeclare package Medium
+      = MediumW, m_flow_nominal=m_flow_nominal) annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={-40,0})));
 equation
 
 //  QFue_flow = chaudiere.QFue_flow;
@@ -132,14 +135,6 @@ equation
     annotation (Line(points={{-86,0},{-104,0}},          color={0,127,255}));
   connect(chaudiere.T, T) annotation (Line(points={{11,8},{20,8},{20,56},{118,
           56}},    color={0,0,127}));
-  connect(chaudiere.port_b, port_b)
-    annotation (Line(points={{10,0},{102,0},{102,0}}, color={0,127,255}));
-  connect(T_depart.port, port_b)
-    annotation (Line(points={{44,6},{44,0},{102,0}}, color={0,127,255}));
-  connect(massFlowRate.port_b, chaudiere.port_a)
-    annotation (Line(points={{-66,0},{-10,0},{-10,0}}, color={0,127,255}));
-  connect(T_retour.port, chaudiere.port_a)
-    annotation (Line(points={{-38,6},{-38,0},{-10,0}}, color={0,127,255}));
   connect(ONOFFChaudiere.y,booleanToReal4. u) annotation (Line(points={{-3,-32},
           {2,-32}},               color={255,0,255}));
   connect(booleanToReal4.y,multiSum. u[1]) annotation (Line(points={{25,-32},{28,
@@ -168,6 +163,14 @@ equation
     annotation (Line(points={{64.3,90},{78,90}}, color={0,0,127}));
   connect(oveBoi.y, chaudiere.y) annotation (Line(points={{-39,56},{-20,56},{
           -20,8},{-12,8}}, color={0,0,127}));
+  connect(chaudiere.port_b, T_depart.port_a)
+    annotation (Line(points={{10,0},{40,0}}, color={0,127,255}));
+  connect(T_depart.port_b, port_b)
+    annotation (Line(points={{60,0},{102,0}}, color={0,127,255}));
+  connect(massFlowRate.port_b, T_retour.port_a)
+    annotation (Line(points={{-66,0},{-50,0}}, color={0,127,255}));
+  connect(T_retour.port_b, chaudiere.port_a)
+    annotation (Line(points={{-30,0},{-10,0}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(extent={{-100,-120},{100,100}})),
                                                                      Icon(
         coordinateSystem(extent={{-100,-120},{100,100}}),
