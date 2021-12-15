@@ -106,12 +106,18 @@ class Initialize(Resource):
         try:
             start_time = float(args['start_time'])
             warmup_period = float(args['warmup_period'])
-        except TypeError as e:
+        except TypeError as ex:
             app.logger.error("Receiving {} when processing a initialize request".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
-        except ValueError as e:
+            return {'message': 'failure', 'error': ex, 'result': None}
+        except ValueError as ex:
             app.logger.error("Receiving {} when processing a initialize request".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+            return {'message': 'failure', 'error': ex, 'result': None}
+        except KeyError as ex:
+            app.logger.error("Receiving {} when processing a initialize request".format(e))
+            return {'message': 'failure', 'error': ex, 'result': None}
+        except Exception as ex:
+            app.logger.error("Receiving {} when processing a initialize request".format(e))
+            return {'message': 'failure', 'error': ex, 'result': e}
         result = case.initialize(start_time, warmup_period)
         if result['message'] == 'success':
             app.logger.info("Reset the simulation start time to: {}".format(start_time))
@@ -184,11 +190,10 @@ class Results(Resource):
         app.logger.info("Receiving a new query for results")               
         try:
             args = results_var.parse_args(strict=True) 
-            var  = args['point_name']
+            var = args['point_name']
             start_time  = float(args['start_time'])
             final_time  = float(args['final_time'])
             Y = case.get_results(var, start_time, final_time)
-            print Y
             for key in Y:
                   Y[key] = Y[key].tolist() 
         except Exception as e:
