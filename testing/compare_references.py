@@ -69,7 +69,7 @@ def compare(testcase='bestest_air'):
                                               'fcu_reaPFan_y',
                                               'fcu_reaPCoo_y',
                                               'fcu_reaFloSup_y',
-                                              'fcu_oveFan_u,
+                                              'fcu_oveFan_u',
                                               'fcu_oveTSup_u',
                                               'zon_reaTRooAir_y',
                                               'TDryBul',
@@ -115,5 +115,14 @@ def compare(testcase='bestest_air'):
                            refs_old = 'multizone_residential_hydronic_old',
                            refs_new = 'multizone_residential_hydronic')
 
+    elif testcase == 'singlezone_commercial_hydronic':
+        compare_references(vars_timeseries = ['oveTZonSet_u','oveTSupSet_u',
+                             'reaCO2Zon_y','reaTZon_y',
+                             'reaPFan_y','reaPPum_y',
+                             'reaQHea_y','ahu_reaTSupAir_y',
+                             'ahu_reaTRetAir_y'],
+                           refs_old = 'singlezone_commercial_hydronic_old',
+                           refs_new = 'singlezone_commercial_hydronic')
+
 if __name__ == '__main__':
-    compare(testcase='bestest_air')
+    compare(testcase='singlezone_commercial_hydronic')
