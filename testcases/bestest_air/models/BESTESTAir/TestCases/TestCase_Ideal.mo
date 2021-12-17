@@ -511,10 +511,10 @@ daily heating and cooling loads.  This is a day with both significant heating
 and cooling loads.
 </ul>
 <ul>
-Start Time: Day 343.
+Start Time: Day 14.
 </ul>
 <ul>
-End Time: Day 357.
+End Time: Day 28.
 </ul>
 </p>
 <h4>Energy Pricing</h4>
@@ -639,6 +639,12 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </html>",
 revisions="<html>
 <ul>
+<li>
+December 6, 2021, by David Blum:<br/>
+Correct mix day time period.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/381>
+BOPTEST issue #381</a>.
+</li>
 <li>
 April 13, 2021, by David Blum:<br/>
 Add time period documentation.
