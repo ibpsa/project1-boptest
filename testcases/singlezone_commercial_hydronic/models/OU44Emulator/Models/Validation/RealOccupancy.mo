@@ -7,7 +7,6 @@ model RealOccupancy
         unit="ppm")),
     reaTZon(KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
         y(unit="K")),
-    reaTSupSet(y(unit="K")),
     oveTSupSet(u(
         min=273.15 + 15,
         max=273.15 + 40,
@@ -71,11 +70,6 @@ model RealOccupancy
       max=1,
       unit="1")) "Overwrite pump speed serving heating distribution system"
     annotation (Placement(transformation(extent={{-192,-204},{-172,-184}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaTZonSet(
-    description="Zone temperature set point for heating",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="K")) "Read zone air temperature set point for heating"
-    annotation (Placement(transformation(extent={{104,-24},{116,-12}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaCO2Zon(
     description="Zone CO2 concentration",
@@ -121,22 +115,13 @@ model RealOccupancy
     annotation (Placement(transformation(extent={{-220,-204},{-200,-184}})));
   Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta "Weather station"
     annotation (Placement(transformation(extent={{90,120},{110,140}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaPum(
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="1"),
-    description="Pump speed control signal for heating distribution system")
-    "Read pump speed serving heating distribution system" annotation (Placement(
-        transformation(
-        extent={{6,6},{-6,-6}},
-        rotation=180,
-        origin={-158,-194})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaOcc(
     description="Building occupancy count",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="people")) "Occupancy count for building"
     annotation (Placement(transformation(extent={{-148,132},{-132,148}})));
+
 equation
   connect(booleanToReal1.u, Occupancy_schedule1.occupied) annotation (Line(
         points={{166.6,79},{174.3,79},{174.3,71.2},{152.8,71.2}}, color={255,0,
@@ -151,10 +136,6 @@ equation
           130,16},{124,16}}, color={0,0,127}));
   connect(add.y, oveTZonSet.u)
     annotation (Line(points={{101,22},{95,22},{95,7.4}}, color={0,0,127}));
-  connect(oveTZonSet.y, reaTZonSet.u) annotation (Line(points={{95,-8.7},{95,-18},
-          {102.8,-18}}, color={0,0,127}));
-  connect(reaTZonSet.y, conPIDrad.u_s) annotation (Line(points={{116.6,-18},{
-          126,-18},{126,-44},{117.6,-44}}, color={0,0,127}));
   connect(senCO2.ppm, reaCO2Zon.u) annotation (Line(points={{-67,66},{-84,66},{
           -84,79},{-102.6,79}}, color={0,0,127}));
   connect(districtHeating.qdh, reaQHea.u) annotation (Line(points={{-121.4,-208},
@@ -185,16 +166,16 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(ovePum.y, reaPum.u)
-    annotation (Line(points={{-171,-194},{-165.2,-194}}, color={0,0,127}));
-  connect(reaPum.y, districtHeating.y) annotation (Line(points={{-151.4,-194},{
-          -146,-194},{-146,-196},{-143,-196}}, color={0,0,127}));
   connect(occupancy.y[1], reaOcc.u)
     annotation (Line(points={{-167,140},{-149.6,140}}, color={0,0,127}));
   connect(reaOcc.y, metHeat.u) annotation (Line(points={{-131.2,140},{-118,140},
           {-118,144},{-105.6,144}}, color={0,0,127}));
   connect(reaOcc.y, gaiCO2.u) annotation (Line(points={{-131.2,140},{-118,140},
           {-118,112},{-105.6,112}}, color={0,0,127}));
+  connect(oveTZonSet.y, conPIDrad.u_s) annotation (Line(points={{95,-8.7},{95,
+          -20},{120,-20},{120,-44},{117.6,-44}}, color={0,0,127}));
+  connect(ovePum.y, districtHeating.y) annotation (Line(points={{-171,-194},{
+          -158,-194},{-158,-196},{-143,-196}}, color={0,0,127}));
   annotation (experiment(StopTime=31536000),               Diagram(
         coordinateSystem(extent={{-260,-240},{240,220}}),          graphics={
         Rectangle(
