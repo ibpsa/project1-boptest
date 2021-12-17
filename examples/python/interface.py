@@ -129,10 +129,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         res = parse_request(requests.put('{0}/scenario'.format(url), data=scenario).json())['time_period']
         # Record test simulation start time
         start_time = res['time']
-        end_time = res['end_time']
         # Set final time and total time steps to be very large since scenario defines length
         final_time = np.inf
-        total_time_steps = int((end_time - start_time)/step)
+        total_time_steps = int((365 * 24 * 3600)/step)
     else:
         # Intialize test with a specified start time and warmup period
         res = parse_request(requests.put('{0}/initialize'.format(url), data={'start_time': start_time, 'warmup_period': warmup_period}).json())
@@ -151,10 +150,11 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Simulation Loop
     for t in range(total_time_steps):
         # Advance simulation with control input value(s)
-        y = parse_request(requests.post('{0}/advance'.format(url), data=u).json())
+        y = requests.post('{0}/advance'.format(url), data=u).json()
         # If reach end of scenario, stop
-        if not y:
+        if not y['result']:
             break
+        y = parse_request(y)
         # If custom KPIs, compute them
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI

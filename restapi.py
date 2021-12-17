@@ -107,24 +107,18 @@ class Initialize(Resource):
             start_time = float(args['start_time'])
             warmup_period = float(args['warmup_period'])
         except TypeError as ex:
-            app.logger.error("Receiving {} when processing a initialize request".format(e))
+            app.logger.error("Receiving {} when processing a initialize request".format(ex))
             return {'message': 'failure', 'error': ex, 'result': None}
         except ValueError as ex:
-            app.logger.error("Receiving {} when processing a initialize request".format(e))
+            app.logger.error("Receiving {} when processing a initialize request".format(ex))
             return {'message': 'failure', 'error': ex, 'result': None}
         except KeyError as ex:
-            app.logger.error("Receiving {} when processing a initialize request".format(e))
+            app.logger.error("Receiving {} when processing a initialize request".format(ex))
             return {'message': 'failure', 'error': ex, 'result': None}
         except Exception as ex:
-            app.logger.error("Receiving {} when processing a initialize request".format(e))
-            return {'message': 'failure', 'error': ex, 'result': e}
+            app.logger.error("Receiving {} when processing a initialize request".format(ex))
+            return {'message': 'failure', 'error': ex, 'result': None}
         result = case.initialize(start_time, warmup_period)
-        if result['message'] == 'success':
-            app.logger.info("Reset the simulation start time to: {}".format(start_time))
-            return {'message': 'success', 'error': None, 'result': None}
-        else:
-            app.logger.error("Fail to initialize the simulation:{}".format(result['error']))
-            return {'message': 'failure', 'error': result['error'], 'result': None}
         return result
 
 

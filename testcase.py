@@ -529,11 +529,9 @@ class TestCase(object):
             key = self.scenario['time_period']
             start_time = self.days_json[key]*24*3600-7*24*3600
             end_time = start_time + 14*24*3600
-            result = self.initialize(start_time, warmup_period, end_time=end_time)
-            result = copy.deepcopy(result)
-            if result['message'] == 'success':
-                result['time_period'] = result['result']
-                result['time_period']['end_time'] = end_time
+            res = self.initialize(start_time, warmup_period, end_time=end_time)
+            if res['message'] == 'success':
+                result['time_period'] = res['result']
         # It's needed to reset KPI Calculator when scenario is changed
         self.cal.initialize()
 
