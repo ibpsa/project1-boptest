@@ -65,7 +65,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
             # Advance simulation
             #switch pump on/off for each timestep
             pump = 0 if (i % 2) == 0 else 1
-            u = {'over_pump_DH_activate':1, 'over_pump_DH_u':pump}
+            u = {'ovePum_activate':1, 'ovePum_u':pump}
             requests.post('{0}/advance'.format(self.url), data=u).json()
         # Check results
         points = self.get_all_points(self.url)
