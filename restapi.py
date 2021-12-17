@@ -93,7 +93,7 @@ class Advance(Resource):
             return {'message': 'success', 'error': None, 'result': result['result']}
         else:
             app.logger.error("Fail to advanced the simulation: {}".format(result['error']))
-            return {'message': 'failure', 'error': result['error'], 'result': None}
+            return {'message': 'failure', 'error': result['error'], 'result': {}}
 
 
 class Initialize(Resource):
@@ -234,6 +234,7 @@ class Forecast_Parameters(Resource):
         except Exception as e:
             app.logger.error("Fail to return the KPI:{}".format(e))
             return {'message': 'failure', 'error': e, 'result': None}
+
         return {'message': 'success', 'error': None, 'result': result}
 
 
