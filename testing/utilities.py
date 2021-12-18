@@ -676,14 +676,17 @@ class partialTestAPI(partialChecks):
         '''Test getting results for start time after and final time before.
 
         '''
-
+        measurement_list = {'testcase1': 'PHea_y', 'testcase2': 'PFan_y', 'testcase3': 'CO2RooAirSou_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()['result']
         requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        res_inner = requests.put('{0}/results'.format(self.url), data={'point_name': list(measurements.keys())[0], \
-                                                                 'start_time': self.step_ref*0.25, \
-                                                                 'final_time': self.step_ref*0.75}).json()
+        point = measurement_list[self.name]
+        if point not in measurements:
+            raise KeyError('Point {0} not in measurements list.'.format(point))
+        res_inner = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+                                                                       'start_time': self.step_ref*0.25,
+                                                                       'final_time': self.step_ref*0.75}).json()
         df = pd.DataFrame.from_dict(res_inner['result']).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_inner.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
@@ -692,13 +695,16 @@ class partialTestAPI(partialChecks):
         '''Test getting results for start time before and final time after.
 
         '''
-
+        measurement_list = {'testcase1': 'PHea_y', 'testcase2': 'PFan_y', 'testcase3': 'CO2RooAirSou_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()['result']
         requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        res_outer = requests.put('{0}/results'.format(self.url), data={'point_name': list(measurements.keys())[0], \
-                                                                 'start_time': 0-self.step_ref, \
+        point = measurement_list[self.name]
+        if point not in measurements:
+            raise KeyError('Point {0} not in measurements list.'.format(point))
+        res_outer = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+                                                                 'start_time': 0-self.step_ref,
                                                                  'final_time': self.step_ref*2}).json()
         df = pd.DataFrame.from_dict(res_outer['result']).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')

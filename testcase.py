@@ -459,7 +459,7 @@ class TestCase(object):
         self.horizon = float(horizon)
         self.interval = float(interval)
 
-        return
+        return {'horizon': self.horizon, 'interval': self.interval}
 
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.'''

@@ -198,20 +198,20 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        scenario = {'time_period':'test_day'}
+        scenario = {'time_period': 'test_day'}
         requests.put('{0}/scenario'.format(self.url), data=scenario)
         # Try simulating past test period
         step = 7*24*3600
         requests.put('{0}/step'.format(self.url), data={'step':step})
-        for i in [0,1,2]:
+        for i in [0, 1, 2]:
             y = requests.post('{0}/advance'.format(self.url), data={}).json()['result']
         # Check y[2] indicates no simulation (empty dict)
         self.assertDictEqual(y,dict())
         # Check results
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()['result']
         df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_extra_step.csv')
-        self.compare_ref_timeseries_df(df,ref_filepath)
+        self.compare_ref_timeseries_df(df, ref_filepath)
 
     def test_larger_step(self):
         '''Test that simulation stops if try to take larger step than scenario.
@@ -254,7 +254,6 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         scenario_elec = {'electricity_price':'dynamic'}
         # Both
         res = requests.put('{0}/scenario'.format(self.url), data=scenario_both).json()['result']
-        print(res)
         # Check return is valid for electricity price
         self.assertTrue(res['electricity_price'])
         # Check return is valid for time period
