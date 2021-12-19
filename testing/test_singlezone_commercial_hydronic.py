@@ -59,7 +59,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         # Initialize test case
         requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':7*24*3600})
         # Get default simulation step
-        step_def = requests.get('{0}/step'.format(self.url)).json()
+        step_def = requests.get('{0}/step'.format(self.url)).json()['result']
         # Simulation Loop
         for i in range(int(length/step_def)):
             # Advance simulation

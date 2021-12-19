@@ -676,7 +676,14 @@ class partialTestAPI(partialChecks):
         '''Test getting results for start time after and final time before.
 
         '''
-        measurement_list = {'testcase1': 'PHea_y', 'testcase2': 'PFan_y', 'testcase3': 'CO2RooAirSou_y'}
+        measurement_list = {'testcase1': 'PHea_y', 
+                            'testcase2': 'PFan_y', 
+                            'testcase3': 'CO2RooAirSou_y',
+                            'bestest_hydronic':'reaQHea_y',
+                            'bestest_air':'zon_weaSta_reaWeaSolHouAng_y',
+                            'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
+                            'multizone_residential_hydronic':'weatherStation_reaWeaNTot_y',
+                            'singlezone_commercial_hydronic':'ahu_reaTRetAir_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()['result']
@@ -695,7 +702,14 @@ class partialTestAPI(partialChecks):
         '''Test getting results for start time before and final time after.
 
         '''
-        measurement_list = {'testcase1': 'PHea_y', 'testcase2': 'PFan_y', 'testcase3': 'CO2RooAirSou_y'}
+        measurement_list = {'testcase1': 'PHea_y', 
+                            'testcase2': 'PFan_y', 
+                            'testcase3': 'CO2RooAirSou_y',
+                            'bestest_hydronic':'reaQHea_y',
+                            'bestest_air':'zon_weaSta_reaWeaSolHouAng_y',
+                            'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
+                            'multizone_residential_hydronic':'weatherStation_reaWeaNTot_y',
+                            'singlezone_commercial_hydronic':'ahu_reaTRetAir_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()['result']
