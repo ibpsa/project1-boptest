@@ -11,6 +11,8 @@ services:
       - web
     environment:
       - BOPTEST_SUBMIT_URL
+      - BOPTEST_DASHBOARD_SERVER
+      - BOPTEST_DASHBOARD_API_KEY
     volumes:
       - ./:/usr/src/boptest
   web: # main haystack application
@@ -88,7 +90,8 @@ services:
       - REDIS_HOST
       - S3_BUCKET
       - REGION
-      - DASHBOARD_URL
+      - BOPTEST_DASHBOARD_SERVER
+      - BOPTEST_DASHBOARD_API_KEY
     depends_on:
       - redis
       - mongo
