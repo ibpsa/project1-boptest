@@ -12,7 +12,7 @@ from collections import OrderedDict
 class BoptestSubmit:
     # The url argument is the address of the Boptest server
 
-    def __init__(self, url=os.environ.get('BOPTEST_SUBMIT_URL','http://localhost')):
+    def __init__(self, url=os.environ.get('BOPTEST_SUBMIT_URL', 'http://localhost')):
         self.server = url
 
     # Glob for fmu files under rootpath, and submit as a testcase
@@ -89,3 +89,90 @@ class BoptestSubmit:
             if self._exists(testcaseid):
                 break
             time.sleep(2)
+
+    def submit_to_dashboard(self):
+        payload = {
+          'buildingTypes': [
+            {
+              'uid': 'bestest_air',
+              'name': 'BESTEST Air',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
+              'uid': 'bestest_hydronic',
+              'name': 'BESTEST Hydronic',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
+              'uid': 'bestest_hydronic_heat_pump',
+              'name': 'BESTEST Hydronic Heat Pump',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
+              'uid': 'multizone_residential_hydronic',
+              'name': 'Multizone Residential Hydronic',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
+              'uid': 'testcase1',
+              'name': 'Testcase 1',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
+              'uid': 'testcase2',
+              'name': 'Testcase 2',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
+              'uid': 'testcase3',
+              'name': 'Testcase 3',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            }
+          ],
+          'apiKey': os.environ.get('BOPTEST_DASHBOARD_API_KEY')
+        }
+
+        url = os.environ.get('BOPTEST_DASHBOARD_SERVER', '') + '/api/buildingTypes'
+        response = requests.post(url, json=payload)
