@@ -11,6 +11,7 @@ performance indicators.
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from scipy.integrate import trapz
 from flask._compat import iteritems
 from collections import OrderedDict
@@ -66,6 +67,7 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('ener')
         self.initialize_kpi_vars('cost')
         self.initialize_kpi_vars('emis')
+        self.initialize_kpi_vars('pele')
 
     def initialize_kpi_vars(self, label='ener'):
         '''Initialize variables required for KPI calculation
@@ -108,6 +110,14 @@ class KPI_Calculator(object):
                     for signal in self.case.kpi_json[source]:
                         self.ener_dict[signal] = 0.
                         self.ener_dict_by_source[source+'_'+signal] = 0.
+
+        elif label=='pele':
+            # Initialize sources of electricity usage
+            self.sources_pele = []
+            for source in self.sources:
+                if 'ElectricPower' in source  and \
+                source in self.case.kpi_json.keys():
+                    self.sources_pele.append(source)
 
         elif label=='cost':
             # Initialize sources of cost
@@ -176,6 +186,7 @@ class KPI_Calculator(object):
         ckpi['ener_tot'] = self.get_energy()
         ckpi['cost_tot'] = self.get_cost(scenario=price_scenario)
         ckpi['emis_tot'] = self.get_emissions()
+        ckpi['pele_tot'] = self.get_peak_electricity()
         ckpi['time_rat'] = self.get_computational_time_ratio()
 
         return ckpi
@@ -344,6 +355,41 @@ class KPI_Calculator(object):
                                  metric='energy use by source', units='kWh')
 
         return self.ener_tot
+
+    def get_peak_electricity(self):
+        '''This method returns the measure of the total
+        peak 15-minute electricity demand in kW/m^2.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        pele_tot: float
+            peak 15-minute electricity demand in kW/m^2
+
+        '''
+
+        tim_data = np.array(self._get_data_from_last_index('time',self.i_last_pele))
+        df_pow_data_all = pd.DataFrame(index=tim_data)
+        # Calculate peak electricity
+        # [returns KW/m^2 - assumes power measured in Watts]
+        for source in self.sources_pele:
+            for signal in self.case.kpi_json[source]:
+                pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_pele))
+                df_pow_data = pd.DataFrame(index=tim_data, data=pow_data)
+                df_pow_data_all = pd.concat([df_pow_data_all, df_pow_data], axis=1)
+        df_pow_data_all.index = pd.TimedeltaIndex(df_pow_data_all.index, unit='s')
+        df_pow_data_all = df_pow_data_all.resample('15T').mean()
+        self.pele_tot = df_pow_data_all.sum(axis=1).max()/self.case._get_area()/1000
+
+        # Assign to case
+        self.case.pele_tot = self.pele_tot
+
+        # Don't update last integration index
+
+        return self.pele_tot
 
     def get_cost(self, scenario='Constant', plot=False,
                  plot_by_source=False):
