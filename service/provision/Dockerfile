@@ -6,8 +6,6 @@ RUN apt-get update && \
   mkdir /usr/src/boptest
 
 ENV PYTHONPATH /usr/src/boptest/provision
-ENV BOPTEST_DASHBOARD_SERVER
-ENV BOPTEST_DASHBOARD_API_KEY
 
 WORKDIR /usr/src/boptest
 

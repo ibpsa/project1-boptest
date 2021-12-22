@@ -10,7 +10,6 @@ import boto3
 import pytz
 import redis
 import numpy as np
-from pymongo import MongoClient
 import requests
 from boptest.lib.testcase import TestCase
 
@@ -26,11 +25,6 @@ class Job:
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
-
-        # Initiate Mongo Database
-        mongo_client = MongoClient(os.environ['MONGO_URL'])
-        self.mongo_db = mongo_client[os.environ['MONGO_DB_NAME']]
-        self.mongo_db_sims = self.mongo_db.sims
 
         # Download the testcase FMU
         self.test_dir = os.path.join('/simulate', self.testcaseid)
@@ -187,7 +181,10 @@ class Job:
 
     def advance(self, params):
         u = params['u']
-        return self.tc.advance(u)
+        y = self.tc.advance(u)
+        if not y:
+            self.post_results_to_dashboard()
+        return y
 
     def stop(self, params):
         self.keep_running = False
@@ -204,9 +201,6 @@ class Job:
         self.redis.delete(self.testid)
         self.unsubscribe()
 
-        kpis = self.tc.get_kpis()
-        kpidump = json.dumps(kpis)
-
         tarname = "%s.tar.gz" % self.testid
         tar = tarfile.open(tarname, "w:gz")
         tar.add(self.test_dir, filter=self.reset, arcname=self.testid)
@@ -216,55 +210,63 @@ class Job:
         self.s3_bucket.upload_file(tarname, uploadkey)
         os.remove(tarname)
 
-        time = str(datetime.now(tz=pytz.UTC))
-        self.mongo_db_sims.insert_one({"_id": self.testid, "testid": self.testid, "simStatus": "Complete", "timeCompleted": time, "s3Key": uploadkey, "results": str(kpidump)})
-        #self.post_results_to_dashboard(kpis, time)
-
         shutil.rmtree(self.test_dir)
 
-    def post_results_to_dashboard(self, kpis, time):
-        # dashboard requires KPIs as ints, however this likely needs to change to float
-        payload = {
-          "results": [
-            {
-              "dateRun": time,
-              "isShared": True,
-              "uid": self.testid,
-              "account": {
-                "apiKey": "jerrysapikey"
-              },
-              "thermalDiscomfort": int(round(kpis['tdis_tot'])),
-              "energyUse": int(round(kpis['ener_tot'])),
-              "cost": int(round(kpis['cost_tot'])),
-              "emissions": int(round(kpis['emis_tot'])),
-              "iaq": int(round(kpis['idis_tot'])),
-              "timeRatio": int(round(kpis['time_rat'])),
-              "tags": {},
-              "testTimePeriodStart": "2020-09-28T20:39:03.366Z",
-              "testTimePeriodEnd": "2020-09-28T20:39:03.366Z",
-              "controlStep": "controlStep",
-              "priceScenario": "priceScenario",
-              "weatherForecastUncertainty": "forecast-unknown",
-              "controllerType": "controllerType1",
-              "problemFormulation": "problem1",
-              "modelType": "modelType1",
-              "numStates": 15,
-              "predictionHorizon": 700,
-              "buildingType": {
-                "id": 1,
-                "uid": "buildingType-1",
-                "name": "BIG Building",
-                "parsedHTML": "<html></html>",
-                "detailsURL": "bigbuilding.com"
-              }
+    def post_results_to_dashboard(self):
+        dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
+        api_key = os.environ['BOPTEST_DASHBOARD_API_KEY']
+
+        if dash_server and api_key:
+            print('boom')
+
+            time = str(datetime.now(tz=pytz.UTC))
+            payload = {
+              "results": [
+                {
+                  "uid": self.testid,
+                  "dateRun": str(datetime.now(tz=pytz.UTC)),
+                  "boptestVersion": "0.1.0",
+                  "isShared": True,
+                  "controlStep": self.tc.get_step(),
+                  "account": {
+                    "apiKey": api_key
+                  },
+                  "tags": [],
+                  "kpis": self.tc.get_kpis(),
+                  "forecastParameters": self.tc.get_forecast_parameters(),
+                  "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.tc.get_scenario())),
+                  "buildingType": {
+                    "uid": self.testcaseid
+                  }
+                }
+              ]
             }
-          ]
-        }
-        dashboard_url = "%s/api/results" % os.environ['DASHBOARD_URL']
-        try:
-            requests.post(dashboard_url, json=payload)
-        except:
-            print("Unable to post results to dashboard located at: %s" % dashboard_url)
+            dash_url = "%s/api/results" % dash_server
+            try:
+                result = requests.post(dash_url, json=payload)
+            except:
+                print("Unable to post results to dashboard located at: %s" % dash_url)
+
+    def to_camel_case(self, snake_str):
+        components = snake_str.split('_')
+        # We capitalize the first letter of each component except the first one
+        # with the 'title' method and join them together.
+        return components[0] + ''.join(x.title() for x in components[1:])
+
+    def keys_to_camel_case(self, a_dict):
+        result = {}
+        for key, value in a_dict.items():
+            result[self.to_camel_case(key)] = value
+        return result
+
+    # weatherForecastUncertainty is required by the dashboard,
+    # however some testcases don't report it.
+    # This is a workaround
+    def add_forecast_uncertainty(self, scenario):
+        if not 'weatherForecastUncertainty' in scenario:
+            scenario['weatherForecastUncertainty'] = 'deterministic'
+
+        return scenario
 
     def init_sim_status(self):
         self.redis.hset(self.testid, 'testcaseid', self.testcaseid)
