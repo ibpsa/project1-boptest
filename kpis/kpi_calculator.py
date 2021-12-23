@@ -118,6 +118,8 @@ class KPI_Calculator(object):
                 if 'ElectricPower' in source  and \
                 source in self.case.kpi_json.keys():
                     self.sources_pele.append(source)
+                    for signal in self.case.kpi_json[source]:
+                        self.pele_dict[signal] = 0.
 
         elif label=='cost':
             # Initialize sources of cost
@@ -367,25 +369,37 @@ class KPI_Calculator(object):
         Returns
         -------
         pele_tot: float
-            peak 15-minute electricity demand in kW/m^2
+            peak 15-minute electricity demand in kW/m^2.
+            Returns None if no electrical power used in model.
 
         '''
 
-        tim_data = np.array(self._get_data_from_last_index('time',self.i_last_pele))
-        df_pow_data_all = pd.DataFrame(index=tim_data)
-        # Calculate peak electricity
-        # [returns KW/m^2 - assumes power measured in Watts]
-        for source in self.sources_pele:
+        # If no electricity in model return None, otherwise calculate
+        if len(self.sources_pele)==0:
+            self.pele_tot = None
+            self.pele_dict = None
+        else:
+            tim_data = np.array(self._get_data_from_last_index('time',self.i_last_pele))
+            df_pow_data_all = pd.DataFrame(index=tim_data)
+            # Calculate peak electricity
+            # [returns KW/m^2 - assumes power measured in Watts]
+            for source in self.sources_pele:
+                for signal in self.case.kpi_json[source]:
+                    pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_pele))
+                    df_pow_data = pd.DataFrame(index=tim_data, data=pow_data, columns=[signal])
+                    df_pow_data_all = pd.concat([df_pow_data_all, df_pow_data], axis=1)
+            df_pow_data_all.index = pd.TimedeltaIndex(df_pow_data_all.index, unit='s')
+            df_pow_data_all = df_pow_data_all.resample('15T').mean()/self.case._get_area()/1000.
+            df_pow_data_all['peak_demand'] = df_pow_data_all.sum(axis=1)
+            peak = df_pow_data_all['peak_demand'].max()
+            self.pele_tot = peak
+            # Find contributions to peak by each signal
+            i = df_pow_data_all['peak_demand'].idxmax()
             for signal in self.case.kpi_json[source]:
-                pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_pele))
-                df_pow_data = pd.DataFrame(index=tim_data, data=pow_data)
-                df_pow_data_all = pd.concat([df_pow_data_all, df_pow_data], axis=1)
-        df_pow_data_all.index = pd.TimedeltaIndex(df_pow_data_all.index, unit='s')
-        df_pow_data_all = df_pow_data_all.resample('15T').mean()
-        self.pele_tot = df_pow_data_all.sum(axis=1).max()/self.case._get_area()/1000
-
+                self.pele_dict[signal] = df_pow_data_all.loc[i,signal]
         # Assign to case
         self.case.pele_tot = self.pele_tot
+        self.case.pele_dict = self.pele_dict
 
         # Don't update last integration index
 
