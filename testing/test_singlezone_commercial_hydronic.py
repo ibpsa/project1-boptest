@@ -70,6 +70,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         # Check results
         points = self.get_all_points(self.url)
         df = self.results_to_df(points, start_time, start_time+length, self.url)
+        df = df.iloc[:1]
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_zero_flow_test.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 
