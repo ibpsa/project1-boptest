@@ -16,7 +16,7 @@ remove-image:
 
 run:
 	$(COMMAND_RUN) && \
-	docker exec -it ${IMG_NAME} /bin/bash -c "pip install pandas && python wrapper.py ${Script}" && \
+	docker exec -it ${IMG_NAME} /bin/bash -c "python3 wrapper.py ${Script}" && \
 	make copy_from_container ARGS=. && \
 	docker stop ${IMG_NAME}
 
