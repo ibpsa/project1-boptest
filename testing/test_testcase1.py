@@ -208,8 +208,8 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         # Check y[2] indicates no simulation (empty dict)
         self.assertDictEqual(y,dict())
         # Check results
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
+        points = self.get_all_points(self.url)
+        df = self.results_to_df(points, -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_extra_step.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 
@@ -225,8 +225,8 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         requests.put('{0}/step'.format(self.url), data={'step':step})
         requests.post('{0}/advance'.format(self.url), data={}).json()
         # Check results
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
+        points = self.get_all_points(self.url)
+        df = self.results_to_df(points, -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_larger_step.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 

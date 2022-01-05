@@ -11,8 +11,8 @@ The emulator building model represents a residential French
 dwelling compliant with the French Thermal regulation of 2012,
 i.e. the French national building energy regulation. Therefore,
 the typology is defined to be representative of French new
-dwellings. 
-The area not including the unconditioned attic and unconditioned 
+dwellings.
+The area not including the unconditioned attic and unconditioned
 garage is of 81.08 m&sup2;.
 The following figure shows the building layout and
 a sketch of the hydraulic system. The coloured elements in the scheme
@@ -298,73 +298,109 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <p>The model outputs are: </p>
 <ul>
 <li>
+<code>boi_oveBoi_y</code> [1] [min=None, max=None]: Boiler control signal for part load ratio
+</li>
+<li>
 <code>boi_reaGasBoi_y</code> [W] [min=None, max=None]: Boiler gas power use
 </li>
 <li>
 <code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power use
 </li>
 <li>
-<code>conCooBth_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Bth
+<code>conCooBth_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Bth
+</li>
+<li>
+<code>conCooBth_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Bth
 </li>
 <li>
 <code>conCooBth_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Bth
 </li>
 <li>
-<code>conCooHal_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Hal
+<code>conCooHal_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Hal
+</li>
+<li>
+<code>conCooHal_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Hal
 </li>
 <li>
 <code>conCooHal_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Hal
 </li>
 <li>
-<code>conCooLiv_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Liv
+<code>conCooLiv_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Liv
+</li>
+<li>
+<code>conCooLiv_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Liv
 </li>
 <li>
 <code>conCooLiv_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Liv
 </li>
 <li>
-<code>conCooRo1_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro1
+<code>conCooRo1_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro1
+</li>
+<li>
+<code>conCooRo1_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro1
 </li>
 <li>
 <code>conCooRo1_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro1
 </li>
 <li>
-<code>conCooRo2_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro2
+<code>conCooRo2_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro2
+</li>
+<li>
+<code>conCooRo2_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro2
 </li>
 <li>
 <code>conCooRo2_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro2
 </li>
 <li>
-<code>conCooRo3_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro3
+<code>conCooRo3_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro3
+</li>
+<li>
+<code>conCooRo3_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro3
 </li>
 <li>
 <code>conCooRo3_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro3
 </li>
 <li>
-<code>conHeaBth_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Bth
+<code>conHeaBth_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Bth
+</li>
+<li>
+<code>conHeaBth_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Bth
 </li>
 <li>
 <code>conHeaBth_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Bth
 </li>
 <li>
-<code>conHeaLiv_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Liv
+<code>conHeaLiv_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Liv
+</li>
+<li>
+<code>conHeaLiv_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Liv
 </li>
 <li>
 <code>conHeaLiv_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Liv
 </li>
 <li>
-<code>conHeaRo1_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro1
+<code>conHeaRo1_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro1
+</li>
+<li>
+<code>conHeaRo1_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro1
 </li>
 <li>
 <code>conHeaRo1_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro1
 </li>
 <li>
-<code>conHeaRo2_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro2
+<code>conHeaRo2_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro2
+</li>
+<li>
+<code>conHeaRo2_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro2
 </li>
 <li>
 <code>conHeaRo2_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro2
 </li>
 <li>
-<code>conHeaRo3_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro3
+<code>conHeaRo3_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro3
+</li>
+<li>
+<code>conHeaRo3_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro3
 </li>
 <li>
 <code>conHeaRo3_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro3
@@ -392,6 +428,18 @@ vacuum failures when all valves are closed while the distribution pump is workin
 </li>
 <li>
 <code>infRo3_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro3
+</li>
+<li>
+<code>oveEmiPum_y</code> [1] [min=None, max=None]: Control signal to the circulation pump of the emission system
+</li>
+<li>
+<code>oveMixValSup_y</code> [1] [min=None, max=None]: Actuator signal for three-way mixing valve controlling supply water temperature to radiators
+</li>
+<li>
+<code>oveTSetPum_y</code> [K] [min=None, max=None]: Heating zone air temperature setpoint used to control circulation pump of the emission system
+</li>
+<li>
+<code>oveTSetSup_y</code> [K] [min=None, max=None]: Supply water temperature setpoint to radiators
 </li>
 <li>
 <code>reaHeaBth_y</code> [W] [min=None, max=None]: Heating delivered to Bth
