@@ -65,6 +65,13 @@ def parse_instances(model_path, file_name):
             description = fmu.get(instance+'.description')[0]
             mini = fmu.get_variable_min(instance+'.u')
             maxi = fmu.get_variable_max(instance+'.u')
+            # Parse Haystack
+            pointFunctionType = fmu.get_variable_declared_type(instance+'.pointFunctionType').items[fmu.get(instance+'.pointFunctionType')[0]][0]
+            quantity = None
+            ductSectionType = None
+            substance = None
+            equip = None
+            customMarkers = None
         # Read
         elif 'boptestRead' in var:
             label = 'Read'
@@ -72,6 +79,13 @@ def parse_instances(model_path, file_name):
             description = fmu.get(instance+'.description')[0]
             mini = None
             maxi = None
+            # Parse Haystack
+            pointFunctionType = 'sensor'
+            quantity = fmu.get_variable_declared_type(instance+'.quantity').items[fmu.get(instance+'.quantity')[0]][0]
+            ductSectionType = fmu.get_variable_declared_type(instance+'.ductSectionType').items[fmu.get(instance+'.ductSectionType')[0]][0]
+            substance = fmu.get_variable_declared_type(instance+'.substance').items[fmu.get(instance+'.substance')[0]][0]
+            equip = fmu.get_variable_declared_type(instance+'.equip').items[fmu.get(instance+'.equip')[0]][0]
+            customMarkers = fmu.get(instance+'.customMarkers')[0]
         # KPI
         elif 'KPIs' in var:
             label = 'kpi'
@@ -83,6 +97,12 @@ def parse_instances(model_path, file_name):
             instances[label][instance]['Description'] = description
             instances[label][instance]['Minimum'] = mini
             instances[label][instance]['Maximum'] = maxi
+            instances[label][instance]['Haystack'] = {'pointFunctionType':pointFunctionType,
+                                                      'quantity':quantity,
+                                                      'ductSectionType':ductSectionType,
+                                                      'substance':substance,
+                                                      'equip':equip,
+                                                      'customMarkers':customMarkers}
         else:
             signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
             # Split certain signal types for multi-zone
@@ -190,8 +210,61 @@ def write_wrapper(model_path, file_name, instances):
 
     return fmu_path, wrapped_path
 
-def export_fmu(model_path, file_name):
-    '''Parse signal exchange blocks and export boptest fmu and kpi json.
+def write_haystack_json(instances, site_name):
+    markers = ['pointFunctionType',
+               'quantity',
+               'ductSectionType',
+               'substance',
+               'equip',
+               'customMarkers']
+    haystack = dict()
+    # Check for instances of Overwrite and/or Read blocks
+    len_write_blocks = len(instances['Overwrite'])
+    len_read_blocks = len(instances['Read'])
+    # If there are, write and export wrapper model
+    if (len_write_blocks + len_read_blocks):
+        for block in instances['Overwrite'].keys():
+            name = _make_var_name(block,style='input_signal')
+            haystack[name] = dict()
+            haystack[name]['siteRef'] = 'r:{0}'.format(site_name)
+            haystack[name]['dis'] = 's:{0}'.format(instances['Overwrite'][block]['Description'])
+            haystack[name]['unit'] = 's:{0}'.format(instances['Overwrite'][block]['Unit'])
+            haystack[name]['kind'] = 's:Number'
+            haystack[name]['writable'] = 'm:'
+            for marker in markers:
+                m = instances['Overwrite'][block]['Haystack'][marker]
+                if (m is not None) and (m != 'None'):
+                    if marker == 'customMarkers':
+                        if len(m)>0:
+                            m = m[1:-1]
+                            m_list = m.split(',')
+                            for i in m_list:
+                                haystack[name][i] = 'm:'
+                    else:
+                        haystack[name][m] = 'm:'
+        for block in instances['Read'].keys():
+            name = _make_var_name(block,style='output')
+            haystack[name] = dict()
+            haystack[name]['siteRef'] = 'r:{0}'.format(site_name)
+            haystack[name]['dis'] = 's:{0}'.format(instances['Read'][block]['Description'])
+            haystack[name]['unit'] = 's:{0}'.format(instances['Read'][block]['Unit'])
+            haystack[name]['kind'] = 's:Number'
+            for marker in markers:
+                m = instances['Read'][block]['Haystack'][marker]
+                if (m is not None) and (m != 'None'):
+                    if marker == 'customMarkers':
+                        if len(m)>0:
+                            m = m[1:-1]
+                            m_list = m.split(',')
+                            for i in m_list:
+                                haystack[name][i] = 'm:'
+                    else:
+                        haystack[name][m] = 'm:'
+
+    return haystack
+
+def export_fmu(model_path, file_name, testcase_name = None):
+    '''Parse signal exchange blocks and export boptest fmu, kpi json, and tags json.
 
     Parameters
     ----------
@@ -200,6 +273,9 @@ def export_fmu(model_path, file_name):
     file_name : list
         Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
+    testcase_name : str, optional
+        Name of testcase.
+        Default is None
 
     Returns
     -------
@@ -207,6 +283,8 @@ def export_fmu(model_path, file_name):
         Path to the wrapped modelica model fmu
     kpi_path : str
         Path to kpi json
+    tags_path : str
+        Path to tags json
 
     '''
 
@@ -218,6 +296,14 @@ def export_fmu(model_path, file_name):
     kpi_path = os.path.join(os.getcwd(), 'kpis.json')
     with open(kpi_path, 'w') as f:
         json.dump(signals, f)
+    # Write Tags json
+    haystack_json = write_haystack_json(instances, testcase_name)
+    tags_path = os.path.join(os.getcwd(), 'tags.json')
+    with open(tags_path, 'w') as f:
+        json.dump(haystack_json, f, indent=2)
+    instances_path = os.path.join(os.getcwd(), 'instances.json')
+    with open(instances_path, 'w') as f:
+        json.dump(instances, f, indent=4)
     # Generate test case data
     man = Data_Manager()
     man.save_data_and_jsons(fmu_path=fmu_path)
