@@ -13,6 +13,7 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 """
 
 from pyfmi import load_fmu
+from pyfmi.fmi import FMUException
 from pymodelica import compile_fmu
 import os
 import json
@@ -34,8 +35,8 @@ def parse_instances(model_path, file_name):
     -------
     instances : dict
         Dictionary of overwrite and read block class instance lists.
-        {'Overwrite': {input_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}},
-         'Read': {output_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max}}}
+        {'Overwrite': {input_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max, Haystack : {haystack_tags}}},
+         'Read': {output_name : {Unit : unit_name, Description : description, Minimum : min, Maximum : max, Haystack : {haystack_tags}}}}
     signals : dict
         {'signal_type' : [output_name]}
 
@@ -67,18 +68,20 @@ def parse_instances(model_path, file_name):
             maxi = fmu.get_variable_max(instance+'.u')
             # Parse Haystack
             pointFunctionType = fmu.get_variable_declared_type(instance+'.pointFunctionType').items[fmu.get(instance+'.pointFunctionType')[0]][0]
-            quantity = None
-            ductSectionType = None
-            substance = None
-            equip = None
-            customMarkers = None
+            quantity = 'None'
+            ductSectionType = 'None'
+            substance = 'None'
+            equip = 'None'
+            customMarkers = 'None'
+            zone = 'None'
+            writable = 'writable'
         # Read
         elif 'boptestRead' in var:
             label = 'Read'
             unit = fmu.get_variable_unit(instance+'.y')
             description = fmu.get(instance+'.description')[0]
-            mini = None
-            maxi = None
+            mini = 'None'
+            maxi = 'None'
             # Parse Haystack
             pointFunctionType = 'sensor'
             quantity = fmu.get_variable_declared_type(instance+'.quantity').items[fmu.get(instance+'.quantity')[0]][0]
@@ -86,6 +89,13 @@ def parse_instances(model_path, file_name):
             substance = fmu.get_variable_declared_type(instance+'.substance').items[fmu.get(instance+'.substance')[0]][0]
             equip = fmu.get_variable_declared_type(instance+'.equip').items[fmu.get(instance+'.equip')[0]][0]
             customMarkers = fmu.get(instance+'.customMarkers')[0]
+            try:
+                fmu.get(instance+'.zone')[0]
+                zone = 'zone'
+            except FMUException:
+                zone = 'None'
+            writable = 'None'
+
         # KPI
         elif 'KPIs' in var:
             label = 'kpi'
@@ -102,6 +112,8 @@ def parse_instances(model_path, file_name):
                                                       'ductSectionType':ductSectionType,
                                                       'substance':substance,
                                                       'equip':equip,
+                                                      'zone':zone,
+                                                      'writable':writable,
                                                       'customMarkers':customMarkers}
         else:
             signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
@@ -210,60 +222,34 @@ def write_wrapper(model_path, file_name, instances):
 
     return fmu_path, wrapped_path
 
-def write_haystack_json(instances, site_name):
-    markers = ['pointFunctionType',
-               'quantity',
-               'ductSectionType',
-               'substance',
-               'equip',
-               'customMarkers']
-    haystack = dict()
+def write_full_haystack_dict(instances, site_name):
+    '''Write haystack dictionary used to create tags json.
+
+    Parameters
+    ----------
+    instances : dict
+
+    site_name : str
+
+    Returns
+    -------
+    haystack_dict
+
+    '''
+
+    haystack_dict = dict()
     # Check for instances of Overwrite and/or Read blocks
     len_write_blocks = len(instances['Overwrite'])
     len_read_blocks = len(instances['Read'])
     # If there are, write and export wrapper model
-    if (len_write_blocks + len_read_blocks):
-        for block in instances['Overwrite'].keys():
-            name = _make_var_name(block,style='input_signal')
-            haystack[name] = dict()
-            haystack[name]['siteRef'] = 'r:{0}'.format(site_name)
-            haystack[name]['dis'] = 's:{0}'.format(instances['Overwrite'][block]['Description'])
-            haystack[name]['unit'] = 's:{0}'.format(instances['Overwrite'][block]['Unit'])
-            haystack[name]['kind'] = 's:Number'
-            haystack[name]['writable'] = 'm:'
-            for marker in markers:
-                m = instances['Overwrite'][block]['Haystack'][marker]
-                if (m is not None) and (m != 'None'):
-                    if marker == 'customMarkers':
-                        if len(m)>0:
-                            m = m[1:-1]
-                            m_list = m.split(',')
-                            for i in m_list:
-                                haystack[name][i] = 'm:'
-                    else:
-                        haystack[name][m] = 'm:'
-        for block in instances['Read'].keys():
-            name = _make_var_name(block,style='output')
-            haystack[name] = dict()
-            haystack[name]['siteRef'] = 'r:{0}'.format(site_name)
-            haystack[name]['dis'] = 's:{0}'.format(instances['Read'][block]['Description'])
-            haystack[name]['unit'] = 's:{0}'.format(instances['Read'][block]['Unit'])
-            haystack[name]['kind'] = 's:Number'
-            for marker in markers:
-                m = instances['Read'][block]['Haystack'][marker]
-                if (m is not None) and (m != 'None'):
-                    if marker == 'customMarkers':
-                        if len(m)>0:
-                            m = m[1:-1]
-                            m_list = m.split(',')
-                            for i in m_list:
-                                haystack[name][i] = 'm:'
-                    else:
-                        haystack[name][m] = 'm:'
+    if len_write_blocks:
+        haystack_dict = _write_haystack_dict(instances, haystack_dict, site_name, 'Overwrite')
+    if len_read_blocks:
+        haystack_dict = _write_haystack_dict(instances, haystack_dict, site_name, 'Read')
 
-    return haystack
+    return haystack_dict
 
-def export_fmu(model_path, file_name, testcase_name = None):
+def export_fmu(model_path, file_name, testcase_name):
     '''Parse signal exchange blocks and export boptest fmu, kpi json, and tags json.
 
     Parameters
@@ -273,9 +259,8 @@ def export_fmu(model_path, file_name, testcase_name = None):
     file_name : list
         Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
-    testcase_name : str, optional
+    testcase_name : str
         Name of testcase.
-        Default is None
 
     Returns
     -------
@@ -297,10 +282,10 @@ def export_fmu(model_path, file_name, testcase_name = None):
     with open(kpi_path, 'w') as f:
         json.dump(signals, f)
     # Write Tags json
-    haystack_json = write_haystack_json(instances, testcase_name)
+    haystack_dict = write_full_haystack_dict(instances, testcase_name)
     tags_path = os.path.join(os.getcwd(), 'tags.json')
     with open(tags_path, 'w') as f:
-        json.dump(haystack_json, f, indent=2)
+        json.dump(haystack_dict, f, indent=2)
     instances_path = os.path.join(os.getcwd(), 'instances.json')
     with open(instances_path, 'w') as f:
         json.dump(instances, f, indent=4)
@@ -352,6 +337,62 @@ def _make_var_name(block, style, description='', attribute=''):
         raise ValueError('Style {0} unknown.'.format(style))
 
     return var_name
+
+def _write_haystack_dict(instances, haystack_dict, site_name, sig_exc='Overwrite'):
+    '''Writes the haystack dictionary.
+
+    Parameters
+    ----------
+    instances : dict
+        Dictionary of overwrite and read block class instance lists.
+        From function parse_instances.
+    haystack_dict : dict
+        Starting haystack_dict.
+    site_name : str
+        Name of site.
+    sig_exc : str
+        Signal exchange block type.  Options are 'Overwrite' or 'Read'.
+
+    Returns
+    -------
+    haystack_dict : dict
+        Modified haystack_dict
+
+    '''
+
+    markers = ['pointFunctionType',
+               'quantity',
+               'ductSectionType',
+               'substance',
+               'equip',
+               'zone',
+               'writable',
+               'customMarkers']
+    for block in instances[sig_exc].keys():
+        if sig_exc == 'Overwrite':
+            name = _make_var_name(block,style='input_signal')
+        elif sig_exc == 'Read':
+            name = _make_var_name(block,style='output')
+        else:
+            raise ValueError('Signal exchange block type {0} unknown.'.format(sig_exc))
+        haystack_dict[name] = dict()
+        haystack_dict[name]['siteRef'] = 'r:{0}'.format(site_name)
+        haystack_dict[name]['dis'] = 's:{0}'.format(instances[sig_exc][block]['Description'])
+        haystack_dict[name]['unit'] = 's:{0}'.format(instances[sig_exc][block]['Unit'])
+        haystack_dict[name]['kind'] = 's:Number'
+        for marker in markers:
+            m = instances[sig_exc][block]['Haystack'][marker]
+            if m != 'None':
+                if marker == 'customMarkers':
+                    if len(m)>0:
+                        m = m[1:-1]
+                        m_list = m.split(',')
+                        for i in m_list:
+                            haystack_dict[name][i] = 'm:'
+                else:
+                    haystack_dict[name][m] = 'm:'
+
+    return haystack_dict
 
 
 if __name__ == '__main__':
