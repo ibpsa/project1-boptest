@@ -72,25 +72,27 @@ model ThermostatWithInterface
 ", u( min=273.15 + 23,
       max=273.15 + 30,
       unit="K"))
-    annotation (Placement(transformation(extent={{-112,70},{-92,90}})));
+    annotation (Placement(transformation(extent={{-108,74},{-92,90}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite
                                               oveTSetHea(description="Zone temperature setpoint for heating
 ", u( min=273.15 + 15,
       max=273.15 + 23,
       unit="K"))
-    annotation (Placement(transformation(extent={{-112,30},{-92,50}})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         read(description="con.TsetCoo
+    annotation (Placement(transformation(extent={{-108,32},{-94,46}})));
+  Buildings.Utilities.IO.SignalExchange.Read TsetHea(
+    description="con.TsetCoo
 Zone air temperature setpoint for heating",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="K"))
-    annotation (Placement(transformation(extent={{-112,4},{-92,24}})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         read1(description="con.TsetCoo
+    annotation (Placement(transformation(extent={{-108,4},{-92,20}})));
+  Buildings.Utilities.IO.SignalExchange.Read TsetCoo(
+    description="con.TsetCoo
 Zone air temperature setpoint for cooling",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="K"))
-    annotation (Placement(transformation(extent={{-114,48},{-94,68}})));
+    annotation (Placement(transformation(extent={{-108,50},{-92,66}})));
 equation
   connect(TZon, heaPID.u_m)
     annotation (Line(points={{-140,0},{-62,0},{-62,28}}, color={0,0,127}));
@@ -135,17 +137,19 @@ equation
   connect(oveTSupHea.y, TSupSwitch.u3) annotation (Line(points={{-11,-90},{20,
           -90},{20,12},{28,12}}, color={0,0,127}));
   connect(TSetCoo, oveTSetCoo.u)
-    annotation (Line(points={{-140,80},{-114,80}}, color={0,0,127}));
+    annotation (Line(points={{-140,80},{-126,80},{-126,82},{-109.6,82}},
+                                                   color={0,0,127}));
   connect(TSetHea, oveTSetHea.u)
-    annotation (Line(points={{-140,40},{-114,40}}, color={0,0,127}));
-  connect(oveTSetHea.y, read.u) annotation (Line(points={{-91,40},{-92,40},{-92,
-          26},{-122,26},{-122,12},{-114,12},{-114,14}}, color={0,0,127}));
-  connect(read.y, heaPID.u_s)
-    annotation (Line(points={{-91,14},{-74,14},{-74,40}}, color={0,0,127}));
-  connect(oveTSetCoo.y, read1.u) annotation (Line(points={{-91,80},{-118,80},{
-          -118,58},{-116,58}}, color={0,0,127}));
-  connect(read1.y, cooPID.u_s) annotation (Line(points={{-93,58},{-86,58},{-86,
-          80},{-74,80}}, color={0,0,127}));
+    annotation (Line(points={{-140,40},{-126,40},{-126,39},{-109.4,39}},
+                                                   color={0,0,127}));
+  connect(oveTSetHea.y, TsetHea.u) annotation (Line(points={{-93.3,39},{-90,39},
+          {-90,26},{-116,26},{-116,12},{-109.6,12}}, color={0,0,127}));
+  connect(TsetHea.y, heaPID.u_s)
+    annotation (Line(points={{-91.2,12},{-74,12},{-74,40}}, color={0,0,127}));
+  connect(oveTSetCoo.y, TsetCoo.u) annotation (Line(points={{-91.2,82},{-90,82},
+          {-90,70},{-116,70},{-116,58},{-109.6,58}}, color={0,0,127}));
+  connect(TsetCoo.y, cooPID.u_s) annotation (Line(points={{-91.2,58},{-86,58},{
+          -86,80},{-74,80}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,
             -100},{100,100}}),                                  graphics={
                                 Rectangle(

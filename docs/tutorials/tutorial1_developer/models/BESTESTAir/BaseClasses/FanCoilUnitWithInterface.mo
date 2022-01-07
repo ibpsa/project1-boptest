@@ -66,30 +66,61 @@ model FanCoilUnitWithInterface "Four-pipe fan coil unit model"
     annotation (Placement(transformation(extent={{-8,110},{12,130}})));
   Modelica.Blocks.Math.Gain powCoo(k=-1/COP)
     annotation (Placement(transformation(extent={{-8,130},{12,150}})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         read(description=
-        "Supply air mass flowrate",
+  Buildings.Utilities.IO.SignalExchange.Read SenSupFlo(
+    description="Supply air mass flowrate",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="kg/s"))
     annotation (Placement(transformation(extent={{28,72},{48,92}})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         read1(description=
-        "Supply air temperature",
+  Buildings.Utilities.IO.SignalExchange.Read SenSupTem(
+    description="Supply air temperature",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="K"))
     annotation (Placement(transformation(extent={{66,72},{86,92}})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         read2(description=
-        "Return air temperature",
+  Buildings.Utilities.IO.SignalExchange.Read SenRetTem(
+    description="Return air temperature",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+
     y(unit="K"))
     annotation (Placement(transformation(extent={{62,-86},{82,-66}})));
   Buildings.Utilities.IO.SignalExchange.Read
-                                         read3(description=
+                                         y_Fan(description=
         "Supply fan speed setpoint",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="1"))
-    annotation (Placement(transformation(extent={{-84,-70},{-64,-50}})));
+    annotation (Placement(transformation(extent={{-84,-90},{-64,-70}})));
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         Pfan(
+    description="Supply fan electrical power consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    y(unit="W"))
+    "Supply fan electrical power consumption" annotation (Placement(
+        transformation(
+        extent={{-6,-6},{6,6}},
+        rotation=0,
+        origin={60,100})));
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         Phea(
+    description="Heating thermal power consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+
+    y(unit="W"))
+    annotation (Placement(transformation(
+        extent={{-6,-6},{6,6}},
+        rotation=0,
+        origin={60,120})));
+  Buildings.Utilities.IO.SignalExchange.Read
+                                         Pcoo(
+    description="Cooling electrical power consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    y(unit="W"))
+    annotation (Placement(transformation(
+        extent={{-6,-6},{6,6}},
+        rotation=0,
+        origin={60,140})));
 equation
   connect(senSupTem.port_b, supplyAir)
     annotation (Line(points={{60,60},{100,60}}, color={0,127,255}));
@@ -101,19 +132,12 @@ equation
                       color={0,127,255}));
   connect(senSupFlo.port_b, senSupTem.port_a)
     annotation (Line(points={{30,60},{40,60}}, color={0,127,255}));
-  connect(fan.P, PFan)
-    annotation (Line(points={{-39,-69},{-39,-66},{-40,-66},{-40,-62},{-52,-62},{
-          -52,100},{110,100}},                               color={0,0,127}));
   connect(fan.port_b, heaCoi.port_a)
     annotation (Line(points={{-30,-70},{-30,-40}}, color={0,127,255}));
   connect(heaCoi.port_b, cooCoi.port_a)
     annotation (Line(points={{-30,-20},{-30,20}}, color={0,127,255}));
   connect(cooCoi.port_b, senSupFlo.port_a)
     annotation (Line(points={{-30,40},{-30,60},{10,60}}, color={0,127,255}));
-  connect(powCoo.y,PCoo)  annotation (Line(points={{13,140},{58,140},{58,140},{110,
-          140}}, color={0,0,127}));
-  connect(powHea.y,PHea)  annotation (Line(points={{13,120},{59.5,120},{59.5,120},
-          {110,120}}, color={0,0,127}));
   connect(powCoo.u, cooCoi.Q_flow)
     annotation (Line(points={{-10,140},{-38,140},{-38,41}}, color={0,0,127}));
   connect(heaCoi.Q_flow, powHea.u) annotation (Line(points={{-38,-19},{-38,-8},{
@@ -122,16 +146,29 @@ equation
           8},{-38,8},{-38,18}}, color={0,0,127}));
   connect(TSupSet, heaCoi.TSet) annotation (Line(points={{-120,60},{-80,60},{-80,
           -50},{-38,-50},{-38,-42}}, color={0,0,127}));
-  connect(senSupFlo.m_flow, read.u) annotation (Line(points={{20,71},{24,71},{
-          24,82},{26,82}}, color={0,0,127}));
-  connect(senSupTem.T, read1.u) annotation (Line(points={{50,71},{58,71},{58,82},
-          {64,82}}, color={0,0,127}));
-  connect(senRetTem.T, read2.u) annotation (Line(points={{50,-89},{54,-89},{54,
-          -76},{60,-76}}, color={0,0,127}));
-  connect(fan.y, read3.y) annotation (Line(points={{-42,-80},{-60,-80},{-60,-60},
-          {-63,-60}}, color={0,0,127}));
-  connect(read3.u, yFan)
-    annotation (Line(points={{-86,-60},{-120,-60}}, color={0,0,127}));
+  connect(senSupFlo.m_flow, SenSupFlo.u) annotation (Line(points={{20,71},{24,
+          71},{24,82},{26,82}}, color={0,0,127}));
+  connect(senSupTem.T, SenSupTem.u) annotation (Line(points={{50,71},{58,71},{
+          58,82},{64,82}}, color={0,0,127}));
+  connect(senRetTem.T, SenRetTem.u) annotation (Line(points={{50,-89},{54,-89},
+          {54,-76},{60,-76}}, color={0,0,127}));
+  connect(fan.y,y_Fan. y) annotation (Line(points={{-42,-80},{-63,-80}},
+                      color={0,0,127}));
+  connect(y_Fan.u, yFan)
+    annotation (Line(points={{-86,-80},{-94,-80},{-94,-60},{-120,-60}},
+                                                    color={0,0,127}));
+  connect(fan.P, Pfan.u) annotation (Line(points={{-39,-69},{-39,-66},{-40,-66},
+          {-40,-62},{-52,-62},{-52,100},{52.8,100}}, color={0,0,127}));
+  connect(Pfan.y, PFan)
+    annotation (Line(points={{66.6,100},{110,100}}, color={0,0,127}));
+  connect(powHea.y, Phea.u)
+    annotation (Line(points={{13,120},{52.8,120}}, color={0,0,127}));
+  connect(Phea.y, PHea)
+    annotation (Line(points={{66.6,120},{110,120}}, color={0,0,127}));
+  connect(powCoo.y, Pcoo.u)
+    annotation (Line(points={{13,140},{52.8,140}}, color={0,0,127}));
+  connect(Pcoo.y, PCoo)
+    annotation (Line(points={{66.6,140},{110,140}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-140},
             {100,140}}),                                        graphics={
                                         Text(

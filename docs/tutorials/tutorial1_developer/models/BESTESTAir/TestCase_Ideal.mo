@@ -32,34 +32,6 @@ model TestCase_Ideal "Testcase model"
         extent={{-6,6},{6,-6}},
         rotation=180,
         origin={32,-20})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         Pfan(description=
-        "Supply fan electrical power consumption",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-    y(unit="W"))
-    "Supply fan electrical power consumption" annotation (Placement(
-        transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=0,
-        origin={44,46})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         Phea(description=
-        "Heating thermal power consumption",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    y(unit="W"))
-    annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=0,
-        origin={44,58})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         Pcoo(description=
-        "Cooling electrical power consumption",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-    y(unit="W"))
-    annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=0,
-        origin={44,70})));
 equation
   connect(TSetHea.y[1], con.TSetHea) annotation (Line(points={{-79,-32},{-70,
           -32},{-70,4},{-51.8182,4}},
@@ -81,12 +53,6 @@ equation
           -20},{39.2,-20}}, color={0,0,127}));
   connect(TrooAir.y, con.TZon) annotation (Line(points={{25.4,-20},{-60,-20},{
           -60,0},{-51.8182,0}}, color={0,0,127}));
-  connect(fcu.PCoo, Pcoo.u) annotation (Line(points={{21,14},{30,14},{30,70},{
-          36.8,70}}, color={0,0,127}));
-  connect(fcu.PHea, Phea.u) annotation (Line(points={{21,12},{32,12},{32,58},{
-          36.8,58}}, color={0,0,127}));
-  connect(fcu.PFan, Pfan.u) annotation (Line(points={{21,10},{34,10},{34,46},{
-          36.8,46}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
