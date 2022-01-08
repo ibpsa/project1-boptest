@@ -45,6 +45,7 @@ def run(plot=False):
     length = 48*3600
     step = 300
     use_forecast = True
+    # ------------------------------------
 
     # RUN THE CONTROL TEST
     # --------------------
