@@ -60,7 +60,6 @@ generate_testcase_data:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
-#	docker cp ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	make stop_jm
 
@@ -68,12 +67,6 @@ generate_testcase_data:
 
 # Tests
 ###############################################################################
-test_tutorial1_developer:
-# Build boundary condition
-	make generate_testcase_data TESTCASE=tutorial1_developer
-# Compile testcase model
-	make compile_testcase_model TESTCASE=tutorial1_developer
-
 test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
