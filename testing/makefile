@@ -60,7 +60,7 @@ generate_testcase_data:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
+	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	make stop_jm
 
 ###############################################################################
