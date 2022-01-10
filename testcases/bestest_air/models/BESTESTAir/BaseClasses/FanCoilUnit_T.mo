@@ -33,15 +33,13 @@ model FanCoilUnit_T
     annotation (Placement(transformation(extent={{-8,170},{12,190}})));
   Buildings.Utilities.IO.SignalExchange.Read reaFloSup(y(unit="kg/s"), description=
         "Supply air mass flow rate",
-    quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.flow_q,
-
+    quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.flow_t,
     ductSectionType=Buildings.Utilities.IO.SignalExchange.HaystackTags.DuctSectionType.discharge,
-
     substance=Buildings.Utilities.IO.SignalExchange.HaystackTags.Substance.air,
-
     equip=Buildings.Utilities.IO.SignalExchange.HaystackTags.Equip.airHandlingEquip)
                                      "Read supply air flowrate"
     annotation (Placement(transformation(extent={{40,110},{60,130}})));
+
   Modelica.Blocks.Interfaces.RealInput TSup "Temperature of supply air"
     annotation (Placement(transformation(extent={{-180,20},{-140,60}})));
   Buildings.Utilities.IO.SignalExchange.Read reaPCoo(
@@ -49,7 +47,6 @@ model FanCoilUnit_T
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     description="Cooling electrical power consumption",
     quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.power,
-
     equip=Buildings.Utilities.IO.SignalExchange.HaystackTags.Equip.chiller)
     "Read power for cooling"
     annotation (Placement(transformation(extent={{70,170},{90,190}})));
@@ -59,7 +56,6 @@ model FanCoilUnit_T
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
     description="Heating thermal power consumption",
     quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.power,
-
     equip=Buildings.Utilities.IO.SignalExchange.HaystackTags.Equip.boiler)
                                                      "Read power for heating"
     annotation (Placement(transformation(extent={{70,150},{90,170}})));
@@ -69,11 +65,11 @@ model FanCoilUnit_T
     description="Supply fan electrical power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.power,
-
     equip=Buildings.Utilities.IO.SignalExchange.HaystackTags.Equip.motor,
     customMarkers="{fan}")
     "Read power for supply fan"
     annotation (Placement(transformation(extent={{70,130},{90,150}})));
+
   Modelica.Blocks.Math.Gain fanGai(k=mAir_flow_nominal) "Fan gain"
     annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan(

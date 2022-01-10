@@ -286,9 +286,6 @@ def export_fmu(model_path, file_name, testcase_name):
     tags_path = os.path.join(os.getcwd(), 'tags.json')
     with open(tags_path, 'w') as f:
         json.dump(haystack_dict, f, indent=2)
-    instances_path = os.path.join(os.getcwd(), 'instances.json')
-    with open(instances_path, 'w') as f:
-        json.dump(instances, f, indent=4)
     # Generate test case data
     man = Data_Manager()
     man.save_data_and_jsons(fmu_path=fmu_path)
@@ -389,6 +386,10 @@ def _write_haystack_dict(instances, haystack_dict, site_name, sig_exc='Overwrite
                         m_list = m.split(',')
                         for i in m_list:
                             haystack_dict[name][i] = 'm:'
+                elif m == 'flow_t':
+                    haystack_dict[name]['flow'] = 'm:'
+                elif m == 'return_t':
+                    haystack_dict[name]['return'] = 'm:'
                 else:
                     haystack_dict[name][m] = 'm:'
 
