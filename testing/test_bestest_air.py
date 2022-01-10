@@ -22,7 +22,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         self.name = 'bestest_air'
         self.url = 'http://127.0.0.1:5000'
         self.points_check = ['fcu_reaPCoo_y', 'fcu_reaFloSup_y',
-                             'fcu_reaTSup_y', 'fcu_reaFanSet_y',
+                             'fcu_oveTSup_u', 'fcu_oveFan_u',
                              'zon_reaPPlu_y', 'fcu_reaPFan_y',
                              'fcu_reaPHea_y', 'zon_reaPLig_y',
                              'zon_reaTRooAir_y', 'zon_reaCO2RooAir_y',

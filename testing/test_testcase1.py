@@ -33,8 +33,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Run test
-        custom_kpi_config_path = os.path.join(utilities.get_root_path(), 'examples', 'python', 'custom_kpi', 'custom_kpis_example.config')
-        kpi,df_res,customizedkpis_result = testcase1.run(customized_kpi_config=custom_kpi_config_path)
+        kpi,df_res,customizedkpis_result = testcase1.run()
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
@@ -72,7 +71,7 @@ class ExampleScenarioPython(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Run test
-        kpi = testcase1_scenario.run(plot=False)
+        kpi, df_res, custom_kpi_result = testcase1_scenario.run(plot=False)
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
@@ -209,8 +208,8 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         # Check y[2] indicates no simulation (empty dict)
         self.assertDictEqual(y,dict())
         # Check results
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
+        points = self.get_all_points(self.url)
+        df = self.results_to_df(points, -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_extra_step.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 
@@ -226,8 +225,8 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         requests.put('{0}/step'.format(self.url), data={'step':step})
         requests.post('{0}/advance'.format(self.url), data={}).json()
         # Check results
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        df = self.results_to_df(measurements.keys(), -np.inf, np.inf, self.url)
+        points = self.get_all_points(self.url)
+        df = self.results_to_df(points, -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_time_period_end_larger_step.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 

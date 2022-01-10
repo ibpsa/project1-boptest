@@ -11,6 +11,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput CO2RooAirNor_y(unit="ppm") = mod.CO2RooAirNor.y "Zone air CO2 concentration of north zone";
 	Modelica.Blocks.Interfaces.RealOutput TRooAirNor_y(unit="K") = mod.TRooAirNor.y "Zone air temperature of north zone";
 	Modelica.Blocks.Interfaces.RealOutput PHeaSou_y(unit="W") = mod.PHeaSou.y "Heater power of south zone";
+	Modelica.Blocks.Interfaces.RealOutput oveActNor_y(unit="W") = mod.oveActNor.y "Heater thermal power of north zone";
+	Modelica.Blocks.Interfaces.RealOutput oveActSou_y(unit="W") = mod.oveActSou.y "Heater thermal power of south zone";
 	// Original model
 	TwoZones mod(
 		oveActNor(uExt(y=oveActNor_u),activate(y=oveActNor_activate)),

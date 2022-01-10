@@ -14,6 +14,7 @@ to be simulated.
 import subprocess
 import pandas as pd
 import os
+import numpy as np
 
 def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
               plot = False):
@@ -70,10 +71,10 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
         subprocess.call(cmd)
 
         # Read results to data frame
-        df = pd.read_csv('simulation.csv', index_col='Time')
+        df_raw = pd.read_csv('simulation.csv', index_col='Time')
 
     elif os.path.isfile(data) and data.endswith('.csv'):
-        df = pd.read_csv(data, index_col='Time')
+        df_raw = pd.read_csv(data, index_col='Time')
 
     else:
         raise Exception('The data argument should be either the <simulate>'/
@@ -81,8 +82,8 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
                         'the yearly model simulation data. ')
 
     # Load data
-    df.index = pd.TimedeltaIndex(df.index.values, unit='s')
-    df = df.resample('15T').mean()
+    df_raw.index = pd.TimedeltaIndex(df_raw.index.values, unit='s')
+    df = df_raw.resample('15T').mean()
     df.dropna(axis=0, inplace=True)
     # Since assume two-week test period with one-week warmup,
     # edges of year are not available to choose from
@@ -117,10 +118,15 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
         print('Typical cool is day {0}.'.format(typical_cool_day))
 
     # Find heat cool mix
-
     if (heat is not None) and (cool is not None):
-        mix = df_available_daily[heat]+df_available_daily[cool]-abs(df_available_daily[heat]-df_available_daily[cool])
-        mix_day = mix.idxmax().days
+        df_available_daily_sum = pd.DataFrame(index=df_available_daily.index, columns=df_available_daily.columns)
+        # For every day, integrate heating and cooling load
+        for d in df_available_daily.index:
+            for c in df_available_daily_sum.columns:
+                df_available_daily_sum.loc[d,c] = np.trapz(df_raw[c][df_raw.index.days==d.days], df_raw.index.seconds[df_raw.index.days==d.days])
+        # Calculate mix day
+        mix = df_available_daily_sum[heat]+df_available_daily_sum[cool]-abs(df_available_daily_sum[heat]-df_available_daily_sum[cool])
+        mix_day = mix.astype(float).idxmax().days
         days['mix_day'] = mix_day
         print('Mix is day {0}.'.format(mix_day))
 
