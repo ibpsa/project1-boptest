@@ -15,6 +15,7 @@ import os
 sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
 from examples.python.interface import control_test
 
+
 def run(plot=False):
     """Run controller test.
 
@@ -38,7 +39,7 @@ def run(plot=False):
     """
 
     # CONFIGURATION FOR THE CONTROL TEST
-    # ----------------------------------
+    # ---------------------------------------
     control_module = 'examples.python.controllers.pid'
     start_time = 0
     warmup_period = 0
@@ -46,6 +47,7 @@ def run(plot=False):
     step = 300
     customized_kpi_dir_path = os.path.dirname(os.path.realpath(__file__))
     customized_kpi_config = os.path.join(customized_kpi_dir_path, 'custom_kpi', 'custom_kpis_example.config')
+    # ---------------------------------------
 
     # RUN THE CONTROL TEST
     # --------------------
