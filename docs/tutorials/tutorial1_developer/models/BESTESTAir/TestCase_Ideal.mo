@@ -23,15 +23,15 @@ model TestCase_Ideal "Testcase model"
   BaseClasses.FanCoilUnitWithInterface
                           fcu(dpAir_nominal(displayUnit="Pa"))
     annotation (Placement(transformation(extent={{0,-14},{20,14}})));
-  Buildings.Utilities.IO.SignalExchange.Read
-                                         TrooAir(description=
-        "Zone air temperature",
+  Buildings.Utilities.IO.SignalExchange.Read reaTRooAir(
+    description="Zone air temperature",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
-    y(unit="K"))
-    annotation (Placement(transformation(
-        extent={{-6,6},{6,-6}},
+
+    y(unit="K")) "Read zone air temperature" annotation (Placement(
+        transformation(
+        extent={{-10,10},{10,-10}},
         rotation=180,
-        origin={32,-20})));
+        origin={30,-30})));
 equation
   connect(TSetHea.y[1], con.TSetHea) annotation (Line(points={{-79,-32},{-70,
           -32},{-70,4},{-51.8182,4}},
@@ -49,9 +49,9 @@ equation
   connect(con.TSupSet, fcu.TSupSet) annotation (Line(points={{-29.0909,2},{-26,
           2},{-26,6},{-2,6}},
                           color={0,0,127}));
-  connect(zon.TRooAir, TrooAir.u) annotation (Line(points={{81,0},{90,0},{90,
-          -20},{39.2,-20}}, color={0,0,127}));
-  connect(TrooAir.y, con.TZon) annotation (Line(points={{25.4,-20},{-60,-20},{
+  connect(zon.TRooAir, reaTRooAir.u) annotation (Line(points={{81,0},{90,0},{90,
+          -30},{42,-30}}, color={0,0,127}));
+  connect(reaTRooAir.y, con.TZon) annotation (Line(points={{19,-30},{-60,-30},{
           -60,0},{-51.8182,0}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
