@@ -30,6 +30,8 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         Reference for total indoor air quality discomfort.
     ener_tot_ref : float
         Reference for total energy use.
+    pele_tot_ref : float
+        Reference for total peak electrical demand.
     cost_tot_ref : float
         Reference for total cost.
     emis_tot_ref : float
@@ -40,8 +42,10 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         Reference for thermal discomfort distribution
     idis_dict_ref : dict
         Reference for indoor air quality discomfort distribution
-    ener_tot_ref : dict
+    ener_dict_ref : dict
         Reference for energy use distribution
+    pele_dict_ref : dict
+        Reference for peak electricity demand distribution
     cost_dict_ref : dict
         Reference for cost distribution
     emis_dict_ref : dict
@@ -81,6 +85,17 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         self.cal.get_energy()
         # Check results
         self._perform_test(self.case.ener_tot, self.case.ener_dict, 'ener')
+
+    def test_get_peak_ele(self):
+        '''Uses the KPI calculator to calculate the peak electricity demand
+        and compares with references.
+
+        '''
+
+        # Calculate peak electricity
+        self.cal.get_peak_electricity()
+        # Check results
+        self._perform_test(self.case.pele_tot, self.case.pele_dict, 'pele')
 
     def test_get_cost(self):
         '''Uses the KPI calculator to calculate the operational cost
@@ -172,6 +187,7 @@ class partialKpiCalculatorTest(utilities.partialChecks):
             self.cal.get_energy()
             self.cal.get_cost()
             self.cal.get_emissions()
+            self.cal.get_peak_electricity()
 
         # Check results
         self._perform_test(self.case.tdis_tot, self.case.tdis_dict, 'tdis')
@@ -179,6 +195,7 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         self._perform_test(self.case.ener_tot, self.case.ener_dict, 'ener')
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost')
         self._perform_test(self.case.emis_tot, self.case.emis_dict, 'emis')
+        self._perform_test(self.case.pele_tot, self.case.pele_dict, 'pele')
 
     def test_change_scenario_with_warmup(self):
         '''Checks that KPI calculator can change the scenario and
@@ -216,8 +233,9 @@ class partialKpiCalculatorTest(utilities.partialChecks):
 
         Parameters
         ----------
-        tot: float
+        tot: float or None
             Value of kpi "tot"
+            If None, not used
         dictionary: dict or None
             kpi "dict".
             If None, not used.
@@ -227,10 +245,11 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         '''
 
         # Check total
-        df = pd.DataFrame(data=[tot], index=['{0}_tot'.format(label)], columns=['value'])
-        df.index.name = 'keys'
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'kpis', '{0}_tot_{1}.csv'.format(label, self.name))
-        self.compare_ref_values_df(df, ref_filepath)
+        if tot is not None:
+            df = pd.DataFrame(data=[tot], index=['{0}_tot'.format(label)], columns=['value'])
+            df.index.name = 'keys'
+            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'kpis', '{0}_tot_{1}.csv'.format(label, self.name))
+            self.compare_ref_values_df(df, ref_filepath)
         # Check dict
         if dictionary is not None:
             df = pd.DataFrame.from_dict(dictionary, orient = 'index', columns=['value'])
@@ -288,6 +307,8 @@ class KpiCalculatorSingleZoneTest(unittest.TestCase, partialKpiCalculatorTest):
 
 class KpiCalculatorMultiZoneTest(unittest.TestCase, partialKpiCalculatorTest):
     '''Tests the Forecaster class in a multi-zone example.
+
+    Note this example has no electricity consumption.
 
     '''
 
