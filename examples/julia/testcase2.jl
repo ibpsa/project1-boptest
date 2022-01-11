@@ -76,7 +76,9 @@ println("Elapsed time of test was $time seconds.")
 kpi = JSON.parse(String(HTTP.get("$url/kpi").body))
 println("KPI RESULTS \n-----------")
 for key in keys(kpi)
-   if !isnothing(kpi[key])
+   if isnothing(kpi[key])
+       println("$key: nothing")
+   else
        println("$key: $(kpi[key])")
    end
 end

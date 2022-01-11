@@ -73,7 +73,11 @@ println("Test case complete.")
 kpi = JSON.parse(String(HTTP.get("$url/kpi").body))
 println("KPI RESULTS \n-----------")
 for key in keys(kpi)
-   println("$key: $(kpi[key])")
+   if isnothing(kpi[key])
+       println("$key: nothing")
+   else
+       println("$key: $(kpi[key])")
+   end
 end
 
 # ------------
