@@ -28,6 +28,9 @@ Released on xx/xx/xxx.
 
 - ``singlezone_commercial_hydronic``, a single-zone commercial hydronic model with district heating source, zone radiator, and air handling unit providing fresh air with CO2 control and heat recovery.  This is for [#162](https://github.com/ibpsa/project1-boptest/issues/162).
 
+**The following new core KPIs have been added:**
+
+- Peak Electricity Demand (``pele_tot`` in kW/m^2): The maximum 15-minute electrical demand over the test interval.  Returns ``null`` if test case has no electricity consumption.  This is for [#388](https://github.com/ibpsa/project1-boptest/issues/388).
 
 ## BOPTEST v0.1.0
 
