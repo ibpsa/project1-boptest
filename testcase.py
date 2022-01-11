@@ -55,9 +55,6 @@ class TestCase(object):
         # Get available control inputs and outputs
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
-        # Get input and output meta-data
-        self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
-        self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Set default communication step
         self.set_step(self.config_json['step'])
         # Set default forecast parameters
@@ -80,7 +77,8 @@ class TestCase(object):
         '''Initializes objects for simulation data storage.
 
         Uses self.output_names and self.input_names to create
-        self.y, self.y_store, self.u, and self.u_store.
+        self.y, self.y_store, self.u, self.u_store,
+        self.inputs_metadata, self.outputs_metadata.
 
         Parameters
         ----------
@@ -92,10 +90,24 @@ class TestCase(object):
 
         '''
 
+        # Get input and output meta-data
+        self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
+        self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Outputs data
         self.y = {'time':np.array([])}
         for key in self.output_names:
-            self.y[key] = np.array([])
+            # Do not store outputs that are current values of control inputs
+            flag = False
+            for key_u in self.input_names:
+                if key[:-2] == key_u[:-2]:
+                    flag = True
+                    break
+            if flag:
+                # Remove outputs that are current values of control inputs
+                # from outputs metadata dictionary
+                self.outputs_metadata.pop(key)
+            else:
+                self.y[key] = np.array([])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
         self.u = {'time':np.array([])}
@@ -166,16 +178,23 @@ class TestCase(object):
             i = 0
         else:
             i = 1
-        # Get result and store measurement
+        # Store measurements
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
                 self.y_store[key] = np.append(self.y_store[key], res[key][i:])
-
-        # Store control inputs
-        if store:
-            for key in self.u.keys():
-                self.u_store[key] = np.append(self.u_store[key], res[key][i:])
+        # Store control signals (will be baseline if not activated, test controller input if activated)
+        for key in self.u.keys():
+            # Replace '_u' and '_y' for key used to collect data and don't overwrite time
+            if key[-2:] == '_u':
+                key_data = key[:-2]+'_y'
+            elif key == 'time':
+                key_data = 'time'
+            else:
+                key_data = key
+            self.u[key] = res[key_data][-1]
+            if store:
+                self.u_store[key] = np.append(self.u_store[key], res[key_data][i:])
 
     def advance(self,u):
         '''Advances the test case model simulation forward one step.
@@ -188,10 +207,12 @@ class TestCase(object):
 
         Returns
         -------
-        y : dict
-            Contains the measurement data at the end of the step.
-            {<measurement_name> : <measurement_value>}
+        z : dict
+            Contains the full state of measurement and input data at the end
+            of the step.
+            {<point_name> : <point_value>}
             If empty, simulation end time has been reached.
+            If None, a simulation error has occured.
 
         '''
 
@@ -247,8 +268,10 @@ class TestCase(object):
                 self.start_time = self.final_time
                 # Raise the flag to compute time lapse
                 self.tic_time = time.time()
+                # Get full current state
+                z = self._get_full_current_state()
 
-                return self.y
+                return z
 
             else:
                 # Error in simulation
@@ -256,8 +279,6 @@ class TestCase(object):
         else:
             # Simulation at end time
             return dict()
-
-
 
     def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
@@ -274,9 +295,11 @@ class TestCase(object):
 
         Returns
         -------
-        y : dict
-            Contains the measurement data at the end of the initialization.
-            {<measurement_name> : <measurement_value>}
+        z : dict
+            Contains the full state of measurement and input data at the end
+            of the initialization.
+            {<point_name> : <point_value>}.
+            If None, a simulation error has occured.
 
         '''
 
@@ -302,7 +325,10 @@ class TestCase(object):
             self.start_time = start_time
             # Initialize KPI Calculator
             self.cal.initialize()
-            return self.y
+            # Get full current state
+            z = self._get_full_current_state()
+
+            return z
 
         else:
 
@@ -697,3 +723,18 @@ class TestCase(object):
         area = self.area
 
         return area
+
+    def _get_full_current_state(self):
+        '''Combines the self.y and self.u dictionaries into one.
+
+        Returns
+        -------
+        z : dict
+            Combination of self.y and self.u dictionaries.
+
+        '''
+
+        z = self.y.copy()
+        z.update(self.u)
+
+        return z

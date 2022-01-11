@@ -4,12 +4,11 @@ ARG testcase
 
 RUN apt-get update && \
     apt-get install -y \
+	python3-pip \
 	firefox \
-	python \
-	python-pip \
 	wget
 
-RUN pip install splinter
+RUN pip3 install splinter urllib3 pandas selenium
 
 ENV PATH $PATH:/home
 

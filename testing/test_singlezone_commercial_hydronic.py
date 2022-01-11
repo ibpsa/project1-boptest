@@ -22,7 +22,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
 
         self.name = 'singlezone_commercial_hydronic'
         self.url = 'http://127.0.0.1:5000'
-        self.points_check = ['reaTZonSet_y','reaTSupSet_y',
+        self.points_check = ['oveTZonSet_u','oveTSupSet_u',
                              'reaCO2Zon_y','reaTZon_y',
                              'reaPFan_y','reaPPum_y',
                              'reaQHea_y','ahu_reaTSupAir_y',

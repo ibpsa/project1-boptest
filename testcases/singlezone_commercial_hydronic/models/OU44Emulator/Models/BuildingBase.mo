@@ -394,12 +394,12 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
             origin={-100,-106})));
       Modelica.Blocks.Math.Add add
         annotation (Placement(transformation(extent={{-60,-84},{-80,-64}})));
-      Buildings.Fluid.Sources.Outside outEx(nPorts=1, redeclare package Medium
-        =   Air,
+      Buildings.Fluid.Sources.Outside outEx(nPorts=1, redeclare package Medium =
+            Air,
       use_C_in=true)
         annotation (Placement(transformation(extent={{-140,30},{-120,50}})));
-      Buildings.Fluid.Sources.Outside outSu(nPorts=1, redeclare package Medium
-        =   Air,
+      Buildings.Fluid.Sources.Outside outSu(nPorts=1, redeclare package Medium =
+            Air,
       use_C_in=true)
         annotation (Placement(transformation(extent={{-140,-50},{-120,-30}})));
       Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
@@ -512,7 +512,6 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
 
     Buildings.Utilities.IO.SignalExchange.Read reaTCoiSup(
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
       y(unit="K"),
       description="AHU heating coil supply water temperature")
       "Read heating coil supply water temperature" annotation (Placement(
@@ -520,9 +519,9 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
           extent={{6,6},{-6,-6}},
           rotation=180,
           origin={120,-90})));
+
     Buildings.Utilities.IO.SignalExchange.Read reaTHeaRec(
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
       y(unit="K"),
       description=
           "AHU air temperature exiting heat recovery in supply air stream")
@@ -531,26 +530,7 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
           extent={{6,6},{-6,-6}},
           rotation=180,
           origin={20,-14})));
-    Buildings.Utilities.IO.SignalExchange.Read reaFanRet(
-      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
 
-      y(unit="1"),
-      description="AHU return fan speed control signal")
-      "Read for return fan speed control signal" annotation (Placement(
-          transformation(
-          extent={{6,6},{-6,-6}},
-          rotation=180,
-          origin={-8,72})));
-    Buildings.Utilities.IO.SignalExchange.Read reaFanSup(
-      KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
-      y(unit="1"),
-      description="AHU supply fan speed control signal")
-      "Read for supply fan speed control signal" annotation (Placement(
-          transformation(
-          extent={{6,6},{-6,-6}},
-          rotation=90,
-          origin={-60,30})));
   equation
       connect(fanSu.port_b, senVolFloIn.port_a)
         annotation (Line(points={{10,-40},{20,-40}}, color={0,127,255}));
@@ -642,14 +622,10 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
             40,-100}}, color={0,127,255}));
     connect(senTemIn2.T, reaTHeaRec.u) annotation (Line(points={{-26,-29},{-26,
             -26},{-6,-26},{-6,-14},{12.8,-14}}, color={0,0,127}));
-    connect(fanEx.y, reaFanRet.y)
-      annotation (Line(points={{10,52},{10,72},{-1.4,72}}, color={0,0,127}));
-    connect(reaFanRet.u, oveFanRet.y)
-      annotation (Line(points={{-15.2,72},{-25,72}}, color={0,0,127}));
-    connect(oveFanSup.y, reaFanSup.u)
-      annotation (Line(points={{-60,43.2},{-60,37.2}}, color={0,0,127}));
-    connect(reaFanSup.y, fanSu.y) annotation (Line(points={{-60,23.4},{-60,18},
-            {0,18},{0,-28}}, color={0,0,127}));
+    connect(oveFanRet.y, fanEx.y)
+      annotation (Line(points={{-25,72},{10,72},{10,52}}, color={0,0,127}));
+    connect(oveFanSup.y, fanSu.y) annotation (Line(points={{-60,43.2},{-60,20},
+            {0,20},{0,-28}}, color={0,0,127}));
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,
                 -100},{160,100}}), graphics={
             Rectangle(
