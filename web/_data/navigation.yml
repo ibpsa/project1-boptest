@@ -1,0 +1,16 @@
+- name: Software
+  link: software/index.html
+- name: Dashboard
+  link: http://boptest.kbenne.net/
+- name: Documentation
+  dropdown:
+    - name: User Guide
+      link: userGuide/index.html
+    - name: Design Specification
+      link: docs-design/index.html
+- name: Training
+  link: training/index.html
+- name: Publications
+  link: publications/index.html
+- name: News
+  link: blog/index.html

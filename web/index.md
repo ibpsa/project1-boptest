@@ -2,14 +2,15 @@
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
-layout: home
+title: The Building Optimization Testing Framework (BOPTEST)
+hero_height: is-fullwidth
 ---
 
-![Concept](images/concept.png)
+<p align="center">
+    <img src="images/concept.png" alt="drawing" width="50%"/>
+</p>
 
-# The Building Optimization Testing Framework (BOPTEST)
-
-A software framework developed to facilitate the performance evaluation and benchmarking of building control strategies.
+BOPTEST is designed to facilitate the performance evaluation and benchmarking of building control strategies.
 It contains these key components:
 
 1. **Run-Time Environment (RTE)**: Deployed with Docker and accessed with a RESTful HTTP API, use the RTE to set up tests, control building emulators, access data, and report KPIs.
@@ -26,5 +27,3 @@ Stay up to date on the latest [News](/news).
 # Collaboration
 
 The development of BOPTEST has resulted from an international collaboration of academic, national laboratory, and industry partners through [IBPSA Project 1](https://ibpsa.github.io/project1/index.html) Work Package 1.2.  Thank you to all of the contributing partners.
-
-
