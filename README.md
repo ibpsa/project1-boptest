@@ -17,13 +17,18 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/kpis`` contains code for calculating key performance indicators.
 - ``/docs`` contains design documentation and delivered workshop content.
 
-## Quick-Start to Run Test Cases
+## Quick-Start to Deploy a Test Case
 1) Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
-2) Build and deploy a test case by ``$ TESTCASE=<testcase_dir_name> docker-compose up`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
-3) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described below.
-4) Shutdown the test case ``$ TESTCASE=<testcase_dir_name> docker-compose down`` where <testcase_dir_name> is the name of the test case deployed in step 2).
+2) Build and deploy a test case by the following commands executed in the root directory of this repository and where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``:
+ 
+  * Linux or macOS: ``$ TESTCASE=<testcase_dir_name> docker-compose up`` 
+  
+  * Windows PowerShell: ``> (setx TESTCASE "testcase1") -and (docker-compose up)``
 
-Run an example test controller:
+4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described below.
+5) Shutdown the test case by the command ``docker-compose down`` executed in the root directory of this repository
+
+## Run an example test controller:
 
 * For Python-based example controllers:
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1.py`` to test a simple proportional feedback controller on this test case over a two-day period.
