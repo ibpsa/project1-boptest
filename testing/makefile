@@ -66,7 +66,7 @@ generate_testcase_data:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
+	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	make stop_jm
 
 ###############################################################################
@@ -168,6 +168,20 @@ test_multizone_residential_hydronic:
 	cd .. && python testing/test_multizone_residential_hydronic.py
 # Stop testcase container
 	cd .. && TESTCASE=multizone_residential_hydronic docker-compose down
+
+test_singlezone_commercial_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=singlezone_commercial_hydronic
+# Build testcase image
+	cd .. &&  make build TESTCASE=singlezone_commercial_hydronic
+# Deploy testcase container
+	cd .. && make run-detached TESTCASE=singlezone_commercial_hydronic
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_singlezone_commercial_hydronic.py
+# Stop testcase container
+	cd .. && make stop TESTCASE=singlezone_commercial_hydronic
+
 
 test_parser:
 	make run_jm
@@ -287,6 +301,7 @@ test_all:
 	make test_bestest_hydronic
 	make test_bestest_hydronic_heat_pump
 	make test_multizone_residential_hydronic
+	make test_singlezone_commercial_hydronic
 # Remove jm
 	make remove_jm_image
 # Remove boptest base image

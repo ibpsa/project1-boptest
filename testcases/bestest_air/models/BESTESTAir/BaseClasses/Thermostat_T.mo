@@ -26,14 +26,6 @@ model Thermostat_T
     reverseActing=false,
     reset=Buildings.Types.Reset.Disabled) "Cooling control signal"
     annotation (Placement(transformation(extent={{-10,70},{10,90}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaTSetCoo(y(unit="K"), description=
-        "Zone air temperature setpoint for cooling")
-    "Read zone cooling setpoint"
-    annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaTSetHea(y(unit="K"), description=
-        "Zone air temperature setpoint for heating")
-                                                    "Read zone cooling heating"
-    annotation (Placement(transformation(extent={{-40,30},{-20,50}})));
   Modelica.Blocks.Math.Add add
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
 
@@ -90,10 +82,6 @@ equation
     annotation (Line(points={{-120,0},{0,0},{0,28}},     color={0,0,127}));
   connect(TZon, cooPI.u_m) annotation (Line(points={{-120,0},{-16,0},{-16,60},{0,
           60},{0,68}},   color={0,0,127}));
-  connect(reaTSetCoo.y, cooPI.u_s)
-    annotation (Line(points={{-19,80},{-12,80}}, color={0,0,127}));
-  connect(reaTSetHea.y, heaPI.u_s)
-    annotation (Line(points={{-19,40},{-12,40}}, color={0,0,127}));
   connect(cooPI.y, add.u1) annotation (Line(points={{11,80},{30,80},{30,6},{38,
           6}}, color={0,0,127}));
   connect(heaPI.y, add.u2) annotation (Line(points={{11,40},{20,40},{20,-6},{38,
@@ -102,10 +90,6 @@ equation
     annotation (Line(points={{-79,40},{-72,40}}, color={0,0,127}));
   connect(TSetCoo.y[1], oveTSetCoo.u)
     annotation (Line(points={{-79,80},{-72,80}}, color={0,0,127}));
-  connect(oveTSetCoo.y, reaTSetCoo.u)
-    annotation (Line(points={{-49,80},{-42,80}}, color={0,0,127}));
-  connect(oveTSetHea.y, reaTSetHea.u)
-    annotation (Line(points={{-49,40},{-42,40}}, color={0,0,127}));
   connect(cooPI.y, cooTem.u) annotation (Line(points={{11,80},{20,80},{20,90},{
           38,90}}, color={0,0,127}));
   connect(heaPI.y, heaTem.u) annotation (Line(points={{11,40},{20,40},{20,30},{
@@ -128,6 +112,10 @@ equation
     annotation (Line(points={{61,0},{68,0}}, color={0,0,127}));
   connect(fanLim.y, yFan)
     annotation (Line(points={{91,0},{110,0}}, color={0,0,127}));
+  connect(oveTSetHea.y, heaPI.u_s)
+    annotation (Line(points={{-49,40},{-12,40}}, color={0,0,127}));
+  connect(oveTSetCoo.y, cooPI.u_s)
+    annotation (Line(points={{-49,80},{-12,80}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                                 Rectangle(
         extent={{-100,-100},{100,100}},
