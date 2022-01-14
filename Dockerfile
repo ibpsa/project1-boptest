@@ -21,9 +21,6 @@ RUN pip install --user flask-restful==0.3.9 pandas==0.24.2 flask_cors==3.0.10
 RUN mkdir models && \
     mkdir doc
 
-COPY data data/
-COPY forecast forecast/
-COPY kpis kpis/
 ENV PYTHONPATH $PYTHONPATH:$HOME
 
 CMD python restapi.py && bash

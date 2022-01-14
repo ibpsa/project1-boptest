@@ -20,7 +20,7 @@ remove_jm_image:
 	docker rmi ${IMG_NAME}
 
 remove_boptest_image:
-	docker rmi boptest
+	docker rmi boptest_base
 
 run_jm:
 	$(COMMAND_RUN)

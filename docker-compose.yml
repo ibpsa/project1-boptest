@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   boptest:
-    image: boptest
+    image: boptest_base
     build:
       context: .
     volumes:
