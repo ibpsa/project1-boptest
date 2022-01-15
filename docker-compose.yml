@@ -15,7 +15,7 @@ services:
       - ./forecast:${APP_PATH}/forecast/
       - ./kpis:${APP_PATH}/kpis/
     ports:
-      - 5000:5000
+      - 127.0.0.1:5000:5000
     networks:
       - boptest-net
 
