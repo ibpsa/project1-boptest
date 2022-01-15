@@ -172,15 +172,13 @@ test_multizone_residential_hydronic:
 test_singlezone_commercial_hydronic:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=singlezone_commercial_hydronic
-# Build testcase image
-	cd .. &&  make build TESTCASE=singlezone_commercial_hydronic
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=singlezone_commercial_hydronic
+# Build and deploy testcase image
+	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose up -d
 	python sleep10.py && python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_singlezone_commercial_hydronic.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=singlezone_commercial_hydronic
+	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose down
 
 
 test_parser:
