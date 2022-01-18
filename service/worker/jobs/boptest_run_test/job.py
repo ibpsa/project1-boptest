@@ -3,8 +3,6 @@ import json
 import os
 import shutil
 import tarfile
-import time
-import uuid
 from datetime import datetime
 import boto3
 import pytz
@@ -19,6 +17,7 @@ class Job:
         self.key = parameters.get('key')
         self.testcaseid = parameters.get('testcaseid')
         self.testid = parameters.get('testid')
+        self.api_key = parameters.get('api_key')
         self.keep_running = True
         self.last_message_time = datetime.now()
 
@@ -214,12 +213,8 @@ class Job:
 
     def post_results_to_dashboard(self):
         dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
-        api_key = os.environ['BOPTEST_DASHBOARD_API_KEY']
 
-        if dash_server and api_key:
-            print('boom')
-
-            time = str(datetime.now(tz=pytz.UTC))
+        if dash_server and self.api_key:
             payload = {
               "results": [
                 {
@@ -229,7 +224,7 @@ class Job:
                   "isShared": True,
                   "controlStep": self.tc.get_step(),
                   "account": {
-                    "apiKey": api_key
+                    "apiKey": self.api_key
                   },
                   "tags": [],
                   "kpis": self.tc.get_kpis(),

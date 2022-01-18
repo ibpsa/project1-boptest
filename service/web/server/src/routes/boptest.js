@@ -44,11 +44,14 @@ boptestRouter.get('/version', async (req, res, next) => {
   }
 })
 
-boptestRouter.post('/testcases/:testcaseid/select', async (req, res, next) => {
+boptestRouter.post('/testcases/:testcaseid/select', 
+  body(['api_key']).optional(),
+  async (req, res, next) => {
   try {
     const testcaseid = req.params.testcaseid
+    const api_key = req.body['api_key'] || null
     const sqs = req.app.get('sqs')
-    const response = await select(testcaseid, sqs)
+    const response = await select(testcaseid, sqs, api_key)
     return res.send(response)
   } catch (e) {
     next(e)
