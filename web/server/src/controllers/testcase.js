@@ -60,11 +60,11 @@ export async function isTestcase(id, db) {
   return found != undefined
 }
 
-export async function select(testcaseid, sqs) {
+export async function select(testcaseid, sqs, api_key) {
   const testid = uuidv4()
   const key = getS3KeyForTestcaseID(testcaseid)
   await setStatus(testid, "Starting")
-  await addJobToQueue("boptest_run_test", {testcaseid, testid, key}, sqs)
+  await addJobToQueue("boptest_run_test", {testcaseid, testid, key, api_key}, sqs)
   await waitForStatus(testid, "Running")
   return { testid }
 }
