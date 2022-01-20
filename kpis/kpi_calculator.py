@@ -390,11 +390,11 @@ class KPI_Calculator(object):
                     df_pow_data_all = pd.concat([df_pow_data_all, df_pow_data], axis=1)
             df_pow_data_all.index = pd.TimedeltaIndex(df_pow_data_all.index, unit='s')
             df_pow_data_all = df_pow_data_all.resample('15T').mean()/self.case._get_area()/1000.
-            df_pow_data_all['peak_demand'] = df_pow_data_all.sum(axis=1)
-            peak = df_pow_data_all['peak_demand'].max()
+            df_pow_data_all['total_demand'] = df_pow_data_all.sum(axis=1)
+            peak = df_pow_data_all['total_demand'].max()
             self.pele_tot = peak
             # Find contributions to peak by each signal
-            i = df_pow_data_all['peak_demand'].idxmax()
+            i = df_pow_data_all['total_demand'].idxmax()
             for signal in self.case.kpi_json[source]:
                 self.pele_dict[signal] = df_pow_data_all.loc[i,signal]
         # Assign to case
