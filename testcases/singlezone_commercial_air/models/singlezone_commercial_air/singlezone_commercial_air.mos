@@ -1,0 +1,50 @@
+﻿Advanced.StoreProtectedVariables = true;
+//simulateModel("singlezone_commercial_air.singlezone_commercial_RTU_variable", stopTime=365*24*3600, outputInterval=3600, tolerance=1e-06, resultFile="singlezone_commercial_air.singlezone_envelope");
+//simulateModel("singlezone_commercial_air.singlezone_commercial_RTU_variable", stopTime=7*24*3600, outputInterval=3600, tolerance=1e-06");
+createPlot(
+    id=1,
+    subPlot=1,
+    y={"envelopeModel.roo.heaPorAir.T","TSetHea.y[1]","TSetCoo.y[1]","weaBus.TDryBul"},
+    autoscale=true,
+    autoerase=true,
+    autoreplot=true,
+    grid=true,
+    color=true);
+createPlot(
+    id=1,
+    subPlot=2,
+    y={"DX.P"},//    y={"preHea.Q_flow"},
+    autoscale=true,
+    autoerase=true,
+    autoreplot=true,
+    grid=true,
+    color=true);
+// createPlot(
+//     id=2,
+//     subPlot=1,
+//     y={"envelopeModel.roo.air.theConConExt.port_a[1].Q_flow","envelopeModel.roo.air.theConConExt.port_a[2].Q_flow","envelopeModel.roo.air.theConConWin.port_a[1].Q_flow","envelopeModel.roo.air.theConConExtWin.port_a[1].Q_flow"},
+//     autoscale=true,
+//     autoerase=true,
+//     autoreplot=true,
+//     grid=true,
+//     color=true);
+// createPlot(
+//     id=2,
+//     subPlot=2,
+//     y={"envelopeModel.roo.air.theConConBou.port_a[1].Q_flow","envelopeModel.roo.air.theConConBou.port_a[2].Q_flow","envelopeModel.roo.air.theConConBou.port_a[3].Q_flow"},
+//     autoscale=true,
+//     autoerase=true,
+//     autoreplot=true,
+//     grid=true,
+//     color=true);    
+// createPlot(
+//     id=2,
+//     subPlot=3,
+//     y={"envelopeModel.roo.conBou[1].opa.T[1]","envelopeModel.roo.conBou[3].opa.T[1]","envelopeModel.roo.conBou[2].opa.T[1]","envelopeModel.roo.air.vol.T"},
+//     autoscale=true,
+//     autoerase=true,
+//     autoreplot=true,
+//     grid=true,
+//     color=true);
+
+    
