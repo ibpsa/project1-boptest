@@ -2,7 +2,7 @@ within singlezone_commercial_air;
 model FF "Free floating"
   extends Modelica.Icons.Example;
 
-  BaseClasses.EnvelopeModel envelopeModel(lat=weaDat.lat)
+  BaseClasses.Envelope envelopeModel(lat=weaDat.lat)
     annotation (Placement(transformation(extent={{-14,-20},{72,65}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam="./USA_NY_New.York-J.F.Kennedy.Intl.AP.744860_TMY3.mos",
       computeWetBulbTemperature=false)

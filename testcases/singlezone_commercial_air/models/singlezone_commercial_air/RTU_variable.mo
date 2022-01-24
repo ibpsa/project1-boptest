@@ -161,7 +161,7 @@ model RTU_variable "variable speed RTU"
     annotation (Placement(transformation(extent={{-50,-12},{-30,8}})));
 
   /* Envelope */
-    BaseClasses.EnvelopeModel envelopeModel(lat=weaDat.lat) "envelope + gains"
+  BaseClasses.Envelope envelopeModel(lat=weaDat.lat) "envelope + gains"
     annotation (Placement(transformation(extent={{50,30},{90,70}})));
 
   /* control & auxiliaries */
@@ -289,13 +289,13 @@ equation
           -120,-47},{-120,-47},{-113.4,-47}}, color={0,0,127}));
   connect(cooCoiCon.y, DX.speRat) annotation (Line(points={{-97.3,-47},{-12,-47},
           {-12,24.2},{-6.9,24.2}}, color={0,0,127}));
-  connect(envelopeModel.Tz, cooCoiCon.u_m) annotation (Line(points={{92,52.4},{
-          104,52.4},{104,52},{110,52},{110,-62},{-105,-62},{-105,-55.4}}, color=
+  connect(envelopeModel.Tz, cooCoiCon.u_m) annotation (Line(points={{92,50},{
+          104,50},{104,52},{110,52},{110,-62},{-105,-62},{-105,-55.4}},   color=
          {0,0,127}));
   connect(from_degC1.y, heaCoiCon.u_s) annotation (Line(points={{-125.7,-75},{
           -118.85,-75},{-118.85,-75},{-113.4,-75}}, color={0,0,127}));
-  connect(envelopeModel.Tz, heaCoiCon.u_m) annotation (Line(points={{92,52.4},{
-          110,52.4},{110,-112},{-105,-112},{-105,-83.4}}, color={0,0,127}));
+  connect(envelopeModel.Tz, heaCoiCon.u_m) annotation (Line(points={{92,50},{
+          110,50},{110,-112},{-105,-112},{-105,-83.4}},   color={0,0,127}));
   connect(heaCoiCon.y, hea.u) annotation (Line(points={{-97.3,-75},{-8,-75},{-8,
           -26},{8,-26}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,

@@ -58,7 +58,7 @@ model Ideal "Ideal HVAC and controllers"
     annotation (Placement(transformation(extent={{6,-6},{-6,6}},
         rotation=0,
         origin={48,82})));
-  BaseClasses.EnvelopeModel envelopeModel(lat=weaDat.lat)
+  BaseClasses.Envelope envelopeModel(lat=weaDat.lat)
     annotation (Placement(transformation(extent={{40,20},{82,62}})));
   Modelica.Blocks.Sources.CombiTimeTable TSetHea(
     table=[1,15.5555555556; 2,15.5555555556; 3,15.5555555556; 4,15.5555555556; 5,

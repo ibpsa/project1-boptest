@@ -1,5 +1,5 @@
 within singlezone_commercial_air.BaseClasses;
-model EnvelopeModel "BaseEnvelopeModel"
+model Envelope "Base envelope model"
 
   package MediumA = Buildings.Media.Air "Medium model";
   parameter Real lat " latitude of the building";
@@ -270,10 +270,10 @@ model EnvelopeModel "BaseEnvelopeModel"
             {-84,68}}),     iconTransformation(extent={{-106,48},{-84,68}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor Sen_Tz
     "Room air temperature"
-    annotation (Placement(transformation(extent={{80,2},{100,22}})));
+    annotation (Placement(transformation(extent={{70,-10},{90,10}})));
   Modelica.Blocks.Interfaces.RealOutput Tz
     "Absolute temperature as output signal"
-    annotation (Placement(transformation(extent={{100,2},{120,22}})));
+    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a HeatPort
     annotation (Placement(transformation(extent={{-108,-4},{-88,16}})));
   Modelica.Blocks.Math.Gain gain(k=-0.000177458624*ExteriorArea)
@@ -346,9 +346,9 @@ equation
   connect(roo.ports[5], b) annotation (Line(points={{39.75,-20.1},{2,-20.1},{2,
           58},{-95,58}},    color={0,127,255}));
   connect(roo.heaPorAir, Sen_Tz.port)
-    annotation (Line(points={{50.25,-15},{80,-15},{80,12}}, color={191,0,0}));
+    annotation (Line(points={{50.25,-15},{70,-15},{70,0}},  color={191,0,0}));
   connect(Sen_Tz.T, Tz)
-    annotation (Line(points={{100,12},{110,12}}, color={0,0,127}));
+    annotation (Line(points={{90,0},{110,0}},    color={0,0,127}));
   connect(TRooAir.port, HeatPort) annotation (Line(points={{-86,-24},{-94,-24},
           {-94,6},{-98,6}}, color={191,0,0}));
   connect(product.y, sinInf.m_flow_in) annotation (Line(points={{-21.5,-55},{
@@ -440,4 +440,4 @@ First implementation.
           lineColor={95,95,95},
           fillColor={170,213,255},
           fillPattern=FillPattern.Solid)}));
-end EnvelopeModel;
+end Envelope;
