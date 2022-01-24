@@ -27,7 +27,9 @@ model RTU_stage "Single staged RTU"
   parameter Real dpExh_nominal=10;
 
   /* weather */
-  Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam="./USA_NY_New.York-J.F.Kennedy.Intl.AP.744860_TMY3.mos",
+  Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
+        ModelicaServices.ExternalReferences.loadResource(
+        "modelica://singlezone_commercial_air/USA_NY_New.York-J.F.Kennedy.Intl.AP.744860_TMY3.mos"),
       computeWetBulbTemperature=false)
     annotation (Placement(transformation(extent={{-6,-6},{6,6}},
         rotation=0,

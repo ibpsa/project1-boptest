@@ -415,6 +415,29 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Icon(graphics={Bitmap(extent={{-156,-100},{160,98}}, fileName=
-              "modelica://singlezone_commercial_air/singelzone.jpg")}));
+    Icon(graphics={                     Text(
+        extent={{-100,140},{100,100}},
+        textString="%name",
+        textColor={0,0,255}),
+        Rectangle(
+          extent={{-100,-100},{100,100}},
+          lineColor={95,95,95},
+          fillColor={95,95,95},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-92,92},{92,-92}},
+          pattern=LinePattern.None,
+          lineColor={117,148,176},
+          fillColor={170,213,255},
+          fillPattern=FillPattern.Sphere),
+        Rectangle(
+          extent={{78,42},{92,-42}},
+          lineColor={95,95,95},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{82,42},{88,-42}},
+          lineColor={95,95,95},
+          fillColor={170,213,255},
+          fillPattern=FillPattern.Solid)}));
 end EnvelopeModel;

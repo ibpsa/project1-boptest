@@ -26,7 +26,9 @@ model RTU_variable "variable speed RTU"
   parameter Real dpRec_nominal=10;
   parameter Real dpExh_nominal=10;
   /* weather */
-  Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam="./USA_NY_New.York-J.F.Kennedy.Intl.AP.744860_TMY3.mos",
+  Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
+        ModelicaServices.ExternalReferences.loadResource(
+        "modelica://singlezone_commercial_air/USA_NY_New.York-J.F.Kennedy.Intl.AP.744860_TMY3.mos"),
       computeWetBulbTemperature=false)
     annotation (Placement(transformation(extent={{-6,-6},{6,6}},
         rotation=0,
@@ -313,5 +315,6 @@ coil sizing (PSZ-AC_6): 18 kW cooling, 50 kW heating from htm ",
     experiment(
       StopTime=31536000,
       Interval=3600,
-      __Dymola_Algorithm="Dassl"));
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Cvode"));
 end RTU_variable;
