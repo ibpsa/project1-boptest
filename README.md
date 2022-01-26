@@ -17,12 +17,22 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 - ``/kpis`` contains code for calculating key performance indicators.
 - ``/docs`` contains design documentation and delivered workshop content.
 
-## Quick-Start to Run Test Cases
-1) Install [Docker](https://docs.docker.com/get-docker/).
-2) Build the test case by ``$ make build TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
-3) Deploy the test case by ``$ make run TESTCASE=<testcase_dir_name>`` where <testcase_dir_name> is the name of the test case subdirectory located in ``/testcases``.
-4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described in the next step.
-5) Run an example test controller:
+## Quick-Start to Deploy a Test Case
+1) Download this repository.
+2) Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
+3) Build and deploy a test case using the following commands executed in the root directory of this repository and where <testcase_dir_name> is the name of the test case subdirectory located in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases):
+ 
+  * Linux or macOS: ``$ TESTCASE=<testcase_dir_name> docker-compose up`` 
+  * Windows PowerShell: ``> (setx TESTCASE "<testcase_dir_name>") -and (docker-compose up)``
+  * A couple notes:
+    * The first time this command is run, the image ``boptest_base`` will be built.  This takes about a minute.  Subsequent usage will use the already-built image and deploy much faster.  
+    * If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
+    * ``TESTCASE`` is simply an environment variable.  Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.
+
+4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described below.
+5) Shutdown the test case by the command ``docker-compose down`` executed in the root directory of this repository
+
+## Run an example test controller:
 
 * For Python-based example controllers:
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1.py`` to test a simple proportional feedback controller on this test case over a two-day period.
@@ -34,14 +44,11 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
-* For JavaScript based controllers:
+* For JavaScript-based example controllers:
   * In a separate terminal, use ``$ cd examples/javascript && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
   * In a separate terminal, use ``$ cd examples/javascript && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on the testcase2 over a two-day period.
   * Ince the test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images, and use ``$ cd examples/javascript && rm geckodriver`` to remove the geckodriver file.
   * Note that those two controllers can also be executed by web browers, such as chrome or firefox.
-
-6) Shutdown a test case container by selecting the container terminal window, ``Ctrl+C`` to close port, and ``Ctrl+D`` to exit the Docker container.
-7) Remove the test case Docker image by ``$ make remove-image TESTCASE=<testcase_dir_name>``.
 
 ## Test Case RESTful API
 - To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
@@ -81,7 +88,7 @@ as a hook on all commits by calling `pre-commit install` in the root directory o
 
 ### Use Cases and Development Requirements
 See the [wiki](https://github.com/ibpsa/project1-boptest/wiki) for use cases and development requirements.
- 
+
 ### Deployment as a Web-Service
 BOPTEST is implemented as a web-service in the ``boptest-service`` [branch](https://github.com/ibpsa/project1-boptest/tree/boptest-service) of this repository.
 
@@ -96,4 +103,18 @@ A proposed BOPTEST home page and dashboard for creating accounts and sharing res
 D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. Benne, D. Vrabie, M. Wetter, and L. Helsen. (2021). ["Building optimization testing framework (BOPTEST) for simulation-based benchmarking of control strategies in buildings."](https://doi.org/10.1080/19401493.2021.1986574) *Journal of Building Performance Simulation*, 14(5), 586-610.
 
 ### Additional publications:
-D. Blum, F. Jorissen, S. Huang, Y. Chen, J. Arroyo, K. Benne, Y. Li, V. Gavan, L. Rivalin, L. Helsen, D. Vrabie, M. Wetter, and M. Sofos. (2019). [“Prototyping the BOPTEST framework for simulation-based testing of advanced control strategies in buildings.”](http://www.ibpsa.org/proceedings/BS2019/BS2019_211276.pdf) In *Proc. of the 16th International Conference of IBPSA*, Sep 2 – 4. Rome, Italy.
+J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2022). ["Reinforced model predictive control (RL-MPC) for building energy management."](https://doi.org/10.1016/j.apenergy.2021.118346) *Applied Energy* 309: 118346.
+
+J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2021). [“An OpenAI-Gym Environment for the Building Optimization Testing (BOPTEST) Framework.”](https://www.researchgate.net/profile/Javier-Arroyo/publication/354386346_An_OpenAI-Gym_environment_for_the_Building_Optimization_Testing_BOPTEST_framework/links/613616690360302a0082ffc1/An-OpenAI-Gym-environment-for-the-Building-Optimization-Testing-BOPTEST-framework.pdf) In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
+
+F. Bünning, C. Pfister, A. Aboudonia, P. Heer, and J. Lygeros. (2021). “Comparing Machine Learning Based Methods to Standard Regression Methods for MPC on a Virtual Testbed.” In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
+
+T. Yang, K. Filonenko, K. Arendt, and C. Veje. (2020). [“Implementation and Performance Analysis of a Multi-Energy Building Emulator.”](https://ieeexplore.ieee.org/document/9236623) In *2020 6th IEEE International Energy Conference (ENERGYCon)*, Sep 28 - Oct 1. Gammarth, Tunisia, 451–456.
+
+H. T. Walnum, I. Sartori, and M. Bagle. (2020). [“Model Predictive Control of District Heating Substations for Flexible Heating of Buildings.”](https://sintef.brage.unit.no/sintef-xmlui/handle/11250/2683181) In *SINTEF Proceedings no 5, ser. BuildSim-Nordic 2020*, Oct 13–14. Oslo, Norway: International Conference Organised by IBPSA-Nordic, 123–130.
+
+J. Arroyo, F. Spiessens, and L. Helsen. (2020). [“Identification of Multi-zone Grey-box Building Models for Use in Model Predictive Control.”](https://doi.org/10.1080/19401493.2020.1770861) *Journal of Building Performance Simulation* 13 (4): 472–486.
+
+D. Blum, F. Jorissen, S. Huang, Y. Chen, J. Arroyo, K. Benne, Y. Li, V. Gavan, L. Rivalin, L. Helsen, D. Vrabie, M. Wetter, and M. Sofos. (2019). [“Prototyping the BOPTEST framework for simulation-based testing of advanced control strategies in buildings.”](http://www.ibpsa.org/proceedings/BS2019/BS2019_211276.pdf) In *Proceedings of the 16th International Conference of IBPSA*, Sep 2 – 4. Rome, Italy.
+
+S. Huang, Y. Chen, P. W. Ehrlich, and D. L. Vrabie. (2018). “A Control-Oriented Building Envelope and HVAC System Simulation Model for a Typical Large Office Building.” In *Proceedings of 2018 Building Performance Modeling Conference and SimBuild co-organized by ASHRAE and IBPSA-USA*, Sep 26 - 28. Chicago, IL.

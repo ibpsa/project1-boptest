@@ -307,110 +307,94 @@ The model inputs are:
 The model outputs are:
 <ul>
 <li>
-<code>zon_weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
-</li>
-<li>
-<code>con_reaTSetCoo_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for cooling
-</li>
-<li>
-<code>fcu_reaFanSet_y</code> [1] [min=None, max=None]: Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate
-</li>
-<li>
-<code>zon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
-</li>
-<li>
-<code>zon_weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
-</li>
-<li>
-<code>zon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
-</li>
-<li>
-<code>zon_weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
-</li>
-<li>
-<code>zon_weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
-</li>
-<li>
-<code>zon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
+<code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
 </li>
 <li>
 <code>fcu_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power consumption
 </li>
 <li>
+<code>fcu_reaPFan_y</code> [W] [min=None, max=None]: Supply fan electrical power consumption
+</li>
+<li>
 <code>fcu_reaPHea_y</code> [W] [min=None, max=None]: Heating thermal power consumption
 </li>
 <li>
-<code>zon_weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+<code>zon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
 </li>
 <li>
-<code>zon_weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+<code>zon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
 </li>
 <li>
-<code>fcu_reaFloSup_y</code> [kg/s] [min=None, max=None]: Supply air mass flow rate
-</li>
-<li>
-<code>zon_weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
-</li>
-<li>
-<code>fcu_reaTSup_y</code> [K] [min=None, max=None]: Supply air temperature setpoint
+<code>zon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
 </li>
 <li>
 <code>zon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>zon_weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+<code>zon_weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
 </li>
 <li>
-<code>zon_weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+<code>zon_weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
 </li>
 <li>
-<code>zon_weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
-</li>
-<li>
-<code>zon_weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
-</li>
-<li>
-<code>fcu_reaPFan_y</code> [W] [min=None, max=None]: Supply fan electrical power consumption
-</li>
-<li>
-<code>zon_weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+<code>zon_weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
 </li>
 <li>
 <code>zon_weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
 </li>
 <li>
+<code>zon_weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+</li>
+<li>
+<code>zon_weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+</li>
+<li>
+<code>zon_weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+</li>
+<li>
+<code>zon_weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+</li>
+<li>
 <code>zon_weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
 </li>
 <li>
-<code>con_reaTSetHea_y</code> [K] [min=None, max=None]: Zone air temperature setpoint for heating
+<code>zon_weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
 </li>
+<li>
+<code>zon_weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+</li>
+<li>
+<code>zon_weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
@@ -527,10 +511,10 @@ daily heating and cooling loads.  This is a day with both significant heating
 and cooling loads.
 </ul>
 <ul>
-Start Time: Day 343.
+Start Time: Day 14.
 </ul>
 <ul>
-End Time: Day 357.
+End Time: Day 28.
 </ul>
 </p>
 <h4>Energy Pricing</h4>
@@ -655,6 +639,12 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 </html>",
 revisions="<html>
 <ul>
+<li>
+December 6, 2021, by David Blum:<br/>
+Correct mix day time period.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/381>
+BOPTEST issue #381</a>.
+</li>
 <li>
 April 13, 2021, by David Blum:<br/>
 Add time period documentation.
