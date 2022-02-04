@@ -278,6 +278,11 @@ model Envelope "Base envelope model"
     annotation (Placement(transformation(extent={{-108,-4},{-88,16}})));
   Modelica.Blocks.Math.Gain gain(k=-0.000177458624*ExteriorArea)
     annotation (Placement(transformation(extent={{-82,-78},{-66,-62}})));
+  Modelica.Blocks.Interfaces.BooleanOutput
+                                        occ "Occupancy status"
+    annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
+  Modelica.Blocks.Logical.GreaterThreshold occThr(threshold=1e-3)
+    annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{16.4,86},{20,86},{20,-9},{34.8,-9}},
@@ -359,6 +364,10 @@ equation
           {-106,-70},{-83.6,-70}}, color={0,0,127}));
   connect(Schedules.y[1:3], sch2Gai.u) annotation (Line(points={{-109.4,86},{-90,86},
           {-90,85.6},{-70,85.6}}, color={0,0,127}));
+  connect(occThr.y, occ) annotation (Line(points={{81,-90},{90,-90},{90,-80},{
+          110,-80}}, color={255,0,255}));
+  connect(occThr.u, Schedules.y[2]) annotation (Line(points={{58,-90},{-106,-90},
+          {-106,86},{-109.4,86}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"

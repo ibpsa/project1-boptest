@@ -83,23 +83,8 @@ model RTU_Staged "Staged RTU model"
     annotation (Placement(transformation(extent={{50,-10},{70,10}})));
 
   /* RTU: DX */
-  Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.DXCoil datCoi(
-    nSta=1,
-    minSpeRat=0,
-    sta={
-        Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.Stage(
-        spe=2400/60,
-        nomVal=
-          Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.NominalValues(
-          Q_flow_nominal=-Qc_nominal/1,
-          COP_nominal=3,
-          SHR_nominal=0.8,
-          m_flow_nominal=m_flow_nominal/1),
-        perCur=
-          Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Examples.PerformanceCurves.Curve_I())})        "Coil data"
-    annotation (Placement(transformation(extent={{120,80},{140,100}})));
 
-  Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeed cooCoi(
+  Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.MultiStage  cooCoi(
     redeclare package Medium = MediumA,
     dp_nominal=dp_nominal - dpRec_nominal - dpOut_nominal - dpBuiStaSet,
     datCoi=datCoi,
@@ -134,18 +119,67 @@ model RTU_Staged "Staged RTU model"
     annotation (Placement(transformation(extent={{130,-10},{150,10}})));
   Modelica.Blocks.Interfaces.RealInput uFan "Fan speed control signal"
     annotation (Placement(transformation(extent={{-180,60},{-140,100}})));
-  Modelica.Blocks.Interfaces.BooleanInput enaDx "Enable DX unit"
-    annotation (Placement(transformation(extent={{-180,20},{-140,60}})));
   Modelica.Blocks.Interfaces.RealInput uHea "Heating rate control signal"
     annotation (Placement(transformation(extent={{-180,-20},{-140,20}})));
   Modelica.Blocks.Interfaces.RealInput yDamOut
     "Outside air damper position control signal"
     annotation (Placement(transformation(extent={{-180,-60},{-140,-20}})));
-  Modelica.Blocks.Math.Gain natGasBurEffGai(k=1/natGasBurEffGai)
+  Modelica.Blocks.Math.Gain natGasBurEffGai(k=1/natGasBurEff)
     "Natural gas burner efficiency gain"
     annotation (Placement(transformation(extent={{80,-50},{100,-30}})));
   Modelica.Blocks.Interfaces.RealOutput PGas "Gas power use"
     annotation (Placement(transformation(extent={{140,-50},{160,-30}})));
+  parameter
+    Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.DoubleSpeed.Generic
+    datCoi(sta={
+        Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.Stage(
+        spe=1200,
+        nomVal=
+          Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.NominalValues(
+          Q_flow_nominal=-18136.13,
+          COP_nominal=3.7988306741603,
+          SHR_nominal=0.68808,
+          m_flow_nominal=1.02147333333333*1.2,
+          TEvaIn_nominal=273.15 + 25),
+        perCur=
+          Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.PerformanceCurve(
+          capFunT={0.766956,0.0107756,-0.0000414703,0.00134961,-0.000261144,
+            0.000457488},
+          capFunFF={0.8,0.2,0.0},
+          EIRFunT={0.297145,0.0430933,-0.000748766,0.00597727,0.000482112,-0.000956448},
+          EIRFunFF={1.156,-0.1816,0.0256},
+          TConInMin=21.1 + 273.15,
+          TConInMax=46.1 + 273.15,
+          TEvaInMin=12.778 + 273.15,
+          TEvaInMax=23.889 + 273.15,
+          ffMin=0.5,
+          ffMax=1.5)),
+        Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.Stage(
+        spe=2400,
+        nomVal=
+          Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.NominalValues(
+          Q_flow_nominal=-36272.26,
+          COP_nominal=3.7988306741603,
+          SHR_nominal=0.68808,
+          m_flow_nominal=1.53221*1.2,
+          TEvaIn_nominal=273.15 + 25),
+        perCur=
+          Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.PerformanceCurve(
+          capFunT={0.766956,0.0107756,-0.0000414703,0.00134961,-0.000261144,
+            0.000457488},
+          capFunFF={0.8,0.2,0.0},
+          EIRFunT={0.297145,0.0430933,-0.000748766,0.00597727,0.000482112,-0.000956448},
+          EIRFunFF={1.156,-0.1816,0.0256},
+          TConInMin=21.1 + 273.15,
+          TConInMax=46.1 + 273.15,
+          TEvaInMin=12.778 + 273.15,
+          TEvaInMax=23.889 + 273.15,
+          ffMin=0.5,
+          ffMax=1.5))})
+    annotation (Placement(transformation(extent={{120,82},{140,102}})));
+  Modelica.Blocks.Interfaces.IntegerInput dxSta
+    "Stage of cooling coil (0: off, 1: first stage, 2: second stage)"
+    annotation (Placement(transformation(extent={{-180,20},{-140,60}})));
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -188,22 +222,21 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(fanSup.y, uFan)
     annotation (Line(points={{0,12},{0,80},{-160,80}},     color={0,0,127}));
-  connect(cooCoi.on, enaDx) annotation (Line(points={{19,8},{18,8},{18,78},{
-          -110,78},{-110,40},{-160,40}},
-                                    color={255,0,255}));
   connect(heaCoi.u, uHea) annotation (Line(points={{48,6},{48,76},{-108,76},{
           -108,0},{-160,0}},
                         color={0,0,127}));
   connect(eco.y, yDamOut) annotation (Line(points={{-60,18},{-60,74},{-106,74},
           {-106,-40},{-160,-40}}, color={0,0,127}));
-  connect(eco.port_Sup, senTemMix.port_a) annotation (Line(points={{-50,12},{-46,
-          12},{-46,0},{-40,0}}, color={0,127,255}));
-  connect(eco.port_Ret, senTemRet.port_b) annotation (Line(points={{-50,0},{-50,
-          4},{-40,4},{-40,60},{80,60}}, color={0,127,255}));
   connect(heaCoi.Q_flow, natGasBurEffGai.u) annotation (Line(points={{71,6},{74,
           6},{74,-40},{78,-40}}, color={0,0,127}));
   connect(natGasBurEffGai.y, PGas)
     annotation (Line(points={{101,-40},{150,-40}}, color={0,0,127}));
+  connect(cooCoi.stage, dxSta) annotation (Line(points={{19,8},{16,8},{16,82},{
+          -110,82},{-110,40},{-160,40}}, color={255,127,0}));
+  connect(eco.port_Ret, senTemMix.port_a)
+    annotation (Line(points={{-50,0},{-40,0}}, color={0,127,255}));
+  connect(eco.port_Sup, senTemRet.port_b) annotation (Line(points={{-50,12},{
+          -40,12},{-40,60},{80,60}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}), graphics={
                                         Text(
