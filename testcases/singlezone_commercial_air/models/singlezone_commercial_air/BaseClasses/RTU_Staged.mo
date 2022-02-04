@@ -97,7 +97,7 @@ model RTU_Staged "Staged RTU model"
 
   Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeed cooCoi(
     redeclare package Medium = MediumA,
-    dp_nominal=10,
+    dp_nominal=dp_nominal - dpRec_nominal - dpOut_nominal - dpBuiStaSet,
     datCoi=datCoi,
     T_start=datCoi.sta[1].nomVal.TEvaIn_nominal,
     from_dp=true,
@@ -108,10 +108,11 @@ model RTU_Staged "Staged RTU model"
   /* RTU: fan */
   Buildings.Fluid.Movers.SpeedControlled_y     fanSup(
     redeclare package Medium = MediumA,
-    per(pressure(V_flow={0,m_flow_nominal/1.2*2}, dp=2*{780 + 10 + dpBuiStaSet,0})),
+    per(pressure(V_flow={0,m_flow_nominal/1.2*2}, dp=2*{dp_nominal +
+            dpRec_nominal + dpOut_nominal + dpBuiStaSet,0})),
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     inputType=Buildings.Fluid.Types.InputType.Continuous,
-    addPowerToMedium=false) "Supply air fan"
+    addPowerToMedium=true)  "Supply air fan"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
 
@@ -136,11 +137,9 @@ model RTU_Staged "Staged RTU model"
   Modelica.Blocks.Interfaces.RealInput yDamOut
     "Outside air damper position control signal"
     annotation (Placement(transformation(extent={{-180,-60},{-140,-20}})));
+  parameter Modelica.SIunits.PressureDifference dp_nominal=0
+    "Nominal pressure drop of system";
 equation
-  connect(senTemRet.port_b, eco.port_Sup) annotation (Line(points={{80,60},{-46,
-          60},{-46,12},{-50,12}}, color={0,127,255}));
-  connect(eco.port_Ret, senTemMix.port_a) annotation (Line(points={{-50,0},{-40,
-          0}},                  color={0,127,255}));
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
   connect(souInf.ports[1], eco.port_Out) annotation (Line(points={{-78,40},{-76,
@@ -190,6 +189,10 @@ equation
                         color={0,0,127}));
   connect(eco.y, yDamOut) annotation (Line(points={{-60,18},{-60,74},{-106,74},
           {-106,-40},{-160,-40}}, color={0,0,127}));
+  connect(eco.port_Sup, senTemMix.port_a) annotation (Line(points={{-50,12},{
+          -46,12},{-46,0},{-40,0}}, color={0,127,255}));
+  connect(eco.port_Ret, senTemRet.port_b) annotation (Line(points={{-50,0},{-50,
+          4},{-40,4},{-40,60},{80,60}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}), graphics={
                                         Text(

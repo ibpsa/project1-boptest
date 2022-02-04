@@ -20,7 +20,9 @@ model TestCase_Staged "Test case model with single staged RTU"
   Buildings.BoundaryConditions.WeatherData.Bus weaBus1
     annotation (Placement(transformation(extent={{-44,80},{-24,100}})));
 
-  BaseClasses.RTU_Staged rtu "Packaged RTU model"
+  BaseClasses.RTU_Staged rtu(dpBuiStaSet(displayUnit="Pa"), dp_nominal(
+        displayUnit="Pa") = 622.5)
+                             "Packaged RTU model"
     annotation (Placement(transformation(extent={{-12,-10},{16,10}})));
   BaseClasses.Control_Staged con "RTU control model"
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
@@ -67,5 +69,10 @@ equation
           lineColor={28,108,200},
           textString="design air flow rate [m3/s]: 1.51 from htm
 coil sizing (PSZ-AC_6): 18 kW cooling, 50 kW heating from htm ",
-          fontSize=18)}));
+          fontSize=18)}),
+    experiment(
+      StopTime=31536000,
+      Interval=300,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Cvode"));
 end TestCase_Staged;
