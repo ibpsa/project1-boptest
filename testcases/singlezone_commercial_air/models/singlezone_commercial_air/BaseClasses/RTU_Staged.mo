@@ -10,6 +10,7 @@ model RTU_Staged "Staged RTU model"
 
   //Heating: 4kW (20oX) , Cooling:8kW(22oC), 300cfm/ton~0.1m3/s/ton--> 0.28 kg/s (cf 0.068)
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1.51 "Nominal mass flow rate";
+  parameter Modelica.SIunits.PressureDifference dp_nominal=622.5 "Nominal pressure drop of system";
   parameter Modelica.SIunits.HeatFlowRate Qc_nominal=18*1E3 "nominal cooling total cap [W]";
   parameter Modelica.SIunits.HeatFlowRate Qh_nominal=50*1E3 "nominal heating cap [W]";
 
@@ -21,6 +22,9 @@ model RTU_Staged "Staged RTU model"
   parameter Real dpOut_nominal=10;
   parameter Real dpRec_nominal=10;
   parameter Real dpExh_nominal=10;
+
+  /* gas burner efficiency */
+  parameter Real natGasBurEff = 0.81 "Natural gas burner efficiency";
 
   /* sensors */
   Buildings.Fluid.Sensors.TemperatureTwoPort senTemRet(
@@ -137,8 +141,11 @@ model RTU_Staged "Staged RTU model"
   Modelica.Blocks.Interfaces.RealInput yDamOut
     "Outside air damper position control signal"
     annotation (Placement(transformation(extent={{-180,-60},{-140,-20}})));
-  parameter Modelica.SIunits.PressureDifference dp_nominal=0
-    "Nominal pressure drop of system";
+  Modelica.Blocks.Math.Gain natGasBurEffGai(k=1/natGasBurEffGai)
+    "Natural gas burner efficiency gain"
+    annotation (Placement(transformation(extent={{80,-50},{100,-30}})));
+  Modelica.Blocks.Interfaces.RealOutput PGas "Gas power use"
+    annotation (Placement(transformation(extent={{140,-50},{160,-30}})));
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -189,10 +196,14 @@ equation
                         color={0,0,127}));
   connect(eco.y, yDamOut) annotation (Line(points={{-60,18},{-60,74},{-106,74},
           {-106,-40},{-160,-40}}, color={0,0,127}));
-  connect(eco.port_Sup, senTemMix.port_a) annotation (Line(points={{-50,12},{
-          -46,12},{-46,0},{-40,0}}, color={0,127,255}));
+  connect(eco.port_Sup, senTemMix.port_a) annotation (Line(points={{-50,12},{-46,
+          12},{-46,0},{-40,0}}, color={0,127,255}));
   connect(eco.port_Ret, senTemRet.port_b) annotation (Line(points={{-50,0},{-50,
           4},{-40,4},{-40,60},{80,60}}, color={0,127,255}));
+  connect(heaCoi.Q_flow, natGasBurEffGai.u) annotation (Line(points={{71,6},{74,
+          6},{74,-40},{78,-40}}, color={0,0,127}));
+  connect(natGasBurEffGai.y, PGas)
+    annotation (Line(points={{101,-40},{150,-40}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}), graphics={
                                         Text(
