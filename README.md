@@ -107,7 +107,7 @@ J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2022). ["Reinforced model pre
 
 J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2021). [“An OpenAI-Gym Environment for the Building Optimization Testing (BOPTEST) Framework.”](https://www.researchgate.net/profile/Javier-Arroyo/publication/354386346_An_OpenAI-Gym_environment_for_the_Building_Optimization_Testing_BOPTEST_framework/links/613616690360302a0082ffc1/An-OpenAI-Gym-environment-for-the-Building-Optimization-Testing-BOPTEST-framework.pdf) In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
 
-F. Bünning, C. Pfister, A. Aboudonia, P. Heer, and J. Lygeros. (2021). “Comparing Machine Learning Based Methods to Standard Regression Methods for MPC on a Virtual Testbed.” In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
+F. Bünning, C. Pfister, A. Aboudonia, P. Heer, and J. Lygeros. (2021). [“Comparing Machine Learning Based Methods to Standard Regression Methods for MPC on a Virtual Testbed.”](https://www.research-collection.ethz.ch/bitstream/handle/20.500.11850/524933/BS2021_finalVersion.pdf?sequence=1&isAllowed=y) In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
 
 T. Yang, K. Filonenko, K. Arendt, and C. Veje. (2020). [“Implementation and Performance Analysis of a Multi-Energy Building Emulator.”](https://ieeexplore.ieee.org/document/9236623) In *2020 6th IEEE International Energy Conference (ENERGYCon)*, Sep 28 - Oct 1. Gammarth, Tunisia, 451–456.
 
