@@ -1,5 +1,7 @@
 - name: Software
   link: software/index.html
+- name: Test Cases
+  link: testcases/index.html
 - name: Dashboard
   link: http://boptest.kbenne.net/
 - name: Documentation
