@@ -675,76 +675,66 @@ public
         L_ext_Couloir*k_PT)
     "Thermal conductor used to take into acount thermal bridges effect"
     annotation (Placement(transformation(extent={{72,-8},{66,-2}})));
-  Buildings.Airflow.Multizone.DoorDiscretizedOperable dooLiv(
-    LClo=20*1E-4,
+  Buildings.Airflow.Multizone.DoorDiscretizedOpen     dooLiv(
     hA=3/2,
     hB=3/2,
-    CDOpe=0.78,
     nCom=10,
     redeclare package Medium = MediumA,
-    CDClo=0.78,
     show_T=true,
     wOpe=0.8,
     hOpe=2,
-    dp_turbulent=0.1) "Discretized door"
+    dp_turbulent=0.1,
+    CD=0.78)          "Discretized door"
     annotation (Placement(transformation(extent={{-45,-15},{-36,-6}})));
-  Buildings.Airflow.Multizone.DoorDiscretizedOperable dooRo1(
-    LClo=20*1E-4,
+  Buildings.Airflow.Multizone.DoorDiscretizedOpen     dooRo1(
     hA=3/2,
     hB=3/2,
-    CDOpe=0.78,
-    CDClo=0.78,
     nCom=10,
     redeclare package Medium = MediumA,
     show_T=true,
     wOpe=0.8,
     hOpe=2,
-    dp_turbulent=0.1) "Discretized door" annotation (Placement(transformation(
+    dp_turbulent=0.1,
+    CD=0.78)          "Discretized door" annotation (Placement(transformation(
         extent={{-4.5,-4.5},{4.5,4.5}},
         rotation=270,
         origin={-10.5,-2.5})));
-  Buildings.Airflow.Multizone.DoorDiscretizedOperable dooRo2(
-    LClo=20*1E-4,
+  Buildings.Airflow.Multizone.DoorDiscretizedOpen     dooRo2(
     hA=3/2,
     hB=3/2,
-    CDOpe=0.78,
-    CDClo=0.78,
     nCom=10,
     redeclare package Medium = MediumA,
     show_T=true,
     wOpe=0.8,
     hOpe=2,
-    dp_turbulent=0.1) "Discretized door" annotation (Placement(transformation(
+    dp_turbulent=0.1,
+    CD=0.78)          "Discretized door" annotation (Placement(transformation(
         extent={{-4.5,-4.5},{4.5,4.5}},
         rotation=270,
         origin={27.5,-2.5})));
-  Buildings.Airflow.Multizone.DoorDiscretizedOperable dooBth(
-    LClo=20*1E-4,
+  Buildings.Airflow.Multizone.DoorDiscretizedOpen     dooBth(
     hA=3/2,
     hB=3/2,
-    CDOpe=0.78,
-    CDClo=0.78,
     nCom=10,
     redeclare package Medium = MediumA,
     show_T=true,
     wOpe=0.8,
     hOpe=2,
-    dp_turbulent=0.1) "Discretized door" annotation (Placement(transformation(
+    dp_turbulent=0.1,
+    CD=0.78)          "Discretized door" annotation (Placement(transformation(
         extent={{-4.5,-4.5},{4.5,4.5}},
         rotation=90,
         origin={-10.5,-18.5})));
-  Buildings.Airflow.Multizone.DoorDiscretizedOperable dooRo3(
-    LClo=20*1E-4,
+  Buildings.Airflow.Multizone.DoorDiscretizedOpen     dooRo3(
     hA=3/2,
     hB=3/2,
-    CDOpe=0.78,
-    CDClo=0.78,
     nCom=10,
     redeclare package Medium = MediumA,
     show_T=true,
     wOpe=0.8,
     hOpe=2,
-    dp_turbulent=0.1) "Discretized door" annotation (Placement(transformation(
+    dp_turbulent=0.1,
+    CD=0.78)          "Discretized door" annotation (Placement(transformation(
         extent={{-4.5,-4.5},{4.5,4.5}},
         rotation=90,
         origin={29.5,-18.5})));
@@ -1228,7 +1218,7 @@ public
     m_flow_nominal=mBoi_flow_nominal,
     T_nominal=353.15,
     dp_nominal=100)
-    annotation (Placement(transformation(extent={{-150,-150},{-130,-130}})));
+    annotation (Placement(transformation(extent={{-150,-152},{-130,-132}})));
   Modelica.Fluid.Sensors.MassFlowRate massFlowRate(redeclare package Medium =
         MediumW) annotation (Placement(transformation(
         extent={{-3,3},{3,-3}},
@@ -1395,7 +1385,7 @@ public
       min=0,
       max=1,
       unit="1"), description=
-        "Actuator signal for 0three-way mixing valve controlling supply water temperature to radiators")
+        "Actuator signal for three-way mixing valve controlling supply water temperature to radiators")
     "Overwrite the three-way mixing valve controlling supply water temperature to radiators"
     annotation (Placement(transformation(
         extent={{-3,-3},{3,3}},
@@ -1682,14 +1672,6 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
 
-  connect(realExpression11.y, dooLiv.y) annotation (Line(points={{-53.7,-11},{-45.45,
-          -11},{-45.45,-10.5}}, color={0,0,127}));
-  connect(dooRo1.y, realExpression11.y) annotation (Line(points={{-10.5,2.45},{
-          -10.5,4},{-48,4},{-48,-11},{-53.7,-11}}, color={0,0,127}));
-  connect(dooRo2.y, realExpression11.y) annotation (Line(points={{27.5,2.45},{
-          27.5,4},{-48,4},{-48,-11},{-53.7,-11}}, color={0,0,127}));
-  connect(dooRo3.y, realExpression11.y) annotation (Line(points={{29.5,-23.45},
-          {29.5,-30},{-48,-30},{-48,-11},{-53.7,-11}}, color={0,0,127}));
   connect(dooRo2.port_b2, ro2.ports[1]) annotation (Line(points={{24.8,2},{26,2},
           {26,6},{38,6},{38,10},{44,10},{44,12.8}}, color={0,127,255}));
   connect(dooRo2.port_a1, ro2.ports[2]) annotation (Line(points={{30.2,2},{32,2},
@@ -1759,8 +1741,6 @@ equation
   connect(T_sol.port, gar.surf_conBou[2]) annotation (Line(points={{48,84},{60,
           84},{60,64},{86,64},{86,-76},{-127.6,-76},{-127.6,-54.2}},     color={
           191,0,0}));
-  connect(dooBth.y, realExpression11.y) annotation (Line(points={{-10.5,-23.45},
-          {-10.5,-30},{-48,-30},{-48,-11},{-53.7,-11}}, color={0,0,127}));
   connect(thConHal.port_b, hal.heaPorAir) annotation (Line(points={{66,-5},{64,
           -5},{64,-6},{51.6,-6},{51.6,-10}}, color={191,0,0}));
   connect(conCooRo1.P, ro1.heaPorAir) annotation (Line(points={{14,15},{16,15},
@@ -1976,10 +1956,10 @@ equation
           -113},{-146,-113},{-146,-113.2},{-144.38,-113.2}}, color={0,0,127}));
   connect(valBoi.port_2, temSup.port_a)
     annotation (Line(points={{-108,-139},{-104,-139}}, color={0,127,255}));
-  connect(boi.port_b, valBoi.port_1) annotation (Line(points={{-129.8,-139.091},
-          {-124,-139.091},{-124,-139},{-118,-139}}, color={0,127,255}));
+  connect(boi.port_b, valBoi.port_1) annotation (Line(points={{-129.8,-141.091},
+          {-124,-141.091},{-124,-139},{-118,-139}}, color={0,127,255}));
   connect(spl.port_2, boi.port_a) annotation (Line(points={{-118,-175},{-118,
-          -176},{-156,-176},{-156,-139.091},{-150.4,-139.091}},
+          -176},{-156,-176},{-156,-141.091},{-150.4,-141.091}},
                                                           color={0,127,255}));
   connect(temSup.port_b, massFlowRate.port_a) annotation (Line(points={{-94,
           -139},{-92,-139},{-92,-130},{-91,-130}},
@@ -1989,7 +1969,7 @@ equation
   connect(pumEmiSystem.port_a, outSplVal1.port_3) annotation (Line(points={{-78,
           -175},{-78,-174},{-47,-174},{-47,-124}}, color={0,127,255}));
   connect(booDHW.y, boi.Mode_ECS) annotation (Line(points={{-177.4,-162},{-158,
-          -162},{-158,-146.909},{-152,-146.909}}, color={255,0,255}));
+          -162},{-158,-148.909},{-152,-148.909}}, color={255,0,255}));
   connect(offHys.y,greaterEqualThreshold. u) annotation (Line(points={{-273.5,-119},
           {-269,-119}},                       color={0,0,127}));
   connect(greaterEqualThreshold.y,switch1. u2)
@@ -2020,7 +2000,7 @@ equation
           {-306,-210},{-306,-216},{-273.2,-216}}, color={0,0,127}));
   connect(expTLiv.y, conHeaModeBoiler.u_m) annotation (Line(points={{-326.1,-247},
           {-266,-247},{-266,-223.2}}, color={0,0,127}));
-  connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-134},{-122,-134},
+  connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-136},{-122,-136},
           {-122,-130},{-216,-130},{-216,-144},{-336,-144},{-336,-182.267},{
           -308.04,-182.267}},
                     color={0,0,127}));
@@ -2043,7 +2023,7 @@ equation
   connect(expCooLiv.y, conCooLiv.TSet) annotation (Line(points={{-73.8,16},{-70,
           16},{-70,18.3333},{-66.32,18.3333}}, color={0,0,127}));
   connect(switch1.y, boi.y) annotation (Line(points={{-239.5,-119},{-184,-119},
-          {-184,-134},{-152,-134}}, color={0,0,127}));
+          {-184,-136},{-152,-136}}, color={0,0,127}));
   connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,15},{
           9.68,15}}, color={0,0,127}));
   connect(HeaSetLiv.y, onOffController.reference) annotation (Line(points={{-328.1,
@@ -2164,7 +2144,7 @@ equation
   connect(oveEmiPum.y, pumEmiSystem.m_flow_in) annotation (Line(points={{-183.7,
           -199},{-83,-199},{-83,-181}}, color={0,0,127}));
   connect(boi.m_PompeCirc, pumEmiSystem.m_flow_in) annotation (Line(points={{-152,
-          -143.636},{-168,-143.636},{-168,-199},{-83,-199},{-83,-181}},
+          -145.636},{-168,-145.636},{-168,-199},{-83,-199},{-83,-181}},
         color={0,0,127}));
   connect(HeaSetLiv.y, oveTSetPum.u) annotation (Line(points={{-328.1,-210},{
           -314,-210},{-314,-206},{-238.8,-206}}, color={0,0,127}));
@@ -2305,8 +2285,8 @@ The emulator building model represents a residential French
 dwelling compliant with the French Thermal regulation of 2012,
 i.e. the French national building energy regulation. Therefore,
 the typology is defined to be representative of French new
-dwellings. 
-The area not including the unconditioned attic and unconditioned 
+dwellings.
+The area not including the unconditioned attic and unconditioned
 garage is of 81.08 m&sup2;.
 The following figure shows the building layout and
 a sketch of the hydraulic system. The coloured elements in the scheme
@@ -2592,73 +2572,109 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <p>The model outputs are: </p>
 <ul>
 <li>
+<code>boi_oveBoi_y</code> [1] [min=None, max=None]: Boiler control signal for part load ratio
+</li>
+<li>
 <code>boi_reaGasBoi_y</code> [W] [min=None, max=None]: Boiler gas power use
 </li>
 <li>
 <code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power use
 </li>
 <li>
-<code>conCooBth_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Bth
+<code>conCooBth_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Bth
+</li>
+<li>
+<code>conCooBth_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Bth
 </li>
 <li>
 <code>conCooBth_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Bth
 </li>
 <li>
-<code>conCooHal_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Hal
+<code>conCooHal_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Hal
+</li>
+<li>
+<code>conCooHal_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Hal
 </li>
 <li>
 <code>conCooHal_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Hal
 </li>
 <li>
-<code>conCooLiv_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Liv
+<code>conCooLiv_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Liv
+</li>
+<li>
+<code>conCooLiv_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Liv
 </li>
 <li>
 <code>conCooLiv_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Liv
 </li>
 <li>
-<code>conCooRo1_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro1
+<code>conCooRo1_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro1
+</li>
+<li>
+<code>conCooRo1_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro1
 </li>
 <li>
 <code>conCooRo1_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro1
 </li>
 <li>
-<code>conCooRo2_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro2
+<code>conCooRo2_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro2
+</li>
+<li>
+<code>conCooRo2_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro2
 </li>
 <li>
 <code>conCooRo2_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro2
 </li>
 <li>
-<code>conCooRo3_reaCoo_y</code> [1] [min=None, max=None]: Cooling control signal measurement as fraction of maximum for zone Ro3
+<code>conCooRo3_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro3
+</li>
+<li>
+<code>conCooRo3_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro3
 </li>
 <li>
 <code>conCooRo3_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro3
 </li>
 <li>
-<code>conHeaBth_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Bth
+<code>conHeaBth_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Bth
+</li>
+<li>
+<code>conHeaBth_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Bth
 </li>
 <li>
 <code>conHeaBth_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Bth
 </li>
 <li>
-<code>conHeaLiv_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Liv
+<code>conHeaLiv_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Liv
+</li>
+<li>
+<code>conHeaLiv_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Liv
 </li>
 <li>
 <code>conHeaLiv_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Liv
 </li>
 <li>
-<code>conHeaRo1_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro1
+<code>conHeaRo1_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro1
+</li>
+<li>
+<code>conHeaRo1_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro1
 </li>
 <li>
 <code>conHeaRo1_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro1
 </li>
 <li>
-<code>conHeaRo2_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro2
+<code>conHeaRo2_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro2
+</li>
+<li>
+<code>conHeaRo2_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro2
 </li>
 <li>
 <code>conHeaRo2_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro2
 </li>
 <li>
-<code>conHeaRo3_reaActHea_y</code> [1] [min=None, max=None]: Actuator signal measurement for heating valve for zone Ro3
+<code>conHeaRo3_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro3
+</li>
+<li>
+<code>conHeaRo3_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro3
 </li>
 <li>
 <code>conHeaRo3_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro3
@@ -2686,6 +2702,18 @@ vacuum failures when all valves are closed while the distribution pump is workin
 </li>
 <li>
 <code>infRo3_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro3
+</li>
+<li>
+<code>oveEmiPum_y</code> [1] [min=None, max=None]: Control signal to the circulation pump of the emission system
+</li>
+<li>
+<code>oveMixValSup_y</code> [1] [min=None, max=None]: Actuator signal for three-way mixing valve controlling supply water temperature to radiators
+</li>
+<li>
+<code>oveTSetPum_y</code> [K] [min=None, max=None]: Heating zone air temperature setpoint used to control circulation pump of the emission system
+</li>
+<li>
+<code>oveTSetSup_y</code> [K] [min=None, max=None]: Supply water temperature setpoint to radiators
 </li>
 <li>
 <code>reaHeaBth_y</code> [W] [min=None, max=None]: Heating delivered to Bth

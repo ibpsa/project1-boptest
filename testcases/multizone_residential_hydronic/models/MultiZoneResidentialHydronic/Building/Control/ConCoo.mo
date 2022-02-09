@@ -50,14 +50,7 @@ model ConCoo "Controller for cooling"
   Modelica.Blocks.Math.Gain HeaToPowFactor(k=-1/3)
     "Heating to power factor related to the energy efficiency of the air conditioner"
     annotation (Placement(transformation(extent={{-22,26},{-14,34}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaCoo(
-    description=
-        "Cooling control signal measurement as fraction of maximum for zone "
-         + zone,
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
 
-    y(unit="1"))
-    annotation (Placement(transformation(extent={{-52,16},{-44,24}})));
 equation
   connect(T,conCoo. u_m) annotation (Line(points={{-116,10},{-72,10},{-72,15.2}},
         color={0,0,127}));
@@ -75,10 +68,8 @@ equation
           {-28,10},{-24,10}}, color={0,0,127}));
   connect(conCoo.y, oveCoo.u)
     annotation (Line(points={{-67.6,20},{-64.8,20}}, color={0,0,127}));
-  connect(oveCoo.y, reaCoo.u)
-    annotation (Line(points={{-55.6,20},{-52.8,20}}, color={0,0,127}));
-  connect(reaCoo.y, gaiCoo.u)
-    annotation (Line(points={{-43.6,20},{-40.8,20}}, color={0,0,127}));
+  connect(oveCoo.y, gaiCoo.u)
+    annotation (Line(points={{-55.6,20},{-40.8,20}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-20},{0,40}},   preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-20},{0,40}})),

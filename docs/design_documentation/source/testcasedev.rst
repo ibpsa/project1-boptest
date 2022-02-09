@@ -80,13 +80,15 @@ of generic FMUs, while the ability to overwrite and read any signal within
 the model is preserved. The Figure below shows an example implementation of
 the blocks in a model.
 
-.. figure:: images/se_block_example.png
+.. figure:: images/overwrite-read.png
     :scale: 50 %
 
-    Example placement of signal exchange blocks for single RC zone model with
+    Example placement and configuration of signal exchange blocks for single RC zone model with
     heater and proportional feedback control.  Signal exchange blocks are used
-    for local loop actuator overwrite (red), zone temperature measurement
-    (blue), heating power measurement (blue), and heating energy meter (blue).
+    for supervisory set point overwrite (:code:`oveSet`),
+    local loop actuator overwrite (:code:`oveAct`),
+    zone temperature measurement (:code:`TRooAir`),
+    and heating power measurement (:code:`PHea`).
     Signal exchange blocks may be implemented at any hierarchical level of a model.
 
 **Control Signal Overwrite**
@@ -135,34 +137,39 @@ identify the blocks in the model:
 
 The second function is to export a wrapper FMU that utilizes the signal exchange blocks:
 
-1. Create a new top-level model (called wrapper.mo)
+1. Create a new top-level model (called wrapper.mo).
 
-2. Instantiate an instance of the original model
+2. Instantiate an instance of the original model.
 
-3. Add two inputs for every Overwrite block found named :code:`<block_instance_path>_u` and :code:`<block_instance_path>_activate`.  Assign :code:`<block_instance_path>_u` the unit, descriptions, min/max,  and other signal attribute data specified by the Overwrite block.
+3. Add two inputs for every Overwrite block found named :code:`<block_instance_path>_u` and :code:`<block_instance_path>_activate`.  Assign :code:`<block_instance_path>_u` the unit, descriptions, min/max,  and other signal attribute data specified by the Overwrite block.  Also add one output for every Overwrite block found name :code:`<block_instance_path>_y`.  Assign :code:`<block_instance_path>_y` the unit, descriptions, min/max,  and other signal attribute data specified by the Overwrite block.
 
 4. Add one output for every Read block found named :code:`<block_instance_path>_y`.  Assign :code:`<block_instance_path>_y` the unit, descriptions, min/max, and other signal attribute data specified by the Read block.
 
-5. Connect :code:`<block_instance_path>_u` to :code:`<block.instance.path>.u` and :code:`<block_instance_path>_activate` to :code:`<block.instance.path>.activate`
+5. For Overwrite blocks, connect :code:`<block_instance_path>_u` to :code:`<block.instance.path>.u`, :code:`<block_instance_path>_activate` to :code:`<block.instance.path>.activate`, and :code:`<block_instance_path>_y` to :code:`<block.instance.path>.y`.
 
-6. Connect :code:`<block_insance_path>_y` to :code:`<block.instance.path>.y`.
+6. For Read blocks, connect :code:`<block_insance_path>_y` to :code:`<block.instance.path>.y`.
 
 7. Export the resulting wrapper.mo as an FMU to wrapper.fmu.
 
-An external interface may use the control signal inputs (u) to send control
-signals to specific overwrite blocks, activation signal inputs (activate) to
-enable and disable signal overwriting, and signal outputs (y) to measure
-specific variables within the model.  By default, the activation of the signal
+An external interface may use the control signal inputs (:code:`_u`) to send control
+signals to specific overwrite blocks, activation signal inputs (:code:`_activate`) to
+enable and disable signal overwriting, and signal outputs (:code:`_y`) to measure
+specific variables within the model.  Note that the outputs added
+corresponding to the Overwrite blocks may be used to retrieve the "current value"
+of a control signal.  By default, the activation of the signal
 overwrite block is set to False.  In this way, external interfaces need to
 only define control signals for those that are being overwritten.
 
-.. figure:: images/wrapper.png
+.. figure:: images/overwrite-read-wrapper.png
     :scale: 50 %
 
     Concept of signal exchange block utilization.  A parser script parses the
     original model to find all instances of the signal exchange blocks and
-    then creates a wrapper model that exposes the control signals, activation,
-    and outputs of the signal exchange blocks using a standard FMU interface.
+    then creates a wrapper model that exposes the available control signal value inputs
+    (e.g. :code:`oveSet_u`), control signal activation inputs (e.g. :code:`oveSet_activate`),
+    control signal current value outputs (e.g. :code:`oveSet_y`),
+    and measurment sensor outputs (e.g. :code:`TRooAir_y`)
+    of the signal exchange blocks using a standard FMU interface.
 
 KPI Tagging and JSON Mapping
 ----------------------------
