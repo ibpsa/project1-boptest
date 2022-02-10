@@ -126,7 +126,7 @@ model RTU_Staged "Staged RTU model"
     annotation (Placement(transformation(extent={{-180,-60},{-140,-20}})));
   Modelica.Blocks.Math.Gain natGasBurEffGai(k=1/natGasBurEff)
     "Natural gas burner efficiency gain"
-    annotation (Placement(transformation(extent={{80,-50},{100,-30}})));
+    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
   Modelica.Blocks.Interfaces.RealOutput PGas "Gas power use"
     annotation (Placement(transformation(extent={{140,-50},{160,-30}})));
   parameter
@@ -180,6 +180,12 @@ model RTU_Staged "Staged RTU model"
   Modelica.Blocks.Interfaces.IntegerInput dxSta
     "Stage of cooling coil (0: off, 1: first stage, 2: second stage)"
     annotation (Placement(transformation(extent={{-180,20},{-140,60}})));
+  Modelica.Blocks.Interfaces.RealOutput TRet
+    "Return air temperature measurement"
+    annotation (Placement(transformation(extent={{140,-90},{160,-70}})));
+  Modelica.Blocks.Interfaces.RealOutput TSup
+    "Supply air temperature measurement"
+    annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -228,15 +234,19 @@ equation
   connect(eco.y, yDamOut) annotation (Line(points={{-60,18},{-60,74},{-106,74},
           {-106,-40},{-160,-40}}, color={0,0,127}));
   connect(heaCoi.Q_flow, natGasBurEffGai.u) annotation (Line(points={{71,6},{74,
-          6},{74,-40},{78,-40}}, color={0,0,127}));
+          6},{74,-40},{98,-40}}, color={0,0,127}));
   connect(natGasBurEffGai.y, PGas)
-    annotation (Line(points={{101,-40},{150,-40}}, color={0,0,127}));
+    annotation (Line(points={{121,-40},{150,-40}}, color={0,0,127}));
   connect(cooCoi.stage, dxSta) annotation (Line(points={{19,8},{16,8},{16,82},{
           -110,82},{-110,40},{-160,40}}, color={255,127,0}));
   connect(eco.port_Ret, senTemMix.port_a)
     annotation (Line(points={{-50,0},{-40,0}}, color={0,127,255}));
   connect(eco.port_Sup, senTemRet.port_b) annotation (Line(points={{-50,12},{
           -40,12},{-40,60},{80,60}}, color={0,127,255}));
+  connect(senTemRet.T, TRet) annotation (Line(points={{90,71},{90,80},{76,80},{
+          76,-80},{150,-80}}, color={0,0,127}));
+  connect(senTemSup.T, TSup) annotation (Line(points={{90,11},{90,20},{78,20},{
+          78,-60},{150,-60}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}), graphics={
                                         Text(

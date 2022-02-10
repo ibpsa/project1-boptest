@@ -51,17 +51,25 @@ equation
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
   connect(con.yFan, rtu.uFan)
-    annotation (Line(points={{-59,8},{-14,8}}, color={0,0,127}));
+    annotation (Line(points={{-59.2857,5.71429},{-36,5.71429},{-36,8},{-14,8}},
+                                               color={0,0,127}));
   connect(con.yHea, rtu.uHea)
-    annotation (Line(points={{-59,0},{-14,0}}, color={0,0,127}));
+    annotation (Line(points={{-59.2857,0},{-14,0}},
+                                               color={0,0,127}));
   connect(con.yDamOut, rtu.yDamOut)
-    annotation (Line(points={{-59,-4},{-14,-4}}, color={0,0,127}));
-  connect(zon.Tz, con.TZon) annotation (Line(points={{102,0},{120,0},{120,-40},{
-          -108,-40},{-108,0},{-82,0}}, color={0,0,127}));
+    annotation (Line(points={{-59.2857,-2.85714},{-36,-2.85714},{-36,-4},{-14,
+          -4}},                                  color={0,0,127}));
+  connect(zon.Tz, con.TZon) annotation (Line(points={{102,0},{120,0},{120,-40},
+          {-108,-40},{-108,0},{-81.4286,0}},
+                                       color={0,0,127}));
   connect(con.dxSta, rtu.dxSta)
-    annotation (Line(points={{-59,4},{-14,4}}, color={255,127,0}));
+    annotation (Line(points={{-59.2857,2.85714},{-36,2.85714},{-36,4},{-14,4}},
+                                               color={255,127,0}));
   connect(zon.occ, con.occ) annotation (Line(points={{102,-16},{118,-16},{118,
-          -38},{-106,-38},{-106,6},{-82,6}}, color={255,0,255}));
+          -38},{-106,-38},{-106,4.28571},{-81.4286,4.28571}},
+                                             color={255,0,255}));
+  connect(con.TSup, rtu.TSup) annotation (Line(points={{-81.4286,-5.71429},{-88,
+          -5.71429},{-88,-20},{20,-20},{20,-6},{17,-6}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},
             {120,100}})),                                        Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},{120,100}}),
@@ -72,8 +80,9 @@ equation
 coil sizing (PSZ-AC_6): 18 kW cooling, 50 kW heating from htm ",
           fontSize=18)}),
     experiment(
+      StartTime=15552000,
       StopTime=31536000,
-      Interval=120,
+      Interval=120.000096,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"));
 end TestCase_Staged;
