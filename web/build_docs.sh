@@ -14,7 +14,7 @@ echo Finished moving design documentation.
 #echo Flattening design documentation images...
 #cd $dir_design/_images
 #for file in ./*.png; do
-#	cp $file ../$file 
+#	cp $file ../$file
 #done
 #cd $dir_design/_images/math
 #for file in ./*.png; do
@@ -44,3 +44,6 @@ for file in ./*html; do
 	sed -i 's/ navbar-fixed-top//g' $file
 done
 echo Finished adding design documentation as jekyll title page.
+
+
+# TODO: Move test case documentation appropriately upon build.
