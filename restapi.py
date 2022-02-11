@@ -7,13 +7,12 @@ The API is implemented using the ``flask`` package.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 import logging
 import argparse
 
-# ----------------------
 
 # LOGGING SETTING
 # ----------------
@@ -21,6 +20,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                     help="Provide logging level. Example --log DEBUG'")
 log_level = parser.parse_args()
+print(logging)
 logging.basicConfig(level=getattr(logging, log_level.logLevel))
 # ----------------
 
@@ -36,15 +36,65 @@ app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 api = Api(app)
 
+
+class InvalidUsage(Exception):
+    """
+        Custom exception for API.
+
+    """
+    status_code = 400
+
+    def __init__(self, message, status_code=None, payload=None):
+        """
+            Constructor for custom error class.
+
+                Parameters
+                ----------
+                message : str, error message.
+                status_code : int, http status code.
+                payload: None; payload.
+
+        """
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        """Package error for information."""
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        if self.status_code is not None:
+            rv['status_code'] = self.status_code
+        return rv
+
+
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    """
+    Register error handler with API.
+
+        Parameters
+        ----------
+        error : obj, instance of error.
+
+    """
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
+
 # ------------------
 
 # INSTANTIATE TEST CASE
 # ---------------------
 try:
     case = TestCase()
-except Exception as e:
-    app.logger.error("Failed to instantiate the fmu: {}".format(e))
-    pass
+except Exception as ex:
+    message = "Failed to instantiate the fmu: {}".format(ex)
+    app.logger.error(message)
+    raise InvalidUsage(message, status_code=500)
 # ---------------------
 
 # DEFINE ARGUMENT PARSERS
@@ -74,26 +124,32 @@ results_var = reqparse.RequestParser()
 results_var.add_argument('point_name')
 results_var.add_argument('start_time')
 results_var.add_argument('final_time')
-
 # -----------------------
 
 # DEFINE REST REQUESTS
 # --------------------
+
+
 class Advance(Resource):
     '''Interface to advance the test case simulation.'''
 
     def post(self):
         '''POST request with input data to advance the simulation one step
         and receive current measurements.'''
-        u = parser_advance.parse_args()
-        app.logger.info("Receiving a new advance request: {}".format(u))
-        result = case.advance(u)
-        if result['message'] == 'success':
-            app.logger.info("Advanced the simulation")
-            return {'message': 'success', 'error': None, 'result': result['result']}
-        else:
-            app.logger.error("Fail to advanced the simulation: {}".format(result['error']))
-            return {'message': 'failure', 'error': result['error'], 'result': {}}
+        try:
+            u = parser_advance.parse_args()
+            app.logger.info("Receiving a new advance request: {}".format(u))
+            result = case.advance(u)
+            if result['message'] == 'success':
+                app.logger.info("Advanced the simulation")
+                return {'message': 'success', 'error': None, 'result': result['result']}
+            else:
+                msg = "Fail to advanced the simulation: {}".format(result['error'])
+                app.logger.error(msg)
+                raise InvalidUsage(msg, status_code=500)
+        except Exception as ex:
+            msg = "Fail to advanced the simulation: {}".format(ex)
+            raise InvalidUsage(msg, status_code=500)
 
 
 class Initialize(Resource):
@@ -106,18 +162,14 @@ class Initialize(Resource):
         try:
             start_time = float(args['start_time'])
             warmup_period = float(args['warmup_period'])
-        except TypeError as ex:
-            app.logger.error("Receiving {} when processing a initialize request".format(ex))
-            return {'message': 'failure', 'error': ex, 'result': None}
-        except ValueError as ex:
-            app.logger.error("Receiving {} when processing a initialize request".format(ex))
-            return {'message': 'failure', 'error': ex, 'result': None}
-        except KeyError as ex:
-            app.logger.error("Receiving {} when processing a initialize request".format(ex))
-            return {'message': 'failure', 'error': ex, 'result': None}
+        except (TypeError, KeyError, ValueError) as ex:
+            msg = "Error when processing initialization request: {} ".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=400)
         except Exception as ex:
-            app.logger.error("Receiving {} when processing a initialize request".format(ex))
-            return {'message': 'failure', 'error': ex, 'result': None}
+            msg = "Error when processing initialization request: {} ".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         result = case.initialize(start_time, warmup_period)
         return result
 
@@ -130,9 +182,10 @@ class Step(Resource):
         app.logger.info("Receiving a new query for step")
         try:
             step = case.get_step()
-        except Exception as e:
-            app.logger.error("Fail to return the simulation step:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the simulation step:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'error': None, 'result': step}
 
     def put(self):
@@ -142,9 +195,14 @@ class Step(Resource):
         step = args['step']
         try:
             step = case.set_step(step)
-        except Exception as e:
-            app.logger.error("Fail to set the simulation step:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except (KeyError, ValueError) as ex:
+            msg = "Fail to set the simulation step:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=400)
+        except Exception as ex:
+            msg = "Fail to set the simulation step:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'error': None, 'result': step}
 
 
@@ -156,9 +214,10 @@ class Inputs(Resource):
         app.logger.info("Receiving a new query for input list")
         try:
             u_list = case.get_inputs()
-        except Exception as e:
-            app.logger.error("Fail to return the inputs:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the inputs:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'error': None, 'result': u_list}
 
 
@@ -170,9 +229,10 @@ class Measurements(Resource):
         app.logger.info("Receiving a new query for output list")
         try:
             y_list = case.get_measurements()
-        except Exception as e:
-            app.logger.error("Fail to return the outputs:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the outputs:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'error': None, 'result': y_list}
 
 
@@ -185,14 +245,19 @@ class Results(Resource):
         try:
             args = results_var.parse_args(strict=True) 
             var = args['point_name']
-            start_time  = float(args['start_time'])
-            final_time  = float(args['final_time'])
+            start_time = float(args['start_time'])
+            final_time = float(args['final_time'])
             Y = case.get_results(var, start_time, final_time)
             for key in Y:
-                  Y[key] = Y[key].tolist() 
-        except Exception as e:
-            app.logger.error("Fail to return the results:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+                  Y[key] = Y[key].tolist()
+        except (KeyError, ValueError) as ex:
+            msg = "Fail to return the results:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=400)
+        except Exception as ex:
+            msg = "Fail to return the results:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'error': None, 'result': Y}
 
 
@@ -204,9 +269,10 @@ class KPI(Resource):
         app.logger.info("Receiving a new query for KPI")
         try:
             kpi = case.get_kpis()
-        except Exception as e:
-            app.logger.error("Fail to return the KPI:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the KPI:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'error': None, 'result': kpi}
 
 
@@ -218,9 +284,10 @@ class Forecast_Parameters(Resource):
         app.logger.info("Receiving a new query for forecast parameters")
         try:
             forecast_parameters = case.get_forecast_parameters()
-        except Exception as e:
-            app.logger.error("Fail to return the forecast parameters:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the forecast parameters:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'error': None, 'result': forecast_parameters}
 
     def put(self):
@@ -231,9 +298,14 @@ class Forecast_Parameters(Resource):
         interval = args['interval']
         try:
             result = case.set_forecast_parameters(horizon, interval)
-        except Exception as e:
-            app.logger.error("Fail to return the KPI:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except (KeyError, ValueError) as ex:
+            msg = "Fail to return the KPI:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(str(ex), status_code=400)
+        except Exception as ex:
+            msg = "Fail to return the KPI:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(str(ex), status_code=500)
 
         return {'message': 'success', 'error': None, 'result': result}
 
@@ -246,10 +318,12 @@ class Forecast(Resource):
         app.logger.info("Receiving a new query for forecast")
         try:
             forecast = case.get_forecast()
-        except Exception as e:
-            app.logger.error("Fail to return the forecast:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the forecast:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'result': forecast, 'error': None}
+
 
 class Scenario(Resource):
     '''Interface to test case scenario.'''
@@ -259,9 +333,10 @@ class Scenario(Resource):
         app.logger.info("Receiving a new query for scenario")
         try:        
             scenario = case.get_scenario()
-        except Exception as e:
-            app.logger.error("Fail to return the scenario:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the scenario:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'result': scenario, 'error': None}
 
     def put(self):
@@ -270,10 +345,12 @@ class Scenario(Resource):
         app.logger.info("Receiving a new request for setting the scenario: ()".format(scenario)) 
         try:        
             result = case.set_scenario(scenario)
-        except Exception as e:
-            app.logger.error("Fail to set the scenario:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to set the scenario:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'error': None, 'result': result}
+
 
 class Name(Resource):
     '''Interface to test case name.'''
@@ -283,9 +360,10 @@ class Name(Resource):
         app.logger.info("Receiving a new query for case name")
         try:
             name = case.get_name()
-        except Exception as e:
-            app.logger.error("Fail to return the case name:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the case name:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
         return {'message': 'success', 'result': name, 'error': None}
 
 
@@ -293,12 +371,12 @@ class Version(Resource):
     '''Interface to BOPTEST version.'''
 
     def get(self):
-
         try:
             version = case.get_version()
-        except Exception as e:
-            app.logger.error("Fail to return the case name:{}".format(e))
-            return {'message': 'failure', 'error': e, 'result': None}
+        except Exception as ex:
+            msg = "Fail to return the case name:{}".format(ex)
+            app.logger.error(msg)
+            raise InvalidUsage(msg, status_code=500)
 
         return {'message': 'success', 'result': version, 'error': None}
 
