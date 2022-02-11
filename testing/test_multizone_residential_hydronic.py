@@ -29,10 +29,10 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
                              'extLiv_reaCO2RooAir_y', 'conCooBth_reaPCoo_y',
                              'conCooHal_reaPCoo_y', 'conCooLiv_reaPCoo_y',
                              'conCooRo1_reaPCoo_y', 'conCooRo2_reaPCoo_y',
-                             'conCooRo3_reaPCoo_y', 'conHeaBth_reaActHea_y',
-                             'conHeaLiv_reaActHea_y',
-                             'conHeaRo1_reaActHea_y', 'conHeaRo2_reaActHea_y',
-                             'conHeaRo3_reaActHea_y']
+                             'conCooRo3_reaPCoo_y', 'conHeaBth_oveActHea_u',
+                             'conHeaLiv_oveActHea_u',
+                             'conHeaRo1_oveActHea_u', 'conHeaRo2_oveActHea_u',
+                             'conHeaRo3_oveActHea_u']
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')

@@ -48,16 +48,8 @@ model ConHeaZon "Zone controller for heating system"
     y(unit="K"),
     description="Air temperature of zone " + zone,
     zone=zone)
-    annotation (Placement(transformation(extent={{-80,-4},{-72,4}})));
+    annotation (Placement(transformation(extent={{-84,8},{-76,16}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read reaActHea(
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
-    y(unit="1"),
-    description="Actuator signal measurement for heating valve for zone " +
-        zone,
-    zone=zone)
-    annotation (Placement(transformation(extent={{-36,16},{-28,24}})));
 equation
   connect(TSet, oveTSetHea.u)
     annotation (Line(points={{-108,30},{-94.8,30}}, color={0,0,127}));
@@ -65,16 +57,14 @@ equation
           {10,10}}, color={0,0,127}));
   connect(oveTSetHea.y, conHea.u_s) annotation (Line(points={{-85.6,30},{-70,30},
           {-70,20},{-60.8,20}}, color={0,0,127}));
-  connect(T, conHea.u_m)
-    annotation (Line(points={{-108,12},{-56,12},{-56,15.2}}, color={0,0,127}));
-  connect(reaTZon.u, T) annotation (Line(points={{-80.8,0},{-90,0},{-90,12},{-108,
-          12}},      color={0,0,127}));
-  connect(oveActHea.y, reaActHea.u)
-    annotation (Line(points={{-39.6,20},{-36.8,20}}, color={0,0,127}));
-  connect(reaActHea.y, gaiHea.u)
-    annotation (Line(points={{-27.6,20},{-24.8,20}}, color={0,0,127}));
+  connect(reaTZon.u, T) annotation (Line(points={{-84.8,12},{-108,12}},
+                     color={0,0,127}));
   connect(oveActHea.u, conHea.y)
     annotation (Line(points={{-48.8,20},{-51.6,20}}, color={0,0,127}));
+  connect(reaTZon.y, conHea.u_m) annotation (Line(points={{-75.6,12},{-56,12},{
+          -56,15.2}}, color={0,0,127}));
+  connect(oveActHea.y, gaiHea.u)
+    annotation (Line(points={{-39.6,20},{-24.8,20}}, color={0,0,127}));
   annotation (
     Diagram(coordinateSystem(extent={{-100,-20},{0,40}},   preserveAspectRatio=false)),
     Icon(coordinateSystem(extent={{-100,-20},{0,40}})),

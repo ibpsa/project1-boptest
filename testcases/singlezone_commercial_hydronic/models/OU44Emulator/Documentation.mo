@@ -8,13 +8,13 @@ package Documentation "Documentation"
 <p><b><span style=\"font-size: 10pt;\">General model description</span></b></p>
 <p><br><img src=\"modelica://OU44Emulator/Resources/Images/ou44.jpg\" alt=\"OU44 building\"/> </p>
 <p><h3>Building Design and Use</h3></p>
-<p>The overall description of the actual building can be found in the following paper: 
-<a href=\"https://www.sciencedirect.com/science/article/pii/S1876610217347720\">M. Jradi et al., A World Class Energy Efficient University Building by Danish 2020 Standards, Energy Procedia 132 (2017), 21-26.</a> 
-Some of validation reference data are taken from this paper directly. 
-The following documentation contains only information relevant for the 
+<p>The overall description of the actual building can be found in the following paper:
+<a href=\"https://www.sciencedirect.com/science/article/pii/S1876610217347720\">M. Jradi et al., A World Class Energy Efficient University Building by Danish 2020 Standards, Energy Procedia 132 (2017), 21-26.</a>
+Some of validation reference data are taken from this paper directly.
+The following documentation contains only information relevant for the
 simplified model included in BOPTEST. Additional details regarding
 the simplified building validattion can be found in the following paper:
-<a href=\"https://ieeexplore.ieee.org/document/9236623\">T. Tang et al.,Implementation and performance analysis of a multi-energy building emulator, In Proc. of 2020 6th IEEE International Energy Conference (ENERGYCon), Sep 28 - Oct 1.</a> 
+<a href=\"https://ieeexplore.ieee.org/document/9236623\">T. Tang et al.,Implementation and performance analysis of a multi-energy building emulator, In Proc. of 2020 6th IEEE International Energy Conference (ENERGYCon), Sep 28 - Oct 1.</a>
 </p>
 <p><h4>Architecture</h4></p>
 <p>The building surface area is 8500 m2. There are 3 above-ground floors containing classrooms (40&percnt; of floor area), study zones (25&percnt;), offices (15&percnt;), and common spaces (20&percnt;). There is also a basement level containing main HVAC facilities and the main heat exchanger connected to district heating. The building can accommodate around 1350 people. </p>
@@ -77,9 +77,9 @@ the simplified building validattion can be found in the following paper:
 <p><img src=\"../../../doc/images/HydronicSchematic.png\"/> </p>
 
 <p><h4>Rule-based or local-loop controllers</h4></p>
-<p>The model implements three PI controllers.  
-The first, with parameters kp=0.1 and Ti=600 s, regulates indoor CO2 concentration to the upper limit by controlling the supply fan speed in the air handling unit. 
-The second, with parameters kp=0.05 and Ti=800 s, regulates the supply air temperature of ventilation to be consistent with setpoint by controlling the hot water coil valve position in the air handling unit. 
+<p>The model implements three PI controllers.
+The first, with parameters kp=0.1 and Ti=600 s, regulates indoor CO2 concentration to the upper limit by controlling the supply fan speed in the air handling unit.
+The second, with parameters kp=0.05 and Ti=800 s, regulates the supply air temperature of ventilation to be consistent with setpoint by controlling the hot water coil valve position in the air handling unit.
 The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of the zone to the heating set point by controlling the hot water valve position serving the radiator.
 
 </p>
@@ -115,12 +115,6 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 <h4>Outputs</h4>
 <p>The model outputs are</p>
 <ul>
-<li>
-<code>ahu_reaFanRet_y</code> [1] [min=None, max=None]: AHU return fan speed control signal
-</li>
-<li>
-<code>ahu_reaFanSup_y</code> [1] [min=None, max=None]: AHU supply fan speed control signal
-</li>
 <li>
 <code>ahu_reaFloSupAir_y</code> [kg/s] [min=None, max=None]: AHU supply air mass flowrate
 </li>
@@ -158,28 +152,13 @@ The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of
 <code>reaPPum_y</code> [W] [min=None, max=None]: Electrical power consumption of pump
 </li>
 <li>
-<code>reaPum_y</code> [1] [min=None, max=None]: Pump speed control signal for heating distribution system
-</li>
-<li>
 <code>reaQHea_y</code> [W] [min=None, max=None]: District heating thermal power consumption
 </li>
 <li>
 <code>reaTCoiRet_y</code> [K] [min=None, max=None]: AHU heating coil return water temperature
 </li>
 <li>
-<code>reaTSupSet_y</code> [K] [min=None, max=None]: AHU supply air temperature setpoint for heating
-</li>
-<li>
-<code>reaTZonSet_y</code> [K] [min=None, max=None]: Zone temperature set point for heating
-</li>
-<li>
 <code>reaTZon_y</code> [K] [min=None, max=None]: Zone air temperature
-</li>
-<li>
-<code>reaValCoi_y</code> [1] [min=None, max=None]: AHU heating coil valve control signal
-</li>
-<li>
-<code>reaValRad_y</code> [1] [min=None, max=None]: Radiator valve control signal
 </li>
 <li>
 <code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
