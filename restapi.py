@@ -20,7 +20,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                     help="Provide logging level. Example --log DEBUG'")
 log_level = parser.parse_args()
-print(logging)
 logging.basicConfig(level=getattr(logging, log_level.logLevel))
 # ----------------
 
