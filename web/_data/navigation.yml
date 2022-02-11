@@ -14,5 +14,7 @@
   link: training/index.html
 - name: Publications
   link: publications/index.html
+- name: Related Projects
+  link: relatedProjects/index.html
 - name: News
   link: blog/index.html

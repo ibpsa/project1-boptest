@@ -1,6 +1,8 @@
 ---
 layout: page
 title: News
+subtitle: The latest developments and announcements
+hero_height: is-fullwidth
 ---
 
 <table class="post-list">

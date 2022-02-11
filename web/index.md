@@ -3,6 +3,7 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 title: The Building Optimization Testing Framework (BOPTEST)
+subtitle: A framework for building control performance benchmarking
 hero_height: is-fullwidth
 ---
 
