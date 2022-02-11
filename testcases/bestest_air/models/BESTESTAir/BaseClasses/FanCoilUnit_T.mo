@@ -93,12 +93,6 @@ model FanCoilUnit_T
       max=313.15,
       unit="K")) "Overwrite for supply air temperature signal"
     annotation (Placement(transformation(extent={{-120,30},{-100,50}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaTSup(
-    y(unit="K"),
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    description="Supply air temperature setpoint")
-    "Read supply air temperature setpoint"
-    annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveFan(description=
         "Fan control signal as air mass flow rate normalized to the design air mass flow rate",
                                     u(
@@ -106,10 +100,6 @@ model FanCoilUnit_T
       max=1,
       unit="1")) "Overwrite for fan control signal"
     annotation (Placement(transformation(extent={{-120,-50},{-100,-30}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaFanSet(y(unit="1"), description=
-        "Fan control signal setpoint as air mass flow rate normalized to the design air mass flow rate")
-    "Read supply fan control setpoint"
-    annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
 equation
   connect(senSupFlo.m_flow, reaFloSup.u)
     annotation (Line(points={{30,111},{30,120},{38,120}},
@@ -145,16 +135,12 @@ equation
           140,-160}}, color={0,127,255}));
   connect(TSup, oveTSup.u)
     annotation (Line(points={{-160,40},{-122,40}}, color={0,0,127}));
-  connect(oveTSup.y, reaTSup.u)
-    annotation (Line(points={{-99,40},{-82,40}}, color={0,0,127}));
-  connect(reaTSup.y, coi.T_in) annotation (Line(points={{-59,40},{-40,40},{-40,
-          -4},{-2,-4}}, color={0,0,127}));
   connect(uFan, oveFan.u)
     annotation (Line(points={{-160,-40},{-122,-40}}, color={0,0,127}));
-  connect(oveFan.y, reaFanSet.u)
-    annotation (Line(points={{-99,-40},{-82,-40}}, color={0,0,127}));
-  connect(reaFanSet.y, fanGai.u)
-    annotation (Line(points={{-59,-40},{-42,-40}}, color={0,0,127}));
+  connect(oveTSup.y, coi.T_in) annotation (Line(points={{-99,40},{-60,40},{-60,
+          -4},{-2,-4}}, color={0,0,127}));
+  connect(oveFan.y, fanGai.u)
+    annotation (Line(points={{-99,-40},{-42,-40}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -180},{140,180}}),                                  graphics={
                                         Text(

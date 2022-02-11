@@ -157,11 +157,12 @@ def write_wrapper(model_path, file_name, instances):
                 f.write('\tModelica.Blocks.Interfaces.RealInput {0};\n'.format(input_signals_w_info[block], block))
                 # Instantiate input activation
                 f.write('\tModelica.Blocks.Interfaces.BooleanInput {0};\n'.format(input_activate_w_info[block], block))
-            # Add outputs for every read block
+            # Add outputs for every read block and overwrite block
             f.write('\t// Out read\n')
-            for block in instances['Read'].keys():
-                # Instantiate input signal
-                f.write('\tModelica.Blocks.Interfaces.RealOutput {0} = mod.{1}.y "{2}";\n'.format(_make_var_name(block,style='output',attribute='(unit="{0}")'.format(instances['Read'][block]['Unit'])), block, instances['Read'][block]['Description']))
+            for i in ['Read', 'Overwrite']:
+                for block in instances[i].keys():
+                    # Instantiate signal
+                    f.write('\tModelica.Blocks.Interfaces.RealOutput {0} = mod.{1}.y "{2}";\n'.format(_make_var_name(block,style='output',attribute='(unit="{0}")'.format(instances[i][block]['Unit'])), block, instances[i][block]['Description']))
             # Add original model
             f.write('\t// Original model\n')
             f.write('\t{0} mod(\n'.format(model_path))

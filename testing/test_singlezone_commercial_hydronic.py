@@ -22,7 +22,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
 
         self.name = 'singlezone_commercial_hydronic'
         self.url = 'http://127.0.0.1:5000'
-        self.points_check = ['reaTZonSet_y','reaTSupSet_y',
+        self.points_check = ['oveTZonSet_u','oveTSupSet_u',
                              'reaCO2Zon_y','reaTZon_y',
                              'reaPFan_y','reaPPum_y',
                              'reaQHea_y','ahu_reaTSupAir_y',
@@ -34,7 +34,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
 
     def test_typical_heat_day(self):
         self.run_time_period('typical_heat_day')
-        
+
     def test_summer(self):
         self.run_season('summer')
 
@@ -65,7 +65,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
             # Advance simulation
             #switch pump on/off for each timestep
             pump = 0 if (i % 2) == 0 else 1
-            u = {'over_pump_DH_activate':1, 'over_pump_DH_u':pump}
+            u = {'ovePum_activate':1, 'ovePum_u':pump}
             requests.post('{0}/advance'.format(self.url), data=u).json()
         # Check results
         points = self.get_all_points(self.url)
