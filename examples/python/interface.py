@@ -20,27 +20,6 @@ import collections
 import pandas as pd
 
 
-def parse_request(_request):
-    """
-    Parse restful API response and return pertinent result.  If there is an error print error and exit.
-
-    Parameters
-    ----------
-
-    _request: dict
-        Dictionary returned by restful API; {'message': 'success', 'error': None, 'result': result['result']}
-    """
-    if 'message' in _request:
-        if _request['message'] != 'success':
-            error = _request.get("error", "No error returned by API!")
-            print("Error when making call to API: {}".format(_request))
-            sys.exit()
-        else:
-            if 'result' in _request:
-                return _request['result']
-    return {}
-
-
 def control_test(control_module='', start_time=0, warmup_period=0, length=24*3600, scenario=None, step=300, customized_kpi_config=None, use_forecast=False):
     """
     Main interface that executes communication between testcase (controller) and the restufl API communicating with
