@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                     help="Provide logging level. Example --log DEBUG'")
 log_level = parser.parse_args()
-logging.basicConfig(level=getattr(logging, log_level.logLevel))
+logging.basicConfig(level=log_level.logLevel)
 # ----------------
 
 # TEST CASE IMPORT
@@ -139,9 +139,9 @@ class Advance(Resource):
             u = parser_advance.parse_args()
             app.logger.info("Receiving a new advance request: {}".format(u))
             result = case.advance(u)
-            if result['message'] == 'success':
+            if result:
                 app.logger.info("Advanced the simulation")
-                return {'message': 'success', 'error': None, 'result': result['result']}
+                return result, 200
             else:
                 msg = "Fail to advanced the simulation: {}".format(result['error'])
                 app.logger.error(msg)
@@ -161,6 +161,7 @@ class Initialize(Resource):
         try:
             start_time = float(args['start_time'])
             warmup_period = float(args['warmup_period'])
+            result = case.initialize(start_time, warmup_period)
         except (TypeError, KeyError, ValueError) as ex:
             msg = "Error when processing initialization request: {} ".format(ex)
             app.logger.error(msg)
@@ -169,8 +170,7 @@ class Initialize(Resource):
             msg = "Error when processing initialization request: {} ".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        result = case.initialize(start_time, warmup_period)
-        return result
+        return result, 200
 
 
 class Step(Resource):
@@ -185,7 +185,7 @@ class Step(Resource):
             msg = "Fail to return the simulation step:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'error': None, 'result': step}
+        return step, 200
 
     def put(self):
         '''PUT request to set simulation step in seconds.'''
@@ -202,7 +202,7 @@ class Step(Resource):
             msg = "Fail to set the simulation step:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'error': None, 'result': step}
+        return step, 200
 
 
 class Inputs(Resource):
@@ -217,7 +217,7 @@ class Inputs(Resource):
             msg = "Fail to return the inputs:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'error': None, 'result': u_list}
+        return u_list, 200
 
 
 class Measurements(Resource):
@@ -232,7 +232,7 @@ class Measurements(Resource):
             msg = "Fail to return the outputs:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'error': None, 'result': y_list}
+        return y_list, 200
 
 
 class Results(Resource):
@@ -257,7 +257,7 @@ class Results(Resource):
             msg = "Fail to return the results:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'error': None, 'result': Y}
+        return Y, 200
 
 
 class KPI(Resource):
@@ -272,7 +272,7 @@ class KPI(Resource):
             msg = "Fail to return the KPI:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'error': None, 'result': kpi}
+        return kpi, 200
 
 
 class Forecast_Parameters(Resource):
@@ -287,7 +287,7 @@ class Forecast_Parameters(Resource):
             msg = "Fail to return the forecast parameters:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'error': None, 'result': forecast_parameters}
+        return forecast_parameters, 200
 
     def put(self):
         '''PUT request to set forecast horizon and interval inseconds.'''    
@@ -306,7 +306,7 @@ class Forecast_Parameters(Resource):
             app.logger.error(msg)
             raise InvalidUsage(str(ex), status_code=500)
 
-        return {'message': 'success', 'error': None, 'result': result}
+        return result, 200
 
 
 class Forecast(Resource):
@@ -321,7 +321,7 @@ class Forecast(Resource):
             msg = "Fail to return the forecast:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'result': forecast, 'error': None}
+        return forecast, 200
 
 
 class Scenario(Resource):
@@ -336,7 +336,7 @@ class Scenario(Resource):
             msg = "Fail to return the scenario:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'result': scenario, 'error': None}
+        return scenario, 200
 
     def put(self):
         '''PUT request to set scenario.'''          
@@ -348,7 +348,7 @@ class Scenario(Resource):
             msg = "Fail to set the scenario:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'error': None, 'result': result}
+        return result, 200
 
 
 class Name(Resource):
@@ -363,7 +363,7 @@ class Name(Resource):
             msg = "Fail to return the case name:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return {'message': 'success', 'result': name, 'error': None}
+        return  name, 200
 
 
 class Version(Resource):
@@ -377,7 +377,7 @@ class Version(Resource):
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
 
-        return {'message': 'success', 'result': version, 'error': None}
+        return version, 200
 
     # --------------------
 

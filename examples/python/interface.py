@@ -102,16 +102,16 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # -------------------------------------------------------------------------
     print('\nTEST CASE INFORMATION\n---------------------')
     # Retrieve testcase name from REST API
-    name = parse_request(requests.get('{0}/name'.format(url)).json())
+    name = requests.get('{0}/name'.format(url)).json()
     print('Name:\t\t\t\t{0}'.format(name))
     # Retrieve a list of inputs (controllable points) for the model from REST API
-    inputs = parse_request(requests.get('{0}/inputs'.format(url)).json())
+    inputs = requests.get('{0}/inputs'.format(url)).json()
     print('Control Inputs:\t\t\t{0}'.format(inputs))
     # Retrieve a list of measurements (outputs) for the model from REST API
-    measurements = parse_request(requests.get('{0}/measurements'.format(url)).json())
+    measurements = requests.get('{0}/measurements'.format(url)).json()
     print('Measurements:\t\t\t{0}'.format(measurements))
     # Get the default simulation timestep for the model for simulation run
-    step_def = parse_request(requests.get('{0}/step'.format(url)).json())
+    step_def = requests.get('{0}/step'.format(url)).json()
     print('Default Control Step:\t{0}'.format(step_def))
 
     # IF ANY CUSTOM KPI CALCULATION, DEFINE STRUCTURES
@@ -134,7 +134,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     print('Initializing test case simulation.')
     if scenario is not None:
         # Initialize test with a scenario time period
-        res = parse_request(requests.put('{0}/scenario'.format(url), data=scenario).json())['time_period']
+        res = requests.put('{0}/scenario'.format(url), data=scenario).json()['time_period']
         # Record test simulation start time
         start_time = res['time']
         # Set final time and total time steps to be very large since scenario defines length
@@ -142,7 +142,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         total_time_steps = int((365 * 24 * 3600)/step)
     else:
         # Initialize test with a specified start time and warmup period
-        res = parse_request(requests.put('{0}/initialize'.format(url), data={'start_time': start_time, 'warmup_period': warmup_period}).json())
+        res = requests.put('{0}/initialize'.format(url), data={'start_time': start_time, 'warmup_period': warmup_period}).json()
+        print("RESULT: {}".format(res))
         # Set final time and total time steps according to specified length (seconds)
         final_time = start_time + length
         total_time_steps = int(length / step)  # calculate number of timesteps
@@ -150,7 +151,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         print('Successfully initialized the simulation')
     print('\nRunning test case...')
     # Set simulation time step
-    res = parse_request(requests.put('{0}/step'.format(url), data={'step': step}))
+    res = requests.put('{0}/step'.format(url), data={'step': step})
     # Initialize input to simulation from controller
     u = controller.initialize()
     # Initialize forecast storage structure
@@ -160,9 +161,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         # Advance simulation with control input value(s)
         y = requests.post('{0}/advance'.format(url), data=u).json()
         # If simulation is complete break simulation loop
-        if not y['result']:
+        if not y:
             break
-        y = parse_request(y)
         # If custom KPIs are configured, compute the KPIs
         for kpi in custom_kpis:
             kpi.processing_data(y)  # Process data as needed for custom KPI
@@ -173,7 +173,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         # If controller needs a forecast, get the forecast data provide the forecast to the controller
         if controller.use_forecast:
             # Retrieve forecast from restful API
-            forecast_data = parse_request(requests.get('{0}/forecast'.format(url)).json())
+            forecast_data = requests.get('{0}/forecast'.format(url)).json()
             # Use forecast data to update controller-specific forecast data
             forecasts = controller.update_forecasts(forecast_data, forecasts)
         else:
@@ -186,7 +186,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # VIEW RESULTS
     # -------------------------------------------------------------------------
     # Report KPIs
-    kpi = parse_request(requests.get('{0}/kpi'.format(url)).json())
+    kpi = requests.get('{0}/kpi'.format(url)).json()
     print('\nKPI RESULTS \n-----------')
     for key in kpi.keys():
         if key == 'ener_tot':
@@ -211,7 +211,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()
     for point in points:
-        res = parse_request(requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}).json())
+        res = requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}).json()
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
 
