@@ -149,7 +149,6 @@ class TestCase(object):
             return None
         # Set internal fmu initialization
         self.initialize_fmu = False
-
         return res
 
     def __get_results(self, res, store=True, store_initial=False):
@@ -279,6 +278,7 @@ class TestCase(object):
         else:
             # Simulation at end time
             return dict()
+
 
     def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
