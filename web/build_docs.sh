@@ -1,5 +1,6 @@
 #!/bin/bash
 dir_design=docs-design
+dir_testcases=docs-testcases
 
 rm -rf $dir_design
 # Build html documentation
@@ -46,4 +47,14 @@ done
 echo Finished adding design documentation as jekyll title page.
 
 
-# TODO: Move test case documentation appropriately upon build.
+# Move test case documentation to directory within /web
+echo Moving test case documentation to $dir_testcases...
+cd ..
+rm -r $dir_testcases
+mkdir $dir_testcases
+cp -r ../testcases/bestest_air/doc $dir_testcases/bestest_air
+cp -r ../testcases/bestest_hydronic/doc $dir_testcases/bestest_hydronic
+cp -r ../testcases/bestest_hydronic_heat_pump/doc $dir_testcases/bestest_hydronic_heat_pump
+cp -r ../testcases/multizone_residential_hydronic/doc $dir_testcases/multizone_residential_hydronic
+cp -r ../testcases/singlezone_commercial_hydronic/doc $dir_testcases/singlezone_commercial_hydronic
+echo Finished test case design documentation.

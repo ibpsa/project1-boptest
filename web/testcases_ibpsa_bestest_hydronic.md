@@ -8,4 +8,28 @@ menubar: testcases_menubar
 permalink: /testcases/ibpsa/testcases_ibpsa_bestest_hydronic/
 ---
 
-This is a description and links to bestest hydronic.
+# Test Case Name
+``bestest_hydronic``
+
+# Description
+The building is a single room based on the BESTEST Case 900 model definition,
+located in Brussels, Belgium.  The floor area is 48 m^2.
+There are four exterior walls facing the cardinal directions and a flat roof.
+The south wall contains two windows of 6 m^2 each.  The usage is a one-person residence.
+
+The primary heating system that heats the zone is a
+single radiator, a circulation pump, and a gas water heater, which is used
+to heat the supply water such that the zone operative temperate set point
+is maintained.
+
+[Click here](/docs-testcases/bestest_hydronic/index.html) to view detailed documentation.
+
+# Available Test Scenarios
+### Time Periods
+``peak_heat_day``
+``typical_heat_day``
+
+### Electricity Prices
+``constant``
+``dynamic``
+``highly_dynamic``
