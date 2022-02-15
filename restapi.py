@@ -305,8 +305,8 @@ class Forecast_Parameters(Resource):
             msg = "Fail to return the KPI:{}".format(ex)
             app.logger.error(msg)
             raise InvalidUsage(str(ex), status_code=500)
-
-        return result, 200
+        forecast_parameters = case.get_forecast_parameters()
+        return forecast_parameters, 200
 
 
 class Forecast(Resource):
