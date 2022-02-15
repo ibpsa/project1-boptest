@@ -139,7 +139,7 @@ class Advance(Resource):
             u = parser_advance.parse_args()
             app.logger.info("Receiving a new advance request: {}".format(u))
             result = case.advance(u)
-            if result:
+            if result is not None:
                 app.logger.info("Advanced the simulation")
                 return result, 200
             else:
