@@ -139,11 +139,11 @@ class Advance(Resource):
             u = parser_advance.parse_args()
             app.logger.info("Receiving a new advance request: {}".format(u))
             result = case.advance(u)
-            if result:
+            if not isinstance(result, Exception):
                 app.logger.info("Advanced the simulation")
                 return result, 200
             else:
-                msg = "Fail to advanced the simulation: {}".format(result['error'])
+                msg = "Fail to advanced the simulation: {}".format(result)
                 app.logger.error(msg)
                 raise InvalidUsage(msg, status_code=500)
         except Exception as ex:
