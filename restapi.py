@@ -341,7 +341,7 @@ class Scenario(Resource):
     def put(self):
         '''PUT request to set scenario.'''          
         scenario = parser_scenario.parse_args(strict=True)
-        app.logger.info("Receiving a new request for setting the scenario: ()".format(scenario)) 
+        app.logger.info("Receiving a new request for setting the scenario: {}".format(scenario)) 
         try:        
             result = case.set_scenario(scenario)
         except Exception as ex:

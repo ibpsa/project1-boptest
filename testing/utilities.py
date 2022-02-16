@@ -370,7 +370,7 @@ class partialChecks(object):
 
         df = pd.DataFrame()
         for point in points:
-            res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':start_time, 'final_time':final_time}).json()['result']
+            res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':start_time, 'final_time':final_time}).json()
             df = pd.concat((df,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
         df.index.name = 'time'
 
@@ -392,8 +392,8 @@ class partialChecks(object):
 
         '''
 
-        measurements = requests.get('{0}/measurements'.format(url)).json()['result']
-        inputs = requests.get('{0}/inputs'.format(url)).json()['result']
+        measurements = requests.get('{0}/measurements'.format(url)).json()
+        inputs = requests.get('{0}/inputs'.format(url)).json()
         points = list(measurements.keys()) + list(inputs.keys())
 
         return points
@@ -424,7 +424,7 @@ class partialTestAPI(partialChecks):
         '''
 
         # Get version from BOPTEST API
-        version = requests.get('{0}/version'.format(self.url)).json()['result']
+        version = requests.get('{0}/version'.format(self.url)).json()
         # Create a regex object as three decimal digits seperated by period
         r_num = re.compile('\d.\d.\d')
         r_x = re.compile('0.x.x')
@@ -440,7 +440,7 @@ class partialTestAPI(partialChecks):
         '''
 
         name = requests.get('{0}/name'.format(self.url)).json()
-        self.assertEqual(name['result']['name'], self.name)
+        self.assertEqual(name['name'], self.name)
 
     def test_get_inputs(self):
         '''Test getting the input list of tests.
@@ -449,7 +449,7 @@ class partialTestAPI(partialChecks):
 
         inputs = requests.get('{0}/inputs'.format(self.url)).json()
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_inputs.json')
-        self.compare_ref_json(inputs['result'], ref_filepath)
+        self.compare_ref_json(inputs, ref_filepath)
 
     def test_get_measurements(self):
         '''Test getting the measurement list of test.
@@ -458,7 +458,7 @@ class partialTestAPI(partialChecks):
 
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_measurements.json')
-        self.compare_ref_json(measurements['result'], ref_filepath)
+        self.compare_ref_json(measurements, ref_filepath)
 
     def test_get_step(self):
         '''Test getting the communication step of test.
@@ -466,7 +466,7 @@ class partialTestAPI(partialChecks):
         '''
 
         step = requests.get('{0}/step'.format(self.url)).json()
-        df = pd.DataFrame(data=[step['result']], index=['step'], columns=['value'])
+        df = pd.DataFrame(data=[step], index=['step'], columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_step.csv')
         self.compare_ref_values_df(df, ref_filepath)
@@ -480,8 +480,8 @@ class partialTestAPI(partialChecks):
         step = 101
         requests.put('{0}/step'.format(self.url), data={'step':step})
         step_set = requests.get('{0}/step'.format(self.url)).json()
-        self.assertEqual(step, step_set['result'])
-        requests.put('{0}/step'.format(self.url), data={'step':step_current['result']})
+        self.assertEqual(step, step_set)
+        requests.put('{0}/step'.format(self.url), data={'step':step_current})
 
     def test_initialize(self):
         '''Test initialization of test simulation.
@@ -491,11 +491,10 @@ class partialTestAPI(partialChecks):
         # Get measurements and inputs
         points = self.get_all_points(self.url)
         # Get current step
-        step = requests.get('{0}/step'.format(self.url)).json()['result']
+        step = requests.get('{0}/step'.format(self.url)).json()
         # Initialize
         start_time = 0.5*24*3600
         y = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0.5*24*3600}).json()
-        y = y['result']
         # Check that initialize returns the right initial values and results
         df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
@@ -509,7 +508,7 @@ class partialTestAPI(partialChecks):
         self.compare_ref_timeseries_df(df,ref_filepath)
         # Check kpis
         res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
-        df = pd.DataFrame.from_dict(res_kpi['result'], orient='index', columns=['value'])
+        df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_initial.csv')
         self.compare_ref_values_df(df, ref_filepath)
@@ -524,7 +523,7 @@ class partialTestAPI(partialChecks):
         # Check results
         self.compare_ref_timeseries_df(df,ref_filepath)
         # Check kpis
-        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()['result']
+        res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
         df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_initialize_advance.csv')
@@ -543,7 +542,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        df = pd.DataFrame.from_dict(y['result'], orient = 'index', columns=['value'])
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_no_data.csv')
         self.compare_ref_values_df(df, ref_filepath)
@@ -583,7 +582,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
-        df = pd.DataFrame.from_dict(y['result'], orient='index', columns=['value'])
+        df = pd.DataFrame.from_dict(y, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
         self.compare_ref_values_df(df, ref_filepath)
@@ -599,7 +598,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
-        df_forecaster = pd.DataFrame(forecast['result']).set_index('time')
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_default.csv')
         # Check the forecast
@@ -614,13 +613,13 @@ class partialTestAPI(partialChecks):
         forecast_parameters_ref = {'horizon':3600, 'interval':300}
         # Set forecast parameters
         ret = requests.put('{0}/forecast_parameters'.format(self.url),
-                           data=forecast_parameters_ref)
+                           data=forecast_parameters_ref).json()
         # Get forecast parameters
         forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
         # Check the forecast parameters
-        self.assertDictEqual(forecast_parameters['result'], forecast_parameters_ref)
+        self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
         # Check the return on the put request
-        self.assertDictEqual(ret.json()['result'], forecast_parameters_ref)
+        self.assertDictEqual(ret, forecast_parameters_ref)
 
     def test_get_forecast_with_parameters(self):
         '''Check that the forecaster is able to retrieve the data.
@@ -638,7 +637,7 @@ class partialTestAPI(partialChecks):
                      data=forecast_parameters_ref)
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
-        df_forecaster = pd.DataFrame(forecast['result']).set_index('time')
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
         # Check the forecast
@@ -650,11 +649,11 @@ class partialTestAPI(partialChecks):
         '''
 
         # Set scenario
-        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()['result']
+        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
         scenario = {'electricity_price':'highly_dynamic',
                     'time_period':self.test_time_period}
         requests.put('{0}/scenario'.format(self.url), data=scenario)
-        scenario_set = requests.get('{0}/scenario'.format(self.url)).json()['result']
+        scenario_set = requests.get('{0}/scenario'.format(self.url)).json()
         self.assertEqual(scenario, scenario_set)
         # Check initialized correctly
         points = self.get_all_points(self.url)
@@ -682,11 +681,11 @@ class partialTestAPI(partialChecks):
                             'bestest_hydronic':'reaQHea_y',
                             'bestest_air':'zon_weaSta_reaWeaSolHouAng_y',
                             'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
-                            'multizone_residential_hydronic':'weatherStation_reaWeaNTot_y',
+                            'multizone_residential_hydronic':'weatherStation_reaWeaWinSpe_y',
                             'singlezone_commercial_hydronic':'ahu_reaTRetAir_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()['result']
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()
         requests.post('{0}/advance'.format(self.url), data=dict()).json()
         point = measurement_list[self.name]
         if point not in measurements:
@@ -694,7 +693,7 @@ class partialTestAPI(partialChecks):
         res_inner = requests.put('{0}/results'.format(self.url), data={'point_name': point,
                                                                        'start_time': self.step_ref*0.25,
                                                                        'final_time': self.step_ref*0.75}).json()
-        df = pd.DataFrame.from_dict(res_inner['result']).set_index('time')
+        df = pd.DataFrame.from_dict(res_inner).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_inner.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
 
@@ -708,11 +707,11 @@ class partialTestAPI(partialChecks):
                             'bestest_hydronic':'reaQHea_y',
                             'bestest_air':'zon_weaSta_reaWeaSolHouAng_y',
                             'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
-                            'multizone_residential_hydronic':'weatherStation_reaWeaNTot_y',
+                            'multizone_residential_hydronic':'weatherStation_reaWeaWinSpe_y',
                             'singlezone_commercial_hydronic':'ahu_reaTRetAir_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()['result']
+        measurements = requests.get('{0}/measurements'.format(self.url)).json()
         requests.post('{0}/advance'.format(self.url), data=dict()).json()
         point = measurement_list[self.name]
         if point not in measurements:
@@ -720,7 +719,7 @@ class partialTestAPI(partialChecks):
         res_outer = requests.put('{0}/results'.format(self.url), data={'point_name': point,
                                                                  'start_time': 0-self.step_ref,
                                                                  'final_time': self.step_ref*2}).json()
-        df = pd.DataFrame.from_dict(res_outer['result']).set_index('time')
+        df = pd.DataFrame.from_dict(res_outer).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
 
@@ -750,7 +749,6 @@ class partialTestTimePeriod(partialChecks):
         while y:
             # Advance simulation
             y = requests.post('{0}/advance'.format(self.url), data={}).json()
-            y = y['result']
         # Check results
         df = self.results_to_df(self.points_check, -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))
@@ -760,7 +758,7 @@ class partialTestTimePeriod(partialChecks):
             # Set scenario
             requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
             # Report kpis
-            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()['result']
+            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
             # Check kpis
             df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
             df.index.name = 'keys'
@@ -800,7 +798,7 @@ class partialTestSeason(partialChecks):
         # Initialize test case
         requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
         # Get default simulation step
-        step_def = requests.get('{0}/step'.format(self.url)).json()['result']
+        step_def = requests.get('{0}/step'.format(self.url)).json()
         # Simulation Loop
         for i in range(int(length/step_def)):
             # Advance simulation
@@ -816,7 +814,7 @@ class partialTestSeason(partialChecks):
             # Set scenario
             requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
             # Report kpis
-            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()['result']
+            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
             # Check kpis
             df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
             df.index.name = 'keys'

@@ -134,10 +134,10 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
         # Check kpis
-        value = float(y['senTSetRooHea_y'])
+        value = float(y['oveTSetRooHea_u'])
         self.assertAlmostEqual(value, 273.15+10, places=3)
 
     def test_max(self):
@@ -146,10 +146,10 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
         # Check kpis
-        value = float(y['senTSetRooHea_y'])
+        value = float(y['oveTSetRooHea_u'])
         self.assertAlmostEqual(value, 273.15+35, places=3)
 
 class API(unittest.TestCase, utilities.partialTestAPI):
