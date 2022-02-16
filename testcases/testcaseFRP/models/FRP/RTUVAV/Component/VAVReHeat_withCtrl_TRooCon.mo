@@ -10,7 +10,7 @@ model VAVReHeat_withCtrl_TRooCon
     redeclare package Medium =Medium,
     m_flow_nominal=m_flow_nominal,
     dp_nominal=dp_nominal)
-    annotation (Placement(transformation(extent={{16,-34},{72,44}})));
+    annotation (Placement(transformation(extent={{28,-34},{84,44}})));
   Buildings.Fluid.HeatExchangers.HeaterCooler_u
                                           ReHeat(
     redeclare package Medium =Medium,
@@ -18,7 +18,7 @@ model VAVReHeat_withCtrl_TRooCon
     dp_nominal=dp_nominal,
     tau=300,
     Q_flow_nominal=Q_flow_nominal)
-    annotation (Placement(transformation(extent={{-64,-26},{-14,34}})));
+    annotation (Placement(transformation(extent={{-68,-26},{-18,34}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         Medium)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -65,15 +65,14 @@ model VAVReHeat_withCtrl_TRooCon
     controllerType=Buildings.Controls.OBC.CDL.Types.SimpleController.PI)
             "Controller for heating"
     annotation (Placement(transformation(extent={{-116,56},{-96,76}})));
-  Buildings.Fluid.Sensors.Temperature SenT(redeclare package Medium =Medium)
-    annotation (Placement(transformation(extent={{-6,12},{14,32}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort ReheatT(redeclare package Medium =
+        Medium, m_flow_nominal=m_flow_nominal) "Temperature after Reheat"
+    annotation (Placement(transformation(extent={{-6,-10},{14,20}})));
 equation
-  connect(ReHeat.port_b, vavDam.port_a) annotation (Line(points={{-14,4},{-6,4},
-          {-6,5},{16,5}},  color={0,127,255}));
-  connect(vavDam.port_b, port_b) annotation (Line(points={{72,5},{78,5},{78,4},
-          {100,4}}, color={0,127,255}));
+  connect(vavDam.port_b, port_b) annotation (Line(points={{84,5},{84,4},{100,4}},
+                    color={0,127,255}));
   connect(ReHeat.port_a, port_a)
-    annotation (Line(points={{-64,4},{-140,4}}, color={0,127,255}));
+    annotation (Line(points={{-68,4},{-140,4}}, color={0,127,255}));
   connect(TRooCooSet, conCoo.u_s) annotation (Line(points={{0,112},{0,68},{12,
           68}},         color={0,0,127}));
   connect(TRoo, conCoo.u_m) annotation (Line(points={{-52,114},{-52,48},{24,48},
@@ -82,12 +81,14 @@ equation
           {-118,66}}, color={0,0,127}));
   connect(TRoo, conHea.u_m) annotation (Line(points={{-52,114},{-52,48},{-106,
           48},{-106,54}},      color={0,0,127}));
-  connect(conHea.y, ReHeat.u) annotation (Line(points={{-95,66},{-80,66},{-80,22},
-          {-69,22}}, color={0,0,127}));
+  connect(conHea.y, ReHeat.u) annotation (Line(points={{-95,66},{-90,66},{-90,22},
+          {-73,22}}, color={0,0,127}));
   connect(conCoo.y, vavDam.y)
-    annotation (Line(points={{35,68},{44,68},{44,51.8}}, color={0,0,127}));
-  connect(ReHeat.port_b, SenT.port)
-    annotation (Line(points={{-14,4},{-14,12},{4,12}}, color={0,127,255}));
+    annotation (Line(points={{35,68},{56,68},{56,51.8}}, color={0,0,127}));
+  connect(ReHeat.port_b, ReheatT.port_a) annotation (Line(points={{-18,4},{-12,4},
+          {-12,5},{-6,5}}, color={0,127,255}));
+  connect(ReheatT.port_b, vavDam.port_a)
+    annotation (Line(points={{14,5},{28,5}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{100,100}}),                                  graphics={
           Rectangle(

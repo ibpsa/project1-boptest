@@ -14,3 +14,4 @@ parser/*.mo
 parser/*.json
 *.c
 *.exe
+*.bak-mo
