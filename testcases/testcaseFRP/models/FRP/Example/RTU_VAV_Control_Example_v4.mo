@@ -1,5 +1,5 @@
 within FRP.Example;
-model RTU_VAV_Control_Example_v3 "setpoint schedule added"
+model RTU_VAV_Control_Example_v4 "improve simulation robustness"
     extends Modelica.Icons.Example;
     package MediumA = Buildings.Media.Air "Medium model";
     parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1.86; // kg/s
@@ -209,7 +209,7 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     m_flow_nominal={m_flow_nominal,0.5*m_flow_nominal,0.5*m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -227,7 +227,7 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -238,14 +238,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room supply" annotation (Placement(transformation(
         extent={{26,26},{-26,-26}},
         rotation=180,
-        origin={-58,511})));
+        origin={-60,517})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo2(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,3/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -256,14 +256,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room supply" annotation (Placement(transformation(
         extent={{26,26},{-26,-26}},
         rotation=180,
-        origin={30,509})));
+        origin={28,515})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo3(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,2/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -274,14 +274,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room supply" annotation (Placement(transformation(
         extent={{26,26},{-26,-26}},
         rotation=180,
-        origin={122,509})));
+        origin={120,515})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo4(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,1/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -292,14 +292,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room supply" annotation (Placement(transformation(
         extent={{26,26},{-26,-26}},
         rotation=180,
-        origin={212,509})));
+        origin={210,515})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo5(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,4/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -317,7 +317,7 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -328,14 +328,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room supply" annotation (Placement(transformation(
         extent={{-26,26},{26,-26}},
         rotation=0,
-        origin={34,-208})));
+        origin={34,-206})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo7(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,2/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -346,14 +346,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room supply" annotation (Placement(transformation(
         extent={{-26,26},{26,-26}},
         rotation=0,
-        origin={130,-208})));
+        origin={128,-206})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo8(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,1/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -364,14 +364,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room supply" annotation (Placement(transformation(
         extent={{-26,26},{26,-26}},
         rotation=0,
-        origin={214,-208})));
+        origin={212,-206})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo1(
     redeclare package Medium = MediumA,
     m_flow_nominal={1/5*0.5*m_flow_nominal,2/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -381,14 +381,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room return" annotation (Placement(transformation(
         extent={{25,25},{-25,-25}},
         rotation=180,
-        origin={681,501})));
+        origin={679,507})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo2(
     redeclare package Medium = MediumA,
     m_flow_nominal={2/5*0.5*m_flow_nominal,3/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -398,14 +398,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room return" annotation (Placement(transformation(
         extent={{25,25},{-25,-25}},
         rotation=180,
-        origin={767,501})));
+        origin={765,507})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo3(
     redeclare package Medium = MediumA,
     m_flow_nominal={1/5*0.5*m_flow_nominal,4/5*0.5*m_flow_nominal,3/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -415,14 +415,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room return" annotation (Placement(transformation(
         extent={{25,25},{-25,-25}},
         rotation=180,
-        origin={847,501})));
+        origin={845,507})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo4(
     redeclare package Medium = MediumA,
     m_flow_nominal={4/5*0.5*m_flow_nominal,0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -432,14 +432,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room return" annotation (Placement(transformation(
         extent={{25,25},{-25,-25}},
         rotation=180,
-        origin={927,501})));
+        origin={925,505})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo5(
     redeclare package Medium = MediumA,
     m_flow_nominal={1/5*0.5*m_flow_nominal,2/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -449,14 +449,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room return" annotation (Placement(transformation(
         extent={{25,-25},{-25,25}},
         rotation=180,
-        origin={683,-213})));
+        origin={681,-209})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo6(
     redeclare package Medium = MediumA,
     m_flow_nominal={2/5*0.5*m_flow_nominal,3/5*0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -466,14 +466,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room return" annotation (Placement(transformation(
         extent={{25,-25},{-25,25}},
         rotation=180,
-        origin={769,-213})));
+        origin={767,-209})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo7(
     redeclare package Medium = MediumA,
     m_flow_nominal={1/5*0.5*m_flow_nominal,4/5*0.5*m_flow_nominal,3/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -483,14 +483,14 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room return" annotation (Placement(transformation(
         extent={{25,-25},{-25,25}},
         rotation=180,
-        origin={849,-213})));
+        origin={847,-209})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo8(
     redeclare package Medium = MediumA,
     m_flow_nominal={4/5*0.5*m_flow_nominal,0.5*m_flow_nominal,1/5*0.5*
         m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=if allowFlowReversal then Modelica.Fluid.Types.PortFlowDirection.Bidirectional
          else Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -500,13 +500,13 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for room return" annotation (Placement(transformation(
         extent={{25,-25},{-25,25}},
         rotation=180,
-        origin={929,-213})));
+        origin={927,-209})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,0.5*m_flow_nominal,0.5*m_flow_nominal},
     from_dp=true,
     linearized=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0},
     portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Leaving,
     portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Entering,
@@ -514,7 +514,7 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     "Splitter for return"      annotation (Placement(transformation(
         extent={{-28,28},{28,-28}},
         rotation=90,
-        origin={1076,118})));
+        origin={1074,122})));
   Modelica.Blocks.Routing.DeMultiplex6 TRooSec
     annotation (Placement(transformation(extent={{-298,336},{-236,398}})));
   Modelica.Blocks.Routing.DeMultiplex6 TRooFir
@@ -566,25 +566,25 @@ model RTU_VAV_Control_Example_v3 "setpoint schedule added"
     reverseAction=false) "Controller for fan"
     annotation (Placement(transformation(extent={{-848,272},{-776,344}})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable CoolingSP2(
-    table=[0,SP_TCSP; 3600*8,SP_TCSP; 3600*18,SP_TCSP],
+    table=[0,SP_TCSP_setback; 3600*8,SP_TCSP; 3600*18,SP_TCSP_setback],
     smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
     extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
     "Zone cooling setpoint temperature-second floor [K]"
-    annotation (Placement(transformation(extent={{-150,440},{-116,474}})));
+    annotation (Placement(transformation(extent={{-150,442},{-116,476}})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable CoolingSP1(
-    table=[0,SP_TCSP; 3600*8,SP_TCSP; 3600*18,SP_TCSP],
+    table=[0,SP_TCSP_setback; 3600*8,SP_TCSP; 3600*18,SP_TCSP_setback],
     smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
     extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
     "Zone cooling setpoint temperature-first floor [K]"
     annotation (Placement(transformation(extent={{-140,112},{-106,146}})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable HeatingSP2(
-    table=[0,SP_THSP; 3600*8,SP_THSP; 3600*18,SP_THSP],
+    table=[0,SP_THSP_setback; 3600*8,SP_THSP; 3600*18,SP_THSP_setback],
     smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
     extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
     "Zone heating setpoint temperature-second floor [K]"
-    annotation (Placement(transformation(extent={{-150,390},{-116,424}})));
+    annotation (Placement(transformation(extent={{-148,390},{-114,424}})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable HeatingSP1(
-    table=[0,SP_THSP; 3600*8,SP_THSP; 3600*18,SP_THSP],
+    table=[0,SP_THSP_setback; 3600*8,SP_THSP; 3600*18,SP_THSP_setback],
     smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
     extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
     "Zone heating setpoint temperature-first floor [K]"
@@ -659,92 +659,102 @@ equation
   connect(senPreSup.port, splSupRoo.port_1)
     annotation (Line(points={{-288,-20},{-228,-20}}, color={0,127,255}));
   connect(splSupRoo1.port_3, vAVReHeat_withCtrl_TRooCon205.port_a) annotation (
-      Line(points={{-58,485},{-56,485},{-56,187.2},{-16,187.2}}, color={0,127,255}));
-  connect(splSupRoo1.port_2, splSupRoo2.port_1) annotation (Line(points={{-32,511},
-          {-24,511},{-24,508},{-14,508},{-14,509},{4,509}},
+      Line(points={{-60,491},{-56,491},{-56,187.2},{-16,187.2}}, color={0,127,255}));
+  connect(splSupRoo1.port_2, splSupRoo2.port_1) annotation (Line(points={{-34,517},
+          {-24,517},{-24,508},{-14,508},{-14,515},{2,515}},
                                         color={0,127,255}));
   connect(splSupRoo2.port_3, vAVReHeat_withCtrl_TRooCon204.port_a) annotation (
-      Line(points={{30,483},{30,295.2},{38,295.2}}, color={0,127,255}));
-  connect(splSupRoo2.port_2, splSupRoo3.port_1) annotation (Line(points={{56,509},
-          {66,509},{66,508},{76,508},{76,509},{96,509}},
+      Line(points={{28,489},{28,295.2},{38,295.2}}, color={0,127,255}));
+  connect(splSupRoo2.port_2, splSupRoo3.port_1) annotation (Line(points={{54,515},
+          {66,515},{66,508},{76,508},{76,515},{94,515}},
                                        color={0,127,255}));
   connect(splSupRoo3.port_3, vAVReHeat_withCtrl_TRooCon202.port_a) annotation (
-      Line(points={{122,483},{122,185.2},{136,185.2}}, color={0,127,255}));
-  connect(splSupRoo3.port_2, splSupRoo4.port_1) annotation (Line(points={{148,509},
-          {158,509},{158,508},{168,508},{168,509},{186,509}},
+      Line(points={{120,489},{120,185.2},{136,185.2}}, color={0,127,255}));
+  connect(splSupRoo3.port_2, splSupRoo4.port_1) annotation (Line(points={{146,515},
+          {158,515},{158,508},{168,508},{168,515},{184,515}},
                                           color={0,127,255}));
   connect(splSupRoo4.port_3, vAVReHeat_withCtrl_TRooCon203.port_a) annotation (
-      Line(points={{212,483},{212,295.2},{218,295.2}}, color={0,127,255}));
+      Line(points={{210,489},{210,295.2},{218,295.2}}, color={0,127,255}));
   connect(splSupRoo4.port_2, vAVReHeat_withCtrl_TRooCon206.port_a) annotation (
-      Line(points={{238,509},{302,509},{302,181.2},{322,181.2}}, color={0,127,255}));
+      Line(points={{236,515},{302,515},{302,181.2},{322,181.2}}, color={0,127,255}));
   connect(splSupRoo.port_2, splSupRoo5.port_1) annotation (Line(points={{-172,
           -20},{-136,-20},{-136,-208},{-80,-208}},
                                               color={0,127,255}));
   connect(splSupRoo5.port_2, splSupRoo6.port_1)
-    annotation (Line(points={{-28,-208},{8,-208}}, color={0,127,255}));
+    annotation (Line(points={{-28,-208},{-10,-208},{-10,-206},{8,-206}},
+                                                   color={0,127,255}));
   connect(splSupRoo6.port_2, splSupRoo7.port_1)
-    annotation (Line(points={{60,-208},{104,-208}}, color={0,127,255}));
+    annotation (Line(points={{60,-206},{72,-206},{72,-204},{82,-204},{82,-206},
+          {102,-206}},                              color={0,127,255}));
   connect(splSupRoo7.port_2, splSupRoo8.port_1)
-    annotation (Line(points={{156,-208},{188,-208}}, color={0,127,255}));
+    annotation (Line(points={{154,-206},{164,-206},{164,-204},{172,-204},{172,
+          -206},{186,-206}},                         color={0,127,255}));
   connect(splSupRoo5.port_3, vAVReHeat_withCtrl_TRooCon105.port_a) annotation (
       Line(points={{-54,-182},{-54,-110},{-26,-110}}, color={0,127,255}));
   connect(splSupRoo6.port_3, vAVReHeat_withCtrl_TRooCon104.port_a) annotation (
-      Line(points={{34,-182},{32,-182},{32,-4},{48,-4}}, color={0,127,255}));
+      Line(points={{34,-180},{32,-180},{32,-4},{48,-4}}, color={0,127,255}));
   connect(splSupRoo7.port_3, vAVReHeat_withCtrl_TRooCon103.port_a) annotation (
-      Line(points={{130,-182},{130,-106},{136,-106}}, color={0,127,255}));
+      Line(points={{128,-180},{128,-106},{136,-106}}, color={0,127,255}));
   connect(splSupRoo8.port_3, vAVReHeat_withCtrl_TRooCon102.port_a) annotation (
-      Line(points={{214,-182},{214,0},{220,0}},   color={0,127,255}));
+      Line(points={{212,-180},{212,0},{220,0}},   color={0,127,255}));
   connect(splSupRoo8.port_2, vAVReHeat_withCtrl_TRooCon106.port_a) annotation (
-      Line(points={{240,-208},{302,-208},{302,-108},{318,-108}}, color={0,127,255}));
+      Line(points={{238,-206},{302,-206},{302,-108},{318,-108}}, color={0,127,255}));
   connect(splSupRoo.port_3, splSupRoo1.port_1) annotation (Line(points={{-200,8},
-          {-198,8},{-198,511},{-84,511}},  color={0,127,255}));
+          {-198,8},{-198,517},{-86,517}},  color={0,127,255}));
   connect(splRetRoo1.port_1, fRPMultiZone_Envelope_Icon.port_205[2])
-    annotation (Line(points={{656,501},{634.497,501},{634.497,205.48}}, color={0,
+    annotation (Line(points={{654,507},{634.497,507},{634.497,205.48}}, color={0,
           127,255}));
   connect(splRetRoo1.port_3, fRPMultiZone_Envelope_Icon.port_204[2])
-    annotation (Line(points={{681,476},{681,267.8},{657.886,267.8}}, color={0,127,
+    annotation (Line(points={{679,482},{679,267.8},{657.886,267.8}}, color={0,127,
           255}));
-  connect(splRetRoo1.port_2, splRetRoo2.port_1) annotation (Line(points={{706,501},
-          {724,501},{724,501},{742,501}}, color={0,127,255}));
+  connect(splRetRoo1.port_2, splRetRoo2.port_1) annotation (Line(points={{704,507},
+          {716,507},{716,506},{724,506},{724,507},{740,507}},
+                                          color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon.port_202[2], splRetRoo2.port_3)
-    annotation (Line(points={{744.469,253.86},{767,253.86},{767,476}}, color={0,
+    annotation (Line(points={{744.469,253.86},{765,253.86},{765,482}}, color={0,
           127,255}));
-  connect(splRetRoo2.port_2, splRetRoo3.port_1) annotation (Line(points={{792,501},
-          {808,501},{808,501},{822,501}}, color={0,127,255}));
+  connect(splRetRoo2.port_2, splRetRoo3.port_1) annotation (Line(points={{790,507},
+          {800,507},{800,506},{808,506},{808,507},{820,507}},
+                                          color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon.port_203[2], splRetRoo3.port_3)
-    annotation (Line(points={{762.114,301.42},{847,301.42},{847,476}}, color={0,
+    annotation (Line(points={{762.114,301.42},{845,301.42},{845,482}}, color={0,
           127,255}));
-  connect(splRetRoo3.port_2, splRetRoo4.port_1) annotation (Line(points={{872,501},
-          {885,501},{885,501},{902,501}}, color={0,127,255}));
+  connect(splRetRoo3.port_2, splRetRoo4.port_1) annotation (Line(points={{870,507},
+          {880,507},{880,506},{888,506},{888,505},{900,505}},
+                                          color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon.port_206[2], splRetRoo4.port_3)
-    annotation (Line(points={{819.972,190.72},{927,190.72},{927,476}}, color={0,
+    annotation (Line(points={{819.972,190.72},{925,190.72},{925,480}}, color={0,
           127,255}));
   connect(fRPMultiZone_Envelope_Icon.port_105[2], splRetRoo5.port_1)
-    annotation (Line(points={{638.6,-33.14},{638.6,-213},{658,-213}}, color={0,127,
+    annotation (Line(points={{638.6,-33.14},{638.6,-209},{656,-209}}, color={0,127,
           255}));
   connect(fRPMultiZone_Envelope_Icon.port_104[2], splRetRoo5.port_3)
-    annotation (Line(points={{634.086,40.66},{683,40.66},{683,-188}}, color={0,127,
+    annotation (Line(points={{634.086,40.66},{681,40.66},{681,-184}}, color={0,127,
           255}));
-  connect(splRetRoo5.port_2, splRetRoo6.port_1) annotation (Line(points={{708,-213},
-          {727,-213},{727,-213},{744,-213}}, color={0,127,255}));
+  connect(splRetRoo5.port_2, splRetRoo6.port_1) annotation (Line(points={{706,
+          -209},{718,-209},{718,-210},{726,-210},{726,-209},{742,-209}},
+                                             color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon.port_103[2], splRetRoo6.port_3)
-    annotation (Line(points={{740.776,13.6},{769,13.6},{769,-188}}, color={0,127,
+    annotation (Line(points={{740.776,13.6},{767,13.6},{767,-184}}, color={0,127,
           255}));
-  connect(splRetRoo6.port_2, splRetRoo7.port_1) annotation (Line(points={{794,-213},
-          {810,-213},{810,-213},{824,-213}}, color={0,127,255}));
+  connect(splRetRoo6.port_2, splRetRoo7.port_1) annotation (Line(points={{792,
+          -209},{802,-209},{802,-210},{810,-210},{810,-209},{822,-209}},
+                                             color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon.port_102[2], splRetRoo7.port_3)
-    annotation (Line(points={{764.166,65.26},{849,65.26},{849,-188}}, color={0,127,
+    annotation (Line(points={{764.166,65.26},{847,65.26},{847,-184}}, color={0,127,
           255}));
-  connect(splRetRoo7.port_2, splRetRoo8.port_1) annotation (Line(points={{874,-213},
-          {889,-213},{889,-213},{904,-213}}, color={0,127,255}));
+  connect(splRetRoo7.port_2, splRetRoo8.port_1) annotation (Line(points={{872,
+          -209},{882,-209},{882,-210},{890,-210},{890,-209},{902,-209}},
+                                             color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon.port_106[2], splRetRoo8.port_3)
-    annotation (Line(points={{827.359,-42.98},{929,-42.98},{929,-188}}, color={0,
+    annotation (Line(points={{827.359,-42.98},{927,-42.98},{927,-184}}, color={0,
           127,255}));
-  connect(splRetRoo8.port_2, splRetRoo.port_3) annotation (Line(points={{954,-213},
-          {1006,-213},{1006,118},{1048,118}}, color={0,127,255}));
-  connect(splRetRoo4.port_2, splRetRoo.port_2) annotation (Line(points={{952,501},
-          {1076,501},{1076,146}}, color={0,127,255}));
-  connect(splRetRoo.port_1, TRA.port) annotation (Line(points={{1076,90},{1076,
+  connect(splRetRoo8.port_2, splRetRoo.port_3) annotation (Line(points={{952,
+          -209},{1006,-209},{1006,122},{1046,122}},
+                                              color={0,127,255}));
+  connect(splRetRoo4.port_2, splRetRoo.port_2) annotation (Line(points={{950,505},
+          {1074,505},{1074,150}}, color={0,127,255}));
+  connect(splRetRoo.port_1, TRA.port) annotation (Line(points={{1074,94},{1074,
           -298},{-120,-298}},
                         color={0,127,255}));
 
@@ -851,19 +861,19 @@ equation
           -756,18.2},{-755,18.2}}, color={0,0,0},
       pattern=LinePattern.Dash));
   connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon205.TRooCooSet)
-    annotation (Line(points={{-114.3,457},{16.6667,457},{16.6667,219.6}}, color=
+    annotation (Line(points={{-114.3,459},{16.6667,459},{16.6667,219.6}}, color=
          {0,0,127}));
   connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon204.TRooCooSet)
-    annotation (Line(points={{-114.3,457},{70.6667,457},{70.6667,327.6}}, color=
+    annotation (Line(points={{-114.3,459},{70.6667,459},{70.6667,327.6}}, color=
          {0,0,127}));
   connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon202.TRooCooSet)
-    annotation (Line(points={{-114.3,457},{168.667,457},{168.667,217.6}}, color=
+    annotation (Line(points={{-114.3,459},{168.667,459},{168.667,217.6}}, color=
          {0,0,127}));
   connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon203.TRooCooSet)
-    annotation (Line(points={{-114.3,457},{250.667,457},{250.667,327.6}}, color=
+    annotation (Line(points={{-114.3,459},{250.667,459},{250.667,327.6}}, color=
          {0,0,127}));
   connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon206.TRooCooSet)
-    annotation (Line(points={{-114.3,457},{354.667,457},{354.667,213.6}}, color=
+    annotation (Line(points={{-114.3,459},{354.667,459},{354.667,213.6}}, color=
          {0,0,127}));
   connect(CoolingSP1.y[1], vAVReHeat_withCtrl_TRooCon105.TRooCooSet)
     annotation (Line(points={{-104.3,129},{4.33333,129},{4.33333,-83}}, color={0,
@@ -881,19 +891,19 @@ equation
     annotation (Line(points={{-104.3,129},{348.333,129},{348.333,-81}}, color={0,
           0,127}));
   connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon205.TRooHeaSet)
-    annotation (Line(points={{-114.3,407},{-12.7333,407},{-12.7333,219}}, color=
+    annotation (Line(points={{-112.3,407},{-12.7333,407},{-12.7333,219}}, color=
          {0,0,127}));
   connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon204.TRooHeaSet)
-    annotation (Line(points={{-114.3,407},{41.2667,407},{41.2667,327}}, color={0,
+    annotation (Line(points={{-112.3,407},{41.2667,407},{41.2667,327}}, color={0,
           0,127}));
   connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon202.TRooHeaSet)
-    annotation (Line(points={{-114.3,407},{139.267,407},{139.267,217}}, color={0,
+    annotation (Line(points={{-112.3,407},{139.267,407},{139.267,217}}, color={0,
           0,127}));
   connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon203.TRooHeaSet)
-    annotation (Line(points={{-114.3,407},{221.267,407},{221.267,327}}, color={0,
+    annotation (Line(points={{-112.3,407},{221.267,407},{221.267,327}}, color={0,
           0,127}));
   connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon206.TRooHeaSet)
-    annotation (Line(points={{-114.3,407},{325.267,407},{325.267,213}}, color={0,
+    annotation (Line(points={{-112.3,407},{325.267,407},{325.267,213}}, color={0,
           0,127}));
   connect(HeatingSP1.y[1], vAVReHeat_withCtrl_TRooCon105.TRooHeaSet)
     annotation (Line(points={{-104.3,79},{-22.9667,79},{-22.9667,-83.5}}, color=
@@ -1063,4 +1073,4 @@ equation
 </table>
 <p><br><br><sup><i><span style=\"font-size: 10pt;\">a</span></i></sup> Outputs are available for all zones. </p>
 </html>"));
-end RTU_VAV_Control_Example_v3;
+end RTU_VAV_Control_Example_v4;
