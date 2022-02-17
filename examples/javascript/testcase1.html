@@ -129,7 +129,7 @@ function send()
     		              else {
     								 console.log( "SUCCESS in getting results" );
 									 json = JSON.parse(xhr_get_result.responseText);
-								     result.value = JSON.stringify(json['result']);
+								     result.value = JSON.stringify(json);
     		              }
             }
       };
@@ -148,7 +148,7 @@ function send()
     		              else {
     								 console.log( "SUCCESS in getting kpi" );
 									 json = JSON.parse(xhr_get_kpi.responseText);					 
-    								 kpi.value = JSON.stringify(json['result']);	
+    								 kpi.value = JSON.stringify(json);	
     		              }
             }
       };
@@ -186,10 +186,10 @@ function send()
        }
        else {
             var e;
-            if (json['result']['TRooAir_y']<LowerSetp)
-    		              {e = LowerSetp - json['result']['TRooAir_y']}
-            else if  (json['result']['TRooAir_y']>UpperSetp)
-    		              {e = UpperSetp - json['result']['TRooAir_y']}
+            if (json['TRooAir_y']<LowerSetp)
+    		              {e = LowerSetp - json['TRooAir_y']}
+            else if  (json['TRooAir_y']>UpperSetp)
+    		              {e = UpperSetp - json['TRooAir_y']}
             else
     		              {e = 0}
             e = k_p*e;
@@ -206,10 +206,10 @@ function send()
        if (xhr.readyState == 4 && xhr.status == 200) {
             json = JSON.parse(xhr.responseText);
 			console.log(json)
-            output.value = JSON.stringify(json['result']);			
+            output.value = JSON.stringify(json);			
        <!-- initialize the information for the select box and plotting-->
     		if (count ==1) {
-    		              for (key in json['result']) {
+    		              for (key in json) {
     								 var x = document.getElementById("variables")
     								 if (count<2)
     			                     {var option = document.createElement("option")
@@ -219,10 +219,10 @@ function send()
     		              };
     		};
             count += 1
-    		if (point in json['result']){
+    		if (point in json){
     		              Highcharts.charts.forEach((chart) => {
     								 if (chart == chart1){
-    		                               chart.series[0].addPoint([json['result']['time'],json['result'][point]]);
+    		                               chart.series[0].addPoint([json['time'],json[point]]);
     		                               chart.yAxis[0].axisTitle.attr({
                                                                  text: point
     		                               });
