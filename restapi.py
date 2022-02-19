@@ -21,6 +21,7 @@ parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'W
                     help="Provide logging level. Example --log DEBUG'")
 log_level = parser.parse_args()
 logging.basicConfig(level=log_level.logLevel)
+error_number_input = "{} cannot be blank and it should be a number"
 # ----------------
 
 # TEST CASE IMPORT
@@ -41,8 +42,7 @@ class InvalidUsage(Exception):
         Custom exception for API.
 
     """
-    status_code = 400
-
+    
     def __init__(self, message, status_code=None, payload=None):
         """
             Constructor for custom error class.
@@ -100,29 +100,29 @@ except Exception as ex:
 # -----------------------
 # ``step`` interface
 parser_step = reqparse.RequestParser()
-parser_step.add_argument('step')
+parser_step.add_argument('step',type=float,required=True,help=error_number_input.format('step'))
 # ``initialize`` interface
 parser_initialize = reqparse.RequestParser()
-parser_initialize.add_argument('start_time')
-parser_initialize.add_argument('warmup_period')
+parser_initialize.add_argument('start_time',type=float,required=True,help=error_number_input.format('start time'))
+parser_initialize.add_argument('warmup_period',type=float,required=True,help=error_number_input.format('warmup period'))
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
-    parser_advance.add_argument(key)
+    parser_advance.add_argument(key,type=float)
 # ``forecast_parameters`` interface
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
-    parser_forecast_parameters.add_argument(arg)
+    parser_forecast_parameters.add_argument(arg,type=float,required=True,help=error_number_input.format(arg))
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
-parser_scenario.add_argument('electricity_price')
-parser_scenario.add_argument('time_period')
+parser_scenario.add_argument('electricity_price',type=str,help="invalid price")
+parser_scenario.add_argument('time_period',type=str,help="invalid time preriod")
 # ``results`` interface
 results_var = reqparse.RequestParser()
-results_var.add_argument('point_name')
-results_var.add_argument('start_time')
-results_var.add_argument('final_time')
+results_var.add_argument('point_name',type=str,required=True,help="point name cannot be blank")
+results_var.add_argument('start_time',type=float,required=True,help=error_number_input.format('start time'))
+results_var.add_argument('final_time',type=float,required=True,help=error_number_input.format('final time'))
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -135,20 +135,17 @@ class Advance(Resource):
     def post(self):
         '''POST request with input data to advance the simulation one step
         and receive current measurements.'''
-        try:
-            u = parser_advance.parse_args()
-            app.logger.info("Receiving a new advance request: {}".format(u))
-            result = case.advance(u)
-            if not isinstance(result, Exception):
-                app.logger.info("Advanced the simulation")
-                return result, 200
-            else:
-                msg = "Fail to advanced the simulation: {}".format(result)
-                app.logger.error(msg)
-                raise InvalidUsage(msg, status_code=500)
-        except Exception as ex:
-            msg = "Fail to advanced the simulation: {}".format(ex)
+        u = parser_advance.parse_args()
+        app.logger.info("Receiving a new advance request: {}".format(u))        
+        result = case.advance(u)
+        if not isinstance(result, Exception):
+            app.logger.info("Advanced the simulation")
+            return result, 200
+        else:
+            msg = "Fail to advanced the simulation: {}".format(result)
+            app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
+
 
 
 class Initialize(Resource):
@@ -158,14 +155,10 @@ class Initialize(Resource):
         '''PUT request to initialize the test.'''
         args = parser_initialize.parse_args()
         app.logger.info("Receiving a new initialize request: {}".format(args))
+        start_time = float(args['start_time'])
+        warmup_period = float(args['warmup_period'])        
         try:
-            start_time = float(args['start_time'])
-            warmup_period = float(args['warmup_period'])
             result = case.initialize(start_time, warmup_period)
-        except (TypeError, KeyError, ValueError) as ex:
-            msg = "Error when processing initialization request: {} ".format(ex)
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=400)
         except Exception as ex:
             msg = "Error when processing initialization request: {} ".format(ex)
             app.logger.error(msg)
@@ -194,10 +187,6 @@ class Step(Resource):
         step = args['step']
         try:
             step = case.set_step(step)
-        except (KeyError, ValueError) as ex:
-            msg = "Fail to set the simulation step:{}".format(ex)
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=400)
         except Exception as ex:
             msg = "Fail to set the simulation step:{}".format(ex)
             app.logger.error(msg)
@@ -240,19 +229,15 @@ class Results(Resource):
 
     def put(self):
         '''GET request to receive measurement data.'''
-        app.logger.info("Receiving a new query for results")               
+        app.logger.info("Receiving a new query for results")  
+        args = results_var.parse_args(strict=True) 
+        var = args['point_name']
+        start_time = float(args['start_time'])
+        final_time = float(args['final_time'])        
         try:
-            args = results_var.parse_args(strict=True) 
-            var = args['point_name']
-            start_time = float(args['start_time'])
-            final_time = float(args['final_time'])
             Y = case.get_results(var, start_time, final_time)
             for key in Y:
                   Y[key] = Y[key].tolist()
-        except (KeyError, ValueError) as ex:
-            msg = "Fail to return the results:{}".format(ex)
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=400)
         except Exception as ex:
             msg = "Fail to return the results:{}".format(ex)
             app.logger.error(msg)
@@ -297,10 +282,6 @@ class Forecast_Parameters(Resource):
         interval = args['interval']
         try:
             result = case.set_forecast_parameters(horizon, interval)
-        except (KeyError, ValueError) as ex:
-            msg = "Fail to return the KPI:{}".format(ex)
-            app.logger.error(msg)
-            raise InvalidUsage(str(ex), status_code=400)
         except Exception as ex:
             msg = "Fail to return the KPI:{}".format(ex)
             app.logger.error(msg)

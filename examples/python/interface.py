@@ -37,9 +37,12 @@ def check_response(response):
     if response.status_code == 200:
         result = response.json()
         return result
+    message = json.loads(response.content)['message']
+    if response.status_code == 400:
+        print("Inputs are unexpected: {}".format(message))
     else:
-        print("Response from docker was unexpected: {}".format(response.json))
-        sys.exit()
+        print("Response from the BOPTEST platform was unexpected: {}".format(message))
+    sys.exit()
 
 
 def control_test(control_module='', start_time=0, warmup_period=0, length=24*3600, scenario=None, step=300, customized_kpi_config=None, use_forecast=False):
