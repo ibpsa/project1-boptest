@@ -100,7 +100,7 @@ except Exception as ex:
 # -----------------------
 # ``step`` interface
 parser_step = reqparse.RequestParser()
-parser_step.add_argument('step',type=int,required=True,help=error_number_input.format('step'))
+parser_step.add_argument('step',type=float,required=True,help=error_number_input.format('step'))
 # ``initialize`` interface
 parser_initialize = reqparse.RequestParser()
 parser_initialize.add_argument('start_time',type=float,required=True,help=error_number_input.format('start time'))
