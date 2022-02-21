@@ -13,6 +13,7 @@ import time
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
 from kpis.kpi_calculator import KPI_Calculator
+import traceback
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -145,8 +146,8 @@ class TestCase(object):
                                     final_time = end_time,
                                     options=self.options,
                                     input=input_object)
-        except Exception as ex:
-            return ex
+        except:
+            return traceback.format_exc()
         # Set internal fmu initialization
         self.initialize_fmu = False
         return res
@@ -260,7 +261,7 @@ class TestCase(object):
                 self.final_time = self.end_time
             res = self.__simulation(self.start_time,self.final_time,input_object)
             # Process results
-            if not isinstance(res, Exception):
+            if not isinstance(res, str):
                 # Get result and store measurement and control inputs
                 self.__get_results(res, store=True, store_initial=False)
                 # Advance start time
@@ -318,7 +319,7 @@ class TestCase(object):
         # Do not allow negative starting time to avoid confusions
         res = self.__simulation(max(start_time-warmup_period,0), start_time)
         # Process result
-        if res is not None:
+        if not isinstance(res, str):
             # Get result
             self.__get_results(res, store=True, store_initial=True)
             # Set internal start time to start_time
@@ -332,7 +333,7 @@ class TestCase(object):
 
         else:
 
-            return None
+            return res
 
     def get_step(self):
         '''Returns the current simulation step in seconds.'''

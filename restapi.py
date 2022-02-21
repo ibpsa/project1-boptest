@@ -123,6 +123,7 @@ results_var = reqparse.RequestParser()
 results_var.add_argument('point_name',type=str,required=True,help="point name cannot be blank")
 results_var.add_argument('start_time',type=float,required=True,help=error_number_input.format('start time'))
 results_var.add_argument('final_time',type=float,required=True,help=error_number_input.format('final time'))
+import traceback
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -138,7 +139,7 @@ class Advance(Resource):
         u = parser_advance.parse_args()
         app.logger.info("Receiving a new advance request: {}".format(u))        
         result = case.advance(u)
-        if not isinstance(result, Exception):
+        if not isinstance(result, str):
             app.logger.info("Advanced the simulation")
             return result, 200
         else:
@@ -156,14 +157,16 @@ class Initialize(Resource):
         args = parser_initialize.parse_args()
         app.logger.info("Receiving a new initialize request: {}".format(args))
         start_time = float(args['start_time'])
-        warmup_period = float(args['warmup_period'])        
-        try:
-            result = case.initialize(start_time, warmup_period)
-        except Exception as ex:
-            msg = "Error when processing initialization request: {} ".format(ex)
+        warmup_period = float(args['warmup_period']) 
+        result = case.initialize(start_time, warmup_period)        
+        if not isinstance(result, str):
+            app.logger.info("Initialized the simulation")
+            return result, 200
+        else:
+            msg = "Fail to initialize the simulation: {}".format(result)
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
-        return result, 200
+
 
 
 class Step(Resource):
@@ -174,8 +177,8 @@ class Step(Resource):
         app.logger.info("Receiving a new query for step")
         try:
             step = case.get_step()
-        except Exception as ex:
-            msg = "Fail to return the simulation step:{}".format(ex)
+        except:
+            msg = "Fail to return the simulation step:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return step, 200
@@ -187,8 +190,8 @@ class Step(Resource):
         step = args['step']
         try:
             step = case.set_step(step)
-        except Exception as ex:
-            msg = "Fail to set the simulation step:{}".format(ex)
+        except:
+            msg = "Fail to set the simulation step:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return step, 200
@@ -202,8 +205,8 @@ class Inputs(Resource):
         app.logger.info("Receiving a new query for input list")
         try:
             u_list = case.get_inputs()
-        except Exception as ex:
-            msg = "Fail to return the inputs:{}".format(ex)
+        except:
+            msg = "Fail to return the inputs:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return u_list, 200
@@ -217,8 +220,8 @@ class Measurements(Resource):
         app.logger.info("Receiving a new query for output list")
         try:
             y_list = case.get_measurements()
-        except Exception as ex:
-            msg = "Fail to return the outputs:{}".format(ex)
+        except:
+            msg = "Fail to return the outputs:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return y_list, 200
@@ -238,8 +241,8 @@ class Results(Resource):
             Y = case.get_results(var, start_time, final_time)
             for key in Y:
                   Y[key] = Y[key].tolist()
-        except Exception as ex:
-            msg = "Fail to return the results:{}".format(ex)
+        except:
+            msg = "Fail to return the results:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return Y, 200
@@ -253,8 +256,8 @@ class KPI(Resource):
         app.logger.info("Receiving a new query for KPI")
         try:
             kpi = case.get_kpis()
-        except Exception as ex:
-            msg = "Fail to return the KPI:{}".format(ex)
+        except:
+            msg = "Fail to return the KPI:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return kpi, 200
@@ -268,8 +271,8 @@ class Forecast_Parameters(Resource):
         app.logger.info("Receiving a new query for forecast parameters")
         try:
             forecast_parameters = case.get_forecast_parameters()
-        except Exception as ex:
-            msg = "Fail to return the forecast parameters:{}".format(ex)
+        except:
+            msg = "Fail to return the forecast parameters:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return forecast_parameters, 200
@@ -282,10 +285,10 @@ class Forecast_Parameters(Resource):
         interval = args['interval']
         try:
             result = case.set_forecast_parameters(horizon, interval)
-        except Exception as ex:
-            msg = "Fail to return the KPI:{}".format(ex)
+        except:
+            msg = "Fail to return the KPI:{}".format(traceback.format_exc())
             app.logger.error(msg)
-            raise InvalidUsage(str(ex), status_code=500)
+            raise InvalidUsage(msg, status_code=500)
         forecast_parameters = case.get_forecast_parameters()
         return forecast_parameters, 200
 
@@ -298,8 +301,8 @@ class Forecast(Resource):
         app.logger.info("Receiving a new query for forecast")
         try:
             forecast = case.get_forecast()
-        except Exception as ex:
-            msg = "Fail to return the forecast:{}".format(ex)
+        except:
+            msg = "Fail to return the forecast:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return forecast, 200
@@ -313,8 +316,8 @@ class Scenario(Resource):
         app.logger.info("Receiving a new query for scenario")
         try:        
             scenario = case.get_scenario()
-        except Exception as ex:
-            msg = "Fail to return the scenario:{}".format(ex)
+        except:
+            msg = "Fail to return the scenario:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return scenario, 200
@@ -325,8 +328,8 @@ class Scenario(Resource):
         app.logger.info("Receiving a new request for setting the scenario: {}".format(scenario)) 
         try:        
             result = case.set_scenario(scenario)
-        except Exception as ex:
-            msg = "Fail to set the scenario:{}".format(ex)
+        except:
+            msg = "Fail to set the scenario:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return result, 200
@@ -340,8 +343,8 @@ class Name(Resource):
         app.logger.info("Receiving a new query for case name")
         try:
             name = case.get_name()
-        except Exception as ex:
-            msg = "Fail to return the case name:{}".format(ex)
+        except:
+            msg = "Fail to return the case name:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
         return  name, 200
@@ -353,8 +356,8 @@ class Version(Resource):
     def get(self):
         try:
             version = case.get_version()
-        except Exception as ex:
-            msg = "Fail to return the case name:{}".format(ex)
+        except:
+            msg = "Fail to return the case name:{}".format(traceback.format_exc())
             app.logger.error(msg)
             raise InvalidUsage(msg, status_code=500)
 
