@@ -231,7 +231,7 @@ Modelica.Blocks.Sources.Constant qLatGai_flow(k=0) "Latent heat gain"
 Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
       computeWetBulbTemperature=false, filNam=
         ModelicaServices.ExternalReferences.loadResource(
-        "modelica://FRP/Resources/weatherdata/FRP2018.mos"))
+        "modelica://FRP/Resources/weatherdata/FRP_Weather_2021_Summer.mos"))
   annotation (Placement(transformation(extent={{280,-130},{268,-118}})));
 
 Buildings.Fluid.Sources.MassFlowSource_T sinInf204(
@@ -1251,8 +1251,8 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
           {326,-12},{330,-12},{330,-14},{340,-14}}, color={0,0,127}));
 annotation (
     experiment(
-      StartTime=8640000,
-      StopTime=8726400,
+      StartTime=15984000,
+      StopTime=16243200,
       Tolerance=1e-05),
     __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
       "Simulate and plot"), Documentation(info="<html>
