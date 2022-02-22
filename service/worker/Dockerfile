@@ -9,7 +9,7 @@ RUN apt-get update -y && apt-get install -y \
     ca-certificates curl libglu1 libjpeg8 libfreetype6 libxi6 libdbus-glib-1-2 libfontconfig1 libsm6 gdebi-core python3.5 python3-pip \
     && apt-get install -y git
 
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+RUN curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py \
   && python3 get-pip.py
 
 COPY worker/requirements/production.txt /boptest/
