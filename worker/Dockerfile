@@ -12,6 +12,13 @@ RUN apt-get update -y && apt-get install -y \
 RUN curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py \
   && python3 get-pip.py
 
+# Install commands for Spawn
+ENV SPAWN_VERSION=0.3.0-69040695f9
+RUN wget https://spawn.s3.amazonaws.com/custom/Spawn-$SPAWN_VERSION-Linux.tar.gz \
+    && tar -xzf Spawn-$SPAWN_VERSION-Linux.tar.gz \
+    && ln -s /Spawn-$SPAWN_VERSION-Linux/bin/spawn-$SPAWN_VERSION /usr/local/bin/
+
+# Install python dependencies
 COPY worker/requirements/production.txt /boptest/
 RUN  python3 -m pip install --ignore-installed -r /boptest/production.txt
 RUN  python -m pip install --ignore-installed -r /boptest/production.txt
