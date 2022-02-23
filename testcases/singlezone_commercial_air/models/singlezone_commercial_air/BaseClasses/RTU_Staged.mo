@@ -189,6 +189,16 @@ model RTU_Staged "Staged RTU model"
   Modelica.Blocks.Interfaces.RealOutput TMix
     "Mixed air temperature measurement"
     annotation (Placement(transformation(extent={{140,-110},{160,-90}})));
+  Modelica.Blocks.Logical.GreaterThreshold cheSupFlo(threshold=m_flow_nominal/
+        1.2*0.2) "Check for supply flow minimum before allow DX to turn on"
+    annotation (Placement(transformation(extent={{108,24},{96,36}})));
+  Buildings.Controls.OBC.CDL.Logical.IntegerSwitch intSwi annotation (Placement(
+        transformation(
+        extent={{6,-6},{-6,6}},
+        rotation=90,
+        origin={12,28})));
+  Modelica.Blocks.Sources.IntegerConstant off(k=0) "DX off signal"
+    annotation (Placement(transformation(extent={{-30,30},{-10,50}})));
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -240,8 +250,6 @@ equation
           6},{74,-40},{98,-40}}, color={0,0,127}));
   connect(natGasBurEffGai.y, PGas)
     annotation (Line(points={{121,-40},{150,-40}}, color={0,0,127}));
-  connect(cooCoi.stage, dxSta) annotation (Line(points={{19,8},{16,8},{16,82},{
-          -110,82},{-110,40},{-160,40}}, color={255,127,0}));
   connect(eco.port_Ret, senTemMix.port_a)
     annotation (Line(points={{-50,0},{-40,0}}, color={0,127,255}));
   connect(eco.port_Sup, senTemRet.port_b) annotation (Line(points={{-50,12},{
@@ -252,6 +260,16 @@ equation
           78,-60},{150,-60}}, color={0,0,127}));
   connect(senTemMix.T, TMix) annotation (Line(points={{-30,11},{-30,20},{-14,20},
           {-14,-100},{150,-100}}, color={0,0,127}));
+  connect(cheSupFlo.u, senFloSup.V_flow)
+    annotation (Line(points={{109.2,30},{120,30},{120,11}}, color={0,0,127}));
+  connect(intSwi.u2, cheSupFlo.y) annotation (Line(points={{12,35.2},{12,44},{
+          60,44},{60,30},{95.4,30}}, color={255,0,255}));
+  connect(dxSta, intSwi.u1) annotation (Line(points={{-160,40},{-120,40},{-120,
+          78},{7.2,78},{7.2,35.2}}, color={255,127,0}));
+  connect(off.y, intSwi.u3) annotation (Line(points={{-9,40},{18,40},{18,35.2},
+          {16.8,35.2}}, color={255,127,0}));
+  connect(intSwi.y, cooCoi.stage) annotation (Line(points={{12,20.8},{12,16},{
+          16,16},{16,8},{19,8}}, color={255,127,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}), graphics={
                                         Text(
