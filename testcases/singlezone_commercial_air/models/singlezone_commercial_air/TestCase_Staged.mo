@@ -60,7 +60,7 @@ equation
     annotation (Line(points={{-59.2857,-2.85714},{-36,-2.85714},{-36,-4},{-14,
           -4}},                                  color={0,0,127}));
   connect(zon.Tz, con.TZon) annotation (Line(points={{102,0},{120,0},{120,-40},
-          {-108,-40},{-108,0},{-81.4286,0}},
+          {-108,-40},{-108,1.42857},{-81.4286,1.42857}},
                                        color={0,0,127}));
   connect(con.dxSta, rtu.dxSta)
     annotation (Line(points={{-59.2857,2.85714},{-36,2.85714},{-36,4},{-14,4}},
@@ -68,8 +68,16 @@ equation
   connect(zon.occ, con.occ) annotation (Line(points={{102,-16},{118,-16},{118,
           -38},{-106,-38},{-106,4.28571},{-81.4286,4.28571}},
                                              color={255,0,255}));
-  connect(con.TSup, rtu.TSup) annotation (Line(points={{-81.4286,-5.71429},{-88,
-          -5.71429},{-88,-20},{20,-20},{20,-6},{17,-6}}, color={0,0,127}));
+  connect(con.TSup, rtu.TSup) annotation (Line(points={{-81.4286,-4.28571},{-88,
+          -4.28571},{-88,-22},{22,-22},{22,-6},{17,-6}}, color={0,0,127}));
+  connect(rtu.TMix, con.TMix) annotation (Line(points={{17,-10},{18,-10},{18,
+          -18},{-84,-18},{-84,-10},{-81.4286,-10}}, color={0,0,127}));
+  connect(rtu.TRet, con.TRet) annotation (Line(points={{17,-8},{20,-8},{20,-20},
+          {-86,-20},{-86,-7.14286},{-81.4286,-7.14286}}, color={0,0,127}));
+  connect(con.weaBus, weaDat.weaBus) annotation (Line(
+      points={{-79.8571,10},{-79.8571,90},{-100,90}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},
             {120,100}})),                                        Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},{120,100}}),

@@ -186,6 +186,9 @@ model RTU_Staged "Staged RTU model"
   Modelica.Blocks.Interfaces.RealOutput TSup
     "Supply air temperature measurement"
     annotation (Placement(transformation(extent={{140,-70},{160,-50}})));
+  Modelica.Blocks.Interfaces.RealOutput TMix
+    "Mixed air temperature measurement"
+    annotation (Placement(transformation(extent={{140,-110},{160,-90}})));
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -247,6 +250,8 @@ equation
           76,-80},{150,-80}}, color={0,0,127}));
   connect(senTemSup.T, TSup) annotation (Line(points={{90,11},{90,20},{78,20},{
           78,-60},{150,-60}}, color={0,0,127}));
+  connect(senTemMix.T, TMix) annotation (Line(points={{-30,11},{-30,20},{-14,20},
+          {-14,-100},{150,-100}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}), graphics={
                                         Text(

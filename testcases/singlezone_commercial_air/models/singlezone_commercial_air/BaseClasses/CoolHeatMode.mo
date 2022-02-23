@@ -9,17 +9,18 @@ model CoolHeatMode "Determines low or high heating or cooling mode"
   Modelica.Blocks.Math.BooleanToInteger cooHigOn(integerTrue=1)
     annotation (Placement(transformation(extent={{0,-10},{20,10}})));
   Modelica.Blocks.Interfaces.IntegerOutput cooDem
-    "Cooling demand [0=none, 1=low, 2=high]" annotation (Placement(
+    "Cooling demand [1=none, 2=low, 3=high]" annotation (Placement(
         transformation(extent={{100,30},{120,50}}), iconTransformation(extent={
             {100,30},{120,50}})));
   Modelica.Blocks.Math.BooleanToInteger cooLowOn(integerTrue=1)
     annotation (Placement(transformation(extent={{0,20},{20,40}})));
-  Modelica.Blocks.MathInteger.Sum sumSta(nu=2)
+  Modelica.Blocks.MathInteger.Sum sumSta(nu=3)
     annotation (Placement(transformation(extent={{34,34},{46,46}})));
   Modelica.Blocks.Math.Add conCooLow(k2=-1)
     annotation (Placement(transformation(extent={{-70,20},{-50,40}})));
-  Buildings.Controls.OBC.CDL.Continuous.Hysteresis cooHysLow(uLow=0.25, uHigh=
-        0.5) "Hysteresis to switch on low cooling"
+  Buildings.Controls.OBC.CDL.Continuous.Hysteresis cooHysLow(uLow=0.0, uHigh=
+        0.25)
+             "Hysteresis to switch on low cooling"
     annotation (Placement(transformation(extent={{-40,20},{-20,40}})));
   Modelica.Blocks.Interfaces.RealInput TSetCoo
     "Zone cooling temperature set point"
@@ -29,8 +30,8 @@ model CoolHeatMode "Determines low or high heating or cooling mode"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
   Modelica.Blocks.Math.Add conCooHig(k2=-1)
     annotation (Placement(transformation(extent={{-70,-10},{-50,10}})));
-  Buildings.Controls.OBC.CDL.Continuous.Hysteresis cooHysHig(uLow=0.25 + 0.25,
-      uHigh=0.5 + 0.5) "Hysteresis to switch on high cooling"
+  Buildings.Controls.OBC.CDL.Continuous.Hysteresis cooHysHig(uLow=0.25, uHigh=
+        0.25 + 0.5)    "Hysteresis to switch on high cooling"
     annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
   Modelica.Blocks.Math.Add conHea(k2=-1)
     annotation (Placement(transformation(extent={{-70,-50},{-50,-30}})));
@@ -40,20 +41,22 @@ model CoolHeatMode "Determines low or high heating or cooling mode"
   Buildings.Controls.OBC.CDL.Interfaces.BooleanOutput heaEna "Heating status"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}}),
         iconTransformation(extent={{100,-50},{120,-30}})));
-  Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=0)
+  Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=1)
     annotation (Placement(transformation(extent={{70,-10},{90,10}})));
   Modelica.Blocks.Math.IntegerToReal integerToReal
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
   Buildings.Controls.OBC.CDL.Interfaces.BooleanOutput cooEna "Cooling status"
     annotation (Placement(transformation(extent={{100,-10},{120,10}}),
         iconTransformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Sources.IntegerConstant one(k=1)
+    annotation (Placement(transformation(extent={{0,60},{20,80}})));
 equation
   connect(sumSta.y, cooDem)
     annotation (Line(points={{46.9,40},{110,40}}, color={255,127,0}));
   connect(cooHigOn.y, sumSta.u[1]) annotation (Line(points={{21,0},{30,0},{30,
-          42.1},{34,42.1}}, color={255,127,0}));
+          42.8},{34,42.8}}, color={255,127,0}));
   connect(cooLowOn.y, sumSta.u[2]) annotation (Line(points={{21,30},{28,30},{28,
-          37.9},{34,37.9}}, color={255,127,0}));
+          40},{34,40}},     color={255,127,0}));
   connect(conCooLow.y, cooHysLow.u)
     annotation (Line(points={{-49,30},{-42,30}}, color={0,0,127}));
   connect(TZon, conCooLow.u1) annotation (Line(points={{-120,60},{-92,60},{-92,
@@ -84,6 +87,8 @@ equation
     annotation (Line(points={{91,0},{110,0}}, color={255,0,255}));
   connect(sumSta.y, integerToReal.u) annotation (Line(points={{46.9,40},{60,40},
           {60,20},{34,20},{34,0},{38,0}}, color={255,127,0}));
+  connect(one.y, sumSta.u[3]) annotation (Line(points={{21,70},{30,70},{30,37.2},
+          {34,37.2}}, color={255,127,0}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Rectangle(
           extent={{-100,100},{100,-100}},
