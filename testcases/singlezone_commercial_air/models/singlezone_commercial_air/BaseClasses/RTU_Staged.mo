@@ -199,6 +199,13 @@ model RTU_Staged "Staged RTU model"
         origin={12,28})));
   Modelica.Blocks.Sources.IntegerConstant off(k=0) "DX off signal"
     annotation (Placement(transformation(extent={{-30,30},{-10,50}})));
+  Modelica.Blocks.Logical.Switch switch1 annotation (Placement(transformation(
+        extent={{-6,6},{6,-6}},
+        rotation=-90,
+        origin={46,28})));
+  Modelica.Blocks.Sources.Constant        off1(k=0)
+                                                   "DX off signal"
+    annotation (Placement(transformation(extent={{70,80},{50,100}})));
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -241,9 +248,6 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(fanSup.y, uFan)
     annotation (Line(points={{0,12},{0,80},{-160,80}},     color={0,0,127}));
-  connect(heaCoi.u, uHea) annotation (Line(points={{48,6},{48,76},{-108,76},{
-          -108,0},{-160,0}},
-                        color={0,0,127}));
   connect(eco.y, yDamOut) annotation (Line(points={{-60,18},{-60,74},{-106,74},
           {-106,-40},{-160,-40}}, color={0,0,127}));
   connect(heaCoi.Q_flow, natGasBurEffGai.u) annotation (Line(points={{71,6},{74,
@@ -270,6 +274,14 @@ equation
           {16.8,35.2}}, color={255,127,0}));
   connect(intSwi.y, cooCoi.stage) annotation (Line(points={{12,20.8},{12,16},{
           16,16},{16,8},{19,8}}, color={255,127,0}));
+  connect(switch1.y, heaCoi.u) annotation (Line(points={{46,21.4},{46,14},{46,6},
+          {48,6}}, color={0,0,127}));
+  connect(uHea, switch1.u1) annotation (Line(points={{-160,0},{-118,0},{-118,76},
+          {41.2,76},{41.2,35.2}}, color={0,0,127}));
+  connect(switch1.u2, cheSupFlo.y) annotation (Line(points={{46,35.2},{46,44},{
+          60,44},{60,30},{95.4,30}}, color={255,0,255}));
+  connect(off1.y, switch1.u3) annotation (Line(points={{49,90},{46,90},{46,50},
+          {50.8,50},{50.8,35.2}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -100},{140,100}}), graphics={
                                         Text(

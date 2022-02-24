@@ -51,31 +51,29 @@ equation
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
   connect(con.yFan, rtu.uFan)
-    annotation (Line(points={{-59.2857,5.71429},{-36,5.71429},{-36,8},{-14,8}},
+    annotation (Line(points={{-59.5,4},{-36,4},{-36,8},{-14,8}},
                                                color={0,0,127}));
   connect(con.yHea, rtu.uHea)
-    annotation (Line(points={{-59.2857,0},{-14,0}},
+    annotation (Line(points={{-59.5,0},{-14,0}},
                                                color={0,0,127}));
   connect(con.yDamOut, rtu.yDamOut)
-    annotation (Line(points={{-59.2857,-2.85714},{-36,-2.85714},{-36,-4},{-14,
-          -4}},                                  color={0,0,127}));
+    annotation (Line(points={{-59.5,-2},{-36,-2},{-36,-4},{-14,-4}},
+                                                 color={0,0,127}));
   connect(zon.Tz, con.TZon) annotation (Line(points={{102,0},{120,0},{120,-40},
-          {-108,-40},{-108,1.42857},{-81.4286,1.42857}},
-                                       color={0,0,127}));
+          {-108,-40},{-108,4},{-81,4}},color={0,0,127}));
   connect(con.dxSta, rtu.dxSta)
-    annotation (Line(points={{-59.2857,2.85714},{-36,2.85714},{-36,4},{-14,4}},
+    annotation (Line(points={{-59.5,2},{-36,2},{-36,4},{-14,4}},
                                                color={255,127,0}));
   connect(zon.occ, con.occ) annotation (Line(points={{102,-16},{118,-16},{118,
-          -38},{-106,-38},{-106,4.28571},{-81.4286,4.28571}},
-                                             color={255,0,255}));
-  connect(con.TSup, rtu.TSup) annotation (Line(points={{-81.4286,-4.28571},{-88,
-          -4.28571},{-88,-22},{22,-22},{22,-6},{17,-6}}, color={0,0,127}));
+          -38},{-106,-38},{-106,7},{-81,7}}, color={255,0,255}));
+  connect(con.TSup, rtu.TSup) annotation (Line(points={{-81,1},{-88,1},{-88,-22},
+          {22,-22},{22,-6},{17,-6}},                     color={0,0,127}));
   connect(rtu.TMix, con.TMix) annotation (Line(points={{17,-10},{18,-10},{18,
-          -18},{-84,-18},{-84,-10},{-81.4286,-10}}, color={0,0,127}));
+          -18},{-84,-18},{-84,-6},{-81,-6}},        color={0,0,127}));
   connect(rtu.TRet, con.TRet) annotation (Line(points={{17,-8},{20,-8},{20,-20},
-          {-86,-20},{-86,-7.14286},{-81.4286,-7.14286}}, color={0,0,127}));
+          {-86,-20},{-86,-2},{-81,-2}},                  color={0,0,127}));
   connect(con.weaBus, weaDat.weaBus) annotation (Line(
-      points={{-79.8571,10},{-79.8571,90},{-100,90}},
+      points={{-80,10},{-80,90},{-100,90}},
       color={255,204,51},
       thickness=0.5));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},
@@ -88,9 +86,8 @@ equation
 coil sizing (PSZ-AC_6): 18 kW cooling, 50 kW heating from htm ",
           fontSize=18)}),
     experiment(
-      StartTime=15552000,
       StopTime=31536000,
-      Interval=120.000096,
+      Interval=120,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"));
 end TestCase_Staged;
