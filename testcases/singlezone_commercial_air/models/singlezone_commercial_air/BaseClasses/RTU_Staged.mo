@@ -119,7 +119,8 @@ model RTU_Staged "Staged RTU model"
     annotation (Placement(transformation(extent={{130,-10},{150,10}})));
   Modelica.Blocks.Interfaces.RealInput uFan "Fan speed control signal"
     annotation (Placement(transformation(extent={{-180,60},{-140,100}})));
-  Modelica.Blocks.Interfaces.RealInput uHea "Heating rate control signal"
+  Modelica.Blocks.Interfaces.BooleanInput
+                                       uHea "Heating on/off control signal"
     annotation (Placement(transformation(extent={{-180,-20},{-140,20}})));
   Modelica.Blocks.Interfaces.RealInput yDamOut
     "Outside air damper position control signal"
@@ -210,6 +211,8 @@ model RTU_Staged "Staged RTU model"
     annotation (Placement(transformation(extent={{140,90},{160,110}})));
   Modelica.Blocks.Interfaces.RealOutput PDx "DX electrical power usage"
     annotation (Placement(transformation(extent={{140,110},{160,130}})));
+  Modelica.Blocks.Math.BooleanToReal boo2ReaHea
+    annotation (Placement(transformation(extent={{-132,-10},{-112,10}})));
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -280,8 +283,6 @@ equation
           16,16},{16,8},{19,8}}, color={255,127,0}));
   connect(switch1.y, heaCoi.u) annotation (Line(points={{46,21.4},{46,14},{46,6},
           {48,6}}, color={0,0,127}));
-  connect(uHea, switch1.u1) annotation (Line(points={{-160,0},{-118,0},{-118,76},
-          {41.2,76},{41.2,35.2}}, color={0,0,127}));
   connect(switch1.u2, cheSupFlo.y) annotation (Line(points={{46,35.2},{46,44},{
           60,44},{60,30},{95.4,30}}, color={255,0,255}));
   connect(off1.y, switch1.u3) annotation (Line(points={{41,90},{50,90},{50,50},
@@ -290,6 +291,10 @@ equation
           120}}, color={0,0,127}));
   connect(fanSup.P, PFan) annotation (Line(points={{11,9},{34,9},{34,14},{70,14},
           {70,100},{150,100}}, color={0,0,127}));
+  connect(uHea, boo2ReaHea.u)
+    annotation (Line(points={{-160,0},{-134,0}}, color={255,0,255}));
+  connect(boo2ReaHea.y, switch1.u1) annotation (Line(points={{-111,0},{-108,0},
+          {-108,76},{41.2,76},{41.2,35.2}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
             -120},{140,120}}), graphics={
                                         Text(

@@ -63,9 +63,6 @@ equation
   connect(con.yFan, rtu.uFan)
     annotation (Line(points={{-59.5,4},{-38,4},{-38,8},{-16,8}},
                                                color={0,0,127}));
-  connect(con.yHea, rtu.uHea)
-    annotation (Line(points={{-59.5,0},{-16,0}},
-                                               color={0,0,127}));
   connect(con.yDamOut, rtu.yDamOut)
     annotation (Line(points={{-59.5,-2},{-36,-2},{-36,-4},{-16,-4}},
                                                  color={0,0,127}));
@@ -98,6 +95,8 @@ equation
           12}}, color={0,0,127}));
   connect(rtu.PGas, EGasInt.u)
     annotation (Line(points={{15,8},{22,8},{22,50},{78,50}}, color={0,0,127}));
+  connect(con.yHea, rtu.uHea)
+    annotation (Line(points={{-59.5,0},{-16,0}}, color={255,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},
             {120,100}})),                                        Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},{120,100}}),
