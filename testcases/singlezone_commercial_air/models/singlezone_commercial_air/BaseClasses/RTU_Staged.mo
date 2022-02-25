@@ -108,7 +108,7 @@ model RTU_Staged "Staged RTU model"
   /* weather */
 
   Buildings.BoundaryConditions.WeatherData.Bus weaBus
-    annotation (Placement(transformation(extent={{-150,90},{-130,110}})));
+    annotation (Placement(transformation(extent={{-150,110},{-130,130}})));
 
   /* ports */
   Modelica.Fluid.Interfaces.FluidPort_a port_ret(redeclare package Medium =
@@ -126,9 +126,9 @@ model RTU_Staged "Staged RTU model"
     annotation (Placement(transformation(extent={{-180,-60},{-140,-20}})));
   Modelica.Blocks.Math.Gain natGasBurEffGai(k=1/natGasBurEff)
     "Natural gas burner efficiency gain"
-    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
+    annotation (Placement(transformation(extent={{100,70},{120,90}})));
   Modelica.Blocks.Interfaces.RealOutput PGas "Gas power use"
-    annotation (Placement(transformation(extent={{140,-50},{160,-30}})));
+    annotation (Placement(transformation(extent={{140,70},{160,90}})));
   parameter
     Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.DoubleSpeed.Generic
     datCoi(sta={
@@ -176,7 +176,7 @@ model RTU_Staged "Staged RTU model"
           TEvaInMax=23.889 + 273.15,
           ffMin=0.5,
           ffMax=1.5))})
-    annotation (Placement(transformation(extent={{120,82},{140,102}})));
+    annotation (Placement(transformation(extent={{20,-40},{40,-20}})));
   Modelica.Blocks.Interfaces.IntegerInput dxSta
     "Stage of cooling coil (0: off, 1: first stage, 2: second stage)"
     annotation (Placement(transformation(extent={{-180,20},{-140,60}})));
@@ -205,7 +205,11 @@ model RTU_Staged "Staged RTU model"
         origin={46,28})));
   Modelica.Blocks.Sources.Constant        off1(k=0)
                                                    "DX off signal"
-    annotation (Placement(transformation(extent={{70,80},{50,100}})));
+    annotation (Placement(transformation(extent={{20,80},{40,100}})));
+  Modelica.Blocks.Interfaces.RealOutput PFan "Fan electrical power usage"
+    annotation (Placement(transformation(extent={{140,90},{160,110}})));
+  Modelica.Blocks.Interfaces.RealOutput PDx "DX electrical power usage"
+    annotation (Placement(transformation(extent={{140,110},{160,130}})));
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -218,7 +222,7 @@ equation
   connect(senTemMix.port_b, fanSup.port_a)
     annotation (Line(points={{-20,0},{-10,0}}, color={0,127,255}));
   connect(weaBus.TDryBul, cooCoi.TConIn) annotation (Line(
-      points={{-140,100},{20,100},{20,3},{19,3}},
+      points={{-140,120},{20,120},{20,3},{19,3}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -239,7 +243,7 @@ equation
   connect(senFloSup.port_b, port_sup)
     annotation (Line(points={{130,0},{140,0}},color={0,127,255}));
   connect(weaBus, souInf.weaBus) annotation (Line(
-      points={{-140,100},{-80,100},{-80,60},{-79.8,60}},
+      points={{-140,120},{-80,120},{-80,60},{-79.8,60}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -251,14 +255,14 @@ equation
   connect(eco.y, yDamOut) annotation (Line(points={{-60,18},{-60,74},{-106,74},
           {-106,-40},{-160,-40}}, color={0,0,127}));
   connect(heaCoi.Q_flow, natGasBurEffGai.u) annotation (Line(points={{71,6},{74,
-          6},{74,-40},{98,-40}}, color={0,0,127}));
+          6},{74,80},{98,80}},   color={0,0,127}));
   connect(natGasBurEffGai.y, PGas)
-    annotation (Line(points={{121,-40},{150,-40}}, color={0,0,127}));
+    annotation (Line(points={{121,80},{150,80}},   color={0,0,127}));
   connect(eco.port_Ret, senTemMix.port_a)
     annotation (Line(points={{-50,0},{-40,0}}, color={0,127,255}));
   connect(eco.port_Sup, senTemRet.port_b) annotation (Line(points={{-50,12},{
           -40,12},{-40,60},{80,60}}, color={0,127,255}));
-  connect(senTemRet.T, TRet) annotation (Line(points={{90,71},{90,80},{76,80},{
+  connect(senTemRet.T, TRet) annotation (Line(points={{90,71},{90,78},{76,78},{
           76,-80},{150,-80}}, color={0,0,127}));
   connect(senTemSup.T, TSup) annotation (Line(points={{90,11},{90,20},{78,20},{
           78,-60},{150,-60}}, color={0,0,127}));
@@ -280,18 +284,22 @@ equation
           {41.2,76},{41.2,35.2}}, color={0,0,127}));
   connect(switch1.u2, cheSupFlo.y) annotation (Line(points={{46,35.2},{46,44},{
           60,44},{60,30},{95.4,30}}, color={255,0,255}));
-  connect(off1.y, switch1.u3) annotation (Line(points={{49,90},{46,90},{46,50},
+  connect(off1.y, switch1.u3) annotation (Line(points={{41,90},{50,90},{50,50},
           {50.8,50},{50.8,35.2}}, color={0,0,127}));
+  connect(cooCoi.P, PDx) annotation (Line(points={{41,9},{72,9},{72,120},{150,
+          120}}, color={0,0,127}));
+  connect(fanSup.P, PFan) annotation (Line(points={{11,9},{34,9},{34,14},{70,14},
+          {70,100},{150,100}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,
-            -100},{140,100}}), graphics={
+            -120},{140,120}}), graphics={
                                         Text(
-        extent={{-100,140},{100,100}},
+        extent={{-100,160},{100,120}},
         textString="%name",
         textColor={0,0,255}), Rectangle(
-          extent={{140,-100},{-140,100}},
+          extent={{140,-120},{-140,120}},
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid)}),                      Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-140,-100},{140,
-            100}})));
+        coordinateSystem(preserveAspectRatio=false, extent={{-140,-120},{140,
+            120}})));
 end RTU_Staged;

@@ -22,9 +22,19 @@ model TestCase_Staged "Test case model with single staged RTU"
 
   BaseClasses.RTU_Staged rtu(dpBuiStaSet(displayUnit="Pa"), dp_nominal(
         displayUnit="Pa"))   "Packaged RTU model"
-    annotation (Placement(transformation(extent={{-12,-10},{16,10}})));
+    annotation (Placement(transformation(extent={{-14,-12},{14,12}})));
   BaseClasses.Control_Staged con "RTU control model"
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+  Modelica.Blocks.Continuous.Integrator EEleInt "Electrical energy"
+    annotation (Placement(transformation(extent={{80,70},{100,90}})));
+  Modelica.Blocks.Continuous.Integrator EGasInt "Gas energy"
+    annotation (Placement(transformation(extent={{80,40},{100,60}})));
+  Modelica.Blocks.Interfaces.RealOutput EEle "Electrical energy"
+    annotation (Placement(transformation(extent={{120,70},{140,90}})));
+  Modelica.Blocks.Interfaces.RealOutput EGas "Gas energy"
+    annotation (Placement(transformation(extent={{120,40},{140,60}})));
+  Modelica.Blocks.Math.Add add
+    annotation (Placement(transformation(extent={{30,60},{50,80}})));
 equation
   connect(weaDat.weaBus, zon.weaBus) annotation (Line(
       points={{-100,90},{60,90},{60,19.2},{60.4,19.2}},
@@ -38,12 +48,12 @@ equation
       index=-1,
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
-  connect(rtu.port_ret, zon.b) annotation (Line(points={{16,6},{38,6},{38,11.6},
+  connect(rtu.port_ret, zon.b) annotation (Line(points={{14,6},{38,6},{38,11.6},
           {61,11.6}}, color={0,127,255}));
-  connect(rtu.port_sup, zon.a) annotation (Line(points={{16,0},{38,0},{38,-8.8},
+  connect(rtu.port_sup, zon.a) annotation (Line(points={{14,0},{38,0},{38,-8.8},
           {61.2,-8.8}}, color={0,127,255}));
   connect(weaBus1, rtu.weaBus) annotation (Line(
-      points={{-34,90},{-34,10},{-12,10}},
+      points={{-34,90},{-34,12},{-14,12}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -51,43 +61,59 @@ equation
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
   connect(con.yFan, rtu.uFan)
-    annotation (Line(points={{-59.5,4},{-36,4},{-36,8},{-14,8}},
+    annotation (Line(points={{-59.5,4},{-38,4},{-38,8},{-16,8}},
                                                color={0,0,127}));
   connect(con.yHea, rtu.uHea)
-    annotation (Line(points={{-59.5,0},{-14,0}},
+    annotation (Line(points={{-59.5,0},{-16,0}},
                                                color={0,0,127}));
   connect(con.yDamOut, rtu.yDamOut)
-    annotation (Line(points={{-59.5,-2},{-36,-2},{-36,-4},{-14,-4}},
+    annotation (Line(points={{-59.5,-2},{-36,-2},{-36,-4},{-16,-4}},
                                                  color={0,0,127}));
   connect(zon.Tz, con.TZon) annotation (Line(points={{102,0},{120,0},{120,-40},
           {-108,-40},{-108,4},{-81,4}},color={0,0,127}));
   connect(con.dxSta, rtu.dxSta)
-    annotation (Line(points={{-59.5,2},{-36,2},{-36,4},{-14,4}},
+    annotation (Line(points={{-59.5,2},{-36,2},{-36,4},{-16,4}},
                                                color={255,127,0}));
   connect(zon.occ, con.occ) annotation (Line(points={{102,-16},{118,-16},{118,
           -38},{-106,-38},{-106,7},{-81,7}}, color={255,0,255}));
   connect(con.TSup, rtu.TSup) annotation (Line(points={{-81,1},{-88,1},{-88,-22},
-          {22,-22},{22,-6},{17,-6}},                     color={0,0,127}));
-  connect(rtu.TMix, con.TMix) annotation (Line(points={{17,-10},{18,-10},{18,
+          {22,-22},{22,-6},{15,-6}},                     color={0,0,127}));
+  connect(rtu.TMix, con.TMix) annotation (Line(points={{15,-10},{18,-10},{18,
           -18},{-84,-18},{-84,-6},{-81,-6}},        color={0,0,127}));
-  connect(rtu.TRet, con.TRet) annotation (Line(points={{17,-8},{20,-8},{20,-20},
+  connect(rtu.TRet, con.TRet) annotation (Line(points={{15,-8},{20,-8},{20,-20},
           {-86,-20},{-86,-2},{-81,-2}},                  color={0,0,127}));
   connect(con.weaBus, weaDat.weaBus) annotation (Line(
       points={{-80,10},{-80,90},{-100,90}},
       color={255,204,51},
       thickness=0.5));
+  connect(EEleInt.y, EEle)
+    annotation (Line(points={{101,80},{130,80}}, color={0,0,127}));
+  connect(EGasInt.y, EGas)
+    annotation (Line(points={{101,50},{130,50}}, color={0,0,127}));
+  connect(add.y, EEleInt.u) annotation (Line(points={{51,70},{68,70},{68,80},{
+          78,80}}, color={0,0,127}));
+  connect(add.u2, rtu.PFan) annotation (Line(points={{28,64},{20,64},{20,10},{
+          15,10}}, color={0,0,127}));
+  connect(add.u1, rtu.PDx) annotation (Line(points={{28,76},{18,76},{18,12},{15,
+          12}}, color={0,0,127}));
+  connect(rtu.PGas, EGasInt.u)
+    annotation (Line(points={{15,8},{22,8},{22,50},{78,50}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},
             {120,100}})),                                        Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-120,-120},{120,100}}),
         graphics={Text(
-          extent={{-34,-86},{40,-126}},
+          extent={{-34,-64},{40,-104}},
           lineColor={28,108,200},
-          textString="design air flow rate [m3/s]: 1.51 from htm
-coil sizing (PSZ-AC_6): 18 kW cooling, 50 kW heating from htm ",
-          fontSize=18)}),
+          fontSize=18,
+          textString="design air flow rate [m3/s]: 1.51 from E+ html
+coil sizing (PSZ-AC_6): 18 kW cooling, 50 kW heating from E+ html
+
+Current 180 Day Modelica Simulation:
+EEle: 6.30924E9 J
+EGas: 4.76994E10 J  ")}),
     experiment(
-      StopTime=31536000,
-      Interval=120,
+      StopTime=15552000,
+      Interval=120.000096,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"));
 end TestCase_Staged;

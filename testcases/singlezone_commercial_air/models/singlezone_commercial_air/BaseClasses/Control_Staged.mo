@@ -43,11 +43,11 @@ model Control_Staged "Control model for staged RTU"
   Modelica.Blocks.Interfaces.RealOutput yDamOut
     "Outside air damper control signal"
     annotation (Placement(transformation(extent={{200,-50},{220,-30}})));
-  Modelica.Blocks.Math.BooleanToInteger cooSta1Int(integerTrue=1)
+  Modelica.Blocks.Math.BooleanToReal    cooSta1Int
     annotation (Placement(transformation(extent={{70,-30},{90,-10}})));
   Modelica.Blocks.Interfaces.IntegerOutput dxSta "Stage of cooling coil dx"
     annotation (Placement(transformation(extent={{200,30},{220,50}})));
-  Modelica.Blocks.Math.BooleanToInteger cooSta2Int(integerTrue=1)
+  Modelica.Blocks.Math.BooleanToReal    cooSta2Int
     annotation (Placement(transformation(extent={{70,0},{90,20}})));
   Buildings.Controls.OBC.CDL.Continuous.Hysteresis cooSta2(uLow=0.5, uHigh=0.66)
     "Hysteresis to switch on cooling stage 2"
@@ -56,7 +56,7 @@ model Control_Staged "Control model for staged RTU"
     "Hysteresis to switch on cooling stage 1"
     annotation (Placement(transformation(extent={{10,-30},{30,-10}})));
   Modelica.Blocks.MathInteger.Sum sumSta(nu=2)
-    annotation (Placement(transformation(extent={{164,34},{176,46}})));
+    annotation (Placement(transformation(extent={{174,34},{186,46}})));
   Modelica.Blocks.Interfaces.RealOutput yFan "Fan speed control signal"
     annotation (Placement(transformation(extent={{200,70},{220,90}})));
   Buildings.Controls.Continuous.LimPID conCoo(
@@ -72,7 +72,7 @@ model Control_Staged "Control model for staged RTU"
     "Fan speed during heating"
     annotation (Placement(transformation(extent={{-40,78},{-20,98}})));
   Modelica.Blocks.Math.BooleanToReal heaRea(realTrue=1)
-    annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
+    annotation (Placement(transformation(extent={{70,-100},{90,-80}})));
   Modelica.Blocks.Interfaces.BooleanInput occ "Occupied status"
     annotation (Placement(transformation(extent={{-240,120},{-200,160}})));
   Modelica.Blocks.Logical.Switch yOAOccSwi
@@ -126,22 +126,22 @@ model Control_Staged "Control model for staged RTU"
     annotation (Placement(transformation(extent={{-240,-140},{-200,-100}})));
   Buildings.BoundaryConditions.WeatherData.Bus weaBus
     annotation (Placement(transformation(extent={{-210,190},{-190,210}})));
+  Modelica.Blocks.Math.RealToInteger rea2Int2
+    annotation (Placement(transformation(extent={{138,0},{158,20}})));
+  Modelica.Blocks.Math.RealToInteger rea2Int1
+    annotation (Placement(transformation(extent={{138,-30},{158,-10}})));
 equation
   connect(TSetHea.y[1], from_degC1.u) annotation (Line(points={{-179,-180},{
           -174.8,-180}},                      color={0,0,127}));
   connect(TSetCoo.y[1], from_degC.u) annotation (Line(points={{-179,-150},{
           -174.8,-150}},                      color={0,0,127}));
   connect(sumSta.y, dxSta)
-    annotation (Line(points={{176.9,40},{210,40}},color={255,127,0}));
-  connect(cooSta1Int.y, sumSta.u[1]) annotation (Line(points={{91,-20},{96,-20},
-          {96,42.1},{164,42.1}},color={255,127,0}));
-  connect(cooSta2Int.y, sumSta.u[2]) annotation (Line(points={{91,10},{94,10},{
-          94,37.9},{164,37.9}}, color={255,127,0}));
+    annotation (Line(points={{186.9,40},{210,40}},color={255,127,0}));
   connect(conCoo.y, cooSta1.u) annotation (Line(points={{1,-30},{4,-30},{4,-20},
           {8,-20}},            color={0,0,127}));
   connect(yfanHea.y, heaStaFan.u1) annotation (Line(points={{-19,88},{28,88}},
                         color={0,0,127}));
-  connect(heaRea.y, yHea) annotation (Line(points={{81,-90},{180,-90},{180,0},{
+  connect(heaRea.y, yHea) annotation (Line(points={{91,-90},{188,-90},{188,0},{
           210,0}}, color={0,0,127}));
   connect(heaStaFan.y, yFan)
     annotation (Line(points={{51,80},{210,80}}, color={0,0,127}));
@@ -190,7 +190,7 @@ equation
   connect(heaStaFan.u2, cooHeaMod.heaEna) annotation (Line(points={{28,80},{18,
           80},{18,32},{6,32},{6,-54},{-64,-54},{-64,-34},{-64.9,-34}}, color={
           255,0,255}));
-  connect(heaRea.u, cooHeaMod.heaEna) annotation (Line(points={{58,-90},{34,-90},
+  connect(heaRea.u, cooHeaMod.heaEna) annotation (Line(points={{68,-90},{34,-90},
           {34,-54},{-64,-54},{-64,-34},{-64.9,-34}}, color={255,0,255}));
   connect(integerToReal.y, greaterThreshold.u)
     annotation (Line(points={{-29,0},{-22,0}},     color={0,0,127}));
@@ -232,12 +232,20 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(conEco.yOADam, yDamOut) annotation (Line(points={{-19,110},{190,110},
-          {190,-40},{210,-40}}, color={0,0,127}));
+  connect(conEco.yOADam, yDamOut) annotation (Line(points={{-19,110},{192,110},
+          {192,-40},{210,-40}}, color={0,0,127}));
   connect(conCoo.trigger, and1.u2) annotation (Line(points={{-18,-42},{-18,-52},
           {34,-52},{34,-28},{38,-28}}, color={255,0,255}));
   connect(TSup, conCoo.u_m) annotation (Line(points={{-220,20},{-188,20},{-188,
           -60},{-10,-60},{-10,-42}}, color={0,0,127}));
+  connect(rea2Int1.y, sumSta.u[1]) annotation (Line(points={{159,-20},{170,-20},
+          {170,42.1},{174,42.1}}, color={255,127,0}));
+  connect(rea2Int2.y, sumSta.u[2]) annotation (Line(points={{159,10},{166,10},{
+          166,37.9},{174,37.9}}, color={255,127,0}));
+  connect(cooSta2Int.y, rea2Int2.u)
+    annotation (Line(points={{91,10},{136,10}}, color={0,0,127}));
+  connect(cooSta1Int.y, rea2Int1.u)
+    annotation (Line(points={{91,-20},{136,-20}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -200},{200,200}}), graphics={Rectangle(
           extent={{-200,200},{200,-200}},
