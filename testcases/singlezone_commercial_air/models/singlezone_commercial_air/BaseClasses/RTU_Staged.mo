@@ -1,6 +1,6 @@
 within singlezone_commercial_air.BaseClasses;
 model RTU_Staged "Staged RTU model"
-  package MediumA = Buildings.Media.Air "Air Medium model";
+  replaceable package MediumA = Buildings.Media.Air "Air Medium model";
   // AHU modification ==================================
 
   //constant Real conv=1.2/3600 "Conversion factor for nominal mass flow rate";
@@ -69,6 +69,8 @@ model RTU_Staged "Staged RTU model"
     from_dp=false) "Economizer"
     annotation (Placement(transformation(extent={{-70,-4},{-50,16}})));
   Buildings.Fluid.Sources.Outside souInf(redeclare package Medium = MediumA,
+    C=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumA.nC),
       nPorts=2) "Source model for air infiltration"
            annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -216,45 +218,45 @@ model RTU_Staged "Staged RTU model"
   Buildings.Utilities.IO.SignalExchange.Read reaTSup(
     description="Supply air temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Supply air temperature measurement"
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
+
   Buildings.Utilities.IO.SignalExchange.Read reaTRet(
     description="Return air temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Return air temperature measurement"
     annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
+
   Buildings.Utilities.IO.SignalExchange.Read reaTMix(
     description="Mixed air temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Mixed air temperature measurement"
     annotation (Placement(transformation(extent={{100,-110},{120,-90}})));
+
   Buildings.Utilities.IO.SignalExchange.Read reaPDx(
     description="DX electrical power measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "DX electrical power measurement"
     annotation (Placement(transformation(extent={{80,110},{100,130}})));
+
   Buildings.Utilities.IO.SignalExchange.Read reaPFan(
     description="Supply fan electrical power measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Supply fan electrical power measurement"
     annotation (Placement(transformation(extent={{110,90},{130,110}})));
+
   Buildings.Utilities.IO.SignalExchange.Read reaPFur(
     description="Furnace gas power measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-
     y(unit="W")) "Furnace gas power measurement"
     annotation (Placement(transformation(extent={{130,70},{150,90}})));
+
   Buildings.Utilities.IO.SignalExchange.Read reaFloSup(
     description="Supply air flow rate measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="m3/s")) "Supply air flow rate measurement"
     annotation (Placement(transformation(extent={{140,20},{160,40}})));
+
 equation
   connect(senFloOut.port_b, eco.port_Exh)
     annotation (Line(points={{-80,0},{-70,0}},     color={0,127,255}));
@@ -297,8 +299,8 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(fanSup.y, uFan)
     annotation (Line(points={{0,12},{0,80},{-180,80}},     color={0,0,127}));
-  connect(eco.y, yDamOut) annotation (Line(points={{-60,18},{-60,74},{-106,74},
-          {-106,-40},{-180,-40}}, color={0,0,127}));
+  connect(eco.y, yDamOut) annotation (Line(points={{-60,18},{-60,74},{-106,74},{
+          -106,-40},{-180,-40}},  color={0,0,127}));
   connect(heaCoi.Q_flow, natGasBurEffGai.u) annotation (Line(points={{71,6},{74,
           6},{74,80},{98,80}},   color={0,0,127}));
   connect(eco.port_Ret, senTemMix.port_a)
@@ -309,40 +311,40 @@ equation
     annotation (Line(points={{109.2,30},{120,30},{120,11}}, color={0,0,127}));
   connect(intSwi.u2, cheSupFlo.y) annotation (Line(points={{12,35.2},{12,44},{
           60,44},{60,30},{95.4,30}}, color={255,0,255}));
-  connect(dxSta, intSwi.u1) annotation (Line(points={{-180,40},{-120,40},{-120,
-          78},{7.2,78},{7.2,35.2}}, color={255,127,0}));
+  connect(dxSta, intSwi.u1) annotation (Line(points={{-180,40},{-120,40},{-120,78},
+          {7.2,78},{7.2,35.2}},     color={255,127,0}));
   connect(off.y, intSwi.u3) annotation (Line(points={{-9,40},{18,40},{18,35.2},
           {16.8,35.2}}, color={255,127,0}));
   connect(intSwi.y, cooCoi.stage) annotation (Line(points={{12,20.8},{12,16},{
           16,16},{16,8},{19,8}}, color={255,127,0}));
   connect(switch1.y, heaCoi.u) annotation (Line(points={{46,21.4},{46,14},{46,6},
           {48,6}}, color={0,0,127}));
-  connect(switch1.u2, cheSupFlo.y) annotation (Line(points={{46,35.2},{46,44},{
-          60,44},{60,30},{95.4,30}}, color={255,0,255}));
-  connect(off1.y, switch1.u3) annotation (Line(points={{41,90},{50,90},{50,50},
-          {50.8,50},{50.8,35.2}}, color={0,0,127}));
+  connect(switch1.u2, cheSupFlo.y) annotation (Line(points={{46,35.2},{46,44},{60,
+          44},{60,30},{95.4,30}}, color={255,0,255}));
+  connect(off1.y, switch1.u3) annotation (Line(points={{41,90},{50,90},{50,50},{
+          50.8,50},{50.8,35.2}}, color={0,0,127}));
   connect(uHea, boo2ReaHea.u)
     annotation (Line(points={{-180,0},{-134,0}}, color={255,0,255}));
-  connect(boo2ReaHea.y, switch1.u1) annotation (Line(points={{-111,0},{-108,0},
-          {-108,76},{41.2,76},{41.2,35.2}}, color={0,0,127}));
-  connect(senTemSup.T, reaTSup.u) annotation (Line(points={{90,11},{90,20},{78,
-          20},{78,-60},{98,-60}}, color={0,0,127}));
+  connect(boo2ReaHea.y, switch1.u1) annotation (Line(points={{-111,0},{-108,0},{
+          -108,76},{41.2,76},{41.2,35.2}}, color={0,0,127}));
+  connect(senTemSup.T, reaTSup.u) annotation (Line(points={{90,11},{90,20},{78,20},
+          {78,-60},{98,-60}}, color={0,0,127}));
   connect(reaTSup.y, TSup)
     annotation (Line(points={{121,-60},{170,-60}}, color={0,0,127}));
-  connect(senTemRet.T, reaTRet.u) annotation (Line(points={{90,71},{90,78},{76,
-          78},{76,-80},{98,-80}}, color={0,0,127}));
+  connect(senTemRet.T, reaTRet.u) annotation (Line(points={{90,71},{90,78},{76,78},
+          {76,-80},{98,-80}}, color={0,0,127}));
   connect(reaTRet.y, TRet)
     annotation (Line(points={{121,-80},{170,-80}}, color={0,0,127}));
-  connect(senTemMix.T, reaTMix.u) annotation (Line(points={{-30,11},{-30,20},{
-          -14,20},{-14,-100},{98,-100}}, color={0,0,127}));
+  connect(senTemMix.T, reaTMix.u) annotation (Line(points={{-30,11},{-30,20},{-14,
+          20},{-14,-100},{98,-100}}, color={0,0,127}));
   connect(reaTMix.y, TMix)
     annotation (Line(points={{121,-100},{170,-100}}, color={0,0,127}));
-  connect(cooCoi.P, reaPDx.u) annotation (Line(points={{41,9},{72,9},{72,120},{
-          78,120}}, color={0,0,127}));
+  connect(cooCoi.P, reaPDx.u) annotation (Line(points={{41,9},{72,9},{72,120},{78,
+          120}}, color={0,0,127}));
   connect(reaPDx.y, PDx)
     annotation (Line(points={{101,120},{170,120}}, color={0,0,127}));
-  connect(fanSup.P, reaPFan.u) annotation (Line(points={{11,9},{34,9},{34,14},{
-          70,14},{70,100},{108,100}}, color={0,0,127}));
+  connect(fanSup.P, reaPFan.u) annotation (Line(points={{11,9},{34,9},{34,14},{70,
+          14},{70,100},{108,100}}, color={0,0,127}));
   connect(reaPFan.y, PFan)
     annotation (Line(points={{131,100},{170,100}}, color={0,0,127}));
   connect(natGasBurEffGai.y, reaPFur.u)
@@ -351,8 +353,8 @@ equation
     annotation (Line(points={{151,80},{170,80}}, color={0,0,127}));
   connect(reaFloSup.u, senFloSup.V_flow)
     annotation (Line(points={{138,30},{120,30},{120,11}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,
-            -120},{160,120}}), graphics={
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,-120},
+            {160,120}}),       graphics={
                                         Text(
         extent={{-100,160},{100,120}},
         textString="%name",
@@ -361,6 +363,5 @@ equation
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid)}),                      Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-160,-120},{160,
-            120}})));
+        coordinateSystem(preserveAspectRatio=false, extent={{-160,-120},{160,120}})));
 end RTU_Staged;

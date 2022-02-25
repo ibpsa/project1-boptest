@@ -131,64 +131,63 @@ model Control_Staged "Control model for staged RTU"
     annotation (Placement(transformation(extent={{138,0},{158,20}})));
   Modelica.Blocks.Math.RealToInteger rea2Int1
     annotation (Placement(transformation(extent={{138,-30},{158,-10}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveOADam(description=
-        "Control signal for outside air damper position", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveOADam(description="Control signal for outside air damper position",
+      u(
       unit="1",
       min=0,
       max=1)) "Overwrite control signal for outside air damper"
     annotation (Placement(transformation(extent={{100,100},{120,120}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveFan(description=
-        "Control signal for supply fan speed", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveFan(description="Control signal for supply fan speed",
+      u(
       unit="1",
       min=0,
       max=1)) "Overwrite control signal for supply fan speed"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveHea(description=
-        "Control signal for gas furnace heating rate", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveHea(description="Control signal for gas furnace heating rate",
+      u(
       unit="1",
       min=0,
       max=1)) "Overwrite control signal for gas furnace heating rate"
     annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveDXSta1(description=
-        "Control signal for DX stage 1", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveDXSta1(description="Control signal for DX stage 1",
+      u(
       unit="1",
       min=0,
       max=1)) "Overwrite control signal for DX stage 1"
     annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveDXSta2(description=
-        "Control signal for DX stage 2", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveDXSta2(description="Control signal for DX stage 2",
+      u(
       unit="1",
       min=0,
       max=1)) "Overwrite control signal for DX stage 2"
     annotation (Placement(transformation(extent={{100,0},{120,20}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(description=
-        "Zone air temperature set point for cooling", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(description="Zone air temperature set point for cooling",
+      u(
       unit="K",
       min=273.15 + 15,
       max=273.15 + 30)) "Overwrite control signal for zone cooling set point"
     annotation (Placement(transformation(extent={{-140,-160},{-120,-140}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetHea(description=
-        "Zone air temperature set point for heating", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetHea(description="Zone air temperature set point for heating",
+      u(
       unit="K",
       min=273.15 + 15,
       max=273.15 + 30)) "Overwrite control signal for zone heating set point"
     annotation (Placement(transformation(extent={{-140,-190},{-120,-170}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetSupCooLow(description=
-        "Supply air temperature set point for low cooling", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetSupCooLow(description="Supply air temperature set point for low cooling",
+      u(
       unit="K",
       min=273.15 + 11,
       max=273.15 + 16))
     "Overwrite control signal for supply air temperature set point for low cooling"
     annotation (Placement(transformation(extent={{-110,0},{-90,20}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetSupCooHig(description=
-        "Supply air temperature set point for high cooling", u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetSupCooHig(description="Supply air temperature set point for high cooling",
+      u(
       unit="K",
       min=273.15 + 11,
       max=273.15 + 16))
     "Overwrite control signal for supply air temperature set point for high cooling"
     annotation (Placement(transformation(extent={{-110,-20},{-90,0}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveOADamMinOcc(description=
-        "Control signal for outside air damper position minimum position when occupied",
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveOADamMinOcc(description="Control signal for outside air damper position minimum position when occupied",
       u(
       unit="1",
       min=0,
@@ -198,19 +197,18 @@ model Control_Staged "Control model for staged RTU"
   Modelica.Blocks.Math.RealToBoolean realToBoolean
     annotation (Placement(transformation(extent={{140,-100},{160,-80}})));
 equation
-  connect(TSetHea.y[1], from_degC1.u) annotation (Line(points={{-179,-180},{
-          -174.8,-180}},                      color={0,0,127}));
-  connect(TSetCoo.y[1], from_degC.u) annotation (Line(points={{-179,-150},{
-          -174.8,-150}},                      color={0,0,127}));
+  connect(TSetHea.y[1], from_degC1.u) annotation (Line(points={{-179,-180},{-174.8,
+          -180}},                             color={0,0,127}));
+  connect(TSetCoo.y[1], from_degC.u) annotation (Line(points={{-179,-150},{-174.8,
+          -150}},                             color={0,0,127}));
   connect(sumSta.y, dxSta)
     annotation (Line(points={{186.9,40},{210,40}},color={255,127,0}));
   connect(conCoo.y, cooSta1.u) annotation (Line(points={{1,-30},{4,-30},{4,-20},
           {8,-20}},            color={0,0,127}));
   connect(yfanHea.y, heaStaFan.u1) annotation (Line(points={{-19,88},{28,88}},
                         color={0,0,127}));
-  connect(occ, minFanSpeCoo.u2) annotation (Line(points={{-220,140},{-180,140},
-          {-180,34},{-42,34}},
-                             color={255,0,255}));
+  connect(occ, minFanSpeCoo.u2) annotation (Line(points={{-220,140},{-180,140},{
+          -180,34},{-42,34}},color={255,0,255}));
   connect(yFanCooSta1.y, minFanSpeCoo.u1)
     annotation (Line(points={{-59,42},{-42,42}}, color={0,0,127}));
   connect(yFanCooUnocc.y, minFanSpeCoo.u3)
@@ -222,9 +220,8 @@ equation
           74},{-16,78},{-12,78}}, color={0,0,127}));
   connect(minFanSpeCoo.y, fanSpeCoo2.u3)
     annotation (Line(points={{-19,34},{-12,34},{-12,62}}, color={0,0,127}));
-  connect(TZon, cooHeaMod.TZon) annotation (Line(points={{-220,80},{-184,80},{
-          -184,-24},{-90.2,-24}},
-                             color={0,0,127}));
+  connect(TZon, cooHeaMod.TZon) annotation (Line(points={{-220,80},{-184,80},{-184,
+          -24},{-90.2,-24}}, color={0,0,127}));
   connect(cooSta2.u, cooSta1.u) annotation (Line(points={{8,8},{4,8},{4,-20},{8,
           -20}},    color={0,0,127}));
   connect(SATExt.y, conCoo.u_s)
@@ -258,11 +255,10 @@ equation
   connect(TSup, SATExt.u[1]) annotation (Line(points={{-220,20},{-188,20},{-188,
           -60},{-56,-60},{-56,-31.3333},{-52,-31.3333}},
                                      color={0,0,127}));
-  connect(minOADamUnocc.y, yOAOccSwi.u3) annotation (Line(points={{-139,60},{
-          -110,60},{-110,82},{-102,82}}, color={0,0,127}));
-  connect(occ, yOAOccSwi.u2) annotation (Line(points={{-220,140},{-106,140},{
-          -106,90},{-102,90}},
-                          color={255,0,255}));
+  connect(minOADamUnocc.y, yOAOccSwi.u3) annotation (Line(points={{-139,60},{-110,
+          60},{-110,82},{-102,82}},      color={0,0,127}));
+  connect(occ, yOAOccSwi.u2) annotation (Line(points={{-220,140},{-106,140},{-106,
+          90},{-102,90}}, color={255,0,255}));
   connect(yOAOccSwi.y, conEco.minOADamPos) annotation (Line(points={{-79,90},{
           -60,90},{-60,108},{-41,108}}, color={0,0,127}));
   connect(conEco.cooSta, and1.u2) annotation (Line(points={{-41,102},{-62,102},
@@ -270,10 +266,10 @@ equation
   connect(conEco.TSupSet, SATExt.y) annotation (Line(points={{-41,118},{-46,118},
           {-46,52},{-16,52},{-16,20},{-26,20},{-26,-30},{-29,-30}}, color={0,0,
           127}));
-  connect(conEco.TMix, TMix) annotation (Line(points={{-41,115},{-166,115},{
-          -166,-120},{-220,-120}}, color={0,0,127}));
-  connect(conEco.TRet, TRet) annotation (Line(points={{-41,112},{-168,112},{
-          -168,-40},{-220,-40}},   color={0,0,127}));
+  connect(conEco.TMix, TMix) annotation (Line(points={{-41,115},{-166,115},{-166,
+          -120},{-220,-120}},      color={0,0,127}));
+  connect(conEco.TRet, TRet) annotation (Line(points={{-41,112},{-168,112},{-168,
+          -40},{-220,-40}},        color={0,0,127}));
   connect(weaBus.TDryBul, conEco.TOut) annotation (Line(
       points={{-200,200},{-70,200},{-70,105},{-41,105}},
       color={255,204,51},
@@ -284,16 +280,16 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(conCoo.trigger, and1.u2) annotation (Line(points={{-18,-42},{-18,-52},
           {34,-52},{34,-28},{38,-28}}, color={255,0,255}));
-  connect(TSup, conCoo.u_m) annotation (Line(points={{-220,20},{-188,20},{-188,
-          -60},{-10,-60},{-10,-42}}, color={0,0,127}));
+  connect(TSup, conCoo.u_m) annotation (Line(points={{-220,20},{-188,20},{-188,-60},
+          {-10,-60},{-10,-42}}, color={0,0,127}));
   connect(rea2Int1.y, sumSta.u[1]) annotation (Line(points={{159,-20},{170,-20},
           {170,42.1},{174,42.1}}, color={255,127,0}));
-  connect(rea2Int2.y, sumSta.u[2]) annotation (Line(points={{159,10},{166,10},{
-          166,37.9},{174,37.9}}, color={255,127,0}));
+  connect(rea2Int2.y, sumSta.u[2]) annotation (Line(points={{159,10},{166,10},{166,
+          37.9},{174,37.9}}, color={255,127,0}));
   connect(conEco.yOADam, oveOADam.u)
     annotation (Line(points={{-19,110},{98,110}}, color={0,0,127}));
-  connect(oveOADam.y, yDamOut) annotation (Line(points={{121,110},{192,110},{
-          192,-40},{210,-40}}, color={0,0,127}));
+  connect(oveOADam.y, yDamOut) annotation (Line(points={{121,110},{192,110},{192,
+          -40},{210,-40}}, color={0,0,127}));
   connect(heaStaFan.y, oveFan.u)
     annotation (Line(points={{51,80},{98,80}}, color={0,0,127}));
   connect(oveFan.y, yFan)
@@ -318,22 +314,23 @@ equation
     annotation (Line(points={{-142,-180},{-165.6,-180}}, color={0,0,127}));
   connect(SATCL.y, oveTSetSupCooLow.u)
     annotation (Line(points={{-119,10},{-112,10}}, color={0,0,127}));
-  connect(oveTSetSupCooLow.y, SATExt.u[2]) annotation (Line(points={{-89,10},{
-          -58,10},{-58,-30},{-52,-30}}, color={0,0,127}));
+  connect(oveTSetSupCooLow.y, SATExt.u[2]) annotation (Line(points={{-89,10},{-58,
+          10},{-58,-30},{-52,-30}}, color={0,0,127}));
   connect(SATCH.y, oveTSetSupCooHig.u)
     annotation (Line(points={{-119,-10},{-112,-10}}, color={0,0,127}));
   connect(oveTSetSupCooHig.y, SATExt.u[3]) annotation (Line(points={{-89,-10},{
-          -56,-10},{-56,-28.6667},{-52,-28.6667}}, color={0,0,127}));
+          -56,-10},{-56,-28.6667},{-52,-28.6667}},
+                                               color={0,0,127}));
   connect(minOADamOcc.y, oveOADamMinOcc.u)
     annotation (Line(points={{-139,90},{-136,90}}, color={0,0,127}));
-  connect(oveOADamMinOcc.y, yOAOccSwi.u1) annotation (Line(points={{-113,90},{
-          -108,90},{-108,98},{-102,98}}, color={0,0,127}));
+  connect(oveOADamMinOcc.y, yOAOccSwi.u1) annotation (Line(points={{-113,90},{-108,
+          90},{-108,98},{-102,98}}, color={0,0,127}));
   connect(oveHea.y, realToBoolean.u)
     annotation (Line(points={{121,-90},{138,-90}}, color={0,0,127}));
-  connect(realToBoolean.y, yHea) annotation (Line(points={{161,-90},{180,-90},{
-          180,0},{210,0}}, color={255,0,255}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -200},{200,200}}), graphics={Rectangle(
+  connect(realToBoolean.y, yHea) annotation (Line(points={{161,-90},{180,-90},{180,
+          0},{210,0}}, color={255,0,255}));
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,-200},
+            {200,200}}),       graphics={Rectangle(
           extent={{-200,200},{200,-200}},
           lineColor={0,0,0},
           fillColor={255,255,255},
@@ -342,6 +339,5 @@ equation
         extent={{-100,240},{100,200}},
         textString="%name",
         textColor={0,0,255})}),                                  Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-200,-200},{200,
-            200}})));
+        coordinateSystem(preserveAspectRatio=false, extent={{-200,-200},{200,200}})));
 end Control_Staged;
