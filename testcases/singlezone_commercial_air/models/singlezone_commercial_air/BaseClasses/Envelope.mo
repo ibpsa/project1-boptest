@@ -267,7 +267,7 @@ model Envelope "Base envelope model"
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor Sen_Tz
     "Room air temperature"
     annotation (Placement(transformation(extent={{56,-20},{66,-10}})));
-  Modelica.Blocks.Interfaces.RealOutput Tz
+  Modelica.Blocks.Interfaces.RealOutput Tz(unit="K")
     "Absolute temperature as output signal"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Math.Gain gain(k=-0.000177458624*ExteriorArea)
@@ -283,12 +283,18 @@ model Envelope "Base envelope model"
     y(unit="K")) "Zone air temperature measurement"
     annotation (Placement(transformation(extent={{74,-10},{94,10}})));
 
-  Modelica.Blocks.Interfaces.RealOutput CO2 "CO2 concentration of zone"
+  Modelica.Blocks.Interfaces.RealOutput CO2(unit="ppm")
+    "CO2 concentration of zone"
     annotation (Placement(transformation(extent={{100,10},{120,30}})));
-  Modelica.Blocks.Sources.RealExpression zonCO2(y=0) "Get zone CO2 measurement"
-    annotation (Placement(transformation(extent={{60,10},{80,30}})));
-  Buildings.Fluid.Sensors.PPMTwoPort senPPM
-    annotation (Placement(transformation(extent={{-174,16},{-154,36}})));
+  Modelica.Blocks.Sources.RealExpression zonCO2(y=roo.air.vol.C[1])
+    "Get zone CO2 measurement"
+    annotation (Placement(transformation(extent={{-80,10},{-60,30}})));
+  Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra(MMMea=
+        Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
+    "Conversion from mass fraction CO2 to volume fraction CO2"
+    annotation (Placement(transformation(extent={{-50,10},{-30,30}})));
+  Modelica.Blocks.Math.Gain gaiPPM(k=1e6) "Convert mass fraction to PPM"
+    annotation (Placement(transformation(extent={{-20,10},{0,30}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{16.4,86},{20,86},{20,-9},{22.8,-9}},
@@ -303,7 +309,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(weaBus, souInf.weaBus)        annotation (Line(
-      points={{-98,96},{-44,96},{-44,-27.88},{-24,-27.88}},
+      points={{-98,96},{26,96},{26,4},{-26,4},{-26,-27.88},{-24,-27.88}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None), Text(
@@ -315,8 +321,8 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
 
-  connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{14,
-          -28},{14,-22.5},{27.75,-22.5}}, color={0,127,255}));
+  connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{20,
+          -28},{20,-22.5},{27.75,-22.5}}, color={0,127,255}));
   connect(TSoi[1].port, soi.port_a) annotation (Line(points={{68,-64},{62,-64},
           {62,-52},{42,-52}},
                           color={191,0,0}));
@@ -333,15 +339,16 @@ equation
   connect(soi.port_b, roo.surf_conBou[1]) annotation (Line(points={{42,-44},{42,
           -42},{43.5,-42},{43.5,-27.5}}, color={191,0,0}));
   connect(weaBus, roo.weaBus) annotation (Line(
-      points={{-98,96},{26,96},{26,10},{52.425,10},{52.425,-1.575}},
+      points={{-98,96},{26,96},{26,4},{52.425,4},{52.425,-1.575}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
       index=-1,
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
-  connect(roo.ports[4], a) annotation (Line(points={{27.75,-21.3},{6,-21.3},{6,
-          -40},{-94,-40}},  color={0,127,255}));
+  connect(roo.ports[4], a) annotation (Line(points={{27.75,-21.3},{18,-21.3},{
+          18,-40},{-94,-40}},
+                            color={0,127,255}));
   connect(roo.heaPorAir, Sen_Tz.port)
     annotation (Line(points={{38.25,-15},{56,-15}},         color={191,0,0}));
   connect(product.y, sinInf.m_flow_in) annotation (Line(points={{-21.5,-55},{
@@ -360,10 +367,14 @@ equation
     annotation (Line(points={{66,-15},{66,0},{72,0}}, color={0,0,127}));
   connect(reaTZon.y, Tz)
     annotation (Line(points={{95,0},{110,0}}, color={0,0,127}));
-  connect(b, roo.ports[5]) annotation (Line(points={{-95,60},{0,60},{0,-20.1},{
-          27.75,-20.1}}, color={0,127,255}));
-  connect(zonCO2.y, CO2)
-    annotation (Line(points={{81,20},{110,20}}, color={0,0,127}));
+  connect(b, roo.ports[5]) annotation (Line(points={{-95,60},{18,60},{18,-20.1},
+          {27.75,-20.1}}, color={0,127,255}));
+  connect(gaiPPM.y, CO2)
+    annotation (Line(points={{1,20},{110,20}}, color={0,0,127}));
+  connect(conMasVolFra.m, zonCO2.y)
+    annotation (Line(points={{-51,20},{-59,20}}, color={0,0,127}));
+  connect(conMasVolFra.V, gaiPPM.u)
+    annotation (Line(points={{-29,20},{-22,20}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
