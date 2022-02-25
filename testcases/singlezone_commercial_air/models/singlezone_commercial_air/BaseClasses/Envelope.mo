@@ -4,6 +4,7 @@ model Envelope "Base envelope model"
   replaceable package MediumA = Buildings.Media.Air "Medium model";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1.51 "Nominal supply air flow rate";
   parameter Real lat " latitude of the building";
+  parameter Real occ_nominal = 30 "Design number of occupants";
   parameter Modelica.SIunits.Angle S_=
     Buildings.Types.Azimuth.S "Azimuth for south walls";
   parameter Modelica.SIunits.Angle E_=
@@ -113,6 +114,7 @@ model Envelope "Base envelope model"
     hRoo=hRoo,
     nConExtWin=nConExtWin,
     nConBou=3,
+    use_C_flow=true,
     nPorts=5,
     nConExt=2,
     nConPar=0,
@@ -295,6 +297,17 @@ model Envelope "Base envelope model"
     annotation (Placement(transformation(extent={{-50,10},{-30,30}})));
   Modelica.Blocks.Math.Gain gaiPPM(k=1e6) "Convert mass fraction to PPM"
     annotation (Placement(transformation(extent={{-20,10},{0,30}})));
+  Modelica.Blocks.Math.Gain numOcc(k=occ_nominal) "Number of occupants"
+    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+  Modelica.Blocks.Math.Gain genCO1(k=8.64e-6)
+    "CO2 generation from people"
+    annotation (Placement(transformation(extent={{-50,-10},{-30,10}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaCO2(
+    description="Zone air CO2 concentration measurement",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+
+    y(unit="ppm")) "Zone CO2 measurement"
+    annotation (Placement(transformation(extent={{40,10},{60,30}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{16.4,86},{20,86},{20,-9},{22.8,-9}},
@@ -346,9 +359,8 @@ equation
       index=-1,
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
-  connect(roo.ports[4], a) annotation (Line(points={{27.75,-21.3},{18,-21.3},{
-          18,-40},{-94,-40}},
-                            color={0,127,255}));
+  connect(roo.ports[4], a) annotation (Line(points={{27.75,-21.3},{18,-21.3},{18,
+          -40},{-94,-40}},  color={0,127,255}));
   connect(roo.heaPorAir, Sen_Tz.port)
     annotation (Line(points={{38.25,-15},{56,-15}},         color={191,0,0}));
   connect(product.y, sinInf.m_flow_in) annotation (Line(points={{-21.5,-55},{
@@ -367,14 +379,22 @@ equation
     annotation (Line(points={{66,-15},{66,0},{72,0}}, color={0,0,127}));
   connect(reaTZon.y, Tz)
     annotation (Line(points={{95,0},{110,0}}, color={0,0,127}));
-  connect(b, roo.ports[5]) annotation (Line(points={{-95,60},{18,60},{18,-20.1},
+  connect(b, roo.ports[5]) annotation (Line(points={{-95,60},{16,60},{16,-20.1},
           {27.75,-20.1}}, color={0,127,255}));
-  connect(gaiPPM.y, CO2)
-    annotation (Line(points={{1,20},{110,20}}, color={0,0,127}));
   connect(conMasVolFra.m, zonCO2.y)
     annotation (Line(points={{-51,20},{-59,20}}, color={0,0,127}));
   connect(conMasVolFra.V, gaiPPM.u)
     annotation (Line(points={{-29,20},{-22,20}}, color={0,0,127}));
+  connect(Schedules.y[2],numOcc. u) annotation (Line(points={{-109.4,86},{-106,86},
+          {-106,0},{-82,0}}, color={0,0,127}));
+  connect(numOcc.y, genCO1.u)
+    annotation (Line(points={{-59,0},{-52,0}}, color={0,0,127}));
+  connect(genCO1.y, roo.C_flow[1]) annotation (Line(points={{-29,0},{18,0},{18,
+          -12.9},{22.8,-12.9}}, color={0,0,127}));
+  connect(gaiPPM.y, reaCO2.u)
+    annotation (Line(points={{1,20},{38,20}}, color={0,0,127}));
+  connect(reaCO2.y, CO2)
+    annotation (Line(points={{61,20},{110,20}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"

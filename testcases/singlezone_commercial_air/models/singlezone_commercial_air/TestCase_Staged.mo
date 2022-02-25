@@ -54,10 +54,10 @@ equation
       index=-1,
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
-  connect(rtu.port_ret, zon.b) annotation (Line(points={{14,6},{38,6},{38,11.6},
-          {61,11.6}}, color={0,127,255}));
-  connect(rtu.port_sup, zon.a) annotation (Line(points={{14,0},{38,0},{38,-8.8},
-          {61.2,-8.8}}, color={0,127,255}));
+  connect(rtu.port_ret, zon.b) annotation (Line(points={{14,6},{38,6},{38,12},{
+          61,12}},    color={0,127,255}));
+  connect(rtu.port_sup, zon.a) annotation (Line(points={{14,0},{38,0},{38,-8},{
+          61.2,-8}},    color={0,127,255}));
   connect(weaBus1, rtu.weaBus) annotation (Line(
       points={{-34,90},{-34,12},{-14,12}},
       color={255,204,51},
