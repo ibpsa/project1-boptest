@@ -139,7 +139,7 @@ model Envelope "Base envelope model"
     lat=lat,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     "Room model for Single Zone Commercial Air (LGSTORE2 of the Strip Mall DOE Prototype Building version ASHRAE 90.1 2019)"
-    annotation (Placement(transformation(extent={{36,-30},{66,0}})));
+    annotation (Placement(transformation(extent={{24,-30},{54,0}})));
   Modelica.Blocks.Routing.Multiplex3 multiplex3_1
     annotation (Placement(transformation(extent={{8,82},{16,90}})));
   Modelica.Thermal.HeatTransfer.Sources.FixedTemperature TSoi[1](each T=283.15)
@@ -172,15 +172,6 @@ model Envelope "Base envelope model"
   Buildings.BoundaryConditions.WeatherData.Bus weaBus
     annotation (Placement(transformation(extent={{-106,88},{-90,104}}),
         iconTransformation(extent={{-106,88},{-90,104}})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir
-    "Room air temperature"
-    annotation (Placement(transformation(extent={{-86,-28},{-78,-20}})));
-  Buildings.Controls.OBC.CDL.Continuous.MovingMean TRooHou(delta=3600)
-    "Hourly averaged room air temperature"
-    annotation (Placement(transformation(extent={{-68,-28},{-60,-20}})));
-  Buildings.Controls.OBC.CDL.Continuous.MovingMean TRooAnn(delta=86400*365)
-    "Annual averaged room air temperature"
-    annotation (Placement(transformation(extent={{-68,-40},{-60,-32}})));
 
   Buildings.HeatTransfer.Conduction.SingleLayer soi(
     A=AFlo,
@@ -270,12 +261,10 @@ model Envelope "Base envelope model"
             {-84,68}}),     iconTransformation(extent={{-106,48},{-84,68}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor Sen_Tz
     "Room air temperature"
-    annotation (Placement(transformation(extent={{70,-10},{90,10}})));
+    annotation (Placement(transformation(extent={{56,-20},{66,-10}})));
   Modelica.Blocks.Interfaces.RealOutput Tz
     "Absolute temperature as output signal"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a HeatPort
-    annotation (Placement(transformation(extent={{-108,-4},{-88,16}})));
   Modelica.Blocks.Math.Gain gain(k=-0.000177458624*ExteriorArea)
     annotation (Placement(transformation(extent={{-82,-78},{-66,-62}})));
   Modelica.Blocks.Interfaces.BooleanOutput
@@ -283,13 +272,19 @@ model Envelope "Base envelope model"
     annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
   Modelica.Blocks.Logical.GreaterThreshold occThr(threshold=1e-3)
     annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaTZon(
+    description="Zone air temperature measurement",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+
+    y(unit="K")) "Zone air temperature measurement"
+    annotation (Placement(transformation(extent={{74,-10},{94,10}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
-      points={{16.4,86},{20,86},{20,-9},{34.8,-9}},
+      points={{16.4,86},{20,86},{20,-9},{22.8,-9}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(density.port, roo.ports[1])  annotation (Line(
-      points={{-27,-76},{32,-76},{32,-24.9},{39.75,-24.9}},
+      points={{-27,-76},{26,-76},{26,-24.9},{27.75,-24.9}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(density.d, product.u2) annotation (Line(
@@ -304,32 +299,20 @@ equation
       textString="%first",
       index=-1,
       extent={{-6,3},{-6,3}}));
-  connect(roo.heaPorAir, TRooAir.port)  annotation (Line(
-      points={{50.25,-15},{-90,-15},{-90,-24},{-86,-24}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(sinInf.ports[1], roo.ports[2])        annotation (Line(
-      points={{16,-60},{30,-60},{30,-23.7},{39.75,-23.7}},
+      points={{16,-60},{24,-60},{24,-23.7},{27.75,-23.7}},
       color={0,127,255},
       smooth=Smooth.None));
 
-  connect(TRooAir.T, TRooHou.u) annotation (Line(
-      points={{-78,-24},{-68.8,-24}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(TRooAir.T, TRooAnn.u) annotation (Line(
-      points={{-78,-24},{-72,-24},{-72,-36},{-68.8,-36}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(souInf.ports[1], roo.ports[3]) annotation (Line(points={{-12,-28},{14,
-          -28},{14,-22.5},{39.75,-22.5}}, color={0,127,255}));
+          -28},{14,-22.5},{27.75,-22.5}}, color={0,127,255}));
   connect(TSoi[1].port, soi.port_a) annotation (Line(points={{68,-64},{62,-64},
           {62,-52},{42,-52}},
                           color={191,0,0}));
   connect(AdiBouEea.port, roo.surf_conBou[2]) annotation (Line(points={{86,-27},
-          {74,-27},{74,-34},{55.5,-34},{55.5,-27}}, color={191,0,0}));
+          {74,-27},{74,-34},{43.5,-34},{43.5,-27}}, color={191,0,0}));
   connect(AdiBouWes.port, roo.surf_conBou[2]) annotation (Line(points={{86,-41},
-          {76,-41},{76,-40},{55.5,-40},{55.5,-27}}, color={191,0,0}));
+          {76,-41},{76,-40},{43.5,-40},{43.5,-27}}, color={191,0,0}));
   connect(sch2Gai.qcon, multiplex3_1.u2[1]) annotation (Line(points={{-47.3,
           86.1},{-20,86.1},{-20,86},{7.2,86}}, color={0,0,127}));
   connect(sch2Gai.qlat, multiplex3_1.u3[1]) annotation (Line(points={{-47.1,
@@ -337,25 +320,21 @@ equation
   connect(sch2Gai.qrad, multiplex3_1.u1[1]) annotation (Line(points={{-47.4,
           90.4},{-24,90.4},{-24,88.8},{7.2,88.8}}, color={0,0,127}));
   connect(soi.port_b, roo.surf_conBou[1]) annotation (Line(points={{42,-44},{42,
-          -42},{55.5,-42},{55.5,-27.5}}, color={191,0,0}));
+          -42},{43.5,-42},{43.5,-27.5}}, color={191,0,0}));
   connect(weaBus, roo.weaBus) annotation (Line(
-      points={{-98,96},{26,96},{26,10},{64.425,10},{64.425,-1.575}},
+      points={{-98,96},{26,96},{26,10},{52.425,10},{52.425,-1.575}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
       index=-1,
       extent={{-3,6},{-3,6}},
       horizontalAlignment=TextAlignment.Right));
-  connect(roo.ports[4], a) annotation (Line(points={{39.75,-21.3},{6,-21.3},{6,
+  connect(roo.ports[4], a) annotation (Line(points={{27.75,-21.3},{6,-21.3},{6,
           -44},{-94,-44}},  color={0,127,255}));
-  connect(roo.ports[5], b) annotation (Line(points={{39.75,-20.1},{2,-20.1},{2,
+  connect(roo.ports[5], b) annotation (Line(points={{27.75,-20.1},{2,-20.1},{2,
           58},{-95,58}},    color={0,127,255}));
   connect(roo.heaPorAir, Sen_Tz.port)
-    annotation (Line(points={{50.25,-15},{70,-15},{70,0}},  color={191,0,0}));
-  connect(Sen_Tz.T, Tz)
-    annotation (Line(points={{90,0},{110,0}},    color={0,0,127}));
-  connect(TRooAir.port, HeatPort) annotation (Line(points={{-86,-24},{-94,-24},
-          {-94,6},{-98,6}}, color={191,0,0}));
+    annotation (Line(points={{38.25,-15},{56,-15}},         color={191,0,0}));
   connect(product.y, sinInf.m_flow_in) annotation (Line(points={{-21.5,-55},{
           -8.75,-55},{-8.75,-55.2},{2.8,-55.2}}, color={0,0,127}));
   connect(gain.y, product.u1) annotation (Line(points={{-65.2,-70},{-60,-70},{-60,
@@ -368,6 +347,10 @@ equation
           110,-80}}, color={255,0,255}));
   connect(occThr.u, Schedules.y[2]) annotation (Line(points={{58,-90},{-106,-90},
           {-106,86},{-109.4,86}}, color={0,0,127}));
+  connect(Sen_Tz.T, reaTZon.u)
+    annotation (Line(points={{66,-15},{66,0},{72,0}}, color={0,0,127}));
+  connect(reaTZon.y, Tz)
+    annotation (Line(points={{95,0},{110,0}}, color={0,0,127}));
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"
