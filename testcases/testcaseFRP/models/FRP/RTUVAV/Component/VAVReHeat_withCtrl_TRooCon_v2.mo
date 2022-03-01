@@ -15,7 +15,7 @@ model VAVReHeat_withCtrl_TRooCon_v2
                                           ReHeat(
     redeclare package Medium =Medium,
     m_flow_nominal=m_flow_nominal,
-    dp_nominal=dp_nominal,
+    dp_nominal=0,
     tau=300,
     Q_flow_nominal=Q_flow_nominal)
     annotation (Placement(transformation(extent={{-68,-26},{-18,34}})));
@@ -62,12 +62,11 @@ model VAVReHeat_withCtrl_TRooCon_v2
     yMin=0,
     k=0.1,
     Ti=120,
-    controllerType=Buildings.Controls.OBC.CDL.Types.SimpleController.PI,
-    reverseAction=true)
+    controllerType=Buildings.Controls.OBC.CDL.Types.SimpleController.PI)
             "Controller for heating"
     annotation (Placement(transformation(extent={{-116,58},{-96,78}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort ReheatT(redeclare package Medium
-      = Medium, m_flow_nominal=m_flow_nominal) "Temperature after Reheat"
+  Buildings.Fluid.Sensors.TemperatureTwoPort ReheatT(redeclare package Medium =
+        Medium, m_flow_nominal=m_flow_nominal) "Temperature after Reheat"
     annotation (Placement(transformation(extent={{-6,-10},{14,20}})));
 equation
   connect(vavDam.port_b, port_b) annotation (Line(points={{84,5},{84,4},{100,4}},
