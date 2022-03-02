@@ -16,3 +16,5 @@ parser/*.json
 *.exe
 *.bak-mo
 testcases/testcaseFRP/models/FRP/request
+testcases/testcaseFRP/models/FRP/stop
+*.ex_
