@@ -121,7 +121,7 @@ Current 180 Day Modelica Simulation:
 EEle: 6.30924E9 J
 EGas: 4.76994E10 J  ")}),
     experiment(
-      StopTime=15552000,
+      StopTime=864000,
       Interval=120.000096,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"));

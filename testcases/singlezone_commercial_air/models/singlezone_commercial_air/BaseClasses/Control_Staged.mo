@@ -20,7 +20,7 @@ model Control_Staged "Control model for staged RTU"
         21.1111111111; 18,21.1111111111; 19,21.1111111111; 20,21.1111111111; 21,
         21.1111111111; 22,15.5555555556; 23,15.5555555556; 24,15.5555555556; 25,
         15.555555],
-    smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale(displayUnit="h") = 3600) "setpoint heating [C]"
     annotation (Placement(transformation(extent={{-200,-190},{-180,-170}})));
@@ -32,7 +32,7 @@ model Control_Staged "Control model for staged RTU"
         23.8888888889; 18,23.8888888889; 19,23.8888888889; 20,23.8888888889; 21,
         23.8888888889; 22,29.4444444444; 23,29.4444444444; 24,29.4444444444; 25,
         29.4444444444],
-    smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative,
+    smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale(displayUnit="h") = 3600) "Setpoint cooling oC"
     annotation (Placement(transformation(extent={{-200,-160},{-180,-140}})));
