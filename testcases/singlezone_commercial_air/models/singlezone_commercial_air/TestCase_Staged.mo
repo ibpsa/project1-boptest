@@ -5,15 +5,16 @@ model TestCase_Staged "Test case model with single staged RTU"
 
   /* weather */
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
-        "Resources/USA_NY_New.York-J.F.Kennedy.Intl.AP.744860_TMY3.mos",
-      computeWetBulbTemperature=false)
+        Modelica.Utilities.Files.loadResource(
+        "Resources/USA_NY_New.York-J.F.Kennedy.Intl.AP.744860_TMY3.mos"),
+      computeWetBulbTemperature=true)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-110,90})));
 
   /* Envelope */
-  BaseClasses.Envelope zon(redeclare package MediumA = MediumA,
-                           lat=weaDat.lat) "Zone envelope model"
+  BaseClasses.Envelope zon(redeclare package MediumA = MediumA, lat=0.70947634)
+                                           "Zone envelope model"
     annotation (Placement(transformation(extent={{60,-20},{100,20}})));
 
   /* control & auxiliaries */
