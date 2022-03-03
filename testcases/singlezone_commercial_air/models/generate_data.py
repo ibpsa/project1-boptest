@@ -52,6 +52,9 @@ for key in ['zon.roo.qGai_flow[1]','zon.roo.qGai_flow[2]','zon.roo.qGai_flow[3]'
 df['UpperCO2[1]'] = 1500
 df['UpperCO2[1]'][df['con.TSetCoo.y[1]']<28]=894
 
+# Adjust temp set points to kelvin
+df['con.TSetCoo.y[1]'] = df['con.TSetCoo.y[1]'].values + 273.15
+df['con.TSetHea.y[1]'] = df['con.TSetHea.y[1]'].values + 273.15
 # Change names
 column_map = {'zon.roo.qGai_flow[1]': 'InternalGainsRad[1]',
               'zon.roo.qGai_flow[2]': 'InternalGainsCon[1]',
@@ -61,5 +64,16 @@ column_map = {'zon.roo.qGai_flow[1]': 'InternalGainsRad[1]',
               'zon.numOcc.y':'Occupancy[1]'}
 df = df.rename(columns=column_map)
 
+df.to_csv('internal_setpoints.csv')
 
-df.to_csv('TestCase_Staged_data.csv')
+# Generate TOU electricty prices
+df_prices = pd.DataFrame(index=pd.TimedeltaIndex(df.index.values,unit='s'))
+df_prices.index = (df_prices.index - df_prices.index[0])+pd.datetime(2018, 1, 1, 0, 0, 0)
+df_prices['PriceElectricPowerDynamic'] = 0.0138
+df_prices['PriceElectricPowerDynamic'][(df_prices.index.weekday >= 0) & (df_prices.index.weekday <= 4) & \
+                                       (df_prices.index.hour >= 8) & (df_prices.index.hour <= 21)] = 0.1862
+df_prices['PriceElectricPowerDynamic'][(df_prices.index.month >= 6) & (df_prices.index.month <= 9) & \
+                                       (df_prices.index.weekday >= 0) & (df_prices.index.weekday <= 4) & \
+                                       (df_prices.index.hour >= 8) & (df_prices.index.hour <= 21)] = 0.3782
+df_prices.index = df.index
+df_prices.to_csv('electricity_prices_dynamic.csv')
