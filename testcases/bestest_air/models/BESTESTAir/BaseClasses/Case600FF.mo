@@ -114,7 +114,7 @@ model Case600FF
     annotation (Placement(transformation(extent={{-18,64},{-10,72}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
         Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos"),
-      computeWetBulbTemperature=false)
+      computeWetBulbTemperature=true)
     annotation (Placement(transformation(extent={{98,-94},{86,-82}})));
   Modelica.Blocks.Sources.Constant uSha(k=0)
     "Control signal for the shading device"
@@ -244,10 +244,10 @@ model Case600FF
     annotation (Placement(transformation(extent={{-52,62},{-40,74}})));
   Modelica.Blocks.Math.MultiSum sumLat(nu=3) "Sum of latent internal gains"
     annotation (Placement(transformation(extent={{-52,42},{-40,54}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
         "Lighting power submeter") "Read lighting power consumption"
     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
         "Plug load power submeter") "Read plug load power consumption"
     annotation (Placement(transformation(extent={{-20,0},{0,20}})));
   Modelica.Blocks.Math.MultiSum sumLig(k=fill(roo.AFlo, 2), nu=2)
@@ -256,15 +256,15 @@ model Case600FF
   Modelica.Blocks.Math.MultiSum sumPlu(k=fill(roo.AFlo, 2), nu=2)
     "Plug power consumption"
     annotation (Placement(transformation(extent={{-52,4},{-40,16}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTRooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaTRooAir(
     description="Zone air temperature",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K")) "Read room air temperature"
     annotation (Placement(transformation(extent={{120,-10},{140,10}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="Zone air CO2 concentration",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm"))
                  "Read room air CO2 concentration"
     annotation (Placement(transformation(extent={{130,-40},{150,-20}})));
@@ -290,6 +290,9 @@ model Case600FF
         Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
     "Conversion from mass fraction CO2 to volume fraction CO2"
     annotation (Placement(transformation(extent={{70,-40},{90,-20}})));
+  Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
+    "BOPTEST weather station"
+    annotation (Placement(transformation(extent={{60,-80},{40,-60}})));
 equation
   connect(multiplex3_1.y, roo.qGai_flow) annotation (Line(
       points={{-9.6,68},{20,68},{20,-9},{34.8,-9}},
@@ -419,6 +422,11 @@ equation
     annotation (Line(points={{18,-49},{18,-30},{69,-30}}, color={0,0,127}));
   connect(conMasVolFra.V, gaiPPM.u)
     annotation (Line(points={{91,-30},{98,-30}}, color={0,0,127}));
+  connect(weaSta.weaBus, roo.weaBus) annotation (Line(
+      points={{59.9,-70.1},{80,-70},{80.07,-70},{80.07,-1.575},{64.425,-1.575}},
+      color={255,204,51},
+      thickness=0.5));
+
   annotation (
 experiment(Tolerance=1e-06, StopTime=3.1536e+07),
 __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/ThermalZones/Detailed/Validation/BESTEST/Cases6xx/Case600FF.mos"

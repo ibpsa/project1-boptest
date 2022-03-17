@@ -13,8 +13,14 @@ COMMAND_RUN=docker run \
 build_jm_image:
 	docker build --no-cache --rm -t ${IMG_NAME} .
 
+build_boptest_image:
+	cd .. && docker-compose build
+
 remove_jm_image:
 	docker rmi ${IMG_NAME}
+
+remove_boptest_image:
+	docker rmi boptest_base
 
 run_jm:
 	$(COMMAND_RUN)
@@ -27,8 +33,9 @@ copy_to_jm:
 copy_testcase_to_jm:
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing/${TESTCASE}
+	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing/${TESTCASE}
 	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
-	
+
 copy_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
 
@@ -48,7 +55,7 @@ compile_testcase_model:
 	make copy_to_jm ARGS=parsing
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=testcases/${TESTCASE}
-	make exec_jm ARGS="cd ${TESTCASE}/models && ./set_library_versions.sh && python compile_fmu.py"
+	make exec_jm ARGS="python set_library_versions.py ${TESTCASE} && cd ${TESTCASE}/models && python compile_fmu.py"
 	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
 	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.mo
 	make stop_jm
@@ -59,7 +66,7 @@ generate_testcase_data:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
+	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	make stop_jm
 
 ###############################################################################
@@ -69,65 +76,110 @@ generate_testcase_data:
 test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
-# Build testcase image
-	cd .. &&  make build TESTCASE=testcase1
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=testcase1
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase1 docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=twoday_p && make run Script=twoday_p
+	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
+# Javascript
+	cd ../examples/javascript && make build Script=testcase1 && make run Script=testcase1
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=testcase1
-# Remove testcase image
-	cd ../examples/julia && make remove-image Script=twoday_p
+	cd .. && TESTCASE=testcase1 docker-compose down
+# Remove testcase image and javascript geckodriver
+	cd ../examples/julia && make remove-image Script=testcase1
+	cd ../examples/javascript && make remove-image Script=testcase1
+	cd ../examples/javascript && rm geckodriver
 
 test_testcase2:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=testcase2 
-# Build testcase image
-	cd .. && make build TESTCASE=testcase2
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=testcase2
+	make compile_testcase_model TESTCASE=testcase2
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase2 docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=szvav_sup && make run Script=szvav_sup
+	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
+# Javascript
+	cd ../examples/javascript && make build Script=testcase2 && make run Script=testcase2
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=testcase2
-# Remove testcase image
-	cd ../examples/julia && make remove-image Script=szvav_sup
-	
+	cd .. && TESTCASE=testcase2 docker-compose down
+# Remove testcase image and javascript geckodriver
+	cd ../examples/julia && make remove-image Script=testcase2
+	cd ../examples/javascript && make remove-image Script=testcase2
+	cd ../examples/javascript && rm geckodriver
+
 test_bestest_air:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
-# Build testcase image
-	cd .. &&  make build TESTCASE=bestest_air
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=bestest_air
+# Build and deploy testcase image
+	cd .. && TESTCASE=bestest_air docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bestest_air.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=bestest_air
+	cd .. && TESTCASE=bestest_air docker-compose down
 
 test_testcase3:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase3
-# Build testcase image
-	cd .. &&  make build TESTCASE=testcase3
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=testcase3
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase3 docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 # Python and checks
 	cd .. && python testing/test_testcase3.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=testcase3
+	cd .. && TESTCASE=testcase3 docker-compose down
+
+test_bestest_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_hydronic
+# Build and deploy testcase image
+	cd .. && TESTCASE=bestest_hydronic docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_hydronic.py
+# Stop testcase container
+	cd .. && TESTCASE=bestest_hydronic docker-compose down
+
+test_bestest_hydronic_heat_pump:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_hydronic_heat_pump
+# Build and deploy testcase image
+	cd .. && TESTCASE=bestest_hydronic_heat_pump docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bestest_hydronic_heat_pump.py
+# Stop testcase container
+	cd .. && TESTCASE=bestest_hydronic_heat_pump docker-compose down
+
+test_multizone_residential_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=multizone_residential_hydronic
+# Build and deploy testcase image
+	cd .. && TESTCASE=multizone_residential_hydronic docker-compose up -d
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_multizone_residential_hydronic.py
+# Stop testcase container
+	cd .. && TESTCASE=multizone_residential_hydronic docker-compose down
+
+test_singlezone_commercial_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=singlezone_commercial_hydronic
+# Build and deploy testcase image
+	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose up -d
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_singlezone_commercial_hydronic.py
+# Stop testcase container
+	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose down
+
 
 test_parser:
 	make run_jm
@@ -158,7 +210,7 @@ test_data:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
 # Stop jm docker container
 	make stop_jm
-	
+
 test_forecast:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
@@ -177,7 +229,7 @@ test_forecast:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
 # Stop jm docker container
 	make stop_jm
-	
+
 test_kpis:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
@@ -197,6 +249,34 @@ test_kpis:
 # Stop jm docker container
 	make stop_jm
 
+test_readme_commands:
+# Test readme commands work right after instantiation of test case container
+	cd .. && TESTCASE=testcase2 docker-compose up -d
+	python sleep10.py
+	curl http://127.0.0.1:5000/measurements
+	curl http://127.0.0.1:5000/forecast
+	curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
+	cd .. && TESTCASE=testcase2 docker-compose down
+
+test_python2:
+# Test example controllers written in python run with python 2
+# Test testcase1
+	cd .. && TESTCASE=testcase1 docker-compose up -d
+	python sleep10.py
+	cd ../examples/python && python testcase1.py
+	cd ../examples/python && python testcase1_scenario.py
+	cd .. && TESTCASE=testcase1 docker-compose down
+# Test testcase2
+	cd .. && TESTCASE=testcase2 docker-compose up -d
+	python sleep10.py
+	cd ../examples/python && python testcase2.py
+	cd .. && TESTCASE=testcase2 docker-compose down
+# Test testcase3
+	cd .. && TESTCASE=testcase3 docker-compose up -d
+	python sleep10.py
+	cd ../examples/python && python testcase3.py
+	cd .. && TESTCASE=testcase32 docker-compose down
+
 ###############################################################################
 
 # Run all tests
@@ -204,17 +284,25 @@ test_kpis:
 test_all:
 # Build jm
 	make build_jm_image
+# Build boptest base image
+	make build_boptest_image
 # Run tests
 	make test_parser
 	make test_data
 	make test_forecast
 	make test_kpis
+	make test_readme_commands
 	make test_testcase1
 	make test_testcase2
 	make test_testcase3
 	make test_bestest_air
+	make test_bestest_hydronic
+	make test_bestest_hydronic_heat_pump
+	make test_multizone_residential_hydronic
+	make test_singlezone_commercial_hydronic
 # Remove jm
 	make remove_jm_image
+# Remove boptest base image
+	make remove_boptest_image
 # Report test results
 	python report.py
-

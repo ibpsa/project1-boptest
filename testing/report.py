@@ -9,10 +9,10 @@ import os
 import utilities
 
 report_file ='testing_report.txt'
-    
+
 def record(message, display=True, write=True, initial=False):
     '''Records a message to screen and/or file.
-    
+
     Parameters
     ----------
     message : str
@@ -23,7 +23,7 @@ def record(message, display=True, write=True, initial=False):
     write : bool, optional
         Write to file.
         Default is True.
-        
+
     '''
 
     if display:

@@ -1,0 +1,1 @@
+{"AirZoneTemperature[1]": ["readTzone_y"], "None": ["airHandlingUnit_readTretair_y", "airHandlingUnit_readTsupair_y", "airHandlingUnit_readsupair_y", "readQelfan_y", "readQelpump_y", "readTsupsetpoint_y", "readTzonesetpoint_y"], "DistrictHeatingPower": ["readQh_y"], "ElectricPower": ["read_Q_el_y"], "CO2Concentration[1]": ["readCO2_y"]}
