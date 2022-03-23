@@ -30,17 +30,9 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
 
-    def test_peak_cool_day(self):
-        self.run_time_period('peak_cool_day')
-
     def test_typical_heat_day(self):
         self.run_time_period('typical_heat_day')
 
-    def test_typical_cool_day(self):
-        self.run_time_period('typical_cool_day')
-
-    def test_mix_day(self):
-        self.run_time_period('mix_day')
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase.
@@ -57,7 +49,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.name = 'two_zone_apartment_hydronic'
         self.url = 'http://127.0.0.1:5000'
-        self.step_ref = 900
+        self.step_ref = 900.0
         self.test_time_period = 'peak_heat_day'
 
 if __name__ == '__main__':
