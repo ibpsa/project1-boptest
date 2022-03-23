@@ -61,18 +61,18 @@ Example RESTful interaction:
 
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements.        |  POST ``advance`` with json data "{<input_name>:<value>}" |
-| Initialize simulation to a start time using a warmup period in seconds.     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
+| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional json data "{<input_name>:<value>}" |
+| Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
 | Receive communication step in seconds.                                 |  GET ``step``                                             |
-| Set communication step in seconds.                                     |  PUT ``step`` with argument ``step=<value>``              |
+| Set communication step in seconds.                                     |  PUT ``step`` with required argument ``step=<value>``              |
 | Receive sensor signal point names (y) and metadata.                          |  GET ``measurements``                                     |
 | Receive control signal point names (u) and metadata.                        |  GET ``inputs``                                           |
-| Receive test result data for the given point name between the start and final time in seconds. |  PUT ``results`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
+| Receive test result data for the given point name between the start and final time in seconds. |  PUT ``results`` with required arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
 | Receive test KPIs.                                                     |  GET ``kpi``                                              |
 | Receive test case name.                                                |  GET ``name``                                             |
 | Receive boundary condition forecast from current communication step.   |  GET ``forecast``                                         |
 | Receive boundary condition forecast parameters in seconds.             |  GET ``forecast_parameters``                              |
-| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with required arguments ``horizon=<value>``, ``interval=<value>``|
 | Receive current test scenario.                                         |  GET ``scenario``                                   |
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
 | Receive BOPTEST version.                                               |  GET ``version``                                             |
