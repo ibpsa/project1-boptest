@@ -61,18 +61,18 @@ Example RESTful interaction:
 
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements.        |  POST ``advance`` with json data "{<input_name>:<value>}" |
-| Initialize simulation to a start time using a warmup period in seconds.     |  PUT ``initialize`` with arguments ``start_time=<value>``, ``warmup_time=<value>``|
+| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional json data "{<input_name>:<value>}" |
+| Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
 | Receive communication step in seconds.                                 |  GET ``step``                                             |
-| Set communication step in seconds.                                     |  PUT ``step`` with argument ``step=<value>``              |
+| Set communication step in seconds.                                     |  PUT ``step`` with required argument ``step=<value>``              |
 | Receive sensor signal point names (y) and metadata.                          |  GET ``measurements``                                     |
 | Receive control signal point names (u) and metadata.                        |  GET ``inputs``                                           |
-| Receive test result data for the given point name between the start and final time in seconds. |  PUT ``results`` with arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
+| Receive test result data for the given point name between the start and final time in seconds. |  PUT ``results`` with required arguments ``point_name=<string>``, ``start_time=<value>``, ``final_time=<value>``|
 | Receive test KPIs.                                                     |  GET ``kpi``                                              |
 | Receive test case name.                                                |  GET ``name``                                             |
 | Receive boundary condition forecast from current communication step.   |  GET ``forecast``                                         |
 | Receive boundary condition forecast parameters in seconds.             |  GET ``forecast_parameters``                              |
-| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with arguments ``horizon=<value>``, ``interval=<value>``|
+| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with required arguments ``horizon=<value>``, ``interval=<value>``|
 | Receive current test scenario.                                         |  GET ``scenario``                                   |
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
 | Receive BOPTEST version.                                               |  GET ``version``                                             |
@@ -107,7 +107,7 @@ J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2022). ["Reinforced model pre
 
 J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2021). [“An OpenAI-Gym Environment for the Building Optimization Testing (BOPTEST) Framework.”](https://www.researchgate.net/profile/Javier-Arroyo/publication/354386346_An_OpenAI-Gym_environment_for_the_Building_Optimization_Testing_BOPTEST_framework/links/613616690360302a0082ffc1/An-OpenAI-Gym-environment-for-the-Building-Optimization-Testing-BOPTEST-framework.pdf) In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
 
-F. Bünning, C. Pfister, A. Aboudonia, P. Heer, and J. Lygeros. (2021). “Comparing Machine Learning Based Methods to Standard Regression Methods for MPC on a Virtual Testbed.” In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
+F. Bünning, C. Pfister, A. Aboudonia, P. Heer, and J. Lygeros. (2021). [“Comparing Machine Learning Based Methods to Standard Regression Methods for MPC on a Virtual Testbed.”](https://www.research-collection.ethz.ch/bitstream/handle/20.500.11850/524933/BS2021_finalVersion.pdf?sequence=1&isAllowed=y) In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
 
 T. Yang, K. Filonenko, K. Arendt, and C. Veje. (2020). [“Implementation and Performance Analysis of a Multi-Energy Building Emulator.”](https://ieeexplore.ieee.org/document/9236623) In *2020 6th IEEE International Energy Conference (ENERGYCon)*, Sep 28 - Oct 1. Gammarth, Tunisia, 451–456.
 
