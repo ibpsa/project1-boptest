@@ -46,10 +46,9 @@ model ASHRAE2006
     annotation (Placement(transformation(extent={{-250,-352},{-230,-332}}),
         iconTransformation(extent={{-162,-100},{-142,-80}})));
 
-  Buildings.Examples.VAVReheat.BaseClasses.Controls.Economizer conEco(
+  Economizer                                                   conEco(
     have_reset=true,
-    have_frePro=true,
-    VOut_flow_min=Vot_flow_nominal) "Controller for economizer"
+    have_frePro=true) "Controller for economizer"
     annotation (Placement(transformation(extent={{-80,140},{-60,160}})));
   Buildings.Examples.VAVReheat.BaseClasses.Controls.RoomTemperatureSetpoint TSetRoo(
     final THeaOn=THeaOn,
@@ -215,12 +214,6 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
 
-  connect(conEco.VOut_flow, VOut1.V_flow) annotation (Line(
-      points={{-81.3333,142.667},{-90,142.667},{-90,80},{-80,80},{-80,-29}},
-      color={0,0,127},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-
   connect(conVAVCor.TRoo, TRooAir.y5[1]) annotation (Line(
       points={{455,-121},{452,-121},{452,-120},{440,-120},{440,240},{520,240},{520,
           282},{501,282}},
@@ -360,14 +353,12 @@ equation
           {186,219.778},{198,219.778}}, color={0,0,127}));
   connect(oveAhu.dpSet_out, conFanSup.u) annotation (Line(points={{221,219.778},
           {302,219.778},{302,182},{188,182},{188,0},{238,0}}, color={0,0,127}));
-  connect(TRet.T, reaAhu.TRet_in) annotation (Line(points={{100,151},{100,382},
-          {198,382},{198,387.2}}, color={0,0,127}));
+  connect(TRet.T, reaAhu.TRet_in) annotation (Line(points={{100,151},{100,388},{
+          198,388},{198,387.2}},  color={0,0,127}));
   connect(senSupFlo.V_flow, reaAhu.V_flow_sup_in) annotation (Line(points={{410,
           -29},{410,296},{104,296},{104,384.8},{198,384.8}}, color={0,0,127}));
   connect(senRetFlo.V_flow, reaAhu.V_flow_ret_in) annotation (Line(points={{350,
           151},{350,302},{106,302},{106,382.4},{198,382.4}}, color={0,0,127}));
-  connect(VOut1.V_flow, reaAhu.V_flow_out_in) annotation (Line(points={{-80,-29},
-          {-80,54},{-120,54},{-120,380},{198,380}}, color={0,0,127}));
   connect(reaAhu.dp_in, dpDisSupFan.p_rel) annotation (Line(points={{198,377.6},
           {178,377.6},{178,378},{108,378},{108,306},{280,306},{280,4.44089e-16},
           {311,4.44089e-16}}, color={0,0,127}));
@@ -617,6 +608,9 @@ equation
   connect(oveAhu.yPumCoo_out, pumCooCoi.y) annotation (Line(points={{221,226},{
           298,226},{298,176},{68,176},{68,-228},{166,-228},{166,-208},{204,-208},
           {204,-120},{192,-120}}, color={0,0,127}));
+  connect(conEco.yFan, fanSup.y) annotation (Line(points={{-81.3333,142.667},{
+          -90,142.667},{-90,132},{310,132},{310,-28}},
+                                                   color={0,0,127}));
   annotation (
   defaultComponentName="hvac",
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1420,

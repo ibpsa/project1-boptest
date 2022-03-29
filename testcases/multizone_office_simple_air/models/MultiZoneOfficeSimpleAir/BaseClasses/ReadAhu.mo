@@ -25,11 +25,6 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s"))  "Return air flowrate measurement"
     annotation (Placement(transformation(extent={{0,70},{20,90}})));
-  Buildings.Utilities.IO.SignalExchange.Read V_flow_out(
-    description="Outside air flowrate measurement for AHU",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="m3/s"))  "Outside air flowrate measurement"
-    annotation (Placement(transformation(extent={{0,40},{20,60}})));
   Modelica.Blocks.Interfaces.RealInput TSup_in
     "Supply air temperature measurement"
     annotation (Placement(transformation(extent={{-140,180},{-100,220}})));
@@ -45,9 +40,6 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Modelica.Blocks.Interfaces.RealInput V_flow_ret_in
     "Return air flowrate measurement"
     annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-  Modelica.Blocks.Interfaces.RealInput V_flow_out_in
-    "Outside air flowrate measurement"
-    annotation (Placement(transformation(extent={{-140,30},{-100,70}})));
   Modelica.Blocks.Interfaces.RealInput dp_in "Discharge pressure of supply fan"
     annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
   Buildings.Utilities.IO.SignalExchange.Read dp_sup(
@@ -87,9 +79,9 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read TCooCoiSup(
     description="Cooling coil supply water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Cooling coil water supply temperature measurement"
     annotation (Placement(transformation(extent={{0,-110},{20,-90}})));
+
   Modelica.Blocks.Interfaces.RealInput TCooCoiSup_in
     "Cooling coil water supply temperature measurement"
     annotation (Placement(transformation(extent={{-140,-120},{-100,-80}})));
@@ -105,21 +97,21 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
   Buildings.Utilities.IO.SignalExchange.Read TCooCoiRet(
     description="Cooling coil return water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Cooling coil water return temperature measurement"
     annotation (Placement(transformation(extent={{0,-140},{20,-120}})));
+
   Buildings.Utilities.IO.SignalExchange.Read THeaCoiSup(
     description="Heating coil supply water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Heating coil water supply temperature measurement"
     annotation (Placement(transformation(extent={{0,-170},{20,-150}})));
+
   Buildings.Utilities.IO.SignalExchange.Read THeaCoiRet(
     description="Heating coil return water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Heating coil water return temperature measurement"
     annotation (Placement(transformation(extent={{0,-200},{20,-180}})));
+
 equation
   connect(TSup.u, TSup_in)
     annotation (Line(points={{-2,200},{-120,200}}, color={0,0,127}));
@@ -132,8 +124,6 @@ equation
                                                  color={0,0,127}));
   connect(V_flow_ret_in, V_flow_ret.u)
     annotation (Line(points={{-120,80},{-2,80}}, color={0,0,127}));
-  connect(V_flow_out_in, V_flow_out.u)
-    annotation (Line(points={{-120,50},{-2,50}}, color={0,0,127}));
   connect(dp_sup.u, dp_in)
     annotation (Line(points={{-2,20},{-120,20}},
                                                color={0,0,127}));
