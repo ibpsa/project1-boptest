@@ -42,6 +42,8 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
   "Supply water temperature set point";
   parameter Modelica.SIunits.HeatFlowRate QEva_flow_min = -Modelica.Constants.inf
     "Maximum heat flow rate for cooling (negative)";
+  parameter Modelica.SIunits.PressureDifference dp_nominal=45000
+    "Nominal pump head";
   Buildings.Fluid.Sensors.TemperatureTwoPort senTemRet(redeclare package Medium =
         MediumW, m_flow_nominal=chi.m2_flow_nominal)
     "Return water tempearture sensor"
@@ -73,9 +75,11 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
   Buildings.Fluid.Movers.FlowControlled_dp pum(
     redeclare package Medium = MediumW,
     m_flow_nominal=chi.m2_flow_nominal,
-    addPowerToMedium=false) "Chilled water pump"
+    addPowerToMedium=false,
+    dp_nominal=dp_nominal)  "Chilled water pump"
     annotation (Placement(transformation(extent={{-20,-30},{-40,-10}})));
-  Modelica.Blocks.Sources.Constant dp(k=6000) "Chilled water pump"
+  Modelica.Blocks.Sources.Constant dp(k=dp_nominal)
+                                              "Chilled water pump"
     annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
   Buildings.Fluid.Sources.Boundary_pT refPres(redeclare package Medium =
         MediumW, nPorts=1) "Reference pressure"
@@ -88,6 +92,7 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
 
   Modelica.Blocks.Sources.BooleanConstant on(k=true) "Chiller on"
     annotation (Placement(transformation(extent={{-20,60},{0,80}})));
+
 equation
   connect(TSetChws.y, chi.TSet) annotation (Line(points={{39,90},{10,90},{10,-12},
           {18,-12},{18,-13}},

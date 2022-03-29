@@ -35,6 +35,8 @@ model AirToWaterHeatPump "Air to water heat pump model"
   "Supply water temperature set point";
   parameter Modelica.SIunits.HeatFlowRate QCon_flow_max = Modelica.Constants.inf
     "Maximum heat flow rate for heating";
+  parameter Modelica.SIunits.PressureDifference dp_nominal=45000
+    "Nominal pump head";
   Buildings.Fluid.HeatPumps.Carnot_TCon heaPum(
     redeclare package Medium1 = MediumW,
     redeclare package Medium2 = MediumA,
@@ -67,7 +69,8 @@ model AirToWaterHeatPump "Air to water heat pump model"
   Buildings.Fluid.Movers.FlowControlled_dp pum(
     redeclare package Medium = MediumW,
     m_flow_nominal=heaPum.m1_flow_nominal,
-    addPowerToMedium=false) "Heat pump water pump"
+    addPowerToMedium=false,
+    dp_nominal=dp_nominal)  "Heat pump water pump"
     annotation (Placement(transformation(extent={{-20,-30},{-40,-10}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTemSup(redeclare package Medium =
         MediumW, m_flow_nominal=heaPum.m1_flow_nominal)
@@ -79,7 +82,8 @@ model AirToWaterHeatPump "Air to water heat pump model"
   Buildings.Fluid.Sources.Boundary_pT refPres(redeclare package Medium =
         MediumW, nPorts=1) "Reference pressure"
     annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
-  Modelica.Blocks.Sources.Constant dp(k=6000) "Chilled water pump"
+  Modelica.Blocks.Sources.Constant dp(k=dp_nominal)
+                                              "Chilled water pump"
     annotation (Placement(transformation(extent={{-60,80},{-40,100}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTSup(
     description="Supply water temperature of heat pump",

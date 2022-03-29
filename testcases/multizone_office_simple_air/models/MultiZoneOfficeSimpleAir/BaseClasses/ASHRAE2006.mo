@@ -610,8 +610,8 @@ equation
           {16,-147},{16,-148},{20,-148},{20,229.111},{198,229.111}}, color={0,0,
           127}));
   connect(oveAhu.yPumHea_out, swiFreStaPum.u3) annotation (Line(points={{221,
-          229.111},{296,229.111},{296,178},{22,178},{22,-128},{38,-128}}, color
-        ={0,0,127}));
+          229.111},{296,229.111},{296,178},{22,178},{22,-128},{38,-128}}, color=
+         {0,0,127}));
   connect(sysHysCoo.yPum, oveAhu.yPumCoo_in) annotation (Line(points={{62,-247},
           {66,-247},{66,226},{198,226}}, color={0,0,127}));
   connect(oveAhu.yPumCoo_out, pumCooCoi.y) annotation (Line(points={{221,226},{

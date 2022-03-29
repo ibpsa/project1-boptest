@@ -18,9 +18,13 @@ model TestCase
     redeclare Buildings.Examples.VAVReheat.Validation.BaseClasses.Floor flo,
     chi(TSetSup=279.15, QEva_flow_min=-hvac.mCooWat_flow_nominal*4200*10),
     weaDat(computeWetBulbTemperature=true),
-    jun(m_flow_nominal={hvac.mHeaWat_flow_nominal,hvac.mHeaWat_flow_nominal,
-          hvac.mHeaWat_flow_nominal}),
-    jun1(m_flow_nominal={hvac.mHeaWat_flow_nominal,hvac.mHeaWat_flow_nominal,
+    jun(
+      tau=60,
+        m_flow_nominal={hvac.mHeaWat_flow_nominal,hvac.mHeaWat_flow_nominal,
+          hvac.mHeaWat_flow_nominal},
+      dp_nominal={0,0,-35000}),
+    jun1(tau=60,
+         m_flow_nominal={hvac.mHeaWat_flow_nominal,hvac.mHeaWat_flow_nominal,
           hvac.mHeaWat_flow_nominal}));
 
   parameter Real ACHCor(final unit="1/h")=6
