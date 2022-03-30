@@ -17,6 +17,13 @@ Get started with the User Guide by downloading the PDF or viewing the [html](/us
 
 Then, check out the available [Test Cases](/testcases).
 
+# Use BOPTEST SaaS
+
+Use a web-hosted instance of BOPTEST that provides the functionality of BOPTEST without the local install.
+
+Coming soon.
+
+
 # GitHub Development
 
 To get the latest development version or contribute to the project, go to our GitHub repository.
