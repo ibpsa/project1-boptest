@@ -96,12 +96,13 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
   Modelica.Blocks.Interfaces.RealOutput PPum
     "Electric power consumed by distribution pump"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
-  Buildings.Utilities.IO.SignalExchange.Read reaPPumChiDis(
+  Buildings.Utilities.IO.SignalExchange.Read reaPPumDis(
     description="Electric power consumed by chilled water distribution pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
 
     y(unit="W")) "Electric power consumed by distribution pump"
     annotation (Placement(transformation(extent={{76,70},{96,90}})));
+
 equation
   connect(TSetChws.y, chi.TSet) annotation (Line(points={{39,90},{10,90},{10,-12},
           {18,-12},{18,-13}},
@@ -147,10 +148,10 @@ equation
         color={255,0,255}));
   connect(conSou.ports[1], chi.port_a1) annotation (Line(points={{-60,30},{-38,30},
           {-38,32},{0,32},{0,-4},{20,-4}}, color={0,127,255}));
-  connect(reaPPumChiDis.y, PPum)
+  connect(reaPPumDis.y, PPum)
     annotation (Line(points={{97,80},{110,80}}, color={0,0,127}));
-  connect(reaPPumChiDis.u, pum.P) annotation (Line(points={{74,80},{68,80},{68,
-          42},{-44,42},{-44,-11},{-41,-11}}, color={0,0,127}));
+  connect(reaPPumDis.u, pum.P) annotation (Line(points={{74,80},{68,80},{68,42},
+          {-44,42},{-44,-11},{-41,-11}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end AirCooledChiller;

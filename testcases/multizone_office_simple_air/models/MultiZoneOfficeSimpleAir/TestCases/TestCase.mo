@@ -3,9 +3,9 @@ model TestCase
   "Variable air volume flow system with terminal reheat and five thermal zones based on Buildings.Examples.VAVReheat.ASHRAE2006"
   extends Modelica.Icons.Example;
   extends MultiZoneOfficeSimpleAir.BaseClasses.HVACBuilding(
-    heaPum(TSetSup=318.15, QCon_flow_max=((hvac.cor.val.m_flow_nominal + hvac.sou.val.m_flow_nominal
-           + hvac.eas.val.m_flow_nominal + hvac.nor.val.m_flow_nominal + hvac.wes.val.m_flow_nominal)
-          *4200*10 + hvac.mHeaWat_flow_nominal*4200*10)*0.5),
+    heaPum(TSetSup=318.15, QCon_flow_max=((hvac.cor.terHea.Q_flow_nominal + hvac.sou.terHea.Q_flow_nominal
+           + hvac.eas.terHea.Q_flow_nominal + hvac.nor.terHea.Q_flow_nominal + hvac.wes.terHea.Q_flow_nominal)
+           + hvac.heaCoi.Q_flow_nominal)*0.85),
     MediumA(extraPropertiesNames={"CO2"}),
     mCor_flow_nominal=ACHCor*VRooCor*conv,
     mSou_flow_nominal=ACHSou*VRooSou*conv,
@@ -155,7 +155,7 @@ on the figure below and described in more detail in the Section Model IO's,
 are those specified as required by ASHRAE Guideline 36 2018
 Section 4 List of Hardwired Points, specifically
 Table 4.2 VAV Terminal Unit with Reheat and Table 4.6 Multiplie-Zone VAV Air
-Handling Unit, as well as many that are specified as
+Handling Unit, as well as some that are specified as
 application specific or optional.
 </p>
 <p align=\"center\">
@@ -175,37 +175,43 @@ ratio is 0.7.  This leads to the minimum outside airflow rates for each zone
 and system defined in the table below.
 </p>
 <p>
-<b>Table 1: Zone and System Specifications Summary</b>
+<b>Table 1: Zone Terminal Unit and System Specifications Summary</b>
 <table>
   <tr>
   <th>Name</th>
   <th>Design Airflow [m<sup>3</sup>/s]</th>
   <th>Min OA Airflow [m<sup>3</sup>/s]</th>
+  <th>Design Heating Load [kW]</th>
   </tr>
   <tr>
   <td>North</td>
   <td>0.947948667</td>
   <td>0.1102769</td>
+  <td>6.87</td>
   </tr>
   <tr>
   <td>South</td>
   <td>0.947948667</td>
   <td>0.1102769</td>
+  <td>6.87</td>
   </tr>
   <tr>
   <td>East</td>
   <td>0.9001996</td>
   <td>0.0698148</td>
+  <td>6.52</td>
   </tr>
   <tr>
-  <td>west</td>
+  <td>West</td>
   <td>0.700155244</td>
   <td>0.0698148</td>
+  <td>5.07</td>
   </tr>
   <tr>
   <td>Core</td>
   <td>4.4966688</td>
   <td>0.5231070</td>
+  <td>32.6</td>
   </tr>
   <tr>
   <td>System</td>
@@ -221,14 +227,16 @@ efficiency is constant at 0.7.  The cooling coil is served by an air-cooled
 chiller supplying 6 degC water with varying COP according to a
 York YCAL0033EE chiller as modeled by the ElectricEIR model with
 coefficients defined in EnergyPlus v9.4.0.
-The peak design load on the chiller is 100.7 kw, equal to the
-design load on the cooling coil.
+The peak design load on the chiller is 101 kW, equal to the
+design load on the cooling coil.  A chilled water distribution pump circulates water
+from the chiller with a design head of 45 kPa and design mass flow equal to that of the chiller of 4.3 kg/s.
 The heating coil and terminal box reheat coils are served by a single air-to-water
 heat pump supplying 45 degC water with varying COP as 0.3 of
 the carnot COP.  The peak design load on the
-heat pump is 129.8 kW, equal to sum of design loads on the heating coil
-in the AHU plus zone terminal box reheat coils multiplied by a discount factor
-of 0.5.
+heat pump is 122 kW, equal to sum of design loads on the heating coil
+in the AHU plus zone terminal box reheat coils multiplied by a load diversity factor
+of 0.85.  A hot water distribution pump circulates water
+from the heat pump with a design head of 45 kPa and design mass flow equal to that of the heat pump of 2.9 kg/s.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
 <p>
@@ -352,8 +360,7 @@ C3 is responsible for maintaining the supply air temperature setpoint as well
 as the minimum outside air flow rate as determined by the operating mode
 of the system.  It takes as inputs the
 supply air temperature setpoint, supply air temperature measurement, outside
-airflow rate setpoint, outside airflow rate measurement, and outside
-drybulb temperature measurement.  The first part
+drybulb temperature measurement, and supply fan speed.  The first part
 of the controller uses a PI controller (k = 0.01, Ti = 120 s) for supply air temperature setpoint
 tracking to output a signal that is then mapped to position
 setpoints for the heating coil valve, cooling coil valve, and outside air
@@ -361,9 +368,12 @@ damper position.  If the heating valve is commanded to open and the supply
 fan is determined to be enabled
 (either by schedule or by supply air flow detection of at least 5% design air flow),
 the heating coil pump is enabled.  Similar for cooling coil.
-The second part of the controller uses a PI controller (k = 0.05, Ti = 120 s)
-for outside airflow setpoint tracking to output a second signal for
-outside air damper position.  The maximum of the two outside air damper position
+The second part of the controller uses a map to determine the minimum outside air
+damper position for the given fan speed to provide minimum outside air requirements.
+Interpolation points for the map are assumed to be provided during commissioning and are
+given as follows.  For a fan speed of 0.44, the minimum outside air damper position is 0.47.
+For a fan speed of 1.0, the minimum position is 0.32.
+The maximum of the two outside air damper position
 signals is finally output to ensure at least enough enough airflow is delivered
 for ventilation when needed.  The economizer is enabled only if the outside
 drybulb temperature is lower than the return air temperature.
@@ -484,6 +494,9 @@ The model outputs are:
 <code>chi_reaPChi_y</code> [W] [min=None, max=None]: Electric power consumed by chiller
 </li>
 <li>
+<code>chi_reaPPumDis_y</code> [W] [min=None, max=None]: Electric power consumed by chilled water distribution pump
+</li>
+<li>
 <code>chi_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of chiller
 </li>
 <li>
@@ -494,6 +507,9 @@ The model outputs are:
 </li>
 <li>
 <code>heaPum_reaPHeaPum_y</code> [W] [min=None, max=None]: Electric power consumed by heat pump
+</li>
+<li>
+<code>heaPum_reaPPumDis_y</code> [W] [min=None, max=None]: Electric power consumed by hot water distribution pump
 </li>
 <li>
 <code>heaPum_reaTRet_y</code> [K] [min=None, max=None]: Return water temperature of heat pump
@@ -530,9 +546,6 @@ The model outputs are:
 </li>
 <li>
 <code>hvac_reaAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
-</li>
-<li>
-<code>hvac_reaAhu_V_flow_out_y</code> [m3/s] [min=None, max=None]: Outside air flowrate measurement for AHU
 </li>
 <li>
 <code>hvac_reaAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
@@ -910,6 +923,10 @@ For reference, see https://www.eia.gov/electricity/state/illinois/
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+March 31, 2022, by David Blum:<br/>
+Updates according to review from IBPSA Project 1.
+</li>
 <li>
 December 1, 2021, by David Blum:<br/>
 Create BOPTEST test case.

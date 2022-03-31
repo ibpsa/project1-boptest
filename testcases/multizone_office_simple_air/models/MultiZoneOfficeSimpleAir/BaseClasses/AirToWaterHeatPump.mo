@@ -91,12 +91,13 @@ model AirToWaterHeatPump "Air to water heat pump model"
     y(unit="K")) "Supply water temperature of heat pump"
     annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
 
-  Buildings.Utilities.IO.SignalExchange.Read reaPPumHeaDis(
+  Buildings.Utilities.IO.SignalExchange.Read reaPPumDis(
     description="Electric power consumed by hot water distribution pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
 
     y(unit="W")) "Electric power consumed by distribution pump"
     annotation (Placement(transformation(extent={{76,70},{96,90}})));
+
   Modelica.Blocks.Interfaces.RealOutput PPum
     "Electric power consumed by distribution pump"
     annotation (Placement(transformation(extent={{100,70},{120,90}})));
@@ -142,10 +143,10 @@ equation
     annotation (Line(points={{-39,90},{-30,90},{-30,-8}}, color={0,0,127}));
   connect(senTemSup.T, reaTSup.u)
     annotation (Line(points={{0,-31},{0,-80},{58,-80}}, color={0,0,127}));
-  connect(reaPPumHeaDis.y, PPum) annotation (Line(points={{97,80},{100.5,80},{
+  connect(reaPPumDis.y, PPum) annotation (Line(points={{97,80},{100.5,80},{
           100.5,80},{110,80}}, color={0,0,127}));
-  connect(reaPPumHeaDis.u, pum.P) annotation (Line(points={{74,80},{66,80},{66,
-          34},{-41,34},{-41,-11}}, color={0,0,127}));
+  connect(reaPPumDis.u, pum.P) annotation (Line(points={{74,80},{66,80},{66,34},
+          {-41,34},{-41,-11}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end AirToWaterHeatPump;
