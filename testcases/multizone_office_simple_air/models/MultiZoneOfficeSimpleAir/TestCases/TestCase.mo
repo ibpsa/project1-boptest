@@ -1043,9 +1043,8 @@ This is for
           "modelica://MultiZoneOfficeSimpleAir/Resources/Scripts/Dymola/TestCases/TestCase.mos"
         "Simulate and plot"),
     experiment(
-      StartTime=17280000,
-      StopTime=18144000,
-      Interval=299.999808,
+      StopTime=31536000,
+      Interval=900,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
