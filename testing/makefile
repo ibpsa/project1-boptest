@@ -187,7 +187,7 @@ test_multizone_office_simple_air:
 	cd .. && TESTCASE=multizone_office_simple_air docker-compose up -d
 	python sleep10.py && python sleep10.py
 # Run testcase tests
-	cd .. && python testing/multizone_office_simple_air.py
+	cd .. && python testing/test_multizone_office_simple_air.py
 # Stop testcase container
 	cd .. && TESTCASE=multizone_office_simple_air docker-compose down
 
