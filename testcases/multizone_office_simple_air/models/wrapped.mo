@@ -71,7 +71,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaAhu_TSup_y(unit="K") = mod.hvac.reaAhu.TSup.y "Supply air temperature measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaWinSpe_y(unit="m/s") = mod.weaSta.reaWeaWinSpe.y "Wind speed measurement";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonNor_V_flow_y(unit="m3/s") = mod.hvac.reaZonNor.V_flow.y "Discharge air flowrate to zone measurement for zone nor";
-	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonEas_V_flow_y(unit="m3/s") = mod.hvac.reaZonEas.V_flow.y "Discharge air flowrate to zone measurement for zone eas";
+	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaNOpa_y(unit="1") = mod.weaSta.reaWeaNOpa.y "Opaque sky cover measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaRelHum_y(unit="1") = mod.weaSta.reaWeaRelHum.y "Outside relative humidity measurement";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonCor_CO2Zon_y(unit="ppm") = mod.hvac.reaZonCor.CO2Zon.y "Zone air CO2 measurement for zone cor";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaAhu_TCooCoiSup_y(unit="K") = mod.hvac.reaAhu.TCooCoiSup.y "Cooling coil supply water temperature measurement for AHU";
@@ -85,8 +85,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaAhu_PFanSup_y(unit="W") = mod.hvac.reaAhu.PFanSup.y "Electrical power measurement of supply fan for AHU";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaCeiHei_y(unit="m") = mod.weaSta.reaWeaCeiHei.y "Cloud cover ceiling height measurement";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonCor_V_flow_y(unit="m3/s") = mod.hvac.reaZonCor.V_flow.y "Discharge air flowrate to zone measurement for zone cor";
-	Modelica.Blocks.Interfaces.RealOutput heaPum_reaTSup_y(unit="K") = mod.heaPum.reaTSup.y "Supply water temperature of heat pump";
-	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHHorIR_y(unit="W/m2") = mod.weaSta.reaWeaHHorIR.y "Horizontal infrared irradiation measurement";
+	Modelica.Blocks.Interfaces.RealOutput chi_reaPPumDis_y(unit="W") = mod.chi.reaPPumDis.y "Electric power consumed by chilled water distribution pump";
+	Modelica.Blocks.Interfaces.RealOutput heaPum_reaPPumDis_y(unit="W") = mod.heaPum.reaPPumDis.y "Electric power consumed by hot water distribution pump";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonWes_CO2Zon_y(unit="ppm") = mod.hvac.reaZonWes.CO2Zon.y "Zone air CO2 measurement for zone wes";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonEas_TZon_y(unit="K") = mod.hvac.reaZonEas.TZon.y "Zone air temperature measurement for zone eas";
 	Modelica.Blocks.Interfaces.RealOutput heaPum_reaFloSup_y(unit="m3/s") = mod.heaPum.reaFloSup.y "Supply water flow rate of heat pump";
@@ -108,7 +108,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaLon_y(unit="rad") = mod.weaSta.reaWeaLon.y "Longitude of the location";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaNTot_y(unit="1") = mod.weaSta.reaWeaNTot.y "Sky cover measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolTim_y(unit="s") = mod.weaSta.reaWeaSolTim.y "Solar time";
-	Modelica.Blocks.Interfaces.RealOutput hvac_reaAhu_V_flow_out_y(unit="m3/s") = mod.hvac.reaAhu.V_flow_out.y "Outside air flowrate measurement for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonEas_V_flow_y(unit="m3/s") = mod.hvac.reaZonEas.V_flow.y "Discharge air flowrate to zone measurement for zone eas";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaAhu_V_flow_ret_y(unit="m3/s") = mod.hvac.reaAhu.V_flow_ret.y "Return air flowrate measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaAhu_TRet_y(unit="K") = mod.hvac.reaAhu.TRet.y "Return air temperature measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonSou_TZon_y(unit="K") = mod.hvac.reaZonSou.TZon.y "Zone air temperature measurement for zone sou";
@@ -116,14 +116,44 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaLat_y(unit="rad") = mod.weaSta.reaWeaLat.y "Latitude of the location";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonNor_CO2Zon_y(unit="ppm") = mod.hvac.reaZonNor.CO2Zon.y "Zone air CO2 measurement for zone nor";
 	Modelica.Blocks.Interfaces.RealOutput chi_reaTRet_y(unit="K") = mod.chi.reaTRet.y "Return water temperature of chiller";
+	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTDewPoi_y(unit="K") = mod.weaSta.reaWeaTDewPoi.y "Dew point temperature measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTWetBul_y(unit="K") = mod.weaSta.reaWeaTWetBul.y "Wet bulb temperature measurement";
-	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaNOpa_y(unit="1") = mod.weaSta.reaWeaNOpa.y "Opaque sky cover measurement";
+	Modelica.Blocks.Interfaces.RealOutput heaPum_reaTSup_y(unit="K") = mod.heaPum.reaTSup.y "Supply water temperature of heat pump";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonSou_CO2Zon_y(unit="ppm") = mod.hvac.reaZonSou.CO2Zon.y "Zone air CO2 measurement for zone sou";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaZonCor_TSup_y(unit="K") = mod.hvac.reaZonCor.TSup.y "Discharge air temperature to zone measurement for zone cor";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaWinDir_y(unit="rad") = mod.weaSta.reaWeaWinDir.y "Wind direction measurement";
-	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaTDewPoi_y(unit="K") = mod.weaSta.reaWeaTDewPoi.y "Dew point temperature measurement";
+	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHHorIR_y(unit="W/m2") = mod.weaSta.reaWeaHHorIR.y "Horizontal infrared irradiation measurement";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaAhu_PPumCoo_y(unit="W") = mod.hvac.reaAhu.PPumCoo.y "Electrical power measurement of cooling coil pump for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hvac_reaAhu_TCooCoiRet_y(unit="K") = mod.hvac.reaAhu.TCooCoiRet.y "Cooling coil return water temperature measurement for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActSou_yDam_y(unit="1") = mod.hvac.oveZonActSou.yDam.y "Damper position setpoint for zone sou";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupEas_TZonHeaSet_y(unit="K") = mod.hvac.oveZonSupEas.TZonHeaSet.y "Zone air temperature heating setpoint for zone eas";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupWes_TZonHeaSet_y(unit="K") = mod.hvac.oveZonSupWes.TZonHeaSet.y "Zone air temperature heating setpoint for zone wes";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_yRet_y(unit="1") = mod.hvac.oveAhu.yRet.y "Return air damper position setpoint for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupSou_TZonHeaSet_y(unit="K") = mod.hvac.oveZonSupSou.TZonHeaSet.y "Zone air temperature heating setpoint for zone sou";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActCor_yReaHea_y(unit="1") = mod.hvac.oveZonActCor.yReaHea.y "Reheat control signal for zone cor";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActEas_yDam_y(unit="1") = mod.hvac.oveZonActEas.yDam.y "Damper position setpoint for zone eas";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_yPumCoo_y(unit="1") = mod.hvac.oveAhu.yPumCoo.y "Cooling coil pump control signal for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupSou_TZonCooSet_y(unit="K") = mod.hvac.oveZonSupSou.TZonCooSet.y "Zone air temperature cooling setpoint for zone sou";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupWes_TZonCooSet_y(unit="K") = mod.hvac.oveZonSupWes.TZonCooSet.y "Zone air temperature cooling setpoint for zone wes";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_yFan_y(unit="1") = mod.hvac.oveAhu.yFan.y "Supply fan speed setpoint for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupNor_TZonHeaSet_y(unit="K") = mod.hvac.oveZonSupNor.TZonHeaSet.y "Zone air temperature heating setpoint for zone nor";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_TSupSet_y(unit="K") = mod.hvac.oveAhu.TSupSet.y "Supply air temperature setpoint for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActCor_yDam_y(unit="1") = mod.hvac.oveZonActCor.yDam.y "Damper position setpoint for zone cor";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupNor_TZonCooSet_y(unit="K") = mod.hvac.oveZonSupNor.TZonCooSet.y "Zone air temperature cooling setpoint for zone nor";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_yCoo_y(unit="1") = mod.hvac.oveAhu.yCoo.y "Cooling coil valve control signal for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActSou_yReaHea_y(unit="1") = mod.hvac.oveZonActSou.yReaHea.y "Reheat control signal for zone sou";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupCor_TZonCooSet_y(unit="K") = mod.hvac.oveZonSupCor.TZonCooSet.y "Zone air temperature cooling setpoint for zone cor";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_yPumHea_y(unit="1") = mod.hvac.oveAhu.yPumHea.y "Heating coil pump control signal for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActWes_yReaHea_y(unit="1") = mod.hvac.oveZonActWes.yReaHea.y "Reheat control signal for zone wes";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActNor_yDam_y(unit="1") = mod.hvac.oveZonActNor.yDam.y "Damper position setpoint for zone nor";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupEas_TZonCooSet_y(unit="K") = mod.hvac.oveZonSupEas.TZonCooSet.y "Zone air temperature cooling setpoint for zone eas";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_dpSet_y(unit="Pa") = mod.hvac.oveAhu.dpSet.y "Supply duct pressure setpoint for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_yOA_y(unit="1") = mod.hvac.oveAhu.yOA.y "Outside air damper position setpoint for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActNor_yReaHea_y(unit="1") = mod.hvac.oveZonActNor.yReaHea.y "Reheat control signal for zone nor";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActWes_yDam_y(unit="1") = mod.hvac.oveZonActWes.yDam.y "Damper position setpoint for zone wes";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveAhu_yHea_y(unit="1") = mod.hvac.oveAhu.yHea.y "Heating coil valve control signal for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonSupCor_TZonHeaSet_y(unit="K") = mod.hvac.oveZonSupCor.TZonHeaSet.y "Zone air temperature heating setpoint for zone cor";
+	Modelica.Blocks.Interfaces.RealOutput hvac_oveZonActEas_yReaHea_y(unit="1") = mod.hvac.oveZonActEas.yReaHea.y "Reheat control signal for zone eas";
 	// Original model
 	MultiZoneOfficeSimpleAir.TestCases.TestCase mod(
 		hvac.oveZonActSou.yDam(uExt(y=hvac_oveZonActSou_yDam_u),activate(y=hvac_oveZonActSou_yDam_activate)),
