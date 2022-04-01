@@ -13,13 +13,13 @@ model ModeSelector "Finite State Machine for the operational modes"
   State                                                   unOccNigSetBac(
     nOut=2,
     mode=OperationModes.unoccupiedNightSetBack,
-    nIn=1) "Unoccupied night set back"
+    nIn=2) "Unoccupied night set back"
     annotation (Placement(transformation(extent={{80,20},{100,40}})));
 
-  Modelica.StateGraph.Transition t2(
+  Modelica.StateGraph.TransitionWithSignal
+                                 t2(
     enableTimer=true,
-    waitTime=60,
-    condition=maxTRooErrHea.y > delTRooOnOff/2)
+    waitTime=60)
     annotation (Placement(transformation(extent={{28,20},{48,40}})));
   parameter Integer numZon = 5 "Number of zones";
   parameter Modelica.SIunits.TemperatureDifference delTRooOnOff(min=0.1)=1
@@ -51,7 +51,8 @@ model ModeSelector "Finite State Machine for the operational modes"
     annotation (Placement(transformation(extent={{-140,-190},{-120,-170}})));
   Modelica.StateGraph.TransitionWithSignal t5
     annotation (Placement(transformation(extent={{118,20},{138,40}})));
-  State                                                   occ(mode=OperationModes.occupied,
+  State                                                   occ(
+    nOut=3,                                                   mode=OperationModes.occupied,
       nIn=4) "Occupied mode"
     annotation (Placement(transformation(extent={{60,-100},{80,-80}})));
   Modelica.Blocks.Math.Feedback TRooErrHeaSou "Room control error for heating"
@@ -62,7 +63,9 @@ model ModeSelector "Finite State Machine for the operational modes"
   Modelica.Blocks.Routing.BooleanPassThrough occupied
     "outputs true if building is occupied"
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
-  Modelica.StateGraph.TransitionWithSignal t4(enableTimer=false)
+  Modelica.StateGraph.Transition           t4(condition=not occupied.y and not1.y
+         and not booSetBack.y and not booSetUp.y,
+                                              enableTimer=false)
     annotation (Placement(transformation(extent={{118,120},{98,140}})));
   State                                                   morPreCoo(
     nIn=2,
@@ -86,10 +89,6 @@ model ModeSelector "Finite State Machine for the operational modes"
     annotation (Placement(transformation(extent={{-90,-140},{-70,-120}})));
   Modelica.Blocks.Logical.Not not1
     annotation (Placement(transformation(extent={{-100,-190},{-80,-170}})));
-  Modelica.Blocks.Logical.And and2
-    annotation (Placement(transformation(extent={{80,100},{100,120}})));
-  Modelica.Blocks.Logical.Not not2
-    annotation (Placement(transformation(extent={{0,100},{20,120}})));
   Modelica.StateGraph.TransitionWithSignal t8
     "changes to occupied in case precooling is deactivated"
     annotation (Placement(transformation(extent={{30,-30},{50,-10}})));
@@ -100,13 +99,13 @@ model ModeSelector "Finite State Machine for the operational modes"
     annotation (Placement(transformation(extent={{220,80},{260,120}}),
         iconTransformation(extent={{220,80},{260,120}})));
   Modelica.Blocks.MathBoolean.Or or1(nu=5)
-    annotation (Placement(transformation(extent={{160,-10},{180,10}})));
+    annotation (Placement(transformation(extent={{170,-10},{190,10}})));
   Modelica.Blocks.Interfaces.BooleanOutput yEco
     "True if the economizer is enabled" annotation (Placement(transformation(
           extent={{220,-120},{260,-80}}), iconTransformation(extent={{220,-120},
             {260,-80}})));
   Modelica.Blocks.MathBoolean.Or or2(nu=3) "Occupied or pre-cool mode"
-    annotation (Placement(transformation(extent={{160,-50},{180,-30}})));
+    annotation (Placement(transformation(extent={{170,-50},{190,-30}})));
   Buildings.Controls.OBC.CDL.Logical.And and3
     "(Occupied or pre-cool mode) and fan on"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
@@ -169,13 +168,13 @@ model ModeSelector "Finite State Machine for the operational modes"
   State                                                   unOccNigSetUp(
     nOut=3,
     mode=OperationModes.unoccupiedNightSetUp,
-    nIn=1) "Unoccupied night set up"
+    nIn=2) "Unoccupied night set up"
     annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
 
-  Modelica.StateGraph.Transition t10(
+  Modelica.StateGraph.TransitionWithSignal
+                                 t10(
     enableTimer=true,
-    waitTime=60,
-    condition=maxTRooErrCoo.y > delTRooOnOff/2)
+    waitTime=60)
     annotation (Placement(transformation(extent={{70,-30},{90,-10}})));
   Modelica.StateGraph.Transition t11(
     condition=delTRooOnOff/2 < -maxTRooErrCoo.y,
@@ -189,6 +188,18 @@ model ModeSelector "Finite State Machine for the operational modes"
     annotation (Placement(transformation(extent={{122,-76},{102,-56}})));
   Modelica.Blocks.Routing.RealPassThrough TRooMin
     annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
+  Modelica.Blocks.Sources.BooleanExpression booSetBack(y=maxTRooErrHea.y >
+        delTRooOnOff/2) "Check for night set back"
+    annotation (Placement(transformation(extent={{-40,-20},{0,0}})));
+  Modelica.Blocks.Sources.BooleanExpression booSetUp(y=maxTRooErrCoo.y >
+        delTRooOnOff/2) "Check for night set up"
+    annotation (Placement(transformation(extent={{-40,-34},{0,-14}})));
+  Modelica.StateGraph.Transition           t14(condition=not occupied.y and
+        not1.y and booSetBack.y and not booSetUp.y, enableTimer=false)
+    annotation (Placement(transformation(extent={{130,90},{110,110}})));
+  Modelica.StateGraph.Transition           t15(condition=not occupied.y and
+        not1.y and not booSetBack.y and booSetUp.y, enableTimer=false)
+    annotation (Placement(transformation(extent={{140,50},{120,70}})));
 equation
   connect(start.outPort, unOccOff.inPort[1]) annotation (Line(
       points={{-38.5,30},{-29.75,30},{-29.75,30.75},{-21,30.75}},
@@ -203,7 +214,7 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(t2.outPort, unOccNigSetBac.inPort[1])  annotation (Line(
-      points={{39.5,30},{79,30}},
+      points={{39.5,30},{60,30},{60,30.5},{79,30.5}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(unOccNigSetBac.outPort[1], t1.inPort)   annotation (Line(
@@ -252,7 +263,7 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}}));
   connect(occ.outPort[1], t4.inPort) annotation (Line(
-      points={{80.5,-90},{150,-90},{150,130},{112,130}},
+      points={{80.5,-89.6667},{146,-89.6667},{146,130},{112,130}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(t4.outPort, unOccOff.inPort[3]) annotation (Line(
@@ -299,22 +310,6 @@ equation
       points={{-119,-180},{-102,-180}},
       color={255,0,255},
       smooth=Smooth.None));
-  connect(not1.y, and2.u2) annotation (Line(
-      points={{-79,-180},{36,-180},{36,-50},{56,-50},{56,102},{78,102}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(and2.y, t4.condition) annotation (Line(
-      points={{101,110},{108,110},{108,118}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(occupied.y, not2.u) annotation (Line(
-      points={{-59,90},{-20,90},{-20,110},{-2,110}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(not2.y, and2.u1) annotation (Line(
-      points={{21,110},{78,110}},
-      color={255,0,255},
-      smooth=Smooth.None));
   connect(t8.outPort, occ.inPort[3]) annotation (Line(
       points={{41.5,-20},{52,-20},{52,-90.25},{59,-90.25}},
       color={0,0,0},
@@ -350,28 +345,30 @@ equation
       color={255,127,0},
       smooth=Smooth.None));
   connect(yFan, or1.y)
-    annotation (Line(points={{240,100},{200,100},{200,0},{181.5,0}},
+    annotation (Line(points={{240,100},{200,100},{200,0},{191.5,0}},
                                                  color={255,0,255}));
   connect(unOccNigSetBac.active, or1.u[1]) annotation (Line(points={{90,19},{90,
-          5.6},{160,5.6}},   color={255,0,255}));
-  connect(occ.active, or1.u[2]) annotation (Line(points={{70,-101},{70,-104},{148,
-          -104},{148,-2},{160,-2},{160,2.8}},
+          5.6},{170,5.6}},   color={255,0,255}));
+  connect(occ.active, or1.u[2]) annotation (Line(points={{70,-101},{70,-104},{
+          156,-104},{156,-2},{170,-2},{170,2.8}},
                                             color={255,0,255}));
-  connect(morWarUp.active, or1.u[3]) annotation (Line(points={{-30,-101},{-30,-112},
-          {152,-112},{152,-4},{160,-4},{160,0}},     color={255,0,255}));
-  connect(morPreCoo.active, or1.u[4]) annotation (Line(points={{-30,-141},{-30,-146},
-          {146,-146},{146,0},{160,0},{160,-2.8}},    color={255,0,255}));
+  connect(morWarUp.active, or1.u[3]) annotation (Line(points={{-30,-101},{-30,
+          -112},{160,-112},{160,-4},{170,-4},{170,0}},
+                                                     color={255,0,255}));
+  connect(morPreCoo.active, or1.u[4]) annotation (Line(points={{-30,-141},{-30,
+          -146},{158,-146},{158,0},{170,0},{170,-2.8}},
+                                                     color={255,0,255}));
   connect(yEco, and3.y) annotation (Line(points={{240,-100},{200,-100},{200,-82}},
                       color={255,0,255}));
-  connect(or1.y, and3.u1) annotation (Line(points={{181.5,0},{200,0},{200,-58}},
+  connect(or1.y, and3.u1) annotation (Line(points={{191.5,0},{200,0},{200,-58}},
                       color={255,0,255}));
-  connect(or2.y, and3.u2) annotation (Line(points={{181.5,-40},{192,-40},{192,
+  connect(or2.y, and3.u2) annotation (Line(points={{191.5,-40},{192,-40},{192,
           -58}},           color={255,0,255}));
   connect(occ.active, or2.u[1]) annotation (Line(points={{70,-101},{70,-104},{
-          148,-104},{148,-35.3333},{160,-35.3333}},
+          156,-104},{156,-35.3333},{170,-35.3333}},
                                               color={255,0,255}));
-  connect(morPreCoo.active, or2.u[2]) annotation (Line(points={{-30,-141},{-30,-146},
-          {146,-146},{146,-40},{160,-40}},           color={255,0,255}));
+  connect(morPreCoo.active, or2.u[2]) annotation (Line(points={{-30,-141},{-30,
+          -146},{158,-146},{158,-40},{170,-40}},     color={255,0,255}));
   connect(initialStepWithSignal.active, modIni.u) annotation (Line(points={{-70,
           19},{-70,14},{-100,14},{-100,20},{-158,20}}, color={255,0,255}));
   connect(sum.y, cb.controlMode) annotation (Line(points={{-179.1,140},{-158,
@@ -429,15 +426,17 @@ equation
   connect(preCooSta.y, t9.condition) annotation (Line(points={{-119,-150},{-80,-150},
           {-80,-142}}, color={255,0,255}));
   connect(t10.outPort, unOccNigSetUp.inPort[1])
-    annotation (Line(points={{81.5,-20},{99,-20}}, color={0,0,0}));
+    annotation (Line(points={{81.5,-20},{90,-20},{90,-19.5},{99,-19.5}},
+                                                   color={0,0,0}));
   connect(unOccOff.outPort[5], t10.inPort) annotation (Line(points={{0.5,29.6},{
           12,29.6},{12,4},{68,4},{68,-20},{76,-20}}, color={0,0,0}));
   connect(unOccNigSetUp.y, sum.u[7]) annotation (Line(points={{121,-26},{124,-26},
           {124,-36},{-210,-36},{-210,136.4},{-192,136.4}}, color={255,127,0}));
-  connect(unOccNigSetUp.active, or1.u[5]) annotation (Line(points={{110,-31},{110,
-          -44},{134,-44},{134,-5.6},{160,-5.6}}, color={255,0,255}));
+  connect(unOccNigSetUp.active, or1.u[5]) annotation (Line(points={{110,-31},{
+          110,-44},{154,-44},{154,-5.6},{170,-5.6}},
+                                                 color={255,0,255}));
   connect(unOccNigSetUp.active, or2.u[3]) annotation (Line(points={{110,-31},{
-          110,-44.6667},{160,-44.6667}},
+          110,-44.6667},{170,-44.6667}},
                                      color={255,0,255}));
   connect(t11.outPort, unOccOff.inPort[4]) annotation (Line(points={{78.5,64},{-24,
           64},{-24,29.25},{-21,29.25}}, color={0,0,0}));
@@ -464,6 +463,18 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(booSetBack.y, t2.condition) annotation (Line(points={{2,-10},{20,-10},
+          {20,14},{38,14},{38,18}}, color={255,0,255}));
+  connect(booSetUp.y, t10.condition) annotation (Line(points={{2,-24},{24,-24},
+          {24,-44},{80,-44},{80,-32}}, color={255,0,255}));
+  connect(t14.outPort, unOccNigSetBac.inPort[2]) annotation (Line(points={{
+          118.5,100},{60,100},{60,29.5},{79,29.5}}, color={0,0,0}));
+  connect(t14.inPort, occ.outPort[2]) annotation (Line(points={{124,100},{144,
+          100},{144,-90},{80.5,-90}}, color={0,0,0}));
+  connect(t15.outPort, unOccNigSetUp.inPort[2]) annotation (Line(points={{128.5,
+          60},{116,60},{116,-2},{94,-2},{94,-20.5},{99,-20.5}}, color={0,0,0}));
+  connect(t15.inPort, occ.outPort[3]) annotation (Line(points={{134,60},{142,60},
+          {142,-90.3333},{80.5,-90.3333}}, color={0,0,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-220,
             -220},{220,220}})), Icon(coordinateSystem(
           preserveAspectRatio=true, extent={{-220,-220},{220,220}}), graphics={

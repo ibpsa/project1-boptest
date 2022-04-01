@@ -633,11 +633,11 @@ equation
         color={0,0,127}));
   connect(TSetHeaNum.y, modeSelector.TRooSetHeaNum) annotation (Line(points={{
           299,-360},{-220,-360},{-220,-300},{-200,-300}}, color={0,0,127}));
-  connect(TSetCooNum.y, modeSelector.TRooSetCooNum) annotation (Line(points={{
-          299,-390},{-218,-390},{-218,-301.818},{-200,-301.818}}, color={0,0,
+  connect(TSetCooNum.y, modeSelector.TRooSetCooNum) annotation (Line(points={{299,
+          -390},{-218,-390},{-218,-301.818},{-200,-301.818}},     color={0,0,
           127}));
   connect(oveZonSupWes.TZonCooSet_in, controlBus.TRooSetCoo) annotation (Line(
-        points={{1128,-114},{1112,-114},{1112,-342},{-240,-342}}, color={0,0,
+        points={{1128,-114},{1116,-114},{1116,-342},{-240,-342}}, color={0,0,
           127}), Text(
       string="%second",
       index=1,
