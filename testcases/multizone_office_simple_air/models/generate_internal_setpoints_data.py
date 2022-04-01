@@ -44,10 +44,10 @@ df.index.name = 'time'
 
 # Set points
 for zone in mapper_zones.keys():
-    df['LowerSetp[{0}]'.format(mapper_zones[zone])] = 12
-    df['LowerSetp[{0}]'.format(mapper_zones[zone])][df['hvac.occSch.occupied']>0] = 20
-    df['UpperSetp[{0}]'.format(mapper_zones[zone])] = 30
-    df['UpperSetp[{0}]'.format(mapper_zones[zone])][df['hvac.occSch.occupied']>0] = 24
+    df['LowerSetp[{0}]'.format(mapper_zones[zone])] = 12+273.15
+    df['LowerSetp[{0}]'.format(mapper_zones[zone])][df['hvac.occSch.occupied']>0] = 20+273.15
+    df['UpperSetp[{0}]'.format(mapper_zones[zone])] = 30+273.15
+    df['UpperSetp[{0}]'.format(mapper_zones[zone])][df['hvac.occSch.occupied']>0] = 24+273.15
     df['UpperCO2[{0}]'.format(mapper_zones[zone])] = 894
 
 # Occupancy
@@ -59,6 +59,4 @@ for key in df.columns:
 
 df = df.drop(columns=['hvac.occSch.occupied'])
 df = df.drop(columns=['flo.intGaiFra.y[1]'])
-df = df.drop(columns=['heaPum.heaPum.QCon_flow'])
-df = df.drop(columns=['chi.chi.QEva_flow'])
 df.to_csv('Resources/internal_setpoints_occupancy.csv')
