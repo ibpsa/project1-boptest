@@ -40,7 +40,7 @@ model ASHRAE2006
       xSet_nominal(displayUnit="Pa") = 410, r_N_min=yFanMin)
     "Controller for fan"
     annotation (Placement(transformation(extent={{240,-10},{260,10}})));
-  Buildings.Examples.VAVReheat.BaseClasses.Controls.ModeSelector modeSelector
+  ModeSelector                                                   modeSelector
     annotation (Placement(transformation(extent={{-200,-320},{-180,-300}})));
   Buildings.Examples.VAVReheat.BaseClasses.Controls.ControlBus controlBus
     annotation (Placement(transformation(extent={{-250,-352},{-230,-332}}),
@@ -85,7 +85,7 @@ model ASHRAE2006
   Buildings.Examples.VAVReheat.BaseClasses.Controls.SupplyAirTemperature conTSup
     "Supply air temperature and economizer controller"
     annotation (Placement(transformation(extent={{-60,-230},{-40,-210}})));
-  Buildings.Examples.VAVReheat.BaseClasses.Controls.SupplyAirTemperatureSetpoint
+  SupplyAirTemperatureSetpoint
     TSupSet "Supply air temperature set point"
     annotation (Placement(transformation(extent={{-200,-230},{-180,-210}})));
   Buildings.Fluid.Actuators.Dampers.Exponential damExh(
@@ -183,6 +183,10 @@ model ASHRAE2006
     annotation (Placement(transformation(extent={{-10,-270},{10,-250}})));
   Buildings.Controls.OBC.CDL.Continuous.Gain gai(k=1.2/m_flow_nominal)
     annotation (Placement(transformation(extent={{318,-330},{298,-310}})));
+  Modelica.Blocks.Routing.Multiplex5 TSetHeaNum
+    annotation (Placement(transformation(extent={{320,-370},{300,-350}})));
+  Modelica.Blocks.Routing.Multiplex5 TSetCooNum
+    annotation (Placement(transformation(extent={{320,-400},{300,-380}})));
 equation
   connect(controlBus, modeSelector.cb) annotation (Line(
       points={{-240,-342},{-152,-342},{-152,-303.182},{-196.818,-303.182}},
@@ -536,13 +540,6 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(oveZonSupWes.TZonCooSet_in, controlBus.TRooSetCoo) annotation (Line(
-        points={{1128,-114},{1112,-114},{1112,-342},{-240,-342}}, color={0,0,
-          127}), Text(
-      string="%second",
-      index=1,
-      extent={{-6,3},{-6,3}},
-      horizontalAlignment=TextAlignment.Right));
   connect(pumHeaCoi.P, reaAhu.PPumHea_in) annotation (Line(points={{137,-109},{
           137,370.4},{198,370.4}}, color={0,0,127}));
   connect(pumCooCoi.P, reaAhu.PPumCoo_in) annotation (Line(points={{189,-131},{
@@ -611,6 +608,41 @@ equation
   connect(conEco.yFan, fanSup.y) annotation (Line(points={{-81.3333,142.667},{
           -90,142.667},{-90,132},{310,132},{310,-28}},
                                                    color={0,0,127}));
+  connect(TRoo, modeSelector.TRoo) annotation (Line(points={{-400,320},{-370,
+          320},{-370,-303.636},{-200,-303.636}}, color={0,0,127}));
+  connect(oveZonSupCor.TZonCooSet_out, TSetCooNum.u5[1]) annotation (Line(
+        points={{429,-116},{434,-116},{434,-400},{322,-400}}, color={0,0,127}));
+  connect(oveZonSupCor.TZonHeaSet_out, TSetHeaNum.u5[1]) annotation (Line(
+        points={{429,-108},{432,-108},{432,-370},{322,-370}}, color={0,0,127}));
+  connect(oveZonSupSou.TZonCooSet_out, TSetCooNum.u1[1]) annotation (Line(
+        points={{619,-116},{624,-116},{624,-380},{322,-380}}, color={0,0,127}));
+  connect(oveZonSupSou.TZonHeaSet_out, TSetHeaNum.u1[1]) annotation (Line(
+        points={{619,-108},{622,-108},{622,-350},{322,-350}}, color={0,0,127}));
+  connect(oveZonSupEas.TZonCooSet_out, TSetCooNum.u2[1]) annotation (Line(
+        points={{801,-114},{806,-114},{806,-385},{322,-385}}, color={0,0,127}));
+  connect(oveZonSupEas.TZonHeaSet_out, TSetHeaNum.u2[1]) annotation (Line(
+        points={{801,-106},{804,-106},{804,-355},{322,-355}}, color={0,0,127}));
+  connect(oveZonSupNor.TZonCooSet_out, TSetCooNum.u3[1]) annotation (Line(
+        points={{967,-114},{976,-114},{976,-390},{322,-390}}, color={0,0,127}));
+  connect(oveZonSupNor.TZonHeaSet_out, TSetHeaNum.u3[1]) annotation (Line(
+        points={{967,-106},{974,-106},{974,-360},{322,-360}}, color={0,0,127}));
+  connect(oveZonSupWes.TZonCooSet_out, TSetCooNum.u4[1]) annotation (Line(
+        points={{1151,-114},{1156,-114},{1156,-395},{322,-395}}, color={0,0,127}));
+  connect(oveZonSupWes.TZonHeaSet_out, TSetHeaNum.u4[1]) annotation (Line(
+        points={{1151,-106},{1154,-106},{1154,-364},{322,-364},{322,-365}},
+        color={0,0,127}));
+  connect(TSetHeaNum.y, modeSelector.TRooSetHeaNum) annotation (Line(points={{
+          299,-360},{-220,-360},{-220,-300},{-200,-300}}, color={0,0,127}));
+  connect(TSetCooNum.y, modeSelector.TRooSetCooNum) annotation (Line(points={{
+          299,-390},{-218,-390},{-218,-301.818},{-200,-301.818}}, color={0,0,
+          127}));
+  connect(oveZonSupWes.TZonCooSet_in, controlBus.TRooSetCoo) annotation (Line(
+        points={{1128,-114},{1112,-114},{1112,-342},{-240,-342}}, color={0,0,
+          127}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (
   defaultComponentName="hvac",
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1420,

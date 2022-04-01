@@ -247,7 +247,9 @@ Library model
 <a href=\"https://simulationresearch.lbl.gov/modelica/releases/latest/help/Buildings_Examples_VAVReheat.html#Buildings.Examples.VAVReheat.ASHRAE2006\"><code>Buildings.Examples.VAVReheat.ASHRAE2006</code></a>.
 Setpoints and equipment enable/disable are determined by a schedule-based supervisory control
 scheme that defines a set of operating modes.  This scheme is summarized in
-Table 2 below.
+Table 2 below.  An addition is made in this implementation from the one in Modelica Buildings Library
+to add an Unoccupied Night Set Up mode, which allows for the system turning on
+during unoccupied hours to maintain a cooling set point.
 </p>
 <p>
 <b>Table 2: HVAC Operating Mode Summary</b>
@@ -264,7 +266,7 @@ Table 2 below.
   </tr>
   <tr>
   <td>Occupied</td>
-  <td>In occupied period</td>
+  <td>In occupied period.</td>
   <td>20</td>
   <td>24</td>
   <td>Enabled</td>
@@ -274,7 +276,7 @@ Table 2 below.
   </tr>
   <tr>
   <td>Unoccupied off</td>
-  <td>In unoccupied period, all TZon within setback deadband</td>
+  <td>In unoccupied period, all TZon within setback deadband.  Minimum state time is 1 min.</td>
   <td>12</td>
   <td>30</td>
   <td>Disabled</td>
@@ -284,12 +286,22 @@ Table 2 below.
   </tr>
   <tr>
   <td>Unoccupied, night setback</td>
-  <td>In unoccupied period, minimum TZon below unoccupied TZonHeaSet</td>
+  <td>In unoccupied period, minimum TZon below unoccupied TZonHeaSet.  Minimum state time is 30 min.</td>
   <td>12</td>
   <td>30</td>
   <td>Enabled</td>
   <td>35</td>
   <td>Disabled</td>
+  <td>Zero</td>
+  </tr>
+  <tr>
+  <td>Unoccupied, night setup</td>
+  <td>In unoccupied period, maximum TZon above unoccupied TZonCooSet.  Minimum state time is 30 min.</td>
+  <td>12</td>
+  <td>12</td>
+  <td>Enabled</td>
+  <td>35</td>
+  <td>Enabled</td>
   <td>Zero</td>
   </tr>
   <tr>
@@ -1031,8 +1043,9 @@ This is for
           "modelica://MultiZoneOfficeSimpleAir/Resources/Scripts/Dymola/TestCases/TestCase.mos"
         "Simulate and plot"),
     experiment(
-      StopTime=31536000,
-      Interval=300,
+      StartTime=17280000,
+      StopTime=18144000,
+      Interval=299.999808,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
