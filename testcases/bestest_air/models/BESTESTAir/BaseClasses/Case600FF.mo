@@ -244,10 +244,10 @@ model Case600FF
     annotation (Placement(transformation(extent={{-52,62},{-40,74}})));
   Modelica.Blocks.Math.MultiSum sumLat(nu=3) "Sum of latent internal gains"
     annotation (Placement(transformation(extent={{-52,42},{-40,54}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
         "Lighting power submeter") "Read lighting power consumption"
     annotation (Placement(transformation(extent={{-20,20},{0,40}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
         "Plug load power submeter") "Read plug load power consumption"
     annotation (Placement(transformation(extent={{-20,0},{0,20}})));
   Modelica.Blocks.Math.MultiSum sumLig(k=fill(roo.AFlo, 2), nu=2)
@@ -256,15 +256,15 @@ model Case600FF
   Modelica.Blocks.Math.MultiSum sumPlu(k=fill(roo.AFlo, 2), nu=2)
     "Plug power consumption"
     annotation (Placement(transformation(extent={{-52,4},{-40,16}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTRooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaTRooAir(
     description="Zone air temperature",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K")) "Read room air temperature"
     annotation (Placement(transformation(extent={{120,-10},{140,10}})));
 
-  IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="Zone air CO2 concentration",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm"))
                  "Read room air CO2 concentration"
     annotation (Placement(transformation(extent={{130,-40},{150,-20}})));
@@ -290,7 +290,7 @@ model Case600FF
         Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
     "Conversion from mass fraction CO2 to volume fraction CO2"
     annotation (Placement(transformation(extent={{70,-40},{90,-20}})));
-  IBPSA.Utilities.IO.SignalExchange.WeatherStation weaSta
+  Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
     "BOPTEST weather station"
     annotation (Placement(transformation(extent={{60,-80},{40,-60}})));
 equation

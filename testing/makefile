@@ -13,8 +13,14 @@ COMMAND_RUN=docker run \
 build_jm_image:
 	docker build --no-cache --rm -t ${IMG_NAME} .
 
+build_boptest_image:
+	cd .. && docker-compose build
+
 remove_jm_image:
 	docker rmi ${IMG_NAME}
+
+remove_boptest_image:
+	docker rmi boptest_base
 
 run_jm:
 	$(COMMAND_RUN)
@@ -60,7 +66,7 @@ generate_testcase_data:
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	make exec_jm ARGS="cd ${TESTCASE}/models && python generate_data.py"
-	docker cp ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
+	docker cp ${IMG_NAME}:/usr/local/testing/${TESTCASE}/models/Resources ../testcases/${TESTCASE}/models/
 	make stop_jm
 
 ###############################################################################
@@ -70,10 +76,8 @@ generate_testcase_data:
 test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
-# Build testcase image
-	cd .. &&  make build TESTCASE=testcase1
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=testcase1
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase1 docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 # Julia
@@ -83,7 +87,7 @@ test_testcase1:
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=testcase1
+	cd .. && TESTCASE=testcase1 docker-compose down
 # Remove testcase image and javascript geckodriver
 	cd ../examples/julia && make remove-image Script=testcase1
 	cd ../examples/javascript && make remove-image Script=testcase1
@@ -92,10 +96,8 @@ test_testcase1:
 test_testcase2:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
-# Build testcase image
-	cd .. && make build TESTCASE=testcase2
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=testcase2
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase2 docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 # Julia
@@ -105,7 +107,7 @@ test_testcase2:
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=testcase2
+	cd .. && TESTCASE=testcase2 docker-compose down
 # Remove testcase image and javascript geckodriver
 	cd ../examples/julia && make remove-image Script=testcase2
 	cd ../examples/javascript && make remove-image Script=testcase2
@@ -114,68 +116,70 @@ test_testcase2:
 test_bestest_air:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
-# Build testcase image
-	cd .. &&  make build TESTCASE=bestest_air
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=bestest_air
+# Build and deploy testcase image
+	cd .. && TESTCASE=bestest_air docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bestest_air.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=bestest_air
+	cd .. && TESTCASE=bestest_air docker-compose down
 
 test_testcase3:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase3
-# Build testcase image
-	cd .. &&  make build TESTCASE=testcase3
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=testcase3
+# Build and deploy testcase image
+	cd .. && TESTCASE=testcase3 docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 # Python and checks
 	cd .. && python testing/test_testcase3.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=testcase3
+	cd .. && TESTCASE=testcase3 docker-compose down
 
 test_bestest_hydronic:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_hydronic
-# Build testcase image
-	cd .. &&  make build TESTCASE=bestest_hydronic
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=bestest_hydronic
+# Build and deploy testcase image
+	cd .. && TESTCASE=bestest_hydronic docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bestest_hydronic.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=bestest_hydronic
+	cd .. && TESTCASE=bestest_hydronic docker-compose down
 
 test_bestest_hydronic_heat_pump:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_hydronic_heat_pump
-# Build testcase image
-	cd .. &&  make build TESTCASE=bestest_hydronic_heat_pump
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=bestest_hydronic_heat_pump
+# Build and deploy testcase image
+	cd .. && TESTCASE=bestest_hydronic_heat_pump docker-compose up -d
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bestest_hydronic_heat_pump.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=bestest_hydronic_heat_pump
+	cd .. && TESTCASE=bestest_hydronic_heat_pump docker-compose down
 
 test_multizone_residential_hydronic:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=multizone_residential_hydronic
-# Build testcase image
-	cd .. &&  make build TESTCASE=multizone_residential_hydronic
-# Deploy testcase container
-	cd .. && make run-detached TESTCASE=multizone_residential_hydronic
+# Build and deploy testcase image
+	cd .. && TESTCASE=multizone_residential_hydronic docker-compose up -d
 	python sleep10.py && python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_multizone_residential_hydronic.py
 # Stop testcase container
-	cd .. && make stop TESTCASE=multizone_residential_hydronic
+	cd .. && TESTCASE=multizone_residential_hydronic docker-compose down
+
+test_singlezone_commercial_hydronic:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=singlezone_commercial_hydronic
+# Build and deploy testcase image
+	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose up -d
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_singlezone_commercial_hydronic.py
+# Stop testcase container
+	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose down
+
 
 test_parser:
 	make run_jm
@@ -247,36 +251,31 @@ test_kpis:
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
-	cd .. &&  make build TESTCASE=testcase2
-	cd .. && make run-detached TESTCASE=testcase2
+	cd .. && TESTCASE=testcase2 docker-compose up -d
 	python sleep10.py
 	curl http://127.0.0.1:5000/measurements
 	curl http://127.0.0.1:5000/forecast
 	curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
-	cd .. && make stop TESTCASE=testcase2
+	cd .. && TESTCASE=testcase2 docker-compose down
 
 test_python2:
 # Test example controllers written in python run with python 2
-# Build testcase images
-	cd .. &&  make build TESTCASE=testcase1
-	cd .. &&  make build TESTCASE=testcase2
-	cd .. &&  make build TESTCASE=testcase3
 # Test testcase1
-	cd .. && make run-detached TESTCASE=testcase1
+	cd .. && TESTCASE=testcase1 docker-compose up -d
 	python sleep10.py
 	cd ../examples/python && python testcase1.py
 	cd ../examples/python && python testcase1_scenario.py
-	cd .. && make stop TESTCASE=testcase1
+	cd .. && TESTCASE=testcase1 docker-compose down
 # Test testcase2
-	cd .. && make run-detached TESTCASE=testcase2
+	cd .. && TESTCASE=testcase2 docker-compose up -d
 	python sleep10.py
 	cd ../examples/python && python testcase2.py
-	cd .. && make stop TESTCASE=testcase2
+	cd .. && TESTCASE=testcase2 docker-compose down
 # Test testcase3
-	cd .. && make run-detached TESTCASE=testcase3
+	cd .. && TESTCASE=testcase3 docker-compose up -d
 	python sleep10.py
 	cd ../examples/python && python testcase3.py
-	cd .. && make stop TESTCASE=testcase3
+	cd .. && TESTCASE=testcase32 docker-compose down
 
 ###############################################################################
 
@@ -285,6 +284,8 @@ test_python2:
 test_all:
 # Build jm
 	make build_jm_image
+# Build boptest base image
+	make build_boptest_image
 # Run tests
 	make test_parser
 	make test_data
@@ -298,7 +299,10 @@ test_all:
 	make test_bestest_hydronic
 	make test_bestest_hydronic_heat_pump
 	make test_multizone_residential_hydronic
+	make test_singlezone_commercial_hydronic
 # Remove jm
 	make remove_jm_image
+# Remove boptest base image
+	make remove_boptest_image
 # Report test results
 	python report.py
