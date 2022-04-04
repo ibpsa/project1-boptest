@@ -19,7 +19,7 @@
       "point": "m:",
       "sensor": "m:",
       "temp": "m:",
-      "unit": "s:C"
+      "unit": "s:K"
     }
   },
   "CO2RooAir_y": {
