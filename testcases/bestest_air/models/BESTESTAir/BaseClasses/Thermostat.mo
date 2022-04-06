@@ -1,15 +1,15 @@
 within BESTESTAir.BaseClasses;
 model Thermostat
   "Implements basic control of FCU to maintain zone air temperature"
-  parameter Modelica.SIunits.Time occSta = 8*3600 "Occupancy start time" annotation (Dialog(group="Schedule"));
-  parameter Modelica.SIunits.Time occEnd = 18*3600 "Occupancy end time" annotation (Dialog(group="Schedule"));
-  parameter Modelica.SIunits.DimensionlessRatio minSpe = 0.2 "Minimum fan speed" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.DimensionlessRatio kp = 0.1 "Controller P gain" annotation (Dialog(group="Gains"));
-  parameter Modelica.SIunits.Time ki = 120 "Controller I gain" annotation (Dialog(group="Gains"));
+  parameter Modelica.Units.SI.Time occSta = 8*3600 "Occupancy start time" annotation (Dialog(group="Schedule"));
+  parameter Modelica.Units.SI.Time occEnd = 18*3600 "Occupancy end time" annotation (Dialog(group="Schedule"));
+  parameter Modelica.Units.SI.DimensionlessRatio minSpe = 0.2 "Minimum fan speed" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooUno = 273.15+30 "Unoccupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetCooOcc = 273.15+24 "Occupied cooling setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.Units.SI.DimensionlessRatio kp = 0.1 "Controller P gain" annotation (Dialog(group="Gains"));
+  parameter Modelica.Units.SI.Time ki = 120 "Controller I gain" annotation (Dialog(group="Gains"));
   Modelica.Blocks.Interfaces.RealInput TZon "Measured zone air temperature"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput yFan "Fan speed control signal"
