@@ -4,6 +4,9 @@
 
 Released on xx/xx/xxxx.
 
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Fix and clarify ``README.md`` for the ``/initialize`` and other API end points.  This is for [#408](https://github.com/ibpsa/project1-boptest/issues/408).
 
 ## BOPTEST v0.2.0
 
