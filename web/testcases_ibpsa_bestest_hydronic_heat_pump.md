@@ -11,7 +11,7 @@ permalink: /testcases/ibpsa/testcases_ibpsa_bestest_hydronic_heat_pump/
 # Test Case Name
 ``bestest_hydronic_heat_pump``
 
-# Description
+# Brief Description
 This model represents a simplified residential dwelling for a family of 5
 members, modeled as a single thermal zone, located in Brussels, Belgium.
 The building envelope model is based on the BESTEST case 900 test case.

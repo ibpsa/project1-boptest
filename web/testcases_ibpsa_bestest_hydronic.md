@@ -11,7 +11,7 @@ permalink: /testcases/ibpsa/testcases_ibpsa_bestest_hydronic/
 # Test Case Name
 ``bestest_hydronic``
 
-# Description
+# Brief Description
 The building is a single room based on the BESTEST Case 900 model definition,
 located in Brussels, Belgium.  The floor area is 48 m^2.
 There are four exterior walls facing the cardinal directions and a flat roof.

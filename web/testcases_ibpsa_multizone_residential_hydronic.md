@@ -11,7 +11,7 @@ permalink: /testcases/ibpsa/testcases_ibpsa_multizone_residential_hydronic/
 # Test Case Name
 ``multizone_residential_hydronic``
 
-# Description
+# Brief Description
 The emulator building represents a residential French dwelling
 compliant with the French Thermal regulation of 2012, i.e. the French
 national building energy regulation.  The location is Bordeaux, France.

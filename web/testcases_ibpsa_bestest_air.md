@@ -11,7 +11,7 @@ permalink: /testcases/ibpsa/testcases_ibpsa_bestest_air/
 # Test Case Name
 ``bestest_air``
 
-# Description
+# Brief Description
 The building is a single room based on the BESTEST Case 900 model definition,
 located near Denver, CO, USA.  The floor area is 48 m^2.  There are four
 exterior walls facing the cardinal directions and a flat roof.

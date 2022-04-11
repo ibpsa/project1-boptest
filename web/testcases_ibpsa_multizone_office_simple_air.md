@@ -11,7 +11,7 @@ permalink: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
 # Test Case Name
 ``multizone_office_simple_air``
 
-# Description
+# Brief Description
 The test case represents one floor with five zones of a new construction
 medium office building in Chicago, IL, USA.
 There are four perimeter zones and one core zone, with each perimeter zone
