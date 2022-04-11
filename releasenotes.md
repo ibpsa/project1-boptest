@@ -4,6 +4,14 @@
 
 Released on xx/xx/xxxx.
 
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Fix and clarify ``README.md`` for the ``/initialize`` and other API end points.  This is for [#408](https://github.com/ibpsa/project1-boptest/issues/408).
+
+**The following new test cases have been added:**
+
+- ``multizone_office_simple_air``, a 5-zone building based on the U.S. DOE medium office reference building located in Chicago, IL, USA, served by a single-duct Variable Air Volume (VAV) with terminal reheat, air-cooled chiller, and air-to-water heat pump.  This is for [#273](https://github.com/ibpsa/project1-boptest/issues/273).
+
 
 ## BOPTEST v0.2.0
 

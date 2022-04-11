@@ -124,5 +124,15 @@ def compare(testcase='bestest_air'):
                            refs_old = 'singlezone_commercial_hydronic_old',
                            refs_new = 'singlezone_commercial_hydronic')
 
+    elif testcase == 'multizone_office_simple_air':
+        compare_references(vars_timeseries = ['chi_reaPChi_y', 'heaPum_reaPHeaPum_y',
+                                              'hvac_reaZonCor_TZon_y', 'hvac_reaZonWes_TZon_y',
+                                              'hvac_reaZonSou_CO2Zon_y', 'hvac_reaZonEas_CO2Zon_y',
+                                              'weaSta_reaWeaTDryBul_y', 'hvac_reaAhu_PFanSup_y',
+                                              'hvac_reaZonSou_CO2Zon_y', 'hvac_reaZonEas_CO2Zon_y',
+                                              'hvac_reaZonNor_TZon_y'],
+                           refs_old = 'multizone_office_simple_air_old',
+                           refs_new = 'multizone_office_simple_air')
+
 if __name__ == '__main__':
-    compare(testcase='singlezone_commercial_hydronic')
+    compare(testcase='multizone_office_simple_air')
