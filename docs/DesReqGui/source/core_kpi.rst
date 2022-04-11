@@ -51,6 +51,23 @@ Energy use in a given period of time
    any type; finally, :math:`P_i` is the instantaneous power used by the
    energy vector :math:`i`; :math:`A` is the total floor area of the building.
 
+Peak electricity demand in a given period of time
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   This KPI is the measure of the site HVAC peak electricity use in :math:`kW/m^2`
+   when accounting for the sum of all electrical equiipment present in the test
+   case HVAC system.
+   The mathematical formulation for this KPI is the following:
+
+   .. math:: P_e(t_0, t_f) = \frac{\max_{15}[\sum_{i\in \epsilon} P_i(t)]}{A}
+
+   Where :math:`P_e(t_0, t_f)` is the peak electricity demand from the
+   initial time :math:`t_0` up to the final time :math:`t_f`; :math:`\epsilon` denotes
+   the set of equipment in the system with an associated energy use of
+   electricity; :math:`P_i` is the instantaneous power used by the
+   energy vector :math:`i`; :math:`A` is the total floor area of the building; and
+   :math:`max_{15}[]` indicates the maximum value after taking the average of each 15 minute interval.
+
 CO2 emissions in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
