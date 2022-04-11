@@ -57,4 +57,5 @@ cp -r ../testcases/bestest_hydronic/doc $dir_testcases/bestest_hydronic
 cp -r ../testcases/bestest_hydronic_heat_pump/doc $dir_testcases/bestest_hydronic_heat_pump
 cp -r ../testcases/multizone_residential_hydronic/doc $dir_testcases/multizone_residential_hydronic
 cp -r ../testcases/singlezone_commercial_hydronic/doc $dir_testcases/singlezone_commercial_hydronic
+cp -r ../testcases/multizone_office_simple_air/doc $dir_testcases/multizone_office_simple_air
 echo Finished test case design documentation.
