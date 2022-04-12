@@ -215,6 +215,8 @@ class Data_Manager(object):
         self.days_path = os.path.join(models_dir, 'days.json')
         # Find the config.json path
         self.config_path = os.path.join(models_dir, 'config.json')
+        # Find the tags.json path
+        self.tags_path = os.path.join(models_dir, 'tags.json')
 
         if os.path.exists(resources_dir):
             # Find all files within Resources folder
@@ -251,6 +253,13 @@ class Data_Manager(object):
                              os.path.join('resources', 'config.json'))
         else:
             warnings.warn('No config.json found for this test case')
+
+        # Write a copy of tags.json to the fmu resources folder
+        if os.path.exists(self.tags_path):
+            self.z_fmu.write(self.tags_path,
+                             os.path.join('resources', 'tags.json'))
+        else:
+            warnings.warn('No tags.json found for this test case')
 
         # Close the fmu
         self.z_fmu.close()
@@ -384,6 +393,14 @@ class Data_Manager(object):
         # Load config json
         json_str = z_fmu.open('resources/config.json').read()
         self.case.config_json = json.loads(json_str)
+        # Load tags json
+        # This is currently not a required file
+        try:
+            json_str = z_fmu.open('resources/tags.json').read()
+        except:
+            # If there is no tags file then create an empty dictionary
+            json_str = '{}'
+        self.case.tags_json = json.loads(json_str)
 
         # Find the test case data files
         files = []

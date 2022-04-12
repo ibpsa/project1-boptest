@@ -15,7 +15,19 @@ model Case900FF "Case 600FF, but with high thermal mass"
       meanT(
         Min=24.5 + 273.15,
         Max=25.9 + 273.15,
-        Mean=25.2 + 273.15)));
+        Mean=25.2 + 273.15)),
+    reaTRooAir(
+      quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.temp,
+
+      substance=Buildings.Utilities.IO.SignalExchange.HaystackTags.Substance.air,
+
+      customMarkers="{zone}"),
+    reaCO2RooAir(quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.concentration),
+
+    reaPLig(quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.power,
+        equip=Buildings.Utilities.IO.SignalExchange.HaystackTags.Equip.panel),
+    reaPPlu(quantity=Buildings.Utilities.IO.SignalExchange.HaystackTags.Quantity.power,
+        equip=Buildings.Utilities.IO.SignalExchange.HaystackTags.Equip.panel));
 
   parameter Buildings.ThermalZones.Detailed.Validation.BESTEST.Data.ExteriorWallCase900
      extWalCase900 "Exterior wall"

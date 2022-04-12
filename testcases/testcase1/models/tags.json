@@ -1,0 +1,22 @@
+{
+  "oveAct_u": {
+    "writable": "m:",
+    "unit": "s:W"
+  },
+  "PHea_y": {
+    "point": "m:",
+    "sensor": "m:",
+    "unit": "s:W"
+  },
+  "TRooAir_y": {
+    "point": "m:",
+    "sensor": "m:",
+    "temp": "m:",
+    "unit": "s:K"
+  },
+  "CO2RooAir_y": {
+    "point": "m:",
+    "sensor": "m:",
+    "unit": "s:ppm"
+  }
+}

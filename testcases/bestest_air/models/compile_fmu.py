@@ -13,9 +13,10 @@ def compile_fmu():
     # DEFINE MODEL
     mopath = 'BESTESTAir/package.mo'
     modelpath = 'BESTESTAir.TestCases.TestCase_Ideal'
+    testcase_name = 'bestest_air'
 
     # COMPILE FMU
-    fmupath = parser.export_fmu(modelpath, [mopath])
+    fmupath = parser.export_fmu(modelpath, [mopath], testcase_name)
 
     return fmupath
 

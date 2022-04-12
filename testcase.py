@@ -671,6 +671,7 @@ class TestCase(object):
                     maxi = None
             var_metadata[var] = {'Unit':unit,
                                  'Description':description,
+                                 'Tags': self.tags_json.get(var),
                                  'Minimum':mini,
                                  'Maximum':maxi}
 

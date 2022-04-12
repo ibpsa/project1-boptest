@@ -46,6 +46,7 @@ following structure:
 	|  |  |--resources 		// Resources directory
 	|  |  |  |--kpis.json 		// JSON mapping outputs to KPI calculations
 	|  |  |  |--days.json 		// JSON mapping time period names to day number for simulation
+	|  |  |  |--tags.json      // JSON definition of point semantic model tags
 	|  |  |  |--config.json 	// BOPTEST configuration file and sets defaults
 	|  |  |  |--weather.mos 	// Weather data for model simulation in Modelica
 	|  |  |  |--weather.csv 	// Weather data for forecasting
@@ -243,7 +244,7 @@ Test Case Configuration and JSON Mapping
 -----------------------------------------
 In order to assign particular configuration and default values
 for a test case upon loading in BOPTEST, a configuration JSON saved as
-:code:`config.json` will have the structure::
+:code:`config.json` will have the structure:
 
 ::
 
@@ -258,6 +259,56 @@ for a test case upon loading in BOPTEST, a configuration JSON saved as
     "scenario"      : {"electricity_price":<str>,    // Default electricity price scenario
                        "time_period":null}
     }
+
+
+Semantic Tags and JSON Mapping
+------------------------------
+In order to capture semantic model tags associated with a test case, a JSON saved
+as :code:`tags.json` will have the structure:
+
+::
+
+    {
+    "<point_name>"      :             // Name of input or measurement point
+        {"<tag_name>"   : <value>     // Tag name and value pair
+         ...
+         },
+    ...
+    }
+
+This JSON may be created manually by a test case developer. Alternatively,
+functionality of the signal exchange blocks and parser described in the
+previous section will facilitate the generation of the tags JSON.  An example
+implementation has been completed in a fork of the Modelica Buildings Library
+(https://github.com/dhblum/modelica-buildings/tree/issue_boptest_360_haystack_tags)
+for tags conforming to Project Haystack
+(https://project-haystack.org/).  Haystack defines taxonomies which classify
+particular types of tags (https://project-haystack.org/doc/index).  One of
+particular interest is the "marker" type (https://project-haystack.org/doc/appendix/marker),
+which can be used to mark particular properties to a semantic object.
+A subset of marker types have been implemented as a new Modelica package
+in ``Buildings.Utilities.IO.SignalExchange.HaystackTags``.  Each marker
+type contains an enumerated list of allowable tags representing a subset
+of those defined by Haystack.  For example, the ``quantity`` marker can take on
+tags ``temp``, ``flow``, ``pressure``, ``humidity``, ``power``, or ``concentration``.
+New parameters are added to the signal exchange blocks, in a new dialogue tab,
+which a test case developer can use to select tags for each type of marker
+relevant to either overwrite points or read points.  The Figure below
+shows an example configuration of a supply air flow sensor point.
+
+
+.. figure:: images/read-haystack-example.png
+    :scale: 50 %
+
+    Example configuration of tagging parameters for Haystack compliant tags
+    for a supply air flow sensor point.
+
+Upon configuration of all desired Haystack tags, the ``parser.py`` will
+parse the information in each signal exchange block and output the associated
+``tags.json`` file.  In addition to the tags defined in the signal exchange
+blocks, additional tags are added by the parser which are already known
+from typical BOPTEST metadata, such as the Haystack tag names "units", "writable",
+"sensor", "kind", "dis", "siteRef", and "weather-point".
 
 
 Data Generation and Collection Module

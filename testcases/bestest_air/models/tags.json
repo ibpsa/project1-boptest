@@ -1,0 +1,294 @@
+{
+  "zon_weaSta_reaWeaSolHouAng_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:rad",
+    "dis": "s:Solar hour angle measurement"
+  },
+  "fcu_oveFan_u": {
+    "kind": "s:Number",
+    "cmd": "m:",
+    "writable": "m:",
+    "siteRef": "r:bestest_air",
+    "unit": "s:1",
+    "dis": "s:Fan control signal as air mass flow rate normalized to the design air mass flow rate"
+  },
+  "zon_weaSta_reaWeaSolDec_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:rad",
+    "dis": "s:Solar declination angle measurement"
+  },
+  "zon_weaSta_reaWeaSolZen_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:rad",
+    "dis": "s:Solar zenith angle measurement"
+  },
+  "zon_weaSta_reaWeaLon_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:rad",
+    "dis": "s:Longitude of the location"
+  },
+  "zon_reaPLig_y": {
+    "kind": "s:Number",
+    "power": "m:",
+    "panel": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W",
+    "dis": "s:Lighting power submeter"
+  },
+  "con_oveTSetHea_u": {
+    "kind": "s:Number",
+    "sp": "m:",
+    "writable": "m:",
+    "siteRef": "r:bestest_air",
+    "unit": "s:K",
+    "dis": "s:Zone temperature setpoint for heating"
+  },
+  "zon_weaSta_reaWeaCloTim_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:s",
+    "dis": "s:Day number with units of seconds"
+  },
+  "zon_weaSta_reaWeaTWetBul_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:K",
+    "dis": "s:Wet bulb temperature measurement"
+  },
+  "zon_weaSta_reaWeaSolTim_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:s",
+    "dis": "s:Solar time"
+  },
+  "fcu_oveTSup_u": {
+    "kind": "s:Number",
+    "sp": "m:",
+    "writable": "m:",
+    "siteRef": "r:bestest_air",
+    "unit": "s:K",
+    "dis": "s:Supply air temperature setpoint"
+  },
+  "zon_weaSta_reaWeaPAtm_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:Pa",
+    "dis": "s:Atmospheric pressure measurement"
+  },
+  "zon_weaSta_reaWeaWinSpe_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:m/s",
+    "dis": "s:Wind speed measurement"
+  },
+  "zon_weaSta_reaWeaNOpa_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:1",
+    "dis": "s:Opaque sky cover measurement"
+  },
+  "zon_reaCO2RooAir_y": {
+    "kind": "s:Number",
+    "zone": "m:",
+    "concentration": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:ppm",
+    "dis": "s:Zone air CO2 concentration"
+  },
+  "fcu_reaPHea_y": {
+    "kind": "s:Number",
+    "power": "m:",
+    "boiler": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W",
+    "dis": "s:Heating thermal power consumption"
+  },
+  "zon_weaSta_reaWeaLat_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:rad",
+    "dis": "s:Latitude of the location"
+  },
+  "zon_weaSta_reaWeaRelHum_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:1",
+    "dis": "s:Outside relative humidity measurement"
+  },
+  "fcu_reaFloSup_y": {
+    "kind": "s:Number",
+    "flow": "m:",
+    "air": "m:",
+    "airHandlingEquip": "m:",
+    "discharge": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:kg/s",
+    "dis": "s:Supply air mass flow rate"
+  },
+  "zon_weaSta_reaWeaTDryBul_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:K",
+    "dis": "s:Outside drybulb temperature measurement"
+  },
+  "zon_weaSta_reaWeaCeiHei_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:m",
+    "dis": "s:Cloud cover ceiling height measurement"
+  },
+  "zon_weaSta_reaWeaHDifHor_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W/m2",
+    "dis": "s:Horizontal diffuse solar radiation measurement"
+  },
+  "fcu_reaPCoo_y": {
+    "kind": "s:Number",
+    "power": "m:",
+    "chiller": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W",
+    "dis": "s:Cooling electrical power consumption"
+  },
+  "zon_reaTRooAir_y": {
+    "kind": "s:Number",
+    "zone": "m:",
+    "temp": "m:",
+    "air": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:K",
+    "dis": "s:Zone air temperature"
+  },
+  "zon_weaSta_reaWeaHGloHor_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W/m2",
+    "dis": "s:Global horizontal solar irradiation measurement"
+  },
+  "zon_weaSta_reaWeaTBlaSky_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:K",
+    "dis": "s:Black-body sky temperature measurement"
+  },
+  "zon_weaSta_reaWeaNTot_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:1",
+    "dis": "s:Sky cover measurement"
+  },
+  "zon_weaSta_reaWeaSolAlt_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:rad",
+    "dis": "s:Solar altitude angle measurement"
+  },
+  "zon_weaSta_reaWeaWinDir_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:rad",
+    "dis": "s:Wind direction measurement"
+  },
+  "zon_reaPPlu_y": {
+    "kind": "s:Number",
+    "power": "m:",
+    "panel": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W",
+    "dis": "s:Plug load power submeter"
+  },
+  "fcu_reaPFan_y": {
+    "kind": "s:Number",
+    "power": "m:",
+    "fan": "m:",
+    "motor": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W",
+    "dis": "s:Supply fan electrical power consumption"
+  },
+  "zon_weaSta_reaWeaHHorIR_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W/m2",
+    "dis": "s:Horizontal infrared irradiation measurement"
+  },
+  "zon_weaSta_reaWeaHDirNor_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:W/m2",
+    "dis": "s:Direct normal radiation measurement"
+  },
+  "zon_weaSta_reaWeaTDewPoi_y": {
+    "kind": "s:Number",
+    "weather-point": "m:",
+    "siteRef": "r:bestest_air",
+    "sensor": "m:",
+    "unit": "s:K",
+    "dis": "s:Dew point temperature measurement"
+  },
+  "con_oveTSetCoo_u": {
+    "kind": "s:Number",
+    "sp": "m:",
+    "writable": "m:",
+    "siteRef": "r:bestest_air",
+    "unit": "s:K",
+    "dis": "s:Zone temperature setpoint for cooling"
+  }
+}
