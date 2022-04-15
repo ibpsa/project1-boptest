@@ -55,7 +55,7 @@ Peak electricity demand in a given period of time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
    This KPI is the measure of the site HVAC peak electricity use in :math:`kW/m^2`
-   when accounting for the sum of all electrical equiipment present in the test
+   when accounting for the sum of all electrical equipment present in the test
    case HVAC system.
    The mathematical formulation for this KPI is the following:
 
