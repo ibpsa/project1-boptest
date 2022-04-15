@@ -1,28 +1,35 @@
-FROM michaelwetter/ubuntu-1804_jmodelica_trunk
+FROM ubuntu:20.04
 
-ENV ROOT_DIR /usr/local
-ENV JMODELICA_HOME $ROOT_DIR/JModelica
-ENV IPOPT_HOME $ROOT_DIR/Ipopt-3.12.4
-ENV SUNDIALS_HOME $JMODELICA_HOME/ThirdParty/Sundials
-ENV SEPARATE_PROCESS_JVM /usr/lib/jvm/java-8-openjdk-amd64/
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
-ENV PYTHONPATH $PYTHONPATH:$JMODELICA_HOME/Python:$JMODELICA_HOME/Python/pymodelica
+# Install required packages
+RUN 	apt-get update && \
+    	apt-get install -y \
+    	wget \
+     libgfortran4
 
-USER root
-# Edit pyfmi to event update at start of simulation for ME2
-RUN sed -i "350 i \\\n        if isinstance(self.model, fmi.FMUModelME2):\n            self.model.event_update()" $JMODELICA_HOME/Python/pyfmi/fmi_algorithm_drivers.py
+# Create new user
+RUN 	useradd -ms /bin/bash user
+USER user
+ENV 	HOME /home/user
 
-USER developer
+# Download and install miniconda and pyfmi
+RUN 	cd $HOME && \
+	wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh -O $HOME/miniconda.sh && \
+	/bin/bash $HOME/miniconda.sh -b -p $HOME/miniconda && \
+	. miniconda/bin/activate && \
+	conda update -n base -c defaults conda && \
+	conda create --name pyfmi3 python=3.8 -y && \
+	conda activate pyfmi3 && \
+	conda install -c conda-forge/label/cf202003 pyfmi -y && \
+	conda install -c conda-forge/label/cf202003 flask-restful && \
+	conda install pandas=1.3.4 flask_cors=3.0.10 matplotlib=3.5.1
 
 WORKDIR $HOME
-
-RUN pip install --user flask-restful==0.3.9 pandas==0.24.2 flask_cors==3.0.10
 
 RUN mkdir models && \
     mkdir doc
 
 ENV PYTHONPATH $PYTHONPATH:$HOME
 
-CMD python restapi.py && bash
+CMD . miniconda/bin/activate && conda activate pyfmi3 && python restapi.py && bash
 
 EXPOSE 5000

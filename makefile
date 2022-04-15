@@ -1,5 +1,5 @@
 IMG_NAME=boptest_${TESTCASE}
-APP_PATH=/home/developer
+APP_PATH=/home/user
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -26,7 +26,7 @@ remove-image:
 run:
 	$(COMMAND_RUN) --detach=true ${IMG_NAME} /bin/bash -c "bash" && \
 	$(COMMAND_COPY) && \
-	docker exec -it ${IMG_NAME} python restapi.py && \
+	docker exec -it ${IMG_NAME} . miniconda/bin/activate && python restapi.py && \
 	docker stop ${IMG_NAME} && \
 	echo WARNING: Use of make for building and running BOPTEST test cases is deprecated.  Please use docker-compose as outlined in the README.md.
 
@@ -34,7 +34,7 @@ run:
 run-detached:
 	$(COMMAND_RUN) --detach=true ${IMG_NAME} /bin/bash -c "bash" && \
 	$(COMMAND_COPY) && \
-	docker exec -itd ${IMG_NAME} python restapi.py && \
+	docker exec -itd ${IMG_NAME} . miniconda/bin/activate && python restapi.py && \
 	echo WARNING: Use of make for building and running BOPTEST test cases is deprecated.  Please use docker-compose as outlined in the README.md.
 
 stop:
