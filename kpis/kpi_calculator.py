@@ -68,6 +68,7 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('cost')
         self.initialize_kpi_vars('emis')
         self.initialize_kpi_vars('pele')
+        self.initialize_kpi_vars('pgas')
 
     def initialize_kpi_vars(self, label='ener'):
         '''Initialize variables required for KPI calculation
@@ -120,6 +121,16 @@ class KPI_Calculator(object):
                     self.sources_pele.append(source)
                     for signal in self.case.kpi_json[source]:
                         self.pele_dict[signal] = 0.
+
+        elif label=='pgas':
+            # Initialize sources of gas usage
+            self.sources_pgas = []
+            for source in self.sources:
+                if 'GasPower' in source  and \
+                source in self.case.kpi_json.keys():
+                    self.sources_pgas.append(source)
+                    for signal in self.case.kpi_json[source]:
+                        self.pgas_dict[signal] = 0.
 
         elif label=='cost':
             # Initialize sources of cost
@@ -189,6 +200,7 @@ class KPI_Calculator(object):
         ckpi['cost_tot'] = self.get_cost(scenario=price_scenario)
         ckpi['emis_tot'] = self.get_emissions()
         ckpi['pele_tot'] = self.get_peak_electricity()
+        ckpi['pgas_tot'] = self.get_peak_gas()
         ckpi['time_rat'] = self.get_computational_time_ratio()
 
         return ckpi
@@ -404,6 +416,53 @@ class KPI_Calculator(object):
         # Don't update last integration index
 
         return self.pele_tot
+
+    def get_peak_gas(self):
+        '''This method returns the measure of the total
+        peak 15-minute gas demand in kW/m^2.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        pgas_tot: float
+            peak 15-minute gas demand in kW/m^2.
+            Returns None if no gas power used in model.
+
+        '''
+
+        # If no gas in model return None, otherwise calculate
+        if len(self.sources_pgas)==0:
+            self.pgas_tot = None
+            self.pgas_dict = None
+        else:
+            tim_data = np.array(self._get_data_from_last_index('time',self.i_last_pgas))
+            df_pow_data_all = pd.DataFrame(index=tim_data)
+            # Calculate peak gas
+            # [returns KW/m^2 - assumes power measured in Watts]
+            for source in self.sources_pgas:
+                for signal in self.case.kpi_json[source]:
+                    pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_pgas))
+                    df_pow_data = pd.DataFrame(index=tim_data, data=pow_data, columns=[signal])
+                    df_pow_data_all = pd.concat([df_pow_data_all, df_pow_data], axis=1)
+            df_pow_data_all.index = pd.TimedeltaIndex(df_pow_data_all.index, unit='s')
+            df_pow_data_all['total_demand'] = df_pow_data_all.sum(axis=1)
+            df_pow_data_all = df_pow_data_all.resample('15T').mean()/self.case._get_area()/1000.
+            i = df_pow_data_all['total_demand'].idxmax()
+            peak = df_pow_data_all.loc[i,'total_demand']
+            self.pgas_tot = peak
+            # Find contributions to peak by each signal
+            for signal in self.case.kpi_json[source]:
+                self.pgas_dict[signal] = df_pow_data_all.loc[i,signal]
+        # Assign to case
+        self.case.pgas_tot = self.pgas_tot
+        self.case.pgas_dict = self.pgas_dict
+
+        # Don't update last integration index
+
+        return self.pgas_tot
 
     def get_cost(self, scenario='Constant', plot=False,
                  plot_by_source=False):
