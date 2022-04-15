@@ -59,13 +59,13 @@ Peak electricity demand in a given period of time
    case HVAC system.
    The mathematical formulation for this KPI is the following:
 
-   .. math:: P_e(t_0, t_f) = \frac{\max_{15}[\sum_{i\in \epsilon} P_i(t)]}{A}
+   .. math:: P_E(t_0, t_f) = \frac{\max_{15}[\sum_{i\in \eta} P_i(t)]}{A}
 
-   Where :math:`P_e(t_0, t_f)` is the peak electricity demand from the
-   initial time :math:`t_0` up to the final time :math:`t_f`; :math:`\epsilon` denotes
+   Where :math:`P_E(t_0, t_f)` is the peak electricity demand from the
+   initial time :math:`t_0` up to the final time :math:`t_f`; :math:`\eta` denotes
    the set of equipment in the system with an associated energy use of
    electricity; :math:`P_i` is the instantaneous power used by the
-   energy vector :math:`i`; :math:`A` is the total floor area of the building; and
+   equipment :math:`i`; :math:`A` is the total floor area of the building; and
    :math:`max_{15}[]` indicates the maximum value after taking the average of each 15 minute interval.
 
 CO2 emissions in a given period of time
