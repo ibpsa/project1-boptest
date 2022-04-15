@@ -168,6 +168,10 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
             unit = 'kWh/m$^2$'
         elif key == 'pele_tot':
             unit = 'kW/m$^2$'
+        elif key == 'pgas_tot':
+            unit = 'kW/m$^2$'
+        elif key == 'pdih_tot':
+            unit = 'kW/m$^2$'
         elif key == 'tdis_tot':
             unit = 'Kh/zone'
         elif key == 'idis_tot':
