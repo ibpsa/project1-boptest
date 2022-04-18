@@ -5,4 +5,6 @@ ener_tot,0.0
 cost_tot,0.0
 emis_tot,0.0
 pele_tot,
+pgas_tot,0.0
+pdih_tot,
 time_rat,
