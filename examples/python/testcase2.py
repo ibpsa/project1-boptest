@@ -10,10 +10,9 @@ in controllers/sup.py.
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import sys
-import pathlib
 import os
 from examples.python.interface import control_test
-sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-2]))
 
 
 def run(plot=False):

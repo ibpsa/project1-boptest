@@ -8,8 +8,8 @@ using the scenario options with the prototype test case called "testcase1".
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import sys
-import pathlib
-sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+import os
+sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-2]))
 from examples.python.interface import control_test
 
 
