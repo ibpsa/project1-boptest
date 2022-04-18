@@ -767,10 +767,10 @@ the maximum 15-minute system heating load that is closest from below to the
 median of all 15-minute maximum heating loads of all days in the year.
 </ul>
 <ul>
-Start Time: Day 45.
+Start Time: Day 11.
 </ul>
 <ul>
-End Time: Day 59.
+End Time: Day 25.
 </ul>
 </p>
 <p>
@@ -800,10 +800,10 @@ median of all 15-minute maximum cooling loads of all days in the year
 due to start up).
 </ul>
 <ul>
-Start Time: Day 116.
+Start Time: Day 137.
 </ul>
 <ul>
-End Time: Day 130.
+End Time: Day 151.
 </ul>
 </p>
 <p>
@@ -935,6 +935,11 @@ For reference, see https://www.eia.gov/electricity/state/illinois/
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+April 14, 2022, by David Blum:<br/>
+Correct documentation for time period scenarios.
+This is for BOPTEST <a href=\"https://github.com/ibpsa/project1-boptest/issues/414\">issue #414</a>.
+</li>
 <li>
 March 31, 2022, by David Blum:<br/>
 Updates according to review from IBPSA Project 1.
