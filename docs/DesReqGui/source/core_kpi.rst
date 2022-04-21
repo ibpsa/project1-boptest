@@ -95,7 +95,7 @@ Peak district heating demand in a given period of time
 
    .. math:: P_{DH}(t_0, t_f) = \frac{\max_{15}[\sum_{i\in I} P_i(t)]}{A}
 
-   Where :math:`P_Dh(t_0, t_f)` is the peak district heating demand from the
+   Where :math:`P_{Dh}(t_0, t_f)` is the peak district heating demand from the
    initial time :math:`t_0` up to the final time :math:`t_f`; :math:`I` denotes
    the set of equipment in the system with an associated energy use of
    district heating; :math:`P_i` is the instantaneous power used by the
