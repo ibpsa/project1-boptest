@@ -3,6 +3,7 @@ import os.path
 import time
 import sys
 import pandas as pd
+import traceback
 
 ########## running the browser in a headless mode ##########
 
@@ -59,15 +60,18 @@ while try_kpi:
         div = kpis[0]
 
         if div.value !='':
-             kpis= eval(div.value)
+             kpis_string = div.value.replace('null', 'None')
+             kpis= eval(kpis_string)
 
         tab_kpi = pd.DataFrame.from_dict(kpis, orient='index', columns=['value'])
         tab_kpi.index.name = 'keys'
         tab_kpi.to_csv('/home/kpi_{}.csv'.format(testcase))
         try_kpi = False
-    except:
+    except AttributeError:
         try_kpi = True
-
+    except:
+        traceback.print_exc()
+        raise Exception('See traceback for Exception message.')
 ########## kill the browser process ##########
 
 browser.quit()
