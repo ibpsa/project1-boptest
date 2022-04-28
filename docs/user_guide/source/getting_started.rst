@@ -48,8 +48,8 @@ Stop the Test Case
 Within the root directory of the extracted software, use the command ``docker-compose down``.
 
 
-Public Web-Service
-==================
+Public Web-Service (Coming Soon)
+================================
 
 Installation
 ------------
