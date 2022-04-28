@@ -8,16 +8,17 @@ Using BOPTEST
 
 There are two ways you can access BOPTEST, depending on your preference:
 
-1. **Single Test Case on a Local Computing Resource**: A single test
-case at a time can be deployed on your local computing resource and made
-accessible to you at ``localhost:5000`` via the BOPTEST API.
+1. **Single Test Case on Local Computing Resource**: Deploy a single test
+case on your local computing resource and interact with it at localhost
+via the BOPTEST API.
 
-2. **Any Test Case via Public Web-Service**: Utilize a web-hosted BOPTEST
-environment available to the public to deploy any test case in the cloud,
-which is made accessible to you through at a URL specific to you via the BOPTEST API.
+2. **Public Web-Service**: Utilize a web-hosted BOPTEST
+environment available to the public to deploy a test case in the cloud and
+interact with it at a URL specific to you via the BOPTEST API.
 
-Single Use on Local Computing Resource
-======================================
+
+Single Test Case on Local Computing Resource
+============================================
 
 Installation
 ------------
@@ -31,11 +32,24 @@ Within the root directory of the extracted software, use the following commands:
 - Linux or macOS: ``$ TESTCASE=<testcase_name> docker-compose up``
 - Windows PowerShell: ``> (setx TESTCASE "<testcase_name>") -and (docker-compose up)``
 
+A couple notes:
+
+- The first time this command is run, the image ``boptest_base`` will be built.  This takes about a minute.  Subsequent usage will use the already-built image and deploy much faster.
+- If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
+- ``TESTCASE`` is simply an environment variable.  Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.
+
+
 Use the API
 -----------
+Send API requests to localhost port 5000 as ``http://127.0.0.1:5000/<request>``.
 
-Any Test Case via Public Web-Service
-======================================
+Stop the Test Case
+------------------
+Within the root directory of the extracted software, use the command ``docker-compose down``.
+
+
+Public Web-Service
+==================
 
 Installation
 ------------
@@ -43,7 +57,18 @@ There are no installation requirements.
 
 Deploy a Test Case
 ------------------
-Send the following request to <url>:
+Send the following API request to ``<url>``.
+The returned ``<testid>`` will be needed for all future API requests associated
+with your chosen test case.
 
 Use the API
 -----------
+Send API requests to ``<url>/<request>/<testid>``,
+where ``<testid>`` is returned from the previous step.
+
+Stop the Test Case
+------------------
+Send the following API request: ``<url>/<request>/<testid>``.
+Note that the test case will be stopped automatically in case of a period of
+inactivity lasting X minutes.  If this happens, a new test case should be deployed
+using the actions described previously.
