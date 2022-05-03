@@ -14,6 +14,8 @@ from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
 from kpis.kpi_calculator import KPI_Calculator
 import traceback
+import logging
+
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -142,8 +144,8 @@ class TestCase(object):
         self.options['ncp'] = int((end_time-start_time)/30)
         # Simulate fmu
         try:
-            res = self.fmu.simulate(start_time = start_time,
-                                    final_time = end_time,
+            res = self.fmu.simulate(start_time=start_time,
+                                    final_time=end_time,
                                     options=self.options,
                                     input=input_object)
         except:
@@ -196,7 +198,7 @@ class TestCase(object):
             if store:
                 self.u_store[key] = np.append(self.u_store[key], res[key_data][i:])
 
-    def advance(self,u):
+    def advance(self, u):
         '''Advances the test case model simulation forward one step.
 
         Parameters
@@ -215,7 +217,7 @@ class TestCase(object):
             If None, a simulation error has occured.
 
         '''
-
+        status = 200
         # Calculate and store the elapsed time
         if hasattr(self, 'tic_time'):
             self.tac_time = time.time()
@@ -259,7 +261,7 @@ class TestCase(object):
             # Make sure stop at end of test
             if self.final_time > self.end_time:
                 self.final_time = self.end_time
-            res = self.__simulation(self.start_time,self.final_time,input_object)
+            res = self.__simulation(self.start_time, self.final_time, input_object)
             # Process results
             if not isinstance(res, str):
                 # Get result and store measurement and control inputs
@@ -269,16 +271,24 @@ class TestCase(object):
                 # Raise the flag to compute time lapse
                 self.tic_time = time.time()
                 # Get full current state
-                z = self._get_full_current_state()
-
-                return z
+                payload = self._get_full_current_state()
+                message = "Advance simulation successful."
+                logging.info(message)
+                return status, message, payload
 
             else:
-                # Error in simulation
-                return res
+                # Error in
+                status = 500
+                message = "Error Advancing Simulation : {}"
+                payload = res
+                logging.error(message.format(res))
+                return status, message, payload
         else:
             # Simulation at end time
-            return dict()
+            payload = dict()
+            message = "Advance, simulation complete."
+            logging.info(message)
+            return status, message, payload
 
 
     def initialize(self, start_time, warmup_period, end_time=np.inf):
@@ -303,7 +313,7 @@ class TestCase(object):
             If None, a simulation error has occured.
 
         '''
-
+        status = 200
         # Reset fmu
         self.fmu.reset()
         # Reset simulation data storage
@@ -317,7 +327,7 @@ class TestCase(object):
         self.initialize_fmu = True
         # Simulate fmu for warmup period.
         # Do not allow negative starting time to avoid confusions
-        res = self.__simulation(max(start_time-warmup_period,0), start_time)
+        res = self.__simulation(max(start_time-warmup_period, 0), start_time)
         # Process result
         if not isinstance(res, str):
             # Get result
@@ -327,20 +337,28 @@ class TestCase(object):
             # Initialize KPI Calculator
             self.cal.initialize()
             # Get full current state
-            z = self._get_full_current_state()
-
-            return z
+            payload = self._get_full_current_state()
+            message = "Initialize simulation, success."
+            logging.info(message)
+            return status, message, payload
 
         else:
-
-            return res
+            status = 500
+            message = "Initialize simulation failed: {}".format(res)
+            logging.warning(message)
+            return status, message, {}
 
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
+        status = 200
+        message = "Query simulation step successful."
+        if self.step is not None:
+            return status, message, self.step
+        status = 500
+        message = "Query simulation step failed."
+        return status, message, self.step
 
-        return self.step
-
-    def set_step(self,step):
+    def set_step(self, step):
         '''Sets the simulation step in seconds.
 
         Parameters
@@ -353,10 +371,14 @@ class TestCase(object):
         None
 
         '''
-
-        self.step = float(step)
-
-        return None
+        status = 200
+        message = "Successfully set simulation step."
+        try:
+            self.step = float(step)
+        except:
+            status = 500
+            message = "Failed set simulation step."
+        return status, message, None
 
     def get_inputs(self):
         '''Returns a dictionary of control inputs and their meta-data.
@@ -371,10 +393,19 @@ class TestCase(object):
             Dictionary of control inputs and their meta-data.
 
         '''
-
-        inputs = self.inputs_metadata
-
-        return inputs
+        status = 200
+        message = "Query input list successful."
+        inputs = None
+        if self.inputs_metadata is not None:
+            try:
+                inputs = self.inputs_metadata
+            except:
+                status = 500
+                message = "Query input list failed."
+        else:
+            status = 500
+            message = "Query input list failed."
+        return status, message, inputs
 
     def get_measurements(self):
         '''Returns a dictionary of measurements and their meta-data.
@@ -390,9 +421,19 @@ class TestCase(object):
 
         '''
 
-        measurements = self.outputs_metadata
-
-        return measurements
+        status = 200
+        message = "Query measurement list successful."
+        measurements = None
+        if self.outputs_metadata is not None:
+            try:
+                measurements = self.outputs_metadata
+            except:
+                status = 500
+                message = "Query measurement list failed."
+        else:
+            status = 500
+            message = "Query measurement list failed."
+        return status, message, measurements
 
     def get_results(self, var, start_time, final_time):
         '''Returns measurement and control input trajectories.
@@ -416,28 +457,36 @@ class TestCase(object):
             Returns None if no variable can be found
 
         '''
+        status = 200
+        message = "Successfully queried simulation for results."
+        y = None
+        try:
+            # Get correct point
+            if var in self.y_store.keys():
+                y = {
+                    'time': self.y_store['time'],
+                     var: self.y_store[var]
+                }
+            elif var in self.u_store.keys():
+                y = {
+                    'time': self.u_store['time'],
+                     var: self.u_store[var]
+                }
+            else:
+                y = None
 
-        # Get correct point
-        if var in self.y_store.keys():
-            Y = {'time':self.y_store['time'],
-                 var:self.y_store[var]
-                 }
-        elif var in self.u_store.keys():
-            Y = {'time':self.u_store['time'],
-                 var:self.u_store[var]
-                 }
-        else:
-            Y = None
-            return Y
+            # Get correct time
+            if y is not None:
+                time1 = y['time']
+                for key in [var, 'time']:
+                    y[key] = y[key][time1>=start_time]
+                    time2 = time1[time1>=start_time]
+                    y[key] = y[key][time2<=final_time]
+        except:
+            status = 500
+            message = "Failed to query simulation for results: {}".format(traceback.format_exc())
 
-        # Get correct time
-        time1 = Y['time']
-        for key in [var,'time']:
-            Y[key] = Y[key][time1>=start_time]
-            time2 = time1[time1>=start_time]
-            Y[key] = Y[key][time2<=final_time]
-
-        return Y
+        return status, message, y
 
     def get_kpis(self):
         '''Returns KPI data.
@@ -455,18 +504,24 @@ class TestCase(object):
             {<kpi_name>:<kpi_value>}
 
         '''
+        status = 200
+        message = "Query simulation for KPIs successful."
+        kpis = None
+        try:
+            # Set correct price scenario for cost
+            if self.scenario['electricity_price'] == 'constant':
+                price_scenario = 'Constant'
+            elif self.scenario['electricity_price'] == 'dynamic':
+                price_scenario = 'Dynamic'
+            elif self.scenario['electricity_price'] == 'highly_dynamic':
+                price_scenario = 'HighlyDynamic'
+            # Calculate the core kpis
+            kpis = self.cal.get_core_kpis(price_scenario=price_scenario)
+        except:
+            status = 500
+            message = "Query simulation for KPIs failed: {}".format(traceback.format_exc())
 
-        # Set correct price scenario for cost
-        if self.scenario['electricity_price'] == 'constant':
-            price_scenario = 'Constant'
-        elif self.scenario['electricity_price'] == 'dynamic':
-            price_scenario = 'Dynamic'
-        elif self.scenario['electricity_price'] == 'highly_dynamic':
-            price_scenario = 'HighlyDynamic'
-        # Calculate the core kpis
-        kpis = self.cal.get_core_kpis(price_scenario=price_scenario)
-
-        return kpis
+        return status, message, kpis
 
     def set_forecast_parameters(self,horizon,interval):
         '''Sets the forecast horizon and interval, both in seconds.
@@ -483,20 +538,33 @@ class TestCase(object):
         None
 
         '''
+        status = 200
+        message = "Set forecast horizon and interval successful."
+        forecast_parameters = dict()
+        try:
+            self.horizon = float(horizon)
+            self.interval = float(interval)
+            forecast_parameters['horizon'] = self.horizon
+            forecast_parameters['interval'] = self.interval
+        except:
+            status = 500
+            message = "Set forecast horizon and interval failed: {}".format(traceback.format_exc())
 
-        self.horizon = float(horizon)
-        self.interval = float(interval)
-
-        return None
+        return status, message, forecast_parameters
 
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.'''
-
+        status = 200
+        message = "Query simulation for forecast parameters successful."
         forecast_parameters = dict()
-        forecast_parameters['horizon'] = self.horizon
-        forecast_parameters['interval'] = self.interval
+        if self.horizon is not None and self.interval is not None:
+            forecast_parameters['horizon'] = self.horizon
+            forecast_parameters['interval'] = self.interval
+        else:
+            status = 500
+            message = "Query simulation for forecast parameters failed."
 
-        return forecast_parameters
+        return status, message, forecast_parameters
 
     def get_forecast(self):
         '''Returns the test case data forecast
@@ -517,10 +585,17 @@ class TestCase(object):
         '''
 
         # Get the forecast
-        forecast = self.forecaster.get_forecast(horizon=self.horizon,
-                                                interval=self.interval)
+        status = 200
+        message = "Query simulation for forecast successful."
+        try:
+            forecast = self.forecaster.get_forecast(horizon=self.horizon,
+                                                    interval=self.interval)
+        except:
+            status = 500
+            message = "Query simulation for forecast failed: {}".format(traceback.format_exc())
+            forecast = None
 
-        return forecast
+        return status, message, forecast
 
     def set_scenario(self, scenario):
         '''Sets the case scenario.
@@ -540,36 +615,50 @@ class TestCase(object):
              'time_period': if succeeded then initial measurements, else None
              }
         '''
+        status = 200
+        message = "Set simulation scenario successful."
+        try:
+            result = {
+                'electricity_price': None,
+                'time_period': None
+            }
 
-        result = {'electricity_price':None,
-                  'time_period':None}
+            if not hasattr(self, 'scenario'):
+                self.scenario = {}
+            # Handle electricity price
+            if scenario['electricity_price']:
+                self.scenario['electricity_price'] = scenario['electricity_price']
+                result['electricity_price'] = True
+            # Handle timeperiod
+            if scenario['time_period']:
+                self.scenario['time_period'] = scenario['time_period']
+                warmup_period = 7*24*3600
+                key = self.scenario['time_period']
+                start_time = self.days_json[key]*24*3600-7*24*3600
+                end_time = start_time + 14*24*3600
+                result['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)
 
-        if not hasattr(self,'scenario'):
-            self.scenario = {}
-        # Handle electricity price
-        if scenario['electricity_price']:
-            self.scenario['electricity_price'] = scenario['electricity_price']
-            result['electricity_price'] = True
-        # Handle timeperiod
-        if scenario['time_period']:
-            self.scenario['time_period'] = scenario['time_period']
-            warmup_period = 7*24*3600
-            key = self.scenario['time_period']
-            start_time = self.days_json[key]*24*3600-7*24*3600
-            end_time = start_time + 14*24*3600
-            result['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)
+            # It's needed to reset KPI Calculator when scenario is changed
+            self.cal.initialize()
+        except:
+            status = 500
+            message = "Set simulation scenario failed: {}".format(traceback.format_exc())
+            result = None
 
-        # It's needed to reset KPI Calculator when scenario is changed
-        self.cal.initialize()
-
-        return result
+        return status, message, result
 
     def get_scenario(self):
         '''Returns the current case scenario.'''
+        scenario = None
+        status = 200
+        message = "Query simulation for scenario successful."
+        if self.scenario is not None:
+            scenario = self.scenario
+        else:
+            status = 500
+            message = "Query simulation for scenario failed."
 
-        scenario = self.scenario
-
-        return scenario
+        return status, message, scenario
 
     def get_name(self):
         '''Returns the name of the test case fmu.
@@ -584,10 +673,11 @@ class TestCase(object):
             Name of test case as {'name': <str>}
 
         '''
+        status = 200
+        message = "Query simulation for name successful"
+        name = {'name': self.name}
 
-        name = {'name':self.name}
-
-        return name
+        return status, message, name
 
     def get_elapsed_control_time_ratio(self):
         '''Returns the elapsed control time ratio vector for the case.
@@ -620,8 +710,9 @@ class TestCase(object):
             Version of BOPTEST as {'version': <str>}
 
         '''
-
-        return {'version':self.version}
+        status = 200
+        message = "Query simulation for version number successful"
+        return status, message, {'version': self.version}
 
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.

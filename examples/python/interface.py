@@ -33,15 +33,14 @@ def check_response(response):
     result : dict, resulf from call to restful API
 
     """
-
-    if response.status_code == 200:
-        result = response.json()
-        return result
-    message = json.loads(response.content)['message']
-    if response.status_code == 400:
-        print("Inputs are unexpected: {}".format(message))
-    else:
-        print("Response from the BOPTEST platform was unexpected: {}".format(message))
+    status = response[0]
+    message = response[1]
+    payload = response[2]
+    if status == 200:
+        print(message)
+        return payload
+    print("Unexpected error: {}".format(message))
+    print("Exiting!")
     sys.exit()
 
 
@@ -195,6 +194,12 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     for key in kpi.keys():
         if key == 'ener_tot':
             unit = 'kWh/m$^2$'
+        elif key == 'pele_tot':
+            unit = 'kW/m$^2$'
+        elif key == 'pgas_tot':
+            unit = 'kW/m$^2$'
+        elif key == 'pdih_tot':
+            unit = 'kW/m$^2$'
         elif key == 'tdis_tot':
             unit = 'Kh/zone'
         elif key == 'idis_tot':
@@ -216,6 +221,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     df_res = pd.DataFrame()
     for point in points:
         res = check_response(requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}))
+        for key in res:
+            res[key] = res[key].tolist()
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
 
