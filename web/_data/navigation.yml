@@ -7,7 +7,7 @@
 - name: Documentation
   dropdown:
     - name: User Guide
-      link: userGuide/index.html
+      link: docs-userguide/index.html
     - name: Design Specification
       link: docs-design/index.html
 - name: Training

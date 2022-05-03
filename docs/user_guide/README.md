@@ -1,5 +1,6 @@
-Design Requirements and Guide
-=============================
+==================
+BOPTEST User Guide
+==================
 
 Sphinx is needed to compile the documentation, with the following extensions:
 
@@ -24,5 +25,3 @@ $ make html
 ```
 
 Then, check the subdirectory that is created ``/build``.
-
-

@@ -92,7 +92,6 @@ doctest:
 	$(SPHINXBUILD) -b doctest $(ALLSPHINXOPTS) $(BUILDDIR)/doctest
 	@echo "Testing of doctests in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/doctest/output.txt."
-	      
 release-html:
 	#-mkdir release
 	#-mkdir release/userGuide
@@ -101,7 +100,7 @@ release-html:
 	-cp -R $(BUILDDIR)/html/_images www/userGuide
 	-cp -R $(BUILDDIR)/html/legal.html ../../
 
-dist:   clean cleanpdf latex html release-html copypdftodoc copydoctowww  
+dist:   clean cleanpdf latex html release-html copypdftodoc copydoctowww
 
 copypdftodoc:
 	@echo "Copy pdf files to the userGuide folder."
