@@ -1,8 +1,8 @@
 ﻿within MultiZoneResidentialHydronic.Building.Ventilation;
 model GenCO2 "CO2 generation in a zone"
 
-  parameter Modelica.SIunits.MassFlowRate co2gen=0.004*1.8/1000 "CO2 generation per person in KgCO2/(s*person)";
-  parameter Modelica.SIunits.DimensionlessRatio nOcc "Number of occupants in the zone";
+  parameter Modelica.Units.SI.MassFlowRate co2gen=0.004*1.8/1000 "CO2 generation per person in KgCO2/(s*person)";
+  parameter Modelica.Units.SI.DimensionlessRatio nOcc "Number of occupants in the zone";
 
   Modelica.Blocks.Interfaces.RealInput occFrac
     "Occupancy fraction from 0 to 1. If 1, there are n_occ in the zone. "

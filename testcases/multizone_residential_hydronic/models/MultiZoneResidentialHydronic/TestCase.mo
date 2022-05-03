@@ -6,58 +6,58 @@ model TestCase "Multi zone residential hydronic example model"
   ///////////////
   //  INPUTS   //
   ///////////////
-  parameter Modelica.SIunits.Area S = 100 "Building surface";
+  parameter Modelica.Units.SI.Area S = 100 "Building surface";
   parameter Real OpenDoors = 1 "Doors opening - 0=closed, 1 = open";
 
   // Boiler
-  parameter Modelica.SIunits.Power Q_flow_nominal = 7000
+  parameter Modelica.Units.SI.Power Q_flow_nominal = 7000
     "Nominal power of heating plant" annotation(Dialog(group = "Boiler"));
   parameter Real scaFacRad = 1.5
     "Scaling factor to scale the power (and mass flow rate) of the radiator loop" annotation(Dialog(group = "Boiler"));
- parameter Modelica.SIunits.Temperature TSup_nominal=273.15 + 60
+ parameter Modelica.Units.SI.Temperature TSup_nominal=273.15 + 60
     "Nominal supply temperature for radiators";
- parameter Modelica.SIunits.Temperature TRet_nominal=273.15 + 50
+ parameter Modelica.Units.SI.Temperature TRet_nominal=273.15 + 50
     "Nominal return temperature for radiators";
-  parameter Modelica.SIunits.Temperature dTBoi_nominal = TSup_nominal-TRet_nominal
+  parameter Modelica.Units.SI.Temperature dTBoi_nominal = TSup_nominal-TRet_nominal
     "Nominal temperature difference for boiler loop" annotation(Dialog(group = "Boiler"));
-  parameter Modelica.SIunits.MassFlowRate mBoi_flow_nominal = scaFacRad*Q_flow_nominal/dTBoi_nominal/4200
+  parameter Modelica.Units.SI.MassFlowRate mBoi_flow_nominal = scaFacRad*Q_flow_nominal/dTBoi_nominal/4200
     "Nominal mass flow rate of boiler loop" annotation(Dialog(group = "Boiler"));
-  parameter Modelica.SIunits.Power P_pum_nominal = 45 "Pump electrical power" annotation(Dialog(group = "Boiler"));
- parameter Modelica.SIunits.Power Pmin_Ch = 800 "Boiler minimum power" annotation(Dialog(group = "Chauffage"));
- parameter Modelica.SIunits.Power Pmax_Ch = Q_flow_nominal "Boiler maximum power" annotation(Dialog(group = "Chauffage"));
- parameter Modelica.SIunits.Time t_anticourtcycle=600 "Anti short cycle duration for the boiler" annotation(Dialog(group="Cractristiques de la chaudire"));
+  parameter Modelica.Units.SI.Power P_pum_nominal = 45 "Pump electrical power" annotation(Dialog(group = "Boiler"));
+ parameter Modelica.Units.SI.Power Pmin_Ch = 800 "Boiler minimum power" annotation(Dialog(group = "Chauffage"));
+ parameter Modelica.Units.SI.Power Pmax_Ch = Q_flow_nominal "Boiler maximum power" annotation(Dialog(group = "Chauffage"));
+ parameter Modelica.Units.SI.Time t_anticourtcycle=600 "Anti short cycle duration for the boiler" annotation(Dialog(group="Cractristiques de la chaudire"));
 
   // Radiators
   parameter Real delta_ST_rad = 0 "Coefficient for spatial variation of the control system" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power Q_rad_liv = 1800 "Living room radiator power" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power Q_rad_ro1 = 1000 "Room 1 radiator power" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power Q_rad_ro2 = 900  "Room 2 radiator power2" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power Q_rad_ro3 = 1100 "Room 3 radiator power" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power Q_rad_bth = 800  "Bathroom radiator power" annotation(Dialog(group = "Radiators"));
-  parameter Modelica.SIunits.Power Q_rad_hal = 1000 "Hall radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.Units.SI.Power Q_rad_liv = 1800 "Living room radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.Units.SI.Power Q_rad_ro1 = 1000 "Room 1 radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.Units.SI.Power Q_rad_ro2 = 900  "Room 2 radiator power2" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.Units.SI.Power Q_rad_ro3 = 1100 "Room 3 radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.Units.SI.Power Q_rad_bth = 800  "Bathroom radiator power" annotation(Dialog(group = "Radiators"));
+  parameter Modelica.Units.SI.Power Q_rad_hal = 1000 "Hall radiator power" annotation(Dialog(group = "Radiators"));
 
   ///////////////
   //  OUTPUTS  //
   ///////////////
 
   // Heating production
-//   Modelica.SIunits.Power Production_Radiateur_Salon "Heating production for the Living room radiator";
-//   Modelica.SIunits.Power Production_Radiateur_Chambre1 "Heating production for the Room 1 room radiator";
-//   Modelica.SIunits.Power Production_Radiateur_Chambre2 "Heating production for the Room 2 room radiator";
-//   Modelica.SIunits.Power Production_Radiateur_Chambre3 "Heating production for the Room 3 room radiator";
-//   Modelica.SIunits.Power Production_Radiateur_SDB "Heating production for the Bathroom radiator";
-//   Modelica.SIunits.Power Production_Radiateur_Couloir "Heating production for the Hall radiator";
+//   Modelica.Units.SI.Power Production_Radiateur_Salon "Heating production for the Living room radiator";
+//   Modelica.Units.SI.Power Production_Radiateur_Chambre1 "Heating production for the Room 1 room radiator";
+//   Modelica.Units.SI.Power Production_Radiateur_Chambre2 "Heating production for the Room 2 room radiator";
+//   Modelica.Units.SI.Power Production_Radiateur_Chambre3 "Heating production for the Room 3 room radiator";
+//   Modelica.Units.SI.Power Production_Radiateur_SDB "Heating production for the Bathroom radiator";
+//   Modelica.Units.SI.Power Production_Radiateur_Couloir "Heating production for the Hall radiator";
 
   // Consumption
-//  Modelica.SIunits.Power Consommation_Gaz_Chaudiere "Boiler gas consumption";
-  Modelica.SIunits.Power Consommation_Elec_Pompe "Boiler pump electricity consumption";
+//  Modelica.Units.SI.Power Consommation_Gaz_Chaudiere "Boiler gas consumption";
+  Modelica.Units.SI.Power Consommation_Elec_Pompe "Boiler pump electricity consumption";
 
 protected
-  parameter Modelica.SIunits.Length HSP = 2.57 "Ceiling height";
-  parameter Modelica.SIunits.Length H_Combles = 1.84 "Attic height";
-  parameter Modelica.SIunits.ThermalConductivity k_PT = 9.7/42.8 "Thermal bridges coefficient";
-  parameter Modelica.SIunits.Density d_air = 1.184 "Air density";
-  parameter Modelica.SIunits.MassFlowRate Q_batiment = 113.4/3600*d_air "Global mechanical ventilation airflow, this is approximately 1 m3/h/m2 ";
+  parameter Modelica.Units.SI.Length HSP = 2.57 "Ceiling height";
+  parameter Modelica.Units.SI.Length H_Combles = 1.84 "Attic height";
+  parameter Modelica.Units.SI.ThermalConductivity k_PT = 9.7/42.8 "Thermal bridges coefficient";
+  parameter Modelica.Units.SI.Density d_air = 1.184 "Air density";
+  parameter Modelica.Units.SI.MassFlowRate Q_batiment = 113.4/3600*d_air "Global mechanical ventilation airflow, this is approximately 1 m3/h/m2 ";
 
   // ===================================================================== //
   // =================== DO NOT MODIFY  =================== //
@@ -69,109 +69,109 @@ protected
   // Sf - Surface des fentres (m^2)
 
   // Building reference floor surface
-  parameter Modelica.SIunits.Area S_ref = 100
+  parameter Modelica.Units.SI.Area S_ref = 100
     "Buildign rerefence surface"; // used to scale up the actual building and take into account a bigger building surface
 
   // Garage
-  parameter Modelica.SIunits.Area S_Garage = 20.52 * S/S_ref;
-  parameter Modelica.SIunits.Area Spe_Garage_Nord = 3.8 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spe_Garage_Est = 5.4 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spe_Garage_Ouest = 0.7 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Garage_Salon = 8.5 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spl_Garage_Combles = S_Garage;
-  parameter Modelica.SIunits.Area Spl_Garage_exterieur = S_Garage;
-  parameter Modelica.SIunits.MassFlowRate Q_Garage = 0.5*S_Garage*HSP/3600*d_air;
+  parameter Modelica.Units.SI.Area S_Garage = 20.52 * S/S_ref;
+  parameter Modelica.Units.SI.Area Spe_Garage_Nord = 3.8 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spe_Garage_Est = 5.4 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spe_Garage_Ouest = 0.7 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Garage_Salon = 8.5 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spl_Garage_Combles = S_Garage;
+  parameter Modelica.Units.SI.Area Spl_Garage_exterieur = S_Garage;
+  parameter Modelica.Units.SI.MassFlowRate Q_Garage = 0.5*S_Garage*HSP/3600*d_air;
 
   // Living room
-  parameter Modelica.SIunits.Area S_Salon = 30.32 * S/S_ref;
-  parameter Modelica.SIunits.Length L_ext_Salon = (Spe_Salon_Nord+Spi_Salon_Garage+Spe_Salon_Est+Spe_Salon_Sud)/HSP;
-  parameter Modelica.SIunits.Area Spe_Salon_Nord = 2.8 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spe_Salon_Est = 2.6 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spe_Salon_Sud = 6.6 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Salon_Garage = Spi_Garage_Salon;
-  parameter Modelica.SIunits.Area Spi_Salon_Chambre1 = 3.6 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Salon_SDB = 2.7 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Salon_Couloir = 1 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spl_Salon_Combles = S_Salon;
-  parameter Modelica.SIunits.Area Spl_Salon_exterieur = S_Salon;
-  parameter Modelica.SIunits.Area Sf_Salon_Nord = 3.65 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Sf_Salon_Sud = 5.52 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.MassFlowRate Q_Salon = Q_batiment * S_Salon/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  parameter Modelica.Units.SI.Area S_Salon = 30.32 * S/S_ref;
+  parameter Modelica.Units.SI.Length L_ext_Salon = (Spe_Salon_Nord+Spi_Salon_Garage+Spe_Salon_Est+Spe_Salon_Sud)/HSP;
+  parameter Modelica.Units.SI.Area Spe_Salon_Nord = 2.8 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spe_Salon_Est = 2.6 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spe_Salon_Sud = 6.6 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Salon_Garage = Spi_Garage_Salon;
+  parameter Modelica.Units.SI.Area Spi_Salon_Chambre1 = 3.6 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Salon_SDB = 2.7 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Salon_Couloir = 1 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spl_Salon_Combles = S_Salon;
+  parameter Modelica.Units.SI.Area Spl_Salon_exterieur = S_Salon;
+  parameter Modelica.Units.SI.Area Sf_Salon_Nord = 3.65 * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Sf_Salon_Sud = 5.52 * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.MassFlowRate Q_Salon = Q_batiment * S_Salon/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
 
   // Room 1
-  parameter Modelica.SIunits.Area S_Chambre1 = 11.16 * S/S_ref;
-  parameter Modelica.SIunits.Length L_ext_Chambre1 = Spe_Chambre1_Sud/HSP;
-  parameter Modelica.SIunits.Area Spe_Chambre1_Sud = 3.1 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Chambre1_Salon = Spi_Salon_Chambre1;
-  parameter Modelica.SIunits.Area Spi_Chambre1_Couloir = 3.6 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Chambre1_Chambre2 = 3.1 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spl_Chambre1_Combles = S_Chambre1;
-  parameter Modelica.SIunits.Area Spl_Chambre1_exterieur = S_Chambre1;
-  parameter Modelica.SIunits.Area Sf_Chambre1_Sud = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.MassFlowRate Q_Chambre1 = Q_batiment * S_Chambre1/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  parameter Modelica.Units.SI.Area S_Chambre1 = 11.16 * S/S_ref;
+  parameter Modelica.Units.SI.Length L_ext_Chambre1 = Spe_Chambre1_Sud/HSP;
+  parameter Modelica.Units.SI.Area Spe_Chambre1_Sud = 3.1 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Chambre1_Salon = Spi_Salon_Chambre1;
+  parameter Modelica.Units.SI.Area Spi_Chambre1_Couloir = 3.6 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Chambre1_Chambre2 = 3.1 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spl_Chambre1_Combles = S_Chambre1;
+  parameter Modelica.Units.SI.Area Spl_Chambre1_exterieur = S_Chambre1;
+  parameter Modelica.Units.SI.Area Sf_Chambre1_Sud = 1.56 * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.MassFlowRate Q_Chambre1 = Q_batiment * S_Chambre1/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
 
   // Room 2
-  parameter Modelica.SIunits.Area S_Chambre2 = 9.85 * S/S_ref;
-  parameter Modelica.SIunits.Length L_ext_Chambre2 = (Spe_Chambre2_Sud+Spe_Chambre2_Ouest)/HSP;
-  parameter Modelica.SIunits.Area Spe_Chambre2_Sud = 3 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spe_Chambre2_Ouest = 3.1 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Chambre2_Chambre1 = Spi_Chambre1_Chambre2;
-  parameter Modelica.SIunits.Area Spi_Chambre2_Couloir = 3.5 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spl_Chambre2_Combles = S_Chambre2;
-  parameter Modelica.SIunits.Area Spl_Chambre2_exterieur = S_Chambre2;
-  parameter Modelica.SIunits.Area Sf_Chambre2_Sud = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.MassFlowRate Q_Chambre2 = Q_batiment * S_Chambre2/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  parameter Modelica.Units.SI.Area S_Chambre2 = 9.85 * S/S_ref;
+  parameter Modelica.Units.SI.Length L_ext_Chambre2 = (Spe_Chambre2_Sud+Spe_Chambre2_Ouest)/HSP;
+  parameter Modelica.Units.SI.Area Spe_Chambre2_Sud = 3 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spe_Chambre2_Ouest = 3.1 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Chambre2_Chambre1 = Spi_Chambre1_Chambre2;
+  parameter Modelica.Units.SI.Area Spi_Chambre2_Couloir = 3.5 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spl_Chambre2_Combles = S_Chambre2;
+  parameter Modelica.Units.SI.Area Spl_Chambre2_exterieur = S_Chambre2;
+  parameter Modelica.Units.SI.Area Sf_Chambre2_Sud = 1.56 * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.MassFlowRate Q_Chambre2 = Q_batiment * S_Chambre2/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
 
   // Room 3
-  parameter Modelica.SIunits.Area S_Chambre3 = 14.28 * S/S_ref;
-  parameter Modelica.SIunits.Length L_ext_Chambre3 = (Spe_Chambre3_Ouest+Spe_Chambre3_Nord)/HSP;
-  parameter Modelica.SIunits.Area Spe_Chambre3_Ouest = 3.4 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spe_Chambre3_Nord = 4.2 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Chambre3_SDB = 3.4 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Chambre3_Couloir = 4.2 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spl_Chambre3_Combles = S_Chambre3;
-  parameter Modelica.SIunits.Area Spl_Chambre3_exterieur = S_Chambre3;
-  parameter Modelica.SIunits.Area Sf_Chambre3_Nord = 1.56 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.MassFlowRate Q_Chambre3 = Q_batiment * S_Chambre3/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
+  parameter Modelica.Units.SI.Area S_Chambre3 = 14.28 * S/S_ref;
+  parameter Modelica.Units.SI.Length L_ext_Chambre3 = (Spe_Chambre3_Ouest+Spe_Chambre3_Nord)/HSP;
+  parameter Modelica.Units.SI.Area Spe_Chambre3_Ouest = 3.4 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spe_Chambre3_Nord = 4.2 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Chambre3_SDB = 3.4 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Chambre3_Couloir = 4.2 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spl_Chambre3_Combles = S_Chambre3;
+  parameter Modelica.Units.SI.Area Spl_Chambre3_exterieur = S_Chambre3;
+  parameter Modelica.Units.SI.Area Sf_Chambre3_Nord = 1.56 * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.MassFlowRate Q_Chambre3 = Q_batiment * S_Chambre3/(S_Salon+S_Chambre1+S_Chambre2+S_Chambre3);
 
   // Bathroom
-  parameter Modelica.SIunits.Area S_SDB = 6.46 * S/S_ref;
-  parameter Modelica.SIunits.Length L_ext_SDB = (Spe_SDB_Nord+Spe_SDB_Est)/HSP;
-  parameter Modelica.SIunits.Area Spe_SDB_Nord = 1.9 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spe_SDB_Est = 0.7 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_SDB_Salon = Spi_Salon_SDB;
-  parameter Modelica.SIunits.Area Spi_SDB_Couloir = 1.9 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_SDB_Chambre3 = Spi_Chambre3_SDB;
-  parameter Modelica.SIunits.Area Spl_SDB_Combles = S_SDB;
-  parameter Modelica.SIunits.Area Spl_SDB_exterieur = S_SDB;
-  parameter Modelica.SIunits.Area Sf_SDB_Nord = 0.15 * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area S_SDB = 6.46 * S/S_ref;
+  parameter Modelica.Units.SI.Length L_ext_SDB = (Spe_SDB_Nord+Spe_SDB_Est)/HSP;
+  parameter Modelica.Units.SI.Area Spe_SDB_Nord = 1.9 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spe_SDB_Est = 0.7 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_SDB_Salon = Spi_Salon_SDB;
+  parameter Modelica.Units.SI.Area Spi_SDB_Couloir = 1.9 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_SDB_Chambre3 = Spi_Chambre3_SDB;
+  parameter Modelica.Units.SI.Area Spl_SDB_Combles = S_SDB;
+  parameter Modelica.Units.SI.Area Spl_SDB_exterieur = S_SDB;
+  parameter Modelica.Units.SI.Area Sf_SDB_Nord = 0.15 * sqrt(S/S_ref);
 
   // Hall
-  parameter Modelica.SIunits.Area S_Couloir = 7.05 * S/S_ref;
-  parameter Modelica.SIunits.Length L_ext_Couloir = Spe_Couloir_Ouest/HSP;
-  parameter Modelica.SIunits.Area Spe_Couloir_Ouest = 1.5 * HSP * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spi_Couloir_Chambre1 = Spi_Chambre1_Couloir;
-  parameter Modelica.SIunits.Area Spi_Couloir_Chambre2 = Spi_Chambre2_Couloir;
-  parameter Modelica.SIunits.Area Spi_Couloir_Chambre3 = Spi_Chambre3_Couloir;
-  parameter Modelica.SIunits.Area Spi_Couloir_SDB = Spi_SDB_Couloir;
-  parameter Modelica.SIunits.Area Spi_Couloir_Salon = Spi_Salon_Couloir;
-  parameter Modelica.SIunits.Area Spl_Couloir_Combles = S_Couloir;
-  parameter Modelica.SIunits.Area Spl_Couloir_exterieur = S_Couloir;
+  parameter Modelica.Units.SI.Area S_Couloir = 7.05 * S/S_ref;
+  parameter Modelica.Units.SI.Length L_ext_Couloir = Spe_Couloir_Ouest/HSP;
+  parameter Modelica.Units.SI.Area Spe_Couloir_Ouest = 1.5 * HSP * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre1 = Spi_Chambre1_Couloir;
+  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre2 = Spi_Chambre2_Couloir;
+  parameter Modelica.Units.SI.Area Spi_Couloir_Chambre3 = Spi_Chambre3_Couloir;
+  parameter Modelica.Units.SI.Area Spi_Couloir_SDB = Spi_SDB_Couloir;
+  parameter Modelica.Units.SI.Area Spi_Couloir_Salon = Spi_Salon_Couloir;
+  parameter Modelica.Units.SI.Area Spl_Couloir_Combles = S_Couloir;
+  parameter Modelica.Units.SI.Area Spl_Couloir_exterieur = S_Couloir;
 
   // Attic
-  parameter Modelica.SIunits.Area S_Combles = 100 * S/S_ref;
-  parameter Modelica.SIunits.Area Spe_Combles_exterieur_Nord = sqrt(H_Combles^2 + (8*sqrt(S/S_ref))^2)*(12.7*sqrt(S/S_ref));
-  parameter Modelica.SIunits.Area Spl_Combles_Est = 8 * H_Combles/2 * sqrt(S/S_ref);
-  parameter Modelica.SIunits.Area Spl_Combles_Ouest = Spl_Combles_Est;
-  parameter Modelica.SIunits.Area Spe_Combles_exterieur_Sud = Spe_Combles_exterieur_Nord;
-  parameter Modelica.SIunits.Area Spl_Combles_Garage = Spl_Garage_Combles;
-  parameter Modelica.SIunits.Area Spl_Combles_Salon = Spl_Salon_Combles;
-  parameter Modelica.SIunits.Area Spl_Combles_Chambre1 = Spl_Chambre1_Combles;
-  parameter Modelica.SIunits.Area Spl_Combles_Chambre2 = Spl_Chambre2_Combles;
-  parameter Modelica.SIunits.Area Spl_Combles_Chambre3 = Spl_Chambre3_Combles;
-  parameter Modelica.SIunits.Area Spl_Combles_SDB = Spl_SDB_Combles;
-  parameter Modelica.SIunits.Area Spl_Combles_Couloir = Spl_Couloir_Combles;
-  parameter Modelica.SIunits.MassFlowRate Q_Combles = 0.5*S_Combles*H_Combles/2/3600*d_air;
+  parameter Modelica.Units.SI.Area S_Combles = 100 * S/S_ref;
+  parameter Modelica.Units.SI.Area Spe_Combles_exterieur_Nord = sqrt(H_Combles^2 + (8*sqrt(S/S_ref))^2)*(12.7*sqrt(S/S_ref));
+  parameter Modelica.Units.SI.Area Spl_Combles_Est = 8 * H_Combles/2 * sqrt(S/S_ref);
+  parameter Modelica.Units.SI.Area Spl_Combles_Ouest = Spl_Combles_Est;
+  parameter Modelica.Units.SI.Area Spe_Combles_exterieur_Sud = Spe_Combles_exterieur_Nord;
+  parameter Modelica.Units.SI.Area Spl_Combles_Garage = Spl_Garage_Combles;
+  parameter Modelica.Units.SI.Area Spl_Combles_Salon = Spl_Salon_Combles;
+  parameter Modelica.Units.SI.Area Spl_Combles_Chambre1 = Spl_Chambre1_Combles;
+  parameter Modelica.Units.SI.Area Spl_Combles_Chambre2 = Spl_Chambre2_Combles;
+  parameter Modelica.Units.SI.Area Spl_Combles_Chambre3 = Spl_Chambre3_Combles;
+  parameter Modelica.Units.SI.Area Spl_Combles_SDB = Spl_SDB_Combles;
+  parameter Modelica.Units.SI.Area Spl_Combles_Couloir = Spl_Couloir_Combles;
+  parameter Modelica.Units.SI.MassFlowRate Q_Combles = 0.5*S_Combles*H_Combles/2/3600*d_air;
 
   Modelica.Blocks.Sources.BooleanExpression booDHW(y=false)
     annotation (Placement(transformation(extent={{-190,-170},{-178,-154}})));
@@ -201,7 +201,6 @@ protected
   Modelica.Blocks.Logical.Switch switch4
     annotation (Placement(transformation(extent={{-234,-232},{-222,-220}})));
   Modelica.Blocks.Continuous.LimPID conHeaModeBoiler(
-    initType=Modelica.Blocks.Types.InitPID.InitialState,
     yMax=1,
     yMin=Pmin_Ch/Pmax_Ch,
     Td=10,
@@ -221,7 +220,6 @@ public
     T_start=273.15 + 22,
     nConPar=0,
     hRoo=HSP,
-    lat=weaDat.lat,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
     extConMod=Buildings.HeatTransfer.Types.ExteriorConvection.Fixed,
@@ -252,7 +250,6 @@ public
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
-    lat=weaDat.lat,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
     extConMod=Buildings.HeatTransfer.Types.ExteriorConvection.Fixed,
@@ -294,7 +291,6 @@ public
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
-    lat=weaDat.lat,
     C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=4,
@@ -332,7 +328,6 @@ public
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
-    lat=weaDat.lat,
     C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=4,
@@ -373,7 +368,6 @@ public
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
-    lat=weaDat.lat,
     C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=4,
@@ -414,7 +408,6 @@ public
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
-    lat=weaDat.lat,
     C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=4,
@@ -566,7 +559,6 @@ public
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
     hRoo=HSP,
-    lat=weaDat.lat,
     C_start={400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM},
     nPorts=12,
@@ -606,7 +598,6 @@ public
     redeclare package Medium = MediumA,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     nConPar=0,
-    lat=weaDat.lat,
     intConMod=Buildings.HeatTransfer.Types.InteriorConvection.Fixed,
     hIntFixed=7.7,
     extConMod=Buildings.HeatTransfer.Types.ExteriorConvection.Fixed,
@@ -765,7 +756,7 @@ public
   Modelica.Blocks.Sources.Sine temSoil(
     amplitude=2,
     offset=15 + 273.15,
-    freqHz=1/(8760*3600),
+    f=1/(8760*3600),
     phase=0) annotation (Placement(transformation(extent={{24,80},{32,88}})));
   Buildings.HeatTransfer.Sources.PrescribedTemperature T_sol
     annotation (Placement(transformation(extent={{40,80},{48,88}})));
@@ -1713,12 +1704,14 @@ equation
     annotation (Line(points={{60,-10},{51.6,-10}}, color={191,0,0}));
   connect(T_Combles.port, ati.heaPorAir)
     annotation (Line(points={{-210,-10},{-220.4,-10}}, color={191,0,0}));
-  connect(conCooRo2.T, TRo2.T) annotation (Line(points={{67.68,15},{66,15},{66,
-          18},{64,18}}, color={0,0,127}));
+  connect(conCooRo2.T, TRo2.T) annotation (Line(points={{67.68,15},{66,15},{66,18},
+          {64.2,18}},   color={0,0,127}));
   connect(conCooRo3.T, TRo3.T)
-    annotation (Line(points={{67.68,-39},{64,-39},{64,-54}}, color={0,0,127}));
+    annotation (Line(points={{67.68,-39},{64.2,-39},{64.2,-54}},
+                                                             color={0,0,127}));
   connect(conCooBth.T, TBth.T)
-    annotation (Line(points={{5.68,-47},{4,-47},{4,-54}}, color={0,0,127}));
+    annotation (Line(points={{5.68,-47},{4.2,-47},{4.2,-54}},
+                                                          color={0,0,127}));
   connect(temSoil.y, T_sol.T) annotation (Line(points={{32.4,84},{39.2,84}},
                 color={0,0,127}));
   connect(T_sol.port, liv.surf_conBou[3]) annotation (Line(points={{48,84},{60,
@@ -1755,8 +1748,8 @@ equation
   connect(conCooLiv.P, liv.heaPorAir) annotation (Line(points={{-62,19},{-60,19},
           {-60,28},{-78,28},{-78,22},{-88.4,22}},                   color={191,0,
           0}));
-  connect(conCooLiv.T, TLiv.T) annotation (Line(points={{-66.32,19},{-70.4,19},
-          {-70.4,22},{-74,22}}, color={0,0,127}));
+  connect(conCooLiv.T, TLiv.T) annotation (Line(points={{-66.32,19},{-70.4,19},{
+          -70.4,22},{-73.8,22}},color={0,0,127}));
   connect(expCooRo1.y, conCooRo1.TSet) annotation (Line(points={{6.2,12},{9.68,
           12},{9.68,14.3333}}, color={0,0,127}));
   connect(expCooRo2.y, conCooRo2.TSet) annotation (Line(points={{64.2,10},{
@@ -1935,7 +1928,7 @@ equation
   connect(heatFlowSensor_Chambre3_Rad.port_b, ro3.heaPorRad) annotation (Line(
         points={{48,-186},{48,-178},{86,-178},{86,-74},{60,-74},{60,-55.52},{49.6,
           -55.52}}, color={191,0,0}));
-  connect(THal.T, conCooHal.T) annotation (Line(points={{64,-10},{68,-10},{68,
+  connect(THal.T, conCooHal.T) annotation (Line(points={{64.2,-10},{68,-10},{68,
           -9},{73.68,-9}}, color={0,0,127}));
   connect(conCooHal.TSet, expCooHal.y) annotation (Line(points={{73.68,-9.66667},
           {70.7,-9.66667},{70.7,-12},{70.2,-12}}, color={0,0,127}));
@@ -2024,7 +2017,7 @@ equation
           16},{-70,18.3333},{-66.32,18.3333}}, color={0,0,127}));
   connect(switch1.y, boi.y) annotation (Line(points={{-239.5,-119},{-184,-119},
           {-184,-136},{-152,-136}}, color={0,0,127}));
-  connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,15},{
+  connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6.2,18},{8,18},{8,15},{
           9.68,15}}, color={0,0,127}));
   connect(HeaSetLiv.y, onOffController.reference) annotation (Line(points={{-328.1,
           -210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
@@ -2050,9 +2043,9 @@ equation
     annotation (Line(points={{48.3,-169},{51.4,-169}}, color={0,0,127}));
   connect(realExpression28.y, reaTHal.u)
     annotation (Line(points={{66.3,-169},{69.4,-169}}, color={0,0,127}));
-  connect(T_Combles.T, reaTAti.u) annotation (Line(points={{-206,-10},{-202,-10},
+  connect(T_Combles.T, reaTAti.u) annotation (Line(points={{-205.8,-10},{-202,-10},
           {-202,-1},{-196.6,-1}}, color={0,0,127}));
-  connect(TGar.T, reaTGar.u) annotation (Line(points={{-116,-48},{-114,-48},{-114,
+  connect(TGar.T, reaTGar.u) annotation (Line(points={{-115.8,-48},{-114,-48},{-114,
           -47},{-110.6,-47}}, color={0,0,127}));
   connect(weaDat.weaBus, weatherStation.weaBus) annotation (Line(
       points={{-276,56},{-214,56},{-214,79.9},{-199.9,79.9}},
@@ -3022,7 +3015,7 @@ First implementation.
 </ul>
 </html>"),
     experiment(
-      StopTime=31536000,
+      StopTime=86400,
       Interval=300,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
