@@ -23,7 +23,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 3) Build and deploy a test case using the following commands executed in the root directory of this repository and where <testcase_dir_name> is the name of the test case subdirectory located in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases):
  
   * Linux or macOS: ``$ TESTCASE=<testcase_dir_name> docker-compose up`` 
-  * Windows PowerShell: ``> (setx TESTCASE "<testcase_dir_name>") -and (docker-compose up)``
+  * Windows PowerShell: ``> ($env:TESTCASE="<testcase_directory>") -and (docker-compose up)``
   * A couple notes:
     * The first time this command is run, the image ``boptest_base`` will be built.  This takes about a minute.  Subsequent usage will use the already-built image and deploy much faster.  
     * If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
@@ -103,6 +103,10 @@ A proposed BOPTEST home page and dashboard for creating accounts and sharing res
 D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. Benne, D. Vrabie, M. Wetter, and L. Helsen. (2021). ["Building optimization testing framework (BOPTEST) for simulation-based benchmarking of control strategies in buildings."](https://doi.org/10.1080/19401493.2021.1986574) *Journal of Building Performance Simulation*, 14(5), 586-610.
 
 ### Additional publications:
+J. Arroyo, F. Spiessens, and L. Helsen. (2022). ["Comparison of Optimal Control Techniques for Building Energy Management."](https://doi.org/10.3389/fbuil.2022.849754) *Frontiers in Built Environment* 8.
+
+T. Marzullo, S. Dey, N. Long, J. L. Vilaplana, and G. Henze. (2022). ["A high-fidelity building performance simulation test bed for the development and evaluation of advanced controls"](https://doi.org/10.1080/19401493.2022.2058091) *Journal of Building Performance Simulation*, 15(3), 379-397.
+ 
 J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2022). ["Reinforced model predictive control (RL-MPC) for building energy management."](https://doi.org/10.1016/j.apenergy.2021.118346) *Applied Energy* 309: 118346.
 
 J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2021). [“An OpenAI-Gym Environment for the Building Optimization Testing (BOPTEST) Framework.”](https://www.researchgate.net/profile/Javier-Arroyo/publication/354386346_An_OpenAI-Gym_environment_for_the_Building_Optimization_Testing_BOPTEST_framework/links/613616690360302a0082ffc1/An-OpenAI-Gym-environment-for-the-Building-Optimization-Testing-BOPTEST-framework.pdf) In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
