@@ -53,9 +53,12 @@ services:
     entrypoint:
       - minio
       - server
+      - "--console-address"
+      - ":9001"
       - /data
     ports:
       - "9000:9000"
+      - "9001:9001"
     environment:
       - MINIO_ACCESS_KEY=${AWS_ACCESS_KEY_ID}
       - MINIO_SECRET_KEY=${AWS_SECRET_ACCESS_KEY}
