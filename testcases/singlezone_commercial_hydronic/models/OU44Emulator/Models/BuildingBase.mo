@@ -339,10 +339,6 @@ final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_air=31
         allowFlowReversal=false,
         m_flow_nominal=m_flow_nominal)
         annotation (Placement(transformation(extent={{48,30},{28,50}})));
-      Buildings.Fluid.Sensors.Pressure senPreIn(redeclare package Medium = Air)
-        annotation (Placement(transformation(extent={{132,-40},{152,-20}})));
-      Buildings.Fluid.Sensors.Pressure senPreEx(redeclare package Medium = Air)
-        annotation (Placement(transformation(extent={{102,40},{122,60}})));
       Buildings.Fluid.Movers.SpeedControlled_y fanEx(
         addPowerToMedium=false,
         redeclare package Medium = Air,
@@ -527,111 +523,92 @@ final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_air=31
           rotation=180,
           origin={20,-14})));
 
-  equation
-      connect(fanSu.port_b, senVolFloIn.port_a)
-        annotation (Line(points={{10,-40},{20,-40}}, color={0,127,255}));
-      connect(fanSu.port_a, senTemIn2.port_b)
-        annotation (Line(points={{-10,-40},{-16,-40}}, color={0,127,255}));
-      connect(senTemIn2.port_a, hex.port_b2) annotation (Line(points={{-36,-40},{
-              -40,-40},{-40,-6},{-46,-6}}, color={0,127,255}));
-      connect(senTemEx1.port_b, hex.port_a1) annotation (Line(points={{-38,40},
-            {-44,40},{-44,6},{-46,6}},  color={0,127,255}));
-      connect(senVolFloEx.port_b, fanEx.port_a)
-        annotation (Line(points={{28,40},{20,40}}, color={0,127,255}));
-      connect(fanEx.port_b, senTemEx1.port_a)
-        annotation (Line(points={{0,40},{-18,40}}, color={0,127,255}));
-      connect(hex.port_b1, senTemEx2.port_a) annotation (Line(points={{-66,6},{
-              -72,6},{-72,40},{-80,40}}, color={0,127,255}));
-      connect(hex.port_a2, senTemIn1.port_b) annotation (Line(points={{-66,-6},{-72,
-              -6},{-72,-40},{-80,-40}},     color={0,127,255}));
-      connect(senPreIn.port, senTemIn3.port_b)
-        annotation (Line(points={{142,-40},{128,-40}}, color={0,127,255}));
-      connect(port_b1, port_b1)
-        annotation (Line(points={{160,-40},{160,-40}}, color={0,127,255}));
-      connect(senPreEx.port, port_a1)
-        annotation (Line(points={{112,40},{160,40}}, color={0,127,255}));
-      connect(senPreIn.port, port_b1) annotation (Line(points={{142,-40},{160,-40}},
-                                    color={0,127,255}));
-      connect(add.y, qel) annotation (Line(points={{-81,-74},{-100,-74},{-100,-106}},
-            color={0,0,127}));
-      connect(senTemEx2.port_b, outEx.ports[1])
-        annotation (Line(points={{-100,40},{-120,40}}, color={0,127,255}));
-      connect(senTemIn1.port_a, outSu.ports[1])
-        annotation (Line(points={{-100,-40},{-120,-40}}, color={0,127,255}));
-      connect(weaBus, outEx.weaBus) annotation (Line(
-          points={{-160,-2},{-150,-2},{-150,4},{-140,4},{-140,40.2}},
-          color={255,204,51},
-          thickness=0.5), Text(
-          string="%first",
-          index=-1,
-          extent={{-6,3},{-6,3}}));
-      connect(weaBus, outSu.weaBus) annotation (Line(
-          points={{-160,-2},{-150,-2},{-150,-6},{-140,-6},{-140,-39.8}},
-          color={255,204,51},
-          thickness=0.5), Text(
-          string="%first",
-          index=-1,
-          extent={{-6,3},{-6,3}}));
-      connect(senVolFloIn.port_b, hex1.port_a1)
-        annotation (Line(points={{40,-40},{48,-40}}, color={0,127,255}));
-    connect(cCO2.y, outEx.C_in[1]) annotation (Line(points={{-119,0},{-146,0},{-146,
-            32},{-142,32}}, color={0,0,127}));
-    connect(cCO2.y, outSu.C_in[1]) annotation (Line(points={{-119,0},{-146,0},{-146,
-            -48},{-142,-48}}, color={0,0,127}));
-    connect(senVolFloEx.port_a, resEx.port_b)
-      annotation (Line(points={{48,40},{70,40}}, color={0,127,255}));
-    connect(resEx.port_a, senPreEx.port)
-      annotation (Line(points={{90,40},{112,40}}, color={0,127,255}));
-    connect(port_a2, senTemCoilIn.port_a) annotation (Line(points={{100,-100},{100,
-            -72},{94,-72}}, color={0,127,255}));
-    connect(senTemCoilIn.port_b, hex1.port_a2)
-      annotation (Line(points={{74,-72},{68,-72},{68,-52}}, color={0,127,255}));
-    connect(oveFanRet.u, y)
-      annotation (Line(points={{-48,72},{-60,72},{-60,110}}, color={0,0,127}));
-    connect(y, oveFanSup.u)
-      annotation (Line(points={{-60,110},{-60,61.6}}, color={0,0,127}));
-    connect(senTemIn3.T, reaTSupAir.u) annotation (Line(points={{118,-29},{118,
-            -20},{131,-20},{131,-56.6}}, color={0,0,127}));
-    connect(reaTSupAir.y, Tsu) annotation (Line(points={{131,-72.7},{131,-80},{
-            166,-80}}, color={0,0,127}));
-    connect(senTemEx1.T, reaTRetAir.u) annotation (Line(points={{-28,51},{-28,
-            58},{16,58},{16,72},{34.8,72}}, color={0,0,127}));
-    connect(hex1.port_b1, senMasFlo.port_a)
-      annotation (Line(points={{68,-40},{72,-40},{72,-42},{76,-42}},
-                                                   color={0,127,255}));
-    connect(senMasFlo.port_b, senTemIn3.port_a)
-      annotation (Line(points={{96,-42},{102,-42},{102,-40},{108,-40}},
-                                                    color={0,127,255}));
-    connect(senMasFlo.m_flow, reaFloSupAir.u)
-      annotation (Line(points={{86,-31},{86,2},{90.8,2}}, color={0,0,127}));
-    connect(fanSu.P, reaPFanSup.u) annotation (Line(points={{11,-31},{15.5,-31},
-            {15.5,-80},{-16.8,-80}}, color={0,0,127}));
-    connect(reaPFanSup.y, add.u2)
-      annotation (Line(points={{-30.6,-80},{-58,-80}}, color={0,0,127}));
-    connect(fanEx.P, reaPFanRet.u) annotation (Line(points={{-1,49},{-1,50},{
-            -10,50},{-10,-18},{-20.8,-18}}, color={0,0,127}));
-    connect(reaPFanRet.y, add.u1) annotation (Line(points={{-34.6,-18},{-48,-18},
-            {-48,-68},{-58,-68}}, color={0,0,127}));
-    connect(senTemCoilIn.T, reaTCoiSup.u) annotation (Line(points={{84,-61},{92,
-            -61},{92,-60},{106,-60},{106,-90},{112.8,-90}}, color={0,0,127}));
-    connect(hex1.port_b2, port_b2) annotation (Line(points={{48,-52},{40,-52},{
-            40,-100}}, color={0,127,255}));
-    connect(senTemIn2.T, reaTHeaRec.u) annotation (Line(points={{-26,-29},{-26,
-            -26},{-6,-26},{-6,-14},{12.8,-14}}, color={0,0,127}));
-    connect(oveFanRet.y, fanEx.y)
-      annotation (Line(points={{-25,72},{10,72},{10,52}}, color={0,0,127}));
-    connect(oveFanSup.y, fanSu.y) annotation (Line(points={{-60,43.2},{-60,20},
-            {0,20},{0,-28}}, color={0,0,127}));
-      annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,
-                -100},{160,100}}), graphics={
-            Rectangle(
-              extent={{-160,100},{160,-100}},
-              lineColor={28,108,200},
-              fillColor={255,255,255},
-              fillPattern=FillPattern.Solid),
-            Ellipse(extent={{-20,60},{20,20}}, lineColor={28,108,200}),
+equation
+    connect(fanSu.port_b, senVolFloIn.port_a) annotation(
+      Line(points = {{10, -40}, {20, -40}}, color = {0, 127, 255}));
+    connect(fanSu.port_a, senTemIn2.port_b) annotation(
+      Line(points = {{-10, -40}, {-16, -40}}, color = {0, 127, 255}));
+    connect(senTemIn2.port_a, hex.port_b2) annotation(
+      Line(points = {{-36, -40}, {-40, -40}, {-40, -6}, {-46, -6}}, color = {0, 127, 255}));
+    connect(senTemEx1.port_b, hex.port_a1) annotation(
+      Line(points = {{-38, 40}, {-44, 40}, {-44, 6}, {-46, 6}}, color = {0, 127, 255}));
+    connect(senVolFloEx.port_b, fanEx.port_a) annotation(
+      Line(points = {{28, 40}, {20, 40}}, color = {0, 127, 255}));
+    connect(fanEx.port_b, senTemEx1.port_a) annotation(
+      Line(points = {{0, 40}, {-18, 40}}, color = {0, 127, 255}));
+    connect(hex.port_b1, senTemEx2.port_a) annotation(
+      Line(points = {{-66, 6}, {-72, 6}, {-72, 40}, {-80, 40}}, color = {0, 127, 255}));
+    connect(hex.port_a2, senTemIn1.port_b) annotation(
+      Line(points = {{-66, -6}, {-72, -6}, {-72, -40}, {-80, -40}}, color = {0, 127, 255}));
+    connect(port_b1, port_b1) annotation(
+      Line(points = {{160, -40}, {160, -40}}, color = {0, 127, 255}));
+    connect(add.y, qel) annotation(
+      Line(points = {{-81, -74}, {-100, -74}, {-100, -106}}, color = {0, 0, 127}));
+    connect(senTemEx2.port_b, outEx.ports[1]) annotation(
+      Line(points = {{-100, 40}, {-120, 40}}, color = {0, 127, 255}));
+    connect(senTemIn1.port_a, outSu.ports[1]) annotation(
+      Line(points = {{-100, -40}, {-120, -40}}, color = {0, 127, 255}));
+    connect(weaBus, outEx.weaBus) annotation(
+      Line(points = {{-160, -2}, {-150, -2}, {-150, 4}, {-140, 4}, {-140, 40.2}}, color = {255, 204, 51}, thickness = 0.5),
+      Text(string = "%first", index = -1, extent = {{-6, 3}, {-6, 3}}));
+    connect(weaBus, outSu.weaBus) annotation(
+      Line(points = {{-160, -2}, {-150, -2}, {-150, -6}, {-140, -6}, {-140, -39.8}}, color = {255, 204, 51}, thickness = 0.5),
+      Text(string = "%first", index = -1, extent = {{-6, 3}, {-6, 3}}));
+    connect(senVolFloIn.port_b, hex1.port_a1) annotation(
+      Line(points = {{40, -40}, {48, -40}}, color = {0, 127, 255}));
+    connect(cCO2.y, outEx.C_in[1]) annotation(
+      Line(points = {{-119, 0}, {-146, 0}, {-146, 32}, {-142, 32}}, color = {0, 0, 127}));
+    connect(cCO2.y, outSu.C_in[1]) annotation(
+      Line(points = {{-119, 0}, {-146, 0}, {-146, -48}, {-142, -48}}, color = {0, 0, 127}));
+    connect(senVolFloEx.port_a, resEx.port_b) annotation(
+      Line(points = {{48, 40}, {70, 40}}, color = {0, 127, 255}));
+    connect(port_a2, senTemCoilIn.port_a) annotation(
+      Line(points = {{100, -100}, {100, -72}, {94, -72}}, color = {0, 127, 255}));
+    connect(senTemCoilIn.port_b, hex1.port_a2) annotation(
+      Line(points = {{74, -72}, {68, -72}, {68, -52}}, color = {0, 127, 255}));
+    connect(oveFanRet.u, y) annotation(
+      Line(points = {{-48, 72}, {-60, 72}, {-60, 110}}, color = {0, 0, 127}));
+    connect(y, oveFanSup.u) annotation(
+      Line(points = {{-60, 110}, {-60, 61.6}}, color = {0, 0, 127}));
+    connect(senTemIn3.T, reaTSupAir.u) annotation(
+      Line(points = {{118, -29}, {118, -20}, {131, -20}, {131, -56.6}}, color = {0, 0, 127}));
+    connect(reaTSupAir.y, Tsu) annotation(
+      Line(points = {{131, -72.7}, {131, -80}, {166, -80}}, color = {0, 0, 127}));
+    connect(senTemEx1.T, reaTRetAir.u) annotation(
+      Line(points = {{-28, 51}, {-28, 58}, {16, 58}, {16, 72}, {34.8, 72}}, color = {0, 0, 127}));
+    connect(hex1.port_b1, senMasFlo.port_a) annotation(
+      Line(points = {{68, -40}, {72, -40}, {72, -42}, {76, -42}}, color = {0, 127, 255}));
+    connect(senMasFlo.port_b, senTemIn3.port_a) annotation(
+      Line(points = {{96, -42}, {102, -42}, {102, -40}, {108, -40}}, color = {0, 127, 255}));
+    connect(senMasFlo.m_flow, reaFloSupAir.u) annotation(
+      Line(points = {{86, -31}, {86, 2}, {90.8, 2}}, color = {0, 0, 127}));
+    connect(fanSu.P, reaPFanSup.u) annotation(
+      Line(points = {{11, -31}, {15.5, -31}, {15.5, -80}, {-16.8, -80}}, color = {0, 0, 127}));
+    connect(reaPFanSup.y, add.u2) annotation(
+      Line(points = {{-30.6, -80}, {-58, -80}}, color = {0, 0, 127}));
+    connect(fanEx.P, reaPFanRet.u) annotation(
+      Line(points = {{-1, 49}, {-1, 50}, {-10, 50}, {-10, -18}, {-20.8, -18}}, color = {0, 0, 127}));
+    connect(reaPFanRet.y, add.u1) annotation(
+      Line(points = {{-34.6, -18}, {-48, -18}, {-48, -68}, {-58, -68}}, color = {0, 0, 127}));
+    connect(senTemCoilIn.T, reaTCoiSup.u) annotation(
+      Line(points = {{84, -61}, {92, -61}, {92, -60}, {106, -60}, {106, -90}, {112.8, -90}}, color = {0, 0, 127}));
+    connect(hex1.port_b2, port_b2) annotation(
+      Line(points = {{48, -52}, {40, -52}, {40, -100}}, color = {0, 127, 255}));
+    connect(senTemIn2.T, reaTHeaRec.u) annotation(
+      Line(points = {{-26, -29}, {-26, -26}, {-6, -26}, {-6, -14}, {12.8, -14}}, color = {0, 0, 127}));
+    connect(oveFanRet.y, fanEx.y) annotation(
+      Line(points = {{-25, 72}, {10, 72}, {10, 52}}, color = {0, 0, 127}));
+    connect(oveFanSup.y, fanSu.y) annotation(
+      Line(points = {{-60, 43.2}, {-60, 20}, {0, 20}, {0, -28}}, color = {0, 0, 127}));
+  connect(resEx.port_a, port_a1) annotation(
+      Line(points = {{90, 40}, {160, 40}}, color = {0, 127, 255}));
+  connect(senTemIn3.port_b, port_b1) annotation(
+      Line(points = {{128, -40}, {160, -40}}, color = {0, 127, 255}));
+    annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,
+                -100},{160,100}}), graphics={Rectangle(lineColor = {28, 108, 200}, fillColor = {255, 255, 255}, fillPattern = FillPattern.Solid, extent = {{-160, 100}, {160, -100}}),
+            Ellipse(lineColor = {28, 108, 200}, extent = {{-20, 60}, {20, 20}}),
             Line(points={{12,56},{12,24},{-20,40},{12,56}}, color={28,108,200}),
-            Ellipse(extent={{-20,-20},{20,-60}}, lineColor={28,108,200}),
+            Ellipse(lineColor = {28, 108, 200}, extent = {{-20, -20}, {20, -60}}),
             Line(points={{-12,-24},{-12,-56},{20,-40},{-12,-24}}, color={28,108,200}),
             Line(points={{20,-40},{150,-40}}, color={28,108,200}),
             Line(points={{-20,-40},{-150,-40}}, color={28,108,200}),
@@ -639,23 +616,12 @@ final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_air=31
             Line(points={{20,40},{150,40}}, color={28,108,200}),
             Line(points={{-82,40},{-122,-40}}, color={28,108,200}),
             Line(points={{-122,40},{-82,-40}}, color={28,108,200}),
-            Rectangle(
-              extent={{62,-20},{82,-60}},
-              lineColor={28,108,200},
-              fillColor={238,46,47},
-              fillPattern=FillPattern.Solid),
-            Line(points={{0,72},{0,60}}, color={0,0,0}),
-            Line(points={{-60,90},{-60,-10},{0,-10},{0,-20}},
-                                                          color={0,0,0}),
-            Line(points={{0,72},{-60,72}}, color={0,0,0}),
-            Line(
-              points={{2,-60},{2,-74},{-100,-74},{-100,-96}},
-              color={0,0,0},
-              pattern=LinePattern.Dash),
-            Line(
-              points={{0,20},{0,12},{-40,12},{-40,-74}},
-              color={0,0,0},
-              pattern=LinePattern.Dash),
+            Rectangle(lineColor = {28, 108, 200}, fillColor = {238, 46, 47}, fillPattern = FillPattern.Solid, extent = {{62, -20}, {82, -60}}),
+            Line(points = {{0, 72}, {0, 60}}),
+            Line(points = {{-60, 90}, {-60, -10}, {0, -10}, {0, -20}}),
+            Line(points = {{0, 72}, {-60, 72}}),
+            Line(points = {{2, -60}, {2, -74}, {-100, -74}, {-100, -96}}, pattern = LinePattern.Dash),
+            Line(points = {{0, 20}, {0, 12}, {-40, 12}, {-40, -74}}, pattern = LinePattern.Dash),
             Line(points={{-150,44},{-150,36}}, color={28,108,200}),
             Line(points={{-150,-36},{-150,-44}}, color={28,108,200}),
             Line(points={{100,-90},{100,-54},{82,-54}}, color={238,46,47}),
@@ -796,39 +762,39 @@ AirHandlingUnit ahu(
     C_start={0.00064},
     linearizeRadiation=true)
     annotation (Placement(transformation(extent={{-18,36},{22,76}})));
-final parameter Buildings.HeatTransfer.Data.GlazingSystems.TripleClearAir13ClearAir13Clear
+parameter Buildings.HeatTransfer.Data.GlazingSystems.TripleClearAir13ClearAir13Clear
   glaSys(haveExteriorShade=true, shade=blinds)
          annotation (Placement(transformation(extent={{204,166},{224,186}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Generic insulation(
+parameter Buildings.HeatTransfer.Data.Solids.Generic insulation(
   x=0.27,
   k=0.04,
   c=1000,
   d=50)
   annotation (Placement(transformation(extent={{92,166},{112,186}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Concrete concrete(x=0.2)
+parameter Buildings.HeatTransfer.Data.Solids.Concrete concrete(x=0.2)
   annotation (Placement(transformation(extent={{120,166},{140,186}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Generic lightPartition(
+parameter Buildings.HeatTransfer.Data.Solids.Generic lightPartition(
   c=1000,
   k=0.5,
   x=0.15,
   d=250)
   annotation (Placement(transformation(extent={{64,166},{84,186}})));
-final parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic extWall(
+parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic extWall(
   nLay=2,
   material={insulation,concrete},
   roughness_a=Buildings.HeatTransfer.Types.SurfaceRoughness.Medium)
   annotation (Placement(transformation(extent={{148,192},{168,212}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Generic insulationRoof(
+parameter Buildings.HeatTransfer.Data.Solids.Generic insulationRoof(
   k=0.04,
   c=1000,
   x=0.52,
   d=50)
   annotation (Placement(transformation(extent={{92,192},{112,212}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Concrete concreteRoof(x=0.27)
+parameter Buildings.HeatTransfer.Data.Solids.Concrete concreteRoof(x=0.27)
   annotation (Placement(transformation(extent={{120,192},{140,212}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Concrete concreteFloor(x=0.2)
+parameter Buildings.HeatTransfer.Data.Solids.Concrete concreteFloor(x=0.2)
   annotation (Placement(transformation(extent={{64,192},{84,212}})));
-final parameter Buildings.HeatTransfer.Data.Shades.Generic blinds(
+parameter Buildings.HeatTransfer.Data.Shades.Generic blinds(
   tauSol_a=0.05,
   tauSol_b=0.05,
   rhoSol_a=0.5,
@@ -971,7 +937,7 @@ Buildings.Fluid.FixedResistances.Junction jun4(
 Modelica.Blocks.Math.Gain metHeat(k=120/AFlo)
   "Metabolic heat generation per person (sensible and latent)"
   annotation (Placement(transformation(extent={{-104,136},{-88,152}})));
-final parameter Buildings.HeatTransfer.Data.Solids.Generic insulationFloor(
+  parameter Buildings.HeatTransfer.Data.Solids.Generic insulationFloor(
   k=0.04,
   c=1000,
   x=0.15,
