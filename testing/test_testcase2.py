@@ -30,8 +30,7 @@ class ExampleSupervisoryPython(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Run test
-        custom_kpi_config_path = os.path.join(utilities.get_root_path(), 'examples', 'python', 'custom_kpi', 'custom_kpis_example.config')
-        kpi,df_res,customizedkpis_result = testcase2.run(customized_kpi_config=custom_kpi_config_path)
+        kpi,df_res,customizedkpis_result = testcase2.run()
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
@@ -148,7 +147,7 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/initialize/{1}'.format(self.url, self.testid))
         y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
         # Check kpis
-        value = float(y['senTSetRooHea_y'])
+        value = float(y['oveTSetRooHea_u'])
         self.assertAlmostEqual(value, 273.15+10, places=3)
 
     def test_max(self):
@@ -160,7 +159,7 @@ class MinMax(unittest.TestCase):
         requests.put('{0}/initialize/{1}'.format(self.url, self.testid))
         y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
         # Check kpis
-        value = float(y['senTSetRooHea_y'])
+        value = float(y['oveTSetRooHea_u'])
         self.assertAlmostEqual(value, 273.15+35, places=3)
 
 class API(unittest.TestCase, utilities.partialTestAPI):

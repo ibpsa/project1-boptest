@@ -37,10 +37,10 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         self.testid = Run.testid
         self.points_check = ['reaPFan_y', 'reaQHeaPumCon_y',
                              'reaTRet_y', 'reaQHeaPumEva_y',
-                             'reaPum_y', 'reaTZon_y',
+                             'ovePum_u', 'reaTZon_y',
                              'reaTSup_y', 'reaPPumEmi_y',
-                             'reaFan_y', 'reaPHeaPum_y',
-                             'reaHeaPumY_y', 'reaQFloHea_y',
+                             'oveFan_u', 'reaPHeaPum_y',
+                             'oveHeaPumY_u', 'reaQFloHea_y',
                              'reaCOP_y']
 
     def test_peak_heat_day(self):

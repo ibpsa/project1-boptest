@@ -2,6 +2,7 @@
 *.txt
 !worker/requirements/*.txt
 !version.txt
+!testcases/singlezone_commercial_hydronic/models/OU44Emulator/occ.txt
 *.mat
 *.log
 *.err

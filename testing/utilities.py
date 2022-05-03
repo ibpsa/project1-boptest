@@ -421,9 +421,10 @@ class partialTestAPI(partialChecks):
         # Get version from BOPTEST API
         version = requests.get('{0}/version'.format(self.url)).json()
         # Create a regex object as three decimal digits seperated by period
-        r = re.compile('\d.\d.\d')
+        r_num = re.compile('\d.\d.\d')
+        r_x = re.compile('0.x.x')
         # Test that the returned version matches the expected string format
-        if r.match(version['version']):
+        if r_num.match(version['version']) or r_x.match(version['version']):
             self.assertTrue(True)
         else:
             self.assertTrue(False, '/version did not return correctly. Returned {0}.'.format(version))
@@ -566,6 +567,9 @@ class partialTestAPI(partialChecks):
         elif self.name == 'multizone_residential_hydronic':
             u = {'conHeaRo1_oveTSetHea_activate':0, 'conHeaRo1_oveTSetHea_u':273.15+22,
                  'oveEmiPum_activate':0, 'oveEmiPum_u':1}
+        elif self.name == 'singlezone_commercial_hydronic':
+            u = {'oveTSupSet_activate':0, 'oveTSupSet_u':273.15+25,
+                 'oveTZonSet_activate':0, 'oveTZonSet_u':273.15+25}
         requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
         y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u).json()
@@ -645,10 +649,10 @@ class partialTestAPI(partialChecks):
         scenario_set = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()
         self.assertEqual(scenario, scenario_set)
         # Check initialized correctly
-        measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()
+        points = self.get_all_points()
         # Don't check weather
         points_check = []
-        for key in measurements.keys():
+        for key in points:
             if 'weaSta' not in key:
                 points_check.append(key)
         df = self.results_to_df(points_check, -np.inf, np.inf, self.url)
@@ -717,7 +721,9 @@ class partialTestTimePeriod(partialChecks):
         y = 1
         while y:
             # Advance simulation
-            y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={}).json()
+            y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={})
+            if y:
+                y = y.json()
         # Check results
         df = self.results_to_df(self.points_check, -np.inf, np.inf, self.url)
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(time_period))
