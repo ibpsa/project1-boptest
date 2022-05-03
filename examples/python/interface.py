@@ -13,6 +13,7 @@ import requests
 import sys
 import time
 import numpy as np
+import requests
 from examples.python.custom_kpi.custom_kpi_calculator import CustomKPI
 from examples.python.controllers.controller import Controller
 import json
@@ -33,9 +34,11 @@ def check_response(response):
     result : dict, resulf from call to restful API
 
     """
-    status = response[0]
-    message = response[1]
-    payload = response[2]
+    if isinstance(response, requests.Response):
+        response = response.json()
+    status = response["status"]
+    message = response["message"]
+    payload = response["payload"]
     if status == 200:
         print(message)
         return payload
@@ -221,8 +224,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     df_res = pd.DataFrame()
     for point in points:
         res = check_response(requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}))
-        for key in res:
-            res[key] = res[key].tolist()
         df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
 

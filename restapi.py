@@ -14,6 +14,10 @@ import logging
 import argparse
 
 
+def construct(status, message, payload):
+    return {"status": status, "message": message, "payload": payload}
+
+
 # LOGGING SETTING
 # ----------------
 parser = argparse.ArgumentParser()
@@ -89,7 +93,7 @@ class Advance(Resource):
         u = parser_advance.parse_args()
         app.logger.info("Receiving a new advance request: {}".format(u))        
         status, message, payload = case.advance(u)
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Initialize(Resource):
@@ -102,7 +106,7 @@ class Initialize(Resource):
         start_time = float(args['start_time'])
         warmup_period = float(args['warmup_period']) 
         status, message, payload = case.initialize(start_time, warmup_period)
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Step(Resource):
@@ -112,7 +116,7 @@ class Step(Resource):
         '''GET request to receive current simulation step in seconds.'''
         app.logger.info("Receiving a new query for step")
         status, message, payload = case.get_step()
-        return status, message, payload
+        return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set simulation step in seconds.'''
@@ -120,7 +124,7 @@ class Step(Resource):
         app.logger.info("Receiving a new set step request: {}".format(args))
         step = args['step']
         status, message, payload = case.set_step(step)
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Inputs(Resource):
@@ -130,7 +134,7 @@ class Inputs(Resource):
         '''GET request to receive list of available inputs.'''
         app.logger.info("Receiving a new query for input list")
         status, message, payload = case.get_inputs()
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Measurements(Resource):
@@ -140,7 +144,7 @@ class Measurements(Resource):
         '''GET request to receive list of available measurements.'''
         app.logger.info("Receiving a new query for output list")
         status, message, payload = case.get_measurements()
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Results(Resource):
@@ -154,7 +158,7 @@ class Results(Resource):
         start_time = float(args['start_time'])
         final_time = float(args['final_time'])
         status, message, payload = case.get_results(var, start_time, final_time)
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class KPI(Resource):
@@ -164,7 +168,7 @@ class KPI(Resource):
         '''GET request to receive KPI data.'''
         app.logger.info("Receiving a new query for KPI")
         status, message, payload = case.get_kpis()
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Forecast_Parameters(Resource):
@@ -174,7 +178,7 @@ class Forecast_Parameters(Resource):
         '''GET request to receive forecast parameters.'''
         app.logger.info("Receiving a new query for forecast parameters")
         status, message, payload = case.get_forecast_parameters()
-        return status, message, payload
+        return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set forecast horizon and interval inseconds.'''    
@@ -183,7 +187,7 @@ class Forecast_Parameters(Resource):
         horizon = args['horizon']
         interval = args['interval']
         status, message, payload = case.set_forecast_parameters(horizon, interval)
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Forecast(Resource):
@@ -193,7 +197,7 @@ class Forecast(Resource):
         '''GET request to receive forecast data.'''
         app.logger.info("Receiving a new query for forecast")
         status, message, payload = case.get_forecast()
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Scenario(Resource):
@@ -203,14 +207,14 @@ class Scenario(Resource):
         '''GET request to receive current scenario.'''
         app.logger.info("Receiving a new query for scenario")
         status, message, payload = case.get_scenario()
-        return status, message, payload
+        return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set scenario.'''          
         scenario = parser_scenario.parse_args(strict=True)
         app.logger.info("Receiving a new request for setting the scenario: {}".format(scenario))
         status, message, payload = case.set_scenario(scenario)
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Name(Resource):
@@ -220,7 +224,7 @@ class Name(Resource):
         '''GET request to receive test case name.'''
         app.logger.info("Receiving a new query for case name")
         status, message, payload = case.get_name()
-        return status, message, payload
+        return construct(status, message, payload)
 
 
 class Version(Resource):
@@ -228,7 +232,7 @@ class Version(Resource):
 
     def get(self):
         status, message, payload = case.get_version()
-        return status, message, payload
+        return construct(status, message, payload)
 
     # --------------------
 

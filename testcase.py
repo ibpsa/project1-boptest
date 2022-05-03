@@ -459,7 +459,7 @@ class TestCase(object):
         '''
         status = 200
         message = "Successfully queried simulation for results."
-        y = None
+        y = []
         try:
             # Get correct point
             if var in self.y_store.keys():
@@ -473,7 +473,7 @@ class TestCase(object):
                      var: self.u_store[var]
                 }
             else:
-                y = None
+                y = []
 
             # Get correct time
             if y is not None:
@@ -485,7 +485,9 @@ class TestCase(object):
         except:
             status = 500
             message = "Failed to query simulation for results: {}".format(traceback.format_exc())
-
+        if not isinstance(y, (list, type(None))):
+            for key in y:
+                y[key] = y[key].tolist()
         return status, message, y
 
     def get_kpis(self):
