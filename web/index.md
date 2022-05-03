@@ -25,6 +25,18 @@ Head over to the [Software](/software) page to start testing your control strate
 Stay up to date on the latest [News](/news).
 
 
-# Collaboration
+# Collaboration and Support
 
-The development of BOPTEST has resulted from an international collaboration of academic, national laboratory, and industry partners through [IBPSA Project 1](https://ibpsa.github.io/project1/index.html) Work Package 1.2.  Thank you to all of the contributing partners.
+The development of BOPTEST has resulted from an international collaboration of academic, national laboratory, and industry partners through [IBPSA Project 1](https://ibpsa.github.io/project1/index.html) Work Package 1.2.  Thank you to all of the contributing partners!
+
+<p align="center">
+    <img src="images/partner_logos.png" alt="drawing" width="70%"/>
+</p>
+
+Financial support provided in-part by:
+
+- U.S. Department of Energy Building Technologies Office
+- Flemish Institute for Technological Research (VITO)
+- KU Leuven
+- Centres for Environment-friendly Energy Research (FME) Research Centre on Zero Emission Neighbourhoods (ZEN) in Smart Cities
+- Engie
