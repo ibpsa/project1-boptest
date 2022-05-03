@@ -176,7 +176,11 @@ equation
           -20},{120,-20},{120,-44},{117.6,-44}}, color={0,0,127}));
   connect(ovePum.y, districtHeating.y) annotation (Line(points={{-171,-194},{
           -158,-194},{-158,-196},{-143,-196}}, color={0,0,127}));
-  annotation (experiment(StopTime=31536000),               Diagram(
+  annotation (experiment(
+      StopTime=31536000,
+      Interval=300,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Cvode"),                         Diagram(
         coordinateSystem(extent={{-260,-240},{240,220}}),          graphics={
         Rectangle(
           extent={{-192,168},{-44,100}},

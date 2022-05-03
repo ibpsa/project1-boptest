@@ -2,11 +2,11 @@ within OU44Emulator.Models;
 partial model BuildingBase "Single-zone whole building model"
 package Water = Buildings.Media.Water;
 package Air = Buildings.Media.Air(extraPropertiesNames={"CO2"});
-final parameter Modelica.SIunits.Area AFlo=8500 "Floor area";
-final parameter Modelica.SIunits.Length hRoo=3.2 "Average room height";
-final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_water=2
+final parameter Modelica.Units.SI.Area AFlo=8500 "Floor area";
+final parameter Modelica.Units.SI.Length hRoo=3.2 "Average room height";
+final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_water=2
   "Nominal mass flow rate for water loop";
-final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
+final parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_air=31
   "Nominal mass flow rate for air system";
 
   model DistrictHeating
@@ -64,7 +64,6 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
         redeclare package Medium = Water,
         addPowerToMedium=false,
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
       redeclare Buildings.Fluid.Movers.Data.Pumps.Wilo.Stratos50slash1to12 per(
           pressure(V_flow={0,0.00209948320413,0.00303617571059,0.00389750215332,
@@ -91,9 +90,9 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
             extent={{-10,-10},{10,10}},
             rotation=90,
             origin={60,38})));
-      parameter Modelica.SIunits.MassFlowRate m_flow_nominal=2
+      parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=2
         "Nominal mass flow rate";
-      parameter Modelica.SIunits.MassFlowRate m_flow_nominal_dh=5
+      parameter Modelica.Units.SI.MassFlowRate m_flow_nominal_dh=5
         "Nominal mass flow rate";
       Buildings.Fluid.Sensors.TemperatureTwoPort tRe(redeclare package Medium =
             Water, m_flow_nominal=m_flow_nominal,
@@ -106,7 +105,6 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
         redeclare package Medium = Water,
         addPowerToMedium=false,
         energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-        massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       allowFlowReversal=false,
       redeclare Buildings.Fluid.Movers.Data.Pumps.Wilo.Stratos50slash1to12 per(
           pressure(V_flow={0,0.00209948320413,0.00303617571059,0.00389750215332,
@@ -210,7 +208,7 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
 
   model Infiltration "Constant infiltration"
       replaceable package Air = Buildings.Media.Air(extraPropertiesNames={"CO2"});
-      parameter Modelica.SIunits.Volume Vi "Indoor air volume";
+      parameter Modelica.Units.SI.Volume Vi "Indoor air volume";
       parameter Real ach=0.2 "Infiltration air changes per hour";
       Buildings.Fluid.Sources.MassFlowSource_WeatherData infiltr(
         redeclare package Medium = Air,
@@ -302,7 +300,6 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
         redeclare package Medium = Air,
         redeclare Data.AhuFanx4 per,
       allowFlowReversal=true,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
         annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
       Buildings.Fluid.Sensors.VolumeFlowRate senVolFloIn(
@@ -351,7 +348,6 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
         redeclare package Medium = Air,
         redeclare Data.AhuFanx4 per,
       allowFlowReversal=true,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
         annotation (Placement(transformation(extent={{20,30},{0,50}})));
       Buildings.Fluid.Sensors.TemperatureTwoPort senTemEx2(
@@ -425,9 +421,9 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
       Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
             Water)
         annotation (Placement(transformation(extent={{30,-110},{50,-90}})));
-      parameter Modelica.SIunits.MassFlowRate m_flow_nominal=20
+      parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=20
         "Nominal mass flow rate - air";
-      parameter Modelica.SIunits.MassFlowRate m2_flow_nominal=2
+      parameter Modelica.Units.SI.MassFlowRate m2_flow_nominal=2
         "Nominal mass flow rate - water";
       Modelica.Blocks.Interfaces.RealOutput Tsu annotation (Placement(
             transformation(
@@ -697,7 +693,7 @@ final parameter Modelica.SIunits.MassFlowRate m_flow_nominal_air=31
       Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
             Water) "Return fluid outlet port"
         annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-      parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.1
+      parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=0.1
         "Nominal mass flow rate, used for regularization near zero flow";
       Modelica.Blocks.Math.Add add(k1=-1, k2=1)
         annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
@@ -798,9 +794,7 @@ AirHandlingUnit ahu(
     use_C_flow=true,
     nPorts=5,
     C_start={0.00064},
-    linearizeRadiation=true,
-    lat=0.96697872811643,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    linearizeRadiation=true)
     annotation (Placement(transformation(extent={{-18,36},{22,76}})));
 final parameter Buildings.HeatTransfer.Data.GlazingSystems.TripleClearAir13ClearAir13Clear
   glaSys(haveExteriorShade=true, shade=blinds)
@@ -869,7 +863,6 @@ DistrictHeating districtHeating(m_flow_nominal=2, m_flow_nominal_dh=5)
 Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad(
   redeclare package Medium = Water,
     allowFlowReversal=false,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     Q_flow_nominal=40*AFlo,
     dp_nominal=20000,
     T_start=293.15,
@@ -880,7 +873,6 @@ Buildings.Fluid.Actuators.Valves.ThreeWayLinear valRad(
   redeclare package Medium = Water,
   CvData=Buildings.Fluid.Types.CvTypes.OpPoint,
   m_flow_nominal=m_flow_nominal_water,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     dpValve_nominal=10,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     linearized={true,true})
@@ -906,7 +898,6 @@ Buildings.Fluid.FixedResistances.Junction jun1(
   m_flow_nominal={m_flow_nominal_water,-m_flow_nominal_water,
       m_flow_nominal_water},
   dp_nominal={5,0,5},
-    massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
   annotation (Placement(transformation(
       extent={{10,10},{-10,-10}},
@@ -920,7 +911,6 @@ Buildings.Fluid.FixedResistances.Junction jun2(
   m_flow_nominal={m_flow_nominal_water,-m_flow_nominal_water,-
       m_flow_nominal_water},
   dp_nominal={5,0,5},
-    massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
                       annotation (Placement(transformation(
       extent={{10,10},{-10,-10}},
@@ -934,7 +924,6 @@ Buildings.Fluid.FixedResistances.Junction jun3(
   portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
   m_flow_nominal={m_flow_nominal_water,-m_flow_nominal_water,
       m_flow_nominal_water},
-    massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
   annotation (Placement(transformation(
       extent={{-10,10},{10,-10}},
@@ -960,7 +949,6 @@ Buildings.Fluid.Actuators.Valves.ThreeWayLinear valCoil(
   CvData=Buildings.Fluid.Types.CvTypes.OpPoint,
   m_flow_nominal=m_flow_nominal_water,
     dpValve_nominal=10,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     linearized={true,true})
                      annotation (Placement(transformation(
@@ -975,7 +963,6 @@ Buildings.Fluid.FixedResistances.Junction jun4(
   portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Bidirectional,
   m_flow_nominal={m_flow_nominal_water,-m_flow_nominal_water,
       m_flow_nominal_water},
-    massDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
   annotation (Placement(transformation(
       extent={{-10,10},{10,-10}},

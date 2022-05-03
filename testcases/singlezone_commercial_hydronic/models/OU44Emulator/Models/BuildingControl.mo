@@ -19,7 +19,6 @@ model BuildingControl
     Td=300,
     Ti=600,
     k=0.005,
-    initType=Modelica.Blocks.Types.InitPID.InitialState,
     xi_start=0,
     xd_start=0,
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
@@ -104,7 +103,7 @@ equation
   connect(veAirSp.y, oveTSupSet.u)
     annotation (Line(points={{-20.8,-8},{-24.8,-8}}, color={0,0,127}));
   connect(Ti.T, reaTZon.u)
-    annotation (Line(points={{54,56},{60.8,56}}, color={0,0,127}));
+    annotation (Line(points={{55,56},{60.8,56}}, color={0,0,127}));
   connect(reaTZon.y, conPIDrad.u_m) annotation (Line(points={{74.6,56},{78,56},
           {78,-56},{108,-56},{108,-53.6}}, color={0,0,127}));
   connect(stpCO2.y, oveCO2ZonSet.u) annotation (Line(points={{-217,142},{-208,
