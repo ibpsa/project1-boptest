@@ -13,6 +13,7 @@ import requests
 import sys
 import time
 import numpy as np
+import requests
 from examples.python.custom_kpi.custom_kpi_calculator import CustomKPI
 from examples.python.controllers.controller import Controller
 import json
@@ -33,15 +34,16 @@ def check_response(response):
     result : dict, resulf from call to restful API
 
     """
-
-    if response.status_code == 200:
-        result = response.json()
-        return result
-    message = json.loads(response.content)['message']
-    if response.status_code == 400:
-        print("Inputs are unexpected: {}".format(message))
-    else:
-        print("Response from the BOPTEST platform was unexpected: {}".format(message))
+    if isinstance(response, requests.Response):
+        response = response.json()
+    status = response["status"]
+    message = response["message"]
+    payload = response["payload"]
+    if status == 200:
+        print(message)
+        return payload
+    print("Unexpected error: {}".format(message))
+    print("Exiting!")
     sys.exit()
 
 
@@ -195,6 +197,12 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     for key in kpi.keys():
         if key == 'ener_tot':
             unit = 'kWh/m$^2$'
+        elif key == 'pele_tot':
+            unit = 'kW/m$^2$'
+        elif key == 'pgas_tot':
+            unit = 'kW/m$^2$'
+        elif key == 'pdih_tot':
+            unit = 'kW/m$^2$'
         elif key == 'tdis_tot':
             unit = 'Kh/zone'
         elif key == 'idis_tot':

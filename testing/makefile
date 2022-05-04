@@ -180,6 +180,16 @@ test_singlezone_commercial_hydronic:
 # Stop testcase container
 	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose down
 
+test_multizone_office_simple_air:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=multizone_office_simple_air
+# Build and deploy testcase image
+	cd .. && TESTCASE=multizone_office_simple_air docker-compose up -d
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_multizone_office_simple_air.py
+# Stop testcase container
+	cd .. && TESTCASE=multizone_office_simple_air docker-compose down
 
 test_parser:
 	make run_jm
@@ -300,6 +310,7 @@ test_all:
 	make test_bestest_hydronic_heat_pump
 	make test_multizone_residential_hydronic
 	make test_singlezone_commercial_hydronic
+	make test_multizone_office_simple_air
 # Remove jm
 	make remove_jm_image
 # Remove boptest base image

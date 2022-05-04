@@ -14,6 +14,10 @@ import logging
 import argparse
 
 
+def construct(status, message, payload):
+    return {"status": status, "message": message, "payload": payload}
+
+
 # LOGGING SETTING
 # ----------------
 parser = argparse.ArgumentParser()
@@ -35,55 +39,6 @@ from testcase import TestCase
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 api = Api(app)
-
-
-class InvalidUsage(Exception):
-    """
-        Custom exception for API.
-
-    """
-    
-    def __init__(self, message, status_code=None, payload=None):
-        """
-            Constructor for custom error class.
-
-                Parameters
-                ----------
-                message : str, error message.
-                status_code : int, http status code.
-                payload: None; payload.
-
-        """
-        Exception.__init__(self)
-        self.message = message
-        if status_code is not None:
-            self.status_code = status_code
-        self.payload = payload
-
-    def to_dict(self):
-        """Package error for information."""
-        rv = dict(self.payload or ())
-        rv['message'] = self.message
-        if self.status_code is not None:
-            rv['status_code'] = self.status_code
-        return rv
-
-
-@app.errorhandler(InvalidUsage)
-def handle_invalid_usage(error):
-    """
-    Register error handler with API.
-
-        Parameters
-        ----------
-        error : obj, instance of error.
-
-    """
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
-
-
 # ------------------
 
 # INSTANTIATE TEST CASE
@@ -93,7 +48,7 @@ try:
 except Exception as ex:
     message = "Failed to instantiate the fmu: {}".format(ex)
     app.logger.error(message)
-    raise InvalidUsage(message, status_code=500)
+
 # ---------------------
 
 # DEFINE ARGUMENT PARSERS
@@ -123,7 +78,6 @@ results_var = reqparse.RequestParser()
 results_var.add_argument('point_name',type=str,required=True,help="point name cannot be blank")
 results_var.add_argument('start_time',type=float,required=True,help=error_number_input.format('start time'))
 results_var.add_argument('final_time',type=float,required=True,help=error_number_input.format('final time'))
-import traceback
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -138,15 +92,8 @@ class Advance(Resource):
         and receive current measurements.'''
         u = parser_advance.parse_args()
         app.logger.info("Receiving a new advance request: {}".format(u))        
-        result = case.advance(u)
-        if not isinstance(result, str):
-            app.logger.info("Advanced the simulation")
-            return result, 200
-        else:
-            msg = "Fail to advanced the simulation: {}".format(result)
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-
+        status, message, payload = case.advance(u)
+        return construct(status, message, payload)
 
 
 class Initialize(Resource):
@@ -158,15 +105,8 @@ class Initialize(Resource):
         app.logger.info("Receiving a new initialize request: {}".format(args))
         start_time = float(args['start_time'])
         warmup_period = float(args['warmup_period']) 
-        result = case.initialize(start_time, warmup_period)        
-        if not isinstance(result, str):
-            app.logger.info("Initialized the simulation")
-            return result, 200
-        else:
-            msg = "Fail to initialize the simulation: {}".format(result)
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-
+        status, message, payload = case.initialize(start_time, warmup_period)
+        return construct(status, message, payload)
 
 
 class Step(Resource):
@@ -175,26 +115,16 @@ class Step(Resource):
     def get(self):
         '''GET request to receive current simulation step in seconds.'''
         app.logger.info("Receiving a new query for step")
-        try:
-            step = case.get_step()
-        except:
-            msg = "Fail to return the simulation step:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return step, 200
+        status, message, payload = case.get_step()
+        return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set simulation step in seconds.'''
         args = parser_step.parse_args()
         app.logger.info("Receiving a new set step request: {}".format(args))
         step = args['step']
-        try:
-            step = case.set_step(step)
-        except:
-            msg = "Fail to set the simulation step:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return step, 200
+        status, message, payload = case.set_step(step)
+        return construct(status, message, payload)
 
 
 class Inputs(Resource):
@@ -203,13 +133,8 @@ class Inputs(Resource):
     def get(self):
         '''GET request to receive list of available inputs.'''
         app.logger.info("Receiving a new query for input list")
-        try:
-            u_list = case.get_inputs()
-        except:
-            msg = "Fail to return the inputs:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return u_list, 200
+        status, message, payload = case.get_inputs()
+        return construct(status, message, payload)
 
 
 class Measurements(Resource):
@@ -218,13 +143,8 @@ class Measurements(Resource):
     def get(self):
         '''GET request to receive list of available measurements.'''
         app.logger.info("Receiving a new query for output list")
-        try:
-            y_list = case.get_measurements()
-        except:
-            msg = "Fail to return the outputs:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return y_list, 200
+        status, message, payload = case.get_measurements()
+        return construct(status, message, payload)
 
 
 class Results(Resource):
@@ -236,16 +156,9 @@ class Results(Resource):
         args = results_var.parse_args(strict=True) 
         var = args['point_name']
         start_time = float(args['start_time'])
-        final_time = float(args['final_time'])        
-        try:
-            Y = case.get_results(var, start_time, final_time)
-            for key in Y:
-                  Y[key] = Y[key].tolist()
-        except:
-            msg = "Fail to return the results:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return Y, 200
+        final_time = float(args['final_time'])
+        status, message, payload = case.get_results(var, start_time, final_time)
+        return construct(status, message, payload)
 
 
 class KPI(Resource):
@@ -254,13 +167,8 @@ class KPI(Resource):
     def get(self):
         '''GET request to receive KPI data.'''
         app.logger.info("Receiving a new query for KPI")
-        try:
-            kpi = case.get_kpis()
-        except:
-            msg = "Fail to return the KPI:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return kpi, 200
+        status, message, payload = case.get_kpis()
+        return construct(status, message, payload)
 
 
 class Forecast_Parameters(Resource):
@@ -269,13 +177,8 @@ class Forecast_Parameters(Resource):
     def get(self):
         '''GET request to receive forecast parameters.'''
         app.logger.info("Receiving a new query for forecast parameters")
-        try:
-            forecast_parameters = case.get_forecast_parameters()
-        except:
-            msg = "Fail to return the forecast parameters:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return forecast_parameters, 200
+        status, message, payload = case.get_forecast_parameters()
+        return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set forecast horizon and interval inseconds.'''    
@@ -283,14 +186,8 @@ class Forecast_Parameters(Resource):
         app.logger.info("Receiving a new request for setting the forecast: ()".format(args))           
         horizon = args['horizon']
         interval = args['interval']
-        try:
-            result = case.set_forecast_parameters(horizon, interval)
-        except:
-            msg = "Fail to return the KPI:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        forecast_parameters = case.get_forecast_parameters()
-        return forecast_parameters, 200
+        status, message, payload = case.set_forecast_parameters(horizon, interval)
+        return construct(status, message, payload)
 
 
 class Forecast(Resource):
@@ -299,13 +196,8 @@ class Forecast(Resource):
     def get(self):
         '''GET request to receive forecast data.'''
         app.logger.info("Receiving a new query for forecast")
-        try:
-            forecast = case.get_forecast()
-        except:
-            msg = "Fail to return the forecast:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return forecast, 200
+        status, message, payload = case.get_forecast()
+        return construct(status, message, payload)
 
 
 class Scenario(Resource):
@@ -314,25 +206,15 @@ class Scenario(Resource):
     def get(self):
         '''GET request to receive current scenario.'''
         app.logger.info("Receiving a new query for scenario")
-        try:        
-            scenario = case.get_scenario()
-        except:
-            msg = "Fail to return the scenario:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return scenario, 200
+        status, message, payload = case.get_scenario()
+        return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set scenario.'''          
         scenario = parser_scenario.parse_args(strict=True)
-        app.logger.info("Receiving a new request for setting the scenario: {}".format(scenario)) 
-        try:        
-            result = case.set_scenario(scenario)
-        except:
-            msg = "Fail to set the scenario:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return result, 200
+        app.logger.info("Receiving a new request for setting the scenario: {}".format(scenario))
+        status, message, payload = case.set_scenario(scenario)
+        return construct(status, message, payload)
 
 
 class Name(Resource):
@@ -341,27 +223,16 @@ class Name(Resource):
     def get(self):
         '''GET request to receive test case name.'''
         app.logger.info("Receiving a new query for case name")
-        try:
-            name = case.get_name()
-        except:
-            msg = "Fail to return the case name:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-        return  name, 200
+        status, message, payload = case.get_name()
+        return construct(status, message, payload)
 
 
 class Version(Resource):
     '''Interface to BOPTEST version.'''
 
     def get(self):
-        try:
-            version = case.get_version()
-        except:
-            msg = "Fail to return the case name:{}".format(traceback.format_exc())
-            app.logger.error(msg)
-            raise InvalidUsage(msg, status_code=500)
-
-        return version, 200
+        status, message, payload = case.get_version()
+        return construct(status, message, payload)
 
     # --------------------
 

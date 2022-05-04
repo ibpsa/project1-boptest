@@ -11,6 +11,7 @@ Thank you to all who have provided guidance on the development of this software.
 - Lieve Helsen, KU Leuven
 - Sen Huang, Pacific Northwest National Laboratory
 - Filip Jorissen, KU Leuven
+- Donghun Kim, Lawrence Berkeley National Laboratory
 - Yanfei Li, National Renewable Energy Laboratory
 - Nicholas Long, National Renewable Energy Laboratory
 - Christian Veje, University of Southern Denmark
@@ -18,4 +19,3 @@ Thank you to all who have provided guidance on the development of this software.
 - Harald Walnum, SINTEF
 - Michael Wetter, Lawrence Berkeley National Laboratory
 - Tao Yang, University of Southern Denmark
-
