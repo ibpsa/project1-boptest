@@ -25,12 +25,18 @@ class Job:
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
 
-        # Download the testcase FMU
-        self.test_dir = os.path.join('/simulate', self.testcaseid)
+        # Prepare the test directory
+        self.test_dir = os.path.join('/simulate', self.testid)
         self.fmu_path = os.path.join(self.test_dir, 'model.fmu')
+        self.boptest_lib = os.path.join(self.test_dir, 'boptest')
+        self.version_txt = os.path.join(self.test_dir, 'version.txt')
 
         if not os.path.exists(self.test_dir):
             os.makedirs(self.test_dir)
+        os.symlink('/boptest', self.boptest_lib)
+        os.symlink('/boptest/version.txt', self.version_txt)
+
+        os.chdir(self.test_dir)
 
         self.s3_bucket = self.s3.Bucket('alfalfa')
         self.s3_bucket.download_file(self.key, self.fmu_path)
@@ -199,6 +205,9 @@ class Job:
     def cleanup(self):
         self.redis.delete(self.testid)
         self.unsubscribe()
+
+        os.unlink(self.version_txt)
+        os.unlink(self.boptest_lib)
 
         tarname = "%s.tar.gz" % self.testid
         tar = tarfile.open(tarname, "w:gz")
