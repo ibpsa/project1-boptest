@@ -31,7 +31,7 @@ def check_response(response):
 
     Returns
     -------
-    result : dict, resulf from call to restful API
+    result : dict, result from call to restful API
 
     """
     if isinstance(response, requests.Response):
@@ -141,6 +141,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     if scenario is not None:
         # Initialize test with a scenario time period
         res = check_response(requests.put('{0}/scenario'.format(url), data=scenario))['time_period']
+        print(res)
         # Record test simulation start time
         start_time = res['time']
         # Set final time and total time steps to be very large since scenario defines length

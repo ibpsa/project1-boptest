@@ -55,11 +55,11 @@ except Exception as ex:
 # -----------------------
 # ``step`` interface
 parser_step = reqparse.RequestParser()
-parser_step.add_argument('step',type=float,required=True,help=error_number_input.format('step'))
+parser_step.add_argument('step', type=float,required=True, help=error_number_input.format('step'))
 # ``initialize`` interface
 parser_initialize = reqparse.RequestParser()
-parser_initialize.add_argument('start_time',type=float,required=True,help=error_number_input.format('start time'))
-parser_initialize.add_argument('warmup_period',type=float,required=True,help=error_number_input.format('warmup period'))
+parser_initialize.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
+parser_initialize.add_argument('warmup_period', type=float, required=True, help=error_number_input.format('warmup period'))
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
@@ -68,16 +68,16 @@ for key in case.u.keys():
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
-    parser_forecast_parameters.add_argument(arg,type=float,required=True,help=error_number_input.format(arg))
+    parser_forecast_parameters.add_argument(arg, type=float, required=True, help=error_number_input.format(arg))
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
-parser_scenario.add_argument('electricity_price',type=str,help="invalid price")
-parser_scenario.add_argument('time_period',type=str,help="invalid time preriod")
+parser_scenario.add_argument('electricity_price', type=str, help="invalid price")
+parser_scenario.add_argument('time_period', type=str, help="invalid time preriod")
 # ``results`` interface
 results_var = reqparse.RequestParser()
-results_var.add_argument('point_name',type=str,required=True,help="point name cannot be blank")
-results_var.add_argument('start_time',type=float,required=True,help=error_number_input.format('start time'))
-results_var.add_argument('final_time',type=float,required=True,help=error_number_input.format('final time'))
+results_var.add_argument('point_name', type=str, required=True, help="point name cannot be blank")
+results_var.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
+results_var.add_argument('final_time', type=float, required=True, help=error_number_input.format('final time'))
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -91,7 +91,6 @@ class Advance(Resource):
         '''POST request with input data to advance the simulation one step
         and receive current measurements.'''
         u = parser_advance.parse_args()
-        app.logger.info("Receiving a new advance request: {}".format(u))        
         status, message, payload = case.advance(u)
         return construct(status, message, payload)
 
@@ -102,7 +101,6 @@ class Initialize(Resource):
     def put(self):
         '''PUT request to initialize the test.'''
         args = parser_initialize.parse_args()
-        app.logger.info("Receiving a new initialize request: {}".format(args))
         start_time = float(args['start_time'])
         warmup_period = float(args['warmup_period']) 
         status, message, payload = case.initialize(start_time, warmup_period)
@@ -114,14 +112,12 @@ class Step(Resource):
 
     def get(self):
         '''GET request to receive current simulation step in seconds.'''
-        app.logger.info("Receiving a new query for step")
         status, message, payload = case.get_step()
         return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set simulation step in seconds.'''
         args = parser_step.parse_args()
-        app.logger.info("Receiving a new set step request: {}".format(args))
         step = args['step']
         status, message, payload = case.set_step(step)
         return construct(status, message, payload)
@@ -132,7 +128,6 @@ class Inputs(Resource):
 
     def get(self):
         '''GET request to receive list of available inputs.'''
-        app.logger.info("Receiving a new query for input list")
         status, message, payload = case.get_inputs()
         return construct(status, message, payload)
 
@@ -142,7 +137,6 @@ class Measurements(Resource):
 
     def get(self):
         '''GET request to receive list of available measurements.'''
-        app.logger.info("Receiving a new query for output list")
         status, message, payload = case.get_measurements()
         return construct(status, message, payload)
 
@@ -152,8 +146,7 @@ class Results(Resource):
 
     def put(self):
         '''GET request to receive measurement data.'''
-        app.logger.info("Receiving a new query for results")  
-        args = results_var.parse_args(strict=True) 
+        args = results_var.parse_args(strict=True)
         var = args['point_name']
         start_time = float(args['start_time'])
         final_time = float(args['final_time'])
@@ -166,7 +159,6 @@ class KPI(Resource):
 
     def get(self):
         '''GET request to receive KPI data.'''
-        app.logger.info("Receiving a new query for KPI")
         status, message, payload = case.get_kpis()
         return construct(status, message, payload)
 
@@ -176,14 +168,12 @@ class Forecast_Parameters(Resource):
 
     def get(self):
         '''GET request to receive forecast parameters.'''
-        app.logger.info("Receiving a new query for forecast parameters")
         status, message, payload = case.get_forecast_parameters()
         return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set forecast horizon and interval inseconds.'''    
         args = parser_forecast_parameters.parse_args()
-        app.logger.info("Receiving a new request for setting the forecast: ()".format(args))           
         horizon = args['horizon']
         interval = args['interval']
         status, message, payload = case.set_forecast_parameters(horizon, interval)
@@ -195,7 +185,6 @@ class Forecast(Resource):
 
     def get(self):
         '''GET request to receive forecast data.'''
-        app.logger.info("Receiving a new query for forecast")
         status, message, payload = case.get_forecast()
         return construct(status, message, payload)
 
@@ -205,14 +194,12 @@ class Scenario(Resource):
 
     def get(self):
         '''GET request to receive current scenario.'''
-        app.logger.info("Receiving a new query for scenario")
         status, message, payload = case.get_scenario()
         return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set scenario.'''          
         scenario = parser_scenario.parse_args(strict=True)
-        app.logger.info("Receiving a new request for setting the scenario: {}".format(scenario))
         status, message, payload = case.set_scenario(scenario)
         return construct(status, message, payload)
 
@@ -222,7 +209,6 @@ class Name(Resource):
 
     def get(self):
         '''GET request to receive test case name.'''
-        app.logger.info("Receiving a new query for case name")
         status, message, payload = case.get_name()
         return construct(status, message, payload)
 
