@@ -272,21 +272,21 @@ class TestCase(object):
                 self.tic_time = time.time()
                 # Get full current state
                 payload = self._get_full_current_state()
-                message = "Advance simulation successful."
+                message = "Advancing simulation successfully."
                 logging.info(message)
                 return status, message, payload
 
             else:
                 # Error in
                 status = 500
-                message = "Error Advancing Simulation : {}"
+                message = "Failed to advancing simulation: {}"
                 payload = res
                 logging.error(message.format(res))
                 return status, message, payload
         else:
             # Simulation at end time
             payload = dict()
-            message = "Advance, simulation complete."
+            message = "Simulation completes."
             logging.info(message)
             return status, message, payload
 
@@ -338,24 +338,24 @@ class TestCase(object):
             self.cal.initialize()
             # Get full current state
             payload = self._get_full_current_state()
-            message = "Initialize simulation, success."
+            message = "Initializing simulation successfully."
             logging.info(message)
             return status, message, payload
 
         else:
             status = 500
-            message = "Initialize simulation failed: {}".format(res)
+            message = "Failed to initialize simulation : {}".format(res)
             logging.warning(message)
             return status, message, {}
 
     def get_step(self):
         '''Returns the current simulation step in seconds.'''
         status = 200
-        message = "Query simulation step successful."
+        message = "Query the simulation step successful."
         if self.step is not None:
             return status, message, self.step
         status = 500
-        message = "Query simulation step failed."
+        message = "Query the simulation step failed."
         return status, message, self.step
 
     def set_step(self, step):
@@ -372,12 +372,12 @@ class TestCase(object):
 
         '''
         status = 200
-        message = "Successfully set simulation step."
+        message = "Setting the simulation step successfully."
         try:
             self.step = float(step)
         except:
             status = 500
-            message = "Failed set simulation step."
+            message = "Failed to set the simulation step."
         return status, message, None
 
     def get_inputs(self):
@@ -394,17 +394,13 @@ class TestCase(object):
 
         '''
         status = 200
-        message = "Query input list successful."
+        message = "Querying the input list successfully."
         inputs = None
         if self.inputs_metadata is not None:
-            try:
-                inputs = self.inputs_metadata
-            except:
-                status = 500
-                message = "Query input list failed."
+            inputs = self.inputs_metadata
         else:
             status = 500
-            message = "Query input list failed."
+            message = "Failed to query the input list."
         return status, message, inputs
 
     def get_measurements(self):
@@ -422,17 +418,13 @@ class TestCase(object):
         '''
 
         status = 200
-        message = "Query measurement list successful."
+        message = "Querying the measurement list successfully."
         measurements = None
         if self.outputs_metadata is not None:
-            try:
-                measurements = self.outputs_metadata
-            except:
-                status = 500
-                message = "Query measurement list failed."
+            measurements = self.outputs_metadata
         else:
             status = 500
-            message = "Query measurement list failed."
+            message = "Failed to query the measurement list."
         return status, message, measurements
 
     def get_results(self, var, start_time, final_time):
@@ -458,7 +450,7 @@ class TestCase(object):
 
         '''
         status = 200
-        message = "Successfully queried simulation for results."
+        message = "Querying simulation results successfully."
         y = []
         try:
             # Get correct point
@@ -484,7 +476,7 @@ class TestCase(object):
                     y[key] = y[key][time2<=final_time]
         except:
             status = 500
-            message = "Failed to query simulation for results: {}".format(traceback.format_exc())
+            message = "Failed to query simulation results: {}".format(traceback.format_exc())
         if not isinstance(y, (list, type(None))):
             for key in y:
                 y[key] = y[key].tolist()
@@ -507,7 +499,7 @@ class TestCase(object):
 
         '''
         status = 200
-        message = "Query simulation for KPIs successful."
+        message = "Query simulation for KPIs successfulyl."
         kpis = None
         try:
             # Set correct price scenario for cost
@@ -521,7 +513,7 @@ class TestCase(object):
             kpis = self.cal.get_core_kpis(price_scenario=price_scenario)
         except:
             status = 500
-            message = "Query simulation for KPIs failed: {}".format(traceback.format_exc())
+            message = "Failed to query KPIs: {}".format(traceback.format_exc())
 
         return status, message, kpis
 
@@ -541,7 +533,7 @@ class TestCase(object):
 
         '''
         status = 200
-        message = "Set forecast horizon and interval successful."
+        message = "Set forecast horizon and interval successfully."
         forecast_parameters = dict()
         try:
             self.horizon = float(horizon)
@@ -550,7 +542,7 @@ class TestCase(object):
             forecast_parameters['interval'] = self.interval
         except:
             status = 500
-            message = "Set forecast horizon and interval failed: {}".format(traceback.format_exc())
+            message = "Failed to set forecast horizon and interval: {}".format(traceback.format_exc())
 
         return status, message, forecast_parameters
 
@@ -564,7 +556,7 @@ class TestCase(object):
             forecast_parameters['interval'] = self.interval
         else:
             status = 500
-            message = "Query simulation for forecast parameters failed."
+            message = "Failed to query the forecast parameters."
 
         return status, message, forecast_parameters
 
@@ -594,7 +586,7 @@ class TestCase(object):
                                                     interval=self.interval)
         except:
             status = 500
-            message = "Query simulation for forecast failed: {}".format(traceback.format_exc())
+            message = "Failed to query the test case data forecast: {}".format(traceback.format_exc())
             forecast = None
 
         return status, message, forecast
@@ -618,7 +610,7 @@ class TestCase(object):
              }
         '''
         status = 200
-        message = "Set simulation scenario successful."
+        message = "Setting simulation scenario successfully."
         try:
             result = {
                 'electricity_price': None,
@@ -644,7 +636,7 @@ class TestCase(object):
             self.cal.initialize()
         except:
             status = 500
-            message = "Set simulation scenario failed: {}".format(traceback.format_exc())
+            message = "Failed to set the case scenario: {}".format(traceback.format_exc())
             result = None
 
         return status, message, result
@@ -653,12 +645,12 @@ class TestCase(object):
         '''Returns the current case scenario.'''
         scenario = None
         status = 200
-        message = "Query simulation for scenario successful."
+        message = "Querying simulation for scenario successfully."
         if self.scenario is not None:
             scenario = self.scenario
         else:
             status = 500
-            message = "Query simulation for scenario failed."
+            message = "Failed to query simulation for scenario."
 
         return status, message, scenario
 
@@ -676,7 +668,7 @@ class TestCase(object):
 
         '''
         status = 200
-        message = "Query simulation for name successful"
+        message = "Querying the name of the test case successful"
         name = {'name': self.name}
 
         return status, message, name
@@ -713,7 +705,7 @@ class TestCase(object):
 
         '''
         status = 200
-        message = "Query simulation for version number successful"
+        message = "Querying the version number successfully"
         return status, message, {'version': self.version}
 
     def _get_var_metadata(self, fmu, var_list, inputs=False):

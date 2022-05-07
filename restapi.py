@@ -7,24 +7,21 @@ The API is implemented using the ``flask`` package.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, make_response
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
-import logging
-import argparse
 
 
 def construct(status, message, payload):
-    return {"status": status, "message": message, "payload": payload}
+    if status == 200:
+       return make_response(jsonify(payload), 200)
+    elif status == 400:
+       return make_response(message, 400)
+    elif status == 500:
+       return make_response(message, 500)
 
-
-# LOGGING SETTING
+# HELP MESSAGE
 # ----------------
-parser = argparse.ArgumentParser()
-parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
-                    help="Provide logging level. Example --log DEBUG'")
-log_level = parser.parse_args()
-logging.basicConfig(level=log_level.logLevel)
 error_number_input = "{} cannot be blank and it should be a number"
 # ----------------
 
