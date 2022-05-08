@@ -11,14 +11,11 @@ from flask import Flask, jsonify, make_response
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 
-
 def construct(status, message, payload):
     if status == 200:
        return make_response(jsonify(payload), 200)
-    elif status == 400:
-       return make_response(message, 400)
-    elif status == 500:
-       return make_response(message, 500)
+    else:
+       return make_response(message, status)
 
 # HELP MESSAGE
 # ----------------
@@ -28,7 +25,6 @@ error_number_input = "{} cannot be blank and it should be a number"
 # TEST CASE IMPORT
 # ----------------
 from testcase import TestCase
-
 # ----------------
 
 # FLASK REQUIREMENTS
@@ -45,7 +41,6 @@ try:
 except Exception as ex:
     message = "Failed to instantiate the fmu: {}".format(ex)
     app.logger.error(message)
-
 # ---------------------
 
 # DEFINE ARGUMENT PARSERS
@@ -91,7 +86,6 @@ class Advance(Resource):
         status, message, payload = case.advance(u)
         return construct(status, message, payload)
 
-
 class Initialize(Resource):
     '''Interface to initialize the test case simulation.'''
 
@@ -102,7 +96,6 @@ class Initialize(Resource):
         warmup_period = float(args['warmup_period']) 
         status, message, payload = case.initialize(start_time, warmup_period)
         return construct(status, message, payload)
-
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''
@@ -119,7 +112,6 @@ class Step(Resource):
         status, message, payload = case.set_step(step)
         return construct(status, message, payload)
 
-
 class Inputs(Resource):
     '''Interface to test case inputs.'''
 
@@ -128,7 +120,6 @@ class Inputs(Resource):
         status, message, payload = case.get_inputs()
         return construct(status, message, payload)
 
-
 class Measurements(Resource):
     '''Interface to test case measurements.'''
 
@@ -136,7 +127,6 @@ class Measurements(Resource):
         '''GET request to receive list of available measurements.'''
         status, message, payload = case.get_measurements()
         return construct(status, message, payload)
-
 
 class Results(Resource):
     '''Interface to test case result data.'''
@@ -150,7 +140,6 @@ class Results(Resource):
         status, message, payload = case.get_results(var, start_time, final_time)
         return construct(status, message, payload)
 
-
 class KPI(Resource):
     '''Interface to test case KPIs.'''
 
@@ -158,7 +147,6 @@ class KPI(Resource):
         '''GET request to receive KPI data.'''
         status, message, payload = case.get_kpis()
         return construct(status, message, payload)
-
 
 class Forecast_Parameters(Resource):
     '''Interface to test case forecast parameters.'''
@@ -176,7 +164,6 @@ class Forecast_Parameters(Resource):
         status, message, payload = case.set_forecast_parameters(horizon, interval)
         return construct(status, message, payload)
 
-
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
 
@@ -184,7 +171,6 @@ class Forecast(Resource):
         '''GET request to receive forecast data.'''
         status, message, payload = case.get_forecast()
         return construct(status, message, payload)
-
 
 class Scenario(Resource):
     '''Interface to test case scenario.'''
@@ -200,7 +186,6 @@ class Scenario(Resource):
         status, message, payload = case.set_scenario(scenario)
         return construct(status, message, payload)
 
-
 class Name(Resource):
     '''Interface to test case name.'''
 
@@ -209,7 +194,6 @@ class Name(Resource):
         status, message, payload = case.get_name()
         return construct(status, message, payload)
 
-
 class Version(Resource):
     '''Interface to BOPTEST version.'''
 
@@ -217,8 +201,7 @@ class Version(Resource):
         status, message, payload = case.get_version()
         return construct(status, message, payload)
 
-    # --------------------
-
+# --------------------
 
 # ADD REQUESTS TO API WITH URL EXTENSION
 # --------------------------------------
@@ -237,4 +220,4 @@ api.add_resource(Version, '/version')
 # --------------------------------------
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')

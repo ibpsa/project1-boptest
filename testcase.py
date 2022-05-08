@@ -16,7 +16,6 @@ from kpis.kpi_calculator import KPI_Calculator
 import traceback
 import logging
 
-
 class TestCase(object):
     '''Class that implements the test case.
 
@@ -289,7 +288,6 @@ class TestCase(object):
             message = "Simulation completes."
             logging.info(message)
             return status, message, payload
-
 
     def initialize(self, start_time, warmup_period, end_time=np.inf):
         '''Initialize the test simulation.
