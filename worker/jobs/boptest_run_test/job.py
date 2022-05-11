@@ -20,6 +20,7 @@ class Job:
         self.api_key = parameters.get('api_key')
         self.keep_running = True
         self.last_message_time = datetime.now()
+        self.inactivity_threshold = os.environ['INACTIVITY_THRESHOLD']
 
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
@@ -72,7 +73,7 @@ class Job:
     def check_idle_time(self, message):
         if not message:
             idle_time = datetime.now() - self.last_message_time
-            if idle_time.total_seconds() > 900.0:
+            if idle_time.total_seconds() > self.inactivity_threshold:
                 print("Testid '%s' is terminating due to inactivity." % self.testid)
                 self.keep_running = False
 
@@ -128,6 +129,7 @@ class Job:
                 self.redis.hset(self.testid, method, error_message)
                 response = { 'status': 'error', 'requestID': request_id }
                 self.redis.publish(self.get_response_channel(), json.dumps(response))
+            self.keep_running = False
 
     # End methods for message passing
 

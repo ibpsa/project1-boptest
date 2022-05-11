@@ -95,6 +95,7 @@ services:
       - REGION
       - BOPTEST_DASHBOARD_SERVER
       - BOPTEST_DASHBOARD_API_KEY
+      - INACTIVITY_THRESHOLD
     depends_on:
       - redis
       - mongo
