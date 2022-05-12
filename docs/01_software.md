@@ -15,7 +15,7 @@ Click the button below to download the latest version as a zip file.
 
 Get started with the [User Guide](/docs-userguide/index.html).
 
-Then, check out the available [Test Cases](/testcases).
+Then, check out the available [Test Cases](/project1-boptest/testcases/index.html).
 
 To access the latest development version or contribute to the project, go to the GitHub repository.
 
