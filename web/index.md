@@ -20,9 +20,9 @@ It contains these key components:
 
 3. **Key Performance Indicator (KPI) Reporting**: A set of KPIs is calculated by the the RTE using data from the building emulator being controlled.
 
-Head over to the [Software](/software) page to start testing your control strategy or look at the [Results Dashboard](/dashboard) to view and compare tested control strategies.
+Head over to the [Software](/project1-boptest/software/index.html) page to start testing your control strategy or look at the [Results Dashboard](/project1-boptest/dashboard/index.html) to view and compare tested control strategies.
 
-Stay up to date on the latest [News](/news).
+Stay up to date on the latest [News](/project1-boptest/blog/index.html).
 
 
 # Collaboration and Support
