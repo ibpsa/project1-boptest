@@ -5,4 +5,7 @@ build_and_test:
 build_for_deploy:
 	./build_docs.sh
 	cd .. && rm -r docs && mkdir docs
-	cp -r . ../docs
+	bundle exec jekyll serve --detach
+	cp -r _site/. ../docs
+	cd .. && touch docs/.nojekyll
+	pkill -f jekyll
