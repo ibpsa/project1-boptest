@@ -3,7 +3,7 @@
 - name: Test Cases
   link: testcases/index.html
 - name: Results Dashboard
-  link: http://boptest.kbenne.net/
+  link: dashboard/index.html
 - name: Documentation
   dropdown:
     - name: User Guide

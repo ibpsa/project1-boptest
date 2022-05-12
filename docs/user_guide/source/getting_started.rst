@@ -12,7 +12,7 @@ There are two ways you can access BOPTEST, depending on your preference:
 case on your local computing resource and interact with it at localhost
 via the BOPTEST API.
 
-2. **Public Web-Service**: Utilize a web-hosted BOPTEST
+2. **Public Web-Service (Coming Soon)**: Utilize a web-hosted BOPTEST
 environment available to the public to deploy a test case in the cloud and
 interact with it at a URL specific to you via the BOPTEST API.
 
@@ -30,10 +30,11 @@ Deploy a Test Case
 Within the root directory of the extracted software, use the following commands:
 
 - Linux or macOS: ``$ TESTCASE=<testcase_name> docker-compose up``
-- Windows PowerShell: ``> (setx TESTCASE "<testcase_name>") -and (docker-compose up)``
+- Windows PowerShell: ``> ($env:TESTCASE="<testcase_name>") -and (docker-compose up)``
 
 A couple notes:
 
+- Replace ``<testcase_name>`` with the name of the test case you wish to deploy.
 - The first time this command is run, the image ``boptest_base`` will be built.  This takes about a minute.  Subsequent usage will use the already-built image and deploy much faster.
 - If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
 - ``TESTCASE`` is simply an environment variable.  Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.

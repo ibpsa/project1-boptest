@@ -21,7 +21,7 @@ To access the latest development version or contribute to the project, go to the
 
 <a class="button is-info" href="https://github.com/ibpsa/project1-boptest"><b>GitHub</b></a>
 
-# Use BOPTEST Service
+# Use BOPTEST Service (Coming Soon!)
 
 Use a web-hosted instance of BOPTEST that provides the functionality of BOPTEST ``v0.2.0`` as a web-service without the need to download or install anything locally.
 
