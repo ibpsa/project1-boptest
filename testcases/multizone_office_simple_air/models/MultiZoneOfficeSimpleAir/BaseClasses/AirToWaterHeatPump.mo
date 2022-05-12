@@ -31,11 +31,11 @@ model AirToWaterHeatPump "Air to water heat pump model"
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electric power consumed by heat pump"
     annotation (Placement(transformation(extent={{76,90},{96,110}})));
-  parameter Modelica.SIunits.Temperature TSetSup
+  parameter Modelica.Units.SI.Temperature TSetSup
   "Supply water temperature set point";
-  parameter Modelica.SIunits.HeatFlowRate QCon_flow_max = Modelica.Constants.inf
+  parameter Modelica.Units.SI.HeatFlowRate QCon_flow_max = Modelica.Constants.inf
     "Maximum heat flow rate for heating";
-  parameter Modelica.SIunits.PressureDifference dp_nominal=45000
+  parameter Modelica.Units.SI.PressureDifference dp_nominal=45000
     "Nominal pump head";
   Buildings.Fluid.HeatPumps.Carnot_TCon heaPum(
     redeclare package Medium1 = MediumW,
@@ -94,7 +94,6 @@ model AirToWaterHeatPump "Air to water heat pump model"
   Buildings.Utilities.IO.SignalExchange.Read reaPPumDis(
     description="Electric power consumed by hot water distribution pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Electric power consumed by distribution pump"
     annotation (Placement(transformation(extent={{76,70},{96,90}})));
 

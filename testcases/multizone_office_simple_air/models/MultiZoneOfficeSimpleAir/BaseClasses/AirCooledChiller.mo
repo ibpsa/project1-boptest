@@ -38,11 +38,11 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electric power consumed by chiller"
     annotation (Placement(transformation(extent={{76,90},{96,110}})));
-  parameter Modelica.SIunits.Temperature TSetSup
+  parameter Modelica.Units.SI.Temperature TSetSup
   "Supply water temperature set point";
-  parameter Modelica.SIunits.HeatFlowRate QEva_flow_min = -Modelica.Constants.inf
+  parameter Modelica.Units.SI.HeatFlowRate QEva_flow_min = -Modelica.Constants.inf
     "Maximum heat flow rate for cooling (negative)";
-  parameter Modelica.SIunits.PressureDifference dp_nominal=45000
+  parameter Modelica.Units.SI.PressureDifference dp_nominal=45000
     "Nominal pump head";
   Buildings.Fluid.Sensors.TemperatureTwoPort senTemRet(redeclare package Medium =
         MediumW, m_flow_nominal=chi.m2_flow_nominal)
@@ -99,7 +99,6 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
   Buildings.Utilities.IO.SignalExchange.Read reaPPumDis(
     description="Electric power consumed by chilled water distribution pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Electric power consumed by distribution pump"
     annotation (Placement(transformation(extent={{76,70},{96,90}})));
 

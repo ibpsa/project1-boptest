@@ -22,11 +22,11 @@ model ModeSelector "Finite State Machine for the operational modes"
     waitTime=60)
     annotation (Placement(transformation(extent={{28,20},{48,40}})));
   parameter Integer numZon = 5 "Number of zones";
-  parameter Modelica.SIunits.TemperatureDifference delTRooOnOff(min=0.1)=1
+  parameter Modelica.Units.SI.TemperatureDifference delTRooOnOff(min=0.1)=1
     "Deadband in room temperature between occupied on and occupied off";
-  parameter Modelica.SIunits.Temperature TRooSetHeaOcc=293.15
+  parameter Modelica.Units.SI.Temperature TRooSetHeaOcc=293.15
     "Set point for room air temperature during heating mode";
-  parameter Modelica.SIunits.Temperature TRooSetCooOcc=299.15
+  parameter Modelica.Units.SI.Temperature TRooSetCooOcc=299.15
     "Set point for room air temperature during cooling mode";
   Modelica.StateGraph.Transition t1(
     condition=delTRooOnOff/2 < -maxTRooErrHea.y,
