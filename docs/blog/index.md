@@ -1,6 +1,7 @@
 ---
 layout: page
 title: News
+permalink: /blog/
 subtitle: The latest developments and announcements
 hero_height: is-fullwidth
 ---
