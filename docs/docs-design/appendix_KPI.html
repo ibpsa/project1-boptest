@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Appendix: Additional KPI Specification and Calculation &#8212; Design Documentation 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-sphinx.css" />
+    <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Run-Time Platform Architecture" href="architecture.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Design Documentation</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+
+                <li><a href="../index.html">BOPTEST Home</a></li>
+
+
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="goal.html">Goal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usecases.html">User Case Narratives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcasedev.html">Reference Test Case Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core_kpi.html">Core KPI Specification and Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forecasts.html">Forecast Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Run-Time Platform Architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Appendix: Additional KPI Specification and Calculation</a></li>
+</ul>
+</ul>
+</li>
+
+
+
+
+
+  <li>
+    <a href="architecture.html" title="Previous Chapter: Run-Time Platform Architecture"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Run-Time Plat...</span>
+    </a>
+  </li>
+
+
+
+
+
+          </ul>
+
+
+
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+
+  <section id="appendix-additional-kpi-specification-and-calculation">
+<span id="secappkpi"></span><h1>Appendix: Additional KPI Specification and Calculation<a class="headerlink" href="#appendix-additional-kpi-specification-and-calculation" title="Permalink to this headline">¶</a></h1>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Advanced building controls are increasingly critical to achieve high
+energy efficiency, demand flexibility, and occupant comfort in
+buildings. However, large-scale adoption of emerging building control
+strategies requires verified performance. When performing verification,
+key performance indicators (KPIs) are necessary, which quantify
+performances of those building control strategies. Designing KPIs can be
+challenging, as they should not only capture how controls impacts the
+different aspects of building performance, but also enable fair
+comparison among different building control strategies under various
+operating conditions.</p>
+<p>This appendix further elaborates on our efforts to design KPIs for
+simulation-based evaluation of building control strategies. In this
+appendix, we firstly introduce KPIs, including the motivation for having
+certain KPIs and how each KPI is calculated. We then discuss how those
+KPIs are integrated into the building emulators, which include building
+simulation models and necessary pre-and post-processing for performing
+simulation.</p>
+</section>
+<section id="acronyms-and-abbreviations">
+<h2>Acronyms and Abbreviations<a class="headerlink" href="#acronyms-and-abbreviations" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">KPI key performance indicator</div>
+<div class="line">MPC model predictive control</div>
+<div class="line">PPD predicted percent of dissatisfied</div>
+<div class="line">PMV predicted mean vote</div>
+<div class="line">GSA General Services Administration</div>
+<div class="line">IAQ indoor air quality</div>
+</div>
+<div class="line-block">
+<div class="line"><span class="math notranslate nohighlight">\(c\)</span> specific heat of air</div>
+<div class="line"><span class="math notranslate nohighlight">\(\lambda\)</span> regular fuel price (without demand charge)</div>
+<div class="line"><span class="math notranslate nohighlight">\(\lambda_d\)</span> fuel price with demand charge</div>
+<div class="line"><span class="math notranslate nohighlight">\(d\)</span> disturbance value</div>
+<div class="line"><span class="math notranslate nohighlight">\(p\)</span> performance factor (e.g., energy, demand, cost, efficiency, etc.</div>
+<div class="line"><span class="math notranslate nohighlight">\(t\)</span> time</div>
+<div class="line"><span class="math notranslate nohighlight">\(A\)</span> concentration of carbon dioxide (<span class="math notranslate nohighlight">\(CO_2\)</span>)</div>
+<div class="line"><span class="math notranslate nohighlight">\(C\)</span> capacity of an equipment</div>
+<div class="line"><span class="math notranslate nohighlight">\(S\)</span> set point</div>
+<div class="line"><span class="math notranslate nohighlight">\(T\)</span> air temperature</div>
+<div class="line"><span class="math notranslate nohighlight">\(e\)</span> an individual piece of equipment</div>
+<div class="line"><span class="math notranslate nohighlight">\(E\)</span> all the equipment considered in building energy analysis</div>
+<div class="line"><span class="math notranslate nohighlight">\(P\)</span> power demand</div>
+<div class="line"><span class="math notranslate nohighlight">\(O\)</span> operation status indicator for a piece of equipment</div>
+<div class="line"><span class="math notranslate nohighlight">\(\eta\)</span> operation efficiency</div>
+<div class="line"><span class="math notranslate nohighlight">\(\mathbf{Subscripts}\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(r\)</span> real-building</div>
+<div class="line"><span class="math notranslate nohighlight">\(s\)</span> virtual-building model simulation</div>
+<div class="line"><span class="math notranslate nohighlight">\(p\)</span> MPC prediction</div>
+<div class="line"><span class="math notranslate nohighlight">\(z\)</span> a thermal zone in the building</div>
+<div class="line"><span class="math notranslate nohighlight">\(Z\)</span> all the thermal zones in the building</div>
+<div class="line"><span class="math notranslate nohighlight">\({i}\)</span> value at <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration or time step</div>
+<div class="line"><span class="math notranslate nohighlight">\(c\)</span> thermal comfort</div>
+<div class="line"><span class="math notranslate nohighlight">\(\mathbf{Superscripts}\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\('\)</span> fault condition</div>
+</div>
+</section>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Key performance indicators (KPIs) for building control systems measure
+the behavior and impacts of such systems. Typically, a metric value from
+one controller is compared with a default criteria value or the same
+metric calculated from another controller (e.g., baseline). Such
+comparisons can quantify the pros and cons of a new controller or
+control system, which is a critical step in technology development. As
+summarized by <span id="id1">[<a class="reference internal" href="#id23" title="Abdul Afram and Farrokh Janabi-Sharifi. Theory and applications of hvac control systems – a review of model predictive control (mpc). Building and Environment, 72(Supplement C):343-355, 2014. URL: http://www.sciencedirect.com/science/article/pii/S0360132313003363, doi:https://doi.org/10.1016/j.buildenv.2013.11.016.">AJS14</a>]</span>, common control performance
+indicators include energy, cost, peak load shifting capability,
+transient response, steady-state response, control of variables within
+bounds, reduction in fluctuations from a set-point, system efficiency,
+robustness to disturbances and changes, IAQ, thermal comfort, and
+computational time. These metrics were selectively used in previous
+studies. For example, <span id="id2">[<a class="reference internal" href="#id25" title="Jingran Ma, Joe Qin, Timothy Salsbury, and Peng Xu. Demand reduction in building energy systems based on economic model predictive control. Chemical Engineering Science, 67(1):92-100, 2012. URL: http://www.sciencedirect.com/science/article/pii/S0009250911005240, doi:https://doi.org/10.1016/j.ces.2011.07.052.">MQSX12</a>]</span> used energy usage as one of their KPIs, while
+<span id="id3">[<a class="reference internal" href="#id24" title="Gongsheng Huang. Model predictive control of vav zone thermal systems concerning bi-linearity and gain nonlinearity. Control Engineering Practice, 19(7):700-710, 2011. URL: http://www.sciencedirect.com/science/article/pii/S0967066111000451, doi:https://doi.org/10.1016/j.conengprac.2011.03.005.">Hua11</a>, <a class="reference internal" href="#id26" title="Petru-Daniel Moroşan, Romain Bourdais, Didier Dumur, and Jean Buisson. Building temperature regulation using a distributed model predictive control. Energy and Buildings, 42(9):1445-1452, 2010. URL: http://www.sciencedirect.com/science/article/pii/S0378778810000915, doi:10.1016/j.enbuild.2010.03.014.">MBDB10</a>, <a class="reference internal" href="#id27" title="Samuel Prívara, Jan Široký, Lukáš Ferkl, and Jiří Cigler. Model predictive control of a building heating system: the first experience. Energy and Buildings, 43(2):564-572, 2011. URL: http://www.sciencedirect.com/science/article/pii/S0378778810003749, doi:https://doi.org/10.1016/j.enbuild.2010.10.022.">PSFC11</a>, <a class="reference internal" href="#id28" title="J. Rehrl and M. Horn. Temperature control for hvac systems based on exact linearization and model predictive control. In IEEE International Conference on Control Applications (CCA), 1119-1124. 2011. doi:10.1109/CCA.2011.6044437.">RH11</a>, <a class="reference internal" href="#id29" title="Xue-Cheng Xi, Aun-Neow Poo, and Siaw-Kiang Chou. Support vector regression model predictive control on a hvac plant. Control Engineering Practice, 15(8):897-908, 2007. URL: http://www.sciencedirect.com/science/article/pii/S0967066106001766, doi:https://doi.org/10.1016/j.conengprac.2006.10.010.">XPC07</a>, <a class="reference internal" href="#id30" title="Shui Yuan and Ronald Perez. Multiple-zone ventilation and temperature control of a single-duct vav system using model predictive strategy. Energy and Buildings, 38(10):1248-1261, 2006. URL: http://www.sciencedirect.com/science/article/pii/S0378778806000764, doi:https://doi.org/10.1016/j.enbuild.2006.03.007.">YP06</a>]</span>
+used metrics for control dynamic performance as qualitative evaluation.
+In this document, we attempted to answer two related questions:</p>
+<ul class="simple">
+<li><p>What would be a comprehensive list of KPIs for control performance evaluation?</p></li>
+<li><p>What are their definition and calculation formulas?</p></li>
+</ul>
+<p>To answer the first question, we grouped KPIs into the following
+categories: energy-related, controller-related, system-related,
+disturbance-related, and occupant-related (as illustrated in the figure below). A building control
+system controls the HVAC system, which conditions the indoor space. The
+indoor space is occupied by people and has comfort demand. On the other
+side, the HVAC system needs energy, especially electricity, to operate.
+This demand links buildings to electric grids.</p>
+<p>To answer the second question, we proposed methodologies to quantify
+KPIs in each category. Specifically, we discussed inputs for calculating
+each KPI and how those inputs are accessible in real buildings or
+emulators. We then provided detailed formulas to calculate each KPI
+based on those inputs.</p>
+<figure class="align-default" id="id57">
+<a class="reference internal image-reference" href="images/Metrics_overview.png"><img alt="images/Metrics_overview.png" src="images/Metrics_overview.png" style="width: 739.5px; height: 329.0px;" /></a>
+<figcaption>
+<p><span class="caption-text">An overview of the conceptual design of control performance metrics</span><a class="headerlink" href="#id57" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="description-of-key-performance-indicators">
+<span id="ch-characterization"></span><h2>Description of Key Performance Indicators<a class="headerlink" href="#description-of-key-performance-indicators" title="Permalink to this headline">¶</a></h2>
+<section id="power-demand-metrics">
+<h3>Power demand metrics<a class="headerlink" href="#power-demand-metrics" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Power demand metrics are defined to measure the profile of electrical
+power requested by building system and equipment at a given period. It
+can indirectly reflect the operational capacity of a system or
+equipment. The power demand, especially peak power demand, is also
+associated with the tariff charge from utility companies.</div>
+<div class="line">Let <span class="math notranslate nohighlight">\(E\)</span> denote the set of electric equipment in the system. Let
+<span class="math notranslate nohighlight">\(t\)</span> denote the time, <span class="math notranslate nohighlight">\(t_0\)</span> denote the start time of an
+experiment, and <span class="math notranslate nohighlight">\(t_1\)</span> denote the end time of an experiment. Let
+<span class="math notranslate nohighlight">\(P_{e}(t_i)\)</span> denote power demand of equipment <span class="math notranslate nohighlight">\(e \in E\)</span> at
+time <span class="math notranslate nohighlight">\(t_i\)</span>. We can estimate the power demand from major
+equipment and its fraction against the total building power demand.</div>
+</div>
+<ol class="arabic">
+<li><p>Diversity factor is defined by the General Services Administration
+<span id="id4">[<a class="reference internal" href="#id33" title="GSA. Federal standard 1037c telecommunications: glossary of telecommunication terms. 1996. URL: https://www.its.bldrdoc.gov/fs-1037/fs-1037c.htm.">GSA96</a>]</span> as the ratio of the sum of individual
+maximum demands to the maximum demand of the whole system:</p>
+<div class="math notranslate nohighlight" id="equation-eq-1-1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-1-1" title="Permalink to this equation">¶</a></span>\[\dfrac{\sum_{e \in E}\max\limits_{{t_{0}}&lt;t&lt;{t_{1}}}{P_e(t_i)}}{\max\limits_{{t_{0}}&lt;t&lt;{t_{1}}}{\sum_{e \in E}P_e(t_i)}}\]</div>
+</li>
+<li><p>Load factor can be expressed as follows based on the definition in <span id="id5">[<a class="reference internal" href="#id33" title="GSA. Federal standard 1037c telecommunications: glossary of telecommunication terms. 1996. URL: https://www.its.bldrdoc.gov/fs-1037/fs-1037c.htm.">GSA96</a>]</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-1-2">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-1-2" title="Permalink to this equation">¶</a></span>\[\dfrac{\overline{P_e(t_i)}}{\max\limits_{{t_{0}}&lt;t&lt;{t_{1}}}{P_e(t_i)}}\]</div>
+</li>
+<li><p>Equipment power demand fraction at time <span class="math notranslate nohighlight">\(t_i\)</span> relative to total
+power demand at time <span class="math notranslate nohighlight">\(t_i\)</span>, this can help rank the energy
+demand from equipment level:</p>
+<div class="math notranslate nohighlight" id="equation-eq-1-3">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-1-3" title="Permalink to this equation">¶</a></span>\[\dfrac{P_{e}(t_i)}{\sum_{e \in E}P_e(t_i)}\]</div>
+</li>
+<li><p>Power peak demand during the period <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-eq-2">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eq-2" title="Permalink to this equation">¶</a></span>\[\max\limits_{{t_{0}}&lt;t_i&lt;{t_{1}}}{\sum_{e \in E}P_e(t_i)}\]</div>
+</li>
+</ol>
+</section>
+<section id="energy-usage-metrics">
+<h3>Energy usage metrics<a class="headerlink" href="#energy-usage-metrics" title="Permalink to this headline">¶</a></h3>
+<p>Building energy usage has always been considered a key indicator of
+building performance. Energy usage refers to the fuels consumed by a
+building system at a given period. Such energy consumption can be
+further divided based on end-use type into multiple categories, i.e.,
+space heating, cooling, ventilation, water heating, lighting, cooking,
+refrigeration, computing (including servers), office equipment, and
+other uses <span id="id6">[<a class="reference internal" href="#id40" title="U.S. Energy Information Administration. 2012 commercial buildings energy consumption survey (cbecs) survey data. 2016.">Adm16</a>]</span>. Here, we listed energy
+consumption for equipment, total energy consumption, and combined the
+end-use energy usage into HVAC energy usage and non-HVAC energy usage.</p>
+<ol class="arabic">
+<li><p>Energy consumption of equipment <span class="math notranslate nohighlight">\(e \in E\)</span> during the period
+<span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-3">
+<span class="eqno">(5)<a class="headerlink" href="#equation-eq-3" title="Permalink to this equation">¶</a></span>\[\int_{t_i=t_{0}}^{t_{1}} P_e(t_i)dt\]</div>
+</li>
+<li><p>Energy consumption fraction associated with equipment <span class="math notranslate nohighlight">\(e\)</span>
+during <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-eq-4">
+<span class="eqno">(6)<a class="headerlink" href="#equation-eq-4" title="Permalink to this equation">¶</a></span>\[\dfrac{\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}\]</div>
+</li>
+<li><p>Total building energy consumption during <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-eq-5">
+<span class="eqno">(7)<a class="headerlink" href="#equation-eq-5" title="Permalink to this equation">¶</a></span>\[{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}\]</div>
+</li>
+<li><p>HVAC system energy consumption during <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-eq-6">
+<span class="eqno">(8)<a class="headerlink" href="#equation-eq-6" title="Permalink to this equation">¶</a></span>\[{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_{e,AC}(t_i)dt}\]</div>
+</li>
+<li><p>Non-HVAC system energy consumption during <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span> :</p>
+<div class="math notranslate nohighlight" id="equation-eq-7">
+<span class="eqno">(9)<a class="headerlink" href="#equation-eq-7" title="Permalink to this equation">¶</a></span>\[{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)dt}-{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_{e,AC}(t_i)dt}\]</div>
+</li>
+</ol>
+</section>
+<section id="energy-cost-metrics">
+<h3>Energy cost metrics<a class="headerlink" href="#energy-cost-metrics" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Energy cost as a metric directly links energy usage with financial
+markets. It is a key economic criteria to assess building controller
+performance during operation, especially responding to the dynamic
+variation of energy price. Energy cost is often used as a control
+objective function in model predictive control (MPC) studies
+<span id="id7">[<a class="reference internal" href="#id41" title="Mesut Avci, Murat Erkoc, Amir Rahmani, and Shihab Asfour. Model predictive hvac load control in buildings using real-time electricity pricing. Energy and Buildings, 60(0):199-209, 2013. URL: http://www.sciencedirect.com/science/article/pii/S037877881300025X, doi:http://dx.doi.org/10.1016/j.enbuild.2013.01.008.">AERA13</a>, <a class="reference internal" href="#id25" title="Jingran Ma, Joe Qin, Timothy Salsbury, and Peng Xu. Demand reduction in building energy systems based on economic model predictive control. Chemical Engineering Science, 67(1):92-100, 2012. URL: http://www.sciencedirect.com/science/article/pii/S0009250911005240, doi:https://doi.org/10.1016/j.ces.2011.07.052.">MQSX12</a>]</span>, which have developed controllers
+targeted at minimizing energy cost under normal charge rate, and (or)
+under peak demand charge rate.</div>
+<div class="line">Let <span class="math notranslate nohighlight">\(\{t_{0},...,t_{1}\}\)</span> denote the period of interest (in
+minutes), and let <span class="math notranslate nohighlight">\(c(t_i)\)</span> denote the regular fuel price at time
+<span class="math notranslate nohighlight">\(t_i\)</span>:</div>
+</div>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-8">
+<span class="eqno">(10)<a class="headerlink" href="#equation-eq-8" title="Permalink to this equation">¶</a></span>\[{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)\lambda(t_i)dt}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(c_d(t_i)\)</span> denote the fuel price (peak demand charge rate)
+at time <span class="math notranslate nohighlight">\(t_i\)</span>. Considering the demand charge rate,
+<span id="id8">[<a class="reference internal" href="#id25" title="Jingran Ma, Joe Qin, Timothy Salsbury, and Peng Xu. Demand reduction in building energy systems based on economic model predictive control. Chemical Engineering Science, 67(1):92-100, 2012. URL: http://www.sciencedirect.com/science/article/pii/S0009250911005240, doi:https://doi.org/10.1016/j.ces.2011.07.052.">MQSX12</a>]</span> rewrote the cost metric as:</p>
+<div class="math notranslate nohighlight" id="equation-eq-9">
+<span class="eqno">(11)<a class="headerlink" href="#equation-eq-9" title="Permalink to this equation">¶</a></span>\[{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)\lambda(t_i)dt}+\max\limits_{{t_{0}}&lt;t&lt;{t_{1}}}{\sum_{e \in E}\int_{t_i=t_{0}}^{t_{1}}P_e(t_i)\lambda_d(t_i)dt}\]</div>
+</div></blockquote>
+</section>
+<section id="thermal-comfort-metrics">
+<h3>Thermal comfort metrics<a class="headerlink" href="#thermal-comfort-metrics" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Thermal comfort, defined by ASHRAE Standard 55 is ‘‘that condition of
+mind that express satisfaction with the thermal
+environment’’<span id="id9">[<a class="reference internal" href="#id34" title="ASHRAE. Ansi/ashrae standard 55-2010 thermal environmental conditions for human occupancy. 2010.">ASH10</a>]</span>. In a typical commercial
+building, the goal of a HVAC system is to provide such comfort.
+However, this thermal comfort, assessed by the human being, is
+affected by environmental, social, physiological, and psychological
+factors. The Fanger comfort model is the first thermal comfort model
+ever developed and is relatively easy to calculate. Other than the
+comfort model, we may also directly use dry bulb temperature as a
+simple indication of thermal comfort.</div>
+<div class="line">Let <span class="math notranslate nohighlight">\(z\)</span> denote the zone index for the set of zones in the
+building <span class="math notranslate nohighlight">\({Z}\)</span>, <span class="math notranslate nohighlight">\(S_c=[T_{min}^n,T_{max}^n]\)</span> denote the
+thermal comfort (temperature) set associated with zone <span class="math notranslate nohighlight">\(z\)</span> , and
+<span class="math notranslate nohighlight">\(c_i\)</span> denote the comfort indicator at time <span class="math notranslate nohighlight">\(t_i\)</span>.</div>
+</div>
+<ol class="arabic">
+<li><p>Based on Fanger comfort model
+<span id="id10">[<a class="reference internal" href="#id42" title="PO Fanger. Calculation of thermal comfort, introduction of a basic comfort equation. ASHRAE transactions, 73:III–4, 1967.">Fan67</a>, <a class="reference internal" href="#id43" title="Poul O Fanger and others. Thermal comfort. analysis and applications in environmental engineering. Thermal comfort. Analysis and applications in environmental engineering., 1970.">F+70</a>]</span>, predicted percent of
+dissatisfied (<span class="math notranslate nohighlight">\(PPD\)</span>) people at each Predicted Mean Vote
+(<span class="math notranslate nohighlight">\(PMV\)</span>) can be calculated as:</p>
+<div class="math notranslate nohighlight" id="equation-eq-10">
+<span class="eqno">(12)<a class="headerlink" href="#equation-eq-10" title="Permalink to this equation">¶</a></span>\[PPD = 100-95e^{-0.03353*PMV^4 - 0.2179*PMV^2}\]</div>
+<p>where <span class="math notranslate nohighlight">\(PMV = (0.303e^{-0.036M}+0.028)(H-L)\)</span>; <span class="math notranslate nohighlight">\(H\)</span> is the
+internal heat production rate of an occupant per unit area (i.e.,
+metabolic rate per unit area minus the rate of heat loss due to the
+performance of work, <span class="math notranslate nohighlight">\(L\)</span> is all the modes of energy loss from
+body )</p>
+</li>
+<li><p>Number of excursions outside of the comfort set for zone <span class="math notranslate nohighlight">\(z\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-11">
+<span class="eqno">(13)<a class="headerlink" href="#equation-eq-11" title="Permalink to this equation">¶</a></span>\[|\{t_z ~|~ T_{t}^n \in S_c \land T_{t+1}^n \not\in S_c \}|\]</div>
+</li>
+<li><p>Total time when the comfort indicator <span class="math notranslate nohighlight">\(T\)</span> is outside the
+comfort set <span class="math notranslate nohighlight">\(S_c\)</span> for zone <span class="math notranslate nohighlight">\(z\)</span>, during the time interval
+<span class="math notranslate nohighlight">\(\{t_{0},t_{1}\}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-12">
+<span class="eqno">(14)<a class="headerlink" href="#equation-eq-12" title="Permalink to this equation">¶</a></span>\[t_{u,z} = \sum_{t_i=t_0}^{t_1}s(t_i)\]</div>
+<p>where <span class="math notranslate nohighlight">\(s(t_i)=1\)</span>, if <span class="math notranslate nohighlight">\(T^n_{t}\not \in S_c\)</span>, at time
+<span class="math notranslate nohighlight">\(t_i\)</span>; <span class="math notranslate nohighlight">\(s(t_i)=0\)</span>, if <span class="math notranslate nohighlight">\(T^n_{t} \in S_c\)</span>, at time
+<span class="math notranslate nohighlight">\(t_i\)</span>.</p>
+</li>
+<li><p>Total time when the comfort indicator <span class="math notranslate nohighlight">\(T\)</span> is outside the
+comfort set <span class="math notranslate nohighlight">\(S_c\)</span> for all the zones in the whole building
+<span class="math notranslate nohighlight">\(z \in {Z}\)</span>, during the time interval <span class="math notranslate nohighlight">\(\{t_{0},t_{1}\}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-13">
+<span class="eqno">(15)<a class="headerlink" href="#equation-eq-13" title="Permalink to this equation">¶</a></span>\[t_{u,Z} = \sum_{z \in Z}\sum_{t_i=T_0}^{t_1}s(t_i)\]</div>
+</li>
+<li><p>Percent time when the comfort indicator <span class="math notranslate nohighlight">\(T\)</span> is outside the
+comfort set <span class="math notranslate nohighlight">\(S_c\)</span> for zone <span class="math notranslate nohighlight">\(z\)</span>, during the time interval
+See <a class="reference internal" href="#equation-eq-percent">(16)</a>
+<span class="math notranslate nohighlight">\(\{t_{0},t_{1}\}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-percent">
+<span class="eqno">(16)<a class="headerlink" href="#equation-eq-percent" title="Permalink to this equation">¶</a></span>\[\dfrac{|t_{u,z}|}{t_{1} - t_{0}}\]</div>
+</li>
+<li><p>Maximum deviation from the comfort set for zone <span class="math notranslate nohighlight">\(z\)</span></p>
+<div class="math notranslate nohighlight" id="equation-eq-maxcom">
+<span class="eqno">(17)<a class="headerlink" href="#equation-eq-maxcom" title="Permalink to this equation">¶</a></span>\[max\{T^n_{min} - T_{l},T_{u} - T^n_{max}\}\]</div>
+<p>where <span class="math notranslate nohighlight">\(T_{u} = \max\{T_t^n~|~T_t^n &gt; T^n_{max}\}\)</span> and
+<span class="math notranslate nohighlight">\(T_{l} = \min\{T_t^n~|~T_t^n &lt; T^n_{min}\}\)</span>.</p>
+</li>
+</ol>
+</section>
+<section id="system-and-equipment-utilization-metrics">
+<h3>System and equipment utilization metrics<a class="headerlink" href="#system-and-equipment-utilization-metrics" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">These metrics are defined to measure system and equipment utilization
+characteristics during a given period. The utilization characteristics
+include operational time fraction, maximum capacity percentage,
+average capacity percentage (all three could range within 0-100%), and
+average system efficiency. As noted by other studies, different HVAC
+components might be used differently under different control
+scenarios.</div>
+<div class="line">For an equipment <span class="math notranslate nohighlight">\(e \in E\)</span>, let <span class="math notranslate nohighlight">\(O_e\)</span>, <span class="math notranslate nohighlight">\(C_e\)</span>, and
+<span class="math notranslate nohighlight">\(\eta_e\)</span> denote operation status indicator, operation capacity,
+and operation efficiency, respectively.</div>
+</div>
+<blockquote>
+<div><p>period <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-14">
+<span class="eqno">(18)<a class="headerlink" href="#equation-eq-14" title="Permalink to this equation">¶</a></span>\[\dfrac{1}{t_{1}-t_{0}}\sum_{t_i=t_{0}}^{t_{1}} O_{e}(i)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(O_{e}(i)=1\)</span>, if the equipment is ON, and <span class="math notranslate nohighlight">\(O_{e}(i)=0\)</span>,
+if the equipment is OFF.</p>
+</div></blockquote>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">The maximum capacity percentage of equipment <span class="math notranslate nohighlight">\(e \in E\)</span> during
+the period <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>:</div>
+</div>
+<blockquote>
+<div><div class="math notranslate nohighlight" id="equation-eq-15">
+<span class="eqno">(19)<a class="headerlink" href="#equation-eq-15" title="Permalink to this equation">¶</a></span>\[\dfrac{max\{C_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}{C_{e,r}}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(C_{e,r}\)</span> is the rated maximum capacity of of equipment
+<span class="math notranslate nohighlight">\(e \in E\)</span> during the period <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>.</p>
+</div></blockquote>
+</li>
+<li><p>The average capacity percentage of equipment <span class="math notranslate nohighlight">\(e \in E\)</span> during
+the period <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-16">
+<span class="eqno">(20)<a class="headerlink" href="#equation-eq-16" title="Permalink to this equation">¶</a></span>\[\dfrac{average\{C_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}{C_{e,r}}\]</div>
+</li>
+<li><p>The average efficiency coefficient (e.g.,energy efficiency ratio,
+seasonal energy efficiency ratio, and coefficient of performance) of
+equipment <span class="math notranslate nohighlight">\(e \in E\)</span> during the period <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-17">
+<span class="eqno">(21)<a class="headerlink" href="#equation-eq-17" title="Permalink to this equation">¶</a></span>\[{max\{\eta_{e, t} ~|~t \in \{t_{0},t_{1}\}\}}\]</div>
+</li>
+</ol>
+</section>
+<section id="control-dynamics-metrics">
+<h3>Control dynamics metrics<a class="headerlink" href="#control-dynamics-metrics" title="Permalink to this headline">¶</a></h3>
+<p>Control performance assessment can be considered as an evaluation of the
+quality of control during normal and abnormal operation. It includes
+qualitative analysis (e.g., Bode plot, Nyquist plot) and quantitative
+evaluations (e.g., Harris index, mean of control error). Several studies
+have reviewed and compared the performance of those metrics
+<span id="id11">[<a class="reference internal" href="#id46" title="T. J. Harris, C. T. Seppala, and L. D. Desborough. A review of performance monitoring and assessment techniques for univariate and multivariate control systems. Journal of Process Control, 9(1):1-17, 1999. URL: &lt;Go to ISI&gt;://WOS:000078128300001, doi:Doi 10.1016/S0959-1524(98)00031-6.">HSD99</a>, <a class="reference internal" href="#id47" title="M. Jelali. An overview of control performance assessment technology and industrial applications. Control Engineering Practice, 14(5):441-466, 2006. URL: &lt;Go to ISI&gt;://WOS:000236459500001, doi:10.1016/j.conengprac.2005.11.005.">Jel06</a>, <a class="reference internal" href="#id49" title="Z. O'Neill, Y. F. Li, and K. Williams. Hvac control loop performance assessment: a critical review (1587-rp). Science and Technology for the Built Environment, 23(4):619-636, 2017. URL: &lt;Go to ISI&gt;://WOS:000400981400008, doi:10.1080/23744731.2016.1239466.">ONeillLW17</a>]</span>. Particularly,
+<span id="id12">[<a class="reference internal" href="#id49" title="Z. O'Neill, Y. F. Li, and K. Williams. Hvac control loop performance assessment: a critical review (1587-rp). Science and Technology for the Built Environment, 23(4):619-636, 2017. URL: &lt;Go to ISI&gt;://WOS:000400981400008, doi:10.1080/23744731.2016.1239466.">ONeillLW17</a>]</span> compared the metrics for HVAC control loops
+and recommended the Harris index and VarBand because of their bounded
+values. Here we selected the Harris index as one metric. In addition, we
+added response speed, i.e., how fast the controller responds to a
+disturbance.</p>
+<p>Let <span class="math notranslate nohighlight">\(s_i\)</span>, <span class="math notranslate nohighlight">\(M_i\)</span>, <span class="math notranslate nohighlight">\(t_0\)</span>,<span class="math notranslate nohighlight">\(t_1\)</span>, <span class="math notranslate nohighlight">\(d_0\)</span>,
+and <span class="math notranslate nohighlight">\(d_1\)</span> denote the control setpoint for control variable
+<span class="math notranslate nohighlight">\(i\)</span>, the actual measurement of this control variable <span class="math notranslate nohighlight">\(i\)</span>,
+the time when a disturbance occurs, the time when the system re-balanced
+(actual measurement stays within <span class="math notranslate nohighlight">\(\pm\)</span> 10% of the setpoint),
+pre-disturbed value, and the disturbance value, respectively.</p>
+<ol class="arabic">
+<li><p>Based on <span id="id13">[<a class="reference internal" href="#id48" title="T. J. Harris. Assessment of control loop performance. Canadian Journal of Chemical Engineering, 67(5):856-861, 1989. URL: &lt;Go to ISI&gt;://A1989CA59200019.">Har89</a>]</span>, Harris index is calculated
+as follows:</p>
+<div class="math notranslate nohighlight" id="equation-eq-18">
+<span class="eqno">(22)<a class="headerlink" href="#equation-eq-18" title="Permalink to this equation">¶</a></span>\[H=1-\frac{\delta^2_{mv}}{\delta^2_{y}}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\delta^2_{mv}\)</span> is the minimum variance of the control
+output obtained by maximum likelihood estimation method, and
+<span class="math notranslate nohighlight">\(\delta^2_{y}\)</span> is the variance of control outputs with respect
+to the setpoint.</p>
+</li>
+<li><p>Control response absolute speed:</p>
+<div class="math notranslate nohighlight" id="equation-eq-19">
+<span class="eqno">(23)<a class="headerlink" href="#equation-eq-19" title="Permalink to this equation">¶</a></span>\[t_{0-1}=t_1-t_0\]</div>
+</li>
+<li><p>Control response relative speed:</p>
+<div class="math notranslate nohighlight" id="equation-eq-20">
+<span class="eqno">(24)<a class="headerlink" href="#equation-eq-20" title="Permalink to this equation">¶</a></span>\[\frac{t_{0-1}}{|d_1-d_0|}\]</div>
+</li>
+</ol>
+</section>
+<section id="fault-sensitivity-metrics">
+<h3>Fault sensitivity metrics<a class="headerlink" href="#fault-sensitivity-metrics" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">The occurrence of a fault typically has an impact on one or more
+aspects of building system performance, such as energy, comfort, and
+cost. For the same HVAC system, one type of controller might be more
+immune to the fault than other controllers. Thus, we defined this
+fault sensitivity metric to quantify such fault immunity for
+controllers <span id="id14">[<a class="reference internal" href="#id50" title="Yan Chen, Sen Huang, and Draguna Vrabie. A simulation based approach for impact assessment of physical faults: large commercial building hvac case study. 2018 Building Performance Analysis Conference and SimBuild co-organized by ASHRAE and IBPSA-USA, September 26-28, Chicago, IL 2018.">CHV18</a>]</span>.</div>
+<div class="line">Let <span class="math notranslate nohighlight">\(p'(t_i)\)</span> denote a performance factor (energy, demand, cost,
+efficiency, etc.) at time <span class="math notranslate nohighlight">\(t_i\)</span> under fault condition
+(<span class="math notranslate nohighlight">\('\)</span>), <span class="math notranslate nohighlight">\(p(t_i)\)</span> denote the same type of performance factor
+under no-fault condition (baseline). Fault sensitivity is expressed as
+a ratio of the performance factor under fault condition to the
+baseline (no fault):</div>
+</div>
+<div class="math notranslate nohighlight" id="equation-eq-21">
+<span class="eqno">(25)<a class="headerlink" href="#equation-eq-21" title="Permalink to this equation">¶</a></span>\[\frac{p'(t_i)-p(t_i)}{p(t_i)}\]</div>
+</section>
+<section id="computation-metrics">
+<h3>Computation metrics<a class="headerlink" href="#computation-metrics" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">For a conventional HVAC control system, the controller involves
+limited computation effort. For an MPC, studies have found the control
+decision could require noticeable computational effort
+<span id="id15">[<a class="reference internal" href="#id44" title="Peter May-Ostendorp, Gregor P Henze, Charles D Corbin, Balaji Rajagopalan, and Clemens Felsmann. Model-predictive control of mixed-mode buildings with rule extraction. Building and Environment, 46(2):428–437, 2011.">MOHC+11</a>, <a class="reference internal" href="#id45" title="Frauke Oldewurtel, Alessandra Parisio, Colin N Jones, Dimitrios Gyalistras, Markus Gwerder, Vanessa Stauch, Beat Lehmann, and Manfred Morari. Use of model predictive control and weather forecasts for energy efficient building climate control. Energy and Buildings, 45:15–27, 2012.">OPJ+12</a>]</span>, which may include system
+modeling, prediction, and optimization). Computation time has been
+used as one of the metrics <span id="id16">[<a class="reference internal" href="#id26" title="Petru-Daniel Moroşan, Romain Bourdais, Didier Dumur, and Jean Buisson. Building temperature regulation using a distributed model predictive control. Energy and Buildings, 42(9):1445-1452, 2010. URL: http://www.sciencedirect.com/science/article/pii/S0378778810000915, doi:10.1016/j.enbuild.2010.03.014.">MBDB10</a>]</span>. Here, we
+defined three scenarios: MPC prediction, virtual-building model
+simulation, and real-building operation. Each scenario has its time
+track.</div>
+<div class="line">Let <span class="math notranslate nohighlight">\(t_r(i)\)</span> denote real-building operation time at
+<span class="math notranslate nohighlight">\(i^{th}\)</span> iteration, <span class="math notranslate nohighlight">\(t_{r0}(i)\)</span> denote the start time of
+the building model simulation at <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration, and
+<span class="math notranslate nohighlight">\(t_{r1}(i)\)</span> denote the ending time of the building model
+simulation at <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration. Let <span class="math notranslate nohighlight">\(t_s(i)\)</span> denote the
+virtual-building model simulation time length at <span class="math notranslate nohighlight">\(i^{th}\)</span>
+iteration, <span class="math notranslate nohighlight">\(t_{s0}(i)\)</span> denote the start time of the building
+model simulation at <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration, and <span class="math notranslate nohighlight">\(t_{s1}(i)\)</span>
+denote the ending time of the building model simulation at
+<span class="math notranslate nohighlight">\(i^{th}\)</span> iteration. Let <span class="math notranslate nohighlight">\(t_p(i)\)</span> denote the MPC prediction
+time length at <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration, <span class="math notranslate nohighlight">\(t_{p0}(i)\)</span> denote the
+start time of the prediction calculation at <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration,
+and <span class="math notranslate nohighlight">\(t_{p1}(i)\)</span> denote the ending time of the prediction
+calculation at <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration.</div>
+</div>
+<ol class="arabic">
+<li><p>Controller prediction time at <span class="math notranslate nohighlight">\(i^{th}\)</span> iteration can be
+calculated as:</p>
+<div class="math notranslate nohighlight" id="equation-eq-22">
+<span class="eqno">(26)<a class="headerlink" href="#equation-eq-22" title="Permalink to this equation">¶</a></span>\[t_p(i)=t_{p1}(i)-t_{p0}(i)\]</div>
+</li>
+<li><p>Model simulation (or real building system operation) time length at
+<span class="math notranslate nohighlight">\(i^{th}\)</span> iteration can be calculated as:</p>
+<div class="math notranslate nohighlight" id="equation-eq-23">
+<span class="eqno">(27)<a class="headerlink" href="#equation-eq-23" title="Permalink to this equation">¶</a></span>\[t_s(i)=t_{s1}(i)-t_{s0}(i)\]</div>
+<p>while total <span class="math notranslate nohighlight">\(t_s(i)\)</span> over a period of <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-24">
+<span class="eqno">(28)<a class="headerlink" href="#equation-eq-24" title="Permalink to this equation">¶</a></span>\[t_s=\sum_{t_i=t_{0}}^{t_{1}}t_s(i)\]</div>
+</li>
+<li><p>Real building system operation time length at <span class="math notranslate nohighlight">\(i^{th}\)</span>
+iteration can be calculated as:</p>
+<div class="math notranslate nohighlight" id="equation-eq-25">
+<span class="eqno">(29)<a class="headerlink" href="#equation-eq-25" title="Permalink to this equation">¶</a></span>\[t_r(i)=t_{r1}(i)-t_{r0}(i)\]</div>
+</li>
+<li><p>Total <span class="math notranslate nohighlight">\(t_r\)</span> over a period of <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span> can be
+calculated as:</p>
+<div class="math notranslate nohighlight" id="equation-eq-26">
+<span class="eqno">(30)<a class="headerlink" href="#equation-eq-26" title="Permalink to this equation">¶</a></span>\[t_r=\sum_{i=t_{0}}^{t_{1}}t_r(i)\]</div>
+</li>
+<li><p>Total prediction-simulation time ratio:</p>
+<div class="math notranslate nohighlight" id="equation-eq-27">
+<span class="eqno">(31)<a class="headerlink" href="#equation-eq-27" title="Permalink to this equation">¶</a></span>\[\frac{t_p}{t_s}\]</div>
+</li>
+<li><p>Total modeling-operation time ratio:</p>
+<div class="math notranslate nohighlight" id="equation-eq-28">
+<span class="eqno">(32)<a class="headerlink" href="#equation-eq-28" title="Permalink to this equation">¶</a></span>\[\frac{t_s}{t_r}\]</div>
+</li>
+</ol>
+</section>
+<section id="air-quality-metrics">
+<h3>Air quality metrics<a class="headerlink" href="#air-quality-metrics" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">IAQ is always a critical factor in indoor environment that directly
+relates to occupant health, comfort, and productivity
+<span id="id17">[<a class="reference internal" href="#id35" title="J. Sundell. On the history of indoor air quality and health. Indoor Air, 14:51-58, 2004. URL: &lt;Go to ISI&gt;://WOS:000223590700007, doi:10.1111/j.1600-0668.2004.00273.x.">Sun04</a>]</span>. Accurate evaluation of IAQ require a
+set of measurements of the typical indoor air pollutants (such as
+particulate matter(<span class="math notranslate nohighlight">\(PM\)</span>), volatile organic compounds
+(<span class="math notranslate nohighlight">\(VOCs\)</span>), nitrogen dioxide (<span class="math notranslate nohighlight">\(NO_2\)</span>), formaldehyde, radon
+(<span class="math notranslate nohighlight">\(Rn\)</span>), biological pollutants). Direct measurement of those
+pollutants is typically costly, and physical modeling of those
+pollutants in indoor environment is not well established. As a result,
+an alternative path has been used to evaluate the IAQ by measuring the
+amount of fresh air via <span class="math notranslate nohighlight">\(CO_2\)</span>-based evaluation.</div>
+<div class="line">From the perspective of building HVAC system operation and control,
+IAQ-related control actions include controlling the ratio of fresh air
+intake and modifying ventilation rate. Increasing ventilation rate was
+found to be associated with reduced symptoms of sick building syndrome
+<span id="id18">[<a class="reference internal" href="#id36" title="J. Sundell, H. Levin, W. W. Nazaroff, W. S. Cain, W. J. Fisk, D. T. Grimsrud, F. Gyntelberg, Y. Li, A. K. Persily, A. C. Pickering, J. M. Samet, J. D. Spengler, S. T. Taylor, and C. J. Weschler. Ventilation rates and health: multidisciplinary review of the scientific literature. Indoor Air, 21(3):191-204, 2011. URL: &lt;Go to ISI&gt;://WOS:000290490300004, doi:10.1111/j.1600-0668.2010.00703.x.">SLN+11</a>]</span>. ASHRAE Standard 62.1 has established
+the minimum requirement for fresh air intake
+<span id="id19">[<a class="reference internal" href="#id31" title="ASHRAE. Ashrae standard 62.1-2010 ventilation for acceptable indoor air quality. 2016.">ASH16</a>]</span>. To evaluate weather this requirement
+has been met, it can be directly calculated by measuring outside air
+flow rate, recirculating air flow rate, number of occupants, and
+building area <span id="id20">[<a class="reference internal" href="#id30" title="Shui Yuan and Ronald Perez. Multiple-zone ventilation and temperature control of a single-duct vav system using model predictive strategy. Energy and Buildings, 38(10):1248-1261, 2006. URL: http://www.sciencedirect.com/science/article/pii/S0378778806000764, doi:https://doi.org/10.1016/j.enbuild.2006.03.007.">YP06</a>]</span>. This can also be
+indirectly estimated by measuring <span class="math notranslate nohighlight">\(CO_2\)</span> concentration for a
+building mainly occupied by humans. Thus, <span class="math notranslate nohighlight">\(CO_2\)</span> concentration
+has been used as control inputs in demand control ventilation
+<span id="id21">[<a class="reference internal" href="#id37" title="Velimir Congradac and Filip Kulic. Hvac system optimization with co2 concentration control using genetic algorithms. Energy and Buildings, 41(5):571-577, 2009. URL: http://www.sciencedirect.com/science/article/pii/S0378778808002685, doi:http://dx.doi.org/10.1016/j.enbuild.2008.12.004.">CK09</a>, <a class="reference internal" href="#id39" title="Nabil Nassif. A robust co2-based demand-controlled ventilation control strategy for multi-zone hvac systems. Energy and Buildings, 45(0):72-81, 2012. URL: http://www.sciencedirect.com/science/article/pii/S0378778811004622, doi:http://dx.doi.org/10.1016/j.enbuild.2011.10.018.">Nas12</a>, <a class="reference internal" href="#id38" title="Zhongwei Sun, Shengwei Wang, and Zhenjun Ma. In-situ implementation and validation of a co2-based adaptive demand-controlled ventilation strategy in a multi-zone office building. Building and Environment, 46(1):124-133, 2011. URL: http://www.sciencedirect.com/science/article/pii/S0360132310002131, doi:http://dx.doi.org/10.1016/j.buildenv.2010.07.008.">SWM11</a>]</span>).</div>
+<div class="line">Let <span class="math notranslate nohighlight">\(A\)</span> denote the concentration of <span class="math notranslate nohighlight">\(CO_2\)</span> in ppm. For
+zone <span class="math notranslate nohighlight">\(z\)</span>, the <span class="math notranslate nohighlight">\(CO_2\)</span> concentration is <span class="math notranslate nohighlight">\(A_z(t_i)\)</span> at
+time <span class="math notranslate nohighlight">\(t_i\)</span>. Let <span class="math notranslate nohighlight">\(a\)</span> denote the ambient environment. Let
+<span class="math notranslate nohighlight">\(A_r\)</span> denote the required <span class="math notranslate nohighlight">\(CO_2\)</span> concentration threshold
+from ASHRAE 62.1 (e.g., for office <span class="math notranslate nohighlight">\(A_r\)</span>=700 ppm + ambient
+<span class="math notranslate nohighlight">\(CO_2\)</span> concentration).</div>
+</div>
+<ol class="arabic">
+<li><p>Average <span class="math notranslate nohighlight">\(CO_2\)</span> concentration for zone <span class="math notranslate nohighlight">\(z\)</span>, during the
+period <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-29">
+<span class="eqno">(33)<a class="headerlink" href="#equation-eq-29" title="Permalink to this equation">¶</a></span>\[\dfrac{1}{t_{1}-t_{0}}{\sum_{t_i=t_{0}}^{t_{1}}A_z(t_i)}\]</div>
+</li>
+<li><p>Maximum <span class="math notranslate nohighlight">\(CO_2\)</span> concentration for zone <span class="math notranslate nohighlight">\(z\)</span>, during the
+period <span class="math notranslate nohighlight">\([t_{0},t_{1}]\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-30">
+<span class="eqno">(34)<a class="headerlink" href="#equation-eq-30" title="Permalink to this equation">¶</a></span>\[{max\{A_z(t_i) ~|~t_i \in \{t_{0},t_{1}\}\}}\]</div>
+</li>
+<li><p>Total time when <span class="math notranslate nohighlight">\(CO_2\)</span> concentration <span class="math notranslate nohighlight">\(A_z(t_i)\)</span> is higher
+than the ASHRAE recommended value <span class="math notranslate nohighlight">\(A_r\)</span> for zone <span class="math notranslate nohighlight">\(z\)</span>,
+during the time interval <span class="math notranslate nohighlight">\(\{t_{0},t_{1}\}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-31">
+<span class="eqno">(35)<a class="headerlink" href="#equation-eq-31" title="Permalink to this equation">¶</a></span>\[t(CO_2)_{u,z} = \sum_{t_i=T_0}^{T_z}s(t_i)\]</div>
+<p>where <span class="math notranslate nohighlight">\(s(t_i)=1\)</span>, if <span class="math notranslate nohighlight">\(A_z(t_i)\)</span> <span class="math notranslate nohighlight">\(&gt;\)</span> <span class="math notranslate nohighlight">\(A_r\)</span>, at
+time <span class="math notranslate nohighlight">\(t_i\)</span>; <span class="math notranslate nohighlight">\(s(t_i)=0\)</span>, if <span class="math notranslate nohighlight">\(A_z(t_i)\)</span> <span class="math notranslate nohighlight">\(\leq\)</span>
+<span class="math notranslate nohighlight">\(A_r\)</span>, at time <span class="math notranslate nohighlight">\(t_i\)</span>.</p>
+</li>
+<li><p>Total time when <span class="math notranslate nohighlight">\(CO_2\)</span> concentration <span class="math notranslate nohighlight">\(A_z(t_i)\)</span> is higher
+than the ASHRAE recommended value <span class="math notranslate nohighlight">\(A_r\)</span> for all the zones in
+the whole building <span class="math notranslate nohighlight">\(z \in {Z}\)</span>, during the time interval
+<span class="math notranslate nohighlight">\(\{t_{0},t_{1}\}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-32">
+<span class="eqno">(36)<a class="headerlink" href="#equation-eq-32" title="Permalink to this equation">¶</a></span>\[t(CO_2)_{u,Z} = \sum_{z \in Z}\sum_{t_i=T_0}^{T_z}s(t_i)\]</div>
+<p>where <span class="math notranslate nohighlight">\(s(t_i)=1\)</span>, if <span class="math notranslate nohighlight">\(A_z(t_i)\)</span> <span class="math notranslate nohighlight">\(&gt;\)</span> <span class="math notranslate nohighlight">\(A_r\)</span>, at
+time <span class="math notranslate nohighlight">\(t_i\)</span>; <span class="math notranslate nohighlight">\(s(t_i)=0\)</span>, if <span class="math notranslate nohighlight">\(A_z(t_i)\)</span> <span class="math notranslate nohighlight">\(\leq\)</span>
+<span class="math notranslate nohighlight">\(A_r\)</span>, at time <span class="math notranslate nohighlight">\(t_i\)</span>.</p>
+</li>
+</ol>
+</section>
+<section id="capability-of-the-controller-to-steer-flexibility">
+<span id="ch-kpi-implementation"></span><h3>Capability of the controller to steer flexibility<a class="headerlink" href="#capability-of-the-controller-to-steer-flexibility" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>A controller capable of estimating and steering the flexibility available
+in a building supposes an added value, since it would be able to
+provide demand repsonse and ancillary services to the electric grid or
+district heating or cooling network.
+However, the explicit quantification of this KPI is particularly challenging
+because of the dependency of flexibility on the previous actions, current
+state, and various flexibility objectives that exist.
+For this reason, BOPTEST will utilize the operational cost KPI with dynamic
+pricing as a proxy for how the controller steers flexibility.
+Future work may specify dedicated tests and explicit quantification of flexibility.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="kpi-implementation">
+<h2>KPI Implementation<a class="headerlink" href="#kpi-implementation" title="Permalink to this headline">¶</a></h2>
+<p>KPI implementation refers to the process of calculating KPIs with
+predefined procedures, during or after the control evaluation. When
+performing simulation-based control evaluation, we streamline the KPI
+implementation by integrating the KPI calculation modules into the
+building emulators. Specifically, we categorize KPIs into two groups:
+<em>Core KPI</em> and <em>customized KPI</em>.</p>
+<ul class="simple">
+<li><p>For KPIs in <em>Core KPI</em>, inputs for calculating them are tagged in the
+simulation model while the corresponding calculation methods are
+parts of the standard simulation process.</p></li>
+<li><p>For KPIs in <em>customized KPI</em>, application programming interfaces are
+provided to allow users to specify the required inputs for
+calculating such KPIs and detailed calculation methods.</p></li>
+</ul>
+<p>In the following subsections, we detail the implementation for the two
+groups, respectively.</p>
+<section id="core-kpi">
+<h3><em>Core KPI</em><a class="headerlink" href="#core-kpi" title="Permalink to this headline">¶</a></h3>
+<p>Core KPI is intended to enable “apple-to-apple” comparisons among
+different building controls. To serve this purpose, KPIs in <em>core KPI</em>
+must be case insensitive, i.e., not depending on specific simulation
+case or simulation scenario. As of now, we consider two KPIs for <em>key
+KPI</em>: “HVAC system energy consumption”, as defined in <a class="reference internal" href="#equation-eq-5">(7)</a>, and “comfort”, as defined in <a class="reference internal" href="#equation-eq-34">(37)</a>.</p>
+<div class="math notranslate nohighlight" id="equation-eq-34">
+<span class="eqno">(37)<a class="headerlink" href="#equation-eq-34" title="Permalink to this equation">¶</a></span>\[{\sum_{i=1}^{M}\sum_{k=0}^{N}({{T_i}^k-{T_{set}){\Delta}t}}}\]</div>
+<p>where <span class="math notranslate nohighlight">\({T_i}^k\)</span> is the temperature of the <span class="math notranslate nohighlight">\(i\)</span>th zone at
+the discrete <span class="math notranslate nohighlight">\(k\)</span>th time step, <span class="math notranslate nohighlight">\(T_{set}\)</span> is the zone
+temperature set point, <span class="math notranslate nohighlight">\({\Delta}t\)</span> is the discrete time step
+length , <span class="math notranslate nohighlight">\(M\)</span> is the number of zones, and <span class="math notranslate nohighlight">\(N\)</span> is the number
+of discrete time steps.</p>
+<p>Similarly, we rewrite <em>Equation</em> <a class="reference internal" href="#equation-eq-5">(7)</a> into a discrete
+form, as shown below, to facilitate the calculation:</p>
+<div class="math notranslate nohighlight" id="equation-eq-35">
+<span class="eqno">(38)<a class="headerlink" href="#equation-eq-35" title="Permalink to this equation">¶</a></span>\[{\sum_{j=1}^{S}\sum_{k=0}^{N}({{P_{j}}^k){\Delta}t}}\]</div>
+<p>where <span class="math notranslate nohighlight">\({P_{j}}^k\)</span> is the power of the <span class="math notranslate nohighlight">\(j\)</span>th HVAC device at
+the discrete <span class="math notranslate nohighlight">\(k\)</span>th time step, <span class="math notranslate nohighlight">\(S\)</span> is the number of HVAC
+device.</p>
+<p>In the Modelica building models, we specify the inputs for <a class="reference internal" href="#equation-eq-34">(37)</a> and <a class="reference internal" href="#equation-eq-35">(38)</a> with a module called
+<em>IBPSA.Utilities.IO.SignalExchange.Read</em>. This module allows users to
+define which variables are involved in a certain KPI calculation. For
+example, <span class="math notranslate nohighlight">\({T_i}^k\)</span> is defined with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>IBPSA.Utilities.IO.SignalExchange.Read TRooAir(KPIs=``comfort&#39;&#39;,
+y(unit=``K&#39;&#39;),
+Description=``Room air temperature&#39;&#39;));
+</pre></div>
+</div>
+<p>Likewise, <span class="math notranslate nohighlight">\({P_{j}}^k\)</span> is defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>IBPSA.Utilities.IO.SignalExchange.Read ETotHVAC(KPIs=``energy&#39;&#39;,
+y(unit=``J&#39;&#39;),
+Description=``Total HVAC energy&#39;&#39;));
+</pre></div>
+</div>
+<p>A Python script is created to extract this KPI related information into
+a dictionary as shown below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{``energy&#39;&#39;: [``ETotHVAC_y&#39;&#39;],
+``comfort&#39;&#39;: [``TRooAir_y&#39;&#39;]}
+</pre></div>
+</div>
+<p>Then, the above dictionary is used to calculate the KPIs with the
+following Python module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>def get_kpis(self):
+        ``Returns KPI data.
+
+        Requires standard sensor signals.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        kpis : dict
+            Dictionary containing KPI names and values.
+            {&lt;kpi_name&gt;:&lt;kpi_value&gt;}
+
+        &#39;&#39;
+        kpis = dict()
+        # Calculate each KPI using json for signalsand save
+        in dictionary
+        for kpi in self.kpi_json.keys():
+            print(kpi, type(kpi))
+            if kpi == &#39;energy&#39;:
+                # Calculate total energy [KWh - assumes measured
+                in J]
+                E = 0
+                for signal in self.kpi_json[kpi]:
+                    E = E + self.y_store[signal][-1]
+                # Store result in dictionary
+                kpis[kpi] = E*2.77778e-7 # Convert to kWh
+            elif kpi == &#39;comfort&#39;:
+                # Calculate total discomfort [K-h = assumes
+                measured in K]
+                tot_dis = 0
+                heat_setpoint = 273.15+20
+                for signal in self.kpi_json[kpi]:
+                    data = np.array(self.y_store[signal])
+                    dT_heating = heat_setpoint - data
+                    dT_heating[dT_heating&lt;0]=0
+                    tot_dis = tot_dis + trapz(dT_heating,
+                    self.y_store[&#39;time&#39;])
+                    /3600
+                # Store result in dictionary
+                kpis[kpi] = tot_dis
+
+        return kpis
+</pre></div>
+</div>
+<p>To summarize, the <em>Core KPI</em> is predefined at the building simulation
+model level and we don’t expect any modification from the control
+developers.</p>
+</section>
+<section id="customized-kpi">
+<h3><em>Customized KPI</em><a class="headerlink" href="#customized-kpi" title="Permalink to this headline">¶</a></h3>
+<p>The <em>customized KPI</em> is designed for those KPIs that are subject to
+certain control or building simulation models. Examples of those KPIs
+include controllable building power, which varies among different
+building simulation models.</p>
+<p>To perform an analysis on the <em>customized KPI</em>, users must define the
+<em>customized KPI</em> with the following template:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``kpi1&#39;&#39;:{
+    ``name&#39;&#39;: ``Average_power&#39;&#39;,
+    ``kpi_class&#39;&#39;: ``MovingAve&#39;&#39;,
+    ``kpi_file&#39;&#39;: ``kpi.kpi_example&#39;&#39;,
+    ``data_point_num&#39;&#39;: 30,
+    ``data_points&#39;&#39;:
+    {``x&#39;&#39;:``PFan_y&#39;&#39;,
+     ``y&#39;&#39;:``PCoo_y&#39;&#39;,
+     ``z&#39;&#39;:``PHea_y&#39;&#39;,
+     ``s&#39;&#39;:``PPum_y&#39;&#39;
+     }
+}
+</pre></div>
+</div>
+<p>The above definition actually contains two major parts:</p>
+<ul>
+<li><p>The first part defines which module (in which file) calculates the
+corresponding KPI. In this example, the module for calculating the
+KPI <span class="math notranslate nohighlight">\(Average\_power\)</span> is the class <span class="math notranslate nohighlight">\(MovingAve\)</span> in the file
+<span class="math notranslate nohighlight">\(kpi.kpi\_example\)</span>. It is noted that this module should
+contains one function called “calculation”, as shown below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>class MovingAve(object):
+def __init__(self, config, **kwargs):
+    self.name=config.get(``name&#39;&#39;)
+
+def calculation(self,data):
+    return sum(data[``x&#39;&#39;])/len(data[``x&#39;&#39;])
+</pre></div>
+</div>
+</li>
+<li><p>The second part defines the inputs for calculating the KPIs. In this
+example, there are four inputs for calculating the KPI
+<span class="math notranslate nohighlight">\(Average\_power\)</span> and the sampling horizon length for those
+inputs is 30 minutes.</p></li>
+</ul>
+<p>The user-defined information is then processed by the following Python
+module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>class cutomizedKPI(object):
+    &#39;&#39;&#39;
+      Class that implements the customized KPI calculation.
+    &#39;&#39;&#39;
+    def __init__(self, config, **kwargs):
+        # import the KPI class based on the config files
+        kpi_file=config.get(``kpi_file&#39;&#39;)
+        module = importlib.import_module(kpi_file)
+        kpi_class = config.get(``kpi_class&#39;&#39;)
+        model_class = getattr(module, kpi_class)
+
+        # instantiate the KPI calculation class
+        self.model = model_class(config)
+        # import data point mapping info
+        self.data_points=config.get(``data_points&#39;&#39;)
+        # import the length of data array
+        self.data_point_num=config.get(``data_point_num&#39;&#39;)
+        # initialize the data buffer
+        self.data_buff=None
+
+    # a function to process the streaming data
+    def processing_data(self,data,num):
+    # initialize the data arrays
+        if self.data_buff is None:
+           self.data_buff={}
+           for point in self.data_points:
+               self.data_buff[point]=[]
+               self.data_buff[point].
+    append(data[self.data_points[point]])
+    # keep a moving window
+        else:
+           for point in self.data_points:
+               self.data_buff[point].
+           append(data[self.data_points[point]])
+               if len(self.data_buff[point])&gt;=num:
+                    self.data_buff[point].pop(0)
+
+    # a function to process the streaming data
+    def calculation(self):
+        res = self.model.calculation(self.data_buff)
+        return res
+</pre></div>
+</div>
+<p>The above module reads the KPI information, instantiates the KPI
+calculation class, and creates data buffers for the KPI calculation.</p>
+<p id="id22"><dl class="citation">
+<dt class="label" id="id40"><span class="brackets"><a class="fn-backref" href="#id6">Adm16</a></span></dt>
+<dd><p>U.S. Energy Information Administration. 2012 commercial buildings energy consumption survey (cbecs) survey data. 2016.</p>
+</dd>
+<dt class="label" id="id23"><span class="brackets"><a class="fn-backref" href="#id1">AJS14</a></span></dt>
+<dd><p>Abdul Afram and Farrokh Janabi-Sharifi. Theory and applications of hvac control systems – a review of model predictive control (mpc). <em>Building and Environment</em>, 72(Supplement C):343–355, 2014. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0360132313003363">http://www.sciencedirect.com/science/article/pii/S0360132313003363</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.buildenv.2013.11.016">doi:https://doi.org/10.1016/j.buildenv.2013.11.016</a>.</p>
+</dd>
+<dt class="label" id="id34"><span class="brackets"><a class="fn-backref" href="#id9">ASH10</a></span></dt>
+<dd><p>ASHRAE. Ansi/ashrae standard 55-2010 thermal environmental conditions for human occupancy. 2010.</p>
+</dd>
+<dt class="label" id="id31"><span class="brackets"><a class="fn-backref" href="#id19">ASH16</a></span></dt>
+<dd><p>ASHRAE. Ashrae standard 62.1-2010 ventilation for acceptable indoor air quality. 2016.</p>
+</dd>
+<dt class="label" id="id41"><span class="brackets"><a class="fn-backref" href="#id7">AERA13</a></span></dt>
+<dd><p>Mesut Avci, Murat Erkoc, Amir Rahmani, and Shihab Asfour. Model predictive hvac load control in buildings using real-time electricity pricing. <em>Energy and Buildings</em>, 60(0):199–209, 2013. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S037877881300025X">http://www.sciencedirect.com/science/article/pii/S037877881300025X</a>, <a class="reference external" href="https://doi.org/http://dx.doi.org/10.1016/j.enbuild.2013.01.008">doi:http://dx.doi.org/10.1016/j.enbuild.2013.01.008</a>.</p>
+</dd>
+<dt class="label" id="id50"><span class="brackets"><a class="fn-backref" href="#id14">CHV18</a></span></dt>
+<dd><p>Yan Chen, Sen Huang, and Draguna Vrabie. A simulation based approach for impact assessment of physical faults: large commercial building hvac case study. <em>2018 Building Performance Analysis Conference and SimBuild co-organized by ASHRAE and IBPSA-USA</em>, September 26-28, Chicago, IL 2018.</p>
+</dd>
+<dt class="label" id="id37"><span class="brackets"><a class="fn-backref" href="#id21">CK09</a></span></dt>
+<dd><p>Velimir Congradac and Filip Kulic. Hvac system optimization with co2 concentration control using genetic algorithms. <em>Energy and Buildings</em>, 41(5):571–577, 2009. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0378778808002685">http://www.sciencedirect.com/science/article/pii/S0378778808002685</a>, <a class="reference external" href="https://doi.org/http://dx.doi.org/10.1016/j.enbuild.2008.12.004">doi:http://dx.doi.org/10.1016/j.enbuild.2008.12.004</a>.</p>
+</dd>
+<dt class="label" id="id42"><span class="brackets"><a class="fn-backref" href="#id10">Fan67</a></span></dt>
+<dd><p>PO Fanger. Calculation of thermal comfort, introduction of a basic comfort equation. <em>ASHRAE transactions</em>, 73:III–4, 1967.</p>
+</dd>
+<dt class="label" id="id43"><span class="brackets"><a class="fn-backref" href="#id10">F+70</a></span></dt>
+<dd><p>Poul O Fanger and others. Thermal comfort. analysis and applications in environmental engineering. <em>Thermal comfort. Analysis and applications in environmental engineering.</em>, 1970.</p>
+</dd>
+<dt class="label" id="id33"><span class="brackets">GSA96</span><span class="fn-backref">(<a href="#id4">1</a>,<a href="#id5">2</a>)</span></dt>
+<dd><p>GSA. Federal standard 1037c telecommunications: glossary of telecommunication terms. 1996. URL: <a class="reference external" href="https://www.its.bldrdoc.gov/fs-1037/fs-1037c.htm">https://www.its.bldrdoc.gov/fs-1037/fs-1037c.htm</a>.</p>
+</dd>
+<dt class="label" id="id48"><span class="brackets"><a class="fn-backref" href="#id13">Har89</a></span></dt>
+<dd><p>T. J. Harris. Assessment of control loop performance. <em>Canadian Journal of Chemical Engineering</em>, 67(5):856–861, 1989. URL: <a class="reference external" href="&lt;Go to ISI&gt;://A1989CA59200019">&lt;Go to ISI&gt;://A1989CA59200019</a>.</p>
+</dd>
+<dt class="label" id="id46"><span class="brackets"><a class="fn-backref" href="#id11">HSD99</a></span></dt>
+<dd><p>T. J. Harris, C. T. Seppala, and L. D. Desborough. A review of performance monitoring and assessment techniques for univariate and multivariate control systems. <em>Journal of Process Control</em>, 9(1):1–17, 1999. URL: <a class="reference external" href="&lt;Go to ISI&gt;://WOS:000078128300001">&lt;Go to ISI&gt;://WOS:000078128300001</a>, <a class="reference external" href="https://doi.org/Doi 10.1016/S0959-1524(98)00031-6">doi:Doi 10.1016/S0959-1524(98)00031-6</a>.</p>
+</dd>
+<dt class="label" id="id24"><span class="brackets"><a class="fn-backref" href="#id3">Hua11</a></span></dt>
+<dd><p>Gongsheng Huang. Model predictive control of vav zone thermal systems concerning bi-linearity and gain nonlinearity. <em>Control Engineering Practice</em>, 19(7):700–710, 2011. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0967066111000451">http://www.sciencedirect.com/science/article/pii/S0967066111000451</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.conengprac.2011.03.005">doi:https://doi.org/10.1016/j.conengprac.2011.03.005</a>.</p>
+</dd>
+<dt class="label" id="id47"><span class="brackets"><a class="fn-backref" href="#id11">Jel06</a></span></dt>
+<dd><p>M. Jelali. An overview of control performance assessment technology and industrial applications. <em>Control Engineering Practice</em>, 14(5):441–466, 2006. URL: <a class="reference external" href="&lt;Go to ISI&gt;://WOS:000236459500001">&lt;Go to ISI&gt;://WOS:000236459500001</a>, <a class="reference external" href="https://doi.org/10.1016/j.conengprac.2005.11.005">doi:10.1016/j.conengprac.2005.11.005</a>.</p>
+</dd>
+<dt class="label" id="id25"><span class="brackets">MQSX12</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id7">2</a>,<a href="#id8">3</a>)</span></dt>
+<dd><p>Jingran Ma, Joe Qin, Timothy Salsbury, and Peng Xu. Demand reduction in building energy systems based on economic model predictive control. <em>Chemical Engineering Science</em>, 67(1):92–100, 2012. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0009250911005240">http://www.sciencedirect.com/science/article/pii/S0009250911005240</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.ces.2011.07.052">doi:https://doi.org/10.1016/j.ces.2011.07.052</a>.</p>
+</dd>
+<dt class="label" id="id44"><span class="brackets"><a class="fn-backref" href="#id15">MOHC+11</a></span></dt>
+<dd><p>Peter May-Ostendorp, Gregor P Henze, Charles D Corbin, Balaji Rajagopalan, and Clemens Felsmann. Model-predictive control of mixed-mode buildings with rule extraction. <em>Building and Environment</em>, 46(2):428–437, 2011.</p>
+</dd>
+<dt class="label" id="id26"><span class="brackets">MBDB10</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id16">2</a>)</span></dt>
+<dd><p>Petru-Daniel Moroşan, Romain Bourdais, Didier Dumur, and Jean Buisson. Building temperature regulation using a distributed model predictive control. <em>Energy and Buildings</em>, 42(9):1445–1452, 2010. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0378778810000915">http://www.sciencedirect.com/science/article/pii/S0378778810000915</a>, <a class="reference external" href="https://doi.org/10.1016/j.enbuild.2010.03.014">doi:10.1016/j.enbuild.2010.03.014</a>.</p>
+</dd>
+<dt class="label" id="id39"><span class="brackets"><a class="fn-backref" href="#id21">Nas12</a></span></dt>
+<dd><p>Nabil Nassif. A robust co2-based demand-controlled ventilation control strategy for multi-zone hvac systems. <em>Energy and Buildings</em>, 45(0):72–81, 2012. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0378778811004622">http://www.sciencedirect.com/science/article/pii/S0378778811004622</a>, <a class="reference external" href="https://doi.org/http://dx.doi.org/10.1016/j.enbuild.2011.10.018">doi:http://dx.doi.org/10.1016/j.enbuild.2011.10.018</a>.</p>
+</dd>
+<dt class="label" id="id49"><span class="brackets">ONeillLW17</span><span class="fn-backref">(<a href="#id11">1</a>,<a href="#id12">2</a>)</span></dt>
+<dd><p>Z. O'Neill, Y. F. Li, and K. Williams. Hvac control loop performance assessment: a critical review (1587-rp). <em>Science and Technology for the Built Environment</em>, 23(4):619–636, 2017. URL: <a class="reference external" href="&lt;Go to ISI&gt;://WOS:000400981400008">&lt;Go to ISI&gt;://WOS:000400981400008</a>, <a class="reference external" href="https://doi.org/10.1080/23744731.2016.1239466">doi:10.1080/23744731.2016.1239466</a>.</p>
+</dd>
+<dt class="label" id="id45"><span class="brackets"><a class="fn-backref" href="#id15">OPJ+12</a></span></dt>
+<dd><p>Frauke Oldewurtel, Alessandra Parisio, Colin N Jones, Dimitrios Gyalistras, Markus Gwerder, Vanessa Stauch, Beat Lehmann, and Manfred Morari. Use of model predictive control and weather forecasts for energy efficient building climate control. <em>Energy and Buildings</em>, 45:15–27, 2012.</p>
+</dd>
+<dt class="label" id="id27"><span class="brackets"><a class="fn-backref" href="#id3">PSFC11</a></span></dt>
+<dd><p>Samuel Prívara, Jan Široký, Lukáš Ferkl, and Jiří Cigler. Model predictive control of a building heating system: the first experience. <em>Energy and Buildings</em>, 43(2):564–572, 2011. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0378778810003749">http://www.sciencedirect.com/science/article/pii/S0378778810003749</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.enbuild.2010.10.022">doi:https://doi.org/10.1016/j.enbuild.2010.10.022</a>.</p>
+</dd>
+<dt class="label" id="id28"><span class="brackets"><a class="fn-backref" href="#id3">RH11</a></span></dt>
+<dd><p>J. Rehrl and M. Horn. Temperature control for hvac systems based on exact linearization and model predictive control. In <em>IEEE International Conference on Control Applications (CCA)</em>, 1119–1124. 2011. <a class="reference external" href="https://doi.org/10.1109/CCA.2011.6044437">doi:10.1109/CCA.2011.6044437</a>.</p>
+</dd>
+<dt class="label" id="id38"><span class="brackets"><a class="fn-backref" href="#id21">SWM11</a></span></dt>
+<dd><p>Zhongwei Sun, Shengwei Wang, and Zhenjun Ma. In-situ implementation and validation of a co2-based adaptive demand-controlled ventilation strategy in a multi-zone office building. <em>Building and Environment</em>, 46(1):124–133, 2011. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0360132310002131">http://www.sciencedirect.com/science/article/pii/S0360132310002131</a>, <a class="reference external" href="https://doi.org/http://dx.doi.org/10.1016/j.buildenv.2010.07.008">doi:http://dx.doi.org/10.1016/j.buildenv.2010.07.008</a>.</p>
+</dd>
+<dt class="label" id="id35"><span class="brackets"><a class="fn-backref" href="#id17">Sun04</a></span></dt>
+<dd><p>J. Sundell. On the history of indoor air quality and health. <em>Indoor Air</em>, 14:51–58, 2004. URL: <a class="reference external" href="&lt;Go to ISI&gt;://WOS:000223590700007">&lt;Go to ISI&gt;://WOS:000223590700007</a>, <a class="reference external" href="https://doi.org/10.1111/j.1600-0668.2004.00273.x">doi:10.1111/j.1600-0668.2004.00273.x</a>.</p>
+</dd>
+<dt class="label" id="id36"><span class="brackets"><a class="fn-backref" href="#id18">SLN+11</a></span></dt>
+<dd><p>J. Sundell, H. Levin, W. W. Nazaroff, W. S. Cain, W. J. Fisk, D. T. Grimsrud, F. Gyntelberg, Y. Li, A. K. Persily, A. C. Pickering, J. M. Samet, J. D. Spengler, S. T. Taylor, and C. J. Weschler. Ventilation rates and health: multidisciplinary review of the scientific literature. <em>Indoor Air</em>, 21(3):191–204, 2011. URL: <a class="reference external" href="&lt;Go to ISI&gt;://WOS:000290490300004">&lt;Go to ISI&gt;://WOS:000290490300004</a>, <a class="reference external" href="https://doi.org/10.1111/j.1600-0668.2010.00703.x">doi:10.1111/j.1600-0668.2010.00703.x</a>.</p>
+</dd>
+<dt class="label" id="id29"><span class="brackets"><a class="fn-backref" href="#id3">XPC07</a></span></dt>
+<dd><p>Xue-Cheng Xi, Aun-Neow Poo, and Siaw-Kiang Chou. Support vector regression model predictive control on a hvac plant. <em>Control Engineering Practice</em>, 15(8):897–908, 2007. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0967066106001766">http://www.sciencedirect.com/science/article/pii/S0967066106001766</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.conengprac.2006.10.010">doi:https://doi.org/10.1016/j.conengprac.2006.10.010</a>.</p>
+</dd>
+<dt class="label" id="id30"><span class="brackets">YP06</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id20">2</a>)</span></dt>
+<dd><p>Shui Yuan and Ronald Perez. Multiple-zone ventilation and temperature control of a single-duct vav system using model predictive strategy. <em>Energy and Buildings</em>, 38(10):1248–1261, 2006. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0378778806000764">http://www.sciencedirect.com/science/article/pii/S0378778806000764</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.enbuild.2006.03.007">doi:https://doi.org/10.1016/j.enbuild.2006.03.007</a>.</p>
+</dd>
+</dl>
+</p>
+</section>
+</section>
+</section>
+
+
+    </div>
+
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+
+    </p>
+    <p>
+        &copy; Copyright .<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

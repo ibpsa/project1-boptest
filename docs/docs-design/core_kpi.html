@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Core KPI Specification and Calculation &#8212; Design Documentation 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-sphinx.css" />
+    <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Forecast Generation" href="forecasts.html" />
+    <link rel="prev" title="Reference Test Case Development" href="testcasedev.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Design Documentation</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+
+                <li><a href="../index.html">BOPTEST Home</a></li>
+
+
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="goal.html">Goal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usecases.html">User Case Narratives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcasedev.html">Reference Test Case Development</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Core KPI Specification and Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forecasts.html">Forecast Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Run-Time Platform Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_KPI.html">Appendix: Additional KPI Specification and Calculation</a></li>
+</ul>
+</ul>
+</li>
+
+
+
+
+
+  <li>
+    <a href="testcasedev.html" title="Previous Chapter: Reference Test Case Development"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Reference Tes...</span>
+    </a>
+  </li>
+  <li>
+    <a href="forecasts.html" title="Next Chapter: Forecast Generation"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Forecast Generation &raquo;</span>
+    </a>
+  </li>
+
+
+
+
+
+          </ul>
+
+
+
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+
+  <section id="core-kpi-specification-and-calculation">
+<h1>Core KPI Specification and Calculation<a class="headerlink" href="#core-kpi-specification-and-calculation" title="Permalink to this headline">¶</a></h1>
+<section id="core-kpis">
+<h2>Core KPIs<a class="headerlink" href="#core-kpis" title="Permalink to this headline">¶</a></h2>
+<p>The following KPI definitions constitute the core KPIs to be calculated
+in every test case, and documentation of the KPI considered during the
+development phase is provided in the Appendix (See <a class="reference internal" href="appendix_KPI.html#secappkpi"><span class="std std-ref">Appendix: Additional KPI Specification and Calculation</span></a>).
+During the IBPSA expert meetings, these core KPIs have been selected as the most
+representative and relevant indicators to compare different control
+approaches for buildings. Additional KPIs may be calculated and used for
+specific purposes, but the core KPIs are considered the basis for
+assessing the performance of a controller. The definitions consist of a
+description, mathematical formula for quantification, and KPI tagging
+notation.  Note that floor areas used for normalization are calculated
+according to the definitions of the
+Commercial Buildings Energy Consumption Survey (see <a class="reference external" href="https://www.eia.gov/consumption/commercial/terminology.php">https://www.eia.gov/consumption/commercial/terminology.php</a>)
+and Residential Energy Consumption Survey (see <a class="reference external" href="https://www.eia.gov/consumption/residential/reports/2015/squarefootage/">https://www.eia.gov/consumption/residential/reports/2015/squarefootage/</a>).</p>
+<section id="thermal-discomfort-in-a-given-period-of-time">
+<h3>Thermal discomfort in a given period of time<a class="headerlink" href="#thermal-discomfort-in-a-given-period-of-time" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>The thermal discomfort is the integral of the deviation of the
+temperature with respect to a predefined comfort range during a
+given period of time averaged over all zones.
+The units are <span class="math notranslate nohighlight">\(K.h/zone\)</span> and is quantified as:</p>
+<div class="math notranslate nohighlight">
+\[D(t_0, t_f) = \frac{\sum_z^N \int_{t_0}^{t_f} \left \|s_z (t) \right \| dt}{N}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(D(t_0, t_f)\)</span> is the total discomfort between the initial
+time <span class="math notranslate nohighlight">\(t_0\)</span> and the final time <span class="math notranslate nohighlight">\(t_f\)</span>; <span class="math notranslate nohighlight">\(z\)</span> is the zone index out
+of <span class="math notranslate nohighlight">\(N\)</span> zones in the building; <span class="math notranslate nohighlight">\(s_z(t)\)</span> is the
+deviation (slack) from the lower and upper set point temperatures
+established in zone <span class="math notranslate nohighlight">\(z\)</span>.</p>
+</div></blockquote>
+</section>
+<section id="energy-use-in-a-given-period-of-time">
+<h3>Energy use in a given period of time<a class="headerlink" href="#energy-use-in-a-given-period-of-time" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>This KPI is the measure of the site HVAC energy use in <span class="math notranslate nohighlight">\(kWh/m^2\)</span>
+when accounting for the sum of all energy vectors present in the test
+case HVAC system. Each test case determines the energy vectors and conversion factors
+necessary for HVAC (heating, cooling, fans, pumps).
+The mathematical formulation for this KPI is the following:</p>
+<div class="math notranslate nohighlight">
+\[E(t_0, t_f) = \frac{\sum_{i\in \xi} \int_{t=t_0}^{t=t_f}\ P_i(t) dt}{A}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(E(t_0, t_f)\)</span> is the total amount of energy use from the
+initial time <span class="math notranslate nohighlight">\(t_0\)</span> up to the final time <span class="math notranslate nohighlight">\(t_f\)</span>; <span class="math notranslate nohighlight">\(\xi\)</span> denotes
+the set of equipment in the system with an associated energy use of
+any type; finally, <span class="math notranslate nohighlight">\(P_i\)</span> is the instantaneous power used by the
+energy vector <span class="math notranslate nohighlight">\(i\)</span>; <span class="math notranslate nohighlight">\(A\)</span> is the total floor area of the building.</p>
+</div></blockquote>
+</section>
+<section id="peak-electricity-demand-in-a-given-period-of-time">
+<h3>Peak electricity demand in a given period of time<a class="headerlink" href="#peak-electricity-demand-in-a-given-period-of-time" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>This KPI is the measure of the site HVAC peak electricity use in <span class="math notranslate nohighlight">\(kW/m^2\)</span>
+when accounting for the sum of all electrical equipment present in the test
+case HVAC system.
+The mathematical formulation for this KPI is the following:</p>
+<div class="math notranslate nohighlight">
+\[P_E(t_0, t_f) = \frac{\max_{15}[\sum_{i\in I} P_i(t)]}{A}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(P_E(t_0, t_f)\)</span> is the peak electricity demand from the
+initial time <span class="math notranslate nohighlight">\(t_0\)</span> up to the final time <span class="math notranslate nohighlight">\(t_f\)</span>; <span class="math notranslate nohighlight">\(I\)</span> denotes
+the set of equipment in the system with an associated energy use of
+electricity; <span class="math notranslate nohighlight">\(P_i\)</span> is the instantaneous power used by the
+equipment <span class="math notranslate nohighlight">\(i\)</span>; <span class="math notranslate nohighlight">\(A\)</span> is the total floor area of the building; and
+<span class="math notranslate nohighlight">\(max_{15}[]\)</span> indicates the maximum value after taking the average of each 15 minute interval.</p>
+</div></blockquote>
+</section>
+<section id="peak-gas-demand-in-a-given-period-of-time">
+<h3>Peak gas demand in a given period of time<a class="headerlink" href="#peak-gas-demand-in-a-given-period-of-time" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>This KPI is the measure of the site HVAC peak gas use in <span class="math notranslate nohighlight">\(kW/m^2\)</span>
+when accounting for the sum of all gas equipment present in the test
+case HVAC system.
+The mathematical formulation for this KPI is the following:</p>
+<div class="math notranslate nohighlight">
+\[P_G(t_0, t_f) = \frac{\max_{15}[\sum_{i\in I} P_i(t)]}{A}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(P_G(t_0, t_f)\)</span> is the peak gas demand from the
+initial time <span class="math notranslate nohighlight">\(t_0\)</span> up to the final time <span class="math notranslate nohighlight">\(t_f\)</span>; <span class="math notranslate nohighlight">\(I\)</span> denotes
+the set of equipment in the system with an associated energy use of
+gas; <span class="math notranslate nohighlight">\(P_i\)</span> is the instantaneous power used by the
+equipment <span class="math notranslate nohighlight">\(i\)</span>; <span class="math notranslate nohighlight">\(A\)</span> is the total floor area of the building; and
+<span class="math notranslate nohighlight">\(max_{15}[]\)</span> indicates the maximum value after taking the average of each 15 minute interval.</p>
+</div></blockquote>
+</section>
+<section id="peak-district-heating-demand-in-a-given-period-of-time">
+<h3>Peak district heating demand in a given period of time<a class="headerlink" href="#peak-district-heating-demand-in-a-given-period-of-time" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>This KPI is the measure of the site HVAC peak district heating use in <span class="math notranslate nohighlight">\(kW/m^2\)</span>
+when accounting for the sum of all district heating equipment present in the test
+case HVAC system.
+The mathematical formulation for this KPI is the following:</p>
+<div class="math notranslate nohighlight">
+\[P_{DH}(t_0, t_f) = \frac{\max_{15}[\sum_{i\in I} P_i(t)]}{A}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(P_{DH}(t_0, t_f)\)</span> is the peak district heating demand from the
+initial time <span class="math notranslate nohighlight">\(t_0\)</span> up to the final time <span class="math notranslate nohighlight">\(t_f\)</span>; <span class="math notranslate nohighlight">\(I\)</span> denotes
+the set of equipment in the system with an associated energy use of
+district heating; <span class="math notranslate nohighlight">\(P_i\)</span> is the instantaneous power used by the
+equipment <span class="math notranslate nohighlight">\(i\)</span>; <span class="math notranslate nohighlight">\(A\)</span> is the total floor area of the building; and
+<span class="math notranslate nohighlight">\(max_{15}[]\)</span> indicates the maximum value after taking the average of each 15 minute interval.</p>
+</div></blockquote>
+</section>
+<section id="co2-emissions-in-a-given-period-of-time">
+<h3>CO2 emissions in a given period of time<a class="headerlink" href="#co2-emissions-in-a-given-period-of-time" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>This KPI is the measure of the amount of source CO2 emissions in
+<span class="math notranslate nohighlight">\(kgCO_2/m^2\)</span> when accounting for the sum of all energy vectors in the test
+case HVAC system, each using an emission factor profile based on the source of energy.
+The emission factors are to be related with the energy mix associated with
+the location of the test case building. According to this, the
+CO2 emissions are calculated as:</p>
+<div class="math notranslate nohighlight">
+\[\epsilon (t_0, t_f) = \frac{\sum_{i\in \xi} \int_{t=t_0}^{t=t_f}e_i(t)P_i(t) dt}{A}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\epsilon (t_0, t_f)\)</span> is the equivalent total amount of CO2
+emissions during the period of time between <span class="math notranslate nohighlight">\(t_0\)</span> and <span class="math notranslate nohighlight">\(t_f\)</span>.
+<span class="math notranslate nohighlight">\(e_i\)</span> is the emission factor of component <span class="math notranslate nohighlight">\(i\)</span> and has units of
+<span class="math notranslate nohighlight">\(kgCO_2/kWh\)</span>; <span class="math notranslate nohighlight">\(A\)</span> is the total floor area of the building.</p>
+</div></blockquote>
+</section>
+<section id="operational-cost-in-a-given-period-of-time">
+<h3>Operational cost in a given period of time<a class="headerlink" href="#operational-cost-in-a-given-period-of-time" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>This KPI is the measure of the HVAC operational cost in <span class="math notranslate nohighlight">\(\$/m^2\)</span> when
+accounting for the sum of all energy vectors in the test case HVAC system,
+each using a price profile based on the source of energy and given tariff
+archetype.  Three tariff archetypes are defined:
+constant, moderately dynamic (e.g. day/peak and night/off-peak pricing),
+and highly dynamic (e.g. real-time pricing).</p>
+<div class="math notranslate nohighlight">
+\[C^\tau(t_0, t_f) = \frac{\sum_{i\in \xi}\int_{t=t_0}^{t=t_f}p_i^\tau(t) P_i(t) dt}{A}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(C^\tau(t_0, t_f)\)</span> is the total cost during the period
+between time <span class="math notranslate nohighlight">\(t_0\)</span> and <span class="math notranslate nohighlight">\(t_f\)</span> with a tariff <span class="math notranslate nohighlight">\(\tau\)</span>; <span class="math notranslate nohighlight">\(p_i^\tau\)</span>
+is the price profile of equipment <span class="math notranslate nohighlight">\(i\)</span> with a tariff <span class="math notranslate nohighlight">\(\tau\)</span> and
+has units of <span class="math notranslate nohighlight">\(\$/kWh\)</span>; <span class="math notranslate nohighlight">\(A\)</span> is the total floor area of the building.</p>
+</div></blockquote>
+</section>
+<section id="indoor-air-quality-violation">
+<h3>Indoor air quality violation<a class="headerlink" href="#indoor-air-quality-violation" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>The indoor air quality violation is the integral of the deviation of the
+CO2 concentration above a predefined threshold during a
+given period of time averaged over all zones.  The units are <span class="math notranslate nohighlight">\(ppm.h/m^2\)</span> and is
+quantified as:</p>
+<div class="math notranslate nohighlight">
+\[\Phi(t_0, t_f) = \frac{\sum_{z\in \mathbb{Z}} \int_{t_0}^{t_f} \phi_z(t) dt}{N}\]</div>
+<div class="math notranslate nohighlight">
+\[\phi_z(t)=\gamma_z(t)-\gamma_{r,z}(t), \quad if \quad\gamma_z(t)&gt;\gamma_{r,z}(t)\]</div>
+<div class="math notranslate nohighlight">
+\[\phi_z(t)=0, \quad if \quad \gamma_z(t) \leq \gamma_{r,z}(t)\]</div>
+<p>Where
+<span class="math notranslate nohighlight">\(\Phi\)</span> is the total violation of carbon dioxide CO2
+concentration in <span class="math notranslate nohighlight">\(ppmh\)</span> between the initial time <span class="math notranslate nohighlight">\(t_0\)</span> and the final
+time <span class="math notranslate nohighlight">\(t_f\)</span>. <span class="math notranslate nohighlight">\(z\)</span> is the zone index out
+of <span class="math notranslate nohighlight">\(N\)</span> zones in the building. <span class="math notranslate nohighlight">\(\phi_z\)</span> is the deviation of measured
+zone CO2 concentration <span class="math notranslate nohighlight">\(\gamma_z\)</span> from the zone CO2 concentration
+threshold <span class="math notranslate nohighlight">\(\gamma_{r,z}\)</span>.</p>
+</div></blockquote>
+</section>
+<section id="computational-time-ratio">
+<h3>Computational time ratio<a class="headerlink" href="#computational-time-ratio" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>The computational time at simulation step <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\(t_c(k)\)</span>, is the real time
+required by the controller to compute the control inputs between simulation
+steps <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(k-1\)</span>.  It needs to be shorter than the duration of the
+simulation step of that iteration, <span class="math notranslate nohighlight">\(T_s(k)\)</span>.
+The ratio between <span class="math notranslate nohighlight">\(t_c(k)\)</span> and <span class="math notranslate nohighlight">\(T_s(k)\)</span> helps indicate the
+practicality of the controller as well as potential for increasing
+computational time.  This is called the computational time ratio.</p>
+<p>As the computational time and the simulation step duration may not be the
+same for every simulation step, an average of the computational time ratio from
+all of the simulation steps that take place between the initial time <span class="math notranslate nohighlight">\(t_0\)</span>
+and the final time <span class="math notranslate nohighlight">\(t_f\)</span> for which this KPI is calculated. Thus,
+the computational time ratio is computed as follows:</p>
+<div class="math notranslate nohighlight">
+\[t(t_0,t_f) = \frac{\sum_{k=1}^{n}\frac{t_c(k)}{T_s(k)}}{n}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(n\)</span> is the number of simulation steps that take place between
+<span class="math notranslate nohighlight">\(t_0\)</span> and <span class="math notranslate nohighlight">\(t_f\)</span>.</p>
+</div></blockquote>
+</section>
+<section id="installation-metrics">
+<h3>Installation metrics<a class="headerlink" href="#installation-metrics" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>The installation metrics refer to the effort and cost required to get
+the controller settled and running. Many aspects play a role in this
+sense. They are intrinsically subjective and therefore require
+qualitative measures. Therefore, these metrics are provided by the
+controller developer in the form of a simple score
+according to the following categories.  These categories may be refined in
+the future.</p>
+</div></blockquote>
+<table class="colwidths-given longtable docutils align-left" id="id1">
+<caption><span class="caption-text">Installation Metrics</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>Associated Score</strong></p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p><strong>Given Score</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Hardware Installation Time</strong> (measured in one person time and excluding staff training)</p></td>
+<td><p>Less than one day</p></td>
+<td><p>Between a day and a week</p></td>
+<td><p>Between a week and a month</p></td>
+<td><p>Between a month and three months</p></td>
+<td><p>More than three months</p></td>
+<td><p><em>To be added by Control Developer</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Software Development and Installation Time</strong> (measured in one person time)</p></td>
+<td><p>Less than one day</p></td>
+<td><p>Between a day and a week</p></td>
+<td><p>Between a week and a month</p></td>
+<td><p>Between a month and three months</p></td>
+<td><p>More than three months</p></td>
+<td><p><em>To be added by Control Developer</em></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Hardware Installation Cost</strong> (including extra-sensors and labor)</p></td>
+<td><p>There is not any extra cost</p></td>
+<td><p>There is a negligible initial extra cost</p></td>
+<td><p>The extra cost is less than 1% of the actual value of the building</p></td>
+<td><p>The extra cost is estimated between 1% and 3% of the actual value of the building</p></td>
+<td><p>The extra cost is estimated to be larger than 3% of the actual  value of the building</p></td>
+<td><p><em>To be added by Control Developer</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Software Development and Installation Cost</strong> (including any software licenses and labor)</p></td>
+<td><p>There is not any extra cost</p></td>
+<td><p>There is a negligible initial extra cost</p></td>
+<td><p>The extra cost is less than 1% of the actual value of the building</p></td>
+<td><p>The extra cost is estimated between 1% and 3% of the actual value of the building</p></td>
+<td><p>The extra cost is estimated to be larger than 3% of the actual  value of the building</p></td>
+<td><p><em>To be added by Control Developer</em></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Installation Expertise and Operator Training Requirements</strong></p></td>
+<td><p>Everyone can install the controller</p></td>
+<td><p>Everyone can install the controller after a short training course of less than one day</p></td>
+<td><p>Everyone can install the controller after a short training course of less than one week</p></td>
+<td><p>Specific engineering knowledge is required like programming skills plus a short training course of less than one week</p></td>
+<td><p>Only experts and very advanced engineers are able to install the controller</p></td>
+<td><p><em>To be added by Control Developer</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Intensity of Extra Excitations for Obtaining an Identification Dataset</strong></p></td>
+<td><p>There is not any need to excite the building because no monitoring data is required or the data can be gathered from the building working as business as usual.</p></td>
+<td><p>Slight excitations are required. These excitations may have a minor influence in the energy use and there is no need to vacate the building during the training period.</p></td>
+<td><p>Slight excitations are required that may have a noticeable influence in the energy use but there is no need to vacate the building during the training period.</p></td>
+<td><p>Intense excitations are required. There is a considerable influence in the energy use and/or a need to vacate the building during the training period.</p></td>
+<td><p>Intensive excitations are required that can only be obtained from detailed simulation models.</p></td>
+<td><p><em>To be added by Control Developer</em></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Required Length of Identification Dataset</strong></p></td>
+<td><p>There is no need of training from monitoring data.</p></td>
+<td><p>Less than one day.</p></td>
+<td><p>Between a day and a week.</p></td>
+<td><p>Between a week and a month.</p></td>
+<td><p>Several months.</p></td>
+<td><p><em>To be added by Control Developer</em></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="maximum-allowed-capital-cost">
+<h3>Maximum allowed capital cost<a class="headerlink" href="#maximum-allowed-capital-cost" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>The maximum allowed capital cost is the installation cost that would
+lead to a maximum payback period of 5 years. The reason to calculate
+the maximum allowed capital cost instead of the payback period
+directly is because of the subjectiveness associated with the
+installation metrics. The qualitative nature of the installation
+metrics could hamper the quantification of the payback period. On the
+contrary, the maximum allowed capital cost to obtain a fixed payback
+period of 5 years can be objectively quantified if a baseline
+controller is established as a reference. First, the operational
+savings per year are calculated as:</p>
+<div class="math notranslate nohighlight">
+\[S_{1 year} = C_{1 year}^{old}-C_{1 year}^{new}\]</div>
+<p>These savings are computed as the difference between the operational
+cost of the old controller (the baseline) and the new controller.
+Notice the way to calculate these costs is the same as defined in the
+total operational cost KPI defined before for a given time period of
+one year and the selected tariff. The maximum allowed capital cost
+for the controller to get a payback period of 5 years is then
+calculated as:</p>
+<div class="math notranslate nohighlight">
+\[CAPEX_{max}^{5 years} = 5 S_{1 year}\]</div>
+<p>The judgement of whether it is worth to install the new controller
+relies on the BOPTEST user, who can use the objective quantification
+of this KPI to take the decision.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="calculation-module">
+<h2>Calculation Module<a class="headerlink" href="#calculation-module" title="Permalink to this headline">¶</a></h2>
+<p>A KPI calculation module is implemented that calculates the core KPIs
+during the test case simulation by computing KPIs on the fly in order to
+provide feedback to the controller or only for informative purposes.
+Upon deployment of the test case, the module first use the KPI JSON
+(kpis.json) to associate model output names with the appropriate KPIs
+through the specified KPI annotations.</p>
+</section>
+</section>
+
+
+    </div>
+
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+
+    </p>
+    <p>
+        &copy; Copyright .<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

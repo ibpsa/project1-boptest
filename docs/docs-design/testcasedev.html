@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Reference Test Case Development &#8212; Design Documentation 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-sphinx.css" />
+    <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Core KPI Specification and Calculation" href="core_kpi.html" />
+    <link rel="prev" title="User Case Narratives" href="usecases.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Design Documentation</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+
+                <li><a href="../index.html">BOPTEST Home</a></li>
+
+
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="goal.html">Goal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usecases.html">User Case Narratives</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference Test Case Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core_kpi.html">Core KPI Specification and Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forecasts.html">Forecast Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Run-Time Platform Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_KPI.html">Appendix: Additional KPI Specification and Calculation</a></li>
+</ul>
+</ul>
+</li>
+
+
+
+
+
+  <li>
+    <a href="usecases.html" title="Previous Chapter: User Case Narratives"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; User Case Narratives</span>
+    </a>
+  </li>
+  <li>
+    <a href="core_kpi.html" title="Next Chapter: Core KPI Specification and Calculation"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Core KPI Spec... &raquo;</span>
+    </a>
+  </li>
+
+
+
+
+
+          </ul>
+
+
+
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+
+  <section id="reference-test-case-development">
+<span id="sectestcasedev"></span><h1>Reference Test Case Development<a class="headerlink" href="#reference-test-case-development" title="Permalink to this headline">¶</a></h1>
+<p>This section outlines the development requirements of a reference test case.
+A reference test case consists of the following components:</p>
+<ol class="arabic">
+<li><p>Modelica model</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Include documentation html in .mo file</p></li>
+<li><p>The model should include the “uses” Modelica annotation to specify
+the names and versions of additional Modelica libraries on which it depends.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>FMU</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Include boundary condition  data (this is: weather data, occupancy
+schedules, energy pricing, emission factors, internal gains and
+comfort set-points) in resources folder.</p></li>
+<li><p>Generated without run-time license restrictions.</p></li>
+<li><p>Generated as co-simulation or model-exchange that can be integrated
+with the CVode solver at a tolerance of 10e-6.</p></li>
+<li><p>Each scenario using model should have own FMU.</p></li>
+<li><p>Template scripts will be developed to help the model developer
+generate the test case FMU.  See Parts B, C, and D of this section.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Documentation</p></li>
+<li><p>BOPTEST API Configuration</p></li>
+</ol>
+<section id="test-case-repository">
+<h2>Test Case Repository<a class="headerlink" href="#test-case-repository" title="Permalink to this headline">¶</a></h2>
+<p>Each test case will be stored and maintained in a repository under the IBPSA
+github account with an appropriate name.  The repository will have the
+following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TestCaseName</span>                    <span class="o">//</span> <span class="n">Test</span> <span class="n">case</span> <span class="n">directory</span> <span class="n">name</span>
+<span class="o">|--</span><span class="n">model</span>                        <span class="o">//</span> <span class="n">Model</span> <span class="n">directory</span>
+<span class="o">|</span>  <span class="o">|--</span><span class="n">Resources</span>                 <span class="o">//</span> <span class="n">Resources</span> <span class="n">directory</span> <span class="k">with</span> <span class="n">test</span> <span class="n">case</span> <span class="n">data</span>
+<span class="o">|</span>  <span class="o">|--</span><span class="n">model</span><span class="o">.</span><span class="n">mo</span>                  <span class="o">//</span> <span class="n">Modelica</span> <span class="n">model</span> <span class="n">file</span>
+<span class="o">|</span>  <span class="o">|--</span><span class="n">model</span><span class="o">.</span><span class="n">fmu</span>                 <span class="o">//</span> <span class="n">BOPTEST</span> <span class="n">ready</span> <span class="n">FMU</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">resources</span>              <span class="o">//</span> <span class="n">Resources</span> <span class="n">directory</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">kpis</span><span class="o">.</span><span class="n">json</span>           <span class="o">//</span> <span class="n">JSON</span> <span class="n">mapping</span> <span class="n">outputs</span> <span class="n">to</span> <span class="n">KPI</span> <span class="n">calculations</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">days</span><span class="o">.</span><span class="n">json</span>           <span class="o">//</span> <span class="n">JSON</span> <span class="n">mapping</span> <span class="n">time</span> <span class="n">period</span> <span class="n">names</span> <span class="n">to</span> <span class="n">day</span> <span class="n">number</span> <span class="k">for</span> <span class="n">simulation</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">config</span><span class="o">.</span><span class="n">json</span>         <span class="o">//</span> <span class="n">BOPTEST</span> <span class="n">configuration</span> <span class="n">file</span> <span class="ow">and</span> <span class="n">sets</span> <span class="n">defaults</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">weather</span><span class="o">.</span><span class="n">mos</span>         <span class="o">//</span> <span class="n">Weather</span> <span class="n">data</span> <span class="k">for</span> <span class="n">model</span> <span class="n">simulation</span> <span class="ow">in</span> <span class="n">Modelica</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">weather</span><span class="o">.</span><span class="n">csv</span>         <span class="o">//</span> <span class="n">Weather</span> <span class="n">data</span> <span class="k">for</span> <span class="n">forecasting</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">occupancy</span><span class="o">.</span><span class="n">csv</span>       <span class="o">//</span> <span class="n">Occupancy</span> <span class="n">schedules</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">internalGains</span><span class="o">.</span><span class="n">csv</span>   <span class="o">//</span> <span class="n">Internal</span> <span class="n">gain</span> <span class="n">schedules</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">prices</span><span class="o">.</span><span class="n">csv</span>          <span class="o">//</span> <span class="n">Energy</span> <span class="n">pricing</span> <span class="n">schedules</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">emissions</span><span class="o">.</span><span class="n">csv</span>       <span class="o">//</span> <span class="n">Energy</span> <span class="n">emission</span> <span class="n">factor</span> <span class="n">schedules</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">setpoints</span><span class="o">.</span><span class="n">csv</span>       <span class="o">//</span> <span class="n">Thermal</span>  <span class="ow">and</span> <span class="n">IAQ</span> <span class="n">comfort</span> <span class="n">region</span> <span class="n">schedules</span>
+<span class="o">|--</span><span class="n">doc</span>                          <span class="o">//</span> <span class="n">Documentation</span> <span class="n">directory</span>
+<span class="o">|</span>  <span class="o">|--</span><span class="n">doc</span><span class="o">.</span><span class="n">html</span>                  <span class="o">//</span> <span class="n">Copy</span> <span class="n">of</span> <span class="o">.</span><span class="n">mo</span> <span class="n">file</span> <span class="n">documentation</span>
+<span class="o">|</span>  <span class="o">|--</span><span class="n">images</span>                    <span class="o">//</span> <span class="n">Image</span> <span class="n">directory</span>
+<span class="o">|</span>  <span class="o">|</span>  <span class="o">|--</span><span class="n">image1</span><span class="o">.</span><span class="n">png</span>             <span class="o">//</span> <span class="n">Image</span> <span class="k">for</span> <span class="n">model</span> <span class="n">documentation</span>
+</pre></div>
+</div>
+</section>
+<section id="control-and-sensor-signal-exchange-in-modelica">
+<h2>Control and Sensor Signal Exchange in Modelica<a class="headerlink" href="#control-and-sensor-signal-exchange-in-modelica" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the exchange of signals to occur in the Modelica
+emulator model.  Two types of signals are to be exchanged: control input
+signals and measurement output signals.  To facilitate the exchange of these
+signals with external entities, ease the implementation of such exchange by
+avoiding passing of inputs and outputs to top-level models, and facilitate the
+calculation of KPIs as described in later sections, two Modelica blocks will
+be added to the Modelica IBPSA Library that can be used to 1) overwrite
+signals in the model from an external interface and 2) sample signals from
+the model to an external interface.  The blocks have been implemented in the
+Modelica IBPSA Library in the package <code class="code docutils literal notranslate"><span class="pre">IBPSA.Utilities.IO.SignalExchange</span></code> and
+are called <code class="code docutils literal notranslate"><span class="pre">Overwrite</span></code> and <code class="code docutils literal notranslate"><span class="pre">Read</span></code> respectively.  These blocks are added to an
+emulation model and used in combination with a parser script to identify the
+signals to be exchanged, propagate them as inputs/outputs to a top-level
+model, and export this top-level model as an FMU.  In this way, the BOPTEST
+run-time architecture (See Section VI) can be designed around the simulation
+of generic FMUs, while the ability to overwrite and read any signal within
+the model is preserved. The Figure below shows an example implementation of
+the blocks in a model.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="images/overwrite-read.png"><img alt="images/overwrite-read.png" src="images/overwrite-read.png" /></a>
+<figcaption>
+<p><span class="caption-text">Example placement and configuration of signal exchange blocks for single RC zone model with
+heater and proportional feedback control.  Signal exchange blocks are used
+for supervisory set point overwrite (<code class="code docutils literal notranslate"><span class="pre">oveSet</span></code>),
+local loop actuator overwrite (<code class="code docutils literal notranslate"><span class="pre">oveAct</span></code>),
+zone temperature measurement (<code class="code docutils literal notranslate"><span class="pre">TRooAir</span></code>),
+and heating power measurement (<code class="code docutils literal notranslate"><span class="pre">PHea</span></code>).
+Signal exchange blocks may be implemented at any hierarchical level of a model.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Control Signal Overwrite</strong></p>
+<p>The emulator developer will determine the exact control signals to allow for
+overwriting by an external interface, however, must include at least all
+actuator control signals.  This allows for use of any advanced control system.
+To the emulator developers discretion, local loop controllers may be included
+in the model which are deemed representative of the case being emulated.
+The setpoints of these local loop controllers may also be subject to control
+signal overwrite, instead of their corresponding actuator signals.  The
+Overwrite block is constructed as shown in the image below and also contains
+a protected parameter “boptestOverwrite.”</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="images/ow_block_structure.png"><img alt="images/ow_block_structure.png" src="images/ow_block_structure.png" style="width: 562.5px; height: 102.0px;" /></a>
+<figcaption>
+<p><span class="caption-text">Modelica construction of Overwrite signal exchange block.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Sensor Signal Reading</strong></p>
+<p>The emulator developer will add read blocks to post signals to the external
+interface at their discretion to provide measurements from sensors in the
+building that are representative of the case being emulated.  The Read block
+is constructed with an input and output signal with a protected parameter
+named “boptestRead.”  The parameter <code class="code docutils literal notranslate"><span class="pre">KPIs</span></code> allows for tagging the specific
+signal to be used in KPI calculations.  The conditional parameter <code class="code docutils literal notranslate"><span class="pre">zone</span></code>
+allows for designating a zone associated with the particular KPI tag if needed.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="images/r_block_code.png"><img alt="images/r_block_code.png" src="images/r_block_code.png" style="width: 722.0px; height: 450.0px;" /></a>
+<figcaption>
+<p><span class="caption-text">Modelica construction of Read signal exchange block.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p><strong>Parsing and FMU Export</strong></p>
+<p>The parser has two main functions, which each have a number of steps.
+The concept is presented in the Figure below.  The first function is to
+identify the blocks in the model:</p>
+<ol class="arabic simple">
+<li><p>Export the original model containing the signal exchange blocks into an FMU</p></li>
+<li><p>Search for all instances of the parameters <code class="code docutils literal notranslate"><span class="pre">boptestOverwrite</span></code> and <code class="code docutils literal notranslate"><span class="pre">boptestRead</span></code></p></li>
+<li><p>Record the paths of each block instance, and also store information such as signal units, descriptions, min/max, zone designation, and other signal attribute data.</p></li>
+</ol>
+<p>The second function is to export a wrapper FMU that utilizes the signal exchange blocks:</p>
+<ol class="arabic simple">
+<li><p>Create a new top-level model (called wrapper.mo).</p></li>
+<li><p>Instantiate an instance of the original model.</p></li>
+<li><p>Add two inputs for every Overwrite block found named <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_u</span></code> and <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_activate</span></code>.  Assign <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_u</span></code> the unit, descriptions, min/max,  and other signal attribute data specified by the Overwrite block.  Also add one output for every Overwrite block found name <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_y</span></code>.  Assign <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_y</span></code> the unit, descriptions, min/max,  and other signal attribute data specified by the Overwrite block.</p></li>
+<li><p>Add one output for every Read block found named <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_y</span></code>.  Assign <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_y</span></code> the unit, descriptions, min/max, and other signal attribute data specified by the Read block.</p></li>
+<li><p>For Overwrite blocks, connect <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_u</span></code> to <code class="code docutils literal notranslate"><span class="pre">&lt;block.instance.path&gt;.u</span></code>, <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_activate</span></code> to <code class="code docutils literal notranslate"><span class="pre">&lt;block.instance.path&gt;.activate</span></code>, and <code class="code docutils literal notranslate"><span class="pre">&lt;block_instance_path&gt;_y</span></code> to <code class="code docutils literal notranslate"><span class="pre">&lt;block.instance.path&gt;.y</span></code>.</p></li>
+<li><p>For Read blocks, connect <code class="code docutils literal notranslate"><span class="pre">&lt;block_insance_path&gt;_y</span></code> to <code class="code docutils literal notranslate"><span class="pre">&lt;block.instance.path&gt;.y</span></code>.</p></li>
+<li><p>Export the resulting wrapper.mo as an FMU to wrapper.fmu.</p></li>
+</ol>
+<p>An external interface may use the control signal inputs (<code class="code docutils literal notranslate"><span class="pre">_u</span></code>) to send control
+signals to specific overwrite blocks, activation signal inputs (<code class="code docutils literal notranslate"><span class="pre">_activate</span></code>) to
+enable and disable signal overwriting, and signal outputs (<code class="code docutils literal notranslate"><span class="pre">_y</span></code>) to measure
+specific variables within the model.  Note that the outputs added
+corresponding to the Overwrite blocks may be used to retrieve the “current value”
+of a control signal.  By default, the activation of the signal
+overwrite block is set to False.  In this way, external interfaces need to
+only define control signals for those that are being overwritten.</p>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="images/overwrite-read-wrapper.png"><img alt="images/overwrite-read-wrapper.png" src="images/overwrite-read-wrapper.png" /></a>
+<figcaption>
+<p><span class="caption-text">Concept of signal exchange block utilization.  A parser script parses the
+original model to find all instances of the signal exchange blocks and
+then creates a wrapper model that exposes the available control signal value inputs
+(e.g. <code class="code docutils literal notranslate"><span class="pre">oveSet_u</span></code>), control signal activation inputs (e.g. <code class="code docutils literal notranslate"><span class="pre">oveSet_activate</span></code>),
+control signal current value outputs (e.g. <code class="code docutils literal notranslate"><span class="pre">oveSet_y</span></code>),
+and measurment sensor outputs (e.g. <code class="code docutils literal notranslate"><span class="pre">TRooAir_y</span></code>)
+of the signal exchange blocks using a standard FMU interface.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="kpi-tagging-and-json-mapping">
+<h2>KPI Tagging and JSON Mapping<a class="headerlink" href="#kpi-tagging-and-json-mapping" title="Permalink to this headline">¶</a></h2>
+<p>In order to facilitate the calculation of KPIs, a map needs to be created that
+identifies which model outputs are to be included in the calculation of KPIs.
+This map will take the form of a JSON saved as <code class="code docutils literal notranslate"><span class="pre">kpis.json</span></code> and with
+the structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">&lt;</span><span class="n">kpi_ID</span><span class="o">&gt;</span> <span class="p">:</span>             <span class="o">//</span> <span class="n">Unique</span> <span class="n">identifier</span> <span class="k">for</span> <span class="n">KPI</span>
+        <span class="p">[</span><span class="o">&lt;</span><span class="n">output_ID</span><span class="o">&gt;</span><span class="p">]</span>   <span class="o">//</span> <span class="n">List</span> <span class="n">of</span> <span class="n">FMU</span> <span class="n">outputs</span> <span class="n">to</span> <span class="n">be</span> <span class="n">included</span> <span class="ow">in</span> <span class="n">calculation</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here, the kpi_ID is a unique identifier that is used by specific
+KPI calculations.  For example, “power” may be used to calculate energy
+consumption, operating cost, and emissions.  For kpi_IDs requiring zone
+designations, the zone designation can be appended to the end of the kpi_ID as
+<code class="code docutils literal notranslate"><span class="pre">&lt;kpi_ID&gt;[z]</span></code>, where <code class="code docutils literal notranslate"><span class="pre">z</span></code> is the zone designation.
+The output_ID is the name of the output variable in the model FMU.</p>
+<p>This KPI JSON may be created manually by the model developer.  Alternatively,
+functionality of the signal exchange blocks and parser described in the
+previous section will facilitate the generation of the KPI JSON.
+An enumeration parameter is added to the signal exchange Read block that takes
+one kpi_ID that is to be associated with the specified output.  Additionally,
+a zone designation parameter is added to the signal exchange Read block, which
+should be used to specify the zone designation for particular kpi_IDs.
+The parser reads the parameters for each output specified by the Read block,
+builds the KPI JSON accordingly, and exports it along with the wrapper FMU.
+The list of available kpi_ID is defined in
+<code class="code docutils literal notranslate"><span class="pre">IBPSA.Utilities.IO.SignalExchange.SignalTypes</span></code> and is as follows:</p>
+<table class="docutils align-default" id="id5">
+<caption><span class="caption-text">Available KPI Tags</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>kpi_ID</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>None</p></td>
+<td><p>Not used for KPI</p></td>
+</tr>
+<tr class="row-odd"><td><p>AirZoneTemperature</p></td>
+<td><p>Air zone temperature</p></td>
+</tr>
+<tr class="row-even"><td><p>RadiativeZoneTemperature</p></td>
+<td><p>Radiative zone temperature</p></td>
+</tr>
+<tr class="row-odd"><td><p>OperativeZoneTemperature</p></td>
+<td><p>Operative zone temperature</p></td>
+</tr>
+<tr class="row-even"><td><p>RelativeHumidity</p></td>
+<td><p>Relative humidity</p></td>
+</tr>
+<tr class="row-odd"><td><p>CO2Concentration</p></td>
+<td><p>CO2 concentration</p></td>
+</tr>
+<tr class="row-even"><td><p>ElectricPower</p></td>
+<td><p>Electric power from grid</p></td>
+</tr>
+<tr class="row-odd"><td><p>DistrictHeatingPower</p></td>
+<td><p>Thermal power from district heating</p></td>
+</tr>
+<tr class="row-even"><td><p>GasPower</p></td>
+<td><p>Thermal power from natural gas</p></td>
+</tr>
+<tr class="row-odd"><td><p>BiomassPower</p></td>
+<td><p>Thermal power from biomass</p></td>
+</tr>
+<tr class="row-even"><td><p>SolarThermalPower</p></td>
+<td><p>Thermal power from solar thermal</p></td>
+</tr>
+<tr class="row-odd"><td><p>FreshWaterFlowRate</p></td>
+<td><p>FreshWaterFlowRate</p></td>
+</tr>
+</tbody>
+</table>
+<p>In order to calculate the core KPIs defined in Section V. A., a minimum set
+of kpi_ID shall be specified with corresponding measurement output(s).
+This minimum set is as follows:</p>
+<ol class="arabic simple">
+<li><p>At least one of <code class="code docutils literal notranslate"><span class="pre">AirZoneTemperature[z]</span></code> or <code class="code docutils literal notranslate"><span class="pre">OperativeZoneTemperature[z]</span></code></p></li>
+</ol>
+<p>AND</p>
+<ol class="arabic simple" start="2">
+<li><p>At least one of <code class="code docutils literal notranslate"><span class="pre">ElectricPower</span></code>, <code class="code docutils literal notranslate"><span class="pre">DistrictHeatingPower</span></code>, <code class="code docutils literal notranslate"><span class="pre">GasPower</span></code>, <code class="code docutils literal notranslate"><span class="pre">BiomassPower</span></code>, or <code class="code docutils literal notranslate"><span class="pre">SolarThermalPower</span></code></p></li>
+</ol>
+<p>AND</p>
+<ol class="arabic simple" start="3">
+<li><p><code class="code docutils literal notranslate"><span class="pre">CO2Concentration[z]</span></code></p></li>
+</ol>
+</section>
+<section id="time-period-specification-and-json-mapping">
+<h2>Time Period Specification and JSON Mapping<a class="headerlink" href="#time-period-specification-and-json-mapping" title="Permalink to this headline">¶</a></h2>
+<p>In order to associate a time period scenario name with a concrete simulation
+time, a map needs to be created that defines the day number in the year
+around which the time period is based.  This map takes the form of a JSON saved
+as <code class="code docutils literal notranslate"><span class="pre">days.json</span></code> with structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">&lt;</span><span class="n">time_period_ID</span><span class="o">&gt;</span> <span class="p">:</span>    <span class="o">//</span> <span class="n">Unique</span> <span class="n">identifier</span> <span class="k">for</span> <span class="n">specifying</span> <span class="n">time</span> <span class="n">period</span>
+        <span class="o">&lt;</span><span class="n">day_number</span><span class="o">&gt;</span>    <span class="o">//</span> <span class="n">Integer</span> <span class="n">value</span> <span class="n">indicating</span> <span class="n">day</span> <span class="n">number</span> <span class="n">to</span> <span class="n">use</span> <span class="k">for</span> <span class="n">specifying</span> <span class="n">time</span> <span class="n">period</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Currently available time periods are defined as two-week test periods with
+one-week warmup period utilizing baseline control.  The two-week period is
+centered on the day defined by the day # in days.json.</p>
+</section>
+<section id="test-case-configuration-and-json-mapping">
+<h2>Test Case Configuration and JSON Mapping<a class="headerlink" href="#test-case-configuration-and-json-mapping" title="Permalink to this headline">¶</a></h2>
+<p>In order to assign particular configuration and default values
+for a test case upon loading in BOPTEST, a configuration JSON saved as
+<code class="code docutils literal notranslate"><span class="pre">config.json</span></code> will have the structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">::</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>{
+“name”          : &lt;str&gt;,                         // Name of test case
+“area”          : &lt;float&gt;,                       // Floor area in m^2
+“start_time”    : &lt;float&gt;,                       // Default start time
+“warmup_period” : &lt;float&gt;,                       // Default warmup_period
+“step”          : &lt;float&gt;,                       // Default control step in seconds
+“horizon”       : &lt;float&gt;,                       // Default forecast horizon in seconds
+“interval”      : &lt;float&gt;,                       // Default forecast interval in seconds
+“scenario”      : {“electricity_price”:&lt;str&gt;,    // Default electricity price scenario</p>
+<blockquote>
+<div><p>“time_period”:null}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+</section>
+<section id="data-generation-and-collection-module">
+<h2>Data Generation and Collection Module<a class="headerlink" href="#data-generation-and-collection-module" title="Permalink to this headline">¶</a></h2>
+<p>A Python module will be written to handle boundary condition data for the test
+case.  The module will:</p>
+<ol class="arabic simple">
+<li><p>Have a method to combine all boundary condition data CSV files into resources folder of model FMU.  This method would be called by the Parser to add boundary condition data to the resulting FMU.</p></li>
+<li><p>Have a method to find and return data associated with a specified variable name amongst the boundary condition data files within the resources folder of the model FMU.  This method would be called by the KPI Calculator and Forecast modules.</p></li>
+<li><p>Have a method to generate a second weather file to be used for system identification if needed by an MPC controller.</p></li>
+</ol>
+<p>The boundary condition data of a test case consists of several variables that
+are grouped in different categories. The names and grouping of these variables
+follow a convention established at the file “data/categories.json” of the
+BOPTEST repository. This convention is also illustrated in the following
+tables, which are used in the requirements of the CSV file formats, described
+later in this section:</p>
+<table class="docutils align-default" id="id6">
+<caption><span class="caption-text">Category: Weather</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>NAME</strong></p></th>
+<th class="head"><p><strong>UNIT</strong></p></th>
+<th class="head"><p><strong>DESCRIPTION</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>HDifHor</p></td>
+<td><p>W/m2</p></td>
+<td><p>Horizontal diffuse solar radiation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>HDifNor</p></td>
+<td><p>W/m2</p></td>
+<td><p>Direct normal radiation.</p></td>
+</tr>
+<tr class="row-even"><td><p>HGloHor</p></td>
+<td><p>W/m2</p></td>
+<td><p>Horizontal global radiation.</p></td>
+</tr>
+<tr class="row-odd"><td><p>HHorIR</p></td>
+<td><p>W/m2</p></td>
+<td><p>Horizontal infrared irradiation.</p></td>
+</tr>
+<tr class="row-even"><td><p>TBlaSky</p></td>
+<td><p>K</p></td>
+<td><p>Output temperature.</p></td>
+</tr>
+<tr class="row-odd"><td><p>TDewPoi</p></td>
+<td><p>K</p></td>
+<td><p>Dew point temperature.</p></td>
+</tr>
+<tr class="row-even"><td><p>TDryBul</p></td>
+<td><p>K</p></td>
+<td><p>Dry bulb temperature at ground level.</p></td>
+</tr>
+<tr class="row-odd"><td><p>TWetBul</p></td>
+<td><p>K</p></td>
+<td><p>Wet bulb temperature.</p></td>
+</tr>
+<tr class="row-even"><td><p>celHei</p></td>
+<td><p>m</p></td>
+<td><p>Ceiling height.</p></td>
+</tr>
+<tr class="row-odd"><td><p>cloTim</p></td>
+<td><p>s</p></td>
+<td><p>One-based day number in seconds.</p></td>
+</tr>
+<tr class="row-even"><td><p>lat</p></td>
+<td><p>rad</p></td>
+<td><p>Latitude of the location.</p></td>
+</tr>
+<tr class="row-odd"><td><p>lon</p></td>
+<td><p>rad</p></td>
+<td><p>Longitude of the location.</p></td>
+</tr>
+<tr class="row-even"><td><p>nOpa</p></td>
+<td><p>1</p></td>
+<td><p>Opaque sky cover [0, 1].</p></td>
+</tr>
+<tr class="row-odd"><td><p>nTot</p></td>
+<td><p>1</p></td>
+<td><p>Total sky Cover [0, 1].</p></td>
+</tr>
+<tr class="row-even"><td><p>pAtm</p></td>
+<td><p>Pa</p></td>
+<td><p>Atmospheric pressure.</p></td>
+</tr>
+<tr class="row-odd"><td><p>relHum</p></td>
+<td><p>1</p></td>
+<td><p>Relative Humidity</p></td>
+</tr>
+<tr class="row-even"><td><p>solAlt</p></td>
+<td><p>rad</p></td>
+<td><p>Altitude angel.</p></td>
+</tr>
+<tr class="row-odd"><td><p>solDec</p></td>
+<td><p>rad</p></td>
+<td><p>Declination angle.</p></td>
+</tr>
+<tr class="row-even"><td><p>solHouAng</p></td>
+<td><p>rad</p></td>
+<td><p>Solar hour angle.</p></td>
+</tr>
+<tr class="row-odd"><td><p>solTim</p></td>
+<td><p>s</p></td>
+<td><p>Solar time.</p></td>
+</tr>
+<tr class="row-even"><td><p>solZen</p></td>
+<td><p>rad</p></td>
+<td><p>Zenith angle.</p></td>
+</tr>
+<tr class="row-odd"><td><p>winDir</p></td>
+<td><p>rad</p></td>
+<td><p>Wind direction.</p></td>
+</tr>
+<tr class="row-even"><td><p>winSpe</p></td>
+<td><p>m/s</p></td>
+<td><p>Wind speed</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id7">
+<caption><span class="caption-text">Category: Prices</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>NAME</strong></p></th>
+<th class="head"><p><strong>UNIT</strong></p></th>
+<th class="head"><p><strong>DESCRIPTION</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PriceElectricPowerConstant</p></td>
+<td><p>($/€)/kWh</p></td>
+<td><p>Completely constant electricity price</p></td>
+</tr>
+<tr class="row-odd"><td><p>PriceElectricPowerDynamic</p></td>
+<td><p>($/€)/kWh</p></td>
+<td><p>Electricity price for a day/night tariff</p></td>
+</tr>
+<tr class="row-even"><td><p>PriceElectricPowerHighlyDynamic</p></td>
+<td><p>($/€)/kWh</p></td>
+<td><p>Spot electricity price</p></td>
+</tr>
+<tr class="row-odd"><td><p>PriceGasPower</p></td>
+<td><p>($/€)/kWh</p></td>
+<td><p>Price to produce 1 kWh thermal from gas</p></td>
+</tr>
+<tr class="row-even"><td><p>PriceDistrictHeatingPower</p></td>
+<td><p>($/€)/kWh</p></td>
+<td><p>Price of 1 kWh thermal from district heating</p></td>
+</tr>
+<tr class="row-odd"><td><p>PriceBiomassPower</p></td>
+<td><p>($/€)/kWh</p></td>
+<td><p>Price to produce 1 kWh thermal from biomass</p></td>
+</tr>
+<tr class="row-even"><td><p>PriceSolarThermalPower</p></td>
+<td><p>($/€)/kWh</p></td>
+<td><p>Price to produce 1 kWh thermal from solar irradiation</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id8">
+<caption><span class="caption-text">Category: Emissions</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>NAME</strong></p></th>
+<th class="head"><p><strong>UNIT</strong></p></th>
+<th class="head"><p><strong>DESCRIPTION</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>EmissionsElectricPower</p></td>
+<td><p>kgCO2/kWh</p></td>
+<td><p>Kilograms of carbon dioxide to produce 1 kWh of electricity</p></td>
+</tr>
+<tr class="row-odd"><td><p>EmissionsGasPower</p></td>
+<td><p>kgCO2/kWh</p></td>
+<td><p>Kilograms of carbon dioxide to produce 1 kWh thermal from gas</p></td>
+</tr>
+<tr class="row-even"><td><p>EmissionsDistrictHeatingPower</p></td>
+<td><p>kgCO2/kWh</p></td>
+<td><p>Kilograms of carbon dioxide to produce 1 kWh thermal from district heating</p></td>
+</tr>
+<tr class="row-odd"><td><p>EmissionsBiomassPower</p></td>
+<td><p>kgCO2/kWh</p></td>
+<td><p>Kilograms of carbon dioxide to produce 1 kWh thermal from biomass</p></td>
+</tr>
+<tr class="row-even"><td><p>EmissionsSolarThermalPower</p></td>
+<td><p>kgCO2/kWh</p></td>
+<td><p>Kilograms of carbon dioxide to produce 1 kWh thermal from solar irradiation</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id9">
+<caption><span class="caption-text">Category: Occupancy</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>NAME</strong></p></th>
+<th class="head"><p><strong>UNIT</strong></p></th>
+<th class="head"><p><strong>DESCRIPTION</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Occupancy[z]</p></td>
+<td><p>Number of occupants</p></td>
+<td><p>Number of occupants at zone ‘z’</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id10">
+<caption><span class="caption-text">Category: Internal Gains</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>NAME</strong></p></th>
+<th class="head"><p><strong>UNIT</strong></p></th>
+<th class="head"><p><strong>DESCRIPTION</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>InternalGainsRad[z]</p></td>
+<td><p>W</p></td>
+<td><p>Radiative internal gains at zone ‘z’</p></td>
+</tr>
+<tr class="row-odd"><td><p>InternalGainsCon[z]</p></td>
+<td><p>W</p></td>
+<td><p>Convective internal gains at zone ‘z’</p></td>
+</tr>
+<tr class="row-even"><td><p>InternalGainsLat[z]</p></td>
+<td><p>W</p></td>
+<td><p>Latent internal gains at zone ‘z’</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default" id="id11">
+<caption><span class="caption-text">Category: Setpoints</span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>NAME</strong></p></th>
+<th class="head"><p><strong>UNIT</strong></p></th>
+<th class="head"><p><strong>DESCRIPTION</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>LowerSetp[z]</p></td>
+<td><p>K</p></td>
+<td><p>Lower temperature set point of the comfort range at zone ‘z’</p></td>
+</tr>
+<tr class="row-odd"><td><p>UpperSetp[z]</p></td>
+<td><p>K</p></td>
+<td><p>Upper temperature set point of the comfort range at zone ‘z’</p></td>
+</tr>
+<tr class="row-even"><td><p>UpperCO2[z]</p></td>
+<td><p>ppm</p></td>
+<td><p>Upper CO2 concentration limit for zone ‘z’</p></td>
+</tr>
+</tbody>
+</table>
+<p>The NAME column in the tables indicates the key-words of the convention,
+i.e., words with specific spelling that are used by the test case to identify
+the type of data. Each of the variables should be representative of the test
+case location and type of building.</p>
+<p>The CSV data files containing the data should be located in the
+“models/Resources” directory for processing and saving when exporting the
+test case FMU. The processed test case data will be finally stored within
+the “resources” directory of the test case FMU wrapped.fmu.</p>
+<p>The CSV data files should accomplish the following requirements:</p>
+<ol class="arabic simple">
+<li><p>The files can have any name and can be located in any subfolder within the “models/Resources” directory of the test case.</p></li>
+<li><p>The files should have a “time” column indicating the time since the beginning of the year in seconds.</p></li>
+<li><p>The files should have column names using the key-words specified by the convention above.  Columns that do not apply to the test case may be omitted (e.g. <code class="code docutils literal notranslate"><span class="pre">EmissionsGasPower</span></code> if the test case does not use gas power).</p></li>
+</ol>
+<p>4. The files can have optional header rows for holding information about the
+data contained in the csv file.  These header rows can be indicated by starting
+the row with the character “#”.</p>
+<p>Two python modules are developed to generate and handle the data,
+these are the Data_Generator and the Data_Manager modules, respectively.</p>
+<p>The Data_Generator module is meant to help the test case developer to generate
+the test case data according the conventions specified above. The final goal
+of this module is to generate and introduce the csv data files within the
+“Resources” folder of the test case in order to import these data later
+within the wrapped.fmu upon calling the Parser. Therefore, the use of this
+module takes place before the parsing process. The test case developer is
+strongly encouraged to use this module or at least follow it as a guideline
+when generating the test case data. However, the csv data files can come
+from any other source as far as they comply with the three requirements
+mentioned above. In order to assist the test case developer in the generation
+of the data sets, the Data_Generator module contains several methods to
+generate the test case data grouped by categories and covering most of the
+common signal shapes which can still be tuned using certain arguments.</p>
+<p>Special mention should be made to the generate_weather method of the
+Data_Generator module. This method reads the data from a file using the
+Typical Meteorological Year (TMY3) format and applies the transformation
+carried out by the ReaderTMY3 model of the IBPSA library that is already
+integrated and used by other Modelica libraries like Buildings. The final
+outcome is a weather bus with the keys specified at the weather category
+table. The generate_prices method generates three electricity price profiles
+corresponding to each of the three test case scenarios,
+i.e., PriceElectricPowerConstant, PriceElectricPowerDynamic and
+PriceElectricPowerHighlyDynamic. The first one is a completely constant
+price profile throughout the year. The second one corresponds to a day-night
+tariff, meaning that the electricity price varies between two values depending
+on whether it is day or night time. Finally, the third one is a continuously
+varying price profile representing a more dynamic market. The generate_prices
+method also generates price profiles for the other energy sources, i.e., gas,
+district heating, biomass and solar thermal. In a similar way, the
+generate_emissions method of the Data_Generator module generates profiles for
+the emission factors of each of the possible energy sources. However, for the
+emission factors only one profile is generated per energy source, the
+electricity prices is the only case that considers multiple scenarios.
+Finally, the occupancy, internal gains and comfort temperature ranges are
+generated per zone ‘z’. The test case developer may need to adapt the
+parameters of these data generation methods to correspond with the type of
+building and the location of the test case emulation model.</p>
+<p>Once the data is generated, the Data_Manager is the module that provides the
+functionality to introduce and retrieve the data into and from the test case
+FMU. The functionality of introducing the data into the FMU is normally
+employed by the Parser module. In this case, the Data_Manager goes through
+the CSV data files located at the “models/Resources” folder looking for
+columns with the names established in the categories.json file that captures
+the data key-words convention. The files that contain any column following
+the convention are introduced within the “resources” folder of the FMU after
+trimming any other variable that does not follow the convention.</p>
+<p>On the other hand, the functionality of retrieving the data is used by the
+Forecaster and KPI_Calculator modules. During the initialization of a
+test case, the full test case data is loaded from the test case FMU into
+the test case object. This happens only once to reduce the computational
+load when getting the test case data. Once the full data is loaded, the
+Data_Manager only slices for the period and variables requested to return
+the necessary data. In the case of the Forecaster, the Data_Manager is
+imported to access the test case data in order to provide deterministic
+forecast. The final objective is to provide data that may be required to
+enable any kind of predictive control. The KPI_Calculator module makes
+use of the Data_Manager to access the boundary condition data during the
+simulation period for KPI calculation. For example, the KPI_Calculator
+requires electricity pricing to compute total operational cost, or emission
+factors to compute the total amount of equivalent kilograms of CO2 released
+during the simulation period.</p>
+</section>
+<section id="style-conventions">
+<h2>Style Conventions<a class="headerlink" href="#style-conventions" title="Permalink to this headline">¶</a></h2>
+<p>Modelica code style conventions should follow the IBPSA style guide for
+Modelica models at: <a class="reference external" href="https://github.com/ibpsa/modelica-ibpsa/wiki/Style-Guide">https://github.com/ibpsa/modelica-ibpsa/wiki/Style-Guide</a></p>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>Documentation should present the test case so that control developers
+understand the system under control.  Figures and schematics are highly
+encouraged to be presented as needed.  The following sections and subsections
+should be included:</p>
+<dl class="simple">
+<dt><strong>Building Design and Use</strong></dt><dd><ul class="simple">
+<li><p>Architecture</p></li>
+<li><p>Constructions</p></li>
+<li><p>Occupancy schedules and comfort requirements</p></li>
+<li><p>Internal loads and schedules</p></li>
+<li><p>Climate</p></li>
+</ul>
+</dd>
+<dt><strong>HVAC System Design</strong></dt><dd><ul class="simple">
+<li><p>Primary and secondary system designs</p></li>
+<li><p>Equipment specifications and performance maps</p></li>
+<li><p>Rule-based or local-loop controllers (if included)</p></li>
+</ul>
+</dd>
+<dt><strong>Additional System Design</strong></dt><dd><ul class="simple">
+<li><p>Lighting</p></li>
+<li><p>Shading</p></li>
+<li><p>Onsite generation and storage</p></li>
+</ul>
+</dd>
+<dt><strong>Points List</strong></dt><dd><ul class="simple">
+<li><p>Control input signals, descriptions, and meta-data</p></li>
+<li><p>Measurement output signals, descriptions, and meta-data</p></li>
+</ul>
+</dd>
+<dt><strong>Important Model Implementation Assumption</strong></dt><dd><ul class="simple">
+<li><p>(e.g. moist vs. dry air, airflow network, and infiltration models)</p></li>
+</ul>
+</dd>
+<dt><strong>Scenario Information</strong></dt><dd><ul class="simple">
+<li><p>Time Periods</p></li>
+<li><p>Energy pricing</p></li>
+<li><p>Emission factors</p></li>
+</ul>
+</dd>
+</dl>
+<p>The documentation should be included within the Modelica model in HTML
+format and also made available according to the Test Case Repository
+structure.  The HTML template is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;</span><span class="n">Section</span> <span class="mi">1</span><span class="o">&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="n">Subsection</span> <span class="mf">1.1</span><span class="o">&lt;/</span><span class="n">h4</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="n">xxx</span>
+<span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="n">Subsection</span> <span class="mf">1.2</span><span class="o">&lt;/</span><span class="n">h4</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="n">xxx</span>
+<span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;</span><span class="n">Section</span> <span class="mi">2</span><span class="o">&lt;/</span><span class="n">h3</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="n">Subsection</span> <span class="mf">2.1</span><span class="o">&lt;/</span><span class="n">h4</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="n">xxx</span>
+<span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="n">Subsection</span> <span class="mf">2.2</span><span class="o">&lt;/</span><span class="n">h4</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="n">xxx</span>
+<span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="peer-review-process">
+<h2>Peer Review Process<a class="headerlink" href="#peer-review-process" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of the peer review process is to ensure emulation models are
+constructed well enough for use in control strategy testing.  The test case
+developer is to assign a peer reviewer other than themselves to make checks
+such as:</p>
+<ol class="arabic">
+<li><p>Check modelling conventions and verify documentation</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Verify units of inputs/outputs and implementation of KPIs</p></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p>Model satisfies key physical aspects such as 1st and 2nd laws of thermodynamics and mass balance.</p></li>
+<li><p>Reasonable modeling approaches for necessary physics (e.g. thermal mass).</p></li>
+<li><p>Documentation is clear and comprehensive enough.</p></li>
+<li><p>Model is representative</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>Reasonable dimensions and equipment capacities (e.g. radiators should be able to satisfy the heat demand, but not too easily).</p></li>
+<li><p>Corresponds to the intended BOPTEST case</p></li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<p>A review document template shall be developed to ensure all test case reviews
+are done with similar quality.  The template shall be made available in a
+public repository to all reference test case developers.  The model developer
+should initiate completion of the review document and provide it to the model
+reviewer, along with the test case.  The reviewer should complete the review
+by checking all criteria outlined in the document are satisfied.  If they are
+not, appropriate comments should be made in the review document.  The review
+document should then be given back to the model developer, who should then
+make corrections to the test case as specified by the comments.  Upon
+completion, a second review may take place, and so on until all criteria
+have been satisfied.</p>
+</section>
+<section id="unit-testing">
+<h2>Unit Testing<a class="headerlink" href="#unit-testing" title="Permalink to this headline">¶</a></h2>
+<p>A testing scheme shall be implemented to ensure test case functionality is
+maintained as code is developed and models are updated.  There are four
+primary elements of the testing scheme:</p>
+<ol class="arabic simple">
+<li><p>Testing that the Modelica model can be compiled into the FMU used within the test case and that the kpis.json is consistent with a reference.</p></li>
+<li><p>For each scenario, testing that the emulation model FMU gives results that are consistent with reference results generated by a reference controller.  These results include a) KPI values and b) trajectories of significant variables.</p></li>
+<li><p>Testing that the test case is exercised and appropriately interacted with by the BOPTEST API and run-time platform.</p></li>
+<li><p>Testing that API and simulation errors are handled appropriately.</p></li>
+</ol>
+</section>
+</section>
+
+
+    </div>
+
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+
+    </p>
+    <p>
+        &copy; Copyright .<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

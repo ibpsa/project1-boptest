@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Requirements &#8212; Design Documentation 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-sphinx.css" />
+    <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="User Case Narratives" href="usecases.html" />
+    <link rel="prev" title="Goal" href="goal.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Design Documentation</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+
+                <li><a href="../index.html">BOPTEST Home</a></li>
+
+
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="goal.html">Goal</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usecases.html">User Case Narratives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testcasedev.html">Reference Test Case Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core_kpi.html">Core KPI Specification and Calculation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forecasts.html">Forecast Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Run-Time Platform Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_KPI.html">Appendix: Additional KPI Specification and Calculation</a></li>
+</ul>
+</ul>
+</li>
+
+
+
+
+
+  <li>
+    <a href="goal.html" title="Previous Chapter: Goal"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Goal</span>
+    </a>
+  </li>
+  <li>
+    <a href="usecases.html" title="Next Chapter: User Case Narratives"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">User Case Narratives &raquo;</span>
+    </a>
+  </li>
+
+
+
+
+
+          </ul>
+
+
+
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+
+  <section id="requirements">
+<span id="secrequirements"></span><h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
+<p>The following requirements are necessary to achieve the goal outlined in <a class="reference internal" href="goal.html#secgoal"><span class="std std-ref">Goal</span></a>:</p>
+<ol class="arabic simple">
+<li><p>Reference emulation models must simulate the physics, dynamics, and time-resolution necessary for controls design and assessment at the supervisory and local-loop levels.  This requires modeling of not only envelope heat transfer and airflow networks, but also dynamic actuators like valves and dampers.</p></li>
+<li><p>The simulation environment must be standardized so that results for benchmarking are consistent.  This includes the solver and tolerance, computing environment, and implementation tools.</p></li>
+<li><p>Data exchange between a test controller and the emulator should be facilitated by an interface that is independent of the modeling and controller programming languages. This prevents limitation of the allowable implementations of controllers and interfaces to the framework.</p></li>
+<li><p>All exogenous data that defines a test case should be provided by the framework, such as weather, occupancy schedules, and energy prices.  In cases of MPC testing, it needs to be made available as forecasts.  Providing deterministic forecasts is the priority.  Stochastic forecasts will be considered as a future extension.</p></li>
+<li><p>A standard set of key performance indicators (KPI) should be specified to facilitate benchmarking and comparison of controllers.  The specification needs to include equations or guidelines to unambiguously quantify the KPIs, enabling a fair and clear comparison between controllers.</p></li>
+<li><p>Flexibility in synchronizing simulation and controller times to meet different application requirements. In Option 1, the simulation is advanced to the next time step according to real time, representing a realistic building-controller interaction.  In Option 2, the simulation is advanced to the next time step when the controller returns with an updated control action, which is easier for controller development and allows for reproducible tests.</p></li>
+<li><p>All software is open source and documented to allow for inspection of the models, their underlying assumptions and the computing platform.</p></li>
+</ol>
+</section>
+
+
+    </div>
+
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+
+    </p>
+    <p>
+        &copy; Copyright .<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.3.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
