@@ -35,11 +35,11 @@ def check_response(response):
 
     """
     if isinstance(response, requests.Response):
-        status = response.status_code
-        response = response.json()        
+        status = response.status_code       
     if status == 200:
+        response = response.json()     
         return response
-    print("Unexpected error: {}".format(message))
+    print("Unexpected error: {}".format(response.text))
     print("Exiting!")
     sys.exit()
 

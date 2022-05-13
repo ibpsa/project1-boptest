@@ -10,17 +10,16 @@ The API is implemented using the ``flask`` package.
 from flask import Flask, jsonify, make_response
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
+# ----------------------
 
+# GENERAL HTTP RESPONSE
+# ----------------------
 def construct(status, message, payload):
     if status == 200:
-       return make_response(jsonify(payload), 200)
+       return make_response(jsonify(payload), status)
     else:
        return make_response(message, status)
-
-# HELP MESSAGE
-# ----------------
-error_number_input = "{} cannot be blank and it should be a number"
-# ----------------
+# ----------------------
 
 # TEST CASE IMPORT
 # ----------------
@@ -47,11 +46,11 @@ except Exception as ex:
 # -----------------------
 # ``step`` interface
 parser_step = reqparse.RequestParser()
-parser_step.add_argument('step', type=float,required=True, help=error_number_input.format('step'))
+parser_step.add_argument('step')
 # ``initialize`` interface
 parser_initialize = reqparse.RequestParser()
-parser_initialize.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
-parser_initialize.add_argument('warmup_period', type=float, required=True, help=error_number_input.format('warmup period'))
+parser_initialize.add_argument('start_time')
+parser_initialize.add_argument('warmup_period')
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
@@ -60,22 +59,20 @@ for key in case.u.keys():
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
-    parser_forecast_parameters.add_argument(arg, type=float, required=True, help=error_number_input.format(arg))
+    parser_forecast_parameters.add_argument(arg)
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
-parser_scenario.add_argument('electricity_price', type=str, help="invalid price")
-parser_scenario.add_argument('time_period', type=str, help="invalid time preriod")
+parser_scenario.add_argument('electricity_price')
+parser_scenario.add_argument('time_period')
 # ``results`` interface
 results_var = reqparse.RequestParser()
-results_var.add_argument('point_name', type=str, required=True, help="point name cannot be blank")
-results_var.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
-results_var.add_argument('final_time', type=float, required=True, help=error_number_input.format('final time'))
+results_var.add_argument('point_name')
+results_var.add_argument('start_time')
+results_var.add_argument('final_time')
 # -----------------------
 
 # DEFINE REST REQUESTS
 # --------------------
-
-
 class Advance(Resource):
     '''Interface to advance the test case simulation.'''
 
@@ -92,8 +89,8 @@ class Initialize(Resource):
     def put(self):
         '''PUT request to initialize the test.'''
         args = parser_initialize.parse_args()
-        start_time = float(args['start_time'])
-        warmup_period = float(args['warmup_period']) 
+        start_time = args['start_time']
+        warmup_period = args['warmup_period']
         status, message, payload = case.initialize(start_time, warmup_period)
         return construct(status, message, payload)
 
@@ -135,8 +132,8 @@ class Results(Resource):
         '''GET request to receive measurement data.'''
         args = results_var.parse_args(strict=True)
         var = args['point_name']
-        start_time = float(args['start_time'])
-        final_time = float(args['final_time'])
+        start_time = args['start_time']
+        final_time = args['final_time']
         status, message, payload = case.get_results(var, start_time, final_time)
         return construct(status, message, payload)
 
@@ -198,6 +195,7 @@ class Version(Resource):
     '''Interface to BOPTEST version.'''
 
     def get(self):
+        '''GET request to receive BOPTEST version.'''    
         status, message, payload = case.get_version()
         return construct(status, message, payload)
 
