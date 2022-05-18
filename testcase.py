@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This module defines the API to the test case used by the REST requests to
-perform functions such as advancing the simulation, retreiving test case
+perform functions such as advancing the simulation, retrieving test case
 information, and calculating and reporting results.
 
 """
@@ -173,7 +173,7 @@ class TestCase(object):
             Set to true if desired to store results in `self.y_store` and
             `self.u_store`
         store_initial: boolean
-            Set to true if desired to store initial point.
+            Set to true if desired to store the initial point.
 
         '''
         
@@ -212,10 +212,10 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether an advance request has been successfully completed
-            If 200, advanceing simulation is successfully completed.
+            Indicates whether an advance request has been completed
+            If 200, advancing simulation is completed.
             If 400, invalid inputs (non-numeric) are identified.
-            If 500, a simulation error has occured.            
+            If 500, a simulation error has occurred.            
         message: str
             Includes the debug information
         payload: dict
@@ -223,7 +223,7 @@ class TestCase(object):
             of the step.
             {<point_name> : <point_value>}
             If empty, simulation end time has been reached.
-            If None, a simulation error has occured.
+            If None, a simulation error has occurred.
         '''
         
         status = 200
@@ -316,23 +316,23 @@ class TestCase(object):
         warmup_period: int
             Length of time before start_time to simulate for warmup in seconds.
         end_time: int, optional
-            Specifies a finite end time to allow simulation to continue
+            Specifies a finite end time to allow the simulation to continue
             Default value is infinite.
 
         Returns
         -------
         status: int
-            Indicates whether an initialization request has been successfully completed
-            If 200, initialization is successfully completed.
-            If 400, invalid start time or warmup period (non-numeric) are identified.
-            If 500, a simulation error has occured.            
+            Indicates whether an initialization request has been completed
+            If 200, initialization is completed.
+            If 400, An invalid start time or warmup period (non-numeric) is identified.
+            If 500, a simulation error has occurred.            
         message: str
             Includes the detailed debug information
         payload: dict
             Contains the full state of measurement and input data at the end
             of the initialization.
             {<point_name> : <point_value>}.
-            If None, a simulation error has occured.
+            If None, a simulation error has occurred.
 
         '''
         
@@ -390,9 +390,9 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the simulation step has been successfully completed
+            Indicates whether a request for querying the simulation step has been completed
             If 200, the step is successfully queried.
-            If 500, a internal error has occured.            
+            If 500, an internal error has occurred.            
         message: str
             Includes the detailed debug information
         payload: int
@@ -418,16 +418,16 @@ class TestCase(object):
 
         Parameters
         ----------
-        step : int
+        step: int
             Simulation step in seconds.
 
         Returns
         -------
         status: int
-            Indicates whether a request for setting the simulation step has been successfully completed
+            Indicates whether a request for setting the simulation step has been completed
             If 200, the step is successfully set.
             If 400, an invalid simulation step (non-numeric) is identified.            
-            If 500, a internal error has occured.            
+            If 500, an internal error has occurred.            
         message: str
             Includes the detailed debug information
         payload:
@@ -466,12 +466,12 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicate whether a request for querying the inputs has been successfully completed
+            Indicate whether a request for querying the inputs has been completed
             If 200, the inputs are successfully queried.           
-            If 500, a internal error has occured.            
+            If 500, a internal error has occurred.            
         message: str
             Includes the detailed debug information        
-        payload : dict
+        payload: dict
             Dictionary of control inputs and their meta-data.
 
         '''
@@ -499,9 +499,9 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the ouputs has been successfully completed
-            If 200, the ouputs are successfully queried.           
-            If 500, a internal error has occured.            
+            Indicates whether a request for querying the outputs has been completed
+            If 200, the outputs are successfully queried.           
+            If 500, an internal error has occurred.            
         message: str
             Includes the detailed debug information        
         payload : dict
@@ -527,7 +527,7 @@ class TestCase(object):
 
         Parameters
         ----------
-        var : str
+        var: str
             Name of variable.
         start_time : float
             Start time of data to return in seconds.
@@ -537,10 +537,10 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the results has been successfully completed
+            Indicates whether a request for querying the results has been completed
             If 200, the results are successfully queried.  
             If 400, invalid start time and/or invalid final time (non-numeric) are identified.                
-            If 500, a internal error has occured.            
+            If 500, an internal error has occured.            
         message: str
             Includes the detailed debug information        
         payload : dict
@@ -548,7 +548,7 @@ class TestCase(object):
             {'time':[<time_data>],
              'var':[<var_data>]
             }
-            Returns None if no variable can be found or a simulation error is occured
+            Returns None if no variable can be found or a simulation error occurs
 
         '''
         
@@ -609,8 +609,8 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the kpis has been successfully completed
-            If 200, the kpis are successfully queried.           
+            Indicates whether a request for querying the KPIs has been completed
+            If 200, the KPIs are successfully queried.           
             If 500, a internal error has occured.            
         message: str
             Includes the detailed debug information        
@@ -646,15 +646,15 @@ class TestCase(object):
 
         Parameters
         ----------
-        horizon : int
+        horizon: int
             Forecast horizon in seconds.
-        interval : int
+        interval: int
             Forecast interval in seconds.
 
         Returns
         -------
         status: int
-            Indicates whether a request for setting the forecast parameters has been successfully completed
+            Indicates whether a request for setting the forecast parameters has been completed
             If 200, the parameters are successfully set.  
             If 400, invalid forecast horizon and/or invalid interval (non-numeric) are identified.                
             If 500, a internal error has occured.            
@@ -698,12 +698,12 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the forecast parameters has been successfully completed
+            Indicates whether a request for querying the forecast parameters has been completed
             If 200, the forecast parameters are successfully queried.           
-            If 500, a internal error has occured.            
+            If 500, an internal error has occurred.            
         message: str
             Includes the detailed debug information        
-        payload : dict        
+        payload: dict        
             Dictionary containing forecast parameters names and values.
             {<parameter_name>:<parameter_value>} 
         
@@ -735,10 +735,10 @@ class TestCase(object):
         status: int
             Indicates whether a request for querying the forecast has been successfully completed
             If 200, the forecast is successfully queried.                 
-            If 500, a internal error has occured.            
+            If 500, an internal error has occurred.            
         message: str
             Includes the detailed debug information        
-        payload : dict        
+        payload: dict        
             Dictionary with the requested forecast data
             {<variable_name>:<variable_forecast_trajectory>}
             where <variable_name> is a string with the variable
@@ -770,22 +770,22 @@ class TestCase(object):
         scenario : dict
             {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
              'time_period': see available keys for test case
-             }
+            }
             If any value is None, it will not change existing.
 
         Returns
         -------
         status: int
-            Indicates whether a request for setting the scenario has been successfully completed
+            Indicates whether a request for setting the scenario has been completed
             If 200, the scenario is successfully set.  
             If 400, invalid electricity_price and/or time_period (non-numeric) are identified.                
-            If 500, a internal error has occured.             
+            If 500, an internal error has occurred.             
         message: str
             Includes the detailed debug information        
-        payload : dict        
+        payload: dict        
             {'electricity_price': if succeeded in changing then True, else None,
              'time_period': if succeeded then initial measurements, else None
-             }
+            }
         '''
         
         status = 200
@@ -839,10 +839,10 @@ class TestCase(object):
         status: int
             Indicates whether a request for querying the scenario has been successfully completed
             If 200, the scenario is successfully queried.                 
-            If 500, a internal error has occured.            
+            If 500, an internal error has occurred.            
         message: str
             Includes the detailed debug information        
-        payload :  dict        
+        payload:  dict        
             {'electricity_price': if succeeded in changing then True, else None,
              'time_period': if succeeded then initial measurements, else None
              }
@@ -874,7 +874,7 @@ class TestCase(object):
         status: int
             Indicate whether a request for querying the name of the test case fmu has been successfully completed
             If 200, the name is successfully queried.                 
-            If 500, a internal error has occured.            
+            If 500, an internal error has occurred.            
         message: str
             Includes the detailed debug information        
         payload :  dict  
@@ -917,12 +917,12 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicate whether a request for querying the version number of BOPTEST has been successfully completed
+            Indicate whether a request for querying the version number of BOPTEST has been completed
             If 200, the name is successfully queried.                 
-            If 500, a internal error has occured.            
+            If 500, an internal error has occurred.            
         message: str
             Includes the detailed debug information        
-        payload :  dict
+        payload:  dict
             Version of BOPTEST as {'version': <str>}
 
         '''
@@ -1027,7 +1027,7 @@ class TestCase(object):
 
         Returns
         -------
-        area : float
+        area: float
             Building floor area in m^2
 
         '''
@@ -1041,7 +1041,7 @@ class TestCase(object):
 
         Returns
         -------
-        z : dict
+        z: dict
             Combination of self.y and self.u dictionaries.
 
         '''
