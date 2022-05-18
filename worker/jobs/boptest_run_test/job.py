@@ -189,8 +189,6 @@ class Job:
     def advance(self, params):
         u = params['u']
         y = self.tc.advance(u)
-        if not y:
-            self.post_results_to_dashboard()
         return y
 
     def stop(self, params):
