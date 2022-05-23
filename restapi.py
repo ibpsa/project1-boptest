@@ -38,7 +38,7 @@ api = Api(app)
 try:
     case = TestCase()
 except Exception as ex:
-    message = "Failed to instantiate the fmu: {}".format(ex)
+    message = "Failed to instantiate the test case: {}".format(ex)
     app.logger.error(message)
 # ---------------------
 
@@ -154,7 +154,7 @@ class Forecast_Parameters(Resource):
         return construct(status, message, payload)
 
     def put(self):
-        '''PUT request to set forecast horizon and interval inseconds.'''    
+        '''PUT request to set forecast horizon and interval inseconds.'''
         args = parser_forecast_parameters.parse_args()
         horizon = args['horizon']
         interval = args['interval']
@@ -178,7 +178,7 @@ class Scenario(Resource):
         return construct(status, message, payload)
 
     def put(self):
-        '''PUT request to set scenario.'''          
+        '''PUT request to set scenario.'''
         scenario = parser_scenario.parse_args(strict=True)
         status, message, payload = case.set_scenario(scenario)
         return construct(status, message, payload)
@@ -195,7 +195,7 @@ class Version(Resource):
     '''Interface to BOPTEST version.'''
 
     def get(self):
-        '''GET request to receive BOPTEST version.'''    
+        '''GET request to receive BOPTEST version.'''
         status, message, payload = case.get_version()
         return construct(status, message, payload)
 
