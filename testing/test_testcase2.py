@@ -134,7 +134,7 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
         # Check kpis
         value = float(y['oveTSetRooHea_u'])
@@ -146,7 +146,7 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url))
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
         # Check kpis
         value = float(y['oveTSetRooHea_u'])

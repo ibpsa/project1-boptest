@@ -9,6 +9,7 @@ import unittest
 import os
 import requests
 import utilities
+import pandas as pd
 
 class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialTestSeason):
     '''Tests the example test case.

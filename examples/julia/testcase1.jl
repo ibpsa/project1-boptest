@@ -6,7 +6,7 @@
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-using HTTP, JSON, CSV, DataFrames
+using HTTP, JSON, CSV, DataFrames, Dates
 
 # TEST CONTROLLER IMPORT
 # ----------------------
@@ -25,30 +25,55 @@ step = 300
 # --------------------
 println("TEST CASE INFORMATION ------------- \n")
 # Test case name
-name = JSON.parse(String(HTTP.get("$url/name").body))
-println("Name:\t\t\t$name")
+
+res = HTTP.get("$url/name")
+name_status = res.status
+name = JSON.parse(String(res.body))
+if name_status == 200
+    println("Name:\t\t\t$name['name']")
+end
 # Inputs available
-inputs = JSON.parse(String(HTTP.get("$url/inputs").body))
-println("Control Inputs:\t\t\t$inputs")
+res = HTTP.get("$url/inputs")
+inputs_status = res.status
+inputs = JSON.parse(String(res.body))
+if inputs_status == 200
+    println("Control Inputs:\t\t\t$inputs")
+end
 # Measurements available
-measurements = JSON.parse(String(HTTP.get("$url/measurements").body))
-println("Measurements:\t\t\t$measurements")
+res = HTTP.get("$url/measurements")
+measurements_status = res.status
+measurements = JSON.parse(String(res.body))
+if measurements_status == 200
+    println("Measurements:\t\t\t$measurements")
+end 
+
 # Default simulation step
-step_def = JSON.parse(String(HTTP.get("$url/step").body))
-println("Default Simulation Step:\t$step_def")
+res = HTTP.get("$url/measurements")
+step_def_status = res.status
+step_def = JSON.parse(String(res.body))
+if step_def_status == 200
+    println("Default Simulation Step:\t$step_def")
+end 
 
 # RUN TEST CASE
 #----------
-println("Initializing test case simulation.")
+start = Dates.now()
+# Initialize test case simulation
 res = HTTP.put("$url/initialize",["Content-Type" => "application/json"], JSON.json(Dict("start_time" => 0,"warmup_period" => 0)))
+initialize_status = res.status
 initialize_result=JSON.parse(String(res.body))
-if !isnothing(initialize_result)
+if initialize_status == 200
    println("Successfully initialized the simulation")
 end
 
+
 # Set simulation step
-println("Setting simulation step to $step")
+
 res = HTTP.put("$url/step",["Content-Type" => "application/json"], JSON.json(Dict("step" => step)))
+if  res.status == 200
+   println("Setting simulation step to $step")
+end
+
 println("Running test case ...")
 
 
@@ -62,15 +87,21 @@ for i = 1:convert(Int, floor(length/step))
        u = PID.compute_control(y)
     end
     # Advance in simulation
-    global y = JSON.parse(String(HTTP.post("$url/advance", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(u);retry_non_idempotent=true).body))
-
+    res = HTTP.post("$url/advance", ["Content-Type" => "application/json"], JSON.json(u);retry_non_idempotent=true)
+	global y = JSON.parse(String(res.body))
+	if res.status == 200	    
+        println("Successfully advanced the simulation")
+    end
 end
 println("Test case complete.")
 
 # VIEW RESULTS
 # ------------
 # Report KPIs
-kpi = JSON.parse(String(HTTP.get("$url/kpi").body))
+res = HTTP.get("$url/kpi")
+if  res.status == 200
+   kpi = JSON.parse(String(res.body))
+end
 println("KPI RESULTS \n-----------")
 for key in keys(kpi)
    if isnothing(kpi[key])
@@ -99,3 +130,4 @@ tab_res=DataFrame([time,TZone,CO2Zone,PHeat,QHeat,uAct],[:time,:TRooAir_y,:CO2Ro
 CSV.write("result_testcase1.csv",tab_res)
 tab_kpi = DataFrame([[kpi["ener_tot"]], [kpi["tdis_tot"]], [kpi["idis_tot"]], [kpi["cost_tot"]], [kpi["time_rat"]], [kpi["emis_tot"]], [kpi["pgas_tot"]]], [:ener_tot, :tdis_tot, :idis_tot, :cost_tot, :time_rat, :emis_tot, :pgas_tot])
 CSV.write("kpi_testcase1.csv",tab_kpi)
+

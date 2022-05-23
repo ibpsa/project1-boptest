@@ -128,13 +128,14 @@ function send()
     		              }
     		              else {
     								 console.log( "SUCCESS in getting results" );
-								 result.value = xhr_get_result.response;
+									 json = JSON.parse(xhr_get_result.responseText);
+								     result.value = JSON.stringify(json);
     		              }
             }
       };
-      var results = {};
-
+	  
       var results_arg='{"point_name":"TRooAir_y","start_time":0,"final_time":'+length.toString()+'}';
+	  console.log(results_arg)
       xhr_get_result.send(results_arg);
 
       xhr_get_kpi = new XMLHttpRequest();
@@ -146,7 +147,8 @@ function send()
     		              }
     		              else {
     								 console.log( "SUCCESS in getting kpi" );
-    								 kpi.value = xhr_get_kpi.response;
+									 json = JSON.parse(xhr_get_kpi.responseText);					 
+    								 kpi.value = JSON.stringify(json);	
     		              }
             }
       };
@@ -202,8 +204,9 @@ function send()
        xhr.setRequestHeader("Content-type", "application/json");
        xhr.onreadystatechange = function () {
        if (xhr.readyState == 4 && xhr.status == 200) {
-            output.value = xhr.response;
             json = JSON.parse(xhr.responseText);
+			console.log(json)
+            output.value = JSON.stringify(json);			
        <!-- initialize the information for the select box and plotting-->
     		if (count ==1) {
     		              for (key in json) {
@@ -231,8 +234,6 @@ function send()
     								 point = e.target.value;
     		              })
       }
-
-
       xhr.send(data);
     }
 };

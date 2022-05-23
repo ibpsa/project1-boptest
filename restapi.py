@@ -7,9 +7,18 @@ The API is implemented using the ``flask`` package.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
+# ----------------------
+
+# GENERAL HTTP RESPONSE
+# ----------------------
+def construct(status, message, payload):
+    if status == 200:
+       return make_response(jsonify(payload), status)
+    else:
+       return make_response(message, status)
 # ----------------------
 
 # TEST CASE IMPORT
@@ -26,7 +35,11 @@ api = Api(app)
 
 # INSTANTIATE TEST CASE
 # ---------------------
-case = TestCase()
+try:
+    case = TestCase()
+except Exception as ex:
+    message = "Failed to instantiate the fmu: {}".format(ex)
+    app.logger.error(message)
 # ---------------------
 
 # DEFINE ARGUMENT PARSERS
@@ -42,9 +55,9 @@ parser_initialize.add_argument('warmup_period')
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
     parser_advance.add_argument(key)
-#``forecast_parameters`` interface
+# ``forecast_parameters`` interface
 parser_forecast_parameters = reqparse.RequestParser()
-forecast_parameters = ['horizon','interval']
+forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
     parser_forecast_parameters.add_argument(arg)
 # ``price_scenario`` interface
@@ -66,129 +79,126 @@ class Advance(Resource):
     def post(self):
         '''POST request with input data to advance the simulation one step
         and receive current measurements.'''
-        u = parser_advance.parse_args(strict=True)
-        y = case.advance(u)
-        return y
+        u = parser_advance.parse_args()
+        status, message, payload = case.advance(u)
+        return construct(status, message, payload)
 
 class Initialize(Resource):
     '''Interface to initialize the test case simulation.'''
 
     def put(self):
         '''PUT request to initialize the test.'''
-        args = parser_initialize.parse_args(strict=True)
-        start_time = float(args['start_time'])
-        warmup_period = float(args['warmup_period'])
-        y = case.initialize(start_time,warmup_period)
-        return y
+        args = parser_initialize.parse_args()
+        start_time = args['start_time']
+        warmup_period = args['warmup_period']
+        status, message, payload = case.initialize(start_time, warmup_period)
+        return construct(status, message, payload)
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''
 
     def get(self):
         '''GET request to receive current simulation step in seconds.'''
-        step = case.get_step()
-        return step
+        status, message, payload = case.get_step()
+        return construct(status, message, payload)
 
     def put(self):
         '''PUT request to set simulation step in seconds.'''
-        args = parser_step.parse_args(strict=True)
+        args = parser_step.parse_args()
         step = args['step']
-        case.set_step(step)
-        return step, 201
+        status, message, payload = case.set_step(step)
+        return construct(status, message, payload)
 
 class Inputs(Resource):
     '''Interface to test case inputs.'''
 
     def get(self):
         '''GET request to receive list of available inputs.'''
-        u_list = case.get_inputs()
-        return u_list
+        status, message, payload = case.get_inputs()
+        return construct(status, message, payload)
 
 class Measurements(Resource):
     '''Interface to test case measurements.'''
 
     def get(self):
         '''GET request to receive list of available measurements.'''
-        y_list = case.get_measurements()
-        return y_list
+        status, message, payload = case.get_measurements()
+        return construct(status, message, payload)
 
 class Results(Resource):
     '''Interface to test case result data.'''
 
     def put(self):
-        '''PUT request to receive measurement data.'''
+        '''GET request to receive measurement data.'''
         args = results_var.parse_args(strict=True)
-        var  = args['point_name']
-        start_time  = float(args['start_time'])
-        final_time  = float(args['final_time'])
-        Y = case.get_results(var, start_time, final_time)
-        for key in Y:
-            Y[key] = Y[key].tolist()
-
-        return Y
+        var = args['point_name']
+        start_time = args['start_time']
+        final_time = args['final_time']
+        status, message, payload = case.get_results(var, start_time, final_time)
+        return construct(status, message, payload)
 
 class KPI(Resource):
     '''Interface to test case KPIs.'''
 
     def get(self):
         '''GET request to receive KPI data.'''
-        kpi = case.get_kpis()
-        return kpi
+        status, message, payload = case.get_kpis()
+        return construct(status, message, payload)
 
 class Forecast_Parameters(Resource):
     '''Interface to test case forecast parameters.'''
 
     def get(self):
         '''GET request to receive forecast parameters.'''
-        forecast_parameters = case.get_forecast_parameters()
-        return forecast_parameters
+        status, message, payload = case.get_forecast_parameters()
+        return construct(status, message, payload)
 
     def put(self):
-        '''PUT request to set forecast horizon and interval inseconds.'''
-        args = parser_forecast_parameters.parse_args(strict=True)
-        horizon  = args['horizon']
+        '''PUT request to set forecast horizon and interval inseconds.'''    
+        args = parser_forecast_parameters.parse_args()
+        horizon = args['horizon']
         interval = args['interval']
-        case.set_forecast_parameters(horizon, interval)
-        forecast_parameters = case.get_forecast_parameters()
-        return forecast_parameters
+        status, message, payload = case.set_forecast_parameters(horizon, interval)
+        return construct(status, message, payload)
 
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
 
     def get(self):
         '''GET request to receive forecast data.'''
-        forecast = case.get_forecast()
-        return forecast
+        status, message, payload = case.get_forecast()
+        return construct(status, message, payload)
 
 class Scenario(Resource):
     '''Interface to test case scenario.'''
 
     def get(self):
         '''GET request to receive current scenario.'''
-        scenario = case.get_scenario()
-        return scenario
+        status, message, payload = case.get_scenario()
+        return construct(status, message, payload)
 
     def put(self):
-        '''PUT request to set scenario.'''
+        '''PUT request to set scenario.'''          
         scenario = parser_scenario.parse_args(strict=True)
-        result = case.set_scenario(scenario)
-        return result
+        status, message, payload = case.set_scenario(scenario)
+        return construct(status, message, payload)
 
 class Name(Resource):
     '''Interface to test case name.'''
 
     def get(self):
         '''GET request to receive test case name.'''
-        name = case.get_name()
-        return name
+        status, message, payload = case.get_name()
+        return construct(status, message, payload)
 
 class Version(Resource):
     '''Interface to BOPTEST version.'''
 
     def get(self):
-        '''GET request to receive BOPTEST version.'''
-        version = case.get_version()
-        return version
+        '''GET request to receive BOPTEST version.'''    
+        status, message, payload = case.get_version()
+        return construct(status, message, payload)
+
 # --------------------
 
 # ADD REQUESTS TO API WITH URL EXTENSION

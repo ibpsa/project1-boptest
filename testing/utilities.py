@@ -556,19 +556,23 @@ class partialTestAPI(partialChecks):
         '''
 
         if self.name == 'testcase1':
-            u = {'oveAct_activate':0, 'oveAct_u':1500}
+            u = {'oveAct_activate': 0, 'oveAct_u': 1500}
         elif self.name == 'testcase2':
-            u = {'oveTSetRooHea_activate':0, 'oveTSetRooHea_u':273.15+22}
+            u = {'oveTSetRooHea_activate': 0, 'oveTSetRooHea_u': 273.15+22}
         elif self.name == 'testcase3':
-            u = {'oveActNor_activate':0, 'oveActNor_u':1500,
-                 'oveActSou_activate':0, 'oveActSou_u':1500}
+            u = {'oveActNor_activate': 0, 'oveActNor_u': 1500,
+                 'oveActSou_activate': 0, 'oveActSou_u': 1500}
         elif self.name == 'bestest_air':
-            u = {'fcu_oveTSup_activate':0, 'fcu_oveTSup_u':290}
+            u = {'fcu_oveTSup_activate': 0, 'fcu_oveTSup_u': 290}
         elif self.name == 'bestest_hydronic':
-            u = {'oveTSetSup_activate':0, 'oveTSetSup_u':273.15+60,
-                 'ovePum_activate':0, 'ovePum_u':1}
+            u = {
+                'oveTSetSup_activate': 0,
+                'oveTSetSup_u': 273.15+60,
+                 'ovePum_activate': 0,
+                'ovePum_u': 1
+            }
         elif self.name == 'bestest_hydronic_heat_pump':
-            u = {'oveTSet_activate':0, 'oveTSet_u':273.15+22}
+            u = {'oveTSet_activate': 0, 'oveTSet_u': 273.15+22}
         elif self.name == 'multizone_residential_hydronic':
             u = {'conHeaRo1_oveTSetHea_activate':0, 'conHeaRo1_oveTSetHea_u':273.15+22,
                  'oveEmiPum_activate':0, 'oveEmiPum_u':1}
@@ -581,9 +585,9 @@ class partialTestAPI(partialChecks):
             raise Exception('Need to specify u for this test case')
 
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
+        requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
         y = requests.post('{0}/advance'.format(self.url), data=u).json()
-        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df = pd.DataFrame.from_dict(y, orient='index', columns=['value'])
         df.index.name = 'keys'
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
         self.compare_ref_values_df(df, ref_filepath)
@@ -614,13 +618,13 @@ class partialTestAPI(partialChecks):
         forecast_parameters_ref = {'horizon':3600, 'interval':300}
         # Set forecast parameters
         ret = requests.put('{0}/forecast_parameters'.format(self.url),
-                           data=forecast_parameters_ref)
+                           data=forecast_parameters_ref).json()
         # Get forecast parameters
         forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()
         # Check the forecast parameters
         self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
         # Check the return on the put request
-        self.assertDictEqual(ret.json(), forecast_parameters_ref)
+        self.assertDictEqual(ret, forecast_parameters_ref)
 
     def test_get_forecast_with_parameters(self):
         '''Check that the forecaster is able to retrieve the data.
@@ -635,7 +639,7 @@ class partialTestAPI(partialChecks):
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Set forecast parameters
         requests.put('{0}/forecast_parameters'.format(self.url),
-                     data=forecast_parameters_ref)
+                                data=forecast_parameters_ref)
         # Test case forecast
         forecast = requests.get('{0}/forecast'.format(self.url)).json()
         df_forecaster = pd.DataFrame(forecast).set_index('time')
@@ -676,14 +680,25 @@ class partialTestAPI(partialChecks):
         '''Test getting results for start time after and final time before.
 
         '''
-
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
+        measurement_list = {'testcase1': 'PHea_y', 
+                            'testcase2': 'PFan_y', 
+                            'testcase3': 'CO2RooAirSou_y',
+                            'bestest_hydronic':'reaQHea_y',
+                            'bestest_air':'zon_weaSta_reaWeaSolHouAng_y',
+                            'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
+                            'multizone_residential_hydronic':'weatherStation_reaWeaWinSpe_y',
+                            'singlezone_commercial_hydronic':'ahu_reaTRetAir_y',
+                            'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y'}
+        requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
+        requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        res_inner = requests.put('{0}/results'.format(self.url), data={'point_name':list(measurements.keys())[0], \
-                                                                 'start_time':self.step_ref*0.25, \
-                                                                 'final_time':self.step_ref*0.75}).json()
+        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        point = measurement_list[self.name]
+        if point not in measurements:
+            raise KeyError('Point {0} not in measurements list.'.format(point))
+        res_inner = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+                                                                       'start_time': self.step_ref*0.25,
+                                                                       'final_time': self.step_ref*0.75}).json()
         df = pd.DataFrame.from_dict(res_inner).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_inner.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
@@ -692,14 +707,25 @@ class partialTestAPI(partialChecks):
         '''Test getting results for start time before and final time after.
 
         '''
-
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        measurement_list = {'testcase1': 'PHea_y', 
+                            'testcase2': 'PFan_y', 
+                            'testcase3': 'CO2RooAirSou_y',
+                            'bestest_hydronic':'reaQHea_y',
+                            'bestest_air':'zon_weaSta_reaWeaSolHouAng_y',
+                            'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
+                            'multizone_residential_hydronic':'weatherStation_reaWeaWinSpe_y',
+                            'singlezone_commercial_hydronic':'ahu_reaTRetAir_y',
+                            'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y'}
+        requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()
-        requests.post('{0}/advance'.format(self.url), data=dict()).json()
-        res_outer = requests.put('{0}/results'.format(self.url), data={'point_name':list(measurements.keys())[0], \
-                                                                 'start_time':0-self.step_ref, \
-                                                                 'final_time':self.step_ref*2}).json()
+        y = requests.post('{0}/advance'.format(self.url), data=dict()).json()
+        point = measurement_list[self.name]
+        if point not in measurements:
+            raise KeyError('Point {0} not in measurements list.'.format(point))
+        res_outer = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+                                                                 'start_time': 0-self.step_ref,
+                                                                 'final_time': self.step_ref*2}).json()
         df = pd.DataFrame.from_dict(res_outer).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)

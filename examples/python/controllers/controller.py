@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This module contains a generic controller class that is used to instantiate
-concrete controller methods, found in pid.py, pidTwoZones.py, and sup.py.
+concrete controller, found in pid.py, pidTwoZones.py, and sup.py.
 
 """
 
@@ -24,6 +24,7 @@ class Controller(object):
         """
 
         try:
+            # instantiate the concrete controller specified in the configuration
             controller = importlib.import_module(module)
         except ModuleNotFoundError:
             print("Cannot find specified controller: {}".format(module))
