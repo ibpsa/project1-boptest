@@ -20,3 +20,5 @@
   link: ibpsa/index.html
 - name: News
   link: blog/index.html
+- name: Contributors
+  link: contributors/index.html
