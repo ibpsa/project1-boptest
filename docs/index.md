@@ -22,7 +22,7 @@ It contains these key components:
 
 Head over to the [Software](/project1-boptest/software/index.html) page to start testing your control strategy or look at the [Results Dashboard](/project1-boptest/dashboard/index.html) to view and compare tested control strategies.
 
-Stay up to date on the latest [News](/project1-boptest/blog/index.html).
+Stay up to date on the latest [News](/project1-boptest/blog/index.html) and development plans within a continuing [IBPSA Project](/project1-boptest/ibpsa/index.html).
 
 
 # Collaboration and Support
@@ -40,3 +40,10 @@ Financial support provided in-part by:
 - KU Leuven
 - Centres for Environment-friendly Energy Research (FME) Research Centre on Zero Emission Neighbourhoods (ZEN) in Smart Cities
 - Engie
+- EU-H2020
+- VLAIO
+
+### Contact
+David Blum, Lawrence Berkeley National Laboratory, dhblum@lbl.gov
+
+Lieve Helsen, KU Leuven, lieve.helsen@kuleuven.be
