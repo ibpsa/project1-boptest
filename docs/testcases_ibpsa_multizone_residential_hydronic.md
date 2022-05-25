@@ -16,7 +16,7 @@ The emulator building represents a residential French dwelling
 compliant with the French Thermal regulation of 2012, i.e. the French
 national building energy regulation.  The location is Bordeaux, France.
 Therefore, the typology is defined to be representative of French new dwellings. The total floor area of
-six conditioned zones is 81.08 m^2. There are also two unconditioned zones
+six conditioned zones is 81.08 m<sup>2</sup>. There are also two unconditioned zones
 (an attic and attached garage).
 
 Each zone has its own radiator equipped with a thermostatic valve that is
