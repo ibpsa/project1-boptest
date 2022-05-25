@@ -7,7 +7,7 @@ rm -rf $dir_design
 rm -rf $dir_userguide
 # Build html documentation for design guide
 echo Building design documentation...
-cd ../docs/design_documentation && make html
+cd ../docs/design && make html
 echo Finished building design documentation.
 # Build html documentation for user guide
 echo Building user guide documentation...
@@ -15,7 +15,7 @@ cd ../../docs/user_guide && make html
 echo Finished building user guide documentation.
 # Move design guide build to directory within /web
 echo Moving design documentation to $dir_design...
-cd ../../web && cp -r ../docs/design_documentation/build/html $dir_design
+cd ../../web && cp -r ../docs/design/build/html $dir_design
 echo Finished moving design documentation.
 # Move user guide build to directory within /web
 echo Moving user guide documentation to $dir_userguide...

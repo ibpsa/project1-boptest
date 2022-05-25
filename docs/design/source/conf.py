@@ -107,12 +107,29 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
-
+import sphinx_bootstrap_theme
+html_theme = 'bootstrap'
+html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+
+html_theme_options = {
+#        # Render the next and previous page links in navbar. (Default: true)
+#        'navbar_sidebarrel': True,
+        # Render the current pages TOC in the navbar. (Default: true)
+        'navbar_pagenav': False,
+#        # Add links
+        'navbar_links': [
+                ("BOPTEST Home", "../index")],
+##                ("Design Documentation", "index_dd"),
+##                ("User Guide", "index_ug")],
+        # Bootswatch (http://bootswatch.com/) theme
+#        'bootswatch_theme': "simplex",
+        # Location of link to source.
+        # Options are "nav" (default), "footer" or anything else to exclude.
+        'source_link_position': ""
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
