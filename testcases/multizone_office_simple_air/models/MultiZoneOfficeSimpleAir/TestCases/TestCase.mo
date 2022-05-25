@@ -78,6 +78,7 @@ equation
   annotation (
     Documentation(info="<html>
 <p>
+<h3>General</h3>
 This is the multi zone office air simple emulator model
 of BOPTEST, emulating a 5-zone single-duct VAV system.
 It is based on the Modelica model
@@ -89,6 +90,7 @@ the air distribution system and not on the control of the
 central plant equipment providing
 hot and chilled water to the distribution system.
 </p>
+<h3>Building Design and Use</h3>
 <h4>Architecture</h4>
 <p>
 The test case represents the middle floor of an office building
