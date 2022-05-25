@@ -78,6 +78,7 @@ equation
   annotation (
     Documentation(info="<html>
 <p>
+<h3>General</h3>
 This is the multi zone office air simple emulator model
 of BOPTEST, emulating a 5-zone single-duct VAV system.
 It is based on the Modelica model
@@ -89,13 +90,15 @@ the air distribution system and not on the control of the
 central plant equipment providing
 hot and chilled water to the distribution system.
 </p>
+<h3>Building Design and Use</h3>
 <h4>Architecture</h4>
 <p>
-The test case represents one floor with five zones of the new construction
-medium office building for Chicago, IL, as described in the set of DOE
-Commercial Building Benchmarks (Deru et al, 2009).
-There are four perimeter zones and one core zone, with each perimeter zone
-having a window-to-wall ratio of 0.33.  The height of each zone is 2.74 m
+The test case represents the middle floor of an office building
+located in Chicago, IL, as described in the set of DOE
+Commercial Building Benchmarks for new construction (Deru et al, 2009) and
+shown in the figure below.  The represented floor has five zones, with
+four perimeter zones and one core zone. Each perimeter zone
+has a window-to-wall ratio of 0.33.  The height of each zone is 2.74 m
 and the areas are as follows:
 <ul>
 <li>
@@ -109,6 +112,19 @@ Core: 984.672 m<sup>2</sup>
 </li>
 </ul>
 </p>
+<p>
+The upper and lower boundaries of the zones (top of zone air volume and bottom of 0.1 m floor concrete slab)
+assume the corresponding zones of the floor above and the
+floor below are at the same conditions as the middle floor.  Therefore,
+the roof and the ground floor with exposure to ambient conditions
+are not explicitly modeled.  The zones on the floor are assumed to be paritioned
+by internal walls with 10 m by 2.1 m openings, through which air is exchanged.
+</p>
+<p align=\"center\">
+<img alt=\"Floor plan.\"
+src=\"modelica://MultiZoneOfficeSimpleAir/../../doc/images/FloorPlan.png\" width=1000 />
+</p>
+
 <p>
 Deru M., K. Field, D. Studer, K. Benne, B. Griffith, P. Torcellini,
  M. Halverson, D. Winiarski, B. Liu, M. Rosenberg, J. Huang, M. Yazdanian, and D. Crawley.
@@ -935,6 +951,12 @@ For reference, see https://www.eia.gov/electricity/state/illinois/
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+May 25, 2022, by David Blum:<br/>
+Update documentation to include floor plan diagram and better description of
+upper and lower boundary conditions.
+This is for BOPTEST <a href=\"https://github.com/ibpsa/project1-boptest/issues/418\">issue #418</a>.
+</li>
 <li>
 April 14, 2022, by David Blum:<br/>
 Correct documentation for time period scenarios.
