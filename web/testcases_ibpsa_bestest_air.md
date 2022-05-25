@@ -13,9 +13,9 @@ permalink: /testcases/ibpsa/testcases_ibpsa_bestest_air/
 
 # Brief Description
 The building is a single room based on the BESTEST Case 900 model definition,
-located near Denver, CO, USA.  The floor area is 48 m^2.  There are four
+located near Denver, CO, USA.  The floor area is 48 m<sup>2</sup>.  There are four
 exterior walls facing the cardinal directions and a flat roof.
-The south wall contains two windows of 6 m2 each.  The usage is a two-person office with a light load density.
+The south wall contains two windows of 6 m<sup>2</sup> each.  The usage is a two-person office with a light load density.
 
 Heating and cooling is provided to the office using an idealized four-pipe
 fan coil unit (FCU).  The FCU contains a fan, cooling coil, heating coil,

@@ -13,7 +13,7 @@ permalink: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
 
 # Brief Description
 The test case represents one floor with five zones of a new construction
-medium office building in Chicago, IL, USA.
+medium office building in Chicago, IL, USA with total floor area of 1662.66 m<sup>2</sup>.
 There are four perimeter zones and one core zone, with each perimeter zone
 having a window-to-wall ratio of 0.33.
 

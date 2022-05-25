@@ -12,8 +12,8 @@ permalink: /testcases/ibpsa/testcases_ibpsa_singlezone_commercial_hydronic/
 ``singlezone_commercial_hydronic``
 
 # Brief Description
-A single-zone representation of a university building with floor area of 8,500 m2
-and peak occupancy of 1350 people.  The location is Copenhagen, Denmark.
+A single-zone representation of a university building with floor area of 8,500 m<sup>2</sup>
+and peak occupancy of 1,350 people.  The location is Copenhagen, Denmark.
 Occupancy in the building is modeled from real building occupancy measurements.
 
 The single zone is served by a radiator for space heating served by

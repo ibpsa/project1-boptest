@@ -17,7 +17,7 @@ members, modeled as a single thermal zone, located in Brussels, Belgium.
 The building envelope model is based on the BESTEST case 900 test case.
 but it is scaled to an area that is four times larger. The rectangular floor
 plan is 12 m by 16 m.  Internal walls are configured such that there are
-around 12 rooms in the building.  The builiding further contains 24 m2 of
+around 12 rooms in the building.  The builiding further contains 24 m<sup>2</sup> of
 windows on the south facade.
 
 An air-to-water modulating heat pump of 15 kW nominal heating capacity

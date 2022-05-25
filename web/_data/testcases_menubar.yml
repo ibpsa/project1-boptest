@@ -1,4 +1,4 @@
-- label: IBPSA Project 1
+- label: Available in Latest Release (v0.2.0)
   items:
     - name: BESTEST Air
       link: /testcases/ibpsa/testcases_ibpsa_bestest_air/
@@ -10,5 +10,11 @@
       link: /testcases/ibpsa/testcases_ibpsa_singlezone_commercial_hydronic/
     - name: Multizone Residential Hydronic
       link: /testcases/ibpsa/testcases_ibpsa_multizone_residential_hydronic/
+- label: Expected in Next Release
+  items:
     - name: Multizone Office Simple Air
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
+- label: Under Development
+  items:
+    - name: Flexible Research Platform
+      link: /testcases/ibpsa/testcases_ibpsa_flexible_research_platform/
