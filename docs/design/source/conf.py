@@ -27,7 +27,7 @@ import os
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc','sphinx.ext.autosummary','sphinx.ext.doctest','sphinx.ext.todo','sphinx.ext.mathjax','numpydoc','sphinxcontrib.bibtex', 'sphinx.ext.imgmath']
+extensions = ['sphinx.ext.autodoc','sphinx.ext.autosummary','sphinx.ext.doctest','sphinx.ext.todo','sphinx.ext.mathjax','numpydoc','sphinxcontrib.bibtex']
 numpydoc_show_class_members = False
 
 # Add any paths that contain templates here, relative to this directory.
@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Design Documentation'
+project = u'BOPTEST Design Requirements and Guide'
 copyright = u''
 author = u''
 
@@ -107,30 +107,12 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-import sphinx_bootstrap_theme
-html_theme = 'bootstrap'
-html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+html_theme = 'alabaster'
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-
-html_theme_options = {
-#        # Render the next and previous page links in navbar. (Default: true)
-#        'navbar_sidebarrel': True,
-        # Render the current pages TOC in the navbar. (Default: true)
-        'navbar_pagenav': False,
-#        # Add links
-        'navbar_links': [
-                ("BOPTEST Home", "../index")],
-##                ("Design Documentation", "index_dd"),
-##                ("User Guide", "index_ug")],
-        # Bootswatch (http://bootswatch.com/) theme
-#        'bootswatch_theme': "simplex",
-        # Location of link to source.
-        # Options are "nav" (default), "footer" or anything else to exclude.
-        'source_link_position': ""
-}
-
+#html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
