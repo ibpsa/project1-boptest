@@ -132,7 +132,7 @@
 <section id="get-measurements">
 <h2>GET /measurements<a class="headerlink" href="#get-measurements" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p><strong>Description:</strong> Receive sensor signal point names (y) and metadata.</p></li>
+<li><p><strong>Description:</strong> Receive available sensor signal output point names (y) and metadata.</p></li>
 <li><p><strong>Arguments:</strong> None.</p></li>
 <li><p><strong>Returns:</strong></p>
 <blockquote>
@@ -154,7 +154,7 @@
 <section id="get-inputs">
 <h2>GET /inputs<a class="headerlink" href="#get-inputs" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p><strong>Description:</strong> Receive control signal point names (u) and metadata.</p></li>
+<li><p><strong>Description:</strong> Receive available control signal input point names (u) and metadata.</p></li>
 <li><p><strong>Arguments:</strong> None.</p></li>
 <li><p><strong>Returns:</strong></p>
 <blockquote>
@@ -176,7 +176,7 @@
 <section id="get-step">
 <h2>GET /step<a class="headerlink" href="#get-step" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p><strong>Description:</strong> Receive the current control step.  This is the amount of simulation time that will pass when the next simulation step is taken.</p></li>
+<li><p><strong>Description:</strong> Receive the current control step.  This is the amount of simulation time that will pass when the next control step is taken.</p></li>
 <li><p><strong>Arguments:</strong> None.</p></li>
 <li><p><strong>Returns:</strong></p>
 <blockquote>
@@ -190,7 +190,7 @@
 <section id="put-step">
 <h2>PUT /step<a class="headerlink" href="#put-step" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p><strong>Description:</strong> Set the current control step.  This is the amount of simulation time that will pass when the next simulation step is taken.</p></li>
+<li><p><strong>Description:</strong> Set the current control step.  This is the amount of simulation time that will pass when the next control step is taken.</p></li>
 <li><p><strong>Arguments:</strong></p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step</span>    <span class="o">//</span> <span class="n">required</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">control</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">seconds</span>
@@ -223,7 +223,7 @@
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="o">&lt;</span><span class="n">point_name</span><span class="o">&gt;</span><span class="p">:</span>   <span class="o">//</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span> <span class="n">of</span> <span class="n">point</span>
-        <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span>    <span class="o">//</span> <span class="nb">float</span><span class="p">,</span> <span class="n">point</span> <span class="n">value</span> <span class="n">at</span> <span class="n">start</span> <span class="n">times</span>
+        <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">,</span>    <span class="o">//</span> <span class="nb">float</span><span class="p">,</span> <span class="n">point</span> <span class="n">values</span> <span class="n">at</span> <span class="n">start</span> <span class="n">time</span>
     <span class="o">...</span>
 <span class="p">}</span>
 </pre></div>
@@ -279,7 +279,7 @@
 <section id="get-forecast">
 <h2>GET /forecast<a class="headerlink" href="#get-forecast" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p><strong>Description:</strong> Receive boundary condition forecasts from current communication step.</p></li>
+<li><p><strong>Description:</strong> Receive boundary condition forecasts from current time.</p></li>
 <li><p><strong>Arguments:</strong> None.</p></li>
 <li><p><strong>Returns:</strong></p>
 <blockquote>
@@ -341,7 +341,7 @@
 <li><p><strong>Description:</strong> Advance simulation one control step with optional control input(s) and receive measurements.  If specified, control input value(s) will be constant over the control step.</p></li>
 <li><p><strong>Arguments:</strong></p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_name</span>  <span class="o">//</span> <span class="n">optional</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">input</span> <span class="n">point</span>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">input_name</span><span class="o">&gt;</span>  <span class="o">//</span> <span class="n">optional</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">input</span> <span class="n">point</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -362,7 +362,7 @@
 <section id="put-results">
 <h2>PUT /results<a class="headerlink" href="#put-results" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p><strong>Description:</strong> Receive simulation data for the given point name over a time period.</p></li>
+<li><p><strong>Description:</strong> Receive simulation data for the given point name over a time period.  Data for control input points will be the values used for simulation, meaning embedded default control if not overwritten or user-specified value if overwritten.</p></li>
 <li><p><strong>Arguments:</strong></p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">point_name</span>      <span class="o">//</span> <span class="n">required</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span> <span class="n">of</span> <span class="n">point</span>

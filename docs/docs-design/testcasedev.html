@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Reference Test Case Development &#8212; Design Documentation 0.1.0 documentation</title>
+    <title>Reference Test Case Development &#8212; BOPTEST Design Requirements and Guide 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="static/bootstrap-sphinx.css" />
     <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
@@ -37,7 +37,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="index.html">
-          Design Documentation</a>
+          BOPTEST Design Requirements and Guide</a>
         <span class="navbar-text navbar-version pull-left"><b></b></span>
       </div>
 
@@ -186,7 +186,7 @@ of generic FMUs, while the ability to overwrite and read any signal within
 the model is preserved. The Figure below shows an example implementation of
 the blocks in a model.</p>
 <figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="images/overwrite-read.png"><img alt="images/overwrite-read.png" src="images/overwrite-read.png" /></a>
+<a class="reference internal image-reference" href="images/overwrite-read.png"><img alt="images/overwrite-read.png" src="images/overwrite-read.png" style="width: 758.0px; height: 444.5px;" /></a>
 <figcaption>
 <p><span class="caption-text">Example placement and configuration of signal exchange blocks for single RC zone model with
 heater and proportional feedback control.  Signal exchange blocks are used
@@ -255,7 +255,7 @@ of a control signal.  By default, the activation of the signal
 overwrite block is set to False.  In this way, external interfaces need to
 only define control signals for those that are being overwritten.</p>
 <figure class="align-default" id="id4">
-<a class="reference internal image-reference" href="images/overwrite-read-wrapper.png"><img alt="images/overwrite-read-wrapper.png" src="images/overwrite-read-wrapper.png" /></a>
+<a class="reference internal image-reference" href="images/overwrite-read-wrapper.png"><img alt="images/overwrite-read-wrapper.png" src="images/overwrite-read-wrapper.png" style="width: 705.0px; height: 257.0px;" /></a>
 <figcaption>
 <p><span class="caption-text">Concept of signal exchange block utilization.  A parser script parses the
 original model to find all instances of the signal exchange blocks and
