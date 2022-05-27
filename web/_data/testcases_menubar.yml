@@ -18,3 +18,5 @@
   items:
     - name: Flexible Research Platform
       link: /testcases/ibpsa/testcases_ibpsa_flexible_research_platform/
+    - name: Single Zone Commercial Air
+      link: /testcases/ibpsa/testcases_ibpsa_singlezone_commercial_air/
