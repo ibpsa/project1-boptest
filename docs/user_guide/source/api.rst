@@ -36,7 +36,7 @@ GET /name
 GET /measurements
 -----------------
 
-- **Description:** Receive sensor signal point names (y) and metadata.
+- **Description:** Receive available sensor signal output point names (y) and metadata.
 
 - **Arguments:** None.
 
@@ -57,7 +57,7 @@ GET /measurements
 GET /inputs
 ------------
 
-- **Description:** Receive control signal point names (u) and metadata.
+- **Description:** Receive available control signal input point names (u) and metadata.
 
 - **Arguments:** None.
 
@@ -78,7 +78,7 @@ GET /inputs
 GET /step
 ---------
 
-- **Description:** Receive the current control step.  This is the amount of simulation time that will pass when the next simulation step is taken.
+- **Description:** Receive the current control step.  This is the amount of simulation time that will pass when the next control step is taken.
 
 - **Arguments:** None.
 
@@ -91,7 +91,7 @@ GET /step
 PUT /step
 ---------
 
-- **Description:** Set the current control step.  This is the amount of simulation time that will pass when the next simulation step is taken.
+- **Description:** Set the current control step.  This is the amount of simulation time that will pass when the next control step is taken.
 
 - **Arguments:**
 
@@ -123,7 +123,7 @@ PUT /initialize
 
         {
             <point_name>:   // str, name of point
-                <value>,    // float, point value at start times
+                <value>,    // float, point values at start time
             ...
         }
 
@@ -170,7 +170,7 @@ PUT /scenario
 GET /forecast
 -------------
 
-- **Description:** Receive boundary condition forecasts from current communication step.
+- **Description:** Receive boundary condition forecasts from current time.
 
 - **Arguments:** None.
 
@@ -230,7 +230,7 @@ POST /advance
 
     ::
 
-        input_name  // optional, float, value of input point
+        <input_name>  // optional, float, value of input point
 
 - **Returns:**
 
@@ -245,7 +245,7 @@ POST /advance
 PUT /results
 ------------
 
-- **Description:** Receive simulation data for the given point name over a time period.
+- **Description:** Receive simulation data for the given point name over a time period.  Data for control input points will be the values used for simulation, meaning embedded default control if not overwritten or user-specified value if overwritten.
 
 - **Arguments:**
 
