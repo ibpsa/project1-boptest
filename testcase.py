@@ -267,10 +267,26 @@ class TestCase(object):
                             logging.error(message)
                             return status, message, None                            
                         # Check min/max if not activation input
-                        if '_activate' not in key:
+                        if '_u' not in key:
+                            if not isinstance(value, float):
+                                status = 400
+                                message = "Invalid value for {} - value must be a float".format(key)
+                                logging.error(message)
+                                return status, message, None
                             checked_value = self._check_value_min_max(key, value)
-                        else:
+                        elif "_activate" in key:
+                            if not isinstance(value, (int, bool)):
+                                status = 400
+                                message = "Invalid value for {} - value must be a int or bool".format(key)
+                                logging.error(message)
+                                return status, message, None
                             checked_value = value
+                        else:
+                            status = 400
+                            message = "Invalid value for {} - value must have " \
+                                      "_u (control value) _activate (control enable) suffix".format(key)
+                            logging.error(message)
+                            return status, message, None
                         u_list.append(key)
                         u_trajectory = np.vstack((u_trajectory, checked_value))
                 input_object = (u_list, np.transpose(u_trajectory))
