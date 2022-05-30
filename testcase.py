@@ -259,34 +259,18 @@ class TestCase(object):
                 u_trajectory = self.start_time
                 for key in u.keys():
                     if key != 'time' and u[key]:                        
-                        if isinstance(u[key], float):
-                            value = u[key]
-                        else:
+                        try:
+                            value = float(u[key])
+                        except:
                             status = 400
                             message = "Invalid value for {} - value must be a float".format(key)
                             logging.error(message)
                             return status, message, None                            
                         # Check min/max if not activation input
-                        if '_u' not in key:
-                            if not isinstance(value, float):
-                                status = 400
-                                message = "Invalid value for {} - value must be a float".format(key)
-                                logging.error(message)
-                                return status, message, None
+                        if '_activate' not in key:
                             checked_value = self._check_value_min_max(key, value)
-                        elif "_activate" in key:
-                            if not isinstance(value, (int, bool)):
-                                status = 400
-                                message = "Invalid value for {} - value must be a int or bool".format(key)
-                                logging.error(message)
-                                return status, message, None
-                            checked_value = value
                         else:
-                            status = 400
-                            message = "Invalid value for {} - value must have " \
-                                      "_u (control value) _activate (control enable) suffix".format(key)
-                            logging.error(message)
-                            return status, message, None
+                            checked_value = value
                         u_list.append(key)
                         u_trajectory = np.vstack((u_trajectory, checked_value))
                 input_object = (u_list, np.transpose(u_trajectory))
@@ -336,11 +320,11 @@ class TestCase(object):
 
         Parameters
         ----------
-        start_time: int
+        start_time: float
             Start time of simulation to initialize to in seconds.
-        warmup_period: int
+        warmup_period: float
             Length of time before start_time to simulate for warmup in seconds.
-        end_time: int, optional
+        end_time: float, optional
             Specifies a finite end time to allow the simulation to continue
             Default value is infinite.
 
@@ -369,25 +353,26 @@ class TestCase(object):
         self.__initilize_data()
         self.elapsed_control_time_ratio = np.array([])
         # Check if the inputs are valid
-        if isinstance(start_time, float):
-            start_time = start_time
-        else:
+        try:
+            start_time = float(start_time)
+        except:
             status = 400
-            message = "start_time parameter is must be a float for initializing simulation."
+            message = "parameter 'start_time' must be a float but is {}.".format(type(start_time))
+            logging.error(message)            
             return status, message, payload
-        if isinstance(warmup_period, float):
-            warmup_period = warmup_period
-        else:
+        try: 
+            warmup_period = float(warmup_period)        
+        except:
             status = 400
-            message = "warmup_period parameter is must be a float for initializing simulation."
+            message = "parameter 'warmup_period' must be a float but is {}.".format(type(warmup_period))
             return status, message, payload
         if start_time < 0:
             status = 400
-            message = "start_time parameter cannot be negative for initializing simulation."
+            message = "parameter 'start_time' cannot be negative for initializing simulation."
             return status, message, payload
         if warmup_period < 0:
             status = 400
-            message = "warmup_period parameter cannot be negative for initializing simulation."
+            message = "parameter 'warmup_period' cannot be negative for initializing simulation."
             return status, message, payload
         # Record initial testing time
         self.initial_time = start_time
@@ -478,14 +463,16 @@ class TestCase(object):
         status = 200
         message = "Setting the simulation step successfully."
         payload = None
-        if not isinstance(step,int):
+        try:
+            step = int(step)
+        except:
             status = 400
-            message = "Invalid value for the simulation step, but must be a integer"
+            message = "parameter 'step' must be a number but is {}".format(type(step))
             logging.error(message)
             return status, message, payload
         if step < 0:
             status = 400
-            message = "Simulation step is negative, but must be a positive integer"
+            message = "parameter 'step' can't be negative"
             logging.error(message)
             return status, message, payload
         try:
@@ -597,18 +584,18 @@ class TestCase(object):
         '''
         
         status = 200
-        if isinstance(start_time, float):
-            start_time = start_time
-        else:
+        try:
+            start_time = float(start_time)                                    
+        except:
             status = 400
-            message = "start_time parameter must be a float."
+            message = "parameter 'start_time' must be a float but is {}.".format(type(start_time))
             logging.error(message)
             return status, message, None
-        if isinstance(final_time, float):
-            final_time = final_time
-        else:
+        try:
+            final_time = float(final_time)
+        except:            
             status = 400
-            message = "final_time parameter must be a float."
+            message = "parameter 'final_time' must be a float but is {}.".format(type(final_time))
             logging.error(message)
             return status, message, None
         message = "Querying simulation results successfully."
@@ -699,9 +686,9 @@ class TestCase(object):
 
         Parameters
         ----------
-        horizon: int
+        horizon: float
             Forecast horizon in seconds.
-        interval: int
+        interval: float
             Forecast interval in seconds.
 
         Returns
@@ -722,18 +709,18 @@ class TestCase(object):
         status = 200
         message = "Setting forecast horizon and interval successfully."
         payload = dict()       
-        if isinstance(horizon, float):
-            self.horizon = horizon
-        else:
+        try:
+            self.horizon = float(horizon)
+        except:
             status = 400
-            message = "horizon forecast parameter must be a float."
+            message = "parameter 'horizon' must be a number but is {}.".format(type(horizon))
             logging.error(message)
             return status, message, payload
-        if isinstance(horizon, float):
-            self.interval = interval
-        else:
+        try:            
+            self.interval = float(interval)
+        except:
             status = 400
-            message = "interval forecast parameter must be a float."
+            message = "parameter 'interval' must be a number but is {}.".format(type(interval))
             logging.error(message)
         try:
             payload['horizon'] = self.horizon
@@ -857,11 +844,11 @@ class TestCase(object):
         try:
             # Handle electricity price
             if scenario['electricity_price']:
-                if scenario['electricy_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
+                if scenario['electricity_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
                     status = 400
                     message = "Scenario parameter electricy_price is {} " \
                               "but should be constant', 'dynamic', or 'highly_dynamic.". \
-                              format(scenario['electricy_price'])
+                              format(scenario['electricity_price'])
                     logging.error(message)
                     return status, message, payload
                 self.scenario['electricity_price'] = scenario['electricity_price']
