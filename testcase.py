@@ -478,7 +478,7 @@ class TestCase(object):
         status = 200
         message = "Setting the simulation step successfully."
         payload = None
-        if not isinstance(step, int):
+        if not isinstance(step,int):
             status = 400
             message = "Invalid value for the simulation step, but must be a integer"
             logging.error(message)
@@ -729,7 +729,7 @@ class TestCase(object):
             message = "horizon forecast parameter must be a float."
             logging.error(message)
             return status, message, payload
-        if isinstance(horizon, interval):
+        if isinstance(horizon, float):
             self.interval = interval
         else:
             status = 400
