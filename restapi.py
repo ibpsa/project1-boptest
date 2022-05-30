@@ -12,14 +12,16 @@ from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 # ----------------------
 
+
 # GENERAL HTTP RESPONSE
 # ----------------------
 def construct(status, message, payload):
     if status == 200:
-       return make_response(jsonify(payload), status)
+        return make_response(jsonify(payload), status)
     else:
-       return make_response(message, status)
+        return make_response(message, status)
 # ----------------------
+
 
 # TEST CASE IMPORT
 # ----------------
