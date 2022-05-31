@@ -16,7 +16,11 @@
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
 - label: Under Development
   items:
-    - name: Flexible Research Platform
-      link: /testcases/ibpsa/testcases_ibpsa_flexible_research_platform/
     - name: Single Zone Commercial Air
       link: /testcases/ibpsa/testcases_ibpsa_singlezone_commercial_air/
+    - name: Two Zone Apartment Hydronic
+      link: /testcases/ibpsa/testcases_ibpsa_twozone_apartment_hydronic/
+    - name: Flexible Research Platform
+      link: /testcases/ibpsa/testcases_ibpsa_flexible_research_platform/
+    - name: Multizone Office Simple Hybrid
+      link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hybrid/
