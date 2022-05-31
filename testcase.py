@@ -227,20 +227,11 @@ class TestCase(object):
         '''
         
         status = 200
-        warnings = ""
         # Calculate and store the elapsed time
         if hasattr(self, 'tic_time'):
             self.tac_time = time.time()
             self.elapsed_control_time_ratio = np.append(self.elapsed_control_time_ratio, (self.tac_time-self.tic_time)/self.step)
-        invalid_points = []
-        for point in u.keys():
-            if point not in self.u.keys():
-                invalid_points.append(point)
-        if invalid_points:
-            status = 400
-            message = "Invalid control input to advance simulation: {}".format(invalid_points)
-            logging.error(message)
-            return status, message, None
+
         # Set final time
         self.final_time = self.start_time + self.step
         # Set control inputs if they exist and are written
@@ -263,7 +254,7 @@ class TestCase(object):
                             value = float(u[key])
                         except:
                             status = 400
-                            message = "Invalid value for {} - value must be a float".format(key)
+                            message = "Invalid value for {} - value must be a float but is {}".format(key, type(u[key]))
                             logging.error(message)
                             return status, message, None                            
                         # Check min/max if not activation input
@@ -301,7 +292,7 @@ class TestCase(object):
                 return status, message, payload
 
             else:
-                # Error in
+                # Errors in the simulation
                 status = 500
                 message = "Failed to advancing simulation: {}"
                 payload = res
@@ -368,11 +359,11 @@ class TestCase(object):
             return status, message, payload
         if start_time < 0:
             status = 400
-            message = "parameter 'start_time' cannot be negative for initializing simulation."
+            message = "parameter 'start_time' cannot be negative."
             return status, message, payload
         if warmup_period < 0:
             status = 400
-            message = "parameter 'warmup_period' cannot be negative for initializing simulation."
+            message = "parameter 'warmup_period' cannot be negative."
             return status, message, payload
         # Record initial testing time
         self.initial_time = start_time
@@ -428,13 +419,13 @@ class TestCase(object):
         status = 200
         message = "Querying the simulation step successfully."
         payload = None
-        if self.step is not None:
-            logging.info(message)
+        try:
             payload = self.step
-            return status, message, payload
-        status = 400
-        message = "Query the simulation step failed."
-        logging.error(message)
+            logging.info(message)            
+        except:
+            status = 500
+            message = "Query the simulation step failed."
+            logging.error(message)
                
         return status, message, payload
 
@@ -477,13 +468,11 @@ class TestCase(object):
             return status, message, payload
         try:
             self.step = step
+            logging.info(message)
         except:
             status = 500
             message = "Failed to set the simulation step: {}.".format(traceback.format_exc()) 
             logging.error(message)
-            return status, message, payload
-        logging.info(message)
-        payload = None
         
         return status, message, payload
 
@@ -916,11 +905,11 @@ class TestCase(object):
         payload = None
         status = 200
         message = "Querying simulation for scenario successfully."
-        if self.scenario is not None:
+        try:
             payload = self.scenario
-        else:
+        except:
             status = 500
-            message = "Failed to query simulation for scenario."
+            message = "Failed to query simulation for scenario: {}".format(traceback.format_exc())
             logging.error(message)
         logging.info(message)
         
