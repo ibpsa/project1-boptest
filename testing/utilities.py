@@ -768,9 +768,9 @@ class partialTestAPI(partialChecks):
 
         # Set scenario
         scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
-        scenario = {'electricity_price': 'invalid_scnario', 'time_period':self.test_time_period}
+        scenario = {'electricity_price': 'invalid_scnario', 'time_period': self.test_time_period}
         payload = requests.put('{0}/scenario'.format(self.url), data=scenario)
-        self.assertEqual(payload.status_code, 400, "Invalid advance request did not return 400 message.")
+        self.assertEqual(payload.status_code, 400, "Invalid set scenario request did not return 400 message.")
 
     def test_partial_results_inner(self):
         '''Test getting results for start time after and final time before.
