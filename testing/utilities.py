@@ -721,14 +721,14 @@ class partialTestAPI(partialChecks):
         '''
 
         # Define forecast parameters
-        forecast_parameters_ref = {'horizon': '3600', 'interval': 300}
+        forecast_parameters_ref = {'horizon': 'foo', 'interval': 300}
         # Initialize
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         # Set forecast parameters
         payload = requests.put('{0}/forecast_parameters'.format(self.url),
                                data=forecast_parameters_ref)
         self.assertEqual(payload.status_code, 400, "Invalid forecast_parameters request did not return 400 message.")
-        forecast_parameters_ref = {'horizon': 3600, 'interval': '300'}
+        forecast_parameters_ref = {'horizon': 3600, 'interval': 'bar'}
 
         payload = requests.put('{0}/forecast_parameters'.format(self.url),
                                data=forecast_parameters_ref)
