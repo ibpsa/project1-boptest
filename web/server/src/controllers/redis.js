@@ -7,8 +7,8 @@ class Redis {
     this.client = node_redis.createClient({host: process.env.REDIS_HOST})
     this.pubclient = this.client.duplicate()
     this.subclient = this.client.duplicate()
-    this.subTimeoutTime = 180000
-    this.responseTimeoutTime = 120000
+    this.subTimeoutTime = 360000
+    this.responseTimeoutTime = 300000
 
     this.hget = promisify(this.client.hget).bind(this.client)
     this.hexists = promisify(this.client.hexists).bind(this.client)

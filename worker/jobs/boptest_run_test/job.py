@@ -20,7 +20,7 @@ class Job:
         self.api_key = parameters.get('api_key')
         self.keep_running = True
         self.last_message_time = datetime.now()
-        self.inactivity_threshold = os.environ['INACTIVITY_THRESHOLD']
+        self.inactivity_threshold = float(os.environ['INACTIVITY_THRESHOLD'])
 
         self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])

@@ -76,8 +76,8 @@ export async function waitForStatus(testid, desiredStatus, count, maxCount) {
     throw(`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
   } else {
     // check status every 1000 miliseconds
-    await promiseTaskLater(waitForStatus, 1000, testid, desiredStatus, count, maxCount);
     count++
+    await promiseTaskLater(waitForStatus, 1000, testid, desiredStatus, count, maxCount);
   }
 };
 
