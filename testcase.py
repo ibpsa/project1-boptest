@@ -153,7 +153,7 @@ class TestCase(object):
             return traceback.format_exc()
         # Set internal fmu initialization
         self.initialize_fmu = False
-        
+
         return res
 
     def __get_results(self, res, store=True, store_initial=False):
@@ -176,7 +176,7 @@ class TestCase(object):
             Set to true if desired to store the initial point.
 
         '''
-        
+
         # Determine if store initial point
         if store_initial:
             i = 0
@@ -207,15 +207,16 @@ class TestCase(object):
         ----------
         u : dict
             Defines the control input data to be used for the step.
-            {<input_name> : <input_value>}
+            {<input_name>_activate : bool or int,
+             <input_name>_u        : float}
 
         Returns
         -------
         status: int
-            Indicates whether an advance request has been completed
-            If 200, advancing simulation is completed.
-            If 400, invalid inputs (non-numeric) are identified.
-            If 500, a simulation error has occurred.            
+            Indicates whether an advance request has been completed.
+            If 200, simulation advance was completed.
+            If 400, invalid inputs (non-numeric) were identified.
+            If 500, a simulation error occurred.
         message: str
             Includes the debug information
         payload: dict
@@ -225,7 +226,7 @@ class TestCase(object):
             If empty, simulation end time has been reached.
             If None, a simulation error has occurred.
         '''
-        
+
         status = 200
         # Calculate and store the elapsed time
         if hasattr(self, 'tic_time'):
@@ -245,10 +246,10 @@ class TestCase(object):
                     written = True
                     break
             # If there are, create input object
+            alert_message = ''
             if written:
                 u_list = []
-                u_trajectory = self.start_time
-                alert_message = ''
+                u_trajectory = self.start_time                
                 for key in u.keys():
                     if key != 'time' and u[key] and key in self.input_names:                        
                         try:
@@ -300,16 +301,16 @@ class TestCase(object):
             else:
                 # Errors in the simulation
                 status = 500
-                message = "Failed to advancing simulation: {}"
+                message = "Failed to advance simulation: {}"
                 payload = res
                 logging.error(message.format(res))
                 return status, message, payload
         else:
             # Simulation at end time
             payload = dict()
-            message = "Simulation completes."
+            message = "End of test case scenario time period reached."
             logging.info(message)
-            
+
             return status, message, payload
 
     def initialize(self, start_time, warmup_period, end_time=np.inf):
@@ -328,20 +329,20 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether an initialization request has been completed
-            If 200, initialization is completed.
-            If 400, An invalid start time or warmup period (non-numeric) is identified.
-            If 500, a simulation error has occurred.            
+            Indicates whether an initialization request has been completed.
+            If 200, initialization was completed successfully.
+            If 400, an invalid start time or warmup period (non-numeric) was identified.
+            If 500, an error occurred during the initialization simulation.
         message: str
-            Includes the detailed debug information
+            Includes detailed debugging information.
         payload: dict
             Contains the full state of measurement and input data at the end
-            of the initialization.
+            of the initialization period.
             {<point_name> : <point_value>}.
-            If None, a simulation error has occurred.
+            If None, an error occurred during the initialization simulation.
 
         '''
-        
+
         status = 200
         payload = None
         # Reset fmu
@@ -393,40 +394,42 @@ class TestCase(object):
             self.cal.initialize()
             # Get full current state
             payload = self._get_full_current_state()
-            message = "Initializing simulation successfully."
+            message = "Test simulation initialized successfully."
             logging.info(message)
-            
+
             return status, message, payload
 
         else:
+            payload = None
             status = 500
-            message = "Failed to initialize simulation : {}".format(res)
-            logging.error(message)
-            
-            return status, message, {}
+            message = "Failed to initialize test simulation: {}".format(res)
+            logging.warning(message)
+
+            return status, message, payload
 
     def get_step(self):
-        '''Returns the current simulation step in seconds.
-               
+        '''Returns the current control step in seconds.
+
         Parameters
         ----------
-        None        
+        None
 
         Returns
         -------
         status: int
-            Indicates whether a request for querying the simulation step has been completed
-            If 200, the step is successfully queried.
-            If 500, an internal error has occurred.            
+            Indicates whether a request for querying the control step has been completed.
+            If 200, the step was successfully queried.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information
+            Includes detailed debugging information.
         payload: int
-            The current simulation step.        
-        
+            The current control step.
+            None if error during query.
+
         '''
-        
+
         status = 200
-        message = "Querying the simulation step successfully."
+        message = "Queried the control step successfully."
         payload = None
         try:
             payload = self.step
@@ -439,50 +442,54 @@ class TestCase(object):
         return status, message, payload
 
     def set_step(self, step):
-        '''Sets the simulation step in seconds.
+        '''Sets the control step in seconds.
 
         Parameters
         ----------
         step: int
-            Simulation step in seconds.
+            Control step in seconds.
 
         Returns
         -------
         status: int
-            Indicates whether a request for setting the simulation step has been completed
-            If 200, the step is successfully set.
-            If 400, an invalid simulation step (non-numeric) is identified.            
-            If 500, an internal error has occurred.            
+            Indicates whether a request for setting the control step has been completed.
+            If 200, the step was successfully set.
+            If 400, an invalid simulation step (non-numeric) was identified.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information
+            Includes detailed debugging information.
         payload:
-            None 
+            None
 
         '''
-        
+
         status = 200
-        message = "Setting the simulation step successfully."
+        message = "Control step set successfully."
         payload = None
         try:
             step = int(step)
         except:
+            payload = None
             status = 400
             message = "parameter 'step' must be a number but is {}".format(type(step))
             logging.error(message)
             return status, message, payload
         if step < 0:
             status = 400
-            message = "parameter 'step' can't be negative"
+            message = "Invalid value for the control step"
             logging.error(message)
             return status, message, payload
         try:
             self.step = step
             logging.info(message)
         except:
+            payload = None
             status = 500
-            message = "Failed to set the simulation step: {}.".format(traceback.format_exc()) 
+            message = "Failed to set the control step: {}.".format(traceback.format_exc())
             logging.error(message)
-        
+            return status, message, payload
+        logging.info(message)
+
         return status, message, payload
 
     def get_inputs(self):
@@ -495,18 +502,19 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicate whether a request for querying the inputs has been completed
-            If 200, the inputs are successfully queried.           
-            If 500, a internal error has occurred.            
+            Indicates whether a request for querying the inputs has been completed.
+            If 200, the inputs were successfully queried.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information        
+            Includes detailed debugging information.
         payload: dict
             Dictionary of control inputs and their meta-data.
+            Returns None if error in getting inputs and meta-data.
 
         '''
-        
+
         status = 200
-        message = "Querying the input list successfully."
+        message = "Queried the inputs successfully."
         payload = None
         try:
             payload = self.inputs_metadata
@@ -528,18 +536,19 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the outputs has been completed
-            If 200, the outputs are successfully queried.           
-            If 500, an internal error has occurred.            
+            Indicates whether a request for querying the outputs has been completed.
+            If 200, the outputs were successfully queried.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information        
+            Includes detailed debugging information.
         payload : dict
             Dictionary of measurements and their meta-data.
+            Returns None if error in getting measurements and meta-data.
 
         '''
 
         status = 200
-        message = "Querying the measurement list successfully."
+        message = "Queried the measurements successfully."
         payload = None
         try:
             payload = self.outputs_metadata
@@ -566,21 +575,21 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the results has been completed
-            If 200, the results are successfully queried.  
-            If 400, invalid start time and/or invalid final time (non-numeric) are identified.                
-            If 500, an internal error has occured.            
+            Indicates whether a request for querying the results has been completed.
+            If 200, the results were successfully queried.
+            If 400, invalid start time and/or invalid final time (non-numeric) were identified.
+            If 500, an internal error occured.
         message: str
-            Includes the detailed debug information        
+            Includes detailed debugging information.
         payload : dict
             Dictionary of variable trajectories with time as lists.
             {'time':[<time_data>],
              'var':[<var_data>]
             }
-            Returns None if no variable can be found or a simulation error occurs
+            Returns None if no variable can be found or a simulation error occurs.
 
         '''
-        
+
         status = 200
         try:
             start_time = float(start_time)                                    
@@ -596,7 +605,7 @@ class TestCase(object):
             message = "parameter 'final_time' must be a float but is {}.".format(type(final_time))
             logging.error(message)
             return status, message, None
-        message = "Querying simulation results successfully."
+        message = "Queried results data successfully for point {0}".format(var)
         payload = []
         try:
             # Get correct point
@@ -628,11 +637,12 @@ class TestCase(object):
             message = "Failed to query simulation results: {}".format(traceback.format_exc())
             logging.error(message)
             return status, message, None            
+
         if not isinstance(payload, (list, type(None))):
             for key in payload:
                 payload[key] = payload[key].tolist()
-        logging.info(message)  
-        
+        logging.info(message)
+
         return status, message, payload
 
     def get_kpis(self):
@@ -647,20 +657,20 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the KPIs has been completed
-            If 200, the KPIs are successfully queried.           
-            If 500, a internal error has occured.            
+            Indicates whether a request for querying the KPIs has been completed.
+            If 200, the KPIs were successfully queried.
+            If 500, an internal error occured.
         message: str
-            Includes the detailed debug information        
-        payload : dict        
+            Includes detailed debugging information
+        payload : dict
             Dictionary containing KPI names and values.
-            {<kpi_name>:<kpi_value>}
+            {<kpi_name>:<kpi_value>}.
+            Returns None if error during calculation.
 
         '''
-        
+
         status = 200
-        message = "Querying simulation for KPIs successfulyl."
-        payload = None
+        message = "Queried KPIs successfully."
         try:
             # Set correct price scenario for cost
             if self.scenario['electricity_price'] == 'constant':
@@ -672,6 +682,7 @@ class TestCase(object):
             # Calculate the core kpis
             payload = self.cal.get_core_kpis(price_scenario=price_scenario)
         except:
+            payload = None
             status = 500
             message = "Failed to query KPIs: {}".format(traceback.format_exc())
             logging.error(message)
@@ -692,21 +703,22 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for setting the forecast parameters has been completed
-            If 200, the parameters are successfully set.  
-            If 400, invalid forecast horizon and/or invalid interval (non-numeric) are identified.                
-            If 500, a internal error has occured.            
+            Indicates whether a request for setting the forecast parameters has been completed.
+            If 200, the parameters were successfully set.
+            If 400, invalid horizon and/or interval (non-numeric) were identified.
+            If 500, an internal error occured.
         message: str
-            Includes the detailed debug information        
-        payload : dict        
-            Dictionary containing forecast parameters names and values.
-            {<parameter_name>:<parameter_value>}      
+            Includes detailed debugging information.
+        payload : dict
+            Dictionary containing forecast parameters names and values:
+            {<parameter_name>:<parameter_value>}.
+            Returns None if error during setting.
 
         '''
-        
+
         status = 200
-        message = "Setting forecast horizon and interval successfully."
-        payload = dict()       
+        message = "Forecast horizon and interval were set successfully."
+        payload = dict()
         try:
             self.horizon = float(horizon)
         except:
@@ -717,9 +729,11 @@ class TestCase(object):
         try:            
             self.interval = float(interval)
         except:
+            payload = None
             status = 400
             message = "parameter 'interval' must be a number but is {}.".format(type(interval))
             logging.error(message)
+            return status, message, payload
         try:
             payload['horizon'] = self.horizon
             payload['interval'] = self.interval
@@ -733,7 +747,7 @@ class TestCase(object):
 
     def get_forecast_parameters(self):
         '''Returns the current forecast horizon and interval parameters.
-        
+
         Parameters
         ----------
         None
@@ -741,19 +755,19 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the forecast parameters has been completed
-            If 200, the forecast parameters are successfully queried.           
-            If 500, an internal error has occurred.            
+            Indicates whether a request for querying the forecast parameters has been completed.
+            If 200, the forecast parameters were successfully queried.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information        
-        payload: dict        
+            Includes detailed debugging information .
+        payload: dict
             Dictionary containing forecast parameters names and values.
-            {<parameter_name>:<parameter_value>} 
-        
+            {<parameter_name>:<parameter_value>}
+
         '''
-        
+
         status = 200
-        message = "Querying simulation for forecast parameters successfully."
+        message = "Queried the forecast parameters successfully."
         payload = dict()
         if self.horizon is not None and self.interval is not None:
             payload['horizon'] = self.horizon
@@ -763,7 +777,7 @@ class TestCase(object):
             message = "Failed to query the forecast parameters."
             logging.error(message)
         logging.info(message)
-        
+
         return status, message, payload
 
     def get_forecast(self):
@@ -776,43 +790,43 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the forecast has been successfully completed
-            If 200, the forecast is successfully queried.                 
-            If 500, an internal error has occurred.            
+            Indicates whether a request for querying the forecast has been successfully completed.
+            If 200, the forecast was successfully queried.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information        
-        payload: dict        
+            Includes detailed debugging information
+        payload: dict
             Dictionary with the requested forecast data
             {<variable_name>:<variable_forecast_trajectory>}
             where <variable_name> is a string with the variable
             key and <variable_forecast_trajectory> is a list with
-            the forecasted values. 'time' is included as a variable
+            the forecasted values. 'time' is included as a variable.
 
         '''
 
         # Get the forecast
         status = 200
-        message = "Querying simulation for forecast successfully."
+        message = "Queried the forecast data successfully."
         try:
             payload = self.forecaster.get_forecast(horizon=self.horizon,
-                                                    interval=self.interval)
+                                                   interval=self.interval)
         except:
             status = 500
             message = "Failed to query the test case forecast data: {}".format(traceback.format_exc())
             payload = None
             logging.error(message)
         logging.info(message)
-        
+
         return status, message, payload
 
     def set_scenario(self, scenario):
-        '''Sets the case scenario.
+        '''Sets the test case scenario.
 
         Parameters
         ----------
         scenario : dict
             {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
-             'time_period': see available keys for test case
+             'time_period': see available <str> keys for test case
             }
             If any value is None, it will not change existing.
 
@@ -820,25 +834,25 @@ class TestCase(object):
         -------
         status: int
             Indicates whether a request for setting the scenario has been completed
-            If 200, the scenario is successfully set.  
-            If 400, invalid electricity_price and/or time_period (non-numeric) are identified.                
-            If 500, an internal error has occurred.             
+            If 200, the scenario was successfully set.
+            If 400, invalid electricity_price and/or time_period (non-numeric) were identified.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information        
-        payload: dict        
+            Includes the detailed debug information
+        payload: dict
             {'electricity_price': if succeeded in changing then True, else None,
              'time_period': if succeeded then initial measurements, else None
             }
         '''
-        
+
         status = 200
-        message = "Setting simulation scenario successfully."
+        message = "Test case scenario was set successfully."
         payload = {
             'electricity_price': None,
             'time_period': None
         }
         if not hasattr(self, 'scenario'):
-            self.scenario = {}                                    
+            self.scenario = {}
         try:
             # Handle electricity price
             if scenario['electricity_price']:
@@ -883,7 +897,7 @@ class TestCase(object):
             self.cal.initialize()
         except:
             status = 500
-            message = "Failed to set the case scenario: {}".format(traceback.format_exc())
+            message = "Failed to set the test case scenario: {}".format(traceback.format_exc())
             payload = None
             logging.error(message)
         logging.info(message)
@@ -892,7 +906,7 @@ class TestCase(object):
 
     def get_scenario(self):
         '''Returns the current case scenario.
-        
+
         Parameters
         ----------
         None
@@ -901,28 +915,28 @@ class TestCase(object):
         -------
         status: int
             Indicates whether a request for querying the scenario has been successfully completed
-            If 200, the scenario is successfully queried.                 
-            If 500, an internal error has occurred.            
+            If 200, the scenario was successfully queried.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information        
-        payload:  dict        
-            {'electricity_price': if succeeded in changing then True, else None,
-             'time_period': if succeeded then initial measurements, else None
+            Includes detailed debugging information
+        payload: dict
+            {'electricity_price': <str>,
+             'time_period': <str>
              }
-            
+
         '''
         
         payload = None
         status = 200
-        message = "Querying simulation for scenario successfully."
+        message = "Querying current test case for scenario successfully."
         try:
             payload = self.scenario
         except:
             status = 500
-            message = "Failed to query simulation for scenario: {}".format(traceback.format_exc())
+            message = "Failed to find a current test case scenario setting.  Check it was set properly.: {}".format(traceback.format_exc())
             logging.error(message)
         logging.info(message)
-        
+
         return status, message, payload
 
     def get_name(self):
@@ -935,21 +949,21 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicate whether a request for querying the name of the test case fmu has been successfully completed
-            If 200, the name is successfully queried.                 
-            If 500, an internal error has occurred.            
+            Indicate whether a request for querying the name of the test case has been successfully completed.
+            If 200, the name was successfully queried.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information        
-        payload :  dict  
+            Includes detailed debugging information
+        payload :  dict
             Name of test case as {'name': <str>}
 
         '''
-        
+
         status = 200
-        message = "Querying the name of the test case fmu successfully"
+        message = "Queried the name of the test case successfully."
         payload = {'name': self.name}
         logging.info(message)
-        
+
         return status, message, payload
 
     def get_elapsed_control_time_ratio(self):
@@ -980,21 +994,21 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicate whether a request for querying the version number of BOPTEST has been completed
-            If 200, the name is successfully queried.                 
-            If 500, an internal error has occurred.            
+            Indicate whether a request for querying the version number of BOPTEST has been completed.
+            If 200, the version was successfully queried.
+            If 500, an internal error occurred.
         message: str
-            Includes the detailed debug information        
+            Includes detailed debugging information
         payload:  dict
             Version of BOPTEST as {'version': <str>}
 
         '''
 
         status = 200
-        message = "Querying the version number successfully"
+        message = "Queried the version number successfully."
         logging.info(message)
         payload = {'version': self.version}
-        
+
         return status, message, payload
 
     def _get_var_metadata(self, fmu, var_list, inputs=False):
