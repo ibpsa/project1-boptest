@@ -398,6 +398,12 @@ class partialChecks(object):
 
         return points
 
+    def compare_error_code(self, response, message=None):
+        status_code = response.status_code
+        if message is None:
+            message = response.message
+        self.assertEqual(status_code, 400, message)
+
 
 class partialTestAPI(partialChecks):
     '''This partial class implements common API tests for test cases.
@@ -483,18 +489,6 @@ class partialTestAPI(partialChecks):
         self.assertEqual(step, step_set)
         requests.put('{0}/step'.format(self.url), data={'step':step_current})
 
-    def test_set_invalid_step(self):
-        '''Test set step with invalid (non-numeric) value returns a 400 error.
-
-        '''
-
-        scenario = {'time_period': 'test_day'}
-        requests.put('{0}/scenario'.format(self.url), data=scenario)
-        # Try simulating past test period
-        step = "5*7*24*3600"
-        payload = requests.put('{0}/step'.format(self.url), data={'step': step})
-        self.assertEqual(payload.status_code, 400, "Invalid step did not return 400 message.")
-
     def test_initialize(self):
         '''Test initialization of test simulation.
 
@@ -542,20 +536,6 @@ class partialTestAPI(partialChecks):
         self.compare_ref_values_df(df, ref_filepath)
         # Set step back to step
         requests.put('{0}/step'.format(self.url), data={'step':step})
-
-    def test_invalid_initialize(self):
-        '''Test initialization of test simulation with invalid start_time returns 400 error.
-
-        '''
-
-        points = self.get_all_points(self.url)
-        # Get current step
-        step = requests.get('{0}/step'.format(self.url)).json()
-        # Initialize
-        start_time = "0.5 * 24 * 3600"
-        y = requests.put('{0}/initialize'.format(self.url),
-                         data={'start_time': start_time, 'warmup_period': 0.5 * 24 * 3600})
-        self.assertEqual(y.status_code, 400, "Invalid initialize request did not return 400 message.")
 
     def test_advance_no_data(self):
         '''Test advancing of simulation with no input data.
@@ -618,47 +598,6 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
         self.compare_ref_values_df(df, ref_filepath)
 
-    def test_invalid_advance(self):
-        '''Test advancing of simulation with invalid input data type (non-numerical) will return 400 error.
-
-        This is a basic test of functionality.
-
-        '''
-        if self.name == 'testcase1':
-            u = {'oveAct_activate': 0, 'oveAct_u': 1500}
-        elif self.name == 'testcase2':
-            u = {'oveTSetRooHea_activate': 0, 'oveTSetRooHea_u': 273.15 + 22}
-        elif self.name == 'testcase3':
-            u = {'oveActNor_activate': 0, 'oveActNor_u': 1500,
-                 'oveActSou_activate': 0, 'oveActSou_u': 1500}
-        elif self.name == 'bestest_air':
-            u = {'fcu_oveTSup_activate': 0, 'fcu_oveTSup_u': 290}
-        elif self.name == 'bestest_hydronic':
-            u = {
-                'oveTSetSup_activate': 0,
-                'oveTSetSup_u': 273.15 + 60,
-                'ovePum_activate': 0,
-                'ovePum_u': 1
-            }
-        elif self.name == 'bestest_hydronic_heat_pump':
-            u = {'oveTSet_activate': 0, 'oveTSet_u': 273.15 + 22}
-        elif self.name == 'multizone_residential_hydronic':
-            u = {'conHeaRo1_oveTSetHea_activate': 0, 'conHeaRo1_oveTSetHea_u': 273.15 + 22,
-                 'oveEmiPum_activate': 0, 'oveEmiPum_u': 1}
-        elif self.name == 'singlezone_commercial_hydronic':
-            u = {'oveTSupSet_activate': 0, 'oveTSupSet_u': 273.15 + 25,
-                 'oveTZonSet_activate': 0, 'oveTZonSet_u': 273.15 + 25}
-        elif self.name == 'multizone_office_simple_air':
-            u = {'hvac_oveAhu_TSupSet_activate': 0, 'hvac_oveAhu_TSupSet_u': 273.15 + 22}
-        else:
-            raise Exception('Need to specify u for this test case')
-        for key, value in u.items():
-            u[key] = "invalid"
-        requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
-        requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
-        y = requests.post('{0}/advance'.format(self.url), data=u)
-        self.assertEqual(y.status_code, 400, "Invalid advance request did not return 400 message.")
-
     def test_get_forecast_default(self):
         '''Check that the forecaster is able to retrieve the data.
 
@@ -682,7 +621,7 @@ class partialTestAPI(partialChecks):
         '''
 
         # Define forecast parameters
-        forecast_parameters_ref = {'horizon':3600, 'interval':300}
+        forecast_parameters_ref = {'horizon': 3600, 'interval':300}
         # Set forecast parameters
         ret = requests.put('{0}/forecast_parameters'.format(self.url),
                            data=forecast_parameters_ref).json()
@@ -715,25 +654,6 @@ class partialTestAPI(partialChecks):
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
-    def test_set_invalid_forecast_parameters(self):
-        '''Check that the setting forecast parameter with invalid start or horizon returns 400 error.
-
-        '''
-
-        # Define forecast parameters
-        forecast_parameters_ref = {'horizon': 'foo', 'interval': 300}
-        # Initialize
-        requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
-        # Set forecast parameters
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
-                               data=forecast_parameters_ref)
-        self.assertEqual(payload.status_code, 400, "Invalid forecast_parameters request did not return 400 message.")
-        forecast_parameters_ref = {'horizon': 3600, 'interval': 'bar'}
-
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
-                               data=forecast_parameters_ref)
-        self.assertEqual(payload.status_code, 400, "Invalid forecast_parameters request did not return 400 message.")
-
     def test_set_get_scenario(self):
         '''Test setting and getting the scenario of test.
 
@@ -760,17 +680,6 @@ class partialTestAPI(partialChecks):
         self.compare_ref_timeseries_df(df,ref_filepath)
         # Return scenario to original
         requests.put('{0}/scenario'.format(self.url), data=scenario_current)
-
-    def test_set_invalid_scenario(self):
-        '''Test setting sceanrio with invalid identifier.
-
-        '''
-
-        # Set scenario
-        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
-        scenario = {'electricity_price': 'invalid_scnario', 'time_period': self.test_time_period}
-        payload = requests.put('{0}/scenario'.format(self.url), data=scenario)
-        self.assertEqual(payload.status_code, 400, "Invalid set scenario request did not return 400 message.")
 
     def test_partial_results_inner(self):
         '''Test getting results for start time after and final time before.
@@ -825,6 +734,104 @@ class partialTestAPI(partialChecks):
         df = pd.DataFrame.from_dict(res_outer).set_index('time')
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
+
+    def test_set_invalid_step(self):
+        '''Test set step with invalid (non-numeric) value returns a 400 error.
+
+        '''
+
+        scenario = {'time_period': 'test_day'}
+        requests.put('{0}/scenario'.format(self.url), data=scenario)
+        # Try simulating past test period
+        step = "5*7*24*3600"
+        payload = requests.put('{0}/step'.format(self.url), data={'step': step})
+        self.compare_error_code(payload, "Invalid step did not return 400 message.")
+
+    def test_set_invalid_forecast_parameters(self):
+        '''Check that the setting forecast parameter with invalid start or horizon returns 400 error.
+
+        '''
+
+        # Define forecast parameters
+        forecast_parameters_ref = {'horizon': 'foo', 'interval': 300}
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
+        # Set forecast parameters
+        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+                               data=forecast_parameters_ref)
+        self.compare_error_code(payload, "Invalid forecast_parameters request did not return 400 message.")
+        forecast_parameters_ref = {'horizon': 3600, 'interval': 'bar'}
+
+        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+                               data=forecast_parameters_ref)
+        self.compare_error_code(payload, "Invalid forecast_parameters request did not return 400 message.")
+
+    def test_set_invalid_scenario(self):
+        '''Test setting sceanrio with invalid identifier.
+
+        '''
+
+        # Set scenario
+        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()
+        scenario = {'electricity_price': 'invalid_scnario', 'time_period': self.test_time_period}
+        payload = requests.put('{0}/scenario'.format(self.url), data=scenario)
+        self.compare_error_code(payload, "Invalid set scenario request did not return 400 message.")
+
+    def test_invalid_initialize(self):
+        '''Test initialization of test simulation with invalid start_time returns 400 error.
+
+        '''
+
+        points = self.get_all_points(self.url)
+        # Get current step
+        step = requests.get('{0}/step'.format(self.url)).json()
+        # Initialize
+        start_time = "0.5 * 24 * 3600"
+        y = requests.put('{0}/initialize'.format(self.url),
+                         data={'start_time': start_time, 'warmup_period': 0.5 * 24 * 3600})
+        self.compare_error_code(y,  "Invalid initialize request did not return 400 message.")
+
+    def test_invalid_advance(self):
+        '''Test advancing of simulation with invalid input data type (non-numerical) will return 400 error.
+
+        This is a basic test of functionality.
+
+        '''
+        if self.name == 'testcase1':
+            u = {'oveAct_activate': 0, 'oveAct_u': 1500}
+        elif self.name == 'testcase2':
+            u = {'oveTSetRooHea_activate': 0, 'oveTSetRooHea_u': 273.15 + 22}
+        elif self.name == 'testcase3':
+            u = {'oveActNor_activate': 0, 'oveActNor_u': 1500,
+                 'oveActSou_activate': 0, 'oveActSou_u': 1500}
+        elif self.name == 'bestest_air':
+            u = {'fcu_oveTSup_activate': 0, 'fcu_oveTSup_u': 290}
+        elif self.name == 'bestest_hydronic':
+            u = {
+                'oveTSetSup_activate': 0,
+                'oveTSetSup_u': 273.15 + 60,
+                'ovePum_activate': 0,
+                'ovePum_u': 1
+            }
+        elif self.name == 'bestest_hydronic_heat_pump':
+            u = {'oveTSet_activate': 0, 'oveTSet_u': 273.15 + 22}
+        elif self.name == 'multizone_residential_hydronic':
+            u = {'conHeaRo1_oveTSetHea_activate': 0, 'conHeaRo1_oveTSetHea_u': 273.15 + 22,
+                 'oveEmiPum_activate': 0, 'oveEmiPum_u': 1}
+        elif self.name == 'singlezone_commercial_hydronic':
+            u = {'oveTSupSet_activate': 0, 'oveTSupSet_u': 273.15 + 25,
+                 'oveTZonSet_activate': 0, 'oveTZonSet_u': 273.15 + 25}
+        elif self.name == 'multizone_office_simple_air':
+            u = {'hvac_oveAhu_TSupSet_activate': 0, 'hvac_oveAhu_TSupSet_u': 273.15 + 22}
+        else:
+            raise Exception('Need to specify u for this test case')
+        for key, value in u.items():
+            u[key] = "invalid"
+        requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
+        requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
+        y = requests.post('{0}/advance'.format(self.url), data=u)
+        self.compare_error_code(y, "Invalid advance request did not return 400 message.")
+
 
 class partialTestTimePeriod(partialChecks):
     '''Partial class for testing the time periods for each test case
