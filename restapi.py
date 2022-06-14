@@ -56,6 +56,9 @@ results_var = reqparse.RequestParser()
 results_var.add_argument('point_name')
 results_var.add_argument('start_time')
 results_var.add_argument('final_time')
+# ``submit`` interface
+submit_var = reqparse.RequestParser()
+submit_var.add_argument('api_key')
 # -----------------------
 
 # DEFINE REST REQUESTS
@@ -189,6 +192,16 @@ class Version(Resource):
         '''GET request to receive BOPTEST version.'''
         version = case.get_version()
         return version
+
+class Submit(Resource):
+    '''Submit results to dashboard.'''
+
+    def post(self):
+        '''POST request to submit results to online dashboard.'''
+        args = submit_var.parse_args(strict=True)
+        api_key  = args['api_key']
+        status_code = case.post_results_to_dashboard(api_key)
+        return status_code
 # --------------------
 
 # ADD REQUESTS TO API WITH URL EXTENSION
@@ -205,6 +218,7 @@ api.add_resource(Forecast, '/forecast')
 api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')
 api.add_resource(Version, '/version')
+api.add_resource(Submit, '/submit')
 # --------------------------------------
 
 if __name__ == '__main__':

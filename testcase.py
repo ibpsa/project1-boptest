@@ -13,6 +13,7 @@ import time
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
 from kpis.kpi_calculator import KPI_Calculator
+import requests
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -278,6 +279,7 @@ class TestCase(object):
                 return None
         else:
             # Simulation at end time
+            self.scenario_end = True
             return dict()
 
     def initialize(self, start_time, warmup_period, end_time=np.inf):
@@ -325,6 +327,8 @@ class TestCase(object):
             self.start_time = start_time
             # Initialize KPI Calculator
             self.cal.initialize()
+            # Set scenario end flag to false
+            self.scenario_end = False
             # Get full current state
             z = self._get_full_current_state()
 
@@ -738,3 +742,60 @@ class TestCase(object):
         z.update(self.u)
 
         return z
+
+    def post_results_to_dashboard(self, api_key):
+
+        import pytz
+        from datetime import datetime
+        import random
+        dash_server = 'https://aws-test.boptest.net:8081'
+        payload = {
+          "results": [
+            {
+              "uid": str(int(random.random()*10000000)),
+              "dateRun": str(datetime.now(tz=pytz.UTC)),
+              "boptestVersion": "0.2.0",
+              "isShared": True,
+              "controlStep": str(self.get_step()),
+              "account": {
+                "apiKey": api_key
+              },
+              "tags": [
+                "string1",
+                "string2",
+                "string3"
+              ],
+              "kpis": self.get_kpis(),
+              "forecastParameters": self.get_forecast_parameters(),
+              "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario())),
+              "buildingType": {
+                "uid": self.get_name()['name']
+              }
+            }
+          ]
+        }
+        dash_url = "%s/api/results" % dash_server
+        result = requests.post(dash_url, json=payload)
+
+        return result.status_code
+
+    def to_camel_case(self, snake_str):
+        components = snake_str.split('_')
+        # We capitalize the first letter of each component except the first one
+        # with the 'title' method and join them together.
+        return components[0] + ''.join(x.title() for x in components[1:])
+
+    def keys_to_camel_case(self, a_dict):
+        result = {}
+        for key, value in a_dict.items():
+            result[self.to_camel_case(key)] = value
+        return result
+
+    # weatherForecastUncertainty is required by the dashboard,
+    # however some testcases don't report it.
+    # This is a workaround
+    def add_forecast_uncertainty(self, scenario):
+        if not 'weatherForecastUncertainty' in scenario:
+            scenario['weatherForecastUncertainty'] = 'deterministic'
+
+        return scenario
