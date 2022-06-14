@@ -248,8 +248,9 @@ class TestCase(object):
             if written:
                 u_list = []
                 u_trajectory = self.start_time
+                alert_message = ''
                 for key in u.keys():
-                    if key != 'time' and u[key]:                        
+                    if key != 'time' and u[key] and key in self.input_names:                        
                         try:
                             value = float(u[key])
                         except:
@@ -259,7 +260,9 @@ class TestCase(object):
                             return status, message, None                            
                         # Check min/max if not activation input
                         if '_activate' not in key:
-                            checked_value = self._check_value_min_max(key, value)
+                            checked_value, message = self._check_value_min_max(key, value)
+                            if message is not None:
+                                alert_message = alert_message + message    
                         else:
                             checked_value = value
                         u_list.append(key)
@@ -287,7 +290,10 @@ class TestCase(object):
                 self.tic_time = time.time()
                 # Get full current state
                 payload = self._get_full_current_state()
-                message = "Advancing simulation successfully."
+                if alert_message == '':
+                    message = "Advancing simulation successfully."
+                else:
+                    message = alert_message               
                 logging.info(message)
                 return status, message, payload
 
@@ -356,14 +362,17 @@ class TestCase(object):
         except:
             status = 400
             message = "parameter 'warmup_period' must be a float but is {}.".format(type(warmup_period))
+            logging.error(message) 
             return status, message, payload
         if start_time < 0:
             status = 400
             message = "parameter 'start_time' cannot be negative."
+            logging.error(message)                         
             return status, message, payload
         if warmup_period < 0:
             status = 400
             message = "parameter 'warmup_period' cannot be negative."
+            logging.error(message)            
             return status, message, payload
         # Record initial testing time
         self.initial_time = start_time
@@ -499,13 +508,13 @@ class TestCase(object):
         status = 200
         message = "Querying the input list successfully."
         payload = None
-        if self.inputs_metadata is not None:
+        try:
             payload = self.inputs_metadata
-        else:
-            status = 400
-            message = "Failed to query the input list."
-            logging.error(message)
-        logging.info(message) 
+            logging.info(message)
+        except:
+            status = 500
+            message = "Failed to query the input list: {}.".format(traceback.format_exc()) 
+            logging.error(message)         
         
         return status, message, payload
 
@@ -532,13 +541,13 @@ class TestCase(object):
         status = 200
         message = "Querying the measurement list successfully."
         payload = None
-        if self.outputs_metadata is not None:
+        try:
             payload = self.outputs_metadata
-        else:
-            status = 400
-            message = "Failed to query the measurement list: {}"
-            logging.error(message)
-        logging.info(message)
+            logging.info(message)
+        except:
+            status = 500
+            message = "Failed to query the measurement list: {}.".format(traceback.format_exc()) 
+            logging.error(message)        
         
         return status, message, payload
 
@@ -849,6 +858,7 @@ class TestCase(object):
                     message = "Scenario parameter time_period is {} but " \
                               "should one of following: {}". \
                               format(scenario['time_period'], list(self.days_json.keys()))
+                    logging.error(message)                              
                     return status, message, payload
                 self.scenario['time_period'] = scenario['time_period']
                 warmup_period = 7*24*3600
@@ -1057,23 +1067,27 @@ class TestCase(object):
         ------
         checked_value : float
             Value of variable truncated by min and max.
-
+        message: str
+            Alert messages that input value is truncated to min/max
         '''
 
         # Get minimum and maximum for variable
         mini = self.inputs_metadata[var]['Minimum']
         maxi = self.inputs_metadata[var]['Maximum']
+        message = None
         # Check the value and truncate if necessary
         if value > maxi:
             checked_value = maxi
-            logging.warning('Value of {0} for {1} is above maximum of {2}.  Using {2}.'.format(value, var, maxi))
+            message = 'Value of {0} for {1} is above maximum of {2}.  Using {2}. '.format(value, var, maxi)
+            logging.warning(message)
         elif value < mini:
             checked_value = mini
-            logging.warning('Value of {0} for {1} is below minimum of {2}.  Using {2}.'.format(value, var, mini))            
+            message = 'Value of {0} for {1} is below minimum of {2}.  Using {2}. '.format(value, var, mini)
+            logging.warning(message)            
         else:
             checked_value = value
 
-        return checked_value
+        return checked_value, message
 
     def _get_area(self):
         '''Get the building floor area in m^2.
