@@ -1083,11 +1083,9 @@ class TestCase(object):
         if value > maxi:
             checked_value = maxi
             message = 'Value of {0} for {1} is above maximum of {2}.  Using {2}. '.format(value, var, maxi)
-            logging.warning(message)
         elif value < mini:
             checked_value = mini
-            message = 'Value of {0} for {1} is below minimum of {2}.  Using {2}. '.format(value, var, mini)
-            logging.warning(message)            
+            message = 'Value of {0} for {1} is below minimum of {2}.  Using {2}. '.format(value, var, mini)          
         else:
             checked_value = value
 
