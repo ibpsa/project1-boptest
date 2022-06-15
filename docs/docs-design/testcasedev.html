@@ -366,8 +366,9 @@ This minimum set is as follows:</p>
 time, a map needs to be created that defines the day number in the year
 around which the time period is based.  This map takes the form of a JSON saved
 as <code class="code docutils literal notranslate"><span class="pre">days.json</span></code> with structure:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">&lt;</span><span class="n">time_period_ID</span><span class="o">&gt;</span> <span class="p">:</span>    <span class="o">//</span> <span class="n">Unique</span> <span class="n">identifier</span> <span class="k">for</span> <span class="n">specifying</span> <span class="n">time</span> <span class="n">period</span>
-        <span class="o">&lt;</span><span class="n">day_number</span><span class="o">&gt;</span>    <span class="o">//</span> <span class="n">Integer</span> <span class="n">value</span> <span class="n">indicating</span> <span class="n">day</span> <span class="n">number</span> <span class="n">to</span> <span class="n">use</span> <span class="k">for</span> <span class="n">specifying</span> <span class="n">time</span> <span class="n">period</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="o">&lt;</span><span class="n">time_period_ID</span><span class="o">&gt;</span> <span class="p">:</span>    <span class="o">//</span> <span class="n">Unique</span> <span class="n">identifier</span> <span class="k">for</span> <span class="n">specifying</span> <span class="n">time</span> <span class="n">period</span>
+         <span class="o">&lt;</span><span class="n">day_number</span><span class="o">&gt;</span>    <span class="o">//</span> <span class="n">Integer</span> <span class="n">value</span> <span class="n">indicating</span> <span class="n">day</span> <span class="n">number</span> <span class="n">to</span> <span class="n">use</span> <span class="k">for</span> <span class="n">specifying</span> <span class="n">time</span> <span class="n">period</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -380,24 +381,20 @@ centered on the day defined by the day # in days.json.</p>
 <p>In order to assign particular configuration and default values
 for a test case upon loading in BOPTEST, a configuration JSON saved as
 <code class="code docutils literal notranslate"><span class="pre">config.json</span></code> will have the structure:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">::</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="s2">&quot;name&quot;</span>          <span class="p">:</span> <span class="o">&lt;</span><span class="nb">str</span><span class="o">&gt;</span><span class="p">,</span>                         <span class="o">//</span> <span class="n">Name</span> <span class="n">of</span> <span class="n">test</span> <span class="n">case</span>
+<span class="s2">&quot;area&quot;</span>          <span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>                       <span class="o">//</span> <span class="n">Floor</span> <span class="n">area</span> <span class="ow">in</span> <span class="n">m</span><span class="o">^</span><span class="mi">2</span>
+<span class="s2">&quot;start_time&quot;</span>    <span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>                       <span class="o">//</span> <span class="n">Default</span> <span class="n">start</span> <span class="n">time</span>
+<span class="s2">&quot;warmup_period&quot;</span> <span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>                       <span class="o">//</span> <span class="n">Default</span> <span class="n">warmup_period</span>
+<span class="s2">&quot;step&quot;</span>          <span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>                       <span class="o">//</span> <span class="n">Default</span> <span class="n">control</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">seconds</span>
+<span class="s2">&quot;horizon&quot;</span>       <span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>                       <span class="o">//</span> <span class="n">Default</span> <span class="n">forecast</span> <span class="n">horizon</span> <span class="ow">in</span> <span class="n">seconds</span>
+<span class="s2">&quot;interval&quot;</span>      <span class="p">:</span> <span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span><span class="p">,</span>                       <span class="o">//</span> <span class="n">Default</span> <span class="n">forecast</span> <span class="n">interval</span> <span class="ow">in</span> <span class="n">seconds</span>
+<span class="s2">&quot;scenario&quot;</span>      <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;electricity_price&quot;</span><span class="p">:</span><span class="o">&lt;</span><span class="nb">str</span><span class="o">&gt;</span><span class="p">,</span>    <span class="o">//</span> <span class="n">Default</span> <span class="n">electricity</span> <span class="n">price</span> <span class="n">scenario</span>
+                   <span class="s2">&quot;time_period&quot;</span><span class="p">:</span><span class="n">null</span><span class="p">},</span>          <span class="o">//</span> <span class="n">Default</span> <span class="n">time_period</span> <span class="n">scenario</span>
+<span class="s2">&quot;resource_file_exclusion&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="o">&lt;</span><span class="nb">str</span><span class="o">&gt;</span><span class="p">]</span>              <span class="o">//</span> <span class="n">Optional</span><span class="p">:</span> <span class="n">List</span> <span class="n">of</span> <span class="n">data</span> <span class="n">files</span> <span class="n">within</span> <span class="n">fmu</span> <span class="o">/</span><span class="n">resources</span> <span class="n">directory</span> <span class="n">to</span> <span class="n">exclude</span> <span class="kn">from</span> <span class="nn">loading</span> <span class="n">into</span> <span class="n">test</span> <span class="n">case</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="s2">&quot;filename.csv&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<blockquote>
-<div><p>{
-“name”          : &lt;str&gt;,                         // Name of test case
-“area”          : &lt;float&gt;,                       // Floor area in m^2
-“start_time”    : &lt;float&gt;,                       // Default start time
-“warmup_period” : &lt;float&gt;,                       // Default warmup_period
-“step”          : &lt;float&gt;,                       // Default control step in seconds
-“horizon”       : &lt;float&gt;,                       // Default forecast horizon in seconds
-“interval”      : &lt;float&gt;,                       // Default forecast interval in seconds
-“scenario”      : {“electricity_price”:&lt;str&gt;,    // Default electricity price scenario</p>
-<blockquote>
-<div><p>“time_period”:null}</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
 </section>
 <section id="data-generation-and-collection-module">
 <h2>Data Generation and Collection Module<a class="headerlink" href="#data-generation-and-collection-module" title="Permalink to this headline">¶</a></h2>
