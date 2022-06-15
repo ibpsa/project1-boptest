@@ -474,7 +474,7 @@ class TestCase(object):
             logging.error(message)
             return status, message, payload
         try:
-            self.step = step
+            self.step = float(step)
             logging.info(message)
         except:
             payload = None
@@ -848,8 +848,8 @@ class TestCase(object):
             if scenario['electricity_price']:
                 if scenario['electricity_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
                     status = 400
-                    message = "Scenario parameter electricy_price is {} " \
-                              "but should be constant', 'dynamic', or 'highly_dynamic.". \
+                    message = "Scenario parameter electricy_price is: {} " \
+                              "but should be 'constant', 'dynamic', or 'highly_dynamic'.". \
                               format(scenario['electricity_price'])
                     logging.error(message)
                     return status, message, payload
@@ -859,7 +859,7 @@ class TestCase(object):
             if scenario['time_period']:
                 if scenario['time_period'] not in self.days_json:
                     status = 400
-                    message = "Scenario parameter time_period is {} but " \
+                    message = "Scenario parameter time_period is: {} but " \
                               "should one of following: {}". \
                               format(scenario['time_period'], list(self.days_json.keys()))
                     logging.error(message)                              

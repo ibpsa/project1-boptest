@@ -62,7 +62,7 @@ parser_initialize.add_argument('warmup_period', type=float, required=True, help=
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
-    parser_advance.add_argument(key)
+    parser_advance.add_argument(key, type=float, help="{} should be a number".format(key))
 # ``forecast_parameters`` interface
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
