@@ -351,18 +351,18 @@ class TestCase(object):
         self.__initilize_data()
         self.elapsed_control_time_ratio = np.array([])
         # Check if the inputs are valid
-        try:
-            start_time = float(start_time)
-        except:
+        if isinstance(start_time, int):
+            start_time = start_time
+        else:
             status = 400
-            message = "parameter 'start_time' must be a float but is {}.".format(type(start_time))
+            message = "parameter 'start_time' must be a int but is {}.".format(type(start_time))
             logging.error(message)            
             return status, message, payload
-        try: 
-            warmup_period = float(warmup_period)        
-        except:
+        if isinstance(warmup_period, int):
+            warmup_period = warmup_period
+        else:
             status = 400
-            message = "parameter 'warmup_period' must be a float but is {}.".format(type(warmup_period))
+            message = "parameter 'warmup_period' must be a int but is {}.".format(type(warmup_period))
             logging.error(message) 
             return status, message, payload
         if start_time < 0:
@@ -466,9 +466,9 @@ class TestCase(object):
         status = 200
         message = "Control step set successfully."
         payload = None
-        try:
-            step = int(step)
-        except:
+        if isinstance(step, int):
+            step = step
+        else:
             payload = None
             status = 400
             message = "parameter 'step' must be a number but is {}".format(type(step))
@@ -591,18 +591,18 @@ class TestCase(object):
         '''
 
         status = 200
-        try:
-            start_time = float(start_time)                                    
-        except:
+        if isinstance(start_time, int):
+            start_time = start_time
+        else:
             status = 400
-            message = "parameter 'start_time' must be a float but is {}.".format(type(start_time))
+            message = "parameter 'start_time' must be a int but is {}.".format(type(start_time))
             logging.error(message)
             return status, message, None
-        try:
-            final_time = float(final_time)
-        except:            
+        if isinstance(final_time, int):
+            final_time = final_time
+        else:
             status = 400
-            message = "parameter 'final_time' must be a float but is {}.".format(type(final_time))
+            message = "parameter 'final_time' must be a int but is {}.".format(type(final_time))
             logging.error(message)
             return status, message, None
         message = "Queried results data successfully for point {0}".format(var)
@@ -719,16 +719,16 @@ class TestCase(object):
         status = 200
         message = "Forecast horizon and interval were set successfully."
         payload = dict()
-        try:
-            self.horizon = float(horizon)
-        except:
+        if isinstance(horizon, int):
+            self.horizon = horizon
+        else:
             status = 400
             message = "parameter 'horizon' must be a number but is {}.".format(type(horizon))
             logging.error(message)
             return status, message, payload
-        try:            
-            self.interval = float(interval)
-        except:
+        if isinstance(interval, int):
+            self.interval = interval
+        else:
             payload = None
             status = 400
             message = "parameter 'interval' must be a number but is {}.".format(type(interval))
