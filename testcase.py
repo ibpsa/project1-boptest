@@ -60,7 +60,7 @@ class TestCase(object):
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Set default communication step
-        self.set_step(self.config_json['step'])
+        self.set_step(int(self.config_json['step']))
         # Set default forecast parameters
         self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
         # Initialize simulation data arrays
@@ -235,6 +235,7 @@ class TestCase(object):
 
         # Set final time
         self.final_time = self.start_time + self.step
+        alert_message = ''
         # Set control inputs if they exist and are written
         # Check if possible to overwrite
         if u.keys():
@@ -245,8 +246,7 @@ class TestCase(object):
                 if u[key]:
                     written = True
                     break
-            # If there are, create input object
-            alert_message = ''
+            # If there are, create input object       
             if written:
                 u_list = []
                 u_trajectory = self.start_time                
@@ -351,18 +351,14 @@ class TestCase(object):
         self.__initilize_data()
         self.elapsed_control_time_ratio = np.array([])
         # Check if the inputs are valid
-        if isinstance(start_time, int):
-            start_time = start_time
-        else:
+        if not isinstance(start_time, float):
             status = 400
-            message = "parameter 'start_time' must be a int but is {}.".format(type(start_time))
+            message = "parameter 'start_time' when initializing the test simulation must be a number but is {}.".format(type(start_time))
             logging.error(message)            
             return status, message, payload
-        if isinstance(warmup_period, int):
-            warmup_period = warmup_period
-        else:
+        if not isinstance(warmup_period, float):
             status = 400
-            message = "parameter 'warmup_period' must be a int but is {}.".format(type(warmup_period))
+            message = "parameter 'warmup_period' when initializing the test simulation must be a number but is {}.".format(type(warmup_period))
             logging.error(message) 
             return status, message, payload
         if start_time < 0:
@@ -466,12 +462,10 @@ class TestCase(object):
         status = 200
         message = "Control step set successfully."
         payload = None
-        if isinstance(step, int):
-            step = step
-        else:
+        if not isinstance(step, int):
             payload = None
             status = 400
-            message = "parameter 'step' must be a number but is {}".format(type(step))
+            message = "parameter 'step' must be an integral number but is {}".format(type(step))
             logging.error(message)
             return status, message, payload
         if step < 0:
@@ -591,18 +585,14 @@ class TestCase(object):
         '''
 
         status = 200
-        if isinstance(start_time, int):
-            start_time = start_time
-        else:
+        if not isinstance(start_time, float):
             status = 400
-            message = "parameter 'start_time' must be a int but is {}.".format(type(start_time))
+            message = "parameter 'start_time' when getting the results must be a number but is {}.".format(type(start_time))
             logging.error(message)
             return status, message, None
-        if isinstance(final_time, int):
-            final_time = final_time
-        else:
+        if not isinstance(final_time, float):
             status = 400
-            message = "parameter 'final_time' must be a int but is {}.".format(type(final_time))
+            message = "parameter 'final_time' when getting the results must be a number but is {}.".format(type(final_time))
             logging.error(message)
             return status, message, None
         message = "Queried results data successfully for point {0}".format(var)
@@ -719,14 +709,14 @@ class TestCase(object):
         status = 200
         message = "Forecast horizon and interval were set successfully."
         payload = dict()
-        if isinstance(horizon, int):
+        if isinstance(horizon, float):
             self.horizon = horizon
         else:
             status = 400
             message = "parameter 'horizon' must be a number but is {}.".format(type(horizon))
             logging.error(message)
             return status, message, payload
-        if isinstance(interval, int):
+        if isinstance(interval, float):
             self.interval = interval
         else:
             payload = None
@@ -875,10 +865,10 @@ class TestCase(object):
                     logging.error(message)                              
                     return status, message, payload
                 self.scenario['time_period'] = scenario['time_period']
-                warmup_period = 7*24*3600
+                warmup_period = 7*24*3600.
                 key = self.scenario['time_period']
-                start_time = self.days_json[key]*24*3600-7*24*3600
-                end_time = start_time + 14*24*3600
+                start_time = self.days_json[key]*24*3600.-7*24*3600.
+                end_time = start_time + 14*24*3600.
         except:
             status = 400
             message = "Invalid values for the scenario parameters: {}".format(traceback.format_exc())

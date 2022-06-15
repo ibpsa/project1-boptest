@@ -57,8 +57,8 @@ parser_step.add_argument('step', type=int, required=True, help=error_number_inpu
 
 # ``initialize`` interface
 parser_initialize = reqparse.RequestParser()
-parser_initialize.add_argument('start_time', type=int, required=True, help=error_number_input.format('start time'))
-parser_initialize.add_argument('warmup_period', type=int, required=True, help=error_number_input.format('warmup period'))
+parser_initialize.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
+parser_initialize.add_argument('warmup_period', type=float, required=True, help=error_number_input.format('warmup period'))
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
@@ -67,7 +67,7 @@ for key in case.u.keys():
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
-    parser_forecast_parameters.add_argument(arg, type=int, required=True, help=error_number_input.format(arg))
+    parser_forecast_parameters.add_argument(arg, type=float, required=True, help=error_number_input.format(arg))
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
 parser_scenario.add_argument('electricity_price', type=str, help="invalid price")
@@ -75,8 +75,8 @@ parser_scenario.add_argument('time_period', type=str, help="invalid time period"
 # ``results`` interface
 results_var = reqparse.RequestParser()
 results_var.add_argument('point_name', type=str, required=True, help="point name cannot be blank")
-results_var.add_argument('start_time', type=int, required=True, help=error_number_input.format('start time'))
-results_var.add_argument('final_time', type=int, required=True, help=error_number_input.format('final time'))
+results_var.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
+results_var.add_argument('final_time', type=float, required=True, help=error_number_input.format('final time'))
 # -----------------------
 
 
