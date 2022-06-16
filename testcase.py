@@ -474,7 +474,7 @@ class TestCase(object):
             logging.error(message)
             return status, message, payload
         try:
-            self.step = float(step)
+            self.step = step
             logging.info(message)
         except:
             payload = None

@@ -298,7 +298,7 @@ class ComputationalTimeRatio(unittest.TestCase):
         # Run test
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         step = requests.get('{0}/step'.format(self.url)).json()
-        for i in range(5):
+        for i in range(10):
             requests.post('{0}/advance'.format(self.url), data={})
             time.sleep(2)
         # Check kpis

@@ -735,7 +735,7 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
 
-    def test_set_invalid_step(self):
+    def test_invalid_step(self):
         '''Test set step with invalid (non-numeric) value returns a 400 error.
 
         '''
@@ -747,7 +747,7 @@ class partialTestAPI(partialChecks):
         payload = requests.put('{0}/step'.format(self.url), data={'step': step})
         self.compare_error_code(payload, "Invalid step did not return 400 message.")
 
-    def test_set_invalid_forecast_parameters(self):
+    def test_invalid_forecast_parameters(self):
         '''Check that the setting forecast parameter with invalid start or horizon returns 400 error.
 
         '''
@@ -766,7 +766,7 @@ class partialTestAPI(partialChecks):
                                data=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid forecast_parameters request did not return 400 message.")
 
-    def test_set_invalid_scenario(self):
+    def test_invalid_scenario(self):
         '''Test setting sceanrio with invalid identifier.
 
         '''
