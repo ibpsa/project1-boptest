@@ -60,7 +60,7 @@ class TestCase(object):
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Set default communication step
-        self.set_step(int(self.config_json['step']))
+        self.set_step(self.config_json['step'])
         # Set default forecast parameters
         self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
         # Initialize simulation data arrays
@@ -462,7 +462,7 @@ class TestCase(object):
         status = 200
         message = "Control step set successfully."
         payload = None
-        if not isinstance(step, int):
+        if not isinstance(step, (int, float)):
             payload = None
             status = 400
             message = "parameter 'step' must be an integral number but is {}".format(type(step))

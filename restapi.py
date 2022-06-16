@@ -53,7 +53,7 @@ except Exception as ex:
 # -----------------------
 # ``step`` interface
 parser_step = reqparse.RequestParser()
-parser_step.add_argument('step', type=int, required=True, help=error_number_input.format('step'))
+parser_step.add_argument('step', type=float, required=True, help=error_number_input.format('step'))
 
 # ``initialize`` interface
 parser_initialize = reqparse.RequestParser()
@@ -62,7 +62,7 @@ parser_initialize.add_argument('warmup_period', type=float, required=True, help=
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
-    parser_advance.add_argument(key, type=float, help="{} should be a number".format(key))
+    parser_advance.add_argument(key)
 # ``forecast_parameters`` interface
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
