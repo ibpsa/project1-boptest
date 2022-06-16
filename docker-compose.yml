@@ -21,7 +21,7 @@ services:
       context: .
       args:
         - NODE_ENV
-    image: ${WEB_REGISTRY_URI}:latest
+    image: boptest-web:latest
     ports:
       - "80:80"
       - "29043:29043"
@@ -80,7 +80,7 @@ services:
     build:
       dockerfile: worker/Dockerfile
       context: .
-    image: ${WORKER_REGISTRY_URI}:latest
+    image: boptest-worker:latest
     environment:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
