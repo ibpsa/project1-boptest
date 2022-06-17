@@ -339,7 +339,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.name = 'testcase1'
         self.url = 'http://127.0.0.1:5000'
-        self.step_ref = 60.0
+        self.step_ref = 60
         self.test_time_period = 'test_day'
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
 
