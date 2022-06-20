@@ -263,7 +263,7 @@ class TestCase(object):
                         if '_activate' not in key:
                             checked_value, message = self._check_value_min_max(key, value)
                             if message is not None:
-                                alert_message = alert_message + message    
+                                alert_message = alert_message +'; '+ message    
                         else:
                             checked_value = value
                         u_list.append(key)
@@ -353,22 +353,22 @@ class TestCase(object):
         # Check if the inputs are valid
         if not isinstance(start_time, float):
             status = 400
-            message = "parameter 'start_time' when initializing the test simulation must be a number but is {}.".format(type(start_time))
+            message = "parameter 'start_time' for initializing the test simulation must be a number but is {}.".format(type(start_time))
             logging.error(message)            
             return status, message, payload
         if not isinstance(warmup_period, float):
             status = 400
-            message = "parameter 'warmup_period' when initializing the test simulation must be a number but is {}.".format(type(warmup_period))
+            message = "parameter 'warmup_period' for initializing the test simulation must be a number but is {}.".format(type(warmup_period))
             logging.error(message) 
             return status, message, payload
         if start_time < 0:
             status = 400
-            message = "parameter 'start_time' cannot be negative."
+            message = "parameter 'start_time' for initializing the test simulation cannot be negative."
             logging.error(message)                         
             return status, message, payload
         if warmup_period < 0:
             status = 400
-            message = "parameter 'warmup_period' cannot be negative."
+            message = "parameter 'warmup_period' for initializing the test simulation cannot be negative."
             logging.error(message)            
             return status, message, payload
         # Record initial testing time
@@ -399,7 +399,7 @@ class TestCase(object):
             payload = None
             status = 500
             message = "Failed to initialize test simulation: {}".format(res)
-            logging.warning(message)
+            logging.error(message)
 
             return status, message, payload
 
@@ -432,7 +432,7 @@ class TestCase(object):
             logging.info(message)            
         except:
             status = 500
-            message = "Query the simulation step failed."
+            message = "Failed to query the simulation step: {}.".format(traceback.format_exc())
             logging.error(message)
                
         return status, message, payload
@@ -470,7 +470,7 @@ class TestCase(object):
             return status, message, payload
         if step < 0:
             status = 400
-            message = "Invalid value for the control step"
+            message = "Negative value for the control step is not supported"
             logging.error(message)
             return status, message, payload
         try:
@@ -587,15 +587,15 @@ class TestCase(object):
         status = 200
         if not isinstance(start_time, float):
             status = 400
-            message = "parameter 'start_time' when getting the results must be a number but is {}.".format(type(start_time))
+            message = "parameter 'start_time' for getting the results must be a number but is {}.".format(type(start_time))
             logging.error(message)
             return status, message, None
         if not isinstance(final_time, float):
             status = 400
-            message = "parameter 'final_time' when getting the results must be a number but is {}.".format(type(final_time))
+            message = "parameter 'final_time' for getting the results must be a number but is {}.".format(type(final_time))
             logging.error(message)
             return status, message, None
-        message = "Queried results data successfully for point {0}".format(var)
+        message = "Queried results data successfully for point {}".format(var)
         payload = []
         try:
             # Get correct point
@@ -713,7 +713,7 @@ class TestCase(object):
             self.horizon = horizon
         else:
             status = 400
-            message = "parameter 'horizon' must be a number but is {}.".format(type(horizon))
+            message = "parameter 'horizon' for setting the simulation scenario must be a number but is {}.".format(type(horizon))
             logging.error(message)
             return status, message, payload
         if isinstance(interval, float):
@@ -721,7 +721,7 @@ class TestCase(object):
         else:
             payload = None
             status = 400
-            message = "parameter 'interval' must be a number but is {}.".format(type(interval))
+            message = "parameter 'interval' for setting the simulation scenario must be a number but is {}.".format(type(interval))
             logging.error(message)
             return status, message, payload
         try:
@@ -764,7 +764,7 @@ class TestCase(object):
             payload['interval'] = self.interval
         else:
             status = 500
-            message = "Failed to query the forecast parameters."
+            message = "Failed to query the forecast parameters: {}".format(traceback.format_exc())
             logging.error(message)
         logging.info(message)
 

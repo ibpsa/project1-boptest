@@ -70,8 +70,8 @@ for arg in forecast_parameters:
     parser_forecast_parameters.add_argument(arg, type=float, required=True, help=error_number_input.format(arg))
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
-parser_scenario.add_argument('electricity_price', type=str, help="invalid price")
-parser_scenario.add_argument('time_period', type=str, help="invalid time period")
+parser_scenario.add_argument('electricity_price', type=str, help="electricty price should be a string")
+parser_scenario.add_argument('time_period', type=str, help="time period type should be a string")
 # ``results`` interface
 results_var = reqparse.RequestParser()
 results_var.add_argument('point_name', type=str, required=True, help="point name cannot be blank")
