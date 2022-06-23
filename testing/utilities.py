@@ -353,9 +353,9 @@ class partialChecks(object):
         ----------
         points: list of str
             List of points to retrieve from boptest api.
-        start_time: float
+        start_time: int
             Starting time of data to get in seconds.
-        final_time: float
+        final_time: int
             Ending time of data to get in seconds.
         url: str
             URL pointing to deployed boptest test case.
@@ -499,8 +499,8 @@ class partialTestAPI(partialChecks):
         # Get current step
         step = requests.get('{0}/step'.format(self.url)).json()
         # Initialize
-        start_time = 0.5*24*3600
-        y = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0.5*24*3600}).json()
+        start_time = int(0.5*24*3600)
+        y = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':int(0.5*24*3600)}).json()
         # Check that initialize returns the right initial values and results
         df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
         df.index.name = 'keys'
@@ -574,7 +574,7 @@ class partialTestAPI(partialChecks):
             u = {
                 'oveTSetSup_activate': 0,
                 'oveTSetSup_u': 273.15+60,
-                 'ovePum_activate': 0,
+                'ovePum_activate': 0,
                 'ovePum_u': 1
             }
         elif self.name == 'bestest_hydronic_heat_pump':
@@ -788,7 +788,7 @@ class partialTestAPI(partialChecks):
         # Initialize
         start_time = "0.5 * 24 * 3600"
         y = requests.put('{0}/initialize'.format(self.url),
-                         data={'start_time': start_time, 'warmup_period': 0.5 * 24 * 3600})
+                         data={'start_time': start_time, 'warmup_period': int(0.5 * 24 * 3600)})
         self.compare_error_code(y,  "Invalid initialize request did not return 400 message.")
 
     def test_invalid_advance(self):

@@ -62,7 +62,7 @@ class TestCase(object):
         # Set default communication step
         self.set_step(int(self.config_json['step']))
         # Set default forecast parameters
-        self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
+        self.set_forecast_parameters(int(self.config_json['horizon']), int(self.config_json['interval']))
         # Initialize simulation data arrays
         self.__initilize_data()
         # Set default fmu simulation options
@@ -73,7 +73,7 @@ class TestCase(object):
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Initialize test case
-        self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
+        self.initialize(int(self.config_json['start_time']), int(self.config_json['warmup_period']))
         # Set default scenario
         self.set_scenario(self.config_json['scenario'])
 
@@ -207,7 +207,7 @@ class TestCase(object):
         ----------
         u : dict
             Defines the control input data to be used for the step.
-            {<input_name>_activate : bool or int,
+            {<input_name>_activate : bool,
              <input_name>_u        : float}
 
         Returns
@@ -251,20 +251,33 @@ class TestCase(object):
                 u_list = []
                 u_trajectory = self.start_time                
                 for key in u.keys():
-                    if key != 'time' and u[key] and key in self.input_names:                        
-                        try:
-                            value = float(u[key])
-                        except:
-                            status = 400
-                            message = "Invalid value for {} - value must be a float but is {}".format(key, type(u[key]))
-                            logging.error(message)
-                            return status, message, None                            
-                        # Check min/max if not activation input
+                    if key not in self.input_names and key != 'time':
+                        status = 400
+                        message = "Unexpected input variable: {}".format(key)
+                        logging.error(message)
+                        return status, message, None                        
+                    if key != 'time' and u[key]:                                                 
                         if '_activate' not in key:
+                            try:
+                                value = float(u[key])
+                            except:
+                                status = 400
+                                message = "Invalid value for {} - value must be a float but is {}".format(key, type(u[key]))
+                                logging.error(message)
+                                return status, message, None  
+                            # Check min/max if not activation input                                
                             checked_value, message = self._check_value_min_max(key, value)
                             if message is not None:
+                                logging.warning(message)
                                 alert_message = alert_message +'; '+ message    
                         else:
+                            try:
+                                value = float(u[key])
+                            except:                            
+                                status = 400
+                                message = "Invalid value for {} - value must be a float but is {}".format(key, type(u[key]))
+                                logging.error(message)            
+                                return status, message, None
                             checked_value = value
                         u_list.append(key)
                         u_trajectory = np.vstack((u_trajectory, checked_value))
@@ -301,9 +314,9 @@ class TestCase(object):
             else:
                 # Errors in the simulation
                 status = 500
-                message = "Failed to advance simulation: {}"
+                message = "Failed to advance simulation: {}".format(res)
                 payload = res
-                logging.error(message.format(res))
+                logging.error(message)
                 return status, message, payload
         else:
             # Simulation at end time
@@ -318,11 +331,11 @@ class TestCase(object):
 
         Parameters
         ----------
-        start_time: float
+        start_time: int
             Start time of simulation to initialize to in seconds.
-        warmup_period: float
+        warmup_period: int
             Length of time before start_time to simulate for warmup in seconds.
-        end_time: float, optional
+        end_time: int, optional
             Specifies a finite end time to allow the simulation to continue
             Default value is infinite.
 
@@ -351,24 +364,24 @@ class TestCase(object):
         self.__initilize_data()
         self.elapsed_control_time_ratio = np.array([])
         # Check if the inputs are valid
-        if not isinstance(start_time, float):
+        if not isinstance(start_time, int):
             status = 400
-            message = "parameter 'start_time' for initializing the test simulation must be a number but is {}.".format(type(start_time))
+            message = "Parameter 'start_time' for initializing the test simulation must be an integer but is {}.".format(type(start_time))
             logging.error(message)            
             return status, message, payload
-        if not isinstance(warmup_period, float):
+        if not isinstance(warmup_period, int):
             status = 400
-            message = "parameter 'warmup_period' for initializing the test simulation must be a number but is {}.".format(type(warmup_period))
+            message = "Parameter 'warmup_period' for initializing the test simulation must be an integer but is {}.".format(type(warmup_period))
             logging.error(message) 
             return status, message, payload
         if start_time < 0:
             status = 400
-            message = "parameter 'start_time' for initializing the test simulation cannot be negative."
+            message = "Parameter 'start_time' for initializing the test simulation cannot be negative."
             logging.error(message)                         
             return status, message, payload
         if warmup_period < 0:
             status = 400
-            message = "parameter 'warmup_period' for initializing the test simulation cannot be negative."
+            message = "Parameter 'warmup_period' for initializing the test simulation cannot be negative."
             logging.error(message)            
             return status, message, payload
         # Record initial testing time
@@ -465,7 +478,7 @@ class TestCase(object):
         if not isinstance(step, int):
             payload = None
             status = 400
-            message = "parameter 'step' must be an integral number but is {}".format(type(step))
+            message = "Parameter 'step' must be an integer but is {}".format(type(step))
             logging.error(message)
             return status, message, payload
         if step < 0:
@@ -587,12 +600,12 @@ class TestCase(object):
         status = 200
         if not isinstance(start_time, float):
             status = 400
-            message = "parameter 'start_time' for getting the results must be a number but is {}.".format(type(start_time))
+            message = "Parameter 'start_time' for getting the results must be a float but is {}.".format(type(start_time))
             logging.error(message)
             return status, message, None
         if not isinstance(final_time, float):
             status = 400
-            message = "parameter 'final_time' for getting the results must be a number but is {}.".format(type(final_time))
+            message = "Parameter 'final_time' for getting the results must be a float but is {}.".format(type(final_time))
             logging.error(message)
             return status, message, None
         message = "Queried results data successfully for point {}".format(var)
@@ -685,9 +698,9 @@ class TestCase(object):
 
         Parameters
         ----------
-        horizon: float
+        horizon: int
             Forecast horizon in seconds.
-        interval: float
+        interval: int
             Forecast interval in seconds.
 
         Returns
@@ -709,19 +722,19 @@ class TestCase(object):
         status = 200
         message = "Forecast horizon and interval were set successfully."
         payload = dict()
-        if isinstance(horizon, float):
+        if isinstance(horizon, int):
             self.horizon = horizon
         else:
             status = 400
-            message = "parameter 'horizon' for setting the simulation scenario must be a number but is {}.".format(type(horizon))
+            message = "Parameter 'horizon' for setting the simulation scenario must be an integer but is {}.".format(type(horizon))
             logging.error(message)
             return status, message, payload
-        if isinstance(interval, float):
+        if isinstance(interval, int):
             self.interval = interval
         else:
             payload = None
             status = 400
-            message = "parameter 'interval' for setting the simulation scenario must be a number but is {}.".format(type(interval))
+            message = "Parameter 'interval' for setting the simulation scenario must be an integer but is {}.".format(type(interval))
             logging.error(message)
             return status, message, payload
         try:
@@ -876,7 +889,7 @@ class TestCase(object):
             return status, message, payload
         try:
             if scenario['time_period']:
-                initialize_payload = self.initialize(start_time, warmup_period, end_time=end_time)
+                initialize_payload = self.initialize(int(start_time), int(warmup_period), end_time=end_time)
                 if initialize_payload[0] != 200:
                     status = 500
                     message = initialize_payload[1]
@@ -1082,10 +1095,10 @@ class TestCase(object):
         # Check the value and truncate if necessary
         if value > maxi:
             checked_value = maxi
-            message = 'Value of {0} for {1} is above maximum of {2}.  Using {2}. '.format(value, var, maxi)
+            message = 'WARNING: value of {0} for {1} is above maximum of {2}.  Using {2}. '.format(value, var, maxi)
         elif value < mini:
             checked_value = mini
-            message = 'Value of {0} for {1} is below minimum of {2}.  Using {2}. '.format(value, var, mini)          
+            message = 'WARNING: value of {0} for {1} is below minimum of {2}.  Using {2}. '.format(value, var, mini)          
         else:
             checked_value = value
 
