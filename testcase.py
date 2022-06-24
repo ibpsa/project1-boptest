@@ -257,10 +257,10 @@ class TestCase(object):
                         logging.error(message)
                         return status, message, None                        
                     if key != 'time' and u[key]:                                                 
-                        if '_activate' not in key:
-                            try:
-                                value = float(u[key])
-                            except:
+                        if '_u' in key:
+                            if isinstance(u[key], float):
+                                value = u[key]
+                            else:
                                 status = 400
                                 message = "Invalid value for {} - value must be a float but is {}".format(key, type(u[key]))
                                 logging.error(message)
@@ -271,9 +271,9 @@ class TestCase(object):
                                 logging.warning(message)
                                 alert_message = alert_message +'; '+ message    
                         else:
-                            try:
-                                value = float(u[key])
-                            except:                            
+                            if isinstance(u[key], float):
+                                value = u[key]
+                            else:                            
                                 status = 400
                                 message = "Invalid value for {} - value must be a float but is {}".format(key, type(u[key]))
                                 logging.error(message)            
@@ -364,14 +364,14 @@ class TestCase(object):
         self.__initilize_data()
         self.elapsed_control_time_ratio = np.array([])
         # Check if the inputs are valid
-        if not isinstance(start_time, int):
+        if not isinstance(start_time, (int,float)):
             status = 400
-            message = "Parameter 'start_time' for initializing the test simulation must be an integer but is {}.".format(type(start_time))
+            message = "Parameter 'start_time' for initializing the test simulation expects an integer but is {}.".format(type(start_time))
             logging.error(message)            
             return status, message, payload
-        if not isinstance(warmup_period, int):
+        if not isinstance(warmup_period, (int,float)):
             status = 400
-            message = "Parameter 'warmup_period' for initializing the test simulation must be an integer but is {}.".format(type(warmup_period))
+            message = "Parameter 'warmup_period' for initializing the test simulation expects an integer but is {}.".format(type(warmup_period))
             logging.error(message) 
             return status, message, payload
         if start_time < 0:
@@ -384,6 +384,16 @@ class TestCase(object):
             message = "Parameter 'warmup_period' for initializing the test simulation cannot be negative."
             logging.error(message)            
             return status, message, payload
+        # Check if the inputs are float
+        alert_message = ''
+        if isinstance(start_time, float):
+            message = "WARNING: Parameter 'start_time' for initializing the test simulation expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '         
+        if isinstance(warmup_period, float):
+            message = "WARNING: Parameter 'warmup_period' for initializing the test simulation expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '
         # Record initial testing time
         self.initial_time = start_time
         # Record end testing time
@@ -403,7 +413,7 @@ class TestCase(object):
             self.cal.initialize()
             # Get full current state
             payload = self._get_full_current_state()
-            message = "Test simulation initialized successfully."
+            message = alert_message + "Test simulation initialized successfully."
             logging.info(message)
 
             return status, message, payload
@@ -475,10 +485,10 @@ class TestCase(object):
         status = 200
         message = "Control step set successfully."
         payload = None
-        if not isinstance(step, int):
+        if not isinstance(step, (int,float)):
             payload = None
             status = 400
-            message = "Parameter 'step' must be an integer but is {}".format(type(step))
+            message = "Parameter 'step' expects an integer but is {}".format(type(step))
             logging.error(message)
             return status, message, payload
         if step < 0:
@@ -486,9 +496,14 @@ class TestCase(object):
             message = "Negative value for the control step is not supported"
             logging.error(message)
             return status, message, payload
-        try:
+        alert_message = ''
+        if isinstance(step, float):
+            message_step = "WARNING: Parameter 'step' expects an integer but is given a float, which is accepted"
+            logging.warning(message_step)
+            alert_message =  alert_message + message_step +'; '             
+        try:      
             self.step = step
-            logging.info(message)
+            logging.info(alert_message+message)
         except:
             payload = None
             status = 500
@@ -598,17 +613,26 @@ class TestCase(object):
         '''
 
         status = 200
-        if not isinstance(start_time, float):
+        if not isinstance(start_time, (int,float)):
             status = 400
-            message = "Parameter 'start_time' for getting the results must be a float but is {}.".format(type(start_time))
+            message = "Parameter 'start_time' for getting the results expects an integer but is {}.".format(type(start_time))
             logging.error(message)
             return status, message, None
-        if not isinstance(final_time, float):
+        if not isinstance(final_time,(int,float)):
             status = 400
-            message = "Parameter 'final_time' for getting the results must be a float but is {}.".format(type(final_time))
+            message = "Parameter 'final_time' for getting the results expects an integer but is {}.".format(type(final_time))
             logging.error(message)
             return status, message, None
-        message = "Queried results data successfully for point {}".format(var)
+        alert_message = ''
+        if isinstance(start_time, float):
+            message = "WARNING: Parameter 'start_time' for getting the results expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '         
+        if isinstance(final_time, float):
+            message = "WARNING: Parameter 'final_time' for getting the results expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '            
+        message = alert_message + "Queried results data successfully for point {}".format(var)
         payload = []
         try:
             # Get correct point
@@ -722,21 +746,30 @@ class TestCase(object):
         status = 200
         message = "Forecast horizon and interval were set successfully."
         payload = dict()
-        if isinstance(horizon, int):
+        if isinstance(horizon, (int,float)):
             self.horizon = horizon
         else:
             status = 400
-            message = "Parameter 'horizon' for setting the simulation scenario must be an integer but is {}.".format(type(horizon))
+            message = "Parameter 'horizon' for setting the simulation scenario expects an integer but is {}.".format(type(horizon))
             logging.error(message)
             return status, message, payload
-        if isinstance(interval, int):
+        if isinstance(interval, (int,float)):
             self.interval = interval
         else:
             payload = None
             status = 400
-            message = "Parameter 'interval' for setting the simulation scenario must be an integer but is {}.".format(type(interval))
+            message = "Parameter 'interval' for setting the simulation scenario expects an integer but is {}.".format(type(interval))
             logging.error(message)
             return status, message, payload
+        alert_message = ''
+        if isinstance(horizon, float):
+            message = "WARNING: Parameter 'horizon' for setting the simulation scenario expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '         
+        if isinstance(interval, float):
+            message = "WARNING: Parameter 'interval' for setting the simulation scenario expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '             
         try:
             payload['horizon'] = self.horizon
             payload['interval'] = self.interval
