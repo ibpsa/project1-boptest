@@ -140,7 +140,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         res = check_response(requests.put('{0}/scenario'.format(url), data=scenario))['time_period']
         print(res)
         # Record test simulation start time
-        start_time = res['time']
+        start_time = int(res['time'])
         # Set final time and total time steps to be very large since scenario defines length
         final_time = np.inf
         total_time_steps = int((365 * 24 * 3600)/step)

@@ -60,9 +60,9 @@ class TestCase(object):
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Set default communication step
-        self.set_step(self.config_json['step'])
+        self.set_step(int(self.config_json['step']))
         # Set default forecast parameters
-        self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
+        self.set_forecast_parameters(int(self.config_json['horizon']), int(self.config_json['interval']))
         # Initialize simulation data arrays
         self.__initilize_data()
         # Set default fmu simulation options
@@ -73,7 +73,7 @@ class TestCase(object):
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Initialize test case
-        self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
+        self.initialize(int(self.config_json['start_time']), int(self.config_json['warmup_period']))
         # Set default scenario
         self.set_scenario(self.config_json['scenario'])
 
@@ -98,7 +98,7 @@ class TestCase(object):
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         # Outputs data
-        self.y = {'time':np.array([])}
+        self.y = {'time': np.array([])}
         for key in self.output_names:
             # Do not store outputs that are current values of control inputs
             flag = False
@@ -207,7 +207,7 @@ class TestCase(object):
         ----------
         u : dict
             Defines the control input data to be used for the step.
-            {<input_name>_activate : bool or int,
+            {<input_name>_activate : bool,
              <input_name>_u        : float}
 
         Returns
@@ -235,6 +235,7 @@ class TestCase(object):
 
         # Set final time
         self.final_time = self.start_time + self.step
+        alert_message = ''
         # Set control inputs if they exist and are written
         # Check if possible to overwrite
         if u.keys():
@@ -245,23 +246,38 @@ class TestCase(object):
                 if u[key]:
                     written = True
                     break
-            # If there are, create input object
+            # If there are, create input object       
             if written:
                 u_list = []
-                u_trajectory = self.start_time
+                u_trajectory = self.start_time                
                 for key in u.keys():
-                    if key != 'time' and u[key]:
-                        try:
-                            value = float(u[key])
-                        except:
-                            status = 400
-                            message = "Invalid value for {}.".format(key)
-                            logging.warning(message)
-                            return status, message, None
-                        # Check min/max if not activation input
-                        if '_activate' not in key:
-                            checked_value = self._check_value_min_max(key, value)
+                    if key not in self.input_names and key != 'time':
+                        status = 400
+                        message = "Unexpected input variable: {}".format(key)
+                        logging.error(message)
+                        return status, message, None                        
+                    if key != 'time' and u[key]:                                                 
+                        if '_u' in key:
+                            if isinstance(u[key], float):
+                                value = u[key]
+                            else:
+                                status = 400
+                                message = "Invalid value for {} - value must be a float but is {}".format(key, type(u[key]))
+                                logging.error(message)
+                                return status, message, None  
+                            # Check min/max if not activation input                                
+                            checked_value, message = self._check_value_min_max(key, value)
+                            if message is not None:
+                                logging.warning(message)
+                                alert_message = alert_message +'; '+ message    
                         else:
+                            if isinstance(u[key], float):
+                                value = u[key]
+                            else:                            
+                                status = 400
+                                message = "Invalid value for {} - value must be a float but is {}".format(key, type(u[key]))
+                                logging.error(message)            
+                                return status, message, None
                             checked_value = value
                         u_list.append(key)
                         u_trajectory = np.vstack((u_trajectory, checked_value))
@@ -288,16 +304,19 @@ class TestCase(object):
                 self.tic_time = time.time()
                 # Get full current state
                 payload = self._get_full_current_state()
-                message = "Advanced simulation successfully."
+                if alert_message == '':
+                    message = "Advancing simulation successfully."
+                else:
+                    message = alert_message               
                 logging.info(message)
                 return status, message, payload
 
             else:
-                # Error in
+                # Errors in the simulation
                 status = 500
-                message = "Failed to advance simulation: {}"
+                message = "Failed to advance simulation: {}".format(res)
                 payload = res
-                logging.error(message.format(res))
+                logging.error(message)
                 return status, message, payload
         else:
             # Simulation at end time
@@ -338,18 +357,43 @@ class TestCase(object):
         '''
 
         status = 200
+        payload = None
         # Reset fmu
         self.fmu.reset()
         # Reset simulation data storage
         self.__initilize_data()
-        self.elapsed_control_time_ratio =np.array([])
+        self.elapsed_control_time_ratio = np.array([])
         # Check if the inputs are valid
-        try:
-            start_time = float(start_time)
-            warmup_period = float(warmup_period)
-        except:
+        if not isinstance(start_time, (int,float)):
             status = 400
-            message = "Invalid parameter values for initialization."
+            message = "Parameter 'start_time' for initializing the test simulation expects an integer but is {}.".format(type(start_time))
+            logging.error(message)            
+            return status, message, payload
+        if not isinstance(warmup_period, (int,float)):
+            status = 400
+            message = "Parameter 'warmup_period' for initializing the test simulation expects an integer but is {}.".format(type(warmup_period))
+            logging.error(message) 
+            return status, message, payload
+        if start_time < 0:
+            status = 400
+            message = "Parameter 'start_time' for initializing the test simulation cannot be negative."
+            logging.error(message)                         
+            return status, message, payload
+        if warmup_period < 0:
+            status = 400
+            message = "Parameter 'warmup_period' for initializing the test simulation cannot be negative."
+            logging.error(message)            
+            return status, message, payload
+        # Check if the inputs are float
+        alert_message = ''
+        if isinstance(start_time, float):
+            message = "WARNING: Parameter 'start_time' for initializing the test simulation expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '         
+        if isinstance(warmup_period, float):
+            message = "WARNING: Parameter 'warmup_period' for initializing the test simulation expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '
         # Record initial testing time
         self.initial_time = start_time
         # Record end testing time
@@ -369,7 +413,7 @@ class TestCase(object):
             self.cal.initialize()
             # Get full current state
             payload = self._get_full_current_state()
-            message = "Test simulation initialized successfully."
+            message = alert_message + "Test simulation initialized successfully."
             logging.info(message)
 
             return status, message, payload
@@ -378,7 +422,7 @@ class TestCase(object):
             payload = None
             status = 500
             message = "Failed to initialize test simulation: {}".format(res)
-            logging.warning(message)
+            logging.error(message)
 
             return status, message, payload
 
@@ -406,14 +450,14 @@ class TestCase(object):
         status = 200
         message = "Queried the control step successfully."
         payload = None
-        if self.step is not None:
-            logging.info(message)
+        try:
             payload = self.step
-            return status, message, payload
-        status = 500
-        message = "Query the simulation step failed."
-        logging.warning(message)
-
+            logging.info(message)            
+        except:
+            status = 500
+            message = "Failed to query the simulation step: {}.".format(traceback.format_exc())
+            logging.error(message)
+               
         return status, message, payload
 
     def set_step(self, step):
@@ -441,21 +485,30 @@ class TestCase(object):
         status = 200
         message = "Control step set successfully."
         payload = None
-        try:
-            step = float(step)
-        except:
+        if not isinstance(step, (int,float)):
             payload = None
             status = 400
-            message = "Invalid value for the control step"
-            logging.warning(message)
+            message = "Parameter 'step' expects an integer but is {}".format(type(step))
+            logging.error(message)
             return status, message, payload
-        try:
+        if step < 0:
+            status = 400
+            message = "Negative value for the control step is not supported"
+            logging.error(message)
+            return status, message, payload
+        alert_message = ''
+        if isinstance(step, float):
+            message_step = "WARNING: Parameter 'step' expects an integer but is given a float, which is accepted"
+            logging.warning(message_step)
+            alert_message =  alert_message + message_step +'; '             
+        try:      
             self.step = step
+            logging.info(alert_message+message)
         except:
             payload = None
             status = 500
             message = "Failed to set the control step: {}.".format(traceback.format_exc())
-            logging.warning(message)
+            logging.error(message)
             return status, message, payload
         logging.info(message)
 
@@ -485,14 +538,14 @@ class TestCase(object):
         status = 200
         message = "Queried the inputs successfully."
         payload = None
-        if self.inputs_metadata is not None:
+        try:
             payload = self.inputs_metadata
-        else:
+            logging.info(message)
+        except:
             status = 500
-            message = "Failed to query the inputs."
-            logging.warning(message)
-        logging.info(message)
-
+            message = "Failed to query the input list: {}.".format(traceback.format_exc()) 
+            logging.error(message)         
+        
         return status, message, payload
 
     def get_measurements(self):
@@ -519,14 +572,14 @@ class TestCase(object):
         status = 200
         message = "Queried the measurements successfully."
         payload = None
-        if self.outputs_metadata is not None:
+        try:
             payload = self.outputs_metadata
-        else:
+            logging.info(message)
+        except:
             status = 500
-            message = "Failed to query the measurement list."
-            logging.warning(message)
-        logging.info(message)
-
+            message = "Failed to query the measurement list: {}.".format(traceback.format_exc()) 
+            logging.error(message)        
+        
         return status, message, payload
 
     def get_results(self, var, start_time, final_time):
@@ -560,15 +613,26 @@ class TestCase(object):
         '''
 
         status = 200
-        try:
-            start_time = float(start_time)
-            final_time = float(final_time)
-        except:
+        if not isinstance(start_time, (int,float)):
             status = 400
-            message = "Invalid parameter values for querying results data."
-            logging.warning(message)
+            message = "Parameter 'start_time' for getting the results expects an integer but is {}.".format(type(start_time))
+            logging.error(message)
             return status, message, None
-        message = "Queried results data successfully for point {0}".format(var)
+        if not isinstance(final_time,(int,float)):
+            status = 400
+            message = "Parameter 'final_time' for getting the results expects an integer but is {}.".format(type(final_time))
+            logging.error(message)
+            return status, message, None
+        alert_message = ''
+        if isinstance(start_time, float):
+            message = "WARNING: Parameter 'start_time' for getting the results expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '         
+        if isinstance(final_time, float):
+            message = "WARNING: Parameter 'final_time' for getting the results expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '            
+        message = alert_message + "Queried results data successfully for point {}".format(var)
         payload = []
         try:
             # Get correct point
@@ -583,10 +647,13 @@ class TestCase(object):
                      var: self.u_store[var]
                 }
             else:
-                payload = []
+                status = 400
+                message = "Problem in get_results, {} is not a valid point name".format(var)
+                logging.error(message)
+                return status, message, None
 
             # Get correct time
-            if payload is not None:
+            if payload and 'time' in payload:
                 time1 = payload['time']
                 for key in [var, 'time']:
                     payload[key] = payload[key][time1>=start_time]
@@ -595,8 +662,9 @@ class TestCase(object):
         except:
             status = 500
             message = "Failed to query simulation results: {}".format(traceback.format_exc())
-            logging.warning(message)
-            return status, message, None
+            logging.error(message)
+            return status, message, None            
+
         if not isinstance(payload, (list, type(None))):
             for key in payload:
                 payload[key] = payload[key].tolist()
@@ -644,12 +712,12 @@ class TestCase(object):
             payload = None
             status = 500
             message = "Failed to query KPIs: {}".format(traceback.format_exc())
-            logging.warning(message)
-        logging.info(message)
+            logging.error(message)
+        logging.info(message) 
 
         return status, message, payload
 
-    def set_forecast_parameters(self,horizon,interval):
+    def set_forecast_parameters(self, horizon, interval):
         '''Sets the forecast horizon and interval, both in seconds.
 
         Parameters
@@ -678,24 +746,39 @@ class TestCase(object):
         status = 200
         message = "Forecast horizon and interval were set successfully."
         payload = dict()
-        try:
-            self.horizon = float(horizon)
-            self.interval = float(interval)
-        except:
+        if isinstance(horizon, (int,float)):
+            self.horizon = horizon
+        else:
+            status = 400
+            message = "Parameter 'horizon' for setting the simulation scenario expects an integer but is {}.".format(type(horizon))
+            logging.error(message)
+            return status, message, payload
+        if isinstance(interval, (int,float)):
+            self.interval = interval
+        else:
             payload = None
             status = 400
-            message = "Invalid value for the forecast parameters."
-            logging.warning(message)
+            message = "Parameter 'interval' for setting the simulation scenario expects an integer but is {}.".format(type(interval))
+            logging.error(message)
             return status, message, payload
+        alert_message = ''
+        if isinstance(horizon, float):
+            message = "WARNING: Parameter 'horizon' for setting the simulation scenario expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '         
+        if isinstance(interval, float):
+            message = "WARNING: Parameter 'interval' for setting the simulation scenario expects an integer but is given a float, which is accepted"
+            logging.warning(message)
+            alert_message =  alert_message + message +'; '             
         try:
             payload['horizon'] = self.horizon
             payload['interval'] = self.interval
         except:
             status = 500
             message = "Failed to set forecast horizon and interval: {}".format(traceback.format_exc())
-            logging.warning(message)
-        logging.info(message)
-
+            logging.error(message)
+        logging.info(message) 
+        
         return status, message, payload
 
     def get_forecast_parameters(self):
@@ -727,8 +810,8 @@ class TestCase(object):
             payload['interval'] = self.interval
         else:
             status = 500
-            message = "Failed to query the forecast parameters."
-            logging.warning(message)
+            message = "Failed to query the forecast parameters: {}".format(traceback.format_exc())
+            logging.error(message)
         logging.info(message)
 
         return status, message, payload
@@ -767,7 +850,7 @@ class TestCase(object):
             status = 500
             message = "Failed to query the test case forecast data: {}".format(traceback.format_exc())
             payload = None
-            logging.warning(message)
+            logging.error(message)
         logging.info(message)
 
         return status, message, payload
@@ -809,30 +892,50 @@ class TestCase(object):
         try:
             # Handle electricity price
             if scenario['electricity_price']:
+                if scenario['electricity_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
+                    status = 400
+                    message = "Scenario parameter electricy_price is: {} " \
+                              "but should be 'constant', 'dynamic', or 'highly_dynamic'.". \
+                              format(scenario['electricity_price'])
+                    logging.error(message)
+                    return status, message, payload
                 self.scenario['electricity_price'] = scenario['electricity_price']
                 payload['electricity_price'] = True
             # Handle timeperiod
             if scenario['time_period']:
+                if scenario['time_period'] not in self.days_json:
+                    status = 400
+                    message = "Scenario parameter time_period is: {} but " \
+                              "should one of following: {}". \
+                              format(scenario['time_period'], list(self.days_json.keys()))
+                    logging.error(message)                              
+                    return status, message, payload
                 self.scenario['time_period'] = scenario['time_period']
-                warmup_period = 7*24*3600
+                warmup_period = 7*24*3600.
                 key = self.scenario['time_period']
-                start_time = self.days_json[key]*24*3600-7*24*3600
-                end_time = start_time + 14*24*3600
+                start_time = self.days_json[key]*24*3600.-7*24*3600.
+                end_time = start_time + 14*24*3600.
         except:
             status = 400
-            message = "Invalid values for the scenario parameters"
-            logging.warning(message)
+            message = "Invalid values for the scenario parameters: {}".format(traceback.format_exc())
+            logging.error(message)
             return status, message, payload
         try:
             if scenario['time_period']:
-                payload['time_period'] = self.initialize(start_time, warmup_period, end_time=end_time)[2]
+                initialize_payload = self.initialize(int(start_time), int(warmup_period), end_time=end_time)
+                if initialize_payload[0] != 200:
+                    status = 500
+                    message = initialize_payload[1]
+                    logging.error(message)
+                    return status, message, payload
+                payload['time_period'] = initialize_payload[2]
             # It's needed to reset KPI Calculator when scenario is changed
             self.cal.initialize()
         except:
             status = 500
             message = "Failed to set the test case scenario: {}".format(traceback.format_exc())
             payload = None
-            logging.warning(message)
+            logging.error(message)
         logging.info(message)
 
         return status, message, payload
@@ -858,17 +961,17 @@ class TestCase(object):
              }
 
         '''
-
-        if not hasattr(self, 'scenario'):
-            payload = None
-            status = 500
-            message = "Failed to find a current test case scenario setting.  Check it was set properly."
-            logging.error(message)
-        else:
+        
+        payload = None
+        status = 200
+        message = "Querying current test case for scenario successfully."
+        try:
             payload = self.scenario
-            status = 200
-            message = "Queried current test case scenario successfully."
-            logging.info(message)
+        except:
+            status = 500
+            message = "Failed to find a current test case scenario setting.  Check it was set properly.: {}".format(traceback.format_exc())
+            logging.error(message)
+        logging.info(message)
 
         return status, message, payload
 
@@ -1014,23 +1117,25 @@ class TestCase(object):
         ------
         checked_value : float
             Value of variable truncated by min and max.
-
+        message: str
+            Alert messages that input value is truncated to min/max
         '''
 
         # Get minimum and maximum for variable
         mini = self.inputs_metadata[var]['Minimum']
         maxi = self.inputs_metadata[var]['Maximum']
+        message = None
         # Check the value and truncate if necessary
         if value > maxi:
             checked_value = maxi
-            logging.warning('Value of {0} for {1} is above maximum of {2}.  Using {2}.'.format(value, var, maxi))
+            message = 'WARNING: value of {0} for {1} is above maximum of {2}.  Using {2}. '.format(value, var, maxi)
         elif value < mini:
             checked_value = mini
-            logging.warning('Value of {0} for {1} is below minimum of {2}.  Using {2}.'.format(value, var, mini))
+            message = 'WARNING: value of {0} for {1} is below minimum of {2}.  Using {2}. '.format(value, var, mini)          
         else:
             checked_value = value
 
-        return checked_value
+        return checked_value, message
 
     def _get_area(self):
         '''Get the building floor area in m^2.

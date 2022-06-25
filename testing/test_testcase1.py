@@ -298,7 +298,7 @@ class ComputationalTimeRatio(unittest.TestCase):
         # Run test
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         step = requests.get('{0}/step'.format(self.url)).json()
-        for i in range(5):
+        for i in range(10):
             requests.post('{0}/advance'.format(self.url), data={})
             time.sleep(2)
         # Check kpis
@@ -339,8 +339,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.name = 'testcase1'
         self.url = 'http://127.0.0.1:5000'
-        self.step_ref = 60.0
+        self.step_ref = 60
         self.test_time_period = 'test_day'
+        requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

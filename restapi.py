@@ -12,14 +12,21 @@ from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 # ----------------------
 
+
 # GENERAL HTTP RESPONSE
 # ----------------------
 def construct(status, message, payload):
     if status == 200:
-       return make_response(jsonify(payload), status)
+        return make_response(jsonify(payload), status)
     else:
-       return make_response(message, status)
+        return make_response(message, status)
 # ----------------------
+
+
+# HELP MESSAGE
+# ----------------
+error_number_input = "{} cannot be blank and it should be a number"
+# ----------------
 
 # TEST CASE IMPORT
 # ----------------
@@ -46,30 +53,37 @@ except Exception as ex:
 # -----------------------
 # ``step`` interface
 parser_step = reqparse.RequestParser()
-parser_step.add_argument('step')
+parser_step.add_argument('step', type=float, required=True, help=error_number_input.format('step'))
+
 # ``initialize`` interface
 parser_initialize = reqparse.RequestParser()
-parser_initialize.add_argument('start_time')
-parser_initialize.add_argument('warmup_period')
+parser_initialize.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
+parser_initialize.add_argument('warmup_period', type=float, required=True, help=error_number_input.format('warmup period'))
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
-    parser_advance.add_argument(key)
+    if '_activate' in key:
+        parser_advance.add_argument(key, type=float)
+    elif '_u' in key:
+        parser_advance.add_argument(key, type=float)
+    else:
+        parser_advance.add_argument(key)    
 # ``forecast_parameters`` interface
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
-    parser_forecast_parameters.add_argument(arg)
+    parser_forecast_parameters.add_argument(arg, type=float, required=True, help=error_number_input.format(arg))
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
-parser_scenario.add_argument('electricity_price')
-parser_scenario.add_argument('time_period')
+parser_scenario.add_argument('electricity_price', type=str, help="electricty price should be a string")
+parser_scenario.add_argument('time_period', type=str, help="time period type should be a string")
 # ``results`` interface
 results_var = reqparse.RequestParser()
-results_var.add_argument('point_name')
-results_var.add_argument('start_time')
-results_var.add_argument('final_time')
+results_var.add_argument('point_name', type=str, required=True, help="point name cannot be blank")
+results_var.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
+results_var.add_argument('final_time', type=float, required=True, help=error_number_input.format('final time'))
 # -----------------------
+
 
 # DEFINE REST REQUESTS
 # --------------------
@@ -83,6 +97,7 @@ class Advance(Resource):
         status, message, payload = case.advance(u)
         return construct(status, message, payload)
 
+
 class Initialize(Resource):
     '''Interface to initialize the test case simulation.'''
 
@@ -93,6 +108,7 @@ class Initialize(Resource):
         warmup_period = args['warmup_period']
         status, message, payload = case.initialize(start_time, warmup_period)
         return construct(status, message, payload)
+
 
 class Step(Resource):
     '''Interface to test case simulation step size.'''
@@ -109,6 +125,7 @@ class Step(Resource):
         status, message, payload = case.set_step(step)
         return construct(status, message, payload)
 
+
 class Inputs(Resource):
     '''Interface to test case inputs.'''
 
@@ -117,6 +134,7 @@ class Inputs(Resource):
         status, message, payload = case.get_inputs()
         return construct(status, message, payload)
 
+
 class Measurements(Resource):
     '''Interface to test case measurements.'''
 
@@ -124,6 +142,7 @@ class Measurements(Resource):
         '''GET request to receive list of available measurements.'''
         status, message, payload = case.get_measurements()
         return construct(status, message, payload)
+
 
 class Results(Resource):
     '''Interface to test case result data.'''
@@ -137,6 +156,7 @@ class Results(Resource):
         status, message, payload = case.get_results(var, start_time, final_time)
         return construct(status, message, payload)
 
+
 class KPI(Resource):
     '''Interface to test case KPIs.'''
 
@@ -144,6 +164,7 @@ class KPI(Resource):
         '''GET request to receive KPI data.'''
         status, message, payload = case.get_kpis()
         return construct(status, message, payload)
+
 
 class Forecast_Parameters(Resource):
     '''Interface to test case forecast parameters.'''
@@ -161,6 +182,7 @@ class Forecast_Parameters(Resource):
         status, message, payload = case.set_forecast_parameters(horizon, interval)
         return construct(status, message, payload)
 
+
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
 
@@ -168,6 +190,7 @@ class Forecast(Resource):
         '''GET request to receive forecast data.'''
         status, message, payload = case.get_forecast()
         return construct(status, message, payload)
+
 
 class Scenario(Resource):
     '''Interface to test case scenario.'''
@@ -183,6 +206,7 @@ class Scenario(Resource):
         status, message, payload = case.set_scenario(scenario)
         return construct(status, message, payload)
 
+
 class Name(Resource):
     '''Interface to test case name.'''
 
@@ -191,6 +215,7 @@ class Name(Resource):
         status, message, payload = case.get_name()
         return construct(status, message, payload)
 
+
 class Version(Resource):
     '''Interface to BOPTEST version.'''
 
@@ -198,6 +223,7 @@ class Version(Resource):
         '''GET request to receive BOPTEST version.'''
         status, message, payload = case.get_version()
         return construct(status, message, payload)
+
 
 # --------------------
 
