@@ -252,33 +252,36 @@ class TestCase(object):
                 u_trajectory = self.start_time
                 for key in u.keys():
                     if key not in self.input_names and key != 'time':
+                        payload = None
                         status = 400
                         message = "Unexpected input variable: {}.".format(key)
                         logging.error(message)
-                        return status, message, None
+                        return status, message, payload
                     if key != 'time' and u[key]:
                         if '_activate' in key:
                             try:
                                 value = float(u[key])
                             except:
+                                payload = None
                                 status = 400
-                                message = "Invalid value for input {}. Value must be a float, int, or able to be converted to a float, but is {}.".format(key, type(u[key]))
+                                message = "Invalid value {} for input {}. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(u[key], key, type(u[key]))
                                 logging.error(message)
-                                return status, message, None
+                                return status, message, payload
+                            checked_value = value
                         else:
                             try:
                                 value = float(u[key])
                             except:
+                                payload = None
                                 status = 400
-                                message = "Invalid value for input {}. Value must be a float, int, or able to be converted to a float, but is {}.".format(key, type(u[key]))
+                                message = "Invalid value {} for input {}. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(u[key], key, type(u[key]))
                                 logging.error(message)
-                                return status, message, None
+                                return status, message, payload
                             # Check min/max if not activation input
                             checked_value, message = self._check_value_min_max(key, value)
-                            checked_value = value
                             if message is not None:
                                 logging.warning(message)
-                                alert_message = alert_message +'; '+ message
+                                alert_message = message + ';' + alert_message
                         u_list.append(key)
                         u_trajectory = np.vstack((u_trajectory, checked_value))
                 input_object = (u_list, np.transpose(u_trajectory))
@@ -367,25 +370,29 @@ class TestCase(object):
         try:
             start_time = float(start_time)
         except:
+            payload = None
             status = 400
-            message = "Invalid value for parameter start_time. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(start_time))
+            message = "Invalid value {} for parameter start_time. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(start_time, type(start_time))
             logging.error(message)
-        return status, message, payload
+            return status, message, payload
         try:
-            start_time = float(start_time)
+            warmup_period = float(warmup_period)
         except:
+            payload = None
             status = 400
-            message = "Invalid value for parameter warmup_period. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(warmup_period))
+            message = "Invalid value {} for parameter warmup_period. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(warmup_period, type(warmup_period))
             logging.error(message)
-        return status, message, payload
+            return status, message, payload
         if start_time < 0:
+            payload = None
             status = 400
-            message = "Invalid value for parameter start_time. Value must not be negative."
+            message = "Invalid value {} for parameter start_time. Value must not be negative.".format(start_time)
             logging.error(message)
             return status, message, payload
         if warmup_period < 0:
+            payload = None
             status = 400
-            message = "Invalid value for parameter warmup_period. Value must not be negative."
+            message = "Invalid value {} for parameter warmup_period. Value must not be negative.".format(warmup_period)
             logging.error(message)
             return status, message, payload
         # Record initial testing time
@@ -484,12 +491,13 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter step. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(step))
+            message = "Invalid value {} for parameter step. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(step, type(step))
             logging.error(message)
             return status, message, payload
         if step < 0:
+            payload = None
             status = 400
-            message = "Invalid value for parameter step. Value must not be negative."
+            message = "Invalid value {} for parameter step. Value must not be negative.".format(step)
             logging.error(message)
             return status, message, payload
         try:
@@ -500,6 +508,7 @@ class TestCase(object):
             message = "Failed to set the control step: {}".format(traceback.format_exc())
             logging.error(message)
             return status, message, payload
+        payload={'step':self.step}
         logging.info(message)
 
         return status, message, payload
@@ -608,7 +617,7 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter start_time. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(start_time))
+            message = "Invalid value {} for parameter start_time. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(start_time, type(start_time))
             logging.error(message)
             return status, message, payload
         try:
@@ -616,7 +625,7 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter final_time. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(final_time))
+            message = "Invalid value {} for parameter final_time. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(final_time, type(final_time))
             logging.error(message)
             return status, message, payload
         payload = []
@@ -634,7 +643,7 @@ class TestCase(object):
                 }
             else:
                 status = 400
-                message = "Invalid value for parameter point_name, {} is not a valid point name.  Check lists of inputs and measurements.".format(point_name)
+                message = "Invalid value {} for parameter point_name.  Check lists of inputs and measurements.".format(point_name)
                 logging.error(message)
                 return status, message, None
 
@@ -655,7 +664,7 @@ class TestCase(object):
             for key in payload:
                 payload[key] = payload[key].tolist()
 
-        message = "Queried results data successfully for point {}.".format(point_name)
+        message = "Queried results data successfully for point with name {}.".format(point_name)
         logging.info(message)
         return status, message, payload
 
@@ -738,7 +747,7 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter horizon. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(horizon))
+            message = "Invalid value {} for parameter horizon. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(horizon, type(horizon))
             logging.error(message)
             return status, message, payload
         try:
@@ -746,17 +755,19 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter interval. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(interval))
+            message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
             logging.error(message)
             return status, message, payload
         if horizon < 0:
+            payload = None
             status = 400
-            message = "Invalid value for parameter horizon. Value must not be negative."
+            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
             logging.error(message)
             return status, message, payload
         if interval < 0:
+            payload = None
             status = 400
-            message = "Invalid value for parameter interval. Value must not be negative."
+            message = "Invalid value {} for parameter interval. Value must not be negative.".format(interval)
             logging.error(message)
             return status, message, payload
         try:
