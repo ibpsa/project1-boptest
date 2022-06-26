@@ -60,9 +60,9 @@ class TestCase(object):
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
         # Set default communication step
-        self.set_step(int(self.config_json['step']))
+        self.set_step(self.config_json['step'])
         # Set default forecast parameters
-        self.set_forecast_parameters(int(self.config_json['horizon']), int(self.config_json['interval']))
+        self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
         # Initialize simulation data arrays
         self.__initilize_data()
         # Set default fmu simulation options
@@ -73,7 +73,7 @@ class TestCase(object):
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Initialize test case
-        self.initialize(int(self.config_json['start_time']), int(self.config_json['warmup_period']))
+        self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
         self.set_scenario(self.config_json['scenario'])
 
@@ -733,31 +733,35 @@ class TestCase(object):
         status = 200
         message = "Forecast horizon and interval were set successfully."
         payload = dict()
-        if isinstance(horizon, (int,float)):
-            self.horizon = horizon
-        else:
-            status = 400
-            message = "Parameter 'horizon' for setting the simulation scenario expects an integer but is {}.".format(type(horizon))
-            logging.error(message)
-            return status, message, payload
-        if isinstance(interval, (int,float)):
-            self.interval = interval
-        else:
+        try:
+            horizon = float(horizon)
+        except:
             payload = None
             status = 400
-            message = "Parameter 'interval' for setting the simulation scenario expects an integer but is {}.".format(type(interval))
+            message = "Invalid value for parameter horizon. Value must be a float, int, or able to be converted to a float, but is {}".format(type(horizon))
             logging.error(message)
             return status, message, payload
-        alert_message = ''
-        if isinstance(horizon, float):
-            message = "WARNING: Parameter 'horizon' for setting the simulation scenario expects an integer but is given a float, which is accepted"
-            logging.warning(message)
-            alert_message =  alert_message + message +'; '
-        if isinstance(interval, float):
-            message = "WARNING: Parameter 'interval' for setting the simulation scenario expects an integer but is given a float, which is accepted"
-            logging.warning(message)
-            alert_message =  alert_message + message +'; '
         try:
+            interval = float(interval)
+        except:
+            payload = None
+            status = 400
+            message = "Invalid value for parameter interval. Value must be a float, int, or able to be converted to a float, but is {}".format(type(interval))
+            logging.error(message)
+            return status, message, payload
+        if horizon < 0:
+            status = 400
+            message = "Invalid value for parameter horizon. Value must not be negative."
+            logging.error(message)
+            return status, message, payload
+        if interval < 0:
+            status = 400
+            message = "Invalid value for parameter interval. Value must not be negative."
+            logging.error(message)
+            return status, message, payload
+        try:
+            self.horizon = horizon
+            self.interval = interval
             payload['horizon'] = self.horizon
             payload['interval'] = self.interval
         except:
@@ -909,7 +913,7 @@ class TestCase(object):
             return status, message, payload
         try:
             if scenario['time_period']:
-                initialize_payload = self.initialize(int(start_time), int(warmup_period), end_time=end_time)
+                initialize_payload = self.initialize(start_time, warmup_period, end_time=end_time)
                 if initialize_payload[0] != 200:
                     status = 500
                     message = initialize_payload[1]
