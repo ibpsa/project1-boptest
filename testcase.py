@@ -253,7 +253,7 @@ class TestCase(object):
                 for key in u.keys():
                     if key not in self.input_names and key != 'time':
                         status = 400
-                        message = "Unexpected input variable: {}".format(key)
+                        message = "Unexpected input variable: {}.".format(key)
                         logging.error(message)
                         return status, message, None
                     if key != 'time' and u[key]:
@@ -262,7 +262,7 @@ class TestCase(object):
                                 value = float(u[key])
                             except:
                                 status = 400
-                                message = "Invalid value for input {}. Value must be a float, int, or able to be converted to a float, but is {}".format(key, type(u[key]))
+                                message = "Invalid value for input {}. Value must be a float, int, or able to be converted to a float, but is {}.".format(key, type(u[key]))
                                 logging.error(message)
                                 return status, message, None
                         else:
@@ -270,7 +270,7 @@ class TestCase(object):
                                 value = float(u[key])
                             except:
                                 status = 400
-                                message = "Invalid value for input {}. Value must be a float, int, or able to be converted to a float, but is {}".format(key, type(u[key]))
+                                message = "Invalid value for input {}. Value must be a float, int, or able to be converted to a float, but is {}.".format(key, type(u[key]))
                                 logging.error(message)
                                 return status, message, None
                             # Check min/max if not activation input
@@ -314,7 +314,7 @@ class TestCase(object):
             else:
                 # Errors in the simulation
                 status = 500
-                message = "Failed to advance simulation: {}".format(res)
+                message = "Failed to advance simulation: {}.".format(res)
                 payload = res
                 logging.error(message)
                 return status, message, payload
@@ -368,14 +368,14 @@ class TestCase(object):
             start_time = float(start_time)
         except:
             status = 400
-            message = "Invalid value for parameter start_time. Value must be a float, int, or able to be converted to a float, but is {}".format(type(start_time))
+            message = "Invalid value for parameter start_time. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(start_time))
             logging.error(message)
         return status, message, payload
         try:
             start_time = float(start_time)
         except:
             status = 400
-            message = "Invalid value for parameter warmup_period. Value must be a float, int, or able to be converted to a float, but is {}".format(type(warmup_period))
+            message = "Invalid value for parameter warmup_period. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(warmup_period))
             logging.error(message)
         return status, message, payload
         if start_time < 0:
@@ -415,7 +415,7 @@ class TestCase(object):
         else:
             payload = None
             status = 500
-            message = "Failed to initialize test simulation: {}".format(res)
+            message = "Failed to initialize test simulation: {}.".format(res)
             logging.error(message)
 
             return status, message, payload
@@ -449,7 +449,7 @@ class TestCase(object):
             logging.info(message)
         except:
             status = 500
-            message = "Failed to query the simulation step: {}.".format(traceback.format_exc())
+            message = "Failed to query the simulation step: {}".format(traceback.format_exc())
             logging.error(message)
 
         return status, message, payload
@@ -484,7 +484,7 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter step. Value must be a float, int, or able to be converted to a float, but is {}".format(type(step))
+            message = "Invalid value for parameter step. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(step))
             logging.error(message)
             return status, message, payload
         if step < 0:
@@ -497,7 +497,7 @@ class TestCase(object):
         except:
             payload = None
             status = 500
-            message = "Failed to set the control step: {}.".format(traceback.format_exc())
+            message = "Failed to set the control step: {}".format(traceback.format_exc())
             logging.error(message)
             return status, message, payload
         logging.info(message)
@@ -533,7 +533,7 @@ class TestCase(object):
             logging.info(message)
         except:
             status = 500
-            message = "Failed to query the input list: {}.".format(traceback.format_exc())
+            message = "Failed to query the input list: {}".format(traceback.format_exc())
             logging.error(message)
 
         return status, message, payload
@@ -567,7 +567,7 @@ class TestCase(object):
             logging.info(message)
         except:
             status = 500
-            message = "Failed to query the measurement list: {}.".format(traceback.format_exc())
+            message = "Failed to query the measurement list: {}".format(traceback.format_exc())
             logging.error(message)
 
         return status, message, payload
@@ -608,7 +608,7 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter start_time. Value must be a float, int, or able to be converted to a float, but is {}".format(type(start_time))
+            message = "Invalid value for parameter start_time. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(start_time))
             logging.error(message)
             return status, message, payload
         try:
@@ -616,7 +616,7 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter final_time. Value must be a float, int, or able to be converted to a float, but is {}".format(type(final_time))
+            message = "Invalid value for parameter final_time. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(final_time))
             logging.error(message)
             return status, message, payload
         payload = []
@@ -634,7 +634,7 @@ class TestCase(object):
                 }
             else:
                 status = 400
-                message = "Invalid value for parameter point_name, {} is not a valid point name".format(point_name)
+                message = "Invalid value for parameter point_name, {} is not a valid point name.  Check lists of inputs and measurements.".format(point_name)
                 logging.error(message)
                 return status, message, None
 
@@ -655,7 +655,7 @@ class TestCase(object):
             for key in payload:
                 payload[key] = payload[key].tolist()
 
-        message = "Queried results data successfully for point {}".format(point_name)
+        message = "Queried results data successfully for point {}.".format(point_name)
         logging.info(message)
         return status, message, payload
 
@@ -738,7 +738,7 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter horizon. Value must be a float, int, or able to be converted to a float, but is {}".format(type(horizon))
+            message = "Invalid value for parameter horizon. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(horizon))
             logging.error(message)
             return status, message, payload
         try:
@@ -746,7 +746,7 @@ class TestCase(object):
         except:
             payload = None
             status = 400
-            message = "Invalid value for parameter interval. Value must be a float, int, or able to be converted to a float, but is {}".format(type(interval))
+            message = "Invalid value for parameter interval. Value must be a float, int, or able to be converted to a float, but is {}.".format(type(interval))
             logging.error(message)
             return status, message, payload
         if horizon < 0:
@@ -885,7 +885,7 @@ class TestCase(object):
             if scenario['electricity_price']:
                 if scenario['electricity_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
                     status = 400
-                    message = "Scenario parameter electricy_price is: {} " \
+                    message = "Scenario parameter electricy_price is {}, " \
                               "but should be 'constant', 'dynamic', or 'highly_dynamic'.". \
                               format(scenario['electricity_price'])
                     logging.error(message)
@@ -896,8 +896,8 @@ class TestCase(object):
             if scenario['time_period']:
                 if scenario['time_period'] not in self.days_json:
                     status = 400
-                    message = "Scenario parameter time_period is: {} but " \
-                              "should one of following: {}". \
+                    message = "Scenario parameter time_period is {}, but " \
+                              "should be one of the following: {}.". \
                               format(scenario['time_period'], list(self.days_json.keys()))
                     logging.error(message)
                     return status, message, payload
@@ -960,7 +960,7 @@ class TestCase(object):
             payload = self.scenario
         except:
             status = 500
-            message = "Failed to find a current test case scenario setting.  Check it was set properly.: {}".format(traceback.format_exc())
+            message = "Failed to find a current test case scenario setting.  Check it was set properly: {}".format(traceback.format_exc())
             logging.error(message)
         logging.info(message)
 
