@@ -11,6 +11,10 @@ Released on xx/xx/xxxx.
 - Remove dependency of example controllers on ``pathlib`` package.  This is for [#416](https://github.com/ibpsa/project1-boptest/issues/416).
 - Fix and clarify ``README.md`` for the ``/initialize`` and other API end points.  This is for [#408](https://github.com/ibpsa/project1-boptest/issues/408).
 
+**The following changes are not backwards-compatible but do not significantly change benchmark results:**
+
+- Update API to standardize return package format and information about about errors and warnings.  The new return package is in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}. Status codes are: 200, successful with or without warning; 400, bad input; 500, internal error.  This is for [#73](https://github.com/ibpsa/project1-boptest/issues/73).
+
 **The following new test cases have been added:**
 
 - ``multizone_office_simple_air``, a 5-zone building based on the U.S. DOE medium office reference building located in Chicago, IL, USA, served by a single-duct Variable Air Volume (VAV) with terminal reheat, air-cooled chiller, and air-to-water heat pump.  This is for [#273](https://github.com/ibpsa/project1-boptest/issues/273).
