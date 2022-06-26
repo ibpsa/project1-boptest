@@ -50,7 +50,7 @@ class CustomArgument(reqparse.Argument):
         '''
 
         error_str = six.text_type(error)
-        msg = 'Bad input for parameter {}. The problem is '.format(self.name) + error_str
+        msg = 'Bad input for parameter {}. '.format(self.name) + error_str
         flask_restful.abort(construct(400, msg, None))
 
 app = Flask(__name__)
@@ -60,43 +60,41 @@ api = Api(app)
 
 # INSTANTIATE TEST CASE
 # ---------------------
-try:
-    case = TestCase()
-except Exception as ex:
-    message = "Failed to instantiate the test case: {}".format(ex)
-    app.logger.error(message)
+case = TestCase()
 # ---------------------
 
 # DEFINE ARGUMENT PARSERS
 # -----------------------
 # ``step`` interface
-parser_step = reqparse.RequestParser()
+parser_step = reqparse.RequestParser(argument_class=CustomArgument)
 parser_step.add_argument('step', required=True)
 
 # ``initialize`` interface
-parser_initialize = reqparse.RequestParser()
+parser_initialize = reqparse.RequestParser(argument_class=CustomArgument)
 parser_initialize.add_argument('start_time', required=True)
 parser_initialize.add_argument('warmup_period', required=True)
 # ``advance`` interface
-parser_advance = reqparse.RequestParser()
+parser_advance = reqparse.RequestParser(argument_class=CustomArgument)
 for key in case.u.keys():
     if '_activate' in key:
         parser_advance.add_argument(key)
     elif '_u' in key:
         parser_advance.add_argument(key)
+    elif key == 'time':
+        pass
     else:
         raise Exception('{} not a valid input point name. Must end in _activate or _u.'.format(key))
 # ``forecast_parameters`` interface
-parser_forecast_parameters = reqparse.RequestParser()
+parser_forecast_parameters = reqparse.RequestParser(argument_class=CustomArgument)
 forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
     parser_forecast_parameters.add_argument(arg, required=True)
 # ``price_scenario`` interface
-parser_scenario = reqparse.RequestParser()
+parser_scenario = reqparse.RequestParser(argument_class=CustomArgument)
 parser_scenario.add_argument('electricity_price', type=str)
 parser_scenario.add_argument('time_period', type=str)
 # ``results`` interface
-results_var = reqparse.RequestParser()
+results_var = reqparse.RequestParser(argument_class=CustomArgument)
 results_var.add_argument('point_name', type=str)
 results_var.add_argument('start_time')
 results_var.add_argument('final_time')
@@ -262,4 +260,4 @@ api.add_resource(Version, '/version')
 # --------------------------------------
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)
