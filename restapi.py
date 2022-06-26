@@ -76,14 +76,8 @@ parser_initialize.add_argument('warmup_period', required=True)
 # ``advance`` interface
 parser_advance = reqparse.RequestParser(argument_class=CustomArgument)
 for key in case.u.keys():
-    if '_activate' in key:
+    if key != 'time':
         parser_advance.add_argument(key)
-    elif '_u' in key:
-        parser_advance.add_argument(key)
-    elif key == 'time':
-        pass
-    else:
-        raise Exception('{} not a valid input point name. Must end in _activate or _u.'.format(key))
 # ``forecast_parameters`` interface
 parser_forecast_parameters = reqparse.RequestParser(argument_class=CustomArgument)
 forecast_parameters = ['horizon', 'interval']

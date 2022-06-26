@@ -831,6 +831,7 @@ class partialTestAPI(partialChecks):
         This is a basic test of functionality.
 
         '''
+
         if self.name == 'testcase1':
             u = {'oveAct_activate': 0, 'oveAct_u': 1500}
         elif self.name == 'testcase2':
@@ -841,12 +842,9 @@ class partialTestAPI(partialChecks):
         elif self.name == 'bestest_air':
             u = {'fcu_oveTSup_activate': 0, 'fcu_oveTSup_u': 290}
         elif self.name == 'bestest_hydronic':
-            u = {
-                'oveTSetSup_activate': 0,
+            u = {'oveTSetSup_activate': 0,
                 'oveTSetSup_u': 273.15 + 60,
-                'ovePum_activate': 0,
-                'ovePum_u': 1
-            }
+                'ovePum_activate': 0}
         elif self.name == 'bestest_hydronic_heat_pump':
             u = {'oveTSet_activate': 0, 'oveTSet_u': 273.15 + 22}
         elif self.name == 'multizone_residential_hydronic':
@@ -860,9 +858,15 @@ class partialTestAPI(partialChecks):
         else:
             raise Exception('Need to specify u for this test case')
         for key, value in u.items():
-            u[key] = "invalid"
-        y = requests.post('{0}/advance'.format(self.url), data=u)
-        self.compare_error_code(y, "Invalid advance request did not return 400 message.")
+            if '_activate' in key:
+                for value in ['invalid', 1.2, '1.2']:
+                    u[key] = value
+                    y = requests.post('{0}/advance'.format(self.url), data=u)
+                    self.compare_error_code(y, "Invalid advance request for _activate did not return 400 message.")
+            else:
+                u[key] = "invalid"
+                y = requests.post('{0}/advance'.format(self.url), data=u)
+                self.compare_error_code(y, "Invalid advance request for _u did not return 400 message.")
 
     def test_invalid_get_results(self):
         '''Test getting results for start time before and final time after.

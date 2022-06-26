@@ -207,7 +207,7 @@ class TestCase(object):
         ----------
         u : dict
             Defines the control input data to be used for the step.
-            {<input_name>_activate : bool,
+            {<input_name>_activate : bool, int, float, or str convertable to 1 or 0
              <input_name>_u        : int or float}
 
         Returns
@@ -251,7 +251,7 @@ class TestCase(object):
                 u_list = []
                 u_trajectory = self.start_time
                 for key in u.keys():
-                    if key not in self.input_names and key != 'time':
+                    if (key not in self.input_names):
                         payload = None
                         status = 400
                         message = "Unexpected input variable: {}.".format(key)
@@ -260,14 +260,27 @@ class TestCase(object):
                     if key != 'time' and u[key]:
                         if '_activate' in key:
                             try:
-                                value = float(u[key])
-                            except:
-                                payload = None
-                                status = 400
-                                message = "Invalid value {} for input {}. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(u[key], key, type(u[key]))
-                                logging.error(message)
-                                return status, message, payload
-                            checked_value = value
+                                if float(u[key]) == 1:
+                                    checked_value = 1
+                                elif  float(u[key]) == 0:
+                                    checked_value = 0
+                                else:
+                                    payload = None
+                                    status = 400
+                                    message = "Invalid value {} for input {}. Value must be a boolean, float, integer, or string able to be converted to a 1 or 0, but is {}.".format(u[key], key, type(u[key]))
+                                    logging.error(message)
+                                    return status, message, payload
+                            except ValueError:
+                                if u[key] == 'True':
+                                    checked_value = 1
+                                elif  u[key] == 'False':
+                                    checked_value = 0
+                                else:
+                                    payload = None
+                                    status = 400
+                                    message = "Invalid value {} for input {}. Value must be a boolean, float, integer, or string able to be converted to a 1 or 0, but is {}.".format(u[key], key, type(u[key]))
+                                    logging.error(message)
+                                    return status, message, payload
                         else:
                             try:
                                 value = float(u[key])
