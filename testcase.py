@@ -1004,24 +1004,6 @@ class TestCase(object):
 
         return status, message, payload
 
-    def get_elapsed_control_time_ratio(self):
-        '''Returns the elapsed control time ratio vector for the case.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        elapsed_control_time_ratio : np array of floats
-            elapsed_control_time_ratio for each control step.
-
-        '''
-
-        elapsed_control_time_ratio = self.elapsed_control_time_ratio
-
-        return elapsed_control_time_ratio
-
     def get_version(self):
         '''Returns the version number of BOPTEST.
 
@@ -1048,6 +1030,24 @@ class TestCase(object):
         payload = {'version': self.version}
 
         return status, message, payload
+
+    def _get_elapsed_control_time_ratio(self):
+        '''Returns the elapsed control time ratio vector for the case.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        elapsed_control_time_ratio : np array of floats
+            elapsed_control_time_ratio for each control step.
+
+        '''
+
+        elapsed_control_time_ratio = self.elapsed_control_time_ratio
+
+        return elapsed_control_time_ratio
 
     def _get_var_metadata(self, fmu, var_list, inputs=False):
         '''Build a dictionary of variables and their metadata.
