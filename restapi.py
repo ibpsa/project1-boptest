@@ -7,26 +7,23 @@ The API is implemented using the ``flask`` package.
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
-from flask import Flask, jsonify, make_response
+from flask import Flask, make_response
 from flask_restful import Resource, Api, reqparse
+import flask_restful
 from flask_cors import CORS
+import six
 # ----------------------
 
 
 # GENERAL HTTP RESPONSE
 # ----------------------
 def construct(status, message, payload):
-    if status == 200:
-        return make_response(jsonify(payload), status)
-    else:
-        return make_response(message, status)
+    response = {'status': status,
+                'message': message,
+                'payload': payload}
+    return make_response(response, status)
 # ----------------------
 
-
-# HELP MESSAGE
-# ----------------
-error_number_input = "{} cannot be blank and it should be a number"
-# ----------------
 
 # TEST CASE IMPORT
 # ----------------
@@ -35,6 +32,27 @@ from testcase import TestCase
 
 # FLASK REQUIREMENTS
 # ------------------
+
+
+class CustomArgument(reqparse.Argument):
+
+    def handle_validation_error(self, error, bundle_errors):
+        '''Customizes inherited class with general HTTP response ``construct``.
+
+        Called when an error is raised while parsing. Aborts the request
+        with a 400 status and an error message
+
+        :param error: the error that was raised
+        :param bundle_errors: do not abort when first error occurs, return a
+            dict with the name of the argument and the error message to be
+            bundled
+
+        '''
+
+        error_str = six.text_type(error)
+        msg = 'Bad input for parameter {}. The problem is '.format(self.name) + error_str
+        flask_restful.abort(construct(400, msg, None))
+
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 api = Api(app)
@@ -53,35 +71,35 @@ except Exception as ex:
 # -----------------------
 # ``step`` interface
 parser_step = reqparse.RequestParser()
-parser_step.add_argument('step', type=float, required=True, help=error_number_input.format('step'))
+parser_step.add_argument('step', required=True)
 
 # ``initialize`` interface
 parser_initialize = reqparse.RequestParser()
-parser_initialize.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
-parser_initialize.add_argument('warmup_period', type=float, required=True, help=error_number_input.format('warmup period'))
+parser_initialize.add_argument('start_time', required=True)
+parser_initialize.add_argument('warmup_period', required=True)
 # ``advance`` interface
 parser_advance = reqparse.RequestParser()
 for key in case.u.keys():
     if '_activate' in key:
-        parser_advance.add_argument(key, type=float)
+        parser_advance.add_argument(key)
     elif '_u' in key:
-        parser_advance.add_argument(key, type=float)
+        parser_advance.add_argument(key)
     else:
-        parser_advance.add_argument(key)    
+        parser_advance.add_argument(key)
 # ``forecast_parameters`` interface
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
 for arg in forecast_parameters:
-    parser_forecast_parameters.add_argument(arg, type=float, required=True, help=error_number_input.format(arg))
+    parser_forecast_parameters.add_argument(arg, required=True)
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser()
-parser_scenario.add_argument('electricity_price', type=str, help="electricty price should be a string")
-parser_scenario.add_argument('time_period', type=str, help="time period type should be a string")
+parser_scenario.add_argument('electricity_price', type=str)
+parser_scenario.add_argument('time_period', type=str)
 # ``results`` interface
 results_var = reqparse.RequestParser()
-results_var.add_argument('point_name', type=str, required=True, help="point name cannot be blank")
-results_var.add_argument('start_time', type=float, required=True, help=error_number_input.format('start time'))
-results_var.add_argument('final_time', type=float, required=True, help=error_number_input.format('final time'))
+results_var.add_argument('point_name', type=str)
+results_var.add_argument('start_time')
+results_var.add_argument('final_time')
 # -----------------------
 
 
