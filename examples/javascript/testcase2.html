@@ -129,7 +129,7 @@ function send()
     		              }
     		              else {
     								 console.log( "SUCCESS in getting results" );
-									 json = JSON.parse(xhr_get_result.responseText);
+									 json = JSON.parse(xhr_get_result.responseText)["payload"];
 								     result.value = JSON.stringify(json);
     		              }
             }
@@ -148,7 +148,7 @@ function send()
     		              }
     		              else {
     								 console.log( "SUCCESS in getting kpi" );
-									 json = JSON.parse(xhr_get_kpi.responseText);
+									 json = JSON.parse(xhr_get_kpi.responseText)["payload"];
     								 kpi.value = JSON.stringify(json);
     		              }
             }
@@ -198,9 +198,9 @@ function send()
        xhr.setRequestHeader("Content-type", "application/json");
        xhr.onreadystatechange = function () {
        if (xhr.readyState == 4 && xhr.status == 200) {
-            json = JSON.parse(xhr.responseText);
+            json = JSON.parse(xhr.responseText)["payload"];
 			console.log(json)
-            output.value = JSON.stringify(json);			
+            output.value = JSON.stringify(json);
        <!-- initialize the information for the select box and plotting-->
     		if (count ==1) {
     		              for (key in json) {
