@@ -85,7 +85,7 @@ for key in case.u.keys():
     elif '_u' in key:
         parser_advance.add_argument(key)
     else:
-        parser_advance.add_argument(key)
+        raise Exception('{} not a valid input point name. Must end in _activate or _u.'.format(key))
 # ``forecast_parameters`` interface
 parser_forecast_parameters = reqparse.RequestParser()
 forecast_parameters = ['horizon', 'interval']
