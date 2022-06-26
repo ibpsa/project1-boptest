@@ -966,7 +966,7 @@ class TestCase(object):
 
         payload = None
         status = 200
-        message = "Querying current test case for scenario successfully."
+        message = "Queried current test case for scenario successfully."
         try:
             payload = self.scenario
         except:
