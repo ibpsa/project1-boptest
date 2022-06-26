@@ -902,7 +902,7 @@ class TestCase(object):
                     logging.error(message)
                     return status, message, payload
                 self.scenario['electricity_price'] = scenario['electricity_price']
-                payload['electricity_price'] = True
+                payload['electricity_price'] = self.scenario['electricity_price']
             # Handle timeperiod
             if scenario['time_period']:
                 if scenario['time_period'] not in self.days_json:
