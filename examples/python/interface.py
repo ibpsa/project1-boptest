@@ -35,9 +35,9 @@ def check_response(response):
 
     """
     if isinstance(response, requests.Response):
-        status = response.status_code       
+        status = response.status_code
     if status == 200:
-        response = response.json()     
+        response = response.json()['payload']
         return response
     print("Unexpected error: {}".format(response.text))
     print("Exiting!")
@@ -160,6 +160,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     u = controller.initialize()
     # Initialize forecast storage structure
     forecasts = None
+    print(requests.get('{0}/scenario'.format(url)).json())
     # Simulation Loop
     for t in range(total_time_steps):
         # Advance simulation with control input value(s)

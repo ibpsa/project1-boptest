@@ -27,32 +27,32 @@ println("TEST CASE INFORMATION ------------- \n")
 
 res = HTTP.get("$url/name")
 name_status = res.status
-name = JSON.parse(String(res.body))
+name = JSON.parse(String(res.body))["payload"]
 if name_status == 200
     println("Name:\t\t\t$name['name']")
 end
 # Inputs available
 res = HTTP.get("$url/inputs")
 inputs_status = res.status
-inputs = JSON.parse(String(res.body))
+inputs = JSON.parse(String(res.body))["payload"]
 if inputs_status == 200
     println("Control Inputs:\t\t\t$inputs")
 end
 # Measurements available
 res = HTTP.get("$url/measurements")
 measurements_status = res.status
-measurements = JSON.parse(String(res.body))
+measurements = JSON.parse(String(res.body))["payload"]
 if measurements_status == 200
     println("Measurements:\t\t\t$measurements")
-end 
+end
 
 # Default simulation step
 res = HTTP.get("$url/measurements")
 step_def_status = res.status
-step_def = JSON.parse(String(res.body))
+step_def = JSON.parse(String(res.body))["payload"]
 if step_def_status == 200
     println("Default Simulation Step:\t$step_def")
-end 
+end
 
 # RUN TEST CASE
 #----------
@@ -60,7 +60,7 @@ start = Dates.now()
 # Initialize test case simulation
 res = HTTP.put("$url/initialize",["Content-Type" => "application/json"], JSON.json(Dict("start_time" => 0,"warmup_period" => 0)))
 initialize_status = res.status
-initialize_result=JSON.parse(String(res.body))
+initialize_result=JSON.parse(String(res.body))["payload"]
 if initialize_status == 200
    println("Successfully initialized the simulation")
 end
@@ -88,8 +88,8 @@ for i = 1:convert(Int, floor(length/step))
     end
     # Advance in simulation
     res = HTTP.post("$url/advance", ["Content-Type" => "application/json"], JSON.json(u);retry_non_idempotent=true)
-	global y = JSON.parse(String(res.body))
-	if res.status == 200	    
+	global y = JSON.parse(String(res.body))["payload"]
+	if res.status == 200
         println("Successfully advanced the simulation")
     end
 end
@@ -104,7 +104,7 @@ println("Elapsed time of test
 # Report KPIs
 res = HTTP.get("$url/kpi")
 if  res.status == 200
-   kpi = JSON.parse(String(res.body))
+   kpi = JSON.parse(String(res.body))["payload"]
 end
 println("KPI RESULTS \n-----------")
 for key in keys(kpi)
@@ -119,22 +119,22 @@ end
 # POST PROCESS RESULTS
 # --------------------
 # Get result data
-res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "TRooAir_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "TRooAir_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 time = [x/3600 for x in res["time"]] # convert s --> hr
 TRooAir  = [x-273.15 for x in res["TRooAir_y"]] # convert K --> C
-res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "CO2RooAir_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "CO2RooAir_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 CO2RooAir  = [x for x in res["CO2RooAir_y"]]
-res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "oveTSetRooHea_u","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "oveTSetRooHea_u","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 TSetRooHea   = [x-273.15 for x in res["oveTSetRooHea_u"]] # convert K --> C
-res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "oveTSetRooCoo_u","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "oveTSetRooCoo_u","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 TSetRooCoo   = [x-273.15 for x in res["oveTSetRooCoo_u"]] # convert K --> C
-res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PFan_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PFan_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 PFan  = res["PFan_y"]
-res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PCoo_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PCoo_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 PCoo  = res["PCoo_y"]
-res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PHea_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PHea_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 PHea  = res["PHea_y"]
-res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PPum_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))
+res = JSON.parse(String(HTTP.put("$url/results", ["Content-Type" => "application/json","connecttimeout"=>30.0], JSON.json(Dict("point_name" => "PPum_y","start_time" => 0, "final_time" => length));retry_non_idempotent=true).body))["payload"]
 PPum  = res["PPum_y"]
 tab=DataFrame([time,TRooAir,CO2RooAir,TSetRooHea,TSetRooCoo,PFan,PCoo,PHea,PPum],[:time,:TRooAir,:CO2RooAir,:TSetRooHea,:TSetRooCoo,:PFan,:PCoo,:PHea,:PPum])
 CSV.write("result_testcase2.csv",tab)
