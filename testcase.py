@@ -208,7 +208,7 @@ class TestCase(object):
         u : dict
             Defines the control input data to be used for the step.
             {<input_name>_activate : bool,
-             <input_name>_u        : float}
+             <input_name>_u        : int or float}
 
         Returns
         -------
@@ -331,11 +331,11 @@ class TestCase(object):
 
         Parameters
         ----------
-        start_time: int
+        start_time: int or float
             Start time of simulation to initialize to in seconds.
-        warmup_period: int
+        warmup_period: int or float
             Length of time before start_time to simulate for warmup in seconds.
-        end_time: int, optional
+        end_time: int or float, optional
             Specifies a finite end time to allow the simulation to continue
             Default value is infinite.
 
@@ -459,7 +459,7 @@ class TestCase(object):
 
         Parameters
         ----------
-        step: int
+        step: int or float
             Control step in seconds.
 
         Returns
@@ -579,9 +579,9 @@ class TestCase(object):
         ----------
         point_name: str
             Name of variable.
-        start_time : float
+        start_time : int or float
             Start time of data to return in seconds.
-        final_time : float
+        final_time : int or float
             Start time of data to return in seconds.
 
         Returns
@@ -709,9 +709,9 @@ class TestCase(object):
 
         Parameters
         ----------
-        horizon: int
+        horizon: int or float
             Forecast horizon in seconds.
-        interval: int
+        interval: int or float
             Forecast interval in seconds.
 
         Returns
