@@ -89,9 +89,9 @@ parser_scenario.add_argument('electricity_price', type=str)
 parser_scenario.add_argument('time_period', type=str)
 # ``results`` interface
 results_var = reqparse.RequestParser(argument_class=CustomArgument)
-results_var.add_argument('point_name', type=str)
-results_var.add_argument('start_time')
-results_var.add_argument('final_time')
+results_var.add_argument('point_name', type=str, required=True)
+results_var.add_argument('start_time', required=True)
+results_var.add_argument('final_time', required=True)
 # -----------------------
 
 
