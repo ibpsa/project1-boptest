@@ -158,7 +158,7 @@ class Results(Resource):
     '''Interface to test case result data.'''
 
     def put(self):
-        '''GET request to receive measurement data.'''
+        '''PUT request to receive measurement data.'''
         args = results_var.parse_args(strict=True)
         var = args['point_name']
         start_time = args['start_time']
