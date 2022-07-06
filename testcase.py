@@ -322,16 +322,18 @@ class TestCase(object):
             if not isinstance(res, str):
                 # Get result and store measurement and control inputs
                 self.__get_results(res, store=True, store_initial=False)
-                # Advance start time
-                self.start_time = self.final_time
                 # Raise the flag to compute time lapse
                 self.tic_time = time.time()
                 # Get full current state
                 payload = self._get_full_current_state()
+                # Write any messages
                 if alert_message == '':
-                    message = "Advancing simulation successfully."
+                    message = "Advanced simulation successfully from {0}s to {1}s.".format(self.start_time, self.final_time)
                 else:
                     message = alert_message
+                # Advance start time
+                self.start_time = self.final_time
+                # Log and return
                 logging.info(message)
                 return status, message, payload
 
@@ -435,7 +437,7 @@ class TestCase(object):
             self.cal.initialize()
             # Get full current state
             payload = self._get_full_current_state()
-            message = "Test simulation initialized successfully."
+            message = "Test simulation initialized successfully to {0}s.".format(self.start_time)
             logging.info(message)
 
             return status, message, payload
