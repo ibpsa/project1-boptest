@@ -50,7 +50,7 @@ class TestCase(object):
         self.fmu.set_log_level(7)
         # Configure the log, log file, and console output
         name = 'boptest_{0}'.format(self.name)
-        fmt = '%(asctime)s\t%(name)-20s%(levelname)s\t%(message)s'
+        fmt = '%(asctime)s UTC\t%(name)-20s%(levelname)s\t%(message)s'
         datefmt = '%m/%d/%Y %I:%M:%S %p'
         formatter = logging.Formatter(fmt,datefmt)
         logging.basicConfig(filename='{0}.log'.format(name), filemode='w', level=10, format=fmt, datefmt=datefmt)
