@@ -437,7 +437,7 @@ class TestCase(object):
             self.cal.initialize()
             # Get full current state
             payload = self._get_full_current_state()
-            message = "Test simulation initialized successfully to {0}s.".format(self.start_time)
+            message = "Test simulation initialized successfully to {0}s with warmup period of {1}s.".format(self.start_time, warmup_period)
             logging.info(message)
 
             return status, message, payload
