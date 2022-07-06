@@ -47,9 +47,17 @@ class TestCase(object):
         self.name = self.config_json['name']
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
-        # Configure the log
-        logging.basicConfig(filename='boptest.log', level=logging.INFO)
         self.fmu.set_log_level(7)
+        # Configure the log, log file, and console output
+        name = 'boptest_{0}'.format(self.name)
+        fmt = '%(asctime)s\t%(name)-20s%(levelname)s\t%(message)s'
+        datefmt = '%m/%d/%Y %I:%M:%S %p'
+        formatter = logging.Formatter(fmt,datefmt)
+        logging.basicConfig(filename='{0}.log'.format(name), filemode='w', level=10, format=fmt, datefmt=datefmt)
+        logger = logging.getLogger()
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
+        logger.addHandler(stream_handler)
         # Get version and check is 2.0
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
