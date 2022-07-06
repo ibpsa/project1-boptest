@@ -279,9 +279,9 @@ class TestCase(object):
                                     logging.error(message)
                                     return status, message, payload
                             except ValueError:
-                                if u[key] == 'True':
+                                if (u[key] == 'True') or (u[key] == 'true'):
                                     checked_value = 1
-                                elif  u[key] == 'False':
+                                elif  (u[key] == 'False') or (u[key] == 'false'):
                                     checked_value = 0
                                 else:
                                     payload = None
