@@ -275,7 +275,7 @@ class TestCase(object):
                                 else:
                                     payload = None
                                     status = 400
-                                    message = "Invalid value {} for input {}. Value must be a boolean, float, integer, or string able to be converted to a 1 or 0, but is {}.".format(u[key], key, type(u[key]))
+                                    message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
                                     logging.error(message)
                                     return status, message, payload
                             except ValueError:
@@ -286,7 +286,7 @@ class TestCase(object):
                                 else:
                                     payload = None
                                     status = 400
-                                    message = "Invalid value {} for input {}. Value must be a boolean, float, integer, or string able to be converted to a 1 or 0, but is {}.".format(u[key], key, type(u[key]))
+                                    message = "Invalid value {} and/or type {} for input {}. Input must be a boolean, float, integer, string, or unicode able to be converted to a 1 or 0 (or 'T[t]rue' or 'F[f]alse').".format(u[key], type(u[key]), key)
                                     logging.error(message)
                                     return status, message, payload
                         else:
