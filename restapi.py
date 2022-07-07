@@ -103,7 +103,7 @@ class Advance(Resource):
     def post(self):
         '''POST request with input data to advance the simulation one step
         and receive current measurements.'''
-        u = parser_advance.parse_args()
+        u = parser_advance.parse_args(strict=True)
         status, message, payload = case.advance(u)
         return construct(status, message, payload)
 
