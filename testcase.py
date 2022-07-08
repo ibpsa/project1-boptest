@@ -16,6 +16,9 @@ from kpis.kpi_calculator import KPI_Calculator
 import requests
 import traceback
 import logging
+import pytz
+from datetime import datetime
+import random
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -1058,6 +1061,94 @@ class TestCase(object):
 
         return status, message, payload
 
+    def post_results_to_dashboard(self, api_key, tags):
+        '''Posts test results to online dashboard at given server address.
+
+        Parameters
+        ----------
+        api_key : str
+            API key corresponding to user account for dashboard.
+        tags : list of str
+            List of tags to be included with result posting.
+
+        Returns
+        -------
+        status: int
+            Indicates whether a posting to the dashboard has been successfully completed.
+            If 200, the posting was successful.
+            If 400, there was an input error.
+            If 500, an internal error occurred.
+        message: str
+            Includes detailed debugging information
+        payload: None
+
+        '''
+
+        # Check parameters
+        if not isinstance(api_key, str):
+            status = 400
+            message = 'Invalid type for input api_key. It must be a string, but is a {0}.'.format(type(api_key))
+            logging.error(message)
+            return status, message, None
+
+        if not isinstance(tags, list):
+            status = 400
+            message = 'Invalid type for input tags. It must be a list of strings, but is a {0}.'.format(type(tags))
+            logging.error(message)
+            return status, message, None
+
+        if len(tags)>10:
+            status = 400
+            message = 'Invalid number of tags. The limit is 10, but there are {0}.'.format(len(tags))
+            logging.error(message)
+            return status, message, None
+
+        for tag in tags:
+            if not isinstance(tag, str):
+                status = 400
+                message = 'Invalid type for one of the tag inputs. They must be strings, but one is a {0}.'.format(type(tag))
+                logging.error(message)
+                return status, message, None
+        # Specify server address and payload
+        dash_server = 'https://api.boptest.net:8081/'
+        payload = {
+          "results": [
+            {
+              "uid": str(int(random.random()*10000000)),
+              "dateRun": str(datetime.now(tz=pytz.UTC)),
+              "boptestVersion": self.version,
+              "isShared": True,
+              "controlStep": str(self.get_step()[2]),
+              "account": {
+                "apiKey": api_key
+              },
+              "tags": tags,
+              "kpis": self.get_kpis()[2],
+              "forecastParameters": self.get_forecast_parameters()[2],
+              "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
+              "buildingType": {
+                "uid": self.get_name()[2]['name']
+              }
+            }
+          ]
+        }
+        dash_url = "%s/api/results" % dash_server
+        # Post to dashboard
+        result = requests.post(dash_url, json=payload)
+        # Interpret response
+        status = result.status_code
+        if status == 200:
+            message = 'Results submitted successfully to dashboard at {0}.'.format(dash_server)
+            logging.info(message)
+        else:
+            if 'Could not find any entity of type "accounts" matching' in result.json()['rejected'][0]['message']:
+                message = 'Error submitting results to dashboard at {0}. Check the dashboard user account API key is correct. Full dashboard response is: {1}.'.format(dash_server, result.json())
+            else:
+                message = 'Error submitting results to dashboard at {0}. Full dashboard response is: {1}.'.format(dash_server, result.json())
+            logging.error(message)
+
+        return status, message, None
+
     def _get_elapsed_control_time_ratio(self):
         '''Returns the elapsed control time ratio vector for the case.
 
@@ -1194,74 +1285,6 @@ class TestCase(object):
         z.update(self.u)
 
         return z
-
-    def post_results_to_dashboard(self, api_key, tags):
-
-        import pytz
-        from datetime import datetime
-        import random
-
-        if not isinstance(api_key, str):
-            status = 400
-            message = 'Invalid type for input api_key. It must be a string, but is a {0}.'.format(type(api_key))
-            logging.error(message)
-            return status, message, None
-
-        if not isinstance(tags, list):
-            status = 400
-            message = 'Invalid type for input tags. It must be a list of strings, but is a {0}.'.format(type(tags))
-            logging.error(message)
-            return status, message, None
-
-        if len(tags)>10:
-            status = 400
-            message = 'Invalid number of tags. The limit is 10, but there are {0}.'.format(len(tags))
-            logging.error(message)
-            return status, message, None
-
-        for tag in tags:
-            if not isinstance(tag, str):
-                status = 400
-                message = 'Invalid type for one of the tag inputs. They must be strings, but one is a {0}.'.format(type(tag))
-                logging.error(message)
-                return status, message, None
-
-        dash_server = 'https://api.boptest.net:8081/'
-        payload = {
-          "results": [
-            {
-              "uid": str(int(random.random()*10000000)),
-              "dateRun": str(datetime.now(tz=pytz.UTC)),
-              "boptestVersion": self.version,
-              "isShared": True,
-              "controlStep": str(self.get_step()[2]),
-              "account": {
-                "apiKey": api_key
-              },
-              "tags": tags,
-              "kpis": self.get_kpis()[2],
-              "forecastParameters": self.get_forecast_parameters()[2],
-              "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
-              "buildingType": {
-                "uid": self.get_name()[2]['name']
-              }
-            }
-          ]
-        }
-        dash_url = "%s/api/results" % dash_server
-        result = requests.post(dash_url, json=payload)
-        status = result.status_code
-        if status == 200:
-            message = 'Results submitted successfully to dashboard at {0}.'.format(dash_server)
-            logging.info(message)
-        else:
-            if 'Could not find any entity of type "accounts" matching' in result.json()['rejected'][0]['message']:
-                message = 'Error submitting results to dashboard at {0}. Check the dashboard user account API key is correct. Full dashboard response is: {1}.'.format(dash_server, result.json())
-            else:
-                message = 'Error submitting results to dashboard at {0}. Full dashboard response is: {1}.'.format(dash_server, result.json())
-            logging.error(message)
-
-        return status, message, None
 
     def to_camel_case(self, snake_str):
         components = snake_str.split('_')
