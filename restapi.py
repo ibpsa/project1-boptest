@@ -93,7 +93,7 @@ results_var.add_argument('point_name', type=str, required=True)
 results_var.add_argument('start_time', required=True)
 results_var.add_argument('final_time', required=True)
 # ``submit`` interface
-submit_var = reqparse.RequestParser()
+submit_var = reqparse.RequestParser(argument_class=CustomArgument)
 submit_var.add_argument('api_key')
 # -----------------------
 
@@ -244,8 +244,8 @@ class Submit(Resource):
         '''POST request to submit results to online dashboard.'''
         args = submit_var.parse_args(strict=True)
         api_key  = args['api_key']
-        status_code = case.post_results_to_dashboard(api_key)
-        return status_code
+        status, message, payload = case.post_results_to_dashboard(api_key)
+        return construct(status, message, payload)
 # --------------------
 
 # ADD REQUESTS TO API WITH URL EXTENSION

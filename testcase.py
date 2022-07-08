@@ -1200,7 +1200,8 @@ class TestCase(object):
         import pytz
         from datetime import datetime
         import random
-        dash_server = 'https://aws-test.boptest.net:8081'
+        dash_server = 'https://api.boptest.net:8081/'
+        logging.info(api_key)
         payload = {
           "results": [
             {
@@ -1208,7 +1209,7 @@ class TestCase(object):
               "dateRun": str(datetime.now(tz=pytz.UTC)),
               "boptestVersion": "0.2.0",
               "isShared": True,
-              "controlStep": str(self.get_step()),
+              "controlStep": str(self.get_step()[2]),
               "account": {
                 "apiKey": api_key
               },
@@ -1217,19 +1218,29 @@ class TestCase(object):
                 "string2",
                 "string3"
               ],
-              "kpis": self.get_kpis(),
-              "forecastParameters": self.get_forecast_parameters(),
-              "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario())),
+              "kpis": self.get_kpis()[2],
+              "forecastParameters": self.get_forecast_parameters()[2],
+              "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
               "buildingType": {
-                "uid": self.get_name()['name']
+                "uid": self.get_name()[2]['name']
               }
             }
           ]
         }
         dash_url = "%s/api/results" % dash_server
         result = requests.post(dash_url, json=payload)
+        status = result.status_code
+        if status == 200:
+            message = 'Results submitted successfully to dashboard at {0}.'.format(dash_server)
+            logging.info(message)
+        else:
+            if 'Could not find any entity of type "accounts" matching' in result.json()['rejected'][0]['message']:
+                message = 'Error submitting results to dashboard at {0}. Check the dashboard user account API key is correct. Full dashboard response is: {1}.'.format(dash_server, result.json())
+            else:
+                message = 'Error submitting results to dashboard at {0}. Full dashboard response is: {1}.'.format(dash_server, result.json())
+            logging.error(message)
 
-        return result.status_code
+        return status, message, None
 
     def to_camel_case(self, snake_str):
         components = snake_str.split('_')
