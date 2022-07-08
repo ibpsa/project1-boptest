@@ -94,7 +94,10 @@ results_var.add_argument('start_time', required=True)
 results_var.add_argument('final_time', required=True)
 # ``submit`` interface
 submit_var = reqparse.RequestParser(argument_class=CustomArgument)
-submit_var.add_argument('api_key')
+submit_var.add_argument('api_key', type=str, required=True)
+    # add up to 10 tags
+for i in range(10):
+    submit_var.add_argument('tag{0}'.format(i+1), type=str)
 # -----------------------
 
 
@@ -244,7 +247,11 @@ class Submit(Resource):
         '''POST request to submit results to online dashboard.'''
         args = submit_var.parse_args(strict=True)
         api_key  = args['api_key']
-        status, message, payload = case.post_results_to_dashboard(api_key)
+        tags = []
+        for key in args:
+            if ('tag' in key) and (args[key] is not None):
+                tags.append(args[key])
+        status, message, payload = case.post_results_to_dashboard(api_key, tags)
         return construct(status, message, payload)
 # --------------------
 

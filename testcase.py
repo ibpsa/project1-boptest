@@ -1195,29 +1195,50 @@ class TestCase(object):
 
         return z
 
-    def post_results_to_dashboard(self, api_key):
+    def post_results_to_dashboard(self, api_key, tags):
 
         import pytz
         from datetime import datetime
         import random
+
+        if not isinstance(api_key, str):
+            status = 400
+            message = 'Invalid type for input api_key. It must be a string, but is a {0}.'.format(type(api_key))
+            logging.error(message)
+            return status, message, None
+
+        if not isinstance(tags, list):
+            status = 400
+            message = 'Invalid type for input tags. It must be a list of strings, but is a {0}.'.format(type(tags))
+            logging.error(message)
+            return status, message, None
+
+        if len(tags)>10:
+            status = 400
+            message = 'Invalid number of tags. The limit is 10, but there are {0}.'.format(len(tags))
+            logging.error(message)
+            return status, message, None
+
+        for tag in tags:
+            if not isinstance(tag, str):
+                status = 400
+                message = 'Invalid type for one of the tag inputs. They must be strings, but one is a {0}.'.format(type(tag))
+                logging.error(message)
+                return status, message, None
+
         dash_server = 'https://api.boptest.net:8081/'
-        logging.info(api_key)
         payload = {
           "results": [
             {
               "uid": str(int(random.random()*10000000)),
               "dateRun": str(datetime.now(tz=pytz.UTC)),
-              "boptestVersion": "0.2.0",
+              "boptestVersion": self.version,
               "isShared": True,
               "controlStep": str(self.get_step()[2]),
               "account": {
                 "apiKey": api_key
               },
-              "tags": [
-                "string1",
-                "string2",
-                "string3"
-              ],
+              "tags": tags,
               "kpis": self.get_kpis()[2],
               "forecastParameters": self.get_forecast_parameters()[2],
               "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
