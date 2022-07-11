@@ -19,6 +19,7 @@ import logging
 import pytz
 from datetime import datetime
 import random
+import os
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -1110,7 +1111,7 @@ class TestCase(object):
                 logging.error(message)
                 return status, message, None
         # Specify server address and payload
-        dash_server = 'https://api.boptest.net:8081/'
+        dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
         payload = {
           "results": [
             {
