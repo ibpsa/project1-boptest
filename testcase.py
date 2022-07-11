@@ -1085,6 +1085,12 @@ class TestCase(object):
 
         '''
 
+        # Check formal scnenario test completed
+        if not self.scenario_end:
+            status = 500
+            message = 'Formal test scenario, including time period, has not been completed.  Initialize a test scenario using the PUT /scenario API and run it to completion before submitting results to dashboard.'
+            logging.error(message)
+            return status, message, None
         # Check parameters
         if not isinstance(api_key, str):
             status = 400
