@@ -65,6 +65,8 @@ jobs:
       - name: Run test cases 
         run: |
           echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
+          printenv
+          echo $PYTHONPATH
           python3 examples/python/testcase1.py 
 
       - name: Dump docker logs on failure
