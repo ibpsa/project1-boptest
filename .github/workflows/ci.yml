@@ -70,10 +70,9 @@ jobs:
           VERSION_PREFIX=MyPrefix
           echo Display the version prefix: $VERSION_PREFIX
           echo And use it multiple times: $VERSION_PREFIX
-          PYTHONPATH=$PWD
+          PYTHONPATH=$GITHUB_WORKSPACE
           printenv
-
-          echo $PYTHONPATH
+          echo PYTHONPATH $PYTHONPATH
           python3 examples/python/testcase1.py 
 
       - name: Dump docker logs on failure
