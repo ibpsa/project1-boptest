@@ -46,20 +46,20 @@ jobs:
         run: |
           docker-compose -f docker-compose.yml up --build -d
 
+      - name: dump docker logs
+        uses: jwalton/gh-docker-logs@v1
+
+      - name: Upload test cases to minio
+        run: |
+          docker-compose run --no-deps provision python3 -m boptest_submit ./testcases/${TESTCASE}
+
       - name: Wait for web server
         uses: nev7n/wait_for_response@v1
         with:
-          url: "http://localhost/"
+          url: "http://localhost/testcases"
           responseCode: 200
           timeout: 120000
           interval: 500
-
-      - name: Run provision to upload all test cases to minio
-        uses: jwalton/gh-docker-logs@v1
-
-      - name: Run modelica job tests in Docker worker container
-        run: |
-          docker-compose run --no-deps provision python3 -m boptest_submit ./testcases/${TESTCASE}
 
       - name: Run test cases 
         run: |
