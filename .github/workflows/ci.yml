@@ -52,6 +52,7 @@ jobs:
       - name: Upload test cases to minio
         run: |
           docker-compose run --no-deps provision python3 -m boptest_submit ./testcases/${TESTCASE}
+          curl http://localhost/testcases
 
       - name: Wait for web server
         uses: nev7n/wait_for_response@v1
@@ -63,6 +64,7 @@ jobs:
 
       - name: Run test cases 
         run: |
+          echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
           python3 examples/python/testcase1.py 
 
       - name: Dump docker logs on failure
