@@ -1,0 +1,4 @@
+**NAME**,**UNIT**,**DESCRIPTION**
+InternalGainsRad[z],W,Radiative internal gains at zone ‘z’
+InternalGainsCon[z],W,Convective internal gains at zone ‘z’
+InternalGainsLat[z],W,Latent internal gains at zone ‘z’
