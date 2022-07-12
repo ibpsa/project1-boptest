@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      -  'boptest-service'
+  push:
+    branches:
+      -  'boptest-service'
+    tags:
+      - '*-service'
+
+jobs:
+  pre-commit:
+    name: Pre-commit checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.7"
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v2.0.0
+        with:
+          extra_args: --all-files
+
+  simulation-tests:
+    name: Run boptest simulation tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.7"
+
+      - name: Build and run stack
+        run: |
+          docker-compose -f docker-compose.yml up --build -d
+
+      - name: Wait for web server
+        uses: nev7n/wait_for_response@v1
+        with:
+          url: "http://localhost/"
+          responseCode: 200
+          timeout: 120000
+          interval: 500
+
+      - name: Run provision to upload all test cases to minio
+        uses: jwalton/gh-docker-logs@v1
+
+      - name: Run modelica job tests in Docker worker container
+        run: |
+          docker-compose run --no-deps provision python3 -m boptest_submit ./testcases/${TESTCASE}
+
+      - name: Run test cases 
+        run: |
+          python3 examples/python/testcase1.py 
+
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v1
+
+  publish:
+    if: |
+      github.ref == 'refs/heads/boptest-service'
+    runs-on: ubuntu-latest
+    steps:
+      # Only if all other jobs pass.
+      - name: Wait on tests
+        uses: lewagon/wait-on-check-action@v0.2
+        with:
+          ref: ${{ github.ref }}
+          running-workflow-name: "publish" #this job shouldn't wait for itself
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 20 # seconds
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build & Publish Images
+        shell: bash
+        run: ./.github/workflows/publish_to_docker.sh
+        env:
+          DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
