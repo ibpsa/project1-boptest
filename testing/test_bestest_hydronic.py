@@ -33,8 +33,8 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         self.name = Run.name
         self.url = Run.url
         self.points_check = ['reaQHea_y', 'reaTRoo_y',
-                             'reaPum_y', 'reaPPum_y',
-                             'reaTSetSup_y', 'weaSta_reaWeaTDryBul_y']
+                             'ovePum_u', 'reaPPum_y',
+                             'oveTSetSup_u', 'weaSta_reaWeaTDryBul_y']
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
