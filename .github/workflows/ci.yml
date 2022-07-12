@@ -62,10 +62,17 @@ jobs:
           timeout: 120000
           interval: 500
 
+      
+
       - name: Run test cases 
         run: |
+          echo Let\'s define a variable:
+          VERSION_PREFIX=MyPrefix
+          echo Display the version prefix: $VERSION_PREFIX
+          echo And use it multiple times: $VERSION_PREFIX
           PYTHONPATH=$PWD
           printenv
+
           echo $PYTHONPATH
           python3 examples/python/testcase1.py 
 
