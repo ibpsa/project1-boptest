@@ -18,7 +18,7 @@ import traceback
 import logging
 import pytz
 from datetime import datetime
-import random
+import uuid
 import os
 
 class TestCase(object):
@@ -1118,10 +1118,13 @@ class TestCase(object):
                 return status, message, None
         # Specify server address and payload
         dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
+        # Generate uid for results
+        uid = str(uuid.uuid4())
+        # Create payload
         payload = {
           "results": [
             {
-              "uid": str(int(random.random()*10000000)),
+              "uid": uid,
               "dateRun": str(datetime.now(tz=pytz.UTC)),
               "boptestVersion": self.version,
               "isShared": True,
@@ -1147,14 +1150,16 @@ class TestCase(object):
         if status == 200:
             message = 'Results submitted successfully to dashboard at {0}.'.format(dash_server)
             logging.info(message)
+            payload = {'identifier':uid}
         else:
             if 'Could not find any entity of type "accounts" matching' in result.json()['rejected'][0]['message']:
                 message = 'Error submitting results to dashboard at {0}. Check the dashboard user account API key is correct. Full dashboard response is: {1}.'.format(dash_server, result.json())
             else:
                 message = 'Error submitting results to dashboard at {0}. Full dashboard response is: {1}.'.format(dash_server, result.json())
             logging.error(message)
+            payload = None
 
-        return status, message, None
+        return status, message, payload
 
     def _get_elapsed_control_time_ratio(self):
         '''Returns the elapsed control time ratio vector for the case.
