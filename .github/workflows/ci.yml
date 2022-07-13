@@ -30,9 +30,10 @@ jobs:
           echo Display the version prefix: $VERSION_PREFIX
           echo And use it multiple times: $VERSION_PREFIX
           PYTHONPATH=$GITHUB_WORKSPACE
+          ehco "PYTHONPATH=$PYTHONPATH" >> $GITHUB_ENV
           ls -l
           echo PYTHONPATH $PYTHONPATH
           python --version
-          PYTHONPATH=$GITHUB_WORKSPACE python -c "import sys; print('\n'.join(sys.path))"
+          #PYTHONPATH=$GITHUB_WORKSPACE python -c "import sys; print('\n'.join(sys.path))"
           python examples/python/testcase1.py 
 
