@@ -40,7 +40,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.7"
+          python-version: "3.9"
 
       - name: Build and run stack
         run: |
@@ -66,14 +66,15 @@ jobs:
 
       - name: Run test cases 
         run: |
-          echo Let\'s define a variable:
           VERSION_PREFIX=MyPrefix
           echo Display the version prefix: $VERSION_PREFIX
           echo And use it multiple times: $VERSION_PREFIX
           PYTHONPATH=$GITHUB_WORKSPACE
-          printenv
+          ls -l
           echo PYTHONPATH $PYTHONPATH
-          python3 examples/python/testcase1.py 
+          python --version
+          python -c "import sys; print('\n'.join(sys.path))"
+          python examples/python/testcase1.py 
 
       - name: Dump docker logs on failure
         if: failure()
