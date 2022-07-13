@@ -35,5 +35,6 @@ jobs:
           echo PYTHONPATH $PYTHONPATH
           python --version
           #PYTHONPATH=$GITHUB_WORKSPACE python -c "import sys; print('\n'.join(sys.path))"
+          python -c "import sys; print('\n'.join(sys.path))"
           python examples/python/testcase1.py 
 
