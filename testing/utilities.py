@@ -13,6 +13,7 @@ import json
 import pandas as pd
 import re
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 
 def get_root_path():
@@ -763,6 +764,8 @@ class partialTestAPI(partialChecks):
                                                             "tag2":"unit_test",
                                                             "unit_test":"True"}).json()['payload']
         payload['payload']['results'][0]['kpis']['time_rat'] = 0
+        payload['payload']['results'][0]['uid'] = '1'
+        payload['payload']['results'][0]['DateRun'] = str(datetime(2020, 5, 17))
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'submit.json')
         self.compare_ref_json(payload, ref_filepath)
         # Return scenario and step to original

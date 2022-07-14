@@ -1122,17 +1122,11 @@ class TestCase(object):
         # Specify server address and payload
         dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
         # Create payload
-        if not unit_test:
-            t = str(datetime.now(tz=pytz.UTC))
-            uid = str(uuid.uuid4())
-        else:
-            t = str(datetime(2020, 5, 17))
-            uid = '1'
         payload = {
           "results": [
             {
-              "uid": uid,
-              "dateRun": t,
+              "uid": str(uuid.uuid4()),
+              "dateRun": str(datetime.now(tz=pytz.UTC)),
               "boptestVersion": self.version,
               "isShared": True,
               "controlStep": str(self.get_step()[2]),
