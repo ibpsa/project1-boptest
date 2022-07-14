@@ -1,4 +1,5 @@
-# WEB_REGISTRY_URI and WORKER_REGISTRY_URI are defined in .env in root repo
+# load .env defines in root of repo 
+export $(egrep -v '^#' .env | xargs)
 export DOCKER_HUB_WEB_REGISTRY_URI=tijcolem/boptest-web
 export DOCKER_HUB_WORKER_REGISTRY_URI=tijcolem/boptest-worker
 
