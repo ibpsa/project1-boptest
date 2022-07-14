@@ -20,6 +20,7 @@ import pytz
 from datetime import datetime
 import uuid
 import os
+import json
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -1062,7 +1063,7 @@ class TestCase(object):
 
         return status, message, payload
 
-    def post_results_to_dashboard(self, api_key, tags):
+    def post_results_to_dashboard(self, api_key, tags, unit_test=False):
         '''Posts test results to online dashboard at given server address.
 
         Parameters
@@ -1071,6 +1072,8 @@ class TestCase(object):
             API key corresponding to user account for dashboard.
         tags : list of str
             List of tags to be included with result posting.
+        unit_test : bool
+            True if API being called for unit testing so as not to post to online dashboard.
 
         Returns
         -------
@@ -1118,14 +1121,18 @@ class TestCase(object):
                 return status, message, None
         # Specify server address and payload
         dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
-        # Generate uid for results
-        uid = str(uuid.uuid4())
         # Create payload
+        if not unit_test:
+            t = str(datetime.now(tz=pytz.UTC))
+            uid = str(uuid.uuid4())
+        else:
+            t = str(datetime(2020, 5, 17))
+            uid = '1'
         payload = {
           "results": [
             {
               "uid": uid,
-              "dateRun": str(datetime.now(tz=pytz.UTC)),
+              "dateRun": t,
               "boptestVersion": self.version,
               "isShared": True,
               "controlStep": str(self.get_step()[2]),
@@ -1144,7 +1151,15 @@ class TestCase(object):
         }
         dash_url = "%s/api/results" % dash_server
         # Post to dashboard
-        result = requests.post(dash_url, json=payload)
+        if not unit_test:
+            result = requests.post(dash_url, json=payload)
+        else:
+            message = '/submit API run in unit test mode'
+            logging.info(message)
+            status = 200
+            payload_ret = {'dash_url':dash_url, 'payload':payload}
+            return status, message, payload_ret
+
         # Interpret response
         status = result.status_code
         if status == 200:

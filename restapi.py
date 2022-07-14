@@ -98,6 +98,7 @@ submit_var.add_argument('api_key', type=str, required=True)
     # add up to 10 tags
 for i in range(10):
     submit_var.add_argument('tag{0}'.format(i+1), type=str)
+submit_var.add_argument('unit_test')
 # -----------------------
 
 
@@ -247,11 +248,17 @@ class Submit(Resource):
         '''POST request to submit results to online dashboard.'''
         args = submit_var.parse_args(strict=True)
         api_key  = args['api_key']
+        unit_test=False
         tags = []
         for key in args:
             if ('tag' in key) and (args[key] is not None):
                 tags.append(args[key])
-        status, message, payload = case.post_results_to_dashboard(api_key, tags)
+            if key=='unit_test':
+                if args[key] == "True":
+                    unit_test = True
+                else:
+                    unit_test = False
+        status, message, payload = case.post_results_to_dashboard(api_key, tags, unit_test)
         return construct(status, message, payload)
 # --------------------
 
