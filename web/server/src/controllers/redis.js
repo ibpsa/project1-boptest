@@ -39,14 +39,15 @@ class Redis {
       const responseChannel = workerID + ':response'
       const requestID = uuidv4()
 
-      this.messageHandlers[requestID] = (parsedMessage) => {
+      this.messageHandlers[requestID] = async (parsedMessage) => {
         try {
           clearTimeout(responseTimeout)
-          const responseValue = redis.hget(workerID, method)
+          const response = await redis.hget(workerID, method)
+          const responseObject = JSON.parse(response)
           if (parsedMessage['status'] == 'ok') {
-            resolve(responseValue)
+            resolve(responseObject)
           } else {
-            reject(responseValue)
+            reject(responseObject)
           }
         } catch (e) {
           reject(e)

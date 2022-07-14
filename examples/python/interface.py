@@ -141,7 +141,7 @@ def control_test(testcase, control_module='', start_time=0, warmup_period=0, len
     print('Initializing test case simulation.')
     if scenario is not None:
         # Initialize test with a scenario time period
-        res = check_response(requests.put('{0}/scenario/{1}'.format(url, testid)), data=scenario))['time_period']
+        res = check_response(requests.put('{0}/scenario/{1}'.format(url, testid), data=scenario))['time_period']
         print(res)
         # Record test simulation start time
         start_time = int(res['time'])
@@ -164,10 +164,11 @@ def control_test(testcase, control_module='', start_time=0, warmup_period=0, len
     u = controller.initialize()
     # Initialize forecast storage structure
     forecasts = None
-    print(requests.get('{0}/scenario'.format(url)).json())
+    print(requests.get('{0}/scenario/{1}'.format(url, testid)).json())
     # Simulation Loop
     for t in range(total_time_steps):
         # Advance simulation with control input value(s)
+        print('advance with u: %s' % u)
         y = check_response(requests.post('{0}/advance/{1}'.format(url, testid), data=u))
         # If simulation is complete break simulation loop
         if not y:
