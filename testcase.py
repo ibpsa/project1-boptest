@@ -1122,10 +1122,11 @@ class TestCase(object):
         # Specify server address and payload
         dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
         # Create payload
+        uid = str(uuid.uuid4())
         payload = {
           "results": [
             {
-              "uid": str(uuid.uuid4()),
+              "uid": uid,
               "dateRun": str(datetime.now(tz=pytz.UTC)),
               "boptestVersion": self.version,
               "isShared": True,
