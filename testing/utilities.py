@@ -742,13 +742,16 @@ class partialTestAPI(partialChecks):
 
         # Get current scenario
         scenario_current = requests.get('{0}/scenario'.format(self.url)).json()['payload']
+        step_current = requests.get('{0}/step'.format(self.url)).json()['payload']
         api_key = "valid_api_key"
         # Set testing scenario
-        scenario = {"time_period":"peak_heat_day",
+        scenario = {"time_period":self.test_time_period,
                     "electricity_price":"dynamic"}
         # Set test case scenario
         y = requests.put("{0}/scenario".format(self.url),
                          data=scenario).json()["payload"]["time_period"]
+        # Set step so doesn't take too long
+        requests.put('{0}/step'.format(self.url), data={'step':86400})
         # Simulation Loop
         while y:
             # Compute control signal
@@ -762,8 +765,9 @@ class partialTestAPI(partialChecks):
         payload['payload']['results'][0]['kpis']['time_rat'] = 0
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'submit.json')
         self.compare_ref_json(payload, ref_filepath)
-        # Return scenario to original
+        # Return scenario and step to original
         requests.put('{0}/scenario'.format(self.url), data=scenario_current)
+        requests.put('{0}/step'.format(self.url), data={'step':step_current})
 
     def test_invalid_step(self):
         '''Test set step with invalid non-numeric and negative values returns a 400 error.
@@ -951,15 +955,18 @@ class partialTestAPI(partialChecks):
 
         '''
 
-        # Get current scenario
+        # Get current scenario and step
         scenario_current = requests.get('{0}/scenario'.format(self.url)).json()['payload']
+        step_current = requests.get('{0}/step'.format(self.url)).json()['payload']
         api_key = "valid_api_key"
         # Set testing scenario
-        scenario = {"time_period":"peak_heat_day",
+        scenario = {"time_period":self.test_time_period,
                     "electricity_price":"dynamic"}
         # Set test case scenario
         y = requests.put("{0}/scenario".format(self.url),
                          data=scenario).json()["payload"]["time_period"]
+        # Set setp so doesn't take too long
+        requests.put('{0}/step'.format(self.url), data={'step':86400})
         # Simulation Loop
         while y:
             # Compute control signal
@@ -987,8 +994,9 @@ class partialTestAPI(partialChecks):
                                                             "tag10":"1", "tag11":"2",
                                                             "unit_test":"True"})
         self.compare_error_code(res, "Invalid tag number in submit request did not return a 400 error.")
-        # Return scenario to original
+        # Return scenario and step to original
         requests.put('{0}/scenario'.format(self.url), data=scenario_current)
+        requests.put('{0}/step'.format(self.url), data={'step':step_current})
 
 class partialTestTimePeriod(partialChecks):
     '''Partial class for testing the time periods for each test case
