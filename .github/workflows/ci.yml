@@ -8,7 +8,8 @@ on:
     branches:
       -  'boptest-service'
     tags:
-      - '*-service'
+      - '*-service'  # boptest-service releases are appended with -service
+
 
 jobs:
 
@@ -16,6 +17,8 @@ jobs:
     name: Build containers and run boptest simulation tests
     runs-on: ubuntu-latest
     timeout-minutes: 240
+    env:
+      COMPOSE_PROJECT_NAME: boptest_service
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,6 +27,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.9"
+
+      - name: Dotenv Action
+        uses: falti/dotenv-action@v0.2.8
 
       - name: Build and run stack
         run: |
@@ -58,24 +64,10 @@ jobs:
         if: failure()
         uses: jwalton/gh-docker-logs@v1
 
-  publish:
-    if: |
-      github.ref == 'refs/heads/boptest-service'
-    runs-on: ubuntu-latest
-    steps:
-      # Only if all other jobs pass.
-      - name: Wait on tests
-        uses: lewagon/wait-on-check-action@v0.2
-        with:
-          ref: ${{ github.ref }}
-          running-workflow-name: "publish" #
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 20 # seconds
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Build & Publish Images
+      - name: Public docker images
+        if: |
+          github.ref == 'refs/heads/boptest-service' ||
+          github.ref == 'refs/tags/*-service' 
         shell: bash
         run: ./.github/workflows/publish_to_docker.sh
         env:
