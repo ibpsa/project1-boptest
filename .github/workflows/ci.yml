@@ -62,7 +62,6 @@ jobs:
         uses: jwalton/gh-docker-logs@v1
 
       - name: Public docker images
-        uses: falti/dotenv-action@v0.2.8
         if: |
           github.ref == 'refs/heads/boptest-service' ||
           github.ref == 'refs/tags/*-service' 
