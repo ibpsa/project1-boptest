@@ -61,10 +61,10 @@ jobs:
         if: failure()
         uses: jwalton/gh-docker-logs@v1
 
-      - name: Public docker images
+      - name: Publish docker images
         if: |
           github.ref == 'refs/heads/boptest-service' ||
-          github.ref == 'refs/tags/*-service' 
+          contains(github.ref, 'refs/tags') 
         shell: bash
         run: ./.github/workflows/publish_to_docker.sh
         env:
