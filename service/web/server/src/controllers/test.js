@@ -24,33 +24,15 @@ export function getTestcaseID(testid) {
 }
 
 export async function getName(testid) {
-  // At this time name is equal to testcaseid
-  const name = await getTestcaseID(testid)
-  return { name }
+  return await redis.callWorkerMethod(testid, 'get_name', {})
 }
 
 export async function getInputs(testid, db) {
-  try {
-    const testcaseid = await getTestcaseID(testid)
-    const testcases = db.collection('testcases')
-    const query = { testcaseid }
-    const doc = await testcases.findOne(query, { inputs: 1 })
-    return doc.inputs
-  } catch(e) {
-    console.log(e)
-  }
+  return await redis.callWorkerMethod(testid, 'get_inputs', {})
 }
 
 export async function getMeasurements(testid, db) {
-  try {
-    const testcaseid = await getTestcaseID(testid)
-    const testcases = db.collection('testcases')
-    const query = { testcaseid }
-    const doc = await testcases.findOne(query, { measurements: 1 })
-    return doc.measurements
-  } catch(e) {
-    console.log(e)
-  }
+  return await redis.callWorkerMethod(testid, 'get_measurements', {})
 }
 
 export async function getStatus(testid) {

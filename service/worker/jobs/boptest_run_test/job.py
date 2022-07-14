@@ -41,6 +41,9 @@ class Job:
         self.message_handlers = {}
         self.register_message_handler('initialize', self.initialize)
         self.register_message_handler('advance', self.advance)
+        self.register_message_handler('get_name', self.get_name)
+        self.register_message_handler('get_inputs', self.get_inputs)
+        self.register_message_handler('get_measurements', self.get_measurements)
         self.register_message_handler('get_results', self.get_results)
         self.register_message_handler('get_kpis', self.get_kpis)
         self.register_message_handler('get_scenario', self.get_scenario)
@@ -125,6 +128,16 @@ class Job:
 
     # End methods for message passing
 
+    # Utility method to package BOPTEST's testcase.py responses
+    # Most BOPTEST methods return a multivalue response, that is received as a tuple
+    # This function packages the response, into dictionary
+    def package_response(self, response):
+        return {
+            'status': response[0],
+            'message': response[1],
+            'payload': response[2]
+        }
+
     # Begin message handling methods
     # These are called when a message is received,
     # See Job::register_message_handler
@@ -136,54 +149,57 @@ class Job:
         start_time = float(start_time) if start_time else 0.0
         warmup_period = float(warmup_period) if warmup_period else 0.0
         end_time = float(end_time) if end_time else np.inf
-        return self.tc.initialize(start_time, warmup_period, end_time)
+        return self.package_response(self.tc.initialize(start_time, warmup_period, end_time))
+
+    def get_name(self, params):
+        return self.package_response(self.tc.get_name())
+
+    def get_inputs(self, params):
+        return self.package_response(self.tc.get_inputs())
+
+    def get_measurements(self, params):
+        return self.package_response(self.tc.get_measurements())
 
     def get_results(self, params):
         point_name = params['point_name']
         results_start_time = float(params['start_time'])
         results_final_time = float(params['final_time'])
 
-        results = self.tc.get_results(point_name, results_start_time, results_final_time)
-        for key in results:
-            results[key] = results[key].tolist()
-        return results
+        return self.package_response(self.tc.get_results(point_name, results_start_time, results_final_time))
 
     def get_kpis(self, params):
-        return self.tc.get_kpis()
+        return self.package_response(self.tc.get_kpis())
 
     def get_scenario(self, params):
-        return self.tc.get_scenario()
+        return self.package_response(self.tc.get_scenario())
 
     def set_scenario(self, params):
         scenario = params['scenario']
-        return self.tc.set_scenario(scenario)
+        return self.package_response(self.tc.set_scenario(scenario))
 
     def get_forecast_parameters(self, params):
-        return self.tc.get_forecast_parameters()
+        return self.package_response(self.tc.get_forecast_parameters())
 
     def set_forecast_parameters(self, params):
         horizon = params['horizon']
         interval = params['interval']
         self.tc.set_forecast_parameters(horizon, interval)
-        return self.tc.get_forecast_parameters()
+        return self.package_response(self.tc.get_forecast_parameters())
 
     def get_forecast(self, params):
-        return self.tc.get_forecast()
+        return self.package_response(self.tc.get_forecast())
 
     def get_step(self, params):
-        return self.tc.get_step()
+        return self.package_response(self.tc.get_step())
 
     def set_step(self, params):
         step = params['step']
         self.tc.set_step(step)
-        return self.tc.get_step()
+        return self.package_response(self.tc.get_step())
 
     def advance(self, params):
         u = params['u']
-        y = self.tc.advance(u)
-        if not y:
-            self.post_results_to_dashboard()
-        return y
+        return self.package_response(self.tc.advance(u))
 
     def stop(self, params):
         self.keep_running = False
