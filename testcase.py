@@ -13,8 +13,14 @@ import time
 from data.data_manager import Data_Manager
 from forecast.forecaster import Forecaster
 from kpis.kpi_calculator import KPI_Calculator
+import requests
 import traceback
 import logging
+import pytz
+from datetime import datetime
+import uuid
+import os
+import json
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -346,6 +352,7 @@ class TestCase(object):
                 return status, message, payload
         else:
             # Simulation at end time
+            self.scenario_end = True
             payload = dict()
             message = "End of test case scenario time period reached."
             logging.info(message)
@@ -435,6 +442,8 @@ class TestCase(object):
             self.start_time = start_time
             # Initialize KPI Calculator
             self.cal.initialize()
+            # Set scenario end flag to false
+            self.scenario_end = False
             # Get full current state
             payload = self._get_full_current_state()
             message = "Test simulation initialized successfully to {0}s with warmup period of {1}s.".format(self.start_time, warmup_period)
@@ -1054,6 +1063,114 @@ class TestCase(object):
 
         return status, message, payload
 
+    def post_results_to_dashboard(self, api_key, tags, unit_test=False):
+        '''Posts test results to online dashboard at given server address.
+
+        Parameters
+        ----------
+        api_key : str
+            API key corresponding to user account for dashboard.
+        tags : list of str
+            List of tags to be included with result posting.
+        unit_test : bool
+            True if API being called for unit testing so as not to post to online dashboard.
+
+        Returns
+        -------
+        status: int
+            Indicates whether a posting to the dashboard has been successfully completed.
+            If 200, the posting was successful.
+            If 400, there was an input error.
+            If 500, an internal error occurred.
+        message: str
+            Includes detailed debugging information
+        payload: None
+
+        '''
+
+        # Check formal scnenario test completed
+        if not self.scenario_end:
+            status = 500
+            message = 'Formal test scenario, including time period, has not been completed.  Initialize a test scenario using the PUT /scenario API and run it to completion before submitting results to dashboard.'
+            logging.error(message)
+            return status, message, None
+        # Check parameters
+        if not isinstance(api_key, str):
+            status = 400
+            message = 'Invalid type for input api_key. It must be a string, but is a {0}.'.format(type(api_key))
+            logging.error(message)
+            return status, message, None
+
+        if not isinstance(tags, list):
+            status = 400
+            message = 'Invalid type for input tags. It must be a list of strings, but is a {0}.'.format(type(tags))
+            logging.error(message)
+            return status, message, None
+
+        if len(tags)>10:
+            status = 400
+            message = 'Invalid number of tags. The limit is 10, but there are {0}.'.format(len(tags))
+            logging.error(message)
+            return status, message, None
+
+        for tag in tags:
+            if not isinstance(tag, str):
+                status = 400
+                message = 'Invalid type for one of the tag inputs. They must be strings, but one is a {0}.'.format(type(tag))
+                logging.error(message)
+                return status, message, None
+        # Specify server address and payload
+        dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
+        # Create payload
+        uid = str(uuid.uuid4())
+        payload = {
+          "results": [
+            {
+              "uid": uid,
+              "dateRun": str(datetime.now(tz=pytz.UTC)),
+              "boptestVersion": self.version,
+              "isShared": True,
+              "controlStep": str(self.get_step()[2]),
+              "account": {
+                "apiKey": api_key
+              },
+              "tags": tags,
+              "kpis": self.get_kpis()[2],
+              "forecastParameters": self.get_forecast_parameters()[2],
+              "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
+              "buildingType": {
+                "uid": self.get_name()[2]['name']
+              }
+            }
+          ]
+        }
+        dash_url = "%s/api/results" % dash_server
+        # Post to dashboard
+        if not unit_test:
+            result = requests.post(dash_url, json=payload)
+        else:
+            message = '/submit API run in unit test mode'
+            logging.info(message)
+            status = 200
+            payload_ret = {'dash_url':dash_url, 'payload':payload}
+            return status, message, payload_ret
+
+        # Interpret response
+        status = result.status_code
+        if status == 200:
+            message = 'Results submitted successfully to dashboard at {0}.'.format(dash_server)
+            logging.info(message)
+            payload = {'identifier':uid}
+        else:
+            if 'Could not find any entity of type "accounts" matching' in result.json()['rejected'][0]['message']:
+                message = 'Error submitting results to dashboard at {0}. Check the dashboard user account API key is correct. Full dashboard response is: {1}.'.format(dash_server, result.json())
+            else:
+                message = 'Error submitting results to dashboard at {0}. Full dashboard response is: {1}.'.format(dash_server, result.json())
+            logging.error(message)
+            payload = None
+
+        return status, message, payload
+
     def _get_elapsed_control_time_ratio(self):
         '''Returns the elapsed control time ratio vector for the case.
 
@@ -1190,3 +1307,24 @@ class TestCase(object):
         z.update(self.u)
 
         return z
+
+    def to_camel_case(self, snake_str):
+        components = snake_str.split('_')
+        # We capitalize the first letter of each component except the first one
+        # with the 'title' method and join them together.
+        return components[0] + ''.join(x.title() for x in components[1:])
+
+    def keys_to_camel_case(self, a_dict):
+        result = {}
+        for key, value in a_dict.items():
+            result[self.to_camel_case(key)] = value
+        return result
+
+    # weatherForecastUncertainty is required by the dashboard,
+    # however some testcases don't report it.
+    # This is a workaround
+    def add_forecast_uncertainty(self, scenario):
+        if not 'weatherForecastUncertainty' in scenario:
+            scenario['weatherForecastUncertainty'] = 'deterministic'
+
+        return scenario

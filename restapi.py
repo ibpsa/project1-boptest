@@ -92,6 +92,13 @@ results_var = reqparse.RequestParser(argument_class=CustomArgument)
 results_var.add_argument('point_name', type=str, required=True)
 results_var.add_argument('start_time', required=True)
 results_var.add_argument('final_time', required=True)
+# ``submit`` interface
+submit_var = reqparse.RequestParser(argument_class=CustomArgument)
+submit_var.add_argument('api_key', type=str, required=True)
+    # add up to 10 tags
+for i in range(10):
+    submit_var.add_argument('tag{0}'.format(i+1), type=str)
+submit_var.add_argument('unit_test')
 # -----------------------
 
 
@@ -234,7 +241,25 @@ class Version(Resource):
         status, message, payload = case.get_version()
         return construct(status, message, payload)
 
+class Submit(Resource):
+    '''Submit results to dashboard.'''
 
+    def post(self):
+        '''POST request to submit results to online dashboard.'''
+        args = submit_var.parse_args(strict=True)
+        api_key  = args['api_key']
+        unit_test=False
+        tags = []
+        for key in args:
+            if ('tag' in key) and (args[key] is not None):
+                tags.append(args[key])
+            if key=='unit_test':
+                if args[key] == "True":
+                    unit_test = True
+                else:
+                    unit_test = False
+        status, message, payload = case.post_results_to_dashboard(api_key, tags, unit_test)
+        return construct(status, message, payload)
 # --------------------
 
 # ADD REQUESTS TO API WITH URL EXTENSION
@@ -251,6 +276,7 @@ api.add_resource(Forecast, '/forecast')
 api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')
 api.add_resource(Version, '/version')
+api.add_resource(Submit, '/submit')
 # --------------------------------------
 
 if __name__ == '__main__':
