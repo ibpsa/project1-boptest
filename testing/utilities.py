@@ -765,7 +765,7 @@ class partialTestAPI(partialChecks):
                                                             "unit_test":"True"}).json()['payload']
         payload['payload']['results'][0]['kpis']['time_rat'] = 0
         payload['payload']['results'][0]['uid'] = '1'
-        payload['payload']['results'][0]['DateRun'] = str(datetime(2020, 5, 17))
+        payload['payload']['results'][0]['dateRun'] = str(datetime(2020, 5, 17))
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'submit.json')
         self.compare_ref_json(payload, ref_filepath)
         # Return scenario and step to original
