@@ -741,7 +741,7 @@ class partialTestAPI(partialChecks):
 
         '''
 
-        # Get current scenario
+        # Get current scenario and step
         scenario_current = requests.get('{0}/scenario'.format(self.url)).json()['payload']
         step_current = requests.get('{0}/step'.format(self.url)).json()['payload']
         api_key = "valid_api_key"
@@ -968,7 +968,7 @@ class partialTestAPI(partialChecks):
         # Set test case scenario
         y = requests.put("{0}/scenario".format(self.url),
                          data=scenario).json()["payload"]["time_period"]
-        # Set setp so doesn't take too long
+        # Set step so doesn't take too long
         requests.put('{0}/step'.format(self.url), data={'step':86400})
         # Simulation Loop
         while y:
@@ -987,7 +987,7 @@ class partialTestAPI(partialChecks):
         while y:
             # Compute control signal
             u = {}
-            # Advance simulation with control signal but stop after one iteration
+            # Advance simulation to end of time period scenario
             y = requests.post("{0}/advance".format(self.url), data=u).json()["payload"]
         # Test invalid tag number
         res = requests.post("{0}/submit".format(self.url), data={"api_key": api_key,
