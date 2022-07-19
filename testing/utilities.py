@@ -739,11 +739,12 @@ class partialTestAPI(partialChecks):
 
         # Try setting non-numeric step
         step = "5*7*24*3600"
-        payload = requests.put('{0}/step'.format(self.url), data={'step': step})
+        payload = requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step': step})
+        print('put step payload {0}'.format(payload.json()))
         self.compare_error_code(payload, "Invalid step in set_step did not return 400 message.")
         # Try setting negative step
         step = -5*7*24*3600
-        payload = requests.put('{0}/step'.format(self.url), data={'step': step})
+        payload = requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step': step})
         self.compare_error_code(payload, "Negative step int set_step did not return 400 message.")
 
     def test_invalid_forecast_parameters(self):
@@ -753,22 +754,22 @@ class partialTestAPI(partialChecks):
 
         # Try setting non-numeric horizon
         forecast_parameters_ref = {'horizon': 'foo', 'interval': 300}
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+        payload = requests.put('{0}/forecast_parameters/{1}'.format(self.url, self.testid),
                                data=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid horizon in forecast_parameters request did not return 400 message.")
         # Try setting non-numeric interval
         forecast_parameters_ref = {'horizon': 3600, 'interval': 'bar'}
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+        payload = requests.put('{0}/forecast_parameters/{1}'.format(self.url, self.testid),
                                data=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid interval in forecast_parameters request did not return 400 message.")
         # Try setting negative horizon
         forecast_parameters_ref = {'horizon': -3600, 'interval': 300}
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+        payload = requests.put('{0}/forecast_parameters/{1}'.format(self.url, self.testid),
                                data=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid interval in forecast_parameters request did not return 400 message.")
         # Try setting negative interval
         forecast_parameters_ref = {'horizon': 3600, 'interval': -300}
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+        payload = requests.put('{0}/forecast_parameters/{1}'.format(self.url, self.testid),
                                data=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid interval in forecast_parameters request did not return 400 message.")
 
@@ -778,19 +779,19 @@ class partialTestAPI(partialChecks):
         '''
 
         # Set scenario
-        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()['payload']
+        scenario_current = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()['payload']
         # Try setting invalid electricity price
         scenario = {'electricity_price': 'invalid_scenario', 'time_period': self.test_time_period}
-        payload = requests.put('{0}/scenario'.format(self.url), data=scenario)
+        payload = requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario)
         self.compare_error_code(payload,
                                 "Invalid value for electricity_price in set_scenario request did not return 400 message.")
         # Try setting invalid time period
         scenario = {'electricity_price': 'highly_dynamic', 'time_period': "invalid_time_period"}
-        payload = requests.put('{0}/scenario'.format(self.url), data=scenario)
+        payload = requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario)
         self.compare_error_code(payload,
                                "Invalid value for time_period in set_scenario request did not return 400 message.")
         # Return scenario to original
-        requests.put('{0}/scenario'.format(self.url), data=scenario_current)
+        requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario_current)
 
     def test_invalid_initialize(self):
         '''Test initialization of test simulation with invalid start_time and warmup_period returns 400 error.
@@ -800,25 +801,25 @@ class partialTestAPI(partialChecks):
         # Try setting non-numeric start_time
         start_time = "0.5 * 24 * 3600"
         warmup_period = 0.5*24*3600
-        y = requests.put('{0}/initialize'.format(self.url),
+        y = requests.put('{0}/initialize/{1}'.format(self.url, self.testid),
                          data={'start_time': start_time, 'warmup_period': warmup_period})
         self.compare_error_code(y,  "Invalid start_time to initialize request did not return 400 message.")
         # Try setting non-numeric warmup_period
         start_time = 0.5*24*3600
         warmup_period = "0.5 * 24 * 3600"
-        y = requests.put('{0}/initialize'.format(self.url),
+        y = requests.put('{0}/initialize/{1}'.format(self.url, self.testid),
                          data={'start_time': start_time, 'warmup_period': warmup_period})
         self.compare_error_code(y, "Invalid warmup_period in initialize request did not return 400 message.")
         # Try setting negative start_time
         start_time = -0.5*24*3600
         warmup_period = 0.5*24*3600
-        y = requests.put('{0}/initialize'.format(self.url),
+        y = requests.put('{0}/initialize/{1}'.format(self.url, self.testid),
                          data={'start_time': start_time, 'warmup_period': warmup_period})
         self.compare_error_code(y, "Negative start_time in initialize request did not return 400 message.")
         # Try setting negative warmup_period
         start_time = 0.5*24*3600
         warmup_period = -0.5*24*3600
-        y = requests.put('{0}/initialize'.format(self.url),
+        y = requests.put('{0}/initialize/{1}'.format(self.url, self.testid),
                          data={'start_time': start_time, 'warmup_period': warmup_period})
         self.compare_error_code(y, "Negative warmup_period in initialize request did not return 400 message.")
 
@@ -858,11 +859,11 @@ class partialTestAPI(partialChecks):
             if '_activate' in key:
                 for value in ['invalid', 1.2, '1.2']:
                     u[key] = value
-                    y = requests.post('{0}/advance'.format(self.url), data=u)
+                    y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u)
                     self.compare_error_code(y, "Invalid advance request for _activate did not return 400 message.")
             else:
                 u[key] = "invalid"
-                y = requests.post('{0}/advance'.format(self.url), data=u)
+                y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u)
                 self.compare_error_code(y, "Invalid advance request for _u did not return 400 message.")
 
     def test_invalid_advance_name(self):
@@ -873,7 +874,7 @@ class partialTestAPI(partialChecks):
         '''
 
         u = {'invalid': 0}
-        y = requests.post('{0}/advance'.format(self.url), data=u)
+        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u)
         self.compare_error_code(y, "Invalid advance request for _u did not return 400 message.")
 
 
@@ -890,25 +891,25 @@ class partialTestAPI(partialChecks):
                             'multizone_residential_hydronic':'weatherStation_reaWeaWinSpe_y',
                             'singlezone_commercial_hydronic':'ahu_reaTRetAir_y',
                             'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y'}
-        requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
-        requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
-        measurements = requests.get('{0}/measurements'.format(self.url)).json()['payload']
-        requests.post('{0}/advance'.format(self.url), data=dict()).json()['payload']
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time': 0, 'warmup_period': 0})
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':self.step_ref})
+        measurements = requests.get('{0}/measurements/{1}'.format(self.url, self.testid)).json()['payload']
+        requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=dict()).json()['payload']
         point = measurement_list[self.name]
         if point not in measurements:
             raise KeyError('Point {0} not in measurements list.'.format(point))
         # Try getting invalid start_time
-        res = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+        res = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name': point,
                                                                  'start_time': "foo",
                                                                  'final_time': self.step_ref*2})
         self.compare_error_code(res, "Invalid start_time in get_results request did not return a 400 error.")
         # Try getting invalid final_time
-        res = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+        res = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name': point,
                                                                  'start_time': 0.0 - self.step_ref,
                                                                  'final_time': "foo"})
         self.compare_error_code(res, "Invalid final_time in get_results request did not return a 400 error.")
         # Try getting invalid point_name
-        res = requests.put('{0}/results'.format(self.url), data={'point_name': "foo",
+        res = requests.put('{0}/results/{1}'.format(self.url, self.testid), data={'point_name': "foo",
                                                                  'start_time': 0.0 - self.step_ref,
                                                                  'final_time': self.step_ref*2.0})
         self.compare_error_code(res, "Invalid point_name in get_results request did not return a 400 error.")

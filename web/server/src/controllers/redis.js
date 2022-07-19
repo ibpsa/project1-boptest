@@ -1,10 +1,11 @@
 import node_redis from 'redis'
 import {promisify} from 'util'
 import { v4 as uuidv4 } from 'uuid'
+import { pack, unpack } from 'msgpackr'
 
 class Redis {
   constructor() {
-    this.client = node_redis.createClient({host: process.env.REDIS_HOST})
+    this.client = node_redis.createClient({host: process.env.REDIS_HOST, detect_buffers: true, return_buffers: true})
     this.pubclient = this.client.duplicate()
     this.subclient = this.client.duplicate()
     this.subTimeoutTime = 180000
@@ -40,18 +41,12 @@ class Redis {
       const requestID = uuidv4()
 
       this.messageHandlers[requestID] = async (parsedMessage) => {
-        try {
           clearTimeout(responseTimeout)
-          const response = await redis.hget(workerID, method)
-          const responseObject = JSON.parse(response)
-          if (parsedMessage['status'] == 'ok') {
-            resolve(responseObject)
+          if (parsedMessage.status == 'ok') {
+            resolve(parsedMessage.payload)
           } else {
-            reject(responseObject)
+            reject(parsedMessage.payload)
           }
-        } catch (e) {
-          reject(e)
-        }
       }
 
       this.subscribe(responseChannel)
@@ -69,7 +64,9 @@ class Redis {
       'params': params
     }
 
-    this.pubclient.publish(channel, JSON.stringify(message))
+    console.log('sending message: ', message)
+
+    this.pubclient.publish(channel, pack(message))
   }
 
   // on any message from the subscribed channels
@@ -77,8 +74,9 @@ class Redis {
   // any other unexpected messages would trigger an exception
   onMessage(channel, message) {
     try {
-      const parsedMessage = JSON.parse(message)
-      const requestID = parsedMessage['requestID']
+      const parsedMessage = unpack(message)
+      console.log('parsedMessage: ', parsedMessage)
+      const requestID = parsedMessage.requestID
       const handler = this.messageHandlers[requestID]
 
       if (handler) {

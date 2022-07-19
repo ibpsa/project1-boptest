@@ -373,7 +373,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
     @classmethod
     def tearDownClass(cls):
-        requests.put('{0}/step/{1}'.format(self.url, cls.testid), data={'step': self.step_ref})
+        requests.put('{0}/stop/{1}'.format(cls.url, cls.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

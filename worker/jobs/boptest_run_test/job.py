@@ -9,6 +9,7 @@ import pytz
 import redis
 import numpy as np
 import requests
+import msgpack
 from boptest.lib.testcase import TestCase
 
 
@@ -21,7 +22,6 @@ class Job:
         self.keep_running = True
         self.last_message_time = datetime.now()
 
-        self.s3 = boto3.resource('s3', region_name='us-east-1', endpoint_url=os.environ['S3_URL'])
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
 
@@ -32,7 +32,8 @@ class Job:
         if not os.path.exists(self.test_dir):
             os.makedirs(self.test_dir)
 
-        self.s3_bucket = self.s3.Bucket('alfalfa')
+        self.s3 = boto3.resource('s3', region_name=os.environ['REGION'], endpoint_url=os.environ['S3_URL'])
+        self.s3_bucket = self.s3.Bucket(os.environ['S3_BUCKET'])
         self.s3_bucket.download_file(self.key, self.fmu_path)
 
         self.tc = TestCase(self.fmu_path)
@@ -92,18 +93,27 @@ class Job:
     def register_message_handler(self, method, callback):
         self.message_handlers[method] = callback
 
-    def get_message_data(self, message):
-        return json.loads(message.get('data'))
+    def unpack(self, data):
+        return msgpack.unpackb(data)
+
+    def pack(self, data):
+        # use_bin_type=False is because this is running in python 2,
+        # it should be avoided in the future.
+        # Also, python 2, means this is falling back to a pure python
+        # ipmlementation which is slower.
+        return msgpack.packb(data, use_bin_type=False)
 
     def handle_messages(self):
-        handler = False
-        method = False
+        request_id = False
+        response_channel = False
         try:
+            response_channel = self.get_response_channel()
             message = self.redis_pubsub.get_message()
             if message:
                 message_type = message['type']
                 if message_type == 'message':
-                    message_data = self.get_message_data(message)
+                    message_data = self.unpack(message.get('data'))
+
                     request_id = message_data.get('requestID')
                     method = message_data.get('method')
                     params = message_data.get('params')
@@ -111,20 +121,16 @@ class Job:
                     handler = self.message_handlers.get(method)
                     callback_result = handler(params)
 
-                    self.redis.hset(self.testid, method, json.dumps(callback_result))
-                    message_response = { 'status': 'ok', 'requestID': request_id }
-                    self.redis.publish(self.get_response_channel(), json.dumps(message_response))
+                    packed_result = self.pack({ 'requestID': request_id, 'status': 'ok', 'payload': callback_result })
+                    self.redis.publish(response_channel, packed_result)
 
                     self.last_message_time = datetime.now()
         except:
             error_message = str(sys.exc_info()[1])
             print(error_message)
-            if handler and method:
-                # If the error happened late, and we have a handler and method,
-                # then try to send the error back to the client
-                self.redis.hset(self.testid, method, error_message)
-                response = { 'status': 'error', 'requestID': request_id }
-                self.redis.publish(self.get_response_channel(), json.dumps(response))
+            if request_id and response_channel:
+                packed_result = self.pack({ 'requestID': request_id, 'status': 'error', 'payload': error_message })
+                self.redis.publish(response_channel, packed_result)
 
     # End methods for message passing
 
@@ -146,9 +152,6 @@ class Job:
         warmup_period = params.get('warmup_period')
         end_time = params.get('end_time')
 
-        start_time = float(start_time) if start_time else 0.0
-        warmup_period = float(warmup_period) if warmup_period else 0.0
-        end_time = float(end_time) if end_time else np.inf
         return self.package_response(self.tc.initialize(start_time, warmup_period, end_time))
 
     def get_name(self, params):
@@ -162,8 +165,8 @@ class Job:
 
     def get_results(self, params):
         point_name = params['point_name']
-        results_start_time = float(params['start_time'])
-        results_final_time = float(params['final_time'])
+        results_start_time = params['start_time']
+        results_final_time = params['final_time']
 
         return self.package_response(self.tc.get_results(point_name, results_start_time, results_final_time))
 
@@ -183,8 +186,7 @@ class Job:
     def set_forecast_parameters(self, params):
         horizon = params['horizon']
         interval = params['interval']
-        self.tc.set_forecast_parameters(horizon, interval)
-        return self.package_response(self.tc.get_forecast_parameters())
+        return self.package_response(self.tc.set_forecast_parameters(horizon, interval))
 
     def get_forecast(self, params):
         return self.package_response(self.tc.get_forecast())
@@ -194,8 +196,8 @@ class Job:
 
     def set_step(self, params):
         step = params['step']
-        self.tc.set_step(step)
-        return self.package_response(self.tc.get_step())
+        return self.package_response(self.tc.set_step(step))
+        #return self.package_response(self.tc.get_step())
 
     def advance(self, params):
         u = params['u']
@@ -203,7 +205,6 @@ class Job:
 
     def stop(self, params):
         self.keep_running = False
-        return { 'status': 'ok' }
     # End message handlers
 
     def reset(self, tarinfo):
