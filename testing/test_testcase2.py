@@ -134,8 +134,8 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url))
-        y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()['payload']
         # Check kpis
         value = float(y['oveTSetRooHea_u'])
         self.assertAlmostEqual(value, 273.15+10, places=3)
@@ -146,8 +146,8 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url))
-        y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
+        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        y = requests.post('{0}/advance'.format(self.url), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()['payload']
         # Check kpis
         value = float(y['oveTSetRooHea_u'])
         self.assertAlmostEqual(value, 273.15+35, places=3)
@@ -167,7 +167,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.name = 'testcase2'
         self.url = 'http://127.0.0.1:5000'
-        self.step_ref = 3600.0
+        self.step_ref = 3600
         self.test_time_period = 'test_day'
 
 if __name__ == '__main__':

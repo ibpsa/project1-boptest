@@ -5,7 +5,9 @@
 Building Optimization Performance Tests
 
 This repository contains code for the Building Optimization Performance Test framework (BOPTEST)
-that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/project1/).
+that is being developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
+
+Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for more information about the project, software, and documentation.
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
@@ -21,11 +23,11 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 1) Download this repository.
 2) Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
 3) Build and deploy a test case using the following commands executed in the root directory of this repository and where <testcase_dir_name> is the name of the test case subdirectory located in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases):
- 
-  * Linux or macOS: ``$ TESTCASE=<testcase_dir_name> docker-compose up`` 
+
+  * Linux or macOS: ``$ TESTCASE=<testcase_dir_name> docker-compose up``
   * Windows PowerShell: ``> ($env:TESTCASE="<testcase_directory>") -and (docker-compose up)``
   * A couple notes:
-    * The first time this command is run, the image ``boptest_base`` will be built.  This takes about a minute.  Subsequent usage will use the already-built image and deploy much faster.  
+    * The first time this command is run, the image ``boptest_base`` will be built.  This takes about a minute.  Subsequent usage will use the already-built image and deploy much faster.
     * If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
     * ``TESTCASE`` is simply an environment variable.  Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.
 
@@ -52,6 +54,7 @@ that is being developed as part of the IBPSA Project 1 (https://ibpsa.github.io/
 
 ## Test Case RESTful API
 - To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
+- The API will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``. Status codes in ``"status"`` are integers: ``200`` for successful with or without warning, ``400`` for bad input error, or ``500`` for internal error.  Data returned in ``"payload"`` is the data of interest relvant to the specific API request, while the string in ``"message"`` will report any warnings or error messages to help debug encountered problems.
 
 Example RESTful interaction:
 
@@ -76,6 +79,8 @@ Example RESTful interaction:
 | Receive current test scenario.                                         |  GET ``scenario``                                   |
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
 | Receive BOPTEST version.                                               |  GET ``version``                                             |
+| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered wth the online dashboard at (url coming soon).|
+
 ## Development
 
 This repository uses pre-commit to ensure that the files meet standard formatting conventions (such as line spacing, layout, etc).
@@ -106,7 +111,7 @@ D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. B
 J. Arroyo, F. Spiessens, and L. Helsen. (2022). ["Comparison of Optimal Control Techniques for Building Energy Management."](https://doi.org/10.3389/fbuil.2022.849754) *Frontiers in Built Environment* 8.
 
 T. Marzullo, S. Dey, N. Long, J. L. Vilaplana, and G. Henze. (2022). ["A high-fidelity building performance simulation test bed for the development and evaluation of advanced controls"](https://doi.org/10.1080/19401493.2022.2058091) *Journal of Building Performance Simulation*, 15(3), 379-397.
- 
+
 J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2022). ["Reinforced model predictive control (RL-MPC) for building energy management."](https://doi.org/10.1016/j.apenergy.2021.118346) *Applied Energy* 309: 118346.
 
 J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2021). [“An OpenAI-Gym Environment for the Building Optimization Testing (BOPTEST) Framework.”](https://www.researchgate.net/profile/Javier-Arroyo/publication/354386346_An_OpenAI-Gym_environment_for_the_Building_Optimization_Testing_BOPTEST_framework/links/613616690360302a0082ffc1/An-OpenAI-Gym-environment-for-the-Building-Optimization-Testing-BOPTEST-framework.pdf) In *Proceedings of the 17th IBPSA Conference*, Sep 1 - 3. Bruges, Belgium.
