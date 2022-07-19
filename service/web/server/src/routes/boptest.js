@@ -37,7 +37,7 @@ const boptestRouter = express.Router()
 boptestRouter.get('/version', async (req, res, next) => {
   try {
     const payload = await getVersion()
-    res.status(parseInt(payload.status)).json(payload)
+    res.status(payload.status).json(payload)
   } catch (e) {
     next(e)
   }
@@ -103,7 +103,7 @@ boptestRouter.post('/advance/:testid',
       validationResult(req).throw()
       const args = req.body
       const payload = await advance(req.params.testid, args)
-      res.status(parseInt(payload.status)).send(payload)
+      res.status(payload.status).send(payload)
     } catch (e) {
       next(e)
     }
@@ -112,14 +112,12 @@ boptestRouter.post('/advance/:testid',
 
 boptestRouter.put('/initialize/:testid',
   param('testid').custom(validateTestid),
-  body(['start_time', 'warmup_period']).isNumeric(),
-  body('end_time').optional().isNumeric(),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
       const args = req.body
       const payload = await initialize(req.params.testid, args)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
     }
@@ -128,7 +126,6 @@ boptestRouter.put('/initialize/:testid',
 
 boptestRouter.put('/scenario/:testid',
   param('testid').custom(validateTestid),
-  body(['electricity_price', 'time_period']).optional(),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -136,7 +133,7 @@ boptestRouter.put('/scenario/:testid',
       const time_period = req.body['time_period'] || null
       const scenario = { electricity_price, time_period }
       const payload = await setScenario(req.params.testid, scenario)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
     }
@@ -149,7 +146,7 @@ boptestRouter.get('/scenario/:testid',
     try {
       validationResult(req).throw()
       const payload = await getScenario(req.params.testid)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
     }
@@ -163,7 +160,7 @@ boptestRouter.get('/measurements/:testid',
       validationResult(req).throw()
       const db = req.app.get('db');
       const payload = await getMeasurements(req.params.testid, db)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
     }
@@ -177,7 +174,7 @@ boptestRouter.get('/inputs/:testid',
       validationResult(req).throw()
       const db = req.app.get('db');
       const payload = await getInputs(req.params.testid, db)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
     }
@@ -190,7 +187,7 @@ boptestRouter.get('/step/:testid',
     try {
       validationResult(req).throw()
       const payload = await getStep(req.params.testid)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
     }
@@ -199,13 +196,12 @@ boptestRouter.get('/step/:testid',
 
 boptestRouter.put('/step/:testid',
   param('testid').custom(validateTestid),
-  body('step').isNumeric(),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
       const step = req.body['step']
       const payload = await setStep(req.params.testid, step)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
     }
@@ -218,7 +214,7 @@ boptestRouter.get('/kpi/:testid',
     try {
       validationResult(req).throw()
       const payload = await getKPIs(req.params.testid)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
     }
@@ -227,7 +223,6 @@ boptestRouter.get('/kpi/:testid',
 
 boptestRouter.put('/results/:testid',
   param('testid').custom(validateTestid),
-  body(['point_name', 'start_time', 'final_time']).exists(),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -236,7 +231,7 @@ boptestRouter.put('/results/:testid',
       const start_time = req.body['start_time']
       const final_time = req.body['final_time']
       const payload = await getResults(testid, point_name, start_time, final_time)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
     }
@@ -250,7 +245,7 @@ boptestRouter.get('/forecast_parameters/:testid',
       validationResult(req).throw()
       const testid = req.params.testid
       const payload = await getForecastParameters(testid)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
     }
@@ -259,7 +254,6 @@ boptestRouter.get('/forecast_parameters/:testid',
 
 boptestRouter.put('/forecast_parameters/:testid',
   param('testid').custom(validateTestid),
-  body(['horizon', 'interval']).isNumeric(),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -267,7 +261,7 @@ boptestRouter.put('/forecast_parameters/:testid',
       const horizon = req.body['horizon']
       const interval = req.body['interval']
       const payload = await setForecastParameters(testid, horizon, interval)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
     }
@@ -281,7 +275,7 @@ boptestRouter.get('/forecast/:testid',
       validationResult(req).throw()
       const testid = req.params.testid
       const payload = await getForecast(testid)
-      res.status(parseInt(payload.status)).json(payload)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
     }
@@ -292,7 +286,7 @@ boptestRouter.get('/testcases', async (req, res, next) => {
   try {
     const db = req.app.get('db')
     const payload = await getTestcases(db)
-    res.status(parseInt(payload.status)).json(payload)
+    res.status(payload.status).json(payload)
   } catch (e) {
     next(e);
   }
