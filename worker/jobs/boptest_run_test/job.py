@@ -150,9 +150,10 @@ class Job:
     def initialize(self, params):
         start_time = params.get('start_time')
         warmup_period = params.get('warmup_period')
-        end_time = params.get('end_time')
+        final_time = params.get('final_time')
+        final_time = float(final_time) if final_time else np.inf
 
-        return self.package_response(self.tc.initialize(start_time, warmup_period, end_time))
+        return self.package_response(self.tc.initialize(start_time, warmup_period, final_time))
 
     def get_name(self, params):
         return self.package_response(self.tc.get_name())
@@ -197,7 +198,6 @@ class Job:
     def set_step(self, params):
         step = params['step']
         return self.package_response(self.tc.set_step(step))
-        #return self.package_response(self.tc.get_step())
 
     def advance(self, params):
         u = params['u']

@@ -733,41 +733,41 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'partial_results_outer.csv')
         self.compare_ref_timeseries_df(df, ref_filepath)
 
-    def test_submit(self):
-        '''Test the submit API.
+    #def test_submit(self):
+    #    '''Test the submit API.
 
-        '''
+    #    '''
 
-        # Get current scenario and step
-        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()['payload']
-        step_current = requests.get('{0}/step'.format(self.url)).json()['payload']
-        api_key = "valid_api_key"
-        # Set testing scenario
-        scenario = {"time_period":self.test_time_period,
-                    "electricity_price":"dynamic"}
-        # Set test case scenario
-        y = requests.put("{0}/scenario".format(self.url),
-                         data=scenario).json()["payload"]["time_period"]
-        # Set step so doesn't take too long
-        requests.put('{0}/step'.format(self.url), data={'step':86400})
-        # Simulation Loop
-        while y:
-            # Compute control signal
-            u = {}
-            # Advance simulation with control signal
-            y = requests.post("{0}/advance".format(self.url), data=u).json()["payload"]
-        payload = requests.post("{0}/submit".format(self.url), data={"api_key": api_key,
-                                                            "tag1":"baseline",
-                                                            "tag2":"unit_test",
-                                                            "unit_test":"True"}).json()['payload']
-        payload['payload']['results'][0]['kpis']['time_rat'] = 0
-        payload['payload']['results'][0]['uid'] = '1'
-        payload['payload']['results'][0]['dateRun'] = str(datetime(2020, 5, 17))
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'submit.json')
-        self.compare_ref_json(payload, ref_filepath)
-        # Return scenario and step to original
-        requests.put('{0}/scenario'.format(self.url), data=scenario_current)
-        requests.put('{0}/step'.format(self.url), data={'step':step_current})
+    #    # Get current scenario and step
+    #    scenario_current = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()['payload']
+    #    step_current = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()['payload']
+    #    api_key = "valid_api_key"
+    #    # Set testing scenario
+    #    scenario = {"time_period":self.test_time_period,
+    #                "electricity_price":"dynamic"}
+    #    # Set test case scenario
+    #    y = requests.put("{0}/scenario/{1}".format(self.url, self.testid),
+    #                     data=scenario).json()["payload"]["time_period"]
+    #    # Set step so doesn't take too long
+    #    requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':86400})
+    #    # Simulation Loop
+    #    while y:
+    #        # Compute control signal
+    #        u = {}
+    #        # Advance simulation with control signal
+    #        y = requests.post("{0}/advance/{1}".format(self.url, self.testid), data=u).json()["payload"]
+    #    payload = requests.post("{0}/submit/{1}".format(self.url, self.testid), data={"api_key": api_key,
+    #                                                        "tag1":"baseline",
+    #                                                        "tag2":"unit_test",
+    #                                                        "unit_test":"True"}).json()['payload']
+    #    payload['payload']['results'][0]['kpis']['time_rat'] = 0
+    #    payload['payload']['results'][0]['uid'] = '1'
+    #    payload['payload']['results'][0]['dateRun'] = str(datetime(2020, 5, 17))
+    #    ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'submit.json')
+    #    self.compare_ref_json(payload, ref_filepath)
+    #    # Return scenario and step to original
+    #    requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario_current)
+    #    requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step_current})
 
     def test_invalid_step(self):
         '''Test set step with invalid non-numeric and negative values returns a 400 error.
@@ -957,47 +957,47 @@ class partialTestAPI(partialChecks):
         '''
 
         # Get current scenario and step
-        scenario_current = requests.get('{0}/scenario'.format(self.url)).json()['payload']
-        step_current = requests.get('{0}/step'.format(self.url)).json()['payload']
+        scenario_current = requests.get('{0}/scenario/{1}'.format(self.url, self.testid)).json()['payload']
+        step_current = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()['payload']
         api_key = "valid_api_key"
         # Set testing scenario
         scenario = {"time_period":self.test_time_period,
                     "electricity_price":"dynamic"}
         # Set test case scenario
-        y = requests.put("{0}/scenario".format(self.url),
+        y = requests.put("{0}/scenario/{1}".format(self.url, self.testid),
                          data=scenario).json()["payload"]["time_period"]
         # Set step so doesn't take too long
-        requests.put('{0}/step'.format(self.url), data={'step':86400})
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':86400})
         # Simulation Loop
         while y:
             # Compute control signal
             u = {}
             # Advance simulation with control signal but stop after one iteration
-            y = requests.post("{0}/advance".format(self.url), data=u).json()["payload"]
+            y = requests.post("{0}/advance/{1}".format(self.url, self.testid), data=u).json()["payload"]
             y = False
-        res = requests.post("{0}/submit".format(self.url), data={"api_key": api_key,
-                                                            "tag1":"baseline",
-                                                            "tag2":"unit_test",
-                                                            "unit_test":"True"})
-        self.compare_error_code(res, "Invalid time run in submit request did not return a 500 error.", code_ref=500)
+        #res = requests.post("{0}/submit/{1}".format(self.url, self.testid), data={"api_key": api_key,
+        #                                                    "tag1":"baseline",
+        #                                                    "tag2":"unit_test",
+        #                                                    "unit_test":"True"})
+        #self.compare_error_code(res, "Invalid time run in submit request did not return a 500 error.", code_ref=500)
         # Continue simulation Loop
         y = True
         while y:
             # Compute control signal
             u = {}
             # Advance simulation to end of time period scenario
-            y = requests.post("{0}/advance".format(self.url), data=u).json()["payload"]
+            y = requests.post("{0}/advance/{1}".format(self.url, self.testid), data=u).json()["payload"]
         # Test invalid tag number
-        res = requests.post("{0}/submit".format(self.url), data={"api_key": api_key,
-                                                            "tag1":"1", "tag2":"2", "tag3":"3",
-                                                            "tag4":"4", "tag5":"5", "tag6":"6",
-                                                            "tag7":"7", "tag8":"2", "tag9":"3",
-                                                            "tag10":"1", "tag11":"2",
-                                                            "unit_test":"True"})
-        self.compare_error_code(res, "Invalid tag number in submit request did not return a 400 error.")
+        #res = requests.post("{0}/submit/{1}".format(self.url, self.testid), data={"api_key": api_key,
+        #                                                    "tag1":"1", "tag2":"2", "tag3":"3",
+        #                                                    "tag4":"4", "tag5":"5", "tag6":"6",
+        #                                                    "tag7":"7", "tag8":"2", "tag9":"3",
+        #                                                    "tag10":"1", "tag11":"2",
+        #                                                    "unit_test":"True"})
+        #self.compare_error_code(res, "Invalid tag number in submit request did not return a 400 error.")
         # Return scenario and step to original
-        requests.put('{0}/scenario'.format(self.url), data=scenario_current)
-        requests.put('{0}/step'.format(self.url), data={'step':step_current})
+        requests.put('{0}/scenario/{1}'.format(self.url, self.testid), data=scenario_current)
+        requests.put('{0}/step/{1}'.format(self.url, self.testid), data={'step':step_current})
 
 class partialTestTimePeriod(partialChecks):
     '''Partial class for testing the time periods for each test case

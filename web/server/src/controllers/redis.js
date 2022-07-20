@@ -29,9 +29,8 @@ class Redis {
   //    Any `params` necessary to compute the requested data are included in the message.
   // 2. The worker listens for data requests on the redis request channel, `method` is mapped to a 
   //    to a worker method, and the method is called with the given parameters.
-  // 3. The worker writes the method return value to a redis hash identified by <workerID>:<method>
   // 4. The worker publishes a message on the redis channel <workerID>:response,
-  //    indicating that the data is available
+  //    with the response data
   // 5. The callWorkerMethod function resolves a returned Promise with the retrieved data
   callWorkerMethod(workerID, method, params) {
     return new Promise((resolve, reject) => {
@@ -64,8 +63,6 @@ class Redis {
       'params': params
     }
 
-    console.log('sending message: ', message)
-
     this.pubclient.publish(channel, pack(message))
   }
 
@@ -75,7 +72,6 @@ class Redis {
   onMessage(channel, message) {
     try {
       const parsedMessage = unpack(message)
-      console.log('parsedMessage: ', parsedMessage)
       const requestID = parsedMessage.requestID
       const handler = this.messageHandlers[requestID]
 
