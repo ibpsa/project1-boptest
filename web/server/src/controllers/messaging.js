@@ -3,7 +3,7 @@ import {promisify} from 'util'
 import { v4 as uuidv4 } from 'uuid'
 import { pack, unpack } from 'msgpackr'
 
-class Redis {
+class Messaging {
   constructor() {
     this.client = node_redis.createClient({host: process.env.REDIS_HOST, detect_buffers: true, return_buffers: true})
     this.pubclient = this.client.duplicate()
@@ -104,5 +104,5 @@ class Redis {
   }
 }
 
-const redis = new Redis()
-export default redis
+const messaging = new Messaging()
+export default messaging
