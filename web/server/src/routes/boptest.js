@@ -24,7 +24,8 @@ import {
   getKPIs,
   getResults,
   getStatus,
-  getTestcaseID
+  getTestcaseID,
+  submit
 } from '../controllers/test'
 import {
   validateTestid,
@@ -52,6 +53,30 @@ boptestRouter.post('/testcases/:testcaseid/select',
     const sqs = req.app.get('sqs')
     const response = await select(testcaseid, sqs, api_key)
     return res.json(response)
+  } catch (e) {
+    next(e)
+  }
+});
+
+boptestRouter.post('/submit/:testid', 
+  async (req, res, next) => {
+  try {
+    const body = req.body;
+    const api_key = body.api_key
+    let unit_test = false
+    let tags = []
+    for (const key in body) {
+      if (key.startsWith('tag') && body[key]) {
+        tags.push(body[key])
+      }
+      if ((key == 'unit_test') && body[key]) {
+        unit_test = true
+      }
+    }
+    const payload = await submit(req.params.testid, api_key, tags, unit_test)
+    console.log('message: ', payload.message)
+    console.log('payload: ', payload)
+    res.status(payload.status).json(payload)
   } catch (e) {
     next(e)
   }
