@@ -116,3 +116,7 @@ export async function getResults(testid, point_name, start_time, final_time) {
   return await messaging.callWorkerMethod(testid, 'get_results', params)
 }
 
+export async function submit(testid, api_key, tags, unit_test) {
+  const params = {api_key, tags, unit_test}
+  return await messaging.callWorkerMethod(testid, 'post_results_to_dashboard', params)
+}

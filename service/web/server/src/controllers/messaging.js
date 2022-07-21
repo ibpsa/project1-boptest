@@ -40,12 +40,8 @@ class Messaging {
       const requestID = uuidv4()
 
       this.messageHandlers[requestID] = async (parsedMessage) => {
-          clearTimeout(responseTimeout)
-          if (parsedMessage.status == 'ok') {
-            resolve(parsedMessage.payload)
-          } else {
-            reject(parsedMessage.payload)
-          }
+        clearTimeout(responseTimeout)
+        resolve(parsedMessage.payload)
       }
 
       this.subscribe(responseChannel)

@@ -55,6 +55,7 @@ class Job:
         self.register_message_handler('get_step', self.get_step)
         self.register_message_handler('set_step', self.set_step)
         self.register_message_handler('stop', self.stop)
+        self.register_message_handler('post_results_to_dashboard', self.post_results_to_dashboard)
         self.subscribe()
 
         self.init_sim_status()
@@ -94,7 +95,7 @@ class Job:
         self.message_handlers[method] = callback
 
     def unpack(self, data):
-        return msgpack.unpackb(data)
+        return msgpack.unpackb(data, raw=True)
 
     def pack(self, data):
         # use_bin_type=False is because this is running in python 2,
@@ -121,7 +122,7 @@ class Job:
                     handler = self.message_handlers.get(method)
                     callback_result = handler(params)
 
-                    packed_result = self.pack({ 'requestID': request_id, 'status': 'ok', 'payload': callback_result })
+                    packed_result = self.pack({ 'requestID': request_id, 'payload': callback_result })
                     self.redis.publish(response_channel, packed_result)
 
                     self.last_message_time = datetime.now()
@@ -129,7 +130,8 @@ class Job:
             error_message = str(sys.exc_info()[1])
             print(error_message)
             if request_id and response_channel:
-                packed_result = self.pack({ 'requestID': request_id, 'status': 'error', 'payload': error_message })
+                payload = {'status': 500, 'message': 'Internal BOPTEST error', 'payload': error_message}
+                packed_result = self.pack({ 'requestID': request_id, 'payload': payload })
                 self.redis.publish(response_channel, packed_result)
 
     # End methods for message passing
@@ -205,6 +207,13 @@ class Job:
 
     def stop(self, params):
         self.keep_running = False
+
+    def post_results_to_dashboard(self, params):
+        api_key = params['api_key']
+        tags = params['tags']
+        unit_test = params['unit_test']
+        return self.package_response(self.tc.post_results_to_dashboard(api_key, tags, unit_test))
+
     # End message handlers
 
     def reset(self, tarinfo):
@@ -227,37 +236,6 @@ class Job:
         os.remove(tarname)
 
         shutil.rmtree(self.test_dir)
-
-    def post_results_to_dashboard(self):
-        dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
-
-        if dash_server and self.api_key:
-            payload = {
-              "results": [
-                {
-                  "uid": self.testid,
-                  "dateRun": str(datetime.now(tz=pytz.UTC)),
-                  "boptestVersion": "0.1.0",
-                  "isShared": True,
-                  "controlStep": self.tc.get_step(),
-                  "account": {
-                    "apiKey": self.api_key
-                  },
-                  "tags": [],
-                  "kpis": self.tc.get_kpis(),
-                  "forecastParameters": self.tc.get_forecast_parameters(),
-                  "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.tc.get_scenario())),
-                  "buildingType": {
-                    "uid": self.testcaseid
-                  }
-                }
-              ]
-            }
-            dash_url = "%s/api/results" % dash_server
-            try:
-                result = requests.post(dash_url, json=payload)
-            except:
-                print("Unable to post results to dashboard located at: %s" % dash_url)
 
     def to_camel_case(self, snake_str):
         components = snake_str.split('_')
