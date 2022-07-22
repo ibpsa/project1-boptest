@@ -6,7 +6,17 @@ Command: ``$ make test_all``
 A test report will be displayed and recorded to file upon completion called ``testing_report.txt``.
 
 ## Run tests for test case with name ``<testcase>``
-First, check if Docker image ``jm`` exists.  If not, run command: ``$ make build_jm_image``.
+First, check if the following Docker images exist:
+
+- ``jm``
+- ``julia_controller`` (needed to run ``test_testcase`` and ``test_testcase2``)
+- ``javascript_controller`` (needed to run ``test_testcase1`` and ``test_testcase2``)
+
+If not, run commands as appropriate:
+
+- ``$ make build_jm_image``
+- ``$ make build_julia_image``
+- ``$ make build_javascript_image``
 
 Then, run the test with command: ``$ make test_<testcase>``.
 

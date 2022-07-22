@@ -16,11 +16,24 @@ build_jm_image:
 build_boptest_image:
 	cd .. && docker-compose build
 
+build_julia_image:
+	cd ../examples/julia && make build
+
+build_javascript_image:
+	cd ../examples/javascript && make build
+
 remove_jm_image:
 	docker rmi ${IMG_NAME}
 
 remove_boptest_image:
 	docker rmi boptest_base
+
+remove_julia_image:
+	docker rmi julia_controller
+
+remove_javascript_image:
+	docker rmi javascript_controller
+	cd ../examples/javascript && rm geckodriver
 
 run_jm:
 	$(COMMAND_RUN)
@@ -81,17 +94,13 @@ test_testcase1:
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=testcase1 && make run Script=testcase1
+	cd ../examples/julia && make run Script=testcase1
 # Javascript
-	cd ../examples/javascript && make build Script=testcase1 && make run Script=testcase1
+	cd ../examples/javascript && make run Script=testcase1
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
 	cd .. && TESTCASE=testcase1 docker-compose down
-# Remove testcase image and javascript geckodriver
-	cd ../examples/julia && make remove-image Script=testcase1
-	cd ../examples/javascript && make remove-image Script=testcase1
-	cd ../examples/javascript && rm geckodriver
 
 test_testcase2:
 # Compile testcase model
@@ -101,17 +110,13 @@ test_testcase2:
 	python sleep10.py
 # Run testcase tests
 # Julia
-	cd ../examples/julia && make build Script=testcase2 && make run Script=testcase2
+	cd ../examples/julia && make run Script=testcase2
 # Javascript
-	cd ../examples/javascript && make build Script=testcase2 && make run Script=testcase2
+	cd ../examples/javascript && make run Script=testcase2
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
 	cd .. && TESTCASE=testcase2 docker-compose down
-# Remove testcase image and javascript geckodriver
-	cd ../examples/julia && make remove-image Script=testcase2
-	cd ../examples/javascript && make remove-image Script=testcase2
-	cd ../examples/javascript && rm geckodriver
 
 test_bestest_air:
 # Compile testcase model
@@ -296,6 +301,10 @@ test_all:
 	make build_jm_image
 # Build boptest base image
 	make build_boptest_image
+# Build julia base image (needed for test_testcase1 and test_testcase2)
+	make build_julia_image
+# Build javascript base image (needed for test_testcase1 and test_testcase2)
+	make build_javascript_image
 # Run tests
 	make test_parser
 	make test_data
@@ -315,5 +324,9 @@ test_all:
 	make remove_jm_image
 # Remove boptest base image
 	make remove_boptest_image
+# Remove julia image
+	make remove_julia_image
+# Remove javascript image
+	make remove_javascript_image
 # Report test results
 	python report.py

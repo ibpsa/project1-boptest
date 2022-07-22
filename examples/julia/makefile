@@ -1,4 +1,4 @@
-IMG_NAME=julia_controller_${Script}
+IMG_NAME=julia_controller
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -9,7 +9,7 @@ COMMAND_RUN=docker run \
  	  ${IMG_NAME} /bin/bash
 
 build:
-	docker build --build-arg testcase=${Script} --no-cache --rm -t ${IMG_NAME} .
+	docker build --no-cache --rm -t ${IMG_NAME} .
 
 remove-image:
 	docker rmi ${IMG_NAME}
@@ -25,4 +25,4 @@ copy_from_container:
 	docker cp ${IMG_NAME}:/usr/myapp/${ARGS} ${ARGS}
 
 stop:
-	docker stop ${Script}
+	docker stop ${IMG_NAME}

@@ -1,4 +1,4 @@
-IMG_NAME=javascript_controller_${Script}
+IMG_NAME=javascript_controller
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -9,13 +9,14 @@ COMMAND_RUN=docker run \
  	  ${IMG_NAME} /bin/bash
 
 build:
-	docker build --build-arg testcase=${Script} --no-cache --rm -t ${IMG_NAME} .
+	docker build --no-cache --rm -t ${IMG_NAME} .
 
 remove-image:
 	docker rmi ${IMG_NAME}
 
 run:
 	$(COMMAND_RUN) && \
+	docker cp . ${IMG_NAME}:/home && \
 	docker exec -it ${IMG_NAME} /bin/bash -c "python3 wrapper.py ${Script}" && \
 	make copy_from_container ARGS=. && \
 	docker stop ${IMG_NAME}
@@ -24,4 +25,4 @@ copy_from_container:
 	docker cp ${IMG_NAME}:/home/${ARGS} ${ARGS}
 
 stop:
-	docker stop ${Script}
+	docker stop ${IMG_NAME}
