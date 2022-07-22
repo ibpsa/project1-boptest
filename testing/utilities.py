@@ -752,7 +752,7 @@ class partialTestAPI(partialChecks):
         y = requests.put("{0}/scenario".format(self.url),
                          data=scenario).json()["payload"]["time_period"]
         # Set step so doesn't take too long
-        requests.put('{0}/step'.format(self.url), data={'step':86400})
+        requests.put('{0}/step'.format(self.url), data={'step':3*86400*7})
         # Simulation Loop
         while y:
             # Compute control signal
@@ -969,7 +969,7 @@ class partialTestAPI(partialChecks):
         y = requests.put("{0}/scenario".format(self.url),
                          data=scenario).json()["payload"]["time_period"]
         # Set step so doesn't take too long
-        requests.put('{0}/step'.format(self.url), data={'step':86400})
+        requests.put('{0}/step'.format(self.url), data={'step':1*86400*7})
         # Simulation Loop
         while y:
             # Compute control signal
@@ -1022,6 +1022,10 @@ class partialTestTimePeriod(partialChecks):
 
         # Set time period scenario
         requests.put('{0}/scenario'.format(self.url), data={'time_period':time_period})
+        # Get current step
+        step_current = requests.get('{0}/step'.format(self.url)).json()['payload']
+        # Set step so can run whole scenario at once and doesn't take so long
+        requests.put('{0}/step'.format(self.url), data={'step':3*86400*7})
         # Simulation Loop
         y = 1
         while y:
@@ -1043,6 +1047,8 @@ class partialTestTimePeriod(partialChecks):
             ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
             self.compare_ref_values_df(df, ref_filepath)
         requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
+        # Set step back to original
+        requests.put('{0}/step'.format(self.url), data={'step':step_current})
 
 class partialTestSeason(partialChecks):
     '''Partial class for testing the time periods for each test case
