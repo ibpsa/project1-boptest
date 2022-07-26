@@ -1,10 +1,11 @@
 import node_redis from 'redis'
 import {promisify} from 'util'
 import { v4 as uuidv4 } from 'uuid'
+import { pack, unpack } from 'msgpackr'
 
-class Redis {
+class Messaging {
   constructor() {
-    this.client = node_redis.createClient({host: process.env.REDIS_HOST})
+    this.client = node_redis.createClient({host: process.env.REDIS_HOST, detect_buffers: true, return_buffers: true})
     this.pubclient = this.client.duplicate()
     this.subclient = this.client.duplicate()
     this.subTimeoutTime = 180000
@@ -28,9 +29,8 @@ class Redis {
   //    Any `params` necessary to compute the requested data are included in the message.
   // 2. The worker listens for data requests on the redis request channel, `method` is mapped to a 
   //    to a worker method, and the method is called with the given parameters.
-  // 3. The worker writes the method return value to a redis hash identified by <workerID>:<method>
   // 4. The worker publishes a message on the redis channel <workerID>:response,
-  //    indicating that the data is available
+  //    with the response data
   // 5. The callWorkerMethod function resolves a returned Promise with the retrieved data
   callWorkerMethod(workerID, method, params) {
     return new Promise((resolve, reject) => {
@@ -39,18 +39,9 @@ class Redis {
       const responseChannel = workerID + ':response'
       const requestID = uuidv4()
 
-      this.messageHandlers[requestID] = (parsedMessage) => {
-        try {
-          clearTimeout(responseTimeout)
-          const responseValue = redis.hget(workerID, method)
-          if (parsedMessage['status'] == 'ok') {
-            resolve(responseValue)
-          } else {
-            reject(responseValue)
-          }
-        } catch (e) {
-          reject(e)
-        }
+      this.messageHandlers[requestID] = async (parsedMessage) => {
+        clearTimeout(responseTimeout)
+        resolve(parsedMessage.payload)
       }
 
       this.subscribe(responseChannel)
@@ -68,7 +59,7 @@ class Redis {
       'params': params
     }
 
-    this.pubclient.publish(channel, JSON.stringify(message))
+    this.pubclient.publish(channel, pack(message))
   }
 
   // on any message from the subscribed channels
@@ -76,8 +67,8 @@ class Redis {
   // any other unexpected messages would trigger an exception
   onMessage(channel, message) {
     try {
-      const parsedMessage = JSON.parse(message)
-      const requestID = parsedMessage['requestID']
+      const parsedMessage = unpack(message)
+      const requestID = parsedMessage.requestID
       const handler = this.messageHandlers[requestID]
 
       if (handler) {
@@ -109,5 +100,5 @@ class Redis {
   }
 }
 
-const redis = new Redis()
-export default redis
+const messaging = new Messaging()
+export default messaging

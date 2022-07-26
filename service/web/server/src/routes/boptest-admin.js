@@ -24,7 +24,6 @@ boptestAdminRouter.get('/testcases/:id/post-form', async (req, res, next) => {
 
     const form = await getTestcasePostForm(id, s3, s3url)
     res.send(JSON.stringify(form));
-    //res.end();
   } catch (e) {
     next(e)
   }
