@@ -389,7 +389,13 @@ class Data_Manager(object):
         files = []
         for f in z_fmu.namelist():
             if f.startswith('resources/') and f.endswith('.csv'):
-                files.append(f)
+                if 'resource_file_exclusion' in self.case.config_json:
+                    if f.split('/')[-1] in self.case.config_json['resource_file_exclusion']:
+                        print('{0} found on"resource_file_exclusion" list.  Not loading data into testcase.'.format(f))
+                    else:
+                        files.append(f)
+                else:
+                    files.append(f)
 
         # Find the minimum sampling resolution
         sampling = 3600.
@@ -425,7 +431,10 @@ class Data_Manager(object):
                                        'you want this variable to be part of the test case data '\
                                        'make sure that the column has a key with any of the specified '\
                                        'formats in categories.json and that, if it is a zone related '\
-                                       'key, it is in the format: variable[zone_identifier] '.format(col,f))
+                                       'key, it is in the format: variable[zone_identifier].  If you '\
+                                       'do not intend for this variable to be included, consider adding '\
+                                       'the file it is contained within to the "resource_file_exclusion" '\
+                                       'list in the test case config.json.'.format(col,f))
                     else:
                         for category in self.categories:
                             # Use linear interpolation for continuous variables

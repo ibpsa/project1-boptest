@@ -4,7 +4,6 @@ import {MongoClient} from 'mongodb'
 import AWS from 'aws-sdk'
 import boptestRouter from './routes/boptest'
 import boptestAdminRouter from './routes/boptest-admin'
-import errorHandler from './routes/error'
 
 AWS.config.update({ region: process.env.REGION })
 const s3 = new AWS.S3({ endpoint: process.env.S3_URL })
@@ -19,12 +18,10 @@ MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
   app.set('sqs', sqs)
   app.set('s3', s3)
 
-  //app.use(bodyParser.text({ type: 'text/*' }))
   app.use(bodyParser.urlencoded())
   app.use(bodyParser.json())
   app.use('/', boptestRouter)
   app.use('/', boptestAdminRouter)
-  app.use(errorHandler)
 
   let server = app.listen(80, () => {
     var host = server.address().address

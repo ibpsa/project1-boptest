@@ -30,3 +30,4 @@ virtualenv==16.7.9
 wheel==0.34.2
 zipp==1.0.0
 flask==1.1.2
+msgpack==1.0.4

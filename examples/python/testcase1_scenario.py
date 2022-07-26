@@ -4,12 +4,19 @@ This script demonstrates a minimalistic example of testing a feedback controller
 using the scenario options with the prototype test case called "testcase1".
 
 """
+"""
+This script demonstrates a minimalistic example of testing a feedback controller
+with the prototype test case called "testcase1".  It uses the testing
+interface implemented in interface.py and the concrete controller implemented
+in controllers/pid.py.
+
+"""
 
 # GENERAL PACKAGE IMPORT
 # ----------------------
 import sys
-import pathlib
-sys.path.insert(0, str(pathlib.Path(__file__).absolute().parents[2]))
+import os
+sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-2]))
 from examples.python.interface import control_test
 
 
@@ -39,10 +46,11 @@ def run(plot=False):
     control_module = 'examples.python.controllers.pid'
     scenario = {'time_period': 'test_day', 'electricity_price': 'dynamic'}
     step = 300
+    # ---------------------------------------
 
     # RUN THE CONTROL TEST
     # --------------------
-    kpi, df_res, custom_kpi_result, forecasts = control_test("testcase1", 
+    kpi, df_res, custom_kpi_result, forecasts = control_test("testcase1",
                                                              control_module,
                                                              scenario=scenario,
                                                              step=step)
