@@ -43,6 +43,7 @@ A couple notes:
 Use the API
 -----------
 Send API requests to localhost port 5000 as ``http://127.0.0.1:5000/<request>``.
+See `API Summary`_ for more information on available requests.
 
 Stop the Test Case
 ------------------
@@ -61,6 +62,7 @@ Deploy a Test Case
 Send the following API request to ``<url>``.
 The returned ``<testid>`` will be needed for all future API requests associated
 with your chosen test case.
+See `API Summary`_ for more information on available requests.
 
 Use the API
 -----------

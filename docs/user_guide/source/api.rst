@@ -2,6 +2,22 @@
 API Summary
 ===========
 
+To interact with a deployed test case, use the API defined in the sections
+below by sending RESTful requests as follows:
+
+- If Single Test Case on Local Computing Resource, send API requests to localhost port 5000 as ``http://127.0.0.1:5000/<request>``.
+- If using Public Web Service, send API requests to ``<url>/<request>/<testid>``,
+where ``<testid>`` is your returned testid upon test case selection.  See the section `Getting Started`_ for more information.
+
+Each API request will return a JSON in the form
+``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``.
+Status codes in ``"status"`` are integers: ``200`` for successful with or without warning,
+``400`` for bad input error, or ``500`` for internal error.
+Data returned in ``"payload"`` is the data of interest relvant to the
+specific API request and is defined in the **Returns** section of each section below.
+The string in ``"message"`` will report any
+warnings or error messages to help debug encountered problems.
+
 GET /version
 ------------
 
@@ -287,4 +303,24 @@ GET /kpi
             "idis_tot":<value>,     // float, Indoor air quality discomfort in ppmh/zone
             "tdis_tot":<value>,     // float, Thermal discomfort in Kh/zone
             "time_rat":<value>      // float, Computational time ratio in s/ss
+        }
+
+GET /submit
+-----------
+
+- **Description:** Post test results to online dashboard located at https://dashboard.boptest.net/.  A complete test scenario (including full time period) must be finished before results can be submitted to the Dashboard.
+
+- **Arguments:**
+
+    ::
+
+        api_key         // required, str, API key generated for user account at https://dashboard.boptest.net/.
+        tag<#>          // optional, str, Tag to characterize result and which can be filtered upon in the online dashboard. Up to 10 tags are allowed, specifed by <#>=1-10.
+
+- **Returns:**
+
+    ::
+
+        {
+            "identifier":<uid>,       // str, Unique identifier for result posted to dashboard}
         }
