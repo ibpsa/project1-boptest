@@ -4,6 +4,7 @@ Thank you to all who have provided guidance on the development of this software.
 
 - Javier Arroyo, KU Leuven
 - Kyle Benne, National Renewable Energy Laboratory
+- Dave Biagioni, National Renewable Energy Laboratory
 - David Blum, Lawrence Berkeley National Laboratory
 - Yan Chen, Pacific Northwest National Laboratory
 - Konstantin Filonenko, University of Southern Denmark
