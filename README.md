@@ -27,7 +27,7 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
   * Linux or macOS: ``$ TESTCASE=<testcase_name> docker-compose up``
   * Windows PowerShell: ``> ($env:TESTCASE="<testcase_name>") -and (docker-compose up)``
   * A couple notes:
-    * Replace ``<testcase_name>`` with the name of the test case you wish to deploy.
+    * Replace ``<testcase_name>`` with the name of the test case you wish to deploy.  Test case names can be found in the ["testcases" directory](https://github.com/ibpsa/project1-boptest/tree/master/testcases) or on the ["Test Cases" web page](https://ibpsa.github.io/project1-boptest/testcases/index.html).
     * The first time this command is run, the image ``boptest_base`` will be built. This takes about a minute. Subsequent usage will use the already-built image and deploy much faster.
     * If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
     * ``TESTCASE`` is simply an environment variable. Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.
