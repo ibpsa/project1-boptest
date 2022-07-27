@@ -2,7 +2,7 @@
 
 This directory contains test cases for BOPTEST.  A summary of available test cases is provided in the table below.  For more detail on a particular test case, go to ``/<testcase_dir_name>/docs``.
 
-| Test Case                                                  | Description                                   | Scenarios |
+| Test Case Name                                             | Description                                   | Scenarios |
 |------------------------------------------------------------|-----------------------------------------------|--------------------|
 | ``testcase1`` | Prototype test case for development purposes.  Single-zone R1C1 room model with sinusoidal ambient temperature and heater. |**Electricity Prices**: <br />``'constant'``, <br />``'dynamic'``, <br />``'highly_dynamic'``<br />**Time Periods**:<br />``'test_day'``|
 | ``testcase2``| Prototype test case for development purposes.  Based on the single-zone AHU model found in Modelica Buildings Library. |**Electricity Prices**: <br />``'constant'``, <br />``'dynamic'``, <br />``'highly_dynamic'``<br />**Time Periods**:<br />``'test_day'``|
