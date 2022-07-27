@@ -80,7 +80,7 @@ Example RESTful interaction:
 | Receive current test scenario.                                         |  GET ``scenario``                                   |
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
 | Receive BOPTEST version.                                               |  GET ``version``                                             |
-| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered wth the online dashboard at (url coming soon).|
+| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered with the online dashboard.|
 
 ## Development
 
@@ -105,7 +105,6 @@ An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-
 A proposed BOPTEST home page and dashboard for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.
 
 ## Publications
-### To cite, please use:
 D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. Benne, D. Vrabie, M. Wetter, and L. Helsen. (2021). ["Building optimization testing framework (BOPTEST) for simulation-based benchmarking of control strategies in buildings."](https://doi.org/10.1080/19401493.2021.1986574) *Journal of Building Performance Simulation*, 14(5), 586-610.
 
 ### Additional publications:
@@ -128,3 +127,5 @@ J. Arroyo, F. Spiessens, and L. Helsen. (2020). [“Identification of Multi-zone
 D. Blum, F. Jorissen, S. Huang, Y. Chen, J. Arroyo, K. Benne, Y. Li, V. Gavan, L. Rivalin, L. Helsen, D. Vrabie, M. Wetter, and M. Sofos. (2019). [“Prototyping the BOPTEST framework for simulation-based testing of advanced control strategies in buildings.”](http://www.ibpsa.org/proceedings/BS2019/BS2019_211276.pdf) In *Proceedings of the 16th International Conference of IBPSA*, Sep 2 – 4. Rome, Italy.
 
 S. Huang, Y. Chen, P. W. Ehrlich, and D. L. Vrabie. (2018). [“A Control-Oriented Building Envelope and HVAC System Simulation Model for a Typical Large Office Building.”](https://www.ashrae.org/File%20Library/Conferences/Specialty%20Conferences/2018%20Building%20Performance%20Analysis%20Conference%20and%20SimBuild/Papers/C101.pdf) In *Proceedings of 2018 Building Performance Modeling Conference and SimBuild co-organized by ASHRAE and IBPSA-USA*, Sep 26 - 28. Chicago, IL.
+
+### To cite, please use:
