@@ -22,14 +22,15 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
 ## Quick-Start to Deploy a Test Case
 1) Download this repository.
 2) Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
-3) Build and deploy a test case using the following commands executed in the root directory of this repository and where <testcase_dir_name> is the name of the test case subdirectory located in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases):
+3) To build and deploy a test case, use the following commands within the root directory of the extracted software:
 
-  * Linux or macOS: ``$ TESTCASE=<testcase_dir_name> docker-compose up``
-  * Windows PowerShell: ``> ($env:TESTCASE="<testcase_directory>") -and (docker-compose up)``
+  * Linux or macOS: ``$ TESTCASE=<testcase_name> docker-compose up``
+  * Windows PowerShell: ``> ($env:TESTCASE="<testcase_name>") -and (docker-compose up)``
   * A couple notes:
-    * The first time this command is run, the image ``boptest_base`` will be built.  This takes about a minute.  Subsequent usage will use the already-built image and deploy much faster.
+    * Replace ``<testcase_name>`` with the name of the test case you wish to deploy.  Test case names can be found in the ["testcases" directory](https://github.com/ibpsa/project1-boptest/tree/master/testcases) or on the ["Test Cases" web page](https://ibpsa.github.io/project1-boptest/testcases/index.html).
+    * The first time this command is run, the image ``boptest_base`` will be built. This takes about a minute. Subsequent usage will use the already-built image and deploy much faster.
     * If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
-    * ``TESTCASE`` is simply an environment variable.  Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.
+    * ``TESTCASE`` is simply an environment variable. Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.
 
 4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described below.
 5) Shutdown the test case by the command ``docker-compose down`` executed in the root directory of this repository
@@ -79,7 +80,7 @@ Example RESTful interaction:
 | Receive current test scenario.                                         |  GET ``scenario``                                   |
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
 | Receive BOPTEST version.                                               |  GET ``version``                                             |
-| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered wth the online dashboard at (url coming soon).|
+| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered with the online dashboard.|
 
 ## Development
 
@@ -104,7 +105,6 @@ An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-
 A proposed BOPTEST home page and dashboard for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.
 
 ## Publications
-### To cite, please use:
 D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. Benne, D. Vrabie, M. Wetter, and L. Helsen. (2021). ["Building optimization testing framework (BOPTEST) for simulation-based benchmarking of control strategies in buildings."](https://doi.org/10.1080/19401493.2021.1986574) *Journal of Building Performance Simulation*, 14(5), 586-610.
 
 ### Additional publications:
@@ -127,3 +127,5 @@ J. Arroyo, F. Spiessens, and L. Helsen. (2020). [“Identification of Multi-zone
 D. Blum, F. Jorissen, S. Huang, Y. Chen, J. Arroyo, K. Benne, Y. Li, V. Gavan, L. Rivalin, L. Helsen, D. Vrabie, M. Wetter, and M. Sofos. (2019). [“Prototyping the BOPTEST framework for simulation-based testing of advanced control strategies in buildings.”](http://www.ibpsa.org/proceedings/BS2019/BS2019_211276.pdf) In *Proceedings of the 16th International Conference of IBPSA*, Sep 2 – 4. Rome, Italy.
 
 S. Huang, Y. Chen, P. W. Ehrlich, and D. L. Vrabie. (2018). [“A Control-Oriented Building Envelope and HVAC System Simulation Model for a Typical Large Office Building.”](https://www.ashrae.org/File%20Library/Conferences/Specialty%20Conferences/2018%20Building%20Performance%20Analysis%20Conference%20and%20SimBuild/Papers/C101.pdf) In *Proceedings of 2018 Building Performance Modeling Conference and SimBuild co-organized by ASHRAE and IBPSA-USA*, Sep 26 - 28. Chicago, IL.
+
+### To cite, please use:
