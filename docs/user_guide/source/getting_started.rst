@@ -62,12 +62,12 @@ Deploy a Test Case
 Send the following API request to ``<url>``.
 The returned ``<testid>`` will be needed for all future API requests associated
 with your chosen test case.
-See `API Summary`_ for more information on available requests.
 
 Use the API
 -----------
 Send API requests to ``<url>/<request>/<testid>``,
 where ``<testid>`` is returned from the previous step.
+See `API Summary`_ for more information on available requests.
 
 Stop the Test Case
 ------------------
