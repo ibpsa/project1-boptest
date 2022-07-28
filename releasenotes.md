@@ -1,8 +1,8 @@
 # Release Notes
 
-## BOPTEST v0.x.x
+## BOPTEST v0.3.0
 
-Released on xx/xx/xxxx.
+Released on 07/27/2022.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
