@@ -13,6 +13,7 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Aritz Bengoetxea (IK4 Tekniker, Spain)** for forecast uncertainty characterization.
 - **Kyle Benne (National Renewable Energy Laboratory, USA)** for framework development, web-service development, online dashboard development.
 - **Chris Berger (Devetry, USA)** for online dashboard development.
+- **Dave Biagioni (National Renewable Energy Laboratory, USA)** for software implementation.
 - **David Blum (Lawrence Berkeley National Laboratory, USA)** for framework development, software implementation, test case development (bestest_air, multizone_office_simple_air, singlezone_commercial_air), test case review.
 - **Felix Bunning (ETH Zurich / EMPA, Switzerland)** for controller testing.
 - **Yan Chen (Pacific Northwest National Laboratory, USA)** for framework development.

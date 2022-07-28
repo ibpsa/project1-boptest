@@ -7,11 +7,11 @@ hero_height: is-fullwidth
 
 # Download the Latest BOPTEST Software
 
-The latest version is ``v0.2.0``, released on March 5, 2022.
+The latest version is ``v0.3.0``, released on July 27, 2022.
 
 Click the button below to download the latest version as a zip file.
 
-<a class="button is-primary" href="https://github.com/ibpsa/project1-boptest/archive/refs/tags/v0.2.0.zip"><b>Download</b></a>
+<a class="button is-primary" href="https://github.com/ibpsa/project1-boptest/archive/refs/tags/v0.3.0.zip"><b>Download</b></a>
 
 Get started with the [User Guide](/docs-userguide/index.html).
 
