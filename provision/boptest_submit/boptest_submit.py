@@ -127,8 +127,30 @@ class BoptestSubmit:
               }
             },
             {
+              'uid': 'multizone_office_simple_air',
+              'name': 'Multizone Office Simple Air',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
               'uid': 'multizone_residential_hydronic',
               'name': 'Multizone Residential Hydronic',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
+              'uid': 'singlezone_commercial_hydronic',
+              'name': 'Single Zone Commercial Hydronic',
               'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
               'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
               'scenarios': {
