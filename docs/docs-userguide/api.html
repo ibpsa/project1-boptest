@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>API Summary &#8212; BOPTEST User Guide 0.X.X documentation</title>
+    <title>API Summary &#8212; BOPTEST User Guide 0.3.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="static/bootstrap-sphinx.css" />
     <script data-url_root="./" id="documentation_options" src="static/documentation_options.js"></script>
@@ -97,6 +97,17 @@
 
   <section id="api-summary">
 <h1>API Summary<a class="headerlink" href="#api-summary" title="Permalink to this headline">¶</a></h1>
+<p>To interact with a deployed test case, use the API defined in the sections below by sending RESTful requests as follows:</p>
+<ul class="simple">
+<li><p>If Single Test Case on Local Computing Resource, send API requests to localhost port 5000 as <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:5000/&lt;request&gt;</span></code>.</p></li>
+<li><p>If using Public Web Service, send API requests to <code class="docutils literal notranslate"><span class="pre">&lt;url&gt;/&lt;request&gt;/&lt;testid&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;testid&gt;</span></code> is your returned testid upon test case selection.  See the section Getting Started for more information.</p></li>
+</ul>
+<p>Each API request will return a JSON in the form <code class="docutils literal notranslate"><span class="pre">{&quot;status&quot;:&lt;status_code_int&gt;,</span> <span class="pre">&quot;message&quot;:&lt;message_str&gt;,</span> <span class="pre">&quot;payload&quot;:&lt;relevant_return_data&gt;}</span></code>, where:</p>
+<ul class="simple">
+<li><p>Data returned in <code class="docutils literal notranslate"><span class="pre">&quot;payload&quot;</span></code> is the data of interest relvant to the specific API request and is defined in the <strong>Returns</strong> section of each section below.</p></li>
+<li><p>Status codes in <code class="docutils literal notranslate"><span class="pre">&quot;status&quot;</span></code> are integers: <code class="docutils literal notranslate"><span class="pre">200</span></code> for successful with or without warning, <code class="docutils literal notranslate"><span class="pre">400</span></code> for bad input error, or <code class="docutils literal notranslate"><span class="pre">500</span></code> for internal error.</p></li>
+<li><p>The string in <code class="docutils literal notranslate"><span class="pre">&quot;message&quot;</span></code> will report any warnings or error messages to help debug encountered problems.</p></li>
+</ul>
 <section id="get-version">
 <h2>GET /version<a class="headerlink" href="#get-version" title="Permalink to this headline">¶</a></h2>
 <ul>
@@ -404,6 +415,29 @@
     &quot;tdis_tot&quot;:&lt;value&gt;,     // float, Thermal discomfort in Kh/zone
     &quot;time_rat&quot;:&lt;value&gt;      // float, Computational time ratio in s/ss
 }
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="get-submit">
+<h2>GET /submit<a class="headerlink" href="#get-submit" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><strong>Description:</strong> Post test results to online dashboard located at (url coming soon).  A complete test scenario (including full time period) must be finished before results can be submitted to the dashboard.</p></li>
+<li><p><strong>Arguments:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">api_key</span>         <span class="o">//</span> <span class="n">required</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">API</span> <span class="n">key</span> <span class="n">generated</span> <span class="k">for</span> <span class="n">user</span> <span class="n">account</span> <span class="n">on</span> <span class="n">dashboard</span><span class="o">.</span>
+<span class="n">tag</span><span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;</span>          <span class="o">//</span> <span class="n">optional</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Tag</span> <span class="n">to</span> <span class="n">characterize</span> <span class="n">result</span> <span class="ow">and</span> <span class="n">which</span> <span class="n">can</span> <span class="n">be</span> <span class="n">filtered</span> <span class="n">upon</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">online</span> <span class="n">dashboard</span><span class="o">.</span> <span class="n">Up</span> <span class="n">to</span> <span class="mi">10</span> <span class="n">tags</span> <span class="n">are</span> <span class="n">allowed</span><span class="p">,</span> <span class="n">specifed</span> <span class="n">by</span> <span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;=</span><span class="mi">1</span><span class="o">-</span><span class="mf">10.</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>Returns:</strong></p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;identifier&quot;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">uid</span><span class="o">&gt;</span><span class="p">,</span>       <span class="o">//</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Unique</span> <span class="n">identifier</span> <span class="k">for</span> <span class="n">result</span> <span class="n">posted</span> <span class="n">to</span> <span class="n">dashboard</span><span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div></blockquote>
