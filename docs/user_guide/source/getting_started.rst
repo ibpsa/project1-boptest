@@ -42,8 +42,7 @@ A couple notes:
 
 Use the API
 -----------
-Send API requests to localhost port 5000 as ``http://127.0.0.1:5000/<request>``.
-See `API Summary`_ for more information on available requests.
+Send API requests to localhost port 5000 as ``http://127.0.0.1:5000/<request>``.  See the section API Summary for more information on available requests.
 
 Stop the Test Case
 ------------------
@@ -65,9 +64,8 @@ with your chosen test case.
 
 Use the API
 -----------
-Send API requests to ``<url>/<request>/<testid>``,
-where ``<testid>`` is returned from the previous step.
-See `API Summary`_ for more information on available requests.
+Send API requests to ``<url>/<request>/<testid>``, where ``<testid>`` is returned from the previous step.
+See the section API Summary for more information on available requests.
 
 Stop the Test Case
 ------------------
