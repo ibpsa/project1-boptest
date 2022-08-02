@@ -2,9 +2,10 @@ within ;
 package TwoZoneApartmentHydronic "TwoZoneApartmentHydronic"
 annotation (uses(                            Modelica(version="3.2.3"),
     ModelicaServices(version="3.2.3"),
-    IDEAS(version="2.2.1"),
     IBPSA(version="3.0.0"),
-    Buildings(version="8.0.1")),
+    Buildings(version="8.0.1"),
+    MultiZoneResidentialHydronic(version="2"),
+    IDEAS(version="2.1.0")),
   version="1.0.0",
   conversion(from(
       version="1.0.0",
@@ -103,5 +104,53 @@ annotation (uses(                            Modelica(version="3.2.3"),
         item=convertElement(
             "MerezzateCaseStudy.TestCases.BoundaryConditions",
             "ligDay1",
-            "ligNig")))));
+            "ligNig"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.ApartmentModelQHTyp",
+            "dooLiv",
+            "doo"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "thermostatNigZ",
+            "thermostatNigZon"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "thermostatDayZ",
+            "thermostatDayZon"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumRad",
+            "sumRadDayZon"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumCon",
+            "sumConDayZon"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumLat",
+            "sumLatDayZon"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumRad1",
+            "sumRadNigZone"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumCon1",
+            "sumConNigZone"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumLat1",
+            "sumLatNigZone"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumRadNigZone",
+            "sumRadNigZon"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumConNigZone",
+            "sumConNigZon"),
+        item=convertElement(
+            "TwoZoneApartmentHydronic.TestCases.BoundaryConditions",
+            "sumLatNigZone",
+            "sumLatNigZon")))));
 end TwoZoneApartmentHydronic;

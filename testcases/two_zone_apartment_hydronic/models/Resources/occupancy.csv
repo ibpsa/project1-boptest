@@ -1,7 +1,6 @@
 # Optional header information,,
 # time: time of occupancy [s],,
 # Occupancy: Number of occupants [ppl],,
-time,Occupancy[Night],Occupancy[Day]
 time,Occupancy[Day],Occupancy[Night]
 0.0,1.0,1.0
 900.0,1.0,1.0

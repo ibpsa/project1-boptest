@@ -1,39 +1,49 @@
 ﻿within TwoZoneApartmentHydronic.TestCases;
 model ApartmentModelQHTyp "Hydronic Test case"
     extends Modelica.Icons.Example;
+    replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
+    replaceable package MediumW = Buildings.Media.Water "Medium model";
     parameter Modelica.SIunits.Area Afloor = 22;
     parameter Modelica.SIunits.Temperature T_start = 21+273.15;
     parameter Modelica.SIunits.MassFlowRate mflow_n=2480/3600/4
     "nominal flow rate";
     parameter Real qint=1 "Presence or not of Internal gains";
-  TwoZoneApartmentHydronic.Components.Thermostat_T thermostatNigZ(
+  TwoZoneApartmentHydronic.Components.Thermostat_T thermostatNigZon(
     occSta=8*3600,
     occEnd=20*3600,
     TSetHeaUno=294.15,
     TSetHeaOcc=289.15,
     TSetHeaWee=289.15)
     annotation (Placement(transformation(extent={{-60,-80},{-40,-60}})));
-  TwoZoneApartmentHydronic.Components.HydronicSystem hydronicSystem(mflow_n=
-        2480/3600/2, QhpDes=5000)
+  TwoZoneApartmentHydronic.Components.HydronicSystem hydronicSystem(
+    redeclare package MediumW = MediumW,                            mflow_n=
+        2480/3600/2,
+    DP_n=DP_n,       QhpDes=5000)
     annotation (Placement(transformation(extent={{-20,-14},{14,20}})));
   Buildings.BoundaryConditions.WeatherData.Bus weaBus annotation (Placement(
         transformation(extent={{-80,-10},{-40,30}}),  iconTransformation(extent=
            {{-268,-10},{-248,10}})));
-  TwoZoneApartmentHydronic.Components.Rooms.DayZone DayZon(
+  TwoZoneApartmentHydronic.Components.Rooms.DayZone dayZon(
     Afloor=Afloor,
+    redeclare package MediumA = MediumA,
+    redeclare package MediumW = MediumW,
     mflow_n=mflow_n,
     qint=qint,
     Tstart=T_start,
-    zonName="Day")
+    zonName="Day",
+    dp_nominal=20*DP_n)
     annotation (Placement(transformation(extent={{48,28},{72,52}})));
-  TwoZoneApartmentHydronic.Components.Rooms.NightZone NigZone(
+  TwoZoneApartmentHydronic.Components.Rooms.NightZone nigZon(
+    redeclare package MediumA = MediumA,
+    redeclare package MediumW = MediumW,
     Afloor=Afloor,
     mflow_n=mflow_n,
     qint=qint,
     Tstart=T_start,
-    zonName="Night")
+    zonName="Night",
+    dp_nominal=20*DP_n)
     annotation (Placement(transformation(extent={{46,-52},{70,-28}})));
-  TwoZoneApartmentHydronic.Components.Thermostat_T thermostatDayZ(
+  TwoZoneApartmentHydronic.Components.Thermostat_T thermostatDayZon(
     occSta=8*3600,
     occEnd=20*3600,
     TSetHeaUno=294.15,
@@ -41,18 +51,30 @@ model ApartmentModelQHTyp "Hydronic Test case"
     TSetHeaWee=289.15)
     annotation (Placement(transformation(extent={{-60,60},{-40,80}})));
   inner IDEAS.BoundaryConditions.SimInfoManager
-                       sim(filNam=
-        ModelicaServices.ExternalReferences.loadResource(
+                       sim(filNam=Modelica.Utilities.Files.loadResource(
         "modelica://TwoZoneApartmentHydronic/Resources/ITA_Milano-Linate.160800_IGDG.mos"))
     annotation (Placement(transformation(extent={{-104,-2},{-82,20}})));
+  Buildings.Airflow.Multizone.DoorDiscretizedOpen doo(
+    hA=3/2,
+    hB=3/2,
+    nCom=10,
+    redeclare package Medium = MediumA,
+    show_T=true,
+    wOpe=0.8,
+    hOpe=2,
+    dp_turbulent=0.1,
+    CD=0.78) "Discretized door" annotation (Placement(transformation(
+        extent={{-8,-9},{8,9}},
+        rotation=-90,
+        origin={42,-3})));
+  parameter Modelica.SIunits.Pressure DP_n=500 "nominal flow rate";
 equation
-  connect(hydronicSystem.ports_b[1], DayZon.supplyWater) annotation (Line(
+  connect(hydronicSystem.ports_b[1],dayZon. supplyWater) annotation (Line(
         points={{12.8667,16.6},{12,16.6},{12,16},{54,16},{54,22},{53.52,22}},
                                                    color={0,127,255}));
-  connect(hydronicSystem.ports_b[2], NigZone.supplyWater) annotation (Line(
+  connect(hydronicSystem.ports_b[2], nigZon.supplyWater) annotation (Line(
         points={{12.8667,9.8},{24,9.8},{24,-64},{52,-64},{52,-58},{51.52,-58}},
-                                                                       color={0,
-          127,255}));
+        color={0,127,255}));
   connect(weaBus, hydronicSystem.weaBus) annotation (Line(
       points={{-60,10},{-54,10},{-54,10.14},{-17.7333,10.14}},
       color={255,204,51},
@@ -61,7 +83,7 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(weaBus, NigZone.weaBus) annotation (Line(
+  connect(weaBus, nigZon.weaBus) annotation (Line(
       points={{-60,10},{-60,-40},{35.2,-40}},
       color={255,204,51},
       thickness=0.5), Text(
@@ -69,7 +91,7 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(weaBus, DayZon.weaBus) annotation (Line(
+  connect(weaBus,dayZon. weaBus) annotation (Line(
       points={{-60,10},{-60,40},{37.2,40}},
       color={255,204,51},
       thickness=0.5), Text(
@@ -77,14 +99,14 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(DayZon.returnWater, hydronicSystem.ports_a[1]) annotation (Line(
-        points={{66.48,22},{66,22},{66,0},{14,0},{14,-10.6},{12.8667,-10.6}},
+  connect(dayZon.returnWater, hydronicSystem.ports_a[1]) annotation (Line(
+        points={{66.48,22},{74,22},{74,-14},{14,-14},{14,-10.6},{12.8667,-10.6}},
                                                                color={0,127,255}));
-  connect(NigZone.returnWater, hydronicSystem.ports_a[2]) annotation (Line(
+  connect(nigZon.returnWater, hydronicSystem.ports_a[2]) annotation (Line(
         points={{64.48,-58},{66,-58},{66,-80},{20,-80},{20,-3.8},{12.8667,-3.8}},
         color={0,127,255}));
-  connect(DayZon.surf_conBou[2], NigZone.surf_surBou) annotation (Line(points={{61.44,
-          37.36},{61.44,0},{67.6,0},{67.6,-42.88}},      color={191,0,0}));
+  connect(dayZon.surf_conBou[2], nigZon.surf_surBou) annotation (Line(points={{
+          61.44,37.36},{61.44,0},{67.6,0},{67.6,-42.88}}, color={191,0,0}));
   connect(sim.weaDatBus, weaBus) annotation (Line(
       points={{-82.11,9},{-72,9},{-72,10},{-60,10}},
       color={255,204,51},
@@ -93,19 +115,29 @@ equation
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(NigZone.TRooAir, thermostatNigZ.TZon) annotation (Line(points={{78.4,-35.44},
-          {78,-35.44},{78,-100},{-80,-100},{-80,-70},{-62,-70}}, color={0,0,127}));
-  connect(DayZon.TRooAir, thermostatDayZ.TZon) annotation (Line(points={{80.4,44.56},
-          {80.4,98},{-80,98},{-80,70},{-62,70}}, color={0,0,127}));
-  connect(thermostatNigZ.ValCon, hydronicSystem.ValConNigZon) annotation (Line(
-        points={{-39,-64},{-32,-64},{-32,-12},{-18.3567,-12},{-18.3567,-11.28}},
-        color={0,0,127}));
-  connect(thermostatDayZ.ValCon, hydronicSystem.ValConDayZon) annotation (Line(
-        points={{-39,76},{-32,76},{-32,-5.84},{-18.3567,-5.84}}, color={0,0,127}));
-  connect(thermostatNigZ.Occ, NigZone.occupation) annotation (Line(points={{-39,
+  connect(nigZon.TRooAir, thermostatNigZon.TZon) annotation (Line(points={{78.4,
+          -35.44},{78,-35.44},{78,-100},{-80,-100},{-80,-70},{-62,-70}}, color=
+          {0,0,127}));
+  connect(dayZon.TRooAir, thermostatDayZon.TZon) annotation (Line(points={{80.4,
+          44.56},{80.4,98},{-80,98},{-80,70},{-62,70}}, color={0,0,127}));
+  connect(thermostatNigZon.ValCon, hydronicSystem.ValConNigZon) annotation (
+      Line(points={{-39,-64},{-32,-64},{-32,-12},{-18.3567,-12},{-18.3567,
+          -11.28}}, color={0,0,127}));
+  connect(thermostatDayZon.ValCon, hydronicSystem.ValConDayZon) annotation (
+      Line(points={{-39,76},{-32,76},{-32,-5.84},{-18.3567,-5.84}}, color={0,0,
+          127}));
+  connect(thermostatNigZon.Occ, nigZon.occupation) annotation (Line(points={{-39,
           -70},{-10,-70},{-10,-29.92},{41.2,-29.92}}, color={0,0,127}));
-  connect(thermostatDayZ.Occ, DayZon.occupation) annotation (Line(points={{-39,70},
-          {0,70},{0,50.08},{43.2,50.08}}, color={0,0,127}));
+  connect(thermostatDayZon.Occ, dayZon.occupation) annotation (Line(points={{-39,
+          70},{0,70},{0,50.08},{43.2,50.08}}, color={0,0,127}));
+  connect(doo.port_b2,dayZon. supplyAir) annotation (Line(points={{36.6,5},{
+          36.6,43.84},{48,43.84}}, color={0,127,255}));
+  connect(doo.port_a1,dayZon. returnAir) annotation (Line(points={{47.4,5},{
+          47.4,21.5},{48,21.5},{48,37.6}}, color={0,127,255}));
+  connect(doo.port_b1, nigZon.supplyAir) annotation (Line(points={{47.4,-11},{
+          47.4,-23.5},{46,-23.5},{46,-36.16}}, color={0,127,255}));
+  connect(doo.port_a2, nigZon.returnAir) annotation (Line(points={{36.6,-11},{
+          36.6,-42.4},{46,-42.4}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
@@ -115,6 +147,10 @@ equation
       __Dymola_Algorithm="Radau"),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 5, 2022, by Ettore Zanetti:<br/>
+Revision after comments
+</li>
 <li>
 August 6, 2021, by Ettore Zanetti:<br/>
 First implementation.
@@ -698,24 +734,23 @@ have been defined in the record \"Window24\".
 </p>
 <p>
 <h4>Occupancy schedule</h4>
-<p>The maximum occupation is two people, one per thermal zone, from 8 P.M. to 8 A.M. for the weekdays. The thermal zones are considered always occupied 
-during the weekend.</p>
+<p>The apartment is occupied from 8 P.M. to 8 A.M. from Monday to Friday by two people, one per thermal zone. The thermal zones are considered unoccupied on Saturday and Sunday.</p>
 <h4>Internal loads and schedules</h4>
 <p>The heating setpoint is considered 21 [°C] for occupied periods and 16 [°C] for unoccupied periods. The main heat gains come from people, appliances and lighting. For people it corresponds to 60 (W/person) of sensible gains divided equally between
-convective and radiative contributions and 20 (W) of latent gains, with no CO2 generation. For the appliances and lighting 4 (W/m2) of sensible gains were considred divided 
-equally between convective and radiative contributions. Lastly, infilatrations was considered a constant value of 0.5 (vol/h) for each thermal zone.</p>
+convective and radiative contributions and 20 (W) of latent gains. Internal gains for the appliances are 4 (W/m2) and for lighting 1.5 (W/m2) of sensible gains were considred divided 
+equally between convective and radiative contributions. These values are taken from a combination of ASHRAE 90.1 standard and ENI 13200. CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017) and density of CO2 assumed to be 1.8 kg/m^3,making CO2 generation 8.64e-6 kg/s per person.Outside air CO2 concentration is 400 ppm.  However, CO2 concentration is not controlled for in the model. Lastly, infilatrations was considered a constant value of 0.5 (vol/h) for each thermal zone.</p>
 <h4>Climate data</h4>
 <p>The climate is assumed to be near Milan, Italy with a latitude and longitude of 45.44,9.27. The climate data comes from the Milano Linate TMY set. </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>Only heating is considered. The HVAC system is made up of two floor heating circuits, one per thermal zone that can be controlled with an on-off valve.
-The generation system is an air source 5kW heat pump modelled after a Daikin heat pump. Below is reported a schematic view of the HVAC system.</p>
+The generation system is an air source heat pump with a nominal power of 5kW modelled after a Daikin heat pump. Below is reported a schematic view of the HVAC system.</p>
 <p align=\"center\">
 <img src=\"../../../doc/images/HVACscheme.png\"
      alt=\"HVACscheme.png\" />
 </p>
 <h4>Equipment specifications and performance maps</h4>
-<p> The flow rate for each thermal zone floor heating circuit is 620 [l/h], while the heat pump perfomance map is the default map present in the IDEAS heat pump
+<p> The heating system circulation pump has the default efficiency of the pump model, which is 49%; at the time of writing. The flow rate for each thermal zone floor heating circuit is 620 [l/h].The heat pump perfomance map is the default map present in the IDEAS heat pump
 model coming from a Darikin heat pump.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
@@ -733,96 +768,116 @@ The figure below reports a scheme of the controls.
 The model inputs are:
 <ul>
 <li>
-<code>hydronicSystem_oveTHea_u</code> [K] [min=274.15, max=318]: Supply water setpoint
+<code>hydronicSystem_oveMDayZ_u</code> [1] [min=0.0, max=1.0]: Signal Day zone valve
 </li>
 <li>
-<code>hydronicSystem_oveMNigZ_u</code> [1] [min=0.0, max=1]: Night zone valve on-off
+<code>hydronicSystem_oveMNigZ_u</code> [1] [min=0.0, max=1.0]: Signal Night zone valve
 </li>
 <li>
-<code>hydronicSystem_oveMDayZ_u</code> [1] [min=0.0, max=1]: Day zone valve on-off
+<code>hydronicSystem_oveMpumCon_u</code> [kg/s] [min=0.0, max=5.0]: Mass flow rate 
+</li>
+<li>
+<code>hydronicSystem_oveTHea_u</code> [K] [min=273.15, max=318.15]: Heat system supply temperature
+</li>
+<li>
+<code>thermostatDayZon_oveTsetZon_u</code> [K] [min=273.15, max=318.15]: Setpoint temperature for thermal zone
+</li>
+<li>
+<code>thermostatNigZon_oveTsetZon_u</code> [K] [min=273.15, max=318.15]: Setpoint temperature for thermal zone
 </li>
 </ul>
 <h4>Outputs</h4>
 The model outputs are:
 <ul>
 <li>
-<code>DayZon_reaPowQint_y</code> [W] [min=None, max=None]: Day zone internal heat gains
+<code>dayZon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
 </li>
 <li>
-<code>DayZon_MFloHea_y</code> [kg/s] [min=None, max=None]: Mass flow rate floor heating circuit Day zone
+<code>dayZon_reaMFloHea_y</code> [kg/s] [min=None, max=None]: Mass flow rate floor heating
 </li>
 <li>
-<code>hydronicSystem_reaCOPhp_y</code> [1] [min=None, max=None]: Heat pump COP
+<code>dayZon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
 </li>
 <li>
-<code>NigZone_TsupFloHea_y</code> [K] [min=None, max=None]: Supply temperature to Night zone floor heating circuit
+<code>dayZon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
 </li>
 <li>
-<code>hydronicSystem_PeleHeaPum_y</code> [W] [min=None, max=None]: Electical consumption heat pump 
+<code>dayZon_reaPowFlooHea_y</code> [W] [min=None, max=None]: Floor heating power
 </li>
 <li>
-<code>NigZone_reaPLig_y</code> [W] [min=None, max=None]: Night zone lighting power consumption
+<code>dayZon_reaPowQint_y</code> [W] [min=None, max=None]: Internal heat gains
 </li>
 <li>
-<code>NigZone_TretFloHea_y</code> [T] [min=None, max=None]: Return temperature Night zone floor heating circuit
+<code>dayZon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>DayZon_reaPLig_y</code> [W] [min=None, max=None]: Day zone lighting power consumption
+<code>dayZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average temperature floor heating
 </li>
 <li>
-<code>NigZone_reaPPlu_y</code> [W] [min=None, max=None]: Night zone plug loads
+<code>dayZon_reaTretFloHea_y</code> [K] [min=None, max=None]: Zone return temperature floor heating
 </li>
 <li>
-<code>NigZone_reaPowQint_y</code> [W] [min=None, max=None]: Night zone overall heat gains
+<code>dayZon_reaTsupFloHea_y</code> [K] [min=None, max=None]: Zone supply temperature floor heating
 </li>
 <li>
-<code>DayZon_TavgFloHea_y</code> [K] [min=None, max=None]: Average floor heating temperature Day zone
+<code>hydronicSystem_reaCOPhp_y</code> [1] [min=None, max=None]: air source heat pump COP
 </li>
 <li>
-<code>NigZone_TavgFloHea_y</code> [K] [min=None, max=None]: Average floor heating temperature Night zone
+<code>hydronicSystem_reaMDayZ_y</code> [1] [min=None, max=None]: Signal Day zone valve
 </li>
 <li>
-<code> DayZon_reaTRooAir_y </code> [K] [min=None, max=None]: Air temperature Day zone
+<code>hydronicSystem_reaMNigZ_y</code> [1] [min=None, max=None]: Signal Night zone valve
 </li>
 <li>
-<code> DayZon_reaCO2RooAir_y </code> [ppm] [min=None, max=None]: CO2 concentration Day zone
+<code>hydronicSystem_reaMpumCon_y</code> [kg/s] [min=None, max=None]: Mass flow rate control input to circulating pump
 </li>
 <li>
-<code> NigZone_reaCO2RooAir_y </code> [ppm] [min=None, max=None]: CO2 concentration Night zone
+<code>hydronicSystem_reaPPum_y</code> [W] [min=None, max=None]: Pump electrical power
 </li>
 <li>
-<code>  DayZon_TretFloHea_y</code> [K] [min=None, max=None]: Return temperature Day zone floor heating circuit
+<code>hydronicSystem_reaPeleHeaPum_y</code> [W] [min=None, max=None]: Electric consumption of the heat pump
 </li>
 <li>
-<code> DayZon_reaPPlu_y </code> [W] [min=None, max=None]: Day zone plug loads
-</li>
-
-<li>
-<code> hydronicSystem_reaMNigZ_y </code> [1] [min=None, max=None]: Night zone valve status
+<code>hydronicSystem_reaTHeat_y</code> [K] [min=None, max=None]: Heat system supply temperature
 </li>
 <li>
-<code> NigZone_reaTRooAir_y </code> [K] [min=None, max=None]: Air temperature Night zone
+<code>hydronicSystem_reaTretFloHea_y</code> [K] [min=None, max=None]: Zone return temperature floor heating
 </li>
 <li>
-<code> hydronicSystem_TretFloHea_y </code> [K] [min=None, max=None]: Return water temperature to heat pump
+<code>nigZon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
 </li>
 <li>
-<code> hydronicSystem_reaTHeat_y </code> [K] [min=None, max=None]: Heat pump supply water temperature 
+<code>nigZon_reaMFloHea_y</code> [kg/s] [min=None, max=None]: Mass flow rate floor heating
 </li>
 <li>
-<code>DayZon_reaPowFlooHea_y </code> [W] [min=None, max=None]: Thermal power supplied to Day zone floor heating circuit
+<code>nigZon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
 </li>
 <li>
-<code> NigZone_MFloHea_y</code> [kg/s] [min=None, max=None]: Mass flow rate floor heating circuit Night zone
+<code>nigZon_reaPPlu_y</code> [W] [min=None, max=None]: Plug load power submeter
 </li>
 <li>
-<code>NigZone_reaPowFlooHea_y </code> [W] [min=None, max=None]: Thermal power supplied to Night zone floor heating circuit
+<code>nigZon_reaPowFlooHea_y</code> [W] [min=None, max=None]: Floor heating power
 </li>
 <li>
-<code> hydronicSystem_reaMDayZ_y</code> [1] [min=None, max=None]: Day zone valve status
+<code>nigZon_reaPowQint_y</code> [W] [min=None, max=None]: Internal heat gains
 </li>
 <li>
-<code> DayZon_TsupFloHea_y </code> [K] [min=None, max=None]: Supply temperature to Day zone floor heating circuit
+<code>nigZon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
+</li>
+<li>
+<code>nigZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average temperature floor heating
+</li>
+<li>
+<code>nigZon_reaTretFloHea_y</code> [K] [min=None, max=None]: Zone return temperature floor heating
+</li>
+<li>
+<code>nigZon_reaTsupFloHea_y</code> [K] [min=None, max=None]: Zone supply temperature floor heating
+</li>
+<li>
+<code>thermostatDayZon_reaTsetZon_y</code> [K] [min=None, max=None]: Setpoint temperature for thermal zone
+</li>
+<li>
+<code>thermostatNigZon_reaTsetZon_y</code> [K] [min=None, max=None]: Setpoint temperature for thermal zone
 </li>
 
 </ul>
@@ -856,7 +911,7 @@ A constant infiltration flowrate is assumed to be 0.5 ACH.
 </p>
 <h4>Other assumptions</h4>
 <p>
-The supply air temperature is directly specified.
+No further assumptions are needed.
 </p>
 <p>
 CO2 generation is modelled but no generation is considered. So the CO2 concentration will be in equilibrium with the external environment CO2.

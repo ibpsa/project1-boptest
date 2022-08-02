@@ -21,11 +21,11 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         self.name = 'two_zone_apartment_hydronic'
         self.url = 'http://127.0.0.1:5000'
-        self.points_check = ['DayZon_reaTRooAir_y','NigZone_reaTRooAir_y',
-			     'hydronicSystem_PeleHeaPum_y','DayZon_reaPowFlooHea_y',
-			     'NigZone_reaPowFlooHea_y','NigZone_TsupFloHea_y',
-			     'DayZon_TsupFloHea_y','DayZon_reaPowQint_y',
-			     'NigZone_reaPowQint_y']
+        self.points_check = ['dayZon_reaTRooAir_y','nigZon_reaTRooAir_y',
+			     'hydronicSystem_reaPeleHeaPum_y','dayZon_reaPowFlooHea_y',
+			     'nigZon_reaPowFlooHea_y','nigZon_reaTsupFloHea_y',
+			     'dayZon_reaTsupFloHea_y','dayZon_reaPowQint_y',
+			     'nigZon_reaPowQint_y']
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')

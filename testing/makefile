@@ -184,12 +184,12 @@ test_two_zone_apartment_hydronic:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=two_zone_apartment_hydronic
 # Build and deploy testcase image
-	cd .. && TESTCASE=two_zone_apartment_hydronic docker-compose up -d
+	cd .. && TESTCASE=two_zone_apartment_hydronic docker compose up -d
 	python sleep10.py && python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_two_zone_apartment_hydronic.py
 # Stop testcase container
-	cd .. && TESTCASE=two_zone_apartment_hydronic docker-compose down
+	cd .. && TESTCASE=two_zone_apartment_hydronic docker compose down
 
 
 test_parser:

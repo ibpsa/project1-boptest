@@ -12,13 +12,14 @@ model Thermostat_T
   Modelica.Blocks.Sources.CombiTimeTable TSetHea(
     smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
-    table=[0,TSetHeaUno; occSta,TSetHeaOcc; occEnd,TSetHeaUno; 86400,
-        TSetHeaUno;occSta+86400,TSetHeaOcc;occEnd+86400,TSetHeaUno;86400*2,TSetHeaUno;
-        occSta+86400*2,TSetHeaOcc;occEnd+86400*2,TSetHeaUno;86400*3,TSetHeaUno;
-        occSta+86400*3,TSetHeaOcc;occEnd+86400*3,TSetHeaUno;86400*4,TSetHeaUno;
-        occSta+86400*4,TSetHeaOcc;occEnd+86400*4,TSetHeaUno;86400*5,TSetHeaUno;
-        occSta+86400*5,TSetHeaOcc;occEnd+86400*5,TSetHeaUno;86400*6,TSetHeaUno;
-        occSta+86400*6,TSetHeaWee;occEnd+86400*6,TSetHeaWee;86400*7,TSetHeaWee])
+    table=[0,TSetHeaUno; occSta,TSetHeaOcc; occEnd,TSetHeaUno; 86400,TSetHeaUno;
+        occSta + 86400,TSetHeaOcc; occEnd + 86400,TSetHeaUno; 86400*2,
+        TSetHeaUno; occSta + 86400*2,TSetHeaOcc; occEnd + 86400*2,TSetHeaUno;
+        86400*3,TSetHeaUno; occSta + 86400*3,TSetHeaOcc; occEnd + 86400*3,
+        TSetHeaUno; 86400*4,TSetHeaUno; occSta + 86400*4,TSetHeaOcc; occEnd +
+        86400*4,TSetHeaUno; 86400*5,TSetHeaUno; occSta + 86400*5,TSetHeaWee;
+        occEnd + 86400*5,TSetHeaWee; 86400*6,TSetHeaWee; occSta + 86400*6,
+        TSetHeaWee; occEnd + 86400*6,TSetHeaWee; 86400*7,TSetHeaWee])
                  "Heating temperature setpoint for zone air"
     annotation (Placement(transformation(extent={{-100,-70},{-80,-50}})));
   Modelica.Blocks.Interfaces.RealOutput ValCon "Zone valve control"
@@ -37,23 +38,37 @@ model Thermostat_T
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal1
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
+  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTsetZon(u(
+      unit="K",
+      min=273.15,
+      max=273.15 + 45), description="Setpoint temperature for thermal zone")
+    "Overwrite Setpoint temperature for thermal zone"
+    annotation (Placement(transformation(extent={{-66,-70},{-46,-50}})));
+  IBPSA.Utilities.IO.SignalExchange.Read reaTsetZon(y(unit="K"), description=
+        "Setpoint temperature for thermal zone")
+    "Read for setpoint temperature for thermal zone"
+    annotation (Placement(transformation(extent={{-34,-70},{-14,-50}})));
 equation
-  connect(TSetHea.y[1], TSetZ)
-    annotation (Line(points={{-79,-60},{110,-60}}, color={0,0,127}));
-  connect(TSetHea.y[1], onOffCon.reference) annotation (Line(points={{-79,-60},{
-          -70,-60},{-70,66},{-62,66}},  color={0,0,127}));
   connect(TZon, onOffCon.u) annotation (Line(points={{-120,0},{-66,0},{-66,54},{
           -62,54}},  color={0,0,127}));
   connect(onOffCon.y, booleanToReal.u)
     annotation (Line(points={{-39,60},{-14,60}}, color={255,0,255}));
   connect(booleanToReal.y, ValCon)
     annotation (Line(points={{9,60},{110,60}}, color={0,0,127}));
-  connect(greaterEqualThreshold.u, TSetZ) annotation (Line(points={{-16,0},{
-          -40,0},{-40,-60},{110,-60}}, color={0,0,127}));
   connect(greaterEqualThreshold.y, booleanToReal1.u)
     annotation (Line(points={{7,0},{38,0}}, color={255,0,255}));
   connect(booleanToReal1.y, Occ)
     annotation (Line(points={{61,0},{110,0}}, color={0,0,127}));
+  connect(TSetHea.y[1], oveTsetZon.u)
+    annotation (Line(points={{-79,-60},{-68,-60}}, color={0,0,127}));
+  connect(oveTsetZon.y, reaTsetZon.u)
+    annotation (Line(points={{-45,-60},{-36,-60}}, color={0,0,127}));
+  connect(reaTsetZon.y, TSetZ)
+    annotation (Line(points={{-13,-60},{110,-60}}, color={0,0,127}));
+  connect(reaTsetZon.y, greaterEqualThreshold.u) annotation (Line(points={{-13,
+          -60},{0,-60},{0,-40},{-40,-40},{-40,0},{-16,0}}, color={0,0,127}));
+  connect(reaTsetZon.y, onOffCon.reference) annotation (Line(points={{-13,-60},
+          {0,-60},{0,-40},{-80,-40},{-80,66},{-62,66}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                                 Rectangle(
         extent={{-100,-100},{100,100}},
@@ -78,6 +93,10 @@ equation
             false)),
     Documentation(revisions="<html>
 <ul>
+<li>
+August 5, 2022, by Ettore Zanetti:<br/>
+Revision after comments
+</li>
 <li>
 August 6, 2021, by Ettore Zanetti:<br/>
 First implementation.

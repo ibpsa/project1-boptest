@@ -17,7 +17,10 @@ model DayZone "Milan day zone thermal zone istance"
  //   "Number of surface that are connected to constructions that are modeled inside the room";
   parameter Modelica.SIunits.VolumeFlowRate AirChange= -48*2.7*0.5/3600 "Infiltration rate";
   parameter Modelica.SIunits.Area Afloor = 22 "Floor area";
-  extends ThermalZone(nConBou=4,nSurBou=1,roo(
+  extends thermalZone(
+    nConBou=4,
+    nSurBou=1,
+    roo(
       datConExtWin(
         layers={matExtWal},
         A={5.3*2.7},
@@ -28,7 +31,7 @@ model DayZone "Milan day zone thermal zone istance"
         til={Z_},
         azi={S_}),
       datConBou(
-        layers={roof,IntWall,AptSep,ElevatorSep},
+        layers={matRoof,matIntWall,matAptSep,matElevatorSep},
         A={Afloor,11.94,11.94,14.28},
         til={C_,Z_,Z_,Z_},
         azi={S_,W_,E_,N_},

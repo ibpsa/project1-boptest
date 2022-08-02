@@ -1,6 +1,6 @@
 within TwoZoneApartmentHydronic.Components.Rooms;
 model NightZone "Milan night zone thermal zone istance"
-  extends ThermalZone;
+  extends thermalZone;
   annotation (Documentation(revisions="<html>
 <ul>
 <li>
