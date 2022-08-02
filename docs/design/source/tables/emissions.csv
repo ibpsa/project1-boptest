@@ -1,0 +1,6 @@
+**NAME**,**UNIT**,**DESCRIPTION**
+EmissionsElectricPower,kgCO2/kWh,Kilograms of carbon dioxide to produce 1 kWh of electricity 
+EmissionsGasPower,kgCO2/kWh,Kilograms of carbon dioxide to produce 1 kWh thermal from gas
+EmissionsDistrictHeatingPower,kgCO2/kWh,Kilograms of carbon dioxide to produce 1 kWh thermal from district heating
+EmissionsBiomassPower,kgCO2/kWh,Kilograms of carbon dioxide to produce 1 kWh thermal from biomass
+EmissionsSolarThermalPower,kgCO2/kWh,Kilograms of carbon dioxide to produce 1 kWh thermal from solar irradiation

@@ -1,0 +1,24 @@
+**NAME**,**UNIT**,**DESCRIPTION**
+HDifHor,W/m2,Horizontal diffuse solar radiation.
+HDifNor,W/m2,Direct normal radiation.
+HGloHor,W/m2,Horizontal global radiation.
+HHorIR,W/m2,Horizontal infrared irradiation.
+TBlaSky,K,Output temperature.
+TDewPoi,K,Dew point temperature.
+TDryBul,K,Dry bulb temperature at ground level.
+TWetBul,K,Wet bulb temperature.
+celHei,m,Ceiling height.
+cloTim,s,One-based day number in seconds.
+lat,rad,Latitude of the location.
+lon,rad,Longitude of the location.
+nOpa,1,"Opaque sky cover [0, 1]."
+nTot,1,"Total sky Cover [0, 1]."
+pAtm,Pa,Atmospheric pressure.
+relHum,1,Relative Humidity
+solAlt,rad,Altitude angel.
+solDec,rad,Declination angle.
+solHouAng,rad,Solar hour angle.
+solTim,s,Solar time.
+solZen,rad,Zenith angle.
+winDir,rad,Wind direction.
+winSpe,m/s,Wind speed
