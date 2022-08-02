@@ -698,7 +698,8 @@ class partialTestAPI(partialChecks):
                             'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
                             'multizone_residential_hydronic':'weatherStation_reaWeaWinSpe_y',
                             'singlezone_commercial_hydronic':'ahu_reaTRetAir_y',
-                            'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y'}
+                            'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y',
+                            'two_zone_apartment_hydronic':'dayZon_reaTRooAir_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()['payload']
@@ -725,7 +726,8 @@ class partialTestAPI(partialChecks):
                             'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
                             'multizone_residential_hydronic':'weatherStation_reaWeaWinSpe_y',
                             'singlezone_commercial_hydronic':'ahu_reaTRetAir_y',
-                            'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y'}
+                            'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y',
+                            'two_zone_apartment_hydronic':'dayZon_reaTRooAir_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()['payload']
@@ -896,6 +898,8 @@ class partialTestAPI(partialChecks):
                  'oveTZonSet_activate': 0, 'oveTZonSet_u': 273.15 + 25}
         elif self.name == 'multizone_office_simple_air':
             u = {'hvac_oveAhu_TSupSet_activate': 0, 'hvac_oveAhu_TSupSet_u': 273.15 + 22}
+        elif self.name == 'two_zone_apartment_hydronic':
+            u = {'hydronicSystem_oveTHea_activate':0, 'hydronicSystem_oveTHea_u':273.15+25}       
         else:
             raise Exception('Need to specify u for this test case')
         for key, value in u.items():
@@ -933,7 +937,8 @@ class partialTestAPI(partialChecks):
                             'bestest_hydronic_heat_pump':'weaSta_reaWeaPAtm_y',
                             'multizone_residential_hydronic':'weatherStation_reaWeaWinSpe_y',
                             'singlezone_commercial_hydronic':'ahu_reaTRetAir_y',
-                            'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y'}
+                            'multizone_office_simple_air':'hvac_reaAhu_PPumHea_y',
+			                'two_zone_apartment_hydronic':'dayZon_reaTRooAir_y'}
         requests.put('{0}/initialize'.format(self.url), data={'start_time': 0, 'warmup_period': 0})
         requests.put('{0}/step'.format(self.url), data={'step':self.step_ref})
         measurements = requests.get('{0}/measurements'.format(self.url)).json()['payload']
