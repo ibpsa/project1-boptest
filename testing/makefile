@@ -311,6 +311,7 @@ test_all:
 	make test_bestest_hydronic_heat_pump
 	make test_multizone_residential_hydronic
 	make test_singlezone_commercial_hydronic
+	make two_zone_apartment_hydronic
 # Remove jm
 	make remove_jm_image
 # Remove boptest base image
