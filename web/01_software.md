@@ -21,12 +21,20 @@ To access the latest development version or contribute to the project, go to the
 
 <a class="button is-info" href="https://github.com/ibpsa/project1-boptest"><b>GitHub</b></a>
 
-# Use BOPTEST Service (Coming Soon!)
+# Use BOPTEST-Service (Coming Soon!)
 
 Use a web-hosted instance of BOPTEST that provides the functionality of BOPTEST ``v0.2.0`` as a web-service without the need to download or install anything locally.
 
 Get started with the [User Guide](/docs-userguide/index.html).
 
-To access the latest development version of BOPTEST Service or contribute to the project, go to the GitHub repository.
+To access the latest development version of BOPTEST-Service or contribute to the project, go to the GitHub repository.
 
 <a class="button is-info" href="https://github.com/ibpsa/project1-boptest/tree/boptest-service"><b>GitHub BOPTEST-Service</b></a>
+
+# Use BOPTEST-Gym
+
+Control BOPTEST test cases using this popular interface for reinforcement learning (RL) algorithms.
+
+To get started or contribute to the project, go to the GitHub repository.
+
+<a class="button is-info" href="https://github.com/ibpsa/project1-boptest-gym"><b>GitHub BOPTEST-Gym</b></a>
