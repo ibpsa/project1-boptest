@@ -58,3 +58,9 @@ object in the process of initializing the test.
 data only for the requested index or period of time. This
 method would be used by the ``KPI_Calculator`` or
 ``Forecaster`` modules.
+
+## Testcase I/O generation for documentation
+``get_html_IO.py`` can be used to generate the html documentation code for I/O.
+Outputs:
+"inputs.txt": html code documenting the inputs
+"measurements.txt": html code documenting the outputs
