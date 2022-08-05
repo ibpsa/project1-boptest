@@ -1,5 +1,10 @@
 # Release Notes
 
+## BOPTEST v0.x.x
+
+Released on xx/xx/xxxx.
+
+
 ## BOPTEST v0.3.0
 
 Released on 07/27/2022.
