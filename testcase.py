@@ -73,6 +73,7 @@ class TestCase(object):
         # Get available control inputs and outputs
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
+        self.forecast_names = list(self.data.keys())
         # Set default communication step
         self.set_step(self.config_json['step'])
         # Set default forecast parameters
@@ -108,9 +109,10 @@ class TestCase(object):
 
         '''
 
-        # Get input and output meta-data
+        # Get input and output and forecast meta-data
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
+        self.forecasts_metadata = self.forecast_names
         # Outputs data
         self.y = {'time': np.array([])}
         for key in self.output_names:
@@ -845,6 +847,41 @@ class TestCase(object):
         else:
             status = 500
             message = "Failed to query the forecast parameters: {}".format(traceback.format_exc())
+            logging.error(message)
+        logging.info(message)
+
+        return status, message, payload
+
+    def get_forecast_points(self):
+        '''Returns a dictionary of available forecast points and their meta-data.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        status: int
+            Indicates whether a request for querying the forecast points has been completed.
+            If 200, the outputs were successfully queried.
+            If 500, an internal error occurred.
+        message: str
+            Includes detailed debugging information.
+        payload : dict
+            Dictionary of forecast points and their meta-data.
+            Returns None if error in getting forecast points and meta-data.
+
+        '''
+
+        # Get the forecast
+        status = 200
+        message = "Queried the forecast points and their meta-data successfully."
+        try:
+            payload = self.forecasts_metadata
+        except:
+            status = 500
+            message = "Failed to query the test case forecast points and their meta-data: {}".format(traceback.format_exc())
+            payload = None
             logging.error(message)
         logging.info(message)
 

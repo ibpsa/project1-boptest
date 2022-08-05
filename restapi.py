@@ -163,6 +163,14 @@ class Measurements(Resource):
         status, message, payload = case.get_measurements()
         return construct(status, message, payload)
 
+class Forecast_Points(Resource):
+    '''Interface to test case forecast points.'''
+
+    def get(self):
+        '''GET request to receive list of available forecast points.'''
+        status, message, payload = case.get_forecast_points()
+        return construct(status, message, payload)
+
 
 class Results(Resource):
     '''Interface to test case result data.'''
@@ -276,6 +284,7 @@ api.add_resource(Initialize, '/initialize')
 api.add_resource(Step, '/step')
 api.add_resource(Inputs, '/inputs')
 api.add_resource(Measurements, '/measurements')
+api.add_resource(Forecast_Points, '/forecast_points')
 api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
 api.add_resource(Forecast_Parameters, '/forecast_parameters')
