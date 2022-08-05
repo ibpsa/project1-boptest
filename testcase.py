@@ -850,12 +850,13 @@ class TestCase(object):
 
         return status, message, payload
 
-    def get_forecast(self):
+    def get_forecast(self, point_names):
         '''Returns the test case data forecast
 
         Parameters
         ----------
-        None
+        point_names : list of str
+            List of forecast point names for which to get data.
 
         Returns
         -------
@@ -878,7 +879,8 @@ class TestCase(object):
         status = 200
         message = "Queried the forecast data successfully."
         try:
-            payload = self.forecaster.get_forecast(horizon=self.horizon,
+            payload = self.forecaster.get_forecast(point_names,
+                                                   horizon=self.horizon,
                                                    interval=self.interval)
         except:
             status = 500

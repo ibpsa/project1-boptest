@@ -87,6 +87,9 @@ for arg in forecast_parameters:
 parser_scenario = reqparse.RequestParser(argument_class=CustomArgument)
 parser_scenario.add_argument('electricity_price', type=str)
 parser_scenario.add_argument('time_period', type=str)
+# ``forecast`` interface
+parser_forecast_points = reqparse.RequestParser(argument_class=CustomArgument)
+parser_forecast_points.add_argument('point_names', type=list, action='append', required=True)
 # ``results`` interface
 results_var = reqparse.RequestParser(argument_class=CustomArgument)
 results_var.add_argument('point_name', type=str, required=True)
@@ -203,9 +206,13 @@ class Forecast_Parameters(Resource):
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
 
-    def get(self):
-        '''GET request to receive forecast data.'''
-        status, message, payload = case.get_forecast()
+    def put(self):
+        '''PUT request to receive forecast data.'''
+        args = parser_forecast_points.parse_args()
+        point_names = []
+        for point_name in args['point_names']:
+            point_names.append(''.join(point_name))
+        status, message, payload = case.get_forecast(point_names)
         return construct(status, message, payload)
 
 
