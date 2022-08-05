@@ -129,7 +129,54 @@ to be easily accessible.</p>
 </section>
 <section id="technology">
 <h2>Technology<a class="headerlink" href="#technology" title="Permalink to this headline">¶</a></h2>
-<p>BOPTEST is composed of a number of software components.</p>
+<p>BOPTEST consists of shareable, high-fidelity building emulators and boundary
+conditions (so-called “test cases”) that are made rapidly and repeatably
+accessible for control by test controllers through a developed
+run-time environment (RTE).  The emulators themselves are modeled using validated
+and well-documented Modelica <a class="reference internal" href="#mat97" id="id1"><span>[Mat97]</span></a> component libraries for building and urban energy simulation
+which extend from the Modelica IBPSA Library <a class="reference internal" href="#wet19" id="id2"><span>[Wet19]</span></a>.  Currently, those are the Modelica Buildings Library <a class="reference internal" href="#wet14" id="id3"><span>[Wet14]</span></a>
+and IDEAS Library <a class="reference internal" href="#jor18" id="id4"><span>[Jor18]</span></a>.  The models are then exported using the Functional Mockup Interface (FMI) <a class="reference internal" href="#blo11" id="id5"><span>[Blo11]</span></a>
+into Functional Mockup Units (FMU) for simulation within the RTE.
+The use of Modelica enables the highest level of realism in
+building control performance simulation to date, especially the explicit representation
+of HVAC system pressure-flow networks and control logic.  The RTE is built using Python
+and is deployable on local computing resources or as a public web-service
+(called BOPTEST-Service) using Docker <a class="reference internal" href="#doc22" id="id6"><span>[Doc22]</span></a>.  It exposes a highly accessible HTTP
+RESTful API for test subject controllers to interact with the emulators
+through reading of measurement points and overwriting of control signals at
+either the supervisory or local-loop (i.e. actuator) level.  The simulation
+of the test cases within the RTE uses the PyFMI Python package <a class="reference internal" href="#and16" id="id7"><span>[And16]</span></a> for simulation
+of FMUs.</p>
+<p>For a detailed introduction and overview of BOPTEST software, see <a class="reference internal" href="#blu21" id="id8"><span>[Blu21]</span></a>.</p>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
+<dl class="citation">
+<dt class="label" id="and16"><span class="brackets"><a class="fn-backref" href="#id7">And16</a></span></dt>
+<dd><p>Andersson, C., Åkesson, J. and Führer, C. (2016). “PyFMI: A Python Package for Simulation of Coupled Dynamic Models with the Functional Mock-up Interface.” Technical Report in Mathematical Sciences, nr. 2, vol. 2016, vol. LUTFNA-5008-2016, Centre for Mathematical Sciences, Lund University.</p>
+</dd>
+<dt class="label" id="blo11"><span class="brackets"><a class="fn-backref" href="#id5">Blo11</a></span></dt>
+<dd><p>Blochwitz, T., Otter, M., Arnold, M., Bausch, C., Clauß, C., Elmqvist, H., Junghanns, A., Mauss, J., Monteiro, M., Neidhold, T., Neumerkel, D., Olsson, H., Peetz, J.-V., and Wolf, S. (2011). “The Functional Mockup Interface for Tool independent Exchange of Simulation Models.” Proc. of the 8th International Modelica Conference. <a class="reference external" href="https://doi.org/10.3384/ecp11063105">https://doi.org/10.3384/ecp11063105</a>.</p>
+</dd>
+<dt class="label" id="blu21"><span class="brackets"><a class="fn-backref" href="#id8">Blu21</a></span></dt>
+<dd><p>Blum, D., Arroyo, J., Huang, S., Drgona, J., Jorissen, F., Walnum, H. T., Chen, Y., Benne, K., Vrabie, D., Wetter, M., and Helsen, L. (2021). “Building Optimization Testing Framework (BOPTEST) for Simulation-Based Benchmarking of Control Strategies in Buildings.” Journal of Building Performance Simulation, 14(5), 586-610. <a class="reference external" href="https://doi.org/10.1080/19401493.2021.1986574">https://doi.org/10.1080/19401493.2021.1986574</a>.</p>
+</dd>
+<dt class="label" id="doc22"><span class="brackets"><a class="fn-backref" href="#id6">Doc22</a></span></dt>
+<dd><p>Docker. Available at <a class="reference external" href="https://www.docker.com/">https://www.docker.com/</a>.</p>
+</dd>
+<dt class="label" id="jor18"><span class="brackets"><a class="fn-backref" href="#id4">Jor18</a></span></dt>
+<dd><p>Jorissen, F., Reynders, G., Baetens, R., Picard, D., Saelens, D., and Helsen, L. (2018). “Implementation and Verification of the IDEAS Building Energy Simulation Library.” Journal of Building Performance Simulation, 11 (6), 669-688. <a class="reference external" href="https://doi.org/10.1080/19401493.2018.1428361">https://doi.org/10.1080/19401493.2018.1428361</a>.</p>
+</dd>
+<dt class="label" id="mat97"><span class="brackets"><a class="fn-backref" href="#id1">Mat97</a></span></dt>
+<dd><p>Mattsson, S. E., and Elmqvist, H. (1997). “Modelica - An International Effort to Design the Next Generation Modeling Language.” IFAC Proceedings Volumes, 30(4), 151–155. <a class="reference external" href="https://doi.org/10.1016/S1474-6670(17)43628-7">https://doi.org/10.1016/S1474-6670(17)43628-7</a>.</p>
+</dd>
+<dt class="label" id="wet14"><span class="brackets"><a class="fn-backref" href="#id3">Wet14</a></span></dt>
+<dd><p>Wetter, M., Zuo, W., Nouidui, T. S., and Pang, X. (2014). “Modelica Buildings library.” Journal of Building Performance Simulation, 7(4):253-270. <a class="reference external" href="https://doi.org/10.1080/19401493.2013.765506">https://doi.org/10.1080/19401493.2013.765506</a>.</p>
+</dd>
+<dt class="label" id="wet19"><span class="brackets"><a class="fn-backref" href="#id2">Wet19</a></span></dt>
+<dd><p>Wetter, M., van Treeck, C., Helsen, L., Maccarini, A., Saelens, D., Robinson, D., and Schweiger, G. (2019). “IBPSA Project 1: BIM/GIS and Modelica framework for building and community energy system design and operation - ongoing developments, lessons learned and challenges.” IOP Conference Series: Earth and Environmental Science, Vol. 323, p. 012114, September.</p>
+</dd>
+</dl>
+</section>
 </section>
 </section>
 
