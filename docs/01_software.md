@@ -33,7 +33,7 @@ To access the latest development version of BOPTEST-Service or contribute to the
 
 # Use BOPTEST-Gym
 
-Control BOPTEST test cases using this popular interface for reinforcement learning (RL) algorithms.
+Control BOPTEST test cases using OpenAI-Gym, the popular interface for reinforcement learning (RL) algorithms.
 
 To get started or contribute to the project, go to the GitHub repository.
 
