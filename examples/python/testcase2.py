@@ -46,6 +46,7 @@ def run(plot=False):
     step = 3600
     customized_kpi_dir_path = os.path.dirname(os.path.realpath(__file__))
     customized_kpi_config = os.path.join(customized_kpi_dir_path, 'custom_kpi', 'custom_kpis_example.config')
+    # -------------------------------------
 
     # RUN THE CONTROL TEST
     # --------------------
@@ -96,3 +97,4 @@ def run(plot=False):
 
 if __name__ == "__main__":
     kpi, df_res, custom_kpi_result = run()
+    print(kpi)

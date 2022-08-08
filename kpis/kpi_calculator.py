@@ -693,7 +693,7 @@ class KPI_Calculator(object):
 
         '''
 
-        elapsed_control_time_ratio = self.case.get_elapsed_control_time_ratio()
+        elapsed_control_time_ratio = self.case._get_elapsed_control_time_ratio()
         time_rat = np.mean(elapsed_control_time_ratio)
 
         self.case.time_rat = time_rat
