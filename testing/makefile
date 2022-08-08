@@ -191,6 +191,18 @@ test_multizone_office_simple_air:
 # Stop testcase container
 	cd .. && TESTCASE=multizone_office_simple_air docker-compose down
 
+test_multizone_office_simple_hydronic:
+# Compile testcase model
+# TODO: Enable compilation testing after sorting out a compiler compatible with MSL4.0.0
+#	make compile_testcase_model TESTCASE=multizone_office_simple_hydronic
+# Build and deploy testcase image
+	cd .. && TESTCASE=multizone_office_simple_hydronic docker-compose up -d
+	python sleep10.py && python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_multizone_office_simple_hydronic.py
+# Stop testcase container
+	cd .. && TESTCASE=multizone_office_simple_hydronic docker-compose down
+
 test_parser:
 	make run_jm
 	make copy_to_jm ARGS=parsing
@@ -311,6 +323,7 @@ test_all:
 	make test_multizone_residential_hydronic
 	make test_singlezone_commercial_hydronic
 	make test_multizone_office_simple_air
+	make test_multizone_office_simple_hydronic
 # Remove jm
 	make remove_jm_image
 # Remove boptest base image

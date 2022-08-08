@@ -577,6 +577,11 @@ class partialTestAPI(partialChecks):
                  'oveTZonSet_activate':0, 'oveTZonSet_u':273.15+25}
         elif self.name == 'multizone_office_simple_air':
             u = {'hvac_oveAhu_TSupSet_activate':0, 'hvac_oveAhu_TSupSet_u':273.15+22}
+        elif self.name == 'multizone_office_simple_hydronic':
+            u = {'bms_oveTZonSetMinNz_activate':0, 'bms_oveTZonSetMinNz_u':273.15+22,
+                 'bms_oveTZonSetMinSz_activate':0, 'bms_oveTZonSetMinSz_u':273.15+22,
+                 'bms_oveTZonSetMaxNz_activate':0, 'bms_oveTZonSetMaxNz_u':273.15+24,
+                 'bms_oveTZonSetMaxSz_activate':0, 'bms_oveTZonSetMaxSz_u':273.15+24}
         else:
             raise Exception('Need to specify u for this test case')
 
