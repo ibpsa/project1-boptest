@@ -36,7 +36,7 @@ equation
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Documentation(info="<html>
 <p>
-This example model implements a dummy heating system 
+This example model implements a dummy heating system
 that injects no heat or cold into the building zones.
 </p>
 </html>", revisions="<html>

@@ -52,7 +52,7 @@ model OccupantNumber "Model with a typical occupancy profile in non-residential 
 
 equation
 
-    
+
   nOcc = multiProduct.y.*split "Piece-wise multiplication to distribute the occupants per zone";
   TSet = (273.15 + 21)*ones(nZones);
   mDHW60C = 0 "Non-residential building, no DHW needs";

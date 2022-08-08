@@ -15,7 +15,7 @@ resources_dir = os.path.join(file_dir, 'Resources')
 # Create data generator object with time interval to 15 minutes
 gen = Data_Generator(resources_dir, period=900)
 # Generate weather data from .mos in Resources folder with default values
-gen.generate_weather() 
+gen.generate_weather()
 
 #=====================================================================
 # Generate emissions
@@ -45,4 +45,3 @@ gen.generate_weather()
 #=====================================================================
 # Setpoints obtained from a yearly simulation of the testcase with the baseline controller.
 # The comfort band is between 21°C and 25°C, with a setback of +/- 5°C during unoccupied periods.
-

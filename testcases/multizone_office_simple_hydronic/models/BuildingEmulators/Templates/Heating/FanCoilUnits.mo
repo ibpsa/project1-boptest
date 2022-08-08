@@ -10,7 +10,7 @@ model FanCoilUnits
     final nVen=nZones,
     final nEmb = 0,
     nZones=2);
-    
+
   parameter Modelica.Units.SI.HeatFlowRate QHea_flow_nominal = sum(QHeaEmi_flow_nominal) + sum(QHeaAhu_flow_nominal) "Nominal heat transfer of the heating production system" annotation (
     Dialog(group = "Nominal power"));
   parameter Modelica.Units.SI.HeatFlowRate QCoo_flow_nominal = sum(QCooEmi_flow_nominal) + sum(QCooAhu_flow_nominal) "Nominal heat transfer of the cooling production system" annotation (
@@ -23,7 +23,7 @@ model FanCoilUnits
     Dialog(group = "Nominal power"));
   parameter Modelica.Units.SI.HeatFlowRate QCooAhu_flow_nominal[nVen] "Nominal heat transfer of the FCU cooling coil" annotation (
     Dialog(group = "Nominal power"));
-    
+
   replaceable package MediumAir = IDEAS.Media.Air;
   replaceable package MediumHeating = IDEAS.Media.Water;
   replaceable package MediumCooling = IDEAS.Media.Water;
@@ -48,16 +48,16 @@ model FanCoilUnits
   parameter Modelica.Units.SI.MassFlowRate[nZones] mWatEmiCoo_flow_nominal = Q_design / 4180 / deltaTCoo_nominal "Nominal mass flow of the cooling coil";
   parameter Modelica.Units.SI.MassFlowRate[nVen] mWatAhuHea_flow_nominal "Nominal mass flow of the AHU heating coil";
   parameter Modelica.Units.SI.MassFlowRate[nVen] mWatAhuCoo_flow_nominal "Nominal mass flow of the AHU cooling coil";
-    
-    
+
+
   parameter Modelica.Units.SI.MassFlowRate mWatProHea_flow_nominal = sum(mWatEmiHea_flow_nominal) + sum(mWatAhuHea_flow_nominal)  "Nominal mass flow of the heating production";
-  parameter Modelica.Units.SI.MassFlowRate mWatProCoo_flow_nominal = sum(mWatEmiCoo_flow_nominal) + sum(mWatAhuCoo_flow_nominal) "Nominal mass flow of the cooling production";    
-    
+  parameter Modelica.Units.SI.MassFlowRate mWatProCoo_flow_nominal = sum(mWatEmiCoo_flow_nominal) + sum(mWatAhuCoo_flow_nominal) "Nominal mass flow of the cooling production";
+
   Components.FanCoilUnit fanCoilUnit[nZones](
     mAir_flow_nominal = mAir_flow_nominal,
     QCoo_flow_nominal = QCooEmi_flow_nominal,
     each TCoo_a1_nominal = 273.15 + 7,
-    each TCoo_a2_nominal = 273.15 + 23, 
+    each TCoo_a2_nominal = 273.15 + 23,
     QHea_flow_nominal = QHeaEmi_flow_nominal,
     each THea_a1_nominal = 273.15 + 60,
     each THea_a2_nominal = 273.15 + 23,deltaTHea_nominal = {20,20})
@@ -88,7 +88,7 @@ model FanCoilUnits
         rotation=-180.0)));
 
   IDEAS.Fluid.Sources.Boundary_pT bouHea(
-    
+
                                 redeclare package Medium =
         MediumHeating,
     nPorts=1)
@@ -107,7 +107,7 @@ model FanCoilUnits
         origin={0.0,0.0},
         rotation=0.0)));
   IDEAS.Fluid.Sources.Boundary_pT bouCoo(
-    
+
     redeclare package Medium = MediumCooling,
     nPorts=1)
     "Fixed boundary condition, needed to provide a pressure in the system"
@@ -134,7 +134,7 @@ model FanCoilUnits
     .Modelica.Blocks.Interfaces.RealInput[nTemSen] valPosAhuHea(each max= 1,each min = 0) "Valve position AHU heating circuit" annotation(Placement(transformation(extent = {{216.0,36.0},{196.0,56.0}},rotation = 0.0,origin = {0.0,0.0})));
     .Modelica.Blocks.Interfaces.IntegerInput[nTemSen] prfAhuCoo(each min = 0,each max =1) "Activation AHU cooling circuit" annotation(Placement(transformation(extent = {{216.0,22.0},{196.0,42.0}},rotation = 0.0,origin = {0.0,0.0})));
     .Modelica.Blocks.Interfaces.RealInput[nTemSen] valPosAhuCoo(each min=0, each max=1) "Valve position AHU cooling circuit" annotation(Placement(transformation(extent = {{216.0,10.0},{196.0,30.0}},rotation = 0.0,origin = {0.0,0.0})));
-    
+
     .Modelica.Blocks.Interfaces.RealInput TSupProHea(quantity = "ThermodynamicTemperature",unit = "K",displayUnit = "degC",min = 0) "Heating production temperature" annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},rotation = 180.0,origin = {200.0,-30.0})));
     .Modelica.Blocks.Interfaces.RealInput TSupProCoo(quantity = "ThermodynamicTemperature",unit = "K",displayUnit = "degC",min = 0) "Cooling production temperature" annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},rotation = 180.0,origin = {200.0,-50.0})));
     .IDEAS.Fluid.Sensors.TemperatureTwoPort senTSupProHea(allowFlowReversal = false,m_flow_nominal = 1,redeclare package Medium = MediumHeating,tau = 0) annotation(Placement(transformation(extent = {{38.821359009711834,2.821359009711837},{29.178640990288162,-6.821359009711837}},origin = {0.0,0.0},rotation = 0.0)));
@@ -159,7 +159,7 @@ model FanCoilUnits
     .Modelica.Blocks.Interfaces.RealInput[nTemSen, MediumAir.nX] humAir(each min = 0) "Air humidity" annotation(Placement(transformation(extent = {{10.0,-10.0},{-10.0,10.0}},rotation = 180.0,origin = {-204.0,-74.0})));
 equation
     fanCoilUnit.TMax = TZonSetMax;
-    fanCoilUnit.TMin = TZonSetMin;    
+    fanCoilUnit.TMin = TZonSetMin;
   for i in 1:nZones loop
     connect(zon[i].T_in, TSensor[i]) annotation (Line(points={{-150,34},{-176,34},{-176,
           -60},{-204,-60}}, color={0,0,127}));
@@ -172,10 +172,10 @@ equation
 
     heatPortRad[i].Q_flow = 0;
 
-    
+
     connect(mixingAhuCoo[i].port_b1,portCoo_b[i]) annotation(Line(points = {{65.13477794117637,63.03643333333331},{65.13477794117637,81.51821666666666},{80,81.51821666666666},{80,100}},color = {0,127,255}));
     connect(mixingAhuCoo[i].port_a2,portCoo_a[i]) annotation(Line(points = {{53.13477794117637,63.03643333333331},{53.13477794117637,81.51821666666666},{40,81.51821666666666},{40,100}},color = {0,127,255}));
- 
+
     connect(portHea_a[i],mixingAhuHea[i].port_a2) annotation(Line(points = {{124,100},{124,85.32662426470587},{137.55261249999992,85.32662426470587},{137.55261249999992,70.65324852941174}},color = {0,127,255}));
     connect(mixingAhuHea[i].port_b1,portHea_b[i]) annotation(Line(points = {{149.55261249999992,70.65324852941174},{149.55261249999992,85.32662426470587},{164,85.32662426470587},{164,100}},color = {0,127,255}));
   end for;
@@ -184,7 +184,7 @@ equation
     connect(heaCol.portsDistRet[i],mixingEmiHea[i].port_b2) annotation(Line(points = {{-21.345454545454544,6},{-21.345454545454544,13},{-18,13},{-18,20}},color = {0,127,255}));
     connect(heaCol.portsDistSup[i],mixingEmiHea[i].port_a1) annotation(Line(points = {{0.9090909090909083,6},{0.9090909090909083,13},{-5.999999999999998,13},{-5.999999999999998,20}},color = {0,127,255}));
     connect(cooCol.portsDistSup[i],mixingEmiCoo[i].port_a1) annotation(Line(points = {{-67.0909090909091,-42},{-67.0909090909091,-21},{-68,-21},{-68,1.7763568394002505e-15}},color = {0,127,255}));
-    connect(cooCol.portsDistRet[i],mixingEmiCoo[i].port_b2) annotation(Line(points = {{-89.34545454545454,-42},{-89.34545454545454,-21},{-80,-21},{-80,-1.7763568394002505e-15}},color = {0,127,255}));   
+    connect(cooCol.portsDistRet[i],mixingEmiCoo[i].port_b2) annotation(Line(points = {{-89.34545454545454,-42},{-89.34545454545454,-21},{-80,-21},{-80,-1.7763568394002505e-15}},color = {0,127,255}));
   end for;
 
   for i in 1:nVen loop
@@ -192,7 +192,7 @@ equation
     connect(cooCol.portsDistRet[nZones+i],mixingAhuCoo[i].port_b2) annotation(Line(points = {{-89.60758044844732,-42},{-89.60758044844732,26},{53.13477794117637,26},{53.13477794117637,43.03643333333331}},color = {0,127,255}));
 
     connect(heaCol.portsDistSup[nZones+i],mixingAhuHea[i].port_a1) annotation(Line(points = {{0.9090909090909083,6},{26.529473262032084,6},{26.529473262032084,14.392732107843127},{149.55261249999992,14.392732107843127},{149.55261249999992,50.65324852941174}},color = {0,127,255}));
-    connect(heaCol.portsDistRet[nZones+i],mixingAhuHea[i].port_b2) annotation(Line(points = {{-21.345454545454544,6},{-11.007405525846693,6},{-11.007405525846693,17.763835049019598},{137.55261249999992,17.763835049019598},{137.55261249999992,50.65324852941174}},color = {0,127,255}));  
+    connect(heaCol.portsDistRet[nZones+i],mixingAhuHea[i].port_b2) annotation(Line(points = {{-21.345454545454544,6},{-11.007405525846693,6},{-11.007405525846693,17.763835049019598},{137.55261249999992,17.763835049019598},{137.55261249999992,50.65324852941174}},color = {0,127,255}));
 end for;
     connect(add.u2,fanCoilUnit.QHea) annotation(Line(points = {{-92.49066615412636,88.75466692293682},{-86.89533307706319,88.75466692293682},{-86.89533307706319,92.36},{-80.3,92.36}},color = {0,0,127}));
     connect(fanCoilUnit.QCoo,add.u1) annotation(Line(points = {{-80.3,89.84},{-86.89533307706319,89.84},{-86.89533307706319,83.24533307706318},{-92.49066615412636,83.24533307706318}},color = {0,0,127}));
@@ -233,7 +233,7 @@ end for;
     connect(heaCol.portsProdRet[1],senTRetProHea.port_a) annotation(Line(points = {{14,-21.119999999999997},{28.283990198432008,-21.119999999999997},{28.283990198432008,-30},{46.567980396864016,-30}},color = {0,127,255}));
     connect(senTRetProHea.port_b,pumHea.port_a) annotation(Line(points = {{57.432019603135984,-30},{84.28085243705527,-30}},color = {0,127,255}));
     connect(humAir[1, :],zon[1].X_in) annotation(Line(points = {{-204,-74},{-170,-74},{-170,26},{-150,26}},color = {0,0,127}));
-    connect(humAir[2, :],zon[2].X_in); 
+    connect(humAir[2, :],zon[2].X_in);
 annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end FanCoilUnits;

@@ -3,7 +3,7 @@ model BmsControl
 
     parameter Integer nZones = 2;
     parameter Integer nVen = nZones;
-    
+
     .Modelica.Blocks.Interfaces.RealOutput TSetProHea annotation(Placement(transformation(extent = {{100.3076923076923,110.74358974358975},{120.3076923076923,130.74358974358975}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Sources.Constant TProHea(k = 273.15 + 70) annotation(Placement(transformation(extent = {{-75.3132867356491,115.12261070024834},{-64.07132864896629,126.36456878693116}},origin={0.0,0.0},   rotation = 0.0)));
     .Modelica.Blocks.Sources.Constant TProCoo(k = 273.15 + 7) annotation(Placement(transformation(extent = {{-74.85418314960178,95.58171428629566},{-64.5304322350136,105.90546520088384}},origin={0.0,0.0},  rotation = 0.0)));
@@ -26,7 +26,7 @@ model BmsControl
     .Modelica.Blocks.Interfaces.RealInput[nVen] TSupAhuCoo annotation(Placement(transformation(extent = {{-110.73112214086746,-54.731122140867456},{-89.26887785913254,-33.268877859132544}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Controls.Continuous.LimPID[nVen] pidEmiHea(y_start = {1,1},Ni = {1,1},Ti = {30,30},each controllerType = .Modelica.Blocks.Types.SimpleController.PI,each k = 0.2) annotation(Placement(transformation(extent = {{-32.673400656512115,-75.84006732317879},{-19.326599343487885,-62.49326601015456}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Controls.Continuous.LimPID[nVen] pidEmiCoo(y_start = {1,1},Ni = {1,1},reverseActing = {false,false},Ti = {30,30},each k = 0.2,each controllerType = .Modelica.Blocks.Types.SimpleController.PI) annotation(Placement(transformation(extent = {{-32.433269153984476,-115.59993582065114},{-19.566730846015524,-102.7333975126822}},origin = {0.0,0.0},rotation = 0.0)));
-    
+
     .Modelica.Blocks.Interfaces.RealInput[nZones] TSupEmiCoo annotation(Placement(transformation(extent = {{-110.73112214086746,-138.73112214086746},{-89.26887785913254,-117.26887785913254}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.RealInput[nZones] TSupEmiHea annotation(Placement(transformation(extent = {{-110.73112214086746,-98.73112214086746},{-89.26887785913254,-77.26887785913254}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.RealOutput[nZones] valPosEmiHea annotation(Placement(transformation(extent = {{100.0,-78.0},{120.0,-58.0}},origin = {0.0,0.0},rotation = 0.0)));
@@ -76,13 +76,13 @@ model BmsControl
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSupAhuCooNz(description = "North zone AHU cooling water supply temperature setpoint") annotation(Placement(transformation(extent = {{-53.3158974849173,-35.315897484917286},{-42.6841025150827,-24.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSupAhuCooSz(description = "South zone AHU cooling water supply temperature setpoint") annotation(Placement(transformation(extent = {{-53.3158974849173,-35.315897484917286},{-42.6841025150827,-24.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveValPosAhuHeaNz(description = "North zone AHU heating circuit mixing valve position setpoint", u(min=0, max=1)) annotation(Placement(transformation(extent = {{30.6841025150827,4.684102515082714},{41.3158974849173,15.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite oveValPosAhuHeaSz(description = "South zone AHU heating circuit mixing valve position setpoint", u(min=0, max=1)) annotation(Placement(transformation(extent = {{30.6841025150827,4.684102515082714},{41.3158974849173,15.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));    
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite oveValPosAhuHeaSz(description = "South zone AHU heating circuit mixing valve position setpoint", u(min=0, max=1)) annotation(Placement(transformation(extent = {{30.6841025150827,4.684102515082714},{41.3158974849173,15.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveValPosAhuCooNz(description = "North zone AHU cooling circuit mixing valve position setpoint", u(min=0, max=1)) annotation(Placement(transformation(extent = {{30.6841025150827,-35.315897484917286},{41.3158974849173,-24.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveValPosAhuCooSz(description = "South zone AHU cooling circuit mixing valve position setpoint", u(min=0, max=1)) annotation(Placement(transformation(extent = {{30.6841025150827,-35.315897484917286},{41.3158974849173,-24.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSupEmiHeaNz(description = "North zone heating emission circuit supply temperature setpoint") annotation(Placement(transformation(extent = {{-53.3158974849173,-73.31589748491729},{-42.6841025150827,-62.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSupEmiHeaSz(description = "South zone heating emission circuit supply temperature setpoint") annotation(Placement(transformation(extent = {{-53.3158974849173,-73.31589748491729},{-42.6841025150827,-62.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSupEmiCooNz(description = "North zone cooling emission circuit supply temperature setpoint") annotation(Placement(transformation(extent = {{-53.3158974849173,-113.31589748491729},{-42.6841025150827,-102.68410251508271}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSupEmiCooSz(description = "Southh zone cooling emission circuit supply temperature setpoint") annotation(Placement(transformation(extent = {{-53.3158974849173,-113.31589748491729},{-42.6841025150827,-102.68410251508271}},origin = {0.0,0.0},rotation = 0.0)));    
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSupEmiCooSz(description = "Southh zone cooling emission circuit supply temperature setpoint") annotation(Placement(transformation(extent = {{-53.3158974849173,-113.31589748491729},{-42.6841025150827,-102.68410251508271}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveValPosEmiHeaNz(description = "North zone heating emission circuit mixing valve position setpoint", u(min=0, max=1)) annotation(Placement(transformation(extent = {{30.6841025150827,-73.31589748491729},{41.3158974849173,-62.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveValPosEmiHeaSz(description = "South zone heating emission circuit supply mixing valve position setpoint", u(min=0, max=1)) annotation(Placement(transformation(extent = {{30.6841025150827,-73.31589748491729},{41.3158974849173,-62.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveValPosEmiCooNz(description = "North zone cooling emission circuit mixing valve position setpoint", u(min=0, max=1)) annotation(Placement(transformation(extent = {{56.6841025150827,-113.31589748491729},{67.3158974849173,-102.68410251508271}},origin = {0.0,0.0},rotation = 0.0)));
@@ -162,7 +162,7 @@ equation
     connect(oveValPosAhuCooNz.u,pidAhuCoo[1].y) annotation(Line(points = {{29.62092301809924,-30},{5.348759543741082,-30},{5.348759543741082,-30.833333333333336},{-18.923403930617077,-30.833333333333336}},color = {0,0,127}));
     connect(oveValPosAhuCooNz.y,valPosAhuCoo[1]) annotation(Line(points = {{41.84748723340903,-30},{75.92374361670451,-30},{75.92374361670451,-29.666666666666664},{110,-29.666666666666664}},color = {0,0,127}));
     connect(oveValPosAhuCooSz.u,pidAhuCoo[2].y) annotation(Line(points = {{29.62092301809924,-30},{5.348759543741082,-30},{5.348759543741082,-30.833333333333336},{-18.923403930617077,-30.833333333333336}},color = {0,0,127}));
-    connect(oveValPosAhuCooSz.y,valPosAhuCoo[2]) annotation(Line(points = {{41.84748723340903,-30},{75.92374361670451,-30},{75.92374361670451,-29.666666666666664},{110,-29.666666666666664}},color = {0,0,127}));    
+    connect(oveValPosAhuCooSz.y,valPosAhuCoo[2]) annotation(Line(points = {{41.84748723340903,-30},{75.92374361670451,-30},{75.92374361670451,-29.666666666666664},{110,-29.666666666666664}},color = {0,0,127}));
     connect(TSetEmiHea[1].y,oveTSupEmiHeaNz.u) annotation(Line(points = {{-63.21395817832847,-68},{-54.37907698190076,-68}},color = {0,0,127}));
     connect(oveTSupEmiHeaNz.y,pidEmiHea[1].u_s) annotation(Line(points = {{-42.15251276659097,-68},{-38.08029677720275,-68},{-38.08029677720275,-69.16666666666667},{-34.008080787814535,-69.16666666666667}},color = {0,0,127}));
     connect(TSetEmiHea[2].y,oveTSupEmiHeaSz.u) annotation(Line(points = {{-63.21395817832847,-68},{-54.37907698190076,-68}},color = {0,0,127}));
@@ -178,7 +178,7 @@ equation
     connect(oveValPosEmiCooNz.y,valPosEmiCoo[1]) annotation(Line(points = {{67.84748723340903,-108},{110,-108}},color = {0,0,127}));
     connect(oveValPosEmiCooNz.u,pidEmiCoo[1].y) annotation(Line(points = {{55.62092301809924,-108},{18.34875954374108,-108},{18.34875954374108,-109.16666666666667},{-18.923403930617077,-109.16666666666667}},color = {0,0,127}));
     connect(oveValPosEmiCooSz.y,valPosEmiCoo[2]) annotation(Line(points = {{67.84748723340903,-108},{110,-108}},color = {0,0,127}));
-    connect(oveValPosEmiCooSz.u,pidEmiCoo[2].y) annotation(Line(points = {{55.62092301809924,-108},{18.34875954374108,-108},{18.34875954374108,-109.16666666666667},{-18.923403930617077,-109.16666666666667}},color = {0,0,127}));    
+    connect(oveValPosEmiCooSz.u,pidEmiCoo[2].y) annotation(Line(points = {{55.62092301809924,-108},{18.34875954374108,-108},{18.34875954374108,-109.16666666666667},{-18.923403930617077,-109.16666666666667}},color = {0,0,127}));
     connect(oveTZonSetMinNz.y,TZonSetMin[1]) annotation(Line(points = {{81.84748723340901,-144},{99.92374361670451,-144},{99.92374361670451,-143},{110,-143}},color = {0,0,127}));
     connect(oveTZonSetMinNz.u,minusEmiHea[1].y) annotation(Line(points = {{69.62092301809926,-144},{15.165243038172319,-144},{15.165243038172319,-120}},color = {0,0,127}));
     connect(oveTZonSetMinNz.y,feedEmiHea[1].u2) annotation(Line(points = {{81.84748723340901,-144},{87.84748723340901,-144},{87.84748723340901,-136},{42,-136},{42,-104},{22,-104},{22,-92.02946235079014}},color = {0,0,127}));
@@ -194,7 +194,7 @@ equation
     connect(oveTZonSetMinNz.y,TSetMeas[1].u1) annotation(Line(points = {{81.84748723340901,-144},{86,-144},{86,-168},{78.36518941290292,-168},{78.36518941290292,-175.18259470645148}},color = {0,0,127}));
     connect(oveTZonSetMaxNz.y,TSetMeas[1].u2) annotation(Line(points = {{81.84748723340901,-160},{86,-160},{86,-168},{72,-168},{72,-180.81740529354852},{78.36518941290292,-180.81740529354852}},color = {0,0,127}));
     connect(oveTZonSetMinSz.y,TSetMeas[2].u1) annotation(Line(points = {{81.84748723340901,-144},{86,-144},{86,-168},{78.36518941290292,-168},{78.36518941290292,-175.18259470645148}},color = {0,0,127}));
-    connect(oveTZonSetMaxSz.y,TSetMeas[2].u2) annotation(Line(points = {{81.84748723340901,-160},{86,-160},{86,-168},{72,-168},{72,-180.81740529354852},{78.36518941290292,-180.81740529354852}},color = {0,0,127}));    
+    connect(oveTZonSetMaxSz.y,TSetMeas[2].u2) annotation(Line(points = {{81.84748723340901,-160},{86,-160},{86,-168},{72,-168},{72,-180.81740529354852},{78.36518941290292,-180.81740529354852}},color = {0,0,127}));
     connect(boolToReaOcc.u,greaterOcc.y) annotation(Line(points = {{35.95225281847989,30},{1.7434413375193465,30},{1.7434413375193465,30.333333333333336},{-32.4653701434412,30.333333333333336}},color = {255,0,255}));
     connect(nightVen[1].y,oveByPassNz.u) annotation(Line(points = {{-13.213958178328465,66},{23.62092301809924,66}},color = {0,0,127}));
     connect(realToBoolByPass.y,oveByPass) annotation(Line(points = {{61.113160034585945,66},{110,66}},color = {255,0,255}));
@@ -220,7 +220,7 @@ equation
     connect(ovePrfAhuHeaNz.y,realToIntPrfAhuHea[1].u) annotation(Line(points = {{65.84748723340903,-8},{82.31134973453985,-8}},color = {0,0,127}));
     connect(ovePrfAhuCooNz.y,realToIntPrfAhuCoo[1].u) annotation(Line(points = {{65.84748723340903,-48},{82.31134973453985,-48}},color = {0,0,127}));
     connect(ovePrfAhuHeaSz.y,realToIntPrfAhuHea[2].u) annotation(Line(points = {{65.84748723340903,-8},{82.31134973453985,-8}},color = {0,0,127}));
-    connect(ovePrfAhuCooSz.y,realToIntPrfAhuCoo[2].u) annotation(Line(points = {{65.84748723340903,-48},{82.31134973453985,-48}},color = {0,0,127}));    
+    connect(ovePrfAhuCooSz.y,realToIntPrfAhuCoo[2].u) annotation(Line(points = {{65.84748723340903,-48},{82.31134973453985,-48}},color = {0,0,127}));
     connect(realToIntPrfEmiCoo.y,prfEmiCoo) annotation(Line(points = {{97.21459607667181,-126},{110,-126}},color = {255,127,0}));
     connect(realToIntPrfEmiHea.y,prfEmiHea) annotation(Line(points = {{97.21459607667181,-86},{110,-86}},color = {255,127,0}));
     connect(notEmiHea.y,boolToRealEmiHea.u) annotation(Line(points = {{55.569962711964926,-86},{57.95225281847989,-86}},color = {255,0,255}));

@@ -94,15 +94,15 @@ model TwoZone "Example three-zone building structure model"
     redeclare IDEAS.Buildings.Data.Frames.AluminumInsulated fraTypD,
     hasCavityA=true,redeclare replaceable .IDEAS.Buildings.Components.InterzonalAirFlow.n50FixedPressure interzonalAirFlow,T_start = T_start,mSenFac = 10)                                                                                                                                                                                                         annotation (
     Placement(visible = true, transformation(origin = {0, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    
+
     .Modelica.Blocks.Interfaces.RealOutput[nZones, Medium.nX] humAir(each min = 0) "Humidity in the air" annotation(Placement(transformation(extent = {{146.0,-84.0},{166.0,-64.0}},rotation = 0.0,origin = {0.0,0.0})));
-    
-    
+
+
 equation
-  
-  humAir[1, :] = {nZ.port_b.Xi_outflow[1], 1-nZ.port_b.Xi_outflow[1]};  
-  humAir[2, :] = {sZ.port_b.Xi_outflow[1], 1-sZ.port_b.Xi_outflow[1]}; 
-    
+
+  humAir[1, :] = {nZ.port_b.Xi_outflow[1], 1-nZ.port_b.Xi_outflow[1]};
+  humAir[2, :] = {sZ.port_b.Xi_outflow[1], 1-sZ.port_b.Xi_outflow[1]};
+
   connect(sZ.proBusA[1], nZ.proBusC[1]) annotation (Line(
       points={{-6,-21},{-6,0},{6.8,0},{6.8,30.2}},
       color={255,204,51},
@@ -137,9 +137,9 @@ equation
 <ul>
 <li>
 March 17, 2020 by Filip Jorissen:<br/>
-Revised fluid port connections to use <code>ports</code> instead 
+Revised fluid port connections to use <code>ports</code> instead
 of <code>port_a</code> and <code>port_b</code>.
-This is for 
+This is for
 <a href=https://github.com/open-ideas/IDEAS/issues/1029>#1029</a>.
 </li>
 </ul>
