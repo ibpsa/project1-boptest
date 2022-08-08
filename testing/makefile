@@ -73,6 +73,19 @@ generate_testcase_data:
 
 # Tests
 ###############################################################################
+
+# Generic test for all testcases except testcase1 and testcase2
+test_%:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=$*
+# Build and deploy testcase image
+	cd .. && TESTCASE=$* docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_$*.py
+# Stop testcase container
+	cd .. && docker-compose down
+
 test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1

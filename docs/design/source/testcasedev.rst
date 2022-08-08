@@ -231,8 +231,9 @@ as :code:`days.json` with structure:
 
 ::
 
-	{<time_period_ID> :    // Unique identifier for specifying time period
-		<day_number>    // Integer value indicating day number to use for specifying time period
+	{
+	<time_period_ID> :    // Unique identifier for specifying time period
+        	 <day_number>    // Integer value indicating day number to use for specifying time period
 	}
 
 Currently available time periods are defined as two-week test periods with
@@ -243,7 +244,7 @@ Test Case Configuration and JSON Mapping
 -----------------------------------------
 In order to assign particular configuration and default values
 for a test case upon loading in BOPTEST, a configuration JSON saved as
-:code:`config.json` will have the structure::
+:code:`config.json` will have the structure:
 
 ::
 
@@ -256,9 +257,9 @@ for a test case upon loading in BOPTEST, a configuration JSON saved as
     "horizon"       : <float>,                       // Default forecast horizon in seconds
     "interval"      : <float>,                       // Default forecast interval in seconds
     "scenario"      : {"electricity_price":<str>,    // Default electricity price scenario
-                       "time_period":null}
+                       "time_period":null},          // Default time_period scenario
+    "resource_file_exclusion" : [<str>]              // Optional: List of data files within fmu /resources directory to exclude from loading into test case (e.g. "filename.csv")
     }
-
 
 Data Generation and Collection Module
 -------------------------------------
