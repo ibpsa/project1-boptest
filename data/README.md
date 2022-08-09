@@ -59,8 +59,12 @@ data only for the requested index or period of time. This
 method would be used by the ``KPI_Calculator`` or
 ``Forecaster`` modules.
 
-## Testcase I/O generation for documentation
-``get_html_IO.py`` can be used to generate the html documentation code for I/O.
-Outputs:
-"inputs.txt": html code documenting the inputs
-"measurements.txt": html code documenting the outputs
+## Generate Documentation for Test Case I/O Points
+``get_html_IO.py`` can be used to generate the html documentation code for I/O in alphabetical order.
+Outputs of the script:
+- ``inputs.txt``: html code documenting the inputs
+- ``measurements.txt``: html code documenting the outputs
+In order to run the script deploy the BOPTEST testcase by using the command 
+``$ TESTCASE=<testcase_name> docker-compose up``. Then open a terminal in 
+the data folder and run the script ``python get_html_IO.py``.
+
