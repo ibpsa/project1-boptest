@@ -341,6 +341,8 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.url = 'http://127.0.0.1:5000'
         self.step_ref = 60
         self.test_time_period = 'test_day'
+        self.input = {'oveAct_activate': 0, 'oveAct_u': 1500}
+        self.measurement = 'PHea_y'
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
 
 if __name__ == '__main__':

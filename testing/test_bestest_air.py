@@ -60,6 +60,8 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.url = 'http://127.0.0.1:5000'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
+        self.input = {'fcu_oveTSup_activate': 0, 'fcu_oveTSup_u': 290}
+        self.measurement = 'zon_weaSta_reaWeaSolHouAng_y'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

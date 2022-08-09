@@ -169,6 +169,8 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.url = 'http://127.0.0.1:5000'
         self.step_ref = 3600
         self.test_time_period = 'test_day'
+        self.input = {'oveTSetRooHea_activate': 0, 'oveTSetRooHea_u': 273.15 + 22}
+        self.measurement = 'PFan_y'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
