@@ -8,6 +8,11 @@ Released on xx/xx/xxxx.
 
 - Add unit test reporting script to each individual unit test target in the ``testing/makefile``.  This for [#466](https://github.com/ibpsa/project1-boptest/issues/466).
 
+**The following new test cases have been added:**
+
+- ``two_zone_apartment_hydronic``, a 2-zone apartment based on a real newly built building in Milan, Italy, served by an air-to-water heat pump coupled with a floor heating system. This is for [#409](https://github.com/ibpsa/project1-boptest/issues/409).
+
+
 ## BOPTEST v0.3.0
 
 Released on 07/27/2022.
