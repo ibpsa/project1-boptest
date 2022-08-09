@@ -85,6 +85,8 @@ test_%:
 	cd .. && python testing/test_$*.py
 # Stop testcase container
 	cd .. && docker-compose down
+# Report test results
+	python report.py
 
 test_testcase1:
 # Compile testcase model
@@ -105,6 +107,8 @@ test_testcase1:
 	cd ../examples/julia && make remove-image Script=testcase1
 	cd ../examples/javascript && make remove-image Script=testcase1
 	cd ../examples/javascript && rm geckodriver
+# Report test results
+	python report.py
 
 test_testcase2:
 # Compile testcase model
@@ -125,6 +129,8 @@ test_testcase2:
 	cd ../examples/julia && make remove-image Script=testcase2
 	cd ../examples/javascript && make remove-image Script=testcase2
 	cd ../examples/javascript && rm geckodriver
+# Report test results
+	python report.py
 
 test_parser:
 	make run_jm
@@ -134,6 +140,8 @@ test_parser:
 	docker cp ${IMG_NAME}:/usr/local/testing/references/parser ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
 	make stop_jm
+# Report test results
+	python report.py
 
 test_data:
 # Compile testcase model
@@ -155,6 +163,8 @@ test_data:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
 # Stop jm docker container
 	make stop_jm
+# Report test results
+	python report.py
 
 test_forecast:
 # Compile testcase model
@@ -174,6 +184,8 @@ test_forecast:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
 # Stop jm docker container
 	make stop_jm
+# Report test results
+	python report.py
 
 test_kpis:
 # Compile testcase model
@@ -193,6 +205,8 @@ test_kpis:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_kpis.log ./test_kpis.log
 # Stop jm docker container
 	make stop_jm
+# Report test results
+	python report.py
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
