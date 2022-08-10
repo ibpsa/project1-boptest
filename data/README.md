@@ -66,6 +66,6 @@ Outputs of the script:
 - ``inputs.txt``: html code documenting the inputs
 - ``measurements.txt``: html code documenting the outputs
 In order to run the script deploy the BOPTEST testcase, the deployment 
-guide is in the README file in the root directory. Then open a terminal 
+guide is in the ``README.md`` file in the root directory. Then open a terminal 
 in the data folder and run the script ``python get_html_IO.py``.
 
