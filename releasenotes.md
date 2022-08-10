@@ -7,6 +7,7 @@ Released on xx/xx/xxxx.
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
 - Add unit test reporting script to each individual unit test target in the ``testing/makefile``.  This for [#466](https://github.com/ibpsa/project1-boptest/issues/466).
+- Abstract the definition of input and output lists within if-else statements in the API unit tests in ``utilities.py`` to the setUp method in each test cases's specific testing file ``test_<testcase>``, by introduincing the ``input`` and ``measurement`` attributes.  This for [#463](https://github.com/ibpsa/project1-boptest/issues/463).
 
 ## BOPTEST v0.3.0
 
