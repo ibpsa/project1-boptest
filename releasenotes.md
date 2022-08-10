@@ -7,7 +7,7 @@ Released on xx/xx/xxxx.
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
 - Add unit test reporting script to each individual unit test target in the ``testing/makefile``.  This for [#466](https://github.com/ibpsa/project1-boptest/issues/466).
-- Add ``get_html_IO.py`` to ``/data`` folder and remove it from ``/testcases" folders to avoid code duplication. This is for [#464](https://github.com/ibpsa/project1-boptest/issues/464).
+- Add ``get_html_IO.py`` to ``/data`` folder and remove it from ``/testcases`` folders to avoid code duplication. This is for [#464](https://github.com/ibpsa/project1-boptest/issues/464).
 
 ## BOPTEST v0.3.0
 
