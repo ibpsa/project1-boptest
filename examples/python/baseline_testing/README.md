@@ -18,7 +18,14 @@ simulation start, warmup_period, and length or a predefined test case scenario. 
 - Then, use ``$ python testcase<...>.py`` depending on the desired example from those defined above.
 
 ## Baseline Testing Results
-Two-week simulation are conducted with different electricity prices and representative time periods for each testcase.
+Two-week simulation are conducted with different electricity prices and representative time periods for the following testcases:
+[1. bestest_air](####1.-bestest_air)
+2.
+3.
+4.
+5.
+6.
+
 Please see ``root/Testcases`` ``README.md`` for different predefined scenarios for each testcase. 
 For each scenario, one week simulation before ``time_period`` is conducted for the warm-up and two-week simulation is then conducted.
 The results of these representative scenarios are also compared with the average results of one year/heating season (that depends on the testcases) with a rolling window of two weeks.
@@ -42,7 +49,7 @@ The following table shows the statistics of the KPIs for all the testcases.
 For each testcase, the baseline testing results are visualized by a scatterplot and a boxplot to show the KPI ranges in different scenarios. Note that the baseline controls do not use price signal information, and therefore the KPI results are the same for  scenarios price different electricity prices expect the total cost and controller computation time ratio. 
 
 
-#### bestest_air
+#### 1. bestest_air
 
 - Summary Table 
 
@@ -79,4 +86,4 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
   <img src="./img/boxplot_bestest_air.png" alt="boxplot_bestest_air"/>
 </p>
 
-- 
+#### 2. bestest_air
