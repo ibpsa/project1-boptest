@@ -18,17 +18,19 @@ simulation start, warmup_period, and length or a predefined test case scenario. 
 - Then, use ``$ python testcase<...>.py`` depending on the desired example from those defined above.
 
 ## Baseline Testing Results
-Two-week simulation are conducted with different electricity prices and representative time periods for the following testcases:
-1. [bestest_air](#1._bestest_air)
-2. [multizone_office_simple_air](#2._multizone_office_simple_air)
-3. [bestest_hydronic](#3._bestest_hydronic)
-4. [bestest_hydronic_heat_pump](#4._bestest_hydronic_heat_pump)
-5. [multizone_residential_hydronic](#5._multizone_residential_hydronic)
-6. [singlezone_commercial_hydronic](#6._singlezone_commercial_hydronic)
-
-Please see ``root/Testcases`` ``README.md`` for different predefined scenarios for each testcase. 
-For each scenario, one week simulation before ``time_period`` is conducted for the warm-up and two-week simulation is then conducted.
+Two-week simulation are conducted with different electricity prices and representative time periods for each testcases Please see ``root/Testcases/README.md`` for different predefined scenarios for each testcase. For each scenario, one week simulation before ``time_period`` is conducted for the warm-up and two-week simulation is then conducted.
 The results of these representative scenarios are also compared with the average results of one year/heating season (that depends on the testcases) with a rolling window of two weeks.
+
+The high-level statistical results for all the testcases are summarized [first](#summary-results-for-all-the-testcases). Then the by-testcase results are individually illustrated for the following testcases:
+
+
+1. [bestest_air](#1-bestest_air)
+2. [multizone_office_simple_air](#2-multizone_office_simple_air)
+3. [bestest_hydronic](#3-bestest_hydronic)
+4. [bestest_hydronic_heat_pump](#4-bestest_hydronic_heat_pump)
+5. [multizone_residential_hydronic](#5-multizone_residential_hydronic)
+6. [singlezone_commercial_hydronic](#6-singlezone_commercial_hydronic)
+
 
 ### Summary results for all the testcases
 
