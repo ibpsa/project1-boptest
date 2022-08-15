@@ -63,7 +63,7 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 
 ### 1. bestest_air
 
-#### Summary Table 
+<h4 align="center">Summary Table </h4>
 
 |    | price          | test_day           |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |---:|:---------------|:-------------------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
@@ -86,19 +86,21 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 | 16 | constant       | cool_month_average |        7.2 |     1222.2 |       2.21 |      0.121 |       1.46 |      0.026 |      0.001 |        nan | 4.06667e-05 |
 | 17 | constant       | annual_average     |        5.9 |     1221.4 |       2.01 |      0.072 |       0.98 |      0.023 |      0.049 |        nan | 8.07673e-05 |
 
-#### Scatter Plot
+<h4 align="center">Scatterplot</h4>
 
 <p align="center">
   <img src="./img/scatterplot_bestest_air.png" alt="scatterplot_bestest_air"/>
 </p>
 
-#### Box Plot
+<h4 align="center">Boxplot</h4>
 
 <p align="center">
   <img src="./img/boxplot_bestest_air.png" alt="boxplot_bestest_air"/>
 </p>
 
 ### 2. multizone_office_simple_air
+
+<h4 align="center">Summary Table </h4>
 
 |    | price          | test_day           |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |---:|:---------------|:-------------------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
@@ -121,13 +123,13 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 | 16 | constant       | cool_month_average |        5.5 |       67.8 |       1.49 |      0.14  |       0.51 |      0.02  |        nan |        nan | 0.000153409 |
 | 17 | constant       | annual_average     |        5.2 |       55.7 |       0.97 |      0.091 |       0.33 |      0.019 |        nan |        nan | 0.000185249 |
 
-#### Scatter Plot
+<h4 align="center">Scatterplot</h4>
 
 <p align="center">
   <img src="./img/scatterplot_multizone_office_simple_air.png" alt="scatterplot_multizone_office_simple_air"/>
 </p>
 
-#### Box Plot
+<h4 align="center">Boxplot</h4>
 
 <p align="center">
   <img src="./img/boxplot_multizone_office_simple_air.png" alt="boxplot_multizone_office_simple_air"/>
@@ -135,6 +137,8 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 
 
 ### 3. bestest_hydronic
+
+<h4 align="center">Summary Table </h4>
 
 |    | price          | test_day           |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |---:|:---------------|:-------------------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
@@ -146,13 +150,13 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 |  5 | highly_dynamic | typical_heat_day   |       27.9 |          0 |      12.24 |      0.626 |       2.21 |          0 |      0.118 |        nan | 2.9e-05     |
 |  6 | constant       | heat_month_average |       18   |          0 |       9.12 |      0.471 |       1.65 |          0 |      0.118 |        nan | 4.12473e-05 |
 
-#### Scatter Plot
+<h4 align="center">Scatterplot</h4>
 
 <p align="center">
   <img src="./img/scatterplot_bestest_hydronic.png" alt="scatterplot_bestest_hydronic"/>
 </p>
 
-#### Box Plot
+<h4 align="center">Boxplot</h4>
 
 <p align="center">
   <img src="./img/boxplot_bestest_hydronic.png" alt="boxplot_bestest_hydronic"/>
@@ -160,6 +164,8 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 
 
 ### 4. bestest_hydronic_heat_pump
+
+<h4 align="center">Summary Table </h4>
 
 |    | price          | test_day           |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |---:|:---------------|:-------------------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
@@ -171,13 +177,13 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 |  5 | highly_dynamic | typical_heat_day   |        9.4 |          0 |       1.77 |      0.413 |       0.3  |      0.016 |    nan     |        nan | 4.2e-05     |
 |  6 | constant       | heat_month_average |       14.2 |          0 |       6.82 |      0.588 |       1.22 |      0.006 |      0.117 |        nan | 3.81183e-05 |
 
-#### Scatter Plot
+<h4 align="center">Scatterplot</h4>
 
 <p align="center">
   <img src="./img/scatterplot_bestest_hydronic_heat_pump.png" alt="scatterplot_bestest_hydronic_heat_pump"/>
 </p>
 
-#### Box Plot
+<h4 align="center">Boxplot</h4>
 
 <p align="center">
   <img src="./img/boxplot_bestest_hydronic_heat_pump.png" alt="boxplot_bestest_hydronic_heat_pump"/>
@@ -185,6 +191,8 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 
 
 ### 5. multizone_residential_hydronic
+
+<h4 align="center">Summary Table </h4>
 
 |    | price          | test_day           |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |---:|:---------------|:-------------------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
@@ -196,13 +204,13 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 |  5 | highly_dynamic | typical_heat_day   |       24.4 |    10688.7 |       5.96 |      0.57  |       1.03 |      0.002 |      0.096 |        nan | 0.000102    |
 |  6 | constant       | heat_month_average |       20.4 |    10553.6 |       6.06 |      0.598 |       1.05 |      0.002 |      0.095 |        nan | 0.000155323 |
 
-#### Scatter Plot
+<h4 align="center">Scatterplot</h4>
 
 <p align="center">
   <img src="./img/scatterplot_multizone_residential_hydronic.png" alt="scatterplot_multizone_residential_hydronic"/>
 </p>
 
-#### Box Plot
+<h4 align="center">Boxplot</h4>
 
 <p align="center">
   <img src="./img/boxplot_multizone_residential_hydronic.png" alt="boxplot_multizone_residential_hydronic"/>
@@ -210,6 +218,8 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 
 
 ### 6. singlezone_commercial_hydronic
+
+<h4 align="center">Summary Table </h4>
 
 |    | price          | test_day           |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |---:|:---------------|:-------------------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
@@ -221,13 +231,13 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 |  5 | highly_dynamic | typical_heat_day   |        0.9 |    12196.2 |       2.12 |      0.161 |       0.29 |      0.006 |        nan |       0.08 | 4.6e-05     |
 |  6 | constant       | heat_month_average |        6.4 |     3235.2 |       3.83 |      0.305 |       0.47 |      0.006 |        nan |       0.09 | 0.000193538 |
 
-<h4 align="center">Material Bread</h4>
+<h4 align="center">Scatterplot</h4>
 
 <p align="center">
   <img src="./img/scatterplot_singlezone_commercial_hydronic.png" alt="scatterplot_singlezone_commercial_hydronic"/>
 </p>
 
-#### Box Plot
+<h4 align="center">Boxplot</h4>
 
 <p align="center">
   <img src="./img/boxplot_singlezone_commercial_hydronic.png" alt="boxplot_singlezone_commercial_hydronic"/>
