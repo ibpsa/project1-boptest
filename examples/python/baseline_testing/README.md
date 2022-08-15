@@ -15,25 +15,25 @@ simulation start, warmup_period, and length or a predefined test case scenario. 
 
 ## Run an Example Baseline Test
 - First, deploy the test case corresponding to the desired example as described above (see repository root ``README.md`` for instructions on deploying a test case).
-- Then, use ``$ python testcase<...>.py`` depending on the desired example from those defined above.
+- Then, use ``$ python testcase<...>scenario.py`` depending on the desired example from those defined above.
 
 ## Baseline Testing Scenarios
 Two-week simulation are conducted with different electricity prices and representative time periods for each testcases Please see ``root/Testcases/README.md`` for different predefined scenarios for each testcase. For each scenario, one week simulation before ``time_period`` is conducted for the warm-up and two-week simulation is then conducted.
-The results of these representative scenarios are also compared with the average results of one year/heating season (that depends on the testcases) with a rolling window of two weeks.
+The results of these representative scenarios are also compared with the average results of one year/heating season (that depends on the testcases) with a rolling window of two weeks. In total 3180 scenarios are simulated for different testcases with various time periods and three electricity price schemes. However, it is noted that the baseline controls do not use price signal information, and therefore the KPI results are the same for scenarios with different electricity price schemes except the total cost and controller computational time ratio. For the KPIs including the cost and controller computational time ratio, we consider all 3180 scenarios. To avoid the repitition, we only show the baseline results of one electricity price scheme for rest of KPIs.
 
 The high-level [statistical results for all the testcases](#summary-results-for-all-the-testcases)are summarized first. Then [the by-testcase results](#detailed-results-for-each-testcase) are individually illustrated for the following testcases:
 
-1. [bestest_air](#1-bestest_air)
-2. [multizone_office_simple_air](#2-multizone_office_simple_air)
-3. [bestest_hydronic](#3-bestest_hydronic)
-4. [bestest_hydronic_heat_pump](#4-bestest_hydronic_heat_pump)
-5. [multizone_residential_hydronic](#5-multizone_residential_hydronic)
-6. [singlezone_commercial_hydronic](#6-singlezone_commercial_hydronic)
+1. [bestest_air](#1-bestest_air) (365-7-14=344 time periods)
+2. [multizone_office_simple_air](#2-multizone_office_simple_air) (365-7-14=344 time periods)
+3. [bestest_hydronic](#3-bestest_hydronic) (93 time periods)
+4. [bestest_hydronic_heat_pump](#4-bestest_hydronic_heat_pump) (93 time periods)
+5. [multizone_residential_hydronic](#5-multizone_residential_hydronic) (93 time periods)
+6. [singlezone_commercial_hydronic](#6-singlezone_commercial_hydronic) (93 time periods)
 
 
 ## Summary results for all the testcases
 
-The following table shows the statistics of the KPIs for all the testcases. 
+The following table shows the statistics of the KPIs for all the testcases.
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |     time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-------------:|
@@ -48,7 +48,7 @@ The following table shows the statistics of the KPIs for all the testcases.
 
 ## Detailed results for each testcase
 
-For each testcase, the baseline testing results are visualized by a scatterplot and a boxplot to show the KPI ranges in different scenarios. Note that the baseline controls do not use price signal information, and therefore the KPI results are the same for  scenarios price different electricity prices expect the total cost and controller computation time ratio. 
+For each testcase, the baseline testing results are visualized by a scatterplot and a boxplot to show the KPI ranges in different scenarios. 
 
 
 ### 1. bestest_air
