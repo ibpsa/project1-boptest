@@ -221,7 +221,7 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 |  5 | highly_dynamic | typical_heat_day   |        0.9 |    12196.2 |       2.12 |      0.161 |       0.29 |      0.006 |        nan |       0.08 | 4.6e-05     |
 |  6 | constant       | heat_month_average |        6.4 |     3235.2 |       3.83 |      0.305 |       0.47 |      0.006 |        nan |       0.09 | 0.000193538 |
 
-<h4 style="text-align: center;">Scatter Plot for singlezone_commercial_hydronic</h4>
+<h4 align="center">Material Bread</h4>
 
 <p align="center">
   <img src="./img/scatterplot_singlezone_commercial_hydronic.png" alt="scatterplot_singlezone_commercial_hydronic"/>
