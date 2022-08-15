@@ -78,7 +78,7 @@ if __name__ == "__main__":
     
     #Specify the baseline scenarios
     price_elec=['constant','dynamic','highly_dynamic']
-    time_period=['peak_heat_day', 'typical_heat_day', 'peak_cool_day', 'typical_cool_day', 'mix_day']
+    time_period=['peak_heat_day','typical_heat_day', 'peak_cool_day', 'typical_cool_day', 'mix_day']
 
     scenario_lst=list(itertools.product(price_elec, time_period))
     scenario_name_lst= [scenario[0]+'+'+scenario[1] for scenario in scenario_lst]

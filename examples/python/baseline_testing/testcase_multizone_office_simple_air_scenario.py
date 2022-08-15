@@ -8,7 +8,7 @@ This script demonstrates baseline testing of test case called "multizone_office_
 # ----------------------
 import sys
 import os
-sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-2]))
+sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-3]))
 from examples.python.interface import control_test
 import pandas as pd
 import json
