@@ -23,7 +23,7 @@ Please see ``root/Testcases`` ``README.md`` for different predefined scenarios f
 For each scenario, one week simulation before ``time_period`` is conducted for the warm-up and two-week simulation is then conducted.
 The results of these representative scenarios are also compared with the average results of one year/heating season (that depends on the testcases) with a rolling window of two weeks.
 
-- Summary results for all the testcases
+### Summary results for all the testcases
 
 The following table shows the statistics of the KPIs for all the testcases. 
 
@@ -36,15 +36,15 @@ The following table shows the statistics of the KPIs for all the testcases.
 | 50%   |    7.85    |      50.1  |    2.46    |   0.1605   |   0.72     |  0.0155    |  0.104     | 0.085      |  4.35e-05    |
 | 75%   |   11.8     |    1222.1  |    3.72    |   0.46575  |   1.03     |  0.023     |  0.118     | 0.09       |  9.55e-05    |
 | max   |   27.9     |   12196.2  |   12.24    |   0.909    |   2.21     |  0.033     |  0.121     | 0.09       |  0.000259    |
-| count |   54       |      54    |   54       |  54        |  54        | 54         | 27         | 6          | 54           |
 
-- Summary results for each testcase
+### Summary results for each testcase
 
 For each testcase, the baseline testing results are visualized by a scatterplot and a boxplot to show the KPI ranges in different scenarios. Note that the baseline controls do not use price signal information, and therefore the KPI results are the same for  scenarios price different electricity prices expect the total cost and controller computation time ratio. 
 
 
-1. bestest_air
+- bestest_air
 
+1. Summary Table 
 
 |    | price          | test_day           |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |---:|:---------------|:-------------------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
@@ -67,10 +67,16 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 | 16 | constant       | cool_month_average |        7.2 |     1222.2 |       2.21 |      0.121 |       1.46 |      0.026 |      0.001 |        nan | 4.06667e-05 |
 | 17 | constant       | annual_average     |        5.9 |     1221.4 |       2.01 |      0.072 |       0.98 |      0.023 |      0.049 |        nan | 8.07673e-05 |
 
-![scatterplot_bestest_air](./img/scatterplot_bestest_air.png)
+2. Scatter Plot
 
-![boxplot_bestest_air](./img/boxplot_bestest_air.png)
+<p align="center">
+  <img src="./img/scatterplot_bestest_air.png" alt="scatterplot_bestest_air"/>
+</p>
 
+3. Box Plot
 
+<p align="center">
+  <img src="./img/boxplot_bestest_air.png" alt="boxplot_bestest_air"/>
+</p>
 
 2. 
