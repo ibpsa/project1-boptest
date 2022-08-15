@@ -39,8 +39,13 @@ The following table shows the statistics of the KPIs for all the testcases.
 | count |   54       |      54    |   54       |  54        |  54        | 54         | 27         | 6          | 54           |
 
 - Summary results for each testcase
+
 For each testcase, the baseline testing results are visualized by a scatterplot and a boxplot to show the KPI ranges in different scenarios. Note that the baseline controls do not use price signal information, and therefore the KPI results are the same for  scenarios price different electricity prices expect the total cost and controller computation time ratio. 
+
+
 1. bestest_air
+
+
 |    | price          | test_day           |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |---:|:---------------|:-------------------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
 |  0 | constant       | peak_heat_day      |        5.7 |     1219.7 |       3.72 |      0.023 |       0.79 |      0.01  |      0.121 |        nan | 0.000259    |
@@ -61,6 +66,11 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 | 15 | constant       | heat_month_average |        5.7 |     1220.5 |       2.55 |      0.043 |       0.8  |      0.021 |      0.098 |        nan | 4.35484e-05 |
 | 16 | constant       | cool_month_average |        7.2 |     1222.2 |       2.21 |      0.121 |       1.46 |      0.026 |      0.001 |        nan | 4.06667e-05 |
 | 17 | constant       | annual_average     |        5.9 |     1221.4 |       2.01 |      0.072 |       0.98 |      0.023 |      0.049 |        nan | 8.07673e-05 |
+
+![scatterplot_bestest_air](./img/scatterplot_bestest_air.png)
+
+![boxplot_bestest_air](./img/boxplot_bestest_air.png)
+
 
 
 2. 
