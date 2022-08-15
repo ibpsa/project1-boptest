@@ -19,7 +19,7 @@ simulation start, warmup_period, and length or a predefined test case scenario. 
 
 ## Baseline Testing Results
 Two-week simulation are conducted with different electricity prices and representative time periods for the following testcases:
-[1. bestest_air](####1.-bestest_air)
+1. [bestest_air](#bestest_air)
 2.
 3.
 4.
