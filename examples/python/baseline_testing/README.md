@@ -19,12 +19,12 @@ simulation start, warmup_period, and length or a predefined test case scenario. 
 
 ## Baseline Testing Results
 Two-week simulation are conducted with different electricity prices and representative time periods for the following testcases:
-1. [bestest_air](#bestest_air)
-2.
-3.
-4.
-5.
-6.
+1. [bestest_air](#1._bestest_air)
+2. [multizone_office_simple_air](#2._multizone_office_simple_air)
+3. [bestest_hydronic](#3._bestest_hydronic)
+4. [bestest_hydronic_heat_pump](#4._bestest_hydronic_heat_pump)
+5. [multizone_residential_hydronic](#5._multizone_residential_hydronic)
+6. [singlezone_commercial_hydronic](#6._singlezone_commercial_hydronic)
 
 Please see ``root/Testcases`` ``README.md`` for different predefined scenarios for each testcase. 
 For each scenario, one week simulation before ``time_period`` is conducted for the warm-up and two-week simulation is then conducted.
@@ -86,4 +86,78 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
   <img src="./img/boxplot_bestest_air.png" alt="boxplot_bestest_air"/>
 </p>
 
-#### 2. bestest_air
+#### 2. multizone_office_simple_air
+
+
+- Scatter Plot
+
+<p align="center">
+  <img src="./img/scatterplot_multizone_office_simple_air.png" alt="scatterplot_multizone_office_simple_air"/>
+</p>
+
+- Box Plot
+
+<p align="center">
+  <img src="./img/boxplot_multizone_office_simple_air.png" alt="boxplot_multizone_office_simple_air"/>
+</p>
+
+
+#### 3. bestest_hydronic
+
+- Scatter Plot
+
+<p align="center">
+  <img src="./img/scatterplot_bestest_hydronic.png" alt="scatterplot_bestest_hydronic"/>
+</p>
+
+- Box Plot
+
+<p align="center">
+  <img src="./img/boxplot_bestest_hydronic.png" alt="boxplot_bestest_hydronic"/>
+</p>
+
+
+#### 4. bestest_hydronic_heat_pump
+
+- Scatter Plot
+
+<p align="center">
+  <img src="./img/scatterplot_bestest_hydronic_heat_pump.png" alt="scatterplot_bestest_hydronic_heat_pump"/>
+</p>
+
+- Box Plot
+
+<p align="center">
+  <img src="./img/boxplot_bestest_hydronic_heat_pump.png" alt="boxplot_bestest_hydronic_heat_pump"/>
+</p>
+
+
+#### 5. multizone_residential_hydronic
+
+- Scatter Plot
+
+<p align="center">
+  <img src="./img/scatterplot_multizone_residential_hydronic.png" alt="scatterplot_multizone_residential_hydronic"/>
+</p>
+
+- Box Plot
+
+<p align="center">
+  <img src="./img/boxplot_multizone_residential_hydronic.png" alt="boxplot_multizone_residential_hydronic"/>
+</p>
+
+
+#### 6. singlezone_commercial_hydronic
+
+
+- Scatter Plot
+
+<p align="center">
+  <img src="./img/scatterplot_singlezone_commercial_hydronic.png" alt="scatterplot_singlezone_commercial_hydronic"/>
+</p>
+
+- Box Plot
+
+<p align="center">
+  <img src="./img/boxplot_singlezone_commercial_hydronic.png" alt="boxplot_singlezone_commercial_hydronic"/>
+</p>
