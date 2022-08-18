@@ -93,6 +93,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.url = 'http://127.0.0.1:5000'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
-
+        #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
+        self.input = {'oveTSet_activate': 0, 'oveTSet_u': 273.15+22}
+        self.measurement = 'weaSta_reaWeaPAtm_y'
+        
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
