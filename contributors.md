@@ -21,3 +21,4 @@ Thank you to all who have provided guidance on the development of this software.
 - Harald Walnum, SINTEF
 - Michael Wetter, Lawrence Berkeley National Laboratory
 - Tao Yang, University of Southern Denmark
+- Ettore Zanetti, Lawrence Berkeley National Laboratory
