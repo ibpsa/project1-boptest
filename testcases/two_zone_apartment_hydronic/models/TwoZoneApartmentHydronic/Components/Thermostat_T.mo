@@ -4,8 +4,8 @@ model Thermostat_T
   parameter Modelica.SIunits.Time occSta = 8*3600 "Occupancy start time" annotation (Dialog(group="Schedule"));
   parameter Modelica.SIunits.Time occEnd = 18*3600 "Occupancy end time" annotation (Dialog(group="Schedule"));
   parameter Modelica.SIunits.Temperature TSetHeaUno = 273.15+15 "Unoccupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
-  parameter Modelica.SIunits.Temperature TSetHeaWee = 273.15+16 "Occupied heating setpoint" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.SIunits.Temperature TSetHeaOcc = 273.15+21 "Occupied heating setpoint Monday to Friday" annotation (Dialog(group="Setpoints"));
+  parameter Modelica.SIunits.Temperature TSetHeaWee = 273.15+16 "Heating setpoint Saturday and Sunday" annotation (Dialog(group="Setpoints"));
   parameter Real bandwidth=2 "Bandwidth around reference signal";
   Modelica.Blocks.Interfaces.RealInput TZon "Measured zone air temperature"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));

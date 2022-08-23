@@ -222,27 +222,30 @@ model HydronicSystem "Hydronic circuit"
         rotation=0,
         origin={-44,78})));
   IBPSA.Utilities.IO.SignalExchange.Read reaMpumCon(description=
-        "Mass flow rate control input to circulating pump", y(unit="kg/s"))
-    "Mass flow rate floor heating" annotation (Placement(transformation(
+        "Mass flow rate control input to circulation pump for water through floor heating system",
+                                                            y(unit="kg/s"))
+    "Mass flow rate control input to circulation pump for water through floor heating system"
+                                   annotation (Placement(transformation(
         extent={{-5,-5},{5,5}},
         rotation=-90,
         origin={-65,15})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveMpumCon(u(
       unit="kg/s",
       min=0,
-      max=5), description="Mass flow rate ") "Overwrite pump mass flow rate"
+      max=5), description=
+        "Mass flow rate control input to circulation pump for water through floor heating system")
+    "Overwrite Mass flow rate control input to circulation pump for water through floor heating system"
     annotation (Placement(transformation(
         extent={{-5,-5},{5,5}},
         rotation=-90,
         origin={-65,29})));
-  IDEAS.Utilities.IO.SignalExchange.Read
+  IBPSA.Utilities.IO.SignalExchange.Read
                                    reaPPum(
     description="Pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W"))
     "Block for reading the pump electrical power"
     annotation (Placement(transformation(extent={{-50,4},{-40,14}})));
-
 equation
   connect(valDayZon.port_b, ports_b[1])
     annotation (Line(points={{62,80},{90,80}}, color={0,127,255}));

@@ -754,7 +754,7 @@ equally between convective and radiative contributions. These values are taken f
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>Only heating is considered. The HVAC system is made up of two floor heating circuits, one per thermal zone that can be controlled with an on-off valve.
-The generation system is an air source heat pump with a nominal power of 5kW modelled after a Daikin heat pump. Below is reported a schematic view of the HVAC system.</p>
+The generation system is an air source heat pump with a nominal heat capacity of 5kW modelled after a Daikin heat pump. Below is reported a schematic view of the HVAC system.</p>
 <p align=\"center\">
 <img src=\"../../../doc/images/HVACscheme.png\"
      alt=\"HVACscheme.png\" />
