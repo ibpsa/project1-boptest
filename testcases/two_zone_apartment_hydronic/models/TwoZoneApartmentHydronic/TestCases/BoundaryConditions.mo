@@ -26,7 +26,7 @@ model BoundaryConditions "BoundaryGenerator"
   inner IDEAS.BoundaryConditions.SimInfoManager
                        sim(filNam=
         ModelicaServices.ExternalReferences.loadResource(
-        "modelica://TwoZoneApartmentHydronic/Resources/ITA_Milano-Linate.160800_IGDG.mos"))
+        "modelica://TwoZoneApartmentHydronic/Resources/IT-Milano-Linate-160800TM2.mos"))
     annotation (Placement(transformation(extent={{-102,60},{-80,82}})));
   Modelica.Blocks.Sources.Constant DumTem(k=300) "Dummy zone temperature"
     annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));

@@ -52,7 +52,7 @@ model ApartmentModelQHTyp "Hydronic Test case"
     annotation (Placement(transformation(extent={{-60,60},{-40,80}})));
   inner IDEAS.BoundaryConditions.SimInfoManager
                        sim(filNam=Modelica.Utilities.Files.loadResource(
-        "modelica://TwoZoneApartmentHydronic/Resources/ITA_Milano-Linate.160800_IGDG.mos"))
+        "modelica://TwoZoneApartmentHydronic/Resources/IT-Milano-Linate-160800TM2.mos"))
     annotation (Placement(transformation(extent={{-104,-2},{-82,20}})));
   Buildings.Airflow.Multizone.DoorDiscretizedOpen doo(
     hA=3/2,
