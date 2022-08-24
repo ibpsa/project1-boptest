@@ -19,7 +19,7 @@ equation
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>
 <p>
-Model that demonstrates the use of the 
+Model that demonstrates the use of the
 <a href=\"modelica://IDEAS.Templates.Heating.IdealRadiatorHeating\">
 IDEAS.Templates.Heating.IdealRadiatorHeating</a>.
 </p>

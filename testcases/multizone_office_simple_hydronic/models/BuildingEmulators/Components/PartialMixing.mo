@@ -1,19 +1,19 @@
 within BuildingEmulators.Components;
 partial model PartialMixing
-    
-    
-   extends .IDEAS.Fluid.Interfaces.PartialFourPortInterface(final m1_flow_nominal = m_flow_nominal_emi, 
+
+
+   extends .IDEAS.Fluid.Interfaces.PartialFourPortInterface(final m1_flow_nominal = m_flow_nominal_emi,
                                                            final m2_flow_nominal = m_flow_nominal_emi,
                                                            redeclare final package Medium1 = Medium,
                                                            redeclare final package Medium2 = Medium,
                                                            final allowFlowReversal1 = allowFlowReversal,
                                                            final allowFlowReversal2 = allowFlowReversal);
-    
+
     replaceable package Medium = .IDEAS.Media.Water;
     parameter .Modelica.Units.SI.MassFlowRate m_flow_nominal_emi "Nominal mass flow of the heating coil";
     parameter .Modelica.Units.SI.PressureDifference dp_nominal "Nominal pressure drop";
 
-    parameter Boolean allowFlowReversal = false "if false flow reversal not allowed";    
+    parameter Boolean allowFlowReversal = false "if false flow reversal not allowed";
     .IDEAS.Fluid.FixedResistances.Junction jun(energyDynamics = .Modelica.Fluid.Types.Dynamics.SteadyState,dp_nominal = {0,0,0},m_flow_nominal = {1,1,1},redeclare package Medium = Medium,portFlowDirection_1 = .Modelica.Fluid.Types.PortFlowDirection.Entering,portFlowDirection_2 = .Modelica.Fluid.Types.PortFlowDirection.Leaving,portFlowDirection_3 = .Modelica.Fluid.Types.PortFlowDirection.Leaving,from_dp = true,linearized = false) annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},rotation = 180.0,origin = {-50.0,-60.0})));
     .IDEAS.Fluid.Movers.FlowControlled_dp pum(addPowerToMedium = false,allowFlowReversal = false,energyDynamics = .Modelica.Fluid.Types.Dynamics.SteadyState,use_inputFilter = false,m_flow_nominal = m_flow_nominal_emi,redeclare package Medium = Medium,dp_nominal = dp_nominal) "Pump for emmision cooling" annotation(Placement(transformation(extent = {{10.0,10.0},{-10.0,-10.0}},origin = {-10.0,60.0},rotation = 180.0)));
     .IDEAS.Fluid.FixedResistances.PressureDrop preDroEmi(linearized = false,dp_nominal = dp_nominal,m_flow_nominal = m_flow_nominal_emi,allowFlowReversal = false,redeclare package Medium = Medium,from_dp = false) "Flow resistance to decouple pressure state from boundary" annotation(Placement(transformation(extent = {{20.765580811518994,50.0},{39.234419188481006,70.0}},rotation = 0.0,origin = {0.0,0.0})));
