@@ -666,8 +666,10 @@ class TestCase(object):
                 # Get correct points
                 if point_name in self.y_store.keys():
                     payload[point_name] = self.y_store[point_name]
+                    time_temp = self.y_store['time']
                 elif point_name in self.u_store.keys():
                     payload[point_name] = self.u_store[point_name]
+                    time_temp = self.u_store['time']
                 else:
                     status = 400
                     message = "Invalid value {} for parameter point_names.  Check lists of inputs and measurements.".format(point_names)
@@ -679,8 +681,8 @@ class TestCase(object):
                 payload['time'] = self.u_store['time']
             # Get correct time
             if payload and 'time' in payload:
-                time1 = payload['time']
-                for key in [point_name, 'time']:
+                time1 = time_temp
+                for key in (point_names +['time']):
                     payload[key] = payload[key][time1>=start_time]
                     time2 = time1[time1>=start_time]
                     payload[key] = payload[key][time2<=final_time]
@@ -694,7 +696,7 @@ class TestCase(object):
             for key in payload:
                 payload[key] = payload[key].tolist()
 
-        message = "Queried results data successfully for point with name {}.".format(point_name)
+        message = "Queried results data successfully for point with name {}.".format(point_names)
         logging.info(message)
         return status, message, payload
 

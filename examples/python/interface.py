@@ -222,7 +222,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()
     res = check_response(requests.put('{0}/results'.format(url), data={'point_names': points, 'start_time': start_time, 'final_time': final_time}))
-    df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
-    df_res.index.name = 'time'
-
+    #This if is needed to avoid pd.DataFrame.from_dict throwing error in case dict variables have only one value
+    df_res = pd.DataFrame.from_dict(res)
+    df_res = df_res.set_index('time')
     return kpi, df_res, custom_kpi_result, forecasts
