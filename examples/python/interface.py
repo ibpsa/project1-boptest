@@ -221,9 +221,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Get result data
     points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()
-    for point in points:
-        res = check_response(requests.put('{0}/results'.format(url), data={'point_name': point, 'start_time': start_time, 'final_time': final_time}))
-        df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
+    res = check_response(requests.put('{0}/results'.format(url), data={'point_names': points, 'start_time': start_time, 'final_time': final_time}))
+    df_res = pd.concat((df_res, pd.DataFrame(data=res[point], index=res['time'], columns=[point])), axis=1)
     df_res.index.name = 'time'
 
     return kpi, df_res, custom_kpi_result, forecasts
