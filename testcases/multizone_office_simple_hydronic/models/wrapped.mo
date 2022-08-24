@@ -94,6 +94,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaTSupEmiHeaNz_y(unit="K") = mod.heating_cooling.reaTSupEmiHeaNz.y "North zone heating emission system supply temperature";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPPumProCoo_y(unit="W") = mod.heating_cooling.reaPPumProCoo.y "Electric power used by the cooling production system pump";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaRelHum_y(unit="1") = mod.weaSta.reaWeaRelHum.y "Outside relative humidity measurement";
+	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPFcuNz_y(unit="W") = mod.heating_cooling.reaPFcuNz.y "Electric power used by the north zone fan coil units";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPPumEmiHeaNz_y(unit="W") = mod.heating_cooling.reaPPumEmiHeaNz.y "Electric power used by the north zone heating emission system pump";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaTRetEmiHeaSz_y(unit="K") = mod.heating_cooling.reaTRetEmiHeaSz.y "South zone heating emission system return temperature";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPPumAhuCooNz_y(unit="W") = mod.heating_cooling.reaPPumAhuCooNz.y "Electric power used by the north zone cooling AHU water system pump";
@@ -105,6 +106,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolAlt_y(unit="rad") = mod.weaSta.reaWeaSolAlt.y "Solar altitude angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHHorIR_y(unit="W/m2") = mod.weaSta.reaWeaHHorIR.y "Horizontal infrared irradiation measurement";
 	Modelica.Blocks.Interfaces.RealOutput structure_reaCO2ZonSz_y(unit="ppm") = mod.structure.reaCO2ZonSz.y "South zone CO2 concentration";
+	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaNOpa_y(unit="1") = mod.weaSta.reaWeaNOpa.y "Opaque sky cover measurement";
 	Modelica.Blocks.Interfaces.RealOutput structure_reaCO2ZonNz_y(unit="ppm") = mod.structure.reaCO2ZonNz.y "North zone CO2 concentration";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolZen_y(unit="rad") = mod.weaSta.reaWeaSolZen.y "Solar zenith angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHGloHor_y(unit="W/m2") = mod.weaSta.reaWeaHGloHor.y "Global horizontal solar irradiation measurement";
@@ -118,7 +120,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput ventilation_reaPAhuRetNz_y(unit="W") = mod.ventilation.reaPAhuRetNz.y "North zone AHU return fan electric power";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaTRetEmiHeaNz_y(unit="K") = mod.heating_cooling.reaTRetEmiHeaNz.y "North zone heating emission system return temperature";
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaHDirNor_y(unit="W/m2") = mod.weaSta.reaWeaHDirNor.y "Direct normal radiation measurement";
-	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaNOpa_y(unit="1") = mod.weaSta.reaWeaNOpa.y "Opaque sky cover measurement";
+	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPFcuSz_y(unit="W") = mod.heating_cooling.reaPFcuSz.y "Electric power used by the south zone fan coil units";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaTSupAhuHeaSz_y(unit="K") = mod.heating_cooling.reaTSupAhuHeaSz.y "South zone heating AHU water system supply temperature";
 	Modelica.Blocks.Interfaces.RealOutput ventilation_reaTRecAhuNz_y(unit="K") = mod.ventilation.reaTRecAhuNz.y "North zone AHU air temperature after recovery";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPPumEmiCooSz_y(unit="W") = mod.heating_cooling.reaPPumEmiCooSz.y "Electric power used by the south zone cooling emission system pump";

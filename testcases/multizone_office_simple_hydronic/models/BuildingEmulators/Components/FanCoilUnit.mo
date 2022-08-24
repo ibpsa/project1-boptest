@@ -28,44 +28,44 @@ model FanCoilUnit
     Dialog(group = "Cooling coil parameters"));
   parameter Modelica.Units.SI.Temperature TCoo_a2_nominal "Nominal temperature of water inlet in the cooling coil" annotation (
     Dialog(group = "Cooling coil parameters"));
-  IDEAS.Fluid.Movers.FlowControlled_m_flow fan(redeclare package Medium = MediumAir, addPowerToMedium = false, allowFlowReversal = allowFlowReversal, dp_nominal = dpAir_nominal, energyDynamics = Modelica.Fluid.Types.Dynamics.SteadyState, m_flow_nominal = mAir_flow_nominal, tau = 0, use_inputFilter = false) "Fan recirculating the air in the zone through the fan coil unit" annotation (
+  IDEAS.Fluid.Movers.FlowControlled_m_flow fan(redeclare package Medium = MediumAir, addPowerToMedium = false, allowFlowReversal = allowFlowReversal, dp_nominal = dpAir_nominal, energyDynamics = Modelica.Fluid.Types.Dynamics.SteadyState, m_flow_nominal = mAir_flow_nominal, tau = 0, use_inputFilter = false,redeclare replaceable .IDEAS.Fluid.Movers.Data.Generic per) "Fan recirculating the air in the zone through the fan coil unit" annotation (
     Placement(transformation(extent = {{-50, -10}, {-30, 10}})));
-
+  
     Buildings.Fluid.HeatExchangers.WetCoilEffectivenessNTU cooCoi(
-   //         IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU cooCoi(
-    redeclare package Medium2 = MediumAir,
-    redeclare package Medium1 = MediumCooling,
-        Q_flow_nominal = QCoo_flow_nominal,
-        T_a1_nominal = TCoo_a1_nominal,
-        T_a2_nominal = TCoo_a2_nominal,
-        allowFlowReversal1 = false,
-        allowFlowReversal2 = false,
-        configuration = Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow,
-        dp1_nominal = 0,
-        dp2_nominal = dpAir_nominal / (2),
-        from_dp1 = false,
-        m2_flow_nominal = mAir_flow_nominal,
-        show_T = true,
-        use_Q_flow_nominal = true,
+   //         IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU cooCoi(    
+    redeclare package Medium2 = MediumAir, 
+    redeclare package Medium1 = MediumCooling,                                                                                                                            
+        Q_flow_nominal = QCoo_flow_nominal, 
+        T_a1_nominal = TCoo_a1_nominal, 
+        T_a2_nominal = TCoo_a2_nominal, 
+        allowFlowReversal1 = false, 
+        allowFlowReversal2 = false, 
+        configuration = Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow, 
+        dp1_nominal = 0, 
+        dp2_nominal = dpAir_nominal / (2), 
+        from_dp1 = false, 
+        m2_flow_nominal = mAir_flow_nominal, 
+        show_T = true, 
+        use_Q_flow_nominal = true, 
         w_a2_nominal = 0.01,
         m1_flow_nominal = mWatCoo_flow_nominal
-        //UA_nominal = QCoo_flow_nominal / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(TCoo_a1_nominal,TCoo_a1_nominal + 5,TCoo_a2_nominal,TCoo_a2_nominal - 10))
+        //UA_nominal = QCoo_flow_nominal / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(TCoo_a1_nominal,TCoo_a1_nominal + 5,TCoo_a2_nominal,TCoo_a2_nominal - 10))  
         ) annotation (
     Placement(visible = true, transformation(origin = {-10, -6}, extent = {{10, 10}, {-10, -10}}, rotation = 0)));
   IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU heaCoi(
-    redeclare package Medium1 = MediumHeating,
-    configuration = IDEAS.Fluid.Types.HeatExchangerConfiguration.CounterFlow,
-    m1_flow_nominal = mWatHea_flow_nominal,
-    m2_flow_nominal = mAir_flow_nominal,
-    Q_flow_nominal = QHea_flow_nominal,
-    T_a1_nominal = THea_a1_nominal,
-    T_a2_nominal = THea_a2_nominal,
-    show_T = true,
-    allowFlowReversal1 = false,
-    allowFlowReversal2 = false,
-    redeclare package Medium2 = MediumAir,
-    dp2_nominal = dpAir_nominal / (2),
-    use_Q_flow_nominal = true,
+    redeclare package Medium1 = MediumHeating, 
+    configuration = IDEAS.Fluid.Types.HeatExchangerConfiguration.CounterFlow, 
+    m1_flow_nominal = mWatHea_flow_nominal, 
+    m2_flow_nominal = mAir_flow_nominal, 
+    Q_flow_nominal = QHea_flow_nominal, 
+    T_a1_nominal = THea_a1_nominal, 
+    T_a2_nominal = THea_a2_nominal, 
+    show_T = true, 
+    allowFlowReversal1 = false, 
+    allowFlowReversal2 = false, 
+    redeclare package Medium2 = MediumAir, 
+    dp2_nominal = dpAir_nominal / (2), 
+    use_Q_flow_nominal = true, 
     dp1_nominal = 0) annotation (
     Placement(transformation(extent = {{66, 4}, {46, -16}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_coo_a(redeclare final package Medium =
@@ -90,7 +90,7 @@ model FanCoilUnit
     Placement(transformation(extent = {{-56, 24}, {-46, 34}})));
   Modelica.Blocks.Interfaces.RealOutput P "Electrical power use" annotation (
     Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = 270, origin = {-100, -110})));
-  Modelica.Blocks.Sources.RealExpression minSpe(y = 0.01 * mAir_flow_nominal) annotation (
+  Modelica.Blocks.Sources.RealExpression minSpe(y = 0) annotation (
     Placement(transformation(extent = {{-93.58448171086141,16.415518289138582},{-78.41551828913859,31.584481710861418}},rotation = 0.0,origin = {0.0,0.0})));
     .Modelica.Blocks.Sources.RealExpression realExpression(y = heaCoi.Q2_flow) annotation(Placement(transformation(extent = {{0.0,84.0},{-20.0,64.0}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Sources.RealExpression realExpression2(y = cooCoi.Q2_flow) annotation(Placement(transformation(extent = {{0.0,66.0},{-20.0,46.0}},origin = {0.0,0.0},rotation = 0.0)));
@@ -138,7 +138,7 @@ model FanCoilUnit
 equation
   fcuInternalControl.TZonMax = TMax;
   fcuInternalControl.TZonMin = TMin;
-
+        
   connect(fan.port_a, senTem.port_b) annotation (
     Line(points = {{-50, 0}, {-60, 0}, {-60, 40}}, color = {0, 127, 255}));
   connect(senTem.port_a, port_air_a) annotation (
@@ -183,7 +183,7 @@ First implementation
 <p>
 Model of a four-pipe fan-coil unit for heating
 and cooling detached from the zone model. The
-FCU has a heat port to be connected into the
+FCU has a heat port to be connected into the 
 zone convective port.
 </p>
 </html>"),

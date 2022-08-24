@@ -5,7 +5,6 @@ partial model Occupant
 
   parameter Integer nZones(min=1) "number of conditioned thermal zones";
   parameter Integer id=1 "id-number on extern data references";
-  parameter Boolean use_heaPor = true "true if heat ports are being used";
 
   Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a[nZones] heatPortCon
     "Nodes for convective heat gains" annotation (Placement(transformation(
@@ -49,10 +48,6 @@ partial model Occupant
 
 equation
 
-    if not use_heaPor then
-        heatPortCon.Q_flow = zeros(nZones);
-        heatPortRad.Q_flow = zeros(nZones);
-    end if;
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),

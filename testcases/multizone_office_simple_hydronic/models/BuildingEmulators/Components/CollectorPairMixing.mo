@@ -7,8 +7,8 @@ model CollectorPairMixing
   parameter Boolean byPass = true "true if collector has a by-pass connection";
 
   parameter .Modelica.Units.SI.MassFlowRate[nDist] m_flow_nominal = 1 "Nominal mass flow rates at the outlet side";
-  parameter .Modelica.Units.SI.PressureDifference dp_nominal = 1e5 "Nominal pressure drop, placed at supply collector";
-
+  parameter .Modelica.Units.SI.PressureDifference dp_nominal = 1e5 "Nominal pressure drop, placed at supply collector";    
+    
   parameter .Modelica.Units.SI.MassFlowRate m_flow_nominal_byPass = 1 "Nominal mass flow rate in the bypass";
   parameter .Modelica.Units.SI.PressureDifference dp_nominal_byPass = dp_nominal "Nominal pressure drop in the bypass";
 

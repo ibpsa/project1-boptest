@@ -1,10 +1,10 @@
 within BuildingEmulators.Templates.Occupancy;
 model OccupantNumber "Model with a typical occupancy profile in non-residential buildings"
-  extends BuildingEmulators.Templates.Interfaces.BaseClasses.Occupant(use_heaPor=false);
+  extends BuildingEmulators.Templates.Interfaces.BaseClasses.Occupant;
 
 
   Modelica.Blocks.Sources.CombiTimeTable occPro(
-    table=[0,0;1,0;2,0;3,0;4,0;5,0;6,0;7,0.6;8,0.9;9,0.95;10,1;11,1;12,0.9;13,0.9;14,1;15,0.9;16,0.6;17,0.4;18,0.3;19,0;20,0;21,0;22,0;23,0],
+    table=[0,0;1,0;2,0;3,0;4,0;5,0;6,0;7,0.6;8,0.9;9,0.95;10,1;11,1;12,0.9;13,0.9;14,1;15,0.9;16,0.6;17,0.4;18,0.3;19,0;20,0;21,0;22,0;23,0;24,0],
     smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
     timeScale=3600)
@@ -21,7 +21,7 @@ model OccupantNumber "Model with a typical occupancy profile in non-residential 
 
   Modelica.Blocks.Math.MultiProduct multiProduct(nu=4)
     annotation (Placement(transformation(extent={{24,4},{36,16}})));
-  IDEAS.Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2020,yearRef = 2022)
+  outer IDEAS.Utilities.Time.CalendarTime calTim
     annotation (Placement(transformation(extent={{-200,-100},{-180,-80}})));
   Modelica.Blocks.Sources.RealExpression weekend(y=if (calTim.weekDay == 6) or (calTim.weekDay == 7)
          then 0 else 1)
@@ -49,10 +49,21 @@ model OccupantNumber "Model with a typical occupancy profile in non-residential 
    // Assert that the split sum is == 1
 //  assert(sum(split) > 1.0 and sum(split) < 1.0,
 //      "The split sum is different than one. Please check");
+    
+   parameter Modelica.Units.SI.HeatFlowRate qAppIdle = 125+300+2*150+450 "appliances iddle internal gains (printer + copier + 2x projectors + coffe machine)";
+    
+   parameter Modelica.Units.SI.HeatFlowRate qAppOcc = 75 + 80 "appliances occupied internal gains (one monitor and workstation per occupant)"; 
+    
+  Modelica.Units.SI.HeatFlowRate qApp[nZones] = qAppOcc*nOcc + qAppIdle*ones(nZones) "appliances internal gains";  
+    
+  parameter Real fraRadApp = 0.3 "radiative heat transfer by appliances";  
 
 equation
 
-
+  heatPortCon.Q_flow = -qApp.*(1-fraRadApp);
+  heatPortRad.Q_flow = -qApp.*(fraRadApp);  
+    
+    
   nOcc = multiProduct.y.*split "Piece-wise multiplication to distribute the occupants per zone";
   TSet = (273.15 + 21)*ones(nZones);
   mDHW60C = 0 "Non-residential building, no DHW needs";

@@ -8,8 +8,8 @@ model NoVentilation
             100,100}}), graphics),
     Documentation(info="<html>
 <p>
-Model demonstrating the use of the ventilation system template
-by redeclaring the ventilation model of
+Model demonstrating the use of the ventilation system template 
+by redeclaring the ventilation model of 
 <a href=modelica://IDEAS.Templates.Ventilation.Examples.ConstantAirFlowRecup>ConstantAirFlowRecup</a>.
 </p>
 </html>",
