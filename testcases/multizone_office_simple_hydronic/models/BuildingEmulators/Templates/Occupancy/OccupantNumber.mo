@@ -49,21 +49,21 @@ model OccupantNumber "Model with a typical occupancy profile in non-residential 
    // Assert that the split sum is == 1
 //  assert(sum(split) > 1.0 and sum(split) < 1.0,
 //      "The split sum is different than one. Please check");
-
+    
    parameter Modelica.Units.SI.HeatFlowRate qAppIdle = 125+300+2*150+450 "appliances iddle internal gains (printer + copier + 2x projectors + coffe machine)";
-
-   parameter Modelica.Units.SI.HeatFlowRate qAppOcc = 75 + 80 "appliances occupied internal gains (one monitor and workstation per occupant)";
-
-  Modelica.Units.SI.HeatFlowRate qApp[nZones] = qAppOcc*nOcc + qAppIdle*ones(nZones) "appliances internal gains";
-
-  parameter Real fraRadApp = 0.3 "radiative heat transfer by appliances";
+    
+   parameter Modelica.Units.SI.HeatFlowRate qAppOcc = 75 + 80 "appliances occupied internal gains (one monitor and workstation per occupant)"; 
+    
+  Modelica.Units.SI.HeatFlowRate qApp[nZones] = qAppOcc*nOcc + qAppIdle*ones(nZones) "appliances internal gains";  
+    
+  parameter Real fraRadApp = 0.3 "radiative heat transfer by appliances";  
 
 equation
 
   heatPortCon.Q_flow = -qApp.*(1-fraRadApp);
-  heatPortRad.Q_flow = -qApp.*(fraRadApp);
-
-
+  heatPortRad.Q_flow = -qApp.*(fraRadApp);  
+    
+    
   nOcc = multiProduct.y.*split "Piece-wise multiplication to distribute the occupants per zone";
   TSet = (273.15 + 21)*ones(nZones);
   mDHW60C = 0 "Non-residential building, no DHW needs";

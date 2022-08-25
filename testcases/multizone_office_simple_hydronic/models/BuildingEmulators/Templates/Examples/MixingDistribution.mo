@@ -10,7 +10,7 @@ model MixingDistribution
     .IDEAS.Fluid.Sources.Boundary_pT sink(redeclare package Medium = .IDEAS.Media.Water,nPorts = 1) annotation(Placement(transformation(extent = {{88.0,-92.0},{68.0,-72.0}},origin = {0.0,0.0},rotation = 0.0)));
     .BuildingEmulators.Components.CollectorPair collectorPair(m_flow_nominal = {2},dp_nominal = {1e5}) annotation(Placement(transformation(extent = {{-19.0,-66.0},{-41.0,-46.0}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Fluid.Movers.FlowControlled_dp pum(redeclare package Medium=IDEAS.Media.Water, use_inputFilter = false,energyDynamics = Modelica.Fluid.Types.Dynamics.SteadyState,allowFlowReversal = false,m_flow_nominal = 2,dp_nominal = 1e5,addPowerToMedium = false) annotation(Placement(transformation(extent = {{53.28583617882133,-59.28583617882133},{34.71416382117867,-40.71416382117867}},origin = {0.0,0.0},rotation = 0.0)));
-
+    
 equation
     connect(mixing.port_b1,mixing.port_a2) annotation(Line(points = {{-44,40},{-44,46},{-56,46},{-56,40}},color = {0,127,255}));
     connect(mixing2.port_b1,mixing2.port_a2) annotation(Line(points = {{2,40},{2,46},{-10.000000000000002,46},{-10.000000000000002,40}},color = {0,127,255}));
@@ -26,6 +26,6 @@ equation
     connect(dp.y,mixing2.dp_in) annotation(Line(points = {{63,68},{44,68},{44,29.000000000000004},{6,29.000000000000004}},color = {0,0,127}));
     connect(dp.y,mixing.dp_in) annotation(Line(points = {{63,68},{44,68},{44,52},{-24,52},{-24,29.000000000000004},{-40,29.000000000000004}},color = {0,0,127}));
     connect(dp.y,pum.dp_in) annotation(Line(points = {{63,68},{44,68},{44,-38.85699658541441}},color = {0,0,127}));
-
+    
     annotation(Icon(coordinateSystem(preserveAspectRatio = false,extent = {{-100.0,-100.0},{100.0,100.0}}),graphics = {Text(lineColor={0,0,255},extent={{-150,150},{150,110}},textString="%name")}));
 end MixingDistribution;

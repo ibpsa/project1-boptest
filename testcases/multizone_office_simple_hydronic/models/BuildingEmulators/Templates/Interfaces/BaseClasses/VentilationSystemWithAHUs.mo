@@ -7,7 +7,7 @@ partial model VentilationSystemWithAHUs "Ventilation system with nVen AHUs"
   BuildingEmulators.Components.AirHandlingUnit[nVen] ahu
     annotation (Placement(transformation(extent={{-14,-30},{118,36}})));
   IDEAS.Fluid.Actuators.Valves.TwoWayPressureIndependent[nZones] vav_sup(
-      each allowFlowReversal=false,
+      each allowFlowReversal=false, 
       each use_inputFilter=false,
       redeclare final package Medium = Medium,
       m_flow_nominal = m_flow_nominal_air_sup_zon,

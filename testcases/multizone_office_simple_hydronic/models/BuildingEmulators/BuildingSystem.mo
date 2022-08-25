@@ -31,19 +31,19 @@ model BuildingSystem
         QHeaEmi_flow_nominal = {30 * 2500, 25 * 2500},
         QCooEmi_flow_nominal = -{40*2500,45*2500}) annotation(Placement(transformation(extent = {{34.0,0.0},{74.0,20.0}},origin = {0.0,0.0},rotation = 0.0)));
     .BuildingEmulators.Components.BmsControl bms annotation(Placement(transformation(extent = {{-58.0,38.0},{-38.0,58.0}},origin = {0.0,0.0},rotation = 0.0)));
-
+        
   inner IDEAS.Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.NY2020,yearRef = 2022)
-    annotation (Placement(transformation(extent={{18.0,82.0},{38.0,102.0}},rotation = 0.0,origin = {0.0,0.0})));
-
-
+    annotation (Placement(transformation(extent={{18.0,82.0},{38.0,102.0}},rotation = 0.0,origin = {0.0,0.0})));        
+        
+        
     .IDEAS.Utilities.IO.SignalExchange.WeatherStation weaSta annotation(Placement(transformation(extent = {{-38.0,80.0},{-18.0,100.0}},origin = {0.0,0.0},rotation = 0.0)));
 equation
-
-  occupancy.nOcc = structure.nOcc;
-  occupancy.nOcc = bms.nOcc;
-
+        
+  occupancy.nOcc = structure.nOcc;   
+  occupancy.nOcc = bms.nOcc; 
+  
   sim.Te = bms.Te;
-
+        
   connect(structure.TSensor, ventilation.TSensor) annotation (Line(
       points={{5.796428571428578,4.546415441176478},{13.196428571428584,4.546415441176478},{13.196428571428584,52.44880514705883},{17.015,52.44880514705883}},
       color={0,0,127},
@@ -54,8 +54,8 @@ equation
         points={{-7.803571428571416,20.546415441176478},{-7.803571428571416,56.04880514705882},{17.375,56.04880514705882}}, color={0,127,255}));
     connect(structure.heatPortCon,occupancy.heatPortCon) annotation(Line(points = {{5.196428571428584,12.546415441176478},{19.053571428571445,12.546415441176478},{19.053571428571445,-22.244025735294116},{11.053571428571416,-22.244025735294116}},color = {191,0,0}));
     connect(occupancy.heatPortRad,structure.heatPortRad) annotation(Line(points = {{11.053571428571416,-26.244025735294116},{23.375,-26.244025735294116},{23.375,8.546415441176478},{5.196428571428584,8.546415441176478}},color = {191,0,0}));
-
-
+        
+    
     connect(heating_cooling.TSensor,structure.TSensor);
 
     connect(bms.prfAhuSup,ventilation.prfAhuSup);
@@ -92,7 +92,7 @@ equation
     connect(ventilation.oveByPass,bms.oveByPass);
     connect(structure.humAir,heating_cooling.humAir) annotation(Line(points = {{5.796428571428599,3.1464154411764778},{33.599999999999994,3.1464154411764778},{33.599999999999994,2.5999999999999996}},color = {0,0,127}));
     connect(sim.weaDatBus,weaSta.weaBus) annotation(Line(points = {{-60.1,90},{-49,90},{-49,89.9},{-37.9,89.9}},color = {255,204,51}));
-
+    
    annotation (
     Diagram(experiment(StopTime=31536000), coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}})),
