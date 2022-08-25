@@ -698,7 +698,7 @@ class TestCase(object):
             for key in payload:
                 payload[key] = payload[key].tolist()
 
-        message = "Queried results data successfully for point with name {}.".format(point_names)
+        message = "Queried results data successfully for point names {}.".format(point_names)
         logging.info(message)
         return status, message, payload
 
