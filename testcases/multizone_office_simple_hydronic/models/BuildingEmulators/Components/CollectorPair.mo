@@ -5,7 +5,7 @@ model CollectorPair
   parameter Integer nDist(min=2) = 2 "Number of distribution loops";
 
   parameter Modelica.Units.SI.MassFlowRate[nProd] m_flow_nominal "Nominal mass flow rates at the outlet side";
-  parameter Modelica.Units.SI.PressureDifference dp_nominal = 1e5 "Nominal pressure drop, placed at supply collector";    
+  parameter Modelica.Units.SI.PressureDifference dp_nominal = 1e5 "Nominal pressure drop, placed at supply collector";
 
 
   replaceable package Medium = IDEAS.Media.Water;
@@ -47,7 +47,7 @@ model CollectorPair
       energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial,
       m_flow_nominal = sum(m_flow_nominal),
       V = sum(m_flow_nominal) / 1000 * 300,
-      nPorts=2*nProd+nDist,allowFlowReversal = true) annotation(Placement(transformation(extent = {{34.0,-48.0},{54.0,-28.0}},origin = {0.0,0.0},rotation = 0.0)));    
+      nPorts=2*nProd+nDist,allowFlowReversal = true) annotation(Placement(transformation(extent = {{34.0,-48.0},{54.0,-28.0}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Fluid.FixedResistances.PressureDrop byPass(
       redeclare package Medium = Medium,
       m_flow_nominal = sum(m_flow_nominal),
@@ -67,7 +67,7 @@ equation
     annotation (Line(points={{-40,80},{-40,100}}, color={0,127,255}));
   end for;
     connect(colSup.ports[nProd+nDist+1],byPass.port_a) annotation(Line(points = {{-40,52},{-40,36},{-20.000000000000004,36},{-20.000000000000004,8}},color = {0,127,255}));
-    connect(byPass.port_b,colRet.ports[nProd+nDist+1]) annotation(Line(points = {{-19.999999999999996,-12},{-19.999999999999996,-54},{44,-54},{44,-48}},color = {0,127,255}));  
+    connect(byPass.port_b,colRet.ports[nProd+nDist+1]) annotation(Line(points = {{-19.999999999999996,-12},{-19.999999999999996,-54},{44,-54},{44,-48}},color = {0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {120,100}}), graphics={
         Line(

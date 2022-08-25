@@ -9,9 +9,9 @@ Heat/cold is procuded by means of a gas boiler and a chiller.
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
 <p>
-The building test case is modeled as a rectangular building 
+The building test case is modeled as a rectangular building
 of 40x25 m and 15 m of height.
-The height of each floor is considered to be 3 m, 
+The height of each floor is considered to be 3 m,
 and at each floor internal floors are added to account for the thermal mass.
 Hence, the total floor area to be conditioned is 5000 m<sup>2</sup>.
 The building is divided in two zones/spaces of equal floor area,
@@ -227,7 +227,7 @@ IDEAS.Buildings.Components.InternalWall and consist of the following layers:
 
 <p><b>Windows</b> </p>
 <p>
-The windows are modelled using IDEAS.Buildings.Components.Window 
+The windows are modelled using IDEAS.Buildings.Components.Window
 and the glazing information of IDEAS.Buildings.Data.Glazing.Ins2Ar2020,
 with an U-value of 1.028 W/(m<sup>2</sup>K) and a g-value of 0.551.
 The window model assumes that the frame occupies 15% of the area
@@ -237,8 +237,8 @@ and is made of insulated aluminium, with an U-value of 2.8 W/(m<sup>2</sup>K).
 
 <h4>Occupancy schedules</h4>
 <p>
-The design occupancy density is one occupant per 15 m<sup>2</sup>.  
-The number of occupants present in each zone is equally divided 
+The design occupancy density is one occupant per 15 m<sup>2</sup>.
+The number of occupants present in each zone is equally divided
 and takes the following normalized profile for one day.
 
 <p align=\"center\">
@@ -270,13 +270,13 @@ for the following days:
 </p>
 <h4>Internal loads and schedules</h4>
 <p>
-Internal gains from occupancy are taken as 45 W of latent heat and 73 W of sensible heat for 
+Internal gains from occupancy are taken as 45 W of latent heat and 73 W of sensible heat for
 <a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo\">typical office work</a>,
 with a convective-radiative split of 40/60% respectively.
 </p>
 <p>
 Internal gains from lighting are taken for <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/RoomType/Office.mo">office lighting requirements</a> of 500 lx (based on standard EN 12464-1)
-and <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/LightingType/LED.mo">LEDs</a> 
+and <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/LightingType/LED.mo">LEDs</a>
 with an efficiency of 150 lm/W and with a convective-radiative split of 65/35% respectively.
 </p>
 
@@ -292,13 +292,13 @@ these values are taken from ASHRAE appliances data.
 
 <h4>Climate data</h4>
 <p>
-The weather data is from TMY3 for Uccle, Brussels, Belgium, between the years 2007 and 2021. 
+The weather data is from TMY3 for Uccle, Brussels, Belgium, between the years 2007 and 2021.
 The weather file is hosted in <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Resources/weatherdata/BEL_VLG_Uccle.064470_TMYx.2007-2021.mos">IDEAS</a>.
 </p>
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-The emission system (ventiloconvectors) nominal powers are determined by using the following rules of thumb for design.  
+The emission system (ventiloconvectors) nominal powers are determined by using the following rules of thumb for design.
 <ul>
 <li>North zone:
 <ul>
@@ -314,55 +314,55 @@ The emission system (ventiloconvectors) nominal powers are determined by using t
 </li>
 </ul>
 As such, the nominal powers of the emission system are 75 and 100 kW for heating and cooling respectively for the north zone
-and 62.5 and 112.5 kW for heating and cooling respectively for the south zone. 
+and 62.5 and 112.5 kW for heating and cooling respectively for the south zone.
 The mass flow rates of the emission loops are determined using the relation:
 </p>
 <p align=\"center\">
 Q<sub>design</sub> = m<sub>flow</sub> c<sub>p</sub> ΔT
 </p>
 <p>
-where Q<sub>nominal</sub> is the nominal heat flow, m<sub>flow</sub> is the nominal mass flow rate, 
-c<sub>p</sub> is the specific heat capacity of the media and ΔT is the nominal temperature difference. 
+where Q<sub>nominal</sub> is the nominal heat flow, m<sub>flow</sub> is the nominal mass flow rate,
+c<sub>p</sub> is the specific heat capacity of the media and ΔT is the nominal temperature difference.
 This nominal temperature difference is a design parameter and it is assumed to be 20 K and
-5 K for the water stream for heating and cooling respectively, 
+5 K for the water stream for heating and cooling respectively,
 and 10 K for the air stream (both for the heating and cooling coil) in the ventiloconvector.
 The heat exchange coefficients (UA) of the heat exchangers in the ventiloconvectors are computed by the model
 from these nominal values using the <a href=https://en.wikipedia.org/wiki/NTU_method>NTU method</a>.
 </p>
 
 <p>
-The ventilation system is composed by two individual air handling units (AHUs) per zone. 
+The ventilation system is composed by two individual air handling units (AHUs) per zone.
 These AHUs are equipped with a double mechanical flux system (i.e., a supply and a return fan),
 a heat recovery system and a heating and cooling coils.
 No humidifier/dehumidifer system is installed.
-No variable air volume (VAV) boxes are equipped in the ventilation ducts. 
+No variable air volume (VAV) boxes are equipped in the ventilation ducts.
 However, the fans of the AHU can modulate their pressure head to achieve the required ventilation rate.
-The nominal supply and return air flow rates are computed based on the volume of the zones to be conditioned, 
+The nominal supply and return air flow rates are computed based on the volume of the zones to be conditioned,
 and they are 3 kg/s and 2.5 kg/s of air respectively.
-Based on this nominal air flows, the nominal powers and nominal mass flow rates of the heating and cooling coils 
+Based on this nominal air flows, the nominal powers and nominal mass flow rates of the heating and cooling coils
 are calculated using the same relations as for the emission system.
 The nominal temperature differences in this case are 20 K and
 5 K for the water stream for heating and cooling respectively,
-and 30 K and 15 K for the air stream for heating and cooling respectively. 
-As a result, for each individual AHU the nominal heating power is 90 kW 
-whereas the nominal cooling power is 45 kW. 
+and 30 K and 15 K for the air stream for heating and cooling respectively.
+As a result, for each individual AHU the nominal heating power is 90 kW
+whereas the nominal cooling power is 45 kW.
 The heat recovery exchanger is assumed to have a constant effectiveness of 84%.
 </p>
 
 <p>
 The production system is composed by a gas boiler for heating and a chiller for cooling.
-The nominal powers of the production system are determined by the sum of the nominal powers 
-of each emission and ventilation coil loop, which are 317.5 kW and 302.5 kW for heating and cooling respectively. 
+The nominal powers of the production system are determined by the sum of the nominal powers
+of each emission and ventilation coil loop, which are 317.5 kW and 302.5 kW for heating and cooling respectively.
 The nominal mass flow rates are calculated from the resulting heating and cooling nominal powers.
 </p>
 
 <p>
-The production system is connected to the emission and ventilation systems through the distribution system shown 
+The production system is connected to the emission and ventilation systems through the distribution system shown
 in the schematic below.
-The production system supplies heat/cold to a supply manifold or collector. 
+The production system supplies heat/cold to a supply manifold or collector.
 From here, the different circuit loops distribute the water to the different heat exchangers
-in the emission system or the ventilation system. 
-Each circuit loop is equipped with a pump that allows to activate the circuit and a 
+in the emission system or the ventilation system.
+Each circuit loop is equipped with a pump that allows to activate the circuit and a
 mixing 3-way valve place downstream the pump, which allows to regulate the supply temperature in the distribution loop.
 </p>
 
@@ -382,18 +382,18 @@ src="images/schematic.svg" width=1200 />
 <p><b>Boiler</b> </p>
 <p>
 The gas boiler efficiency of the boiler is dependant on the supply temperature imposed.
-The gas boiler efficiency has a linear term with respect to the supply temperature and, 
+The gas boiler efficiency has a linear term with respect to the supply temperature and,
 when the condensation temperature occurs (around 45 &#176;C), a sudden increase of
-the efficiency occurs which is modeled with a sigmoid function. 
+the efficiency occurs which is modeled with a sigmoid function.
 The efficiency can thus be expressed as:
 </p>
 <p>
 ε = 2.46575 - 0.005 T<sub>supply</sub> + 0.1/(1+(e<sup>(T<sub>supply</sub> - T<sub>condensation</sub>)</sup>))
 </p>
 <p>
-where T<sub>supply</sub> is in Kelvin and T<sub>condensation</sub> is 273.15+45 K. 
+where T<sub>supply</sub> is in Kelvin and T<sub>condensation</sub> is 273.15+45 K.
 In essence, the boiler efficiency is 75% at 70 &#176;C and 105% at 30 &#176;C
-The above expression can be visualized as: 
+The above expression can be visualized as:
 </p>
 
 <p align=\"center\">
@@ -411,25 +411,25 @@ and takes the following bi-linear relation:
 EER = -68.5 + 0.4 T<sub>supply</sub> - 4/30 T<sub>ambient</sub>
 </p>
 <p>
-where T<sub>supply</sub> and T<sub>ambient</sub> are in Kelvin. 
+where T<sub>supply</sub> and T<sub>ambient</sub> are in Kelvin.
 In essence, the chiller nominal EER (at 7 &#176;C supply and 35 &#176;C ambient temperature) is 2.5.
 </p>
 
 <p><b>Fluid movers</b> </p>
 <p>
-The supply and return fans of the air handling units have a nominal pressure drop of 250 Pa and 180 Pa respectively, and follow the pressure curve 
+The supply and return fans of the air handling units have a nominal pressure drop of 250 Pa and 180 Pa respectively, and follow the pressure curve
 given by <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Examples/PPD12/Data/FanCurvePP12.mo">IDEAS.Examples.PPD12.Data.FanCurvePP12</a>
 with adapted motor effiency such that their power at nominal speed is 3.50 and 2.15 kW respectively.
 </p>
 
 <p>
-The ventiloconvector fans follow the <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Fluid/Movers/Data/Generic.mo">generic</a> 
-curve of the model and have their nominal pressure drop is calibrated such that at nominal mass flow rate their power use is 2.5 kW, 
-based on data from JAGA manufacturer. 
+The ventiloconvector fans follow the <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Fluid/Movers/Data/Generic.mo">generic</a>
+curve of the model and have their nominal pressure drop is calibrated such that at nominal mass flow rate their power use is 2.5 kW,
+based on data from JAGA manufacturer.
 </p>
 <p>
-The pumps of the distribution and production system follow the <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Fluid/Movers/Data/Generic.mo">generic</a> 
-curve of the model and have the following nominal pressure drops and powers: 
+The pumps of the distribution and production system follow the <a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Fluid/Movers/Data/Generic.mo">generic</a>
+curve of the model and have the following nominal pressure heads and powers:
 <ul>
 <li>
 Production pumps:
@@ -465,7 +465,7 @@ Distribution pumps:
 <h4>Rule-based or local-loop controllers (if included)</h4>
 
 <p>
-The model is equipped with a BMS baseline controller that attempts to keep the 
+The model is equipped with a BMS baseline controller that attempts to keep the
 temperature and IEQ requirements, also depicted in the hydraulic schematic.
 Internal controls of the emission and ventilation system are not communicated/exported to the BMS,
 hence cannot be overriten.
@@ -473,32 +473,32 @@ hence cannot be overriten.
 <p>
 A minimum and maximum zone setpoints can be defined by the user,
 which are 21/25 &#176;C when the building is occupied.
-When the building is empty, a nightsetback of ±5 &#176;C is applied. 
-These set-points are input to the ventiloconvectors, 
-whose internal controls (not connected to the BMS) will actuate 
+When the building is empty, a nightsetback of ±5 &#176;C is applied.
+These set-points are input to the ventiloconvectors,
+whose internal controls (not connected to the BMS) will actuate
 on their fans and internal 3-way valves to keep the building within the defined boundaries.
-The distribution pumps connected to the emission system are activated following a schedule control: 
-the heating/cooling pumps are activated every working day from 6AM (to allow pre-conditioning of the space) 
+The distribution pumps connected to the emission system are activated following a schedule control:
+the heating/cooling pumps are activated every working day from 6AM (to allow pre-conditioning of the space)
 and de-activated at 7PM, except from Mondays where the activation time is 4AM to compensate for the weekend.
 </p>
 
 <p>
-The AHUs are controlled based on the building occupancy. 
+The AHUs are controlled based on the building occupancy.
 Whenever the building is occupied, the AHUs supply and extract air at their nominal flow rate.
 The baseline controller does not have any feedback from the CO<sub>2</sub> measurements in the zones.
-The distribution pumps connected to the ventilation system are activated following the same schedule. 
+The distribution pumps connected to the ventilation system are activated following the same schedule.
 A constant air supply set-point of 21 &#176;C is set by the baseline controller.
-The internal controls of the AHUs (not connected to the BMS) manage the 
+The internal controls of the AHUs (not connected to the BMS) manage the
 internal 3-way valves in the heating/cooling coils and the recovery by-pass to achieve the desired air supply set-point.
-The by-pass control of the AHUs is connected to the BMS, 
+The by-pass control of the AHUs is connected to the BMS,
 unlocking the possibility of free cooling during nights.
-However, this feature is not implemented in the baseline controller. 
+However, this feature is not implemented in the baseline controller.
 </p>
 
 <p>
-The mixing 3-way valves in the distribution system modulate to track 
+The mixing 3-way valves in the distribution system modulate to track
 a given supply set-point.
-For the ventiloconvectors, the set-points follow a heating/cooling curve 
+For the ventiloconvectors, the set-points follow a heating/cooling curve
 based only in the outdoor temperature (no room compensation is included).
 <ul>
 <li>The heating curve of the ventiloconvector heating coil takes the following points:</li>
@@ -510,7 +510,7 @@ based only in the outdoor temperature (no room compensation is included).
 	<ul>
 	<li>7 &#176;C when the outdoor temperature is 35 &#176;C</li>
 	<li>12 &#176;C when the outdoor temperature is 15 &#176;C</li>
-	</ul>	
+	</ul>
 </ul>
 
 
@@ -522,14 +522,14 @@ For the ventilation coils, these set-points are set constant to:
 The modulation is achieved by means of PI controllers.
 All PIs have a constant gain of 0.2 and an integral gain of 30s.
 The model allows to override either the set-point to be tracked by the PI
-or the valve position directly. 
+or the valve position directly.
 </p>
 
 <p>
-The production system ideally tracks a given supply temperature set-point. 
+The production system ideally tracks a given supply temperature set-point.
 The heating production system follows the maximum of the heating distribution set-points.
 The cooling production system follows the minimum of the cooling distribution set-points.
-The pumps in the production system are activated whenever at least one of the 
+The pumps in the production system are activated whenever at least one of the
 distribution pumps is activated.
 </p>
 
@@ -912,12 +912,12 @@ is not subjected to control.
 </p>
 <h4>Pressure-flow models</h4>
 <p>
-The duct airflows and pipe waterflows are modeled using a pressure-flow network.  
+The duct airflows and pipe waterflows are modeled using a pressure-flow network.
 Air exchange between zones is not modeled.
 </p>
 <h4>Infiltration models</h4>
 <p>
-Airflow due to infiltration is calculated using the 
+Airflow due to infiltration is calculated using the
 <a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InterzonalAirFlow/n50FixedPressure.mo\"><code>IDEAS.Buildings.Components.InterzonalAirFlow.n50FixedPressure</code></a> model
 and a n50 value of 5.
 </p>
@@ -1012,8 +1012,8 @@ End Time: Day 103.
 </p>
 <h4>Energy Pricing</h4>
 <p>
-The gas price is considered constant at a value of 0.0464 EUR/kWh, 
-corresponding to the average prices for Belgian buildings with an 
+The gas price is considered constant at a value of 0.0464 EUR/kWh,
+corresponding to the average prices for Belgian buildings with an
 energy use between 20 and 500 MWh/year for the year 2015.
 (Eurostat. Gas prices for industrial consumers - bi-annual data (from
 2007 onwards). Tech. rep., 2016. and Eurostat. Electricity prices components for industrial consumers -
@@ -1022,8 +1022,8 @@ annual data (from 2007 onwards). Tech. rep., 2017.)
 <p>
 The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'constant'</code>) profile is:
 <ul>
-The electricity price is 0.1466 EUR/kWh, 
-corresponding to the average prices for Belgian buildings with an 
+The electricity price is 0.1466 EUR/kWh,
+corresponding to the average prices for Belgian buildings with an
 energy use between 20 and 500 MWh/year for the year 2015.
 (Eurostat. Gas prices for industrial consumers - bi-annual data (from
 2007 onwards). Tech. rep., 2016. and Eurostat. Electricity prices components for industrial consumers -
@@ -1034,7 +1034,7 @@ annual data (from 2007 onwards). Tech. rep., 2017.)
 The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
 <ul>
 The dynamic electricity price scenario is prorrated using the constant electricity
-price scenario. The resulting dynamic electricity prices are of 0.1542 EUR/kWh 
+price scenario. The resulting dynamic electricity prices are of 0.1542 EUR/kWh
 during on-peak periods and of 0.1378 EUR/kWh during off-peak periods.
 The on-peak daily period takes place between 7:00 a.m. and 10:00 p.m.
 The off-peak daily period takes place between 10:00 p.m. and 7:00 a.m.
@@ -1054,12 +1054,12 @@ https://my.elexys.be/MarketInformation/SpotBelpex.aspx</a>.
 
 <p>
 It is used a constant emission factor for gas of 0.22 kgCO2/kWh as reported by
-the Centre for Environmental Economics and Environmental Management 
+the Centre for Environmental Economics and Environmental Management
 (CEEM - Centre for Environmental Economics and Environmental
 Management. Universiteit Gent. https://ceem.ugent.be/en/index.htm.).
 </p>
 <p>
-It is used a hourly variable emission factor for electricity, extracted from 
+It is used a hourly variable emission factor for electricity, extracted from
 <a href="https://app.electricitymaps.com/map">
 Electricity Maps</a>
 for the year 2019.
