@@ -369,11 +369,9 @@ class partialChecks(object):
 
         '''
 
-        df = pd.DataFrame()
-        for point in points:
-            res = requests.put('{0}/results'.format(url), data={'point_name':point,'start_time':start_time, 'final_time':final_time}).json()['payload']
-            df = pd.concat((df,pd.DataFrame(data=res[point], index=res['time'],columns=[point])), axis=1)
-        df.index.name = 'time'
+        res = requests.put('{0}/results'.format(url), data={'point_names':points,'start_time':start_time, 'final_time':final_time}).json()['payload']
+        df = pd.DataFrame.from_dict(res)
+        df = df.set_index('time')
 
         return df
 
@@ -666,7 +664,7 @@ class partialTestAPI(partialChecks):
         point = self.measurement
         if point not in measurements:
             raise KeyError('Point {0} not in measurements list.'.format(point))
-        res_inner = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+        res_inner = requests.put('{0}/results'.format(self.url), data={'point_names': [point],
                                                                        'start_time': self.step_ref*0.25,
                                                                        'final_time': self.step_ref*0.75}).json()['payload']
         df = pd.DataFrame.from_dict(res_inner).set_index('time')
@@ -685,7 +683,7 @@ class partialTestAPI(partialChecks):
         point = self.measurement
         if point not in measurements:
             raise KeyError('Point {0} not in measurements list.'.format(point))
-        res_outer = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+        res_outer = requests.put('{0}/results'.format(self.url), data={'point_names': [point],
                                                                  'start_time': 0-self.step_ref,
                                                                  'final_time': self.step_ref*2}).json()['payload']
         df = pd.DataFrame.from_dict(res_outer).set_index('time')
@@ -863,17 +861,17 @@ class partialTestAPI(partialChecks):
         if point not in measurements:
             raise KeyError('Point {0} not in measurements list.'.format(point))
         # Try getting invalid start_time
-        res = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+        res = requests.put('{0}/results'.format(self.url), data={'point_names': [point],
                                                                  'start_time': "foo",
                                                                  'final_time': self.step_ref*2})
         self.compare_error_code(res, "Invalid start_time in get_results request did not return a 400 error.")
         # Try getting invalid final_time
-        res = requests.put('{0}/results'.format(self.url), data={'point_name': point,
+        res = requests.put('{0}/results'.format(self.url), data={'point_names': [point],
                                                                  'start_time': 0.0 - self.step_ref,
                                                                  'final_time': "foo"})
         self.compare_error_code(res, "Invalid final_time in get_results request did not return a 400 error.")
         # Try getting invalid point_name
-        res = requests.put('{0}/results'.format(self.url), data={'point_name': "foo",
+        res = requests.put('{0}/results'.format(self.url), data={'point_names': ["foo"],
                                                                  'start_time': 0.0 - self.step_ref,
                                                                  'final_time': self.step_ref*2.0})
         self.compare_error_code(res, "Invalid point_name in get_results request did not return a 400 error.")

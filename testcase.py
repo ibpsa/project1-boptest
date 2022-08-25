@@ -613,13 +613,13 @@ class TestCase(object):
 
         return status, message, payload
 
-    def get_results(self, point_name, start_time, final_time):
+    def get_results(self, point_names, start_time, final_time):
         '''Returns measurement and control input trajectories.
 
         Parameters
         ----------
-        point_name: str
-            Name of variable.
+        point_names: list
+            Variable names.
         start_time : int or float
             Start time of data to return in seconds.
         final_time : int or float
@@ -660,29 +660,29 @@ class TestCase(object):
             message = "Invalid value {} for parameter final_time. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(final_time, type(final_time))
             logging.error(message)
             return status, message, payload
-        payload = []
+        payload = {}
         try:
-            # Get correct point
-            if point_name in self.y_store.keys():
-                payload = {
-                    'time': self.y_store['time'],
-                     point_name: self.y_store[point_name]
-                }
-            elif point_name in self.u_store.keys():
-                payload = {
-                    'time': self.u_store['time'],
-                     point_name: self.u_store[point_name]
-                }
-            else:
-                status = 400
-                message = "Invalid value {} for parameter point_name.  Check lists of inputs and measurements.".format(point_name)
-                logging.error(message)
-                return status, message, None
-
+            for point_name in point_names:
+                # Get correct points
+                if point_name in self.y_store.keys():
+                    payload[point_name] = self.y_store[point_name]
+                    time_temp = self.y_store['time']
+                elif point_name in self.u_store.keys():
+                    payload[point_name] = self.u_store[point_name]
+                    time_temp = self.u_store['time']
+                else:
+                    status = 400
+                    message = "Invalid value {} for parameter point_names.  Check lists of inputs and measurements.".format(point_names)
+                    logging.error(message)
+                    return status, message, None
+            if any(item in point_names for item in self.y_store.keys()):
+                payload['time'] = self.y_store['time']
+            elif any(item in point_names for item in self.u_store.keys()):
+                payload['time'] = self.u_store['time']
             # Get correct time
             if payload and 'time' in payload:
-                time1 = payload['time']
-                for key in [point_name, 'time']:
+                time1 = time_temp
+                for key in (point_names +['time']):
                     payload[key] = payload[key][time1>=start_time]
                     time2 = time1[time1>=start_time]
                     payload[key] = payload[key][time2<=final_time]
@@ -696,7 +696,7 @@ class TestCase(object):
             for key in payload:
                 payload[key] = payload[key].tolist()
 
-        message = "Queried results data successfully for point with name {}.".format(point_name)
+        message = "Queried results data successfully for point with name {}.".format(point_names)
         logging.info(message)
         return status, message, payload
 
