@@ -1963,15 +1963,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="669.36799"
-     inkscape:cy="902.85113"
+     inkscape:zoom="1.4"
+     inkscape:cx="439.1133"
+     inkscape:cy="787.71307"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="2560"
+     inkscape:window-width="1920"
      inkscape:window-height="1027"
-     inkscape:window-x="0"
+     inkscape:window-x="1920"
      inkscape:window-y="28"
      inkscape:window-maximized="1"
      fit-margin-top="0"
@@ -2096,6 +2096,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2112,6 +2113,7 @@
      id="tspan6195-3-6-5-1">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1-4-9-0">pum,AHU,hea, NZ</tspan></tspan></text>
+
 
 
 
@@ -2212,6 +2214,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2228,6 +2231,7 @@
      id="tspan6195-3-6-5">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1-4-9">pum,AHU,hea, SZ</tspan></tspan></text>
+
 
 
 
@@ -2328,6 +2332,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2344,6 +2349,7 @@
      id="tspan6195-3-6">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1-4">pum,emi,hea, SZ</tspan></tspan></text>
+
 
 
 
@@ -2470,6 +2476,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2486,6 +2493,7 @@
      id="tspan6195-1-8">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-4-1">pum,AHU,coo, NZ</tspan></tspan></text>
+
 
 
 
@@ -2586,6 +2594,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2602,6 +2611,7 @@
      id="tspan6195-1-0">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-4-6">pum,AHU,coo, SZ</tspan></tspan></text>
+
 
 
 
@@ -2702,6 +2712,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2718,6 +2729,7 @@
      id="tspan6195-1">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-4">pum,emi,coo, SZ</tspan></tspan></text>
+
 
 
 
@@ -2746,11 +2758,13 @@
 
 
 
+
 <text
    xml:space="preserve"
    transform="matrix(0.26458333,0,0,0.26458333,15.07643,-23.847862)"
    id="text4228"
    style="white-space:pre;shape-inside:url(#rect4230);display:inline;fill:#000000" />
+
 
 
 
@@ -2766,6 +2780,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    transform="matrix(0.26458333,0,0,0.26458333,15.07643,-23.847862)"
@@ -2776,11 +2791,13 @@
 
 
 
+
 <text
    xml:space="preserve"
    transform="matrix(0.26458333,0,0,0.26458333,15.07643,-23.847862)"
    id="text4539"
    style="white-space:pre;shape-inside:url(#rect4541);display:inline;fill:#800000" />
+
 
 
 
@@ -2906,6 +2923,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:3.62089992px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.30174199px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -2920,6 +2938,7 @@
      x="-295.7807"
      y="77.083099"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.5261302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.30174199px">.</tspan></text>
+
 
 
 
@@ -2940,6 +2959,7 @@
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.5261302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.30174199px">W<tspan
    style="font-style:italic;font-size:2.94197989px;baseline-shift:sub;stroke-width:0.30174199px"
    id="tspan4692-6-7-5-57-3-1-5-7-5-6-6-5-7-7-1-0-5-1-8-9-3-5-6-2-7-6-3-5">pum,pro,hea</tspan></tspan></text>
+
 
 
 
@@ -2972,6 +2992,7 @@
 
 
 
+
 <path
    style="fill:none;stroke:#000000;stroke-width:0.48289657px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
    d="m 340.35213,83.165348 -235.43186,0.354716 -0.20976,-9.572608 235.88084,-0.01746"
@@ -2993,6 +3014,7 @@
      id="tspan6195">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467732px"
    id="tspan6197">pum,emi,coo, NZ</tspan></tspan></text>
+
 
 
 
@@ -3083,6 +3105,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:3.62089992px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.30174199px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -3103,6 +3126,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:3.62089992px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.30174199px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -3117,6 +3141,7 @@
      x="-374.37613"
      y="112.0385"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.5261302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.30174199px">.</tspan></text>
+
 
 
 
@@ -3150,6 +3175,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:3.62089992px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.30174199px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -3164,6 +3190,7 @@
      x="-370.56131"
      y="70.688011"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.5261302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.30174199px">.</tspan></text>
+
 
 
 
@@ -3275,6 +3302,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -3291,6 +3319,7 @@
      id="tspan6195-3">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1">pum,emi,hea, NZ</tspan></tspan></text>
+
 
 
 
@@ -4101,13 +4130,13 @@
    id="path36553-0-5-1-6-6-7"
    inkscape:connector-curvature="0"
    sodipodi:nodetypes="ccccccccc" /><path
-   style="fill:none;stroke:#000000;stroke-width:0.25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.75, 0.75;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Arrow1Lstart-6)"
-   d="m 354.89021,-117.77652 -239.61577,-0.0668 -0.53263,57.730155"
+   style="fill:none;stroke:#000000;stroke-width:0.23834561;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.71503683, 0.71503683;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Arrow1Lstart-6)"
+   d="m 354.91025,-117.87245 -239.38875,-0.0608 -0.53212,52.522898"
    id="path2749-7"
    inkscape:connector-curvature="0"
    sodipodi:nodetypes="ccc" /><path
-   style="fill:none;stroke:#000000;stroke-width:0.25;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.75, 0.75;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Arrow1Lstart-1-0)"
-   d="m 150.82341,-60.352628 0.26327,-42.461792 202.73467,0.90148"
+   style="fill:none;stroke:#000000;stroke-width:0.23821668;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.71465006, 0.71465006;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Arrow1Lstart-1-0)"
+   d="m 150.61478,-64.296243 0.26357,-38.509827 202.96405,0.81758"
    id="path2749-5-6"
    inkscape:connector-curvature="0"
    sodipodi:nodetypes="ccc" /><g
@@ -4207,6 +4236,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -4220,6 +4250,7 @@
      y="-23.214394"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.92016029px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.19467734px"
      id="tspan6195-2-5">South zone (SZ)</tspan></text>
+
 
 
 
@@ -4241,6 +4272,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -4254,6 +4286,7 @@
      y="-14.075566"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.92016029px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.19467734px"
      id="tspan6195-2-8-2">Fan coil unit (SZ)</tspan></text>
+
 
 
 
@@ -4275,6 +4308,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -4288,6 +4322,7 @@
      y="-123.75607"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.92016029px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.19467734px"
      id="tspan6195-2-8-9-6">Air handling unit (SZ)</tspan></text>
+
 
 
 
@@ -5945,6 +5980,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -5960,6 +5996,7 @@
      id="tspan6195-0">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-41">pum,pro,coo</tspan></tspan></text>
+
 
 
 
@@ -5983,6 +6020,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -5998,6 +6036,7 @@
      id="tspan6195-0-2">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-41-1">pum,pro,hea</tspan></tspan></text>
+
 
 
 
@@ -6021,6 +6060,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6036,6 +6076,7 @@
      id="tspan6195-29-5-8">T<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-39-8">set,min,SZ</tspan></tspan></text>
+
 
 
 
@@ -6059,6 +6100,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6074,6 +6116,7 @@
      id="tspan6195-29-5-7">T<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-39-9">set,max,SZ</tspan></tspan></text>
+
 
 
 
@@ -6098,6 +6141,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6114,6 +6158,7 @@
      id="tspan6195-29-5-6-8">T<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-39-3-4">set,sup,AHU, NZ</tspan></tspan></text>
+
 
 
 
@@ -6137,6 +6182,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6152,6 +6198,7 @@
      id="tspan6195-29-5-6-7-4">T<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-39-3-2-1">zon, SZ</tspan></tspan></text>
+
 
 
 
@@ -6175,6 +6222,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6190,6 +6238,7 @@
      id="tspan6195-29-5-6-7-0-4">y<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-39-3-2-6-3">AHU,SZ</tspan></tspan></text>
+
 
 
 
@@ -6213,6 +6262,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6228,6 +6278,7 @@
      id="tspan6195-3-6-2-9">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1-4-1-5">AHU,ret, SZ</tspan></tspan></text>
+
 
 
 
@@ -6251,6 +6302,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6266,6 +6318,7 @@
      id="tspan6195-3-6-2-8-5">Δp<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1-4-1-9-2">AHU,sup, SZ</tspan></tspan></text>
+
 
 
 
@@ -6290,6 +6343,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.79412818px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.14951085px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6306,6 +6360,7 @@
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.24266315px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.14951085px">W<tspan
    style="font-style:italic;font-size:1.45772862px;baseline-shift:sub;stroke-width:0.14951085px"
    id="tspan4692-6-7-5-57-3-1-5-7-5-6-6-5-7-7-1-0-5-1-8-9-3-5-6-2-7-6-3-9-6">pum,emi,hea,NZ</tspan></tspan></text>
+
 
 
 
@@ -6330,6 +6385,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.79412818px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.14951085px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6346,6 +6402,7 @@
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.24266315px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.14951085px">W<tspan
    style="font-style:italic;font-size:1.45772862px;baseline-shift:sub;stroke-width:0.14951085px"
    id="tspan4692-6-7-5-57-3-1-5-7-5-6-6-5-7-7-1-0-5-1-8-9-3-5-6-2-7-6-3-9-2">pum,emi,coo,SZ</tspan></tspan></text>
+
 
 
 
@@ -6370,6 +6427,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.79412818px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.14951085px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6386,6 +6444,7 @@
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.24266315px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.14951085px">W<tspan
    style="font-style:italic;font-size:1.45772874px;baseline-shift:sub;stroke-width:0.14951085px"
    id="tspan4692-6-7-5-57-3-1-5-7-5-6-6-5-7-7-1-0-5-1-8-9-3-5-6-2-7-6-3-9-6-2">pum,AHU,,hea,NZ</tspan></tspan></text>
+
 
 
 
@@ -6410,6 +6469,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.79412818px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.14951085px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6426,6 +6486,7 @@
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.24266315px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.14951085px">W<tspan
    style="font-style:italic;font-size:1.45772874px;baseline-shift:sub;stroke-width:0.14951085px"
    id="tspan4692-6-7-5-57-3-1-5-7-5-6-6-5-7-7-1-0-5-1-8-9-3-5-6-2-7-6-3-9-2-6">pum,AHU,coo,SZ</tspan></tspan></text>
+
 
 
 
@@ -6447,6 +6508,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.24595892px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.10383002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6460,6 +6522,7 @@
      x="148.88986"
      y="40.02747"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.55745041px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.10383002px">.</tspan></text>
+
 
 
 
@@ -6481,6 +6544,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.24595892px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.10383002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6494,6 +6558,7 @@
      x="198.45319"
      y="40.007072"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.55745041px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.10383002px">.</tspan></text>
+
 
 
 
@@ -6515,6 +6580,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.24595892px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.10383002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6528,6 +6594,7 @@
      x="247.64331"
      y="40.587746"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.55745041px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.10383002px">.</tspan></text>
+
 
 
 
@@ -6549,6 +6616,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.24595892px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.10383002px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6562,6 +6630,7 @@
      x="299.1803"
      y="40.276352"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:1.55745041px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.10383002px">.</tspan></text>
+
 
 
 
@@ -6601,6 +6670,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6616,6 +6686,7 @@
      id="tspan6195-3-6-2-8-1-8">W<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1-4-1-9-26-5">AHU,sup, SZ</tspan></tspan></text>
+
 
 
 
@@ -6647,6 +6718,7 @@
 
 
 
+
 <g
    transform="matrix(-0.02305657,0,0,0.02305657,290.22769,-69.032653)"
    id="g8-3-3-3-7-0-2-2-5-0-6-3-9-7-3-6-3"><g
@@ -6674,6 +6746,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.04564309px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17047045px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6687,6 +6760,7 @@
      x="279.37698"
      y="-32.25491"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.5570569px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17047045px">.</tspan></text>
+
 
 
 
@@ -6708,6 +6782,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.04564309px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17047046px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6725,6 +6800,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.04564309px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17047046px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6738,6 +6814,7 @@
      x="334.38873"
      y="-132.09932"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.5570569px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17047046px">.</tspan></text>
+
 
 
 
@@ -6794,6 +6871,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6809,6 +6887,7 @@
      id="tspan6195-29-5-6-7-8-7">CO<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-39-3-2-7-0">2, SZ</tspan></tspan></text>
+
 
 
 
@@ -6832,6 +6911,7 @@
      y="-36.460999"
      style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:2.67760229px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17850681px"
      id="tspan6195-3-6-2-8-1-0">Legend</tspan></text>
+
 
 
 
@@ -6942,6 +7022,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.14207888px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17850681px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6955,6 +7036,7 @@
      y="-24.240009"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.67760229px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17850681px"
      id="tspan6195-3-6-2-8-1-0-8-3">Binary control input</tspan></text>
+
 
 
 
@@ -6978,6 +7060,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.14207888px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17850681px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -6991,6 +7074,7 @@
      y="-11.107023"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.67760229px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17850681px"
      id="tspan6195-3-6-2-8-1-0-8-3-3-7-3">Measurement</tspan></text>
+
 
 
 
@@ -7012,6 +7096,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.14207888px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17850681px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7025,6 +7110,7 @@
      y="3.6069334"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.67760229px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17850681px"
      id="tspan6195-3-6-2-8-1-0-8-3-3-7-3-8-0">Water flow</tspan></text>
+
 
 
 
@@ -7046,6 +7132,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.14207888px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17850681px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7059,6 +7146,7 @@
      y="15.751634"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.67760229px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17850681px"
      id="tspan6195-3-6-2-8-1-0-8-3-3-7-3-8-0-8-8">Internal control bus</tspan></text>
+
 
 
 
@@ -7142,6 +7230,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7157,6 +7246,7 @@
      id="tspan6195-29-7-0">T<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-2-1">set,sup,emi,hea,NZ</tspan></tspan></text>
+
 
 
 
@@ -7180,6 +7270,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7195,6 +7286,7 @@
      id="tspan6195-29-7-0-9">T<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-2-1-3">set,sup,emi,hea,SZ</tspan></tspan></text>
+
 
 
 
@@ -7218,6 +7310,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7233,6 +7326,7 @@
      id="tspan6195-29-7-0-5">T<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-2-1-5">set,sup,AHU,hea,NZ</tspan></tspan></text>
+
 
 
 
@@ -7256,6 +7350,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7271,6 +7366,7 @@
      id="tspan6195-29-7-0-9-2">T<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-0-2-1-3-6">set,sup,AHU,hea,SZ</tspan></tspan></text>
+
 
 
 
@@ -7294,6 +7390,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.65185678px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1376549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7309,6 +7406,7 @@
      id="tspan6195-29-92-5-8">T<tspan
    style="font-style:italic;font-size:1.34213328px;baseline-shift:sub;stroke-width:0.1376549px"
    id="tspan6197-0-9-5-6">sup,emi,coo,NZ</tspan></tspan></text>
+
 
 
 
@@ -7332,6 +7430,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.65185678px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1376549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7347,6 +7446,7 @@
      id="tspan6195-29-92-5-8-6">T<tspan
    style="font-style:italic;font-size:1.34213328px;baseline-shift:sub;stroke-width:0.1376549px"
    id="tspan6197-0-9-5-6-9">sup,emi,hea,NZ</tspan></tspan></text>
+
 
 
 
@@ -7370,6 +7470,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.65185678px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1376549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7385,6 +7486,7 @@
      id="tspan6195-29-92-5-8-62">T<tspan
    style="font-style:italic;font-size:1.34213328px;baseline-shift:sub;stroke-width:0.1376549px"
    id="tspan6197-0-9-5-6-2">sup,emi,coo,SZ</tspan></tspan></text>
+
 
 
 
@@ -7408,6 +7510,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.65185678px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1376549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7423,6 +7526,7 @@
      id="tspan6195-29-92-5-8-6-9">T<tspan
    style="font-style:italic;font-size:1.34213328px;baseline-shift:sub;stroke-width:0.1376549px"
    id="tspan6197-0-9-5-6-9-6">sup,emi,hea,SZ</tspan></tspan></text>
+
 
 
 
@@ -7446,6 +7550,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.65185678px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1376549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7461,6 +7566,7 @@
      id="tspan6195-29-92-5-8-1">T<tspan
    style="font-style:italic;font-size:1.34213328px;baseline-shift:sub;stroke-width:0.1376549px"
    id="tspan6197-0-9-5-6-6">sup,AHU,coo,NZ</tspan></tspan></text>
+
 
 
 
@@ -7484,6 +7590,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.65185678px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1376549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7499,6 +7606,7 @@
      id="tspan6195-29-92-5-8-6-1">T<tspan
    style="font-style:italic;font-size:1.34213328px;baseline-shift:sub;stroke-width:0.1376549px"
    id="tspan6197-0-9-5-6-9-2">sup,AHU,hea,NZ</tspan></tspan></text>
+
 
 
 
@@ -7522,6 +7630,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.65185678px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1376549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7537,6 +7646,7 @@
      id="tspan6195-29-92-5-8-62-0">T<tspan
    style="font-style:italic;font-size:1.34213328px;baseline-shift:sub;stroke-width:0.1376549px"
    id="tspan6197-0-9-5-6-2-1">sup,AHU,coo,SZ</tspan></tspan></text>
+
 
 
 
@@ -7560,6 +7670,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.65185678px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.1376549px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7575,6 +7686,7 @@
      id="tspan6195-29-92-5-8-6-9-8">T<tspan
    style="font-style:italic;font-size:1.34213328px;baseline-shift:sub;stroke-width:0.1376549px"
    id="tspan6197-0-9-5-6-9-6-2">sup,AHU,hea,SZ</tspan></tspan></text>
+
 
 
 
@@ -7598,6 +7710,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.9055512px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.15879612px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7613,6 +7726,7 @@
      id="tspan6195-29-6-0">T<tspan
    style="font-style:italic;font-size:1.54825974px;baseline-shift:sub;stroke-width:0.15879612px"
    id="tspan6197-0-36-5">ret,pro,coo</tspan></tspan></text>
+
 
 
 
@@ -7636,6 +7750,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.9055512px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.15879612px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7651,6 +7766,7 @@
      id="tspan6195-29-6-4-0">T<tspan
    style="font-style:italic;font-size:1.54825974px;baseline-shift:sub;stroke-width:0.15879612px"
    id="tspan6197-0-36-2-3">ret,pro,hea</tspan></tspan></text>
+
 
 
 
@@ -7674,6 +7790,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.62717748px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.13559827px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7689,6 +7806,7 @@
      id="tspan6195-29-92-5-8-6-9-8-9-3">T<tspan
    style="font-style:italic;font-size:1.32208121px;baseline-shift:sub;stroke-width:0.13559827px"
    id="tspan6197-0-9-5-6-9-6-2-0-3">ret,AHU,SZ</tspan></tspan></text>
+
 
 
 
@@ -7712,6 +7830,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.62717748px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.13559827px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7727,6 +7846,7 @@
      id="tspan6195-29-92-5-8-6-9-8-9-8">T<tspan
    style="font-style:italic;font-size:1.32208121px;baseline-shift:sub;stroke-width:0.13559827px"
    id="tspan6197-0-9-5-6-9-6-2-0-1">exh,AHU,SZ</tspan></tspan></text>
+
 
 
 
@@ -7750,6 +7870,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.62717748px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.13559827px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7765,6 +7886,7 @@
      id="tspan6195-29-92-5-8-6-9-8-9-8-8">T<tspan
    style="font-style:italic;font-size:1.32208121px;baseline-shift:sub;stroke-width:0.13559827px"
    id="tspan6197-0-9-5-6-9-6-2-0-1-1">exh,AHU,NZ</tspan></tspan></text>
+
 
 
 
@@ -7788,6 +7910,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.62717748px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.13559827px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7803,6 +7926,7 @@
      id="tspan6195-29-92-5-8-6-9-8-9-3-4">T<tspan
    style="font-style:italic;font-size:1.32208121px;baseline-shift:sub;stroke-width:0.13559827px"
    id="tspan6197-0-9-5-6-9-6-2-0-3-4">ret,AHU,SZ</tspan></tspan></text>
+
 
 
 
@@ -7826,6 +7950,7 @@
 
 
 
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:1.62717748px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.13559827px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7841,6 +7966,7 @@
      id="tspan6195-29-92-5-8-6-9-8-9-9-6-1">T<tspan
    style="font-style:italic;font-size:1.32208121px;baseline-shift:sub;stroke-width:0.13559827px"
    id="tspan6197-0-9-5-6-9-6-2-0-7-7-0">rec,AHU,SZ</tspan></tspan></text>
+
 
 
 
@@ -7891,6 +8017,7 @@
      id="tspan6195-3-6-2-8-1-5">W<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1-4-1-9-26-6">FCU, NZ</tspan></tspan></text>
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.04564309px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17047046px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7904,6 +8031,7 @@
      x="106.32314"
      y="7.420979"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.5570569px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17047046px">.</tspan></text>
+
 <g
    transform="matrix(-0.02305657,0,0,-0.02305657,162.53128,-1.2458908)"
    id="g8-3-3-3-7-0-2-2-5-0-6-3-9-7-7-3-1"><g
@@ -7928,6 +8056,7 @@
      id="tspan6195-3-6-2-8-1-5-3">W<tspan
    style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
    id="tspan6197-1-4-1-9-26-6-6">FCU, SZ</tspan></tspan></text>
+
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:2.04564309px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.17047048px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -7941,4 +8070,65 @@
      x="158.2934"
      y="7.4982324"
      style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.5570569px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.17047048px">.</tspan></text>
+
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   x="111.08487"
+   y="-60.542732"
+   id="text4152-0-3-7-4-5-00-3-2-2-19-8-0-1-6-5-9-3-0-36-2-92-6-0-0-36-2-2-4-7-2-19-66-3"
+   inkscape:export-xdpi="140.08725"
+   inkscape:export-ydpi="140.08725"><tspan
+     sodipodi:role="line"
+     x="111.08487"
+     y="-60.542732"
+     style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.92016029px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.19467734px"
+     id="tspan6195-29-5-6-7-6">T<tspan
+   style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
+   id="tspan6197-0-39-3-2-75">zon, perc, high, NZ</tspan></tspan></text>
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   x="111.32639"
+   y="-63.638992"
+   id="text4152-0-3-7-4-5-00-3-2-2-19-8-0-1-6-5-9-3-0-36-2-92-6-0-0-36-2-2-4-7-2-19-66-3-3"
+   inkscape:export-xdpi="140.08725"
+   inkscape:export-ydpi="140.08725"><tspan
+     sodipodi:role="line"
+     x="111.32639"
+     y="-63.638992"
+     style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.92016029px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.19467734px"
+     id="tspan6195-29-5-6-7-6-5">T<tspan
+   style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
+   id="tspan6197-0-39-3-2-75-6">zon, perc, low, NZ</tspan></tspan></text>
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   x="162.97267"
+   y="-60.838078"
+   id="text4152-0-3-7-4-5-00-3-2-2-19-8-0-1-6-5-9-3-0-36-2-92-6-0-0-36-2-2-4-7-2-19-66-3-2"
+   inkscape:export-xdpi="140.08725"
+   inkscape:export-ydpi="140.08725"><tspan
+     sodipodi:role="line"
+     x="162.97267"
+     y="-60.838078"
+     style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.92016029px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.19467734px"
+     id="tspan6195-29-5-6-7-6-9">T<tspan
+   style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
+   id="tspan6197-0-39-3-2-75-1">zon, perc, high, SZ</tspan></tspan></text>
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:2.33612537px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.19467734px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+   x="163.2142"
+   y="-63.93433"
+   id="text4152-0-3-7-4-5-00-3-2-2-19-8-0-1-6-5-9-3-0-36-2-92-6-0-0-36-2-2-4-7-2-19-66-3-3-2"
+   inkscape:export-xdpi="140.08725"
+   inkscape:export-ydpi="140.08725"><tspan
+     sodipodi:role="line"
+     x="163.2142"
+     y="-63.93433"
+     style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.92016029px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, Normal';text-align:start;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;stroke-width:0.19467734px"
+     id="tspan6195-29-5-6-7-6-5-7">T<tspan
+   style="font-style:italic;font-size:1.89810109px;baseline-shift:sub;stroke-width:0.19467734px"
+   id="tspan6197-0-39-3-2-75-6-0">zon, perc, low, SZ</tspan></tspan></text>
 </g></svg>
