@@ -41,17 +41,23 @@ def run():
     # GET TEST INFORMATION
     # --------------------
     # Inputs available
-    inputs = requests.get('{0}/inputs'.format(url)).json()
+    inputs = requests.get('{0}/inputs'.format(url)).json()['payload']
     with open('inputs.txt', 'w') as f:
         for i in sorted(inputs.keys()):
             if 'activate' not in i:
                 f.write('<li>\n<code>{0}</code> [{1}] [min={2}, max={3}]: {4}\n</li>\n'.format(i,inputs[i]['Unit'],inputs[i]['Minimum'], inputs[i]['Maximum'], inputs[i]['Description']))
     # Measurements available
-    measurements = requests.get('{0}/measurements'.format(url)).json()
+    measurements = requests.get('{0}/measurements'.format(url)).json()['payload']
     with open('measurements.txt', 'w') as f:
         for i in sorted(measurements.keys()):
             if 'activate' not in i:
                 f.write('<li>\n<code>{0}</code> [{1}] [min={2}, max={3}]: {4}\n</li>\n'.format(i,measurements[i]['Unit'],measurements[i]['Minimum'], measurements[i]['Maximum'], measurements[i]['Description']))
+    # Forecasts available
+    forecast_points = requests.get('{0}/forecast_points'.format(url)).json()['payload']
+    with open('forecast_points.txt', 'w') as f:
+        for i in sorted(forecast_points.keys()):
+            if 'activate' not in i:
+                f.write('<li>\n<code>{0}</code> [{1}]: {2}\n</li>\n'.format(i,forecast_points[i]['Unit'],forecast_points[i]['Description']))
     # --------------------
 
 if __name__ == "__main__":
