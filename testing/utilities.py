@@ -874,7 +874,7 @@ class partialTestAPI(partialChecks):
         res = requests.put('{0}/results'.format(self.url), data={'point_names': ["foo"],
                                                                  'start_time': 0.0 - self.step_ref,
                                                                  'final_time': self.step_ref*2.0})
-        self.compare_error_code(res, "Invalid point_name in get_results request did not return a 400 error.")
+        self.compare_error_code(res, "Invalid point_names in get_results request did not return a 400 error.")
 
     def test_invalid_submit(self):
         '''Test the submit API with invalid usage.
