@@ -41,8 +41,10 @@ class TestCase(object):
         # Set BOPTEST version number
         with open('version.txt', 'r') as f:
             self.version = f.read()
-        # Set test case fmu path
+        # Set test case fmu path and check if path exists and throw execption
         self.fmupath = fmupath
+        if not os.path.exists(fmupath) or not os.path.isfile(fmupath):
+            raise Exception("The test case FMU cannot be found. Check TESTCASE name entered correctly.")
         # Instantiate a data manager for this test case
         self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
