@@ -461,6 +461,51 @@ class Data_Manager(object):
         # Convert any string formatted numbers to floats.
         self.case.data = self.case.data.applymap(float)
 
+    def get_data_metadata(self):
+        '''Get the metadata of data.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        data_metadata: dict
+            {<variable>: {
+                    "Description":<string>,
+                    "Unit":<string>
+                    }
+            }
+
+        '''
+
+        data_metadata = dict()
+        for key in self.case.data.columns:
+            if 'InternalGainsRad' in key:
+                metadata = self.categories['internalGains']['InternalGainsRad']
+            elif 'InternalGainsCon' in key:
+                metadata = self.categories['internalGains']['InternalGainsCon']
+            elif 'InternalGainsLat' in key:
+                metadata = self.categories['internalGains']['InternalGainsLat']
+            elif 'Occupancy' in key:
+                metadata = self.categories['occupancy']['Occupancy']
+            elif 'LowerSetp' in key:
+                metadata = self.categories['setpoints']['LowerSetp']
+            elif 'UpperSetp' in key:
+                metadata = self.categories['setpoints']['UpperSetp']
+            elif 'UpperCO2' in key:
+                metadata = self.categories['setpoints']['UpperCO2']
+            else:
+                if key in self.categories['weather']:
+                    metadata = self.categories['weather'][key]
+                elif key in self.categories['prices']:
+                    metadata = self.categories['prices'][key]
+                elif key in self.categories['emissions']:
+                    metadata = self.categories['emissions'][key]
+            data_metadata[key] = metadata
+
+        return data_metadata
+
 
 if __name__ == "__main__":
     import sys

@@ -114,7 +114,7 @@ class TestCase(object):
         # Get input and output and forecast meta-data
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
-        self.forecasts_metadata = self.forecast_names
+        self.forecasts_metadata = self.data_manager.get_data_metadata()
         # Outputs data
         self.y = {'time': np.array([])}
         for key in self.output_names:
