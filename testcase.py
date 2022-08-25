@@ -78,8 +78,6 @@ class TestCase(object):
         self.forecast_names = list(self.data.keys())
         # Set default communication step
         self.set_step(self.config_json['step'])
-        # Set default forecast parameters
-        self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
         # Initialize simulation data arrays
         self.__initilize_data()
         # Set default fmu simulation options
@@ -749,111 +747,6 @@ class TestCase(object):
 
         return status, message, payload
 
-    def set_forecast_parameters(self, horizon, interval):
-        '''Sets the forecast horizon and interval, both in seconds.
-
-        Parameters
-        ----------
-        horizon: int or float
-            Forecast horizon in seconds.
-        interval: int or float
-            Forecast interval in seconds.
-
-        Returns
-        -------
-        status: int
-            Indicates whether a request for setting the forecast parameters has been completed.
-            If 200, the parameters were successfully set.
-            If 400, invalid horizon and/or interval (non-numeric) were identified.
-            If 500, an internal error occured.
-        message: str
-            Includes detailed debugging information.
-        payload : dict
-            Dictionary containing forecast parameters names and values:
-            {<parameter_name>:<parameter_value>}.
-            Returns None if error during setting.
-
-        '''
-
-        status = 200
-        message = "Forecast horizon and interval were set successfully."
-        payload = dict()
-        try:
-            horizon = float(horizon)
-        except:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter horizon. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(horizon, type(horizon))
-            logging.error(message)
-            return status, message, payload
-        try:
-            interval = float(interval)
-        except:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
-            logging.error(message)
-            return status, message, payload
-        if horizon < 0:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
-            logging.error(message)
-            return status, message, payload
-        if interval < 0:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter interval. Value must not be negative.".format(interval)
-            logging.error(message)
-            return status, message, payload
-        try:
-            self.horizon = horizon
-            self.interval = interval
-            payload['horizon'] = self.horizon
-            payload['interval'] = self.interval
-        except:
-            status = 500
-            message = "Failed to set forecast horizon and interval: {}".format(traceback.format_exc())
-            logging.error(message)
-        logging.info(message)
-
-        return status, message, payload
-
-    def get_forecast_parameters(self):
-        '''Returns the current forecast horizon and interval parameters.
-
-        Parameters
-        ----------
-        None
-
-        Returns
-        -------
-        status: int
-            Indicates whether a request for querying the forecast parameters has been completed.
-            If 200, the forecast parameters were successfully queried.
-            If 500, an internal error occurred.
-        message: str
-            Includes detailed debugging information .
-        payload: dict
-            Dictionary containing forecast parameters names and values.
-            {<parameter_name>:<parameter_value>}
-
-        '''
-
-        status = 200
-        message = "Queried the forecast parameters successfully."
-        payload = dict()
-        if self.horizon is not None and self.interval is not None:
-            payload['horizon'] = self.horizon
-            payload['interval'] = self.interval
-        else:
-            status = 500
-            message = "Failed to query the forecast parameters: {}".format(traceback.format_exc())
-            logging.error(message)
-        logging.info(message)
-
-        return status, message, payload
-
     def get_forecast_points(self):
         '''Returns a dictionary of available forecast points and their meta-data.
 
@@ -889,13 +782,17 @@ class TestCase(object):
 
         return status, message, payload
 
-    def get_forecast(self, point_names):
+    def get_forecast(self, point_names, horizon, interval):
         '''Returns the test case data forecast
 
         Parameters
         ----------
         point_names : list of str
             List of forecast point names for which to get data.
+        horizon: int or float
+            Forecast horizon in seconds.
+        interval: int or float
+            Forecast interval in seconds.
 
         Returns
         -------
@@ -917,10 +814,39 @@ class TestCase(object):
         # Get the forecast
         status = 200
         message = "Queried the forecast data successfully."
+        # Check inputs
+        try:
+            horizon = float(horizon)
+        except:
+            payload = None
+            status = 400
+            message = "Invalid value {} for parameter horizon. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(horizon, type(horizon))
+            logging.error(message)
+            return status, message, payload
+        try:
+            interval = float(interval)
+        except:
+            payload = None
+            status = 400
+            message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
+            logging.error(message)
+            return status, message, payload
+        if horizon < 0:
+            payload = None
+            status = 400
+            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
+            logging.error(message)
+            return status, message, payload
+        if interval < 0:
+            payload = None
+            status = 400
+            message = "Invalid value {} for parameter interval. Value must not be negative.".format(interval)
+            logging.error(message)
+            return status, message, payload
         try:
             payload = self.forecaster.get_forecast(point_names,
-                                                   horizon=self.horizon,
-                                                   interval=self.interval)
+                                                   horizon=horizon,
+                                                   interval=interval)
         except:
             status = 500
             message = "Failed to query the test case forecast data: {}".format(traceback.format_exc())
