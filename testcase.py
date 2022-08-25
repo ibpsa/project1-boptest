@@ -44,7 +44,7 @@ class TestCase(object):
         # Set test case fmu path and check if path exists and throw execption
         self.fmupath = fmupath
         if not os.path.exists(fmupath) or not os.path.isfile(fmupath):
-            raise Exception("The TESTCASE name does not exist in available testcases. Check TESTCASE name entered correctly.")     
+            raise Exception("The test case FMU cannot be found. Check TESTCASE name entered correctly.")
         # Instantiate a data manager for this test case
         self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
@@ -55,7 +55,7 @@ class TestCase(object):
         self.name = self.config_json['name']
         # Load fmu
         self.fmu = load_fmu(self.fmupath)
-        self.fmu.set_log_level(7)   
+        self.fmu.set_log_level(7)
         # Configure the log, log file, and console output
         name = 'boptest_{0}'.format(self.name)
         fmt = '%(asctime)s UTC\t%(name)-20s%(levelname)s\t%(message)s'
@@ -65,7 +65,7 @@ class TestCase(object):
         logger = logging.getLogger()
         stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(formatter)
-        logger.addHandler(stream_handler) 
+        logger.addHandler(stream_handler)
         # Get version and check is 2.0
         self.fmu_version = self.fmu.get_version()
         if self.fmu_version != '2.0':
