@@ -2,10 +2,10 @@ within BuildingEmulators.Templates.Examples;
 model FanCoilUnitsExample
     extends .Modelica.Icons.Example;
     .BuildingEmulators.Components.FanCoilUnit fanCoilUnit(
-        mAir_flow_nominal = 10, 
+        mAir_flow_nominal = 10,
         QCoo_flow_nominal = -1e5,
         TCoo_a1_nominal = 273.15 + 7,
-        TCoo_a2_nominal = 273.15 + 26, 
+        TCoo_a2_nominal = 273.15 + 26,
         QHea_flow_nominal = 1e5,
         THea_a1_nominal = 273.15 + 70,
         THea_a2_nominal = 273.15 + 15) annotation(Placement(transformation(extent = {{-10,24},{10,44}},origin = {0,0},rotation = 0)));
@@ -21,7 +21,7 @@ model FanCoilUnitsExample
     .IDEAS.Fluid.Sources.MassFlowSource_T heaSup(redeclare package Medium = .IDEAS.Media.Water,m_flow = 10,T = 313.15,nPorts = 1) annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},rotation = 90.0,origin = {8.0,-38.0})));
     .Buildings.Fluid.Sources.Boundary_pT sinkHea(nPorts = 1,use_T_in = false,redeclare package Medium = .IDEAS.Media.Water) annotation(Placement(transformation(extent = {{62.0,0.0},{42.0,20.0}},origin = {0.0,0.0},rotation = 0.0)));
     .Buildings.Fluid.Sources.Boundary_pT sinkCoo(redeclare package Medium = .IDEAS.Media.Water,use_T_in = false,nPorts = 1) annotation(Placement(transformation(extent = {{62.0,-26.0},{42.0,-6.0}},origin = {0.0,0.0},rotation = 0.0)));
-    
+
 equation
     fanCoilUnit.TMax = 273.15+26;
     fanCoilUnit.TMin = 273.15+21;
@@ -32,6 +32,6 @@ equation
     connect(sine.y,zon.T_in) annotation(Line(points = {{-79,70},{-71.5,70},{-71.5,86},{-64,86}},color = {0,0,127}));
     connect(sinkHea.ports[1],fanCoilUnit.port_hea_b) annotation(Line(points = {{42,10},{4,10},{4,24}},color = {0,127,255}));
     connect(sinkCoo.ports[1],fanCoilUnit.port_coo_b) annotation(Line(points = {{42,-16},{-3,-16},{-3,24}},color = {0,127,255}));
-    
+
     annotation(Icon(coordinateSystem(preserveAspectRatio = false,extent = {{-100.0,-100.0},{100.0,100.0}}),graphics = {Text(lineColor={0,0,255},extent={{-150,150},{150,110}},textString="%name")}));
 end FanCoilUnitsExample;

@@ -116,6 +116,10 @@ heating_cooling_reaTSupProHea_y,326.15
 structure_reaCO2ZonNz_y,400.0008289119202
 structure_reaCO2ZonSz_y,400.0008289119202
 structure_reaTZonNz_y,294.69989290885536
+structure_reaTZonPercHighNz_y,295.69989290885536
+structure_reaTZonPercHighSz_y,295.73542655682405
+structure_reaTZonPercLowNz_y,293.69989290885536
+structure_reaTZonPercLowSz_y,293.73542655682405
 structure_reaTZonSz_y,294.73542655682405
 time,43200.0
 ventilation_reaPAhuRetNz_y,0.0
