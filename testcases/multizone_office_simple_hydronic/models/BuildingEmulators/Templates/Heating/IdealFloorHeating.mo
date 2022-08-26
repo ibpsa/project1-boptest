@@ -25,13 +25,13 @@ equation
   annotation (Documentation(info="<html>
 <p>
 This model represents an ideal heating system with a hysteresis controller.
-It reacts instantly when the zone temperature input <code>TSensor</code> is
+It reacts instantly when the zone temperature input <code>TSensor</code> is 
 below <code>TSet</code> by supplying the nominal
 heat flow rate <code>QNom</code>.
 This heat flow rate is maintained until <code>TSensor</code> is above <code>TSet+dTHys</code>.
 </p>
 <p>
-The <code>COP</code> is used to compute the electric power that is drawn from
+The <code>COP</code> is used to compute the electric power that is drawn from 
 the elecrical grid. It can be ignored if it is not of interest.
 </p>
 </html>", revisions="<html>
