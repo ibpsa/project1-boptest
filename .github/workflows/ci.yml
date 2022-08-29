@@ -60,6 +60,20 @@ jobs:
       - name: Dump docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v1
+      
+      - name: Log in to the GitHub container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_REGISTRY }}
+        
+      - name: Publish docker images to GitHub Registry
+        if: |
+          github.ref == 'refs/heads/boptest-service' ||
+          contains(github.ref, 'refs/tags') 
+        shell: bash
+        run: ./.github/workflows/publish_to_github.sh
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -67,7 +81,7 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
 
-      - name: Publish docker images
+      - name: Publish docker images to Docker Hub
         if: |
           github.ref == 'refs/heads/boptest-service' ||
           contains(github.ref, 'refs/tags') 
