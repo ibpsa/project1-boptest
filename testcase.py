@@ -672,7 +672,7 @@ class TestCase(object):
                     payload[point_name] = self.u_store[point_name]
                 else:
                     status = 400
-                    message = "Invalid value {} for parameter point_names.  Check lists of inputs and measurements.".format(point_names)
+                    message = "Invalid point name {} in parameter point_names.  Check lists of available inputs and measurements.".format(point_name)
                     logging.error(message)
                     return status, message, None
             if any(item in point_names for item in self.y_store.keys()):
