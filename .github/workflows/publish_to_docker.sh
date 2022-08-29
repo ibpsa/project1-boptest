@@ -17,7 +17,7 @@ export DOCKER_HUB_WORKER_REGISTRY_URI=tijcolem/boptest-worker
 # testing only. remove when done.
 VERSION_TAG="experimental"
 
- if [[ "${VERSION_TAG}" == "develop" ]] || [[ "${VERSION_TAG}" =~ ^v[0-9].*-service ]] || [[ "${VERSION_TAG}" == "experimental" ]]    ; then
+ if [[ "${VERSION_TAG}" == "develop" ]] || [[ "${VERSION_TAG}" =~ ^v[0-9].*-service ]] || [[ "${VERSION_TAG}" == "experimental" ]] ; then
 
     docker tag ${WEB_REGISTRY_URI}:latest ${DOCKER_HUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
     docker tag ${WORKER_REGISTRY_URI}:latest ${DOCKER_HUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
