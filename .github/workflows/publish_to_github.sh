@@ -19,13 +19,13 @@ VERSION_TAG="experimental"
 
  if [[ "${VERSION_TAG}" == "develop" ]] || [[ "${VERSION_TAG}" =~ ^v[0-9].*-service ]] ; then
 
-    docker tag ${WEB_REGISTRY_URI}:latest ${DOCKER_HUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
-    docker tag ${WORKER_REGISTRY_URI}:latest ${DOCKER_HUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
+    docker tag ${WEB_REGISTRY_URI}:latest ${GITHUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
+    docker tag ${WORKER_REGISTRY_URI}:latest ${GITHUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
 
-    echo "pushing ${DOCKER_HUB_WEB_REGISTRY_URI}:${VERSION_TAG}"
-    docker push ${DOCKER_HUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
-    echo "pushing ${DOCKER_HUB_WORKER_REGISTRY_URI}:${VERSION_TAG}"
-    docker push ${DOCKER_HUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
+    echo "pushing ${GITHUB_WEB_REGISTRY_URI}:${VERSION_TAG}"
+    docker push ${GITHUB_WEB_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
+    echo "pushing ${GITHUB_WORKER_REGISTRY_URI}:${VERSION_TAG}"
+    docker push ${GITHUB_WORKER_REGISTRY_URI}:${VERSION_TAG}; (( exit_status = exit_status || $? ))
 
 fi
 
