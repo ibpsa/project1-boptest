@@ -45,7 +45,7 @@ For example, the third quartile value for ``tdis_tot`` is 9.8 K*h.
 The testing result beyond that value probably needs further attention (e.g., doublecheck the benchmark results within the testcase).
 
 <div align="center">
-<h4 align="center"> Statistic Summary Table of All Scenarios for All Testcases </h4>
+<h4 align="center"> Statistic Summary Table of All Scenarios </h4>
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
@@ -59,7 +59,7 @@ The testing result beyond that value probably needs further attention (e.g., dou
 | max   |       29.1 |    14853   |      12.42 |      0.942 |       2.25 |      0.033 |      0.121 |       0.09 |    0.011904 |
 </div>
 
-<h4 align="center">Boxplot</h4>
+<h4 align="center">Boxplot of KPI Distribution for All Scenarios</h4>
 
 <p align="center">
   <img src="./img/boxplot_all_summary.png" alt="boxplot_all_summary"/>
