@@ -126,7 +126,7 @@ From there, one could benchmark some hard-to-judge KPIs from the statistics and 
 | 50%   |        5.6 |     1221.9 |       1.91 |      0.056 |       0.81 |      0.022 |      0.042 |        nan |   4.4e-05  |
 | 75%   |        6.8 |     1222.3 |       2.46 |      0.107 |       1.32 |      0.026 |      0.082 |        nan |   4.4e-05  |
 | max   |        9.3 |     1223.1 |       4.78 |      0.167 |       2.02 |      0.033 |      0.121 |        nan |   0.01126  |
-| count |      361   |      361   |     361    |    361     |     361    |    361     |    361     |          0 | 361        |
+| count |      344   |      344   |     344    |    344     |     344    |    344     |    344     |          0 | 344        |
 </div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase bestest_air </h4>
@@ -188,7 +188,7 @@ From there, one could benchmark some hard-to-judge KPIs from the statistics and 
 | 50%   |        5.2 |       30.3 |       1.03 |      0.096 |       0.35 |      0.02  |        nan |        nan |   0.000161 |
 | 75%   |        7.7 |       76   |       1.35 |      0.127 |       0.46 |      0.024 |        nan |        nan |   0.00017  |
 | max   |       13.3 |      712.2 |       2.26 |      0.246 |       0.77 |      0.033 |        nan |        nan |   0.011904 |
-| count |      358   |      358   |     358    |    358     |     358    |    358     |          0 |          0 | 358        |
+| count |      344   |      344   |     344    |    344     |     344    |    344     |          0 |          0 | 344        |
 </div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase multizone_office_simple_air </h4>
@@ -240,7 +240,7 @@ From there, one could benchmark some hard-to-judge KPIs from the statistics and 
 | 50%   |       19.2 |          0 |       9.8  |      0.505 |       1.77 |          0 |      0.118 |        nan |    4.1e-05 |
 | 75%   |       22.4 |          0 |      10.53 |      0.542 |       1.9  |          0 |      0.118 |        nan |    4.1e-05 |
 | max   |       28   |          0 |      12.42 |      0.636 |       2.25 |          0 |      0.118 |        nan |    6e-05   |
-| count |       99   |         99 |      99    |     99     |      99    |         99 |     99     |          0 |   99       |
+| count |       93   |         93 |      93    |     93     |      93    |         93 |     93     |          0 |   93       |
 </div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase bestest_hydronic </h4>
@@ -292,7 +292,7 @@ From there, one could benchmark some hard-to-judge KPIs from the statistics and 
 | 50%   |       11.2 |          0 |       4.93 |      0.528 |       0.89 |      0     |      0.118 |        nan |    4e-05   |
 | 75%   |       20.4 |          0 |       9.87 |      0.865 |       1.78 |      0.019 |      0.118 |        nan |    4.1e-05 |
 | max   |       27.4 |          0 |      11.15 |      0.942 |       2.02 |      0.019 |      0.118 |        nan |    4.5e-05 |
-| count |       99   |         99 |      99    |     99     |      99    |     99     |     62     |          0 |   99       |
+| count |       93   |         93 |      93    |     93     |      93    |     93     |     62     |          0 |   93       |
 </div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase bestest_hydronic_heat_pump </h4>
@@ -344,7 +344,7 @@ From there, one could benchmark some hard-to-judge KPIs from the statistics and 
 | 50%   |       21.8 |    10497.6 |       6.1  |      0.603 |       1.06 |      0.002 |      0.096 |        nan |   0.00013  |
 | 75%   |       23.6 |    11257.2 |       7.12 |      0.698 |       1.24 |      0.002 |      0.096 |        nan |   0.000176 |
 | max   |       29.1 |    14853   |       8.16 |      0.796 |       1.43 |      0.007 |      0.096 |        nan |   0.001539 |
-| count |       99   |       99   |      99    |     99     |      99    |     99     |     99     |          0 |  99        |
+| count |       93   |       93   |      93    |     93     |      93    |     93     |     93     |          0 |  93        |
 </div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase multizone_residential_hydronic </h4>
@@ -396,7 +396,7 @@ From there, one could benchmark some hard-to-judge KPIs from the statistics and 
 | 50%   |        7   |     2999.3 |       3.87 |      0.303 |       0.48 |      0.006 |        nan |       0.09 |   6.9e-05  |
 | 75%   |        8.2 |     5654.1 |       4.36 |      0.346 |       0.54 |      0.006 |        nan |       0.09 |   7.2e-05  |
 | max   |       11.3 |    12196.2 |       4.97 |      0.397 |       0.61 |      0.006 |        nan |       0.09 |   0.011796 |
-| count |       99   |       99   |      99    |     99     |      99    |     99     |          0 |      99    |  99        |
+| count |       93   |       93   |      93    |     93     |      93    |     93     |          0 |      93    |  93        |
 </div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase singlezone_commercial_hydronic </h4>
