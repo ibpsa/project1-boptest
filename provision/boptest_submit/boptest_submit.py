@@ -32,7 +32,7 @@ class BoptestSubmit:
         # meet the requirements here. We need to actually try upload
         # before we know if the infrastructure is ready.
         attempts = 0
-        while attempts < 6000:
+        while attempts < 2:
             attempts = attempts + 1
             response = self._attempt_submit(path, testcaseid)
             if response:
@@ -47,6 +47,7 @@ class BoptestSubmit:
             # Get a template for the file upload form data
             # The server has an api to give this to us
             url = self.server + '/testcases/' + testcaseid + '/post-form'
+            print(url)
             response = requests.get(url)
             if response.status_code != 200:
                 return False
@@ -84,7 +85,7 @@ class BoptestSubmit:
 
     def _wait_for_testcase(self, testcaseid):
         attempts = 0
-        while attempts < 6000:
+        while attempts < 2:
             attempts = attempts + 1
             if self._exists(testcaseid):
                 break
