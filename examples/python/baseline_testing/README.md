@@ -42,8 +42,8 @@ The high-level [statistical results for all the testcases](#summary-results-for-
 The following table shows the statistics of the KPIs for all the testcases. 
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
-| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |           1 |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
+| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |           1 |
 | mean  |        8.8 |     1649.5 |       3.24 |      0.228 |       0.81 |      0.015 |      0.074 |       0.09 |    0.000122 |
 | std   |        6.5 |     3101.9 |       2.99 |      0.231 |       0.54 |      0.01  |      0.044 |       0    |    0.000608 |
 | min   |        0.2 |        0   |       0.1  |      0.009 |       0.03 |      0     |      0     |       0.08 |    2e-05    |
