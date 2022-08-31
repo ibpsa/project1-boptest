@@ -161,6 +161,7 @@ To provide a convincing benchmark, the heating month average, cooling month aver
   <img src="./img/scatterplot_multizone_office_simple_air.png" alt="scatterplot_multizone_office_simple_air"/>
 </p>
 
+<div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for multizone_office_simple_air </h4>
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
@@ -172,7 +173,7 @@ To provide a convincing benchmark, the heating month average, cooling month aver
 | 75%   |        7.7 |       76   |       1.35 |      0.127 |       0.46 |      0.024 |        nan |        nan |   0.00017  |
 | max   |       13.3 |      712.2 |       2.26 |      0.246 |       0.77 |      0.033 |        nan |        nan |   0.011904 |
 | count |      358   |      358   |     358    |    358     |     358    |    358     |          0 |          0 | 358        |
-
+</div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase multizone_office_simple_air </h4>
 
@@ -205,8 +206,8 @@ To provide a convincing benchmark, the heating month average for different KPIs 
   <img src="./img/scatterplot_bestest_hydronic.png" alt="scatterplot_bestest_hydronic"/>
 </p>
 
+<div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for bestest_hydronic </h4>
-
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
 | mean  |       18.3 |          0 |       9.21 |      0.476 |       1.67 |          0 |      0.118 |        nan |    4e-05   |
@@ -217,6 +218,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 | 75%   |       22.4 |          0 |      10.53 |      0.542 |       1.9  |          0 |      0.118 |        nan |    4.1e-05 |
 | max   |       28   |          0 |      12.42 |      0.636 |       2.25 |          0 |      0.118 |        nan |    6e-05   |
 | count |       99   |         99 |      99    |     99     |      99    |         99 |     99     |          0 |   99       |
+</div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase bestest_hydronic </h4>
 
@@ -249,6 +251,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
   <img src="./img/scatterplot_bestest_hydronic_heat_pump.png" alt="scatterplot_bestest_hydronic_heat_pump"/>
 </p>
 
+<div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for bestest_hydronic_heat_pump </h4>
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
@@ -260,7 +263,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 | 75%   |       20.4 |          0 |       9.87 |      0.865 |       1.78 |      0.019 |      0.118 |        nan |    4.1e-05 |
 | max   |       27.4 |          0 |      11.15 |      0.942 |       2.02 |      0.019 |      0.118 |        nan |    4.5e-05 |
 | count |       99   |         99 |      99    |     99     |      99    |     99     |     62     |          0 |   99       |
-
+</div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase bestest_hydronic_heat_pump </h4>
 
@@ -293,6 +296,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
   <img src="./img/scatterplot_multizone_residential_hydronic.png" alt="scatterplot_multizone_residential_hydronic"/>
 </p>
 
+<div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for multizone_residential_hydronic </h4>
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
@@ -304,7 +308,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 | 75%   |       23.6 |    11257.2 |       7.12 |      0.698 |       1.24 |      0.002 |      0.096 |        nan |   0.000176 |
 | max   |       29.1 |    14853   |       8.16 |      0.796 |       1.43 |      0.007 |      0.096 |        nan |   0.001539 |
 | count |       99   |       99   |      99    |     99     |      99    |     99     |     99     |          0 |  99        |
-
+</div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase multizone_residential_hydronic </h4>
 
@@ -337,6 +341,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
   <img src="./img/scatterplot_singlezone_commercial_hydronic.png" alt="scatterplot_singlezone_commercial_hydronic"/>
 </p>
 
+<div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for singlezone_commercial_hydronic </h4>
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
@@ -348,7 +353,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 | 75%   |        8.2 |     5654.1 |       4.36 |      0.346 |       0.54 |      0.006 |        nan |       0.09 |   7.2e-05  |
 | max   |       11.3 |    12196.2 |       4.97 |      0.397 |       0.61 |      0.006 |        nan |       0.09 |   0.011796 |
 | count |       99   |       99   |      99    |     99     |      99    |     99     |          0 |      99    |  99        |
-
+</div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase singlezone_commercial_hydronic </h4>
 
