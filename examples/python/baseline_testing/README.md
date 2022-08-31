@@ -105,7 +105,7 @@ To provide a convincing benchmark, the heating month average, cooling month aver
   <img src="./img/scatterplot_bestest_air.png" alt="scatterplot_bestest_air"/>
 </p>
 
-<center>
+<div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for Testcase bestest_air </h4>
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
@@ -118,7 +118,7 @@ To provide a convincing benchmark, the heating month average, cooling month aver
 | 75%   |        6.8 |     1222.3 |       2.46 |      0.107 |       1.32 |      0.026 |      0.082 |        nan |   4.4e-05  |
 | max   |        9.3 |     1223.1 |       4.78 |      0.167 |       2.02 |      0.033 |      0.121 |        nan |   0.01126  |
 | count |      361   |      361   |     361    |    361     |     361    |    361     |    361     |          0 | 361        |
-</center>
+</div>
 
 <h4 align="center"> Boxplot of All-Scenario Testing Results for Testcase bestest_air </h4>
 
