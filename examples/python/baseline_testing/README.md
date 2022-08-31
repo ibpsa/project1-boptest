@@ -2,20 +2,20 @@
 
 This folder contains examples and results for performing testing of baseline controllers for different testcases.
 
-## Baseline Controller Implementation
+## Baseline Controller and Test Case Implementation
 
-- The baseline controllers are incorporated in the testcase models.
-The control modules for each testcases in ``../controllers`` follow the structure as described above 
-(see upper directory ``../README.md`` for instructions on deploying a control test case).
-The function ``compute_control`` is psuedo. The control inputs will not be overwritten by this external controller. 
+- Baseline controller module files ``<TestCase>scenario.py`` and test scripts ``testcase<TestCase>scenario.py`` will be used for running an example baseline test.
 
-- For test scripts for performing the baseline control test, user could specify the combination of
+- ``<TestCase>scenario.py``: The baseline control modules for each testcases are located in ``../controllers``. The baseline controllers are actually incorporated in the testcase models.
+The function ``compute_control`` is psuedo. The control inputs will not be overwritten by this external controller. Thus, baseline controllers in the testcase models will be used. 
+
+- ``testcase<TestCase>scenario.py``: For test scripts for performing the baseline control test, user could specify the combination of
 simulation start, warmup_period, and length or a predefined test case scenario. For the default setting of the baseline tests,
  scenarios with different electricity prices and time periods will be  simulated. 
 
 ## Run an Example Baseline Test
-- First, deploy the test case corresponding to the desired example as described above (see repository root ``README.md`` for instructions on deploying a test case).
-- Then, use ``$ python testcase<...>scenario.py`` depending on the desired example from those defined above.
+- First, deploy the test case corresponding to the desired example (see repository root ``README.md`` for instructions on deploying a test case).
+- Then, use ``$ python testcase<TestCase>scenario.py`` depending on the desired example from those defined above.
 
 ## Baseline Testing Scenarios
 Two-week simulation are conducted with three electricity price schemes and representative time periods for each testcase. Please see ``root/Testcases/README.md`` for different predefined scenarios for each testcase. 
