@@ -18,9 +18,13 @@ simulation start, warmup_period, and length or a predefined test case scenario. 
 - Then, use ``$ python testcase<...>scenario.py`` depending on the desired example from those defined above.
 
 ## Baseline Testing Scenarios
-Two-week simulation are conducted with three electricity price schemes and representative time periods for each testcase. 
-Please see ``root/Testcases/README.md`` for different predefined scenarios for each testcase. For each scenario, one week simulation before ``time_period`` is conducted for the warm-up and two-week simulation is then conducted.
-The results of these representative scenarios are also compared with the average results of one year/heating season (that depends on the testcases) with a rolling window of two weeks. In total 3180 scenarios are simulated for different testcases with various time periods and three electricity price schemes. However, it is noted that the baseline controls do not use price signal information, and therefore the KPI results are the same for scenarios with different electricity price schemes except the total cost and controller computational time ratio. For the KPIs including the cost and controller computational time ratio, we consider all 3180 scenarios. To avoid the repitition, we only show the baseline results of one electricity price scheme for rest of KPIs.
+Two-week simulation are conducted with three electricity price schemes and representative time periods for each testcase. Please see ``root/Testcases/README.md`` for different predefined scenarios for each testcase. 
+
+For each scenario, one week simulation before ``time_period`` is conducted for the warm-up and two-week simulation is then conducted.
+The results of these representative scenarios are also compared with the average results of one year/heating season (that depends on the testcases) with a rolling window of two weeks. 
+In total 3180 scenarios are simulated for different testcases with various time periods and three electricity price schemes. 
+However, it is noted that the baseline controls do not use price signal information, and therefore the KPI results are the same for scenarios with different electricity price schemes except the total cost and controller computational time ratio. 
+For the KPIs including the cost and controller computational time ratio, we consider all 3180 scenarios. To avoid the repitition, we only show the baseline results of one electricity price scheme (in total 1060 cases as shown below) for rest of KPIs.
 
 The high-level [statistical results for all the testcases](#summary-results-for-all-the-testcases)are summarized first. Then [the by-testcase results](#detailed-results-for-each-testcase) are individually illustrated for the following testcases:
 
@@ -36,15 +40,16 @@ The high-level [statistical results for all the testcases](#summary-results-for-
 
 The following table shows the statistics of the KPIs for all the testcases.
 
-|       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |     time_rat |
-|:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-------------:|
-| mean  |   10.2222  |    2122.74 |    3.61333 |   0.279407 |   0.808889 |  0.0145    |  0.088     | 0.085      |  6.14259e-05 |
-| std   |    7.56388 |    3926.85 |    3.14719 |   0.275812 |   0.547659 |  0.0105933 |  0.0432533 | 0.00547723 |  4.05991e-05 |
-| min   |    0.9     |       0    |    0.31    |   0.014    |   0.11     |  0         |  0         | 0.08       |  2e-05       |
-| 25%   |    5.6     |       0    |    1.77    |   0.057    |   0.36     |  0.005     |  0.096     | 0.08       |  3.3e-05     |
-| 50%   |    7.85    |      50.1  |    2.46    |   0.1605   |   0.72     |  0.0155    |  0.104     | 0.085      |  4.35e-05    |
-| 75%   |   11.8     |    1222.1  |    3.72    |   0.46575  |   1.03     |  0.023     |  0.118     | 0.09       |  9.55e-05    |
-| max   |   27.9     |   12196.2  |   12.24    |   0.909    |   2.21     |  0.033     |  0.121     | 0.09       |  0.000259    |
+|       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
+| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |           1 |
+|:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|------------:|
+| mean  |        8.8 |     1649.5 |       3.24 |      0.228 |       0.81 |      0.015 |      0.074 |       0.09 |    0.000122 |
+| std   |        6.5 |     3101.9 |       2.99 |      0.231 |       0.54 |      0.01  |      0.044 |       0    |    0.000608 |
+| min   |        0.2 |        0   |       0.1  |      0.009 |       0.03 |      0     |      0     |       0.08 |    2e-05    |
+| 25%   |        4.8 |        0   |       1.19 |      0.054 |       0.42 |      0.005 |      0.033 |       0.09 |    4.2e-05  |
+| 50%   |        6.7 |      263.9 |       2.05 |      0.122 |       0.67 |      0.017 |      0.093 |       0.09 |    4.6e-05  |
+| 75%   |        9.8 |     1222.2 |       4.28 |      0.349 |       1.17 |      0.023 |      0.117 |       0.09 |    0.000158 |
+| max   |       29.1 |    14853   |      12.42 |      0.942 |       2.25 |      0.033 |      0.121 |       0.09 |    0.011904 |
 
 
 ## Detailed results for each testcase
