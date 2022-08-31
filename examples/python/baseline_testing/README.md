@@ -40,10 +40,11 @@ The high-level [statistical results for all the testcases](#summary-results-for-
 ## Summary results for all the testcases
 
 The following table shows the statistics of the KPIs for all the testcases and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
-From there, one could benchmark some hard-to-judge KPIs using the baseline testing data of all the testcases. 
+From there, one could benchmark some hard-to-judge KPIs using the baseline testing data from all the testcases. 
 For example, the third quartile value for ``tdis_tot`` is 9.8 K*h.
 The testing result beyond that value probably needs further attention (e.g., doublecheck the benchmark results within the testcase).
 
+<div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for All Testcases </h4>
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |    time_rat |
@@ -56,6 +57,7 @@ The testing result beyond that value probably needs further attention (e.g., dou
 | 50%   |        6.7 |      263.9 |       2.05 |      0.122 |       0.67 |      0.017 |      0.093 |       0.09 |    4.6e-05  |
 | 75%   |        9.8 |     1222.2 |       4.28 |      0.349 |       1.17 |      0.023 |      0.117 |       0.09 |    0.000158 |
 | max   |       29.1 |    14853   |      12.42 |      0.942 |       2.25 |      0.033 |      0.121 |       0.09 |    0.011904 |
+</div>
 
 <h4 align="center">Boxplot</h4>
 
@@ -73,6 +75,8 @@ For each testcase, the baseline testing results are visualized by a scatterplot 
 
 The baseline testing results for the typical days with constant pricing scenario is tabulated in the following table and depicted in the scatterplot. 
 To provide a convincing benchmark, the heating month average, cooling month average, and annual average for different KPIs are provided in the last three rows.
+For a specific sceanrio (e.g., constant+peak_cool_day), one could compare the customized controller performance with the baseline case results (row 2).
+In addition, the cooling month average (row 16) and annual average results could be compared (row 17). 
 
 
 <h4 align="center"> Typical Day Testing Result Table for Testcase bestest_air </h4>
@@ -105,6 +109,10 @@ To provide a convincing benchmark, the heating month average, cooling month aver
   <img src="./img/scatterplot_bestest_air.png" alt="scatterplot_bestest_air"/>
 </p>
 
+The following table shows the statistics of the KPIs for Testcase bestest_air and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
+From there, one could benchmark some hard-to-judge KPIs from the statistics and distributions. 
+
+
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for Testcase bestest_air </h4>
 
@@ -130,6 +138,8 @@ To provide a convincing benchmark, the heating month average, cooling month aver
 
 The baseline testing results for the typical days with constant pricing scenario is tabulated in the following table and depicted in the scatterplot.  
 To provide a convincing benchmark, the heating month average, cooling month average, and annual average for different KPIs are provided in the last three rows.
+For a specific sceanrio (e.g., constant+peak_cool_day), one could compare the customized controller performance with the baseline case results (row 2).
+In addition, the cooling month average (row 16) and annual average results could be compared (row 17). 
 
 <h4 align="center"> Typical Day Testing Result Table for Testcase multizone_office_simple_air </h4>
 
@@ -187,6 +197,8 @@ To provide a convincing benchmark, the heating month average, cooling month aver
 
 The baseline testing results for the typical days with constant pricing scenario is tabulated in the following table and depicted in the scatterplot.  
 To provide a convincing benchmark, the heating month average for different KPIs is provided in the last row.
+For a specific sceanrio (e.g., constant+peak_heat_day), one could compare the customized controller performance with the baseline case results (row 0).
+In addition, the heating month average results could be compared (row 6). 
 
 <h4 align="center"> Typical Day Testing Result Table for Testcase bestest_hydronic </h4>
 
@@ -233,6 +245,8 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 
 The baseline testing results for the typical days with constant pricing scenario is tabulated in the following table and depicted in the scatterplot.  
 To provide a convincing benchmark, the heating month average for different KPIs is provided in the last row.
+For a specific sceanrio (e.g., constant+peak_heat_day), one could compare the customized controller performance with the baseline case results (row 0).
+In addition, the heating month average results could be compared (row 6). 
 
 <h4 align="center"> Typical Day Testing Result Table for Testcase bestest_hydronic_heat_pump </h4>
 
@@ -279,6 +293,8 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 
 The baseline testing results for the typical days with constant pricing scenario is tabulated in the following table and depicted in the scatterplot.  
 To provide a convincing benchmark, the heating month average for different KPIs is provided in the last row.
+For a specific sceanrio (e.g., constant+peak_heat_day), one could compare the customized controller performance with the baseline case results (row 0).
+In addition, the heating month average results could be compared (row 6). 
 
 <h4 align="center"> Typical Day Testing Result Table for Testcase multizone_residential_hydronic </h4>
 
@@ -325,6 +341,8 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 
 The baseline testing results for the typical days with constant pricing scenario is tabulated in the following table and depicted in the scatterplot.  
 To provide a convincing benchmark, the heating month average for different KPIs is provided in the last row.
+For a specific sceanrio (e.g., constant+peak_heat_day), one could compare the customized controller performance with the baseline case results (row 0).
+In addition, the heating month average results could be compared (row 6). 
 
 <h4 align="center">  Typical Day Testing Result Table for Testcase singlezone_commercial_hydronic </h4>
 
