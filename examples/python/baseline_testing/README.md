@@ -109,7 +109,7 @@ In addition, the cooling month average (row 16) and annual average results could
   <img src="./img/scatterplot_bestest_air.png" alt="scatterplot_bestest_air"/>
 </p>
 
-The following table shows the statistics of the KPIs for Testcase bestest_air and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
+The following table shows the statistics of the KPIs for Testcase ``bestest_air`` and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
 From there, one could benchmark some hard-to-judge KPIs from the statistics and distributions. 
 
 
@@ -118,6 +118,7 @@ From there, one could benchmark some hard-to-judge KPIs from the statistics and 
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
+| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |          1 |
 | mean  |        5.9 |     1221.4 |       2.01 |      0.072 |       0.98 |      0.023 |      0.049 |        nan |   8.1e-05  |
 | std   |        1.3 |        1.1 |       0.8  |      0.039 |       0.4  |      0.006 |      0.042 |        nan |   0.000603 |
 | min   |        3   |     1218.7 |       0.46 |      0.014 |       0.27 |      0.01  |      0     |        nan |   2.3e-05  |
@@ -171,11 +172,15 @@ In addition, the cooling month average (row 16) and annual average results could
   <img src="./img/scatterplot_multizone_office_simple_air.png" alt="scatterplot_multizone_office_simple_air"/>
 </p>
 
+The following table shows the statistics of the KPIs for Testcase ``multizone_office_simple_air`` and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
+From there, one could benchmark some hard-to-judge KPIs from the statistics and distributions. 
+
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for multizone_office_simple_air </h4>
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
+| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |          1 |
 | mean  |        5.2 |       55.7 |       0.97 |      0.091 |       0.33 |      0.019 |        nan |        nan |   0.000185 |
 | std   |        3.2 |       85.5 |       0.58 |      0.055 |       0.2  |      0.008 |        nan |        nan |   0.000622 |
 | min   |        0.2 |        0   |       0.1  |      0.009 |       0.03 |      0.004 |        nan |        nan |   4.4e-05  |
@@ -219,11 +224,15 @@ In addition, the heating month average results could be compared (row 6).
   <img src="./img/scatterplot_bestest_hydronic.png" alt="scatterplot_bestest_hydronic"/>
 </p>
 
+The following table shows the statistics of the KPIs for Testcase ``bestest_hydronic`` and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
+From there, one could benchmark some hard-to-judge KPIs from the statistics and distributions. 
+
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for bestest_hydronic </h4>
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
+| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |          1 |
 | mean  |       18.3 |          0 |       9.21 |      0.476 |       1.67 |          0 |      0.118 |        nan |    4e-05   |
 | std   |        5.8 |          0 |       2.27 |      0.113 |       0.41 |          0 |      0.001 |        nan |    5e-06   |
 | min   |        4.5 |          0 |       3.98 |      0.214 |       0.72 |          0 |      0.114 |        nan |    2e-05   |
@@ -267,11 +276,15 @@ In addition, the heating month average results could be compared (row 6).
   <img src="./img/scatterplot_bestest_hydronic_heat_pump.png" alt="scatterplot_bestest_hydronic_heat_pump"/>
 </p>
 
+The following table shows the statistics of the KPIs for Testcase ``bestest_hydronic_heat_pump`` and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
+From there, one could benchmark some hard-to-judge KPIs from the statistics and distributions. 
+
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for bestest_hydronic_heat_pump </h4>
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
+| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |          1 |
 | mean  |       13.9 |          0 |       6.57 |      0.593 |       1.17 |      0.007 |      0.117 |        nan |    3.8e-05 |
 | std   |        6   |          0 |       3.18 |      0.235 |       0.59 |      0.009 |      0.001 |        nan |    4e-06   |
 | min   |        4.5 |          0 |       1.77 |      0.214 |       0.3  |      0     |      0.114 |        nan |    2.3e-05 |
@@ -315,11 +328,15 @@ In addition, the heating month average results could be compared (row 6).
   <img src="./img/scatterplot_multizone_residential_hydronic.png" alt="scatterplot_multizone_residential_hydronic"/>
 </p>
 
+The following table shows the statistics of the KPIs for Testcase ``multizone_residential_hydronic`` and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
+From there, one could benchmark some hard-to-judge KPIs from the statistics and distributions. 
+
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for multizone_residential_hydronic </h4>
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
+| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |          1 |
 | mean  |       20.5 |    10514.1 |       6.12 |      0.603 |       1.06 |      0.002 |      0.095 |        nan |   0.000152 |
 | std   |        5   |     1466.3 |       1.46 |      0.14  |       0.26 |      0.001 |      0.002 |        nan |   0.000146 |
 | min   |        5   |     5340.2 |       0.96 |      0.1   |       0.16 |      0.002 |      0.08  |        nan |   4.1e-05  |
@@ -363,11 +380,15 @@ In addition, the heating month average results could be compared (row 6).
   <img src="./img/scatterplot_singlezone_commercial_hydronic.png" alt="scatterplot_singlezone_commercial_hydronic"/>
 </p>
 
+The following table shows the statistics of the KPIs for Testcase ``singlezone_commercial_hydronic`` and the boxplot shows the distribution of different KPIs with the typical day results annotated. 
+From there, one could benchmark some hard-to-judge KPIs from the statistics and distributions. 
+
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for singlezone_commercial_hydronic </h4>
 
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
+| unit  |        K*h |      ppm*h |       kW*h |       euro |      kgCO2 |     kW/m^2 |     kW/m^2 |     kW/m^2 |          1 |
 | mean  |        6.3 |     3408.9 |       3.76 |      0.299 |       0.46 |      0.006 |        nan |       0.09 |   0.000184 |
 | std   |        2.4 |     3039.6 |       0.7  |      0.056 |       0.09 |      0.001 |        nan |       0    |   0.001179 |
 | min   |        0.9 |        2.1 |       2.12 |      0.157 |       0.29 |      0.001 |        nan |       0.08 |   2.7e-05  |
