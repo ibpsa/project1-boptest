@@ -163,6 +163,7 @@ To provide a convincing benchmark, the heating month average, cooling month aver
 
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for multizone_office_simple_air </h4>
+
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
 | mean  |        5.2 |       55.7 |       0.97 |      0.091 |       0.33 |      0.019 |        nan |        nan |   0.000185 |
@@ -208,6 +209,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for bestest_hydronic </h4>
+
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
 | mean  |       18.3 |          0 |       9.21 |      0.476 |       1.67 |          0 |      0.118 |        nan |    4e-05   |
@@ -253,6 +255,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for bestest_hydronic_heat_pump </h4>
+
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
 | mean  |       13.9 |          0 |       6.57 |      0.593 |       1.17 |      0.007 |      0.117 |        nan |    3.8e-05 |
@@ -298,6 +301,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for multizone_residential_hydronic </h4>
+
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
 | mean  |       20.5 |    10514.1 |       6.12 |      0.603 |       1.06 |      0.002 |      0.095 |        nan |   0.000152 |
@@ -343,6 +347,7 @@ To provide a convincing benchmark, the heating month average for different KPIs 
 
 <div align="center">
 <h4 align="center"> Statistic Summary Table of All Scenarios for singlezone_commercial_hydronic </h4>
+
 |       |   tdis_tot |   idis_tot |   ener_tot |   cost_tot |   emis_tot |   pele_tot |   pgas_tot |   pdih_tot |   time_rat |
 |:------|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|-----------:|
 | mean  |        6.3 |     3408.9 |       3.76 |      0.299 |       0.46 |      0.006 |        nan |       0.09 |   0.000184 |
