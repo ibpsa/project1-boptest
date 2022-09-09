@@ -14,8 +14,13 @@ simulation start, warmup_period, and length or a predefined test case scenario. 
  scenarios with different electricity prices and time periods will be  simulated. 
 
 ## Run an Example Baseline Test
-- First, deploy the test case corresponding to the desired example (see repository root ``README.md`` for instructions on deploying a test case).
-- Then, use ``$ python testcase<TestCase>scenario.py`` to run the desired example.
+The baseline testing could be conducted in either of the two methods:
+
+- Check if Docker image ``jm`` exists. If not, run command: ``$ make build_jm_image``. 
+Then, run the test with command: ``$ make run_baseline_<testcase>``.
+
+- Or, deploy the test case corresponding to the desired example (see repository root ``README.md`` for instructions on deploying a test case). 
+Then, use ``$ python testcase<TestCase>scenario.py`` to run the desired example.
 
 ## Baseline Testing Scenarios
 Two-week simulation are conducted with three electricity price schemes and representative time periods for each testcase. Please see ``root/Testcases/README.md`` for different predefined scenarios for each testcase. 
