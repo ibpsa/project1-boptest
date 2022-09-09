@@ -27,7 +27,7 @@ However, it is noted that the baseline controls do not use price signal informat
 For the KPIs including the cost and controller computational time ratio, we consider all 3180 scenarios. To avoid the repetition, we only show the baseline results of one electricity price scheme (in total 1060 cases as shown below) for rest of KPIs.
 
 The purpose of showing the baseline testing results are to provide a reference range for different KPIs among different test cases with various time periods and three electricity price schemes. 
-The detailed results for each testcase could be referred to ``[baseline_control.ipynb](baseline_control.ipynb)``.
+The detailed results for each testcase could be referred to [baseline_control.ipynb](baseline_control.ipynb).
 The high-level statistical results for all the testcases are summarized first. Then the by-testcase results are individually illustrated for the following testcases:
 
 1. bestest_air (365-7-14=344 time periods)
