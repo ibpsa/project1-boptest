@@ -4,9 +4,9 @@ This folder contains examples and results for performing testing of baseline con
 
 ## Baseline Controller and Test Case Implementation
 
-- Baseline controller module files ``<TestCase>.py`` and test scripts ``testcase<TestCase>scenario.py`` will be used for running an example baseline test.
+- For each ``<TestCase>``, the baseline controller module file ``<TestCase>.py`` and the test script ``testcase<TestCase>scenario.py`` will be used for running an example baseline test.
 
-- The baseline control modules for each testcases ``<TestCase>.py`` are located in ``../controllers``. The baseline controllers are actually incorporated in the testcase models.
+- Baseline control modules files ``<TestCase>.py`` are located in ``../controllers``. The baseline controllers are actually incorporated in the testcase models.
 The function ``compute_control`` is psuedo. The control inputs will not be overwritten by this external controller. Thus, baseline controllers in the testcase models will be used. 
 
 - For test scripts ``testcase<TestCase>scenario.py`` for performing the baseline control test, user could specify the combination of
