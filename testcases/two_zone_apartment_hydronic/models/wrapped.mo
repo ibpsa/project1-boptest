@@ -10,8 +10,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput hydronicSystem_oveMDayZ_activate "Activation for Signal Day zone valve";
 	Modelica.Blocks.Interfaces.RealInput hydronicSystem_oveTHea_u(unit="K", min=273.15, max=318.15) "Heat system supply temperature";
 	Modelica.Blocks.Interfaces.BooleanInput hydronicSystem_oveTHea_activate "Activation for Heat system supply temperature";
-	Modelica.Blocks.Interfaces.RealInput hydronicSystem_oveMpumCon_u(unit="kg/s", min=0.0, max=5.0) "Mass flow rate ";
-	Modelica.Blocks.Interfaces.BooleanInput hydronicSystem_oveMpumCon_activate "Activation for Mass flow rate ";
+	Modelica.Blocks.Interfaces.RealInput hydronicSystem_oveMpumCon_u(unit="kg/s", min=0.0, max=5.0) "Mass flow rate control input to circulation pump for water through floor heating system";
+	Modelica.Blocks.Interfaces.BooleanInput hydronicSystem_oveMpumCon_activate "Activation for Mass flow rate control input to circulation pump for water through floor heating system";
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaCloTim_y(unit="s") = mod.weatherStation.reaWeaCloTim.y "Day number with units of seconds";
 	Modelica.Blocks.Interfaces.RealOutput dayZon_reaMFloHea_y(unit="kg/s") = mod.dayZon.reaMFloHea.y "Mass flow rate floor heating";
@@ -25,7 +25,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaLon_y(unit="rad") = mod.weatherStation.reaWeaLon.y "Longitude of the location";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaNTot_y(unit="1") = mod.weatherStation.reaWeaNTot.y "Sky cover measurement";
 	Modelica.Blocks.Interfaces.RealOutput nigZon_reaMFloHea_y(unit="kg/s") = mod.nigZon.reaMFloHea.y "Mass flow rate floor heating";
-	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_reaMpumCon_y(unit="kg/s") = mod.hydronicSystem.reaMpumCon.y "Mass flow rate control input to circulating pump";
+	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_reaMpumCon_y(unit="kg/s") = mod.hydronicSystem.reaMpumCon.y "Mass flow rate control input to circulation pump for water through floor heating system";
 	Modelica.Blocks.Interfaces.RealOutput dayZon_reaTavgFloHea_y(unit="K") = mod.dayZon.reaTavgFloHea.y "Zone average temperature floor heating";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaTWetBul_y(unit="K") = mod.weatherStation.reaWeaTWetBul.y "Wet bulb temperature measurement";
 	Modelica.Blocks.Interfaces.RealOutput dayZon_reaCO2RooAir_y(unit="ppm") = mod.dayZon.reaCO2RooAir.y "Zone air CO2 concentration";
@@ -71,7 +71,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput thermostatDayZon_oveTsetZon_y(unit="K") = mod.thermostatDayZon.oveTsetZon.y "Setpoint temperature for thermal zone";
 	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_oveMDayZ_y(unit="1") = mod.hydronicSystem.oveMDayZ.y "Signal Day zone valve";
 	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_oveTHea_y(unit="K") = mod.hydronicSystem.oveTHea.y "Heat system supply temperature";
-	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_oveMpumCon_y(unit="kg/s") = mod.hydronicSystem.oveMpumCon.y "Mass flow rate ";
+	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_oveMpumCon_y(unit="kg/s") = mod.hydronicSystem.oveMpumCon.y "Mass flow rate control input to circulation pump for water through floor heating system";
 	// Original model
 	TwoZoneApartmentHydronic.TestCases.ApartmentModelQHTyp mod(
 		thermostatNigZon.oveTsetZon(uExt(y=thermostatNigZon_oveTsetZon_u),activate(y=thermostatNigZon_oveTsetZon_activate)),
