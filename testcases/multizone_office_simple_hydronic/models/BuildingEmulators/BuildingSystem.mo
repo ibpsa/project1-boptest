@@ -32,7 +32,7 @@ model BuildingSystem
         QCooEmi_flow_nominal = -{40*2500,45*2500}) annotation(Placement(transformation(extent = {{34.0,0.0},{74.0,20.0}},origin = {0.0,0.0},rotation = 0.0)));
     .BuildingEmulators.Components.BmsControl bms annotation(Placement(transformation(extent = {{-58.0,38.0},{-38.0,58.0}},origin = {0.0,0.0},rotation = 0.0)));
 
-  inner IDEAS.Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.UnixTimeStampGMT,yearRef = 2021,outputUnixTimeStamp = true,timZon = calTim.timeStampsNewYear[12])
+  inner IDEAS.Utilities.Time.CalendarTime calTim(zerTim=IDEAS.Utilities.Time.Types.ZeroTime.UnixTimeStampGMT,yearRef = 2021,outputUnixTimeStamp = true,timZon = 1609459200.0)
     annotation (Placement(transformation(extent={{18.0,82.0},{38.0,102.0}},rotation = 0.0,origin = {0.0,0.0})));
 
 
