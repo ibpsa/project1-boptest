@@ -9,6 +9,12 @@ RUN apt-get update -y && apt-get install -y \
     ca-certificates curl libglu1 libjpeg8 libfreetype6 libxi6 libdbus-glib-1-2 libfontconfig1 libsm6 gdebi-core python3.5 python3-pip \
     && apt-get install -y git
 
+# Install commands for Spawn
+ENV SPAWN_VERSION=0.3.0-8d93151657
+RUN wget https://spawn.s3.amazonaws.com/custom/Spawn-$SPAWN_VERSION-Linux.tar.gz \
+    && tar -xzf Spawn-$SPAWN_VERSION-Linux.tar.gz \
+    && ln -s /Spawn-$SPAWN_VERSION-Linux/bin/spawn-$SPAWN_VERSION /usr/local/bin/
+
 RUN curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py \
   && python3 get-pip.py
 

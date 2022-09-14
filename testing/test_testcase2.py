@@ -144,8 +144,8 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize/{1}'.format(self.url, self.testid))
-        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":273.15}).json()['payload']
         # Check kpis
         value = float(y['oveTSetRooHea_u'])
         self.assertAlmostEqual(value, 273.15+10, places=3)
@@ -156,8 +156,8 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize/{1}'.format(self.url, self.testid))
-        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()
+        requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':0, 'warmup_period':0})
+        y = requests.post('{0}/advance/{1}'.format(self.url, self.testid), data={"oveTSetRooHea_activate":1,"oveTSetRooHea_u":310.15}).json()['payload']
         # Check kpis
         value = float(y['oveTSetRooHea_u'])
         self.assertAlmostEqual(value, 273.15+35, places=3)

@@ -9,6 +9,7 @@ import unittest
 import os
 import requests
 import utilities
+import pandas as pd
 
 class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialTestSeason):
     '''Tests the example test case.
@@ -69,14 +70,14 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         # Initialize test case
         requests.put('{0}/initialize/{1}'.format(self.url, self.testid), data={'start_time':start_time, 'warmup_period':7*24*3600})
         # Get default simulation step
-        step_def = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()
+        step_def = requests.get('{0}/step/{1}'.format(self.url, self.testid)).json()['payload']
         # Simulation Loop
         for i in range(int(length/step_def)):
             # Advance simulation
             #switch pump on/off for each timestep
             pump = 0 if (i % 2) == 0 else 1
             u = {'ovePum_activate':1, 'ovePum_u':pump}
-            requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u).json()
+            requests.post('{0}/advance/{1}'.format(self.url, self.testid), data=u).json()['payload']
         # Check results
         points = self.get_all_points()
         df = self.results_to_df(points, start_time, start_time+length, self.url)

@@ -1,0 +1,8 @@
+**NAME**,**UNIT**,**DESCRIPTION**
+PriceElectricPowerConstant,($/€)/kWh,Completely constant electricity price
+PriceElectricPowerDynamic,($/€)/kWh,Electricity price for a day/night tariff
+PriceElectricPowerHighlyDynamic,($/€)/kWh,Spot electricity price
+PriceGasPower,($/€)/kWh,Price to produce 1 kWh thermal from gas
+PriceDistrictHeatingPower,($/€)/kWh,Price of 1 kWh thermal from district heating
+PriceBiomassPower,($/€)/kWh,Price to produce 1 kWh thermal from biomass
+PriceSolarThermalPower,($/€)/kWh,Price to produce 1 kWh thermal from solar irradiation
