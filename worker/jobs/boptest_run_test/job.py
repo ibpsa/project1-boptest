@@ -25,6 +25,8 @@ class Job:
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
 
+        self.timeout = os.environ['SERVICE_TIMEOUT']
+
         # Download the testcase FMU
         self.test_dir = os.path.join('/simulate', self.testcaseid)
         self.fmu_path = os.path.join(self.test_dir, 'model.fmu')
@@ -71,7 +73,7 @@ class Job:
     def check_idle_time(self, message):
         if not message:
             idle_time = datetime.now() - self.last_message_time
-            if idle_time.total_seconds() > 900.0:
+            if idle_time.total_seconds() > self.timeout:
                 print("Testid '%s' is terminating due to inactivity." % self.testid)
                 self.keep_running = False
 
