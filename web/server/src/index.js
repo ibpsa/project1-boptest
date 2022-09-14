@@ -6,7 +6,7 @@ import boptestRouter from './routes/boptest'
 import boptestAdminRouter from './routes/boptest-admin'
 
 AWS.config.update({ region: process.env.REGION })
-const s3 = new AWS.S3({ endpoint: process.env.S3_URL })
+const s3 = new AWS.S3({ endpoint: process.env.S3_URL, s3ForcePathStyle: true })
 const sqs = new AWS.SQS()
 
 MongoClient.connect(process.env.MONGO_URL).then((mongoClient) => {
