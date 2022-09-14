@@ -311,7 +311,7 @@ boptestRouter.get('/testcases', async (req, res, next) => {
   try {
     const db = req.app.get('db')
     const payload = await getTestcases(db)
-    res.status(payload.status).json(payload)
+    res.json(payload)
   } catch (e) {
     next(e);
   }
