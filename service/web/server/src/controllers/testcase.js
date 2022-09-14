@@ -68,3 +68,26 @@ export async function select(testcaseid, sqs, api_key) {
   await waitForStatus(testid, "Running")
   return { testid }
 }
+
+export async function removeTestcase(id, s3, db) {
+  const key = getS3KeyForTestcaseID(id)
+
+  const testcases = db.collection('testcases')
+  const query = {testcaseid: id}
+  await testcases.deleteOne(query)
+
+  await new Promise((resolve, reject) => {
+    const params = {
+      Bucket: process.env.S3_BUCKET,
+      Key: key
+    }
+
+    s3.deleteObject(params, function(err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
