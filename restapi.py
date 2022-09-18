@@ -89,7 +89,7 @@ parser_scenario.add_argument('electricity_price', type=str)
 parser_scenario.add_argument('time_period', type=str)
 # ``results`` interface
 results_var = reqparse.RequestParser(argument_class=CustomArgument)
-results_var.add_argument('point_name', type=str, required=True)
+results_var.add_argument('point_names', type=list, action='append', required=True)
 results_var.add_argument('start_time', required=True)
 results_var.add_argument('final_time', required=True)
 # ``submit`` interface
@@ -167,10 +167,12 @@ class Results(Resource):
     def put(self):
         '''PUT request to receive measurement data.'''
         args = results_var.parse_args(strict=True)
-        var = args['point_name']
+        point_names = []
+        for point_name in args['point_names']:
+            point_names.append(''.join(point_name))
         start_time = args['start_time']
         final_time = args['final_time']
-        status, message, payload = case.get_results(var, start_time, final_time)
+        status, message, payload = case.get_results(point_names, start_time, final_time)
         return construct(status, message, payload)
 
 
