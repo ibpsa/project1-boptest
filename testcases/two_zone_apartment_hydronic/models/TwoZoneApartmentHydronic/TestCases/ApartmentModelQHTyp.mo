@@ -784,7 +784,7 @@ The model inputs are:
 <code>hydronicSystem_oveMNigZ_u</code> [1] [min=0.0, max=1.0]: Signal Night zone valve
 </li>
 <li>
-<code>hydronicSystem_oveMpumCon_u</code> [kg/s] [min=0.0, max=5.0]: Mass flow rate 
+<code>hydronicSystem_oveMpumCon_u</code> [kg/s] [min=0.0, max=5.0]: Mass flow rate control input to circulation pump for water through floor heating system
 </li>
 <li>
 <code>hydronicSystem_oveTHea_u</code> [K] [min=273.15, max=318.15]: Heat system supply temperature
@@ -839,7 +839,7 @@ The model outputs are:
 <code>hydronicSystem_reaMNigZ_y</code> [1] [min=None, max=None]: Signal Night zone valve
 </li>
 <li>
-<code>hydronicSystem_reaMpumCon_y</code> [kg/s] [min=None, max=None]: Mass flow rate control input to circulating pump
+<code>hydronicSystem_reaMpumCon_y</code> [kg/s] [min=None, max=None]: Mass flow rate control input to circulation pump for water through floor heating system
 </li>
 <li>
 <code>hydronicSystem_reaPPum_y</code> [W] [min=None, max=None]: Pump electrical power
@@ -888,77 +888,76 @@ The model outputs are:
 </li>
 <li>
 <code>thermostatNigZon_reaTsetZon_y</code> [K] [min=None, max=None]: Setpoint temperature for thermal zone
-<li>
-<code>weaSta_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
 </li>
 <li>
-<code>weaSta_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
+<code>weatherStation_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
 </li>
 <li>
-<code>weaSta_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
+<code>weatherStation_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
 </li>
 <li>
-<code>weaSta_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
+<code>weatherStation_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
 </li>
 <li>
-<code>weaSta_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
+<code>weatherStation_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
 </li>
 <li>
-<code>weaSta_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
+<code>weatherStation_reaWeaHGloHor_y</code> [W/m2] [min=None, max=None]: Global horizontal solar irradiation measurement
 </li>
 <li>
-<code>weaSta_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
+<code>weatherStation_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
 </li>
 <li>
-<code>weaSta_reaWeaHHorIR_y</code> [W/m2] [min=None, max=None]: Horizontal infrared irradiation measurement
+<code>weatherStation_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
 </li>
 <li>
-<code>weaSta_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
+<code>weatherStation_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
 </li>
 <li>
-<code>weaSta_reaWeaCloTim_y</code> [s] [min=None, max=None]: Day number with units of seconds
+<code>weatherStation_reaWeaNOpa_y</code> [1] [min=None, max=None]: Opaque sky cover measurement
 </li>
 <li>
-<code>weaSta_reaWeaLon_y</code> [rad] [min=None, max=None]: Longitude of the location
+<code>weatherStation_reaWeaNTot_y</code> [1] [min=None, max=None]: Sky cover measurement
 </li>
 <li>
-<code>weaSta_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
+<code>weatherStation_reaWeaPAtm_y</code> [Pa] [min=None, max=None]: Atmospheric pressure measurement
 </li>
 <li>
-<code>weaSta_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
+<code>weatherStation_reaWeaRelHum_y</code> [1] [min=None, max=None]: Outside relative humidity measurement
 </li>
 <li>
-<code>weaSta_reaWeaHDirNor_y</code> [W/m2] [min=None, max=None]: Direct normal radiation measurement
+<code>weatherStation_reaWeaSolAlt_y</code> [rad] [min=None, max=None]: Solar altitude angle measurement
 </li>
 <li>
-<code>weaSta_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
+<code>weatherStation_reaWeaSolDec_y</code> [rad] [min=None, max=None]: Solar declination angle measurement
 </li>
 <li>
-<code>weaSta_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
+<code>weatherStation_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
 </li>
 <li>
-<code>weaSta_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
+<code>weatherStation_reaWeaSolTim_y</code> [s] [min=None, max=None]: Solar time
 </li>
 <li>
-<code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+<code>weatherStation_reaWeaSolZen_y</code> [rad] [min=None, max=None]: Solar zenith angle measurement
 </li>
 <li>
-<code>weaSta_reaWeaHDifHor_y</code> [W/m2] [min=None, max=None]: Horizontal diffuse solar radiation measurement
+<code>weatherStation_reaWeaTBlaSky_y</code> [K] [min=None, max=None]: Black-body sky temperature measurement
 </li>
 <li>
-<code>weaSta_reaWeaLat_y</code> [rad] [min=None, max=None]: Latitude of the location
+<code>weatherStation_reaWeaTDewPoi_y</code> [K] [min=None, max=None]: Dew point temperature measurement
 </li>
 <li>
-<code>weaSta_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
+<code>weatherStation_reaWeaTDryBul_y</code> [K] [min=None, max=None]: Outside drybulb temperature measurement
 </li>
 <li>
-<code>weaSta_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement
+<code>weatherStation_reaWeaTWetBul_y</code> [K] [min=None, max=None]: Wet bulb temperature measurement
 </li>
 <li>
-<code>weaSta_reaWeaSolHouAng_y</code> [rad] [min=None, max=None]: Solar hour angle measurement
+<code>weatherStation_reaWeaWinDir_y</code> [rad] [min=None, max=None]: Wind direction measurement
 </li>
+<li>
+<code>weatherStation_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
-
 </ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
