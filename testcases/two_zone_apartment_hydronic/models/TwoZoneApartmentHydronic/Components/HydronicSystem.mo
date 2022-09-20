@@ -133,10 +133,6 @@ model HydronicSystem "Hydronic circuit"
       max=273.15 + 45), description="Heat system supply temperature")
     "Overwrite for heating system supply temperature "
     annotation (Placement(transformation(extent={{-146,-88},{-130,-72}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTHeat(y(unit="K"), description=
-        "Heat system supply temperature")
-    "Read for heating system supply temperature "
-    annotation (Placement(transformation(extent={{-120,-88},{-104,-72}})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveMDayZ(u(
       unit="1",
       min=0,
@@ -145,18 +141,6 @@ model HydronicSystem "Hydronic circuit"
         extent={{-8,-8},{8,8}},
         rotation=0,
         origin={-170,86})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaMDayZ(y(unit="1"), description=
-        "Signal Day zone valve") "Overwrite day zone valve signal"
-    annotation (Placement(transformation(
-        extent={{-8,-8},{8,8}},
-        rotation=0,
-        origin={-146,86})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaMNigZ(y(unit="1"), description=
-        "Signal Night zone valve") "Overwrite night zone valve signal"
-    annotation (Placement(transformation(
-        extent={{-8,-8},{8,8}},
-        rotation=0,
-        origin={-146,60})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveMNigZ(u(
       unit="1",
       min=0,
@@ -221,14 +205,6 @@ model HydronicSystem "Hydronic circuit"
         extent={{8,-8},{-8,8}},
         rotation=0,
         origin={-44,78})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaMpumCon(description=
-        "Mass flow rate control input to circulation pump for water through floor heating system",
-                                                            y(unit="kg/s"))
-    "Mass flow rate control input to circulation pump for water through floor heating system"
-                                   annotation (Placement(transformation(
-        extent={{-5,-5},{5,5}},
-        rotation=-90,
-        origin={-65,15})));
   IBPSA.Utilities.IO.SignalExchange.Overwrite oveMpumCon(u(
       unit="kg/s",
       min=0,
@@ -278,7 +254,8 @@ equation
   connect(valDayZon.y_actual, greaterThresholdValDayZ.u) annotation (Line(
         points={{58.5,85.6},{34.75,85.6},{34.75,78},{28,78}}, color={0,0,127}));
   connect(valNigZon.y_actual, greaterThresholdValNigZ.u) annotation (Line(
-        points={{64,45.6},{60.5,45.6},{60.5,50},{28,50}}, color={0,0,127}));
+        points={{64,45.6},{66,45.6},{66,46},{68,46},{68,54},{48,54},{48,50},{28,
+          50}},                                           color={0,0,127}));
   connect(BoundaryConditions.ports[1], AirHeaPum.port_b) annotation (Line(
         points={{-154,40},{-154,19.6},{-158,19.6}}, color={0,127,255}));
   connect(splVal2.port_2, temDis_out.port_a) annotation (Line(points={{-16,-40},
@@ -297,27 +274,14 @@ equation
       horizontalAlignment=TextAlignment.Right));
   connect(heatingCurve.y, oveTHea.u)
     annotation (Line(points={{-157.2,-80},{-147.6,-80}}, color={0,0,127}));
-  connect(oveTHea.y, reaTHeat.u)
-    annotation (Line(points={{-129.2,-80},{-121.6,-80}}, color={0,0,127}));
-  connect(reaTHeat.y, AirHeaPum.TSet) annotation (Line(points={{-103.2,-80},{-102,
-          -80},{-102,-60},{-200,-60},{-200,40},{-182,40},{-182,29.2}}, color={0,
-          0,127}));
   connect(COPhp.y, reaCOPhp.u)
     annotation (Line(points={{-166.6,-40},{-153.6,-40}}, color={0,0,127}));
-  connect(oveMNigZ.y, reaMNigZ.u)
-    annotation (Line(points={{-161.2,60},{-155.6,60}}, color={0,0,127}));
   connect(ValConNigZon, oveMNigZ.u)
     annotation (Line(points={{-199.5,60},{-179.6,60}}, color={0,0,127}));
   connect(ValConDayZon, oveMDayZ.u)
     annotation (Line(points={{-199.5,86},{-179.6,86}}, color={0,0,127}));
-  connect(oveMDayZ.y, reaMDayZ.u)
-    annotation (Line(points={{-161.2,86},{-155.6,86}}, color={0,0,127}));
   connect(greaterThresholdValDayZ.y, booleanToReal.u)
     annotation (Line(points={{5,78},{-2,78}}, color={255,0,255}));
-  connect(reaMDayZ.y, valDayZon.y) annotation (Line(points={{-137.2,86},{-128,
-          86},{-128,98},{55,98},{55,89.6}}, color={0,0,127}));
-  connect(reaMNigZ.y, valNigZon.y) annotation (Line(points={{-137.2,60},{-120,
-          60},{-120,94},{72,94},{72,58},{60,58},{60,49.6}}, color={0,0,127}));
   connect(gainValDayZon.u, booleanToReal.y)
     annotation (Line(points={{-34.4,78},{-25,78}}, color={0,0,127}));
   connect(AirHeaPum.port_b, pump.port_a) annotation (Line(points={{-158,19.6},{
@@ -337,12 +301,17 @@ equation
           -72,-29},{-55.8,-29}}, color={0,0,127}));
   connect(add.y, oveMpumCon.u) annotation (Line(points={{-65,37.5},{-65,36.75},
           {-65,36.75},{-65,35}}, color={0,0,127}));
-  connect(oveMpumCon.y, reaMpumCon.u) annotation (Line(points={{-65,23.5},{-65,
-          22.75},{-65,22.75},{-65,21}}, color={0,0,127}));
-  connect(reaMpumCon.y, pump.m_flow_in) annotation (Line(points={{-65,9.5},{-65,
-          7.75},{-64,7.75},{-64,4.8}}, color={0,0,127}));
   connect(pump.P, reaPPum.u) annotation (Line(points={{-59.6,3.6},{-54,3.6},{
           -54,9},{-51,9}}, color={0,0,127}));
+  connect(oveMpumCon.y, pump.m_flow_in) annotation (Line(points={{-65,23.5},{
+          -65,14.75},{-64,14.75},{-64,4.8}}, color={0,0,127}));
+  connect(oveTHea.y, AirHeaPum.TSet) annotation (Line(points={{-129.2,-80},{
+          -120,-80},{-120,-60},{-200,-60},{-200,36},{-182,36},{-182,29.2}},
+        color={0,0,127}));
+  connect(oveMDayZ.y, valDayZon.y) annotation (Line(points={{-161.2,86},{-136,
+          86},{-136,98},{55,98},{55,89.6}}, color={0,0,127}));
+  connect(valNigZon.y, oveMNigZ.y) annotation (Line(points={{60,49.6},{60,60},{
+          74,60},{74,96},{-132,96},{-132,60},{-161.2,60}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,-100},
             {100,100}}),                                        graphics={
           Rectangle(

@@ -44,10 +44,6 @@ model Thermostat_T
       max=273.15 + 45), description="Setpoint temperature for thermal zone")
     "Overwrite Setpoint temperature for thermal zone"
     annotation (Placement(transformation(extent={{-66,-70},{-46,-50}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTsetZon(y(unit="K"), description=
-        "Setpoint temperature for thermal zone")
-    "Read for setpoint temperature for thermal zone"
-    annotation (Placement(transformation(extent={{-34,-70},{-14,-50}})));
 equation
   connect(TZon, onOffCon.u) annotation (Line(points={{-120,0},{-66,0},{-66,54},{
           -62,54}},  color={0,0,127}));
@@ -61,14 +57,13 @@ equation
     annotation (Line(points={{61,0},{110,0}}, color={0,0,127}));
   connect(TSetHea.y[1], oveTsetZon.u)
     annotation (Line(points={{-79,-60},{-68,-60}}, color={0,0,127}));
-  connect(oveTsetZon.y, reaTsetZon.u)
-    annotation (Line(points={{-45,-60},{-36,-60}}, color={0,0,127}));
-  connect(reaTsetZon.y, TSetZ)
-    annotation (Line(points={{-13,-60},{110,-60}}, color={0,0,127}));
-  connect(reaTsetZon.y, greaterEqualThreshold.u) annotation (Line(points={{-13,
-          -60},{0,-60},{0,-40},{-40,-40},{-40,0},{-16,0}}, color={0,0,127}));
-  connect(reaTsetZon.y, onOffCon.reference) annotation (Line(points={{-13,-60},
-          {0,-60},{0,-40},{-80,-40},{-80,66},{-62,66}}, color={0,0,127}));
+  connect(oveTsetZon.y, TSetZ)
+    annotation (Line(points={{-45,-60},{110,-60}}, color={0,0,127}));
+  connect(oveTsetZon.y, greaterEqualThreshold.u) annotation (Line(points={{-45,
+          -60},{-34,-60},{-34,0},{-16,0}}, color={0,0,127}));
+  connect(onOffCon.reference, greaterEqualThreshold.u) annotation (Line(points=
+          {{-62,66},{-76,66},{-76,-20},{-34,-20},{-34,0},{-16,0}}, color={0,0,
+          127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                                 Rectangle(
         extent={{-100,-100},{100,100}},
