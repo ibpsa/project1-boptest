@@ -991,9 +991,6 @@ A constant infiltration flowrate is assumed to be 0.5 ACH.
 <p>
 No further assumptions are needed.
 </p>
-<p>
-CO2 generation is modelled but no generation is considered. So the CO2 concentration will be in equilibrium with the external environment CO2.
-</p>
 <h3>Scenario Information</h3>
 <h4>Time Periods</h4>
 <p>
