@@ -246,14 +246,10 @@ model thermalZone "Reference Thermal zone model Milan"
   Modelica.Blocks.Math.MultiSum sumLat(nu=3) "Sum of latent internal gains"
     annotation (Placement(transformation(extent={{-48,56},{-42,62}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
-        "Lighting power submeter",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
-                                   "Read lighting power consumption"
+        "Lighting power submeter") "Read lighting power consumption"
     annotation (Placement(transformation(extent={{-26,46},{-18,54}})));
   IBPSA.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
-        "Plug load power submeter",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
-                                    "Read plug load power consumption"
+        "Plug load power submeter") "Read plug load power consumption"
     annotation (Placement(transformation(extent={{-26,88},{-18,96}})));
   Modelica.Blocks.Math.MultiSum sumLig(k=fill(roo.AFlo, 2), nu=2)
     "Lighting power consumption"
