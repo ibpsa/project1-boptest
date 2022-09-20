@@ -14,6 +14,11 @@ Released on xx/xx/xxxx.
 **The following changes are not backwards-compatible but do not significantly change benchmark results:**
 - Change the PUT ``results`` API to accept lists of variable names with the parameter ``point_names`` instead of a single string variable name ``point_name``.  This is for [#398](https://github.com/ibpsa/project1-boptest/issues/398).
 
+**The following new test cases have been added:**
+
+- ``two_zone_apartment_hydronic``, a 2-zone apartment based on a real newly built building in Milan, Italy, served by an air-to-water heat pump coupled with a floor heating system. This is for [#409](https://github.com/ibpsa/project1-boptest/issues/409).
+
+
 ## BOPTEST v0.3.0
 
 Released on 07/27/2022.
