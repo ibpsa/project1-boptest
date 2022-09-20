@@ -10,6 +10,7 @@ Released on xx/xx/xxxx.
 - Abstract the definition of input and output lists within if-else statements in the API unit tests in ``utilities.py`` to the setUp method in each test cases's specific testing file ``test_<testcase>``, by introducing the ``input`` and ``measurement`` attributes.  This is for [#463](https://github.com/ibpsa/project1-boptest/issues/463).
 - Add unit test reporting script to each individual unit test target in the ``testing/makefile``.  This is for [#466](https://github.com/ibpsa/project1-boptest/issues/466).
 - Add error message in case testcase path does not exist in ``testcase.py TestCase __Init__`` method.  This is for [#475](https://github.com/ibpsa/project1-boptest/issues/475).
+- Update API call ``get_html_IO.py`` to run with the latest API implemtnation by adding ``['payload']``. This is for [#487](https://github.com/ibpsa/project1-boptest/issues/487).
 
 **The following changes are not backwards-compatible but do not significantly change benchmark results:**
 - Change the PUT ``results`` API to accept lists of variable names with the parameter ``point_names`` instead of a single string variable name ``point_name``.  This is for [#398](https://github.com/ibpsa/project1-boptest/issues/398).
