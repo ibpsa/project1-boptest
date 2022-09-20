@@ -170,8 +170,8 @@ First implementation.
 <h3>Building Design and use </h3>
 <h4>Architecture</h4>
 <p>
-The building is a two room apartment model representing a real case study  in Milan, which consists of two rooms and one bathroom.  
-The bathroom and the nightzone are considered together in a single thermal zone. So in total two thermal zones are considered. The aparment is an newly built
+The building is a two room apartment model representing a real case study in Milan, which consists of two rooms and one bathroom.
+The bathroom and the nightzone are considered together in a single thermal zone. So in total, two thermal zones are considered. The aparment is a newly built
 heavy construction.
 The height of each room is 2.7 m, while the other dimensions are reported in the plan below. </p>
 <p align=\"center\">
@@ -180,7 +180,7 @@ The height of each room is 2.7 m, while the other dimensions are reported in the
 </p>
 <h4>Constructions</h4>
 <p>As can be seen from the plan, there are four different types of walls that, with the floor and the ceiling, constitute the boundaries of the thermal zones.
- All the geometrical and thermal characteristics of the various stratigraphies are highlighted below.
+All the geometrical and thermal characteristics of the various material layers are highlighted below.
 </p>
 <p>
 <table border = \"1\" summary=\"Peak temperature\">
@@ -619,10 +619,10 @@ The height of each room is 2.7 m, while the other dimensions are reported in the
 </table>
 </p>
 <p>These properties are defined in the model of each thermal zone respectively in the component <code>matExtWal</code>, <code>IntWall</code>,
-<code>ElevatorSep</code>, <code>AptSep</code>, <code>roof</code> and <code>slaCon</code>. All the stratigraphies are defined starting from  outside to 
-room-side except for the radiant floor that requires the opposite order, as reported in Buildings envelope user guide.
-<p> Considering the two glazing systems of the small apartment, they have the same stratigrafy and the same shading system 
-and differ only for the dimensions. These characteristics are reported in the tables below. 
+<code>ElevatorSep</code>, <code>AptSep</code>, <code>roof</code> and <code>slaCon</code>. All the material layers are defined starting from  outside to
+room-side except for the radiant floor that requires the opposite order, as reported in the Modelica Buildings Library envelope user guide.
+<p> Considering the two glazing systems of the small apartment, they have the same construction and shading system,
+differing only in the dimensions. These characteristics are reported in the tables below.
 <p>
 <table border = \"1\" summary=\"Peak temperature\">
 <tr><td colspan=\"3\"><b>Glazing system dimensions</b></td></tr>
@@ -704,7 +704,7 @@ and differ only for the dimensions. These characteristics are reported in the ta
 <p>The dimensions of the glazing system of the two thermal zones that face towards outside are two parameters that have been defined in the zone components, while the glazing system and shading system physical properties
 have been defined in the record \"Window24\".
 
-<p>In the thermal zone model it is also included the radiant slab component taken from the Buildings library.The properties are reported in the following table.  
+<p>The thermal zone model also includes the radiant slab component taken from the Modelica Buildings Library.  The properties are reported in the following table.
 </p>
 <p>
 <table border = \"1\" summary=\"Peak temperature\">
@@ -747,7 +747,7 @@ have been defined in the record \"Window24\".
 <p>The apartment is occupied from 8 P.M. to 8 A.M. from Monday to Friday by two people, one per thermal zone. The thermal zones are considered unoccupied on Saturday and Sunday.</p>
 <h4>Internal loads and schedules</h4>
 <p>The heating setpoint is considered 21 [°C] for occupied periods and 16 [°C] for unoccupied periods. The main heat gains come from people, appliances and lighting. For people it corresponds to 60 (W/person) of sensible gains divided equally between
-convective and radiative contributions and 20 (W) of latent gains. Internal gains for the appliances are 4 (W/m2) and for lighting 1.5 (W/m2) of sensible gains were considred divided 
+convective and radiative contributions and 20 (W) of latent gains. Internal gains for the appliances are 4 (W/m2) and for lighting 1.5 (W/m2) of sensible gains were considred divided
 equally between convective and radiative contributions. These values are taken from a combination of ASHRAE 90.1 standard and ENI 13200. CO2 generation is 0.0048 L/s per person (Table 5, Persily and De Jonge 2017) and density of CO2 assumed to be 1.8 kg/m^3,making CO2 generation 8.64e-6 kg/s per person.Outside air CO2 concentration is 400 ppm.  However, CO2 concentration is not controlled for in the model. Lastly, infilatrations was considered a constant value of 0.5 (vol/h) for each thermal zone.</p>
 <h4>Climate data</h4>
 <p>The climate is assumed to be near Milan, Italy with a latitude and longitude of 45.44,9.27. The climate data comes from the Milano Linate TMY set. </p>
@@ -760,11 +760,11 @@ The generation system is an air source heat pump with a nominal heat capacity of
      alt=\"HVACscheme.png\" />
 </p>
 <h4>Equipment specifications and performance maps</h4>
-<p> The heating system circulation pump has the default efficiency of the pump model, which is 49%; at the time of writing. The flow rate for each thermal zone floor heating circuit is 620 [l/h].The heat pump perfomance map is the default map present in the IDEAS heat pump
-model coming from a Darikin heat pump.
+<p> The heating system circulation pump has the default efficiency of the pump model, which is 49%; at the time of writing. The flow rate for each thermal zone floor heating circuit is 620 [l/h].  The heat pump perfomance map is the default map present in the IDEAS Library heat pump
+model coming from a Daikin heat pump.
 </p>
 <h4>Rule-based or local-loop controllers (if included)</h4>
-The default controller has two levels of control. The first level is done by the thermostars using an hysteresis controller with 2 [K] bandiwidth. When the room temperature
+The default controller has two levels of control. The first level is done by the thermostats using a hysteresis controller with 2 [K] bandwidth. When the room temperature
 is lower than setpoint minus half the bandwidth the thermostat will open the floor heating circuit valve. Viceversa, when the room temperature is higher than setpoint plus half
 the bandwidth the thermostat will close the valve. The second level controller controls the heat pump supply temperature using a climatic curve based on the external temperature and an hysteresis controller.
 The figure below reports a scheme of the controls.
@@ -1032,14 +1032,11 @@ The <b>Constant Electricity Price</b> (specifier for <code>/scenario</code> API 
 Based on the ARERA 2021 (Autorità di Regolazione per Energia Reti e Ambiente ,\"Italian authority for grid and environment regulation\") estimates <a href=\"https://www.arera.it/it/inglese/index.htm\">
 https://www.arera.it/it/inglese/index.htm</a>. The price for the whole heating season, 10/15 to 04/15 is considered as 0.2 [€/kWh].
 </ul>
-<ul>
-Specifier for <code>/scenario</code> API is <code>'constant'</code>.
-</ul>
 </p>
 <p>
 The <b>Dynamic Electricity Price</b> (specifier for <code>/scenario</code> API is <code>'dynamic'</code>) profile is:
 <ul>
-Based on the ARERA 2021 estimates for the bi daily profile, price is 0.22 [€/kWh] for the period between 8:00 A.M. and 7 P.M. and 0.19 [€/kWh] for the period between 8 P.M. and 7 A.M. for the whole heating season. 
+Based on the ARERA 2021 estimates for the bi daily profile, price is 0.22 [€/kWh] for the period between 8:00 A.M. and 7 P.M. and 0.19 [€/kWh] for the period between 8 P.M. and 7 A.M. for the whole heating season.
 </ul>
 </p>
 
@@ -1061,7 +1058,7 @@ Based on the average electricity generation mix for Italy for the year of
 2017.  It is 0.312 kgCO2/kWh.
 For reference,
 see <a href=\"https://www.isprambiente.gov.it/en\">
-https://www.isprambiente.gov.it/en</a>  
+https://www.isprambiente.gov.it/en</a>
 </ul>
 </p>
 
