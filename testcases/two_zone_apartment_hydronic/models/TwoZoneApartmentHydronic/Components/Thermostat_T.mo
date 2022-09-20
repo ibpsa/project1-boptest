@@ -38,7 +38,7 @@ model Thermostat_T
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal1
     annotation (Placement(transformation(extent={{40,-10},{60,10}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTsetZon(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTsetZon(u(
       unit="K",
       min=273.15,
       max=273.15 + 45), description="Setpoint temperature for thermal zone")

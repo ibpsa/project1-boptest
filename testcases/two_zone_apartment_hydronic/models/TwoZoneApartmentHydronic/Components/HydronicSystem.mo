@@ -127,13 +127,13 @@ model HydronicSystem "Hydronic circuit"
     annotation (Placement(transformation(extent={{5,-5},{-5,5}},
         rotation=90,
         origin={-65,43})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTHea(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTHea(u(
       unit="K",
       min=273.15,
       max=273.15 + 45), description="Heat system supply temperature")
     "Overwrite for heating system supply temperature "
     annotation (Placement(transformation(extent={{-146,-88},{-130,-72}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveMDayZ(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveMDayZ(u(
       unit="1",
       min=0,
       max=1), description="Signal Day zone valve")
@@ -141,7 +141,7 @@ model HydronicSystem "Hydronic circuit"
         extent={{-8,-8},{8,8}},
         rotation=0,
         origin={-170,86})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveMNigZ(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveMNigZ(u(
       unit="1",
       min=0,
       max=1), description="Signal Night zone valve")
@@ -152,7 +152,7 @@ model HydronicSystem "Hydronic circuit"
   Buildings.Controls.SetPoints.Table heatingCurve(table=[273.15 - 8,45;
         273.15,43; 22 + 273.15,22], offset=273.15)
     annotation (Placement(transformation(extent={{-174,-88},{-158,-72}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTretFloHea(description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTretFloHea(description=
         "Zone return temperature floor heating", y(unit="K"))
     "Return temperature Floor heating"
     annotation (Placement(transformation(extent={{-54,-38},{-36,-20}})));
@@ -166,18 +166,18 @@ model HydronicSystem "Hydronic circuit"
     redeclare package Medium = MediumW,
     m_flow_nominal=mflow_n)
     annotation (Placement(transformation(extent={{-188,-6},{-158,26}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPeleHeaPum(
+  Buildings.Utilities.IO.SignalExchange.Read reaPeleHeaPum(
     description="Electric consumption of the heat pump",
     y(unit="W"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower)
     "Read electric consumption heat pump"
     annotation (Placement(transformation(extent={{-174,-28},{-158,-12}})));
   Modelica.Blocks.Sources.RealExpression COPhp(y=AirHeaPum.COP)
     annotation (Placement(transformation(extent={{-196,-48},{-168,-32}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaCOPhp(
+  Buildings.Utilities.IO.SignalExchange.Read reaCOPhp(
     description="air source heat pump COP",
     y(unit="1"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
     "Electric consumption heat pump"
     annotation (Placement(transformation(extent={{-152,-48},{-136,-32}})));
   Modelica.Blocks.Interfaces.RealInput ValConNigZon "Valve control night zone"
@@ -205,7 +205,7 @@ model HydronicSystem "Hydronic circuit"
         extent={{8,-8},{-8,8}},
         rotation=0,
         origin={-44,78})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveMpumCon(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveMpumCon(u(
       unit="kg/s",
       min=0,
       max=5), description=
@@ -215,7 +215,7 @@ model HydronicSystem "Hydronic circuit"
         extent={{-5,-5},{5,5}},
         rotation=-90,
         origin={-65,29})));
-  IBPSA.Utilities.IO.SignalExchange.Read
+  Buildings.Utilities.IO.SignalExchange.Read
                                    reaPPum(
     description="Pump electrical power",
     KPIs=IDEAS.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,

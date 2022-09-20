@@ -245,10 +245,10 @@ model thermalZone "Reference Thermal zone model Milan"
     annotation (Placement(transformation(extent={{-50,66},{-44,72}})));
   Modelica.Blocks.Math.MultiSum sumLat(nu=3) "Sum of latent internal gains"
     annotation (Placement(transformation(extent={{-48,56},{-42,62}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaPLig(y(unit="W"), description=
         "Lighting power submeter") "Read lighting power consumption"
     annotation (Placement(transformation(extent={{-26,46},{-18,54}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
+  Buildings.Utilities.IO.SignalExchange.Read reaPPlu(y(unit="W"), description=
         "Plug load power submeter") "Read plug load power consumption"
     annotation (Placement(transformation(extent={{-26,88},{-18,96}})));
   Modelica.Blocks.Math.MultiSum sumLig(k=fill(roo.AFlo, 2), nu=2)
@@ -257,16 +257,16 @@ model thermalZone "Reference Thermal zone model Milan"
   Modelica.Blocks.Math.MultiSum sumPlu(k=fill(roo.AFlo, 2), nu=2)
     "Plug power consumption"
     annotation (Placement(transformation(extent={{-48,88},{-42,94}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTRooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaTRooAir(
     description="Zone air temperature",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K"),
     zone=zonName)
                  "Read room air temperature"
     annotation (Placement(transformation(extent={{86,18},{98,30}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaCO2RooAir(
+  Buildings.Utilities.IO.SignalExchange.Read reaCO2RooAir(
     description="Zone air CO2 concentration",
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm"),
     zone=zonName)  "Read room air CO2 concentration"
     annotation (Placement(transformation(extent={{82,-6},{92,4}})));
@@ -542,26 +542,26 @@ model thermalZone "Reference Thermal zone model Milan"
         origin={40,-94})));
   Modelica.Blocks.Math.MatrixGain matrixGain(K=[qint,0,0; 0,qint,0; 0,0,qint])
     annotation (Placement(transformation(extent={{-16,62},{-6,72}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTsupFloHea(description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTsupFloHea(description=
         "Zone supply temperature floor heating", y(unit="K"))
     "Supply temperature Floor heating"
     annotation (Placement(transformation(extent={{104,-58},{114,-48}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaMFloHea(description=
+  Buildings.Utilities.IO.SignalExchange.Read reaMFloHea(description=
         "Mass flow rate floor heating", y(unit="kg/s"))
     "Mass flow rate floor heating"
     annotation (Placement(transformation(extent={{104,-72},{114,-62}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTretFloHea(description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTretFloHea(description=
         "Zone return temperature floor heating", y(unit="K"))
     "Return temperature Floor heating"
     annotation (Placement(transformation(extent={{104,-86},{114,-76}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTavgFloHea(description=
+  Buildings.Utilities.IO.SignalExchange.Read reaTavgFloHea(description=
         "Zone average temperature floor heating", y(unit="K"))
     "Average temperature Floor heating"
     annotation (Placement(transformation(extent={{104,-44},{114,-34}})));
   Modelica.Blocks.Sources.RealExpression powFloHeat(y=(mflowTotin.m_flow*
         4186*(temSup.T - temRet.T)))  "Floor heating thermal power"
     annotation (Placement(transformation(extent={{60,-104},{78,-86}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPowFlooHea(
+  Buildings.Utilities.IO.SignalExchange.Read reaPowFlooHea(
     y(unit="W"),
     description="Floor heating power") "Reading of floor heating"
     annotation (Placement(transformation(extent={{104,-100},{114,-90}})));
@@ -571,7 +571,7 @@ model thermalZone "Reference Thermal zone model Milan"
     annotation (Placement(transformation(extent={{54,-58},{74,-38}})));
   Modelica.Blocks.Math.Gain powerCon(k=1) "Converts kW to W"
     annotation (Placement(transformation(extent={{88,-100},{98,-90}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaPowQint(y(unit="W"),
+  Buildings.Utilities.IO.SignalExchange.Read reaPowQint(y(unit="W"),
       description="Internal heat gains") "Internal heat gain power"
     annotation (Placement(transformation(extent={{10,84},{20,94}})));
   Modelica.Blocks.Interfaces.RealInput occupation annotation (Placement(
