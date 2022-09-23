@@ -153,7 +153,8 @@ model HydronicSystem "Hydronic circuit"
         273.15,43; 22 + 273.15,22], offset=273.15)
     annotation (Placement(transformation(extent={{-174,-88},{-158,-72}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTretFloHea(description=
-        "Zone return temperature floor heating", y(unit="K"))
+        "Heat pump return water temperature floor heating",
+                                                 y(unit="K"))
     "Return temperature Floor heating"
     annotation (Placement(transformation(extent={{-54,-38},{-36,-20}})));
   IDEAS.Fluid.HeatPumps.HP_AirWater_TSet AirHeaPum(

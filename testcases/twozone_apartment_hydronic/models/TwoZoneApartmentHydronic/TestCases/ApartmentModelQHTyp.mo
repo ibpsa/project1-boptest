@@ -803,7 +803,7 @@ The model outputs are:
 <code>dayZon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
 </li>
 <li>
-<code>dayZon_reaMFloHea_y</code> [kg/s] [min=None, max=None]: Mass flow rate floor heating
+<code>dayZon_reaMFloHea_y</code> [kg/s] [min=None, max=None]: Zone water mass flow rate floor heating
 </li>
 <li>
 <code>dayZon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
@@ -821,13 +821,13 @@ The model outputs are:
 <code>dayZon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>dayZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average temperature floor heating
+<code>dayZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average floor temperature
 </li>
 <li>
-<code>dayZon_reaTretFloHea_y</code> [K] [min=None, max=None]: Zone return temperature floor heating
+<code>dayZon_reaTretFloHea_y</code> [K] [min=None, max=None]: Zone return water temperature floor heating
 </li>
 <li>
-<code>dayZon_reaTsupFloHea_y</code> [K] [min=None, max=None]: Zone supply temperature floor heating
+<code>dayZon_reaTsupFloHea_y</code> [K] [min=None, max=None]: Zone supply water temperature floor heating
 </li>
 <li>
 <code>hydronicSystem_reaCOPhp_y</code> [1] [min=None, max=None]: air source heat pump COP
@@ -839,13 +839,13 @@ The model outputs are:
 <code>hydronicSystem_reaPeleHeaPum_y</code> [W] [min=None, max=None]: Electric consumption of the heat pump
 </li>
 <li>
-<code>hydronicSystem_reaTretFloHea_y</code> [K] [min=None, max=None]: Zone return temperature floor heating
+<code>hydronicSystem_reaTretFloHea_y</code> [K] [min=None, max=None]: Heat pump return water temperature floor heating
 </li>
 <li>
 <code>nigZon_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Zone air CO2 concentration
 </li>
 <li>
-<code>nigZon_reaMFloHea_y</code> [kg/s] [min=None, max=None]: Mass flow rate floor heating
+<code>nigZon_reaMFloHea_y</code> [kg/s] [min=None, max=None]: Zone water mass flow rate floor heating
 </li>
 <li>
 <code>nigZon_reaPLig_y</code> [W] [min=None, max=None]: Lighting power submeter
@@ -863,13 +863,13 @@ The model outputs are:
 <code>nigZon_reaTRooAir_y</code> [K] [min=None, max=None]: Zone air temperature
 </li>
 <li>
-<code>nigZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average temperature floor heating
+<code>nigZon_reaTavgFloHea_y</code> [K] [min=None, max=None]: Zone average floor temperature
 </li>
 <li>
-<code>nigZon_reaTretFloHea_y</code> [K] [min=None, max=None]: Zone return temperature floor heating
+<code>nigZon_reaTretFloHea_y</code> [K] [min=None, max=None]: Zone return water temperature floor heating
 </li>
 <li>
-<code>nigZon_reaTsupFloHea_y</code> [K] [min=None, max=None]: Zone supply temperature floor heating
+<code>nigZon_reaTsupFloHea_y</code> [K] [min=None, max=None]: Zone supply water temperature floor heating
 </li>
 <li>
 <code>weatherStation_reaWeaCeiHei_y</code> [m] [min=None, max=None]: Cloud cover ceiling height measurement

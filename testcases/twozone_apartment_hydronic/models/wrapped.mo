@@ -14,7 +14,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput hydronicSystem_oveMpumCon_activate "Activation for Mass flow rate control input to circulation pump for water through floor heating system";
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaCloTim_y(unit="s") = mod.weatherStation.reaWeaCloTim.y "Day number with units of seconds";
-	Modelica.Blocks.Interfaces.RealOutput dayZon_reaMFloHea_y(unit="kg/s") = mod.dayZon.reaMFloHea.y "Mass flow rate floor heating";
+	Modelica.Blocks.Interfaces.RealOutput dayZon_reaMFloHea_y(unit="kg/s") = mod.dayZon.reaMFloHea.y "Zone water mass flow rate floor heating";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaSolHouAng_y(unit="rad") = mod.weatherStation.reaWeaSolHouAng.y "Solar hour angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput dayZon_reaPowFlooHea_y(unit="W") = mod.dayZon.reaPowFlooHea.y "Floor heating power";
 	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_reaCOPhp_y(unit="1") = mod.hydronicSystem.reaCOPhp.y "air source heat pump COP";
@@ -22,8 +22,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaSolDec_y(unit="rad") = mod.weatherStation.reaWeaSolDec.y "Solar declination angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaTDryBul_y(unit="K") = mod.weatherStation.reaWeaTDryBul.y "Outside drybulb temperature measurement";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaLon_y(unit="rad") = mod.weatherStation.reaWeaLon.y "Longitude of the location";
-	Modelica.Blocks.Interfaces.RealOutput nigZon_reaMFloHea_y(unit="kg/s") = mod.nigZon.reaMFloHea.y "Mass flow rate floor heating";
-	Modelica.Blocks.Interfaces.RealOutput dayZon_reaTavgFloHea_y(unit="K") = mod.dayZon.reaTavgFloHea.y "Zone average temperature floor heating";
+	Modelica.Blocks.Interfaces.RealOutput nigZon_reaMFloHea_y(unit="kg/s") = mod.nigZon.reaMFloHea.y "Zone water mass flow rate floor heating";
+	Modelica.Blocks.Interfaces.RealOutput dayZon_reaTavgFloHea_y(unit="K") = mod.dayZon.reaTavgFloHea.y "Zone average floor temperature";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaTWetBul_y(unit="K") = mod.weatherStation.reaWeaTWetBul.y "Wet bulb temperature measurement";
 	Modelica.Blocks.Interfaces.RealOutput dayZon_reaCO2RooAir_y(unit="ppm") = mod.dayZon.reaCO2RooAir.y "Zone air CO2 concentration";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaTBlaSky_y(unit="K") = mod.weatherStation.reaWeaTBlaSky.y "Black-body sky temperature measurement";
@@ -34,9 +34,9 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaSolTim_y(unit="s") = mod.weatherStation.reaWeaSolTim.y "Solar time";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaTDewPoi_y(unit="K") = mod.weatherStation.reaWeaTDewPoi.y "Dew point temperature measurement";
 	Modelica.Blocks.Interfaces.RealOutput nigZon_reaTRooAir_y(unit="K") = mod.nigZon.reaTRooAir.y "Zone air temperature";
-	Modelica.Blocks.Interfaces.RealOutput dayZon_reaTsupFloHea_y(unit="K") = mod.dayZon.reaTsupFloHea.y "Zone supply temperature floor heating";
-	Modelica.Blocks.Interfaces.RealOutput nigZon_reaTretFloHea_y(unit="K") = mod.nigZon.reaTretFloHea.y "Zone return temperature floor heating";
-	Modelica.Blocks.Interfaces.RealOutput nigZon_reaTavgFloHea_y(unit="K") = mod.nigZon.reaTavgFloHea.y "Zone average temperature floor heating";
+	Modelica.Blocks.Interfaces.RealOutput dayZon_reaTsupFloHea_y(unit="K") = mod.dayZon.reaTsupFloHea.y "Zone supply water temperature floor heating";
+	Modelica.Blocks.Interfaces.RealOutput nigZon_reaTretFloHea_y(unit="K") = mod.nigZon.reaTretFloHea.y "Zone return water temperature floor heating";
+	Modelica.Blocks.Interfaces.RealOutput nigZon_reaTavgFloHea_y(unit="K") = mod.nigZon.reaTavgFloHea.y "Zone average floor temperature";
 	Modelica.Blocks.Interfaces.RealOutput dayZon_reaTRooAir_y(unit="K") = mod.dayZon.reaTRooAir.y "Zone air temperature";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaSolZen_y(unit="rad") = mod.weatherStation.reaWeaSolZen.y "Solar zenith angle measurement";
 	Modelica.Blocks.Interfaces.RealOutput nigZon_reaCO2RooAir_y(unit="ppm") = mod.nigZon.reaCO2RooAir.y "Zone air CO2 concentration";
@@ -51,11 +51,11 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput nigZon_reaPLig_y(unit="W") = mod.nigZon.reaPLig.y "Lighting power submeter";
 	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_reaPeleHeaPum_y(unit="W") = mod.hydronicSystem.reaPeleHeaPum.y "Electric consumption of the heat pump";
 	Modelica.Blocks.Interfaces.RealOutput dayZon_reaPPlu_y(unit="W") = mod.dayZon.reaPPlu.y "Plug load power submeter";
-	Modelica.Blocks.Interfaces.RealOutput nigZon_reaTsupFloHea_y(unit="K") = mod.nigZon.reaTsupFloHea.y "Zone supply temperature floor heating";
-	Modelica.Blocks.Interfaces.RealOutput dayZon_reaTretFloHea_y(unit="K") = mod.dayZon.reaTretFloHea.y "Zone return temperature floor heating";
+	Modelica.Blocks.Interfaces.RealOutput nigZon_reaTsupFloHea_y(unit="K") = mod.nigZon.reaTsupFloHea.y "Zone supply water temperature floor heating";
+	Modelica.Blocks.Interfaces.RealOutput dayZon_reaTretFloHea_y(unit="K") = mod.dayZon.reaTretFloHea.y "Zone return water temperature floor heating";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaNOpa_y(unit="1") = mod.weatherStation.reaWeaNOpa.y "Opaque sky cover measurement";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaPAtm_y(unit="Pa") = mod.weatherStation.reaWeaPAtm.y "Atmospheric pressure measurement";
-	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_reaTretFloHea_y(unit="K") = mod.hydronicSystem.reaTretFloHea.y "Zone return temperature floor heating";
+	Modelica.Blocks.Interfaces.RealOutput hydronicSystem_reaTretFloHea_y(unit="K") = mod.hydronicSystem.reaTretFloHea.y "Heat pump return water temperature floor heating";
 	Modelica.Blocks.Interfaces.RealOutput dayZon_reaPLig_y(unit="W") = mod.dayZon.reaPLig.y "Lighting power submeter";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaWinSpe_y(unit="m/s") = mod.weatherStation.reaWeaWinSpe.y "Wind speed measurement";
 	Modelica.Blocks.Interfaces.RealOutput weatherStation_reaWeaRelHum_y(unit="1") = mod.weatherStation.reaWeaRelHum.y "Outside relative humidity measurement";

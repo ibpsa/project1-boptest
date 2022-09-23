@@ -543,19 +543,22 @@ model thermalZone "Reference Thermal zone model Milan"
   Modelica.Blocks.Math.MatrixGain matrixGain(K=[qint,0,0; 0,qint,0; 0,0,qint])
     annotation (Placement(transformation(extent={{-16,62},{-6,72}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTsupFloHea(description=
-        "Zone supply temperature floor heating", y(unit="K"))
+        "Zone supply water temperature floor heating",
+                                                 y(unit="K"))
     "Supply temperature Floor heating"
     annotation (Placement(transformation(extent={{104,-58},{114,-48}})));
   Buildings.Utilities.IO.SignalExchange.Read reaMFloHea(description=
-        "Mass flow rate floor heating", y(unit="kg/s"))
+        "Zone water mass flow rate floor heating",
+                                        y(unit="kg/s"))
     "Mass flow rate floor heating"
     annotation (Placement(transformation(extent={{104,-72},{114,-62}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTretFloHea(description=
-        "Zone return temperature floor heating", y(unit="K"))
+        "Zone return water temperature floor heating",
+                                                 y(unit="K"))
     "Return temperature Floor heating"
     annotation (Placement(transformation(extent={{104,-86},{114,-76}})));
   Buildings.Utilities.IO.SignalExchange.Read reaTavgFloHea(description=
-        "Zone average temperature floor heating", y(unit="K"))
+        "Zone average floor temperature",         y(unit="K"))
     "Average temperature Floor heating"
     annotation (Placement(transformation(extent={{104,-44},{114,-34}})));
   Modelica.Blocks.Sources.RealExpression powFloHeat(y=(mflowTotin.m_flow*
@@ -701,7 +704,8 @@ equation
     annotation (Line(points={{46.6,0},{50,0},{50,-1},{55,-1}},
                                                  color={0,0,127}));
   connect(roo.surf_surBou[1],radiantSlab. surf_a) annotation (Line(points={{46.15,
-          10.5},{46.15,-13.75},{22,-13.75},{22,-84}}, color={191,0,0}));
+          10.125},{46.15,-13.75},{22,-13.75},{22,-84}},
+                                                      color={191,0,0}));
   connect(surf_conBou, roo.surf_conBou) annotation (Line(points={{-15,-35},{34,-35},
           {34,-8},{54,-8},{54,9},{53.5,9}},
                                    color={191,0,0}));
@@ -732,8 +736,8 @@ equation
   connect(radiantSlab.surf_b, FloorHeatingH) annotation (Line(points={{22,-104},
           {28,-104},{28,-116},{24,-116},{24,-117},{21,-117}},
                                        color={191,0,0}));
-  connect(surf_surBou, roo.surf_surBou[2]) annotation (Line(points={{91,-37},{91,
-          -27.5},{46.15,-27.5},{46.15,10.5}},       color={191,0,0}));
+  connect(surf_surBou, roo.surf_surBou[2]) annotation (Line(points={{91,-37},{
+          91,-27.5},{46.15,-27.5},{46.15,10.875}},  color={191,0,0}));
   connect(radiantSlab.surf_a, Tfloor.port) annotation (Line(points={{22,-84},{26,
           -84},{26,-76}},          color={191,0,0}));
   connect(temSup.port_b, mflowTotin.port_a)
