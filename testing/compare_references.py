@@ -123,7 +123,7 @@ def compare(testcase='bestest_air'):
                              'ahu_reaTRetAir_y'],
                            refs_old = 'singlezone_commercial_hydronic_old',
                            refs_new = 'singlezone_commercial_hydronic')
-    elif testcase == 'two_zone_apartment_hydronic':
+    elif testcase == 'twozone_apartment_hydronic':
         compare_references(vars_timeseries = ['hydronicSystem_oveTHea_u','hydronicSystem_oveMDayZ_u',
                              'ayZon_reaTRooAir_y','dayZon_reaTretFloHea_y',
                             'dayZon_reaPowQint_y','nigZon_reaTRooAir_y',
