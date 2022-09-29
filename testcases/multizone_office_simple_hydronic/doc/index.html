@@ -284,7 +284,7 @@ with an efficiency of 150 lm/W and with a convective-radiative split of 65/35% r
 Internal gains from appliances are assumed to have a convective-radiative split of 70/30% respectively and are distributed as follows:
 <ul>
 <li>A base load of idle components per zone: a printer, a copier, two projector screens and a coffe machine; totalling 1175 W per zone.</li>
-<li>A occupancy dependant load of per zone: a workstation and a monitors per occupant; totalling 155 W extra per occupant.</li>
+<li>An occupancy dependant load of per zone: a workstation and a monitors per occupant; totalling 155 W extra per occupant.</li>
 </ul>
 these values are taken from ASHRAE appliances data.
 </p>
@@ -352,7 +352,8 @@ The heat recovery exchanger is assumed to have a constant effectiveness of 84%.
 <p>
 The production system is composed by a gas boiler for heating and a chiller for cooling.
 The nominal powers of the production system are determined by the sum of the nominal powers
-of each emission and ventilation coil loop, which are 317.5 kW and 302.5 kW for heating and cooling respectively.
+of each emission and ventilation coil loop, which are 75+62.5+90+90=317.5 kW and 100+112.5+45+45=302.5 kW
+for heating and cooling respectively.
 The nominal mass flow rates are calculated from the resulting heating and cooling nominal powers.
 </p>
 
@@ -363,7 +364,7 @@ The production system supplies heat/cold to a supply manifold or collector.
 From here, the different circuit loops distribute the water to the different heat exchangers
 in the emission system or the ventilation system.
 Each circuit loop is equipped with a pump that allows to activate the circuit and a
-mixing 3-way valve place downstream the pump, which allows to regulate the supply temperature in the distribution loop.
+mixing 3-way valve placed downstream the pump, which allows to regulate the supply temperature in the distribution loop.
 </p>
 
 <p>
@@ -381,7 +382,7 @@ src="images/schematic.svg" width=1200 />
 
 <p><b>Boiler</b> </p>
 <p>
-The gas boiler efficiency of the boiler is dependant on the supply temperature imposed.
+The gas boiler efficiency is dependant on the supply temperature imposed.
 The gas boiler efficiency has a linear term with respect to the supply temperature and,
 when the condensation temperature occurs (around 45 &#176;C), a sudden increase of
 the efficiency occurs which is modeled with a sigmoid function.
@@ -468,12 +469,12 @@ Distribution pumps:
 The model is equipped with a BMS baseline controller that attempts to keep the
 temperature and IEQ requirements, also depicted in the hydraulic schematic.
 Internal controls of the emission and ventilation system are not communicated/exported to the BMS,
-hence cannot be overriten.
+hence cannot be overridden.
 </p>
 <p>
-A minimum and maximum zone setpoints can be defined by the user,
+A minimum and maximum zone set-points can be defined by the user,
 which are 21/25 &#176;C when the building is occupied.
-When the building is empty, a nightsetback of ±5 &#176;C is applied.
+When the building is empty, a night setback of ±5 &#176;C is applied.
 These set-points are input to the ventiloconvectors,
 whose internal controls (not connected to the BMS) will actuate
 on their fans and internal 3-way valves to keep the building within the defined boundaries.
@@ -614,7 +615,7 @@ The model inputs are:
 <code>bms_oveTSupEmiCooNz_u</code> [K] [min=273.15, max=293.15]: North zone cooling emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiCooSz_u</code> [K] [min=273.15, max=293.15]: Southh zone cooling emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiCooSz_u</code> [K] [min=273.15, max=293.15]: South zone cooling emission circuit supply temperature setpoint
 </li>
 <li>
 <code>bms_oveTSupEmiHeaNz_u</code> [K] [min=293.15, max=353.15]: North zone heating emission circuit supply temperature setpoint
@@ -903,7 +904,7 @@ The model outputs are:
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
-Lighting heat gain is included in the zone model whenever there is occupants in the building and it is not controllable.
+Lighting heat gain is included in the zone model whenever there are occupants in the building and it is not controllable.
 </p>
 <h4>Shading</h4>
 <p>
