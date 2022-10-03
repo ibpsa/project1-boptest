@@ -260,6 +260,7 @@ test_all:
 	make test_multizone_residential_hydronic
 	make test_singlezone_commercial_hydronic
 	make test_multizone_office_simple_air
+	make test_two_zone_apartment_hydronic
 # Remove jm
 	make remove_jm_image
 # Remove boptest base image
