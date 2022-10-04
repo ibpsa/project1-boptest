@@ -17,7 +17,7 @@ simulation start, warmup_period, and length or a predefined test case scenario. 
 The baseline testing could be conducted in either of the two methods:
 
 - Check if Docker image ``jm`` exists. If not, run command: ``$ make build_jm_image``. 
-Then, run the test with command: ``$ make run_baseline_<testcase>``.
+Then, run the test with command: ``$ make run_baseline_<testcase>``. Run all the baseline testcases with command: ``$ make run_baseline_all``
 
 - Or, deploy the test case corresponding to the desired example (see repository root ``README.md`` for instructions on deploying a test case). 
 Then, use ``$ python testcase<TestCase>scenario.py`` to run the desired example.
