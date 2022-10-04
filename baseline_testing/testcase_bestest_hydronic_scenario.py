@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This script demonstrates baseline testing of test case called "bestest_hydronic_heat_pump".
+This script demonstrates baseline testing of test case called "bestest_hydronic".
 
 """
 
@@ -8,7 +8,7 @@ This script demonstrates baseline testing of test case called "bestest_hydronic_
 # ----------------------
 import sys
 import os
-sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-3]))
+sys.path.insert(0, '/'.join(os.path.dirname(os.path.abspath(__file__))))
 from examples.python.interface import control_test
 import pandas as pd
 import json
@@ -52,7 +52,7 @@ def run(modelname, scenario, plot=False):
     # POST-PROCESS RESULTS
     # --------------------
     time = df_res.index.values / 3600  # convert s --> hr
-    zone_temperature = df_res['reaTZon_y'].values - 273.15  # convert K --> C
+    zone_temperature = df_res['reaTRoo_y'].values - 273.15  # convert K --> C
     # Plot results
     if plot:
         try:
@@ -74,7 +74,7 @@ def run(modelname, scenario, plot=False):
 
 if __name__ == "__main__":
 
-    modelname='bestest_hydronic_heat_pump'
+    modelname='bestest_hydronic'
     
     #Specify the baseline scenarios
     price_elec=['constant','dynamic','highly_dynamic']

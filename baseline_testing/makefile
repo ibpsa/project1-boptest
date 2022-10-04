@@ -55,7 +55,7 @@ compile_testcase_model:
 	make copy_to_jm ARGS=parsing
 	make copy_to_jm ARGS=data
 	make copy_to_jm ARGS=testcases/${TESTCASE}
-	make exec_jm ARGS="python set_library_versions.py ${TESTCASE} && cd ${TESTCASE}/models && python compile_fmu.py"
+	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
 	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
 	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.mo
 	make stop_jm
@@ -72,9 +72,15 @@ run_baseline_%:
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
 	cd ../../../ && TESTCASE=$* docker-compose up -d
-	python sleep10.py
 # Run testcase tests
-	cd ../../../ && python examples/python/baseline_testing/testcase_$*_scenario.py
+	cd ../../../ && python baseline_testing/testcase_$*_scenario.py
 # Stop testcase container
 	cd ../../../ && docker-compose down
 
+run_baseline_all:
+	make run_baseline_bestest_air
+	make run_baseline_bestest_hydronic
+	make run_baseline_bestest_hydronic_heat_pump
+	make run_baseline_multizone_residential_hydronic
+	make run_baseline_singlezone_commercial_hydronic
+	make run_baseline_multizone_office_simple_air

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This script demonstrates baseline testing of test case called "bestest_hydronic".
+This script demonstrates baseline testing of test case called "multizone_office_simple_air".
 
 """
 
@@ -8,13 +8,14 @@ This script demonstrates baseline testing of test case called "bestest_hydronic"
 # ----------------------
 import sys
 import os
-sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-3]))
+sys.path.insert(0, '/'.join(os.path.dirname(os.path.abspath(__file__))))
 from examples.python.interface import control_test
 import pandas as pd
 import json
 import itertools
 import datetime as dt
 import time
+
 
 def run(modelname, scenario, plot=False):
     """Run test case.
@@ -51,7 +52,7 @@ def run(modelname, scenario, plot=False):
     # POST-PROCESS RESULTS
     # --------------------
     time = df_res.index.values / 3600  # convert s --> hr
-    zone_temperature = df_res['reaTRoo_y'].values - 273.15  # convert K --> C
+    zone_temperature = df_res['hvac_reaZonEas_TZon_y'].values - 273.15  # convert K --> C
     # Plot results
     if plot:
         try:
@@ -73,11 +74,11 @@ def run(modelname, scenario, plot=False):
 
 if __name__ == "__main__":
 
-    modelname='bestest_hydronic'
+    modelname='multizone_office_simple_air'
     
     #Specify the baseline scenarios
     price_elec=['constant','dynamic','highly_dynamic']
-    time_period=['peak_heat_day', 'typical_heat_day']
+    time_period=['peak_heat_day', 'typical_heat_day', 'peak_cool_day', 'typical_cool_day', 'mix_day']
 
     scenario_lst=list(itertools.product(price_elec, time_period))
     scenario_name_lst= [scenario[0]+'+'+scenario[1] for scenario in scenario_lst]

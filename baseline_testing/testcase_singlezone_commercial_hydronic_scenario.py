@@ -8,7 +8,7 @@ This script demonstrates baseline testing of test case called "singlezone_commer
 # ----------------------
 import sys
 import os
-sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-3]))
+sys.path.insert(0, '/'.join(os.path.dirname(os.path.abspath(__file__))))
 from examples.python.interface import control_test
 import pandas as pd
 import json
