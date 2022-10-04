@@ -27,7 +27,7 @@ run_jm:
 	docker cp . ${IMG_NAME}:/usr/local/testing
 
 copy_to_jm:
-	docker cp ../../../${ARGS} ${IMG_NAME}:/usr/local/testing
+	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
 	docker exec -it ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
 
 copy_testcase_to_jm:
@@ -37,29 +37,16 @@ copy_testcase_to_jm:
 	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
 
 copy_from_jm:
-	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../../../${ARGS}
+	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
 
 copy_testcase_from_jm:
-	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../../../testcases/${ARGS}
+	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../testcases/${ARGS}
 
 exec_jm:
 	docker exec -it ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
 
 stop_jm:
 	docker stop ${IMG_NAME}
-# Make sure jm image stops being used
-	python sleep10.py
-
-compile_testcase_model:
-	make run_jm
-	make copy_to_jm ARGS=parsing
-	make copy_to_jm ARGS=data
-	make copy_to_jm ARGS=testcases/${TESTCASE}
-	make exec_jm ARGS="cd ${TESTCASE}/models && python compile_fmu.py"
-	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.fmu
-	make copy_testcase_from_jm ARGS=${TESTCASE}/models/wrapped.mo
-	make stop_jm
-
 
 
 ###############################################################################
@@ -68,14 +55,13 @@ compile_testcase_model:
 ###############################################################################
 
 run_baseline_%:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
-	cd ../../../ && TESTCASE=$* docker-compose up -d
+	cd .. && TESTCASE=$* docker-compose up -d
 # Run testcase tests
-	cd ../../../ && python baseline_testing/testcase_$*_scenario.py
+	python sleep10.py
+	cd .. && python baseline_testing/testcase_$*_scenario.py
 # Stop testcase container
-	cd ../../../ && docker-compose down
+	cd .. && docker-compose down
 
 run_baseline_all:
 	make run_baseline_bestest_air
