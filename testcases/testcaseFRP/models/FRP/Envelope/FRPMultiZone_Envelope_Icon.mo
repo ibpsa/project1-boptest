@@ -1,6 +1,7 @@
 within FRP.Envelope;
 model FRPMultiZone_Envelope_Icon
   "FRP MultiZone envelope icon with  FRP construction"
+  import ModelicaServices;
 
 constant Integer nStaRef=3;
 package MediumA = Buildings.Media.Air "Medium model";
@@ -231,7 +232,7 @@ Modelica.Blocks.Sources.Constant qLatGai_flow(k=0) "Latent heat gain"
 Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
       computeWetBulbTemperature=false, filNam=
         ModelicaServices.ExternalReferences.loadResource(
-        "modelica://FRP/Resources/weatherdata/FRP_Weather_2021_Summer.mos"))
+        "modelica://FRP/Resources/weatherdata/FRP2018.mos"))
   annotation (Placement(transformation(extent={{280,-130},{268,-118}})));
 
 Buildings.Fluid.Sources.MassFlowSource_T sinInf204(
@@ -879,13 +880,11 @@ connect(multiplex3_1.y,roo204. qGai_flow) annotation (Line(points={{-211.6,-12},
           {-200,-12},{-200,-36},{-46.08,-36},{-46.08,-38}},
                                                color={0,0,127}));
 connect(weaDat.weaBus,roo201.weaBus) annotation (Line(
-    points={{268,-124},{236,-124},{236,-122},{204,-122},{204,-53.575},{159.585,
-          -53.575}},
+    points={{268,-124},{204,-124},{204,-53.575},{159.585,-53.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo203.weaBus) annotation (Line(
-    points={{268,-124},{242,-124},{242,-122},{216,-122},{216,-41.575},{83.585,
-          -41.575}},
+    points={{268,-124},{216,-124},{216,-41.575},{83.585,-41.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo206.weaBus) annotation (Line(
@@ -926,7 +925,7 @@ connect(weaDat.weaBus,roo104.weaBus) annotation (Line(
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo204.weaBus) annotation (Line(
-    points={{268,-124},{232,-124},{232,-122},{196,-122},{196,-28.1},{5.27,-28.1}},
+    points={{268,-124},{196,-124},{196,-28.1},{5.27,-28.1}},
     color={255,204,51},
     thickness=0.5));
 

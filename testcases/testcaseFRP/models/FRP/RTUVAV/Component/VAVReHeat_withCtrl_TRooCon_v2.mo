@@ -49,7 +49,7 @@ model VAVReHeat_withCtrl_TRooCon_v2
     k=0.1,
     Ti=120,
     controllerType=Buildings.Controls.OBC.CDL.Types.SimpleController.PI,
-    yMin=0.1,
+    yMin=0.25,
     initType=Modelica.Blocks.Types.InitPID.NoInit,
     reverseActing=false)
     "Controller for cooling (acts on damper)"
