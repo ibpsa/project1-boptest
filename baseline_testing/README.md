@@ -6,12 +6,12 @@ This folder contains examples and results for performing testing of baseline con
 
 - For each ``<TestCase>``, the baseline controller module file ``<TestCase>.py`` and the test script ``testcase<TestCase>scenario.py`` will be used for running an example baseline test.
 
-- Baseline control modules files ``<TestCase>.py`` are located in ``examples/python/controllers``. The baseline controllers are actually incorporated in the testcase models.
+- Baseline control modules files ``<TestCase>.py`` are located in ``../examples/python/controllers``. The baseline controllers are actually incorporated in the testcase models.
 The function ``compute_control`` is psuedo. The control inputs will not be overwritten by this external controller. Thus, baseline controllers in the testcase models will be used. 
 
-- For test scripts ``testcase<TestCase>scenario.py`` for performing the baseline control test, user could specify the combination of
-simulation start, warmup_period, and length or a predefined test case scenario. For the default setting of the baseline tests,
- scenarios with different electricity prices and time periods will be  simulated. 
+- For test scripts ``testcase<TestCase>scenario.py`` for performing the baseline control test, user could specify the predefined typical test case scenarios (e.g., typical heat day), or a combination of user-defined
+``start_time``, ``warmup_period``, and ``length``. For the default setting of the baseline tests,
+ scenarios with different electricity prices and time periods will be  simulated. If ``scenario`` is specified, ``start_time``, ``warmup_period``, and ``length`` will not be used.
 
 ## Run an Example Baseline Test
 The baseline testing could be conducted in either of the two methods:

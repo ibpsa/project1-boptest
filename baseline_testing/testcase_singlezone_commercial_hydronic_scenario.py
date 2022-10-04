@@ -17,10 +17,30 @@ import datetime as dt
 import time
 
 
-def run(modelname, scenario, plot=False):
+def run(modelname, scenario, start_time = 0, warmup_period = 0, length = 48*3600,  plot=False):
     """Run test case.
     Parameters
     ----------
+    modelname: str
+        Name of the testcase.
+        
+    scenario: dict, optional
+        Dictionary defining the predefined test scenario.
+        {'time_period': str, 'electricity_price': str}.
+        If specified, start_time, warmup_period, and length not used.
+        
+    start_time: int, optional
+        Simulation start time in seconds from midnight January 1st.
+        Not used if scenario defined.
+        
+    warmup_period: int, optional
+        Simulation warmup-period in seconds before start_time.
+        Not used if scenario defined.
+        
+    length: int, optional
+        Simulation duration in seconds (e.g., 24*3600 is a 1 day simulation).
+        Not used if scenario defined.
+
     plot : bool, optional
         True to plot timeseries results.
         Default is False.
@@ -42,12 +62,12 @@ def run(modelname, scenario, plot=False):
     # --------------------
     control_module = 'examples.python.controllers.{}'.format(modelname)
     step = 300
-
+    
     # RUN THE CONTROL TEST
     # --------------------
-    kpi, df_res, custom_kpi_result, forecasts = control_test(control_module,
-                                                                  scenario=scenario,
-                                                                  step=step)
+    #start_time, warmup_period, length will not be used if scenario is specified.
+    kpi, df_res, custom_kpi_result, forecasts = control_test(control_module,start_time,warmup_period,length,
+                                                                  scenario=scenario,step=step)
 
     # POST-PROCESS RESULTS
     # --------------------
@@ -77,7 +97,8 @@ if __name__ == "__main__":
 
     modelname='singlezone_commercial_hydronic'
     
-    #Specify the baseline scenarios
+    #Run baseline control testing of specified scenarios
+    # --------------------
     price_elec=['constant','dynamic','highly_dynamic']
     time_period=['peak_heat_day', 'typical_heat_day']
 
@@ -102,3 +123,10 @@ if __name__ == "__main__":
     #writer=pd.ExcelWriter(r'df_res_{}.xlsx'.format(modelname))
     #for i, df_res_scenario in enumerate(df_res_scenario_lst):
         #df_res_scenario.to_excel(writer,sheet_name="{0}".format(scenario_name_lst[i]))
+
+
+        
+    #Run user-defined baseline control testing
+    # --------------------
+    #kpi, df_res, custom_kpi_result = run(modelname,start_time = 15*24*3600, warmup_period = 24*7*3600, 
+    #                                     length = 24*14*3600, scenario = None)
