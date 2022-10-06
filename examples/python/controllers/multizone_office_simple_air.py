@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This module implements a supervisory controller for room temperature set points
-specifically for testcase2.
+This module implements a baseline control for testcase multizone_office_simple_air.
 
 """
 
