@@ -15,8 +15,7 @@ permalink: /testcases/ibpsa/testcases_ibpsa_twozone_apartment_hydronic/
 The test case is a two-room with one bathroom apartment in Milan, Italy. The floor
 area is 44.5 m<sup>2</sup> and the apartment is well-insulated with an external
 transmittance equal to 0.46 W/m<sup>2</sup>K. The external facing façade is South-East
-oriented with a total window area of 8 m<sup>2</sup>. The apartment is occupied by one
-person considered as a worker.
+oriented with a total window area of 8 m<sup>2</sup>.
 
 The heating system consists of two floor radiant heating circuits, one for
 each room. The heat is supplied by a 5 kW air source heat pump. The embedded control
