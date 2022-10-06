@@ -134,7 +134,7 @@ function send()
             }
       };
 
-      var results_arg='{"point_name":"TRooAir_y","start_time":0,"final_time":'+length.toString()+'}';
+      var results_arg='{"point_names":["TRooAir_y"],"start_time":0,"final_time":'+length.toString()+'}';
 	  console.log(results_arg)
       xhr_get_result.send(results_arg);
 

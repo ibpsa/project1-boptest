@@ -136,7 +136,7 @@ function send()
       };
       var results = {};
 
-      var results_arg='{"point_name":"TRooAir_y","start_time":0,"final_time":'+length.toString()+'}';
+      var results_arg='{"point_names":["TRooAir_y"],"start_time":0,"final_time":'+length.toString()+'}';
       xhr_get_result.send(results_arg);
 
       xhr_get_kpi = new XMLHttpRequest();
