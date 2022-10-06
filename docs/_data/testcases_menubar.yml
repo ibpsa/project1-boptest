@@ -12,14 +12,14 @@
       link: /testcases/ibpsa/testcases_ibpsa_multizone_residential_hydronic/
     - name: Multizone Office Simple Air
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
-#- label: Expected in Next Release
-#  items:
+- label: Expected in Next Release
+  items:
+    - name: Two Zone Apartment Hydronic
+      link: /testcases/ibpsa/testcases_ibpsa_twozone_apartment_hydronic/
 - label: Under Development
   items:
     - name: Single Zone Commercial Air
       link: /testcases/ibpsa/testcases_ibpsa_singlezone_commercial_air/
-    - name: Two Zone Apartment Hydronic
-      link: /testcases/ibpsa/testcases_ibpsa_twozone_apartment_hydronic/
     - name: Flexible Research Platform
       link: /testcases/ibpsa/testcases_ibpsa_flexible_research_platform/
     - name: Multizone Office Simple Hybrid
