@@ -61,6 +61,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.url = 'http://127.0.0.1:5000'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
+        self.input = {'bms_oveByPassNz_activate':0, 
+                      'bms_oveByPassNz_u':0.5}
+        self.measurement = 'heating_cooling_reaPFcuNz_y'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

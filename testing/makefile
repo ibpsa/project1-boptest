@@ -74,7 +74,7 @@ generate_testcase_data:
 # Tests
 ###############################################################################
 
-# Generic test for all testcases except testcase1 and testcase2
+# Generic test for all testcases except testcase1, testcase2, and multizone_office_simple_hydronic
 test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
@@ -83,6 +83,19 @@ test_%:
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_$*.py
+# Stop testcase container
+	cd .. && docker-compose down
+# Report test results
+	python report.py
+	
+# Generic test for all testcases except testcase1 and testcase2
+test_multizone_office_simple_hydronic:
+# Test case not compiled since uses MSL4 and not compatible wth JModelica compiling.
+# Build and deploy testcase image
+	cd .. && TESTCASE=multizone_office_simple_hydronic docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_multizone_office_simple_hydronic.py
 # Stop testcase container
 	cd .. && docker-compose down
 # Report test results
