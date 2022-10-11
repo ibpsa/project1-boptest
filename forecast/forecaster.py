@@ -34,7 +34,8 @@ class Forecaster(object):
         self.case = testcase
 
     def get_forecast(self,horizon=None, interval=None,
-                     category=None, plot=False):
+                     category=None, F0=0, K0=0, F=0, K=0, mu=0,
+                     plot=False):
         '''Returns forecast of the test case data
 
         Parameters
@@ -51,6 +52,17 @@ class Forecaster(object):
             data without filtering it by any category.
             Possible options are 'weather', 'prices',
             'emissions', 'occupancy', internalGains, 'setpoints'
+        F0 : float, default is 0
+            mean of the initial error model for weather forecast
+        K0 : float, default is 0
+            standard deviation of the initial error model for weather forecast
+        F : float from 0 to 1, default is 0
+            autocorrelation factor of the AR error model for weather forecast
+        K : float, default is 0
+            standard deviation of the AR error model
+        mu : float, default is 0
+            mean value of the distribution function integrated in the AR error model
+            for weather forecast
         plot : boolean, default is False
             True if desired to plot the forecast
 
@@ -76,5 +88,7 @@ class Forecaster(object):
                                                    interval=interval,
                                                    category=category,
                                                    plot=plot)
+        
+        error_forecast = predict_error(hp=horizon, F0=F0, K0=K0, F=F, K=K, mu=mu)
 
         return forecast
