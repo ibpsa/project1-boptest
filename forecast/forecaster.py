@@ -9,6 +9,9 @@ of the test case to provide deterministic forecast.
 
 '''
 
+from .error_emulator import predict_error
+
+
 class Forecaster(object):
     '''This class retrieves test case data forecast for its use in
     optimal control strategies.
