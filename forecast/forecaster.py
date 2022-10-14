@@ -89,6 +89,10 @@ class Forecaster(object):
                                                    category=category,
                                                    plot=plot)
         
+        # error in the forecast
         error_forecast = predict_error(hp=horizon, F0=F0, K0=K0, F=F, K=K, mu=mu)
+        
+        # forecast error just added to dry bulb temperature
+        forecast['TDryBul'] = forecast['TDryBul'] + error_forecast
 
         return forecast
