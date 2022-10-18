@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is file 'modelDescription.xml' for input 'wholebuilding96.idf'. -->
+<fmiModelDescription  fmiVersion="2.0"
+  modelName="wholebuilding96.idf"
+  guid="a349df29885c57a03c6056ded4e4be20"
+  description="Automatically generated from EnergyPlus input file wholebuilding96.idf"
+  generationTool="idf-to-fmu-export-prep-win.exe"
+  generationDateAndTime="2022-09-02T01:43:21Z"
+  variableNamingConvention="flat"
+  numberOfEventIndicators="0">
+  <!-- Note guid is an md5 checksum of the IDF file. -->
+  <!-- EnergyPlus provided as tool (as opposed to source code or DLL). -->
+  <CoSimulation
+      modelIdentifier="wholebuilding96"
+      needsExecutionTool="false"
+      canHandleVariableCommunicationStepSize="false"
+      canInterpolateInputs="false"
+      maxOutputDerivativeOrder="0"
+      canGetAndSetFMUstate="false"
+      canSerializeFMUstate="false"
+      canRunAsynchronuously="false"
+      canBeInstantiatedOnlyOncePerProcess="false"
+      canNotUseMemoryManagementFunctions="true"
+      providesDirectionalDerivative="false"/>
+  <!-- Exposed model variables. -->
+  <ModelVariables>
+    <!-- Note valueReferences are (1, 2, 3...) for causality="input" (to E+). -->
+    <!-- Note valueReferences are (100001, 100002, 100003...) for "output" (from E+). -->
+    <!-- Note the order of valueReferences should match the order of elements in file 'variables.cfg'. -->
+    <!-- Index for next variable is '1'. -->
+    <ScalarVariable  name="Temp1"  valueReference="1"
+      variability="continuous"  causality="input"
+      description="IDF line 6267">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '2'. -->
+    <ScalarVariable  name="Temp2"  valueReference="2"
+      variability="continuous"  causality="input"
+      description="IDF line 6273">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '3'. -->
+    <ScalarVariable  name="Temp3"  valueReference="3"
+      variability="continuous"  causality="input"
+      description="IDF line 6279">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '4'. -->
+    <ScalarVariable  name="Temp4"  valueReference="4"
+      variability="continuous"  causality="input"
+      description="IDF line 6285">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '5'. -->
+    <ScalarVariable  name="Temp5"  valueReference="5"
+      variability="continuous"  causality="input"
+      description="IDF line 6291">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '6'. -->
+    <ScalarVariable  name="Temp1_top"  valueReference="6"
+      variability="continuous"  causality="input"
+      description="IDF line 6297">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '7'. -->
+    <ScalarVariable  name="Temp2_top"  valueReference="7"
+      variability="continuous"  causality="input"
+      description="IDF line 6303">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '8'. -->
+    <ScalarVariable  name="Temp3_top"  valueReference="8"
+      variability="continuous"  causality="input"
+      description="IDF line 6309">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '9'. -->
+    <ScalarVariable  name="Temp4_top"  valueReference="9"
+      variability="continuous"  causality="input"
+      description="IDF line 6315">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '10'. -->
+    <ScalarVariable  name="Temp5_top"  valueReference="10"
+      variability="continuous"  causality="input"
+      description="IDF line 6321">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '11'. -->
+    <ScalarVariable  name="Temp1_bot"  valueReference="11"
+      variability="continuous"  causality="input"
+      description="IDF line 6327">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '12'. -->
+    <ScalarVariable  name="Temp2_bot"  valueReference="12"
+      variability="continuous"  causality="input"
+      description="IDF line 6333">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '13'. -->
+    <ScalarVariable  name="Temp3_bot"  valueReference="13"
+      variability="continuous"  causality="input"
+      description="IDF line 6339">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '14'. -->
+    <ScalarVariable  name="Temp4_bot"  valueReference="14"
+      variability="continuous"  causality="input"
+      description="IDF line 6345">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '15'. -->
+    <ScalarVariable  name="Temp5_bot"  valueReference="15"
+      variability="continuous"  causality="input"
+      description="IDF line 6351">
+      <Real  start="23.9"/>
+    </ScalarVariable>
+    <!-- Index for next variable is '16'. -->
+    <ScalarVariable  name="Occ"  valueReference="100001"
+      variability="continuous"  causality="output"
+      description="IDF line 5945">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '17'. -->
+    <ScalarVariable  name="Zone1_Sensible_COOLING_LOAD"  valueReference="100002"
+      variability="continuous"  causality="output"
+      description="IDF line 5950">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '18'. -->
+    <ScalarVariable  name="Zone1_Latent_COOLING_LOAD"  valueReference="100003"
+      variability="continuous"  causality="output"
+      description="IDF line 5955">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '19'. -->
+    <ScalarVariable  name="Zone1_HEATING_LOAD"  valueReference="100004"
+      variability="continuous"  causality="output"
+      description="IDF line 5960">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '20'. -->
+    <ScalarVariable  name="Zone1_top_Sensible_COOLING_LOAD"  valueReference="100005"
+      variability="continuous"  causality="output"
+      description="IDF line 5965">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '21'. -->
+    <ScalarVariable  name="Zone1_top_Latent_COOLING_LOAD"  valueReference="100006"
+      variability="continuous"  causality="output"
+      description="IDF line 5970">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '22'. -->
+    <ScalarVariable  name="Zone1_top_HEATING_LOAD"  valueReference="100007"
+      variability="continuous"  causality="output"
+      description="IDF line 5975">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '23'. -->
+    <ScalarVariable  name="Zone1_bot_Sensible_COOLING_LOAD"  valueReference="100008"
+      variability="continuous"  causality="output"
+      description="IDF line 5980">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '24'. -->
+    <ScalarVariable  name="Zone1_bot_Latent_COOLING_LOAD"  valueReference="100009"
+      variability="continuous"  causality="output"
+      description="IDF line 5985">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '25'. -->
+    <ScalarVariable  name="Zone1_bot_HEATING_LOAD"  valueReference="100010"
+      variability="continuous"  causality="output"
+      description="IDF line 5990">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '26'. -->
+    <ScalarVariable  name="Zone2_Sensible_COOLING_LOAD"  valueReference="100011"
+      variability="continuous"  causality="output"
+      description="IDF line 5995">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '27'. -->
+    <ScalarVariable  name="Zone2_Latent_COOLING_LOAD"  valueReference="100012"
+      variability="continuous"  causality="output"
+      description="IDF line 6000">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '28'. -->
+    <ScalarVariable  name="Zone2_HEATING_LOAD"  valueReference="100013"
+      variability="continuous"  causality="output"
+      description="IDF line 6005">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '29'. -->
+    <ScalarVariable  name="Zone2_top_Sensible_COOLING_LOAD"  valueReference="100014"
+      variability="continuous"  causality="output"
+      description="IDF line 6010">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '30'. -->
+    <ScalarVariable  name="Zone2_top_Latent_COOLING_LOAD"  valueReference="100015"
+      variability="continuous"  causality="output"
+      description="IDF line 6015">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '31'. -->
+    <ScalarVariable  name="Zone2_top_HEATING_LOAD"  valueReference="100016"
+      variability="continuous"  causality="output"
+      description="IDF line 6020">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '32'. -->
+    <ScalarVariable  name="Zone2_bot_Sensible_COOLING_LOAD"  valueReference="100017"
+      variability="continuous"  causality="output"
+      description="IDF line 6025">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '33'. -->
+    <ScalarVariable  name="Zone2_bot_Latent_COOLING_LOAD"  valueReference="100018"
+      variability="continuous"  causality="output"
+      description="IDF line 6030">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '34'. -->
+    <ScalarVariable  name="Zone2_bot_HEATING_LOAD"  valueReference="100019"
+      variability="continuous"  causality="output"
+      description="IDF line 6035">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '35'. -->
+    <ScalarVariable  name="Zone3_Sensible_COOLING_LOAD"  valueReference="100020"
+      variability="continuous"  causality="output"
+      description="IDF line 6040">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '36'. -->
+    <ScalarVariable  name="Zone3_Latent_COOLING_LOAD"  valueReference="100021"
+      variability="continuous"  causality="output"
+      description="IDF line 6045">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '37'. -->
+    <ScalarVariable  name="Zone3_HEATING_LOAD"  valueReference="100022"
+      variability="continuous"  causality="output"
+      description="IDF line 6050">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '38'. -->
+    <ScalarVariable  name="Zone3_top_Sensible_COOLING_LOAD"  valueReference="100023"
+      variability="continuous"  causality="output"
+      description="IDF line 6055">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '39'. -->
+    <ScalarVariable  name="Zone3_top_Latent_COOLING_LOAD"  valueReference="100024"
+      variability="continuous"  causality="output"
+      description="IDF line 6060">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '40'. -->
+    <ScalarVariable  name="Zone3_top_HEATING_LOAD"  valueReference="100025"
+      variability="continuous"  causality="output"
+      description="IDF line 6065">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '41'. -->
+    <ScalarVariable  name="Zone3_bot_Sensible_COOLING_LOAD"  valueReference="100026"
+      variability="continuous"  causality="output"
+      description="IDF line 6070">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '42'. -->
+    <ScalarVariable  name="Zone3_bot_Latent_COOLING_LOAD"  valueReference="100027"
+      variability="continuous"  causality="output"
+      description="IDF line 6075">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '43'. -->
+    <ScalarVariable  name="Zone3_bot_HEATING_LOAD"  valueReference="100028"
+      variability="continuous"  causality="output"
+      description="IDF line 6080">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '44'. -->
+    <ScalarVariable  name="Zone4_Sensible_COOLING_LOAD"  valueReference="100029"
+      variability="continuous"  causality="output"
+      description="IDF line 6085">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '45'. -->
+    <ScalarVariable  name="Zone4_Latent_COOLING_LOAD"  valueReference="100030"
+      variability="continuous"  causality="output"
+      description="IDF line 6090">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '46'. -->
+    <ScalarVariable  name="Zone4_HEATING_LOAD"  valueReference="100031"
+      variability="continuous"  causality="output"
+      description="IDF line 6095">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '47'. -->
+    <ScalarVariable  name="Zone4_top_Sensible_COOLING_LOAD"  valueReference="100032"
+      variability="continuous"  causality="output"
+      description="IDF line 6100">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '48'. -->
+    <ScalarVariable  name="Zone4_top_Latent_COOLING_LOAD"  valueReference="100033"
+      variability="continuous"  causality="output"
+      description="IDF line 6105">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '49'. -->
+    <ScalarVariable  name="Zone4_top_HEATING_LOAD"  valueReference="100034"
+      variability="continuous"  causality="output"
+      description="IDF line 6110">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '50'. -->
+    <ScalarVariable  name="Zone4_bot_Sensible_COOLING_LOAD"  valueReference="100035"
+      variability="continuous"  causality="output"
+      description="IDF line 6115">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '51'. -->
+    <ScalarVariable  name="Zone4_bot_Latent_COOLING_LOAD"  valueReference="100036"
+      variability="continuous"  causality="output"
+      description="IDF line 6120">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '52'. -->
+    <ScalarVariable  name="Zone4_bot_HEATING_LOAD"  valueReference="100037"
+      variability="continuous"  causality="output"
+      description="IDF line 6125">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '53'. -->
+    <ScalarVariable  name="Zone5_Sensible_COOLING_LOAD"  valueReference="100038"
+      variability="continuous"  causality="output"
+      description="IDF line 6130">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '54'. -->
+    <ScalarVariable  name="Zone5_Latent_COOLING_LOAD"  valueReference="100039"
+      variability="continuous"  causality="output"
+      description="IDF line 6135">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '55'. -->
+    <ScalarVariable  name="Zone5_HEATING_LOAD"  valueReference="100040"
+      variability="continuous"  causality="output"
+      description="IDF line 6140">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '56'. -->
+    <ScalarVariable  name="Zone5_top_Sensible_COOLING_LOAD"  valueReference="100041"
+      variability="continuous"  causality="output"
+      description="IDF line 6145">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '57'. -->
+    <ScalarVariable  name="Zone5_top_Latent_COOLING_LOAD"  valueReference="100042"
+      variability="continuous"  causality="output"
+      description="IDF line 6150">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '58'. -->
+    <ScalarVariable  name="Zone5_top_HEATING_LOAD"  valueReference="100043"
+      variability="continuous"  causality="output"
+      description="IDF line 6155">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '59'. -->
+    <ScalarVariable  name="Zone5_bot_Sensible_COOLING_LOAD"  valueReference="100044"
+      variability="continuous"  causality="output"
+      description="IDF line 6160">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '60'. -->
+    <ScalarVariable  name="Zone5_bot_Latent_COOLING_LOAD"  valueReference="100045"
+      variability="continuous"  causality="output"
+      description="IDF line 6165">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '61'. -->
+    <ScalarVariable  name="Zone5_bot_HEATING_LOAD"  valueReference="100046"
+      variability="continuous"  causality="output"
+      description="IDF line 6170">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '62'. -->
+    <ScalarVariable  name="Zone1_People"  valueReference="100047"
+      variability="continuous"  causality="output"
+      description="IDF line 6175">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '63'. -->
+    <ScalarVariable  name="Zone2_People"  valueReference="100048"
+      variability="continuous"  causality="output"
+      description="IDF line 6180">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '64'. -->
+    <ScalarVariable  name="Zone3_People"  valueReference="100049"
+      variability="continuous"  causality="output"
+      description="IDF line 6185">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '65'. -->
+    <ScalarVariable  name="Zone4_People"  valueReference="100050"
+      variability="continuous"  causality="output"
+      description="IDF line 6190">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '66'. -->
+    <ScalarVariable  name="Zone5_People"  valueReference="100051"
+      variability="continuous"  causality="output"
+      description="IDF line 6195">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '67'. -->
+    <ScalarVariable  name="Zone1_top_People"  valueReference="100052"
+      variability="continuous"  causality="output"
+      description="IDF line 6200">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '68'. -->
+    <ScalarVariable  name="Zone2_top_People"  valueReference="100053"
+      variability="continuous"  causality="output"
+      description="IDF line 6205">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '69'. -->
+    <ScalarVariable  name="Zone3_top_People"  valueReference="100054"
+      variability="continuous"  causality="output"
+      description="IDF line 6210">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '70'. -->
+    <ScalarVariable  name="Zone4_top_People"  valueReference="100055"
+      variability="continuous"  causality="output"
+      description="IDF line 6215">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '71'. -->
+    <ScalarVariable  name="Zone5_top_People"  valueReference="100056"
+      variability="continuous"  causality="output"
+      description="IDF line 6220">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '72'. -->
+    <ScalarVariable  name="Zone1_bot_People"  valueReference="100057"
+      variability="continuous"  causality="output"
+      description="IDF line 6225">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '73'. -->
+    <ScalarVariable  name="Zone2_bot_People"  valueReference="100058"
+      variability="continuous"  causality="output"
+      description="IDF line 6230">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '74'. -->
+    <ScalarVariable  name="Zone3_bot_People"  valueReference="100059"
+      variability="continuous"  causality="output"
+      description="IDF line 6235">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '75'. -->
+    <ScalarVariable  name="Zone4_bot_People"  valueReference="100060"
+      variability="continuous"  causality="output"
+      description="IDF line 6240">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '76'. -->
+    <ScalarVariable  name="Zone5_bot_People"  valueReference="100061"
+      variability="continuous"  causality="output"
+      description="IDF line 6245">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '77'. -->
+    <ScalarVariable  name="Outdoor_Temperature"  valueReference="100062"
+      variability="continuous"  causality="output"
+      description="IDF line 6250">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '78'. -->
+    <ScalarVariable  name="Outdoor_Humidity"  valueReference="100063"
+      variability="continuous"  causality="output"
+      description="IDF line 6255">
+      <Real/>
+    </ScalarVariable>
+    <!-- Index for next variable is '79'. -->
+    <ScalarVariable  name="Wetbulb"  valueReference="100064"
+      variability="continuous"  causality="output"
+      description="IDF line 6260">
+      <Real/>
+    </ScalarVariable>
+  </ModelVariables>
+  <!-- ModelStructure details for co-simulation. -->
+  <ModelStructure>
+    <!-- Outputs variables of the FMU. -->
+    <Outputs>
+      <Unknown  index="16"/>
+      <Unknown  index="17"/>
+      <Unknown  index="18"/>
+      <Unknown  index="19"/>
+      <Unknown  index="20"/>
+      <Unknown  index="21"/>
+      <Unknown  index="22"/>
+      <Unknown  index="23"/>
+      <Unknown  index="24"/>
+      <Unknown  index="25"/>
+      <Unknown  index="26"/>
+      <Unknown  index="27"/>
+      <Unknown  index="28"/>
+      <Unknown  index="29"/>
+      <Unknown  index="30"/>
+      <Unknown  index="31"/>
+      <Unknown  index="32"/>
+      <Unknown  index="33"/>
+      <Unknown  index="34"/>
+      <Unknown  index="35"/>
+      <Unknown  index="36"/>
+      <Unknown  index="37"/>
+      <Unknown  index="38"/>
+      <Unknown  index="39"/>
+      <Unknown  index="40"/>
+      <Unknown  index="41"/>
+      <Unknown  index="42"/>
+      <Unknown  index="43"/>
+      <Unknown  index="44"/>
+      <Unknown  index="45"/>
+      <Unknown  index="46"/>
+      <Unknown  index="47"/>
+      <Unknown  index="48"/>
+      <Unknown  index="49"/>
+      <Unknown  index="50"/>
+      <Unknown  index="51"/>
+      <Unknown  index="52"/>
+      <Unknown  index="53"/>
+      <Unknown  index="54"/>
+      <Unknown  index="55"/>
+      <Unknown  index="56"/>
+      <Unknown  index="57"/>
+      <Unknown  index="58"/>
+      <Unknown  index="59"/>
+      <Unknown  index="60"/>
+      <Unknown  index="61"/>
+      <Unknown  index="62"/>
+      <Unknown  index="63"/>
+      <Unknown  index="64"/>
+      <Unknown  index="65"/>
+      <Unknown  index="66"/>
+      <Unknown  index="67"/>
+      <Unknown  index="68"/>
+      <Unknown  index="69"/>
+      <Unknown  index="70"/>
+      <Unknown  index="71"/>
+      <Unknown  index="72"/>
+      <Unknown  index="73"/>
+      <Unknown  index="74"/>
+      <Unknown  index="75"/>
+      <Unknown  index="76"/>
+      <Unknown  index="77"/>
+      <Unknown  index="78"/>
+      <Unknown  index="79"/>
+    </Outputs>
+  </ModelStructure>
+</fmiModelDescription>

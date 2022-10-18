@@ -1,0 +1,11 @@
+simulateModel("LargeOffice.ThreeFloor", stopTime=86400, method="Cvode", resultFile="ThreeFloor");
+createPlot(id=1, position={15, 15, 748, 517}, y=fill("", 0), range={0.0, 1.0, 0.0, 1.0}, grid=true, timeUnit="h");
+createPlot(id=1, position={15, 15, 748, 517}, y=fill("", 0), range={0.0, 1.0, 0.0, 1.0}, grid=true, subPlot=102, timeUnit="h");
+createPlot(id=2, position={0, 0, 1669, 694}, y={"topFlo.TAirCor", "topFlo.TAirSou", "topFlo.TAirNor", "topFlo.TAirEas", 
+"topFlo.TAirWes"}, range={0.0, 90000.0, -20.0, 40.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}}, displayUnits={"degC", "degC", "degC", "degC", "degC"});
+createPlot(id=2, position={0, 0, 1669, 694}, y={"midFlo.TAirCor", "midFlo.TAirNor", "midFlo.TAirSou", "midFlo.TAirEas", 
+"midFlo.TAirWes"}, range={0.0, 90000.0, -20.0, 40.0}, grid=true, subPlot=102, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}}, displayUnits={"degC", "degC", "degC", "degC", "degC"});
+createPlot(id=2, position={0, 0, 1669, 694}, y={"botFlo.TAirCor", "botFlo.TAirSou", "botFlo.TAirNor", "botFlo.TAirWes", 
+"botFlo.TAirEas"}, range={0.0, 90000.0, -20.0, 40.0}, grid=true, subPlot=103, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}}, displayUnits={"degC", "degC", "degC", "degC", "degC"});
+createPlot(id=2, position={0, 0, 1669, 694}, y={"weaDat.weaBus.TDryBul"}, range={0.0, 90000.0, -20.0, 10.0}, grid=true, subPlot=104, colors={{28,108,200}}, displayUnits={"degC"});
+
