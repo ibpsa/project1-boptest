@@ -9,7 +9,7 @@ of the test case to provide deterministic forecast.
 
 '''
 
-from .error_emulator import predict_error
+from .error_emulator import predict_error_AR
 
 
 class Forecaster(object):

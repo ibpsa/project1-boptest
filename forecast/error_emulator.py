@@ -1,6 +1,6 @@
 import numpy as np
 
-def predict_error(hp, F0, K0, F, K, mu):
+def predict_error_AR(hp, F0, K0, F, K, mu):
     """
     Generates an error with an AR model in the hp points of the predictions horizon.
     :parameter hp: int, number of points in the prediction horizon
