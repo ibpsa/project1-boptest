@@ -25,11 +25,11 @@ RUN  python -m pip install --ignore-installed -r /boptest/production.txt
 COPY worker /worker
 
 # Organize boptest python source into a module
-COPY testcase.py /boptest/lib/
-COPY data /boptest/lib/data
-COPY forecast /boptest/lib/forecast
-COPY kpis /boptest/lib/kpis
-COPY version.txt /boptest/
+COPY boptest/testcase.py /boptest/lib/
+COPY boptest/data /boptest/lib/data
+COPY boptest/forecast /boptest/lib/forecast
+COPY boptest/kpis /boptest/lib/kpis
+COPY boptest/version.txt /boptest/
 RUN touch /boptest/__init__.py /boptest/lib/__init__.py
 # Boptest TestCase will look for version.txt in the current working directory
 # which will be "/", therefore this link is required

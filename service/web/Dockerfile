@@ -7,7 +7,7 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
 RUN mkdir /root/server
 
 COPY web/server/package.json web/server/package-lock.json /root/server/
-COPY version.txt /boptest/
+COPY boptest/version.txt /boptest/
 
 WORKDIR /root/server
 RUN npm install
