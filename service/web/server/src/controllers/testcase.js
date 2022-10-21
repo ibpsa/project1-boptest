@@ -4,18 +4,10 @@ import {
   setStatus,
   waitForStatus
 } from './test';
+import Path from 'path';
 
 export function getS3KeyForTestcaseID(testcaseid) {
-  return `testcases/${testcaseid}/${testcaseid}.fmu`
-}
-
-export async function createOrUpdateTestcase(testcaseid, sqs) {
-  const params = {
-    'key': getS3KeyForTestcaseID(testcaseid),
-    'testcaseid': testcaseid
-  }
-
-  await addJobToQueue("boptest_add_testcase", params, sqs);
+  return `testcases/shared/${testcaseid}/${testcaseid}.fmu`
 }
 
 export function getTestcasePostForm(testcaseid, s3, s3url) {
@@ -41,21 +33,26 @@ export function getTestcasePostForm(testcaseid, s3, s3url) {
   })
 }
 
-export async function getTestcases(db) {
-  const testcases = db.collection('testcases')
-  const query = {}
-  const options = {
-    projection: {
-      _id: 0,
-      testcaseid: 1
+export async function getTestcases(s3) {
+  return new Promise((resolve, reject) => {
+    const params = {
+      Bucket: process.env.S3_BUCKET,
+      Prefix: "testcases/shared"
     }
-  }
-  const ids = await testcases.find(query, options).toArray()
-  return ids
+
+    s3.listObjectsV2(params, function(err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        const result = data.Contents.map(item => ({ testcaseid: Path.parse(item.Key).name }));
+        resolve(result)
+      }
+    })
+  })
 }
 
-export async function isTestcase(id, db) {
-  const testcases = await getTestcases(db)
+export async function isTestcase(id, s3) {
+  const testcases = await getTestcases(s3)
   const found = testcases.find( t => t.testcaseid == id )
   return found != undefined
 }
@@ -69,12 +66,8 @@ export async function select(testcaseid, sqs, api_key) {
   return { testid }
 }
 
-export async function removeTestcase(id, s3, db) {
+export async function removeTestcase(id, s3) {
   const key = getS3KeyForTestcaseID(id)
-
-  const testcases = db.collection('testcases')
-  const query = {testcaseid: id}
-  await testcases.deleteOne(query)
 
   await new Promise((resolve, reject) => {
     const params = {

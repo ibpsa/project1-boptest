@@ -62,15 +62,7 @@ class BoptestSubmit:
             if response.status_code != 204:
                 return False
 
-            # After the file has been uploaded, then tell BOPTEST to process the site
-            # This is done not via the haystack api, but through a graphql api
-            url = self.server + '/testcases/' + testcaseid
-            response = requests.put(url)
-            if response.status_code != 200:
-                return False
-
-            # The previous step is asynchronous
-            # We have to wait for a worker job to be complete before the testcase is fully submitted
+            # Confirm that the testcase exists
             self._wait_for_testcase(testcaseid)
 
             return testcaseid
