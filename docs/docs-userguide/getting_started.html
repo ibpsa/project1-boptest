@@ -145,16 +145,20 @@ interact with it at a URL specific to you via the BOPTEST API.</p>
 <p>Within the root directory of the extracted software, use the command <code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">down</span></code>.</p>
 </section>
 </section>
-<section id="public-web-service-coming-soon">
-<h2>Public Web-Service (Coming Soon)<a class="headerlink" href="#public-web-service-coming-soon" title="Permalink to this headline">¶</a></h2>
+<section id="public-web-service">
+<h2>Public Web-Service<a class="headerlink" href="#public-web-service" title="Permalink to this headline">¶</a></h2>
 <section id="id1">
 <h3>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>There are no installation requirements.</p>
 </section>
 <section id="id2">
 <h3>Deploy a Test Case<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>Send the following API request to <code class="docutils literal notranslate"><span class="pre">&lt;url&gt;</span></code>.
-The returned <code class="docutils literal notranslate"><span class="pre">&lt;testid&gt;</span></code> will be needed for all future API requests associated
+<p>Send the following API request to url <code class="docutils literal notranslate"><span class="pre">https://api.boptest.net</span></code>.</p>
+<ul class="simple">
+<li><p>POST <code class="docutils literal notranslate"><span class="pre">&lt;url&gt;/testcases/&lt;testcase_name&gt;/select</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;testcase_name&gt;</span></code> is replaced with the name of the test case you wish to deploy.</p></li>
+<li><p>The return will be a json with <code class="docutils literal notranslate"><span class="pre">{'testid':</span> <span class="pre">&lt;testid&gt;}</span></code>.</p></li>
+</ul>
+<p>The returned <code class="docutils literal notranslate"><span class="pre">&lt;testid&gt;</span></code> will be needed for all future API requests associated
 with your chosen test case.</p>
 </section>
 <section id="id3">
@@ -166,7 +170,7 @@ See the section API Summary for more information on available requests.</p>
 <h3>Stop the Test Case<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>Send the following API request: <code class="docutils literal notranslate"><span class="pre">&lt;url&gt;/&lt;request&gt;/&lt;testid&gt;</span></code>.
 Note that the test case will be stopped automatically in case of a period of
-inactivity lasting X minutes.  If this happens, a new test case should be deployed
+inactivity.  If this happens, a new test case should be deployed
 using the actions described previously.</p>
 </section>
 </section>
