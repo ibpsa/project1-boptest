@@ -49,8 +49,8 @@ Stop the Test Case
 Within the root directory of the extracted software, use the command ``docker-compose down``.
 
 
-Public Web-Service (Coming Soon)
-================================
+Public Web-Service
+==================
 
 Installation
 ------------
@@ -58,7 +58,11 @@ There are no installation requirements.
 
 Deploy a Test Case
 ------------------
-Send the following API request to ``<url>``.
+Send the following API request to url ``https://api.boptest.net``.
+
+- POST ``<url>/testcases/<testcase_name>/select``, where ``<testcase_name>`` is replaced with the name of the test case you wish to deploy.
+- The return will be a json with ``{'testid': <testid>}``.
+
 The returned ``<testid>`` will be needed for all future API requests associated
 with your chosen test case.
 
@@ -71,5 +75,5 @@ Stop the Test Case
 ------------------
 Send the following API request: ``<url>/<request>/<testid>``.
 Note that the test case will be stopped automatically in case of a period of
-inactivity lasting X minutes.  If this happens, a new test case should be deployed
+inactivity.  If this happens, a new test case should be deployed
 using the actions described previously.
