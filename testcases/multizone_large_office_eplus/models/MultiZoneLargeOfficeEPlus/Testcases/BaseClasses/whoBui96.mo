@@ -1,4 +1,4 @@
-within EPlusLargeOffice.Testcases.BaseClasses;
+within MultiZoneLargeOfficeEPlus.Testcases.BaseClasses;
 model whoBui96 "EnergyPlus FMU for Model Exchange"
   import Buildings;
   parameter Real _Temp1_start = 23.9 + 273.15
@@ -34,9 +34,9 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
   final parameter String ZonLisName[5]={"core zone","south zone","east zone","north zone","west zone"};
 
   inner Buildings.ThermalZones.EnergyPlus_9_6_0.Building building(
-    idfName=Modelica.Utilities.Files.loadResource("modelica://EPlusLargeOffice/Testcases/Resources/idf/wholebuilding96_nogroheatra.idf"),
-    epwName=Modelica.Utilities.Files.loadResource("modelica://EPlusLargeOffice/Testcases/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"),
-    weaName=Modelica.Utilities.Files.loadResource("modelica://EPlusLargeOffice/Testcases/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
+    idfName=Modelica.Utilities.Files.loadResource("modelica://MultiZoneLargeOfficeEPlus/Testcases/Resources/idf/wholebuilding96_nogroheatra.idf"),
+    epwName=Modelica.Utilities.Files.loadResource("modelica://MultiZoneLargeOfficeEPlus/Testcases/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"),
+    weaName=Modelica.Utilities.Files.loadResource("modelica://MultiZoneLargeOfficeEPlus/Testcases/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
     computeWetBulbTemperature=true,
     usePrecompiledFMU=false) "Building model"
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
@@ -427,7 +427,6 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
 
-
   Buildings.Utilities.IO.SignalExchange.Read reaSenCooLoaBotCor(
       y(unit="W"),
       description="Sensible cooling load in core zone on bot floor",
@@ -727,7 +726,6 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
       description="Number of people in west zone on bot floor",
       KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
     annotation (Placement(transformation(extent={{60,-10},{80,10}})));
-
 
   Buildings.Utilities.IO.SignalExchange.Read reaOccSch(
       y(unit="1"),

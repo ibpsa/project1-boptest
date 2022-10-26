@@ -1,5 +1,5 @@
-within EPlusLargeOffice.Testcases;
-model LargeOffice
+within MultiZoneLargeOfficeEPlus.Testcases;
+model Testcase
   extends Modelica.Icons.Example;
 
   BaseClasses.whoBui96 EPlus96(building(spawnExe="spawn-0.3.0-8d93151657"))
@@ -36,4 +36,4 @@ equation
       StopTime=18316800,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"));
-end LargeOffice;
+end Testcase;
