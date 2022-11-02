@@ -45,9 +45,7 @@ class Worker:
 
     def process_message(self, message):
         """
-        Process a single message from Queue.  Depending on operation requested, will call one of:
-        - step_sim
-        - add_site
+        Process a single message from Queue.
 
         :param message: A single message, as returned from a boto3 Queue resource
         :return:

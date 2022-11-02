@@ -18,7 +18,6 @@ class Job:
         self.key = parameters.get('key')
         self.testcaseid = parameters.get('testcaseid')
         self.testid = parameters.get('testid')
-        self.api_key = parameters.get('api_key')
         self.keep_running = True
         self.last_message_time = datetime.now()
 
