@@ -25,7 +25,7 @@ class Job:
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
 
-        self.timeout = os.environ['SERVICE_TIMEOUT']
+        self.timeout = float(os.environ['SERVICE_TIMEOUT'])
 
         # Download the testcase FMU
         self.test_dir = os.path.join('/simulate', self.testcaseid)
