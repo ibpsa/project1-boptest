@@ -14,6 +14,7 @@ Released on xx/xx/xxxx.
 
 **The following changes are not backwards-compatible but do not significantly change benchmark results:**
 
+- Change the PUT ``forecast`` API to accept lists of variable names with the parameter ``point_names`` instead of returning data for all variables.  Also add parameters ``interval`` and ``horizon`` to that API endpoint.  Add API GET ``forecast_points`` to return available forecast point names and metadata.  Remove APIs GET and PUT ``forecast_parameters``.  This is for [#356](https://github.com/ibpsa/project1-boptest/issues/356).
 - Change the PUT ``results`` API to accept lists of variable names with the parameter ``point_names`` instead of a single string variable name ``point_name``.  This is for [#398](https://github.com/ibpsa/project1-boptest/issues/398).
 
 **The following new test cases have been added:**
