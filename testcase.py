@@ -841,6 +841,16 @@ class TestCase(object):
             message = "Invalid value {} for parameter interval. Value must be positive.".format(interval)
             logging.error(message)
             return status, message, payload
+        wrong_points = []
+        for point in point_names:
+            if point not in self.forecast_names:
+                wrong_points.append(str(point))
+        if wrong_points:
+            payload = None
+            status = 400
+            message = "Invalid point name(s) {} in parameter point_names.  Check list of available forecast points.".format(wrong_points)
+            logging.error(message)
+            return status, message, payload
         try:
             payload = self.forecaster.get_forecast(point_names,
                                                    horizon=horizon,
