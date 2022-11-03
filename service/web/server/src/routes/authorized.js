@@ -42,7 +42,6 @@ authorizedRoutes.use(authorizer)
 
 authorizedRoutes.get('/testcases/:id/post-form', async (req, res, next) => {
   try {
-    const s3 = req.app.get('s3')
     const id = req.params.id
 
     // Goofy logic to consider if s3 is the real amazon service,
@@ -56,7 +55,7 @@ authorizedRoutes.get('/testcases/:id/post-form', async (req, res, next) => {
       }
     }
 
-    const form = await getTestcasePostForm(id, s3, s3url)
+    const form = await getTestcasePostForm(id, s3url)
     res.send(JSON.stringify(form))
   } catch (e) {
     next(e)
@@ -66,8 +65,7 @@ authorizedRoutes.get('/testcases/:id/post-form', async (req, res, next) => {
 authorizedRoutes.delete('/testcases/:id', async (req, res, next) => {
   try {
     const id = req.params.id
-    const s3 = req.app.get('s3')
-    await removeTestcase(id, s3)
+    await removeTestcase(id)
     res.sendStatus(200)
   } catch (e) {
     next(e)
@@ -79,8 +77,7 @@ authorizedRoutes.post('/testcases/:testcaseid/select',
   try {
     const testcaseid = req.params.testcaseid
     const api_key = req.body['api_key'] || null
-    const sqs = req.app.get('sqs')
-    const response = await select(testcaseid, sqs, api_key)
+    const response = await select(testcaseid, api_key)
     return res.json(response)
   } catch (e) {
     next(e)
@@ -89,8 +86,7 @@ authorizedRoutes.post('/testcases/:testcaseid/select',
 
 authorizedRoutes.get('/testcases', async (req, res, next) => {
   try {
-    const s3 = req.app.get('s3')
-    const payload = await getTestcases(s3)
+    const payload = await getTestcases()
     res.json(payload)
   } catch (e) {
     next(e);
@@ -99,9 +95,8 @@ authorizedRoutes.get('/testcases', async (req, res, next) => {
 
 authorizedRoutes.get('/testcases/:testcaseid', async (req, res, next) => {
   try {
-    const s3 = req.app.get('s3')
     const testcaseid = req.params.testcaseid
-    if (await isTestcase(testcaseid, s3)) {
+    if (await isTestcase(testcaseid)) {
       res.sendStatus(200)
     } else {
       res.sendStatus(404)

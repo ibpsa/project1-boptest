@@ -1,5 +1,6 @@
+import sqs from '../sqs'
 
-export function addJobToQueue(jobtype, params, sqs) {
+export function addJobToQueue(jobtype, params) {
   return new Promise((resolve, reject) => {
     let body = {
       jobtype,
