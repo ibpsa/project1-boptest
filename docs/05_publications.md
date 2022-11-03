@@ -9,9 +9,11 @@ hero_height: is-fullwidth
 D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. Benne, D. Vrabie, M. Wetter, and L. Helsen. (2021). ["Building optimization testing framework (BOPTEST) for simulation-based benchmarking of control strategies in buildings."](https://doi.org/10.1080/19401493.2021.1986574) *Journal of Building Performance Simulation*, 14(5), 586-610.
 
 ## Additional publications:
+E. Zanetti, D. Kim, D. Blum, R. Scoccia, and M. Aprile. (2022). ["Performance comparison of quadratic, nonlinear, and mixed integer nonlinear MPC formulations and solvers on an air source heat pump hydronic floor heating system."](https://doi.org/10.1080/19401493.2022.2120631) *Journal of Building Performance Simulation*.
+
 J. Arroyo, F. Spiessens, and L. Helsen. (2022). ["Comparison of Optimal Control Techniques for Building Energy Management."](https://doi.org/10.3389/fbuil.2022.849754) *Frontiers in Built Environment* 8.
 
-T. Marzullo, S. Dey, N. Long, J. L. Vilaplana, and G. Henze. (2022). ["A high-fidelity building performance simulation test bed for the development and evaluation of advanced controls"](https://doi.org/10.1080/19401493.2022.2058091) *Journal of Building Performance Simulation*, 15(3), 379-397.
+T. Marzullo, S. Dey, N. Long, J. L. Vilaplana, and G. Henze. (2022). ["A high-fidelity building performance simulation test bed for the development and evaluation of advanced controls."](https://doi.org/10.1080/19401493.2022.2058091) *Journal of Building Performance Simulation*, 15(3), 379-397.
 
 J. Arroyo, C. Manna, F. Spiessens, and L. Helsen. (2022). ["Reinforced model predictive control (RL-MPC) for building energy management."](https://doi.org/10.1016/j.apenergy.2021.118346) *Applied Energy* 309: 118346.
 
