@@ -74,9 +74,8 @@ Example RESTful interaction:
 | Receive test result data for the given point names between the start and final time in seconds. |  PUT ``results`` with required arguments ``point_names=<list of strings>``, ``start_time=<value>``, ``final_time=<value>``|
 | Receive test KPIs.                                                     |  GET ``kpi``                                              |
 | Receive test case name.                                                |  GET ``name``                                             |
-| Receive boundary condition forecast from current communication step.   |  GET ``forecast``                                         |
-| Receive boundary condition forecast parameters in seconds.             |  GET ``forecast_parameters``                              |
-| Set boundary condition forecast parameters in seconds.                 |  PUT ``forecast_parameters`` with required arguments ``horizon=<value>``, ``interval=<value>``|
+| Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  GET ``forecast`` with required arguments ``point_names=<list of strings``, ``horizon=<value>``, ``interval=<value>``|
+| Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points``                              |
 | Receive current test scenario.                                         |  GET ``scenario``                                   |
 | Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
 | Receive BOPTEST version.                                               |  GET ``version``                                             |
