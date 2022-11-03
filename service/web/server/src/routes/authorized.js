@@ -1,4 +1,5 @@
 import express from 'express';
+import got from 'got';
 import {
   getTestcasePostForm,
   removeTestcase,
@@ -7,7 +8,37 @@ import {
   select
 } from '../controllers/testcase';
 
-const authorizedRoutes = express.Router();
+const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
+const authorizedRoutes = express.Router()
+
+// Middleware to provide client information.
+// This will increase the response time, so use it only on APIs that
+// are not invoked at high frequency. (e.g. avoid using it for APIs
+// such as advance which are typically within a tight simulation loop.)
+export async function authorizer(req, res, next) {
+  const key = req.header('Authorization');
+
+  if (key && dashboardServer) {
+    // Authorization is not mandatory for every route,
+    // however if a key is provided and it is invalid then
+    // return an error to the client.
+    const url = dashboardServer + '/api/accounts/info'
+    try {
+      const {body} = await got.get(url, {
+        headers: {
+          Authorization: key
+        }
+      })
+      req.userID = body.sub
+    } catch(error) {
+      res.status(401).json({error: 'Not Authorized'})
+      return
+    }
+  }
+  next()
+};
+
+authorizedRoutes.use(authorizer)
 
 authorizedRoutes.get('/testcases/:id/post-form', async (req, res, next) => {
   try {
@@ -26,7 +57,7 @@ authorizedRoutes.get('/testcases/:id/post-form', async (req, res, next) => {
     }
 
     const form = await getTestcasePostForm(id, s3, s3url)
-    res.send(JSON.stringify(form));
+    res.send(JSON.stringify(form))
   } catch (e) {
     next(e)
   }
