@@ -1,4 +1,4 @@
-﻿within TwoZoneApartmentHydronic.TestCases;
+within TwoZoneApartmentHydronic.TestCases;
 model ApartmentModelQHTyp "Hydronic Test case"
     extends Modelica.Icons.Example;
     replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
@@ -172,7 +172,9 @@ First implementation.
 <p>
 The building is a two room apartment model representing a real case study in Milan, which consists of two rooms and one bathroom.
 The bathroom and the nightzone are considered together in a single thermal zone. So in total, two thermal zones are considered. The aparment is a newly built
-heavy construction.
+heavy construction. The following <a href=\"https://www.tandfonline.com/doi/full/10.1080/19401493.2022.2120631\"> [manuscript]</a> shows a brief validation of the envelope model using 
+experimental data. However, KPIs results may differ using the latest version of the testcase due to updates with respect to the manuscript version in terms of internal gains,
+schedules and air mass exchange between the zones.
 The height of each room is 2.7 m, while the other dimensions are reported in the plan below. </p>
 <p align=\"center\">
 <img src=\"../../../doc/images/SmallApartmentPlan.png\"
