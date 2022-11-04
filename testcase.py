@@ -1111,7 +1111,6 @@ class TestCase(object):
               },
               "tags": tags,
               "kpis": self.get_kpis()[2],
-              "forecastParameters": self.get_forecast_parameters()[2],
               "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
               "buildingType": {
                 "uid": self.get_name()[2]['name']
