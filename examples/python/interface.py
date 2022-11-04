@@ -178,7 +178,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         # If controller needs a forecast, get the forecast data and provide the forecast to the controller
         if controller.use_forecast:
             # Retrieve forecast from restful API
-            forecast_data = check_response(requests.get('{0}/forecast'.format(url)))
+            forecast_parameters = controller.get_forecast_parameters()
+            forecast_data = check_response(requests.put('{0}/forecast'.format(url), data=forecast_parameters))
             # Use forecast data to update controller-specific forecast data
             forecasts = controller.update_forecasts(forecast_data, forecasts)
         else:
