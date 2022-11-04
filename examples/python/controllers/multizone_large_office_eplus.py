@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This module implements a baseline control for testcase multizone_large_office_eplus.
+This module sets the zone air temperatures for testcase multizone_large_office_eplus.
 
 """
 

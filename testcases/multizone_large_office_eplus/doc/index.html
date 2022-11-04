@@ -1,11 +1,13 @@
 <html>
 <h3>General</h3>
 <p>
-This is a multi zone large office EnergyPlus model. It is based on DOE Commercial Reference Large Office 
-Building model, post-1980 construction, ASHRAE Standards 90.1-1989 and 62-1999.
+This is a large office EnergyPlus model. It is based on DOE Commercial Reference Large Office 
+Building model, post-1980 construction, and ASHRAE Standards 90.1-1989 and 62-1999.
 The original model has 12 floors (10 identical middle floors) with a basement. Due to the current limitation
-of Spawn for the floor multiplier, this emulator only contains three different floors (i.e., top, middle, bottom).
-The ground floor assumes adiabatic with the basement. 
+in Spawn of rejecting the floor multiplier, this emulator only contains three floors (i.e., top, middle, bottom).
+The ground floor is assumed to be adiabatic with the basement. 
+The HVAC system are ideal load systems, which calculates the sensible/latent cooling/heating load.
+
 </p>
 
 </p>
@@ -58,51 +60,50 @@ The HVAC system are ideal load systems, which calculates the sensible/latent coo
 The model inputs are:
 <ul>
 <li>
-<code>EPlus96_oveTZonBotCor_u</code> [K] [min=None, max=None]: Bottom floor air temperature of core zone
+<code>EPlus96_oveTZonBotCor_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of core zone
 </li>
 <li>
-<code>EPlus96_oveTZonBotEas_u</code> [K] [min=None, max=None]: Bottom floor air temperature of east zone
+<code>EPlus96_oveTZonBotEas_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of east zone
 </li>
 <li>
-<code>EPlus96_oveTZonBotNor_u</code> [K] [min=None, max=None]: Bottom floor air temperature of north zone
+<code>EPlus96_oveTZonBotNor_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of north zone
 </li>
 <li>
-<code>EPlus96_oveTZonBotSou_u</code> [K] [min=None, max=None]: Bottom floor air temperature of south zone
+<code>EPlus96_oveTZonBotSou_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of south zone
 </li>
 <li>
-<code>EPlus96_oveTZonBotWes_u</code> [K] [min=None, max=None]: Bottom floor air temperature of west zone
+<code>EPlus96_oveTZonBotWes_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of west zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidCor_u</code> [K] [min=None, max=None]: Middle floor air temperature of core zone
+<code>EPlus96_oveTZonMidCor_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of core zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidEas_u</code> [K] [min=None, max=None]: Middle floor air temperature of east zone
+<code>EPlus96_oveTZonMidEas_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of east zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidNor_u</code> [K] [min=None, max=None]: Middle floor air temperature of north zone
+<code>EPlus96_oveTZonMidNor_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of north zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidSou_u</code> [K] [min=None, max=None]: Middle floor air temperature of south zone
+<code>EPlus96_oveTZonMidSou_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of south zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidWes_u</code> [K] [min=None, max=None]: Middle floor air temperature of west zone
+<code>EPlus96_oveTZonMidWes_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of west zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopCor_u</code> [K] [min=None, max=None]: Top floor air temperature of core zone
+<code>EPlus96_oveTZonTopCor_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of core zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopEas_u</code> [K] [min=None, max=None]: Top floor air temperature of east zone
+<code>EPlus96_oveTZonTopEas_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of east zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopNor_u</code> [K] [min=None, max=None]: Top floor air temperature of north zone
+<code>EPlus96_oveTZonTopNor_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of north zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopSou_u</code> [K] [min=None, max=None]: Top floor air temperature of south zone
+<code>EPlus96_oveTZonTopSou_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of south zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopWes_u</code> [K] [min=None, max=None]: Top floor air temperature of west zone
+<code>EPlus96_oveTZonTopWes_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of west zone
 </li>
-
 </ul>
 <h4>Outputs</h4>
 The model outputs are:

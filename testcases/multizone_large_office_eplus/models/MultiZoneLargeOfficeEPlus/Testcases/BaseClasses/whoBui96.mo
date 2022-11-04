@@ -298,73 +298,73 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
     annotation (Placement(transformation(extent={{40,50},{60,70}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonTopCor(
       description="Top floor air temperature of core zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,20},{-70,40}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonTopSou(
       description="Top floor air temperature of south zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,20},{-70,40}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonTopEas(
       description="Top floor air temperature of east zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,20},{-70,40}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonTopNor(
       description="Top floor air temperature of north zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,20},{-70,40}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonTopWes(
       description="Top floor air temperature of west zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,20},{-70,40}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonMidCor(
       description="Middle floor air temperature of core zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-20},{-70,0}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonMidSou(
       description="Middle floor air temperature of south zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-20},{-70,0}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonMidEas(
       description="Middle floor air temperature of east zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-20},{-70,0}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonMidNor(
       description="Middle floor air temperature of north zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-20},{-70,0}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonMidWes(
       description="Middle floor air temperature of west zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-20},{-70,0}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonBotCor(
       description="Bottom floor air temperature of core zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonBotSou(
       description="Bottom floor air temperature of south zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonBotEas(
       description="Bottom floor air temperature of east zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonBotNor(
       description="Bottom floor air temperature of north zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTZonBotWes(
       description="Bottom floor air temperature of west zone",
-      u(unit="K"))
+      u(unit="K", min=273.15 - 10, max=273.15 + 50))
     annotation (Placement(transformation(extent={{-90,-60},{-70,-40}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaSenCooLoaTopCor(
