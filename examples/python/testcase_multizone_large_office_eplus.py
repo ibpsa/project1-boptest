@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 This script demonstrates a minimalistic example of testing a feedback controller
-with the prototype test case called "testcase1".  It uses the testing
+with the prototype test case called "multizone_large_office_eplus".  It uses the testing
 interface implemented in interface.py and the concrete controller implemented
-in controllers/pid.py.
+in controllers/multizone_large_office_eplus.py.
 
 """
 
@@ -86,4 +86,4 @@ def run(plot=False):
 
 if __name__ == "__main__":
     kpi, df_res = run()
-    df_res.to_csv("df_res.csv")
+    df_res.to_csv("df_res_multizone_large_office_eplus.csv")

@@ -28,7 +28,7 @@ def compute_control(y, forecasts=None):
     
     if (HourOfDay<=6)|(HourOfDay>21):
         TZonCooSet = 273.15+28
-    elif (HourOfDay>=15)|(HourOfDay<18):
+    elif (HourOfDay>=15) and (HourOfDay<18):
         TZonCooSet = 273.15+22
     else:
         TZonCooSet = 273.15+24
@@ -84,7 +84,7 @@ def initialize():
         {<input_name> : <input_value>}
 
     """
-    TZonCooSet = 297.15
+    TZonCooSet = 273.15+28
     
     u = {
          'EPlus96_oveTZonBotCor_u':TZonCooSet,
