@@ -2,7 +2,7 @@
 <h3>General</h3>
 <p>
 This is a large office EnergyPlus model. It is based on DOE Commercial Reference Large Office 
-Building model, post-1980 construction, and ASHRAE Standards 90.1-1989 and 62-1999.
+Building model, post-1980 construction, and ASHRAE Standards 90.1-1989 and 62-1999 [1].
 The original model has 12 floors (10 identical middle floors) with a basement. Due to the current limitation
 in Spawn of rejecting the floor multiplier, this emulator only contains three floors (i.e., top, middle, bottom).
 The ground floor is assumed to be adiabatic with the basement. 
@@ -24,12 +24,20 @@ Number of Stories = 3; Shape = rectangle, Aspect ratio = 1.5.
 
 <h4>Constructions</h4>
 <p>
-Envelope thermal properties vary with climate according to ASHRAE Standard 90.1-1989.
-Opaque constructions: mass walls; built-up flat roof (insulation above deck); slab-on-grade floor
-Windows: window-to-wall ratio = 38.0%, equal distribution of windows
-Infiltration in perimeter zones only
-= 1.5 cfm/ft2 above grade wall area at 0.3 in wc (75 Pa) adjusted to 0.016 in wc (4 Pa).
-25% of full value when ventilation system on.
+<table>
+    <tr>
+        <td>Opaque constructions</td>
+        <td>Mass walls; built-up flat roof (insulation above deck); slab-on-grade floor.</td>
+    </tr>
+    <tr>
+        <td>Windows</td>
+        <td>Window-to-wall ratio = 38.0%, equal distribution of windows.</td>
+    </tr>
+    <tr>
+        <td>Infiltration</td>
+        <td>No infiltration.</td>
+    </tr>
+</table>
 </p>
 <h4>Occupancy schedules</h4>
 <p>
@@ -50,7 +58,12 @@ The weather data is from TMY3 for Chicago O'Hare International Airport.
 <h3>HVAC System Design</h3>
 
 <p>
-The HVAC system are ideal load systems, which calculates the sensible/latent cooling/heating load.
+The HVAC system are ideal load systems, which can be thought of as ideal units that add or removes
+heat and moisture at 100% efficiency in order to produce a supply air stream at the specified conditions.
+The energy required to condition the supply air is calculated. 
+The ideal loads systems are controlled to meet the sensible cooling load.
+The latent cooling rate is computed using a constant sensible heat ratio (SHR) of 0.7.
+There is no limit to the cooling/heating capacity.
 </p>
 
 
@@ -60,49 +73,49 @@ The HVAC system are ideal load systems, which calculates the sensible/latent coo
 The model inputs are:
 <ul>
 <li>
-<code>EPlus96_oveTZonBotCor_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of core zone
+<code>EPlus96_oveTZonBotCor_u</code> [K] [min=None, max=None]: Bottom floor air temperature of core zone
 </li>
 <li>
-<code>EPlus96_oveTZonBotEas_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of east zone
+<code>EPlus96_oveTZonBotEas_u</code> [K] [min=None, max=None]: Bottom floor air temperature of east zone
 </li>
 <li>
-<code>EPlus96_oveTZonBotNor_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of north zone
+<code>EPlus96_oveTZonBotNor_u</code> [K] [min=None, max=None]: Bottom floor air temperature of north zone
 </li>
 <li>
-<code>EPlus96_oveTZonBotSou_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of south zone
+<code>EPlus96_oveTZonBotSou_u</code> [K] [min=None, max=None]: Bottom floor air temperature of south zone
 </li>
 <li>
-<code>EPlus96_oveTZonBotWes_u</code> [K] [min=263.15, max=323.15]: Bottom floor air temperature of west zone
+<code>EPlus96_oveTZonBotWes_u</code> [K] [min=None, max=None]: Bottom floor air temperature of west zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidCor_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of core zone
+<code>EPlus96_oveTZonMidCor_u</code> [K] [min=None, max=None]: Middle floor air temperature of core zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidEas_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of east zone
+<code>EPlus96_oveTZonMidEas_u</code> [K] [min=None, max=None]: Middle floor air temperature of east zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidNor_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of north zone
+<code>EPlus96_oveTZonMidNor_u</code> [K] [min=None, max=None]: Middle floor air temperature of north zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidSou_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of south zone
+<code>EPlus96_oveTZonMidSou_u</code> [K] [min=None, max=None]: Middle floor air temperature of south zone
 </li>
 <li>
-<code>EPlus96_oveTZonMidWes_u</code> [K] [min=263.15, max=323.15]: Middle floor air temperature of west zone
+<code>EPlus96_oveTZonMidWes_u</code> [K] [min=None, max=None]: Middle floor air temperature of west zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopCor_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of core zone
+<code>EPlus96_oveTZonTopCor_u</code> [K] [min=None, max=None]: Top floor air temperature of core zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopEas_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of east zone
+<code>EPlus96_oveTZonTopEas_u</code> [K] [min=None, max=None]: Top floor air temperature of east zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopNor_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of north zone
+<code>EPlus96_oveTZonTopNor_u</code> [K] [min=None, max=None]: Top floor air temperature of north zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopSou_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of south zone
+<code>EPlus96_oveTZonTopSou_u</code> [K] [min=None, max=None]: Top floor air temperature of south zone
 </li>
 <li>
-<code>EPlus96_oveTZonTopWes_u</code> [K] [min=263.15, max=323.15]: Top floor air temperature of west zone
+<code>EPlus96_oveTZonTopWes_u</code> [K] [min=None, max=None]: Top floor air temperature of west zone
 </li>
 </ul>
 <h4>Outputs</h4>
@@ -306,13 +319,13 @@ The model outputs are:
 <p>
 Lighting heat gain is included in the internal heat gains and is not controllable.
 </p>
-<h4>Shading</h4>
+
 <p>
-There is no shading on this building.
+References:
+<li>
+[1] https://www.energy.gov/eere/buildings/commercial-reference-buildings
+</li>
 </p>
-<h4>Onsite Generation and Storage</h4>
-<p>
-There is no onsite generation or storage on this building site.
-</p>
+
 
 </html>

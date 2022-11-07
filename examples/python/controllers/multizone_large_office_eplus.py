@@ -27,44 +27,44 @@ def compute_control(y, forecasts=None):
     HourOfDay = int((y['time']%86400)/3600)
     
     if (HourOfDay<=6)|(HourOfDay>21):
-        TZonCooSet = 273.15+28
+        TZonAir = 273.15+28
     elif (HourOfDay>=15) and (HourOfDay<18):
-        TZonCooSet = 273.15+22
+        TZonAir = 273.15+22
     else:
-        TZonCooSet = 273.15+24
+        TZonAir = 273.15+24
     
     # Compute control
     u = {
-         'EPlus96_oveTZonBotCor_u':TZonCooSet,
-         'EPlus96_oveTZonBotCor_activate':1,
-         'EPlus96_oveTZonBotEas_u':TZonCooSet,
-         'EPlus96_oveTZonBotEas_activate':1,
-         'EPlus96_oveTZonBotNor_u':TZonCooSet,
-         'EPlus96_oveTZonBotNor_activate':1,
-         'EPlus96_oveTZonBotSou_u':TZonCooSet,
-         'EPlus96_oveTZonBotSou_activate':1,
-         'EPlus96_oveTZonBotWes_u':TZonCooSet,
-         'EPlus96_oveTZonBotWes_activate':1,
-         'EPlus96_oveTZonMidCor_u':TZonCooSet,
-         'EPlus96_oveTZonMidCor_activate':1,
-         'EPlus96_oveTZonMidEas_u':TZonCooSet,
-         'EPlus96_oveTZonMidEas_activate':1,
-         'EPlus96_oveTZonMidNor_u':TZonCooSet,
-         'EPlus96_oveTZonMidNor_activate':1,
-         'EPlus96_oveTZonMidSou_u':TZonCooSet,
-         'EPlus96_oveTZonMidSou_activate':1,
-         'EPlus96_oveTZonMidWes_u':TZonCooSet,
-         'EPlus96_oveTZonMidWes_activate':1,
-         'EPlus96_oveTZonTopCor_u':TZonCooSet,
-         'EPlus96_oveTZonTopCor_activate':1,
-         'EPlus96_oveTZonTopEas_u':TZonCooSet,
-         'EPlus96_oveTZonTopEas_activate':1,
-         'EPlus96_oveTZonTopNor_u':TZonCooSet,
-         'EPlus96_oveTZonTopNor_activate':1,
-         'EPlus96_oveTZonTopSou_u':TZonCooSet,
-         'EPlus96_oveTZonTopSou_activate':1,
-         'EPlus96_oveTZonTopWes_u':TZonCooSet,
-         'EPlus96_oveTZonTopWes_activate':1
+         'EPlus96_oveTZonAirBotCor_u':TZonAir,
+         'EPlus96_oveTZonAirBotCor_activate':1,
+         'EPlus96_oveTZonAirBotEas_u':TZonAir,
+         'EPlus96_oveTZonAirBotEas_activate':1,
+         'EPlus96_oveTZonAirBotNor_u':TZonAir,
+         'EPlus96_oveTZonAirBotNor_activate':1,
+         'EPlus96_oveTZonAirBotSou_u':TZonAir,
+         'EPlus96_oveTZonAirBotSou_activate':1,
+         'EPlus96_oveTZonAirBotWes_u':TZonAir,
+         'EPlus96_oveTZonAirBotWes_activate':1,
+         'EPlus96_oveTZonAirMidCor_u':TZonAir,
+         'EPlus96_oveTZonAirMidCor_activate':1,
+         'EPlus96_oveTZonAirMidEas_u':TZonAir,
+         'EPlus96_oveTZonAirMidEas_activate':1,
+         'EPlus96_oveTZonAirMidNor_u':TZonAir,
+         'EPlus96_oveTZonAirMidNor_activate':1,
+         'EPlus96_oveTZonAirMidSou_u':TZonAir,
+         'EPlus96_oveTZonAirMidSou_activate':1,
+         'EPlus96_oveTZonAirMidWes_u':TZonAir,
+         'EPlus96_oveTZonAirMidWes_activate':1,
+         'EPlus96_oveTZonAirTopCor_u':TZonAir,
+         'EPlus96_oveTZonAirTopCor_activate':1,
+         'EPlus96_oveTZonAirTopEas_u':TZonAir,
+         'EPlus96_oveTZonAirTopEas_activate':1,
+         'EPlus96_oveTZonAirTopNor_u':TZonAir,
+         'EPlus96_oveTZonAirTopNor_activate':1,
+         'EPlus96_oveTZonAirTopSou_u':TZonAir,
+         'EPlus96_oveTZonAirTopSou_activate':1,
+         'EPlus96_oveTZonAirTopWes_u':TZonAir,
+         'EPlus96_oveTZonAirTopWes_activate':1
     }
 
     return u
@@ -84,39 +84,39 @@ def initialize():
         {<input_name> : <input_value>}
 
     """
-    TZonCooSet = 273.15+28
+    TZonAir = 273.15+28
     
     u = {
-         'EPlus96_oveTZonBotCor_u':TZonCooSet,
-         'EPlus96_oveTZonBotCor_activate':1,
-         'EPlus96_oveTZonBotEas_u':TZonCooSet,
-         'EPlus96_oveTZonBotEas_activate':1,
-         'EPlus96_oveTZonBotNor_u':TZonCooSet,
-         'EPlus96_oveTZonBotNor_activate':1,
-         'EPlus96_oveTZonBotSou_u':TZonCooSet,
-         'EPlus96_oveTZonBotSou_activate':1,
-         'EPlus96_oveTZonBotWes_u':TZonCooSet,
-         'EPlus96_oveTZonBotWes_activate':1,
-         'EPlus96_oveTZonMidCor_u':TZonCooSet,
-         'EPlus96_oveTZonMidCor_activate':1,
-         'EPlus96_oveTZonMidEas_u':TZonCooSet,
-         'EPlus96_oveTZonMidEas_activate':1,
-         'EPlus96_oveTZonMidNor_u':TZonCooSet,
-         'EPlus96_oveTZonMidNor_activate':1,
-         'EPlus96_oveTZonMidSou_u':TZonCooSet,
-         'EPlus96_oveTZonMidSou_activate':1,
-         'EPlus96_oveTZonMidWes_u':TZonCooSet,
-         'EPlus96_oveTZonMidWes_activate':1,
-         'EPlus96_oveTZonTopCor_u':TZonCooSet,
-         'EPlus96_oveTZonTopCor_activate':1,
-         'EPlus96_oveTZonTopEas_u':TZonCooSet,
-         'EPlus96_oveTZonTopEas_activate':1,
-         'EPlus96_oveTZonTopNor_u':TZonCooSet,
-         'EPlus96_oveTZonTopNor_activate':1,
-         'EPlus96_oveTZonTopSou_u':TZonCooSet,
-         'EPlus96_oveTZonTopSou_activate':1,
-         'EPlus96_oveTZonTopWes_u':TZonCooSet,
-         'EPlus96_oveTZonTopWes_activate':1,
+         'EPlus96_oveTZonAirBotCor_u':TZonAir,
+         'EPlus96_oveTZonAirBotCor_activate':1,
+         'EPlus96_oveTZonAirBotEas_u':TZonAir,
+         'EPlus96_oveTZonAirBotEas_activate':1,
+         'EPlus96_oveTZonAirBotNor_u':TZonAir,
+         'EPlus96_oveTZonAirBotNor_activate':1,
+         'EPlus96_oveTZonAirBotSou_u':TZonAir,
+         'EPlus96_oveTZonAirBotSou_activate':1,
+         'EPlus96_oveTZonAirBotWes_u':TZonAir,
+         'EPlus96_oveTZonAirBotWes_activate':1,
+         'EPlus96_oveTZonAirMidCor_u':TZonAir,
+         'EPlus96_oveTZonAirMidCor_activate':1,
+         'EPlus96_oveTZonAirMidEas_u':TZonAir,
+         'EPlus96_oveTZonAirMidEas_activate':1,
+         'EPlus96_oveTZonAirMidNor_u':TZonAir,
+         'EPlus96_oveTZonAirMidNor_activate':1,
+         'EPlus96_oveTZonAirMidSou_u':TZonAir,
+         'EPlus96_oveTZonAirMidSou_activate':1,
+         'EPlus96_oveTZonAirMidWes_u':TZonAir,
+         'EPlus96_oveTZonAirMidWes_activate':1,
+         'EPlus96_oveTZonAirTopCor_u':TZonAir,
+         'EPlus96_oveTZonAirTopCor_activate':1,
+         'EPlus96_oveTZonAirTopEas_u':TZonAir,
+         'EPlus96_oveTZonAirTopEas_activate':1,
+         'EPlus96_oveTZonAirTopNor_u':TZonAir,
+         'EPlus96_oveTZonAirTopNor_activate':1,
+         'EPlus96_oveTZonAirTopSou_u':TZonAir,
+         'EPlus96_oveTZonAirTopSou_activate':1,
+         'EPlus96_oveTZonAirTopWes_u':TZonAir,
+         'EPlus96_oveTZonAirTopWes_activate':1,
     }
 
     return u
