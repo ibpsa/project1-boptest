@@ -424,6 +424,7 @@ should be included:
 **Points List**
 	- Control input signals, descriptions, and meta-data
 	- Measurement output signals, descriptions, and meta-data
+	- Forecast signals, descriptions, and meta-data
 **Important Model Implementation Assumption**
 	- (e.g. moist vs. dry air, airflow network, and infiltration models)
 **Scenario Information**
