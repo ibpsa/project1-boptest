@@ -1,4 +1,4 @@
-within TwoZoneApartmentHydronic.TestCases;
+﻿within TwoZoneApartmentHydronic.TestCases;
 model ApartmentModelQHTyp "Hydronic Test case"
     extends Modelica.Icons.Example;
     replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
@@ -944,6 +944,154 @@ The model outputs are:
 </li>
 <li>
 <code>weatherStation_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
+</li>
+</ul>
+<h4>Forecasts</h4>
+The model forecasts are:
+<ul>
+<li>
+<code>EmissionsBiomassPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from biomass
+</li>
+<li>
+<code>EmissionsDistrictHeatingPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal district heating
+</li>
+<li>
+<code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity
+</li>
+<li>
+<code>EmissionsGasPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>EmissionsSolarThermalPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from solar irradiation
+</li>
+<li>
+<code>HDifHor</code> [W/m2]: Horizontal diffuse solar radiation
+</li>
+<li>
+<code>HDirNor</code> [W/m2]: Direct normal radiation
+</li>
+<li>
+<code>HGloHor</code> [W/m2]: Horizontal global radiation
+</li>
+<li>
+<code>InternalGainsCon[Day]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[Night]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[Day]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[Night]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[Day]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[Night]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>LowerSetp[Day]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[Night]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>Occupancy[Day]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[Night]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>PriceBiomassPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from biomass
+</li>
+<li>
+<code>PriceDistrictHeatingPower</code> [($/Euro)/kWh]: Price of 1 kWh thermal from district heating
+</li>
+<li>
+<code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price
+</li>
+<li>
+<code>PriceElectricPowerDynamic</code> [($/Euro)/kWh]: Electricity price for a day/night tariff
+</li>
+<li>
+<code>PriceElectricPowerHighlyDynamic</code> [($/Euro)/kWh]: Spot electricity price
+</li>
+<li>
+<code>PriceGasPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>PriceSolarThermalPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from solar irradiation
+</li>
+<li>
+<code>TBlaSky</code> [K]: Black Sky temperature
+</li>
+<li>
+<code>TDewPoi</code> [K]: Dew point temperature
+</li>
+<li>
+<code>TDryBul</code> [K]: Dry bulb temperature at ground level
+</li>
+<li>
+<code>TWetBul</code> [K]: Wet bulb temperature
+</li>
+<li>
+<code>UpperCO2[Day]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[Night]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperSetp[Day]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[Night]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>ceiHei</code> [m]: Ceiling height
+</li>
+<li>
+<code>cloTim</code> [s]: One-based day number in seconds
+</li>
+<li>
+<code>lat</code> [rad]: Latitude of the location
+</li>
+<li>
+<code>lon</code> [rad]: Longitude of the location
+</li>
+<li>
+<code>nOpa</code> [1]: Opaque sky cover [0, 1]
+</li>
+<li>
+<code>nTot</code> [1]: Total sky Cover [0, 1]
+</li>
+<li>
+<code>pAtm</code> [Pa]: Atmospheric pressure
+</li>
+<li>
+<code>relHum</code> []: Relative Humidity
+</li>
+<li>
+<code>solAlt</code> [rad]: Altitude angel
+</li>
+<li>
+<code>solDec</code> [rad]: Declination angle
+</li>
+<li>
+<code>solHouAng</code> [rad]: Solar hour angle.
+</li>
+<li>
+<code>solTim</code> [s]: Solar time
+</li>
+<li>
+<code>solZen</code> [rad]: Zenith angle
+</li>
+<li>
+<code>winDir</code> [rad]: Wind direction
+</li>
+<li>
+<code>winSpe</code> [m/s]: Wind speed
 </li>
 </ul>
 <h3>Additional System Design</h3>
