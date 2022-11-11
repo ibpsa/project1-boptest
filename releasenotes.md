@@ -12,6 +12,7 @@ Released on xx/xx/xxxx.
 - Add error message in case testcase path does not exist in ``testcase.py TestCase __Init__`` method.  This is for [#475](https://github.com/ibpsa/project1-boptest/issues/475).
 - Update script ``get_html_IO.py`` to run with the latest API implementation by adding ``['payload']``. This is for [#487](https://github.com/ibpsa/project1-boptest/issues/487).
 - Update ``twozone_apartment_hydronic`` documentation with reference to publication where envelope model was validated with experimental data. This is for [#496](https://github.com/ibpsa/project1-boptest/issues/496).
+- Update ``twozone_apartment_hydronic`` ``weather.csv`` and ``generate_data.py`` by adding global horizontal radiation ``HGloHor``. This is for [#499](https://github.com/ibpsa/project1-boptest/issues/499).
 
 **The following changes are not backwards-compatible but do not significantly change benchmark results:**
 
