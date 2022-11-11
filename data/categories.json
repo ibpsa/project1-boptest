@@ -41,7 +41,7 @@
         "Unit":"K"},
     "relHum":{
         "Description":"Relative Humidity",
-        "Unit":""},
+        "Unit":"1"},
     "TDryBul":{
         "Description":"Dry bulb temperature at ground level",
         "Unit":"K"},

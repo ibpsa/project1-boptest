@@ -3014,7 +3014,7 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>pAtm</code> [Pa]: Atmospheric pressure
 </li>
 <li>
-<code>relHum</code> []: Relative Humidity
+<code>relHum</code> [1]: Relative Humidity
 </li>
 <li>
 <code>solAlt</code> [rad]: Altitude angel
