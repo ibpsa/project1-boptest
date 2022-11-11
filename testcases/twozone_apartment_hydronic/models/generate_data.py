@@ -138,7 +138,7 @@ file_name = "BoundaryConditions.mat" # .mat file to be extracted
 tool = "dymola" # simulation tool
 CODE_VERBOSE = True # shows code progres
 #Generate weatherfile
-weather_read_vars = ["weaBus.HDifHor","weaBus.HDirNor","weaBus.TBlaSky","weaBus.TDewPoi",
+weather_read_vars = ["weaBus.HGloHor","weaBus.HDifHor","weaBus.HDirNor","weaBus.TBlaSky","weaBus.TDewPoi",
                      "weaBus.TDryBul","weaBus.TWetBul","weaBus.winSpe","weaBus.winDir",
                      "weaBus.ceiHei","weaBus.nOpa","weaBus.nTot","weaBus.pAtm",
                      "weaBus.relHum","weaBus.solAlt","weaBus.solDec","weaBus.solHouAng",
