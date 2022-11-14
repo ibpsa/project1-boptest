@@ -18,14 +18,13 @@ class Job:
         self.key = parameters.get('key')
         self.testcaseid = parameters.get('testcaseid')
         self.testid = parameters.get('testid')
-        self.api_key = parameters.get('api_key')
         self.keep_running = True
         self.last_message_time = datetime.now()
 
         self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
 
-        self.timeout = os.environ['SERVICE_TIMEOUT']
+        self.timeout = float(os.environ['SERVICE_TIMEOUT'])
 
         # Download the testcase FMU
         self.test_dir = os.path.join('/simulate', self.testcaseid)

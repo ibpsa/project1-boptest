@@ -309,8 +309,8 @@ boptestRouter.get('/forecast/:testid',
 
 boptestRouter.get('/testcases', async (req, res, next) => {
   try {
-    const db = req.app.get('db')
-    const payload = await getTestcases(db)
+    const s3 = req.app.get('s3')
+    const payload = await getTestcases(s3)
     res.json(payload)
   } catch (e) {
     next(e);
@@ -319,9 +319,9 @@ boptestRouter.get('/testcases', async (req, res, next) => {
 
 boptestRouter.get('/testcases/:testcaseid', async (req, res, next) => {
   try {
-    const db = req.app.get('db')
+    const s3 = req.app.get('s3')
     const testcaseid = req.params.testcaseid
-    if (await isTestcase(testcaseid, db)) {
+    if (await isTestcase(testcaseid, s3)) {
       res.sendStatus(200)
     } else {
       res.sendStatus(404)

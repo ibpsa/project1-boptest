@@ -1,7 +1,6 @@
 import express from 'express';
 import {
   getTestcasePostForm,
-  createOrUpdateTestcase,
   removeTestcase
 } from '../controllers/testcase';
 
@@ -30,23 +29,11 @@ boptestAdminRouter.get('/testcases/:id/post-form', async (req, res, next) => {
   }
 })
 
-boptestAdminRouter.put('/testcases/:id', async (req, res, next) => {
-  try {
-    const id = req.params.id
-    const sqs = req.app.get('sqs')
-    await createOrUpdateTestcase(id, sqs)
-    res.sendStatus(200)
-  } catch (e) {
-    next(e)
-  }
-})
-
 boptestAdminRouter.delete('/testcases/:id', async (req, res, next) => {
   try {
     const id = req.params.id
     const s3 = req.app.get('s3')
-    const db = req.app.get('db')
-    await removeTestcase(id, s3, db)
+    await removeTestcase(id, s3)
     res.sendStatus(200)
   } catch (e) {
     next(e)
