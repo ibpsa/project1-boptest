@@ -73,9 +73,10 @@ export async function isTestcase(id, userid) {
 export async function select(testcaseid, userid) {
   const testid = uuidv4()
   const key = getS3KeyForTestcaseID(testcaseid, userid)
-  await setStatus(testid, "Starting")
-  await addJobToQueue("boptest_run_test", {testcaseid, testid, key})
-  await waitForStatus(testid, "Running")
+  const rediskey = `users:${userid}:tests`
+  await setStatus(rediskey, testid, "Starting")
+  await addJobToQueue("boptest_run_test", {testcaseid, testid, key, rediskey})
+  await waitForStatus(rediskey, testid, "Running")
   return { testid }
 }
 

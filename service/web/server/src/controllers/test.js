@@ -35,10 +35,11 @@ export async function getMeasurements(testid, db) {
   return await messaging.callWorkerMethod(testid, 'get_measurements', {})
 }
 
-export async function getStatus(testid) {
-  const exists = await messaging.hexists(testid, 'status')
+export async function getStatus(rediskey, testid) {
+  const exists = await messaging.hexists(rediskey, testid)
   if (exists) {
-    return await messaging.hget(testid, 'status')
+    const metadata_string =  await messaging.hget(rediskey, testid)
+    return (JSON.parse(metadata_string)).status
   } else {
     // If testid does not correspond to a redis key,
     // then consider the test stopped, however an Error might make more sense
@@ -46,11 +47,11 @@ export async function getStatus(testid) {
   }
 };
 
-export async function waitForStatus(testid, desiredStatus, count, maxCount) {
+export async function waitForStatus(rediskey, testid, desiredStatus, count, maxCount) {
   maxCount = typeof maxCount !== 'undefined' ? maxCount : process.env.SERVICE_TIMEOUT
   // The default starting count is 0
   count = typeof count !== 'undefined' ? count : 0
-  const currentStatus = await getStatus(testid);
+  const currentStatus = await getStatus(rediskey, testid);
   if (currentStatus == desiredStatus) {
     return;
   } else if (count >= maxCount) {
@@ -62,8 +63,10 @@ export async function waitForStatus(testid, desiredStatus, count, maxCount) {
   }
 };
 
-export async function setStatus(testid, stat) {
-  return messaging.hset(testid, 'status', stat)
+export async function setStatus(rediskey, testid, stat) {
+  var metadata = new Object()
+  metadata.status = stat
+  return messaging.hset(rediskey, testid, JSON.stringify(stat))
 }
 
 export async function getForecastParameters(testid) {

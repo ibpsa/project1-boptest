@@ -18,6 +18,7 @@ class Job:
         self.key = parameters.get('key')
         self.testcaseid = parameters.get('testcaseid')
         self.testid = parameters.get('testid')
+        self.rediskey = parameters.get('rediskey')
         self.keep_running = True
         self.last_message_time = datetime.now()
 
@@ -260,6 +261,6 @@ class Job:
         return scenario
 
     def init_sim_status(self):
-        self.redis.hset(self.testid, 'testcaseid', self.testcaseid)
-        self.redis.hset(self.testid, 'status', 'Running')
+        test_metadata = {'status' : 'Running'}
+        self.redis.hset(self.rediskey, self.testid, json.dumps(test_metadata) )
 
