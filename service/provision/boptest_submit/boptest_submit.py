@@ -22,7 +22,7 @@ class BoptestSubmit:
             # A convention of the boptest repo is that the testcase is named
             # according to the directory two parents up
             name = Path(p).parents[1].name
-            print('submit %s named %s' % (p, name))
+            print('submit %s named %s' % (p, name), flush=True)
             self.submit(p, name, auth_token, shared)
 
     def submit(self, path, testcaseid, auth_token, shared):
@@ -47,9 +47,9 @@ class BoptestSubmit:
             # Get a template for the file upload form data
             # The server has an api to give this to us
             if shared:
-                url_prefix = '/my/testcases/'
-            else:
                 url_prefix = '/testcases/'
+            else:
+                url_prefix = '/my/testcases/'
 
             url = self.server + url_prefix + testcaseid + '/post-form'
             response = requests.get(url, headers={'Authorization': auth_token})
