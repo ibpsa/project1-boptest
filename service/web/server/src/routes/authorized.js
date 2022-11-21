@@ -18,11 +18,11 @@ const authorizer = async (req, res, next)  => {
     // return an error to the client.
     const url = dashboardServer + '/api/accounts/info'
     try {
-      const {body} = await got.get(url, {
+      const body = await got.get(url, {
         headers: {
           Authorization: key
         }
-      })
+      }).json()
       req.userID = body.sub
     } catch(error) {
       res.sendStatus(401)
@@ -56,12 +56,13 @@ const s3url = (req) => {
       s3url = 'http://minio:9000/alfalfa'
     }
   }
+  return s3url
 }
 
-const getTestcasePostForm = async (req, res, next, userID) => {
+const getTestcasePostForm = async (req, res, next, userid) => {
   try {
     const id = req.params.id
-    res.json(await controller.getTestcasePostForm(id, s3url(req), userID))
+    res.json(await controller.getTestcasePostForm(id, s3url(req), userid))
   } catch (e) {
     next(e)
   }

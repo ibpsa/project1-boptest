@@ -9,4 +9,4 @@ ENV PYTHONPATH /usr/src/boptest/provision
 
 WORKDIR /usr/src/boptest
 
-CMD [ "python3", "-m", "boptest_submit", "./boptest/testcases/"]
+CMD [ "python3", "-m", "boptest_submit", "--shared", "--path", "./boptest/testcases/"]
