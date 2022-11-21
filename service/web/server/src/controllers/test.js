@@ -23,6 +23,11 @@ export function getTestcaseID(testid) {
   return messaging.hget(testid, 'testcaseid')
 }
 
+// Given testid, return the testcase id
+export function checkPublicTestIDExists(testid) {
+  return messaging.hexists('users:undefined:tests', testid)
+}
+
 export async function getName(testid) {
   return await messaging.callWorkerMethod(testid, 'get_name', {})
 }
