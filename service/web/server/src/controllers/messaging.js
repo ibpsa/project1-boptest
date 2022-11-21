@@ -13,6 +13,8 @@ class Messaging {
 
     this.hget = promisify(this.client.hget).bind(this.client)
     this.hexists = promisify(this.client.hexists).bind(this.client)
+    this.hlen = promisify(this.client.hlen).bind(this.client)
+    this.hkeys = promisify(this.client.hkeys).bind(this.client)
     this.hset = promisify(this.client.hset).bind(this.client)
 
     this.subscriptionTimers = {}

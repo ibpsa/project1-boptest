@@ -23,9 +23,26 @@ export function getTestcaseID(testid) {
   return messaging.hget(testid, 'testcaseid')
 }
 
-// Given testid, return the testcase id
+// Given testid, return the 1 if it exists
 export function checkPublicTestIDExists(testid) {
   return messaging.hexists('users:undefined:tests', testid)
+}
+
+// Get all public tests
+export async function getPublicTests() {
+  const exists = await messaging.hlen('users:undefined:tests')
+  if (exists) {
+    const tests =  await messaging.hkeys('users:undefined:tests');
+    const tests_string = []
+    tests.forEach(element => {
+      tests_string.push(Buffer.from(element).toString())
+    });
+    return JSON.stringify(tests_string)
+  } else {
+    // If testid does not correspond to a redis key,
+    // then consider the test stopped, however an Error might make more sense
+    return "No tests available"
+  }
 }
 
 export async function getName(testid) {
@@ -63,7 +80,7 @@ export async function waitForStatus(rediskey, testid, desiredStatus, count, maxC
     throw(`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
   } else {
     // check status every 1000 miliseconds
-    await promiseTaskLater(waitForStatus, 1000, testid, desiredStatus, count, maxCount);
+    await promiseTaskLater(waitForStatus, rediskey, 1000, testid, desiredStatus, count, maxCount);
     count++
   }
 };

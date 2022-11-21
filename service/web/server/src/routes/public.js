@@ -20,6 +20,7 @@ import {
   getResults,
   getStatus,
   getTestcaseID,
+  getPublicTests,
   submit
 } from '../controllers/test'
 import {
@@ -34,6 +35,15 @@ publicRoutes.get('/version', async (req, res, next) => {
   try {
     const payload = await getVersion()
     res.status(payload.status).json(payload)
+  } catch (e) {
+    next(e)
+  }
+})
+
+publicRoutes.get('/tests', async (req, res, next) => {
+  try {
+    const payload = await getPublicTests()
+    res.json(payload)
   } catch (e) {
     next(e)
   }
@@ -81,7 +91,7 @@ publicRoutes.get('/status/:testid',
   async (req, res, next) => {
     try {
       validationResult(req).throw()
-      const payload = await getStatus(req.params.testid)
+      const payload = await getStatus("users:undefined:tests", req.params.testid)
       res.json(payload)
     } catch (e) {
       next(e)
