@@ -68,22 +68,22 @@ class BoptestSubmit:
                 return False
 
             # Confirm that the testcase exists
-            self._wait_for_testcase(testcaseid)
+            self._wait_for_testcase(url_prefix, testcaseid, auth_token)
 
             return testcaseid
         except:
             return False
 
-    def _exists(self, testcaseid):
-        url = '{}/testcases/{}'.format(self.server, testcaseid)
-        response = requests.get(url)
+    def _exists(self, url_prefix, testcaseid, auth_token):
+        url = '{}{}{}'.format(self.server, url_prefix, testcaseid)
+        response = requests.get(url, headers={'Authorization': auth_token})
         return response.ok
 
-    def _wait_for_testcase(self, testcaseid):
+    def _wait_for_testcase(self, url_prefix, testcaseid, auth_token):
         attempts = 0
         while attempts < 6000:
             attempts = attempts + 1
-            if self._exists(testcaseid):
+            if self._exists(url_prefix, testcaseid, auth_token):
                 break
             time.sleep(2)
 
