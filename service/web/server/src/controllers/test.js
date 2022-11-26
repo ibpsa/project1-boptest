@@ -80,14 +80,12 @@ export async function waitForStatus(rediskey, testid, desiredStatus, count, maxC
     throw(`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
   } else {
     // check status every 1000 miliseconds
-    await promiseTaskLater(waitForStatus, rediskey, 1000, testid, desiredStatus, count, maxCount);
+    await promiseTaskLater(waitForStatus, 1000, rediskey, testid, desiredStatus, count, maxCount);
     count++
   }
 };
 
 export async function setStatus(rediskey, testid, stat) {
-  var metadata = new Object()
-  metadata.status = stat
   return messaging.hset(rediskey, testid, JSON.stringify(stat))
 }
 
