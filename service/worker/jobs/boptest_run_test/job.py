@@ -225,7 +225,7 @@ class Job:
 
     # cleanup after the simulation is stopped
     def cleanup(self):
-        self.redis.delete(self.testid)
+        self.redis.hdel(self.rediskey, self.testid)
         self.unsubscribe()
 
         tarname = "%s.tar.gz" % self.testid
