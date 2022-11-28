@@ -1,7 +1,7 @@
 import express from 'express';
 import got from 'got';
 import * as controller from '../controllers/testcase'
-import { stop } from '../controllers/test';
+import { getTests, stop } from '../controllers/test';
 
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
 const authorizedRoutes = express.Router()
@@ -161,5 +161,15 @@ authorizedRoutes.put('/my/stop/:testid',
     }
   }
 );
+
+authorizedRoutes.get('/my/tests', async (req, res, next) => {
+  try {
+    
+    const payload = await getTests(req.userID);
+    res.json(payload)
+  } catch (e) {
+    next(e)
+  }
+})
 
 export default authorizedRoutes;

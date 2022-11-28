@@ -29,10 +29,11 @@ export function checkPublicTestIDExists(testid) {
 }
 
 // Get all public tests
-export async function getPublicTests() {
-  const exists = await messaging.hlen('users:undefined:tests')
+export async function getTests(userid) {
+  // userid = typeof userid !== 'undefined' ? userid : 'shared';
+  const exists = await messaging.hlen('users:'+userid+':tests')
   if (exists) {
-    const tests =  await messaging.hkeys('users:undefined:tests');
+    const tests =  await messaging.hkeys('users:'+userid+':tests');
     const tests_string = []
     tests.forEach(element => {
       tests_string.push(Buffer.from(element).toString())
