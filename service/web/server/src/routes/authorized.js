@@ -162,14 +162,21 @@ authorizedRoutes.put('/my/stop/:testid',
   }
 );
 
-authorizedRoutes.get('/my/tests', async (req, res, next) => {
+const _getTests = async (req, res, next, userID) => {
   try {
-    
-    const payload = await getTests(req.userID);
+    const payload = await getTests(userID);
     res.json(payload)
   } catch (e) {
     next(e)
   }
+}
+
+authorizedRoutes.get('/tests', async (req, res, next) => {
+  _getTests(req, res, next);
+})
+
+authorizedRoutes.get('/my/tests', async (req, res, next) => {
+  _getTests(req, res, next, req.userID);
 })
 
 export default authorizedRoutes;
