@@ -480,28 +480,22 @@ class Data_Manager(object):
         '''
 
         data_metadata = dict()
-        for key in self.case.data.columns:
-            if 'InternalGainsRad' in key:
-                metadata = self.categories['internalGains']['InternalGainsRad']
-            elif 'InternalGainsCon' in key:
-                metadata = self.categories['internalGains']['InternalGainsCon']
-            elif 'InternalGainsLat' in key:
-                metadata = self.categories['internalGains']['InternalGainsLat']
-            elif 'Occupancy' in key:
-                metadata = self.categories['occupancy']['Occupancy']
-            elif 'LowerSetp' in key:
-                metadata = self.categories['setpoints']['LowerSetp']
-            elif 'UpperSetp' in key:
-                metadata = self.categories['setpoints']['UpperSetp']
-            elif 'UpperCO2' in key:
-                metadata = self.categories['setpoints']['UpperCO2']
-            else:
-                if key in self.categories['weather']:
-                    metadata = self.categories['weather'][key]
-                elif key in self.categories['prices']:
-                    metadata = self.categories['prices'][key]
-                elif key in self.categories['emissions']:
-                    metadata = self.categories['emissions'][key]
+        for key in data.columns:
+            # Remove zone identifier if present
+            if '[' in key: key=key[:key.find('[')]
+            # Find key category and pass variable metadata
+            if key in self.categories['weather']:
+                metadata = self.categories['weather'][key]
+            elif key in self.categories['prices']:
+                metadata = self.categories['prices'][key]
+            elif key in self.categories['emissions']:
+                metadata = self.categories['emissions'][key]
+            elif key in self.categories['occupancy']:
+                metadata = self.categories['occupancy'][key]
+            elif key in self.categories['internalGains']:
+                metadata = self.categories['internalGains'][key]
+            elif key in self.categories['setpoints']:
+                metadata = self.categories['setpoints'][key]
             data_metadata[key] = metadata
 
         return data_metadata
