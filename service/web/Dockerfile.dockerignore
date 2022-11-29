@@ -1,0 +1,4 @@
+**/*
+!boptest/version.txt
+!web
+**/node_modules

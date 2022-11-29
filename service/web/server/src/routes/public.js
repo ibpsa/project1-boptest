@@ -3,15 +3,9 @@ import {body, param, validationResult} from 'express-validator'
 import got from 'got'
 import {getVersion} from '../controllers/utility'
 import {
-  isTestcase,
-  getTestcases,
-  select
-} from '../controllers/testcase'
-import {
   getName,
   initialize,
   advance,
-  stop,
   getMeasurements,
   getInputs,
   getForecastParameters,
@@ -23,8 +17,6 @@ import {
   getStep,
   getKPIs,
   getResults,
-  getStatus,
-  getTestcaseID,
   submit
 } from '../controllers/test'
 import {
@@ -33,9 +25,9 @@ import {
 } from './validators'
 
 
-const boptestRouter = express.Router()
+const publicRoutes = express.Router()
 
-boptestRouter.get('/version', async (req, res, next) => {
+publicRoutes.get('/version', async (req, res, next) => {
   try {
     const payload = await getVersion()
     res.status(payload.status).json(payload)
@@ -44,21 +36,7 @@ boptestRouter.get('/version', async (req, res, next) => {
   }
 })
 
-boptestRouter.post('/testcases/:testcaseid/select', 
-  body(['api_key']).optional(),
-  async (req, res, next) => {
-  try {
-    const testcaseid = req.params.testcaseid
-    const api_key = req.body['api_key'] || null
-    const sqs = req.app.get('sqs')
-    const response = await select(testcaseid, sqs, api_key)
-    return res.json(response)
-  } catch (e) {
-    next(e)
-  }
-});
-
-boptestRouter.post('/submit/:testid', 
+publicRoutes.post('/submit/:testid', 
   async (req, res, next) => {
   try {
     const body = req.body;
@@ -82,33 +60,7 @@ boptestRouter.post('/submit/:testid',
   }
 });
 
-boptestRouter.put('/stop/:testid', 
-  param('testid').custom(validateTestid),
-  async (req, res, next) => {
-    try {
-      validationResult(req).throw()
-      await stop(req.params.testid)
-      res.sendStatus(200)
-    } catch (e) {
-      next(e)
-    }
-  }
-);
-
-boptestRouter.get('/status/:testid',
-  param('testid').custom(validateTestid),
-  async (req, res, next) => {
-    try {
-      validationResult(req).throw()
-      const payload = await getStatus(req.params.testid)
-      res.json(payload)
-    } catch (e) {
-      next(e)
-    }
-  }
-)
-
-boptestRouter.get('/name/:testid', 
+publicRoutes.get('/name/:testid', 
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -121,7 +73,7 @@ boptestRouter.get('/name/:testid',
   }
 )
 
-boptestRouter.post('/advance/:testid',
+publicRoutes.post('/advance/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -135,7 +87,7 @@ boptestRouter.post('/advance/:testid',
   }
 );
 
-boptestRouter.put('/initialize/:testid',
+publicRoutes.put('/initialize/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -149,7 +101,7 @@ boptestRouter.put('/initialize/:testid',
   }
 );
 
-boptestRouter.put('/scenario/:testid',
+publicRoutes.put('/scenario/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -165,7 +117,7 @@ boptestRouter.put('/scenario/:testid',
   }
 );
 
-boptestRouter.get('/scenario/:testid',
+publicRoutes.get('/scenario/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -178,7 +130,7 @@ boptestRouter.get('/scenario/:testid',
   }
 );
 
-boptestRouter.get('/measurements/:testid',
+publicRoutes.get('/measurements/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -192,7 +144,7 @@ boptestRouter.get('/measurements/:testid',
   }
 );
 
-boptestRouter.get('/inputs/:testid',
+publicRoutes.get('/inputs/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -206,7 +158,7 @@ boptestRouter.get('/inputs/:testid',
   }
 )
 
-boptestRouter.get('/step/:testid',
+publicRoutes.get('/step/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -219,7 +171,7 @@ boptestRouter.get('/step/:testid',
   }
 )
 
-boptestRouter.put('/step/:testid',
+publicRoutes.put('/step/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -233,7 +185,7 @@ boptestRouter.put('/step/:testid',
   }
 );
 
-boptestRouter.get('/kpi/:testid',
+publicRoutes.get('/kpi/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -246,7 +198,7 @@ boptestRouter.get('/kpi/:testid',
   }
 );
 
-boptestRouter.put('/results/:testid',
+publicRoutes.put('/results/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -263,7 +215,7 @@ boptestRouter.put('/results/:testid',
   }
 );
 
-boptestRouter.get('/forecast_parameters/:testid',
+publicRoutes.get('/forecast_parameters/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -277,7 +229,7 @@ boptestRouter.get('/forecast_parameters/:testid',
   }
 );
 
-boptestRouter.put('/forecast_parameters/:testid',
+publicRoutes.put('/forecast_parameters/:testid',
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -293,7 +245,7 @@ boptestRouter.put('/forecast_parameters/:testid',
   }
 );
 
-boptestRouter.get('/forecast/:testid', 
+publicRoutes.get('/forecast/:testid', 
   param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
@@ -307,28 +259,4 @@ boptestRouter.get('/forecast/:testid',
   }
 );
 
-boptestRouter.get('/testcases', async (req, res, next) => {
-  try {
-    const s3 = req.app.get('s3')
-    const payload = await getTestcases(s3)
-    res.json(payload)
-  } catch (e) {
-    next(e);
-  }
-})
-
-boptestRouter.get('/testcases/:testcaseid', async (req, res, next) => {
-  try {
-    const s3 = req.app.get('s3')
-    const testcaseid = req.params.testcaseid
-    if (await isTestcase(testcaseid, s3)) {
-      res.sendStatus(200)
-    } else {
-      res.sendStatus(404)
-    }
-  } catch (e) {
-    next(e);
-  }
-})
-
-export default boptestRouter;
+export default publicRoutes;

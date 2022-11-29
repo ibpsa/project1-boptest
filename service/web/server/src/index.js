@@ -1,22 +1,14 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import AWS from 'aws-sdk'
-import boptestRouter from './routes/boptest'
-import boptestAdminRouter from './routes/boptest-admin'
-
-AWS.config.update({ region: process.env.REGION })
-const s3 = new AWS.S3({ endpoint: process.env.S3_URL, s3ForcePathStyle: true })
-const sqs = new AWS.SQS()
+import publicRoutes from './routes/public'
+import authorizedRoutes from './routes/authorized'
 
 var app = express()
 
-app.set('sqs', sqs)
-app.set('s3', s3)
-
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
-app.use('/', boptestRouter)
-app.use('/', boptestAdminRouter)
+app.use('/', publicRoutes)
+app.use('/', authorizedRoutes)
 
 let server = app.listen(80, () => {
   var host = server.address().address
