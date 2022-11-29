@@ -1,24 +1,21 @@
 import {
-  checkPublicTestIDExists
+  checkTestIDExists
 } from '../controllers/test';
 
-// // Validate that the parameter 'testid' is a valid test.
-// export async function validateTestid(param, {req}) {
-//   const redis = req.app.get('redis')
-//   // A valid test will have a testcaseid
-//   if (! await getTestcaseID(param, redis)) {
-//     throw new Error(`Invalid testid: ${param}`)
-//   }
-//   return true
-// }
-
+// Validate that the parameter 'testid' is a valid test.
+export async function validateMyTestid(testid, {req}) {
+  // A valid test will have a testcaseid
+  if (! await checkTestIDExists(testid, req.userID)) {
+    throw new Error(`Invalid testid: ${testid}`)
+  }
+  return true
+}
 
 // Validate that the parameter 'testid' is a valid test.
-export async function validateTestid(param, {req}) {
-  const redis = req.app.get('redis')
+export async function validateTestid(testid, {req}) {
   // A valid test will have a testcaseid
-  if (! await checkPublicTestIDExists(param, redis)) {
-    throw new Error(`Invalid testid: ${param}`)
+  if (! await checkTestIDExists(testid)) {
+    throw new Error(`Invalid testid: ${testid}`)
   }
   return true
 }

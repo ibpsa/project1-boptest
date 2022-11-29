@@ -1,7 +1,11 @@
 import express from 'express';
+import {body, param, validationResult} from 'express-validator'
 import got from 'got';
 import * as controller from '../controllers/testcase'
-import { getTests, stop } from '../controllers/test';
+import { getStatus, getTests, stop } from '../controllers/test';
+import {
+  validateTestid, validateMyTestid
+} from './validators'
 
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
 const authorizedRoutes = express.Router()
@@ -147,13 +151,26 @@ authorizedRoutes.get('/testcases/:testcaseid', async (req, res, next) => {
 
 authorizedRoutes.get('/my/testcases/:testcaseid', async (req, res, next) => {
   isTestcase(req, res, next, req.userID)
-})
+});
 
-authorizedRoutes.put('/my/stop/:testid', 
-  // param('testid').custom(validateTestid),
+authorizedRoutes.put('/stop/:testid', 
+  param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      // validationResult(req).throw()
+      validationResult(req).throw()
+      await stop(req.params.testid)
+      res.sendStatus(200)
+    } catch (e) {
+      next(e)
+    }
+  }
+);
+
+authorizedRoutes.put('/my/stop/:testid', 
+  param('testid').custom(validateMyTestid),
+  async (req, res, next) => {
+    try {
+      validationResult(req).throw()
       await stop(req.params.testid)
       res.sendStatus(200)
     } catch (e) {
@@ -177,6 +194,30 @@ authorizedRoutes.get('/tests', async (req, res, next) => {
 
 authorizedRoutes.get('/my/tests', async (req, res, next) => {
   _getTests(req, res, next, req.userID);
+})
+
+const _getStatus = async (req, res, next, userID) => {
+  try {
+    const redisKey = "users:"+userID+":tests";
+    const payload = await getStatus(redisKey, req.params.testid)
+    res.json(payload)
+  } catch (e) {
+    next(e)
+  }
+}
+
+authorizedRoutes.get('/status/:testid', 
+param('testid').custom(validateTestid),
+async (req, res, next) => {
+  validationResult(req).throw();
+  _getStatus(req, res, next);
+})
+
+authorizedRoutes.get('/my/status/:testid', 
+param('testid').custom(validateMyTestid),
+async (req, res, next) => {
+  validationResult(req).throw();
+  _getStatus(req, res, next, req.userID);
 })
 
 export default authorizedRoutes;

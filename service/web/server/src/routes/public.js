@@ -6,7 +6,6 @@ import {
   getName,
   initialize,
   advance,
-  stop,
   getMeasurements,
   getInputs,
   getForecastParameters,
@@ -18,9 +17,6 @@ import {
   getStep,
   getKPIs,
   getResults,
-  getStatus,
-  getTestcaseID,
-  getTests,
   submit
 } from '../controllers/test'
 import {
@@ -39,15 +35,6 @@ publicRoutes.get('/version', async (req, res, next) => {
     next(e)
   }
 })
-
-// publicRoutes.get('/tests', async (req, res, next) => {
-//   try {
-//     const payload = await getTests()
-//     res.json(payload)
-//   } catch (e) {
-//     next(e)
-//   }
-// })
 
 publicRoutes.post('/submit/:testid', 
   async (req, res, next) => {
@@ -72,32 +59,6 @@ publicRoutes.post('/submit/:testid',
     next(e)
   }
 });
-
-publicRoutes.put('/stop/:testid', 
-  param('testid').custom(validateTestid),
-  async (req, res, next) => {
-    try {
-      validationResult(req).throw()
-      await stop(req.params.testid)
-      res.sendStatus(200)
-    } catch (e) {
-      next(e)
-    }
-  }
-);
-
-publicRoutes.get('/status/:testid',
-  param('testid').custom(validateTestid),
-  async (req, res, next) => {
-    try {
-      validationResult(req).throw()
-      const payload = await getStatus("users:undefined:tests", req.params.testid)
-      res.json(payload)
-    } catch (e) {
-      next(e)
-    }
-  }
-)
 
 publicRoutes.get('/name/:testid', 
   param('testid').custom(validateTestid),

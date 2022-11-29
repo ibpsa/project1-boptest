@@ -24,8 +24,10 @@ export function getTestcaseID(testid) {
 }
 
 // Given testid, return the 1 if it exists
-export function checkPublicTestIDExists(testid) {
-  return messaging.hexists('users:undefined:tests', testid)
+export function checkTestIDExists(testid, userid) {
+  userid = typeof userid !== 'undefined' ? userid : 'undefined'; // If userID is undefined, set it to undefined string
+  const rediskey = 'users:' + userid +':tests'
+  return messaging.hexists(rediskey, testid)
 }
 
 // Get all public tests
