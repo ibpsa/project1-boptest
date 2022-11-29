@@ -40,7 +40,7 @@ export async function getTests(userid) {
     tests.forEach(element => {
       tests_string.push(Buffer.from(element).toString())
     });
-    return JSON.stringify(tests_string)
+    return tests_string;
   } else {
     // If testid does not correspond to a redis key,
     // then consider the test stopped, however an Error might make more sense
