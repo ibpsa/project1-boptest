@@ -480,7 +480,7 @@ class Data_Manager(object):
         '''
 
         data_metadata = dict()
-        for key in data.columns:
+        for key in self.case.data.columns:
             # Remove zone identifier if present
             if '[' in key: key=key[:key.find('[')]
             # Find key category and pass variable metadata
