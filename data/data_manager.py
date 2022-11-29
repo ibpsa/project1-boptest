@@ -462,7 +462,7 @@ class Data_Manager(object):
         self.case.data = self.case.data.applymap(float)
 
     def get_data_metadata(self):
-        '''Get the metadata of data.
+        '''Get the metadata of the test case data variables.
 
         Parameters
         ----------
