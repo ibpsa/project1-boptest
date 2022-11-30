@@ -487,17 +487,17 @@ class Data_Manager(object):
             else:
                 var=key
             # Find key category and pass variable metadata
-            if key in self.categories['weather']:
+            if var in self.categories['weather']:
                 metadata = self.categories['weather'][var]
-            elif key in self.categories['prices']:
+            elif var in self.categories['prices']:
                 metadata = self.categories['prices'][var]
-            elif key in self.categories['emissions']:
+            elif var in self.categories['emissions']:
                 metadata = self.categories['emissions'][var]
-            elif key in self.categories['occupancy']:
+            elif var in self.categories['occupancy']:
                 metadata = self.categories['occupancy'][var]
-            elif key in self.categories['internalGains']:
+            elif var in self.categories['internalGains']:
                 metadata = self.categories['internalGains'][var]
-            elif key in self.categories['setpoints']:
+            elif var in self.categories['setpoints']:
                 metadata = self.categories['setpoints'][var]
             # Add key with metadata to dictionary
             data_metadata[key] = metadata
