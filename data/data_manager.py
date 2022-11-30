@@ -481,21 +481,25 @@ class Data_Manager(object):
 
         data_metadata = dict()
         for key in self.case.data.columns:
-            # Remove zone identifier if present
-            if '[' in key: key=key[:key.find('[')]
+            # Remove zone identifier if present to find variable metadata
+            if '[' in key:
+                var=key[:key.find('[')]
+            else:
+                var=key
             # Find key category and pass variable metadata
             if key in self.categories['weather']:
-                metadata = self.categories['weather'][key]
+                metadata = self.categories['weather'][var]
             elif key in self.categories['prices']:
-                metadata = self.categories['prices'][key]
+                metadata = self.categories['prices'][var]
             elif key in self.categories['emissions']:
-                metadata = self.categories['emissions'][key]
+                metadata = self.categories['emissions'][var]
             elif key in self.categories['occupancy']:
-                metadata = self.categories['occupancy'][key]
+                metadata = self.categories['occupancy'][var]
             elif key in self.categories['internalGains']:
-                metadata = self.categories['internalGains'][key]
+                metadata = self.categories['internalGains'][var]
             elif key in self.categories['setpoints']:
-                metadata = self.categories['setpoints'][key]
+                metadata = self.categories['setpoints'][var]
+            # Add key with metadata to dictionary
             data_metadata[key] = metadata
 
         return data_metadata
