@@ -7,21 +7,29 @@ import {
 } from './test';
 import Path from 'path';
 
-export function getS3KeyForTestcaseID(testcaseid, userid) {
-  let prefix = 'shared'
-  if (userid) {
-    prefix = userid
-  }
-  return `testcases/${prefix}/${testcaseid}/${testcaseid}.fmu`
+
+export function getPrefixForTestcase(testcaseNamespace) {
+  return `testcases/${testcaseNamespace}`
+}
+export function getPrefixForUserTestcase(userName) {
+  return `users/${userName}/testcases`
 }
 
-export function getTestcasePostForm(testcaseid, s3url, userid) {
+export function getKeyForTestcase(testcaseNamespace, testcaseID) {
+  return `${getPrefixForTestcase(testcaseNamespace)}/${testcaseID}/${testcaseID}.fmu`
+}
+
+export function getKeyForUserTestcase(userName, testcaseID) {
+  return `${getPrefixForTestcase(userName)}/${testcaseID}/${testcaseID}.fmu`
+}
+
+export function getTestcasePostForm(testcaseKey, s3url) {
   return new Promise((resolve, reject) => {
     // Construct a new postPolicy.
     const params = {
       Bucket: process.env.S3_BUCKET,
       Fields: {
-        key: getS3KeyForTestcaseID(testcaseid, userid)
+        key: testcaseKey
       }
     }
     
@@ -38,54 +46,42 @@ export function getTestcasePostForm(testcaseid, s3url, userid) {
   })
 }
 
-export async function getTestcases(userid) {
-  const testcasesForPrefix = (prefix) => {
-    return new Promise((resolve, reject) => {
-      const params = {
-        Bucket: process.env.S3_BUCKET,
-        Prefix: prefix
+export function getTestcases(prefix) {
+  return new Promise((resolve, reject) => {
+    const params = {
+      Bucket: process.env.S3_BUCKET,
+      Prefix: prefix
+    }
+
+    s3.listObjectsV2(params, function(err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        const result = data.Contents.map(item => ({ testcaseid: Path.parse(item.Key).name }));
+        resolve(result)
       }
-
-      s3.listObjectsV2(params, function(err, data) {
-        if (err) {
-          reject(err)
-        } else {
-          const result = data.Contents.map(item => ({ testcaseid: Path.parse(item.Key).name }));
-          resolve(result)
-        }
-      })
     })
-  }
-
-  if (userid) {
-    return await testcasesForPrefix(`testcases/${userid}`)
-  } else {
-    return await testcasesForPrefix('testcases/shared')
-  }
+  })
 }
 
-export async function isTestcase(id, userid) {
-  const testcases = await getTestcases(userid)
-  const found = testcases.find( t => t.testcaseid == id )
-  return found != undefined
+export async function isTestcase(prefix, testcaseID) {
+  const testcases = await getTestcases(prefix)
+  return (testcases.find(item => item.testcaseid == testcaseID)) != undefined
 }
 
-export async function select(testcaseid, userid) {
+export async function select(testcaseKey) {
   const testid = uuidv4()
-  const key = getS3KeyForTestcaseID(testcaseid, userid)
   await setStatus(testid, "Starting")
-  await addJobToQueue("boptest_run_test", {testcaseid, testid, key})
+  await addJobToQueue("boptest_run_test", {testid, testcaseKey})
   await waitForStatus(testid, "Running")
   return { testid }
 }
 
-export async function removeTestcase(id, userid) {
-  const key = getS3KeyForTestcaseID(id, userid)
-
-  await new Promise((resolve, reject) => {
+export function deleteTestcase(testcaseKey) {
+  return new Promise((resolve, reject) => {
     const params = {
       Bucket: process.env.S3_BUCKET,
-      Key: key
+      Key: testcaseKey
     }
 
     s3.deleteObject(params, function(err, data) {

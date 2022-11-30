@@ -1,13 +1,13 @@
 import {
-  getTestcaseID
+  isTest
 } from '../controllers/test';
 
 // Validate that the parameter 'testid' is a valid test.
-export async function validateTestid(param, {req}) {
-  const redis = req.app.get('redis')
-  // A valid test will have a testcaseid
-  if (! await getTestcaseID(param, redis)) {
-    throw new Error(`Invalid testid: ${param}`)
+export async function validateTestid(testid) {
+  console.log(`isTest param: ${testid}`)
+  if (await isTest(testid)) {
+    return true
+  } else {
+    throw new Error(`Invalid testid: ${testid}`)
   }
-  return true
 }

@@ -15,8 +15,7 @@ from boptest.lib.testcase import TestCase
 
 class Job:
     def __init__(self, parameters):
-        self.key = parameters.get('key')
-        self.testcaseid = parameters.get('testcaseid')
+        self.key = parameters.get('testcaseKey')
         self.testid = parameters.get('testid')
         self.keep_running = True
         self.last_message_time = datetime.now()
@@ -27,7 +26,7 @@ class Job:
         self.timeout = float(os.environ['SERVICE_TIMEOUT'])
 
         # Download the testcase FMU
-        self.test_dir = os.path.join('/simulate', self.testcaseid)
+        self.test_dir = os.path.join('/simulate', self.testid)
         self.fmu_path = os.path.join(self.test_dir, 'model.fmu')
 
         if not os.path.exists(self.test_dir):
@@ -260,6 +259,5 @@ class Job:
         return scenario
 
     def init_sim_status(self):
-        self.redis.hset(self.testid, 'testcaseid', self.testcaseid)
         self.redis.hset(self.testid, 'status', 'Running')
 

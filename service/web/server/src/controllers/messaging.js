@@ -14,6 +14,7 @@ class Messaging {
     this.hget = promisify(this.client.hget).bind(this.client)
     this.hexists = promisify(this.client.hexists).bind(this.client)
     this.hset = promisify(this.client.hset).bind(this.client)
+    this.exists = promisify(this.client.exists).bind(this.client)
 
     this.subscriptionTimers = {}
     this.messageHandlers = {}

@@ -4,12 +4,13 @@ import * as controller from '../controllers/testcase'
 
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
 const authorizedRoutes = express.Router()
+const ibpsaNamespace = 'ibpsa'
 
 // Middleware to provide client information.
 // This will increase the response time, so use it only on APIs that
 // are not invoked at high frequency. (e.g. avoid using it for APIs
 // such as advance which are typically within a tight simulation loop.)
-const authorizer = async (req, res, next)  => {
+const identify = async (req, res, next)  => {
   const key = req.header('Authorization');
 
   if (key && dashboardServer) {
@@ -24,6 +25,7 @@ const authorizer = async (req, res, next)  => {
         }
       }).json()
       req.userID = body.sub
+      req.userName = body.name
     } catch(error) {
       res.sendStatus(401)
       return
@@ -32,18 +34,7 @@ const authorizer = async (req, res, next)  => {
   next()
 };
 
-// Middleware to require a valid user
-// This should be used after the authorizer
-const myAuth = (req, res, next) => {
-  if (! req.userID) {
-    res.sendStatus(401)
-    return
-  }
-  next()
-}
-
-authorizedRoutes.use(authorizer)
-authorizedRoutes.use('/my/*', myAuth)
+authorizedRoutes.use(identify)
 
 const s3url = (req) => {
   // Goofy logic to consider if s3 is the real amazon service,
@@ -59,93 +50,125 @@ const s3url = (req) => {
   return s3url
 }
 
-const getTestcasePostForm = async (req, res, next, userid) => {
-  try {
-    const id = req.params.id
-    res.json(await controller.getTestcasePostForm(id, s3url(req), userid))
-  } catch (e) {
-    next(e)
-  }
+// GET test case post-form //
+
+const getTestcasePostForm = async (req, res, next) => {
+  res.json(await controller.getTestcasePostForm(req.testcaseKey, s3url(req)))
 }
 
-authorizedRoutes.get('/testcases/:id/post-form', async (req, res, next) => {
-  getTestcasePostForm(req, res, next)
-})
+authorizedRoutes.get('/testcases/:testcaseID/post-form',
+  (req, res, next) => {
+    req.testcaseKey = controller.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
+    next()
+  },
+  getTestcasePostForm
+)
 
-authorizedRoutes.get('/my/testcases/:id/post-form', async (req, res, next) => {
-  getTestcasePostForm(req, res, next, req.userID)
-})
+authorizedRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
+  (req, res, next) => {
+    req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
+    next()
+  },
+  getTestcasePostForm
+)
 
-const removeTestcase = async (req, res, next, userID) => {
-  try {
-    const id = req.params.id
-    await controller.removeTestcase(id, userID)
+authorizedRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
+  (req, res, next) => {
+    req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
+    next()
+  },
+  getTestcasePostForm
+)
+
+// Delete test case //
+
+const deleteTestcase = async (req, res, next) => {
+  if (await controller.isTestcase(req.testcaseKeyPrefix, req.testcaseID)) {
+    await controller.deleteTestcase(req.testcaseKey)
     res.sendStatus(200)
-  } catch (e) {
-    next(e)
+  } else {
+    res.sendStatus(404)
   }
 }
 
-authorizedRoutes.delete('/testcases/:id', async (req, res, next) => {
-  removeTestcase(req, res, next)
-})
+authorizedRoutes.delete('/testcases/:testcaseID',
+  (req, res, next) => {
+    req.testcaseID = req.params.testcaseID
+    req.testcaseKeyPrefix = controller.getPrefixForTestcase(ibpsaNamespace)
+    req.testcaseKey = controller.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
+    next()
+  },
+  deleteTestcase
+)
 
-authorizedRoutes.delete('/my/testcases/:id', async (req, res, next) => {
-  removeTestcase(req, res, next, req.userID)
-})
+authorizedRoutes.delete('/testcases/:testcaseNamespace/:testcaseID',
+  (req, res, next) => {
+    req.testcaseID = req.params.testcaseID
+    req.testcaseKeyPrefix = controller.getPrefixForTestcase(req.params.testcaseNamespace)
+    req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
+    next()
+  },
+  deleteTestcase
+)
 
-const select = async (req, res, next, userID) => {
-  try {
-    const testcaseid = req.params.testcaseid
-    res.json(await controller.select(testcaseid, userID))
-  } catch (e) {
-    next(e)
-  }
+// POST test case select //
+
+const select = async (req, res, next) => {
+  res.json(await controller.select(req.testcaseKey))
 }
 
-authorizedRoutes.post('/testcases/:testcaseid/select', async (req, res, next) => {
-  select(req, res, next)
-});
+authorizedRoutes.post('/testcases/:testcaseID/select', 
+  (req, res, next) => {
+    req.testcaseKey = controller.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
+    next()
+  },
+  select
+);
 
-authorizedRoutes.post('/my/testcases/:testcaseid/select', async (req, res, next) => {
-  select(req, res, next, req.userID)
-});
+authorizedRoutes.post('/testcases/testcaseNamespace/:testcaseID/select',
+  (req, res, next) => {
+    req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
+    next()
+  },
+  select
+);
 
-const getTestcases = async (req, res, next, userID) => {
-  try {
-    res.json(await controller.getTestcases(userID))
-  } catch (e) {
-    next(e);
-  }
+authorizedRoutes.post('/users/:userName/testcases/:testcaseID/select',
+  (req, res, next) => {
+    req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
+    next()
+  },
+  select
+);
+
+// Get testcases //
+
+const getTestcases = async (req, res, next) => {
+  res.json(await controller.getTestcases(req.testcaseKeyPrefix))
 }
 
-authorizedRoutes.get('/testcases', async (req, res, next) => {
-  getTestcases(req, res, next)
-})
+authorizedRoutes.get('/testcases', 
+  (req, res, next) => {
+    req.testcaseKeyPrefix = controller.getPrefixForTestcase(ibpsaNamespace)
+    next()
+  },
+  getTestcases
+)
 
-authorizedRoutes.get('/my/testcases', async (req, res, next) => {
-  getTestcases(req, res, next, req.userID)
-})
+authorizedRoutes.get('/testcases/:testcaseNamespace',
+  (req, res, next) => {
+    req.testcaseKeyPrefix = controller.getPrefixForTestcase(req.params.testcaseNamespace)
+    next()
+  },
+  getTestcases
+)
 
-const isTestcase = async (req, res, next, userID) => {
-  try {
-    const testcaseid = req.params.testcaseid
-    if (await controller.isTestcase(testcaseid, userID)) {
-      res.sendStatus(200)
-    } else {
-      res.sendStatus(404)
-    }
-  } catch (e) {
-    next(e);
-  }
-}
-
-authorizedRoutes.get('/testcases/:testcaseid', async (req, res, next) => {
-  isTestcase(req, res, next)
-})
-
-authorizedRoutes.get('/my/testcases/:testcaseid', async (req, res, next) => {
-  isTestcase(req, res, next, req.userID)
-})
+authorizedRoutes.get('/users/:userName/testcases',
+  (req, res, next) => {
+    req.testcaseKeyPrefix = controller.getPrefixForTestcase(req.params.userName)
+    next()
+  },
+  getTestcases
+)
 
 export default authorizedRoutes;

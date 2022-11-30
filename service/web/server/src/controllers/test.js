@@ -19,8 +19,8 @@ function promiseTaskLater(task, time, ...args) {
 };
 
 // Given testid, return the testcase id
-export function getTestcaseID(testid) {
-  return messaging.hget(testid, 'testcaseid')
+export async function isTest(testid) {
+  return await messaging.exists(testid)
 }
 
 export async function getName(testid) {
