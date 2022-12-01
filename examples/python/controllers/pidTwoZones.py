@@ -96,6 +96,27 @@ def initialize():
 
     return u
 
+def get_forecast_parameters():
+    """Get forecast parameters within the controller.
+
+    Returns
+    -------
+    forecast_parameters: dict
+        {'point_names':[<string>],
+         'horizon': <int>,
+         'interval': <int>}
+
+    """
+
+    forecast_parameters = {'point_names':['LowerSetp[North]',
+                                          'UpperSetp[North]',
+                                          'LowerSetp[South]',
+                                          'UpperSetp[South]'],
+                           'horizon': 600,
+                           'interval': 300}
+
+
+    return forecast_parameters
 
 def update_forecasts(forecast_data, forecasts):
     """Update forecast_store within the controller.
@@ -119,10 +140,8 @@ def update_forecasts(forecast_data, forecasts):
 
     """
 
-    forecast_config = ['LowerSetp[North]',
-                       'UpperSetp[North]',
-                       'LowerSetp[South]',
-                       'UpperSetp[South]']
+    forecast_config = get_forecast_parameters()['point_names']
+
     if forecasts is None:
         forecasts = pd.DataFrame(columns=forecast_config)
     for i in forecast_config:

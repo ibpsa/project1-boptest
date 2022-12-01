@@ -37,7 +37,7 @@ class PartialForecasterTest(object):
         '''
 
         # Load the data into the test case
-        forecast = self.forecaster.get_forecast()
+        forecast = self.forecaster.get_forecast(self.forecast_points)
 
         # Set reference file path
         ref_filepath = self.ref_forecast_default
@@ -52,7 +52,8 @@ class PartialForecasterTest(object):
         '''
 
         # Load the data into the test case
-        forecast = self.forecaster.get_forecast(horizon=2*24*3600,
+        forecast = self.forecaster.get_forecast(self.forecast_points,
+                                                horizon=2*24*3600,
                                                 interval=123)
 
         # Set reference file path
@@ -81,6 +82,9 @@ class ForecasterSingleZoneTest(unittest.TestCase, utilities.partialChecks,
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
 
+        # Specify forecast points to test
+        self.forecast_points = list(self.case.get_forecast_points()[2].keys())
+
         # Specify test references
         self.ref_forecast_default  = os.path.join(utilities.get_root_path(),
             'testing', 'references', 'forecast', 'testcase2','tc2_forecast_default.csv')
@@ -106,6 +110,9 @@ class ForecasterMultiZoneTest(unittest.TestCase, utilities.partialChecks,
 
         # Instantiate a forecaster
         self.forecaster = Forecaster(self.case)
+
+        # Specify forecast points to test
+        self.forecast_points = list(self.case.get_forecast_points()[2].keys())
 
         # Specify test references
         self.ref_forecast_default  = os.path.join(utilities.get_root_path(),
