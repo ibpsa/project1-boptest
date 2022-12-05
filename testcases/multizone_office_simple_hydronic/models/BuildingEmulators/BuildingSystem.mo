@@ -92,6 +92,7 @@ equation
     connect(ventilation.oveByPass,bms.oveByPass);
     connect(structure.humAir,heating_cooling.humAir) annotation(Line(points = {{5.796428571428599,3.1464154411764778},{33.599999999999994,3.1464154411764778},{33.599999999999994,2.5999999999999996}},color = {0,0,127}));
     connect(sim.weaDatBus,weaSta.weaBus) annotation(Line(points = {{-60.1,90},{-49,90},{-49,89.9},{-37.9,89.9}},color = {255,204,51}));
+    connect(bms.Occ,heating_cooling.Occ) annotation(Line(points = {{-37,53.6},{-32,53.6},{-32,-6},{39.6,-6},{39.6,0}},color = {255,0,255}));
 
    annotation (
     Diagram(experiment(StopTime=31536000), coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
