@@ -5,7 +5,7 @@ import { pack, unpack } from 'msgpackr'
 
 class Messaging {
   constructor() {
-    this.client = node_redis.createClient({host: process.env.REDIS_HOST, detect_buffers: true, return_buffers: true})
+    this.client = node_redis.createClient({host: process.env.BOPTEST_REDIS_HOST, detect_buffers: true, return_buffers: true})
     this.pubclient = this.client.duplicate()
     this.subclient = this.client.duplicate()
     this.subTimeoutTime = 180000

@@ -47,7 +47,7 @@ export async function getStatus(testid) {
 };
 
 export async function waitForStatus(testid, desiredStatus, count, maxCount) {
-  maxCount = typeof maxCount !== 'undefined' ? maxCount : process.env.SERVICE_TIMEOUT
+  maxCount = typeof maxCount !== 'undefined' ? maxCount : process.env.BOPTEST_TIMEOUT
   // The default starting count is 0
   count = typeof count !== 'undefined' ? count : 0
   const currentStatus = await getStatus(testid);

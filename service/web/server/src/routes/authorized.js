@@ -3,8 +3,11 @@ import got from 'got';
 import * as controller from '../controllers/testcase'
 
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
+const superUsers = process.env.BOPTEST_SUPER_USERS || ""
+const superUserEmails = superUsers.split(',')
 const authorizedRoutes = express.Router()
 const ibpsaNamespace = 'ibpsa'
+const bucket = process.env.BOPTEST_S3_BUCKET
 
 // Middleware to provide client information.
 // This will increase the response time, so use it only on APIs that
@@ -24,8 +27,7 @@ const identify = async (req, res, next)  => {
           Authorization: key
         }
       }).json()
-      req.userID = body.sub
-      req.userName = body.name
+      req.account = body
     } catch(error) {
       res.sendStatus(401)
       return
@@ -34,15 +36,31 @@ const identify = async (req, res, next)  => {
   next()
 };
 
+const requireSuperUser = (req, res, next) => {
+  if (req.account && superUserEmails.includes(req.account.email)) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+}
+
+const requireUser = (req, res, next) => {
+  if (req.account && req.params.userName && (req.params.userName === req.account.name)) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
+}
+
 authorizedRoutes.use(identify)
 
 const s3url = (req) => {
   // Goofy logic to consider if s3 is the real amazon service,
   // or running in a container. Reconsider this nonsense... Review Alfalfa approach.
   let s3url = null
-  if ( process.env.S3_URL.indexOf("amazonaws") == -1 ) {
+  if ( process.env.BOPTEST_INTERNAL_S3_URL.indexOf("amazonaws") == -1 ) {
     if (req.hostname.indexOf("web") == -1 ) {
-      s3url = 'http://' + req.hostname + ':9000/' + process.env.S3_BUCKET
+      s3url = 'http://' + req.hostname + ':9000/' + bucket
     } else {
       s3url = 'http://minio:9000/alfalfa'
     }
@@ -57,6 +75,7 @@ const getTestcasePostForm = async (req, res, next) => {
 }
 
 authorizedRoutes.get('/testcases/:testcaseID/post-form',
+  requireSuperUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
     next()
@@ -65,6 +84,7 @@ authorizedRoutes.get('/testcases/:testcaseID/post-form',
 )
 
 authorizedRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
+  requireSuperUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
     next()
@@ -73,6 +93,7 @@ authorizedRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
 )
 
 authorizedRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
+  requireUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
     next()
@@ -92,6 +113,7 @@ const deleteTestcase = async (req, res, next) => {
 }
 
 authorizedRoutes.delete('/testcases/:testcaseID',
+  requireSuperUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
     req.testcaseKeyPrefix = controller.getPrefixForTestcase(ibpsaNamespace)
@@ -102,10 +124,22 @@ authorizedRoutes.delete('/testcases/:testcaseID',
 )
 
 authorizedRoutes.delete('/testcases/:testcaseNamespace/:testcaseID',
+  requireSuperUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
     req.testcaseKeyPrefix = controller.getPrefixForTestcase(req.params.testcaseNamespace)
     req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
+    next()
+  },
+  deleteTestcase
+)
+
+authorizedRoutes.delete('/users/:userName/testcases/:testcaseID',
+  requireUser,
+  (req, res, next) => {
+    req.testcaseID = req.params.testcaseID
+    req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.params.userName)
+    req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
     next()
   },
   deleteTestcase
@@ -125,7 +159,7 @@ authorizedRoutes.post('/testcases/:testcaseID/select',
   select
 );
 
-authorizedRoutes.post('/testcases/testcaseNamespace/:testcaseID/select',
+authorizedRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select',
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
     next()
@@ -134,6 +168,7 @@ authorizedRoutes.post('/testcases/testcaseNamespace/:testcaseID/select',
 );
 
 authorizedRoutes.post('/users/:userName/testcases/:testcaseID/select',
+  requireUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
     next()
@@ -164,8 +199,9 @@ authorizedRoutes.get('/testcases/:testcaseNamespace',
 )
 
 authorizedRoutes.get('/users/:userName/testcases',
+  requireUser,
   (req, res, next) => {
-    req.testcaseKeyPrefix = controller.getPrefixForTestcase(req.params.userName)
+    req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.params.userName)
     next()
   },
   getTestcases

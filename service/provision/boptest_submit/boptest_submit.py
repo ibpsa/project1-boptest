@@ -12,7 +12,7 @@ from collections import OrderedDict
 class BoptestSubmit:
     # The url argument is the address of the Boptest server
 
-    def __init__(self, url=os.environ.get('BOPTEST_SUBMIT_URL', 'http://localhost')):
+    def __init__(self, url=os.environ.get('BOPTEST_SERVER', 'http://localhost')):
         self.server = url
 
     # Glob for fmu files under rootpath, and submit as a testcase

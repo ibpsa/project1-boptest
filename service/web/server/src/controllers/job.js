@@ -9,7 +9,7 @@ export function addJobToQueue(jobtype, params) {
 
     const m = {
       MessageBody: JSON.stringify(body),
-      QueueUrl: process.env.JOB_QUEUE_URL,
+      QueueUrl: process.env.BOPTEST_JOB_QUEUE_URL,
       MessageGroupId: "Alfalfa"
     }
 

@@ -7,6 +7,7 @@ import {
 } from './test';
 import Path from 'path';
 
+const bucket = process.env.BOPTEST_S3_BUCKET
 
 export function getPrefixForTestcase(testcaseNamespace) {
   return `testcases/${testcaseNamespace}`
@@ -20,14 +21,14 @@ export function getKeyForTestcase(testcaseNamespace, testcaseID) {
 }
 
 export function getKeyForUserTestcase(userName, testcaseID) {
-  return `${getPrefixForTestcase(userName)}/${testcaseID}/${testcaseID}.fmu`
+  return `${getPrefixForUserTestcase(userName)}/${testcaseID}/${testcaseID}.fmu`
 }
 
 export function getTestcasePostForm(testcaseKey, s3url) {
   return new Promise((resolve, reject) => {
     // Construct a new postPolicy.
     const params = {
-      Bucket: process.env.S3_BUCKET,
+      Bucket: bucket,
       Fields: {
         key: testcaseKey
       }
@@ -49,7 +50,7 @@ export function getTestcasePostForm(testcaseKey, s3url) {
 export function getTestcases(prefix) {
   return new Promise((resolve, reject) => {
     const params = {
-      Bucket: process.env.S3_BUCKET,
+      Bucket: bucket,
       Prefix: prefix
     }
 
@@ -80,7 +81,7 @@ export async function select(testcaseKey) {
 export function deleteTestcase(testcaseKey) {
   return new Promise((resolve, reject) => {
     const params = {
-      Bucket: process.env.S3_BUCKET,
+      Bucket: bucket,
       Key: testcaseKey
     }
 

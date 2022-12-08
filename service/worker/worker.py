@@ -39,8 +39,8 @@ class Worker:
 
     def __init__(self):
         self.logger = Logger().logger
-        self.sqs = boto3.resource('sqs', region_name=os.environ['REGION'], endpoint_url=os.environ['JOB_QUEUE_URL'])
-        self.sqs_queue = self.sqs.Queue(url=os.environ['JOB_QUEUE_URL'])
+        self.sqs = boto3.resource('sqs', region_name=os.environ['BOPTEST_REGION'], endpoint_url=os.environ['BOPTEST_JOB_QUEUE_URL'])
+        self.sqs_queue = self.sqs.Queue(url=os.environ['BOPTEST_JOB_QUEUE_URL'])
         self.logger.info("Worker initialized")
 
     def process_message(self, message):

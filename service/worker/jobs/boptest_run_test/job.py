@@ -20,10 +20,10 @@ class Job:
         self.keep_running = True
         self.last_message_time = datetime.now()
 
-        self.redis = redis.Redis(host=os.environ['REDIS_HOST'])
+        self.redis = redis.Redis(host=os.environ['BOPTEST_REDIS_HOST'])
         self.redis_pubsub = self.redis.pubsub()
 
-        self.timeout = float(os.environ['SERVICE_TIMEOUT'])
+        self.timeout = float(os.environ['BOPTEST_TIMEOUT'])
 
         # Download the testcase FMU
         self.test_dir = os.path.join('/simulate', self.testid)
@@ -32,8 +32,8 @@ class Job:
         if not os.path.exists(self.test_dir):
             os.makedirs(self.test_dir)
 
-        self.s3 = boto3.resource('s3', region_name=os.environ['REGION'], endpoint_url=os.environ['S3_URL'])
-        self.s3_bucket = self.s3.Bucket(os.environ['S3_BUCKET'])
+        self.s3 = boto3.resource('s3', region_name=os.environ['BOPTEST_REGION'], endpoint_url=os.environ['BOPTEST_INTERNAL_S3_URL'])
+        self.s3_bucket = self.s3.Bucket(os.environ['BOPTEST_S3_BUCKET'])
         self.s3_bucket.download_file(self.key, self.fmu_path)
 
         self.tc = TestCase(self.fmu_path)
