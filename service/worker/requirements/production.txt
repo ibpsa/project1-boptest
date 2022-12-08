@@ -31,3 +31,4 @@ wheel==0.34.2
 zipp==1.0.0
 flask==1.1.2
 msgpack==1.0.4
+kubernetes==25.3.0
