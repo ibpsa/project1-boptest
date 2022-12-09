@@ -43,7 +43,7 @@ class Worker:
         self.sqs = boto3.resource('sqs', region_name=os.environ['REGION'], endpoint_url=os.environ['JOB_QUEUE_URL'])
         self.sqs_queue = self.sqs.Queue(url=os.environ['JOB_QUEUE_URL'])
         self.logger.info("Worker initialized")
-  
+
 
     def process_message(self, message):
         """
@@ -57,14 +57,14 @@ class Worker:
         jobtype = message_body.get('jobtype')
         params = message_body.get('params')
         subprocess.call(['python', '-m', jobtype, json.dumps(params)])
-    
-    def _update_k8s(self, pod_deletion_cost):
+
+    def _update_k8s_pod_cost(self, pod_deletion_cost):
         """
-        Update k8s pod status when job is running. This is to prevent a pod from being 
+        Update k8s pod status when job is running. This is to prevent a pod from being
         terminated during the downscale that is still processing a job.
 
-        :param pod_deletion_cost:  String that represents the cost of deleting a 
-        pod compared to other pods belonging to the same Deployment/Replicaset. e.g. "10". 
+        :param pod_deletion_cost:  String that represents the cost of deleting a
+        pod compared to other pods belonging to the same Deployment/Replicaset. e.g. "10".
         :return:
         """
         try:
@@ -73,8 +73,8 @@ class Worker:
             pod = v1.read_namespaced_pod(name=os.environ['HOSTNAME'], namespace="default")
             pod.metadata.annotations["controller.kubernetes.io/pod-deletion-cost"] = pod_deletion_cost
             v1.patch_namespaced_pod(name=os.environ['HOSTNAME'], namespace="default", body=pod)
-        except BaseException as e:
-                self.logger.info("Exception while updating k8s pod worker annotation {}".format(e))
+        except botocore.exceptions.ClientError as e:
+            self.logger.info("Exception while updating k8s pod worker annotation {}".format(e))
 
     def run(self):
         """
@@ -83,23 +83,23 @@ class Worker:
         :return:
         """
         self.logger.info("Worker running")
-    
+
         while True:
             try:
-               
+
                 # WaitTimeSeconds triggers long polling that will wait for events to enter queue
                 messages = self.sqs_queue.receive_messages(MaxNumberOfMessages=1, WaitTimeSeconds=20)
                 if len(messages) > 0:
                     message = messages[0]
                     self.logger.info('Message Received with payload: %s' % message.body)
                     # Check if running environment is in k8s and update pod status if true
-                    if os.environ['K8S_ENVIRONMENT']:
-                        self._update_k8s("99")
+                    if "K8S_ENVIRONMENT" in os.environ::
+                        self._update_k8s_pod_cost("99")
                         self.process_message(message)
-                        self._update_k8s("0")
-                    else: 
+                        self._update_k8s_pod_cost("0")
+                    else:
                         self.process_message(message)
-                       
-                        
+
+
             except BaseException as e:
                 self.logger.info("Exception while processing messages in worker: {}".format(e))
