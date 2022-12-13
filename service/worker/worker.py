@@ -43,8 +43,7 @@ class Worker:
         self.sqs = boto3.resource('sqs', region_name=os.environ['REGION'], endpoint_url=os.environ['JOB_QUEUE_URL'])
         self.sqs_queue = self.sqs.Queue(url=os.environ['JOB_QUEUE_URL'])
         self.logger.info("Worker initialized")
-
-
+        
     def process_message(self, message):
         """
         Process a single message from Queue.
@@ -74,7 +73,7 @@ class Worker:
             pod.metadata.annotations["controller.kubernetes.io/pod-deletion-cost"] = pod_deletion_cost
             v1.patch_namespaced_pod(name=os.environ['HOSTNAME'], namespace="default", body=pod)
         except botocore.exceptions.ClientError as e:
-            self.logger.info("Exception while updating k8s pod worker annotation {}".format(e))
+            self.logger.info("Exception while updating k8s pod worker annotation pod-deletion-cost {}".format(e))
 
     def run(self):
         """
@@ -93,9 +92,11 @@ class Worker:
                     message = messages[0]
                     self.logger.info('Message Received with payload: %s' % message.body)
                     # Check if running environment is in k8s and update pod status if true
-                    if "K8S_ENVIRONMENT" in os.environ::
+                    if "K8S_ENVIRONMENT" in os.environ:
+                        self.logger.info("Upating k8s pod cost for active job")
                         self._update_k8s_pod_cost("99")
                         self.process_message(message)
+                        self.logger.info("Upating k8s pod cost for inactive job")
                         self._update_k8s_pod_cost("0")
                     else:
                         self.process_message(message)
