@@ -1,7 +1,7 @@
 # load .env defines in root of repo
 export $(egrep -v '^#' .env | xargs)
-export DOCKER_HUB_WEB_REGISTRY_URI=NREL/boptest-web
-export DOCKER_HUB_WORKER_REGISTRY_URI=NREL/boptest-worker
+export DOCKER_HUB_WEB_REGISTRY_URI=nrel/boptest-web
+export DOCKER_HUB_WORKER_REGISTRY_URI=nrel/boptest-worker
 
 if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
     export VERSION_TAG="develop"
