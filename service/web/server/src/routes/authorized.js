@@ -6,6 +6,8 @@ const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
 const authorizedRoutes = express.Router()
 const ibpsaNamespace = 'ibpsa'
 const bucket = process.env.BOPTEST_S3_BUCKET
+const s3PublicURL = process.env.BOPTEST_PUBLIC_S3_URL + '/' + bucket
+
 const testUsername = process.env.BOPTEST_TEST_USERNAME
 const testKey = process.env.BOPTEST_TEST_KEY
 const testPrivilegedUsername = process.env.BOPTEST_TEST_PRIVILEGED_USERNAME
@@ -74,24 +76,10 @@ const requireUser = (req, res, next) => {
 
 authorizedRoutes.use(identify)
 
-const s3url = (req) => {
-  // Goofy logic to consider if s3 is the real amazon service,
-  // or running in a container. Reconsider this nonsense... Review Alfalfa approach.
-  let s3url = null
-  if ( process.env.BOPTEST_INTERNAL_S3_URL.indexOf("amazonaws") == -1 ) {
-    if (req.hostname.indexOf("web") == -1 ) {
-      s3url = 'http://' + req.hostname + ':9000/' + bucket
-    } else {
-      s3url = 'http://minio:9000/alfalfa'
-    }
-  }
-  return s3url
-}
-
 // GET test case post-form //
 
 const getTestcasePostForm = async (req, res, next) => {
-  res.json(await controller.getTestcasePostForm(req.testcaseKey, s3url(req)))
+  res.json(await controller.getTestcasePostForm(req.testcaseKey, s3PublicURL))
 }
 
 authorizedRoutes.get('/testcases/:testcaseID/post-form',
