@@ -17,7 +17,7 @@ def upload_testcase(post_form_response, testcase_path):
     return requests.post(postURL, data=encoder, headers={'Content-Type': encoder.content_type})
 
 def test_ibpsa_boptest_testcase():
-    auth_token = os.environ.get('BOPTEST_DASHBOARD_API_KEY')
+    auth_token = os.environ.get('BOPTEST_TEST_PRIVILEGED_KEY')
     testcase_id = 'testcase1'
     testcase_path = f'/testcases/{testcase_id}/models/wrapped.fmu'
 
@@ -68,7 +68,7 @@ def test_ibpsa_boptest_testcase():
 
 
 def test_shared_namespace_testcase():
-    auth_token = os.environ.get('BOPTEST_DASHBOARD_API_KEY')
+    auth_token = os.environ.get('BOPTEST_TEST_PRIVILEGED_KEY')
     testcase_namespace = 'resstock'
     testcase_id = 'testcase1'
     testcase_path = f'/testcases/{testcase_id}/models/wrapped.fmu'
@@ -119,8 +119,8 @@ def test_shared_namespace_testcase():
     assert response.status_code == 200
 
 def test_private_user_testcase():
-    auth_token = os.environ.get('BOPTEST_DASHBOARD_API_KEY')
-    username = os.environ.get('BOPTEST_DASHBOARD_USERNAME')
+    auth_token = os.environ.get('BOPTEST_TEST_KEY')
+    username = os.environ.get('BOPTEST_TEST_USERNAME')
     testcase_id = 'testcase1'
     testcase_path = f'/testcases/{testcase_id}/models/wrapped.fmu'
 

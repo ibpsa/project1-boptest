@@ -3,11 +3,13 @@ import got from 'got';
 import * as controller from '../controllers/testcase'
 
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
-const superUsers = process.env.BOPTEST_SUPER_USERS || ""
-const superUserEmails = superUsers.split(',')
 const authorizedRoutes = express.Router()
 const ibpsaNamespace = 'ibpsa'
 const bucket = process.env.BOPTEST_S3_BUCKET
+const testUsername = process.env.BOPTEST_TEST_USERNAME
+const testKey = process.env.BOPTEST_TEST_KEY
+const testPrivilegedUsername = process.env.BOPTEST_TEST_PRIVILEGED_USERNAME
+const testPrivilegedKey = process.env.BOPTEST_TEST_PRIVILEGED_KEY
 
 // Middleware to provide client information.
 // This will increase the response time, so use it only on APIs that
@@ -16,28 +18,46 @@ const bucket = process.env.BOPTEST_S3_BUCKET
 const identify = async (req, res, next)  => {
   const key = req.header('Authorization');
 
-  if (key && dashboardServer) {
-    // Authorization is not mandatory for every route,
-    // however if a key is provided and it is invalid then
-    // return an error to the client.
-    const url = dashboardServer + '/api/accounts/info'
-    try {
-      const body = await got.get(url, {
-        headers: {
-          Authorization: key
-        }
-      }).json()
-      req.account = body
-    } catch(error) {
-      res.sendStatus(401)
-      return
+  if (dashboardServer) {
+    if (key) {
+      // Authorization is not mandatory for every route,
+      // however if a key is provided and it is invalid then
+      // return an error to the client.
+      const url = dashboardServer + '/api/accounts/info'
+      try {
+        const body = await got.get(url, {
+          headers: {
+            Authorization: key
+          }
+        }).json()
+        req.account = body
+      } catch(error) {
+        res.sendStatus(401)
+        return
+      }
+    } // if key
+  } else { // no dashboardServer
+    // Try to use fake test accounts if configured by environment
+    if (key && (key == testKey)) {
+      req.account = {
+        name: testUsername,
+        sub: 'abc' + testUsername + 'xyz',
+        privileged: false,
+      }
+    } else if (key && (key == testPrivilegedKey)) {
+      req.account = {
+        name: testPrivilegedUsername,
+        sub: 'abc' + testPrivilegedUsername + 'xyz',
+        privileged: true,
+      }
     }
   }
+
   next()
 };
 
 const requireSuperUser = (req, res, next) => {
-  if (req.account && superUserEmails.includes(req.account.email)) {
+  if (req.account && req.account.privileged) {
     next()
   } else {
     res.sendStatus(401)
