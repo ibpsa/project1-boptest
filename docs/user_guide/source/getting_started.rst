@@ -12,8 +12,8 @@ There are two ways you can access BOPTEST, depending on your preference:
 case on your local computing resource and interact with it at localhost
 via the BOPTEST API.
 
-2. **Public Web-Service (Coming Soon)**: Utilize a web-hosted BOPTEST
-environment available to the public to deploy a test case in the cloud and
+2. **Public Web-Service**: Utilize a web-hosted BOPTEST
+environment (BOPTEST-Service) available to the public to deploy a test case in the cloud and
 interact with it at a URL specific to you via the BOPTEST API.
 
 

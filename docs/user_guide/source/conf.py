@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'BOPTEST User Guide'
+project = u'BOPTEST User Guide v0.3.0'
 copyright = u''
 author = u''
 
@@ -238,7 +238,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'BOPTESTUserGuide.tex', u'BOPTEST User Guide',
+    (master_doc, 'BOPTESTUserGuide.tex', u'BOPTEST User Guide v0.3.0',
      u'', 'manual'),
 ]
 
@@ -268,7 +268,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'BOPTESTUserGuide', u'BOPTEST User Guide',
+    (master_doc, 'BOPTESTUserGuide', u'BOPTEST User Guide v0.3.0',
      [author], 1)
 ]
 
@@ -282,7 +282,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'BOPTESTUserGuide', u'BOPTEST User Guide',
+    (master_doc, 'BOPTESTUserGuide', u'BOPTEST User Guide v0.3.0',
      author, 'BOPTESTUserGuide', 'One line description of project.',
      'Miscellaneous'),
 ]
