@@ -73,7 +73,7 @@ See the section API Summary for more information on available requests.
 
 Stop the Test Case
 ------------------
-Send the following API request: ``<url>/<request>/<testid>``.
+Send the following API request: ``<url>/stop/<testid>``.
 Note that the test case will be stopped automatically in case of a period of
 inactivity.  If this happens, a new test case should be deployed
 using the actions described previously.
