@@ -8,6 +8,7 @@ RUN mkdir /root/server
 
 COPY web/server/package.json web/server/package-lock.json /root/server/
 COPY boptest/version.txt /boptest/
+COPY version.txt /boptest/service-version.txt
 
 WORKDIR /root/server
 RUN npm install
