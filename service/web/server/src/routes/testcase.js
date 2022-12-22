@@ -3,7 +3,7 @@ import got from 'got';
 import * as controller from '../controllers/testcase'
 
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
-const authorizedRoutes = express.Router()
+const testcaseRoutes = express.Router()
 const ibpsaNamespace = 'ibpsa'
 const bucket = process.env.BOPTEST_S3_BUCKET
 const s3PublicURL = process.env.BOPTEST_PUBLIC_S3_URL + '/' + bucket
@@ -74,7 +74,7 @@ const requireUser = (req, res, next) => {
   }
 }
 
-authorizedRoutes.use(identify)
+testcaseRoutes.use(identify)
 
 // GET test case post-form //
 
@@ -82,7 +82,7 @@ const getTestcasePostForm = async (req, res, next) => {
   res.json(await controller.getTestcasePostForm(req.testcaseKey, s3PublicURL))
 }
 
-authorizedRoutes.get('/testcases/:testcaseID/post-form',
+testcaseRoutes.get('/testcases/:testcaseID/post-form',
   requireSuperUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
@@ -91,7 +91,7 @@ authorizedRoutes.get('/testcases/:testcaseID/post-form',
   getTestcasePostForm
 )
 
-authorizedRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
+testcaseRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
   requireSuperUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
@@ -100,7 +100,7 @@ authorizedRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
   getTestcasePostForm
 )
 
-authorizedRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
+testcaseRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
   requireUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
@@ -120,7 +120,7 @@ const deleteTestcase = async (req, res, next) => {
   }
 }
 
-authorizedRoutes.delete('/testcases/:testcaseID',
+testcaseRoutes.delete('/testcases/:testcaseID',
   requireSuperUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
@@ -131,7 +131,7 @@ authorizedRoutes.delete('/testcases/:testcaseID',
   deleteTestcase
 )
 
-authorizedRoutes.delete('/testcases/:testcaseNamespace/:testcaseID',
+testcaseRoutes.delete('/testcases/:testcaseNamespace/:testcaseID',
   requireSuperUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
@@ -142,7 +142,7 @@ authorizedRoutes.delete('/testcases/:testcaseNamespace/:testcaseID',
   deleteTestcase
 )
 
-authorizedRoutes.delete('/users/:userName/testcases/:testcaseID',
+testcaseRoutes.delete('/users/:userName/testcases/:testcaseID',
   requireUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
@@ -159,7 +159,7 @@ const select = async (req, res, next) => {
   res.json(await controller.select(req.testcaseKey))
 }
 
-authorizedRoutes.post('/testcases/:testcaseID/select', 
+testcaseRoutes.post('/testcases/:testcaseID/select', 
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
     next()
@@ -167,7 +167,7 @@ authorizedRoutes.post('/testcases/:testcaseID/select',
   select
 );
 
-authorizedRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select',
+testcaseRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select',
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
     next()
@@ -175,7 +175,7 @@ authorizedRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select',
   select
 );
 
-authorizedRoutes.post('/users/:userName/testcases/:testcaseID/select',
+testcaseRoutes.post('/users/:userName/testcases/:testcaseID/select',
   requireUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
@@ -190,7 +190,7 @@ const getTestcases = async (req, res, next) => {
   res.json(await controller.getTestcases(req.testcaseKeyPrefix))
 }
 
-authorizedRoutes.get('/testcases', 
+testcaseRoutes.get('/testcases', 
   (req, res, next) => {
     req.testcaseKeyPrefix = controller.getPrefixForTestcase(ibpsaNamespace)
     next()
@@ -198,7 +198,7 @@ authorizedRoutes.get('/testcases',
   getTestcases
 )
 
-authorizedRoutes.get('/testcases/:testcaseNamespace',
+testcaseRoutes.get('/testcases/:testcaseNamespace',
   (req, res, next) => {
     req.testcaseKeyPrefix = controller.getPrefixForTestcase(req.params.testcaseNamespace)
     next()
@@ -206,7 +206,7 @@ authorizedRoutes.get('/testcases/:testcaseNamespace',
   getTestcases
 )
 
-authorizedRoutes.get('/users/:userName/testcases',
+testcaseRoutes.get('/users/:userName/testcases',
   requireUser,
   (req, res, next) => {
     req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.params.userName)
@@ -215,4 +215,4 @@ authorizedRoutes.get('/users/:userName/testcases',
   getTestcases
 )
 
-export default authorizedRoutes;
+export default testcaseRoutes;

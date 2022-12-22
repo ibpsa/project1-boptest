@@ -1,14 +1,16 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import publicRoutes from './routes/public'
-import authorizedRoutes from './routes/authorized'
+import testcaseRoutes from './routes/testcase'
+import testRoutes from './routes/test'
+import utilityRoutes from './routes/utility'
 
 var app = express()
 
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json())
-app.use('/', publicRoutes)
-app.use('/', authorizedRoutes)
+app.use('/', testcaseRoutes)
+app.use('/', testRoutes)
+app.use('/', utilityRoutes)
 
 let server = app.listen(80, () => {
   var host = server.address().address
