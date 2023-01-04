@@ -263,17 +263,13 @@ testRoutes.get('/forecast/:testid',
   }
 );
 
-//const getTests = async (req, res, next) => {
-//  try {
-//    const payload = await controller.getTests(req.userID);
-//    res.json(payload)
-//  } catch (e) {
-//    next(e)
-//  }
-//}
-
-//testRoutes.get('/tests', async (req, res, next) => {
-//  //getTests(req, res, next);
-//})
+testRoutes.get('/users/:userName/tests', 
+  middleware.identify,
+  middleware.requireUser,
+  async (req, res, next) => {
+    const payload = await controller.getTests(req.account.name);
+    res.json(payload)
+  }
+)
 
 export default testRoutes;

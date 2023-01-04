@@ -5,13 +5,14 @@ import { pack, unpack } from 'msgpackr'
 
 class Messaging {
   constructor() {
-    this.client = node_redis.createClient({host: process.env.BOPTEST_REDIS_HOST, detect_buffers: true, return_buffers: true})
+    this.client = node_redis.createClient({host: process.env.BOPTEST_REDIS_HOST, return_buffers: true})
     this.pubclient = this.client.duplicate()
     this.subclient = this.client.duplicate()
     this.subTimeoutTime = 180000
     this.responseTimeoutTime = 120000
 
     this.hget = promisify(this.client.hget).bind(this.client)
+    this.hgetall = promisify(this.client.hgetall).bind(this.client)
     this.hexists = promisify(this.client.hexists).bind(this.client)
     this.hlen = promisify(this.client.hlen).bind(this.client)
     this.hkeys = promisify(this.client.hkeys).bind(this.client)

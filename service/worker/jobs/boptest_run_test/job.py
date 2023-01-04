@@ -1,62 +1,61 @@
 import sys
-import json
 import os
 import shutil
 import tarfile
 from datetime import datetime
 import boto3
-import pytz
 import redis
 import numpy as np
-import requests
 import msgpack
 from boptest.lib.testcase import TestCase
 
 
 class Job:
     def __init__(self, parameters):
-        self.userTestsKey = parameters.get('userTestsKey')
-        self.testid = parameters.get('testid')
-        self.testcaseKey = parameters.get('testcaseKey')
+        self.userTestsKey = parameters.get("userTestsKey")
+        self.testid = parameters.get("testid")
+        self.testcaseKey = parameters.get("testcaseKey")
         self.keep_running = True
         self.last_message_time = datetime.now()
 
-        self.redis = redis.Redis(host=os.environ['BOPTEST_REDIS_HOST'])
+        self.redis = redis.Redis(host=os.environ["BOPTEST_REDIS_HOST"])
         self.redis_pubsub = self.redis.pubsub()
 
-        self.timeout = float(os.environ['BOPTEST_TIMEOUT'])
+        self.timeout = float(os.environ["BOPTEST_TIMEOUT"])
 
         # Download the testcase FMU
-        self.test_dir = os.path.join('/simulate', self.testid)
-        self.fmu_path = os.path.join(self.test_dir, 'model.fmu')
+        self.test_dir = os.path.join("/simulate", self.testid)
+        self.fmu_path = os.path.join(self.test_dir, "model.fmu")
 
         if not os.path.exists(self.test_dir):
             os.makedirs(self.test_dir)
 
-        self.s3 = boto3.resource('s3', region_name=os.environ['BOPTEST_REGION'], endpoint_url=os.environ['BOPTEST_INTERNAL_S3_URL'])
-        self.s3_bucket = self.s3.Bucket(os.environ['BOPTEST_S3_BUCKET'])
+        self.s3 = boto3.resource(
+            "s3", region_name=os.environ["BOPTEST_REGION"], endpoint_url=os.environ["BOPTEST_INTERNAL_S3_URL"]
+        )
+        self.s3_bucket = self.s3.Bucket(os.environ["BOPTEST_S3_BUCKET"])
         self.s3_bucket.download_file(self.testcaseKey, self.fmu_path)
 
         self.tc = TestCase(self.fmu_path)
 
         # subscribe to messages related to this test
         self.message_handlers = {}
-        self.register_message_handler('initialize', self.initialize)
-        self.register_message_handler('advance', self.advance)
-        self.register_message_handler('get_name', self.get_name)
-        self.register_message_handler('get_inputs', self.get_inputs)
-        self.register_message_handler('get_measurements', self.get_measurements)
-        self.register_message_handler('get_results', self.get_results)
-        self.register_message_handler('get_kpis', self.get_kpis)
-        self.register_message_handler('get_scenario', self.get_scenario)
-        self.register_message_handler('set_scenario', self.set_scenario)
-        self.register_message_handler('get_forecast_parameters', self.get_forecast_parameters)
-        self.register_message_handler('set_forecast_parameters', self.set_forecast_parameters)
-        self.register_message_handler('get_forecast', self.get_forecast)
-        self.register_message_handler('get_step', self.get_step)
-        self.register_message_handler('set_step', self.set_step)
-        self.register_message_handler('stop', self.stop)
-        self.register_message_handler('post_results_to_dashboard', self.post_results_to_dashboard)
+        self.register_message_handler("initialize", self.initialize)
+        self.register_message_handler("advance", self.advance)
+        self.register_message_handler("get_name", self.get_name)
+        self.register_message_handler("get_inputs", self.get_inputs)
+        self.register_message_handler("get_measurements", self.get_measurements)
+        self.register_message_handler("get_results", self.get_results)
+        self.register_message_handler("get_kpis", self.get_kpis)
+        self.register_message_handler("get_scenario", self.get_scenario)
+        self.register_message_handler("set_scenario", self.set_scenario)
+        self.register_message_handler("get_forecast_parameters", self.get_forecast_parameters)
+        self.register_message_handler("set_forecast_parameters", self.set_forecast_parameters)
+        self.register_message_handler("get_forecast", self.get_forecast)
+        self.register_message_handler("get_step", self.get_step)
+        self.register_message_handler("set_step", self.set_step)
+        self.register_message_handler("stop", self.stop)
+        self.register_message_handler("post_results_to_dashboard", self.post_results_to_dashboard)
         self.subscribe()
 
         self.init_sim_status()
@@ -80,10 +79,10 @@ class Job:
     # See comment in web/server/src/controllers/redis.js
     # for a description of how messages between web and worker are designed
     def get_request_channel(self):
-        return (self.testid + ":request")
+        return self.testid + ":request"
 
     def get_response_channel(self):
-        return (self.testid + ":response")
+        return self.testid + ":response"
 
     def subscribe(self):
         request_channel = self.get_request_channel()
@@ -112,27 +111,27 @@ class Job:
             response_channel = self.get_response_channel()
             message = self.redis_pubsub.get_message()
             if message:
-                message_type = message['type']
-                if message_type == 'message':
-                    message_data = self.unpack(message.get('data'))
+                message_type = message["type"]
+                if message_type == "message":
+                    message_data = self.unpack(message.get("data"))
 
-                    request_id = message_data.get('requestID')
-                    method = message_data.get('method')
-                    params = message_data.get('params')
+                    request_id = message_data.get("requestID")
+                    method = message_data.get("method")
+                    params = message_data.get("params")
 
                     handler = self.message_handlers.get(method)
                     callback_result = handler(params)
 
-                    packed_result = self.pack({ 'requestID': request_id, 'payload': callback_result })
+                    packed_result = self.pack({"requestID": request_id, "payload": callback_result})
                     self.redis.publish(response_channel, packed_result)
 
                     self.last_message_time = datetime.now()
-        except:
+        except Exception:
             error_message = str(sys.exc_info()[1])
             print(error_message)
             if request_id and response_channel:
-                payload = {'status': 500, 'message': 'Internal BOPTEST error', 'payload': error_message}
-                packed_result = self.pack({ 'requestID': request_id, 'payload': payload })
+                payload = {"status": 500, "message": "Internal BOPTEST error", "payload": error_message}
+                packed_result = self.pack({"requestID": request_id, "payload": payload})
                 self.redis.publish(response_channel, packed_result)
 
     # End methods for message passing
@@ -141,19 +140,15 @@ class Job:
     # Most BOPTEST methods return a multivalue response, that is received as a tuple
     # This function packages the response, into dictionary
     def package_response(self, response):
-        return {
-            'status': response[0],
-            'message': response[1],
-            'payload': response[2]
-        }
+        return {"status": response[0], "message": response[1], "payload": response[2]}
 
     # Begin message handling methods
     # These are called when a message is received,
     # See Job::register_message_handler
     def initialize(self, params):
-        start_time = params.get('start_time')
-        warmup_period = params.get('warmup_period')
-        final_time = params.get('final_time')
+        start_time = params.get("start_time")
+        warmup_period = params.get("warmup_period")
+        final_time = params.get("final_time")
         final_time = float(final_time) if final_time else np.inf
 
         return self.package_response(self.tc.initialize(start_time, warmup_period, final_time))
@@ -168,9 +163,9 @@ class Job:
         return self.package_response(self.tc.get_measurements())
 
     def get_results(self, params):
-        point_name = params['point_name']
-        results_start_time = params['start_time']
-        results_final_time = params['final_time']
+        point_name = params["point_name"]
+        results_start_time = params["start_time"]
+        results_final_time = params["final_time"]
 
         return self.package_response(self.tc.get_results(point_name, results_start_time, results_final_time))
 
@@ -181,15 +176,15 @@ class Job:
         return self.package_response(self.tc.get_scenario())
 
     def set_scenario(self, params):
-        scenario = params['scenario']
+        scenario = params["scenario"]
         return self.package_response(self.tc.set_scenario(scenario))
 
     def get_forecast_parameters(self, params):
         return self.package_response(self.tc.get_forecast_parameters())
 
     def set_forecast_parameters(self, params):
-        horizon = params['horizon']
-        interval = params['interval']
+        horizon = params["horizon"]
+        interval = params["interval"]
         return self.package_response(self.tc.set_forecast_parameters(horizon, interval))
 
     def get_forecast(self, params):
@@ -199,20 +194,20 @@ class Job:
         return self.package_response(self.tc.get_step())
 
     def set_step(self, params):
-        step = params['step']
+        step = params["step"]
         return self.package_response(self.tc.set_step(step))
 
     def advance(self, params):
-        u = params['u']
+        u = params["u"]
         return self.package_response(self.tc.advance(u))
 
     def stop(self, params):
         self.keep_running = False
 
     def post_results_to_dashboard(self, params):
-        api_key = params['api_key']
-        tags = params['tags']
-        unit_test = params['unit_test']
+        api_key = params["api_key"]
+        tags = params["tags"]
+        unit_test = params["unit_test"]
         return self.package_response(self.tc.post_results_to_dashboard(api_key, tags, unit_test))
 
     # End message handlers
@@ -239,10 +234,10 @@ class Job:
         shutil.rmtree(self.test_dir)
 
     def to_camel_case(self, snake_str):
-        components = snake_str.split('_')
+        components = snake_str.split("_")
         # We capitalize the first letter of each component except the first one
         # with the 'title' method and join them together.
-        return components[0] + ''.join(x.title() for x in components[1:])
+        return components[0] + "".join(x.title() for x in components[1:])
 
     def keys_to_camel_case(self, a_dict):
         result = {}
@@ -254,11 +249,10 @@ class Job:
     # however some testcases don't report it.
     # This is a workaround
     def add_forecast_uncertainty(self, scenario):
-        if not 'weatherForecastUncertainty' in scenario:
-            scenario['weatherForecastUncertainty'] = 'deterministic'
+        if "weatherForecastUncertainty" not in scenario:
+            scenario["weatherForecastUncertainty"] = "deterministic"
 
         return scenario
 
     def init_sim_status(self):
-        test_metadata = {'status' : 'Running'}
-        self.redis.hset(self.userTestsKey, self.testid, json.dumps(test_metadata))
+        self.redis.hset(self.userTestsKey, self.testid, "Running")

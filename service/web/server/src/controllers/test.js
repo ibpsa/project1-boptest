@@ -18,31 +18,30 @@ function promiseTaskLater(task, time, ...args) {
 // All tests are added to an in memory (e.g redis) hash,
 // under the key returned by this function.
 // See docs/redis.md
-function getUserTestsKey(userid) {
+function getUserTestsStatusKey(userid) {
   // userid could be undefined in which case the key will still be valid.
   // e.g. "users:undefined:tests:${testid}"
   // This would be true when a test is selected by a client that is not logged in
-  return `users:${userid}:tests`
+  return `users:${userid}:tests:status`
 }
 
 export async function enqueueTest(testid, userid, testcaseKey) {
-  const userTestsKey = getUserTestsKey(userid)
-  await messaging.hset(userTestsKey, testid, JSON.stringify({status: "Queued"}))
+  const userTestsKey = getUserTestsStatusKey(userid)
+  await messaging.hset(userTestsKey, testid, "Queued")
   await addJobToQueue("boptest_run_test", {testid, userTestsKey, testcaseKey})
 }
 
 // Given testid, return the testcase id
 export async function isTest(userid, testid) {
-  const userTestsKey = getUserTestsKey(userid)
+  const userTestsKey = getUserTestsStatusKey(userid)
   return await messaging.hexists(userTestsKey, testid)
 }
 
 export async function getStatus(userid, testid) {
   const exists = await isTest(userid, testid)
   if (exists) {
-    const userTestsKey = getUserTestsKey(userid)
-    const testMetaData =  await messaging.hget(userTestsKey, testid)
-    return (JSON.parse(testMetaData)).status
+    const userTestsKey = getUserTestsStatusKey(userid)
+    return await messaging.hget(userTestsKey, testid)
   } else {
     // If testid does not correspond to a redis key,
     // then consider the test stopped, however an Error might make more sense
@@ -64,6 +63,20 @@ export async function waitForStatus(userid, testid, desiredStatus, count, maxCou
     await promiseTaskLater(waitForStatus, 1000, userid, testid, desiredStatus, count, maxCount);
     count++
   }
+}
+
+// Given testid, return the testcase id
+export async function getTests(userid) {
+  const userTestsKey = getUserTestsStatusKey(userid)
+  // TODO use select instead
+  const redisdata = await messaging.hgetall(userTestsKey)
+  // This is a workaround, because we use "return_buffers" option on the redis client
+  // We are doing that due to a limiation of the worker being stuck on python2.x
+  let response = {}
+  for (let key in redisdata) {
+    response[key] = redisdata[key].toString()
+  }
+  return response
 }
 
 export async function getName(testid) {
