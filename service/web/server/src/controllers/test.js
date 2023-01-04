@@ -1,26 +1,69 @@
 import { v4 as uuidv4 } from 'uuid';
 import {addJobToQueue} from './job';
 import messaging from './messaging';
-import {
-  getS3KeyForTestcaseID
-} from './testcase.js';
 
 function promiseTaskLater(task, time, ...args) {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
       try {
-        await task(...args);
-        resolve();
+        await task(...args)
+        resolve()
       } catch (e) {
-        reject(e);
+        reject(e)
       }
-    }, time);
-  });
-};
+    }, time)
+  })
+}
+
+// All tests are added to an in memory (e.g redis) hash,
+// under the key returned by this function.
+// See docs/redis.md
+function getUserTestsKey(userid) {
+  // userid could be undefined in which case the key will still be valid.
+  // e.g. "users:undefined:tests:${testid}"
+  // This would be true when a test is selected by a client that is not logged in
+  return `users:${userid}:tests`
+}
+
+export async function enqueueTest(testid, userid, testcaseKey) {
+  const userTestsKey = getUserTestsKey(userid)
+  await messaging.hset(userTestsKey, testid, JSON.stringify({status: "Queued"}))
+  await addJobToQueue("boptest_run_test", {testid, userTestsKey, testcaseKey})
+}
 
 // Given testid, return the testcase id
-export async function isTest(testid) {
-  return await messaging.exists(testid)
+export async function isTest(userid, testid) {
+  const userTestsKey = getUserTestsKey(userid)
+  return await messaging.hexists(userTestsKey, testid)
+}
+
+export async function getStatus(userid, testid) {
+  const exists = await isTest(userid, testid)
+  if (exists) {
+    const userTestsKey = getUserTestsKey(userid)
+    const testMetaData =  await messaging.hget(userTestsKey, testid)
+    return (JSON.parse(testMetaData)).status
+  } else {
+    // If testid does not correspond to a redis key,
+    // then consider the test stopped, however an Error might make more sense
+    throw(`Cannot getStatus for testid ${testid} and user ${userid} because it does not exist`);
+  }
+}
+
+export async function waitForStatus(userid, testid, desiredStatus, count, maxCount) {
+  maxCount = typeof maxCount !== 'undefined' ? maxCount : process.env.BOPTEST_TIMEOUT
+  // The default starting count is 0
+  count = typeof count !== 'undefined' ? count : 0
+  const currentStatus = await getStatus(userid, testid);
+  if (currentStatus == desiredStatus) {
+    return;
+  } else if (count >= maxCount) {
+    throw(`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
+  } else {
+    // check status every 1000 miliseconds
+    await promiseTaskLater(waitForStatus, 1000, userid, testid, desiredStatus, count, maxCount);
+    count++
+  }
 }
 
 export async function getName(testid) {
@@ -33,37 +76,6 @@ export async function getInputs(testid, db) {
 
 export async function getMeasurements(testid, db) {
   return await messaging.callWorkerMethod(testid, 'get_measurements', {})
-}
-
-export async function getStatus(testid) {
-  const exists = await messaging.hexists(testid, 'status')
-  if (exists) {
-    return await messaging.hget(testid, 'status')
-  } else {
-    // If testid does not correspond to a redis key,
-    // then consider the test stopped, however an Error might make more sense
-    return "Stopped"
-  }
-};
-
-export async function waitForStatus(testid, desiredStatus, count, maxCount) {
-  maxCount = typeof maxCount !== 'undefined' ? maxCount : process.env.BOPTEST_TIMEOUT
-  // The default starting count is 0
-  count = typeof count !== 'undefined' ? count : 0
-  const currentStatus = await getStatus(testid);
-  if (currentStatus == desiredStatus) {
-    return;
-  } else if (count >= maxCount) {
-    throw(`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
-  } else {
-    // check status every 1000 miliseconds
-    await promiseTaskLater(waitForStatus, 1000, testid, desiredStatus, count, maxCount);
-    count++
-  }
-};
-
-export async function setStatus(testid, stat) {
-  return messaging.hset(testid, 'status', stat)
 }
 
 export async function getForecastParameters(testid) {

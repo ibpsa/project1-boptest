@@ -1,80 +1,14 @@
 import express from 'express';
 import got from 'got';
 import * as controller from '../controllers/testcase'
+import * as middleware from './middleware'
 
-const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
 const testcaseRoutes = express.Router()
 const ibpsaNamespace = 'ibpsa'
 const bucket = process.env.BOPTEST_S3_BUCKET
 const s3PublicURL = process.env.BOPTEST_PUBLIC_S3_URL + '/' + bucket
 
-const testUsername = process.env.BOPTEST_TEST_USERNAME
-const testKey = process.env.BOPTEST_TEST_KEY
-const testPrivilegedUsername = process.env.BOPTEST_TEST_PRIVILEGED_USERNAME
-const testPrivilegedKey = process.env.BOPTEST_TEST_PRIVILEGED_KEY
-
-// Middleware to provide client information.
-// This will increase the response time, so use it only on APIs that
-// are not invoked at high frequency. (e.g. avoid using it for APIs
-// such as advance which are typically within a tight simulation loop.)
-const identify = async (req, res, next)  => {
-  const key = req.header('Authorization');
-
-  if (dashboardServer) {
-    if (key) {
-      // Authorization is not mandatory for every route,
-      // however if a key is provided and it is invalid then
-      // return an error to the client.
-      const url = dashboardServer + '/api/accounts/info'
-      try {
-        const body = await got.get(url, {
-          headers: {
-            Authorization: key
-          }
-        }).json()
-        req.account = body
-      } catch(error) {
-        res.sendStatus(401)
-        return
-      }
-    } // if key
-  } else { // no dashboardServer
-    // Try to use fake test accounts if configured by environment
-    if (key && (key == testKey)) {
-      req.account = {
-        name: testUsername,
-        sub: 'abc' + testUsername + 'xyz',
-        privileged: false,
-      }
-    } else if (key && (key == testPrivilegedKey)) {
-      req.account = {
-        name: testPrivilegedUsername,
-        sub: 'abc' + testPrivilegedUsername + 'xyz',
-        privileged: true,
-      }
-    }
-  }
-
-  next()
-};
-
-const requireSuperUser = (req, res, next) => {
-  if (req.account && req.account.privileged) {
-    next()
-  } else {
-    res.sendStatus(401)
-  }
-}
-
-const requireUser = (req, res, next) => {
-  if (req.account && req.params.userName && (req.params.userName === req.account.name)) {
-    next()
-  } else {
-    res.sendStatus(401)
-  }
-}
-
-testcaseRoutes.use(identify)
+testcaseRoutes.use(middleware.identify)
 
 // GET test case post-form //
 
@@ -83,7 +17,7 @@ const getTestcasePostForm = async (req, res, next) => {
 }
 
 testcaseRoutes.get('/testcases/:testcaseID/post-form',
-  requireSuperUser,
+  middleware.requireSuperUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
     next()
@@ -92,7 +26,7 @@ testcaseRoutes.get('/testcases/:testcaseID/post-form',
 )
 
 testcaseRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
-  requireSuperUser,
+  middleware.requireSuperUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
     next()
@@ -101,7 +35,7 @@ testcaseRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
 )
 
 testcaseRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
-  requireUser,
+  middleware.requireUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
     next()
@@ -121,7 +55,7 @@ const deleteTestcase = async (req, res, next) => {
 }
 
 testcaseRoutes.delete('/testcases/:testcaseID',
-  requireSuperUser,
+  middleware.requireSuperUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
     req.testcaseKeyPrefix = controller.getPrefixForTestcase(ibpsaNamespace)
@@ -132,7 +66,7 @@ testcaseRoutes.delete('/testcases/:testcaseID',
 )
 
 testcaseRoutes.delete('/testcases/:testcaseNamespace/:testcaseID',
-  requireSuperUser,
+  middleware.requireSuperUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
     req.testcaseKeyPrefix = controller.getPrefixForTestcase(req.params.testcaseNamespace)
@@ -143,7 +77,7 @@ testcaseRoutes.delete('/testcases/:testcaseNamespace/:testcaseID',
 )
 
 testcaseRoutes.delete('/users/:userName/testcases/:testcaseID',
-  requireUser,
+  middleware.requireUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
     req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.params.userName)
@@ -156,7 +90,11 @@ testcaseRoutes.delete('/users/:userName/testcases/:testcaseID',
 // POST test case select //
 
 const select = async (req, res, next) => {
-  res.json(await controller.select(req.testcaseKey))
+  let username = undefined
+  if (req.account) {
+    username = req.account.name
+  }
+  res.json(await controller.select(req.testcaseKey, username))
 }
 
 testcaseRoutes.post('/testcases/:testcaseID/select', 
@@ -176,7 +114,7 @@ testcaseRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select',
 );
 
 testcaseRoutes.post('/users/:userName/testcases/:testcaseID/select',
-  requireUser,
+  middleware.requireUser,
   (req, res, next) => {
     req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
     next()
@@ -207,7 +145,7 @@ testcaseRoutes.get('/testcases/:testcaseNamespace',
 )
 
 testcaseRoutes.get('/users/:userName/testcases',
-  requireUser,
+  middleware.requireUser,
   (req, res, next) => {
     req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.params.userName)
     next()

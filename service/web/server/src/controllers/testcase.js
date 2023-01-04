@@ -2,7 +2,7 @@ import s3 from '../s3';
 import { v4 as uuidv4 } from 'uuid';
 import {addJobToQueue} from './job';
 import {
-  setStatus,
+  enqueueTest,
   waitForStatus
 } from './test';
 import Path from 'path';
@@ -70,14 +70,6 @@ export async function isTestcase(prefix, testcaseID) {
   return (testcases.find(item => item.testcaseid == testcaseID)) != undefined
 }
 
-export async function select(testcaseKey) {
-  const testid = uuidv4()
-  await setStatus(testid, "Starting")
-  await addJobToQueue("boptest_run_test", {testid, testcaseKey})
-  await waitForStatus(testid, "Running")
-  return { testid }
-}
-
 export function deleteTestcase(testcaseKey) {
   return new Promise((resolve, reject) => {
     const params = {
@@ -93,4 +85,11 @@ export function deleteTestcase(testcaseKey) {
       }
     })
   })
+}
+
+export async function select(testcaseKey, username) {
+  const testid = uuidv4()
+  await enqueueTest(testid, username, testcaseKey)
+  await waitForStatus(username, testid, "Running")
+  return { testid }
 }

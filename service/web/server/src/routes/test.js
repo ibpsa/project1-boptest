@@ -2,6 +2,7 @@ import express from 'express'
 import got from 'got'
 import {body, param, validationResult} from 'express-validator'
 import * as controller from '../controllers/test'
+import * as middleware from './middleware'
 import {validateTestid} from './validators'
 
 const testRoutes = express.Router()
@@ -31,8 +32,6 @@ testRoutes.post('/submit/:testid',
       }
     }
     const payload = await controller.submit(req.params.testid, api_key, tags, unit_test)
-    console.log('message: ', payload.message)
-    console.log('payload: ', payload)
     res.status(payload.status).json(payload)
   } catch (e) {
     next(e)
@@ -40,7 +39,7 @@ testRoutes.post('/submit/:testid',
 });
 
 testRoutes.put('/stop/:testid', 
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -53,7 +52,7 @@ testRoutes.put('/stop/:testid',
 );
 
 testRoutes.get('/status/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -66,7 +65,7 @@ testRoutes.get('/status/:testid',
 )
 
 testRoutes.get('/name/:testid', 
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -79,7 +78,7 @@ testRoutes.get('/name/:testid',
 )
 
 testRoutes.post('/advance/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -93,7 +92,7 @@ testRoutes.post('/advance/:testid',
 );
 
 testRoutes.put('/initialize/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -107,7 +106,7 @@ testRoutes.put('/initialize/:testid',
 );
 
 testRoutes.put('/scenario/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -123,7 +122,7 @@ testRoutes.put('/scenario/:testid',
 );
 
 testRoutes.get('/scenario/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -136,7 +135,7 @@ testRoutes.get('/scenario/:testid',
 );
 
 testRoutes.get('/measurements/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -150,7 +149,7 @@ testRoutes.get('/measurements/:testid',
 );
 
 testRoutes.get('/inputs/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -164,7 +163,7 @@ testRoutes.get('/inputs/:testid',
 )
 
 testRoutes.get('/step/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -177,7 +176,7 @@ testRoutes.get('/step/:testid',
 )
 
 testRoutes.put('/step/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -191,7 +190,7 @@ testRoutes.put('/step/:testid',
 );
 
 testRoutes.get('/kpi/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -204,7 +203,7 @@ testRoutes.get('/kpi/:testid',
 );
 
 testRoutes.put('/results/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -221,7 +220,7 @@ testRoutes.put('/results/:testid',
 );
 
 testRoutes.get('/forecast_parameters/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -235,7 +234,7 @@ testRoutes.get('/forecast_parameters/:testid',
 );
 
 testRoutes.put('/forecast_parameters/:testid',
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -251,7 +250,7 @@ testRoutes.put('/forecast_parameters/:testid',
 );
 
 testRoutes.get('/forecast/:testid', 
-  param('testid').custom(validateTestid),
+  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
       validationResult(req).throw()
@@ -263,5 +262,18 @@ testRoutes.get('/forecast/:testid',
     }
   }
 );
+
+//const getTests = async (req, res, next) => {
+//  try {
+//    const payload = await controller.getTests(req.userID);
+//    res.json(payload)
+//  } catch (e) {
+//    next(e)
+//  }
+//}
+
+//testRoutes.get('/tests', async (req, res, next) => {
+//  //getTests(req, res, next);
+//})
 
 export default testRoutes;

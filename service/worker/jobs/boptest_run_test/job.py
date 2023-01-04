@@ -15,8 +15,9 @@ from boptest.lib.testcase import TestCase
 
 class Job:
     def __init__(self, parameters):
-        self.key = parameters.get('testcaseKey')
+        self.userTestsKey = parameters.get('userTestsKey')
         self.testid = parameters.get('testid')
+        self.testcaseKey = parameters.get('testcaseKey')
         self.keep_running = True
         self.last_message_time = datetime.now()
 
@@ -34,7 +35,7 @@ class Job:
 
         self.s3 = boto3.resource('s3', region_name=os.environ['BOPTEST_REGION'], endpoint_url=os.environ['BOPTEST_INTERNAL_S3_URL'])
         self.s3_bucket = self.s3.Bucket(os.environ['BOPTEST_S3_BUCKET'])
-        self.s3_bucket.download_file(self.key, self.fmu_path)
+        self.s3_bucket.download_file(self.testcaseKey, self.fmu_path)
 
         self.tc = TestCase(self.fmu_path)
 
@@ -223,7 +224,7 @@ class Job:
 
     # cleanup after the simulation is stopped
     def cleanup(self):
-        self.redis.delete(self.testid)
+        self.redis.hdel(self.userTestsKey, self.testid)
         self.unsubscribe()
 
         tarname = "%s.tar.gz" % self.testid
@@ -259,5 +260,5 @@ class Job:
         return scenario
 
     def init_sim_status(self):
-        self.redis.hset(self.testid, 'status', 'Running')
-
+        test_metadata = {'status' : 'Running'}
+        self.redis.hset(self.userTestsKey, self.testid, json.dumps(test_metadata))
