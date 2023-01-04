@@ -1,6 +1,46 @@
+import Path from 'path';
+import { promises as fs } from "fs";
 import { v4 as uuidv4 } from 'uuid';
+import s3 from '../s3';
 import {addJobToQueue} from './job';
 import messaging from './messaging';
+
+const bucket = process.env.BOPTEST_S3_BUCKET
+
+export function getPrefixForTestcase(testcaseNamespace) {
+  return `testcases/${testcaseNamespace}`
+}
+export function getPrefixForUserTestcase(userDis) {
+  return `users/${userDis}/testcases`
+}
+
+export function getKeyForTestcase(testcaseNamespace, testcaseID) {
+  return `${getPrefixForTestcase(testcaseNamespace)}/${testcaseID}/${testcaseID}.fmu`
+}
+
+export function getKeyForUserTestcase(userDis, testcaseID) {
+  return `${getPrefixForUserTestcase(userDis)}/${testcaseID}/${testcaseID}.fmu`
+}
+
+// All tests are added to an in memory (e.g redis) hash,
+// under the key returned by this function.
+// See docs/redis.md
+function getUserTestsStatusKey(userDis) {
+  // userDis could be undefined in which case the key will still be valid.
+  // e.g. "users:undefined:tests:${testDis}"
+  // This would be true when a test is selected by a client that is not logged in
+  return `users:${userDis}:tests:status`
+}
+
+export async function getVersion() {
+  const libraryVersion = (await fs.readFile('/boptest/version.txt', 'utf8')).trim()
+  const serviceVersion = (await fs.readFile('/boptest/service-version.txt', 'utf8')).trim()
+  
+  const status = 200;
+  const message = "Queried the version number successfully."
+  const payload = {'version': libraryVersion, 'service-version': serviceVersion}
+  return {status, message, payload}
+}
 
 function promiseTaskLater(task, time, ...args) {
   return new Promise((resolve, reject) => {
@@ -15,14 +55,74 @@ function promiseTaskLater(task, time, ...args) {
   })
 }
 
-// All tests are added to an in memory (e.g redis) hash,
-// under the key returned by this function.
-// See docs/redis.md
-function getUserTestsStatusKey(userDis) {
-  // userDis could be undefined in which case the key will still be valid.
-  // e.g. "users:undefined:tests:${testDis}"
-  // This would be true when a test is selected by a client that is not logged in
-  return `users:${userDis}:tests:status`
+export function getTestcasePostForm(testcaseKey, s3url) {
+  return new Promise((resolve, reject) => {
+    // Construct a new postPolicy.
+    const params = {
+      Bucket: bucket,
+      Fields: {
+        key: testcaseKey
+      }
+    }
+    
+    s3.createPresignedPost(params, function(err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        if (s3url) {
+          data.url = s3url
+        }
+        resolve(data)
+      }
+    })
+  })
+}
+
+export function getTestcases(prefix) {
+  return new Promise((resolve, reject) => {
+    const params = {
+      Bucket: bucket,
+      Prefix: prefix
+    }
+
+    s3.listObjectsV2(params, function(err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        const result = data.Contents.map(item => ({ testcaseid: Path.parse(item.Key).name }));
+        resolve(result)
+      }
+    })
+  })
+}
+
+export async function isTestcase(prefix, testcaseID) {
+  const testcases = await getTestcases(prefix)
+  return (testcases.find(item => item.testcaseid == testcaseID)) != undefined
+}
+
+export function deleteTestcase(testcaseKey) {
+  return new Promise((resolve, reject) => {
+    const params = {
+      Bucket: bucket,
+      Key: testcaseKey
+    }
+
+    s3.deleteObject(params, function(err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
+export async function select(testcaseKey, userDis) {
+  const testid = uuidv4()
+  await enqueueTest(testid, userDis, testcaseKey)
+  await waitForStatus(userDis, testid, "Running")
+  return { testid }
 }
 
 export async function enqueueTest(testid, userDis, testcaseKey) {
@@ -31,7 +131,7 @@ export async function enqueueTest(testid, userDis, testcaseKey) {
   await addJobToQueue("boptest_run_test", {testid, userTestsKey, testcaseKey})
 }
 
-// Given testid, return the testcase id
+// Determine if testid exists for user
 export async function isTest(userDis, testid) {
   const userTestsKey = getUserTestsStatusKey(userDis)
   return await messaging.hexists(userTestsKey, testid)

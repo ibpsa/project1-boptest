@@ -1,6 +1,6 @@
 import {
   isTest
-} from '../controllers/test';
+} from '../lib/boptestLib';
 
 // Validate that the parameter 'testid' is a valid test.
 export async function validateTestid(testid) {
