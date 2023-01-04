@@ -12,16 +12,16 @@ const bucket = process.env.BOPTEST_S3_BUCKET
 export function getPrefixForTestcase(testcaseNamespace) {
   return `testcases/${testcaseNamespace}`
 }
-export function getPrefixForUserTestcase(userName) {
-  return `users/${userName}/testcases`
+export function getPrefixForUserTestcase(userDis) {
+  return `users/${userDis}/testcases`
 }
 
 export function getKeyForTestcase(testcaseNamespace, testcaseID) {
   return `${getPrefixForTestcase(testcaseNamespace)}/${testcaseID}/${testcaseID}.fmu`
 }
 
-export function getKeyForUserTestcase(userName, testcaseID) {
-  return `${getPrefixForUserTestcase(userName)}/${testcaseID}/${testcaseID}.fmu`
+export function getKeyForUserTestcase(userDis, testcaseID) {
+  return `${getPrefixForUserTestcase(userDis)}/${testcaseID}/${testcaseID}.fmu`
 }
 
 export function getTestcasePostForm(testcaseKey, s3url) {
@@ -87,9 +87,9 @@ export function deleteTestcase(testcaseKey) {
   })
 }
 
-export async function select(testcaseKey, username) {
+export async function select(testcaseKey, userDis) {
   const testid = uuidv4()
-  await enqueueTest(testid, username, testcaseKey)
-  await waitForStatus(username, testid, "Running")
+  await enqueueTest(testid, userDis, testcaseKey)
+  await waitForStatus(userDis, testid, "Running")
   return { testid }
 }

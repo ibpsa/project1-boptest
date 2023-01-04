@@ -267,7 +267,7 @@ testRoutes.get('/users/:userName/tests',
   middleware.identify,
   middleware.requireUser,
   async (req, res, next) => {
-    const payload = await controller.getTests(req.account.name);
+    const payload = await controller.getTests(req.account.dis);
     res.json(payload)
   }
 )

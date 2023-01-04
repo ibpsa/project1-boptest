@@ -18,56 +18,56 @@ function promiseTaskLater(task, time, ...args) {
 // All tests are added to an in memory (e.g redis) hash,
 // under the key returned by this function.
 // See docs/redis.md
-function getUserTestsStatusKey(userid) {
-  // userid could be undefined in which case the key will still be valid.
-  // e.g. "users:undefined:tests:${testid}"
+function getUserTestsStatusKey(userDis) {
+  // userDis could be undefined in which case the key will still be valid.
+  // e.g. "users:undefined:tests:${testDis}"
   // This would be true when a test is selected by a client that is not logged in
-  return `users:${userid}:tests:status`
+  return `users:${userDis}:tests:status`
 }
 
-export async function enqueueTest(testid, userid, testcaseKey) {
-  const userTestsKey = getUserTestsStatusKey(userid)
+export async function enqueueTest(testid, userDis, testcaseKey) {
+  const userTestsKey = getUserTestsStatusKey(userDis)
   await messaging.hset(userTestsKey, testid, "Queued")
   await addJobToQueue("boptest_run_test", {testid, userTestsKey, testcaseKey})
 }
 
 // Given testid, return the testcase id
-export async function isTest(userid, testid) {
-  const userTestsKey = getUserTestsStatusKey(userid)
+export async function isTest(userDis, testid) {
+  const userTestsKey = getUserTestsStatusKey(userDis)
   return await messaging.hexists(userTestsKey, testid)
 }
 
-export async function getStatus(userid, testid) {
-  const exists = await isTest(userid, testid)
+export async function getStatus(userDis, testid) {
+  const exists = await isTest(userDis, testid)
   if (exists) {
-    const userTestsKey = getUserTestsStatusKey(userid)
+    const userTestsKey = getUserTestsStatusKey(userDis)
     return await messaging.hget(userTestsKey, testid)
   } else {
     // If testid does not correspond to a redis key,
     // then consider the test stopped, however an Error might make more sense
-    throw(`Cannot getStatus for testid ${testid} and user ${userid} because it does not exist`);
+    throw(`Cannot getStatus for testid ${testid} and user ${userDis} because it does not exist`);
   }
 }
 
-export async function waitForStatus(userid, testid, desiredStatus, count, maxCount) {
+export async function waitForStatus(userDis, testid, desiredStatus, count, maxCount) {
   maxCount = typeof maxCount !== 'undefined' ? maxCount : process.env.BOPTEST_TIMEOUT
   // The default starting count is 0
   count = typeof count !== 'undefined' ? count : 0
-  const currentStatus = await getStatus(userid, testid);
+  const currentStatus = await getStatus(userDis, testid);
   if (currentStatus == desiredStatus) {
     return;
   } else if (count >= maxCount) {
     throw(`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
   } else {
     // check status every 1000 miliseconds
-    await promiseTaskLater(waitForStatus, 1000, userid, testid, desiredStatus, count, maxCount);
+    await promiseTaskLater(waitForStatus, 1000, userDis, testid, desiredStatus, count, maxCount);
     count++
   }
 }
 
 // Given testid, return the testcase id
-export async function getTests(userid) {
-  const userTestsKey = getUserTestsStatusKey(userid)
+export async function getTests(userDis) {
+  const userTestsKey = getUserTestsStatusKey(userDis)
   // TODO use select instead
   const redisdata = await messaging.hgetall(userTestsKey)
   // This is a workaround, because we use "return_buffers" option on the redis client

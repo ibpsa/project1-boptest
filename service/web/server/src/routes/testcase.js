@@ -37,7 +37,7 @@ testcaseRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
 testcaseRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
   middleware.requireUser,
   (req, res, next) => {
-    req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
+    req.testcaseKey = controller.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
     next()
   },
   getTestcasePostForm
@@ -80,8 +80,8 @@ testcaseRoutes.delete('/users/:userName/testcases/:testcaseID',
   middleware.requireUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
-    req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.params.userName)
-    req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
+    req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.account.dis)
+    req.testcaseKey = controller.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
     next()
   },
   deleteTestcase
@@ -90,11 +90,11 @@ testcaseRoutes.delete('/users/:userName/testcases/:testcaseID',
 // POST test case select //
 
 const select = async (req, res, next) => {
-  let username = undefined
+  let userDis = undefined
   if (req.account) {
-    username = req.account.name
+    userDis = req.account.userDis
   }
-  res.json(await controller.select(req.testcaseKey, username))
+  res.json(await controller.select(req.testcaseKey, userDis))
 }
 
 testcaseRoutes.post('/testcases/:testcaseID/select', 
@@ -116,7 +116,7 @@ testcaseRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select',
 testcaseRoutes.post('/users/:userName/testcases/:testcaseID/select',
   middleware.requireUser,
   (req, res, next) => {
-    req.testcaseKey = controller.getKeyForUserTestcase(req.params.userName, req.params.testcaseID)
+    req.testcaseKey = controller.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
     next()
   },
   select
@@ -147,7 +147,7 @@ testcaseRoutes.get('/testcases/:testcaseNamespace',
 testcaseRoutes.get('/users/:userName/testcases',
   middleware.requireUser,
   (req, res, next) => {
-    req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.params.userName)
+    req.testcaseKeyPrefix = controller.getPrefixForUserTestcase(req.account.dis)
     next()
   },
   getTestcases
