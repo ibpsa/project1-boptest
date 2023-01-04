@@ -1,9 +1,7 @@
 import express from 'express';
 import got from 'got';
-import {body, param, validationResult} from 'express-validator'
 import * as boptestLib from '../lib/boptestLib'
 import * as middleware from './middleware'
-import {validateTestid} from './validators'
 
 const boptestRoutes = express.Router()
 const ibpsaNamespace = 'ibpsa'
@@ -176,6 +174,8 @@ boptestRoutes.get('/users/:userName/testcases',
   getTestcases
 )
 
+// Get queued and running tests //
+
 boptestRoutes.get('/users/:userName/tests', 
   middleware.identify,
   middleware.requireUser,
@@ -184,6 +184,8 @@ boptestRoutes.get('/users/:userName/tests',
     res.json(payload)
   }
 )
+
+// POST results //
 
 boptestRoutes.post('/submit/:testid', 
   async (req, res, next) => {
@@ -207,11 +209,11 @@ boptestRoutes.post('/submit/:testid',
   }
 });
 
+// PUT stop //
+
 boptestRoutes.put('/stop/:testid', 
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       await boptestLib.stop(req.params.testid)
       res.sendStatus(200)
     } catch (e) {
@@ -220,11 +222,11 @@ boptestRoutes.put('/stop/:testid',
   }
 );
 
+// GET status //
+
 boptestRoutes.get('/status/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const payload = await boptestLib.getStatus(req.params.testid)
       res.json(payload)
     } catch (e) {
@@ -233,11 +235,11 @@ boptestRoutes.get('/status/:testid',
   }
 )
 
+// GET test name //
+
 boptestRoutes.get('/name/:testid', 
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const payload = await boptestLib.getName(req.params.testid)
       res.status(payload.status).json(payload)
     } catch (e) {
@@ -246,11 +248,11 @@ boptestRoutes.get('/name/:testid',
   }
 )
 
+// POST advance //
+
 boptestRoutes.post('/advance/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const args = req.body
       const payload = await boptestLib.advance(req.params.testid, args)
       res.status(payload.status).send(payload)
@@ -260,11 +262,11 @@ boptestRoutes.post('/advance/:testid',
   }
 );
 
+// PUT initialize //
+
 boptestRoutes.put('/initialize/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const args = req.body
       const payload = await boptestLib.initialize(req.params.testid, args)
       res.status(payload.status).json(payload)
@@ -274,11 +276,11 @@ boptestRoutes.put('/initialize/:testid',
   }
 );
 
+// PUT scenario //
+
 boptestRoutes.put('/scenario/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const electricity_price = req.body['electricity_price'] || null
       const time_period = req.body['time_period'] || null
       const scenario = { electricity_price, time_period }
@@ -290,11 +292,11 @@ boptestRoutes.put('/scenario/:testid',
   }
 );
 
+// GET scenario //
+
 boptestRoutes.get('/scenario/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const payload = await boptestLib.getScenario(req.params.testid)
       res.status(payload.status).json(payload)
     } catch (e) {
@@ -303,11 +305,11 @@ boptestRoutes.get('/scenario/:testid',
   }
 );
 
+// GET measurements //
+
 boptestRoutes.get('/measurements/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const db = req.app.get('db');
       const payload = await boptestLib.getMeasurements(req.params.testid, db)
       res.status(payload.status).json(payload)
@@ -317,11 +319,11 @@ boptestRoutes.get('/measurements/:testid',
   }
 );
 
+// GET inputs //
+
 boptestRoutes.get('/inputs/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const db = req.app.get('db');
       const payload = await boptestLib.getInputs(req.params.testid, db)
       res.status(payload.status).json(payload)
@@ -331,11 +333,11 @@ boptestRoutes.get('/inputs/:testid',
   }
 )
 
+// GET step //
+
 boptestRoutes.get('/step/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const payload = await boptestLib.getStep(req.params.testid)
       res.status(payload.status).json(payload)
     } catch (e) {
@@ -344,11 +346,11 @@ boptestRoutes.get('/step/:testid',
   }
 )
 
+// PUT step //
+
 boptestRoutes.put('/step/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const step = req.body['step']
       const payload = await boptestLib.setStep(req.params.testid, step)
       res.status(payload.status).json(payload)
@@ -358,11 +360,11 @@ boptestRoutes.put('/step/:testid',
   }
 );
 
+// GET kpi //
+
 boptestRoutes.get('/kpi/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const payload = await boptestLib.getKPIs(req.params.testid)
       res.status(payload.status).json(payload)
     } catch (e) {
@@ -371,11 +373,11 @@ boptestRoutes.get('/kpi/:testid',
   }
 );
 
+// PUT results //
+
 boptestRoutes.put('/results/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const testid = req.params.testid
       const point_name = req.body['point_name']
       const start_time = req.body['start_time']
@@ -388,11 +390,11 @@ boptestRoutes.put('/results/:testid',
   }
 );
 
+// GET forecast_parameters //
+
 boptestRoutes.get('/forecast_parameters/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const testid = req.params.testid
       const payload = await boptestLib.getForecastParameters(testid)
       res.status(payload.status).json(payload)
@@ -402,11 +404,11 @@ boptestRoutes.get('/forecast_parameters/:testid',
   }
 );
 
+// PUT forecast_parameters //
+
 boptestRoutes.put('/forecast_parameters/:testid',
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const testid = req.params.testid
       const horizon = req.body['horizon']
       const interval = req.body['interval']
@@ -418,11 +420,11 @@ boptestRoutes.put('/forecast_parameters/:testid',
   }
 );
 
+// GET forecast //
+
 boptestRoutes.get('/forecast/:testid', 
-  //param('testid').custom(validateTestid),
   async (req, res, next) => {
     try {
-      validationResult(req).throw()
       const testid = req.params.testid
       const payload = await boptestLib.getForecast(testid)
       res.status(payload.status).json(payload)
