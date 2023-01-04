@@ -635,6 +635,196 @@ The model outputs are:
 <code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
+<h4>Forecasts</h4>
+The model forecasts are:
+<ul>
+<li>
+<code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity
+</li>
+<li>
+<code>HDifHor</code> [W/m2]: Horizontal diffuse solar radiation
+</li>
+<li>
+<code>HDirNor</code> [W/m2]: Direct normal radiation
+</li>
+<li>
+<code>HGloHor</code> [W/m2]: Horizontal global radiation
+</li>
+<li>
+<code>HHorIR</code> [W/m2]: Horizontal infrared irradiation
+</li>
+<li>
+<code>InternalGainsCon[cor]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[eas]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[nor]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[sou]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[wes]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[cor]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[eas]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[nor]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[sou]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[wes]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[cor]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[eas]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[nor]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[sou]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[wes]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>LowerSetp[cor]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[eas]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[nor]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[sou]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[wes]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>Occupancy[cor]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[eas]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[nor]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[sou]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[wes]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price
+</li>
+<li>
+<code>PriceElectricPowerDynamic</code> [($/Euro)/kWh]: Electricity price for a day/night tariff
+</li>
+<li>
+<code>PriceElectricPowerHighlyDynamic</code> [($/Euro)/kWh]: Spot electricity price
+</li>
+<li>
+<code>TBlaSky</code> [K]: Black Sky temperature
+</li>
+<li>
+<code>TDewPoi</code> [K]: Dew point temperature
+</li>
+<li>
+<code>TDryBul</code> [K]: Dry bulb temperature at ground level
+</li>
+<li>
+<code>TWetBul</code> [K]: Wet bulb temperature
+</li>
+<li>
+<code>UpperCO2[cor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[eas]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[nor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[sou]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[wes]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperSetp[cor]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[eas]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[nor]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[sou]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[wes]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>ceiHei</code> [m]: Ceiling height
+</li>
+<li>
+<code>cloTim</code> [s]: One-based day number in seconds
+</li>
+<li>
+<code>lat</code> [rad]: Latitude of the location
+</li>
+<li>
+<code>lon</code> [rad]: Longitude of the location
+</li>
+<li>
+<code>nOpa</code> [1]: Opaque sky cover [0, 1]
+</li>
+<li>
+<code>nTot</code> [1]: Total sky Cover [0, 1]
+</li>
+<li>
+<code>pAtm</code> [Pa]: Atmospheric pressure
+</li>
+<li>
+<code>relHum</code> [1]: Relative Humidity
+</li>
+<li>
+<code>solAlt</code> [rad]: Altitude angel
+</li>
+<li>
+<code>solDec</code> [rad]: Declination angle
+</li>
+<li>
+<code>solHouAng</code> [rad]: Solar hour angle.
+</li>
+<li>
+<code>solTim</code> [s]: Solar time
+</li>
+<li>
+<code>solZen</code> [rad]: Zenith angle
+</li>
+<li>
+<code>winDir</code> [rad]: Wind direction
+</li>
+<li>
+<code>winSpe</code> [m/s]: Wind speed
+</li>
+</ul>
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
