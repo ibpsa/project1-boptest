@@ -195,14 +195,15 @@ export async function waitForStatus(testid, desiredStatus, count, maxCount) {
 // Given testid, return the testcase id
 export async function getTests(userSub) {
   const userTestsKey = getUserTestsKey(userSub)
-  // TODO use scan instead
-  const members = await messaging.smembers(userTestsKey)
-  // This is a workaround, because we use "return_buffers" option on the redis client
-  // We are doing that due to a limiation of the worker being stuck on python2.x
   let userTests = []
-  for (const i in members) {
-    userTests.push(members[i].toString())
-  }
+  let items = []
+  let curser = 0
+  do {
+    [curser, items] = await messaging.sscan(userTestsKey, curser)
+    for (const i in items) {
+      userTests.push(items[i].toString())
+    }
+  } while (curser != 0)
   return userTests
 }
 

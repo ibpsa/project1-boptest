@@ -23,6 +23,7 @@ class Messaging {
     this.sadd = promisify(this.client.sadd).bind(this.client)
     this.srem = promisify(this.client.srem).bind(this.client)
     this.smembers = promisify(this.client.smembers).bind(this.client)
+    this.sscan = promisify(this.client.sscan).bind(this.client)
 
     this.subscriptionTimers = {}
     this.messageHandlers = {}
