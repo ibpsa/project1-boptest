@@ -169,7 +169,8 @@ export async function getStatus(testid) {
   const exists = await isTest(testid)
   if (exists) {
     const testKey = getTestKey(testid)
-    return await messaging.hget(testKey, "status")
+    const status = await messaging.hget(testKey, "status")
+    return status.toString()
   } else {
     throw(`Cannot getStatus for testid ${testid}, because it does not exist`);
   }

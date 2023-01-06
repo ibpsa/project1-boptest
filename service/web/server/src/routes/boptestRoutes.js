@@ -1,5 +1,7 @@
-import express from 'express';
-import got from 'got';
+import express from 'express'
+import got from 'got'
+import { param } from 'express-validator'
+import { validateTestid } from './validators'
 import * as boptestLib from '../lib/boptestLib'
 import * as middleware from './middleware'
 
@@ -188,6 +190,8 @@ boptestRoutes.get('/users/:userName/tests',
 // PUT stop //
 
 boptestRoutes.put('/stop/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       await boptestLib.stop(req.params.testid)
@@ -201,6 +205,8 @@ boptestRoutes.put('/stop/:testid',
 // POST results //
 
 boptestRoutes.post('/submit/:testid', 
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
   try {
     const body = req.body;
@@ -225,10 +231,12 @@ boptestRoutes.post('/submit/:testid',
 // GET status //
 
 boptestRoutes.get('/status/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const payload = await boptestLib.getStatus(req.params.testid)
-      res.json(payload)
+      res.json(payload.toString())
     } catch (e) {
       next(e)
     }
@@ -238,6 +246,8 @@ boptestRoutes.get('/status/:testid',
 // GET test name //
 
 boptestRoutes.get('/name/:testid', 
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const payload = await boptestLib.getName(req.params.testid)
@@ -251,6 +261,8 @@ boptestRoutes.get('/name/:testid',
 // POST advance //
 
 boptestRoutes.post('/advance/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const args = req.body
@@ -265,6 +277,8 @@ boptestRoutes.post('/advance/:testid',
 // PUT initialize //
 
 boptestRoutes.put('/initialize/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const args = req.body
@@ -279,6 +293,8 @@ boptestRoutes.put('/initialize/:testid',
 // PUT scenario //
 
 boptestRoutes.put('/scenario/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const electricity_price = req.body['electricity_price'] || null
@@ -295,6 +311,8 @@ boptestRoutes.put('/scenario/:testid',
 // GET scenario //
 
 boptestRoutes.get('/scenario/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const payload = await boptestLib.getScenario(req.params.testid)
@@ -308,6 +326,8 @@ boptestRoutes.get('/scenario/:testid',
 // GET measurements //
 
 boptestRoutes.get('/measurements/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const db = req.app.get('db');
@@ -322,6 +342,8 @@ boptestRoutes.get('/measurements/:testid',
 // GET inputs //
 
 boptestRoutes.get('/inputs/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const db = req.app.get('db');
@@ -336,6 +358,8 @@ boptestRoutes.get('/inputs/:testid',
 // GET step //
 
 boptestRoutes.get('/step/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const payload = await boptestLib.getStep(req.params.testid)
@@ -349,6 +373,8 @@ boptestRoutes.get('/step/:testid',
 // PUT step //
 
 boptestRoutes.put('/step/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const step = req.body['step']
@@ -363,6 +389,8 @@ boptestRoutes.put('/step/:testid',
 // GET kpi //
 
 boptestRoutes.get('/kpi/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const payload = await boptestLib.getKPIs(req.params.testid)
@@ -376,6 +404,8 @@ boptestRoutes.get('/kpi/:testid',
 // PUT results //
 
 boptestRoutes.put('/results/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const testid = req.params.testid
@@ -393,6 +423,8 @@ boptestRoutes.put('/results/:testid',
 // GET forecast_parameters //
 
 boptestRoutes.get('/forecast_parameters/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const testid = req.params.testid
@@ -407,6 +439,8 @@ boptestRoutes.get('/forecast_parameters/:testid',
 // PUT forecast_parameters //
 
 boptestRoutes.put('/forecast_parameters/:testid',
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const testid = req.params.testid
@@ -423,6 +457,8 @@ boptestRoutes.put('/forecast_parameters/:testid',
 // GET forecast //
 
 boptestRoutes.get('/forecast/:testid', 
+  param('testid').custom(validateTestid),
+  middleware.validationResponse,
   async (req, res, next) => {
     try {
       const testid = req.params.testid

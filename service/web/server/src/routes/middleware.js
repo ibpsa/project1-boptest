@@ -1,3 +1,5 @@
+import { validationResult } from 'express-validator'
+
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
 const testUsername = process.env.BOPTEST_TEST_USERNAME
 const testKey = process.env.BOPTEST_TEST_KEY
@@ -63,4 +65,14 @@ export function requireUser(req, res, next) {
   } else {
     res.sendStatus(401)
   }
+}
+
+// If there is a validation error associated with the request,
+// then send an appropriate response.
+export function validationResponse(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next()
 }

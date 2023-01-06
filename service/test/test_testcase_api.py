@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 from requests_toolbelt import MultipartEncoder
 from collections import OrderedDict
@@ -223,7 +224,6 @@ def test_tests_api():
         f"{host}/users/{username}/tests", headers={"Authorization": auth_token}
     )
     assert response.status_code == 200
-    print('tests response.json', response.json(), flush=True)
     assert testid in response.json()
 
     # Without the Authorization header, should return 401
@@ -271,6 +271,27 @@ def test_async_select_api():
         )
         assert response.status_code == 200
         test_ids.append(response.json()['testid'])
+
+    # Getting status for an invalid testid should return 400
+    response = requests.get(
+        f"{host}/status/invalid_testid"
+    )
+    assert response.status_code == 400
+
+    # Status api should return 200 for a valid testid
+    # Check status for a while and then move on,
+    # there likely is not enough workers to run all tests
+    for i in range(10):
+        time.sleep(1)
+        for test in test_ids:
+            response = requests.get(
+                f"{host}/status/{test}"
+            )
+            assert response.status_code == 200
+            # A good practice is to keep alive running tests while waiting on others in the queue
+            if response.json() == "Running":
+                response = requests.get(f"{host}/name/{test}")
+                assert response.status_code == 200
 
     # Get all tests for user
     # Most will be in Queued status, unless `test_count` workers are available
