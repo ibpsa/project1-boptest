@@ -105,14 +105,14 @@ boptestRoutes.delete('/users/:userName/testcases/:testcaseID',
 // POST test case select //
 
 const select = async (req, res, next) => {
-  let userDis = undefined
+  let userSub = undefined
   if (req.account) {
-    userDis = req.account.userDis
+    userSub = req.account.sub
   }
-  res.json(await boptestLib.select(req.testcaseKey, userDis))
+  res.json(await boptestLib.select(req.testcaseKey, userSub, req.params.async))
 }
 
-boptestRoutes.post('/testcases/:testcaseID/select', 
+boptestRoutes.post('/testcases/:testcaseID/select-?:async?',
   middleware.identify,
   (req, res, next) => {
     req.testcaseKey = boptestLib.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
@@ -121,7 +121,7 @@ boptestRoutes.post('/testcases/:testcaseID/select',
   select
 )
 
-boptestRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select',
+boptestRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select-?:async?',
   middleware.identify,
   (req, res, next) => {
     req.testcaseKey = boptestLib.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
@@ -130,7 +130,7 @@ boptestRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select',
   select
 );
 
-boptestRoutes.post('/users/:userName/testcases/:testcaseID/select',
+boptestRoutes.post('/users/:userName/testcases/:testcaseID/select-?:async?',
   middleware.identify,
   middleware.requireUser,
   (req, res, next) => {
@@ -180,10 +180,23 @@ boptestRoutes.get('/users/:userName/tests',
   middleware.identify,
   middleware.requireUser,
   async (req, res, next) => {
-    const payload = await boptestLib.getTests(req.account.dis);
+    const payload = await boptestLib.getTests(req.account.sub);
     res.json(payload)
   }
 )
+
+// PUT stop //
+
+boptestRoutes.put('/stop/:testid',
+  async (req, res, next) => {
+    try {
+      await boptestLib.stop(req.params.testid)
+      res.sendStatus(200)
+    } catch (e) {
+      next(e)
+    }
+  }
+);
 
 // POST results //
 
@@ -208,19 +221,6 @@ boptestRoutes.post('/submit/:testid',
     next(e)
   }
 });
-
-// PUT stop //
-
-boptestRoutes.put('/stop/:testid', 
-  async (req, res, next) => {
-    try {
-      await boptestLib.stop(req.params.testid)
-      res.sendStatus(200)
-    } catch (e) {
-      next(e)
-    }
-  }
-);
 
 // GET status //
 

@@ -10,16 +10,26 @@ import msgpack
 from boptest.lib.testcase import TestCase
 
 
+#   return `tests:${testid}`
+#  `users:${userSub}/tests`
 class Job:
     def __init__(self, parameters):
-        self.userTestsKey = parameters.get("userTestsKey")
         self.testid = parameters.get("testid")
+        self.testKey = "tests:%s" % self.testid
         self.testcaseKey = parameters.get("testcaseKey")
         self.keep_running = True
+        # abort True will end the run loop without cleanup
+        self.abort = False
         self.last_message_time = datetime.now()
 
         self.redis = redis.Redis(host=os.environ["BOPTEST_REDIS_HOST"])
         self.redis_pubsub = self.redis.pubsub()
+
+        if not self.redis.hexists(self.testKey, "status"):
+            self.abort = True
+            # no need to do further initialization
+            # run method will return immediately without cleanup
+            return
 
         self.timeout = float(os.environ["BOPTEST_TIMEOUT"])
 
@@ -62,11 +72,12 @@ class Job:
 
     # This is the main Job entry point
     def run(self):
-        while self.keep_running:
+        while self.keep_running and not self.abort:
             message = self.handle_messages()
             self.check_idle_time(message)
 
-        self.cleanup()
+        if not self.abort:
+            self.cleanup()
 
     def check_idle_time(self, message):
         if not message:
@@ -219,7 +230,10 @@ class Job:
 
     # cleanup after the simulation is stopped
     def cleanup(self):
-        self.redis.hdel(self.userTestsKey, self.testid)
+        user = self.redis.hget(self.testKey, "user")
+        userTestsKey = "users:%s:tests" % user
+        self.redis.delete(self.testKey)
+        self.redis.srem(userTestsKey, self.testid)
         self.unsubscribe()
 
         tarname = "%s.tar.gz" % self.testid
@@ -255,4 +269,4 @@ class Job:
         return scenario
 
     def init_sim_status(self):
-        self.redis.hset(self.userTestsKey, self.testid, "Running")
+        self.redis.hset(self.testKey, "status", "Running")

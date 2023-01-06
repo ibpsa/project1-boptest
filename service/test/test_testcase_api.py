@@ -223,8 +223,8 @@ def test_tests_api():
         f"{host}/users/{username}/tests", headers={"Authorization": auth_token}
     )
     assert response.status_code == 200
+    print('tests response.json', response.json(), flush=True)
     assert testid in response.json()
-    assert response.json()[testid] == "Running"
 
     # Without the Authorization header, should return 401
     response = requests.get(
@@ -241,3 +241,60 @@ def test_tests_api():
     # Stop the test
     response = requests.put(f"{host}/stop/{testid}")
     assert response.status_code == 200
+
+
+def test_async_select_api():
+    auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
+    username = os.environ.get("BOPTEST_TEST_PRIVILEGED_USERNAME")
+    testcase_id = "testcase1"
+    testcase_path = f"/testcases/{testcase_id}/models/wrapped.fmu"
+
+    # Get post-form should return 200
+    # This authorizes a new test case upload
+    response = requests.get(
+        f"{host}/users/{username}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token}
+    )
+    assert response.status_code == 200
+
+    # New test cases are uploaded directly to storage (e.g. minio/s3)
+    # 204 indicates a successful upload
+    response = upload_testcase(response, testcase_path)
+    assert response.status_code == 204
+
+    # Select the test case asynchronously a large number of times
+    # More than we likely have worker resources for. Tests should queue
+    test_count = 10
+    test_ids = []
+    for i in range(test_count):
+        response = requests.post(
+            f"{host}/users/{username}/testcases/{testcase_id}/select-async", headers={"Authorization": auth_token}
+        )
+        assert response.status_code == 200
+        test_ids.append(response.json()['testid'])
+
+    # Get all tests for user
+    # Most will be in Queued status, unless `test_count` workers are available
+    response = requests.get(
+        f"{host}/users/{username}/tests", headers={"Authorization": auth_token}
+    )
+    assert response.status_code == 200
+    # All of the queued/running tests should be returned bythe /tests API
+    assert len(response.json()) == test_count
+    for test in test_ids:
+        assert test in response.json()
+
+    # Stop all of the tests
+    # Queued tests should be aborted.
+    # Running tests should be stopped.
+    for test in response.json():
+        # Stop the test
+        response = requests.put(f"{host}/stop/{test}")
+        assert response.status_code == 200
+
+    # Get all tests again
+    # The response should be an empty list at this point
+    response = requests.get(
+        f"{host}/users/{username}/tests", headers={"Authorization": auth_token}
+    )
+    assert response.status_code == 200
+    assert len(response.json()) == 0

@@ -1,36 +1,46 @@
 import Path from 'path';
 import { promises as fs } from "fs";
 import { v4 as uuidv4 } from 'uuid';
+import { commandOptions } from 'redis';
 import s3 from '../s3';
 import {addJobToQueue} from './job';
 import messaging from './messaging';
 
 const bucket = process.env.BOPTEST_S3_BUCKET
 
+// Keys to track test cases
+// These are used as keys for object storage (e.g. S3)
+// See docs/file_storage.md
+
 export function getPrefixForTestcase(testcaseNamespace) {
   return `testcases/${testcaseNamespace}`
 }
-export function getPrefixForUserTestcase(userDis) {
-  return `users/${userDis}/testcases`
+
+export function getPrefixForUserTestcase(userSub) {
+  return `users/${userSub}/testcases`
 }
 
 export function getKeyForTestcase(testcaseNamespace, testcaseID) {
   return `${getPrefixForTestcase(testcaseNamespace)}/${testcaseID}/${testcaseID}.fmu`
 }
 
-export function getKeyForUserTestcase(userDis, testcaseID) {
-  return `${getPrefixForUserTestcase(userDis)}/${testcaseID}/${testcaseID}.fmu`
+export function getKeyForUserTestcase(userSub, testcaseID) {
+  return `${getPrefixForUserTestcase(userSub)}/${testcaseID}/${testcaseID}.fmu`
 }
 
-// All tests are added to an in memory (e.g redis) hash,
-// under the key returned by this function.
+// Keys for tests
+// These are used as keys for in memory key/value storage (e.g. Redis)
 // See docs/redis.md
-function getUserTestsStatusKey(userDis) {
-  // userDis could be undefined in which case the key will still be valid.
-  // e.g. "users:undefined:tests:${testDis}"
-  // This would be true when a test is selected by a client that is not logged in
-  return `users:${userDis}:tests:status`
+
+function getTestKey(testid) {
+  return `tests:${testid}`
 }
+
+function getUserTestsKey(userSub) {
+  return `users:${userSub}:tests`
+}
+
+// BOPTEST functions
 
 export async function getVersion() {
   const libraryVersion = (await fs.readFile('/boptest/version.txt', 'utf8')).trim()
@@ -118,65 +128,95 @@ export function deleteTestcase(testcaseKey) {
   })
 }
 
-export async function select(testcaseKey, userDis) {
-  const testid = uuidv4()
-  await enqueueTest(testid, userDis, testcaseKey)
-  await waitForStatus(userDis, testid, "Running")
-  return { testid }
-}
-
-export async function enqueueTest(testid, userDis, testcaseKey) {
-  const userTestsKey = getUserTestsStatusKey(userDis)
-  await messaging.hset(userTestsKey, testid, "Queued")
-  await addJobToQueue("boptest_run_test", {testid, userTestsKey, testcaseKey})
-}
-
-// Determine if testid exists for user
-export async function isTest(userDis, testid) {
-  const userTestsKey = getUserTestsStatusKey(userDis)
-  return await messaging.hexists(userTestsKey, testid)
-}
-
-export async function getStatus(userDis, testid) {
-  const exists = await isTest(userDis, testid)
-  if (exists) {
-    const userTestsKey = getUserTestsStatusKey(userDis)
-    return await messaging.hget(userTestsKey, testid)
-  } else {
-    // If testid does not correspond to a redis key,
-    // then consider the test stopped, however an Error might make more sense
-    throw(`Cannot getStatus for testid ${testid} and user ${userDis} because it does not exist`);
+async function addTestToDB(testid, userSub) {
+  const testKey = getTestKey(testid)
+  await messaging.hset(testKey, "status", "Queued")
+  await messaging.hset(testKey, "timestamp", Date.now())
+  if (userSub) {
+    const userTestsKey = getUserTestsKey(userSub)
+    await messaging.hset(testKey, "user", userSub)
+    await messaging.sadd(userTestsKey, testid)
   }
 }
 
-export async function waitForStatus(userDis, testid, desiredStatus, count, maxCount) {
+async function removeTestFromDB(testid) {
+  const testKey = getTestKey(testid)
+  const userSub = await messaging.hget(testKey, "user")
+  if (userSub) {
+    const userTestsKey = getUserTestsKey(userSub)
+    await messaging.srem(userTestsKey, testid)
+  }
+  await messaging.del(testKey)
+}
+
+export async function select(testcaseKey, userSub, asyc) {
+  const testid = uuidv4()
+  await addTestToDB(testid, userSub)
+  const testKey = getTestKey(testid)
+  await addJobToQueue("boptest_run_test", {testid, testcaseKey})
+  if (! asyc) {
+    await waitForStatus(testid, "Running")
+  }
+  return { testid }
+}
+
+export async function isTest(testid) {
+  const testKey = getTestKey(testid)
+  return await messaging.hexists(testKey, "status")
+}
+
+export async function getStatus(testid) {
+  const exists = await isTest(testid)
+  if (exists) {
+    const testKey = getTestKey(testid)
+    return await messaging.hget(testKey, "status")
+  } else {
+    throw(`Cannot getStatus for testid ${testid}, because it does not exist`);
+  }
+}
+
+export async function waitForStatus(testid, desiredStatus, count, maxCount) {
   maxCount = typeof maxCount !== 'undefined' ? maxCount : process.env.BOPTEST_TIMEOUT
   // The default starting count is 0
   count = typeof count !== 'undefined' ? count : 0
-  const currentStatus = await getStatus(userDis, testid);
+  const currentStatus = await getStatus(testid);
   if (currentStatus == desiredStatus) {
     return;
   } else if (count >= maxCount) {
     throw(`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
   } else {
     // check status every 1000 miliseconds
-    await promiseTaskLater(waitForStatus, 1000, userDis, testid, desiredStatus, count, maxCount);
+    await promiseTaskLater(waitForStatus, 1000, testid, desiredStatus, count, maxCount);
     count++
   }
 }
 
 // Given testid, return the testcase id
-export async function getTests(userDis) {
-  const userTestsKey = getUserTestsStatusKey(userDis)
-  // TODO use select instead
-  const redisdata = await messaging.hgetall(userTestsKey)
+export async function getTests(userSub) {
+  const userTestsKey = getUserTestsKey(userSub)
+  // TODO use scan instead
+  const members = await messaging.smembers(userTestsKey)
   // This is a workaround, because we use "return_buffers" option on the redis client
   // We are doing that due to a limiation of the worker being stuck on python2.x
-  let response = {}
-  for (let key in redisdata) {
-    response[key] = redisdata[key].toString()
+  let userTests = []
+  for (const i in members) {
+    userTests.push(members[i].toString())
   }
-  return response
+  return userTests
+}
+
+export async function stop(testid) {
+  const status = await getStatus(testid)
+  if (status == "Running") {
+    // In this case send a stop message to the worker,
+    // the worker will take care of db cleanup
+    await messaging.callWorkerMethod(testid, 'stop', {})
+  } else {
+    // If the test is not running it is Queued, in which case
+    // we don't technically remove it from the queue, but removing the entry in the db
+    // will cause the worker to immediately move on when the test comes off the queue
+    await removeTestFromDB(testid)
+  }
 }
 
 export async function getName(testid) {
@@ -217,10 +257,6 @@ export async function setScenario(testid, scenario) {
 
 export async function advance(testid, u) {
   return await messaging.callWorkerMethod(testid, 'advance', { u })
-}
-
-export async function stop(testid) {
-  return await messaging.callWorkerMethod(testid, 'stop', {})
 }
 
 export async function getStep(testid) {

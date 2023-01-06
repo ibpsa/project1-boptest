@@ -11,13 +11,18 @@ class Messaging {
     this.subTimeoutTime = 180000
     this.responseTimeoutTime = 120000
 
+    this.del = promisify(this.client.del).bind(this.client)
     this.hget = promisify(this.client.hget).bind(this.client)
     this.hgetall = promisify(this.client.hgetall).bind(this.client)
     this.hexists = promisify(this.client.hexists).bind(this.client)
     this.hlen = promisify(this.client.hlen).bind(this.client)
     this.hkeys = promisify(this.client.hkeys).bind(this.client)
     this.hset = promisify(this.client.hset).bind(this.client)
+    this.hdel = promisify(this.client.hdel).bind(this.client)
     this.exists = promisify(this.client.exists).bind(this.client)
+    this.sadd = promisify(this.client.sadd).bind(this.client)
+    this.srem = promisify(this.client.srem).bind(this.client)
+    this.smembers = promisify(this.client.smembers).bind(this.client)
 
     this.subscriptionTimers = {}
     this.messageHandlers = {}
