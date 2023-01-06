@@ -71,7 +71,7 @@ class BoptestSubmit:
             self._wait_for_testcase(url_prefix, testcaseid, auth_token)
 
             return testcaseid
-        except:
+        except Exception:
             return False
 
     def _exists(self, url_prefix, testcaseid, auth_token):
@@ -194,4 +194,4 @@ class BoptestSubmit:
         }
 
         url = os.environ.get('BOPTEST_DASHBOARD_SERVER', '') + '/api/buildingTypes'
-        response = requests.post(url, json=payload)
+        requests.post(url, json=payload)
