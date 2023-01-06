@@ -4,7 +4,7 @@ import boptestRoutes from './routes/boptestRoutes'
 
 var app = express()
 
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/', boptestRoutes)
 
