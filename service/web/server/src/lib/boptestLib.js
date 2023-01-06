@@ -155,7 +155,13 @@ export async function select(testcaseKey, userSub, asyc) {
   const testKey = getTestKey(testid)
   await addJobToQueue("boptest_run_test", {testid, testcaseKey})
   if (! asyc) {
-    await waitForStatus(testid, "Running")
+    try {
+      await waitForStatus(testid, "Running")
+    } catch (e) {
+      await stop(testid)
+      // rethrow the error after stopping the test
+      throw e
+    }
   }
   return { testid }
 }
