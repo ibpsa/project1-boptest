@@ -14,7 +14,7 @@ const s3PublicURL = process.env.BOPTEST_PUBLIC_S3_URL + '/' + bucket
 
 boptestRoutes.get('/version', async (req, res, next) => {
   try {
-    const payload = await getVersion()
+    const payload = await boptestLib.getVersion()
     res.status(payload.status).json(payload)
   } catch (e) {
     next(e)
