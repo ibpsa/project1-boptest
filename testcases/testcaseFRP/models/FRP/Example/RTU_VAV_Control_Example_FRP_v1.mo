@@ -49,7 +49,7 @@ model RTU_VAV_Control_Example_FRP_v1 "v8. 0930.2022"
 
     parameter Boolean allowFlowReversal=true;
   Envelope.FRPMultiZone_Envelope_Icon_v1  fRPMultiZone_Envelope_Icon_v1_1
-    annotation (Placement(transformation(extent={{472,-136},{948,356}})));
+    annotation (Placement(transformation(extent={{470,-136},{946,356}})));
   Buildings.Fluid.Sources.Outside out(redeclare package Medium = MediumA,
       nPorts=2)
     annotation (Placement(transformation(extent={{-972,-38},{-932,2}})));
@@ -520,47 +520,47 @@ equation
           {-450,186},{-450,98},{-450.6,98},{-450.6,7}}, color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_1.port_b,
     fRPMultiZone_Envelope_Icon_v1_1.port_204[1]) annotation (Line(points={{94,
-          295.2},{98,295.2},{98,396},{608,396},{608,265.8},{629.162,265.8}},
+          295.2},{98,295.2},{98,396},{608,396},{608,265.8},{627.162,265.8}},
         color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_4.port_b,
-    fRPMultiZone_Envelope_Icon_v1_1.port_104[1]) annotation (Line(points={{100,
-          -4},{124,-4},{124,66},{590,66},{590,38.66},{607.003,38.66}}, color={0,
+    fRPMultiZone_Envelope_Icon_v1_1.port_104[1]) annotation (Line(points={{100,-4},
+          {124,-4},{124,66},{590,66},{590,38.66},{605.003,38.66}},     color={0,
           127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.weaBus1, out.weaBus) annotation (Line(
-      points={{604.952,-122.88},{604.952,-400},{-972,-400},{-972,-17.6}},
+      points={{602.952,-122.88},{602.952,-400},{-972,-400},{-972,-17.6}},
       color={255,204,51},
       thickness=0.5));
   connect(vAVReHeat_withCtrl_TRooCon_v2_9.port_b,
     fRPMultiZone_Envelope_Icon_v1_1.port_203[1]) annotation (Line(points={{274,
-          295.2},{274,388},{740,388},{740,346},{738.314,346},{738.314,299.42}},
+          295.2},{274,388},{740,388},{740,346},{736.314,346},{736.314,299.42}},
         color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_5.port_b,
     fRPMultiZone_Envelope_Icon_v1_1.port_205[1]) annotation (Line(points={{40,
           191.2},{44,191.2},{44,180},{50,180},{50,222},{604,222},{604,206},{
-          604.952,206},{604.952,203.48}}, color={0,127,255}));
+          602.952,206},{602.952,203.48}}, color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_6.port_b,
     fRPMultiZone_Envelope_Icon_v1_1.port_202[1]) annotation (Line(points={{192,
           185.2},{200,185.2},{200,178},{204,178},{204,238},{698,238},{698,256},
-          {710,256},{710,251.86},{718.207,251.86}}, color={0,127,255}));
+          {710,256},{710,251.86},{716.207,251.86}}, color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_10.port_b,
     fRPMultiZone_Envelope_Icon_v1_1.port_206[1]) annotation (Line(points={{378,
-          181.2},{388,181.2},{388,178},{796.993,178},{796.993,188.72}}, color={
+          181.2},{388,181.2},{388,178},{794.993,178},{794.993,188.72}}, color={
           0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_8.port_b,
-    fRPMultiZone_Envelope_Icon_v1_1.port_102[1]) annotation (Line(points={{272,
-          0},{298,0},{298,70},{740,70},{740,63.26},{741.186,63.26}}, color={0,
+    fRPMultiZone_Envelope_Icon_v1_1.port_102[1]) annotation (Line(points={{272,0},
+          {298,0},{298,70},{740,70},{740,63.26},{739.186,63.26}},    color={0,
           127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_3.port_b,
-    fRPMultiZone_Envelope_Icon_v1_1.port_105[1]) annotation (Line(points={{26,
-          -108},{44,-108},{44,-46},{558,-46},{558,-30},{600,-30},{600,-35.14},{
-          613.979,-35.14}}, color={0,127,255}));
+    fRPMultiZone_Envelope_Icon_v1_1.port_105[1]) annotation (Line(points={{26,-108},
+          {44,-108},{44,-46},{558,-46},{558,-30},{600,-30},{600,-35.14},{
+          611.979,-35.14}}, color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_7.port_b,
     fRPMultiZone_Envelope_Icon_v1_1.port_103[1]) annotation (Line(points={{188,
-          -106},{196,-106},{196,-52},{716,-52},{716,16},{716.976,16},{716.976,
+          -106},{196,-106},{196,-52},{716,-52},{716,16},{714.976,16},{714.976,
           11.6}}, color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_v2_2.port_b,
     fRPMultiZone_Envelope_Icon_v1_1.port_106[1]) annotation (Line(points={{370,
-          -108},{384,-108},{384,-60},{732,-60},{732,-44.98},{802.738,-44.98}},
+          -108},{384,-108},{384,-60},{732,-60},{732,-44.98},{800.738,-44.98}},
         color={0,127,255}));
   connect(senPreSup.port, splSupRoo.port_1)
     annotation (Line(points={{-276,-20},{-228,-20}}, color={0,127,255}));
@@ -616,52 +616,52 @@ equation
   connect(splSupRoo.port_3, splSupRoo1.port_1) annotation (Line(points={{-200,8},
           {-198,8},{-198,519},{-94,519}},  color={0,127,255}));
   connect(splRetRoo1.port_1, fRPMultiZone_Envelope_Icon_v1_1.port_205[2])
-    annotation (Line(points={{646,509},{634.497,509},{634.497,203.48}}, color={
+    annotation (Line(points={{646,509},{632.497,509},{632.497,203.48}}, color={
           0,127,255}));
   connect(splRetRoo1.port_3, fRPMultiZone_Envelope_Icon_v1_1.port_204[2])
-    annotation (Line(points={{671,484},{671,265.8},{657.886,265.8}}, color={0,
+    annotation (Line(points={{671,484},{671,265.8},{655.886,265.8}}, color={0,
           127,255}));
   connect(splRetRoo1.port_2, splRetRoo2.port_1) annotation (Line(points={{696,509},
           {716,509},{716,506},{724,506},{724,507},{732,507}},
                                           color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.port_202[2], splRetRoo2.port_3)
-    annotation (Line(points={{744.469,251.86},{757,251.86},{757,482}}, color={0,
+    annotation (Line(points={{742.469,251.86},{757,251.86},{757,482}}, color={0,
           127,255}));
   connect(splRetRoo2.port_2, splRetRoo3.port_1) annotation (Line(points={{782,507},
           {800,507},{800,506},{808,506},{808,507},{818,507}},
                                           color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.port_203[2], splRetRoo3.port_3)
-    annotation (Line(points={{762.114,299.42},{843,299.42},{843,482}}, color={0,
+    annotation (Line(points={{760.114,299.42},{843,299.42},{843,482}}, color={0,
           127,255}));
   connect(splRetRoo3.port_2, splRetRoo4.port_1) annotation (Line(points={{868,507},
           {880,507},{880,506},{888,506},{888,505},{898,505}},
                                           color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.port_206[2], splRetRoo4.port_3)
-    annotation (Line(points={{819.972,188.72},{923,188.72},{923,480}}, color={0,
+    annotation (Line(points={{817.972,188.72},{923,188.72},{923,480}}, color={0,
           127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.port_105[2], splRetRoo5.port_1)
-    annotation (Line(points={{638.6,-35.14},{638.6,-209},{656,-209}}, color={0,
+    annotation (Line(points={{636.6,-35.14},{636.6,-209},{656,-209}}, color={0,
           127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.port_104[2], splRetRoo5.port_3)
-    annotation (Line(points={{634.086,38.66},{681,38.66},{681,-184}}, color={0,
+    annotation (Line(points={{632.086,38.66},{681,38.66},{681,-184}}, color={0,
           127,255}));
   connect(splRetRoo5.port_2, splRetRoo6.port_1) annotation (Line(points={{706,-209},
           {718,-209},{718,-210},{726,-210},{726,-209},{742,-209}},
                                              color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.port_103[2], splRetRoo6.port_3)
-    annotation (Line(points={{740.776,11.6},{767,11.6},{767,-184}}, color={0,
+    annotation (Line(points={{738.776,11.6},{767,11.6},{767,-184}}, color={0,
           127,255}));
   connect(splRetRoo6.port_2, splRetRoo7.port_1) annotation (Line(points={{792,-209},
           {802,-209},{802,-210},{810,-210},{810,-209},{822,-209}},
                                              color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.port_102[2], splRetRoo7.port_3)
-    annotation (Line(points={{764.166,63.26},{847,63.26},{847,-184}}, color={0,
+    annotation (Line(points={{762.166,63.26},{847,63.26},{847,-184}}, color={0,
           127,255}));
   connect(splRetRoo7.port_2, splRetRoo8.port_1) annotation (Line(points={{872,-209},
           {882,-209},{882,-210},{890,-210},{890,-209},{902,-209}},
                                              color={0,127,255}));
   connect(fRPMultiZone_Envelope_Icon_v1_1.port_106[2], splRetRoo8.port_3)
-    annotation (Line(points={{827.359,-44.98},{927,-44.98},{927,-184}}, color={
+    annotation (Line(points={{825.359,-44.98},{927,-44.98},{927,-184}}, color={
           0,127,255}));
   connect(splRetRoo8.port_2, splRetRoo.port_3) annotation (Line(points={{952,
           -209},{1006,-209},{1006,122},{1044,122}},
@@ -672,13 +672,13 @@ equation
   connect(TRooSec.u, fRPMultiZone_Envelope_Icon_v1_1.TrooVecSec) annotation (
       Line(
       points={{-304.2,367},{-350,367},{-350,566},{1112,566},{1112,229.72},{
-          964.414,229.72}},
+          962.414,229.72}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooFir.u, fRPMultiZone_Envelope_Icon_v1_1.TrooVecFir) annotation (
       Line(
       points={{-300.2,-147},{-350,-147},{-350,-336},{1112,-336},{1112,29.64},{
-          966.055,29.64}},
+          964.055,29.64}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooFir.y5[1], vAVReHeat_withCtrl_TRooCon_v2_3.TRoo) annotation (Line(

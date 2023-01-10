@@ -850,7 +850,7 @@ equation
    annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-1160,-420},{1160,620}})),
     experiment(
-      StartTime=15984000,
+      StartTime=16070400,
       StopTime=16156800,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"),
