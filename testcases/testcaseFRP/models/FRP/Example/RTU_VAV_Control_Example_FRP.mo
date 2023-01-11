@@ -70,7 +70,7 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
     redeclare package Medium = MediumA,
     allowFlowReversal=allowFlowReversal,
     dp_nominal=dp_nominal,
-    minSpeRat=0.2,
+    minSpeRat=0.25,
     speRatDeaBan=0.1)
                  "multi-stage DX unit"
     annotation (Placement(transformation(extent={{-636,-78},{-512,46}})));
@@ -101,7 +101,7 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
     m_flow_nominal=m_flow_nominal,
     QMax_flow(displayUnit="kW") = H_Q_flow_nominal,
     dp_nominal=200 + 200 + 100 + 40,
-    eta=0.95)
+    eta=0.81)
     "Electric heater"
     annotation (Placement(transformation(extent={{-444,-56},{-378,14}})));
   Modelica.Blocks.Sources.RealExpression SupAirTemSPHeating(y=273.15 + 30)
