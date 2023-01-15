@@ -20,7 +20,7 @@ def upload_testcase(post_form_response, testcase_path):
 def test_ibpsa_boptest_testcase():
     auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
     testcase_id = "testcase1"
-    testcase_path = f"/testcases/{testcase_id}/models/wrapped.fmu"
+    testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
 
     # Delete for an invalid test case should return 404
     response = requests.delete(f'{host}/testcases/{testcase_id + "xyz"}', headers={"Authorization": auth_token})
@@ -72,7 +72,7 @@ def test_shared_namespace_testcase():
     auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
     testcase_namespace = "resstock"
     testcase_id = "testcase1"
-    testcase_path = f"/testcases/{testcase_id}/models/wrapped.fmu"
+    testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
 
     # Delete for an invalid test case should return 404
     response = requests.delete(
@@ -134,7 +134,7 @@ def test_private_user_testcase():
     auth_token = os.environ.get("BOPTEST_TEST_KEY")
     username = os.environ.get("BOPTEST_TEST_USERNAME")
     testcase_id = "testcase1"
-    testcase_path = f"/testcases/{testcase_id}/models/wrapped.fmu"
+    testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
 
     # Delete for an invalid test case should return 404
     response = requests.delete(
@@ -198,7 +198,7 @@ def test_tests_api():
     auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
     username = os.environ.get("BOPTEST_TEST_PRIVILEGED_USERNAME")
     testcase_id = "testcase1"
-    testcase_path = f"/testcases/{testcase_id}/models/wrapped.fmu"
+    testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
 
     # Get post-form should return 200
     # This authorizes a new test case upload
@@ -247,7 +247,7 @@ def test_async_select_api():
     auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
     username = os.environ.get("BOPTEST_TEST_PRIVILEGED_USERNAME")
     testcase_id = "testcase1"
-    testcase_path = f"/testcases/{testcase_id}/models/wrapped.fmu"
+    testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
 
     # Get post-form should return 200
     # This authorizes a new test case upload

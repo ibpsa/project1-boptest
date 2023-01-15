@@ -5,6 +5,7 @@ const testUsername = process.env.BOPTEST_TEST_USERNAME
 const testKey = process.env.BOPTEST_TEST_KEY
 const testPrivilegedUsername = process.env.BOPTEST_TEST_PRIVILEGED_USERNAME
 const testPrivilegedKey = process.env.BOPTEST_TEST_PRIVILEGED_KEY
+const useTestUsers = process.env.BOPTEST_USE_TEST_USERS === 'true'
 
 // Middleware to provide client information.
 // This will increase the response time, so use it only on APIs that
@@ -13,7 +14,22 @@ const testPrivilegedKey = process.env.BOPTEST_TEST_PRIVILEGED_KEY
 export async function identify(req, res, next) {
   const key = req.header('Authorization');
 
-  if (dashboardServer) {
+  if (useTestUsers) {
+    // Try to use fake test accounts if configured by environment
+    if (key && (key == testKey)) {
+      req.account = {
+        name: testUsername,
+        sub: 'abc' + testUsername + 'xyz',
+        privileged: false,
+      }
+    } else if (key && (key == testPrivilegedKey)) {
+      req.account = {
+        name: testPrivilegedUsername,
+        sub: 'abc' + testPrivilegedUsername + 'xyz',
+        privileged: true,
+      }
+    }
+  } else {
     if (key) {
       // Authorization is not mandatory for every route,
       // however if a key is provided and it is invalid then
@@ -31,21 +47,6 @@ export async function identify(req, res, next) {
         return
       }
     } // if key
-  } else { // no dashboardServer
-    // Try to use fake test accounts if configured by environment
-    if (key && (key == testKey)) {
-      req.account = {
-        name: testUsername,
-        sub: 'abc' + testUsername + 'xyz',
-        privileged: false,
-      }
-    } else if (key && (key == testPrivilegedKey)) {
-      req.account = {
-        name: testPrivilegedUsername,
-        sub: 'abc' + testPrivilegedUsername + 'xyz',
-        privileged: true,
-      }
-    }
   }
 
   next()

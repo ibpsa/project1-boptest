@@ -6,11 +6,11 @@ RUN pip3 install -I \
     requests-toolbelt==0.10.1
 
 COPY provision /provision
-COPY boptest/testcases /testcases
+COPY boptest /boptest
 COPY test /test
 
 WORKDIR /test
 
-ENV PYTHONPATH=/provision
+ENV PYTHONPATH=/provision:/boptest
 
 CMD [ "pytest", "." ]
