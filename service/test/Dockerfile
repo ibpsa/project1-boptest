@@ -6,7 +6,7 @@ RUN pip3 install -I \
     requests-toolbelt==0.10.1
 
 COPY provision /provision
-COPY boptest /boptest
+COPY boptest/testcases /boptest/testcases
 COPY test /test
 
 WORKDIR /test
