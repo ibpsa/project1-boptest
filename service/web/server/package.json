@@ -57,6 +57,7 @@
     "url-loader": "4.1.0",
     "uuid": "8.1.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "ws": "^8.12.0"
   }
 }
