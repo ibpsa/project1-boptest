@@ -87,7 +87,7 @@ async def test_n_boptests_with_websocket():
         assert testcase_id in map(lambda item: item["testcaseid"], response.json())
 
         # Select the test cases
-        number_of_tests = 4
+        number_of_tests = 1 # number of tests can be any number, as long as there are available workers
         testids = []
         for i in range(number_of_tests):
             response = requests.post(f"{host}/testcases/{testcase_id}/select")
