@@ -98,6 +98,8 @@ class TestCase(object):
         Uses self.output_names and self.input_names to create
         self.y, self.y_store, self.u, self.u_store,
         self.inputs_metadata, self.outputs_metadata.
+        Also creates list variables for tracking inputs, outputs, and forecast
+        variables used by test controller during simulation.
 
         Parameters
         ----------
@@ -134,6 +136,10 @@ class TestCase(object):
         for key in self.input_names:
             self.u[key] = np.array([])
         self.u_store = copy.deepcopy(self.u)
+        # Variable tracking
+        self.inputs_used = []
+        self.outputs_used = []
+        self.forecasts_used = []
 
     def __simulation(self,start_time,end_time,input_object=None):
         '''Simulates the FMU using the pyfmi fmu.simulate function.
@@ -311,6 +317,9 @@ class TestCase(object):
                             if message is not None:
                                 logging.warning(message)
                                 alert_message = message + ';' + alert_message
+                            # Log key as used
+                            if (key not in self.inputs_used) and (float(u[key[:-2]+'_activate'])):
+                                self.inputs_used.append(key)
                         u_list.append(key)
                         u_trajectory = np.vstack((u_trajectory, checked_value))
                 input_object = (u_list, np.transpose(u_trajectory))
@@ -668,8 +677,14 @@ class TestCase(object):
                 # Get correct points
                 if point_name in self.y_store.keys():
                     payload[point_name] = self.y_store[point_name]
+                    # Log key as used
+                    if point_name not in self.outputs_used:
+                        self.outputs_used.append(point_name)
                 elif point_name in self.u_store.keys():
                     payload[point_name] = self.u_store[point_name]
+                    # Log key as used
+                    if point_name not in self.outputs_used:
+                        self.outputs_used.append(point_name)
                 else:
                     status = 400
                     message = "Invalid point name {} in parameter point_names.  Check lists of available inputs and measurements.".format(point_name)
@@ -861,6 +876,10 @@ class TestCase(object):
             payload = None
             logging.error(message)
         logging.info(message)
+        for point in payload.keys():
+            # Log point as used
+            if (point not in self.forecasts_used) and (point != 'time'):
+                self.forecasts_used.append(point)
 
         return status, message, payload
 

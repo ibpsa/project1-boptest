@@ -214,6 +214,9 @@ class KPI_Calculator(object):
         ckpi['pgas_tot'] = self.get_peak_gas()
         ckpi['pdih_tot'] = self.get_peak_district_heating()
         ckpi['time_rat'] = self.get_computational_time_ratio()
+        ckpi['data_outputs'] = self.get_data_outputs()
+        ckpi['data_inputs'] = self.get_data_inputs()
+        ckpi['data_forecasts'] = self.get_data_forecasts()
 
         return ckpi
 
@@ -708,6 +711,60 @@ class KPI_Calculator(object):
             plt.show()
 
         return time_rat
+
+    def get_data_outputs(self):
+        '''Obtain the output data points used in the test.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        data_outputs: list of str
+            list of output point names
+
+        '''
+
+        data_outputs = self.case.outputs_used
+
+        return data_outputs
+
+    def get_data_inputs(self):
+        '''Obtain the input data points used in the test.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        data_inputs: list of str
+            list of output point names
+
+        '''
+
+        data_inputs = self.case.inputs_used
+
+        return data_inputs
+
+    def get_data_forecasts(self):
+        '''Obtain the forecast data points used in the test.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        data_forecasts: list of str
+            list of output point names
+
+        '''
+
+        data_forecasts = self.case.forecasts_used
+
+        return data_forecasts
 
     def _set_last_index(self,label, set_initial=False):
         '''Set last index for kpi calcualtion.
