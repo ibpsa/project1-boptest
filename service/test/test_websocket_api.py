@@ -48,17 +48,38 @@ async def test_boptest_websocket_one_test():
         assert response.status_code == 200
         testid = response.json()["testid"]
 
+        # Send a message to advance
         requestid = str(uuid.uuid4())
         request = {"requestid": requestid, "testid": testid, "method": "advance", "params": {}}
         await websocket.send(json.dumps(request))
 
         response = json.loads(await websocket.recv())
-
-        # responseid should equal the requestid
         assert requestid == response["responseid"]
-
-        # there should be responsedata
+        # There should be responsedata
         assert response["responsedata"]
+
+        # Send a bogus method name
+        requestid = str(uuid.uuid4())
+        request = {"requestid": requestid, "testid": testid, "method": "rubbish", "params": {}}
+        await websocket.send(json.dumps(request))
+
+        response = json.loads(await websocket.recv())
+        assert requestid == response["responseid"]
+        # There should be responsedata
+        assert response["responsedata"]
+        # Status 400 should be returned
+        assert response["responsedata"]["status"] == 400
+
+        # Send invalid json syntax
+        await websocket.send("not json")
+
+        response = json.loads(await websocket.recv())
+        # There is no responseid because no requestid was received
+        assert not response.get("responseid")
+        # There should be responsedata
+        assert response["responsedata"]
+        # Status 400 should be returned
+        assert response["responsedata"]["status"] == 400
 
         # Stop the test
         response = requests.put(f"{host}/stop/{testid}")

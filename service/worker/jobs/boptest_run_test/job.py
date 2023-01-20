@@ -9,9 +9,6 @@ import numpy as np
 import msgpack
 from boptest.lib.testcase import TestCase
 
-
-#   return `tests:${testid}`
-#  `users:${userSub}/tests`
 class Job:
     def __init__(self, parameters):
         self.testid = parameters.get("testid")
@@ -73,18 +70,17 @@ class Job:
     # This is the main Job entry point
     def run(self):
         while self.keep_running and not self.abort:
-            message = self.handle_messages()
-            self.check_idle_time(message)
+            self.process_messages()
+            self.check_idle_time()
 
         if not self.abort:
             self.cleanup()
 
-    def check_idle_time(self, message):
-        if not message:
-            idle_time = datetime.now() - self.last_message_time
-            if idle_time.total_seconds() > self.timeout:
-                print("Testid '%s' is terminating due to inactivity." % self.testid)
-                self.keep_running = False
+    def check_idle_time(self):
+        idle_time = datetime.now() - self.last_message_time
+        if idle_time.total_seconds() > self.timeout:
+            print("Testid '%s' is terminating due to inactivity." % self.testid)
+            self.keep_running = False
 
     # Begin methods for message passing between web and worker ###
     # See comment in web/server/src/controllers/redis.js
@@ -115,7 +111,19 @@ class Job:
         # ipmlementation which is slower.
         return msgpack.packb(data, use_bin_type=False)
 
-    def handle_messages(self):
+    class InvalidRequestError(Exception):
+        pass
+
+    def call_message_handler(self, method, params):
+        handler = self.message_handlers.get(method)
+        if not handler:
+            raise Job.InvalidRequestError("Invalid method, '%s', called" % method)
+        try:
+            return handler(params)
+        except Exception as e:
+            raise Job.InvalidRequestError(e.message)
+
+    def process_messages(self):
         request_id = False
         response_channel = False
         try:
@@ -125,25 +133,24 @@ class Job:
                 message_type = message["type"]
                 if message_type == "message":
                     message_data = self.unpack(message.get("data"))
-
-                    request_id = message_data.get("requestID")
+                    request_id = message_data["requestID"]
                     method = message_data.get("method")
                     params = message_data.get("params")
 
-                    handler = self.message_handlers.get(method)
-                    callback_result = handler(params)
+                    callback_result = self.call_message_handler(method, params)
 
                     packed_result = self.pack({"requestID": request_id, "payload": callback_result})
                     self.redis.publish(response_channel, packed_result)
 
                     self.last_message_time = datetime.now()
+        except Job.InvalidRequestError as e:
+            payload = {"status": 400, "message": "Bad Request", "payload": e.message}
+            packed_result = self.pack({"requestID": request_id, "payload": payload})
+            self.redis.publish(response_channel, packed_result)
         except Exception:
+            # Generic exceptions are an internal error
             error_message = str(sys.exc_info()[1])
             print(error_message)
-            if request_id and response_channel:
-                payload = {"status": 500, "message": "Internal BOPTEST error", "payload": error_message}
-                packed_result = self.pack({"requestID": request_id, "payload": payload})
-                self.redis.publish(response_channel, packed_result)
 
     # End methods for message passing
 
@@ -269,15 +276,6 @@ class Job:
         for key, value in a_dict.items():
             result[self.to_camel_case(key)] = value
         return result
-
-    # weatherForecastUncertainty is required by the dashboard,
-    # however some testcases don't report it.
-    # This is a workaround
-    def add_forecast_uncertainty(self, scenario):
-        if "weatherForecastUncertainty" not in scenario:
-            scenario["weatherForecastUncertainty"] = "deterministic"
-
-        return scenario
 
     def init_sim_status(self):
         self.redis.hset(self.testKey, "status", "Running")

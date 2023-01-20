@@ -14,12 +14,14 @@ async function processRequest(request, ws) {
       response.responseid = requestid
       ws.send(JSON.stringify(response))
     } else {
-      const errorResponse = {'responseid': requestid, 'error': 'Invalid request'}
-      ws.send(JSON.stringify(errorResponse))
+      const responsedata = {"status": 400, "message": "Bad Request", "payload": "Missing required attributes"}
+      const response = {'responseid': requestid, 'responsedata': responsedata}
+      ws.send(JSON.stringify(response))
     }
   } catch (e) {
-    const errorResponse = {'responseid': requestid, 'error': e.message}
-    ws.send(JSON.stringify(errorResponse))
+    const responsedata = {"status": 400, "message": "Bad Request", "payload": "Unspecified request error"}
+    const response = {'responseid': requestid, 'responsedata': responsedata}
+    ws.send(JSON.stringify(response))
   }
 }
 
@@ -41,7 +43,9 @@ async function onMessage(data, ws) {
   } catch (e) {
     if (e instanceof SyntaxError) {
       // A SyntaxError will be caught if data from client is not valid JSON
-      ws.send(e.message)
+      const responsedata = {"status": 400, "message": "Bad Request", "payload": "Invalid message syntax"}
+      const response = {'responseid': undefined, 'responsedata': responsedata}
+      ws.send(JSON.stringify(response))
     } else {
       console.log(e)
     }
