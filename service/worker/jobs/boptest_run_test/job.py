@@ -187,8 +187,11 @@ class Job:
         return self.package_response(self.tc.get_scenario())
 
     def set_scenario(self, params):
-        scenario = params["scenario"]
-        return self.package_response(self.tc.set_scenario(scenario))
+        if not 'electricity_price' in params:
+            params['electricity_price'] = None
+        if not 'time_period' in params:
+            params['time_period'] = None
+        return self.package_response(self.tc.set_scenario(params))
 
     def get_forecast_parameters(self, params):
         return self.package_response(self.tc.get_forecast_parameters())
@@ -209,16 +212,24 @@ class Job:
         return self.package_response(self.tc.set_step(step))
 
     def advance(self, params):
-        u = params["u"]
-        return self.package_response(self.tc.advance(u))
+        return self.package_response(self.tc.advance(params))
 
     def stop(self, params):
         self.keep_running = False
 
     def post_results_to_dashboard(self, params):
-        api_key = params["api_key"]
-        tags = params["tags"]
-        unit_test = params["unit_test"]
+        api_key  = params['api_key']
+        unit_test=False
+        tags = []
+        for key in params:
+            if ('tag' in key) and (params[key] is not None):
+                tags.append(params[key])
+            if key=='unit_test':
+                if params[key] == "True":
+                    unit_test = True
+                else:
+                    unit_test = False
+
         return self.package_response(self.tc.post_results_to_dashboard(api_key, tags, unit_test))
 
     # End message handlers

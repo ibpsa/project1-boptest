@@ -3,6 +3,7 @@ import got from 'got'
 import { param } from 'express-validator'
 import { validateTestid } from './validators'
 import * as boptestLib from '../lib/boptestLib'
+import messaging from '../lib/messaging'
 import * as middleware from './middleware'
 
 const boptestRoutes = express.Router()
@@ -209,19 +210,7 @@ boptestRoutes.post('/submit/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
   try {
-    const body = req.body;
-    const api_key = body.api_key
-    let unit_test = false
-    let tags = []
-    for (const key in body) {
-      if (key.startsWith('tag') && body[key]) {
-        tags.push(body[key])
-      }
-      if ((key == 'unit_test') && body[key]) {
-        unit_test = true
-      }
-    }
-    const payload = await boptestLib.submit(req.params.testid, api_key, tags, unit_test)
+    const payload = await messaging.callWorkerMethod(req.params.testid, 'post_results_to_dashboard', req.body)
     res.status(payload.status).json(payload)
   } catch (e) {
     next(e)
@@ -250,7 +239,7 @@ boptestRoutes.get('/name/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const payload = await boptestLib.getName(req.params.testid)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_name', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
@@ -265,9 +254,8 @@ boptestRoutes.post('/advance/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const args = req.body
-      const payload = await boptestLib.advance(req.params.testid, args)
-      res.status(payload.status).send(payload)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'advance', req.body)
+      res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
     }
@@ -281,8 +269,7 @@ boptestRoutes.put('/initialize/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const args = req.body
-      const payload = await boptestLib.initialize(req.params.testid, args)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'initialize', req.body)
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
@@ -297,10 +284,7 @@ boptestRoutes.put('/scenario/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const electricity_price = req.body['electricity_price'] || null
-      const time_period = req.body['time_period'] || null
-      const scenario = { electricity_price, time_period }
-      const payload = await boptestLib.setScenario(req.params.testid, scenario)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'set_scenario', req.body)
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
@@ -315,7 +299,7 @@ boptestRoutes.get('/scenario/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const payload = await boptestLib.getScenario(req.params.testid)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_scenario', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
@@ -330,8 +314,7 @@ boptestRoutes.get('/measurements/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const db = req.app.get('db');
-      const payload = await boptestLib.getMeasurements(req.params.testid, db)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_measurements', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
@@ -346,8 +329,7 @@ boptestRoutes.get('/inputs/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const db = req.app.get('db');
-      const payload = await boptestLib.getInputs(req.params.testid, db)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_inputs', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
@@ -362,7 +344,7 @@ boptestRoutes.get('/step/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const payload = await boptestLib.getStep(req.params.testid)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_step', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
@@ -377,8 +359,7 @@ boptestRoutes.put('/step/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const step = req.body['step']
-      const payload = await boptestLib.setStep(req.params.testid, step)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'set_step', req.body)
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e)
@@ -393,7 +374,7 @@ boptestRoutes.get('/kpi/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const payload = await boptestLib.getKPIs(req.params.testid)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_kpis', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
@@ -408,11 +389,7 @@ boptestRoutes.put('/results/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const testid = req.params.testid
-      const point_name = req.body['point_name']
-      const start_time = req.body['start_time']
-      const final_time = req.body['final_time']
-      const payload = await boptestLib.getResults(testid, point_name, start_time, final_time)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_results', req.body)
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
@@ -427,8 +404,7 @@ boptestRoutes.get('/forecast_parameters/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const testid = req.params.testid
-      const payload = await boptestLib.getForecastParameters(testid)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_forecast_parameters', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
@@ -443,10 +419,7 @@ boptestRoutes.put('/forecast_parameters/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const testid = req.params.testid
-      const horizon = req.body['horizon']
-      const interval = req.body['interval']
-      const payload = await boptestLib.setForecastParameters(testid, horizon, interval)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'set_forecast_parameters', req.body)
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
@@ -461,8 +434,7 @@ boptestRoutes.get('/forecast/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const testid = req.params.testid
-      const payload = await boptestLib.getForecast(testid)
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_forecast', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e);

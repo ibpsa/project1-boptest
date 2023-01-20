@@ -22,7 +22,7 @@ def upload_testcase(post_form_response, testcase_path):
     return requests.post(postURL, data=encoder, headers={"Content-Type": encoder.content_type})
 
 @pytest.mark.asyncio
-async def test_one_boptest_with_websocket():
+async def test_boptest_websocket_one_test():
     async with websockets.connect("ws://web") as websocket:
         auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
         testcase_id = "testcase1"
@@ -49,7 +49,7 @@ async def test_one_boptest_with_websocket():
         testid = response.json()["testid"]
 
         requestid = str(uuid.uuid4())
-        request = {"requestid": requestid, "testid": testid, "method": "advance", "params": { "u": {}}}
+        request = {"requestid": requestid, "testid": testid, "method": "advance", "params": {}}
         await websocket.send(json.dumps(request))
 
         response = json.loads(await websocket.recv())
@@ -65,7 +65,7 @@ async def test_one_boptest_with_websocket():
         assert response.status_code == 200
 
 @pytest.mark.asyncio
-async def test_n_boptests_with_websocket():
+async def test_boptest_websocket_n_tests():
     async with websockets.connect("ws://web") as websocket:
         auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
         testcase_id = "testcase1"
@@ -98,7 +98,7 @@ async def test_n_boptests_with_websocket():
         worker_requests = dict()
         for testid in testids:
             requestid = str(uuid.uuid4())
-            worker_requests[requestid] = {"requestid": requestid, "testid": testid, "method": "advance", "params": { "u": {}}}
+            worker_requests[requestid] = {"requestid": requestid, "testid": testid, "method": "advance", "params": {}}
 
         # Sending a list of requests in one message is allowed
         await websocket.send(json.dumps(list(worker_requests.values())))
