@@ -70,7 +70,7 @@ model RTU_VAV_Control_Example_FRP_v1 "v8. 0112.2023"
     redeclare package Medium = MediumA,
     allowFlowReversal=allowFlowReversal,
     dp_nominal=dp_nominal,
-    minSpeRat=0.25,
+    minSpeRat=0,
     speRatDeaBan=0.1)
                  "multi-stage DX unit"
     annotation (Placement(transformation(extent={{-638,-72},{-514,52}})));
