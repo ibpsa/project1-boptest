@@ -1,20 +1,25 @@
 import { WebSocketServer } from 'ws'
 import messaging from '../lib/messaging'
 
-async function processMethod(method, ws) {
+async function processRequest(request, ws) {
   try {
-    const testid = method.testid
-    const methodName = method.method
-    const params = method.params
+    const requestid = request.requestid
+    const testid = request.testid
+    const method = request.method
+    const params = request.params
     
-    if (testid && methodName && params) {
-      const response = await messaging.callWorkerMethod(testid, methodName, params)
-      ws.send(response)
+    if (requestid && testid && method && params) {
+      let response = {}
+      response.responsedata = await messaging.callWorkerMethod(testid, method, params)
+      response.responseid = requestid
+      ws.send(JSON.stringify(response))
     } else {
-      ws.send(`Invalid: ${JSON.stringify(method)}`)
+      const errorResponse = {'responseid': requestid, 'error': 'Invalid request'}
+      ws.send(JSON.stringify(errorResponse))
     }
   } catch (e) {
-    ws.send(e.message)
+    const errorResponse = {'responseid': requestid, 'error': e.message}
+    ws.send(JSON.stringify(errorResponse))
   }
 }
 
@@ -23,14 +28,14 @@ async function onMessage(data, ws) {
     let parsedData = JSON.parse(data)
 
     // Ensure the data is contained within an array,
-    // because clients are allowed to send multiple method requests
+    // because clients are allowed to send multiple requests
     // in a single message.
     if (! Array.isArray(parsedData)) {
       parsedData = [parsedData]
     }
 
-    for (let method of parsedData) {
-      processMethod(method, ws)
+    for (let request of parsedData) {
+      processRequest(request, ws)
     }
 
   } catch (e) {
