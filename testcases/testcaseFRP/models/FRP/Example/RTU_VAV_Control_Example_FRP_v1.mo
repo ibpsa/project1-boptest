@@ -1,5 +1,5 @@
 within FRP.Example;
-model RTU_VAV_Control_Example_FRP_v1 "v8. 0930.2022"
+model RTU_VAV_Control_Example_FRP_v1 "v8. 0112.2023"
     extends Modelica.Icons.Example;
     package MediumA = Buildings.Media.Air "Medium model";
     parameter Modelica.SIunits.MassFlowRate m_flow_nominal=2.543; // kg/s
@@ -73,7 +73,7 @@ model RTU_VAV_Control_Example_FRP_v1 "v8. 0930.2022"
     minSpeRat=0.25,
     speRatDeaBan=0.1)
                  "multi-stage DX unit"
-    annotation (Placement(transformation(extent={{-638,-74},{-514,50}})));
+    annotation (Placement(transformation(extent={{-638,-72},{-514,52}})));
   Buildings.Fluid.Sensors.Pressure senPreSup(redeclare package Medium = MediumA)
     annotation (Placement(transformation(extent={{-300,-20},{-252,28}})));
   Buildings.Fluid.Sensors.MassFlowRate senMret(redeclare package Medium =
@@ -747,14 +747,14 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(TOA,DX. TConIn) annotation (Line(points={{-734,159},{-660,159},{-660,
-          6.6},{-644.2,6.6}},         color={0,0,127}));
+          8.6},{-644.2,8.6}},         color={0,0,127}));
   connect(SupAirTemSP.y, conDX.u_s) annotation (Line(
       points={{-625.6,447},{-610,447},{-610,448},{-589.2,448}},
       color={217,67,180},
       pattern=LinePattern.Dash));
 
   connect(conDX.y, DX.speRat) annotation (Line(points={{-506.4,448},{-468,448},
-          {-468,230},{-642,230},{-642,128},{-644.2,128},{-644.2,37.6}},
+          {-468,230},{-642,230},{-642,128},{-644.2,128},{-644.2,39.6}},
                                                        color={0,0,0},
       pattern=LinePattern.Dash));
   connect(mixBox.port_Sup, senPreMix.port) annotation (Line(points={{-814,-18.8},
@@ -841,10 +841,10 @@ equation
           -710,-15},{-710,-19},{-700,-19}},
                                        color={0,127,255}));
   connect(T_before_CC.port_b, DX.port_a) annotation (Line(points={{-666,-19},{
-          -648,-19},{-648,-12},{-638,-12}},
+          -648,-19},{-648,-10},{-638,-10}},
                                        color={0,127,255}));
-  connect(DX.port_b, T_after_CC.port_a) annotation (Line(points={{-514,-12},{
-          -504,-12},{-504,-15},{-496,-15}}, color={0,127,255}));
+  connect(DX.port_b, T_after_CC.port_a) annotation (Line(points={{-514,-10},{
+          -504,-10},{-504,-15},{-496,-15}}, color={0,127,255}));
   connect(T_after_CC.port_b, eleHea.port_a) annotation (Line(points={{-462,-15},
           {-452,-15},{-452,-19},{-444,-19}}, color={0,127,255}));
   connect(conDX.u_m, T_after_CC.T) annotation (Line(
