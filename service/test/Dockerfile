@@ -5,7 +5,8 @@ RUN pip3 install -I \
     requests==2.28.1 \
     requests-toolbelt==0.10.1 \
     websockets==10.4 \
-    pytest-asyncio==0.20.3
+    pytest-asyncio==0.20.3 \
+    pytest-check==2.1.2
 
 COPY provision /provision
 COPY boptest/testcases /boptest/testcases
