@@ -11,7 +11,7 @@ host = os.environ.get("BOPTEST_SERVER", "http://web")
 def upload_testcase(post_form_response, testcase_path):
     json = post_form_response.json()
     postURL = json["url"]
-    formData = OrderedDict(json["fields"])
+    formData = OrderedDict(json.get("fields"))
     formData["file"] = ("filename", open(testcase_path, "rb"))
 
     encoder = MultipartEncoder(fields=formData)
@@ -44,12 +44,12 @@ def test_ibpsa_boptest_testcase():
     # Confirm that the test case has been received
     response = requests.get(f"{host}/testcases")
     check.is_true(response.status_code == 200)
-    check.is_true(testcase_id in map(lambda item: item["testcaseid"], response.json()))
+    check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
     # Select the test case
     response = requests.post(f"{host}/testcases/{testcase_id}/select")
     check.is_true(response.status_code == 200)
-    testid = response.json()["testid"]
+    testid = response.json().get("testid")
 
     # Get the test's name (testcaseID) to demonstrate that it is running
     # Other test APIs are exercised by the core BOPTEST test suite
@@ -102,12 +102,12 @@ def test_shared_namespace_testcase():
     # Confirm that the test case has been received
     response = requests.get(f"{host}/testcases/{testcase_namespace}")
     check.is_true(response.status_code == 200)
-    check.is_true(testcase_id in map(lambda item: item["testcaseid"], response.json()))
+    check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
     # Select the test case
     response = requests.post(f"{host}/testcases/{testcase_namespace}/{testcase_id}/select")
     check.is_true(response.status_code == 200)
-    testid = response.json()["testid"]
+    testid = response.json().get("testid")
 
     # Get the test's name (testcaseID) to demonstrate that it is running
     # Other test APIs are exercised by the core BOPTEST test suite
@@ -164,14 +164,14 @@ def test_private_user_testcase():
     # Confirm that the test case has been received
     response = requests.get(f"{host}/users/{username}/testcases", headers={"Authorization": auth_token})
     check.is_true(response.status_code == 200)
-    check.is_true(testcase_id in map(lambda item: item["testcaseid"], response.json()))
+    check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
     # Select the test case
     response = requests.post(
         f"{host}/users/{username}/testcases/{testcase_id}/select", headers={"Authorization": auth_token}
     )
     check.is_true(response.status_code == 200)
-    testid = response.json()["testid"]
+    testid = response.json().get("testid")
 
     # Get the test's name (testcaseID) to demonstrate that it is running
     # Other test APIs are exercised by the core BOPTEST test suite
@@ -218,7 +218,7 @@ def test_tests_api():
         f"{host}/users/{username}/testcases/{testcase_id}/select", headers={"Authorization": auth_token}
     )
     check.is_true(response.status_code == 200)
-    testid = response.json()["testid"]
+    testid = response.json().get("testid")
 
     # Get all tests for user
     response = requests.get(
@@ -271,7 +271,7 @@ def test_async_select_api():
             f"{host}/users/{username}/testcases/{testcase_id}/select-async", headers={"Authorization": auth_token}
         )
         check.is_true(response.status_code == 200)
-        test_ids.append(response.json()['testid'])
+        test_ids.append(response.json().get('testid'))
 
     # Getting status for an invalid testid should return 400
     response = requests.get(

@@ -8,6 +8,7 @@ import websockets
 import pytest
 import json
 import uuid
+from pytest_check import check
 
 host = os.environ.get("BOPTEST_SERVER", "http://web")
 
@@ -31,21 +32,21 @@ async def test_boptest_websocket_one_test():
         # Get post-form should return 200
         # This authorizes a new test case upload
         response = requests.get(f"{host}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token})
-        assert response.status_code == 200
+        check.is_true(response.status_code == 200)
 
         # New test cases are uploaded directly to storage (e.g. minio/s3)
         # 204 indicates a successful upload
         response = upload_testcase(response, testcase_path)
-        assert response.status_code == 204
+        check.is_true(response.status_code == 204)
 
         # Confirm that the test case has been received
         response = requests.get(f"{host}/testcases")
-        assert response.status_code == 200
-        assert testcase_id in map(lambda item: item["testcaseid"], response.json())
+        check.is_true(response.status_code == 200)
+        check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
         # Select the test case
         response = requests.post(f"{host}/testcases/{testcase_id}/select")
-        assert response.status_code == 200
+        check.is_true(response.status_code == 200)
         testid = response.json()["testid"]
 
         # Send a message to advance
@@ -54,9 +55,9 @@ async def test_boptest_websocket_one_test():
         await websocket.send(json.dumps(request))
 
         response = json.loads(await websocket.recv())
-        assert requestid == response["responseid"]
+        check.is_true(requestid == response.get("responseid"))
         # There should be responsedata
-        assert response["responsedata"]
+        check.is_true(response.get("responsedata"))
 
         # Send a bogus method name
         requestid = str(uuid.uuid4())
@@ -64,26 +65,28 @@ async def test_boptest_websocket_one_test():
         await websocket.send(json.dumps(request))
 
         response = json.loads(await websocket.recv())
-        assert requestid == response["responseid"]
+        check.is_true(requestid == response.get("responseid"))
         # There should be responsedata
-        assert response["responsedata"]
+        responsedata = response.get("responsedata")
+        check.is_true(responsedata)
         # Status 400 should be returned
-        assert response["responsedata"]["status"] == 400
+        check.is_true(responsedata.get("status") == 400)
 
         # Send invalid json syntax
         await websocket.send("not json")
 
         response = json.loads(await websocket.recv())
         # There is no responseid because no requestid was received
-        assert not response.get("responseid")
+        check.is_true(not response.get("responseid"))
         # There should be responsedata
-        assert response["responsedata"]
+        responsedata = response.get("responsedata")
+        check.is_true(responsedata)
         # Status 400 should be returned
-        assert response["responsedata"]["status"] == 400
+        check.is_true(responsedata.get("status") == 400)
 
         # Stop the test
         response = requests.put(f"{host}/stop/{testid}")
-        assert response.status_code == 200
+        check.is_true(response.status_code == 200)
 
 @pytest.mark.asyncio
 async def test_boptest_websocket_n_tests():
@@ -95,24 +98,24 @@ async def test_boptest_websocket_n_tests():
         # Get post-form should return 200
         # This authorizes a new test case upload
         response = requests.get(f"{host}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token})
-        assert response.status_code == 200
+        check.is_true(response.status_code == 200)
 
         # New test cases are uploaded directly to storage (e.g. minio/s3)
         # 204 indicates a successful upload
         response = upload_testcase(response, testcase_path)
-        assert response.status_code == 204
+        check.is_true(response.status_code == 204)
 
         # Confirm that the test case has been received
         response = requests.get(f"{host}/testcases")
-        assert response.status_code == 200
-        assert testcase_id in map(lambda item: item["testcaseid"], response.json())
+        check.is_true(response.status_code == 200)
+        check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
         # Select the test cases
         number_of_tests = 1 # number of tests can be any number, as long as there are available workers
         testids = []
         for i in range(number_of_tests):
             response = requests.post(f"{host}/testcases/{testcase_id}/select")
-            assert response.status_code == 200
+            check.is_true(response.status_code == 200)
             testids.append(response.json()["testid"])
 
         # Send one advance request to each test
@@ -128,15 +131,16 @@ async def test_boptest_websocket_n_tests():
         # One response message should come back for each request
         async for message in websocket:
             response = json.loads(message)
-            responseid = response["responseid"]
-            assert response["responsedata"]
+            responseid = response.get("responseid")
+            check.is_true(responseid)
+            check.is_true(response.get("responsedata"))
             worker_responses[responseid] = response
             if len(worker_responses.keys()) == len(worker_requests.keys()):
                 break
 
-        assert len(worker_responses.keys()) == len(worker_requests.keys())
+        check.is_true(len(worker_responses.keys()) == len(worker_requests.keys()))
 
         # Stop the tests
         for testid in testids:
             response = requests.put(f"{host}/stop/{testid}")
-            assert response.status_code == 200
+            check.is_true(response.status_code == 200)
