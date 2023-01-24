@@ -27,9 +27,9 @@ Use a web-hosted instance of BOPTEST that provides the functionality of BOPTEST 
 
 Get started with the [User Guide](/docs-userguide/index.html).
 
-To access the latest development version of BOPTEST-Service or contribute to the project, go to the GitHub repository.
+For more information, to access the latest development version of the web-service software, or contribute, go to the GitHub repository.
 
-<a class="button is-info" href="https://github.com/ibpsa/project1-boptest/tree/boptest-service"><b>GitHub BOPTEST-Service</b></a>
+<a class="button is-info" href="https://github.com/NREL/boptest-service"><b>GitHub BOPTEST-Service</b></a>
 
 # Use BOPTEST-Gym
 
