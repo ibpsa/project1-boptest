@@ -12,7 +12,7 @@ performance indicators.
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.integrate import trapz
-from flask._compat import iteritems
+#from flask._compat import iteritems
 from collections import OrderedDict
 
 class KPI_Calculator(object):
@@ -683,37 +683,37 @@ class KPI_Calculator(object):
 
         return dict_tree
 
-    def merge_branches(self, dictionary, sep='_'):
-        '''Merge the branches where a key has only one value.
-        This resolves the problem of getting a plain dictionary
-        with any key containing the 'sep' element.
-
-        Parameters
-        ----------
-        dictionary: dict
-            dictionary for which we want to merge branches
-        sep: string, optional
-            string used to merge the key and the value of the
-            elements of a dictionary in different layers.
-            Default is '_'.
-
-        Returns
-        -------
-        new_dict: dict
-            a new dictionary with the branches merged
-
-        '''
-
-        for k,v in iteritems(dictionary):
-            if isinstance(v, dict):
-                if len(dictionary.keys())==1:
-                    for vkey in v.keys():
-                        dictionary[k+sep+vkey] = v[vkey]
-                    dictionary.pop(k)
-
-                self.merge_branches(v)
-
-        return dictionary
+#    def merge_branches(self, dictionary, sep='_'):
+#        '''Merge the branches where a key has only one value.
+#        This resolves the problem of getting a plain dictionary
+#        with any key containing the 'sep' element.
+#
+#        Parameters
+#        ----------
+#        dictionary: dict
+#            dictionary for which we want to merge branches
+#        sep: string, optional
+#            string used to merge the key and the value of the
+#            elements of a dictionary in different layers.
+#            Default is '_'.
+#
+#        Returns
+#        -------
+#        new_dict: dict
+#            a new dictionary with the branches merged
+#
+#        '''
+#
+#        for k,v in iteritems(dictionary):
+#            if isinstance(v, dict):
+#                if len(dictionary.keys())==1:
+#                    for vkey in v.keys():
+#                        dictionary[k+sep+vkey] = v[vkey]
+#                    dictionary.pop(k)
+#
+#                self.merge_branches(v)
+#
+#        return dictionary
 
     def sum_dict(self, dictionary):
         '''This method returns the sum of all values within a
@@ -792,29 +792,29 @@ class KPI_Calculator(object):
 
             return n
 
-    def remove_null_elements(self, dictionary):
-        '''This methods removes the null elements of a
-        plain dictionary
-
-        Parameters
-        ----------
-        dictionary: dict
-            dictionary for which we want to remove the null elements
-
-        Returns
-        -------
-        new_dict: dict
-            a new dictionary without the null elements
-
-        '''
-
-        new_dict = OrderedDict()
-
-        for k,v in iteritems(dictionary):
-            if v!=0.:
-                new_dict[k] = dictionary[k]
-
-        return new_dict
+#    def remove_null_elements(self, dictionary):
+#        '''This methods removes the null elements of a
+#        plain dictionary
+#
+#        Parameters
+#        ----------
+#        dictionary: dict
+#            dictionary for which we want to remove the null elements
+#
+#        Returns
+#        -------
+#        new_dict: dict
+#            a new dictionary without the null elements
+#
+#        '''
+#
+#        new_dict = OrderedDict()
+#
+#        for k,v in iteritems(dictionary):
+#            if v!=0.:
+#                new_dict[k] = dictionary[k]
+#
+#        return new_dict
 
     def parse_color_indexes(self, dictionary, min_index=0, max_index=260):
         '''This method parses the color indexes for a nested pie chart
@@ -846,133 +846,133 @@ class KPI_Calculator(object):
 
         return np.linspace(min_index, max_index, n+1).astype(int)
 
-    def plot_nested_pie(self, dictionary, ax=None, radius=1., delta=0.2,
-                        dontlabel=None, breakdonut=True,
-                        metric = 'energy use', units = 'kW*h'):
-        '''This method appends a pie plot from a nested dictionary
-        to an axes of matplotlib object. If all the elements
-        of the dictionary are float values it will make a simple
-        pie plot with those values. If there are other nested
-        dictionaries it will continue plotting them in a nested
-        pie plot.
-
-        Parameters
-        ----------
-        dictionary: dict
-            dictionary containing other dictionaries and/or
-            float numbers for which the pie plot is going to be
-            created.
-        ax: matplotlib axes object, optional
-            axes object where the plot is going to be appended.
-            Default is None.
-        radius: float, optional
-            radius of the outer layer of the pie plot.
-            Default is 1.
-        delta: float, optional
-            desired difference between the radius of two
-            consecutive pie plot layers.
-            Default is 0.2.
-        dontlabel: list, optional
-            list of items to not be labeled for more clarity.
-            Default is None.
-        breakdonut: boolean, optional
-            if true it will not show the non labeled slices.
-            Default is True.
-        metric: string, optional
-            indicates the metric that is being plotted. Notice that
-            this is only used for the title of the plot.
-            Default is 'energy use'.
-        units: string, optional
-            indicates the units used for the metric. Notice that
-            this is only used for the title of the plot.
-            Default is 'kW*h'.
-
-        '''
-
-        # Initialize the pie plot if not initialized yet
-        if ax is None:
-            _, ax = plt.subplots()
-        if dontlabel is None:
-            dontlabel = []
-        # Get the color map to be used in this pie
-        cmap = plt.get_cmap('rainbow')
-        labels=[]
-        # Parse the color indexes to be used in this pie
-        color_indexes  = self.parse_color_indexes(dictionary)
-        # Initialize the color indexes to be used in this layer
-        cindexes_layer = [0]
-        # Initialize the list of values to plot in this layer
-        vals = []
-        # Initialize a new dictionary for the next inner layer
-        new_dict = OrderedDict()
-        # Initialize the shifts for the required indices
-        shift = np.zeros(len(dictionary.keys()))
-        # Initialize a counter for the loop
-        i=0
-        # Go through every component in this layer
-        for k_outer,v_outer in iteritems(dictionary):
-            # Calculate the slice size of this component
-            vals.append(self.sum_dict(v_outer))
-            # Append the new label if not end point (if not in dontlabel)
-            last_key = k_outer.split('__')[-1]
-            label = last_key if not any(k_outer.startswith(dntlbl) \
-                                        for dntlbl in dontlabel) else ''
-            labels.append(label)
-            # Check if this component has nested dictionaries
-            if isinstance(v_outer, dict):
-                # If it has, add them to the new dictionary
-                for k_inner,v_inner in iteritems(v_outer):
-                    # Give a unique nested key name to it
-                    new_dict[k_outer+'__'+k_inner] = v_inner
-            # Check if this component is already a float end point
-            elif isinstance(v_outer, float):
-                # If it is, add it to the new dictionary
-                new_dict[k_outer] = v_outer
-            # Count the number of elements in this component
-            n = self.count_elements(v_outer)
-            # Append the index of this component according to its
-            # number of components in order to follow a progressive
-            # chromatic circle
-            cindexes_layer.append(cindexes_layer[-1]+n)
-            # Make a shift if this is not an end point to do not use
-            # the same color as the underlying end points. Make this
-            # shift something characteristic of this layer by making
-            # use of its radius
-            shift[i] = 0 if n==1 else 60*radius
-            # Do not label this slice in the next layer if this was
-            # already an end point or a null slice
-            if n==1:
-                dontlabel.append(k_outer)
-            # Increase counter
-            i+=1
-
-        # Assign the colors to every component in this layer
-        colors = cmap((color_indexes[[cindexes_layer[:-1]]] + \
-                       shift).astype(int))
-
-        # If breakdonut=True show a blank in the unlabeled items
-        if breakdonut:
-            for j,l in enumerate(labels):
-                if l is '': colors[j]=[0., 0., 0., 0.]
-
-        # Append the obtained slice values of this layer to the axes
-        ax.pie(np.array(vals), radius=radius, labels=labels,
-               labeldistance=radius, colors=colors,
-               wedgeprops=dict(width=0.2, edgecolor='w', linewidth=0.3))
-
-        # Keep nesting if there is still any dictionary between the values
-        if not all(isinstance(v, float) for v in dictionary.values()):
-            self.plot_nested_pie(new_dict, ax, radius=radius-delta,
-                                 dontlabel=dontlabel, metric=metric,
-                                 units=units)
-
-        # Don't continue nesting if all components were float end points
-        else:
-            plt.title('Total {metric} = {value:.2f} {units}'.format(\
-                metric=metric, value=self.sum_dict(dictionary), units=units))
-            # Equal aspect ratio ensures that pie is drawn as a circle
-            ax.axis('equal')
-            plt.show()
+#    def plot_nested_pie(self, dictionary, ax=None, radius=1., delta=0.2,
+#                        dontlabel=None, breakdonut=True,
+#                        metric = 'energy use', units = 'kW*h'):
+#        '''This method appends a pie plot from a nested dictionary
+#        to an axes of matplotlib object. If all the elements
+#        of the dictionary are float values it will make a simple
+#        pie plot with those values. If there are other nested
+#        dictionaries it will continue plotting them in a nested
+#        pie plot.
+#
+#        Parameters
+#        ----------
+#        dictionary: dict
+#            dictionary containing other dictionaries and/or
+#            float numbers for which the pie plot is going to be
+#            created.
+#        ax: matplotlib axes object, optional
+#            axes object where the plot is going to be appended.
+#            Default is None.
+#        radius: float, optional
+#            radius of the outer layer of the pie plot.
+#            Default is 1.
+#        delta: float, optional
+#            desired difference between the radius of two
+#            consecutive pie plot layers.
+#            Default is 0.2.
+#        dontlabel: list, optional
+#            list of items to not be labeled for more clarity.
+#            Default is None.
+#        breakdonut: boolean, optional
+#            if true it will not show the non labeled slices.
+#            Default is True.
+#        metric: string, optional
+#            indicates the metric that is being plotted. Notice that
+#            this is only used for the title of the plot.
+#            Default is 'energy use'.
+#        units: string, optional
+#            indicates the units used for the metric. Notice that
+#            this is only used for the title of the plot.
+#            Default is 'kW*h'.
+#
+#        '''
+#
+#        # Initialize the pie plot if not initialized yet
+#        if ax is None:
+#            _, ax = plt.subplots()
+#        if dontlabel is None:
+#            dontlabel = []
+#        # Get the color map to be used in this pie
+#        cmap = plt.get_cmap('rainbow')
+#        labels=[]
+#        # Parse the color indexes to be used in this pie
+#        color_indexes  = self.parse_color_indexes(dictionary)
+#        # Initialize the color indexes to be used in this layer
+#        cindexes_layer = [0]
+#        # Initialize the list of values to plot in this layer
+#        vals = []
+#        # Initialize a new dictionary for the next inner layer
+#        new_dict = OrderedDict()
+#        # Initialize the shifts for the required indices
+#        shift = np.zeros(len(dictionary.keys()))
+#        # Initialize a counter for the loop
+#        i=0
+#        # Go through every component in this layer
+#        for k_outer,v_outer in iteritems(dictionary):
+#            # Calculate the slice size of this component
+#            vals.append(self.sum_dict(v_outer))
+#            # Append the new label if not end point (if not in dontlabel)
+#            last_key = k_outer.split('__')[-1]
+#            label = last_key if not any(k_outer.startswith(dntlbl) \
+#                                        for dntlbl in dontlabel) else ''
+#            labels.append(label)
+#            # Check if this component has nested dictionaries
+#            if isinstance(v_outer, dict):
+#                # If it has, add them to the new dictionary
+#                for k_inner,v_inner in iteritems(v_outer):
+#                    # Give a unique nested key name to it
+#                    new_dict[k_outer+'__'+k_inner] = v_inner
+#            # Check if this component is already a float end point
+#            elif isinstance(v_outer, float):
+#                # If it is, add it to the new dictionary
+#                new_dict[k_outer] = v_outer
+#            # Count the number of elements in this component
+#            n = self.count_elements(v_outer)
+#            # Append the index of this component according to its
+#            # number of components in order to follow a progressive
+#            # chromatic circle
+#            cindexes_layer.append(cindexes_layer[-1]+n)
+#            # Make a shift if this is not an end point to do not use
+#            # the same color as the underlying end points. Make this
+#            # shift something characteristic of this layer by making
+#            # use of its radius
+#            shift[i] = 0 if n==1 else 60*radius
+#            # Do not label this slice in the next layer if this was
+#            # already an end point or a null slice
+#            if n==1:
+#                dontlabel.append(k_outer)
+#            # Increase counter
+#            i+=1
+#
+#        # Assign the colors to every component in this layer
+#        colors = cmap((color_indexes[[cindexes_layer[:-1]]] + \
+#                       shift).astype(int))
+#
+#        # If breakdonut=True show a blank in the unlabeled items
+#        if breakdonut:
+#            for j,l in enumerate(labels):
+#                if l is '': colors[j]=[0., 0., 0., 0.]
+#
+#        # Append the obtained slice values of this layer to the axes
+#        ax.pie(np.array(vals), radius=radius, labels=labels,
+#               labeldistance=radius, colors=colors,
+#               wedgeprops=dict(width=0.2, edgecolor='w', linewidth=0.3))
+#
+#        # Keep nesting if there is still any dictionary between the values
+#        if not all(isinstance(v, float) for v in dictionary.values()):
+#            self.plot_nested_pie(new_dict, ax, radius=radius-delta,
+#                                 dontlabel=dontlabel, metric=metric,
+#                                 units=units)
+#
+#        # Don't continue nesting if all components were float end points
+#        else:
+#            plt.title('Total {metric} = {value:.2f} {units}'.format(\
+#                metric=metric, value=self.sum_dict(dictionary), units=units))
+#            # Equal aspect ratio ensures that pie is drawn as a circle
+#            ax.axis('equal')
+#            plt.show()
 
 if __name__ == "__main__":
     '''Nested pie chart example'''
