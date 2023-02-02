@@ -389,7 +389,13 @@ class Data_Manager(object):
         files = []
         for f in z_fmu.namelist():
             if f.startswith('resources/') and f.endswith('.csv'):
-                files.append(f)
+                if 'resource_file_exclusion' in self.case.config_json:
+                    if f.split('/')[-1] in self.case.config_json['resource_file_exclusion']:
+                        print('{0} found on"resource_file_exclusion" list.  Not loading data into testcase.'.format(f))
+                    else:
+                        files.append(f)
+                else:
+                    files.append(f)
 
         # Find the minimum sampling resolution
         sampling = 3600.
@@ -425,7 +431,10 @@ class Data_Manager(object):
                                        'you want this variable to be part of the test case data '\
                                        'make sure that the column has a key with any of the specified '\
                                        'formats in categories.json and that, if it is a zone related '\
-                                       'key, it is in the format: variable[zone_identifier] '.format(col,f))
+                                       'key, it is in the format: variable[zone_identifier].  If you '\
+                                       'do not intend for this variable to be included, consider adding '\
+                                       'the file it is contained within to the "resource_file_exclusion" '\
+                                       'list in the test case config.json.'.format(col,f))
                     else:
                         for category in self.categories:
                             # Use linear interpolation for continuous variables
@@ -451,6 +460,49 @@ class Data_Manager(object):
 
         # Convert any string formatted numbers to floats.
         self.case.data = self.case.data.applymap(float)
+
+    def get_data_metadata(self):
+        '''Get the metadata of the test case data variables.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        data_metadata: dict
+            {<variable>: {
+                    "Description":<string>,
+                    "Unit":<string>
+                    }
+            }
+
+        '''
+
+        data_metadata = dict()
+        for key in self.case.data.columns:
+            # Remove zone identifier if present to find variable metadata
+            if '[' in key:
+                var=key[:key.find('[')]
+            else:
+                var=key
+            # Find key category and pass variable metadata
+            if var in self.categories['weather']:
+                metadata = self.categories['weather'][var]
+            elif var in self.categories['prices']:
+                metadata = self.categories['prices'][var]
+            elif var in self.categories['emissions']:
+                metadata = self.categories['emissions'][var]
+            elif var in self.categories['occupancy']:
+                metadata = self.categories['occupancy'][var]
+            elif var in self.categories['internalGains']:
+                metadata = self.categories['internalGains'][var]
+            elif var in self.categories['setpoints']:
+                metadata = self.categories['setpoints'][var]
+            # Add key with metadata to dictionary
+            data_metadata[key] = metadata
+
+        return data_metadata
 
 
 if __name__ == "__main__":
