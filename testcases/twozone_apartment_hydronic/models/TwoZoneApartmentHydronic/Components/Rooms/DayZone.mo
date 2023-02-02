@@ -1,22 +1,23 @@
 within TwoZoneApartmentHydronic.Components.Rooms;
 model DayZone "Milan day zone thermal zone istance"
-  parameter Modelica.SIunits.Angle S_=
-    Buildings.Types.Azimuth.SE "Azimuth for south walls";
-  parameter Modelica.SIunits.Angle E_=
-    Buildings.Types.Azimuth.NE "Azimuth for east walls";
-  parameter Modelica.SIunits.Angle W_=
-    Buildings.Types.Azimuth.SW "Azimuth for west walls";
-  parameter Modelica.SIunits.Angle N_=
-    Buildings.Types.Azimuth.NW "Azimuth for north walls";
-  parameter Modelica.SIunits.Angle C_=
-    Buildings.Types.Tilt.Ceiling "Tilt for ceiling";
-  parameter Modelica.SIunits.Angle F_=
-    Buildings.Types.Tilt.Floor "Tilt for floor";
-  parameter Modelica.SIunits.Angle Z_=
-    Buildings.Types.Tilt.Wall "Tilt for wall";
+  parameter Modelica.Units.SI.Angle S_=Buildings.Types.Azimuth.SE
+    "Azimuth for south walls";
+  parameter Modelica.Units.SI.Angle E_=Buildings.Types.Azimuth.NE
+    "Azimuth for east walls";
+  parameter Modelica.Units.SI.Angle W_=Buildings.Types.Azimuth.SW
+    "Azimuth for west walls";
+  parameter Modelica.Units.SI.Angle N_=Buildings.Types.Azimuth.NW
+    "Azimuth for north walls";
+  parameter Modelica.Units.SI.Angle C_=Buildings.Types.Tilt.Ceiling
+    "Tilt for ceiling";
+  parameter Modelica.Units.SI.Angle F_=Buildings.Types.Tilt.Floor
+    "Tilt for floor";
+  parameter Modelica.Units.SI.Angle Z_=Buildings.Types.Tilt.Wall
+    "Tilt for wall";
  //   "Number of surface that are connected to constructions that are modeled inside the room";
-  parameter Modelica.SIunits.VolumeFlowRate AirChange= -48*2.7*0.5/3600 "Infiltration rate";
-  parameter Modelica.SIunits.Area Afloor = 22 "Floor area";
+  parameter Modelica.Units.SI.VolumeFlowRate AirChange=-48*2.7*0.5/3600
+    "Infiltration rate";
+  parameter Modelica.Units.SI.Area Afloor=22 "Floor area";
   extends thermalZone(
     nConBou=4,
     nSurBou=1,

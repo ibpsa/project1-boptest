@@ -2,30 +2,34 @@ within TwoZoneApartmentHydronic.Components.Rooms;
 model thermalZone "Reference Thermal zone model Milan"
   replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
   replaceable package MediumW = Buildings.Media.Water "Medium model";
-  parameter Modelica.SIunits.MassFlowRate mAir_flow_nominal = 0.1 "Nominal air mass flow rate";
-  parameter Modelica.SIunits.Angle S_=
-    Buildings.Types.Azimuth.SE "Azimuth for south walls";
-  parameter Modelica.SIunits.Angle E_=
-    Buildings.Types.Azimuth.NE "Azimuth for east walls";
-  parameter Modelica.SIunits.Angle W_=
-    Buildings.Types.Azimuth.SW "Azimuth for west walls";
-  parameter Modelica.SIunits.Angle N_=
-    Buildings.Types.Azimuth.NW "Azimuth for north walls";
-  parameter Modelica.SIunits.Angle C_=
-    Buildings.Types.Tilt.Ceiling "Tilt for ceiling";
-  parameter Modelica.SIunits.Angle F_=
-    Buildings.Types.Tilt.Floor "Tilt for floor";
-  parameter Modelica.SIunits.Angle Z_=
-    Buildings.Types.Tilt.Wall "Tilt for wall";
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal=0.1
+    "Nominal air mass flow rate";
+  parameter Modelica.Units.SI.Angle S_=Buildings.Types.Azimuth.SE
+    "Azimuth for south walls";
+  parameter Modelica.Units.SI.Angle E_=Buildings.Types.Azimuth.NE
+    "Azimuth for east walls";
+  parameter Modelica.Units.SI.Angle W_=Buildings.Types.Azimuth.SW
+    "Azimuth for west walls";
+  parameter Modelica.Units.SI.Angle N_=Buildings.Types.Azimuth.NW
+    "Azimuth for north walls";
+  parameter Modelica.Units.SI.Angle C_=Buildings.Types.Tilt.Ceiling
+    "Tilt for ceiling";
+  parameter Modelica.Units.SI.Angle F_=Buildings.Types.Tilt.Floor
+    "Tilt for floor";
+  parameter Modelica.Units.SI.Angle Z_=Buildings.Types.Tilt.Wall
+    "Tilt for wall";
   parameter Integer nConExtWin = 1 "Number of constructions with a window";
   parameter Integer nConBou = 3
     "Number of surface that are connected to constructions that are modeled inside the room";
   parameter Integer nSurBou = 2 "Number of surface that are connected to constructions that are modeled outside the room";
-  parameter Modelica.SIunits.VolumeFlowRate AirChange= -48*2.7*0.5/3600 "Infiltration rate";
-  parameter Modelica.SIunits.Area Afloor = 22 "Floor area";
-  parameter Modelica.SIunits.MassFlowRate mflow_n= 2400/2/3600 "nominal flow rate";
+  parameter Modelica.Units.SI.VolumeFlowRate AirChange=-48*2.7*0.5/3600
+    "Infiltration rate";
+  parameter Modelica.Units.SI.Area Afloor=22 "Floor area";
+  parameter Modelica.Units.SI.MassFlowRate mflow_n=2400/2/3600
+    "nominal flow rate";
   parameter Real qint= 1 "Presence or not of Internal gains";
-  parameter Modelica.SIunits.Temperature Tstart = 8+273.15 "Starting temperature";
+  parameter Modelica.Units.SI.Temperature Tstart=8 + 273.15
+    "Starting temperature";
   parameter String zonName = "Thermal Zone" "Parameter used to designate  zone name";
   final parameter Boolean have_surBou = (nSurBou>1);  //if nSurBou > 1 then true else false "Boolean to add remove additional heat port";
   parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matExtWal(
@@ -120,8 +124,7 @@ model thermalZone "Reference Thermal zone model Milan"
       hWin={2.35},
       fFra={0.001},
       til={Z_},
-      azi={S_}),
-    lat(displayUnit="rad") = 0.7937268746) "Night zone APT 25 E06 Merezzate+"
+      azi={S_})) "Night zone APT 25 E06 Merezzate+"
     annotation (Placement(transformation(extent={{34,6},{64,36}})));
   Modelica.Blocks.Routing.Multiplex3 Qints
     annotation (Placement(transformation(extent={{-28,60},{-20,68}})));
@@ -580,7 +583,7 @@ model thermalZone "Reference Thermal zone model Milan"
   Modelica.Blocks.Interfaces.RealInput occupation annotation (Placement(
         transformation(extent={{-160,64},{-120,104}}), iconTransformation(
           extent={{-160,64},{-120,104}})));
-  parameter Modelica.SIunits.PressureDifference dp_nominal=10000
+  parameter Modelica.Units.SI.PressureDifference dp_nominal=10000
     "Pressure difference";
 equation
   connect(roo.uSha, replicator.y) annotation (Line(

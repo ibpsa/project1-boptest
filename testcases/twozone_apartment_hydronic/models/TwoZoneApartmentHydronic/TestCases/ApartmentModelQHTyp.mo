@@ -3,9 +3,9 @@ model ApartmentModelQHTyp "Hydronic Test case"
     extends Modelica.Icons.Example;
     replaceable package MediumA = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Medium model";
     replaceable package MediumW = Buildings.Media.Water "Medium model";
-    parameter Modelica.SIunits.Area Afloor = 22;
-    parameter Modelica.SIunits.Temperature T_start = 21+273.15;
-    parameter Modelica.SIunits.MassFlowRate mflow_n=2480/3600/4
+  parameter Modelica.Units.SI.Area Afloor=22;
+  parameter Modelica.Units.SI.Temperature T_start=21 + 273.15;
+  parameter Modelica.Units.SI.MassFlowRate mflow_n=2480/3600/4
     "nominal flow rate";
     parameter Real qint=1 "Presence or not of Internal gains";
   TwoZoneApartmentHydronic.Components.Thermostat_T thermostatNigZon(
@@ -67,7 +67,7 @@ model ApartmentModelQHTyp "Hydronic Test case"
         extent={{-8,-9},{8,9}},
         rotation=-90,
         origin={42,-3})));
-  parameter Modelica.SIunits.Pressure DP_n=500 "nominal flow rate";
+  parameter Modelica.Units.SI.Pressure DP_n=500 "nominal flow rate";
   Buildings.Utilities.IO.SignalExchange.WeatherStation weatherStation
     annotation (Placement(transformation(extent={{-80,-40},{-100,-20}})));
 equation
@@ -152,9 +152,9 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
       StopTime=31536000,
-      Interval=900,
+      Interval=900.00288,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Radau"),
+      __Dymola_Algorithm="Cvode"),
     Documentation(revisions="<html>
 <ul>
 <li>

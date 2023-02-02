@@ -1,8 +1,8 @@
 within TwoZoneApartmentHydronic.Components;
 model HydronicSystem "Hydronic circuit"
   replaceable package MediumW = Buildings.Media.Water "Medium model";
-  parameter Modelica.SIunits.MassFlowRate mflow_n= 700/3600 "nominal flow rate";
-  parameter Modelica.SIunits.Pressure DP_n= 500 "nominal flow rate";
+  parameter Modelica.Units.SI.MassFlowRate mflow_n=700/3600 "nominal flow rate";
+  parameter Modelica.Units.SI.Pressure DP_n=500 "nominal flow rate";
   parameter Integer QhpDes=5000 "Design Qhp";
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage valNigZon(
     redeclare package Medium = MediumW,

@@ -1,8 +1,12 @@
 within ;
 package TwoZoneApartmentHydronic "TwoZoneApartmentHydronic"
-annotation (uses(                            Modelica(version="3.2.3"),
-    ModelicaServices(version="3.2.3"),
-    Buildings(version="8.1.3"),
-    IDEAS(version="2.2.1"),
-  version="1.0.0"));
+annotation (uses(
+    IDEAS(version="3.0.0"),
+    Buildings(version="9.1.0"),
+    ModelicaServices(version="4.0.0"),
+    Modelica(version="4.0.0")),
+  version="2",
+  conversion(from(version="", script=
+          "modelica://TwoZoneApartmentHydronic/Resources/ConvertFromTwoZoneApartmentHydronic_.mos"),
+      noneFromVersion="1"));
 end TwoZoneApartmentHydronic;
