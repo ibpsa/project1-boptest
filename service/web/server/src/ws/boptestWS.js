@@ -52,12 +52,14 @@ async function onMessage(data, ws) {
   }
 }
 
-export function createBoptestWS(server) {
-  const wss = new WebSocketServer({ server })
+export function createBoptestWS() {
+  const wss = new WebSocketServer({ noServer: true })
   
   wss.on('connection', (ws) => {
     ws.on('message', (data) => {
       onMessage(data, ws)
     })
   })
+
+  return wss
 }

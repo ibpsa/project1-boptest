@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import boptestRoutes from './routes/boptestRoutes'
+import { parse } from 'url'
 import { createServer } from 'http'
 import { createBoptestWS } from './ws/boptestWS'
 
@@ -9,8 +10,20 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/', boptestRoutes)
 
+const wss = createBoptestWS()
 const server = createServer(app)
-createBoptestWS(server)
+
+server.on('upgrade', function upgrade(request, socket, head) {
+  const { pathname } = parse(request.url)
+
+  if (pathname === '/ws') {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit('connection', ws, request)
+    })
+  } else {
+    socket.destroy()
+  }
+})
 
 server.listen(80, () => {
   var host = server.address().address

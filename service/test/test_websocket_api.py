@@ -1,9 +1,7 @@
 import os
-import time
 import requests
 from requests_toolbelt import MultipartEncoder
 from collections import OrderedDict
-import asyncio
 import websockets
 import pytest
 import json
@@ -11,6 +9,7 @@ import uuid
 from pytest_check import check
 
 host = os.environ.get("BOPTEST_SERVER", "http://web")
+ws_host = os.environ.get("BOPTEST_WS_SERVER", "ws://web/ws")
 
 
 def upload_testcase(post_form_response, testcase_path):
@@ -22,9 +21,10 @@ def upload_testcase(post_form_response, testcase_path):
     encoder = MultipartEncoder(fields=formData)
     return requests.post(postURL, data=encoder, headers={"Content-Type": encoder.content_type})
 
+
 @pytest.mark.asyncio
 async def test_boptest_websocket_one_test():
-    async with websockets.connect("ws://web") as websocket:
+    async with websockets.connect(ws_host) as websocket:
         auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
         testcase_id = "testcase1"
         testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
@@ -88,9 +88,10 @@ async def test_boptest_websocket_one_test():
         response = requests.put(f"{host}/stop/{testid}")
         check.is_true(response.status_code == 200)
 
+
 @pytest.mark.asyncio
 async def test_boptest_websocket_n_tests():
-    async with websockets.connect("ws://web") as websocket:
+    async with websockets.connect(ws_host) as websocket:
         auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
         testcase_id = "testcase1"
         testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
@@ -111,7 +112,7 @@ async def test_boptest_websocket_n_tests():
         check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
         # Select the test cases
-        number_of_tests = 1 # number of tests can be any number, as long as there are available workers
+        number_of_tests = 1  # number of tests can be any number, as long as there are available workers
         testids = []
         for i in range(number_of_tests):
             response = requests.post(f"{host}/testcases/{testcase_id}/select")
