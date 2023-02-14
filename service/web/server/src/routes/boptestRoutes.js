@@ -108,16 +108,22 @@ boptestRoutes.delete('/users/:userName/testcases/:testcaseID',
 // POST test case select //
 
 const select = async (req, res, next) => {
-  let userSub = undefined
-  if (req.account) {
-    userSub = req.account.sub
+  if (await boptestLib.isTestcase(req.testcaseKeyPrefix, req.testcaseID)) {
+    let userSub = undefined
+    if (req.account) {
+      userSub = req.account.sub
+    }
+    res.json(await boptestLib.select(req.testcaseKey, userSub, req.params.async))
+  } else {
+    res.sendStatus(404)
   }
-  res.json(await boptestLib.select(req.testcaseKey, userSub, req.params.async))
 }
 
 boptestRoutes.post('/testcases/:testcaseID/select-?:async?',
   middleware.identify,
   (req, res, next) => {
+    req.testcaseID = req.params.testcaseID
+    req.testcaseKeyPrefix = boptestLib.getPrefixForTestcase(ibpsaNamespace)
     req.testcaseKey = boptestLib.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
     next()
   },
@@ -127,6 +133,8 @@ boptestRoutes.post('/testcases/:testcaseID/select-?:async?',
 boptestRoutes.post('/testcases/:testcaseNamespace/:testcaseID/select-?:async?',
   middleware.identify,
   (req, res, next) => {
+    req.testcaseID = req.params.testcaseID
+    req.testcaseKeyPrefix = boptestLib.getPrefixForTestcase(req.params.testcaseNamespace)
     req.testcaseKey = boptestLib.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
     next()
   },
@@ -137,6 +145,8 @@ boptestRoutes.post('/users/:userName/testcases/:testcaseID/select-?:async?',
   middleware.identify,
   middleware.requireUser,
   (req, res, next) => {
+    req.testcaseID = req.params.testcaseID
+    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.dis)
     req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
     next()
   },
