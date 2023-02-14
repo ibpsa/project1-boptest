@@ -215,14 +215,17 @@ export async function getTests(userSub) {
 
 export async function stop(testid) {
   const status = await getStatus(testid)
+  // If the test is not running it is Queued, in which case
+  // we don't technically remove it from the queue, but removing the entry in the db
+  // will cause the worker to immediately move on when the test comes off the queue
+  await removeTestFromDB(testid)
   if (status == "Running") {
     // In this case send a stop message to the worker,
-    // the worker will take care of db cleanup
-    await messaging.callWorkerMethod(testid, 'stop', {})
-  } else {
-    // If the test is not running it is Queued, in which case
-    // we don't technically remove it from the queue, but removing the entry in the db
-    // will cause the worker to immediately move on when the test comes off the queue
-    await removeTestFromDB(testid)
+    // The worker will also attempt to remove the test from db, but it should already be removed
+    messaging.callWorkerMethod(testid, 'stop', {}).catch(err => {
+      // If the worker has disappeared, then the message could timeout.
+      // The client has already received a response so just log the error.
+      console.log(err.stack)
+    })
   }
 }
