@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import boptestRoutes from './routes/boptestRoutes'
+import { errorHandler } from './routes/error'
 import { parse } from 'url'
 import { createServer } from 'http'
 import { createBoptestWS } from './ws/boptestWS'
@@ -9,6 +10,7 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use('/', boptestRoutes)
+app.use(errorHandler)
 
 const wss = createBoptestWS()
 const server = createServer(app)

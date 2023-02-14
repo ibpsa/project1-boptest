@@ -57,7 +57,7 @@ class Messaging {
       this.subscribe(responseChannel)
       this.sendWorkerMessage(requestChannel, requestID, method, params)
       responseTimeout = setTimeout(() => {
-        reject(new Error(`Timeout while sending command '${method}' to '${workerID}'`))
+        reject(new Error(`Timeout while sending command '${method}' to testid '${workerID}'`))
       }, this.responseTimeoutTime)
     })
   }
