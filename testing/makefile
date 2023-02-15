@@ -73,6 +73,21 @@ generate_testcase_data:
 
 # Tests
 ###############################################################################
+
+# Generic test for all testcases except testcase1 and testcase2
+test_%:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=$*
+# Build and deploy testcase image
+	cd .. && TESTCASE=$* docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_$*.py
+# Stop testcase container
+	cd .. && docker-compose down
+# Report test results
+	python report.py
+
 test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
@@ -92,6 +107,8 @@ test_testcase1:
 	cd ../examples/julia && make remove-image Script=testcase1
 	cd ../examples/javascript && make remove-image Script=testcase1
 	cd ../examples/javascript && rm geckodriver
+# Report test results
+	python report.py
 
 test_testcase2:
 # Compile testcase model
@@ -112,84 +129,8 @@ test_testcase2:
 	cd ../examples/julia && make remove-image Script=testcase2
 	cd ../examples/javascript && make remove-image Script=testcase2
 	cd ../examples/javascript && rm geckodriver
-
-test_bestest_air:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=bestest_air
-# Build and deploy testcase image
-	cd .. && TESTCASE=bestest_air docker-compose up -d
-	python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_bestest_air.py
-# Stop testcase container
-	cd .. && TESTCASE=bestest_air docker-compose down
-
-test_testcase3:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=testcase3
-# Build and deploy testcase image
-	cd .. && TESTCASE=testcase3 docker-compose up -d
-	python sleep10.py
-# Run testcase tests
-# Python and checks
-	cd .. && python testing/test_testcase3.py
-# Stop testcase container
-	cd .. && TESTCASE=testcase3 docker-compose down
-
-test_bestest_hydronic:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=bestest_hydronic
-# Build and deploy testcase image
-	cd .. && TESTCASE=bestest_hydronic docker-compose up -d
-	python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_bestest_hydronic.py
-# Stop testcase container
-	cd .. && TESTCASE=bestest_hydronic docker-compose down
-
-test_bestest_hydronic_heat_pump:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=bestest_hydronic_heat_pump
-# Build and deploy testcase image
-	cd .. && TESTCASE=bestest_hydronic_heat_pump docker-compose up -d
-	python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_bestest_hydronic_heat_pump.py
-# Stop testcase container
-	cd .. && TESTCASE=bestest_hydronic_heat_pump docker-compose down
-
-test_multizone_residential_hydronic:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=multizone_residential_hydronic
-# Build and deploy testcase image
-	cd .. && TESTCASE=multizone_residential_hydronic docker-compose up -d
-	python sleep10.py && python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_multizone_residential_hydronic.py
-# Stop testcase container
-	cd .. && TESTCASE=multizone_residential_hydronic docker-compose down
-
-test_singlezone_commercial_hydronic:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=singlezone_commercial_hydronic
-# Build and deploy testcase image
-	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose up -d
-	python sleep10.py && python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_singlezone_commercial_hydronic.py
-# Stop testcase container
-	cd .. && TESTCASE=singlezone_commercial_hydronic docker-compose down
-
-test_multizone_office_simple_air:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=multizone_office_simple_air
-# Build and deploy testcase image
-	cd .. && TESTCASE=multizone_office_simple_air docker-compose up -d
-	python sleep10.py && python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_multizone_office_simple_air.py
-# Stop testcase container
-	cd .. && TESTCASE=multizone_office_simple_air docker-compose down
+# Report test results
+	python report.py
 
 test_parser:
 	make run_jm
@@ -199,6 +140,8 @@ test_parser:
 	docker cp ${IMG_NAME}:/usr/local/testing/references/parser ./references
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
 	make stop_jm
+# Report test results
+	python report.py
 
 test_data:
 # Compile testcase model
@@ -220,6 +163,8 @@ test_data:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_data.log ./test_data.log
 # Stop jm docker container
 	make stop_jm
+# Report test results
+	python report.py
 
 test_forecast:
 # Compile testcase model
@@ -239,6 +184,8 @@ test_forecast:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_forecast.log ./test_forecast.log
 # Stop jm docker container
 	make stop_jm
+# Report test results
+	python report.py
 
 test_kpis:
 # Compile testcase model
@@ -258,6 +205,8 @@ test_kpis:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_kpis.log ./test_kpis.log
 # Stop jm docker container
 	make stop_jm
+# Report test results
+	python report.py
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
@@ -311,6 +260,7 @@ test_all:
 	make test_multizone_residential_hydronic
 	make test_singlezone_commercial_hydronic
 	make test_multizone_office_simple_air
+	make test_twozone_apartment_hydronic
 # Remove jm
 	make remove_jm_image
 # Remove boptest base image

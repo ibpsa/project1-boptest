@@ -29,6 +29,7 @@ RUN mkdir models && \
     mkdir doc
 
 ENV PYTHONPATH $PYTHONPATH:$HOME
+ENV BOPTEST_DASHBOARD_SERVER https://api.boptest.net:8081/
 
 CMD . miniconda/bin/activate && conda activate pyfmi3 && python restapi.py && bash
 
