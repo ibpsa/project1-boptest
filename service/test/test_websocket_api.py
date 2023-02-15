@@ -145,3 +145,46 @@ async def test_boptest_websocket_n_tests():
         for testid in testids:
             response = requests.put(f"{host}/stop/{testid}")
             check.is_true(response.status_code == 200)
+
+
+@pytest.mark.asyncio
+async def test_boptest_websocket_with_params():
+    async with websockets.connect(ws_host) as websocket:
+        auth_token = os.environ.get("BOPTEST_TEST_PRIVILEGED_KEY")
+        testcase_id = "bestest_hydronic_heat_pump"
+        testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
+
+        # Get post-form should return 200
+        # This authorizes a new test case upload
+        response = requests.get(f"{host}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token})
+        check.is_true(response.status_code == 200)
+
+        # New test cases are uploaded directly to storage (e.g. minio/s3)
+        # 204 indicates a successful upload
+        response = upload_testcase(response, testcase_path)
+        check.is_true(response.status_code == 204)
+
+        # Confirm that the test case has been received
+        response = requests.get(f"{host}/testcases")
+        check.is_true(response.status_code == 200)
+        check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
+
+        # Select the test case
+        response = requests.post(f"{host}/testcases/{testcase_id}/select")
+        check.is_true(response.status_code == 200)
+        testid = response.json()["testid"]
+
+        # Send a message to advance
+        requestid = str(uuid.uuid4())
+        u = {'oveHeaPumY_u': 0.5, 'oveHeaPumY_activate': 1}
+        request = {"requestid": requestid, "testid": testid, "method": "advance", "params": u}
+        await websocket.send(json.dumps(request))
+
+        response = json.loads(await websocket.recv())
+        check.is_true(requestid == response.get("responseid"))
+        # There should be responsedata
+        check.is_true(response.get("responsedata"))
+
+        # Stop the test
+        response = requests.put(f"{host}/stop/{testid}")
+        check.is_true(response.status_code == 200)
