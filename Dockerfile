@@ -21,7 +21,7 @@ RUN 	cd $HOME && \
 	conda activate pyfmi3 && \
 	conda install -c conda-forge pyfmi -y && \
 	pip install flask-restful && \
-	conda install pandas flask_cors matplotlib
+	conda install pandas flask_cors matplotlib requests
 
 WORKDIR $HOME
 
