@@ -684,11 +684,20 @@ class TestCase(object):
                 payload['time'] = self.u_store['time']
             # Get correct time
             if payload and 'time' in payload:
-                time1 = payload['time']
+                min_t = min(payload['time'])
+                max_t = max(payload['time'])
+                if min_t < start_time:
+                    t1 = start_time
+                else:
+                    t1 = min_t
+                if max_t > final_time:
+                    t2 = final_time
+                else:
+                    t2 = max_t
+                i1 = payload['time'].index(t1)
+                i2 = payload['time'].index(t2)+1
                 for key in (point_names +['time']):
-                    payload[key] = payload[key][time1>=start_time]
-                    time2 = time1[time1>=start_time]
-                    payload[key] = payload[key][time2<=final_time]
+                    payload[key] = payload[key][i1:i2]
         except:
             status = 500
             message = "Failed to query simulation results: {}".format(traceback.format_exc())
