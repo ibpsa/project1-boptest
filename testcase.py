@@ -21,6 +21,7 @@ from datetime import datetime
 import uuid
 import os
 import json
+import array as a
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -114,7 +115,7 @@ class TestCase(object):
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         self.forecasts_metadata = self.data_manager.get_data_metadata()
         # Outputs data
-        self.y = {'time': []}
+        self.y = {'time': a.array('f',[])}
         for key in self.output_names:
             # Do not store outputs that are current values of control inputs
             flag = False
@@ -127,12 +128,12 @@ class TestCase(object):
                 # from outputs metadata dictionary
                 self.outputs_metadata.pop(key)
             else:
-                self.y[key] = []
+                self.y[key] = a.array('f',[])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':[]}
+        self.u = {'time':a.array('f',[])}
         for key in self.input_names:
-            self.u[key] = []
+            self.u[key] = a.array('f',[])
         self.u_store = copy.deepcopy(self.u)
 
     def __simulation(self,start_time,end_time,input_object=None):
