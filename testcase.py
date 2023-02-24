@@ -114,7 +114,7 @@ class TestCase(object):
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         self.forecasts_metadata = self.data_manager.get_data_metadata()
         # Outputs data
-        self.y = {'time': np.array([])}
+        self.y = {'time': []}
         for key in self.output_names:
             # Do not store outputs that are current values of control inputs
             flag = False
@@ -127,12 +127,12 @@ class TestCase(object):
                 # from outputs metadata dictionary
                 self.outputs_metadata.pop(key)
             else:
-                self.y[key] = np.array([])
+                self.y[key] = []
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':np.array([])}
+        self.u = {'time':[]}
         for key in self.input_names:
-            self.u[key] = np.array([])
+            self.u[key] = []
         self.u_store = copy.deepcopy(self.u)
 
     def __simulation(self,start_time,end_time,input_object=None):
@@ -202,7 +202,8 @@ class TestCase(object):
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = np.append(self.y_store[key], res[key][i:])
+                for x in res[key][i:]:
+                    self.y_store[key].append(x)
         # Store control signals (will be baseline if not activated, test controller input if activated)
         for key in self.u.keys():
             # Replace '_u' and '_y' for key used to collect data and don't overwrite time
@@ -214,7 +215,8 @@ class TestCase(object):
                 key_data = key
             self.u[key] = res[key_data][-1]
             if store:
-                self.u_store[key] = np.append(self.u_store[key], res[key_data][i:])
+                for x in res[key_data][i:]:
+                    self.u_store[key].append(x)
 
     def advance(self, u):
         '''Advances the test case model simulation forward one step.
