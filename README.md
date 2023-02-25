@@ -4,10 +4,11 @@
 
 Building Optimization Performance Tests
 
+Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for more information about the project, software, and documentation.
+
 This repository contains code for the Building Optimization Performance Test framework (BOPTEST)
 that is being developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
 
-Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for more information about the project, software, and documentation.
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
@@ -94,7 +95,7 @@ as a hook on all commits by calling `pre-commit install` in the root directory o
 ## Additional Software
 
 ### Deployment as a Web-Service
-BOPTEST is delpoyed as a web-service using [BOPTEST-Service](https://github.com/ibpsa/project1-boptest/tree/boptest-service).
+BOPTEST is delpoyed as a web-service using [BOPTEST-Service](https://github.com/NREL/boptest-service).
 See the related [section in the user guide](https://ibpsa.github.io/project1-boptest/docs-userguide/getting_started.html#public-web-service) for getting started.
 
 ### OpenAI-Gym Environment
