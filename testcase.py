@@ -684,16 +684,34 @@ class TestCase(object):
                 payload['time'] = self.u_store['time']
             # Get correct time
             if payload and 'time' in payload:
+                # Find min and max time
                 min_t = min(payload['time'])
                 max_t = max(payload['time'])
+                # If min time is before start time
                 if min_t < start_time:
-                    t1 = start_time
+                    # Check if start time in time array
+                    if start_time in payload['time']:
+                        t1 = start_time
+                    # Otherwise, find first time in time array after start time
+                    else:
+                        np_t = np.array(payload['time'])
+                        t1 = np_t[np_t>=start_time][0]
+                # Otherwise, first time is min time
                 else:
                     t1 = min_t
+                # If max time is after final time
                 if max_t > final_time:
-                    t2 = final_time
+                    # Check if final time in time array
+                    if final_time in payload['time']:
+                        t2 = final_time
+                    # Otherwise, find last time in time array before final time
+                    else:
+                        np_t = np.array(payload['time'])
+                        t2 = np_t[np_t<=final_time][-1]
+                # Otherwise, last time is max time
                 else:
                     t2 = max_t
+                # Use found first and last time to find corresponding indecies
                 i1 = payload['time'].index(t1)
                 i2 = payload['time'].index(t2)+1
                 for key in (point_names +['time']):
