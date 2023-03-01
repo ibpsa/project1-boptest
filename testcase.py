@@ -115,7 +115,7 @@ class TestCase(object):
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         self.forecasts_metadata = self.data_manager.get_data_metadata()
         # Outputs data
-        self.y = {'time': a.array('f',[])}
+        self.y = {'time': a.array('d',[])}
         for key in self.output_names:
             # Do not store outputs that are current values of control inputs
             flag = False
@@ -128,12 +128,12 @@ class TestCase(object):
                 # from outputs metadata dictionary
                 self.outputs_metadata.pop(key)
             else:
-                self.y[key] = a.array('f',[])
+                self.y[key] = a.array('d',[])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':a.array('f',[])}
+        self.u = {'time':a.array('d',[])}
         for key in self.input_names:
-            self.u[key] = a.array('f',[])
+            self.u[key] = a.array('d',[])
         self.u_store = copy.deepcopy(self.u)
 
     def __simulation(self,start_time,end_time,input_object=None):
