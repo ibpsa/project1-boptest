@@ -13,11 +13,12 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 """
 
 from pyfmi import load_fmu
-from pymodelica import compile_fmu
 import os
 import json
 from data.data_manager import Data_Manager
 import warnings
+from OMPython import OMCSessionZMQ
+tool = 'OpenModelica'
 
 def parse_instances(model_path, file_name):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -42,7 +43,11 @@ def parse_instances(model_path, file_name):
     '''
 
     # Compile fmu
-    fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+    if tool == 'JModelica':
+        from pymodelica import compile_fmu
+        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+    elif tool == 'OpenModelica':
+        fmu_path = _compile_fmu(model_path, file_name)
     # Load fmu
     fmu = load_fmu(fmu_path)
     # Check version
@@ -179,13 +184,17 @@ def write_wrapper(model_path, file_name, instances):
             # End file -- with hard line ending
             f.write('end wrapped;\n')
         # Export as fmu
-        fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, jvm_args="-Xmx8g")
+        fmu_path = _compile_fmu('wrapped', [wrapped_path]+file_name)
     # If there are not, write and export wrapper model
     else:
         # Warn user
         warnings.warn('No signal exchange block instances found in model.  Exporting model as is.')
         # Compile fmu
-        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+        if tool == 'JModelica':
+            from pymodelica import compile_fmu
+            fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+        elif tool == 'OpenModelica':
+            fmu_path = _compile_fmu(model_path, file_name)
         wrapped_path = None
 
     return fmu_path, wrapped_path
@@ -267,6 +276,26 @@ def _make_var_name(block, style, description='', attribute=''):
 
     return var_name
 
+def _compile_fmu(model_path, file_name):
+    omc = OMCSessionZMQ()
+    libs = ['/home/dhbubu18/git/buildings/modelica-buildings/Buildings/package.mo',
+            '/home/dhbubu18/git/ideas/IDEAS/IDEAS/package.mo']
+    fmuType = 'me'
+    for f in file_name:
+        res = omc.sendExpression('loadFile("{0}")'.format(f))
+        print('Loaded file: {0}, {1}'.format(f, res))
+    # Load packages from libraries
+    for lib in libs:
+        res = omc.sendExpression('loadFile("{0}")'.format(lib))
+        print('Loaded library: {0}, {1}'.format(lib, res))
+    # Compile FMU
+    res = omc.sendExpression('setCommandLineOptions("-d=evaluateAllParameters")')
+    print(res)
+    fmu_path = omc.sendExpression('translateModelFMU({0}, fmuType="{1}")'.format(model_path, fmuType))
+    print(fmu_path)
+
+#    fmu_path = '/home/dhbubu18/git/ibpsa/project1-boptest/project1-boptest/testcases/bestest_hydronic/models/BESTESTHydronic.TestCase.fmu'
+    return fmu_path
 
 if __name__ == '__main__':
     # Define model
