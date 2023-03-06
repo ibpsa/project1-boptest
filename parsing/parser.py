@@ -53,6 +53,8 @@ def parse_instances(model_path, file_name):
     # Check version
     if fmu.get_version() != '2.0':
         raise ValueError('FMU version must be 2.0')
+    if tool == 'OpenModelica':
+        fmu.initialize()
     # Get all parameters
     allvars =   list(fmu.get_model_variables(variability = 0).keys()) + \
                 list(fmu.get_model_variables(variability = 1).keys())
@@ -106,7 +108,8 @@ def parse_instances(model_path, file_name):
 
     # Clean up
     os.remove(fmu_path)
-    os.remove(fmu_path.replace('.fmu', '_log.txt'))
+    if tool == 'JModelica':
+        os.remove(fmu_path.replace('.fmu', '_log.txt'))
 
     return instances, signals
 
@@ -289,12 +292,8 @@ def _compile_fmu(model_path, file_name):
         res = omc.sendExpression('loadFile("{0}")'.format(lib))
         print('Loaded library: {0}, {1}'.format(lib, res))
     # Compile FMU
-    res = omc.sendExpression('setCommandLineOptions("-d=evaluateAllParameters")')
-    print(res)
     fmu_path = omc.sendExpression('translateModelFMU({0}, fmuType="{1}")'.format(model_path, fmuType))
-    print(fmu_path)
 
-#    fmu_path = '/home/dhbubu18/git/ibpsa/project1-boptest/project1-boptest/testcases/bestest_hydronic/models/BESTESTHydronic.TestCase.fmu'
     return fmu_path
 
 if __name__ == '__main__':
