@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Implements the parsing and code generation for signal exchange blocks.
+OpenModelica requires to be installed on system.  JModelica is optional if
+choose as tool for compilation.
 
 The steps are:
 1) Compile Modelica code into fmu
@@ -18,6 +20,8 @@ import json
 from data.data_manager import Data_Manager
 import warnings
 from OMPython import OMCSessionZMQ
+
+# Specity compilation tool: 'OpenModelica' or 'JModelica'
 tool = 'OpenModelica'
 
 def parse_instances(model_path, file_name):
@@ -281,8 +285,18 @@ def _make_var_name(block, style, description='', attribute=''):
 
 def _compile_fmu(model_path, file_name):
     omc = OMCSessionZMQ()
-    libs = ['/home/dhbubu18/git/buildings/modelica-buildings/Buildings/package.mo',
-            '/home/dhbubu18/git/ideas/IDEAS/IDEAS/package.mo']
+    # Load libraries from MODELICAPATH
+    libs = []
+    for d in os.environ['MODELICAPATH'].split(':'):
+        if ('modelica-buildings' in d):
+            path = d+'/Buildings/package.mo'
+        elif ('IDEAS' in d):
+            path = d+'/IDEAS/package.mo'
+        elif ('modelica-ibpsa' in d):
+            path = d+'/IBPSA/package.mo'
+        else:
+            continue
+        libs.append(path)
     fmuType = 'me'
     for f in file_name:
         res = omc.sendExpression('loadFile("{0}")'.format(f))
