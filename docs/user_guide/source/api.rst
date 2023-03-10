@@ -178,12 +178,37 @@ PUT /scenario
             }
         }
 
-GET /forecast
+GET /forecast_points
+--------------------
+
+- **Description:** Receive available forecast point names and metadata.
+
+- **Arguments:** None.
+
+- **Returns:**
+
+    ::
+
+        {
+            <point_name>:                   // str, name of point
+                {"Description": <value>,    // str, description of point
+                 "Unit": <value>,           // str, unit of point
+                 },
+            ...
+        }
+
+PUT /forecast
 -------------
 
 - **Description:** Receive boundary condition forecasts from current time.
 
-- **Arguments:** None.
+- **Arguments:**
+
+    ::
+
+        point_names     // required, list of str, name of points
+        horizon         // required, float, horizon of forecast in seconds
+        interval        // required, float, interval of forecast in seconds
 
 - **Returns:**
 
@@ -193,43 +218,6 @@ GET /forecast
             <point_name>:   // str, name of point
                 <values>,   // array of floats, forecast values at interval for horizon
             ...
-        }
-
-GET /forecast_parameters
-------------------------
-
-- **Description:** Receive the current boundary condition forecast parameter values.
-
-- **Arguments:** None.
-
-- **Returns:**
-
-    ::
-
-        {
-            "horizon":<value>   // float, horizon of forecast in seconds
-            "interval":<value>  // float, interval of forecast in seconds
-        }
-
-PUT /forecast_parameters
-------------------------
-
-- **Description:** Set the current boundary condition forecast parameters.
-
-- **Arguments:**
-
-    ::
-
-        horizon   // required, float, horizon of forecast in seconds
-        interval  // required, float, interval of forecast in seconds
-
-- **Returns:**
-
-    ::
-
-        {
-            "horizon":<value>   // float, set horizon of forecast in seconds
-            "interval":<value>  // float, set interval of forecast in seconds
         }
 
 POST /advance
@@ -256,13 +244,13 @@ POST /advance
 PUT /results
 ------------
 
-- **Description:** Receive simulation data for the given point name over a time period.  Data for control input points will be the values used for simulation, meaning embedded default control if not overwritten or user-specified value if overwritten.
+- **Description:** Receive simulation data for the given point names over a time period.  Data for control input points will be the values used for simulation, meaning embedded default control if not overwritten or user-specified value if overwritten.
 
 - **Arguments:**
 
     ::
 
-        point_name      // required, str, name of point
+        point_names     // required, list of str, name of points
         start_time      // required, float, start time of data to collect
         final_time      // required, float, final time of data to collect
 
