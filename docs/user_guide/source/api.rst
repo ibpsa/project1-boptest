@@ -215,6 +215,8 @@ PUT /forecast
     ::
 
         {
+            "time":
+                <values>,   // array of floats, time values at interval for horizon
             <point_name>:   // str, name of point
                 <values>,   // array of floats, forecast values at interval for horizon
             ...
