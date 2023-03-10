@@ -2,7 +2,7 @@
 """
 Implements the parsing and code generation for signal exchange blocks.
 OpenModelica requires to be installed on system.  JModelica is optional if
-choose as tool for compilation.
+choose as tool for compilation using variable "tool".
 
 The steps are:
 1) Compile Modelica code into fmu
@@ -20,7 +20,7 @@ import json
 from data.data_manager import Data_Manager
 import warnings
 
-# Specity compilation tool: 'OpenModelica' or 'JModelica'
+# Specify compilation tool: 'OpenModelica' or 'JModelica'
 tool = 'OpenModelica'
 
 def parse_instances(model_path, file_name):
