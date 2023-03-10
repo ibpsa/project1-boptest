@@ -19,7 +19,6 @@ import os
 import json
 from data.data_manager import Data_Manager
 import warnings
-from OMPython import OMCSessionZMQ
 
 # Specity compilation tool: 'OpenModelica' or 'JModelica'
 tool = 'OpenModelica'
@@ -284,6 +283,7 @@ def _make_var_name(block, style, description='', attribute=''):
     return var_name
 
 def _compile_fmu(model_path, file_name):
+    from OMPython import OMCSessionZMQ
     omc = OMCSessionZMQ()
     # Load libraries from MODELICAPATH
     libs = []
