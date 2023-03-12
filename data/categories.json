@@ -1,21 +1,140 @@
-{"weather": ["pAtm","nTot","nOpa","HGloHor",
-             "HDifHor","HDirNor","ceiHei","winSpe",
-             "HHorIR","winDir","cloTim","solTim",
-             "TDewPoi","relHum","TDryBul","TWetBul",
-             "solAlt","solZen","solDec","solHouAng",
-             "lon","lat","TBlaSky"],
-"prices": ["PriceElectricPowerConstant",
-           "PriceElectricPowerDynamic",
-           "PriceElectricPowerHighlyDynamic",
-           "PriceGasPower",
-           "PriceDistrictHeatingPower",
-           "PriceBiomassPower",
-           "PriceSolarThermalPower"],
-"emissions": ["EmissionsElectricPower",
-              "EmissionsGasPower",
-              "EmissionsDistrictHeatingPower",
-              "EmissionsBiomassPower",
-              "EmissionsSolarThermalPower"],
-"occupancy": ["Occupancy"],
-"internalGains": ["InternalGainsRad", "InternalGainsCon", "InternalGainsLat"],
-"setpoints": ["LowerSetp", "UpperSetp", "UpperCO2"]}
+{
+"weather":{
+    "pAtm":{
+        "Description":"Atmospheric pressure",
+        "Unit":"Pa"},
+    "nTot":{
+        "Description":"Total sky Cover [0, 1]",
+        "Unit":"1"},
+    "nOpa":{
+        "Description":"Opaque sky cover [0, 1]",
+        "Unit":"1"},
+    "HGloHor":{
+        "Description":"Horizontal global radiation",
+        "Unit":"W/m2"},
+    "HDifHor":{
+        "Description":"Horizontal diffuse solar radiation",
+        "Unit":"W/m2"},
+    "HDirNor":{
+        "Description":"Direct normal radiation",
+        "Unit":"W/m2"},
+    "ceiHei":{
+        "Description":"Ceiling height",
+        "Unit":"m"},
+    "winSpe":{
+        "Description":"Wind speed",
+        "Unit":"m/s"},
+    "HHorIR":{
+        "Description":"Horizontal infrared irradiation",
+        "Unit":"W/m2"},
+    "winDir":{
+        "Description":"Wind direction",
+        "Unit":"rad"},
+    "cloTim":{
+        "Description":"One-based day number in seconds",
+        "Unit":"s"},
+    "solTim":{
+        "Description":"Solar time",
+        "Unit":"s"},
+    "TDewPoi":{
+        "Description":"Dew point temperature",
+        "Unit":"K"},
+    "relHum":{
+        "Description":"Relative Humidity",
+        "Unit":"1"},
+    "TDryBul":{
+        "Description":"Dry bulb temperature at ground level",
+        "Unit":"K"},
+    "TWetBul":{
+        "Description":"Wet bulb temperature",
+        "Unit":"K"},
+    "solAlt":{
+        "Description":"Altitude angel",
+        "Unit":"rad"},
+    "solZen":{
+        "Description":"Zenith angle",
+        "Unit":"rad"},
+    "solDec":{
+        "Description":"Declination angle",
+        "Unit":"rad"},
+    "solHouAng":{
+        "Description":"Solar hour angle.",
+        "Unit":"rad"},
+    "lon":{
+        "Description":"Longitude of the location",
+        "Unit":"rad"},
+    "lat":{
+        "Description":"Latitude of the location",
+        "Unit":"rad"},
+    "TBlaSky":{
+        "Description":"Black Sky temperature",
+        "Unit":"K"}
+    },
+"prices":{
+    "PriceElectricPowerConstant":{
+        "Description":"Completely constant electricity price",
+        "Unit":"($/Euro)/kWh"},
+    "PriceElectricPowerDynamic":{
+        "Description":"Electricity price for a day/night tariff",
+        "Unit":"($/Euro)/kWh"},
+    "PriceElectricPowerHighlyDynamic":{
+        "Description":"Spot electricity price",
+        "Unit":"($/Euro)/kWh"},
+    "PriceGasPower":{
+        "Description":"Price to produce 1 kWh thermal from gas",
+        "Unit":"($/Euro)/kWh"},
+    "PriceDistrictHeatingPower":{
+        "Description":"Price of 1 kWh thermal from district heating",
+        "Unit":"($/Euro)/kWh"},
+    "PriceBiomassPower":{
+        "Description":"Price to produce 1 kWh thermal from biomass",
+        "Unit":"($/Euro)/kWh"},
+    "PriceSolarThermalPower":{
+        "Description":"Price to produce 1 kWh thermal from solar irradiation",
+        "Unit":"($/Euro)/kWh"}
+    },
+"emissions":{
+    "EmissionsElectricPower":{
+        "Description":"Kilograms of carbon dioxide to produce 1 kWh of electricity",
+        "Unit":"kgCO2/kWh"},
+    "EmissionsGasPower":{
+        "Description":"Kilograms of carbon dioxide to produce 1 kWh thermal from gas",
+        "Unit":"kgCO2/kWh"},
+    "EmissionsDistrictHeatingPower":{
+        "Description":"Kilograms of carbon dioxide to produce 1 kWh thermal district heating",
+        "Unit":"kgCO2/kWh"},
+    "EmissionsBiomassPower":{
+        "Description":"Kilograms of carbon dioxide to produce 1 kWh thermal from biomass",
+        "Unit":"kgCO2/kWh"},
+    "EmissionsSolarThermalPower":{
+        "Description":"Kilograms of carbon dioxide to produce 1 kWh thermal from solar irradiation",
+        "Unit":"kgCO2/kWh"}
+    },
+"occupancy":{
+    "Occupancy":{
+        "Description":"Number of occupants of zone",
+        "Unit":"number of people"}
+    },
+"internalGains":{
+    "InternalGainsRad":{
+        "Description":"Radiative internal gains of zone",
+        "Unit":"W"},
+    "InternalGainsCon":{
+        "Description":"Convective internal gains of zone",
+        "Unit":"W"},
+    "InternalGainsLat":{
+        "Description":"Latent internal gains of zone",
+        "Unit":"W"}
+    },
+"setpoints": {
+    "LowerSetp":{
+        "Description":"Lower temperature set point for thermal comfort of zone",
+        "Unit":"K"},
+    "UpperSetp":{
+        "Description":"Upper temperature set point for thermal comfort of zone",
+        "Unit":"K"},
+    "UpperCO2":{
+        "Description":"Upper CO2 set point for indoor air quality of zone",
+        "Unit":"ppm"}
+    }
+}

@@ -254,8 +254,6 @@ for a test case upon loading in BOPTEST, a configuration JSON saved as
     "start_time"    : <float>,                       // Default start time
     "warmup_period" : <float>,                       // Default warmup_period
     "step"          : <float>,                       // Default control step in seconds
-    "horizon"       : <float>,                       // Default forecast horizon in seconds
-    "interval"      : <float>,                       // Default forecast interval in seconds
     "scenario"      : {"electricity_price":<str>,    // Default electricity price scenario
                        "time_period":null},          // Default time_period scenario
     "resource_file_exclusion" : [<str>]              // Optional: List of data files within fmu /resources directory to exclude from loading into test case (e.g. "filename.csv")
@@ -426,6 +424,7 @@ should be included:
 **Points List**
 	- Control input signals, descriptions, and meta-data
 	- Measurement output signals, descriptions, and meta-data
+	- Forecast signals, descriptions, and meta-data
 **Important Model Implementation Assumption**
 	- (e.g. moist vs. dry air, airflow network, and infiltration models)
 **Scenario Information**

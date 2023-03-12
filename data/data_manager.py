@@ -461,6 +461,49 @@ class Data_Manager(object):
         # Convert any string formatted numbers to floats.
         self.case.data = self.case.data.applymap(float)
 
+    def get_data_metadata(self):
+        '''Get the metadata of the test case data variables.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        data_metadata: dict
+            {<variable>: {
+                    "Description":<string>,
+                    "Unit":<string>
+                    }
+            }
+
+        '''
+
+        data_metadata = dict()
+        for key in self.case.data.columns:
+            # Remove zone identifier if present to find variable metadata
+            if '[' in key:
+                var=key[:key.find('[')]
+            else:
+                var=key
+            # Find key category and pass variable metadata
+            if var in self.categories['weather']:
+                metadata = self.categories['weather'][var]
+            elif var in self.categories['prices']:
+                metadata = self.categories['prices'][var]
+            elif var in self.categories['emissions']:
+                metadata = self.categories['emissions'][var]
+            elif var in self.categories['occupancy']:
+                metadata = self.categories['occupancy'][var]
+            elif var in self.categories['internalGains']:
+                metadata = self.categories['internalGains'][var]
+            elif var in self.categories['setpoints']:
+                metadata = self.categories['setpoints'][var]
+            # Add key with metadata to dictionary
+            data_metadata[key] = metadata
+
+        return data_metadata
+
 
 if __name__ == "__main__":
     import sys

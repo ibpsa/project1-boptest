@@ -547,6 +547,223 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>weatherStation_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
+<h4>Forecasts</h4>
+<p>The model forecasts are: </p>
+<ul>
+<li>
+<code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity
+</li>
+<li>
+<code>EmissionsGasPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>HDifHor</code> [W/m2]: Horizontal diffuse solar radiation
+</li>
+<li>
+<code>HDirNor</code> [W/m2]: Direct normal radiation
+</li>
+<li>
+<code>HGloHor</code> [W/m2]: Horizontal global radiation
+</li>
+<li>
+<code>HHorIR</code> [W/m2]: Horizontal infrared irradiation
+</li>
+<li>
+<code>InternalGainsCon[Bth]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[Hal]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[Liv]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[Ro1]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[Ro2]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[Ro3]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[Bth]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[Hal]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[Liv]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[Ro1]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[Ro2]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[Ro3]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[Bth]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[Hal]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[Liv]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[Ro1]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[Ro2]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[Ro3]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>LowerSetp[Bth]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[Hal]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[Liv]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[Ro1]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[Ro2]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[Ro3]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>Occupancy[Bth]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[Hal]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[Liv]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[Ro1]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[Ro2]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[Ro3]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price
+</li>
+<li>
+<code>PriceElectricPowerDynamic</code> [($/Euro)/kWh]: Electricity price for a day/night tariff
+</li>
+<li>
+<code>PriceElectricPowerHighlyDynamic</code> [($/Euro)/kWh]: Spot electricity price
+</li>
+<li>
+<code>PriceGasPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>TBlaSky</code> [K]: Black Sky temperature
+</li>
+<li>
+<code>TDewPoi</code> [K]: Dew point temperature
+</li>
+<li>
+<code>TDryBul</code> [K]: Dry bulb temperature at ground level
+</li>
+<li>
+<code>TWetBul</code> [K]: Wet bulb temperature
+</li>
+<li>
+<code>UpperCO2[Bth]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[Hal]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[Liv]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[Ro1]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[Ro2]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[Ro3]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperSetp[Bth]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[Hal]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[Liv]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[Ro1]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[Ro2]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[Ro3]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>ceiHei</code> [m]: Ceiling height
+</li>
+<li>
+<code>cloTim</code> [s]: One-based day number in seconds
+</li>
+<li>
+<code>lat</code> [rad]: Latitude of the location
+</li>
+<li>
+<code>lon</code> [rad]: Longitude of the location
+</li>
+<li>
+<code>nOpa</code> [1]: Opaque sky cover [0, 1]
+</li>
+<li>
+<code>nTot</code> [1]: Total sky Cover [0, 1]
+</li>
+<li>
+<code>pAtm</code> [Pa]: Atmospheric pressure
+</li>
+<li>
+<code>relHum</code> [1]: Relative Humidity
+</li>
+<li>
+<code>solAlt</code> [rad]: Altitude angel
+</li>
+<li>
+<code>solDec</code> [rad]: Declination angle
+</li>
+<li>
+<code>solHouAng</code> [rad]: Solar hour angle.
+</li>
+<li>
+<code>solTim</code> [s]: Solar time
+</li>
+<li>
+<code>solZen</code> [rad]: Zenith angle
+</li>
+<li>
+<code>winDir</code> [rad]: Wind direction
+</li>
+<li>
+<code>winSpe</code> [m/s]: Wind speed
+</li>
+</ul>
 
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>

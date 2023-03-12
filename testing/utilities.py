@@ -432,9 +432,9 @@ class partialTestAPI(partialChecks):
         version = requests.get('{0}/version'.format(self.url)).json()['payload']
         # Create a regex object as three decimal digits seperated by period
         r_num = re.compile('\d.\d.\d')
-        r_x = re.compile('0.x.x')
+        r_dev = re.compile('0.3.0-dev\n')
         # Test that the returned version matches the expected string format
-        if r_num.match(version['version']) or r_x.match(version['version']):
+        if r_num.match(version['version']) or r_dev.match(version['version']):
             self.assertTrue(True)
         else:
             self.assertTrue(False, '/version did not return correctly. Returned {0}.'.format(version))
@@ -559,7 +559,7 @@ class partialTestAPI(partialChecks):
         Tests for advancing with overwriting are done in the example tests.
 
         '''
-        
+
         u = self.input
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
@@ -569,61 +569,54 @@ class partialTestAPI(partialChecks):
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'advance_false_overwrite.csv')
         self.compare_ref_values_df(df, ref_filepath)
 
-    def test_get_forecast_default(self):
-        '''Check that the forecaster is able to retrieve the data.
+    def test_get_forecast_all(self):
+        '''Check that the forecaster is able to GET all the data.
 
-        Default forecast parameters for testcase used.
+        All available forecast points are checked.
 
         '''
 
+        horizon = 7200
+        interval = 1800
         # Initialize
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
         # Test case forecast
-        forecast = requests.get('{0}/forecast'.format(self.url)).json()['payload']
+        forecast_points = list(requests.get('{0}/forecast_points'.format(self.url)).json()['payload'].keys())
+        forecast = requests.put('{0}/forecast'.format(self.url), data={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_default.csv')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_all.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
 
-    def test_put_and_get_parameters(self):
-        '''Check PUT and GET of forecast settings.
+    def test_get_forecast_one(self):
+        '''Check that the forecaster is able to GET one variable.
+
+        The first point retrieved is checked.
 
         '''
 
-        # Define forecast parameters
-        forecast_parameters_ref = {'horizon': 3600, 'interval':300}
-        # Set forecast parameters
-        ret = requests.put('{0}/forecast_parameters'.format(self.url),
-                           data=forecast_parameters_ref).json()['payload']
-        # Get forecast parameters
-        forecast_parameters = requests.get('{0}/forecast_parameters'.format(self.url)).json()['payload']
-        # Check the forecast parameters
-        self.assertDictEqual(forecast_parameters, forecast_parameters_ref)
-        # Check the return on the put request
-        self.assertDictEqual(ret, forecast_parameters_ref)
-
-    def test_get_forecast_with_parameters(self):
-        '''Check that the forecaster is able to retrieve the data.
-
-        Custom forecast parameters used.
-
-        '''
-
-        # Define forecast parameters
-        forecast_parameters_ref = {'horizon': 3600, 'interval':300}
+        horizon = 7200
+        interval = 1800
         # Initialize
         requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        # Set forecast parameters
-        requests.put('{0}/forecast_parameters'.format(self.url),
-                                data=forecast_parameters_ref)
         # Test case forecast
-        forecast = requests.get('{0}/forecast'.format(self.url)).json()['payload']
+        forecast_points = list(requests.get('{0}/forecast_points'.format(self.url)).json()['payload'].keys())
+        forecast = requests.put('{0}/forecast'.format(self.url), data={'point_names':[forecast_points[0]], 'horizon':horizon, 'interval':interval}).json()['payload']
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
-        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_with_parameters.csv')
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_one.csv')
         # Check the forecast
         self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+
+    def test_get_forecast_points(self):
+        '''Check GET of forecast points.
+
+        '''
+
+        forecast_points = requests.get('{0}/forecast_points'.format(self.url)).json()['payload']
+        ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'get_forecast_points.json')
+        self.compare_ref_json(forecast_points, ref_filepath)
 
     def test_set_get_scenario(self):
         '''Test setting and getting the scenario of test.
@@ -745,26 +738,42 @@ class partialTestAPI(partialChecks):
 
         '''
 
+        forecast_points = requests.get('{0}/forecast_points'.format(self.url)).json()['payload']
         # Try setting non-numeric horizon
-        forecast_parameters_ref = {'horizon': 'foo', 'interval': 300}
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+        forecast_parameters_ref = {'point_names':forecast_points,
+                                   'horizon': 'foo',
+                                   'interval': 300}
+        payload = requests.put('{0}/forecast'.format(self.url),
                                data=forecast_parameters_ref)
-        self.compare_error_code(payload, "Invalid horizon in forecast_parameters request did not return 400 message.")
+        self.compare_error_code(payload, "Invalid non-numeric horizon in forecast request did not return 400 message.")
         # Try setting non-numeric interval
-        forecast_parameters_ref = {'horizon': 3600, 'interval': 'bar'}
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+        forecast_parameters_ref = {'point_names':forecast_points,
+                                   'horizon': 3600,
+                                   'interval': 'foo'}
+        payload = requests.put('{0}/forecast'.format(self.url),
                                data=forecast_parameters_ref)
-        self.compare_error_code(payload, "Invalid interval in forecast_parameters request did not return 400 message.")
+        self.compare_error_code(payload, "Invalid non-numeric interval in forecast request did not return 400 message.")
         # Try setting negative horizon
-        forecast_parameters_ref = {'horizon': -3600, 'interval': 300}
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+        forecast_parameters_ref = {'point_names':forecast_points,
+                                   'horizon': -3600,
+                                   'interval': 300}
+        payload = requests.put('{0}/forecast'.format(self.url),
                                data=forecast_parameters_ref)
-        self.compare_error_code(payload, "Invalid interval in forecast_parameters request did not return 400 message.")
+        self.compare_error_code(payload, "Invalid negative horizon in forecast request did not return 400 message.")
         # Try setting negative interval
-        forecast_parameters_ref = {'horizon': 3600, 'interval': -300}
-        payload = requests.put('{0}/forecast_parameters'.format(self.url),
+        forecast_parameters_ref = {'point_names':forecast_points,
+                                   'horizon': 3600,
+                                   'interval': -300}
+        payload = requests.put('{0}/forecast'.format(self.url),
                                data=forecast_parameters_ref)
-        self.compare_error_code(payload, "Invalid interval in forecast_parameters request did not return 400 message.")
+        self.compare_error_code(payload, "Invalid negative interval in forecast request did not return 400 message.")
+        # Try setting invalid point name
+        forecast_parameters_ref = {'point_names':['foo'],
+                                   'horizon': 3600,
+                                   'interval': 300}
+        payload = requests.put('{0}/forecast'.format(self.url),
+                               data=forecast_parameters_ref)
+        self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
 
     def test_invalid_scenario(self):
         '''Test setting scenario with invalid identifier returns 400 error.
