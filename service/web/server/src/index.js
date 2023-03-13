@@ -1,24 +1,33 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import AWS from 'aws-sdk'
-import boptestRouter from './routes/boptest'
-import boptestAdminRouter from './routes/boptest-admin'
+import boptestRoutes from './routes/boptestRoutes'
+import { errorHandler } from './routes/error'
+import { parse } from 'url'
+import { createServer } from 'http'
+import { createBoptestWS } from './ws/boptestWS'
 
-AWS.config.update({ region: process.env.REGION })
-const s3 = new AWS.S3({ endpoint: process.env.S3_URL, s3ForcePathStyle: true })
-const sqs = new AWS.SQS()
-
-var app = express()
-
-app.set('sqs', sqs)
-app.set('s3', s3)
-
-app.use(bodyParser.urlencoded())
+const app = express()
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use('/', boptestRouter)
-app.use('/', boptestAdminRouter)
+app.use('/', boptestRoutes)
+app.use(errorHandler)
 
-let server = app.listen(80, () => {
+const wss = createBoptestWS()
+const server = createServer(app)
+
+server.on('upgrade', function upgrade(request, socket, head) {
+  const { pathname } = parse(request.url)
+
+  if (pathname === '/ws') {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit('connection', ws, request)
+    })
+  } else {
+    socket.destroy()
+  }
+})
+
+server.listen(80, () => {
   var host = server.address().address
   var port = server.address().port
 

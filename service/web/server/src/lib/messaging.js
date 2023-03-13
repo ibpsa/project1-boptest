@@ -5,15 +5,25 @@ import { pack, unpack } from 'msgpackr'
 
 class Messaging {
   constructor() {
-    this.client = node_redis.createClient({host: process.env.REDIS_HOST, detect_buffers: true, return_buffers: true})
+    this.client = node_redis.createClient({host: process.env.BOPTEST_REDIS_HOST, return_buffers: true})
     this.pubclient = this.client.duplicate()
     this.subclient = this.client.duplicate()
     this.subTimeoutTime = 180000
     this.responseTimeoutTime = 120000
 
+    this.del = promisify(this.client.del).bind(this.client)
     this.hget = promisify(this.client.hget).bind(this.client)
+    this.hgetall = promisify(this.client.hgetall).bind(this.client)
     this.hexists = promisify(this.client.hexists).bind(this.client)
+    this.hlen = promisify(this.client.hlen).bind(this.client)
+    this.hkeys = promisify(this.client.hkeys).bind(this.client)
     this.hset = promisify(this.client.hset).bind(this.client)
+    this.hdel = promisify(this.client.hdel).bind(this.client)
+    this.exists = promisify(this.client.exists).bind(this.client)
+    this.sadd = promisify(this.client.sadd).bind(this.client)
+    this.srem = promisify(this.client.srem).bind(this.client)
+    this.smembers = promisify(this.client.smembers).bind(this.client)
+    this.sscan = promisify(this.client.sscan).bind(this.client)
 
     this.subscriptionTimers = {}
     this.messageHandlers = {}
@@ -47,7 +57,7 @@ class Messaging {
       this.subscribe(responseChannel)
       this.sendWorkerMessage(requestChannel, requestID, method, params)
       responseTimeout = setTimeout(() => {
-        reject(`Timeout while sending command '${method}' to '${workerID}'`)
+        reject(new Error(`Timeout while sending command '${method}' to testid '${workerID}'`))
       }, this.responseTimeoutTime)
     })
   }

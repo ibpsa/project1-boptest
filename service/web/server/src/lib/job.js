@@ -1,5 +1,6 @@
+import sqs from '../sqs'
 
-export function addJobToQueue(jobtype, params, sqs) {
+export async function addJobToQueue(jobtype, params) {
   return new Promise((resolve, reject) => {
     let body = {
       jobtype,
@@ -8,7 +9,7 @@ export function addJobToQueue(jobtype, params, sqs) {
 
     const m = {
       MessageBody: JSON.stringify(body),
-      QueueUrl: process.env.JOB_QUEUE_URL,
+      QueueUrl: process.env.BOPTEST_JOB_QUEUE_URL,
       MessageGroupId: "Alfalfa"
     }
 

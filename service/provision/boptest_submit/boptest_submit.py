@@ -12,20 +12,20 @@ from collections import OrderedDict
 class BoptestSubmit:
     # The url argument is the address of the Boptest server
 
-    def __init__(self, url=os.environ.get('BOPTEST_SUBMIT_URL', 'http://localhost')):
+    def __init__(self, url=os.environ.get('BOPTEST_SERVER', 'http://localhost')):
         self.server = url
 
     # Glob for fmu files under rootpath, and submit as a testcase
-    def submit_all(self, rootpath):
+    def submit_all(self, rootpath, auth_token, shared):
         paths = glob.glob(rootpath + '/**/*.fmu', recursive=True)
         for p in paths:
             # A convention of the boptest repo is that the testcase is named
             # according to the directory two parents up
             name = Path(p).parents[1].name
-            print('submit %s named %s' % (p, name))
-            self.submit(p, name)
+            print('submit %s named %s' % (p, name), flush=True)
+            self.submit(p, name, auth_token, shared)
 
-    def submit(self, path, testcaseid):
+    def submit(self, path, testcaseid, auth_token, shared):
         # This is fault tolerant, with repeated attempts,
         # because this is commonly used during container bootup
         # This is like "wait-for-it" but wait-for-it does not
@@ -34,7 +34,7 @@ class BoptestSubmit:
         attempts = 0
         while attempts < 6000:
             attempts = attempts + 1
-            response = self._attempt_submit(path, testcaseid)
+            response = self._attempt_submit(path, testcaseid, auth_token, shared)
             if response:
                 return response
             time.sleep(2)
@@ -42,12 +42,17 @@ class BoptestSubmit:
         print('Failed to submit %s named %s' % (path, testcaseid))
         return False
 
-    def _attempt_submit(self, path, testcaseid):
+    def _attempt_submit(self, path, testcaseid, auth_token, shared):
         try:
             # Get a template for the file upload form data
             # The server has an api to give this to us
-            url = self.server + '/testcases/' + testcaseid + '/post-form'
-            response = requests.get(url)
+            if shared:
+                url_prefix = '/testcases/'
+            else:
+                url_prefix = '/my/testcases/'
+
+            url = self.server + url_prefix + testcaseid + '/post-form'
+            response = requests.get(url, headers={'Authorization': auth_token})
             if response.status_code != 200:
                 return False
 
@@ -63,22 +68,22 @@ class BoptestSubmit:
                 return False
 
             # Confirm that the testcase exists
-            self._wait_for_testcase(testcaseid)
+            self._wait_for_testcase(url_prefix, testcaseid, auth_token)
 
             return testcaseid
-        except:
+        except Exception:
             return False
 
-    def _exists(self, testcaseid):
-        url = '{}/testcases/{}'.format(self.server, testcaseid)
-        response = requests.get(url)
+    def _exists(self, url_prefix, testcaseid, auth_token):
+        url = '{}{}{}'.format(self.server, url_prefix, testcaseid)
+        response = requests.get(url, headers={'Authorization': auth_token})
         return response.ok
 
-    def _wait_for_testcase(self, testcaseid):
+    def _wait_for_testcase(self, url_prefix, testcaseid, auth_token):
         attempts = 0
         while attempts < 6000:
             attempts = attempts + 1
-            if self._exists(testcaseid):
+            if self._exists(url_prefix, testcaseid, auth_token):
                 break
             time.sleep(2)
 
@@ -189,4 +194,4 @@ class BoptestSubmit:
         }
 
         url = os.environ.get('BOPTEST_DASHBOARD_SERVER', '') + '/api/buildingTypes'
-        response = requests.post(url, json=payload)
+        requests.post(url, json=payload)

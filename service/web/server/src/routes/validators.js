@@ -1,12 +1,10 @@
 import {
-  getTestcaseID
-} from '../controllers/test';
+  isTest
+} from '../lib/boptestLib';
 
 // Validate that the parameter 'testid' is a valid test.
-export async function validateTestid(param, {req}) {
-  const redis = req.app.get('redis')
-  // A valid test will have a testcaseid
-  if (! await getTestcaseID(param, redis)) {
+export async function validateTestid(param) {
+  if (! await isTest(param)) {
     throw new Error(`Invalid testid: ${param}`)
   }
   return true
