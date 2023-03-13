@@ -260,7 +260,8 @@ class Job:
         tar.close()
 
         uploadkey = "simulated/%s" % tarname
-        self.s3_bucket.upload_file(tarname, uploadkey)
+        # minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
+        self.s3_bucket.upload_file(tarname, uploadkey, ExtraArgs={'ACL': 'public-read'})
         os.remove(tarname)
 
         shutil.rmtree(self.test_dir)

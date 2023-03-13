@@ -65,14 +65,19 @@ function promiseTaskLater(task, time, ...args) {
   })
 }
 
-export function getTestcasePostForm(testcaseKey, s3url) {
+export function getTestcasePostForm(testcaseKey, s3url, share) {
   return new Promise((resolve, reject) => {
     // Construct a new postPolicy.
-    const params = {
+    let params = {
       Bucket: bucket,
       Fields: {
         key: testcaseKey
       }
+    }
+
+    if (share) {
+      // minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
+      params.Fields.acl = "public-read"
     }
     
     s3.createPresignedPost(params, function(err, data) {

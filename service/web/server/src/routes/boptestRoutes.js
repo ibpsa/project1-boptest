@@ -25,7 +25,7 @@ boptestRoutes.get('/version', async (req, res, next) => {
 // GET test case post-form //
 
 const getTestcasePostForm = async (req, res, next) => {
-  res.json(await boptestLib.getTestcasePostForm(req.testcaseKey, s3PublicURL))
+  res.json(await boptestLib.getTestcasePostForm(req.testcaseKey, s3PublicURL, req.share))
 }
 
 boptestRoutes.get('/testcases/:testcaseID/post-form',
@@ -33,6 +33,7 @@ boptestRoutes.get('/testcases/:testcaseID/post-form',
   middleware.requireSuperUser,
   (req, res, next) => {
     req.testcaseKey = boptestLib.getKeyForTestcase(ibpsaNamespace, req.params.testcaseID)
+    req.share = true
     next()
   },
   getTestcasePostForm
@@ -43,6 +44,7 @@ boptestRoutes.get('/testcases/:testcaseNamespace/:testcaseID/post-form',
   middleware.requireSuperUser,
   (req, res, next) => {
     req.testcaseKey = boptestLib.getKeyForTestcase(req.params.testcaseNamespace, req.params.testcaseID)
+    req.share = true
     next()
   },
   getTestcasePostForm
@@ -53,6 +55,7 @@ boptestRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
   middleware.requireUser,
   (req, res, next) => {
     req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
+    req.share = false
     next()
   },
   getTestcasePostForm
