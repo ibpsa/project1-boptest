@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Implements the parsing and code generation for signal exchange blocks.
+OpenModelica requires to be installed on system.  JModelica is optional if
+choose as tool for compilation using variable "tool".
 
 The steps are:
 1) Compile Modelica code into fmu
@@ -13,11 +15,13 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 """
 
 from pyfmi import load_fmu
-from pymodelica import compile_fmu
 import os
 import json
 from data.data_manager import Data_Manager
 import warnings
+
+# Specify compilation tool: 'OpenModelica' or 'JModelica'
+tool = 'OpenModelica'
 
 def parse_instances(model_path, file_name):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -42,12 +46,18 @@ def parse_instances(model_path, file_name):
     '''
 
     # Compile fmu
-    fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+    if tool == 'JModelica':
+        from pymodelica import compile_fmu
+        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+    elif tool == 'OpenModelica':
+        fmu_path = _compile_fmu(model_path, file_name)
     # Load fmu
     fmu = load_fmu(fmu_path)
     # Check version
     if fmu.get_version() != '2.0':
         raise ValueError('FMU version must be 2.0')
+    if tool == 'OpenModelica':
+        fmu.initialize()
     # Get all parameters
     allvars =   list(fmu.get_model_variables(variability = 0).keys()) + \
                 list(fmu.get_model_variables(variability = 1).keys())
@@ -101,7 +111,8 @@ def parse_instances(model_path, file_name):
 
     # Clean up
     os.remove(fmu_path)
-    os.remove(fmu_path.replace('.fmu', '_log.txt'))
+    if tool == 'JModelica':
+        os.remove(fmu_path.replace('.fmu', '_log.txt'))
 
     return instances, signals
 
@@ -179,13 +190,17 @@ def write_wrapper(model_path, file_name, instances):
             # End file -- with hard line ending
             f.write('end wrapped;\n')
         # Export as fmu
-        fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, jvm_args="-Xmx8g")
+        fmu_path = _compile_fmu('wrapped', [wrapped_path]+file_name)
     # If there are not, write and export wrapper model
     else:
         # Warn user
         warnings.warn('No signal exchange block instances found in model.  Exporting model as is.')
         # Compile fmu
-        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+        if tool == 'JModelica':
+            from pymodelica import compile_fmu
+            fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+        elif tool == 'OpenModelica':
+            fmu_path = _compile_fmu(model_path, file_name)
         wrapped_path = None
 
     return fmu_path, wrapped_path
@@ -267,6 +282,33 @@ def _make_var_name(block, style, description='', attribute=''):
 
     return var_name
 
+def _compile_fmu(model_path, file_name):
+    from OMPython import OMCSessionZMQ
+    omc = OMCSessionZMQ()
+    # Load libraries from MODELICAPATH
+    libs = []
+    for d in os.environ['MODELICAPATH'].split(':'):
+        if ('modelica-buildings' in d):
+            path = d+'/Buildings/package.mo'
+        elif ('IDEAS' in d):
+            path = d+'/IDEAS/package.mo'
+        elif ('modelica-ibpsa' in d):
+            path = d+'/IBPSA/package.mo'
+        else:
+            continue
+        libs.append(path)
+    fmuType = 'me'
+    for f in file_name:
+        res = omc.sendExpression('loadFile("{0}")'.format(f))
+        print('Loaded file: {0}, {1}'.format(f, res))
+    # Load packages from libraries
+    for lib in libs:
+        res = omc.sendExpression('loadFile("{0}")'.format(lib))
+        print('Loaded library: {0}, {1}'.format(lib, res))
+    # Compile FMU
+    fmu_path = omc.sendExpression('translateModelFMU({0}, fmuType="{1}")'.format(model_path, fmuType))
+
+    return fmu_path
 
 if __name__ == '__main__':
     # Define model

@@ -27,7 +27,7 @@ def compile_fmu():
 
     # DEFINE MODEL
     # ------------
-    mopath      = 'BESTESTHydronic'
+    mopath      = 'BESTESTHydronic/package.mo'
     modelpath   = 'BESTESTHydronic.TestCase'
     # ------------
 
