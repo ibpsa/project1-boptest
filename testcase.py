@@ -21,6 +21,7 @@ from datetime import datetime
 import uuid
 import os
 import json
+import array as a
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -114,7 +115,7 @@ class TestCase(object):
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         self.forecasts_metadata = self.data_manager.get_data_metadata()
         # Outputs data
-        self.y = {'time': np.array([])}
+        self.y = {'time': a.array('d',[])}
         for key in self.output_names:
             # Do not store outputs that are current values of control inputs
             flag = False
@@ -127,12 +128,12 @@ class TestCase(object):
                 # from outputs metadata dictionary
                 self.outputs_metadata.pop(key)
             else:
-                self.y[key] = np.array([])
+                self.y[key] = a.array('d',[])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':np.array([])}
+        self.u = {'time':a.array('d',[])}
         for key in self.input_names:
-            self.u[key] = np.array([])
+            self.u[key] = a.array('d',[])
         self.u_store = copy.deepcopy(self.u)
 
     def __simulation(self,start_time,end_time,input_object=None):
@@ -202,7 +203,8 @@ class TestCase(object):
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = np.append(self.y_store[key], res[key][i:])
+                for x in res[key][i:]:
+                    self.y_store[key].append(x)
         # Store control signals (will be baseline if not activated, test controller input if activated)
         for key in self.u.keys():
             # Replace '_u' and '_y' for key used to collect data and don't overwrite time
@@ -214,7 +216,8 @@ class TestCase(object):
                 key_data = key
             self.u[key] = res[key_data][-1]
             if store:
-                self.u_store[key] = np.append(self.u_store[key], res[key_data][i:])
+                for x in res[key_data][i:]:
+                    self.u_store[key].append(x)
 
     def advance(self, u):
         '''Advances the test case model simulation forward one step.
@@ -681,11 +684,38 @@ class TestCase(object):
                 payload['time'] = self.u_store['time']
             # Get correct time
             if payload and 'time' in payload:
-                time1 = payload['time']
+                # Find min and max time
+                min_t = min(payload['time'])
+                max_t = max(payload['time'])
+                # If min time is before start time
+                if min_t < start_time:
+                    # Check if start time in time array
+                    if start_time in payload['time']:
+                        t1 = start_time
+                    # Otherwise, find first time in time array after start time
+                    else:
+                        np_t = np.array(payload['time'])
+                        t1 = np_t[np_t>=start_time][0]
+                # Otherwise, first time is min time
+                else:
+                    t1 = min_t
+                # If max time is after final time
+                if max_t > final_time:
+                    # Check if final time in time array
+                    if final_time in payload['time']:
+                        t2 = final_time
+                    # Otherwise, find last time in time array before final time
+                    else:
+                        np_t = np.array(payload['time'])
+                        t2 = np_t[np_t<=final_time][-1]
+                # Otherwise, last time is max time
+                else:
+                    t2 = max_t
+                # Use found first and last time to find corresponding indecies
+                i1 = payload['time'].index(t1)
+                i2 = payload['time'].index(t2)+1
                 for key in (point_names +['time']):
-                    payload[key] = payload[key][time1>=start_time]
-                    time2 = time1[time1>=start_time]
-                    payload[key] = payload[key][time2<=final_time]
+                    payload[key] = payload[key][i1:i2]
         except:
             status = 500
             message = "Failed to query simulation results: {}".format(traceback.format_exc())
