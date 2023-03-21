@@ -1,4 +1,4 @@
-- label: Available in Latest Release (v0.3.0)
+- label: Available in Latest Release (v0.4.0)
   items:
     - name: BESTEST Air
       link: /testcases/ibpsa/testcases_ibpsa_bestest_air/
@@ -8,14 +8,12 @@
       link: /testcases/ibpsa/testcases_ibpsa_bestest_hydronic_heat_pump/
     - name: Single Zone Commercial Hydronic
       link: /testcases/ibpsa/testcases_ibpsa_singlezone_commercial_hydronic/
+    - name: Two Zone Apartment Hydronic
+      link: /testcases/ibpsa/testcases_ibpsa_twozone_apartment_hydronic/
     - name: Multizone Residential Hydronic
       link: /testcases/ibpsa/testcases_ibpsa_multizone_residential_hydronic/
     - name: Multizone Office Simple Air
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
-- label: Expected in Next Release
-  items:
-    - name: Two Zone Apartment Hydronic
-      link: /testcases/ibpsa/testcases_ibpsa_twozone_apartment_hydronic/
 - label: Under Development
   items:
     - name: Single Zone Commercial Air
