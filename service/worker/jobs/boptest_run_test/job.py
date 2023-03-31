@@ -56,9 +56,8 @@ class Job:
         self.register_message_handler("get_kpis", self.get_kpis)
         self.register_message_handler("get_scenario", self.get_scenario)
         self.register_message_handler("set_scenario", self.set_scenario)
-        self.register_message_handler("get_forecast_parameters", self.get_forecast_parameters)
-        self.register_message_handler("set_forecast_parameters", self.set_forecast_parameters)
         self.register_message_handler("get_forecast", self.get_forecast)
+        self.register_message_handler("get_forecast_points", self.get_forecast_points)
         self.register_message_handler("get_step", self.get_step)
         self.register_message_handler("set_step", self.set_step)
         self.register_message_handler("stop", self.stop)
@@ -181,11 +180,11 @@ class Job:
         return self.package_response(self.tc.get_measurements())
 
     def get_results(self, params):
-        point_name = params["point_name"]
-        results_start_time = params["start_time"]
-        results_final_time = params["final_time"]
+        point_names = params["point_names"]
+        start_time = params["start_time"]
+        final_time = params["final_time"]
 
-        return self.package_response(self.tc.get_results(point_name, results_start_time, results_final_time))
+        return self.package_response(self.tc.get_results(point_names, start_time, final_time))
 
     def get_kpis(self, params):
         return self.package_response(self.tc.get_kpis())
@@ -200,16 +199,15 @@ class Job:
             params['time_period'] = None
         return self.package_response(self.tc.set_scenario(params))
 
-    def get_forecast_parameters(self, params):
-        return self.package_response(self.tc.get_forecast_parameters())
-
-    def set_forecast_parameters(self, params):
+    def get_forecast(self, params):
+        point_names = params["point_names"]
         horizon = params["horizon"]
         interval = params["interval"]
-        return self.package_response(self.tc.set_forecast_parameters(horizon, interval))
 
-    def get_forecast(self, params):
-        return self.package_response(self.tc.get_forecast())
+        return self.package_response(self.tc.get_forecast(point_names, horizon, interval))
+
+    def get_forecast_points(self, params):
+        return self.package_response(self.tc.get_forecast_points())
 
     def get_step(self, params):
         return self.package_response(self.tc.get_step())

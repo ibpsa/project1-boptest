@@ -1,5 +1,4 @@
 import express from 'express'
-import got from 'got'
 import { param } from 'express-validator'
 import { validateTestid } from './validators'
 import * as boptestLib from '../lib/boptestLib'
@@ -159,7 +158,7 @@ const getTestcases = async (req, res, next) => {
   res.json(await boptestLib.getTestcases(req.testcaseKeyPrefix))
 }
 
-boptestRoutes.get('/testcases', 
+boptestRoutes.get('/testcases',
   middleware.identify,
   (req, res, next) => {
     req.testcaseKeyPrefix = boptestLib.getPrefixForTestcase(ibpsaNamespace)
@@ -189,7 +188,7 @@ boptestRoutes.get('/users/:userName/testcases',
 
 // Get queued and running tests //
 
-boptestRoutes.get('/users/:userName/tests', 
+boptestRoutes.get('/users/:userName/tests',
   middleware.identify,
   middleware.requireUser,
   async (req, res, next) => {
@@ -215,17 +214,17 @@ boptestRoutes.put('/stop/:testid',
 
 // POST results //
 
-boptestRoutes.post('/submit/:testid', 
+boptestRoutes.post('/submit/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
   async (req, res, next) => {
-  try {
-    const payload = await messaging.callWorkerMethod(req.params.testid, 'post_results_to_dashboard', req.body)
-    res.status(payload.status).json(payload)
-  } catch (e) {
-    next(e)
-  }
-});
+    try {
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'post_results_to_dashboard', req.body)
+      res.status(payload.status).json(payload)
+    } catch (e) {
+      next(e)
+    }
+  });
 
 // GET status //
 
@@ -244,7 +243,7 @@ boptestRoutes.get('/status/:testid',
 
 // GET test name //
 
-boptestRoutes.get('/name/:testid', 
+boptestRoutes.get('/name/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
   async (req, res, next) => {
@@ -399,6 +398,11 @@ boptestRoutes.put('/results/:testid',
   middleware.validationResponse,
   async (req, res, next) => {
     try {
+      // requests sent as form data may need to coherce the point_names into an Array
+      // This is workaround, sending json does not require this
+      if (typeof req.body.point_names == 'string') {
+        req.body['point_names'] = [req.body.point_names]
+      }
       const payload = await messaging.callWorkerMethod(req.params.testid, 'get_results', req.body)
       res.status(payload.status).json(payload)
     } catch (e) {
@@ -407,14 +411,19 @@ boptestRoutes.put('/results/:testid',
   }
 );
 
-// GET forecast_parameters //
+// PUT forecast //
 
-boptestRoutes.get('/forecast_parameters/:testid',
+boptestRoutes.put('/forecast/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_forecast_parameters', {})
+      // requests sent as form data may need to coherce the point_names into an Array
+      // This is workaround, sending json does not require this
+      if (typeof req.body.point_names == 'string') {
+        req.body['point_names'] = [req.body.point_names]
+      }
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_forecast', req.body)
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
@@ -422,29 +431,14 @@ boptestRoutes.get('/forecast_parameters/:testid',
   }
 );
 
-// PUT forecast_parameters //
+// GET forecast_points //
 
-boptestRoutes.put('/forecast_parameters/:testid',
+boptestRoutes.get('/forecast_points/:testid',
   param('testid').custom(validateTestid),
   middleware.validationResponse,
   async (req, res, next) => {
     try {
-      const payload = await messaging.callWorkerMethod(req.params.testid, 'set_forecast_parameters', req.body)
-      res.status(payload.status).json(payload)
-    } catch (e) {
-      next(e);
-    }
-  }
-);
-
-// GET forecast //
-
-boptestRoutes.get('/forecast/:testid', 
-  param('testid').custom(validateTestid),
-  middleware.validationResponse,
-  async (req, res, next) => {
-    try {
-      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_forecast', {})
+      const payload = await messaging.callWorkerMethod(req.params.testid, 'get_forecast_points', {})
       res.status(payload.status).json(payload)
     } catch (e) {
       next(e);
