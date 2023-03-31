@@ -63,6 +63,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
         self.input = {'fcu_oveTSup_activate': 0, 'fcu_oveTSup_u': 290}
         self.measurement = 'zon_weaSta_reaWeaSolHouAng_y'
+        self.forecast_point = 'EmissionsElectricPower'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
