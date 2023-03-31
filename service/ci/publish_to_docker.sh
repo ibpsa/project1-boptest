@@ -1,5 +1,9 @@
 # load .env defines in root of repo
 export $(egrep -v '^#' .env | xargs)
+export WEB_REGISTRY_URI=boptest-service-web
+export WORKER_REGISTRY_URI=boptest-service-worker
+
+
 export DOCKER_HUB_WEB_REGISTRY_URI=nrel/boptest-web
 export DOCKER_HUB_WORKER_REGISTRY_URI=nrel/boptest-worker
 
