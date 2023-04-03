@@ -4,6 +4,8 @@
 
 Released on xx/xx/xxxx.
 
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+- In unit test checking fetching of single forecast variable, specify specific forecast point to check for each test case.  This is for [#529](https://github.com/ibpsa/project1-boptest/issues/529).
 
 ## BOPTEST v0.4.0
 

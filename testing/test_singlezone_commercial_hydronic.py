@@ -97,6 +97,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       'oveTZonSet_activate':0,
                       'oveTZonSet_u':273.15+25}
         self.measurement = 'ahu_reaTRetAir_y'
+        self.forecast_point = 'EmissionsBiomassPower'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

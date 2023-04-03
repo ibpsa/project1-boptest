@@ -601,8 +601,7 @@ class partialTestAPI(partialChecks):
         # Initialize
         requests.put('{0}/initialize'.format(self.url), json={'start_time':0, 'warmup_period':0})
         # Test case forecast
-        forecast_points = list(requests.get('{0}/forecast_points'.format(self.url)).json()['payload'].keys())
-        forecast = requests.put('{0}/forecast'.format(self.url), json={'point_names':[forecast_points[0]], 'horizon':horizon, 'interval':interval}).json()['payload']
+        forecast = requests.put('{0}/forecast'.format(self.url), json={'point_names':[self.forecast_point], 'horizon':horizon, 'interval':interval}).json()['payload']
         df_forecaster = pd.DataFrame(forecast).set_index('time')
         # Set reference file path
         ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'put_forecast_one.csv')
