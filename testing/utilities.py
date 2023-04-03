@@ -432,7 +432,7 @@ class partialTestAPI(partialChecks):
         version = requests.get('{0}/version'.format(self.url)).json()['payload']
         # Create a regex object as three decimal digits seperated by period
         r_num = re.compile('\d.\d.\d')
-        r_dev = re.compile('0.3.0-dev\n')
+        r_dev = re.compile('0.4.0-dev\n')
         # Test that the returned version matches the expected string format
         if r_num.match(version['version']) or r_dev.match(version['version']):
             self.assertTrue(True)
