@@ -92,11 +92,12 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
-        self.input = {'oveTSupSet_activate':0, 
+        self.input = {'oveTSupSet_activate':0,
                       'oveTSupSet_u':273.15+25,
-                      'oveTZonSet_activate':0, 
+                      'oveTZonSet_activate':0,
                       'oveTZonSet_u':273.15+25}
         self.measurement = 'ahu_reaTRetAir_y'
+        self.forecast_point = 'EmissionsBiomassPower'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

@@ -172,6 +172,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
         self.input = {'oveTSetRooHea_activate': 0, 'oveTSetRooHea_u': 273.15 + 22}
         self.measurement = 'PFan_y'
+        self.forecast_point = 'EmissionsBiomassPower'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
