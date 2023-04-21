@@ -64,6 +64,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.input = {'hvac_oveAhu_TSupSet_activate': 0,
                       'hvac_oveAhu_TSupSet_u': 273.15 + 22}
         self.measurement = 'hvac_reaAhu_PPumHea_y'
+        self.forecast_point = 'EmissionsElectricPower'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

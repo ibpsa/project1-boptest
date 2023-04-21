@@ -1,7 +1,7 @@
 License
 -------
 
-BOPTEST. Copyright (c) 2018-2022
+BOPTEST. Copyright (c) 2018-2023
 International Building Performance Simulation Association (IBPSA) and
 contributors.
 All rights reserved.

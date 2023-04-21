@@ -1,11 +1,23 @@
 # Release Notes
 
-## BOPTEST v0.3.0-dev
+## BOPTEST v0.4.0-dev
 
 Released on xx/xx/xxxx.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
+- Update ``docs/tutorials/tutorial1_developer`` and ``docs/workshops/BS21Workshop_20210831``.  This is for This is for [#532](https://github.com/ibpsa/project1-boptest/issues/532).
+- In examples and unit test Python requests, use ``json`` attribute instead of ``data``.  This is for [#528](https://github.com/ibpsa/project1-boptest/issues/528).
+- In unit test checking fetching of single forecast variable, specify specific forecast point to check for each test case.  This is for [#529](https://github.com/ibpsa/project1-boptest/issues/529).
+
+
+## BOPTEST v0.4.0
+
+Released on 03/21/2023.
+
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Use python arrays instead of numpy arrays for storage of data in ``y_store`` and ``u_store`` in ``testcase.py`` for more efficient memory utilization, resulting in more consistent computation time for each advance step and faster overall test simulations.  This is for [#520](https://github.com/ibpsa/project1-boptest/issues/520).
 - Specify version on master branch as ``<latest release>-dev`` instead of ``0.x.x``.  This is for [#516](https://github.com/ibpsa/project1-boptest/issues/516).
 - Update tutorial in ``docs/workshops/BS21Workshop_20210831`` to be compatible with BOPTEST v0.3.0 deployed in BOPTEST-Service.  This is for [#507](https://github.com/ibpsa/project1-boptest/issues/507).
 - Add ``get_html_IO.py`` to ``/data`` folder and remove it from ``/testcases`` folders to avoid code duplication. This is for [#464](https://github.com/ibpsa/project1-boptest/issues/464).
