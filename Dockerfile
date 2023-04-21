@@ -6,6 +6,12 @@ RUN 	apt-get update && \
     	wget \
     	libgfortran4
 
+# Install commands for Spawn
+ENV SPAWN_VERSION=0.3.0-8d93151657
+RUN wget https://spawn.s3.amazonaws.com/custom/Spawn-$SPAWN_VERSION-Linux.tar.gz \
+    && tar -xzf Spawn-$SPAWN_VERSION-Linux.tar.gz \
+    && ln -s /Spawn-$SPAWN_VERSION-Linux/bin/spawn-$SPAWN_VERSION /usr/local/bin/
+
 # Create new user
 RUN 	useradd -ms /bin/bash user
 USER user
