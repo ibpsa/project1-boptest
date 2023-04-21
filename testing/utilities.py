@@ -520,7 +520,7 @@ class partialTestAPI(partialChecks):
         # Advance
         step_advance = 1*24*3600
         requests.put('{0}/step'.format(self.url), json={'step':step_advance})
-        y = requests.post('{0}/advance'.format(self.url)).json()['payload']
+        y = requests.post('{0}/advance'.format(self.url), json=dict()).json()['payload']
         # Check trajectories
         df = self.results_to_df(points, start_time, start_time+step_advance, self.url)
         # Set reference file path
@@ -696,7 +696,7 @@ class partialTestAPI(partialChecks):
                     "electricity_price":"dynamic"}
         # Set test case scenario
         y = requests.put("{0}/scenario".format(self.url),
-                         data=scenario).json()["payload"]["time_period"]
+                         json=scenario).json()["payload"]["time_period"]
         # Set step so doesn't take too long
         requests.put('{0}/step'.format(self.url), json={'step':86400})
         # Simulation Loop
@@ -897,7 +897,7 @@ class partialTestAPI(partialChecks):
                     "electricity_price":"dynamic"}
         # Set test case scenario
         y = requests.put("{0}/scenario".format(self.url),
-                         data=scenario).json()["payload"]["time_period"]
+                         json=scenario).json()["payload"]["time_period"]
         # Set step so doesn't take too long
         requests.put('{0}/step'.format(self.url), json={'step':86400})
         # Simulation Loop
