@@ -8,6 +8,7 @@ Thank you to all who have provided guidance on the development of this software.
 - David Blum, Lawrence Berkeley National Laboratory
 - Yan Chen, Pacific Northwest National Laboratory
 - Konstantin Filonenko, University of Southern Denmark
+- Gauthier-Clerc Francois, Pure Control
 - Valentin Gavan, ENGIE
 - Lieve Helsen, KU Leuven
 - Sen Huang, Pacific Northwest National Laboratory
