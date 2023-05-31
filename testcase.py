@@ -227,7 +227,7 @@ class TestCase(object):
         u : dict
             Defines the control input data to be used for the step.
             {<input_name>_activate : bool, int, float, or str convertable to 1 or 0
-             <input_name>_u        : int or float}
+             <input_name>_u        : int or float, or str convertable to float}
 
         Returns
         -------
