@@ -45,8 +45,7 @@ class Advance(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        self.testcase_name = 'bestest_air'
-        self.testcase = testcase.TestCase(fmupath='testcases/'+self.testcase_name+'/models/wrapped.fmu')
+        self.testcase = testcase.TestCase(fmupath='testcases/bestest_air/models/wrapped.fmu')
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
