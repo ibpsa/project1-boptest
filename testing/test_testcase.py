@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed May 31 06:45:55 2023
+This module implements unit tests testcase.py.
 
-@author: dhbubu18
 """
 
 import os
