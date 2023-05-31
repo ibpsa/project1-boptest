@@ -276,7 +276,7 @@ class TestCase(object):
                         message = "Unexpected input variable: {}.".format(key)
                         logging.error(message)
                         return status, message, payload
-                    if key != 'time' and u[key]:
+                    if (key != 'time' and (u[key] != None)):
                         if '_activate' in key:
                             try:
                                 if float(u[key]) == 1:
