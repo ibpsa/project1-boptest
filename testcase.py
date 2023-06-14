@@ -21,6 +21,7 @@ from datetime import datetime
 import uuid
 import os
 import json
+import array as a
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -41,8 +42,10 @@ class TestCase(object):
         # Set BOPTEST version number
         with open('version.txt', 'r') as f:
             self.version = f.read()
-        # Set test case fmu path
+        # Set test case fmu path and check if path exists and throw execption
         self.fmupath = fmupath
+        if not os.path.exists(fmupath) or not os.path.isfile(fmupath):
+            raise Exception("The test case FMU cannot be found. Check TESTCASE name entered correctly.")
         # Instantiate a data manager for this test case
         self.data_manager = Data_Manager(testcase=self)
         # Load data and the kpis_json for the test case
@@ -73,10 +76,9 @@ class TestCase(object):
         # Get available control inputs and outputs
         self.input_names = self.fmu.get_model_variables(causality = 2).keys()
         self.output_names = self.fmu.get_model_variables(causality = 3).keys()
+        self.forecast_names = list(self.data.keys())
         # Set default communication step
         self.set_step(self.config_json['step'])
-        # Set default forecast parameters
-        self.set_forecast_parameters(self.config_json['horizon'], self.config_json['interval'])
         # Initialize simulation data arrays
         self.__initilize_data()
         # Set default fmu simulation options
@@ -108,11 +110,12 @@ class TestCase(object):
 
         '''
 
-        # Get input and output meta-data
+        # Get input and output and forecast meta-data
         self.inputs_metadata = self._get_var_metadata(self.fmu, self.input_names, inputs=True)
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
+        self.forecasts_metadata = self.data_manager.get_data_metadata()
         # Outputs data
-        self.y = {'time': np.array([])}
+        self.y = {'time': a.array('d',[])}
         for key in self.output_names:
             # Do not store outputs that are current values of control inputs
             flag = False
@@ -125,12 +128,12 @@ class TestCase(object):
                 # from outputs metadata dictionary
                 self.outputs_metadata.pop(key)
             else:
-                self.y[key] = np.array([])
+                self.y[key] = a.array('d',[])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':np.array([])}
+        self.u = {'time':a.array('d',[])}
         for key in self.input_names:
-            self.u[key] = np.array([])
+            self.u[key] = a.array('d',[])
         self.u_store = copy.deepcopy(self.u)
 
     def __simulation(self,start_time,end_time,input_object=None):
@@ -200,7 +203,8 @@ class TestCase(object):
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = np.append(self.y_store[key], res[key][i:])
+                for x in res[key][i:]:
+                    self.y_store[key].append(x)
         # Store control signals (will be baseline if not activated, test controller input if activated)
         for key in self.u.keys():
             # Replace '_u' and '_y' for key used to collect data and don't overwrite time
@@ -212,7 +216,8 @@ class TestCase(object):
                 key_data = key
             self.u[key] = res[key_data][-1]
             if store:
-                self.u_store[key] = np.append(self.u_store[key], res[key_data][i:])
+                for x in res[key_data][i:]:
+                    self.u_store[key].append(x)
 
     def advance(self, u):
         '''Advances the test case model simulation forward one step.
@@ -613,13 +618,13 @@ class TestCase(object):
 
         return status, message, payload
 
-    def get_results(self, point_name, start_time, final_time):
+    def get_results(self, point_names, start_time, final_time):
         '''Returns measurement and control input trajectories.
 
         Parameters
         ----------
-        point_name: str
-            Name of variable.
+        point_names: list
+            Variable names.
         start_time : int or float
             Start time of data to return in seconds.
         final_time : int or float
@@ -660,32 +665,57 @@ class TestCase(object):
             message = "Invalid value {} for parameter final_time. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(final_time, type(final_time))
             logging.error(message)
             return status, message, payload
-        payload = []
+        payload = {}
         try:
-            # Get correct point
-            if point_name in self.y_store.keys():
-                payload = {
-                    'time': self.y_store['time'],
-                     point_name: self.y_store[point_name]
-                }
-            elif point_name in self.u_store.keys():
-                payload = {
-                    'time': self.u_store['time'],
-                     point_name: self.u_store[point_name]
-                }
-            else:
-                status = 400
-                message = "Invalid value {} for parameter point_name.  Check lists of inputs and measurements.".format(point_name)
-                logging.error(message)
-                return status, message, None
-
+            for point_name in point_names:
+                # Get correct points
+                if point_name in self.y_store.keys():
+                    payload[point_name] = self.y_store[point_name]
+                elif point_name in self.u_store.keys():
+                    payload[point_name] = self.u_store[point_name]
+                else:
+                    status = 400
+                    message = "Invalid point name {} in parameter point_names.  Check lists of available inputs and measurements.".format(point_name)
+                    logging.error(message)
+                    return status, message, None
+            if any(item in point_names for item in self.y_store.keys()):
+                payload['time'] = self.y_store['time']
+            elif any(item in point_names for item in self.u_store.keys()):
+                payload['time'] = self.u_store['time']
             # Get correct time
             if payload and 'time' in payload:
-                time1 = payload['time']
-                for key in [point_name, 'time']:
-                    payload[key] = payload[key][time1>=start_time]
-                    time2 = time1[time1>=start_time]
-                    payload[key] = payload[key][time2<=final_time]
+                # Find min and max time
+                min_t = min(payload['time'])
+                max_t = max(payload['time'])
+                # If min time is before start time
+                if min_t < start_time:
+                    # Check if start time in time array
+                    if start_time in payload['time']:
+                        t1 = start_time
+                    # Otherwise, find first time in time array after start time
+                    else:
+                        np_t = np.array(payload['time'])
+                        t1 = np_t[np_t>=start_time][0]
+                # Otherwise, first time is min time
+                else:
+                    t1 = min_t
+                # If max time is after final time
+                if max_t > final_time:
+                    # Check if final time in time array
+                    if final_time in payload['time']:
+                        t2 = final_time
+                    # Otherwise, find last time in time array before final time
+                    else:
+                        np_t = np.array(payload['time'])
+                        t2 = np_t[np_t<=final_time][-1]
+                # Otherwise, last time is max time
+                else:
+                    t2 = max_t
+                # Use found first and last time to find corresponding indecies
+                i1 = payload['time'].index(t1)
+                i2 = payload['time'].index(t2)+1
+                for key in (point_names +['time']):
+                    payload[key] = payload[key][i1:i2]
         except:
             status = 500
             message = "Failed to query simulation results: {}".format(traceback.format_exc())
@@ -696,7 +726,7 @@ class TestCase(object):
             for key in payload:
                 payload[key] = payload[key].tolist()
 
-        message = "Queried results data successfully for point with name {}.".format(point_name)
+        message = "Queried results data successfully for point names {}.".format(point_names)
         logging.info(message)
         return status, message, payload
 
@@ -745,78 +775,8 @@ class TestCase(object):
 
         return status, message, payload
 
-    def set_forecast_parameters(self, horizon, interval):
-        '''Sets the forecast horizon and interval, both in seconds.
-
-        Parameters
-        ----------
-        horizon: int or float
-            Forecast horizon in seconds.
-        interval: int or float
-            Forecast interval in seconds.
-
-        Returns
-        -------
-        status: int
-            Indicates whether a request for setting the forecast parameters has been completed.
-            If 200, the parameters were successfully set.
-            If 400, invalid horizon and/or interval (non-numeric) were identified.
-            If 500, an internal error occured.
-        message: str
-            Includes detailed debugging information.
-        payload : dict
-            Dictionary containing forecast parameters names and values:
-            {<parameter_name>:<parameter_value>}.
-            Returns None if error during setting.
-
-        '''
-
-        status = 200
-        message = "Forecast horizon and interval were set successfully."
-        payload = dict()
-        try:
-            horizon = float(horizon)
-        except:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter horizon. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(horizon, type(horizon))
-            logging.error(message)
-            return status, message, payload
-        try:
-            interval = float(interval)
-        except:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
-            logging.error(message)
-            return status, message, payload
-        if horizon < 0:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
-            logging.error(message)
-            return status, message, payload
-        if interval < 0:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter interval. Value must not be negative.".format(interval)
-            logging.error(message)
-            return status, message, payload
-        try:
-            self.horizon = horizon
-            self.interval = interval
-            payload['horizon'] = self.horizon
-            payload['interval'] = self.interval
-        except:
-            status = 500
-            message = "Failed to set forecast horizon and interval: {}".format(traceback.format_exc())
-            logging.error(message)
-        logging.info(message)
-
-        return status, message, payload
-
-    def get_forecast_parameters(self):
-        '''Returns the current forecast horizon and interval parameters.
+    def get_forecast_points(self):
+        '''Returns a dictionary of available forecast points and their meta-data.
 
         Parameters
         ----------
@@ -825,37 +785,42 @@ class TestCase(object):
         Returns
         -------
         status: int
-            Indicates whether a request for querying the forecast parameters has been completed.
-            If 200, the forecast parameters were successfully queried.
+            Indicates whether a request for querying the forecast points has been completed.
+            If 200, the outputs were successfully queried.
             If 500, an internal error occurred.
         message: str
-            Includes detailed debugging information .
-        payload: dict
-            Dictionary containing forecast parameters names and values.
-            {<parameter_name>:<parameter_value>}
+            Includes detailed debugging information.
+        payload : dict
+            Dictionary of forecast points and their meta-data.
+            Returns None if error in getting forecast points and meta-data.
 
         '''
 
+        # Get the forecast
         status = 200
-        message = "Queried the forecast parameters successfully."
-        payload = dict()
-        if self.horizon is not None and self.interval is not None:
-            payload['horizon'] = self.horizon
-            payload['interval'] = self.interval
-        else:
+        message = "Queried the forecast points and their meta-data successfully."
+        try:
+            payload = self.forecasts_metadata
+        except:
             status = 500
-            message = "Failed to query the forecast parameters: {}".format(traceback.format_exc())
+            message = "Failed to query the test case forecast points and their meta-data: {}".format(traceback.format_exc())
+            payload = None
             logging.error(message)
         logging.info(message)
 
         return status, message, payload
 
-    def get_forecast(self):
+    def get_forecast(self, point_names, horizon, interval):
         '''Returns the test case data forecast
 
         Parameters
         ----------
-        None
+        point_names : list of str
+            List of forecast point names for which to get data.
+        horizon: int or float
+            Forecast horizon in seconds.
+        interval: int or float
+            Forecast interval in seconds.
 
         Returns
         -------
@@ -877,9 +842,49 @@ class TestCase(object):
         # Get the forecast
         status = 200
         message = "Queried the forecast data successfully."
+        # Check inputs
         try:
-            payload = self.forecaster.get_forecast(horizon=self.horizon,
-                                                   interval=self.interval)
+            horizon = float(horizon)
+        except:
+            payload = None
+            status = 400
+            message = "Invalid value {} for parameter horizon. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(horizon, type(horizon))
+            logging.error(message)
+            return status, message, payload
+        try:
+            interval = float(interval)
+        except:
+            payload = None
+            status = 400
+            message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
+            logging.error(message)
+            return status, message, payload
+        if horizon <= 0:
+            payload = None
+            status = 400
+            message = "Invalid value {} for parameter horizon. Value must be positive.".format(horizon)
+            logging.error(message)
+            return status, message, payload
+        if interval <= 0:
+            payload = None
+            status = 400
+            message = "Invalid value {} for parameter interval. Value must be positive.".format(interval)
+            logging.error(message)
+            return status, message, payload
+        wrong_points = []
+        for point in point_names:
+            if point not in self.forecast_names:
+                wrong_points.append(str(point))
+        if wrong_points:
+            payload = None
+            status = 400
+            message = "Invalid point name(s) {} in parameter point_names.  Check list of available forecast points.".format(wrong_points)
+            logging.error(message)
+            return status, message, payload
+        try:
+            payload = self.forecaster.get_forecast(point_names,
+                                                   horizon=horizon,
+                                                   interval=interval)
         except:
             status = 500
             message = "Failed to query the test case forecast data: {}".format(traceback.format_exc())
@@ -1136,7 +1141,6 @@ class TestCase(object):
               },
               "tags": tags,
               "kpis": self.get_kpis()[2],
-              "forecastParameters": self.get_forecast_parameters()[2],
               "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
               "buildingType": {
                 "uid": self.get_name()[2]['name']

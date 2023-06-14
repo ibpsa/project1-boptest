@@ -694,7 +694,7 @@ class KPI_Calculator(object):
         '''
 
         elapsed_control_time_ratio = self.case._get_elapsed_control_time_ratio()
-        time_rat = np.mean(elapsed_control_time_ratio)
+        time_rat = np.mean(elapsed_control_time_ratio) if len(elapsed_control_time_ratio) else None
 
         self.case.time_rat = time_rat
 
@@ -722,10 +722,10 @@ class KPI_Calculator(object):
         '''
 
         # Initialize index
-        if self.case.y_store['time'].size > 0:
+        if len(self.case.y_store['time']) > 0:
             if set_initial:
                 # Find initial testing time index
-                i = len(self.case.y_store['time'][self.case.y_store['time']<self.case.initial_time])
+                i = len([x for x in self.case.y_store['time'] if x < self.case.initial_time])
             else:
                 # Use index since last integration
                 i = len(self.case.y_store['time'])-1

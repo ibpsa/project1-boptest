@@ -78,18 +78,19 @@ parser_advance = reqparse.RequestParser(argument_class=CustomArgument)
 for key in case.u.keys():
     if key != 'time':
         parser_advance.add_argument(key)
-# ``forecast_parameters`` interface
-parser_forecast_parameters = reqparse.RequestParser(argument_class=CustomArgument)
-forecast_parameters = ['horizon', 'interval']
-for arg in forecast_parameters:
-    parser_forecast_parameters.add_argument(arg, required=True)
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser(argument_class=CustomArgument)
 parser_scenario.add_argument('electricity_price', type=str)
 parser_scenario.add_argument('time_period', type=str)
+# ``forecast`` interface
+parser_forecast_points = reqparse.RequestParser(argument_class=CustomArgument)
+parser_forecast_points.add_argument('point_names', type=list, action='append', required=True)
+forecast_parameters = ['horizon', 'interval']
+for arg in forecast_parameters:
+    parser_forecast_points.add_argument(arg, required=True)
 # ``results`` interface
 results_var = reqparse.RequestParser(argument_class=CustomArgument)
-results_var.add_argument('point_name', type=str, required=True)
+results_var.add_argument('point_names', type=list, action='append', required=True)
 results_var.add_argument('start_time', required=True)
 results_var.add_argument('final_time', required=True)
 # ``submit`` interface
@@ -160,6 +161,13 @@ class Measurements(Resource):
         status, message, payload = case.get_measurements()
         return construct(status, message, payload)
 
+class Forecast_Points(Resource):
+    '''Interface to test case forecast points.'''
+
+    def get(self):
+        '''GET request to receive list of available forecast points.'''
+        status, message, payload = case.get_forecast_points()
+        return construct(status, message, payload)
 
 class Results(Resource):
     '''Interface to test case result data.'''
@@ -167,12 +175,13 @@ class Results(Resource):
     def put(self):
         '''PUT request to receive measurement data.'''
         args = results_var.parse_args(strict=True)
-        var = args['point_name']
+        point_names = []
+        for point_name in args['point_names']:
+            point_names.append(''.join(point_name))
         start_time = args['start_time']
         final_time = args['final_time']
-        status, message, payload = case.get_results(var, start_time, final_time)
+        status, message, payload = case.get_results(point_names, start_time, final_time)
         return construct(status, message, payload)
-
 
 class KPI(Resource):
     '''Interface to test case KPIs.'''
@@ -183,31 +192,19 @@ class KPI(Resource):
         return construct(status, message, payload)
 
 
-class Forecast_Parameters(Resource):
-    '''Interface to test case forecast parameters.'''
-
-    def get(self):
-        '''GET request to receive forecast parameters.'''
-        status, message, payload = case.get_forecast_parameters()
-        return construct(status, message, payload)
-
-    def put(self):
-        '''PUT request to set forecast horizon and interval inseconds.'''
-        args = parser_forecast_parameters.parse_args()
-        horizon = args['horizon']
-        interval = args['interval']
-        status, message, payload = case.set_forecast_parameters(horizon, interval)
-        return construct(status, message, payload)
-
-
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
 
-    def get(self):
-        '''GET request to receive forecast data.'''
-        status, message, payload = case.get_forecast()
+    def put(self):
+        '''PUT request to receive forecast data.'''
+        args = parser_forecast_points.parse_args()
+        horizon = args['horizon']
+        interval = args['interval']
+        point_names = []
+        for point_name in args['point_names']:
+            point_names.append(''.join(point_name))
+        status, message, payload = case.get_forecast(point_names, horizon, interval)
         return construct(status, message, payload)
-
 
 class Scenario(Resource):
     '''Interface to test case scenario.'''
@@ -223,7 +220,6 @@ class Scenario(Resource):
         status, message, payload = case.set_scenario(scenario)
         return construct(status, message, payload)
 
-
 class Name(Resource):
     '''Interface to test case name.'''
 
@@ -231,7 +227,6 @@ class Name(Resource):
         '''GET request to receive test case name.'''
         status, message, payload = case.get_name()
         return construct(status, message, payload)
-
 
 class Version(Resource):
     '''Interface to BOPTEST version.'''
@@ -269,9 +264,9 @@ api.add_resource(Initialize, '/initialize')
 api.add_resource(Step, '/step')
 api.add_resource(Inputs, '/inputs')
 api.add_resource(Measurements, '/measurements')
+api.add_resource(Forecast_Points, '/forecast_points')
 api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
-api.add_resource(Forecast_Parameters, '/forecast_parameters')
 api.add_resource(Forecast, '/forecast')
 api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')
