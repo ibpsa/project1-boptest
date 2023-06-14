@@ -111,7 +111,7 @@ model wrapped "Wrapped model"
  Modelica.Blocks.Interfaces.RealOutput EPlus96_oveTZonTopSou_y(unit="K") = mod.EPlus96.oveTZonTopSou.y "Top floor air temperature of south zone";
  Modelica.Blocks.Interfaces.RealOutput EPlus96_oveTZonTopWes_y(unit="K") = mod.EPlus96.oveTZonTopWes.y "Top floor air temperature of west zone";
  // Original model
- EPlusLargeOffice.Testcases.LargeOffice mod(EPlus96(
+ MultiZoneLargeOfficeEPlus.Testcases.Testcase mod(EPlus96(
   oveTZonBotCor(        uExt(y=EPlus96_oveTZonBotCor_u),activate(y=EPlus96_oveTZonBotCor_activate)),
   oveTZonBotEas(        uExt(y=EPlus96_oveTZonBotEas_u),activate(y=EPlus96_oveTZonBotEas_activate)),
   oveTZonBotNor(        uExt(y=EPlus96_oveTZonBotNor_u),activate(y=EPlus96_oveTZonBotNor_activate)),
