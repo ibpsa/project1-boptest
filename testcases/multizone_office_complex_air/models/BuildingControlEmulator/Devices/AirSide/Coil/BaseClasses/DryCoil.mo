@@ -22,14 +22,14 @@ model DryCoil
     dp2_nominal=PreDroAir,
     eps=eps)
     annotation (Placement(transformation(extent={{-14,-10},{6,10}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort temEntWat(redeclare package Medium
-      = MediumWat)
+  Modelica.Fluid.Sensors.TemperatureTwoPort temEntWat(redeclare package Medium =
+        MediumWat)
     annotation (Placement(transformation(extent={{-74,-4},{-54,16}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort temLeaWat(redeclare package Medium
-      = MediumWat)
+  Modelica.Fluid.Sensors.TemperatureTwoPort temLeaWat(redeclare package Medium =
+        MediumWat)
     annotation (Placement(transformation(extent={{62,-4},{82,16}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort temEntAir(redeclare package Medium
-      = MediumAir)
+  Modelica.Fluid.Sensors.TemperatureTwoPort temEntAir(redeclare package Medium =
+        MediumAir)
     annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
   Modelica.Fluid.Sensors.MassFlowRate masFloWat(redeclare package Medium =
         MediumWat)
@@ -43,8 +43,8 @@ model DryCoil
   Modelica.Fluid.Sensors.MassFlowRate masFloAir(redeclare package Medium =
         MediumAir)
     annotation (Placement(transformation(extent={{-40,-70},{-60,-50}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort temLeaAir(redeclare package Medium
-      = MediumAir)
+  Modelica.Fluid.Sensors.TemperatureTwoPort temLeaAir(redeclare package Medium =
+        MediumAir)
     annotation (Placement(transformation(extent={{-68,-70},{-88,-50}})));
   Modelica.Fluid.Sensors.Pressure preAirLea(redeclare package Medium =
         MediumAir)
@@ -102,32 +102,32 @@ equation
       thickness=1));
   connect(temEntAir.port_b, coi.port_a2) annotation (Line(
       points={{30,-60},{20,-60},{20,-6},{6,-6}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(temEntAir.port_a,port_a_Air)  annotation (Line(
       points={{50,-60},{100,-60}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(masFloAir.port_a, coi.port_b2) annotation (Line(
       points={{-40,-60},{-20,-60},{-20,-6},{-14,-6}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(temLeaAir.port_a, masFloAir.port_b) annotation (Line(
       points={{-68,-60},{-60,-60}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(temLeaAir.port_b,port_b_Air)  annotation (Line(
       points={{-88,-60},{-100,-60}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(preAirLea.port, coi.port_b2) annotation (Line(
       points={{-40,-46},{-20,-46},{-20,-6},{-14,-6}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(preAirEnt.port, coi.port_a2) annotation (Line(
       points={{40,-44},{40,-46},{20,-46},{20,-6},{6,-6}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(temLeaAir.T,TAirLea)  annotation (Line(
       points={{-78,-49},{-78,-20},{110,-20}},
       color={0,0,127},

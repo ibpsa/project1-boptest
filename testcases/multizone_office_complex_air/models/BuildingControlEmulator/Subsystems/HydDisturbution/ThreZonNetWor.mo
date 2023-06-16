@@ -32,8 +32,7 @@ model ThreZonNetWor "\"Three zone system\""
   Buildings.Fluid.FixedResistances.Junction junRet1(redeclare package Medium = Medium, m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat1-mFloRat2-mFloRat3,mFloRat1},
     dp_nominal={PreDroMai2/2,PreDroMai1/2,PreDroBra1/2})
                                                 annotation (Placement(transformation(extent={{-70,-70},{-90,-50}})));
-  Buildings.Fluid.FixedResistances.Junction junRet2( redeclare package Medium
-      =                                                                         Medium, m_flow_nominal={mFloRat3,-mFloRat2-mFloRat3,mFloRat2},
+  Buildings.Fluid.FixedResistances.Junction junRet2( redeclare package Medium = Medium, m_flow_nominal={mFloRat3,-mFloRat2-mFloRat3,mFloRat2},
     dp_nominal={PreDroBra3/2,PreDroMai2/2,PreDroBra2/2})
                                                 annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
   Buildings.Fluid.FixedResistances.Junction junSup2(m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat3,-
@@ -47,8 +46,7 @@ model ThreZonNetWor "\"Three zone system\""
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         Medium) "Second port, typically outlet"
                                     annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-  Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package Medium
-      =                                                                         Medium)
+  Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package Medium = Medium)
                                                  annotation (Placement(transformation(extent={{-80,-26},{-60,-6}})));
   Modelica.Fluid.Interfaces.FluidPorts_b ports_b[3](redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{90,6},{110,86}})));
@@ -118,5 +116,9 @@ equation
         Line(points={{-90,-60},{80,-60}}, color={0,127,255}),
         Line(points={{80,40},{80,-60}}, color={0,127,255}),
         Line(points={{50,40},{50,-60}}, color={0,127,255}),
-        Line(points={{20,40},{20,-60}}, color={0,127,255})}),    Diagram(coordinateSystem(preserveAspectRatio=false)));
+        Line(points={{20,40},{20,-60}}, color={0,127,255}),
+        Text(
+          extent={{-148,106},{152,146}},
+          textString="%name",
+          textColor={0,0,255})}),                                Diagram(coordinateSystem(preserveAspectRatio=false)));
 end ThreZonNetWor;

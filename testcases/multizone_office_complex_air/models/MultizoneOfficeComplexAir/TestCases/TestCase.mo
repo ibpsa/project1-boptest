@@ -2,7 +2,7 @@ within MultizoneOfficeComplexAir.TestCases;
 model TestCase
   extends Modelica.Icons.Example;
 
-  BaseClasses.LoadSide.LoadWrapper loaEPlus
+  MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper loaEPlus
     "Load calculation in EnergyPlus using Spawn"
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC hvac(

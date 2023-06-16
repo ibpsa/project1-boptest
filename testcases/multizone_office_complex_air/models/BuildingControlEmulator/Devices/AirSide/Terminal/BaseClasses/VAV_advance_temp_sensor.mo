@@ -89,30 +89,30 @@ model VAV_advance_temp_sensor
 equation
   connect(temEnt.port_a,port_a)  annotation (Line(
       points={{-88,0},{-88,0},{-100,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(Dam.port_b, temLea.port_a)
     annotation (Line(
       points={{8,0},{30,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(temLea.port_b,masFloRat. port_a) annotation (Line(
       points={{50,0},{60,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(masFloRat.port_b,port_b)  annotation (Line(
       points={{80,0},{100,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(preLea.port,temLea. port_a) annotation (Line(
       points={{20,-20},{20,0},{30,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(preEnt.port, Dam.port_a)
     annotation (Line(
       points={{-26,-20},{-26,0},{-12,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(masFloRat.m_flow, gain.u) annotation (Line(
       points={{70,11},{70,23.2}},
       color={0,0,127},
@@ -131,10 +131,12 @@ equation
       color={255,0,0},
       thickness=1));
   connect(heaCoil.port_a_Air, temEnt.port_b)
-    annotation (Line(points={{-60,0},{-64,0},{-68,0}}, color={0,127,255}));
+    annotation (Line(points={{-60,0},{-64,0},{-68,0}}, color={0,140,72},
+      thickness=0.5));
   connect(heaCoil.port_b_Air, Dam.port_a)
     annotation (Line(points={{-40,0},{-26,0},{-12,0}},
-                                               color={0,127,255}));
+                                               color={0,140,72},
+      thickness=0.5));
   connect(ReheaVal.port_a, heaCoil.port_b_Wat) annotation (Line(
       points={{-20,40},{-22,40},{-22,28},{-60,28},{-60,12}},
       color={255,0,0},

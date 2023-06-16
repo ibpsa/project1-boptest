@@ -183,7 +183,7 @@ model Floor
         273.15 + 30,
         273.15 + 12.88),
     Fan_k=0.01)
-    annotation (Placement(transformation(extent={{-68,-12},{-40,14}})));
+    annotation (Placement(transformation(extent={{-68,14},{-40,-12}})));
   Subsystems.HydDisturbution.FivZonVAV fivZonVAV(
     redeclare package MediumAir = MediumAir,
     redeclare package MediumWat = MediumHeaWat,
@@ -229,23 +229,23 @@ model Floor
     eps4=eps4,
     PreDroAir5=PreDroAir5,
     PreDroWat5=PreDroWat5,
-    eps5=eps5) annotation (Placement(transformation(extent={{18,-50},{72,-2}})));
+    eps5=eps5) annotation (Placement(transformation(extent={{18,-2},{72,-50}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package Medium =
         MediumCooWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-70,90},{-50,110}})));
+    annotation (Placement(transformation(extent={{-70,-110},{-50,-90}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package Medium =
         MediumCooWat)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{-30,92},{-10,112}})));
+    annotation (Placement(transformation(extent={{-46,-110},{-26,-90}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package Medium =
         MediumHeaWat)
     "Second port, typically outlet"
-    annotation (Placement(transformation(extent={{10,90},{30,110}})));
+    annotation (Placement(transformation(extent={{24,-110},{44,-90}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package Medium =
         MediumHeaWat)
     "Second port, typically outlet"
-    annotation (Placement(transformation(extent={{50,90},{70,110}})));
+    annotation (Placement(transformation(extent={{46,-110},{66,-90}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium = MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
@@ -256,132 +256,145 @@ model Floor
     annotation (Placement(transformation(extent={{-56,-96},{-42,-84}})));
   Modelica.Blocks.Interfaces.BooleanInput OnFan
     "Connector of Boolean input signal"
-    annotation (Placement(transformation(extent={{-124,-72},{-100,-48}})));
+    annotation (Placement(transformation(extent={{-120,-60},{-100,-40}}),
+        iconTransformation(extent={{-120,-60},{-100,-40}})));
   Modelica.Blocks.Interfaces.BooleanInput OnZon
     "Connector of Boolean input signal"
-    annotation (Placement(transformation(extent={{-124,-112},{-100,-88}})));
+    annotation (Placement(transformation(extent={{-120,-100},{-100,-80}}),
+        iconTransformation(extent={{-120,-100},{-100,-80}})));
   Modelica.Blocks.Interfaces.RealInput ZonCooTempSetPoi[5]
     "Connector of setpoint input signal"
-    annotation (Placement(transformation(extent={{-124,88},{-100,112}})));
+    annotation (Placement(transformation(extent={{-120,90},{-100,110}}),
+        iconTransformation(extent={{-120,90},{-100,110}})));
   Modelica.Blocks.Interfaces.RealInput DisTemPSetPoi
     "Connector of setpoint input signal"
-    annotation (Placement(transformation(extent={{-124,48},{-100,72}})));
+    annotation (Placement(transformation(extent={{-120,50},{-100,70}}),
+        iconTransformation(extent={{-120,50},{-100,70}})));
   Modelica.Blocks.Interfaces.RealInput PreSetPoi
     "Connector of setpoint input signal"
-    annotation (Placement(transformation(extent={{-122,10},{-100,32}})));
+    annotation (Placement(transformation(extent={{-120,0},{-100,20}}),
+        iconTransformation(extent={{-120,0},{-100,20}})));
   Modelica.Blocks.Interfaces.RealInput AirFlowRatSetPoi[5]
     "Connector of setpoint input signal"
-    annotation (Placement(transformation(extent={{-122,-30},{-100,-8}})));
+    annotation (Placement(transformation(extent={{-120,-20},{-100,0}}),
+        iconTransformation(extent={{-120,-20},{-100,0}})));
   Modelica.Blocks.Interfaces.RealInput yVal[5]
     "Actuator position (0: closed, 1: open)"
-    annotation (Placement(transformation(extent={{-124,-92},{-100,-68}})));
+    annotation (Placement(transformation(extent={{-120,-80},{-100,-60}}),
+        iconTransformation(extent={{-120,-80},{-100,-60}})));
   Modelica.Blocks.Interfaces.RealInput Q_flow[5]
-    annotation (Placement(transformation(extent={{122,-92},{100,-70}})));
+    annotation (Placement(transformation(extent={{10,-10},{-10,10}},
+        rotation=-90,
+        origin={10,-110}), iconTransformation(
+        extent={{10,-10},{-10,10}},
+        rotation=-90,
+        origin={10,-110})));
   Modelica.Blocks.Interfaces.RealOutput TZon[5]
     "Temperature of the passing fluid"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
   Modelica.Blocks.Interfaces.RealInput ZonHeaTempSetPoi[5]
     "Connector of setpoint input signal"
-    annotation (Placement(transformation(extent={{-124,68},{-100,92}})));
+    annotation (Placement(transformation(extent={{-120,70},{-100,90}}),
+        iconTransformation(extent={{-120,70},{-100,90}})));
   Modelica.Blocks.Interfaces.RealInput TOut
     "Connector of setpoint input signal" annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=-90,
-        origin={-1.77636e-15,-110}), iconTransformation(
+        origin={-16,-110}),          iconTransformation(
         extent={{10,-10},{-10,10}},
         rotation=-90,
-        origin={0,-114})));
+        origin={-20,-110})));
 equation
   connect(fivZonVAV.port_a_Air, duaFanAirHanUnit.port_b_Air) annotation (Line(
-      points={{18,-16.4},{-10,-16.4},{-10,-22},{-20,-22},{-20,1},{-40,1}},
-      color={0,127,255},
+      points={{18,-35.6},{-10,-35.6},{-10,-22},{-20,-22},{-20,1},{-40,1}},
+      color={0,140,72},
       thickness=0.5));
   connect(fivZonVAV.port_b_Air, duaFanAirHanUnit.port_a_Air) annotation (Line(
-      points={{18,-40.4},{-20,-40.4},{-20,-68},{-40,-68},{-40,-9.4}},
-      color={0,127,255},
+      points={{18,-11.6},{-20,-11.6},{-20,-68},{-40,-68},{-40,11.4}},
+      color={0,140,72},
       thickness=0.5));
   connect(duaFanAirHanUnit.port_b_Wat, port_b_CooWat) annotation (Line(
-      points={{-59.6,14},{-60,14},{-60,78},{-60,100}},
+      points={{-59.6,-12},{-60,-12},{-60,-100}},
       color={0,127,255},
       thickness=1));
   connect(duaFanAirHanUnit.port_a_Wat, port_a_CooWat) annotation (Line(
-      points={{-51.2,14},{-50,14},{-50,60},{-20,60},{-20,102}},
+      points={{-51.2,-12},{-36,-12},{-36,-100}},
       color={0,127,255},
       thickness=1));
   connect(fivZonVAV.port_a_Wat, port_a_HeaWat) annotation (Line(
-      points={{34.2,-2},{34.2,60},{20,60},{20,100}},
+      points={{34.2,-50},{34,-50},{34,-100}},
       color={255,0,0},
       thickness=1));
   connect(fivZonVAV.port_b_Wat, port_b_HeaWat) annotation (Line(
-      points={{55.8,-2},{55.8,30},{56,30},{56,60},{60,60},{60,100}},
+      points={{55.8,-50},{56,-50},{56,-100}},
       color={255,0,0},
       thickness=1));
   connect(duaFanAirHanUnit.port_Exh_Air, port_Exh_Air) annotation (Line(
-      points={{-68.28,1},{-76,1},{-76,0},{-80,0},{-80,-40},{-100,-40}},
-      color={0,127,255},
+      points={{-68.28,1},{-80,1},{-80,-40},{-100,-40}},
+      color={0,140,72},
       thickness=0.5));
   connect(duaFanAirHanUnit.port_Fre_Air, port_Fre_Air) annotation (Line(
-      points={{-68,8.8},{-74,8.8},{-74,8},{-80,8},{-80,40},{-100,40}},
-      color={0,127,255},
+      points={{-68,-6.8},{-80,-6.8},{-80,40},{-100,40}},
+      color={0,140,72},
       thickness=0.5));
   connect(booleanReplicator.y, fivZonVAV.On) annotation (Line(
       points={{-41.3,-90},{-41.3,-92},{0,-92},{0,-26},{15.3,-26}},
       color={255,0,255},
       pattern=LinePattern.Dash));
   connect(fivZonVAV.pre, duaFanAirHanUnit.PreMea) annotation (Line(
-      points={{74.7,-35.6},{92,-35.6},{92,8.8},{-38.6,8.8}},
+      points={{74.7,-16.4},{92,-16.4},{92,-6.8},{-38.6,-6.8}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(fivZonVAV.TZon, duaFanAirHanUnit.ZonTemp) annotation (Line(
-      points={{74.7,-16.4},{78,-16.4},{78,-16},{82,-16},{82,-62},{-30,-62},{-30,
-          -6.8},{-38.6,-6.8}},
+      points={{74.7,-35.6},{78,-35.6},{78,-16},{82,-16},{82,-62},{-30,-62},{-30,
+          8.8},{-38.6,8.8}},
       color={0,0,127},
       pattern=LinePattern.Dash));
 
   connect(OnFan, duaFanAirHanUnit.On) annotation (Line(
-      points={{-112,-60},{-74,-60},{-74,-12},{-69.4,-12}},
+      points={{-110,-50},{-74,-50},{-74,14},{-69.4,14}},
       color={255,0,255},
       pattern=LinePattern.Dash));
   connect(booleanReplicator.u, OnZon) annotation (Line(
-      points={{-57.4,-90},{-72,-90},{-72,-100},{-112,-100}},
+      points={{-57.4,-90},{-72,-90},{-72,-90},{-110,-90}},
       color={255,0,255},
       pattern=LinePattern.Dash));
   connect(duaFanAirHanUnit.DisTemPSetPoi, DisTemPSetPoi) annotation (Line(
-      points={{-69.4,-1.6},{-94,-1.6},{-94,60},{-112,60}},
+      points={{-69.4,3.6},{-94,3.6},{-94,60},{-110,60}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(duaFanAirHanUnit.PreSetPoi, PreSetPoi) annotation (Line(
-      points={{-69.4,-6.8},{-98,-6.8},{-98,21},{-111,21}},
+      points={{-69.4,8.8},{-98,8.8},{-98,10},{-110,10}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(fivZonVAV.AirFlowRatSetPoi, AirFlowRatSetPoi) annotation (Line(
-      points={{15.3,-2},{-2,-2},{-2,-19},{-111,-19}},
+      points={{15.3,-50},{-2,-50},{-2,-10},{-110,-10}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(fivZonVAV.yVal, yVal) annotation (Line(
-      points={{15.3,-11.6},{-6,-11.6},{-6,-80},{-112,-80}},
+      points={{15.3,-40.4},{-6,-40.4},{-6,-70},{-110,-70}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(fivZonVAV.Q_flow, Q_flow) annotation (Line(
-      points={{15.3,-45.2},{10,-45.2},{10,-81},{111,-81}},
+      points={{15.3,-6.8},{10,-6.8},{10,-110}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(fivZonVAV.TZon, TZon) annotation (Line(
-      points={{74.7,-16.4},{96,-16.4},{96,0},{110,0}},
+      points={{74.7,-35.6},{96,-35.6},{96,0},{110,0}},
       color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(port_a_CooWat, port_a_CooWat) annotation (Line(points={{-20,102},{-22,
-          102},{-20,102}}, color={0,127,255}));
+  connect(port_a_CooWat, port_a_CooWat) annotation (Line(points={{-36,-100},{
+          -36,-100}},      color={0,127,255}));
   connect(duaFanAirHanUnit.CooTempSetPoi, ZonCooTempSetPoi) annotation (Line(
-      points={{-69.4,6.2},{-78,6.2},{-78,100},{-112,100}},
+      points={{-69.4,-4.2},{-78,-4.2},{-78,100},{-110,100}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(ZonHeaTempSetPoi, duaFanAirHanUnit.HeaTempSetPoi) annotation (Line(
-      points={{-112,80},{-74,80},{-74,11.4},{-69.4,11.4}},
+      points={{-110,80},{-74,80},{-74,-9.4},{-69.4,-9.4}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(duaFanAirHanUnit.TOut, TOut) annotation (Line(
-      points={{-69.4,-9.4},{-78,-9.4},{-78,-74},{6,-74},{6,-96},{0,-96},{0,-110}},
+      points={{-69.4,11.4},{-78,11.4},{-78,-74},{-16,-74},{-16,-110}},
       color={0,0,127},
       pattern=LinePattern.Dash));
 
@@ -396,6 +409,10 @@ equation
         Line(points={{-80,60},{-40,20}}, color={0,0,127}),
         Line(points={{80,60},{40,20}}, color={0,0,127}),
         Line(points={{-80,-80},{-40,-40}}, color={0,0,127}),
-        Line(points={{40,-40},{80,-80}}, color={0,0,127})}),     Diagram(
+        Line(points={{40,-40},{80,-80}}, color={0,0,127}),
+        Text(
+          extent={{-154,114},{146,154}},
+          textString="%name",
+          textColor={0,0,255})}),                                Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end Floor;

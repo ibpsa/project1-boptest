@@ -202,8 +202,7 @@ model FivZonVAV
     annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
   Modelica.Blocks.Interfaces.BooleanInput On[5]
     annotation (Placement(transformation(extent={{-120,-10},{-100,10}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort temZon[5](redeclare package Medium
-      =                                                                          MediumAir)
+  Modelica.Fluid.Sensors.TemperatureTwoPort temZon[5](redeclare package Medium = MediumAir)
     annotation (Placement(transformation(extent={{8,-56},{-12,-36}})));
   Modelica.Blocks.Interfaces.RealOutput pre "Pressure at port"
     annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
@@ -220,11 +219,14 @@ equation
     annotation (Line(points={{-40,-80},{-110,-80}}, color={0,0,127},
       pattern=LinePattern.Dash));
   connect(vAV.port_a_Wat, ReheatWatNet.ports_b) annotation (Line(points={{22,18},
-          {22,39.18},{-46,39.18}}, color={255,0,0}));
+          {22,39.18},{-46,39.18}}, color={255,0,0},
+      thickness=1));
   connect(vAV.port_b_Wat, ReheatWatNet.ports_a) annotation (Line(points={{28,18},
-          {28,57.54},{-46,57.54}}, color={255,0,0}));
+          {28,57.54},{-46,57.54}}, color={255,0,0},
+      thickness=1));
   connect(vAV.port_a, AirNetWor.ports_b) annotation (Line(points={{20,8},{-20,8},
-          {-20,-27.18},{-44,-27.18}}, color={0,127,255}));
+          {-20,-27.18},{-44,-27.18}}, color={0,140,72},
+      thickness=0.5));
   for i in 1:5 loop
     connect(vAV[i].port_b, vol[i].ports[1]);
     connect(temZon[i].port_b, AirNetWor.ports_a[i]);
@@ -233,13 +235,19 @@ equation
 
 
   connect(ReheatWatNet.port_b, port_b_Wat) annotation (Line(points={{-76,57.2},{-74,57.2},{-74,64},{40,64},{40,100}},
-                                         color={255,0,0}));
+                                         color={255,0,0},
+      thickness=1));
   connect(ReheatWatNet.port_a, port_a_Wat) annotation (Line(points={{-76,40.2},{-76,40.2},{-76,40},{-82,40},{-82,76},
-          {-40,76},{-40,100}},                             color={255,0,0}));
+          {-40,76},{-40,100}},                             color={255,0,0},
+      thickness=1));
   connect(AirNetWor.port_a, port_a_Air)
-    annotation (Line(points={{-74,-28.2},{-88,-28.2},{-88,40},{-100,40}}, color={0,127,255}));
+    annotation (Line(points={{-74,-28.2},{-88,-28.2},{-88,40},{-100,40}}, color={0,140,72},
+
+      thickness=0.5));
   connect(AirNetWor.port_b, port_b_Air)
-    annotation (Line(points={{-74,-45.2},{-80,-45.2},{-80,-60},{-100,-60}}, color={0,127,255}));
+    annotation (Line(points={{-74,-45.2},{-80,-45.2},{-80,-60},{-100,-60}}, color={0,140,72},
+
+      thickness=0.5));
   connect(vAV.AirFlowRatSetPoi, AirFlowRatSetPoi) annotation (Line(
       points={{19,16},{-10,16},{-34,16},{-34,100},{-110,100}},
       color={0,0,127},
@@ -314,5 +322,10 @@ equation
         Line(points={{84,-20},{84,-32}}, color={255,0,0}),
         Line(points={{90,60},{90,-32}}, color={255,0,0}),
         Line(points={{40,60},{90,60}}, color={255,0,0}),
-        Line(points={{40,90},{40,60}}, color={255,0,0})}),       Diagram(coordinateSystem(preserveAspectRatio=false)));
+        Line(points={{40,90},{40,60}}, color={255,0,0}),
+        Text(
+          extent={{-152,-146},{148,-106}},
+          textColor={0,0,255},
+          textString="%name")}),
+          Diagram(coordinateSystem(preserveAspectRatio=false)));
 end FivZonVAV;

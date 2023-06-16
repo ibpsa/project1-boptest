@@ -26,10 +26,12 @@ model ZonCon
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
   Modelica.Blocks.Interfaces.RealOutput yAirFlowSetPoi
     "Connector of actuator output signal"
-    annotation (Placement(transformation(extent={{100,50},{120,70}})));
+    annotation (Placement(transformation(extent={{100,50},{122,72}}),
+        iconTransformation(extent={{100,50},{122,72}})));
   Modelica.Blocks.Interfaces.RealOutput yValPos
     "Connector of actuator output signal"
-    annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
+    annotation (Placement(transformation(extent={{100,-70},{122,-48}}),
+        iconTransformation(extent={{100,-70},{122,-48}})));
   Modelica.Blocks.Logical.Switch swi
     "Switch between external signal and direct feedthrough signal"
     annotation (Placement(transformation(extent={{48,10},{68,30}})));
@@ -109,19 +111,23 @@ equation
       points={{-71.6,-60},{-62,-60},{-62,14},{-58,14}},
       color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(oveAirFlowSetPoi.y, yAirFlowSetPoi) annotation (Line(points={{84.8,60},
-          {110,60}},                 color={0,0,127}));
+  connect(oveAirFlowSetPoi.y, yAirFlowSetPoi) annotation (Line(points={{82.7,61},
+          {111,61}},                 color={0,0,127}));
   connect(heaCon.y, oveyValPos.u) annotation (Line(points={{63,-60},{70,-60},{
           70,-59},{70.6,-59}}, color={0,0,127}));
-  connect(oveyValPos.y, yValPos) annotation (Line(points={{86.7,-59},{94,-59},{
-          94,-60},{110,-60}}, color={0,0,127}));
+  connect(oveyValPos.y, yValPos) annotation (Line(points={{86.7,-59},{111,-59}},
+                              color={0,0,127}));
   connect(swi.y, oveAirFlowSetPoi.u) annotation (Line(points={{69,20},{86,20},{
-          86,46},{48,46},{48,60},{66.4,60}}, color={0,0,127}));
+          86,46},{48,46},{48,61},{66.6,61}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},
           lineColor={0,0,127},
           fillColor={255,255,255},
-          fillPattern=FillPattern.Solid)}), Diagram(coordinateSystem(
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{-154,112},{146,152}},
+          textString="%name",
+          textColor={0,0,255})}),           Diagram(coordinateSystem(
           preserveAspectRatio=false)));
 end ZonCon;

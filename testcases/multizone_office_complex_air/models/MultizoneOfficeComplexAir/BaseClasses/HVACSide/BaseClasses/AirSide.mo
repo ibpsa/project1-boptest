@@ -155,7 +155,7 @@ model AirSide "Air side system"
     "Pressure drop in the water side of vav 1";
   parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 1";
-  BuildingControlEmulator.Systems.Floor floor1(
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor floor1(
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     PreDroCoiAir=PreDroCoiAir,
@@ -223,7 +223,7 @@ model AirSide "Air side system"
     fivZonVAV(vol(V=200000), each vAV(Dam(riseTime=15))))
     annotation (Placement(transformation(extent={{114,20},{164,62}})));
 
-  BuildingControlEmulator.Systems.Floor floor2(
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor floor2(
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     PreDroCoiAir=PreDroCoiAir,
@@ -291,7 +291,7 @@ model AirSide "Air side system"
     fivZonVAV(vol(V=200000), each vAV(Dam(riseTime=15))))
     annotation (Placement(transformation(extent={{114,20},{164,62}})));
 
-  BuildingControlEmulator.Systems.Floor floor3(
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor floor3(
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     PreDroCoiAir=PreDroCoiAir,
@@ -372,10 +372,10 @@ model AirSide "Air side system"
   Modelica.Blocks.Sources.Constant dpStaSet[n](k=400)
     "AHU static ressure setpoint"
     annotation (Placement(transformation(extent={{-70,10},{-50,30}})));
-  Modelica.Blocks.Sources.BooleanExpression booleanExpression[n](each y=true)
+  Modelica.Blocks.Sources.BooleanExpression onZon[n](each y=true)
     "Zone VAV terminal on signal"
     annotation (Placement(transformation(extent={{-70,66},{-50,86}})));
-  BuildingControlEmulator.Devices.AirSide.Terminal.Controls.ZonCon zonVAVCon[15](
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.Controls.ZonCon zonVAVCon[15](
     MinFlowRateSetPoi=0.3,
     HeatingFlowRateSetPoi=0.5,
     heaCon(Ti=60, yMin=0.01),
@@ -387,7 +387,7 @@ model AirSide "Air side system"
     "Zone terminal VAV controller (airflow rate, reheat valve)l "
     annotation (Placement(transformation(extent={{52,90},{72,110}})));
 
-  BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.SetPoi TZonAirSet[15](
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.SetPoi TZonAirSet[15](
     n=2,
     setpoint_on={{273.15 + 24,273.15 + 20} for i in linspace(
         1,
@@ -439,8 +439,8 @@ equation
           56},{100,56},{100,53.6},{111.5,53.6}}, color={0,0,127}));
   connect(reaToBooOcc.y, floor1.OnFan) annotation (Line(points={{-39,100},{-36,100},
           {-36,74},{106,74},{106,30.5},{111.5,30.5}}, color={255,0,255}));
-   connect(floor1.OnZon, booleanExpression[1].y) annotation (Line(points={{111.5,22.1},{108,22.1},
-          {108,22},{104,22},{104,76},{-49,76}}, color={255,0,255}));
+  connect(floor1.OnZon, onZon[1].y) annotation (Line(points={{111.5,22.1},{108,
+          22.1},{108,22},{104,22},{104,76},{-49,76}}, color={255,0,255}));
    for j in 1:5 loop
     connect(floor1.TZon[j], zonVAVCon[(1 - 1)*5 + j].T) annotation (Line(points=
            {{166.5,41},{166.5,42},{180,42},{180,80},{44,80},{44,100},{50,100}},
@@ -475,7 +475,7 @@ equation
   connect(dpStaSet[2].y, floor2.PreSetPoi);
    connect(oveFloor2TDisAir.y, floor2.DisTemPSetPoi);
   connect(reaToBooOcc.y, floor2.OnFan);
-   connect(floor2.OnZon, booleanExpression[2].y);
+  connect(floor2.OnZon, onZon[2].y);
    for j in 1:5 loop
     connect(floor2.TZon[j], zonVAVCon[(2 - 1)*5 + j].T);
     connect(zonVAVCon[(2 - 1)*5 + j].yAirFlowSetPoi, floor2.AirFlowRatSetPoi[j]);
@@ -495,7 +495,7 @@ equation
   connect(dpStaSet[3].y, floor3.PreSetPoi);
    connect(oveFloor3TDisAir.y, floor3.DisTemPSetPoi);
   connect(reaToBooOcc.y, floor3.OnFan);
-   connect(floor3.OnZon, booleanExpression[3].y);
+  connect(floor3.OnZon, onZon[3].y);
    for j in 1:5 loop
     connect(floor3.TZon[j], zonVAVCon[(3 - 1)*5 + j].T);
     connect(zonVAVCon[(3 - 1)*5 + j].yAirFlowSetPoi, floor3.AirFlowRatSetPoi[j]);

@@ -49,22 +49,22 @@ model MixingBox
 equation
   connect(mixBox.port_Exh, port_Exh) annotation (Line(
       points={{-19,30},{-19,60},{-60,60},{-60,100}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(mixBox.port_Fre, port_Fre) annotation (Line(
       points={{20,30},{20,62},{60,62},{60,100}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(mixBox.port_Ret, port_Ret)
     annotation (Line(
       points={{-19,-28},{-19,-58},{-58,-58},{-58,-100}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(mixBox.port_Sup, port_Sup)
     annotation (Line(
       points={{20,-28},{20,-28},{20,-58},{60,-58},{60,-102}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(mixBox.T, ecoCon.Mea)
     annotation (Line(
       points={{35,-11.18},{64,-11.18},{64,20},{-88,20},{-88,32},{-72,32}},

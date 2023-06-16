@@ -36,13 +36,13 @@ equation
   connect(VarSpeFloMov.port_a, port_a)
     annotation (Line(
       points={{-10,0},{-10,0},{-100,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(VarSpeFloMov.port_b, port_b)
     annotation (Line(
       points={{10,0},{56,0},{100,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(VarSpeFloMov.y, u)
     annotation (Line(
       points={{0,12},{0,60},{-110,60}},

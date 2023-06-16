@@ -138,12 +138,12 @@ model DuaFanAirHanUnit
 equation
   connect(cooCoil.port_a_Air, mixingBox.port_Sup) annotation (Line(
       points={{-20,0},{-49.8,0},{-49.8,6}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(cooCoil.port_b_Air, supFan.port_a) annotation (Line(
       points={{-1.82,0},{28,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(cooCoil.port_a_Wat, port_a_Wat) annotation (Line(
       points={{-2,16},{-2,16},{20,16},{20,100}},
       color={0,127,255},
@@ -154,12 +154,12 @@ equation
       thickness=1));
   connect(mixingBox.port_Fre, port_Fre_Air) annotation (Line(
       points={{-70,6},{-70,60},{-100,60}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(retFan.port_a, port_a_Air) annotation (Line(
       points={{-10,-80},{46,-80},{100,-80}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(supFan.yRet, retFan.u) annotation (Line(
       points={{49,-8.2},{60,-8.2},{60,-74},{-9,-74}},
       color={0,0,127},
@@ -181,21 +181,21 @@ equation
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(port_Exh_Air, mixingBox.port_Exh) annotation (Line(
-      points={{-102,0},{-80,0},{-80,-6},{-70,-6}},
-      color={0,127,255},
-      thickness=1));
+      points={{-102,0},{-82,0},{-82,-6},{-70,-6}},
+      color={0,140,72},
+      thickness=0.5));
   connect(mixingBox.port_Ret, retFan.port_b) annotation (Line(
-      points={{-50,-5.8},{-40,-5.8},{-40,-80},{-30,-80}},
-      color={0,127,255},
-      thickness=1));
+      points={{-50,-5.8},{-42,-5.8},{-42,-80},{-30,-80}},
+      color={0,140,72},
+      thickness=0.5));
   connect(port_b_Air, senTemDisAir.port_b) annotation (Line(
       points={{100,0},{92,0}},
       color={0,127,255},
       thickness=1));
   connect(senTemDisAir.port_a, supFan.port_b) annotation (Line(
       points={{72,0},{48,0}},
-      color={0,127,255},
-      thickness=1));
+      color={0,140,72},
+      thickness=0.5));
   connect(PreMea, add.u1) annotation (Line(
       points={{110,60},{86,60},{86,56},{62,56}},
       color={0,0,127},
@@ -259,6 +259,10 @@ equation
         Line(points={{20,20},{-40,20}}, color={0,0,255},
           thickness=1),
         Line(points={{-60,0},{100,0}}, color={0,255,255},
-          thickness=0.5)}),                                      Diagram(
+          thickness=0.5),
+        Text(
+          extent={{-156,-148},{144,-108}},
+          textString="%name",
+          textColor={0,0,255})}),                                Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end DuaFanAirHanUnit;

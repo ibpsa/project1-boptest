@@ -224,24 +224,31 @@ model ChillerPlant "a typical chiller plant"
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
         MediumCHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{130,-152},{150,-132}})));
+    annotation (Placement(transformation(extent={{90,-50},{110,-30}}),
+        iconTransformation(extent={{90,-50},{110,-30}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         MediumCHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{130,110},{150,130}})));
+    annotation (Placement(transformation(extent={{90,50},{110,70}}),
+        iconTransformation(extent={{90,50},{110,70}})));
   Modelica.Blocks.Interfaces.RealInput TCWSet
     "Temperature set point of the condenser water"
-    annotation (Placement(transformation(extent={{-312,-78},{-280,-46}})));
+    annotation (Placement(transformation(extent={{-132,-36},{-100,-4}}),
+        iconTransformation(extent={{-132,-36},{-100,-4}})));
   Modelica.Blocks.Interfaces.RealInput TWetBul
     "Entering air wet bulb temperature"
-    annotation (Placement(transformation(extent={{-312,-136},{-280,-104}})));
+    annotation (Placement(transformation(extent={{-132,-96},{-100,-64}}),
+        iconTransformation(extent={{-132,-96},{-100,-64}})));
   Modelica.Blocks.Interfaces.RealInput dP "Measured pressure drop"
-    annotation (Placement(transformation(extent={{-314,84},{-282,116}})));
+    annotation (Placement(transformation(extent={{-132,64},{-100,96}}),
+        iconTransformation(extent={{-132,64},{-100,96}})));
   Modelica.Blocks.Interfaces.RealInput TCHWSet
     "Temperature setpoint of the chilled water"
-    annotation (Placement(transformation(extent={{-312,-16},{-280,16}})));
+    annotation (Placement(transformation(extent={{-132,4},{-100,36}}),
+        iconTransformation(extent={{-132,4},{-100,36}})));
   Modelica.Blocks.Interfaces.RealOutput T "Temperature of the passing fluid"
-    annotation (Placement(transformation(extent={{242,-12},{262,8}})));
+    annotation (Placement(transformation(extent={{100,-10},{120,10}}),
+        iconTransformation(extent={{100,-10},{120,10}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTCHWBuiLea(
     redeclare package Medium = MediumCHW,
     allowFlowReversal=true,
@@ -380,29 +387,30 @@ equation
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(cooTowWithByp.TCWSet, TCWSet) annotation (Line(
-      points={{-191.26,-28},{-260,-28},{-260,-62},{-296,-62}},
+      points={{-191.26,-28},{-260,-28},{-260,-20},{-116,-20}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(cooTowWithByp.TWetBul, TWetBul) annotation (Line(
-      points={{-191.26,-36.4},{-240,-36.4},{-240,-120},{-296,-120}},
+      points={{-191.26,-36.4},{-240,-36.4},{-240,-80},{-116,-80}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(secPumCon.dP, dP) annotation (Line(
       points={{58,52},{20,52},{20,80},{-132,80},{-132,116},{-238,116},{-238,100},
-          {-298,100},{-298,100}},
+          {-116,100},{-116,80}},
       color={0,0,127},
       pattern=LinePattern.Dash));
 
   connect(mulChiSys.TCHWSet, TCHWSet) annotation (Line(
-      points={{-95.71,-1.4},{-144,-1.4},{-144,0},{-296,0}},
+      points={{-95.71,-1.4},{-144,-1.4},{-144,20},{-116,20}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(pumSecCHW.SpeSig, secPumCon.y) annotation (Line(
-      points={{42.47,-75.6},{28,-75.6},{28,0},{102,0},{102,52},{81,52}},
+      points={{42.47,-75.6},{30,-75.6},{30,-76},{18,-76},{18,0},{88,0},{88,52},
+          {81,52}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senTCHWBuiEnt.T, T) annotation (Line(
-      points={{98,-79},{110,-79},{110,-2},{252,-2}},
+      points={{98,-79},{98,0},{110,0}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(pumPriCHW.port_a, senTCHWBuiLea.port_b) annotation (Line(
@@ -410,13 +418,13 @@ equation
       color={0,127,255},
       thickness=1));
   connect(senTCHWBuiLea.port_a, port_a) annotation (Line(
-      points={{80,18},{140,18},{140,120}},
+      points={{80,18},{100,18},{100,60}},
       color={0,127,255},
       thickness=1));
   connect(senTCHWBuiEnt.port_b, senMasFloSecCHW.port_a) annotation (Line(points={{108,-90},
           {108,-90},{116,-90}},           color={0,127,255}));
   connect(senMasFloSecCHW.port_b, port_b) annotation (Line(
-      points={{136,-90},{140,-90},{140,-142}},
+      points={{136,-90},{148,-90},{148,-60},{100,-60},{100,-40}},
       color={0,127,255},
       thickness=1));
   connect(Loa.y, chillerStage.Loa) annotation (Line(
@@ -477,5 +485,9 @@ equation
         Line(points={{-76,24},{-76,46},{-36,46}}, color={0,0,127}),
         Line(points={{-76,-2},{-76,-36},{-36,-36}}, color={0,0,127}),
         Line(points={{62,20},{62,46},{28,46}}, color={0,0,127}),
-        Line(points={{62,-4},{62,-36},{28,-36}}, color={0,0,127})}));
+        Line(points={{62,-4},{62,-36},{28,-36}}, color={0,0,127}),
+        Text(
+          extent={{-158,118},{142,158}},
+          textString="%name",
+          textColor={0,0,255})}));
 end ChillerPlant;

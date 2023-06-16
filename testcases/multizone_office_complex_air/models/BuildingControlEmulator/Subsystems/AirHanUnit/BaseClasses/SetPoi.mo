@@ -22,6 +22,10 @@ equation
           lineColor={0,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.None,
-          textString="SetPo")}),
+          textString="SetPo"),
+        Text(
+          extent={{-142,122},{158,162}},
+          textString="%name",
+          textColor={0,0,255})}),
                                Diagram(coordinateSystem(preserveAspectRatio=false)));
 end SetPoi;

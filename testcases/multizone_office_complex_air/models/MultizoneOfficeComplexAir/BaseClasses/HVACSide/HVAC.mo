@@ -17,11 +17,11 @@ model HVAC
       3)} "Nominal mass flow rate at condenser water wide";
   parameter Modelica.Units.SI.Pressure dP_nominal=478250
     "Nominal pressure drop";
-  BuildingControlEmulator.Systems.BoilerPlant boiWatPla(secPumCon(conPI(k=0.001)),
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.BoilerPlant boiWatPla(secPumCon(conPI(k=0.001)),
       redeclare package MediumHW = MediumHeaWat) "Boiler hot water plant"
     annotation (Placement(transformation(extent={{120,-110},{140,-90}})));
 
-  BuildingControlEmulator.Subsystems.HydDisturbution.ThreZonNetWor boiWatNet(
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.ThreZonNetWor boiWatNet(
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
     PreDroMai1(displayUnit="Pa") = (79712/4),
@@ -36,7 +36,7 @@ model HVAC
     PreDroBra1(displayUnit="Pa") = (79712/4))
     "Hot water plant distribution network"
     annotation (Placement(transformation(extent={{156,-92},{176,-112}})));
-  BuildingControlEmulator.Systems.ChillerPlant chiWatPla(
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.ChillerPlant chiWatPla(
     datChi=datChi,
     redeclare package MediumCHW = MediumCHW,
     redeclare package MediumCW = MediumCW,
@@ -46,7 +46,7 @@ model HVAC
     secPumCon(conPI(k=0.000001, Ti=240))) "Chilled water plant"
     annotation (Placement(transformation(extent={{0,-110},{20,-90}})));
 
-  BuildingControlEmulator.Subsystems.HydDisturbution.ThreZonNetWor chiWatNet(
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.ThreZonNetWor chiWatNet(
     redeclare package Medium = MediumCHW,
     mFloRat1=-datChi[1].QEva_flow_nominal/4200/5.56,
     mFloRat2=-datChi[1].QEva_flow_nominal/4200/5.56,
@@ -158,6 +158,6 @@ equation
         Text(
           extent={{-152,112},{148,152}},
           textString="%name",
-          textColor={0,0,255}), Bitmap(extent={{-90,-90},{86,90}}, fileName=
+          textColor={0,0,255}), Bitmap(extent={{-98,-98},{96,94}}, fileName=
               "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}));
 end HVAC;

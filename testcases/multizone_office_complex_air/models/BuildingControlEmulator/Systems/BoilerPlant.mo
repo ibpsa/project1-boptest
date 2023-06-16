@@ -62,7 +62,7 @@ model BoilerPlant
                             annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={110,-90})));
+        origin={64,-96})));
   replaceable Subsystems.Boiler.MultiBoilers multiBoiler(
     redeclare package MediumHW = MediumHW,
     dPHW_nominal=dP_nominal*0.5,
@@ -77,20 +77,24 @@ model BoilerPlant
     annotation (Placement(transformation(extent={{30,8},{38,16}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = MediumHW)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{132,110},{152,130}})));
+    annotation (Placement(transformation(extent={{90,40},{110,60}}),
+        iconTransformation(extent={{90,40},{110,60}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = MediumHW)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
-    annotation (Placement(transformation(extent={{130,-150},{150,-130}})));
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}}),
+        iconTransformation(extent={{90,-70},{110,-50}})));
   Devices.WaterSide.Control.PlantStageN BoilerStage(
     tWai=1800,
     n=n,
     thehol=thrhol,
     Cap=Cap) annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
   Modelica.Blocks.Interfaces.RealInput dP "Measured pressure drop"
-    annotation (Placement(transformation(extent={{-320,-20},{-280,20}})));
+    annotation (Placement(transformation(extent={{-140,-22},{-100,18}}),
+        iconTransformation(extent={{-140,-22},{-100,18}})));
   Modelica.Blocks.Interfaces.RealOutput THWLea
     "Temperature of the passing fluid"
-    annotation (Placement(transformation(extent={{240,-8},{260,12}})));
+    annotation (Placement(transformation(extent={{100,-10},{120,10}}),
+        iconTransformation(extent={{100,-10},{120,10}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTHWBuiLea(
     allowFlowReversal=true,
     redeclare package Medium = MediumHW,
@@ -124,7 +128,7 @@ equation
       color={255,0,0},
       thickness=1));
   connect(multiBoiler.port_b_HW, senTHWBuiEnt.port_a) annotation (Line(
-      points={{-62,-41.2},{-58,-41.2},{-58,-90},{100,-90}},
+      points={{-62,-41.2},{-58,-41.2},{-58,-96},{54,-96}},
       color={255,0,0},
       thickness=1));
 
@@ -137,7 +141,7 @@ equation
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senTHWBuiEnt.port_b, port_b) annotation (Line(
-      points={{120,-90},{132,-90},{140,-90},{140,-140}},
+      points={{74,-96},{100,-96},{100,-60}},
       color={255,0,0},
       thickness=1));
   connect(BoilerStage.On, realToBoolean.y) annotation (Line(
@@ -145,11 +149,11 @@ equation
       color={255,0,255},
       pattern=LinePattern.Dash));
   connect(secPumCon.dP, dP) annotation (Line(
-      points={{58,50},{-62,50},{-62,54},{-180,54},{-180,0},{-300,0}},
+      points={{58,50},{-62,50},{-62,54},{-180,54},{-180,-2},{-120,-2}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senTHWBuiEnt.T, THWLea) annotation (Line(
-      points={{110,-79},{110,-79},{110,0},{110,2},{250,2}},
+      points={{64,-85},{64,0},{110,0}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(multiBoiler.Rat, BoilerStage.Status) annotation (Line(
@@ -161,7 +165,7 @@ equation
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senTHWBuiLea.port_a, port_a) annotation (Line(
-      points={{130,22},{142,22},{142,120}},
+      points={{130,22},{134,22},{134,40},{100,40},{100,50}},
       color={255,0,0},
       thickness=1));
   connect(expVesCHW.port_a, pumSecHW.port_a) annotation (Line(
@@ -233,5 +237,9 @@ equation
         Line(points={{-76,24},{-76,46},{28,46}},  color={0,0,127}),
         Line(points={{-76,-2},{-76,-36},{-36,-36}}, color={0,0,127}),
         Line(points={{62,20},{62,46},{28,46}}, color={0,0,127}),
-        Line(points={{62,-4},{62,-36},{28,-36}}, color={0,0,127})}));
+        Line(points={{62,-4},{62,-36},{28,-36}}, color={0,0,127}),
+        Text(
+          extent={{-150,104},{150,144}},
+          textString="%name",
+          textColor={0,0,255})}));
 end BoilerPlant;
