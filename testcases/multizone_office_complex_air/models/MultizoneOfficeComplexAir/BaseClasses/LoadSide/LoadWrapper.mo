@@ -1,30 +1,37 @@
 within MultizoneOfficeComplexAir.BaseClasses.LoadSide;
 model LoadWrapper
-  MultizoneOfficeComplexAir.BaseClasses.LoadSide.whoBui96 wholebuilding
+  MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.whoBui96
+    wholebuilding
     annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Modelica.Blocks.Interfaces.RealInput Temp[15] "temperature vector"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput Wetbulb "wet bulb temperature"
-    annotation (Placement(transformation(extent={{100,70},{120,90}})));
+    annotation (Placement(transformation(extent={{100,80},{120,100}}),
+        iconTransformation(extent={{100,80},{120,100}})));
   Modelica.Blocks.Interfaces.RealOutput Drybulb "wet bulb temperature"
-    annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
+    annotation (Placement(transformation(extent={{100,50},{120,70}}),
+        iconTransformation(extent={{100,50},{120,70}})));
   Modelica.Blocks.Interfaces.RealOutput RelHum "relative humidity"
-    annotation (Placement(transformation(extent={{100,-50},{120,-30}})));
+    annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
+        iconTransformation(extent={{100,-60},{120,-40}})));
   Modelica.Blocks.Interfaces.RealOutput NumOcc[15] "number of occupant"
-    annotation (Placement(transformation(extent={{100,30},{120,50}})));
+    annotation (Placement(transformation(extent={{100,-10},{120,10}}),
+        iconTransformation(extent={{100,10},{120,30}})));
+
   Modelica.Blocks.Interfaces.RealOutput Loa[15] "total load"
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+    annotation (Placement(transformation(extent={{100,-30},{120,-10}}),
+        iconTransformation(extent={{100,-30},{120,-10}})));
   Modelica.Blocks.Math.Add3 add[15](each k3=-1)
-    annotation (Placement(transformation(extent={{58,20},{78,40}})));
+    annotation (Placement(transformation(extent={{60,-30},{80,-10}})));
   Modelica.Blocks.Interfaces.RealOutput Occ "relative humidity" annotation (
       Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=90,
-        origin={0,110})));
+        extent={{-10,-10},{10,10}},
+        rotation=0,
+        origin={110,-84})));
 equation
   connect(wholebuilding.Outdoor_Humidity, RelHum)
   annotation (Line(
-      points={{-38,0},{46,0},{46,-40},{110,-40}},
+      points={{-38,0},{40,0},{40,-50},{110,-50}},
       color={0,0,127}));
   connect(Temp[1], wholebuilding.Temp1_bot);
   connect(Temp[2], wholebuilding.Temp2_bot);
@@ -53,7 +60,7 @@ equation
   connect(NumOcc[7], wholebuilding.Zone2_People);
   connect(NumOcc[8], wholebuilding.Zone3_People)
     annotation (Line(
-      points={{110,40},{90,40},{90,0},{-38,0}},
+      points={{110,-1.33227e-15},{90,-1.33227e-15},{90,0},{-38,0}},
       color={0,0,127}));
   connect(NumOcc[9], wholebuilding.Zone4_People);
   connect(NumOcc[10], wholebuilding.Zone5_People);
@@ -64,13 +71,13 @@ equation
   connect(NumOcc[15], wholebuilding.Zone5_top_People);
 
   connect(add[1].u1, wholebuilding.Zone1_bot_Sensible_COOLING_LOAD)
-  annotation (Line(points={{56,38},{6,38},{6,0},{-38,0}},
+  annotation (Line(points={{58,-12},{0,-12},{0,0},{-38,0}},
                            color={0,0,127}));
   connect(add[1].u2, wholebuilding.Zone1_bot_Latent_COOLING_LOAD)
-  annotation (Line(points={{56,30},{12,30},{12,0},{-38,0}},
+  annotation (Line(points={{58,-20},{10,-20},{10,0},{-38,0}},
                            color={0,0,127}));
   connect(add[1].u3, wholebuilding.Zone1_bot_HEATING_LOAD)
-  annotation (Line(points={{56,22},{20,22},{20,0},{-38,0}},
+  annotation (Line(points={{58,-28},{20,-28},{20,0},{-38,0}},
                            color={0,0,127}));
   connect(add[2].u1, wholebuilding.Zone2_bot_Sensible_COOLING_LOAD);
   connect(add[2].u2, wholebuilding.Zone2_bot_Latent_COOLING_LOAD);
@@ -117,30 +124,26 @@ equation
   connect(add[15].u2, wholebuilding.Zone5_top_Latent_COOLING_LOAD);
   connect(add[15].u3, wholebuilding.Zone5_top_HEATING_LOAD);
 
-  connect(wholebuilding.Occ, Occ) annotation (Line(points={{-38,0},{0,0},{0,
-          110}},           color={0,0,127}));
-  connect(Drybulb, wholebuilding.Outdoor_Temperature) annotation (Line(points={{110,-80},
-          {40,-80},{40,0},{-38,0}},         color={0,0,127}));
-  connect(Wetbulb, wholebuilding.Wetbulb) annotation (Line(points={{110,80},{
-          -10,80},{-10,0},{-38,0}},
+  connect(wholebuilding.Occ, Occ) annotation (Line(points={{-38,0},{30,0},{30,
+          -84},{110,-84}}, color={0,0,127}));
+  connect(Drybulb, wholebuilding.Outdoor_Temperature) annotation (Line(points={{110,60},
+          {50,60},{50,0},{-38,0}},          color={0,0,127}));
+  connect(Wetbulb, wholebuilding.Wetbulb) annotation (Line(points={{110,90},{-10,
+          90},{-10,0},{-38,0}},
                               color={0,0,127}));
   connect(add.y, Loa) annotation (Line(
-      points={{79,30},{94,30},{94,0},{110,0}},
+      points={{81,-20},{110,-20}},
       color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},
           lineColor={0,0,127},
           fillColor={255,255,255},
-          fillPattern=FillPattern.Solid), Text(
-          extent={{-66,50},{62,-48}},
-          lineColor={0,127,255},
-          lineThickness=0.5,
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid,
-          textString="EPlus"),          Text(
+          fillPattern=FillPattern.Solid),
+                                        Text(
         extent={{-154,166},{146,126}},
         textString="%name",
-        textColor={0,0,255})}),                                  Diagram(
-        coordinateSystem(preserveAspectRatio=false)));
+        textColor={0,0,255}),
+        Bitmap(extent={{-94,-86},{94,82}}, fileName="modelica://MultizoneOfficeComplexAir/Resources/figure/spawn_icon.png")}),
+        Diagram(coordinateSystem(preserveAspectRatio=false)));
 end LoadWrapper;

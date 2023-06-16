@@ -70,8 +70,8 @@ model HVAC
     annotation (Placement(transformation(extent={{-70,-50},{-50,-30}})));
   Modelica.Blocks.Interfaces.RealInput TWetBul
     "Entering air wet bulb temperature"
-    annotation (Placement(transformation(extent={{-128,-74},{-100,-46}}),
-        iconTransformation(extent={{-127,-75},{-100,-46}})));
+    annotation (Placement(transformation(extent={{-128,-82},{-100,-54}}),
+        iconTransformation(extent={{-127,-83},{-100,-54}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTCHWSet
     annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
   Modelica.Blocks.Sources.RealExpression PHWPum(y=sum(boiWatPla.pumSecHW.P))
@@ -123,7 +123,7 @@ equation
   connect(chiWatPla.TCWSet, TCWSupSet.y) annotation (Line(points={{-1.6,-102},{-10,
           -102},{-10,-90},{-49,-90}}, color={0,0,127}));
   connect(chiWatPla.TWetBul, TWetBul) annotation (Line(points={{-1.6,-108},{-30,
-          -108},{-30,-60},{-114,-60}}, color={0,0,127}));
+          -108},{-30,-68},{-114,-68}}, color={0,0,127}));
   connect(boiWatPla.port_a, boiWatNet.port_b) annotation (Line(
       points={{140,-95},{140,-96},{156,-96}},
       color={238,46,47},
@@ -158,5 +158,6 @@ equation
         Text(
           extent={{-152,112},{148,152}},
           textString="%name",
-          textColor={0,0,255})}));
+          textColor={0,0,255}), Bitmap(extent={{-90,-90},{86,90}}, fileName=
+              "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}));
 end HVAC;
