@@ -374,7 +374,7 @@ model AirSide "Air side system"
     annotation (Placement(transformation(extent={{-70,10},{-50,30}})));
   Modelica.Blocks.Sources.BooleanExpression onZon[n](each y=true)
     "Zone VAV terminal on signal"
-    annotation (Placement(transformation(extent={{-70,66},{-50,86}})));
+    annotation (Placement(transformation(extent={{40,56},{60,76}})));
   MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.Controls.ZonCon zonVAVCon[15](
     MinFlowRateSetPoi=0.3,
     HeatingFlowRateSetPoi=0.5,
@@ -385,7 +385,7 @@ model AirSide "Air side system"
     oveAirFlowSetPoi(uExt(y=mAirFlow), activate(y=mAirFlow_activate)),
     oveyValPos(uExt(y=yPos), activate(y=yPos_activate)))
     "Zone terminal VAV controller (airflow rate, reheat valve)l "
-    annotation (Placement(transformation(extent={{52,90},{72,110}})));
+    annotation (Placement(transformation(extent={{60,90},{80,110}})));
 
   MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.SetPoi TZonAirSet[15](
     n=2,
@@ -409,12 +409,12 @@ model AirSide "Air side system"
     "Convert real signal to boolean signal for occupancy signal"
     annotation (Placement(transformation(extent={{-60,90},{-40,110}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor1TDisAir
-    annotation (Placement(transformation(extent={{-30,46},{-10,66}})));
+    annotation (Placement(transformation(extent={{-40,46},{-20,66}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor2TDisAir
-    annotation (Placement(transformation(extent={{-30,46},{-10,66}})));
+    annotation (Placement(transformation(extent={{-40,46},{-20,66}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor3TDisAir
     "AHU supply air temperature overwritten block"
-    annotation (Placement(transformation(extent={{-30,46},{-10,66}})));
+    annotation (Placement(transformation(extent={{-40,46},{-20,66}})));
   Modelica.Blocks.Continuous.FirstOrder firOrd(T=1)
     "First order to smooth the occupancy signal"
     annotation (Placement(transformation(extent={{-90,90},{-70,110}})));
@@ -426,42 +426,43 @@ equation
    annotation (Line(points={{38,40},{-38,40},{-38,1.77636e-15},{-114,1.77636e-15}},
                           color={0,0,127}));
    connect(floor1.port_Exh_Air, sou[1].ports[1]) annotation (Line(
-      points={{114,32.6},{90,32.6},{90,38.6667},{60,38.6667}},
+      points={{114,38},{90,38},{90,38.6667},{60,38.6667}},
       color={0,140,72},
       thickness=0.5));
    connect(floor1.port_Fre_Air, sou[1].ports[2]) annotation (Line(
-      points={{114,49.4},{90,49.4},{90,36},{60,36}},
+      points={{114,62},{90,62},{90,36},{60,36}},
       color={0,140,72},
       thickness=0.5));
-  connect(dpStaSet[1].y, floor1.PreSetPoi) annotation (Line(points={{-49,20},{102,
-          20},{102,43.1},{111.5,43.1}}, color={0,0,127}));
-   connect(oveFloor1TDisAir.y, floor1.DisTemPSetPoi) annotation (Line(points={{-9,
-          56},{100,56},{100,53.6},{111.5,53.6}}, color={0,0,127}));
-  connect(reaToBooOcc.y, floor1.OnFan) annotation (Line(points={{-39,100},{-36,100},
-          {-36,74},{106,74},{106,30.5},{111.5,30.5}}, color={255,0,255}));
-  connect(floor1.OnZon, onZon[1].y) annotation (Line(points={{111.5,22.1},{108,
-          22.1},{108,22},{104,22},{104,76},{-49,76}}, color={255,0,255}));
+  connect(dpStaSet[1].y, floor1.PreSetPoi) annotation (Line(points={{-49,20},{
+          102,20},{102,53},{111.5,53}}, color={0,0,127}));
+   connect(oveFloor1TDisAir.y, floor1.DisTemPSetPoi) annotation (Line(points={{-19,56},
+          {100,56},{100,68},{111.5,68}},         color={0,0,127}));
+  connect(reaToBooOcc.y, floor1.OnFan) annotation (Line(points={{-39,100},{-36,
+          100},{-36,86},{106,86},{106,35},{111.5,35}},color={255,0,255}));
+  connect(floor1.OnZon, onZon[1].y) annotation (Line(points={{111.5,23},{108,23},
+          {108,22},{104,22},{104,66},{61,66}},        color={255,0,255}));
    for j in 1:5 loop
-    connect(floor1.TZon[j], zonVAVCon[(1 - 1)*5 + j].T) annotation (Line(points=
-           {{166.5,41},{166.5,42},{180,42},{180,80},{44,80},{44,100},{50,100}},
+    connect(floor1.TZon[j], zonVAVCon[(1 - 1)*5 + j].T) annotation (Line(points={{166.5,
+            50},{166.5,42},{170,42},{170,90},{52,90},{52,100},{58,100}},
           color={0,0,127}));
     connect(zonVAVCon[(1 - 1)*5 + j].yAirFlowSetPoi, floor1.AirFlowRatSetPoi[j])
-      annotation (Line(points={{73.1,106.1},{100,106.1},{100,38.9},{111.5,38.9}},
+      annotation (Line(points={{81.1,106.1},{100,106.1},{100,47},{111.5,47}},
           color={0,0,127}));
     connect(zonVAVCon[(1 - 1)*5 + j].yValPos, floor1.yVal[j]) annotation (Line(
-          points={{73.1,94.1},{102,94.1},{102,26.3},{111.5,26.3}}, color={0,0,127}));
+          points={{81.1,94.1},{102,94.1},{102,29},{111.5,29}},     color={0,0,127}));
     connect(loa[(1 - 1)*5 + j], floor1.Q_flow[j]);
     connect(floor1.TZon[j], TZon[(1-1)*5+j]);
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[1], zonVAVCon[(1 - 1)*5 + j].TCooSetPoi)
-      annotation (Line(points={{22,99},{22,102},{32,102},{32,106},{50,106}},
+      annotation (Line(points={{22,99},{22,102},{32,102},{32,106},{58,106}},
           color={0,0,127}));
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[2], zonVAVCon[(1 - 1)*5 + j].THeaSetPoi)
-      annotation (Line(points={{22,101},{22,100},{34,100},{34,94},{50,94}},
+      annotation (Line(points={{22,101},{22,100},{36,100},{36,94},{58,94}},
           color={0,0,127}));
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[1], floor1.ZonCooTempSetPoi[j])
-      annotation (Line(points={{22,99},{32,99},{32,62},{111.5,62}}, color={0,0,127}));
+      annotation (Line(points={{22,99},{32,99},{32,80},{111.5,80}}, color={0,0,127}));
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[2], floor1.ZonHeaTempSetPoi[j])
-      annotation (Line(points={{22,101},{30,101},{30,57.8},{111.5,57.8}}, color=
+      annotation (Line(points={{22,101},{34,101},{34,82},{98,82},{98,74},{111.5,
+            74}},                                                         color=
            {0,0,127}));
    end for;
 
@@ -481,7 +482,7 @@ equation
     connect(zonVAVCon[(2 - 1)*5 + j].yAirFlowSetPoi, floor2.AirFlowRatSetPoi[j]);
     connect(zonVAVCon[(2 - 1)*5 + j].yValPos, floor2.yVal[j]);
     connect(loaMulMidFlo[j].y, floor2.Q_flow[j]) annotation (Line(points={{-81.4,
-            60},{-76,60},{-76,2},{142,2},{142,17.9},{141.5,17.9}}, color={0,0,127}));
+            60},{-76,60},{-76,2},{142,2},{142,17},{141.5,17}},     color={0,0,127}));
     connect(floor2.TZon[j], TZon[(2-1)*5+j]);
     connect(TZonAirSet[(2 - 1)*5 + j].SetPoi[1], zonVAVCon[(2 - 1)*5 + j].TCooSetPoi);
     connect(TZonAirSet[(2 - 1)*5 + j].SetPoi[2], zonVAVCon[(2 - 1)*5 + j].THeaSetPoi);
@@ -509,13 +510,13 @@ equation
    end for;
   connect(booRep.y, TZonAirSet.Occ)
     annotation (Line(points={{-9,100},{-2,100}}, color={255,0,255}));
-  connect(floor1.TOut, TDryBul) annotation (Line(points={{134,17.9},{134,0},{-84,
+  connect(floor1.TOut, TDryBul) annotation (Line(points={{134,17},{134,0},{-84,
           0},{-84,1.77636e-15},{-114,1.77636e-15}},
                                 color={0,0,127}));
   connect(floor2.TOut, TDryBul);
   connect(floor3.TOut, TDryBul);
   connect(TSupAirSet[1].y, oveFloor1TDisAir.u)
-    annotation (Line(points={{-49,56},{-32,56}}, color={0,0,127}));
+    annotation (Line(points={{-49,56},{-42,56}}, color={0,0,127}));
   connect(TSupAirSet[2].y, oveFloor2TDisAir.u);
   connect(TSupAirSet[3].y, oveFloor3TDisAir.u);
   connect(firOrd.y, reaToBooOcc.u)

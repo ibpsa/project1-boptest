@@ -120,20 +120,22 @@ equation
       thickness=1));
   connect(chiWatNet.p, chiWatPla.dP) annotation (Line(points={{57,-100},{64,-100},
           {64,-120},{-6,-120},{-6,-92},{-1.6,-92}}, color={0,0,127}));
-  connect(chiWatPla.TCWSet, TCWSupSet.y) annotation (Line(points={{-1.6,-102},{-10,
-          -102},{-10,-90},{-49,-90}}, color={0,0,127}));
+  connect(chiWatPla.TCWSet, TCWSupSet.y) annotation (Line(points={{-1.6,-102.8},
+          {-10,-102.8},{-10,-90},{-49,-90}},
+                                      color={0,0,127}));
   connect(chiWatPla.TWetBul, TWetBul) annotation (Line(points={{-1.6,-108},{-30,
           -108},{-30,-68},{-114,-68}}, color={0,0,127}));
   connect(boiWatPla.port_a, boiWatNet.port_b) annotation (Line(
-      points={{140,-95},{140,-96},{156,-96}},
+      points={{140,-96},{140,-96},{156,-96}},
       color={238,46,47},
       thickness=1));
   connect(boiWatNet.port_a, boiWatPla.port_b) annotation (Line(
       points={{156,-106},{140,-106},{140,-106}},
       color={238,46,47},
       thickness=1));
-  connect(boiWatNet.p, boiWatPla.dP) annotation (Line(points={{177,-102},{182,-102},
-          {182,-120},{104,-120},{104,-100.2},{118,-100.2}}, color={0,0,127}));
+  connect(boiWatNet.p, boiWatPla.dP) annotation (Line(points={{177,-102},{182,
+          -102},{182,-120},{104,-120},{104,-100},{100,-100}},
+                                                            color={0,0,127}));
   connect(TCHWSupSet.y, oveTCHWSet.u)
     annotation (Line(points={{-49,-40},{-42,-40}}, color={0,0,127}));
   connect(oveTCHWSet.y, chiWatPla.TCHWSet) annotation (Line(points={{-19,-40},{-8,
