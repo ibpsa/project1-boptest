@@ -408,11 +408,11 @@ model AirSide "Air side system"
   Modelica.Blocks.Math.RealToBoolean reaToBooOcc
     "Convert real signal to boolean signal for occupancy signal"
     annotation (Placement(transformation(extent={{-60,90},{-40,110}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor1TDisAir
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor1TDisAir(description="Floor 1 AHU supply air temperature setpoint")
     annotation (Placement(transformation(extent={{-40,46},{-20,66}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor2TDisAir
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor2TDisAir(description="Floor 2 AHU supply air temperature setpoint")
     annotation (Placement(transformation(extent={{-40,46},{-20,66}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor3TDisAir
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveFloor3TDisAir(description="Floor 3 AHU supply air temperature setpoint")
     "AHU supply air temperature overwritten block"
     annotation (Placement(transformation(extent={{-40,46},{-20,66}})));
   Modelica.Blocks.Continuous.FirstOrder firOrd(T=1)
@@ -443,7 +443,7 @@ equation
           {108,22},{104,22},{104,66},{61,66}},        color={255,0,255}));
    for j in 1:5 loop
     connect(floor1.TZon[j], zonVAVCon[(1 - 1)*5 + j].T) annotation (Line(points={{166.5,
-            50},{166.5,42},{170,42},{170,90},{52,90},{52,100},{58,100}},
+            50},{180,50},{180,84},{50,84},{50,100},{58,100}},
           color={0,0,127}));
     connect(zonVAVCon[(1 - 1)*5 + j].yAirFlowSetPoi, floor1.AirFlowRatSetPoi[j])
       annotation (Line(points={{81.1,106.1},{100,106.1},{100,47},{111.5,47}},
@@ -526,6 +526,7 @@ equation
 
   connect(reaToBooOcc.y, booRep.u)
     annotation (Line(points={{-39,100},{-32,100}}, color={255,0,255}));
+
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),                                        graphics={

@@ -72,14 +72,18 @@ model HVAC
     "Entering air wet bulb temperature"
     annotation (Placement(transformation(extent={{-128,-82},{-100,-54}}),
         iconTransformation(extent={{-127,-83},{-100,-54}})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveTCHWSet
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTCHWSet(description=
+        "Chilled water supply temperature setpoint")
     annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
   Modelica.Blocks.Sources.RealExpression PHWPum(y=sum(boiWatPla.pumSecHW.P))
     "Hot water pump power consumption"
-    annotation (Placement(transformation(extent={{140,-66},{160,-46}})));
+    annotation (Placement(transformation(extent={{114,-74},{134,-54}})));
   Modelica.Blocks.Sources.RealExpression PBoi(y=boiWatPla.multiBoiler.boi[1].boi.QFue_flow
          + boiWatPla.multiBoiler.boi[2].boi.QFue_flow) "Boiler gas consumption"
-    annotation (Placement(transformation(extent={{110,-66},{130,-46}})));
+    annotation (Placement(transformation(extent={{114,-54},{134,-34}})));
+  Buildings.Utilities.IO.SignalExchange.Read read(description=
+        "Boiler gas consumption", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower)
+    annotation (Placement(transformation(extent={{152,-54},{172,-34}})));
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
       points={{56,-91.1333},{88,-91.1333},{88,6},{124,6},{124,20}},
@@ -141,6 +145,8 @@ equation
   connect(oveTCHWSet.y, chiWatPla.TCHWSet) annotation (Line(points={{-19,-40},{-8,
           -40},{-8,-98},{-1.6,-98}}, color={0,0,127}));
 
+  connect(PBoi.y, read.u)
+    annotation (Line(points={{135,-44},{150,-44}}, color={0,0,127}));
   annotation (experiment(
       StartTime=17280000,
       StopTime=17452800,
