@@ -2964,7 +2964,8 @@ package BuildingControlEmulator
               Ti=60,
               k=0.01,
               reverseActing=true)
-                     annotation (Placement(transformation(extent={{42,-70},{62,-50}})));
+                     annotation (Placement(transformation(extent={{40,-70},{60,
+                      -50}})));
             Modelica.Blocks.Interfaces.RealInput T
               "Connector of measurement input signal"
               annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
@@ -2976,12 +2977,12 @@ package BuildingControlEmulator
               annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
             Modelica.Blocks.Interfaces.RealOutput yAirFlowSetPoi
               "Connector of actuator output signal"
-              annotation (Placement(transformation(extent={{100,50},{122,72}}),
-                  iconTransformation(extent={{100,50},{122,72}})));
+              annotation (Placement(transformation(extent={{100,48},{124,72}}),
+                  iconTransformation(extent={{100,48},{124,72}})));
             Modelica.Blocks.Interfaces.RealOutput yValPos
               "Connector of actuator output signal"
-              annotation (Placement(transformation(extent={{100,-70},{122,-48}}),
-                  iconTransformation(extent={{100,-70},{122,-48}})));
+              annotation (Placement(transformation(extent={{100,-72},{124,-48}}),
+                  iconTransformation(extent={{100,-72},{124,-48}})));
             Modelica.Blocks.Logical.Switch swi
               "Switch between external signal and direct feedthrough signal"
               annotation (Placement(transformation(extent={{48,10},{68,30}})));
@@ -2991,107 +2992,35 @@ package BuildingControlEmulator
               annotation (Placement(transformation(extent={{-26,10},{-6,30}})));
             Modelica.Blocks.Math.Add add(k2=-1)
               annotation (Placement(transformation(extent={{-56,10},{-36,30}})));
-            Buildings.Utilities.IO.SignalExchange.Overwrite oveTCooSet(
-                description="Zone air cooling temperature setpoint", u(
-                max=273.15 + 28,
-                unit="K",
-                min=273.15 + 21))
-              annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
-            Buildings.Utilities.IO.SignalExchange.Overwrite oveTHeaSet(
-                description="Zone air heating temperature setpoint", u(
-                max=273.15 + 27,
-                unit="K",
-                min=273.15 + 18))
-              annotation (Placement(transformation(extent={{-96,-64},{-88,-56}})));
-            Buildings.Utilities.IO.SignalExchange.Read TZon(description=
-                  "Zone air temperature", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-              y(unit="K"))
-              annotation (Placement(transformation(extent={{-92,-10},{-72,10}})));
-            Buildings.Utilities.IO.SignalExchange.Read TCooSet(description=
-                  "Zone air cooling temperature setpoint", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-              y(unit="K"))
-              annotation (Placement(transformation(extent={{-46,50},{-26,70}})));
-            Buildings.Utilities.IO.SignalExchange.Read THeaSet(description=
-                  "Zone air heating temperature setpoint", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-              y(unit="K"))
-              annotation (Placement(transformation(extent={{-80,-64},{-72,-56}})));
-            Buildings.Utilities.IO.SignalExchange.Overwrite oveAirFlowSetPoi(
-                description="Zone air flow rate setpoint", u(
-                min=0,
-                max=1,
-                unit="1"))
-              annotation (Placement(transformation(extent={{68,54},{82,68}})));
-            Buildings.Utilities.IO.SignalExchange.Overwrite oveyValPos(
-                description="Zone air terminal valve rate position", u(
-                min=0,
-                max=1,
-                unit="1"))
-              annotation (Placement(transformation(extent={{70,-66},{84,-52}})));
           equation
             connect(cooCon.y, swi.u1) annotation (Line(points={{11,60},{34,60},{34,28},{46,
-                    28}}, color={0,0,127},
-                pattern=LinePattern.Dash));
+                    28}}, color={0,0,127}));
             connect(const.y, swi.u3) annotation (Line(
                 points={{19,-20},{34,-20},{34,12},{46,12}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
+                color={0,0,127}));
             connect(add.y, hysteresis.u) annotation (Line(
                 points={{-35,20},{-28,20}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
             connect(hysteresis.y, swi.u2) annotation (Line(
                 points={{-5,20},{46,20}},
-                color={255,0,255},
-                pattern=LinePattern.Dash));
-            connect(oveTCooSet.u, TCooSetPoi) annotation (Line(
-                points={{-82,60},{-120,60}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(THeaSetPoi, oveTHeaSet.u)
-              annotation (Line(points={{-120,-60},{-96.8,-60}}, color={0,0,127}));
-            connect(heaCon.u_s, add.u2) annotation (Line(
-                points={{40,-60},{-62,-60},{-62,14},{-58,14}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(T, TZon.u) annotation (Line(
-                points={{-120,0},{-94,0}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(TZon.y, heaCon.u_m) annotation (Line(
-                points={{-71,0},{-40,0},{-40,-80},{52,-80},{52,-72}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(add.u1, heaCon.u_m) annotation (Line(
-                points={{-58,26},{-64,26},{-64,0},{-40,0},{-40,-80},{52,-80},{52,-72}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(cooCon.u_m, heaCon.u_m) annotation (Line(
-                points={{0,48},{-2,48},{-2,0},{-40,0},{-40,-80},{52,-80},{52,-72}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(cooCon.u_s, TCooSet.y) annotation (Line(
-                points={{-12,60},{-25,60}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(TCooSet.u, oveTCooSet.y) annotation (Line(
-                points={{-48,60},{-59,60}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(oveTHeaSet.y, THeaSet.u)
-              annotation (Line(points={{-87.6,-60},{-80.8,-60}}, color={0,0,127}));
-            connect(THeaSet.y, add.u2) annotation (Line(
-                points={{-71.6,-60},{-62,-60},{-62,14},{-58,14}},
-                color={0,0,127},
-                pattern=LinePattern.Dash));
-            connect(oveAirFlowSetPoi.y, yAirFlowSetPoi) annotation (Line(points={{82.7,61},
-                    {111,61}},                 color={0,0,127}));
-            connect(heaCon.y, oveyValPos.u) annotation (Line(points={{63,-60},{
-                    70,-60},{70,-59},{68.6,-59}},
-                                         color={0,0,127}));
-            connect(oveyValPos.y, yValPos) annotation (Line(points={{84.7,-59},
-                    {111,-59}},         color={0,0,127}));
-            connect(swi.y, oveAirFlowSetPoi.u) annotation (Line(points={{69,20},{86,20},{
-                    86,46},{48,46},{48,61},{66.6,61}}, color={0,0,127}));
+                color={255,0,255}));
+            connect(TCooSetPoi, cooCon.u_s)
+              annotation (Line(points={{-120,60},{-12,60}}, color={0,0,127}));
+            connect(T, add.u1) annotation (Line(points={{-120,0},{-80,0},{-80,
+                    26},{-58,26}}, color={0,0,127}));
+            connect(T, cooCon.u_m) annotation (Line(points={{-120,0},{0,0},{0,
+                    48}}, color={0,0,127}));
+            connect(T, heaCon.u_m) annotation (Line(points={{-120,0},{-40,0},{
+                    -40,-80},{50,-80},{50,-72}}, color={0,0,127}));
+            connect(THeaSetPoi, heaCon.u_s)
+              annotation (Line(points={{-120,-60},{38,-60}}, color={0,0,127}));
+            connect(THeaSetPoi, add.u2) annotation (Line(points={{-120,-60},{
+                    -72,-60},{-72,14},{-58,14}}, color={0,0,127}));
+            connect(heaCon.y, yValPos)
+              annotation (Line(points={{61,-60},{112,-60}}, color={0,0,127}));
+            connect(swi.y, yAirFlowSetPoi) annotation (Line(points={{69,20},{80,
+                    20},{80,60},{112,60}}, color={0,0,127}));
             annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                     Rectangle(
                     extent={{-100,100},{100,-100}},

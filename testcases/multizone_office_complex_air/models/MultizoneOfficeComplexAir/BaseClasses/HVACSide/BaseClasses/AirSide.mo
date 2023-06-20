@@ -375,15 +375,12 @@ model AirSide "Air side system"
   Modelica.Blocks.Sources.BooleanExpression onZon[n](each y=true)
     "Zone VAV terminal on signal"
     annotation (Placement(transformation(extent={{40,62},{60,82}})));
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.Controls.ZonCon zonVAVCon[15](
+  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.Controls.ZonCon
+    zonVAVCon[15](
     MinFlowRateSetPoi=0.3,
     HeatingFlowRateSetPoi=0.5,
     heaCon(Ti=60, yMin=0.01),
-    cooCon(k=11, Ti=60),
-    oveTCooSet(uExt(y=TCooSetPoi), activate(y=TCooSetPoi_activate)),
-    oveTHeaSet(uExt(y=THeaSetPoi), activate(y=THeaSetPoi_activate)),
-    oveAirFlowSetPoi(uExt(y=mAirFlow), activate(y=mAirFlow_activate)),
-    oveyValPos(uExt(y=yPos), activate(y=yPos_activate)))
+    cooCon(k=11, Ti=60))
     "Zone terminal VAV controller (airflow rate, reheat valve)l "
     annotation (Placement(transformation(extent={{60,90},{80,110}})));
 
@@ -459,10 +456,10 @@ equation
             43.3333},{180,43.3333},{180,84},{50,84},{50,100},{58,100}},
           color={0,0,127}));
     connect(zonVAVCon[(1 - 1)*5 + j].yAirFlowSetPoi, floor1.AirFlowRatSetPoi[j])
-      annotation (Line(points={{81.1,106.1},{100,106.1},{100,41},{111.5,41}},
+      annotation (Line(points={{81.2,106},{100,106},{100,41},{111.5,41}},
           color={0,0,127}));
     connect(zonVAVCon[(1 - 1)*5 + j].yValPos, floor1.yVal[j]) annotation (Line(
-          points={{81.1,94.1},{102,94.1},{102,27},{111.5,27}},     color={0,0,127}));
+          points={{81.2,94},{102,94},{102,27},{111.5,27}},         color={0,0,127}));
     connect(loa[(1 - 1)*5 + j], floor1.Q_flow[j]);
     connect(floor1.TZon[j], TZon[(1-1)*5+j]);
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[1], zonVAVCon[(1 - 1)*5 + j].TCooSetPoi)
