@@ -364,14 +364,14 @@ model AirSide "Air side system"
     redeclare package Medium = MediumAir,
     each p(displayUnit="Pa") = 100000,
     use_T_in=true) "Source"
-    annotation (Placement(transformation(extent={{40,26},{60,46}})));
+    annotation (Placement(transformation(extent={{40,30},{60,50}})));
 
   Modelica.Blocks.Sources.Constant TSupAirSet[n](k=273.15 + 12.88)
     "AHU supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-70,46},{-50,66}})));
   Modelica.Blocks.Sources.Constant dpStaSet[n](k=400)
     "AHU static ressure setpoint"
-    annotation (Placement(transformation(extent={{-70,10},{-50,30}})));
+    annotation (Placement(transformation(extent={{-70,16},{-50,36}})));
   Modelica.Blocks.Sources.BooleanExpression onZon[n](each y=true)
     "Zone VAV terminal on signal"
     annotation (Placement(transformation(extent={{40,62},{60,82}})));
@@ -429,18 +429,18 @@ model AirSide "Air side system"
 equation
 
    connect(sou[1].T_in, TDryBul)
-   annotation (Line(points={{38,40},{-38,40},{-38,1.77636e-15},{-114,1.77636e-15}},
-                          color={0,0,127}));
+   annotation (Line(points={{38,44},{-38,44},{-38,1.77636e-15},{-114,
+          1.77636e-15}},  color={0,0,127}));
    connect(floor1.port_Exh_Air, sou[1].ports[1]) annotation (Line(
-      points={{114,34},{90,34},{90,38.6667},{60,38.6667}},
+      points={{114,34},{90,34},{90,42.6667},{60,42.6667}},
       color={0,140,72},
       thickness=0.5));
    connect(floor1.port_Fre_Air, sou[1].ports[2]) annotation (Line(
-      points={{114,52.6667},{90,52.6667},{90,36},{60,36}},
+      points={{114,52.6667},{90,52.6667},{90,40},{60,40}},
       color={0,140,72},
       thickness=0.5));
-  connect(dpStaSet[1].y, floor1.PreSetPoi) annotation (Line(points={{-49,20},{
-          102,20},{102,45.6667},{111.5,45.6667}},
+  connect(dpStaSet[1].y, floor1.PreSetPoi) annotation (Line(points={{-49,26},{
+          102,26},{102,45.6667},{111.5,45.6667}},
                                         color={0,0,127}));
    connect(oveFloor1TDisAir.y, floor1.DisTemPSetPoi) annotation (Line(points={{-19,56},
           {100,56},{100,57.3333},{111.5,57.3333}},
@@ -550,7 +550,7 @@ equation
     Diagram(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-20},{200,120}}), graphics={
           Text(
-          extent={{136,112},{186,98}},
+          extent={{130,108},{180,94}},
           lineColor={0,0,0},
           fontSize=10,
           textStyle={TextStyle.Bold},

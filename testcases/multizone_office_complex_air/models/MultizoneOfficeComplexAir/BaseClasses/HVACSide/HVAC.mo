@@ -87,15 +87,15 @@ model HVAC
   Buildings.Utilities.IO.SignalExchange.Read reaPBoi(
     description="Boiler gas consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-
     y(unit="W")) "Block for outputting the boiler gas power"
     annotation (Placement(transformation(extent={{160,-44},{180,-24}})));
+
   Buildings.Utilities.IO.SignalExchange.Read reaPHWPum(
     description="Hot water pump power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Block for outputting the hot water pump"
     annotation (Placement(transformation(extent={{160,-70},{180,-50}})));
+
   Modelica.Blocks.Sources.Constant THWSupSet(k=273.15 + 80)
     "Hot water supply temperature setpoint"
     annotation (Placement(transformation(extent={{-70,-70},{-50,-50}})));
@@ -108,30 +108,41 @@ model HVAC
   Buildings.Utilities.IO.SignalExchange.Read reaPCHWPum(
     description="Chilled water plant pump power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Block for outputting the chilled water plant"
     annotation (Placement(transformation(extent={{40,-30},{60,-10}})));
+
   Modelica.Blocks.Sources.RealExpression PCHWPum(y=chiWatPla.PConSpePum.y +
         chiWatPla.PVarSpePum.y) "Chilled water plant pump power consumption"
     annotation (Placement(transformation(extent={{0,-30},{20,-10}})));
   Buildings.Utilities.IO.SignalExchange.Read reaPChi(
     description="Multiple chiller power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Block for outputting the multiple chillers"
     annotation (Placement(transformation(extent={{40,-54},{60,-34}})));
+
   Modelica.Blocks.Sources.RealExpression PChi(y=chiWatPla.PCh.y)
     "Multiple chiller power consumption"
     annotation (Placement(transformation(extent={{0,-54},{20,-34}})));
   Buildings.Utilities.IO.SignalExchange.Read reaPCooTow(
     description="Multiple cooling tower power consumption",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Block for outputting the multiple cooling towers"
     annotation (Placement(transformation(extent={{40,-78},{60,-58}})));
+
   Modelica.Blocks.Sources.RealExpression PCooTow(y=chiWatPla.PCooTow.y)
     "Cooling tower power consumption"
     annotation (Placement(transformation(extent={{0,-78},{20,-58}})));
+  Modelica.Blocks.Sources.RealExpression PFan(y=floor1.duaFanAirHanUnit.supFan.P
+         + floor2.duaFanAirHanUnit.supFan.P + floor3.duaFanAirHanUnit.supFan.P
+         + floor1.duaFanAirHanUnit.retFan.P + floor2.duaFanAirHanUnit.retFan.P
+         + floor3.duaFanAirHanUnit.retFan.P) "AHU fan power consumption"
+    annotation (Placement(transformation(extent={{0,0},{20,20}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaPFan(
+    description="AHU fan power consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    y(unit="W")) "Block for outputting the AHU fan power consumption"
+    annotation (Placement(transformation(extent={{40,0},{60,20}})));
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
       points={{56,-91.1333},{56,-94},{100,-94},{100,6},{124,6},{124,20}},
@@ -208,6 +219,8 @@ equation
     annotation (Line(points={{38,-44},{21,-44}}, color={0,0,127}));
   connect(reaPCooTow.u, PCooTow.y)
     annotation (Line(points={{38,-68},{21,-68}}, color={0,0,127}));
+  connect(reaPFan.u, PFan.y)
+    annotation (Line(points={{38,10},{21,10}}, color={0,0,127}));
   annotation (experiment(
       StartTime=17280000,
       StopTime=17452800,
