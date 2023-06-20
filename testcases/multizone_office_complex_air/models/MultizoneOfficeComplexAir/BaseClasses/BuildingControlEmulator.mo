@@ -1734,8 +1734,11 @@ package BuildingControlEmulator
           Modelica.Blocks.Interfaces.RealInput Tout
             "Connector of measurement input signal"
             annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-          Buildings.Utilities.IO.SignalExchange.Overwrite oveEcoDam(description
-              ="AHU economizer damper position")
+          Buildings.Utilities.IO.SignalExchange.Overwrite oveEcoDam(description=
+               "AHU economizer damper position", u(
+              min=0,
+              max=1,
+              unit="1"))
             annotation (Placement(transformation(extent={{-62,-6},{-48,8}})));
         equation
           connect(mixBox.port_Exh, port_Exh) annotation (Line(
@@ -2989,25 +2992,40 @@ package BuildingControlEmulator
             Modelica.Blocks.Math.Add add(k2=-1)
               annotation (Placement(transformation(extent={{-56,10},{-36,30}})));
             Buildings.Utilities.IO.SignalExchange.Overwrite oveTCooSet(
-                description="Zone air cooling temperature setpoint")
+                description="Zone air cooling temperature setpoint", u(
+                max=273.15 + 28,
+                unit="K",
+                min=273.15 + 21))
               annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
             Buildings.Utilities.IO.SignalExchange.Overwrite oveTHeaSet(
-                description="Zone air heating temperature setpoint")
+                description="Zone air heating temperature setpoint", u(
+                max=273.15 + 27,
+                unit="K",
+                min=273.15 + 18))
               annotation (Placement(transformation(extent={{-96,-64},{-88,-56}})));
             Buildings.Utilities.IO.SignalExchange.Read TZon(description=
-                  "Zone air temperature", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+                  "Zone air temperature", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+              y(unit="K"))
               annotation (Placement(transformation(extent={{-92,-10},{-72,10}})));
             Buildings.Utilities.IO.SignalExchange.Read TCooSet(description=
-                  "Zone air cooling temperature setpoint", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+                  "Zone air cooling temperature setpoint", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+              y(unit="K"))
               annotation (Placement(transformation(extent={{-46,50},{-26,70}})));
             Buildings.Utilities.IO.SignalExchange.Read THeaSet(description=
-                  "Zone air heating temperature setpoint", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None)
+                  "Zone air heating temperature setpoint", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
+              y(unit="K"))
               annotation (Placement(transformation(extent={{-80,-64},{-72,-56}})));
             Buildings.Utilities.IO.SignalExchange.Overwrite oveAirFlowSetPoi(
-                description="Zone air flow rate setpoint")
+                description="Zone air flow rate setpoint", u(
+                min=0,
+                max=1,
+                unit="1"))
               annotation (Placement(transformation(extent={{68,54},{82,68}})));
             Buildings.Utilities.IO.SignalExchange.Overwrite oveyValPos(
-                description="Zone air terminal valve rate position")
+                description="Zone air terminal valve rate position", u(
+                min=0,
+                max=1,
+                unit="1"))
               annotation (Placement(transformation(extent={{70,-66},{84,-52}})));
           equation
             connect(cooCon.y, swi.u1) annotation (Line(points={{11,60},{34,60},{34,28},{46,
@@ -4743,11 +4761,17 @@ First implementation.
             annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
           Modelica.Blocks.Logical.Not not1
             annotation (Placement(transformation(extent={{-62,0},{-42,20}})));
-          Buildings.Utilities.IO.SignalExchange.Overwrite oveSpeSup(description
-              ="AHU supply fan speed control signal")
+          Buildings.Utilities.IO.SignalExchange.Overwrite oveSpeSup(description=
+               "AHU supply fan speed control signal", u(
+              min=0,
+              max=1,
+              unit="1"))
             annotation (Placement(transformation(extent={{14,72},{30,88}})));
           Buildings.Utilities.IO.SignalExchange.Overwrite ovePreSetPoi(
-              description="AHU supply fan static pressure setpoint")
+              description="AHU supply fan static pressure setpoint", u(
+              min=80,
+              max=600,
+              unit="Pa"))
             annotation (Placement(transformation(extent={{-70,-88},{-54,-72}})));
           Buildings.Controls.OBC.CDL.Continuous.Switch swi
             annotation (Placement(transformation(extent={{12,28},{32,48}})));
@@ -19000,7 +19024,7 @@ First implementation.
           pattern=LinePattern.Dash));
 
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{
-                -100,-100},{100,40}}),                              graphics={
+                -100,-100},{100,80}}),                              graphics={
             Rectangle(
               extent={{-100,100},{100,-100}},
               lineColor={0,0,127},
