@@ -67,7 +67,7 @@ model HVAC
     annotation (Placement(transformation(extent={{-70,-100},{-50,-80}})));
   Modelica.Blocks.Sources.Constant TCHWSupSet(k=273.15 + 5.56)
     "Chilled water supply temperature setpoint"
-    annotation (Placement(transformation(extent={{-70,-50},{-50,-30}})));
+    annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
   Modelica.Blocks.Interfaces.RealInput TWetBul
     "Entering air wet bulb temperature"
     annotation (Placement(transformation(extent={{-128,-82},{-100,-54}}),
@@ -77,24 +77,68 @@ model HVAC
       max=273.15 + 13,
       unit="K",
       min=273.15 + 4))
-    annotation (Placement(transformation(extent={{-40,-50},{-20,-30}})));
+    annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
   Modelica.Blocks.Sources.RealExpression PHWPum(y=sum(boiWatPla.pumSecHW.P))
     "Hot water pump power consumption"
-    annotation (Placement(transformation(extent={{114,-74},{134,-54}})));
+    annotation (Placement(transformation(extent={{122,-70},{142,-50}})));
   Modelica.Blocks.Sources.RealExpression PBoi(y=boiWatPla.multiBoiler.boi[1].boi.QFue_flow
          + boiWatPla.multiBoiler.boi[2].boi.QFue_flow) "Boiler gas consumption"
-    annotation (Placement(transformation(extent={{114,-54},{134,-34}})));
-  Buildings.Utilities.IO.SignalExchange.Read read(description=
-        "Boiler gas consumption", KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
-    y(unit="W"))
-    annotation (Placement(transformation(extent={{152,-54},{172,-34}})));
+    annotation (Placement(transformation(extent={{122,-44},{142,-24}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaPBoi(
+    description="Boiler gas consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.GasPower,
+
+    y(unit="W")) "Block for outputting the boiler gas power"
+    annotation (Placement(transformation(extent={{160,-44},{180,-24}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaPHWPum(
+    description="Hot water pump power consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    y(unit="W")) "Block for outputting the hot water pump"
+    annotation (Placement(transformation(extent={{160,-70},{180,-50}})));
+  Modelica.Blocks.Sources.Constant THWSupSet(k=273.15 + 80)
+    "Hot water supply temperature setpoint"
+    annotation (Placement(transformation(extent={{-70,-70},{-50,-50}})));
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTHWSet(description=
+        "Hot water supply temperature setpoint", u(
+      max=273.15 + 90,
+      unit="K",
+      min=273.15 + 40))
+    annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaPCHWPum(
+    description="Chilled water plant pump power consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    y(unit="W")) "Block for outputting the chilled water plant"
+    annotation (Placement(transformation(extent={{40,-30},{60,-10}})));
+  Modelica.Blocks.Sources.RealExpression PCHWPum(y=chiWatPla.PConSpePum.y +
+        chiWatPla.PVarSpePum.y) "Chilled water plant pump power consumption"
+    annotation (Placement(transformation(extent={{0,-30},{20,-10}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaPChi(
+    description="Multiple chiller power consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    y(unit="W")) "Block for outputting the multiple chillers"
+    annotation (Placement(transformation(extent={{40,-54},{60,-34}})));
+  Modelica.Blocks.Sources.RealExpression PChi(y=chiWatPla.PCh.y)
+    "Multiple chiller power consumption"
+    annotation (Placement(transformation(extent={{0,-54},{20,-34}})));
+  Buildings.Utilities.IO.SignalExchange.Read reaPCooTow(
+    description="Multiple cooling tower power consumption",
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
+
+    y(unit="W")) "Block for outputting the multiple cooling towers"
+    annotation (Placement(transformation(extent={{40,-78},{60,-58}})));
+  Modelica.Blocks.Sources.RealExpression PCooTow(y=chiWatPla.PCooTow.y)
+    "Cooling tower power consumption"
+    annotation (Placement(transformation(extent={{0,-78},{20,-58}})));
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
-      points={{56,-91.1333},{88,-91.1333},{88,6},{124,6},{124,20}},
+      points={{56,-91.1333},{56,-94},{100,-94},{100,6},{124,6},{124,20}},
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
-      points={{130,20},{130,0},{92,0},{92,-102},{74,-102},{74,-101.933},{56,
+      points={{130,20},{130,0},{106,0},{106,-102},{74,-102},{74,-101.933},{56,
           -101.933}},
       color={0,127,225},
       thickness=1));
@@ -131,8 +175,8 @@ equation
   connect(chiWatPla.TCWSet, TCWSupSet.y) annotation (Line(points={{-1.6,-102.8},
           {-10,-102.8},{-10,-90},{-49,-90}},
                                       color={0,0,127}));
-  connect(chiWatPla.TWetBul, TWetBul) annotation (Line(points={{-1.6,-108},{-30,
-          -108},{-30,-68},{-114,-68}}, color={0,0,127}));
+  connect(chiWatPla.TWetBul, TWetBul) annotation (Line(points={{-1.6,-108},{-80,
+          -108},{-80,-68},{-114,-68}}, color={0,0,127}));
   connect(boiWatPla.port_a, boiWatNet.port_b) annotation (Line(
       points={{140,-96},{140,-96},{156,-96}},
       color={238,46,47},
@@ -142,27 +186,40 @@ equation
       color={238,46,47},
       thickness=1));
   connect(boiWatNet.p, boiWatPla.dP) annotation (Line(points={{177,-102},{182,
-          -102},{182,-120},{104,-120},{104,-100},{100,-100}},
+          -102},{182,-120},{110,-120},{110,-100},{118,-100}},
                                                             color={0,0,127}));
   connect(TCHWSupSet.y, oveTCHWSet.u)
-    annotation (Line(points={{-49,-40},{-42,-40}}, color={0,0,127}));
-  connect(oveTCHWSet.y, chiWatPla.TCHWSet) annotation (Line(points={{-19,-40},{-8,
-          -40},{-8,-98},{-1.6,-98}}, color={0,0,127}));
+    annotation (Line(points={{-49,-30},{-42,-30}}, color={0,0,127}));
+  connect(oveTCHWSet.y, chiWatPla.TCHWSet) annotation (Line(points={{-19,-30},{
+          -8,-30},{-8,-98},{-1.6,-98}},
+                                     color={0,0,127}));
 
-  connect(PBoi.y, read.u)
-    annotation (Line(points={{135,-44},{150,-44}}, color={0,0,127}));
+  connect(PBoi.y, reaPBoi.u)
+    annotation (Line(points={{143,-34},{158,-34}}, color={0,0,127}));
+  connect(reaPHWPum.u, PHWPum.y)
+    annotation (Line(points={{158,-60},{143,-60}}, color={0,0,127}));
+  connect(THWSupSet.y, oveTHWSet.u)
+    annotation (Line(points={{-49,-60},{-42,-60}}, color={0,0,127}));
+  connect(oveTHWSet.y, boiWatPla.THWSet) annotation (Line(points={{-19,-60},{
+          -10,-60},{-10,-80},{80,-80},{80,-94},{118,-94}}, color={0,0,127}));
+  connect(reaPCHWPum.u, PCHWPum.y)
+    annotation (Line(points={{38,-20},{21,-20}}, color={0,0,127}));
+  connect(reaPChi.u, PChi.y)
+    annotation (Line(points={{38,-44},{21,-44}}, color={0,0,127}));
+  connect(reaPCooTow.u, PCooTow.y)
+    annotation (Line(points={{38,-68},{21,-68}}, color={0,0,127}));
   annotation (experiment(
       StartTime=17280000,
       StopTime=17452800,
       __Dymola_NumberOfIntervals=2880,
       __Dymola_Algorithm="Cvode"),
     Diagram(coordinateSystem(extent={{-100,-120},{200,120}}), graphics={Text(
-          extent={{126,-18},{198,-34}},
+          extent={{118,-4},{190,-20}},
           lineColor={0,0,0},
           fontSize=10,
           textStyle={TextStyle.Bold},
           textString="Waterside"),     Line(
-          points={{-100,-14},{200,-14}},
+          points={{-100,-2},{200,-2}},
           color={194,194,194},
           thickness=1,
           pattern=LinePattern.DashDotDot)}),

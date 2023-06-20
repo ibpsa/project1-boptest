@@ -19460,7 +19460,7 @@ First implementation.
         annotation (Placement(transformation(extent={{200,90},{220,110}})));
       Modelica.Blocks.Sources.RealExpression PConSpePum(y=sum(pumPriCHW.P) + sum(
             pumCW.P))
-        annotation (Placement(transformation(extent={{142,48},{162,68}})));
+        annotation (Placement(transformation(extent={{140,48},{160,68}})));
       Modelica.Blocks.Continuous.Integrator EConSpePum
         annotation (Placement(transformation(extent={{200,48},{220,68}})));
       Modelica.Blocks.Sources.RealExpression PVarSpePum(y=sum(pumSecCHW.P))
@@ -19585,7 +19585,8 @@ First implementation.
           smooth=Smooth.None,
           thickness=1));
       connect(chillerStage.y, mulChiSys.On) annotation (Line(
-          points={{-61,68},{-40,68},{-40,40},{-120,40},{-120,-16.6},{-95.71,-16.6}},
+          points={{-61,68},{-40,68},{-40,40},{-120,40},{-120,-16.6},{-95.71,
+              -16.6}},
           color={0,0,127},
           pattern=LinePattern.Dash));
 
@@ -19629,7 +19630,7 @@ First implementation.
           color={0,0,127},
           pattern=LinePattern.Dash));
       connect(PConSpePum.y, EConSpePum.u) annotation (Line(
-          points={{163,58},{163,58},{194,58},{198,58}},
+          points={{161,58},{198,58}},
           color={0,0,127},
           pattern=LinePattern.Dash));
       connect(PVarSpePum.y, EVarSpePum.u) annotation (Line(
@@ -19800,8 +19801,6 @@ First implementation.
             1,
             m,
             m)}) annotation (Placement(transformation(extent={{22,6},{-12,42}})));
-      Modelica.Blocks.Sources.Constant THWSet(k=273.15 + 80)
-        annotation (Placement(transformation(extent={{-260,38},{-240,58}})));
       Modelica.Blocks.Math.RealToBoolean realToBoolean
         annotation (Placement(transformation(extent={{-160,80},{-140,100}})));
       Modelica.Blocks.Sources.Constant On(k=1)
@@ -19848,7 +19847,8 @@ First implementation.
         Cap=Cap) annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
       Modelica.Blocks.Interfaces.RealInput dP "Measured pressure drop"
         annotation (Placement(transformation(extent={{-320,-20},{-280,20}}),
-            iconTransformation(extent={{-320,-20},{-280,20}})));
+            iconTransformation(extent={{-140,-20},{-100,20}})));
+
       Modelica.Blocks.Interfaces.RealOutput THWLea
         "Temperature of the passing fluid"
         annotation (Placement(transformation(extent={{240,-10},{260,10}}),
@@ -19869,6 +19869,9 @@ First implementation.
       Modelica.Blocks.Sources.RealExpression realExpression(y=senMasFlo.m_flow*4200
             *(senTHWBuiEnt.T - senTHWBuiLea.T))
         annotation (Placement(transformation(extent={{62,-50},{42,-30}})));
+      Modelica.Blocks.Interfaces.RealInput THWSet
+        "Temperature setpoint of the hot water"
+        annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
     equation
       connect(On.y, realToBoolean.u) annotation (Line(
           points={{-239,90},{-162,90}},
@@ -19890,10 +19893,6 @@ First implementation.
           color={255,0,0},
           thickness=1));
 
-      connect(multiBoiler.THWSet, THWSet.y) annotation (Line(
-          points={{-97.53,-24.4},{-200,-24.4},{-200,48},{-239,48}},
-          color={0,0,127},
-          pattern=LinePattern.Dash));
       connect(pumSecHW.SpeRat, secPumCon.Status) annotation (Line(
           points={{-13.7,35.16},{-20,35.16},{-20,42},{58,42}},
           color={0,0,127},
@@ -19944,6 +19943,10 @@ First implementation.
           pattern=LinePattern.Dash));
       connect(secPumCon.y, pumSecHW.SpeSig) annotation (Line(
           points={{81,50},{86,50},{86,38},{54,38},{54,38.4},{23.53,38.4}},
+          color={0,0,127},
+          pattern=LinePattern.Dash));
+      connect(multiBoiler.THWSet, THWSet) annotation (Line(
+          points={{-97.53,-24.4},{-220,-24.4},{-220,60},{-120,60}},
           color={0,0,127},
           pattern=LinePattern.Dash));
       annotation (__Dymola_Commands(file=
