@@ -10,7 +10,7 @@ Released on xx/xx/xxxx.
 - In examples and unit test Python requests, use ``json`` attribute instead of ``data``.  This is for [#528](https://github.com/ibpsa/project1-boptest/issues/528).
 - In unit test checking fetching of single forecast variable, specify specific forecast point to check for each test case.  This is for [#529](https://github.com/ibpsa/project1-boptest/issues/529).
 - Update ``KPI_Calculator.get_computational_time_ratio`` to return ``None`` if no simulation steps have been processed. This is for [#540](https://github.com/ibpsa/project1-boptest/issues/540).
-- Update example and unit test environment to Python 3.11.4.  This is for [#550](https://github.com/ibpsa/project1-boptest/issues/550).
+- Update example and unit test environment with the latest packages for Python 3.9. This is for [#550](https://github.com/ibpsa/project1-boptest/issues/550).
 
 ## BOPTEST v0.4.0
 
