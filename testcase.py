@@ -1139,6 +1139,7 @@ class TestCase(object):
               "account": {
                 "apiKey": api_key
               },
+              "forecastParameters":{},
               "tags": tags,
               "kpis": self.get_kpis()[2],
               "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
