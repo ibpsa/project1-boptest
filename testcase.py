@@ -862,7 +862,7 @@ class TestCase(object):
         if horizon < 0:
             payload = None
             status = 400
-            message = "Invalid value {} for parameter horizon. Value must be positive.".format(horizon)
+            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
             logging.error(message)
             return status, message, payload
         if interval <= 0:
