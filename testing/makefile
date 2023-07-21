@@ -2,6 +2,9 @@
 ###############################################################################
 
 IMG_NAME=jm
+# Set SINGLE to true to run tests as single arguments (as is done in travis.)
+# Note that the target test_all sets SINGLE=false so as to run the tests in a batch.
+SINGLE=true
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -86,7 +89,9 @@ test_%:
 # Stop testcase container
 	cd .. && docker-compose down
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_testcase1:
 # Compile testcase model
@@ -108,7 +113,9 @@ test_testcase1:
 	cd ../examples/javascript && make remove-image Script=testcase1
 	cd ../examples/javascript && rm geckodriver
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_testcase2:
 # Compile testcase model
@@ -130,7 +137,9 @@ test_testcase2:
 	cd ../examples/javascript && make remove-image Script=testcase2
 	cd ../examples/javascript && rm geckodriver
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_parser:
 	make run_jm
@@ -141,7 +150,9 @@ test_parser:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
 	make stop_jm
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_data:
 # Compile testcase model
@@ -164,7 +175,9 @@ test_data:
 # Stop jm docker container
 	make stop_jm
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_forecast:
 # Compile testcase model
@@ -185,7 +198,9 @@ test_forecast:
 # Stop jm docker container
 	make stop_jm
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_kpis:
 # Compile testcase model
@@ -206,7 +221,9 @@ test_kpis:
 # Stop jm docker container
 	make stop_jm
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
@@ -246,21 +263,21 @@ test_all:
 # Build boptest base image
 	make build_boptest_image
 # Run tests
-	make test_parser
-	make test_data
-	make test_forecast
-	make test_kpis
-	make test_readme_commands
-	make test_testcase1
-	make test_testcase2
-	make test_testcase3
-	make test_bestest_air
-	make test_bestest_hydronic
-	make test_bestest_hydronic_heat_pump
-	make test_multizone_residential_hydronic
-	make test_singlezone_commercial_hydronic
-	make test_multizone_office_simple_air
-	make test_twozone_apartment_hydronic
+	make test_parser SINGLE=false
+	make test_data SINGLE=false
+	make test_forecast SINGLE=false
+	make test_kpis SINGLE=false
+	make test_readme_commands SINGLE=false
+	make test_testcase1 SINGLE=false
+	make test_testcase2 SINGLE=false
+	make test_testcase3 SINGLE=false
+	make test_bestest_air SINGLE=false
+	make test_bestest_hydronic SINGLE=false
+	make test_bestest_hydronic_heat_pump SINGLE=false
+	make test_multizone_residential_hydronic SINGLE=false
+	make test_singlezone_commercial_hydronic SINGLE=false
+	make test_multizone_office_simple_air SINGLE=false
+	make test_twozone_apartment_hydronic SINGLE=false
 # Remove jm
 	make remove_jm_image
 # Remove boptest base image
