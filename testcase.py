@@ -871,10 +871,10 @@ class TestCase(object):
             message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
             logging.error(message)
             return status, message, payload
-        if horizon <= 0:
+        if horizon < 0:
             payload = None
             status = 400
-            message = "Invalid value {} for parameter horizon. Value must be positive.".format(horizon)
+            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
             logging.error(message)
             return status, message, payload
         if interval <= 0:
