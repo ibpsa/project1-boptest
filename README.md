@@ -39,6 +39,7 @@ that is being developed as part of the [IBPSA Project 1](https://ibpsa.github.io
 ## Run an example test controller:
 
 * For Python-based example controllers:
+  * Add the directory path to the root of this repository to the ``PYTHONPATH`` environment variable.
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1.py`` to test a simple proportional feedback controller on this test case over a two-day period.
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase1_scenario.py`` to test a simple proportional feedback controller on this test case over a test period defined using the ``/scenario`` API.
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/python/ && python testcase2.py`` to test a simple supervisory controller on this test case over a two-day period.
