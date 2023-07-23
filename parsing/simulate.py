@@ -51,7 +51,6 @@ def simulate(start_time=0, final_time=3600*48, overwrite = None, plot = False):
         input_object = None
     # Set options
     options = fmu.simulate_options()
-    options['CVode_options']['rtol'] = 1e-6
     options['ncp'] = 500
     # Simulate
     print(input_object)
