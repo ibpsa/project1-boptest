@@ -18,8 +18,6 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-install: travis_wait 30 mvn install
-
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
 
@@ -59,13 +57,13 @@ jobs:
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
     script: cd testing && make build_jm_image && make test_bestest_hydronic_heat_pump
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1 && travis_wait 50 mvn install
     script: cd testing && make build_jm_image && make test_multizone_residential_hydronic
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
     script: cd testing && make build_jm_image && make test_singlezone_commercial_hydronic
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1 && travis_wait 50 mvn install
     script: cd testing && make build_jm_image && make test_multizone_office_simple_air
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
