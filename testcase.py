@@ -859,10 +859,10 @@ class TestCase(object):
             message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
             logging.error(message)
             return status, message, payload
-        if horizon <= 0:
+        if horizon < 0:
             payload = None
             status = 400
-            message = "Invalid value {} for parameter horizon. Value must be positive.".format(horizon)
+            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
             logging.error(message)
             return status, message, payload
         if interval <= 0:
@@ -1139,6 +1139,7 @@ class TestCase(object):
               "account": {
                 "apiKey": api_key
               },
+              "forecastParameters":{},
               "tags": tags,
               "kpis": self.get_kpis()[2],
               "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
