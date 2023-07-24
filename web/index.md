@@ -22,16 +22,12 @@ It contains these key components:
 
 Head over to the [Software](/project1-boptest/software/index.html) page to start testing your control strategy or look at the [Results Dashboard](/project1-boptest/dashboard/index.html) to view and compare tested control strategies.
 
-Stay up to date on the latest [News](/project1-boptest/blog/index.html) and development plans within a continuing [IBPSA Project](/project1-boptest/ibpsa/index.html).
+Stay up to date on the latest [News](/project1-boptest/blog/index.html).
 
 
 # Collaboration and Support
 
-The development of BOPTEST has resulted from an international collaboration of academic, national laboratory, and industry partners through [IBPSA Project 1](https://ibpsa.github.io/project1/index.html) Work Package 1.2.  Thank you to all of the contributing partners!
-
-<p align="center">
-    <img src="images/partner_logos.png" alt="drawing" width="70%"/>
-</p>
+The development of BOPTEST has resulted from an international collaboration of academic, research, and industry partners through [IBPSA Project 1](https://ibpsa.github.io/project1/index.html) Work Package 1.2 and continuing under [IBPSA Project 2](/project1-boptest/ibpsa/index.html).  Thank you to all of the contributing partners!
 
 Financial support provided in-part by:
 
