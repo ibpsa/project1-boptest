@@ -31,7 +31,7 @@ run_jm:
 
 copy_to_jm:
 	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
-	docker exec -it ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
+	docker exec -i ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
 
 copy_testcase_to_jm:
 	make copy_to_jm ARGS=testcases/${TESTCASE}
