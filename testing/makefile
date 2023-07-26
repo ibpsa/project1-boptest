@@ -46,7 +46,7 @@ copy_testcase_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../testcases/${ARGS}
 
 exec_jm:
-	docker exec -it ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
+	docker exec -i ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
 
 stop_jm:
 	docker stop ${IMG_NAME}
