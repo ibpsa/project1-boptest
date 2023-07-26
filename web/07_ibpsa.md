@@ -8,8 +8,11 @@ menubar: ibpsa_menubar
 permalink: /ibpsa/
 ---
 
-**IBPSA Project 2**
-develops BOPTEST software infrastructure, emulators, and related extensions to
+<img src="../images/project2logo.png" alt="drawing" width="50%"/>
+
+**IBPSA Project 2** is operated under the umbrella of the
+International Building Performance Simulaton Association (https://ibpsa.org/).
+The Project develops BOPTEST software infrastructure, emulators, and related extensions to
 meet the growing needs of building and urban energy system controls development
 and evaluation worldwide.  Software development continues under the
 same open-source license to facilitate community development and to enable
@@ -25,7 +28,7 @@ Details of the work plan, participation, schedule, and meetings are available
 on the menu bar on the left.
 
 BOPTEST development started within the [IBPSA Project 1](https://ibpsa.github.io/project1/index.html) Work Package 1.2.
-With IBPSA Project 1 ending in Summer 2022. A proposal for a new IBPSA
+With IBPSA Project 1 ending in Summer 2022, a proposal for a new IBPSA
 Project focusing on continued BOPTEST development and usage
 was approved by the IBPSA Board on July 12th, 2023, leading to the start of IBPSA Project 2.
 

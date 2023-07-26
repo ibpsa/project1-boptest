@@ -8,6 +8,8 @@ menubar: ibpsa_menubar
 permalink: /ibpsa/project/participation/
 ---
 
+<img src="../../../images/project2logo.png" alt="drawing" width="50%"/>
+
 # Participation
 Participation is primarily envisioned to include software development,
 including methods research, code implementation, code testing, and test
@@ -35,10 +37,6 @@ employee per project year to the overall project using their own funding,
 contribute to 5-10 virtual meetings annually, and attend two-day semi-annual
 expert meetings using their own funding.
 
-| Name            | Affiliation                            | Country |
-| -----------     | -----------                            | ------- |
-| David Blum      | Lawrence Berkeley National Laboratory  | USA     |
-
 ### Sponsoring Participants
 
 Participants or organizations that fund the Project with cash
@@ -50,10 +48,6 @@ will be applied to items such as expenses for in-person expert meetings,
 such as for rooms, food, A/V, and student travel scholarship, as well as for
 continuous integration testing, such as for GitHub, travis, or similar.
 
-None yet.
-
 ### Individual Participants
 Contributors that participate in the Project as is custom in
 other open-source projects without a predetermined level of commitment.
-
-None yet.

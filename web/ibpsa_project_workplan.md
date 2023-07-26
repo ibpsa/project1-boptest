@@ -8,13 +8,15 @@ menubar: ibpsa_menubar
 permalink: /ibpsa/project/workplan/
 ---
 
+<img src="../../../images/project2logo.png" alt="drawing" width="50%"/>
+
 # Work Plan
 
 The approved proposal can be found
 [here](/ibpsa_project/workplan/IBPSA_Project_BOPTEST_approved.pdf),
 while summaries of the Project and tasks are described below.
 
-### Overview
+### Overview (from proposal)
 Needs for advanced and improved control strategies (CS) in building and
 district energy systems are growing due to requirements for reducing energy use,
 greenhouse gas emissions, and operating costs, providing flexibility to the
