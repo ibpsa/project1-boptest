@@ -12,9 +12,9 @@ permalink: /ibpsa/project/workplan/
 
 # Work Plan
 
-The approved proposal can be found
-[here](/ibpsa_project/workplan/IBPSA_Project_BOPTEST_approved.pdf),
-while summaries of the Project and tasks are described below.
+The approved proposal can be found here: [PDF](/ibpsa_project/workplan/IBPSA_Project_BOPTEST_approved.pdf)
+
+Summaries of the Project and tasks are described below.
 
 ### Overview (from proposal)
 Needs for advanced and improved control strategies (CS) in building and
