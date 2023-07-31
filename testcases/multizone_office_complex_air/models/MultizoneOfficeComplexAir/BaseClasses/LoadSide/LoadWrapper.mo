@@ -28,6 +28,8 @@ model LoadWrapper
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={110,-84})));
+  Buildings.Utilities.IO.SignalExchange.WeatherStation weatherStation
+    annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
 equation
   connect(wholebuilding.Outdoor_Humidity, RelHum)
   annotation (Line(
@@ -134,6 +136,10 @@ equation
   connect(add.y, Loa) annotation (Line(
       points={{81,-20},{110,-20}},
       color={0,0,127}));
+  connect(weatherStation.weaBus, wholebuilding.weaBus) annotation (Line(
+      points={{-39.9,49.9},{-52,49.9},{-52,9.8}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},

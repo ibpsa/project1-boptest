@@ -32,7 +32,8 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
   annotation (Dialog( group="Start values for inputs "));
 
   inner Buildings.ThermalZones.EnergyPlus_9_6_0.Building building(
-    idfName=Modelica.Utilities.Files.loadResource("modelica://MultizoneOfficeComplexAir/Resources/idf/wholebuilding96_nogroheatra.idf"),
+    idfName=Modelica.Utilities.Files.loadResource(
+        "modelica://MultizoneOfficeComplexAir/Resources/idf/wholebuilding96_spawn.idf"),
     epwName=Modelica.Utilities.Files.loadResource("modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"),
     weaName=Modelica.Utilities.Files.loadResource("modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
     computeWetBulbTemperature=true,
@@ -99,7 +100,7 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
     each usePrecompiledFMU=false,
     each logLevel=building.logLevel,
     each final nFluPor=2) "Adapter to EnergyPlus"
-    annotation (Placement(transformation(extent={{20,20},{40,40}})));
+    annotation (Placement(transformation(extent={{20,22},{40,42}})));
 
   Modelica.Blocks.Interfaces.RealInput Temp1(start=_Temp1_start)   "IDF line 6256"
   annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
@@ -322,20 +323,21 @@ equation
           {-10,30},{-10,-9},{18,-9}}, color={0,0,127}));
   connect(fmuZonMidFlr.QGaiRad_flow, QGaiRad_flow.y) annotation (Line(points={{18,
           -18},{-4,-18},{-4,-36},{-67,-36}}, color={0,0,127}));
-  connect(X_w.y, fmuZonBotFlr.X_w) annotation (Line(points={{-67,54},{-14,54},{-14,
-          34},{18,34}},   color={0,0,127}));
-  connect(fmuZonBotFlr.m_flow[1], mIn_flow.y) annotation (Line(points={{18,29},{
-          -8,29},{-8,10},{-67,10}},   color={0,0,127}));
+  connect(X_w.y, fmuZonBotFlr.X_w) annotation (Line(points={{-67,54},{-14,54},{
+          -14,36},{18,36}},
+                          color={0,0,127}));
+  connect(fmuZonBotFlr.m_flow[1], mIn_flow.y) annotation (Line(points={{18,31},
+          {-8,31},{-8,10},{-67,10}},  color={0,0,127}));
   connect(mOut_flow.y, fmuZonBotFlr.m_flow[2]) annotation (Line(points={{-29,30},
-          {-10,30},{-10,31},{18,31}},   color={0,0,127}));
-  connect(fmuZonBotFlr.QGaiRad_flow, QGaiRad_flow.y) annotation (Line(points={{18,22},
-          {-4,22},{-4,-36},{-67,-36}},       color={0,0,127}));
+          {-10,30},{-10,33},{18,33}},   color={0,0,127}));
+  connect(fmuZonBotFlr.QGaiRad_flow, QGaiRad_flow.y) annotation (Line(points={{18,24},
+          {-4,24},{-4,-36},{-67,-36}},       color={0,0,127}));
   for numZon in 1:5 loop
     connect(TIn.y, fmuZonTopFlr[numZon].TInlet) annotation (Line(points={{-67,-14},
             {-6,-14},{-6,-52},{18,-52}},color={0,0,127}));
     connect(TIn.y, fmuZonMidFlr[numZon].TInlet) annotation (Line(points={{-67,-14},{18,-14}}, color={0,0,127}));
     connect(TIn.y, fmuZonBotFlr[numZon].TInlet) annotation (Line(points={{-67,-14},
-            {-6,-14},{-6,26},{18,26}},
+            {-6,-14},{-6,28},{18,28}},
                                    color={0,0,127}));
     connect(neg[numZon].u, fmuZonMidFlr[numZon].QCon_flow)
       annotation (Line(points={{58,-30},{50,-30},{50,-8},{41,-8}},
@@ -344,7 +346,7 @@ equation
       annotation (Line(points={{58,-30},{50,-30},{50,-46},{41,-46}},
                                         color={0,0,127}));
     connect(neg[10+numZon].u, fmuZonBotFlr[numZon].QCon_flow)
-      annotation (Line(points={{58,-30},{50,-30},{50,32},{41,32}},
+      annotation (Line(points={{58,-30},{50,-30},{50,34},{41,34}},
                                         color={0,0,127}));
   end for;
 
@@ -363,7 +365,7 @@ equation
   connect(Temp4_top, fmuZonTopFlr[4].T);
   connect(Temp5_top, fmuZonTopFlr[5].T);
   connect(Temp1_bot, fmuZonBotFlr[1].T)
-  annotation (Line(points={{-120,0},{-16,0},{-16,38},{18,38}},
+  annotation (Line(points={{-120,0},{-16,0},{-16,40},{18,40}},
                                         color={0,0,127}));
   connect(Temp2_bot, fmuZonBotFlr[2].T);
   connect(Temp3_bot, fmuZonBotFlr[3].T);
@@ -385,7 +387,7 @@ equation
   connect(Zone4_top_Sensible_COOLING_LOAD, fmuZonTopFlr[4].QCon_flow);
   connect(Zone5_top_Sensible_COOLING_LOAD, fmuZonTopFlr[5].QCon_flow);
   connect(Zone1_bot_Sensible_COOLING_LOAD, fmuZonBotFlr[1].QCon_flow)
-  annotation (Line(points={{120,0},{50,0},{50,32},{41,32}},
+  annotation (Line(points={{120,0},{50,0},{50,34},{41,34}},
                                         color={0,0,127}));
   connect(Zone2_bot_Sensible_COOLING_LOAD, fmuZonBotFlr[2].QCon_flow);
   connect(Zone3_bot_Sensible_COOLING_LOAD, fmuZonBotFlr[3].QCon_flow);
@@ -408,7 +410,7 @@ equation
   connect(Zone5_top_Latent_COOLING_LOAD, fmuZonTopFlr[5].QLat_flow);
 
   connect(Zone1_bot_Latent_COOLING_LOAD, fmuZonBotFlr[1].QLat_flow)
-  annotation (Line(points={{120,0},{96,0},{96,28},{41,28}},
+  annotation (Line(points={{120,0},{96,0},{96,30},{41,30}},
                                        color={0,0,127}));
   connect(Zone2_bot_Latent_COOLING_LOAD, fmuZonBotFlr[2].QLat_flow);
   connect(Zone3_bot_Latent_COOLING_LOAD, fmuZonBotFlr[3].QLat_flow);
