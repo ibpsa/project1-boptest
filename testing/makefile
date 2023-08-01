@@ -208,6 +208,19 @@ test_kpis:
 # Report test results
 	python report.py
 
+test_bacnet:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_air
+# Build and deploy testcase image
+	cd .. && TESTCASE=bestest_air docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bacnet.py
+# Stop testcase container
+	cd .. && docker-compose down
+# Report test results
+	python report.py
+
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
 	cd .. && TESTCASE=testcase2 docker-compose up -d
@@ -250,6 +263,7 @@ test_all:
 	make test_data
 	make test_forecast
 	make test_kpis
+	make test_bacnet
 	make test_readme_commands
 	make test_testcase1
 	make test_testcase2
