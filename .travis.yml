@@ -58,7 +58,13 @@ jobs:
 #    script: cd testing && make build_jm_image && make test_bestest_hydronic_heat_pump
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
-    script: cd testing && make build_jm_image && travis_wait 50 make test_multizone_residential_hydronic
+    script: cd testing && make build_jm_image && travis_wait 70 make test_multizone_residential_hydronic ARG="-s API"
+  - python: 3.9
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    script: cd testing && make build_jm_image && travis_wait 70 make test_multizone_residential_hydronic ARG="-s test_peak_heat_day,test_shoulder"
+  - python: 3.9
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    script: cd testing && make build_jm_image && travis_wait 70 make test_multizone_residential_hydronic ARG="-s test_typical_heat_day,test_summer"
 #  - python: 3.9
 #    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
 #    script: cd testing && make build_jm_image && make test_singlezone_commercial_hydronic

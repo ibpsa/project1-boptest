@@ -85,7 +85,7 @@ test_%:
 	cd .. && TESTCASE=$* docker-compose up -d
 	python sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_$*.py
+	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker-compose down
 # Report test results
