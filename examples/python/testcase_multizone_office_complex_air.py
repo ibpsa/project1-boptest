@@ -41,7 +41,7 @@ def run(plot=False):
     # CONFIGURATION FOR THE CONTROL TEST
     # ---------------------------------------
     control_module = 'examples.python.controllers.multizone_office_complex_air'
-    start_time = 180*24*3600
+    start_time = 181*24*3600
     warmup_period = 0
     length = 1*24*3600
     step = 300
@@ -58,8 +58,8 @@ def run(plot=False):
     # POST-PROCESS RESULTS
     # --------------------
     time = df_res.index.values/3600  # convert s --> hr
-    PChi=df_res['hvac_reaPChi_y'].values
-    PCHWPum=df_res['hvac_reaPCHWPum_y'].values
+    PChi=df_res['hvac_reaChiWatSys_reaPChi_y'].values
+    PCHWPum=df_res['hvac_reaChiWatSys_reaPPum_y'].values
     # Plot results if needed
     if plot:
         try:
