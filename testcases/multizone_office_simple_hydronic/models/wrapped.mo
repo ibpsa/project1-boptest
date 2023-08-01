@@ -66,7 +66,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.BooleanInput bms_oveTSupAhuCooSz_activate "Activation for South zone AHU cooling water supply temperature setpoint";
 	Modelica.Blocks.Interfaces.RealInput bms_oveValPosAhuCooSz_u(unit="1", min=0.0, max=1.0) "South zone AHU cooling circuit mixing valve position setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput bms_oveValPosAhuCooSz_activate "Activation for South zone AHU cooling circuit mixing valve position setpoint";
-	Modelica.Blocks.Interfaces.RealInput bms_oveTSupEmiCooSz_u(unit="K", min=273.15, max=293.15) "Southh zone cooling emission circuit supply temperature setpoint";
+	Modelica.Blocks.Interfaces.RealInput bms_oveTSupEmiCooSz_u(unit="K", min=273.15, max=293.15) "South zone cooling emission circuit supply temperature setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput bms_oveTSupEmiCooSz_activate "Activation for Southh zone cooling emission circuit supply temperature setpoint";
 	Modelica.Blocks.Interfaces.RealInput bms_oveTProHea_u(unit="K", min=293.15, max=353.15) "Heating production system supply temperature setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput bms_oveTProHea_activate "Activation for Heating production system supply temperature setpoint";
