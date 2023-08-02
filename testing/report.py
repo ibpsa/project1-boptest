@@ -62,7 +62,7 @@ if __name__ == '__main__':
     # Report if all passed
     if cases == passed:
         record('\n-------------\nAll tests OK.\n-------------\n\nOutput saved to {0}.'.format(report_file))
-    if cases == passed+skipped:
+    elif (cases == passed+skipped) and (skipped>0):
         record('\n------------------------\nAll tests OK or Skipped.\n------------------------\n\nOutput saved to {0}.'.format(report_file))
     else:
         exit_code = 1

@@ -41,7 +41,7 @@ def clean_up(dir_path):
         if f.endswith('.fmu') or f.endswith('.mo') or f.endswith('.txt') or f.endswith('.mat') or f.endswith('.json'):
             os.remove(os.path.join(dir_path, f))
 
-def run_tests(test_file_name, test_names=None):
+def run_tests(test_file_name, test_names=[]):
     '''Run tests and save results for specified test file.
 
     Parameters
