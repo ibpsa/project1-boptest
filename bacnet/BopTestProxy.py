@@ -5,19 +5,11 @@ BOPTEST Proxy Server
 
 This sample application uses BOPTEST framework to create a virtual building
 and make it available over BACnet. To run it, follow the install instructions
-from https://github.com/ibpsa/project1-boptest and run it with a test case,
-ala
-TESTCASE=multizone_office_simple_air docker compose up
+on the README.md.
 
-Then, in another terminal, run python BopTestProxy.py.
+This code is based on the BACpypes Python package distributed under an
+MIT License.  See license.md in the root of this repositoriy for details.
 
-Finally, on another machine, use the BACnet client of your choice to
-observe the state of the simulation throough BACnet and optionally
-overwrite some control point values to influence the simulation
-
-
-This code is based on the OpenWeatherServer.py sample and remains almost
-identical to that sample.
 """
 
 import os
