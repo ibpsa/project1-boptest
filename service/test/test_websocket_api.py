@@ -72,6 +72,19 @@ async def test_boptest_websocket_one_test():
         # Status 400 should be returned
         check.is_true(responsedata.get("status") == 400)
 
+        # Send a bogus testid
+        requestid = str(uuid.uuid4())
+        request = {"requestid": requestid, "testid": "notatestid", "method": "advance", "params": {}}
+        await websocket.send(json.dumps(request))
+
+        response = json.loads(await websocket.recv())
+        check.is_true(requestid == response.get("responseid"))
+        # There should be responsedata
+        responsedata = response.get("responsedata")
+        check.is_true(responsedata)
+        # Status 400 should be returned
+        check.is_true(responsedata.get("status") == 400)
+
         # Send invalid json syntax
         await websocket.send("not json")
 
