@@ -9,6 +9,8 @@ hero_height: is-fullwidth
 D. Blum, J. Arroyo, S. Huang, J. Drgona, F. Jorissen, H.T. Walnum, Y. Chen, K. Benne, D. Vrabie, M. Wetter, and L. Helsen. (2021). ["Building optimization testing framework (BOPTEST) for simulation-based benchmarking of control strategies in buildings."](https://doi.org/10.1080/19401493.2021.1986574) *Journal of Building Performance Simulation*, 14(5), 586-610.
 
 ## Additional publications:
+C. A. Faulkner, R. Lutes, S. Huang, W. Zuo, D. Vrabie. (2023). ["Simulation-based assessment of ASHRAE Guideline 36, considering energy performance, indoor air quality, and control stability."](https://doi.org/10.1016/j.buildenv.2023.110371) *Building and Environment*, 240, 110371. 
+
 D. Wang, W. Zheng, Z. Wang, Y. Wang, X. Pang, W. Wang. (2023). ["Comparison of reinforcement learning and model predictive control for building energy system optimization."](https://doi.org/10.1016/j.applthermaleng.2023.120430) *Applied Thermal Engineering*, 228, 120430.
 
 E. Zanetti, D. Kim, D. Blum, R. Scoccia, and M. Aprile. (2023). ["Performance comparison of quadratic, nonlinear, and mixed integer nonlinear MPC formulations and solvers on an air source heat pump hydronic floor heating system."](https://doi.org/10.1080/19401493.2022.2120631) *Journal of Building Performance Simulation*, 16(2), 144-162.
