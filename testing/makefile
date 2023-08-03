@@ -5,6 +5,7 @@ IMG_NAME=jm
 # Set SINGLE to true to run tests as single arguments (as is done in travis.)
 # Note that the target test_all sets SINGLE=false so as to run the tests in a batch.
 SINGLE=true
+TRAVIS=false
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -87,11 +88,13 @@ test_%:
 # Run testcase tests
 	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
-	cd .. && docker-compose down
-# Report test results
-	if [ $(SINGLE) = true ]; then\
-        	python report.py;\
+	if [ $(TRAVIS) = false ]; then\
+        	cd .. && docker-compose down;\
+        	if [ $(SINGLE) = true ]; then\
+        	     python report.py;\
+        	fi\
 	fi
+
 
 test_testcase1:
 # Compile testcase model
