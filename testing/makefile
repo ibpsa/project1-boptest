@@ -78,7 +78,17 @@ generate_testcase_data:
 # Tests
 ###############################################################################
 
-# Generic test for all testcases except testcase1 and testcase2
+# Generic test for all testcases except testcase1 and testcase2 to run on travis
+test_%_travis:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=$*
+# Build and deploy testcase image
+	cd .. && TESTCASE=$* docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_$*.py $(ARG)
+
+# Generic test for all testcases except testcase1 and testcase2 to run locally with cleanup
 test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
@@ -88,12 +98,10 @@ test_%:
 # Run testcase tests
 	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
-	if [ $(TRAVIS) = false ]; then\
-        	cd .. && docker-compose down;\
-        	if [ $(SINGLE) = true ]; then\
-        	     python report.py;\
-        	fi\
-	fi
+	cd .. && docker-compose down
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
 
 
 test_testcase1:
