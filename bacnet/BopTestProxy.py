@@ -7,7 +7,8 @@ This sample application uses BOPTEST framework to create a virtual building
 and make it available over BACnet. To run it, follow the install instructions
 on the README.md.
 
-This code is based on the BACpypes Python package distributed under an
+This code is based on a prototype written by Erik Paulson (https://github.com/epaulson/boptest-bacnet-proxy)
+and is based on the BACpypes Python package distributed under an
 MIT License.  See license.md in the root of this repositoriy for details.
 
 """
