@@ -30,6 +30,9 @@ The BACnet objects are configured based on a .ttl file for each test case locate
 
 ## References
 
-This code is based on the prototype developed in this repository by Erik Paulson: https://github.com/epaulson/boptest-bacnet-proxy.
+``BopTestProxy.py`` code is based on a prototype written by Erik Paulson (https://github.com/epaulson/boptest-bacnet-proxy)
+and is based on the BACpypes Python package distributed under an
+MIT License.  See license.md in the root of this repositoriy for details.
 
-Note that the ``BopTestProxy.py`` is a slightly modified version of the OpenWeatherServer.py sample from the ``bacpypes`` package, which was written by Joel Bender and was made available under the MIT License.
+``/example/SimpleReadWrite.py`` is based on the BACpypes Python package distributed under an
+MIT License.  See license.md in the root of this repositoriy for details.
