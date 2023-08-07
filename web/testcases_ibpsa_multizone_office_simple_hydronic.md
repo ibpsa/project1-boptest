@@ -5,7 +5,7 @@ subtitle: Ready-made building emulators
 hero_height: is-fullwidth
 show_sidebar: false
 menubar: testcases_menubar
-permalink: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
+permalink: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hydronic/
 ---
 
 # Test Case Name
