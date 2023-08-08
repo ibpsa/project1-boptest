@@ -5,35 +5,29 @@ subtitle: Ready-made building emulators
 hero_height: is-fullwidth
 show_sidebar: false
 menubar: testcases_menubar
-permalink: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
+permalink: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hydronic/
 ---
 
-# Test Case Name
-``multizone_office_simple_air``
+<h1><span style="color:grey">Test Case Name</span></h1>
+``multizone_office_simple_hydronic``
 
-# Brief Description
-The test case represents one floor with five zones of a new construction
-medium office building in Chicago, IL, USA with total floor area of 1662.66 m<sup>2</sup>.
-There are four perimeter zones and one core zone, with each perimeter zone
-having a window-to-wall ratio of 0.33.
+<h1><span style="color:grey">Brief Description</span></h1>
+<span style="color:grey">
+The test case represents an office hydronic with two zones zones in Belgium. 
+The building test case is modeled as a rectangular building
+of 40x25 m and 15 m of height.
+The height of each floor is considered to be 3 m,
+and at each floor internal floors are added to account for the thermal mass.
+Hence, the total floor area to be conditioned is 5000 m<sup>2</sup>.
+The building is divided in two zones/spaces of equal floor area,
+with their main façades oriented towards north (NZ) and south (SZ) respectively.
+Each zone has a window-to-wall ratio of 50%.
+</span>
 
-The HVAC system is a single-duct multi-zone VAV system with terminal reheat with
-one air handler.  The air handler cooling coil is served by an air-cooled
-chiller while the heating coil and terminal box reheat coils are served by
-an air-to-water heat pump.  The embedded controls for the air handler
-include supply fan static pressure reset and drybulb economizer, while the
-terminal box controls utilize single-maximum airflow control.
+<span style="color:grey">
+Each zone is equipped with independent air handling units (AHUs) for ventilation
+and circuits connected to fan-coil units (also known as ventiloconvectors) as the emission system.
+Heat/cold is procuded by means of a gas boiler and a chiller.
+</span>
 
-[Click here](/docs-testcases/multizone_office_simple_air/index.html) to view detailed documentation.
-
-# Available Test Scenarios
-### Time Periods
-``peak_heat_day``
-``typical_heat_day``
-``peak_cool_day``
-``typical_cool_day``
-``mix_day``
-### Electricity Prices
-``constant``
-``dynamic``
-``highly_dynamic``
+<h1><span style="color:grey">(Under Development)</span></h1>
