@@ -8,7 +8,7 @@ hero_height: is-fullwidth
 Thank you to all contributors of the project.  They are in alphabetical order:
 
 - **Krzysztof Arendt (Southern Denmark University, Denmark)** for framework development, forecast uncertainty characterization.
-- **Javier Arroyo (KU Leuven, Belgium)** for framework development, software implementation, test case development (bestest_hydronic_heat_pump), test case review, controller testing
+- **Javier Arroyo (KU Leuven, Belgium)** for framework development, software implementation, test case development (bestest_hydronic_heat_pump), test case review, controller testing.
 - **Yeonjin Bae (Oak Ridge National Laboratory, USA)** for framework development, test case implementation (flexible_research_platform).
 - **Aritz Bengoetxea (IK4 Tekniker, Spain)** for forecast uncertainty characterization.
 - **Kyle Benne (National Renewable Energy Laboratory, USA)** for framework development, web-service development, online dashboard development.
@@ -18,10 +18,10 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Felix Bunning (ETH Zurich / EMPA, Switzerland)** for controller testing.
 - **Yan Chen (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Tim Coleman (National Renewable Energy Laboratory, USA)** for web-service development.
+- **Iago Cupeiro Figueroa (Cupeiro Sinte, DeltaQ, Spain)** for framework development, test case implementation (multizone_office_simple_hybrid).
 - **Roel De Coninck (DeltaQ, Belgium)** for framework development.
 - **Jan Drgona (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Jesus Febres (IK4 Tekniker, Spain)** for framework development.
-- **Iago Figueroa (DeltaQ, Belgium)** for framework development, test case implementation (multizone_office_simple_hybrid).
 - **Konstantin Filonenko (Southern Denmark University, Denmark)** for framework development, test case development (singlezone_commercial_hydronic), test case review.
 - **Valentin Gavan (Engie, France)** for framework development, test case implementation (multizone_residential_hydronic).
 - **Philip Gonzalez (Devetry, USA)** for online dashboard development.
@@ -33,6 +33,7 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Donghun Kim (Lawrence Berkeley National Laboratory, USA)** for framework development.
 - **Nicholas Long (National Renewable Energy Laboratory, USA)** for software implementation.
 - **Robert Lutes (Pacific Northwest National Laboratory, USA)** for software implementation.
+- **Bart Merema (DeltaQ, Belgium)** for test case implementation (multizone_office_simple_hybrid).
 - **Marjorie Schott (National Renewable Energy Laboratory, USA)** for online dashboard development.
 - **Jermy Thomas (National Renewable Energy Laboratory, USA)** for web-service development.
 - **Christian Veje (Southern Denmark University, Denmark)** for framework development.
