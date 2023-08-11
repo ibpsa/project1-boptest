@@ -12,7 +12,7 @@ permalink: /ibpsa/project/meetings/
 
 # Upcoming Meetings
 
-### October 12, 2023: In-Person Expert, Aachen
+### October 12, 2023: In-Person Expert Meeting, Aachen
 
 **Location:** RWTH Aachen University, Germany
 
