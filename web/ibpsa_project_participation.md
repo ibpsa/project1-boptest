@@ -20,7 +20,7 @@ on tasks and project organization.
 Three participation levels are envisioned, to be approved annually by the
 operating agent(s).  They are described and listed below.
 
-**To join the project**, use this *google form* (coming soon).
+**To join the project**, use this [google form](https://forms.gle/21ce7Uro74Qvs5E89).
 
 **To join the mailing list**, register with this
 [google group](https://groups.google.com/g/ibpsa-boptest).  Note that you do
