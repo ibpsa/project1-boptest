@@ -68,16 +68,20 @@
     The unoccupied time is outside of this period.
 </p>
 <p>
-    The design internal gains include lighting, plug loads, and people are combined 
-    20 W/m<sup>2</sup> with a radiant-convective-latent split of 40%-40%-20%. The occupancy 
-    and the internal gains are activated according to the schedule in the figure below.
+  The design internal gains include lighting, plug loads, and people. The lighting load is 
+  with a radiant-convective-visible split of 70%-10%-20%. The plug load is with a 
+  radiant-convective-latent split of 50%-50%-0%. The people load is with a radiant-convective 
+  split of 30%-70%. The occupancy and the internal gains are activated according to the 
+  schedule in the figure below.
 </p>
 <p align=\"center\">
         <img alt=\"Schedules.\"
         src="images/Schedules.png" width=400>
 </p>
 
- 
+<p>
+    The power densities of the internal gains are listed in the following table.
+</p>
 <table>
     <tr>
     <th>Internal Gains</th>
@@ -668,6 +672,14 @@
     21 ℃ according to ASHRAE 90.1-2019 for Climate Zone 5A.
 </p>
 <h4>Water-side system control</h4>
+<p align=\"center\">
+  <img alt=\"ChillerControl.\"
+  src="images/ChillerControl.PNG" width=700>
+</p>
+<p align=\"center\">
+  <img alt=\"BoilerControl.\"
+  src="images/BoilerControl.PNG" width=600>
+</p>
 <h4>
     Chiller control
 </h4>
@@ -719,7 +731,7 @@
 <p>
     The number of secondary chilled water pump is determined via a state machine based 
     on the pump speed (S, rpm) and waiting time (30 min). The maximum operating pump 
-    number is M,  which is equal to 2..
+    number is M,  which is equal to 2.
     <ul>
         <li>
             One pump is commanded on when the plant is on.
