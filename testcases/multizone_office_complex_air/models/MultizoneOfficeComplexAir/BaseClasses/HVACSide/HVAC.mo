@@ -1,5 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide;
-model HVAC
+model HVAC "Full HVAC system that contains the air side and water side systems"
   extends MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirSide(
       sou(nPorts=3),
       floor1(
@@ -270,5 +270,9 @@ equation
           extent={{-150,110},{150,150}},
           textString="%name",
           textColor={0,0,255}), Bitmap(extent={{-98,-98},{96,94}}, fileName=
-              "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}));
+              "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}),
+    Documentation(info="<html>
+<p>This model consist of a full HVAC system that contains the air side and water side systems. The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. There is also a reheat coil and an air damper in each of the three zone inlet branches. There are two fans (i.e., one supply fan, and one return fan) in the AHU system. A mixing box carries out the economizer function of providing cooling and ventilation. </p>
+<p>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps . The hot water system consists of two gas boilers and two variable speed pumps. </p>
+</html>"));
 end HVAC;
