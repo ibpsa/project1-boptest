@@ -1736,7 +1736,7 @@ package BuildingControlEmulator
             DamMin=DamMin,
             k=k,
             Ti=Ti)              annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
-          Modelica.Blocks.Interfaces.RealInput SetPoi "Connector of setpoint input signal"
+          Modelica.Blocks.Interfaces.RealInput setPoi "Connector of setpoint input signal"
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
           Modelica.Blocks.Interfaces.BooleanInput On annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
           Modelica.Blocks.Interfaces.RealInput Tout
@@ -1766,7 +1766,7 @@ package BuildingControlEmulator
               points={{35,-11.18},{64,-11.18},{64,20},{-88,20},{-88,32},{-72,32}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(ecoCon.SetPoi, SetPoi)
+          connect(ecoCon.SetPoi,setPoi)
             annotation (Line(
               points={{-72,40},{-92,40},{-92,0},{-120,0}},
               color={0,0,127},
@@ -1779,7 +1779,7 @@ package BuildingControlEmulator
               points={{-72,36},{-80,36},{-80,-60},{-120,-60}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(ecoCon.y, mixBox.DamPos) annotation (Line(points={{-49,40},{
+          connect(ecoCon.y,mixBox.damPos)  annotation (Line(points={{-49,40},{
                   -46,40},{-46,1},{-34,1}}, color={0,0,127}));
           annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                 Line(
@@ -1927,7 +1927,7 @@ package BuildingControlEmulator
               annotation (Placement(transformation(extent={{10,-10},{-10,10}},
                   rotation=90,
                   origin={60,20})));
-            Modelica.Blocks.Interfaces.RealInput DamPos "Actuator position (0: closed, 1: open)"
+            Modelica.Blocks.Interfaces.RealInput damPos "Actuator position (0: closed, 1: open)"
               annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
             Modelica.Fluid.Sensors.MassFlowRate masSupAir(redeclare package
                 Medium =
@@ -1947,7 +1947,7 @@ package BuildingControlEmulator
                   extent={{10,10},{-10,-10}},
                   rotation=180,
                   origin={0,-12})));
-            Modelica.Blocks.Sources.RealExpression realExpression(y=1 - DamPos)
+            Modelica.Blocks.Sources.RealExpression realExpression(y=1 -damPos)
               annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
             Buildings.Utilities.IO.SignalExchange.Overwrite yOA(description=
                   "Outside air damper position setpoint for AHU", u(
@@ -2035,13 +2035,13 @@ package BuildingControlEmulator
                 thickness=1));
             connect(yOA.y, valFre.y)
               annotation (Line(points={{21,54},{48,54}}, color={0,0,127}));
-            connect(yOA.u, DamPos) annotation (Line(points={{-2,54},{-40,54},{
+            connect(yOA.u,damPos)  annotation (Line(points={{-2,54},{-40,54},{
                     -40,32},{-84,32},{-84,0},{-120,0}}, color={0,0,127}));
             connect(realExpression.y, yRet.u)
               annotation (Line(points={{-39,20},{-30,20}}, color={0,0,127}));
             connect(yRet.y, valRet.y) annotation (Line(points={{-7,20},{0,20},{
                     0,-1.77636e-15}}, color={0,0,127}));
-            connect(DamPos, yEA.u) annotation (Line(points={{-120,0},{-92,0},{
+            connect(damPos, yEA.u) annotation (Line(points={{-120,0},{-92,0},{
                     -92,90},{-50,90}}, color={0,0,127}));
             connect(yEA.y, valExh.y) annotation (Line(points={{-27,90},{-18,90},
                     {-18,76},{-88,76},{-88,58},{-82,58}}, color={0,0,127}));
@@ -2144,7 +2144,7 @@ package BuildingControlEmulator
                   points={{-11.2,18},{-10,18},{-10,36},{-12,36},{-12,72},{-22,72}},
                   color={0,127,255},
                   thickness=1));
-              connect(DamPos.y, mixBox.DamPos) annotation (Line(
+              connect(DamPos.y,mixBox.damPos)  annotation (Line(
                   points={{-57,2},{-40,2},{-19.2,2}},
                   color={0,0,127},
                   pattern=LinePattern.Dash));
@@ -2304,7 +2304,7 @@ package BuildingControlEmulator
                 points={{-79,62},{-46,62},{-46,14.8},{-19.2,14.8}},
                 color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(con.y, mixBox.SetPoi) annotation (Line(
+            connect(con.y,mixBox.setPoi)  annotation (Line(
                 points={{-77.1,-17},{-48,-17},{-48,2},{-19.2,2}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -3829,7 +3829,7 @@ First implementation.
       model VariableSpeedMover
         "the component contains both the variable speed fan/pump and the controller"
         import MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator;
-        extends BaseClasses.FlowMover(withoutMotor(VarSpeFloMov(riseTime=240)));
+        extends BaseClasses.FlowMover(withoutMotor(varSpeFloMov(riseTime=240)));
         parameter Real k(min=0, unit="1") = 1 "Gain of controller";
         parameter Modelica.Units.SI.Time Ti(min=Modelica.Constants.small) = 0.5
           "Time constant of Integrator block";
@@ -4030,7 +4030,7 @@ First implementation.
             "Volume flow rate curve";
           parameter Modelica.Units.SI.Pressure PreCur[:] "Pressure curve";
           parameter Modelica.Units.SI.Time TimCon "Time constant for the fluid";
-          Buildings.Fluid.Movers.SpeedControlled_y VarSpeFloMov(
+          Buildings.Fluid.Movers.SpeedControlled_y varSpeFloMov(
             redeclare package Medium = Medium,
             per(
               pressure(V_flow=VolFloCur, dp=PreCur),
@@ -4057,23 +4057,23 @@ First implementation.
             "Actual normalised pump speed that is used for computations"
             annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
         equation
-          connect(VarSpeFloMov.port_a, port_a)
+          connect(varSpeFloMov.port_a, port_a)
             annotation (Line(
               points={{-10,0},{-10,0},{-100,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(VarSpeFloMov.port_b, port_b)
+          connect(varSpeFloMov.port_b, port_b)
             annotation (Line(
               points={{10,0},{56,0},{100,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(VarSpeFloMov.P, P) annotation (Line(
+          connect(varSpeFloMov.P, P) annotation (Line(
               points={{11,9},{40,9},{40,60},{110,60}},
               color={0,0,127}));
-          connect(VarSpeFloMov.y_actual, Rat) annotation (Line(
+          connect(varSpeFloMov.y_actual, Rat) annotation (Line(
               points={{11,7},{40,7},{40,-60},{110,-60}},
               color={0,0,127}));
-          connect(u, VarSpeFloMov.y) annotation (Line(points={{-110,60},{0,60},
+          connect(u,varSpeFloMov. y) annotation (Line(points={{-110,60},{0,60},
                   {0,12}}, color={0,0,127}));
           annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                 Polygon(points={{-40,60},{-40,-60},{60,0},{-40,60}}, lineColor={28,108,
@@ -12363,7 +12363,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
 
       package BaseClasses
 
-        model duaFanAirHanUni "AHU with supply/return fans and cooling coil."
+        model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
 
           replaceable package MediumAir =
               Modelica.Media.Interfaces.PartialMedium "Medium for the air";
@@ -12604,7 +12604,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{-1.82,0},{18,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(mixingBox.SetPoi, disTemSetPoi) annotation (Line(points={{-60,
+          connect(mixingBox.setPoi, disTemSetPoi) annotation (Line(points={{-60,
                   -12},{-60,-20},{-110,-20}}, color={0,0,127}));
           connect(cooCoi.SetPoi, disTemSetPoi) annotation (Line(points={{-0.2,6},
                   {6,6},{6,-20},{-110,-20}}, color={0,0,127}));
@@ -12752,7 +12752,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
 <p>Supply fan speed is controlled by a PI controller to maintain duct static pressure (DSP) at setpoint when the fan is proven ON. Cooling coil valve position is controlled by a PI controller to maintain the AHU supply air temperature at setpoint.</p>
 <p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. Outdoor air damper position is controlled by a PI controller to maintain the mixed air temperature at setpoint. It takes the mixed and outdoor air temperature measurements, as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper position as the output. The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. The economizer higher temperature limit is set as 21 ℃ according to ASHRAE 90.1-2019 for Climate Zone 5A.</p>
 </html>"));
-        end duaFanAirHanUni;
+        end DuaFanAirHanUnit;
 
         model DuaFanAirHanUnitDX
 
@@ -12919,7 +12919,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{49,-8.2},{60,-8.2},{60,-74},{-9,-74}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(mixingBox.SetPoi, DisTemPSetPoi) annotation (Line(
+          connect(mixingBox.setPoi, DisTemPSetPoi) annotation (Line(
               points={{-60,-12},{-60,-20},{-110,-20}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -13123,7 +13123,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
               "Pressure curve";
             parameter Modelica.Units.SI.Pressure RetPreCur[:]={200,150,100,50}
               "Pressure curve";
-            duaFanAirHanUni duaFanAirHanUnit(
+            DuaFanAirHanUnit duaFanAirHanUnit(
               redeclare package MediumAir = MediumAir,
               redeclare package MediumWat = MediumWat,
               mAirFloRat=mAirFloRat,
@@ -17749,14 +17749,13 @@ First implementation.
           "Volume flow rate curve";
         parameter Modelica.Units.SI.Pressure PreCur[n,:] "Pressure curve";
         Devices.FlowMover.BaseClasses.WithoutMotor                  pum[n](
+          varSpeFloMov(addPowerToMedium=false),
           redeclare package Medium = Medium,
           HydEff=HydEff,
           MotEff=MotEff,
           VolFloCur=VolFloCur,
           PreCur=PreCur,
-          TimCon=900,
-          VarSpeFloMov(addPowerToMedium=false))
-                               annotation (Placement(transformation(extent={{-12,-10},
+          TimCon=900)          annotation (Placement(transformation(extent={{-12,-10},
                   {10,10}})));
         Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
             =                                                                   Medium)
@@ -19402,7 +19401,7 @@ First implementation.
       parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
         "Heat exchanger effectiveness of vav 5";
 
-      Subsystems.AirHanUnit.BaseClasses.duaFanAirHanUni duaFanAirHanUni(
+      Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit duaFanAirHanUni(
         numTemp=5,
         redeclare package MediumAir = MediumAir,
         redeclare package MediumWat = MediumCooWat,
