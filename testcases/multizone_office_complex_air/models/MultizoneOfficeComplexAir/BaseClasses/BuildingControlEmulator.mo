@@ -20797,7 +20797,7 @@ First implementation.
             extent={{-10,-10},{10,10}},
             rotation=0,
             origin={64,-96})));
-      replaceable Subsystems.Boiler.MultiBoilers multiBoiler(
+      replaceable Subsystems.Boiler.MultiBoilers mulBoi(
         redeclare package MediumHW = MediumHW,
         dPHW_nominal=dP_nominal*0.5,
         mHW_flow_nominal=mHW_flow_nominal,
@@ -20819,7 +20819,7 @@ First implementation.
         "Fluid connector b (positive design flow direction is from port_a to port_b)"
         annotation (Placement(transformation(extent={{230,-70},{250,-50}}),
             iconTransformation(extent={{90,-70},{110,-50}})));
-      Devices.WaterSide.Control.PlantStageN BoiSta(
+      Devices.WaterSide.Control.PlantStageN boiSta(
         tWai=1800,
         n=n,
         thehol=thrhol,
@@ -20857,7 +20857,7 @@ First implementation.
         annotation (Placement(transformation(extent={{-320,-80},{-280,-40}}),
             iconTransformation(extent={{-140,-80},{-100,-40}})));
       Modelica.Blocks.Sources.RealExpression PTot(y=sum(pumSecHW.P) + sum(
-            multiBoiler.boi.boi.QFue_flow))
+            mulBoi.boi.boi.QFue_flow))
         annotation (Placement(transformation(extent={{140,-120},{160,-100}})));
       Modelica.Blocks.Continuous.Integrator ETot
         annotation (Placement(transformation(extent={{180,-120},{200,-100}})));
@@ -20867,12 +20867,11 @@ First implementation.
 
       connect(secPumCon.On, reaToBoolea.y) annotation (Line(points={{58,64},{40,64},
               {40,90},{-139,90}}, color={255,0,255}));
-      connect(multiBoiler.port_a_HW, pumSecHW.port_b)
-        annotation (Line(
+      connect(mulBoi.port_a_HW, pumSecHW.port_b) annotation (Line(
           points={{-62,-18.8},{-62,30},{-10,30}},
           color={255,0,0},
           thickness=1));
-      connect(multiBoiler.port_b_HW, senTHWBuiEnt.port_a) annotation (Line(
+      connect(mulBoi.port_b_HW, senTHWBuiEnt.port_a) annotation (Line(
           points={{-62,-41.2},{-58,-41.2},{-58,-96},{54,-96}},
           color={255,0,0},
           thickness=1));
@@ -20884,7 +20883,7 @@ First implementation.
           points={{74,-96},{106,-96},{106,-60},{240,-60}},
           color={255,0,0},
           thickness=1));
-      connect(BoiSta.On, reaToBoolea.y) annotation (Line(points={{-82,78},{-120,78},
+      connect(boiSta.On, reaToBoolea.y) annotation (Line(points={{-82,78},{-120,78},
               {-120,90},{-139,90}}, color={255,0,255}));
       connect(secPumCon.dP, dP) annotation (Line(
           points={{58,56},{-180,56},{-180,0},{-300,0}},
@@ -20892,9 +20891,9 @@ First implementation.
       connect(senTHWBuiEnt.T, THWLea) annotation (Line(
           points={{64,-85},{64,0},{250,0}},
           color={0,0,127}));
-      connect(multiBoiler.Rat, BoiSta.Status) annotation (Line(points={{-60.3,-35.6},
+      connect(mulBoi.Rat, boiSta.Status) annotation (Line(points={{-60.3,-35.6},
               {-32,-35.6},{-32,34},{-92,34},{-92,62},{-82,62}}, color={0,0,127}));
-      connect(BoiSta.y, multiBoiler.On) annotation (Line(points={{-59,70},{-42,70},{
+      connect(boiSta.y, mulBoi.On) annotation (Line(points={{-59,70},{-42,70},{
               -42,28},{-142,28},{-142,-35.6},{-97.53,-35.6}}, color={0,0,127}));
       connect(senTHWBuiLea.port_a, port_a) annotation (Line(
           points={{130,22},{134,22},{134,40},{240,40}},
@@ -20912,14 +20911,13 @@ First implementation.
           points={{92,22},{110,22}},
           color={255,0,0},
           thickness=1));
-      connect(realExpression.y,BoiSta.loa)  annotation (Line(points={{41,-40},{-20,-40},
+      connect(realExpression.y,boiSta.loa)  annotation (Line(points={{41,-40},{-20,-40},
               {-20,2},{-110,2},{-110,70},{-82,70}}, color={0,0,127}));
       connect(secPumCon.y,pumSecHW.speSig)  annotation (Line(
           points={{81,56},{86,56},{86,38},{10.9,38}},
           color={0,0,127}));
-      connect(multiBoiler.THWSet, THWSet) annotation (Line(
-          points={{-97.53,-24.4},{-220,-24.4},{-220,60},{-300,60}},
-          color={0,0,127}));
+      connect(mulBoi.THWSet, THWSet) annotation (Line(points={{-97.53,-24.4},{-220,
+              -24.4},{-220,60},{-300,60}}, color={0,0,127}));
       connect(secPumCon.dpSetPoi, dpSetPoi) annotation (Line(points={{58,52},{-240,52},
               {-240,-60},{-300,-60}}, color={0,0,127}));
       connect(PTot.y,ETot. u) annotation (Line(
