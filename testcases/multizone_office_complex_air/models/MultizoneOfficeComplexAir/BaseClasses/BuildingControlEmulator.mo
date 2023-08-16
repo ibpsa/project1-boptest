@@ -19402,7 +19402,8 @@ First implementation.
       parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
         "Heat exchanger effectiveness of vav 5";
 
-      Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit duaFanAirHanUnit(numTemp=5,
+      Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit duaFanAirHanUni(
+        numTemp=5,
         redeclare package MediumAir = MediumAir,
         redeclare package MediumWat = MediumCooWat,
         PreDroCoiAir=PreDroCoiAir,
@@ -19417,21 +19418,25 @@ First implementation.
         VolFloCur=VolFloCur,
         SupPreCur=SupPreCur,
         RetPreCur=RetPreCur,
-        mAirFloRat=mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5,
+        mAirFloRat=mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+            mAirFloRat5,
         PreDroWat=PreDroCooWat,
         Coi_k=1,
         Coi_Ti=60,
         TemEcoHig=TemEcoHig,
         TemEcoLow=TemEcoLow,
         MixingBoxDamMin=MixingBoxDamMin,
-        mWatFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5)*(30 - 12.88)/4.2/6,
-        mFreAirFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5)*0.3,
-        UA=-(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5)*(
-            1000*17)/Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
-            273.15 + 6,
-            273.15 + 12,
-            273.15 + 30,
-            273.15 + 12.88),
+        mWatFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+            mAirFloRat5)*(30 - 12.88)/4.2/6,
+        mFreAirFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+            mAirFloRat5)*0.3,
+        UA=-(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+            mAirFloRat5)*(1000*17)/
+            Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
+                273.15 + 6,
+                273.15 + 12,
+                273.15 + 30,
+                273.15 + 12.88),
         Fan_k=0.01)
         annotation (Placement(transformation(extent={{-78,14},{-50,-12}})));
       Subsystems.HydDisturbution.FivZonVAVNoVec fivZonVAV(
@@ -19517,14 +19522,14 @@ First implementation.
         "Connector of Boolean input signal"
         annotation (Placement(transformation(extent={{-180,-100},{-160,-80}}),
             iconTransformation(extent={{-180,-100},{-160,-80}})));
-      Modelica.Blocks.Interfaces.RealInput zonCooTempSetPoi[5]
-        "Connector of setpoint input signal"
-        annotation (Placement(transformation(extent={{-180,90},{-160,110}}),
-            iconTransformation(extent={{-180,90},{-160,110}})));
-      Modelica.Blocks.Interfaces.RealInput disTemPSetPoi
-        "Connector of setpoint input signal"
-        annotation (Placement(transformation(extent={{-180,50},{-160,70}}),
-            iconTransformation(extent={{-180,50},{-160,70}})));
+      Modelica.Blocks.Interfaces.RealInput zonCooTemSetPoi[5]
+        "Connector of setpoint input signal" annotation (Placement(
+            transformation(extent={{-180,90},{-160,110}}), iconTransformation(
+              extent={{-180,90},{-160,110}})));
+      Modelica.Blocks.Interfaces.RealInput disTemSetPoi
+        "Connector of setpoint input signal" annotation (Placement(
+            transformation(extent={{-180,50},{-160,70}}), iconTransformation(
+              extent={{-180,50},{-160,70}})));
       Modelica.Blocks.Interfaces.RealInput preSetPoi
         "Connector of setpoint input signal"
         annotation (Placement(transformation(extent={{-180,0},{-160,20}}),
@@ -19540,10 +19545,10 @@ First implementation.
         "Temperature of the passing fluid"
         annotation (Placement(transformation(extent={{160,-10},{180,10}}),
             iconTransformation(extent={{160,-10},{180,10}})));
-      Modelica.Blocks.Interfaces.RealInput zonHeaTempSetPoi[5]
-        "Connector of setpoint input signal"
-        annotation (Placement(transformation(extent={{-180,70},{-160,90}}),
-            iconTransformation(extent={{-180,70},{-160,90}})));
+      Modelica.Blocks.Interfaces.RealInput zonHeaTemSetPoi[5]
+        "Connector of setpoint input signal" annotation (Placement(
+            transformation(extent={{-180,70},{-160,90}}), iconTransformation(
+              extent={{-180,70},{-160,90}})));
       Modelica.Blocks.Interfaces.RealInput TOut
         "Connector of setpoint input signal" annotation (Placement(transformation(
             extent={{10,-10},{-10,10}},
@@ -19600,21 +19605,21 @@ First implementation.
           nout=5)
         annotation (Placement(transformation(extent={{-72,68},{-52,88}})));
     equation
-      connect(fivZonVAV.port_a_Air, duaFanAirHanUnit.port_b_Air) annotation (
+      connect(fivZonVAV.port_a_Air, duaFanAirHanUni.port_b_Air) annotation (
           Line(
           points={{30,-37.6},{-10,-37.6},{-10,-22},{-20,-22},{-20,1},{-50,1}},
           color={0,140,72},
           thickness=0.5));
-      connect(fivZonVAV.port_b_Air, duaFanAirHanUnit.port_a_Air) annotation (
+      connect(fivZonVAV.port_b_Air, duaFanAirHanUni.port_a_Air) annotation (
           Line(
           points={{30,-23.6},{16,-23.6},{16,-4},{-50,-4},{-50,11.4}},
           color={0,140,72},
           thickness=0.5));
-      connect(duaFanAirHanUnit.port_b_Wat, port_b_CooWat) annotation (Line(
+      connect(duaFanAirHanUni.port_b_Wat, port_b_CooWat) annotation (Line(
           points={{-69.6,-12},{-70,-12},{-70,-66},{-54,-66},{-54,-100}},
           color={0,127,255},
           thickness=1));
-      connect(duaFanAirHanUnit.port_a_Wat, port_a_CooWat) annotation (Line(
+      connect(duaFanAirHanUni.port_a_Wat, port_a_CooWat) annotation (Line(
           points={{-61.2,-12},{-62,-12},{-62,-30},{-30,-30},{-30,-100}},
           color={0,127,255},
           thickness=1));
@@ -19626,29 +19631,26 @@ First implementation.
           points={{55.2,-46},{56,-46},{56,-100}},
           color={255,0,0},
           thickness=1));
-      connect(duaFanAirHanUnit.port_Exh_Air, port_Exh_Air) annotation (Line(
+      connect(duaFanAirHanUni.port_Exh_Air, port_Exh_Air) annotation (Line(
           points={{-78.28,1},{-114,1},{-114,-40},{-164,-40}},
           color={0,140,72},
           thickness=0.5));
-      connect(duaFanAirHanUnit.port_Fre_Air, port_Fre_Air) annotation (Line(
+      connect(duaFanAirHanUni.port_Fre_Air, port_Fre_Air) annotation (Line(
           points={{-78,-6.8},{-114,-6.8},{-114,40},{-160,40}},
           color={0,140,72},
           thickness=0.5));
       connect(booleanReplicator.y, fivZonVAV.On) annotation (Line(
           points={{-125.3,-90},{0,-90},{0,-30.32},{28.2,-30.32}},
           color={255,0,255}));
-      connect(fivZonVAV.pre, duaFanAirHanUnit.PreMea) annotation (Line(
-          points={{67.8,-19.4},{70,-19.4},{70,-16},{-88,-16},{-88,-11.22},{
-              -79.4,-11.22}},
-          color={0,0,127}));
-      connect(fivZonVAV.TZon, duaFanAirHanUnit.ZonTemp) annotation (Line(
-          points={{67.8,-40.4},{84,-40.4},{84,-64},{-104,-64},{-104,6.2},{-79.4,
-              6.2}},
-          color={0,0,127}));
+      connect(fivZonVAV.pre, duaFanAirHanUni.PreMea) annotation (Line(points={{
+              67.8,-19.4},{70,-19.4},{70,-16},{-88,-16},{-88,-11.22},{-79.4,-11.22}},
+            color={0,0,127}));
+      connect(fivZonVAV.TZon, duaFanAirHanUni.ZonTemp) annotation (Line(points=
+              {{67.8,-40.4},{84,-40.4},{84,-64},{-104,-64},{-104,6.2},{-79.4,
+              6.2}}, color={0,0,127}));
 
-      connect(OnFan, duaFanAirHanUnit.On) annotation (Line(
-          points={{-170,-50},{-108,-50},{-108,14},{-79.4,14}},
-          color={255,0,255}));
+      connect(OnFan, duaFanAirHanUni.On) annotation (Line(points={{-170,-50},{-108,
+              -50},{-108,14},{-79.4,14}}, color={255,0,255}));
       connect(booleanReplicator.u, OnZon) annotation (Line(
           points={{-141.4,-90},{-170,-90}},
           color={255,0,255}));
@@ -19661,67 +19663,66 @@ First implementation.
           pattern=LinePattern.Dash));
       connect(port_a_CooWat, port_a_CooWat) annotation (Line(points={{-30,-100},
               {-30,-100}},     color={0,127,255}));
-      connect(duaFanAirHanUnit.TOut, TOut) annotation (Line(
-          points={{-79.4,11.4},{-112,11.4},{-112,-74},{-14,-74},{-14,-110}},
-          color={0,0,127}));
+      connect(duaFanAirHanUni.TOut, TOut) annotation (Line(points={{-79.4,11.4},
+              {-112,11.4},{-112,-74},{-14,-74},{-14,-110}}, color={0,0,127}));
 
       connect(OnFan, reaAhu.occ_in) annotation (Line(points={{-170,-50},{-112,-50},
               {-112,62},{26,62},{26,62.3826}}, color={255,0,255}));
-      connect(duaFanAirHanUnit.TSupAir, reaAhu.TSup_in) annotation (Line(
+      connect(duaFanAirHanUni.TSupAir, reaAhu.TSup_in) annotation (Line(
           points={{-48.6,-4.2},{-34,-4.2},{-34,54.8696},{26,54.8696}},
           color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.TMixAir, reaAhu.TMix_in) annotation (Line(
+      connect(duaFanAirHanUni.TMixAir, reaAhu.TMix_in) annotation (Line(
           points={{-48.6,-2.64},{-48.6,-4},{-32,-4},{-32,50.6957},{26,50.6957}},
 
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(duaFanAirHanUnit.TRetAir, reaAhu.TRet_in) annotation (Line(
+      connect(duaFanAirHanUni.TRetAir, reaAhu.TRet_in) annotation (Line(
           points={{-48.6,8.02},{-28,8.02},{-28,46.5217},{26,46.5217}},
           color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.V_flowSupAir, reaAhu.V_flow_sup_in) annotation (
+      connect(duaFanAirHanUni.V_flowSupAir, reaAhu.V_flow_sup_in) annotation (
           Line(
           points={{-48.6,-1.08},{-26,-1.08},{-26,42.3478},{26,42.3478}},
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(duaFanAirHanUnit.V_flowRetAir, reaAhu.V_flow_ret_in) annotation (
+      connect(duaFanAirHanUni.V_flowRetAir, reaAhu.V_flow_ret_in) annotation (
           Line(
           points={{-48.6,9.58},{-30,9.58},{-30,38.1739},{26,38.1739}},
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(duaFanAirHanUnit.yDamOutAir, reaAhu.yOA_in) annotation (Line(
+      connect(duaFanAirHanUni.yDamOutAir, reaAhu.yOA_in) annotation (Line(
           points={{-48.6,-11.22},{-24,-11.22},{-24,34.2783},{26,34.2783}},
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(duaFanAirHanUnit.PreMea, reaAhu.dp_in) annotation (Line(
+      connect(duaFanAirHanUni.PreMea, reaAhu.dp_in) annotation (Line(
           points={{-79.4,-11.22},{-22,-11.22},{-22,29.8261},{26,29.8261}},
           color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.PFan, reaAhu.PFanTot_in) annotation (Line(
+      connect(duaFanAirHanUni.PFan, reaAhu.PFanTot_in) annotation (Line(
           points={{-48.6,4.64},{-20,4.64},{-20,25.6522},{26,25.6522}},
           color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.TSupCHW, reaAhu.TCooCoiSup_in) annotation (Line(
+      connect(duaFanAirHanUni.TSupCHW, reaAhu.TCooCoiSup_in) annotation (Line(
           points={{-48.6,-9.4},{-18,-9.4},{-18,21.4783},{26,21.4783}},
           color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.TRetCHW, reaAhu.TCooCoiRet_in) annotation (Line(
+      connect(duaFanAirHanUni.TRetCHW, reaAhu.TCooCoiRet_in) annotation (Line(
           points={{-48.6,2.82},{-16,2.82},{-16,17.3043},{26,17.3043}},
           color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(reaAhu.yCooVal_in, duaFanAirHanUnit.yCooVal) annotation (Line(
+      connect(reaAhu.yCooVal_in, duaFanAirHanUni.yCooVal) annotation (Line(
           points={{26,13.1304},{-14,13.1304},{-14,6.2},{-48.6,6.2}},
           color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.V_flowOutAir, reaAhu.V_flow_OA_in) annotation (
+      connect(duaFanAirHanUni.V_flowOutAir, reaAhu.V_flow_OA_in) annotation (
           Line(
           points={{-48.6,-6.8},{-48.6,-4},{-12,-4},{-12,10},{26,10},{26,8.95652}},
 
@@ -19731,15 +19732,15 @@ First implementation.
           points={{-127.4,60},{26,60},{26,58.2087}},
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(disTemPSetPoi, TSupAirSet.u)
+      connect(disTemSetPoi, TSupAirSet.u)
         annotation (Line(points={{-170,60},{-141.2,60}}, color={0,0,127}));
-      connect(TSupAirSet.y, duaFanAirHanUnit.DisTemPSetPoi) annotation (Line(
+      connect(TSupAirSet.y, duaFanAirHanUni.DisTemPSetPoi) annotation (Line(
             points={{-127.4,60},{-110,60},{-110,3.6},{-79.4,3.6}}, color={0,0,
               127}));
       connect(preSetPoi, dpSet.u)
         annotation (Line(points={{-170,10},{-141.2,10}},color={0,0,127}));
-      connect(dpSet.y, duaFanAirHanUnit.PreSetPoi) annotation (Line(points={{-127.4,
-              10},{-110,10},{-110,8.8},{-79.4,8.8}},     color={0,0,127}));
+      connect(dpSet.y, duaFanAirHanUni.PreSetPoi) annotation (Line(points={{-127.4,
+              10},{-110,10},{-110,8.8},{-79.4,8.8}}, color={0,0,127}));
       connect(fivZonVAV.yDam[1], reaZonCor.yDam_in) annotation (Line(
           points={{67.8,-35.08},{88,-35.08},{88,141},{98,141}},
           color={0,0,127},
@@ -19865,26 +19866,26 @@ First implementation.
       connect(zonVAVCon.T, fivZonVAV.TZon) annotation (Line(points={{-18,130},{
               -26,130},{-26,98},{88,98},{88,-40.4},{67.8,-40.4}}, color={0,0,
               127}));
-      connect(zonHeaTempSetPoi[1], oveZonCor.TZonHeaSet_in) annotation (Line(
+      connect(zonHeaTemSetPoi[1], oveZonCor.TZonHeaSet_in) annotation (Line(
             points={{-170,72},{-150,72},{-150,192},{-122,192}}, color={0,0,127}));
-      connect(zonHeaTempSetPoi[2], oveZonSou.TZonHeaSet_in) annotation (Line(
+      connect(zonHeaTemSetPoi[2], oveZonSou.TZonHeaSet_in) annotation (Line(
             points={{-170,76},{-150,76},{-150,164},{-122,164}}, color={0,0,127}));
-      connect(zonHeaTempSetPoi[3], oveZonEas.TZonHeaSet_in) annotation (Line(
+      connect(zonHeaTemSetPoi[3], oveZonEas.TZonHeaSet_in) annotation (Line(
             points={{-170,80},{-150,80},{-150,136},{-122,136}}, color={0,0,127}));
-      connect(zonHeaTempSetPoi[4], oveZonNor.TZonHeaSet_in) annotation (Line(
+      connect(zonHeaTemSetPoi[4], oveZonNor.TZonHeaSet_in) annotation (Line(
             points={{-170,84},{-150,84},{-150,112},{-122,112}}, color={0,0,127}));
-      connect(zonHeaTempSetPoi[5], oveZonWes.TZonHeaSet_in) annotation (Line(
+      connect(zonHeaTemSetPoi[5], oveZonWes.TZonHeaSet_in) annotation (Line(
             points={{-170,88},{-150,88},{-150,84},{-122,84}}, color={0,0,127}));
-      connect(zonCooTempSetPoi[1], oveZonCor.TZonCooSet_in) annotation (Line(
+      connect(zonCooTemSetPoi[1], oveZonCor.TZonCooSet_in) annotation (Line(
             points={{-170,92},{-154,92},{-154,184},{-122,184}}, color={0,0,127}));
-      connect(zonCooTempSetPoi[2], oveZonSou.TZonCooSet_in) annotation (Line(
+      connect(zonCooTemSetPoi[2], oveZonSou.TZonCooSet_in) annotation (Line(
             points={{-170,96},{-154,96},{-154,156},{-122,156}}, color={0,0,127}));
-      connect(zonCooTempSetPoi[3], oveZonEas.TZonCooSet_in) annotation (Line(
+      connect(zonCooTemSetPoi[3], oveZonEas.TZonCooSet_in) annotation (Line(
             points={{-170,100},{-154,100},{-154,128},{-122,128}}, color={0,0,
               127}));
-      connect(zonCooTempSetPoi[4], oveZonNor.TZonCooSet_in)
+      connect(zonCooTemSetPoi[4], oveZonNor.TZonCooSet_in)
         annotation (Line(points={{-170,104},{-122,104}}, color={0,0,127}));
-      connect(zonCooTempSetPoi[5], oveZonWes.TZonCooSet_in) annotation (Line(
+      connect(zonCooTemSetPoi[5], oveZonWes.TZonCooSet_in) annotation (Line(
             points={{-170,108},{-150,108},{-150,76},{-122,76}}, color={0,0,127}));
       connect(oveZonCor.TZonHeaSet_out, TZonHeaSet.u[1]) annotation (Line(
             points={{-99,192},{-76,192},{-76,174.4},{-72,174.4}}, color={0,0,
@@ -19914,10 +19915,10 @@ First implementation.
             points={{-99,76},{-80,76},{-80,79.6},{-74,79.6}}, color={0,0,127}));
       connect(TZonCooSet.y, zonVAVCon.TCooSetPoi) annotation (Line(points={{-50,
               78},{-28,78},{-28,136},{-18,136}}, color={0,0,127}));
-      connect(TZonCooSet.y, duaFanAirHanUnit.CooTempSetPoi) annotation (Line(
+      connect(TZonCooSet.y, duaFanAirHanUni.CooTempSetPoi) annotation (Line(
             points={{-50,78},{-50,58},{-110,58},{-110,-4.2},{-79.4,-4.2}},
             color={0,0,127}));
-      connect(TZonHeaSet.y, duaFanAirHanUnit.HeaTempSetPoi) annotation (Line(
+      connect(TZonHeaSet.y, duaFanAirHanUni.HeaTempSetPoi) annotation (Line(
             points={{-48,176},{-48,60},{-106,60},{-106,-9.4},{-79.4,-9.4}},
             color={0,0,127}));
       connect(TZonHeaSet.y[1], reaZonCor.TRoo_Hea_set_in) annotation (Line(
@@ -21820,6 +21821,7 @@ First implementation.
           "Heat exchanger effectiveness of vav 5";
 
         BuildingControlEmulator.Systems.Floor floor(
+          duaFanAirHanUni(Fan_k=0.01),
           redeclare package MediumAir = MediumAir,
           redeclare package MediumHeaWat = MediumHeaWat,
           redeclare package MediumCooWat = MediumCooWat,
@@ -21877,8 +21879,7 @@ First implementation.
           eps4=eps4,
           PreDroAir5=PreDroAir5,
           PreDroWat5=PreDroWat5,
-          eps5=eps5,
-          duaFanAirHanUnit(Fan_k=0.01))
+          eps5=eps5)
           annotation (Placement(transformation(extent={{-24,-20},{26,22}})));
         Buildings.Fluid.Sources.Boundary_pT sou(
           nPorts=2,
@@ -21964,7 +21965,7 @@ First implementation.
             points={{21,-50},{60,-50},{60,-16.01},{28.75,-16.01}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const1.y,floor.disTemPSetPoi)  annotation (Line(
+        connect(const1.y, floor.disTemSetPoi) annotation (Line(
             points={{-79,-30},{-64,-30},{-46,-30},{-46,13.6},{-27,13.6}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -21988,11 +21989,11 @@ First implementation.
             points={{-51,-50},{-42,-50},{-42,-15.8},{-27,-15.8}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const.y,floor.zonCooTempSetPoi)  annotation (Line(
+        connect(const.y, floor.zonCooTemSetPoi) annotation (Line(
             points={{-79,28},{-44,28},{-44,22},{-27,22}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const3.y,floor.zonHeaTempSetPoi)  annotation (Line(
+        connect(const3.y, floor.zonHeaTemSetPoi) annotation (Line(
             points={{-21,-90},{-50,-90},{-50,17.8},{-27,17.8}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -22408,6 +22409,7 @@ First implementation.
           "Heat exchanger effectiveness of vav 1";
 
         BuildingControlEmulator.Systems.Floor floor(
+          duaFanAirHanUni(Fan_k=0.01),
           fivZonVAV(vol(V=100)),
           redeclare package MediumAir = MediumAir,
           redeclare package MediumHeaWat = MediumHeaWat,
@@ -22466,8 +22468,7 @@ First implementation.
           eps4=eps4,
           PreDroAir5=PreDroAir5,
           PreDroWat5=PreDroWat5,
-          eps5=eps5,
-          duaFanAirHanUnit(Fan_k=0.01))
+          eps5=eps5)
           annotation (Placement(transformation(extent={{-26,-20},{24,22}})));
         Buildings.Fluid.Sources.Boundary_pT sou(
           nPorts=2,
@@ -22558,7 +22559,7 @@ First implementation.
             points={{17,-50},{38,-50},{38,-16},{34,-16},{34,-16.01},{26.75,-16.01}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const1.y,floor.disTemPSetPoi)  annotation (Line(
+        connect(const1.y, floor.disTemSetPoi) annotation (Line(
             points={{-79,-30},{-64,-30},{-46,-30},{-46,13.6},{-29,13.6}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -22595,12 +22596,13 @@ First implementation.
             points={{81,-6},{92,-6},{92,-62},{-60,-62},{-60,-15.8},{-29,-15.8}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const.y,floor.zonCooTempSetPoi)  annotation (Line(
+        connect(const.y, floor.zonCooTemSetPoi) annotation (Line(
             points={{-79,28},{-54,28},{-54,22},{-29,22}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const3.y,floor.zonHeaTempSetPoi)  annotation (Line(
+        connect(const3.y, floor.zonHeaTemSetPoi) annotation (Line(
             points={{-1,-88},{-24,-88},{-24,-86},{-52,-86},{-52,17.8},{-29,17.8}},
+
             color={0,0,127},
             pattern=LinePattern.Dash));
         connect(weaDat.weaBus, weaBus) annotation (Line(
@@ -22783,6 +22785,7 @@ First implementation.
           "Heat exchanger effectiveness of vav 1";
 
         BuildingControlEmulator.Systems.Floor floor[n](
+          duaFanAirHanUni(Fan_k=0.01),
           fivZonVAV(vol(V=100)),
           redeclare package MediumAir = MediumAir,
           redeclare package MediumHeaWat = MediumHeaWat,
@@ -22841,8 +22844,7 @@ First implementation.
           eps4=eps4,
           PreDroAir5=PreDroAir5,
           PreDroWat5=PreDroWat5,
-          eps5=eps5,
-          duaFanAirHanUnit(Fan_k=0.01))
+          eps5=eps5)
           annotation (Placement(transformation(extent={{-26,-20},{24,22}})));
         Buildings.Fluid.Sources.Boundary_pT sou[n](
           nPorts=3,
@@ -22931,7 +22933,7 @@ First implementation.
          connect(floor[i].port_a_HeaWat, souHeaWat[i].ports[1]);
          connect(floor[i].port_b_HeaWat, sinHeaWat[i].ports[1]);
          connect(const2[i].y,floor[i].preSetPoi);
-          connect(const1[i].y,floor[i].disTemPSetPoi);
+          connect(const1[i].y, floor[i].disTemSetPoi);
          connect(booleanExpression[i].y, floor[i].OnFan);
          connect(floor[i].OnZon, booleanExpression[i].y);
          for j in 1:5 loop
@@ -22939,8 +22941,8 @@ First implementation.
             connect(floor[i].TZon[j], zonCon[(i - 1)*5 + j].T);
           connect(zonCon[(i-1)*5+j].yAirFlowSetPoi, floor[i].AirFlowRatSetPoi[j]);
           connect(zonCon[(i-1)*5+j].yValPos, floor[i].yVal[j]);
-            connect(TCooSetPoi[(i - 1)*5 + j].y, floor[i].zonCooTempSetPoi[j]);
-            connect(THeaSetPoi[(i - 1)*5 + j].y, floor[i].zonHeaTempSetPoi[j]);
+            connect(TCooSetPoi[(i - 1)*5 + j].y, floor[i].zonCooTemSetPoi[j]);
+            connect(THeaSetPoi[(i - 1)*5 + j].y, floor[i].zonHeaTemSetPoi[j]);
          end for;
         end for;
         connect(THeaSetPoi.y, zonCon.THeaSetPoi);
