@@ -12368,7 +12368,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
 
       package BaseClasses
 
-        model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
+        model duaFanAirHanUni "AHU with supply/return fans and cooling coil."
 
           replaceable package MediumAir =
               Modelica.Media.Interfaces.PartialMedium "Medium for the air";
@@ -12417,8 +12417,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
           parameter Modelica.Units.SI.Pressure SupPreCur[:] "Supply Fan Pressure curve";
           parameter Modelica.Units.SI.Pressure RetPreCur[:] "Return Fan Pressure curve";
 
-          Devices.FlowMover.BaseClasses.WithoutMotor retFan(redeclare package Medium =
-                       MediumAir,
+          Devices.FlowMover.BaseClasses.WithoutMotor retFan(redeclare package
+              Medium = MediumAir,
             HydEff=HydEff,
             MotEff=MotEff,
             VolFloCur=VolFloCur,
@@ -12437,13 +12437,13 @@ First implementation, based on <code>Modelica.Fluid</code>.
             VolFloCur=VolFloCur,
             PreCur=SupPreCur)                   annotation (Placement(transformation(extent={{18,-10},
                     {38,10}})));
-          Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
-                       MediumAir)
+          Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
+              Medium = MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-          Devices.AirSide.Coil.CooCoil
-                               cooCoil(redeclare package MediumAir = MediumAir, redeclare
-              package MediumWat = MediumWat,
+          Devices.AirSide.Coil.CooCoil cooCoi(
+            redeclare package MediumAir = MediumAir,
+            redeclare package MediumWat = MediumWat,
             mAirFloRat=mAirFloRat,
             mWatFloRat=mWatFloRat,
             PreDroAir=PreDroCoiAir,
@@ -12465,51 +12465,52 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 extent={{-10,-10},{10,10}},
                 rotation=90,
                 origin={-60,0})));
-          Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
-                        MediumWat)
+          Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
+              Medium =  MediumWat)
             "Fluid connector a (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{10,90},{30,110}})));
-          Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
-                       MediumWat)
+          Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
+              Medium = MediumWat)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-          Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium =
-                        MediumAir)
+          Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package
+              Medium =  MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-          Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium =
-                       MediumAir)
+          Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package
+              Medium = MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-          Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
-                        MediumAir)
+          Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
+              Medium =  MediumAir)
             "Fluid connector a (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
           Modelica.Blocks.Interfaces.BooleanInput On
             annotation (Placement(transformation(extent={{-120,-110},{-100,-90}})));
-          Modelica.Blocks.Interfaces.RealInput DisTemPSetPoi "Connector of setpoint input signal" annotation (Placement(transformation(extent={{-120,
-                    -30},{-100,-10}})));
-          Modelica.Blocks.Interfaces.RealInput PreSetPoi
+          Modelica.Blocks.Interfaces.RealInput disTemSetPoi
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,-30},{-100,-10}})));
+          Modelica.Blocks.Interfaces.RealInput preSetPoi
             "Connector of setpoint input signal"                                              annotation (Placement(transformation(extent={{-120,-70},{-100,-50}})));
-          Modelica.Blocks.Interfaces.RealInput PreMea "Connector of measurement input signal" annotation (Placement(transformation(extent={{-120,84},
+          Modelica.Blocks.Interfaces.RealInput preMea "Connector of measurement input signal" annotation (Placement(transformation(extent={{-120,84},
                     {-100,104}})));
-          Modelica.Blocks.Interfaces.RealInput CooTempSetPoi[numTemp]
-            "Connector of setpoint input signal"
-            annotation (Placement(transformation(extent={{-120,30},{-100,50}})));
-          Modelica.Blocks.Interfaces.RealInput ZonTemp[numTemp] "Connector of setpoint input signal" annotation (Placement(transformation(extent={{-120,
-                    -50},{-100,-30}})));
+          Modelica.Blocks.Interfaces.RealInput cooTemSetPoi[numTemp]
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,30},{-100,50}})));
+          Modelica.Blocks.Interfaces.RealInput zonTem[numTemp]
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,-50},{-100,-30}})));
           Buildings.Fluid.Sensors.TemperatureTwoPort senTemDisAir(redeclare
-              package
-              Medium =
+              package Medium =
                 MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{72,-10},{92,10}})));
           Modelica.Blocks.Sources.RealExpression realExpression(y=100000)
             annotation (Placement(transformation(extent={{40,66},{60,86}})));
           Modelica.Blocks.Math.Add add(k2=-1)
             annotation (Placement(transformation(extent={{50,40},{30,60}})));
-          Modelica.Blocks.Interfaces.RealInput HeaTempSetPoi[numTemp]
-            "Connector of setpoint input signal"
-            annotation (Placement(transformation(extent={{-120,70},{-100,90}})));
+          Modelica.Blocks.Interfaces.RealInput heaTemSetPoi[numTemp]
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,70},{-100,90}})));
           Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
             annotation (Placement(transformation(extent={{-34,-58},{-14,-38}})));
           Modelica.Blocks.Interfaces.RealInput TOut "outdoor air temperature"
@@ -12521,8 +12522,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             "AHU supply air temperature"
             annotation (Placement(transformation(extent={{100,30},{120,50}})));
           Buildings.Fluid.Sensors.TemperatureTwoPort senTemMixAir(redeclare
-              package
-              Medium = MediumAir, m_flow_nominal=mAirFloRat)
+              package Medium =
+                       MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{-44,-10},{-24,10}})));
           Modelica.Blocks.Interfaces.RealOutput TMixAir(
             final unit="K",
@@ -12530,8 +12531,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             final quantity="ThermodynamicTemperature") "Mixing air temperature"
             annotation (Placement(transformation(extent={{100,18},{120,38}})));
           Buildings.Fluid.Sensors.TemperatureTwoPort senTemDisAir1(redeclare
-              package
-              Medium = MediumAir, m_flow_nominal=mAirFloRat)
+              package Medium =
+                       MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{72,-90},{92,-70}})));
           Modelica.Blocks.Interfaces.RealOutput TRetAir "AHU return air temperature"
             annotation (Placement(transformation(extent={{100,-64},{120,-44}})));
@@ -12575,11 +12576,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
             final quantity="ThermodynamicTemperature")
             "AHU return chilled water temperature"
             annotation (Placement(transformation(extent={{100,-24},{120,-4}})));
-          Modelica.Blocks.Sources.RealExpression TSupCHWMea(y=cooCoil.coi.temEntWat.T)
+          Modelica.Blocks.Sources.RealExpression TSupCHWMea(y=cooCoi.coi.temEntWat.T)
             annotation (Placement(transformation(extent={{72,70},{92,90}})));
-          Modelica.Blocks.Sources.RealExpression TRetCHWMea(y=cooCoil.coi.temLeaWat.T)
+          Modelica.Blocks.Sources.RealExpression TRetCHWMea(y=cooCoi.coi.temLeaWat.T)
             annotation (Placement(transformation(extent={{72,-24},{92,-4}})));
-          Modelica.Blocks.Sources.RealExpression yCooValMea(y=cooCoil.val.y)
+          Modelica.Blocks.Sources.RealExpression yCooValMea(y=cooCoi.val.y)
             annotation (Placement(transformation(extent={{70,-50},{90,-30}})));
           Modelica.Blocks.Interfaces.RealOutput yCooVal
             "AHU cooling coil valve position measurement" annotation (Placement(
@@ -12603,19 +12604,17 @@ First implementation, based on <code>Modelica.Fluid</code>.
               unit="1"))
             annotation (Placement(transformation(extent={{48,-56},{64,-40}})));
         equation
-          connect(cooCoil.port_b_Air, supFan.port_a) annotation (Line(
+          connect(cooCoi.port_b_Air, supFan.port_a) annotation (Line(
               points={{-1.82,0},{18,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(mixingBox.SetPoi, DisTemPSetPoi) annotation (Line(points={{-60,
+          connect(mixingBox.SetPoi, disTemSetPoi) annotation (Line(points={{-60,
                   -12},{-60,-20},{-110,-20}}, color={0,0,127}));
-          connect(cooCoil.SetPoi, DisTemPSetPoi) annotation (Line(
-              points={{-0.2,6},{6,6},{6,-20},{-110,-20}},
-              color={0,0,127}));
-          connect(supFan.Temp, ZonTemp) annotation (Line(
-              points={{16,-6},{16,-40},{-110,-40}},
-              color={0,0,127}));
-          connect(supFan.PreSetPoi, PreSetPoi) annotation (Line(
+          connect(cooCoi.SetPoi, disTemSetPoi) annotation (Line(points={{-0.2,6},
+                  {6,6},{6,-20},{-110,-20}}, color={0,0,127}));
+          connect(supFan.Temp, zonTem) annotation (Line(points={{16,-6},{16,-40},
+                  {-110,-40}}, color={0,0,127}));
+          connect(supFan.PreSetPoi,preSetPoi)  annotation (Line(
               points={{16,2},{12,2},{12,-60},{-110,-60}},
               color={0,0,127}));
           connect(port_Exh_Air, mixingBox.port_Exh) annotation (Line(
@@ -12630,7 +12629,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{100,0},{92,0}},
               color={0,127,255},
               thickness=1));
-          connect(PreMea, add.u1) annotation (Line(
+          connect(preMea, add.u1) annotation (Line(
               points={{-110,94},{-20,94},{-20,68},{68,68},{68,56},{52,56}},
               color={0,0,127}));
           connect(realExpression.y, add.u2) annotation (Line(
@@ -12639,14 +12638,12 @@ First implementation, based on <code>Modelica.Fluid</code>.
           connect(add.y, supFan.PreMea) annotation (Line(
               points={{29,50},{10,50},{10,-10},{16,-10}},
               color={0,0,127}));
-          connect(supFan.HeaTempSetPoi, HeaTempSetPoi) annotation (Line(
-              points={{16,10},{12,10},{12,80},{-110,80}},
-              color={0,0,127}));
-          connect(supFan.CooTempSetPoi, CooTempSetPoi) annotation (Line(
-              points={{16,-2},{-46,-2},{-46,40},{-110,40}},
-              color={0,0,127}));
-          connect(booleanExpression.y, cooCoil.On) annotation (Line(points={{-13,-48},{
-                  8,-48},{8,12},{-0.2,12}}, color={255,0,255}));
+          connect(supFan.HeaTempSetPoi, heaTemSetPoi) annotation (Line(points={
+                  {16,10},{12,10},{12,80},{-110,80}}, color={0,0,127}));
+          connect(supFan.CooTempSetPoi, cooTemSetPoi) annotation (Line(points={
+                  {16,-2},{-46,-2},{-46,40},{-110,40}}, color={0,0,127}));
+          connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,
+                  -48},{8,-48},{8,12},{-0.2,12}}, color={255,0,255}));
           connect(mixingBox.Tout, TOut) annotation (Line(points={{-54,-12},{-54,
                   -80},{-110,-80}}, color={0,0,127}));
           connect(On, mixingBox.On) annotation (Line(points={{-110,-100},{-68,-100},
@@ -12655,7 +12652,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
                   6}},     color={255,0,255}));
           connect(senTemDisAir.T, TSupAir)
             annotation (Line(points={{82,11},{82,40},{110,40}}, color={0,0,127}));
-          connect(senTemMixAir.port_b, cooCoil.port_a_Air) annotation (Line(
+          connect(senTemMixAir.port_b, cooCoi.port_a_Air) annotation (Line(
               points={{-24,0},{-20,0}},
               color={0,140,72},
               thickness=0.5));
@@ -12686,11 +12683,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
           connect(PFanTot.y, PFan) annotation (Line(points={{-13,-32},{44,-32},
                   {44,-28},{110,-28}},
                               color={0,0,127}));
-          connect(cooCoil.port_a_Wat, port_a_Wat) annotation (Line(
+          connect(cooCoi.port_a_Wat, port_a_Wat) annotation (Line(
               points={{-2,16},{20,16},{20,100}},
               color={0,127,255},
               thickness=1));
-          connect(cooCoil.port_b_Wat, port_b_Wat) annotation (Line(
+          connect(cooCoi.port_b_Wat, port_b_Wat) annotation (Line(
               points={{-20,16},{-40,16},{-40,100}},
               color={0,127,255},
               thickness=1));
@@ -12759,7 +12756,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
 <p>Supply fan speed is controlled by a PI controller to maintain duct static pressure (DSP) at setpoint when the fan is proven ON. Cooling coil valve position is controlled by a PI controller to maintain the AHU supply air temperature at setpoint.</p>
 <p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. Outdoor air damper position is controlled by a PI controller to maintain the mixed air temperature at setpoint. It takes the mixed and outdoor air temperature measurements, as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper position as the output. The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. The economizer higher temperature limit is set as 21 ℃ according to ASHRAE 90.1-2019 for Climate Zone 5A.</p>
 </html>"));
-        end DuaFanAirHanUnit;
+        end duaFanAirHanUni;
 
         model DuaFanAirHanUnitDX
 
@@ -13128,8 +13125,9 @@ First implementation, based on <code>Modelica.Fluid</code>.
               "Pressure curve";
             parameter Modelica.Units.SI.Pressure RetPreCur[:]={200,150,100,50}
               "Pressure curve";
-            DuaFanAirHanUnit duaFanAirHanUnit(redeclare package MediumAir = MediumAir, redeclare
-                package MediumWat =                                                                                  MediumWat,
+            duaFanAirHanUni duaFanAirHanUnit(
+              redeclare package MediumAir = MediumAir,
+              redeclare package MediumWat = MediumWat,
               mAirFloRat=mAirFloRat,
               mWatFloRat=mWatFloRat,
               PreDroCoiAir=PreDroCoiAir,
@@ -13149,11 +13147,13 @@ First implementation, based on <code>Modelica.Fluid</code>.
               Coi_Ti=60,
               MixingBox_Ti=60,
               Fan_Ti=60,
-              UA=-mAirFloRat*(1000*17)/Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
-                  273.15 + 6,
-                  273.15 + 12,
-                  273.15 + 30,
-                  273.15 + 12.88))            annotation (Placement(transformation(extent={{-14,26},{14,50}})));
+              UA=-mAirFloRat*(1000*17)/
+                  Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
+                            273.15 + 6,
+                            273.15 + 12,
+                            273.15 + 30,
+                            273.15 + 12.88))
+              annotation (Placement(transformation(extent={{-14,26},{14,50}})));
             Buildings.Fluid.Sources.Boundary_pT souWat(
               nPorts=1,
               redeclare package Medium = MediumWat,
@@ -13280,20 +13280,20 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 points={{66,0},{80,0},{80,-78},{6,-78}},
                 color={0,127,255},
                 thickness=1));
-            connect(senRelPre.p_rel, duaFanAirHanUnit.PreMea) annotation (Line(
+            connect(senRelPre.p_rel,duaFanAirHanUnit.preMea)  annotation (Line(
                 points={{54,51},{54,44},{44,44},{44,45.2},{15.4,45.2}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(duaFanAirHanUnit.ZonTemp[1], senTem.T) annotation (Line(
+            connect(duaFanAirHanUnit.zonTem[1], senTem.T) annotation (Line(
                 points={{15.4,30.8},{22,30.8},{22,-46},{-44,-46},{-44,-69}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(duaFanAirHanUnit.DisTemPSetPoi, TSupSetPoi.y)
-              annotation (Line(
+            connect(duaFanAirHanUnit.disTemSetPoi, TSupSetPoi.y) annotation (
+                Line(
                 points={{-15.4,35.6},{-58,35.6},{-58,52},{-77,52}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(PreSetPoi.y, duaFanAirHanUnit.PreSetPoi) annotation (Line(
+            connect(PreSetPoi.y,duaFanAirHanUnit.preSetPoi)  annotation (Line(
                 points={{-39,-10},{-30,-10},{-20,-10},{-20,30.8},{-15.4,30.8}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -13320,11 +13320,13 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 color={0,0,127},
                 pattern=LinePattern.Dash));
             connect(souAir.T_in, TOut.y) annotation (Line(points={{-98,82},{-117,82},{-117,112}}, color={0,0,127}));
-            connect(HeaSetPoi.y, duaFanAirHanUnit.HeaTempSetPoi[1]) annotation (Line(
+            connect(HeaSetPoi.y, duaFanAirHanUnit.heaTemSetPoi[1]) annotation (
+                Line(
                 points={{-81,-20},{-30,-20},{-30,47.6},{-15.4,47.6}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(CoolSetPoi.y, duaFanAirHanUnit.CooTempSetPoi[1]) annotation (Line(
+            connect(CoolSetPoi.y, duaFanAirHanUnit.cooTemSetPoi[1]) annotation
+              (Line(
                 points={{-81,8},{-38,8},{-38,42.8},{-15.4,42.8}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -19402,7 +19404,7 @@ First implementation.
       parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
         "Heat exchanger effectiveness of vav 5";
 
-      Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit duaFanAirHanUni(
+      Subsystems.AirHanUnit.BaseClasses.duaFanAirHanUni duaFanAirHanUni(
         numTemp=5,
         redeclare package MediumAir = MediumAir,
         redeclare package MediumWat = MediumCooWat,
@@ -19642,12 +19644,12 @@ First implementation.
       connect(booleanReplicator.y, fivZonVAV.On) annotation (Line(
           points={{-125.3,-90},{0,-90},{0,-30.32},{28.2,-30.32}},
           color={255,0,255}));
-      connect(fivZonVAV.pre, duaFanAirHanUni.PreMea) annotation (Line(points={{
+      connect(fivZonVAV.pre, duaFanAirHanUni.preMea) annotation (Line(points={{
               67.8,-19.4},{70,-19.4},{70,-16},{-88,-16},{-88,-11.22},{-79.4,-11.22}},
             color={0,0,127}));
-      connect(fivZonVAV.TZon, duaFanAirHanUni.ZonTemp) annotation (Line(points=
-              {{67.8,-40.4},{84,-40.4},{84,-64},{-104,-64},{-104,6.2},{-79.4,
-              6.2}}, color={0,0,127}));
+      connect(fivZonVAV.TZon, duaFanAirHanUni.zonTem) annotation (Line(points={
+              {67.8,-40.4},{84,-40.4},{84,-64},{-104,-64},{-104,6.2},{-79.4,6.2}},
+            color={0,0,127}));
 
       connect(OnFan, duaFanAirHanUni.On) annotation (Line(points={{-170,-50},{-108,
               -50},{-108,14},{-79.4,14}}, color={255,0,255}));
@@ -19697,7 +19699,7 @@ First implementation.
           points={{-48.6,-11.22},{-24,-11.22},{-24,34.2783},{26,34.2783}},
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(duaFanAirHanUni.PreMea, reaAhu.dp_in) annotation (Line(
+      connect(duaFanAirHanUni.preMea, reaAhu.dp_in) annotation (Line(
           points={{-79.4,-11.22},{-22,-11.22},{-22,29.8261},{26,29.8261}},
           color={0,0,127},
           pattern=LinePattern.Dash));
@@ -19734,12 +19736,12 @@ First implementation.
           pattern=LinePattern.Dash));
       connect(disTemSetPoi, TSupAirSet.u)
         annotation (Line(points={{-170,60},{-141.2,60}}, color={0,0,127}));
-      connect(TSupAirSet.y, duaFanAirHanUni.DisTemPSetPoi) annotation (Line(
+      connect(TSupAirSet.y, duaFanAirHanUni.disTemSetPoi) annotation (Line(
             points={{-127.4,60},{-110,60},{-110,3.6},{-79.4,3.6}}, color={0,0,
               127}));
       connect(preSetPoi, dpSet.u)
         annotation (Line(points={{-170,10},{-141.2,10}},color={0,0,127}));
-      connect(dpSet.y, duaFanAirHanUni.PreSetPoi) annotation (Line(points={{-127.4,
+      connect(dpSet.y, duaFanAirHanUni.preSetPoi) annotation (Line(points={{-127.4,
               10},{-110,10},{-110,8.8},{-79.4,8.8}}, color={0,0,127}));
       connect(fivZonVAV.yDam[1], reaZonCor.yDam_in) annotation (Line(
           points={{67.8,-35.08},{88,-35.08},{88,141},{98,141}},
@@ -19915,10 +19917,10 @@ First implementation.
             points={{-99,76},{-80,76},{-80,79.6},{-74,79.6}}, color={0,0,127}));
       connect(TZonCooSet.y, zonVAVCon.TCooSetPoi) annotation (Line(points={{-50,
               78},{-28,78},{-28,136},{-18,136}}, color={0,0,127}));
-      connect(TZonCooSet.y, duaFanAirHanUni.CooTempSetPoi) annotation (Line(
+      connect(TZonCooSet.y, duaFanAirHanUni.cooTemSetPoi) annotation (Line(
             points={{-50,78},{-50,58},{-110,58},{-110,-4.2},{-79.4,-4.2}},
             color={0,0,127}));
-      connect(TZonHeaSet.y, duaFanAirHanUni.HeaTempSetPoi) annotation (Line(
+      connect(TZonHeaSet.y, duaFanAirHanUni.heaTemSetPoi) annotation (Line(
             points={{-48,176},{-48,60},{-106,60},{-106,-9.4},{-79.4,-9.4}},
             color={0,0,127}));
       connect(TZonHeaSet.y[1], reaZonCor.TRoo_Hea_set_in) annotation (Line(
