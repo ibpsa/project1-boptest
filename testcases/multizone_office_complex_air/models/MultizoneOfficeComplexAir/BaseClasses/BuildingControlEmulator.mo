@@ -12368,7 +12368,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
 
       package BaseClasses
 
-        model DuaFanAirHanUnit
+        model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
 
           replaceable package MediumAir =
               Modelica.Media.Interfaces.PartialMedium "Medium for the air";
@@ -12417,8 +12417,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
           parameter Modelica.Units.SI.Pressure SupPreCur[:] "Supply Fan Pressure curve";
           parameter Modelica.Units.SI.Pressure RetPreCur[:] "Return Fan Pressure curve";
 
-          Devices.FlowMover.BaseClasses.WithoutMotor retFan(redeclare package
-              Medium = MediumAir,
+          Devices.FlowMover.BaseClasses.WithoutMotor retFan(redeclare package Medium =
+                       MediumAir,
             HydEff=HydEff,
             MotEff=MotEff,
             VolFloCur=VolFloCur,
@@ -12437,8 +12437,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             VolFloCur=VolFloCur,
             PreCur=SupPreCur)                   annotation (Placement(transformation(extent={{18,-10},
                     {38,10}})));
-          Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
-              Medium = MediumAir)
+          Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
+                       MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{90,-10},{110,10}})));
           Devices.AirSide.Coil.CooCoil
@@ -12465,24 +12465,24 @@ First implementation, based on <code>Modelica.Fluid</code>.
             annotation (Placement(transformation(extent={{-10,-10},{10,10}},
                 rotation=90,
                 origin={-60,0})));
-          Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-              Medium =  MediumWat)
+          Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
+                        MediumWat)
             "Fluid connector a (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{10,90},{30,110}})));
-          Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-              Medium = MediumWat)
+          Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
+                       MediumWat)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-          Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package
-              Medium =  MediumAir)
+          Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium =
+                        MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-          Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package
-              Medium = MediumAir)
+          Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium =
+                       MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-          Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
-              Medium =  MediumAir)
+          Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
+                        MediumAir)
             "Fluid connector a (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
           Modelica.Blocks.Interfaces.BooleanInput On
@@ -12499,7 +12499,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
           Modelica.Blocks.Interfaces.RealInput ZonTemp[numTemp] "Connector of setpoint input signal" annotation (Placement(transformation(extent={{-120,
                     -50},{-100,-30}})));
           Buildings.Fluid.Sensors.TemperatureTwoPort senTemDisAir(redeclare
-              package Medium =
+              package
+              Medium =
                 MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{72,-10},{92,10}})));
           Modelica.Blocks.Sources.RealExpression realExpression(y=100000)
@@ -12520,8 +12521,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             "AHU supply air temperature"
             annotation (Placement(transformation(extent={{100,30},{120,50}})));
           Buildings.Fluid.Sensors.TemperatureTwoPort senTemMixAir(redeclare
-              package Medium =
-                       MediumAir, m_flow_nominal=mAirFloRat)
+              package
+              Medium = MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{-44,-10},{-24,10}})));
           Modelica.Blocks.Interfaces.RealOutput TMixAir(
             final unit="K",
@@ -12529,8 +12530,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             final quantity="ThermodynamicTemperature") "Mixing air temperature"
             annotation (Placement(transformation(extent={{100,18},{120,38}})));
           Buildings.Fluid.Sensors.TemperatureTwoPort senTemDisAir1(redeclare
-              package Medium =
-                       MediumAir, m_flow_nominal=mAirFloRat)
+              package
+              Medium = MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{72,-90},{92,-70}})));
           Modelica.Blocks.Interfaces.RealOutput TRetAir "AHU return air temperature"
             annotation (Placement(transformation(extent={{100,-64},{120,-44}})));
@@ -12753,7 +12754,13 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 Text(
                   extent={{-146,300},{154,340}},
                   textString="%name",
-                  textColor={0,0,255})}));
+                  textColor={0,0,255})}),
+            Documentation(info="<html>
+<p>There are two fans (i.e., one supply fan, and one return fan) in the AHU system. Only a cooling coil is installed in the AHU.</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AHUControl.png\"/></p>
+<p>Supply fan speed is controlled by a PI controller to maintain duct static pressure (DSP) at setpoint when the fan is proven ON. Cooling coil valve position is controlled by a PI controller to maintain the AHU supply air temperature at setpoint.</p>
+<p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. Outdoor air damper position is controlled by a PI controller to maintain the mixed air temperature at setpoint. It takes the mixed and outdoor air temperature measurements, as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper position as the output. The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. The economizer higher temperature limit is set as 21 ℃ according to ASHRAE 90.1-2019 for Climate Zone 5A.</p>
+</html>"));
         end DuaFanAirHanUnit;
 
         model DuaFanAirHanUnitDX
@@ -13638,10 +13645,12 @@ First implementation, based on <code>Modelica.Fluid</code>.
               mFloRat1}, redeclare package Medium = Medium,
           dp_nominal={PreDroMai1/2,PreDroMai2/2,PreDroBra1/2})
           annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
-        Buildings.Fluid.FixedResistances.Junction junRet1(redeclare package Medium = Medium, m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat1-mFloRat2-mFloRat3,mFloRat1},
+        Buildings.Fluid.FixedResistances.Junction junRet1(redeclare package
+            Medium =                                                                 Medium, m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat1-mFloRat2-mFloRat3,mFloRat1},
           dp_nominal={PreDroMai2/2,PreDroMai1/2,PreDroBra1/2})
                                                       annotation (Placement(transformation(extent={{-70,-70},{-90,-50}})));
-        Buildings.Fluid.FixedResistances.Junction junRet2( redeclare package Medium = Medium, m_flow_nominal={mFloRat3,-mFloRat2-mFloRat3,mFloRat2},
+        Buildings.Fluid.FixedResistances.Junction junRet2( redeclare package
+            Medium =                                                                  Medium, m_flow_nominal={mFloRat3,-mFloRat2-mFloRat3,mFloRat2},
           dp_nominal={PreDroBra3/2,PreDroMai2/2,PreDroBra2/2})
                                                       annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
         Buildings.Fluid.FixedResistances.Junction junSup2(m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat3,-
@@ -13649,17 +13658,20 @@ First implementation, based on <code>Modelica.Fluid</code>.
           dp_nominal={PreDroMai2/2,PreDroBra3/2,PreDroBra2/2})
                             annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-              Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+            = Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
-              Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+            = Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-        Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package Medium = Medium)
+        Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package
+            Medium =                                                                  Medium)
                                                        annotation (Placement(transformation(extent={{-80,-26},{-60,-6}})));
-        Modelica.Fluid.Interfaces.FluidPorts_b ports_b[3](redeclare package Medium = Medium)
+        Modelica.Fluid.Interfaces.FluidPorts_b ports_b[3](redeclare package
+            Medium =                                                                 Medium)
           annotation (Placement(transformation(extent={{90,6},{110,86}})));
-        Modelica.Fluid.Interfaces.FluidPorts_a ports_a[3](redeclare package Medium = Medium)
+        Modelica.Fluid.Interfaces.FluidPorts_a ports_a[3](redeclare package
+            Medium =                                                                 Medium)
           annotation (Placement(transformation(extent={{90,-102},{110,-22}})));
         Modelica.Blocks.Interfaces.RealOutput p "Pressure at port"
           annotation (Placement(transformation(extent={{100,-10},{120,10}})));
@@ -14280,7 +14292,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 Diagram(coordinateSystem(preserveAspectRatio=false)));
       end FivZonVAV;
 
-      model FivZonVAVNoVec
+      model FivZonVAVNoVec "Thermal zones and VAV terminals."
         replaceable package MediumAir = Modelica.Media.Interfaces.PartialMedium
                                                                                 "medium for the air";
 
@@ -14457,21 +14469,17 @@ First implementation, based on <code>Modelica.Fluid</code>.
           annotation (Placement(transformation(extent={{-40,-90},{-20,-70}})));
         Modelica.Blocks.Interfaces.RealInput Q_flow[5]
           annotation (Placement(transformation(extent={{-120,-90},{-100,-70}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{30,90},{50,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
@@ -14483,8 +14491,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
           annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
         Modelica.Blocks.Interfaces.BooleanInput On[5]
           annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-        Modelica.Fluid.Sensors.TemperatureTwoPort temZon[5](redeclare package
-            Medium =                                                                   MediumAir)
+        Modelica.Fluid.Sensors.TemperatureTwoPort temZon[5](redeclare package Medium = MediumAir)
           annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
         Modelica.Blocks.Interfaces.RealOutput pre "Pressure at port"
           annotation (Placement(transformation(extent={{200,-22},{220,-2}}),
@@ -14815,7 +14822,14 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 textColor={0,0,255},
                 textString="%name")}),
                 Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-                  {200,100}})));
+                  {200,100}})),
+          Documentation(info="<html>
+<p>A reheat coil is installed in the VAV terminal. The components and control systems of the VAV is shown in the figure below:</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/VAVControl.png\"/></p>
+<p>The controller for terminal VAV box is based on the &quot;single maximum VAV reheat control logic&quot;.</p>
+<p>When the Zone State is cooling, the cooling-loop output shall be mapped to the active airflow setpoint from the cooling minimum endpoint to the cooling maximum endpoint. Heating coil is disabled. When the Zone State is deadband, the active airflow setpoint shall be the minimum endpoint. Heating coil is disabled. When the Zone State is heating, the active airflow setpoint shall be the minimum endpoint. The reheat valve position shall be mapped to the supply air temperature setpoint from the heating minimum endpoint to the heating maximum endpoint.</p>
+<p>VAV damper position is controlled by a PI controller to maintain the air flow rate at setpoint. Heating coil valve position is controlled by a PI controller to maintain the supply air temperature at setpoint.</p>
+</html>"));
       end FivZonVAVNoVec;
 
       model FivZonVAVDX
@@ -19235,7 +19249,7 @@ First implementation.
   end Subsystems;
 
   package Systems
-    model Floor "The thermal zone and corresponding air side HVAC systems"
+    model Floor "Thermal zones and corresponding air side HVAC systems"
 
       replaceable package MediumAir = Modelica.Media.Interfaces.PartialMedium "Medium for the air";
 
@@ -19954,7 +19968,19 @@ First implementation.
               textString="%name",
               textColor={0,0,255})}),                                Diagram(
             coordinateSystem(preserveAspectRatio=false, extent={{-160,-100},{
-                160,200}})));
+                160,200}})),
+        Documentation(info="<html>
+<p>The represented floor has five zones, with four perimeter zones and one core zone. Each perimeter zone has a window-to-wall ratio of about 0.38. The height of each zone is 2.74 m and the areas are as follows:</p>
+<ul>
+<li>North and South: 313.42 m<sup>2</sup></li>
+<li>East and West: 201.98 m<sup>2</sup></li>
+<li>Core: 2532.32 m<sup>2</sup></li>
+</ul>
+<p>The geometry of the floor is shown as the following figure:</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/Zones.png\"/></p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit </a>for a description of the AHU.</p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.FivZonVAVNoVec\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.FivZonVAVNoVec</a> for a description of the VAV terminals.</p>
+</html>"));
     end Floor;
 
     model FloorDX
@@ -20372,8 +20398,8 @@ First implementation.
       Buildings.Fluid.Storage.ExpansionVessel expVesCHW(
           redeclare package Medium = MediumCHW)
         annotation (Placement(transformation(extent={{-44,-78},{-36,-70}})));
-      Buildings.Fluid.Sensors.MassFlowRate senMasFloByp(redeclare package Medium =
-                           MediumCHW) annotation (Placement(transformation(
+      Buildings.Fluid.Sensors.MassFlowRate senMasFloByp(redeclare package
+          Medium =         MediumCHW) annotation (Placement(transformation(
             extent={{10,-10},{-10,10}},
             rotation=-90,
             origin={0,-52})));
@@ -20770,7 +20796,8 @@ First implementation.
         n=n,
         THW_start=THW_start)
         annotation (Placement(transformation(extent={{-96,-44},{-62,-16}})));
-      Buildings.Fluid.Storage.ExpansionVessel expVesCHW(redeclare package Medium =
+      Buildings.Fluid.Storage.ExpansionVessel expVesCHW(redeclare package
+          Medium =
             MediumHW, V_start=10)
         annotation (Placement(transformation(extent={{30,8},{38,16}})));
       Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = MediumHW)
@@ -20803,8 +20830,7 @@ First implementation.
             rotation=0,
             origin={120,22})));
       replaceable Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare
-          package
-          Medium =
+          package Medium =
             MediumHW) annotation (Placement(transformation(
             extent={{-10,12},{10,-12}},
             rotation=180,
@@ -20901,18 +20927,13 @@ First implementation.
           __Dymola_Algorithm="Dassl"),
         __Dymola_experimentSetupOutput,
         Documentation(info="<html>
-<p>The schematic drawing of the Lejeune plant is shown as folowing.</p>
-<p><img src=\"Resources/Images/lejeunePlant/lejeune_schematic_drawing.jpg\" alt=\"image\"/> </p>
-<p>In addition, the parameters are listed as below.</p>
-<p>The parameters for the chiller plant.</p>
-<p><img src=\"Resources/Images/lejeunePlant/Chiller.png\" alt=\"image\"/> </p>
-<p>The parameters for the primary chilled water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/PriCHWPum.png\" alt=\"image\"/> </p>
-<p>The parameters for the secondary chilled water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/SecCHWPum1.png\" alt=\"image\"/> </p>
-<p><img src=\"Resources/Images/lejeunePlant/SecCHWPum2.png\" alt=\"image\"/> </p>
-<p>The parameters for the condenser water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/CWPum.png\" alt=\"image\"/> </p>
+<p>The hot water system consists of two gas boilers and two variable speed pumps.</p>
+<p align=\\\"center\\\">
+  <img alt=\\\"BoilerControl.\\\"
+  src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/BoilerControl.PNG\" width=800>
+</p>
+<p>The number of operating boilers is determined via a state machine based on the thermal load(Q, kW), rated heating capacity of boiler k (hck, kW), threshold to start boiler k+1 (&xi;k = 0.9), and waiting time (30 min). The maximum operating boiler number is N, which is equal to 2.</p><p>Boiler heating power is controlled by a PI controller to maintain the temperature of the hot water leaving each boiler to be 80 ℃. It takes the hot water measurements and set points as inputs. It takes the heating power as the output. </p>
+<p>Boiler pump speed is controlled by a PI controller to maintain the static pressure of the boiler water loop at setpoint. It takes the heat water loop pressure drop measurements and setpoints as inputs. It takes the pump speed as the output. All the boiler pumps share the same speed. </p>
 </html>"),
         Icon(graphics={
             Rectangle(

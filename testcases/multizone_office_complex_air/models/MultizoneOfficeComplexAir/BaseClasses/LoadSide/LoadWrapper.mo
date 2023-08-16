@@ -151,5 +151,9 @@ equation
         textString="%name",
         textColor={0,0,255}),
         Bitmap(extent={{-94,-86},{94,82}}, fileName="modelica://MultizoneOfficeComplexAir/Resources/figure/spawn_icon.png")}),
-        Diagram(coordinateSystem(preserveAspectRatio=false)));
+        Diagram(coordinateSystem(preserveAspectRatio=false)),
+    Documentation(info="<html>
+<p>EnergyPlus (V9.6) calculates the building&rsquo;s thermal loads with the boundary conditions. Modelica is responsible for the airflow calculation (e.g., building infiltration) and HVAC system and controls. Spawn integrated model is compiled into Functional Mockup Unit (FMU) using Optimica (V1.40). </p>
+<p>The layout is representative of the large commercial office building stock and is consistent with the building prototypes. The test case is located in Chicago, IL and based on the DOE Reference Large Office Building Model (Constructed In or After 1980).The original model has 12 floors with a basement. For simplicity, the middle 10 floors are treated as identical. The ground floor is assumed to be adiabatic with the basement. </p>
+</html>"));
 end LoadWrapper;

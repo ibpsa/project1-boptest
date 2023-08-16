@@ -273,6 +273,11 @@ equation
               "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}),
     Documentation(info="<html>
 <p>This model consist of a full HVAC system that contains the air side and water side systems. The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. There is also a reheat coil and an air damper in each of the three zone inlet branches. There are two fans (i.e., one supply fan, and one return fan) in the AHU system. A mixing box carries out the economizer function of providing cooling and ventilation. </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AirSide.png\"/> </p>
 <p>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps . The hot water system consists of two gas boilers and two variable speed pumps. </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChilledWater.png\"/> </p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/HotWater.png\"/> </p>
+<p>The air side system controls include the VAV air flow rate control, VAV supply air temperature Control, AHU duct static pressure control, AHU supply air temperature control, and mixing box damper and economizer control.</p>
+<p>The water side system controls include the chiller plant staging control, chilled water supply temperature control, secondary chilled water pump staging control, secondary chilled water loop static pressure control, cooling Tower supply water temperature control, minimum condenser supply water temperature control, boiler staging control, boiler water temperature control, and boiler hot water loop static pressure control.</p>
 </html>"));
 end HVAC;

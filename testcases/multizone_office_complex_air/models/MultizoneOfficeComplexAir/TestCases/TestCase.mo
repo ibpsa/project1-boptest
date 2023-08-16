@@ -1,5 +1,5 @@
 ﻿within MultizoneOfficeComplexAir.TestCases;
-model TestCase "Complex HVAC systems include air side systems, water side systems, and three thermal zones. "
+model TestCase "Complex HVAC systems include air side systems, water side systems, and five thermal zones on each floor. "
   extends Modelica.Icons.Example;
 
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper loaEPlus(wholebuilding(building(spawnExe="spawn-0.3.0-8d93151657")))
