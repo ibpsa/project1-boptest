@@ -7104,36 +7104,34 @@ First implementation.
             annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
           Modelica.Blocks.Interfaces.RealInput Status[n] "Compressor speed ratio"
             annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
-          Modelica.Blocks.Interfaces.RealInput Loa
+          Modelica.Blocks.Interfaces.RealInput loa
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
           PlantStageCondition plantNStageCondition(
             thehol=thehol,
             n=n,
             Cap=Cap) annotation (Placement(transformation(extent={{-60,-16},{
                     -40,4}})));
-          BaseClasses.StageN NStage(tWai=tWai, n=n)
+          BaseClasses.StageN nSta(tWai=tWai, n=n)
             annotation (Placement(transformation(extent={{-8,-18},{12,2}})));
         equation
 
           for i in 1:n loop
-             y[i] =if i <= integer(NStage.y) then 1 else 0;
+             y[i] =if i <= integer(nSta.y) then 1 else 0;
           end for;
 
           connect(plantNStageCondition.OnSin, On) annotation (Line(
               points={{-62,-6},{-80,-6},{-80,80},{-120,80}},
               color={255,0,255}));
-          connect(plantNStageCondition.Loa, Loa) annotation (Line(
+          connect(plantNStageCondition.Loa,loa)  annotation (Line(
               points={{-62,0},{-120,0}},
               color={0,0,127}));
           connect(plantNStageCondition.Status, Status) annotation (Line(
               points={{-62,-12},{-80,-12},{-80,-80},{-120,-80}},
               color={0,0,127}));
-          connect(plantNStageCondition.Off, NStage.Off) annotation (Line(
-              points={{-39,-10},{-24,-10},{-24,-14},{-10,-14}},
-              color={255,0,255}));
-          connect(plantNStageCondition.On, NStage.On) annotation (Line(
-              points={{-39,-2},{-10,-2}},
-              color={255,0,255}));
+          connect(plantNStageCondition.Off, nSta.Off) annotation (Line(points={
+                  {-39,-10},{-24,-10},{-24,-14},{-10,-14}}, color={255,0,255}));
+          connect(plantNStageCondition.On, nSta.On)
+            annotation (Line(points={{-39,-2},{-10,-2}}, color={255,0,255}));
           annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                     -100},{100,100}})),           Icon(coordinateSystem(
                   preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -7449,7 +7447,7 @@ First implementation.
                 points={{-19,70},{40,70},{40,20},{-40,20},{-40,8},{-12,8}},
                 color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(loa.y, plantSta.Loa) annotation (Line(
+            connect(loa.y,plantSta.loa)  annotation (Line(
                 points={{-59,0},{-40,0},{-12,0}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -17763,9 +17761,9 @@ First implementation.
             =                                                                   Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-        Modelica.Blocks.Interfaces.RealInput SpeSig[n] "On signal"
+        Modelica.Blocks.Interfaces.RealInput speSig[n] "On signal"
           annotation (Placement(transformation(extent={{-118,71},{-100,89}})));
-        Modelica.Blocks.Interfaces.RealOutput SpeRat[n]
+        Modelica.Blocks.Interfaces.RealOutput speRat[n]
           "Speed of the pump divided by the nominal value"
           annotation (Placement(transformation(extent={{100,52},{120,72}})));
         Modelica.Blocks.Interfaces.RealOutput P[n]
@@ -17783,17 +17781,17 @@ First implementation.
       equation
 
         for i in 1:n loop
-         connect(pum[i].Rat, SpeRat[i]);
+         connect(pum[i].Rat,speRat [i]);
          connect(pum[i].port_a, port_a);
          connect(val[i].port_b, port_b);
          connect(pum[i].P, P[i]);
            connect(pum[i].port_b, val[i].port_a);
         end for;
 
-        connect(pum.u, SpeSig) annotation (Line(
+        connect(pum.u,speSig)  annotation (Line(
             points={{-13.1,6},{-80,6},{-80,80},{-109,80}},
             color={0,0,127}));
-        connect(valCon.On, SpeSig) annotation (Line(
+        connect(valCon.On,speSig)  annotation (Line(
             points={{-10.9,60},{-60,60},{-60,80},{-109,80}},
             color={0,0,127}));
         connect(valCon.y, val.y) annotation (Line(
@@ -18119,17 +18117,17 @@ First implementation.
               color={0,127,255},
               smooth=Smooth.None,
               thickness=1));
-          connect(OnC.y, pumSys.SpeSig[3]) annotation (Line(
+          connect(OnC.y, pumSys.speSig[3]) annotation (Line(
               points={{59,70},{-20,70},{-20,21.9},{-9.35,21.9}},
               color={0,0,127},
               smooth=Smooth.None,
               pattern=LinePattern.Dash));
-          connect(OnB.y, pumSys.SpeSig[2]) annotation (Line(
+          connect(OnB.y, pumSys.speSig[2]) annotation (Line(
               points={{-59,70},{-40,70},{-40,21},{-9.35,21}},
               color={0,0,127},
               smooth=Smooth.None,
               pattern=LinePattern.Dash));
-          connect(OnA.y, pumSys.SpeSig[1]) annotation (Line(
+          connect(OnA.y, pumSys.speSig[1]) annotation (Line(
               points={{-61,30},{-44,30},{-44,20.1},{-9.35,20.1}},
               color={0,0,127},
               smooth=Smooth.None,
@@ -20616,7 +20614,7 @@ First implementation.
           color={0,0,127}));
       connect(secPumCon.On, reaToBoo.y) annotation (Line(points={{58,58},{40,58},{40,
               96},{-139,96}}, color={255,0,255}));
-      connect(pumSecCHW.SpeRat, secPumCon.Status) annotation (Line(
+      connect(pumSecCHW.speRat, secPumCon.Status) annotation (Line(
           points={{61,-63.8},{88,-63.8},{88,-14},{30,-14},{30,42},{58,42}},
           color={0,0,127}));
       connect(pumSecCHW.port_b, senTCHWBuiEnt.port_a) annotation (Line(
@@ -20654,7 +20652,7 @@ First implementation.
       connect(mulChiSys.TCHWSet, TCHWSet) annotation (Line(
           points={{-88.63,-6.2},{-260,-6.2},{-260,-6},{-296,-6}},
           color={0,0,127}));
-      connect(pumSecCHW.SpeSig, secPumCon.y) annotation (Line(
+      connect(pumSecCHW.speSig, secPumCon.y) annotation (Line(
           points={{39.1,-62},{18,-62},{18,0},{88,0},{88,50},{81,50}},
           color={0,0,127}));
       connect(senTCHWBuiEnt.T, T) annotation (Line(
@@ -20674,7 +20672,7 @@ First implementation.
           points={{138,-90},{148,-90},{148,-42},{240,-42},{240,-40}},
           color={0,127,255},
           thickness=1));
-      connect(Loa.y, chiSta.Loa) annotation (Line(points={{-153,26},{-124,26},{-124,
+      connect(Loa.y,chiSta.loa)  annotation (Line(points={{-153,26},{-124,26},{-124,
               65},{-79.6,65}}, color={0,0,127}));
       connect(secPumCon.dpSetPoi, dpSetPoi)
         annotation (Line(points={{58,46},{-296,46}}, color={0,0,127}));
@@ -20879,7 +20877,7 @@ First implementation.
           color={255,0,0},
           thickness=1));
 
-      connect(pumSecHW.SpeRat, secPumCon.Status) annotation (Line(
+      connect(pumSecHW.speRat, secPumCon.Status) annotation (Line(
           points={{-11,36.2},{-20,36.2},{-20,48},{58,48}},
           color={0,0,127}));
       connect(senTHWBuiEnt.port_b, port_b) annotation (Line(
@@ -20914,9 +20912,9 @@ First implementation.
           points={{92,22},{110,22}},
           color={255,0,0},
           thickness=1));
-      connect(realExpression.y, BoiSta.Loa) annotation (Line(points={{41,-40},{-20,-40},
+      connect(realExpression.y,BoiSta.loa)  annotation (Line(points={{41,-40},{-20,-40},
               {-20,2},{-110,2},{-110,70},{-82,70}}, color={0,0,127}));
-      connect(secPumCon.y, pumSecHW.SpeSig) annotation (Line(
+      connect(secPumCon.y,pumSecHW.speSig)  annotation (Line(
           points={{81,56},{86,56},{86,38},{10.9,38}},
           color={0,0,127}));
       connect(multiBoiler.THWSet, THWSet) annotation (Line(
@@ -21138,7 +21136,7 @@ First implementation.
           points={{92,18},{110,18}},
           color={255,0,0},
           thickness=1));
-      connect(realExpression.y, BoilerStage.Loa) annotation (Line(
+      connect(realExpression.y,BoilerStage.loa)  annotation (Line(
           points={{41,-40},{-20,-40},{-20,2},{-110,2},{-110,68},{-82,68}},
           color={0,0,127},
           pattern=LinePattern.Dash));
@@ -21148,8 +21146,8 @@ First implementation.
               {64,84}}, color={0,0,127}));
       connect(dP, conPI.Mea) annotation (Line(points={{-300,0},{-128,0},{-128,48},{52,
               48},{52,78},{64,78}}, color={0,0,127}));
-      connect(conPI.y, pumSecHW.SpeSig[1]) annotation (Line(points={{87,84},{108,84},
-              {108,44},{52,44},{52,32.4},{23.53,32.4}}, color={0,0,127}));
+      connect(conPI.y, pumSecHW.speSig[1]) annotation (Line(points={{87,84},{
+              108,84},{108,44},{52,44},{52,32.4},{23.53,32.4}}, color={0,0,127}));
       annotation (__Dymola_Commands(file=
               "modelica://ChillerPlantSystem/Resources/Scripts/Dymola/LejeunePlant/ChillerPlantSystem.mos"
             "Simulate and plot"),
@@ -21592,7 +21590,7 @@ First implementation.
           points={{136,-90},{140,-90},{140,-142}},
           color={0,127,255},
           thickness=1));
-      connect(Loa.y, chillerStage.Loa) annotation (Line(
+      connect(Loa.y,chillerStage.loa)  annotation (Line(
           points={{-153,26},{-124,26},{-124,68},{-82,68}},
           color={0,0,127},
           pattern=LinePattern.Dash));
@@ -21602,8 +21600,9 @@ First implementation.
               60},{58,60}}, color={0,0,127}));
       connect(conPI.Mea, dP) annotation (Line(points={{58,54},{26,54},{26,44},{-194,
               44},{-194,100},{-298,100}}, color={0,0,127}));
-      connect(conPI.y, pumSecCHW.SpeSig[1]) annotation (Line(points={{81,60},{96,60},
-              {96,-30},{18,-30},{18,-75.6},{42.47,-75.6}}, color={0,0,127}));
+      connect(conPI.y, pumSecCHW.speSig[1]) annotation (Line(points={{81,60},{
+              96,60},{96,-30},{18,-30},{18,-75.6},{42.47,-75.6}}, color={0,0,
+              127}));
       annotation (__Dymola_Commands(file=
               "modelica://ChillerPlantSystem/Resources/Scripts/Dymola/LejeunePlant/ChillerPlantSystem.mos"
             "Simulate and plot"),
