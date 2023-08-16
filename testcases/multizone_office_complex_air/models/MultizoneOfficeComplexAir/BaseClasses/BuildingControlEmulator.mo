@@ -107,7 +107,7 @@ package BuildingControlEmulator
                   thickness=0.5)}));
         end HeaCoil;
 
-        model CooCoil
+        model cooCoi
           extends BaseClasses.WatCoil(val(
                 dpValve_nominal=PreDroWat), pI(reverseActing=false, conPID(y_reset=1)));
           parameter Real UA "Rated heat exchange coefficients";
@@ -206,7 +206,7 @@ package BuildingControlEmulator
                   points={{30,46},{48,72}},
                   color={0,0,127},
                   thickness=0.5)}));
-        end CooCoil;
+        end cooCoi;
 
         model DxCoil
           import MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator;
@@ -1475,8 +1475,7 @@ package BuildingControlEmulator
             extends Modelica.Icons.Example;
             package Medium1 = Buildings.Media.Water "Medium model";
             package Medium2 = Buildings.Media.Air "Medium model";
-            BuildingControlEmulator.Devices.AirSide.Coil.CooCoil
-                                                         Coi(
+            BuildingControlEmulator.Devices.AirSide.Coil.cooCoi Coi(
               redeclare package MediumAir = Medium2,
               redeclare package MediumWat = Medium1,
               mWatFloRat=1,
@@ -1485,7 +1484,8 @@ package BuildingControlEmulator
               mAirFloRat=1,
               UA=4.2*1000,
               k=1,
-              Ti=60) annotation (Placement(transformation(extent={{-20,14},{22,-28}})));
+              Ti=60) annotation (Placement(transformation(extent={{-20,14},{22,
+                      -28}})));
             Buildings.Fluid.Sources.Boundary_pT souWat(
               nPorts=1,
               redeclare package Medium = Medium1,
@@ -12441,7 +12441,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
               Medium = MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-          Devices.AirSide.Coil.CooCoil cooCoi(
+          Devices.AirSide.Coil.cooCoi cooCoi(
             redeclare package MediumAir = MediumAir,
             redeclare package MediumWat = MediumWat,
             mAirFloRat=mAirFloRat,
