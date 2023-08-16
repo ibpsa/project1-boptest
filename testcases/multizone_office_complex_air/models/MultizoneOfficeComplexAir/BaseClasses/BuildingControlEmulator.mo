@@ -3904,7 +3904,7 @@ First implementation.
                 textString="V")}));
       end VariableSpeedMover;
 
-      model VAVSupplyFan
+      model VAVSupFan
         "the component contains both the variable speed fan/pump and the controller"
         extends BaseClasses.FlowMover;
         parameter Real k(min=0, unit="1") = 1 "Gain of controller";
@@ -3916,26 +3916,28 @@ First implementation.
             "Speed ratio";
         parameter Integer numTemp(min=1) = 1
             "The size of the temeprature vector";
-        Control.VAVDualFanControl variableSpeed(k=k, Ti=Ti,
+        Control.VAVDualFanControl varSpe(
+          k=k,
+          Ti=Ti,
           waitTime=waitTime)
           annotation (Placement(transformation(extent={{-60,44},{-40,64}})));
-        Modelica.Blocks.Interfaces.RealInput PreSetPoi
+        Modelica.Blocks.Interfaces.RealInput preSetPoi
           "Connector of setpoint input signal"
           annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
-        Modelica.Blocks.Interfaces.RealInput PreMea
+        Modelica.Blocks.Interfaces.RealInput preMea
           "Connector of measurement input signal"
           annotation (Placement(transformation(extent={{-140,-120},{-100,-80}})));
         Modelica.Blocks.Interfaces.RealOutput yRet "Output signal connector"
           annotation (Placement(transformation(extent={{100,-92},{120,-72}})));
-        Control.TempCheck tempCheck(numTemp=numTemp)
+        Control.TempCheck temChe(numTemp=numTemp)
           annotation (Placement(transformation(extent={{-92,-50},{-72,-30}})));
-        Modelica.Blocks.Interfaces.RealInput Temp[numTemp]
-          "Connector of setpoint input signal"
-          annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-        Modelica.Blocks.Interfaces.RealInput CooTempSetPoi[numTemp]
+        Modelica.Blocks.Interfaces.RealInput tem[numTemp]
+          "Connector of setpoint input signal" annotation (Placement(
+              transformation(extent={{-140,-80},{-100,-40}})));
+        Modelica.Blocks.Interfaces.RealInput cooTemSetPoi[numTemp]
           "Connector of setpoint input signal"
           annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
-        Modelica.Blocks.Interfaces.RealInput HeaTempSetPoi[numTemp]
+        Modelica.Blocks.Interfaces.RealInput heaTemSetPoi[numTemp]
           "Connector of setpoint input signal"
           annotation (Placement(transformation(extent={{-140,80},{-100,120}})));
         Buildings.Utilities.IO.SignalExchange.Overwrite oveSpeSupFan(
@@ -3978,30 +3980,23 @@ First implementation.
         connect(withoutMotor.P, P) annotation (Line(
             points={{3,6},{12,6},{20,6},{20,40},{110,40}},
             color={0,0,127}));
-        connect(On, variableSpeed.On) annotation (Line(
-            points={{-120,60},{-62,60}},
-            color={255,0,255}));
-        connect(variableSpeed.SetPoi, PreSetPoi) annotation (Line(
-            points={{-62,56},{-80,56},{-80,20},{-120,20}},
-            color={0,0,127}));
-        connect(variableSpeed.Mea, PreMea) annotation (Line(
-            points={{-62,52},{-66,52},{-66,16},{-56,16},{-56,-100},{-120,-100}},
-            color={0,0,127}));
-        connect(tempCheck.Temp, Temp) annotation (Line(
-            points={{-94,-40},{-100,-40},{-100,-60},{-120,-60}},
-            color={0,0,127}));
-        connect(tempCheck.On, variableSpeed.CyclingOn) annotation (Line(
-            points={{-71,-40},{-68,-40},{-68,48},{-62,48}},
-            color={255,0,255}));
-        connect(tempCheck.CooSetPoi, CooTempSetPoi) annotation (Line(
-            points={{-94,-34},{-98,-34},{-98,-20},{-120,-20}},
-            color={0,0,127}));
-        connect(tempCheck.HeaSetPoi, HeaTempSetPoi) annotation (Line(
-            points={{-94,-46},{-98,-46},{-98,-60},{-60,-60},{-60,34},{-88,34},{-88,
-                100},{-120,100}},
-            color={0,0,127}));
-        connect(variableSpeed.ySup, oveSpeSupFan.u) annotation (Line(points={{-39,54},
-                {-28,54}},                                 color={0,0,127}));
+        connect(On, varSpe.On)
+          annotation (Line(points={{-120,60},{-62,60}}, color={255,0,255}));
+        connect(varSpe.SetPoi, preSetPoi) annotation (Line(points={{-62,56},{-80,
+                56},{-80,20},{-120,20}}, color={0,0,127}));
+        connect(varSpe.Mea, preMea) annotation (Line(points={{-62,52},{-66,52},
+                {-66,16},{-56,16},{-56,-100},{-120,-100}}, color={0,0,127}));
+        connect(temChe.Temp, tem) annotation (Line(points={{-94,-40},{-100,-40},
+                {-100,-60},{-120,-60}}, color={0,0,127}));
+        connect(temChe.On, varSpe.CyclingOn) annotation (Line(points={{-71,-40},
+                {-68,-40},{-68,48},{-62,48}}, color={255,0,255}));
+        connect(temChe.CooSetPoi, cooTemSetPoi) annotation (Line(points={{-94,-34},
+                {-98,-34},{-98,-20},{-120,-20}}, color={0,0,127}));
+        connect(temChe.HeaSetPoi, heaTemSetPoi) annotation (Line(points={{-94,-46},
+                {-98,-46},{-98,-60},{-60,-60},{-60,34},{-88,34},{-88,100},{-120,
+                100}}, color={0,0,127}));
+        connect(varSpe.ySup, oveSpeSupFan.u)
+          annotation (Line(points={{-39,54},{-28,54}}, color={0,0,127}));
         connect(oveSpeSupFan.y, withoutMotor.u) annotation (Line(points={{-5,54},
                 {2,54},{2,26},{-30,26},{-30,6},{-19,6}},     color={0,0,127}));
         connect(oveSpeSupFan.y, gain.u)
@@ -4023,7 +4018,7 @@ First implementation.
                 extent={{-152,106},{148,146}},
                 textString="%name",
                 textColor={0,0,255})}));
-      end VAVSupplyFan;
+      end VAVSupFan;
 
       package BaseClasses "\"Base classes for modelling fans or pumps\""
         model WithoutMotor
@@ -5169,7 +5164,7 @@ First implementation.
             nPorts=1,
             p=100000,
             T=293.15) annotation (Placement(transformation(extent={{-96,10},{-76,30}})));
-          BuildingControlEmulator.Devices.FlowMover.VAVSupplyFan PumSup(
+          BuildingControlEmulator.Devices.FlowMover.VAVSupFan PumSup(
             redeclare package Medium = Medium,
             TimCon=10,
             HydEff={0.7,0.7,0.7,0.7,0.7},
@@ -5276,28 +5271,28 @@ First implementation.
               points={{-71,70},{-60,70},{-60,26},{-52,26}},
               color={255,0,255},
               pattern=LinePattern.Dash));
-          connect(con.y, PumSup.PreSetPoi) annotation (Line(
+          connect(con.y,PumSup.preSetPoi)  annotation (Line(
               points={{-87.4,0},{-64,0},{-64,22},{-52,22}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(PumSup.PreMea, senRelPre.p_rel) annotation (Line(
+          connect(PumSup.preMea, senRelPre.p_rel) annotation (Line(
               points={{-52,10},{-56,10},{-56,-14},{14,-14},{14,-32},{9,-32}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(const.y, PumSup.CooTempSetPoi) annotation (Line(
+          connect(const.y, PumSup.cooTemSetPoi) annotation (Line(
               points={{-87.4,-20},{-62,-20},{-62,18},{-52,18}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(sine2.y, PumSup.Temp[1]) annotation (Line(
-              points={{-47.4,-40},{-36,-40},{-24,-40},{-24,-6},{-58,-6},{-58,12.6667},{
-                  -52,12.6667}},
+          connect(sine2.y, PumSup.tem[1]) annotation (Line(
+              points={{-47.4,-40},{-36,-40},{-24,-40},{-24,-6},{-58,-6},{-58,
+                  12.6667},{-52,12.6667}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(sine1.y, PumSup.Temp[2]) annotation (Line(
+          connect(sine1.y, PumSup.tem[2]) annotation (Line(
               points={{-67.4,-40},{-60,-40},{-60,14},{-52,14}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(sine.y, PumSup.Temp[3]) annotation (Line(
+          connect(sine.y, PumSup.tem[3]) annotation (Line(
               points={{-87.4,-40},{-82,-40},{-82,10},{-68,10},{-68,15.3333},{-52,
                   15.3333}},
               color={0,0,127},
@@ -5306,7 +5301,7 @@ First implementation.
               points={{-29,11.8},{-14,11.8},{-14,-74},{-29,-74}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(const1.y, PumSup.HeaTempSetPoi) annotation (Line(
+          connect(const1.y, PumSup.heaTemSetPoi) annotation (Line(
               points={{-83.4,46},{-56,46},{-56,30},{-52,30}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -12425,7 +12420,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             TimCon=1,
             PreCur=RetPreCur)                               annotation (Placement(transformation(extent={{-10,-90},{-30,-70}})));
 
-          Devices.FlowMover.VAVSupplyFan supFan(redeclare package Medium = MediumAir,
+          Devices.FlowMover.VAVSupFan supFan(
+            redeclare package Medium = MediumAir,
             TimCon=1,
             k=Fan_k,
             Ti=Fan_Ti,
@@ -12435,8 +12431,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             HydEff=HydEff,
             MotEff=MotEff,
             VolFloCur=VolFloCur,
-            PreCur=SupPreCur)                   annotation (Placement(transformation(extent={{18,-10},
-                    {38,10}})));
+            PreCur=SupPreCur)
+            annotation (Placement(transformation(extent={{18,-10},{38,10}})));
           Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
               Medium = MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -12612,9 +12608,9 @@ First implementation, based on <code>Modelica.Fluid</code>.
                   -12},{-60,-20},{-110,-20}}, color={0,0,127}));
           connect(cooCoi.SetPoi, disTemSetPoi) annotation (Line(points={{-0.2,6},
                   {6,6},{6,-20},{-110,-20}}, color={0,0,127}));
-          connect(supFan.Temp, zonTem) annotation (Line(points={{16,-6},{16,-40},
+          connect(supFan.tem, zonTem) annotation (Line(points={{16,-6},{16,-40},
                   {-110,-40}}, color={0,0,127}));
-          connect(supFan.PreSetPoi,preSetPoi)  annotation (Line(
+          connect(supFan.preSetPoi,preSetPoi)  annotation (Line(
               points={{16,2},{12,2},{12,-60},{-110,-60}},
               color={0,0,127}));
           connect(port_Exh_Air, mixingBox.port_Exh) annotation (Line(
@@ -12635,13 +12631,13 @@ First implementation, based on <code>Modelica.Fluid</code>.
           connect(realExpression.y, add.u2) annotation (Line(
               points={{61,76},{80,76},{80,44},{52,44}},
               color={0,0,127}));
-          connect(add.y, supFan.PreMea) annotation (Line(
+          connect(add.y,supFan.preMea)  annotation (Line(
               points={{29,50},{10,50},{10,-10},{16,-10}},
               color={0,0,127}));
-          connect(supFan.HeaTempSetPoi, heaTemSetPoi) annotation (Line(points={
-                  {16,10},{12,10},{12,80},{-110,80}}, color={0,0,127}));
-          connect(supFan.CooTempSetPoi, cooTemSetPoi) annotation (Line(points={
-                  {16,-2},{-46,-2},{-46,40},{-110,40}}, color={0,0,127}));
+          connect(supFan.heaTemSetPoi, heaTemSetPoi) annotation (Line(points={{
+                  16,10},{12,10},{12,80},{-110,80}}, color={0,0,127}));
+          connect(supFan.cooTemSetPoi, cooTemSetPoi) annotation (Line(points={{
+                  16,-2},{-46,-2},{-46,40},{-110,40}}, color={0,0,127}));
           connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,
                   -48},{8,-48},{8,12},{-0.2,12}}, color={255,0,255}));
           connect(mixingBox.Tout, TOut) annotation (Line(points={{-54,-12},{-54,
@@ -12808,7 +12804,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             TimCon=60,
             PreCur=RetPreCur)                               annotation (Placement(transformation(extent={{-10,-90},{-30,-70}})));
 
-          Devices.FlowMover.VAVSupplyFan supFan(redeclare package Medium = MediumAir,
+          Devices.FlowMover.VAVSupFan supFan(
+            redeclare package Medium = MediumAir,
             TimCon=60,
             k=Fan_k,
             Ti=Fan_Ti,
@@ -12818,7 +12815,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             HydEff=HydEff,
             MotEff=MotEff,
             VolFloCur=VolFloCur,
-            PreCur=SupPreCur)                   annotation (Placement(transformation(extent={{28,-10},{48,10}})));
+            PreCur=SupPreCur)
+            annotation (Placement(transformation(extent={{28,-10},{48,10}})));
           Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
               Medium =                                                                MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -12929,11 +12927,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{-0.2,12},{6,12},{6,-20},{-110,-20}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(supFan.Temp, ZonTemp) annotation (Line(
+          connect(supFan.tem, ZonTemp) annotation (Line(
               points={{26,-6},{16,-6},{16,-60},{110,-60}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(supFan.PreSetPoi, PreSetPoi) annotation (Line(
+          connect(supFan.preSetPoi, PreSetPoi) annotation (Line(
               points={{26,2},{12,2},{12,-60},{-110,-60}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -12961,15 +12959,15 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{63,76},{80,76},{80,44},{62,44}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(add.y, supFan.PreMea) annotation (Line(
+          connect(add.y,supFan.preMea)  annotation (Line(
               points={{39,50},{32,50},{32,-30},{20,-30},{20,-10},{26,-10}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(supFan.HeaTempSetPoi, HeaTempSetPoi) annotation (Line(
+          connect(supFan.heaTemSetPoi, HeaTempSetPoi) annotation (Line(
               points={{26,10},{12,10},{12,80},{-110,80}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(supFan.CooTempSetPoi, CooTempSetPoi) annotation (Line(
+          connect(supFan.cooTemSetPoi, CooTempSetPoi) annotation (Line(
               points={{26,-2},{-46,-2},{-46,40},{-110,40}},
               color={0,0,127},
               pattern=LinePattern.Dash));
