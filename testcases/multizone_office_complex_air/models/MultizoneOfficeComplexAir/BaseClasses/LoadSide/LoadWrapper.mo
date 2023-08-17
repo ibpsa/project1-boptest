@@ -27,7 +27,7 @@ model LoadWrapper
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={110,-84})));
-  Buildings.Utilities.IO.SignalExchange.WeatherStation weatherStation
+  Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
     annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
 equation
   connect(whoBui.Outdoor_Humidity, relHum) annotation (Line(points={{-38,0},{40,
@@ -125,7 +125,7 @@ equation
   connect(add.y,loa)  annotation (Line(
       points={{81,-20},{110,-20}},
       color={0,0,127}));
-  connect(weatherStation.weaBus, whoBui.weaBus) annotation (Line(
+  connect(weaSta.weaBus, whoBui.weaBus) annotation (Line(
       points={{-39.9,49.9},{-52,49.9},{-52,9.8}},
       color={255,204,51},
       thickness=0.5));

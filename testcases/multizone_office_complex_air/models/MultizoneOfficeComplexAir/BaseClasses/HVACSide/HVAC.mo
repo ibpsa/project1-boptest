@@ -110,8 +110,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   Modelica.Blocks.Sources.RealExpression PHWPum(y=sum(boiWatPla.pumSecHW.P))
     "Hot water pump power consumption"
     annotation (Placement(transformation(extent={{120,-54},{140,-34}})));
-  Modelica.Blocks.Sources.RealExpression PBoi(y=boiWatPla.multiBoiler.boi[1].boi.QFue_flow
-         + boiWatPla.multiBoiler.boi[2].boi.QFue_flow) "Boiler gas consumption"
+  Modelica.Blocks.Sources.RealExpression PBoi(y=boiWatPla.mulBoi.boi[1].boi.QFue_flow
+         + boiWatPla.mulBoi.boi[2].boi.QFue_flow) "Boiler gas consumption"
     annotation (Placement(transformation(extent={{120,-70},{140,-50}})));
 
   Modelica.Blocks.Sources.Constant THWSupSet(k=273.15 + 80)
