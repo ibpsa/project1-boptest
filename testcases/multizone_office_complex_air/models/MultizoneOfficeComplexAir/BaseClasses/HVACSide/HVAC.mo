@@ -279,5 +279,6 @@ equation
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/HotWater.png\"/> </p>
 <p>The air side system controls include the VAV air flow rate control, VAV supply air temperature Control, AHU duct static pressure control, AHU supply air temperature control, and mixing box damper and economizer control.</p>
 <p>The water side system controls include the chiller plant staging control, chilled water supply temperature control, secondary chilled water pump staging control, secondary chilled water loop static pressure control, cooling Tower supply water temperature control, minimum condenser supply water temperature control, boiler staging control, boiler water temperature control, and boiler hot water loop static pressure control.</p>
-</html>"));
+</html>"),
+    __Dymola_Commands(file="Resources/script/Testcase.mos" "Simulate and Plot"));
 end HVAC;

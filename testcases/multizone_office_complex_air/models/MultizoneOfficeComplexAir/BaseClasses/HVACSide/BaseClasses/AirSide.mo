@@ -154,7 +154,7 @@ model AirSide "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor1.duaFanAirHanUnit.TOut < 283.15 then floor1.duaFanAirHanUnit.On
+      booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 283.15 then floor1.duaFanAirHanUni.On
              else true)),
     fivZonVAV(vol(V=200000)),
     redeclare package MediumAir = MediumAir,
@@ -225,7 +225,7 @@ model AirSide "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor2.duaFanAirHanUnit.TOut < 283.15 then floor2.duaFanAirHanUnit.On
+      booleanExpression(y=if floor2.duaFanAirHanUni.TOut < 283.15 then floor2.duaFanAirHanUni.On
              else true)),
     fivZonVAV(vol(V=200000)),
     redeclare package MediumAir = MediumAir,
@@ -296,7 +296,7 @@ model AirSide "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor3.duaFanAirHanUnit.TOut < 283.15 then floor3.duaFanAirHanUnit.On
+      booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 283.15 then floor3.duaFanAirHanUni.On
              else true)),
     fivZonVAV(vol(V=200000)),
     redeclare package MediumAir = MediumAir,
@@ -415,8 +415,8 @@ equation
   connect(dpStaSet[1].y,floor1.preSetPoi)  annotation (Line(points={{-49,26},{
           102,26},{102,39.25},{112.438,39.25}},
                                         color={0,0,127}));
-  connect(TSupAirSet[1].y, floor1.disTemSetPoi) annotation (Line(points={{-49,
-          56},{102,56},{102,48},{112.438,48}}, color={0,0,127}));
+  connect(TSupAirSet[1].y, floor1.disTemSetPoi) annotation (Line(points={{-49,56},
+          {102,56},{102,48},{112.438,48}},     color={0,0,127}));
   connect(reaToBooOcc.y, floor1.OnFan) annotation (Line(points={{-39,100},{-36,
           100},{-36,86},{106,86},{106,28.75},{112.438,28.75}},
                                                       color={255,0,255}));

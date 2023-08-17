@@ -1,7 +1,7 @@
 within MultizoneOfficeComplexAir.BaseClasses.LoadSide;
 model LoadWrapper
-  MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.whoBui96 whoBui
-    annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
+  MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus
+    whoBui annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Modelica.Blocks.Interfaces.RealInput Tem[15] "temperature vector"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput wetBul "wet bulb temperature"
@@ -29,6 +29,19 @@ model LoadWrapper
         origin={110,-84})));
   Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
     annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
+  inner Buildings.ThermalZones.EnergyPlus_9_6_0.Building building(
+    idfName=Modelica.Utilities.Files.loadResource(
+        "modelica://MultizoneOfficeComplexAir/Resources/idf/wholebuilding96_spawn.idf"),
+
+    epwName=Modelica.Utilities.Files.loadResource(
+        "modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"),
+
+    weaName=Modelica.Utilities.Files.loadResource(
+        "modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
+
+    computeWetBulbTemperature=true,
+    usePrecompiledFMU=false) "Building model"
+    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 equation
   connect(whoBui.Outdoor_Humidity, relHum) annotation (Line(points={{-38,0},{40,
           0},{40,-50},{110,-50}}, color={0,0,127}));
@@ -126,7 +139,11 @@ equation
       points={{81,-20},{110,-20}},
       color={0,0,127}));
   connect(weaSta.weaBus, whoBui.weaBus) annotation (Line(
-      points={{-39.9,49.9},{-52,49.9},{-52,9.8}},
+      points={{-39.9,49.9},{-50,49.9},{-50,10}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(building.weaBus, whoBui.weaBus) annotation (Line(
+      points={{-60,50},{-50,50},{-50,10}},
       color={255,204,51},
       thickness=0.5));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
@@ -142,7 +159,7 @@ equation
         Bitmap(extent={{-94,-86},{94,82}}, fileName="modelica://MultizoneOfficeComplexAir/Resources/figure/spawn_icon.png")}),
         Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<p>EnergyPlus (V9.6) calculates the building&rsquo;s thermal loads with the boundary conditions. Modelica is responsible for the airflow calculation (e.g., building infiltration) and HVAC system and controls. Spawn integrated model is compiled into Functional Mockup Unit (FMU) using Optimica (V1.40). </p>
-<p>The layout is representative of the large commercial office building stock and is consistent with the building prototypes. The test case is located in Chicago, IL and based on the DOE Reference Large Office Building Model (Constructed In or After 1980).The original model has 12 floors with a basement. For simplicity, the middle 10 floors are treated as identical. The ground floor is assumed to be adiabatic with the basement. </p>
+<p>This is an EnergyPlus (V9.6) wrapper model that calculates the building&rsquo;s thermal loads with the boundary conditions. 
+The inputs are the zone air temperatures from Modelica that is responsible for the airflow calculation (e.g., building infiltration) and HVAC system and controls.</p>
 </html>"));
 end LoadWrapper;
