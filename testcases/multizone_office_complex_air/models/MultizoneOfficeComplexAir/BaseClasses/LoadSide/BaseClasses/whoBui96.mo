@@ -31,27 +31,32 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
   parameter Real _Temp5_bot_start = 23.9 + 273.15
   annotation (Dialog( group="Start values for inputs "));
 
-  inner Buildings.ThermalZones.EnergyPlus_9_6_0.Building building(
+  inner Buildings.ThermalZones.EnergyPlus_9_6_0.Building bui(
     idfName=Modelica.Utilities.Files.loadResource(
         "modelica://MultizoneOfficeComplexAir/Resources/idf/wholebuilding96_spawn.idf"),
-    epwName=Modelica.Utilities.Files.loadResource("modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"),
-    weaName=Modelica.Utilities.Files.loadResource("modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
+
+    epwName=Modelica.Utilities.Files.loadResource(
+        "modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"),
+
+    weaName=Modelica.Utilities.Files.loadResource(
+        "modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
+
     computeWetBulbTemperature=true,
     usePrecompiledFMU=false) "Building model"
     annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
 
   Buildings.ThermalZones.EnergyPlus_9_6_0.BaseClasses.ThermalZoneAdapter
     fmuZonTopFlr[5](
-    each final modelicaNameBuilding=building.modelicaNameBuilding,
-    each final spawnExe=building.spawnExe,
-    each final idfVersion=building.idfVersion,
-    each final idfName=building.idfName,
-    each final epwName=building.epwName,
-    each final relativeSurfaceTolerance=building.relativeSurfaceTolerance,
-    final zoneName={"Core_top","Perimeter_top_ZN_1","Perimeter_top_ZN_2","Perimeter_top_ZN_3",
-        "Perimeter_top_ZN_4"},
+    each final modelicaNameBuilding=bui.modelicaNameBuilding,
+    each final spawnExe=bui.spawnExe,
+    each final idfVersion=bui.idfVersion,
+    each final idfName=bui.idfName,
+    each final epwName=bui.epwName,
+    each final relativeSurfaceTolerance=bui.relativeSurfaceTolerance,
+    final zoneName={"Core_top","Perimeter_top_ZN_1","Perimeter_top_ZN_2",
+        "Perimeter_top_ZN_3","Perimeter_top_ZN_4"},
     each usePrecompiledFMU=false,
-    each logLevel=building.logLevel,
+    each logLevel=bui.logLevel,
     each final nFluPor=2) "Adapter to EnergyPlus"
     annotation (Placement(transformation(extent={{20,-58},{40,-38}})));
   Modelica.Blocks.Sources.RealExpression X_w[5](
@@ -75,30 +80,30 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
     annotation (Placement(transformation(extent={{-88,-46},{-68,-26}})));
   Buildings.ThermalZones.EnergyPlus_9_6_0.BaseClasses.ThermalZoneAdapter
     fmuZonMidFlr[5](
-    each final modelicaNameBuilding=building.modelicaNameBuilding,
-    each final spawnExe=building.spawnExe,
-    each final idfVersion=building.idfVersion,
-    each final idfName=building.idfName,
-    each final epwName=building.epwName,
-    each final relativeSurfaceTolerance=building.relativeSurfaceTolerance,
-    final zoneName={"Core_mid","Perimeter_mid_ZN_1","Perimeter_mid_ZN_2","Perimeter_mid_ZN_3",
-        "Perimeter_mid_ZN_4"},
+    each final modelicaNameBuilding=bui.modelicaNameBuilding,
+    each final spawnExe=bui.spawnExe,
+    each final idfVersion=bui.idfVersion,
+    each final idfName=bui.idfName,
+    each final epwName=bui.epwName,
+    each final relativeSurfaceTolerance=bui.relativeSurfaceTolerance,
+    final zoneName={"Core_mid","Perimeter_mid_ZN_1","Perimeter_mid_ZN_2",
+        "Perimeter_mid_ZN_3","Perimeter_mid_ZN_4"},
     each usePrecompiledFMU=false,
-    each logLevel=building.logLevel,
+    each logLevel=bui.logLevel,
     each final nFluPor=2) "Adapter to EnergyPlus"
     annotation (Placement(transformation(extent={{20,-20},{40,0}})));
   Buildings.ThermalZones.EnergyPlus_9_6_0.BaseClasses.ThermalZoneAdapter
     fmuZonBotFlr[5](
-    each final modelicaNameBuilding=building.modelicaNameBuilding,
-    each final spawnExe=building.spawnExe,
-    each final idfVersion=building.idfVersion,
-    each final idfName=building.idfName,
-    each final epwName=building.epwName,
-    each final relativeSurfaceTolerance=building.relativeSurfaceTolerance,
-    final zoneName={"Core_bot","Perimeter_bot_ZN_1","Perimeter_bot_ZN_2","Perimeter_bot_ZN_3",
-        "Perimeter_bot_ZN_4"},
+    each final modelicaNameBuilding=bui.modelicaNameBuilding,
+    each final spawnExe=bui.spawnExe,
+    each final idfVersion=bui.idfVersion,
+    each final idfName=bui.idfName,
+    each final epwName=bui.epwName,
+    each final relativeSurfaceTolerance=bui.relativeSurfaceTolerance,
+    final zoneName={"Core_bot","Perimeter_bot_ZN_1","Perimeter_bot_ZN_2",
+        "Perimeter_bot_ZN_3","Perimeter_bot_ZN_4"},
     each usePrecompiledFMU=false,
-    each logLevel=building.logLevel,
+    each logLevel=bui.logLevel,
     each final nFluPor=2) "Adapter to EnergyPlus"
     annotation (Placement(transformation(extent={{20,22},{40,42}})));
 
@@ -472,7 +477,7 @@ equation
   connect(OccSch.y, Occ)
     annotation (Line(points={{-39,-90},{50,-90},{50,0},{120,0}},
                                         color={0,0,127}));
-  connect(building.weaBus, weaBus) annotation (Line(
+  connect(bui.weaBus, weaBus) annotation (Line(
       points={{-60,80},{-30,80},{-30,98},{-20,98}},
       color={255,204,51},
       thickness=0.5));
