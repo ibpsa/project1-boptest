@@ -1,4 +1,4 @@
-﻿within MultizoneOfficeComplexAir.BaseClasses;
+within MultizoneOfficeComplexAir.BaseClasses;
 package BuildingControlEmulator
   "Emulators designed for testing building control"
 
@@ -12740,7 +12740,16 @@ First implementation, based on <code>Modelica.Fluid</code>.
 <p>There are two fans (i.e., one supply fan, and one return fan) in the AHU system. Only a cooling coil is installed in the AHU.</p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AHUControl.png\"/></p>
 <p>Supply fan speed is controlled by a PI controller to maintain duct static pressure (DSP) at setpoint when the fan is proven ON. Cooling coil valve position is controlled by a PI controller to maintain the AHU supply air temperature at setpoint.</p>
-<p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. Outdoor air damper position is controlled by a PI controller to maintain the mixed air temperature at setpoint. It takes the mixed and outdoor air temperature measurements, as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper position as the output. The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. The economizer higher temperature limit is set as 21 ℃ according to ASHRAE 90.1-2019 for Climate Zone 5A.</p>
+<p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. Outdoor air damper position is controlled by a PI controller to maintain the mixed air temperature at setpoint. It takes the mixed and outdoor air temperature measurements, as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper position as the output. The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. The economizer higher temperature limit is set as 21 degC according to ASHRAE 90.1-2019 for Climate Zone 5A.</p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.FlowMover.VAVSupFan\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.FlowMover.VAVSupFan</a> for a description of the supply fan model. </p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.FlowMover.BaseClasses.WithoutMotor\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.FlowMover.BaseClasses.WithoutMotor</a> for a description of the return fan model. </p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Coil.cooCoi\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Coil.cooCoi</a> for a description of the cooling coil model. </p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.MixingBox.MixingBox\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.MixingBox.MixingBox</a> for a description of the mixing box model. </p>
+</html>",         revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"));
         end DuaFanAirHanUnit;
 
@@ -14458,17 +14467,21 @@ First implementation, based on <code>Modelica.Fluid</code>.
           annotation (Placement(transformation(extent={{-40,-90},{-20,-70}})));
         Modelica.Blocks.Interfaces.RealInput Q_flow[5]
           annotation (Placement(transformation(extent={{-120,-90},{-100,-70}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
+            Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{30,90},{50,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
+            Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
+            Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
+            Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
@@ -14480,7 +14493,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
           annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
         Modelica.Blocks.Interfaces.BooleanInput On[5]
           annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-        Modelica.Fluid.Sensors.TemperatureTwoPort temZon[5](redeclare package Medium = MediumAir)
+        Modelica.Fluid.Sensors.TemperatureTwoPort temZon[5](redeclare package
+            Medium =                                                                   MediumAir)
           annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
         Modelica.Blocks.Interfaces.RealOutput pre "Pressure at port"
           annotation (Placement(transformation(extent={{200,-22},{220,-2}}),
@@ -14820,6 +14834,17 @@ First implementation, based on <code>Modelica.Fluid</code>.
 <p>The controller for terminal VAV box is based on the &quot;single maximum VAV reheat control logic&quot;.</p>
 <p>When the Zone State is cooling, the cooling-loop output shall be mapped to the active airflow setpoint from the cooling minimum endpoint to the cooling maximum endpoint. Heating coil is disabled. When the Zone State is deadband, the active airflow setpoint shall be the minimum endpoint. Heating coil is disabled. When the Zone State is heating, the active airflow setpoint shall be the minimum endpoint. The reheat valve position shall be mapped to the supply air temperature setpoint from the heating minimum endpoint to the heating maximum endpoint.</p>
 <p>VAV damper position is controlled by a PI controller to maintain the air flow rate at setpoint. Heating coil valve position is controlled by a PI controller to maintain the supply air temperature at setpoint.</p>
+<p>
+See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.BaseClasses.VAV_advance_temp_sensor\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.BaseClasses.VAV_advance_temp_sensor</a>
+for a description of the VAV terminal model.
+</p>
+</html>",       revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"));
       end FivZonVAVNoVec;
 
@@ -19980,6 +20005,11 @@ First implementation.
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/Zones.png\"/></p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit </a>for a description of the AHU.</p>
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.FivZonVAVNoVec\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.FivZonVAVNoVec</a> for a description of the VAV terminals.</p>
+</html>",     revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"));
     end Floor;
 
@@ -20689,6 +20719,31 @@ First implementation.
 <p>Secondary chilled water pump speed is controlled by a PI controller to maintain the static pressure of the secondary chilled water loop at setpoint.</p>
 <p>Cooling tower fan speed is controlled by a PI controller to maintain the cooling tower supply water temperature at setpoint. </p>
 <p>Three-way valve position is controlled by a PI controller to maintain the temperature of the condenser water leaving the condenser water loop to be larger than 15.56 &deg;C. </p>
+<p>See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Chiller.MultiChillers\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Chiller.MultiChillers</a>
+for a description of the chiller model.</p>
+<p>See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.CoolingTower.CoolingTowersWithBypass\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.CoolingTower.CoolingTowersWithBypass</a>
+for a description of the cooling tower model.</p>
+<p>See the model
+<a href=\"MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.SimPumpSystem\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.SimPumpSystem</a>
+for a description of the primary chilled water pump and condensed water pump model.</p>
+<p>See the model
+<a href=\"MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.PumpSystem\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.PumpSystem</a>
+for a description of the secondary chilled water pump model.</p>
+<p>See the model
+<a href=\"MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN</a>
+for a description of the chiller stage control.</p>
+<p>See the model
+<a href=\"MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.Control.SecPumCon\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.Control.SecPumCon</a>
+for a description of the chilled water secondary pump control.</p>
+
 </html>"),
         Icon(graphics={
             Rectangle(
@@ -20932,6 +20987,18 @@ First implementation.
 </p>
 <p>The number of operating boilers is determined via a state machine based on the thermal load(Q, kW), rated heating capacity of boiler k (hck, kW), threshold to start boiler k+1 (&xi;k = 0.9), and waiting time (30 min). The maximum operating boiler number is N, which is equal to 2.</p><p>Boiler heating power is controlled by a PI controller to maintain the temperature of the hot water leaving each boiler to be 80 &deg;C. It takes the hot water measurements and set points as inputs. It takes the heating power as the output. </p>
 <p>Boiler pump speed is controlled by a PI controller to maintain the static pressure of the boiler water loop at setpoint. It takes the heat water loop pressure drop measurements and setpoints as inputs. It takes the pump speed as the output. All the boiler pumps share the same speed. </p>
+<p>
+See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Boiler.MultiBoilers\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Boiler.MultiBoilers</a>
+for a description of the boiler model.
+</p>
+<p>
+See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN</a>
+for a description of the boiler stage control.
+</p>
 </html>"),
         Icon(graphics={
             Rectangle(

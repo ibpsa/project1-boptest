@@ -32,16 +32,14 @@ model LoadWrapper
   inner Buildings.ThermalZones.EnergyPlus_9_6_0.Building building(
     idfName=Modelica.Utilities.Files.loadResource(
         "modelica://MultizoneOfficeComplexAir/Resources/idf/wholebuilding96_spawn.idf"),
-
     epwName=Modelica.Utilities.Files.loadResource(
         "modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"),
-
     weaName=Modelica.Utilities.Files.loadResource(
         "modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
-
     computeWetBulbTemperature=true,
     usePrecompiledFMU=false) "Building model"
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
+
 equation
   connect(whoBui.Outdoor_Humidity, relHum) annotation (Line(points={{-38,0},{40,
           0},{40,-50},{110,-50}}, color={0,0,127}));
@@ -159,7 +157,11 @@ equation
         Bitmap(extent={{-94,-86},{94,82}}, fileName="modelica://MultizoneOfficeComplexAir/Resources/figure/spawn_icon.png")}),
         Diagram(coordinateSystem(preserveAspectRatio=false)),
     Documentation(info="<html>
-<p>This is an EnergyPlus (V9.6) wrapper model that calculates the building&rsquo;s thermal loads with the boundary conditions. 
-The inputs are the zone air temperatures from Modelica that is responsible for the airflow calculation (e.g., building infiltration) and HVAC system and controls.</p>
-</html>"));
+<p>This is an EnergyPlus (V9.6) wrapper model that calculates the building&rsquo;s thermal loads with the boundary conditions. The inputs are the zone air temperatures from Modelica that is responsible for the airflow calculation (e.g., building infiltration) and HVAC system and controls.</p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus\">MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus</a> for the EnergyPlus model.</p>
+</html>", revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>"));
 end LoadWrapper;
