@@ -3076,6 +3076,11 @@ package BuildingControlEmulator
                     preserveAspectRatio=false)),
               Documentation(info="<html>
 <p>This is the zone terminal VAV controller. It takes the temperature measurements and cooling/heating setpoints as inputs. It takes the VAV damper position as the output.</p>
+</html>",           revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"));
           end ZonCon;
 
@@ -20447,8 +20452,8 @@ First implementation.
       Buildings.Fluid.Storage.ExpansionVessel expVesCHW(
           redeclare package Medium = MediumCHW, V_start=1)
         annotation (Placement(transformation(extent={{-44,-78},{-36,-70}})));
-      Buildings.Fluid.Sensors.MassFlowRate senMasFloByp(redeclare package
-          Medium =         MediumCHW) annotation (Placement(transformation(
+      Buildings.Fluid.Sensors.MassFlowRate senMasFloByp(redeclare package Medium =
+                           MediumCHW) annotation (Placement(transformation(
             extent={{10,-10},{-10,10}},
             rotation=-90,
             origin={0,-52})));
@@ -20763,6 +20768,11 @@ for a description of the chiller stage control.</p>
 MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.Control.SecPumCon</a>
 for a description of the chilled water secondary pump control.</p>
 
+</html>",     revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"),
         Icon(graphics={
             Rectangle(
@@ -20870,8 +20880,7 @@ for a description of the chilled water secondary pump control.</p>
         n=n,
         THW_start=THW_start)
         annotation (Placement(transformation(extent={{-96,-44},{-62,-16}})));
-      Buildings.Fluid.Storage.ExpansionVessel expVesCHW(redeclare package
-          Medium =
+      Buildings.Fluid.Storage.ExpansionVessel expVesCHW(redeclare package Medium =
             MediumHW, V_start=10)
         annotation (Placement(transformation(extent={{30,8},{38,16}})));
       Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = MediumHW)
@@ -20904,7 +20913,8 @@ for a description of the chilled water secondary pump control.</p>
             rotation=0,
             origin={120,22})));
       replaceable Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare
-          package Medium =
+          package
+          Medium =
             MediumHW) annotation (Placement(transformation(
             extent={{-10,12},{10,-12}},
             rotation=180,
@@ -21018,6 +21028,11 @@ See the model
 MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN</a>
 for a description of the boiler stage control.
 </p>
+</html>",     revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"),
         Icon(graphics={
             Rectangle(
