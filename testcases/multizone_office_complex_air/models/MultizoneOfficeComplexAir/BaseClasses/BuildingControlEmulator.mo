@@ -376,11 +376,11 @@ package BuildingControlEmulator
                 Medium =
                   MediumWat)
               annotation (Placement(transformation(extent={{32,-4},{52,16}})));
-            Modelica.Fluid.Sensors.Pressure preWatEnt(redeclare package Medium =
-                  MediumWat)
+            Modelica.Fluid.Sensors.Pressure preWatEnt(redeclare package Medium
+                = MediumWat)
               annotation (Placement(transformation(extent={{-20,6},{-40,26}})));
-            Modelica.Fluid.Sensors.Pressure preWatLea(redeclare package Medium =
-                  MediumWat)
+            Modelica.Fluid.Sensors.Pressure preWatLea(redeclare package Medium
+                = MediumWat)
               annotation (Placement(transformation(extent={{32,6},{12,26}})));
             Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
                 Medium =
@@ -400,11 +400,11 @@ package BuildingControlEmulator
                   MediumAir)
               "Fluid connector b (positive design flow direction is from port_a to port_b)"
               annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-            Modelica.Fluid.Sensors.Pressure preAirLea(redeclare package Medium =
-                  MediumAir)
+            Modelica.Fluid.Sensors.Pressure preAirLea(redeclare package Medium
+                = MediumAir)
               annotation (Placement(transformation(extent={{-30,-46},{-50,-26}})));
-            Modelica.Fluid.Sensors.Pressure preAirEnt(redeclare package Medium =
-                  MediumAir)
+            Modelica.Fluid.Sensors.Pressure preAirEnt(redeclare package Medium
+                = MediumAir)
               annotation (Placement(transformation(extent={{50,-44},{30,-24}})));
             Modelica.Blocks.Interfaces.RealOutput TAirLea
               "Temperature of the passing fluid"
@@ -563,11 +563,11 @@ package BuildingControlEmulator
                 Medium =
                   MediumWat)
               annotation (Placement(transformation(extent={{32,-4},{52,16}})));
-            Modelica.Fluid.Sensors.Pressure preWatEnt(redeclare package Medium =
-                  MediumWat)
+            Modelica.Fluid.Sensors.Pressure preWatEnt(redeclare package Medium
+                = MediumWat)
               annotation (Placement(transformation(extent={{-20,6},{-40,26}})));
-            Modelica.Fluid.Sensors.Pressure preWatLea(redeclare package Medium =
-                  MediumWat)
+            Modelica.Fluid.Sensors.Pressure preWatLea(redeclare package Medium
+                = MediumWat)
               annotation (Placement(transformation(extent={{32,6},{12,26}})));
             Modelica.Fluid.Sensors.MassFlowRate masFloAir(redeclare package
                 Medium =
@@ -577,11 +577,11 @@ package BuildingControlEmulator
                 package Medium =
                   MediumAir)
               annotation (Placement(transformation(extent={{-68,-70},{-88,-50}})));
-            Modelica.Fluid.Sensors.Pressure preAirLea(redeclare package Medium =
-                  MediumAir)
+            Modelica.Fluid.Sensors.Pressure preAirLea(redeclare package Medium
+                = MediumAir)
               annotation (Placement(transformation(extent={{-30,-46},{-50,-26}})));
-            Modelica.Fluid.Sensors.Pressure preAirEnt(redeclare package Medium =
-                  MediumAir)
+            Modelica.Fluid.Sensors.Pressure preAirEnt(redeclare package Medium
+                = MediumAir)
               annotation (Placement(transformation(extent={{50,-44},{30,-24}})));
             Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
                 Medium =
@@ -749,11 +749,11 @@ package BuildingControlEmulator
                 package Medium =
                   MediumAir)
               annotation (Placement(transformation(extent={{-68,-70},{-88,-50}})));
-            Modelica.Fluid.Sensors.Pressure preAirLea(redeclare package Medium =
-                  MediumAir)
+            Modelica.Fluid.Sensors.Pressure preAirLea(redeclare package Medium
+                = MediumAir)
               annotation (Placement(transformation(extent={{-30,-46},{-50,-26}})));
-            Modelica.Fluid.Sensors.Pressure preAirEnt(redeclare package Medium =
-                  MediumAir)
+            Modelica.Fluid.Sensors.Pressure preAirEnt(redeclare package Medium
+                = MediumAir)
               annotation (Placement(transformation(extent={{50,-44},{30,-24}})));
             Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
                 Medium =
@@ -2979,7 +2979,7 @@ package BuildingControlEmulator
 
         package Controls
 
-          model ZonCon
+          model ZonCon "Zone terminal VAV controller"
             parameter Real MinFlowRateSetPoi "Minimum flow rate ratio";
             parameter Real HeatingFlowRateSetPoi "constant flow rate ratio during heating mode";
             Buildings.Controls.Continuous.LimPID cooCon(
@@ -3073,7 +3073,10 @@ package BuildingControlEmulator
                     extent={{-154,112},{146,152}},
                     textString="%name",
                     textColor={0,0,255})}),           Diagram(coordinateSystem(
-                    preserveAspectRatio=false)));
+                    preserveAspectRatio=false)),
+              Documentation(info="<html>
+<p>This is the zone terminal VAV controller. It takes the temperature measurements and cooling/heating setpoints as inputs. It takes the VAV damper position as the output.</p>
+</html>"));
           end ZonCon;
 
           package Examples
@@ -4038,10 +4041,12 @@ First implementation.
             energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
             use_inputFilter=false)
                         annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-          Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
+          Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+              =                                                                   Medium)
             "Fluid connector a (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-          Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
+          Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+              =                                                                   Medium)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
@@ -4121,10 +4126,12 @@ First implementation.
             annotation (Placement(transformation(extent={{-32,-20},{-52,-40}})));
           Modelica.Fluid.Sensors.Pressure preLea(redeclare package Medium = Medium)
             annotation (Placement(transformation(extent={{30,-20},{10,-40}})));
-          Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
+          Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+              =                                                                   Medium)
             "Fluid connector a (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-          Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
+          Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+              =                                                                   Medium)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{90,-10},{110,10}})));
           Modelica.Blocks.Interfaces.RealOutput P "Electrical power consumed"
@@ -4506,7 +4513,8 @@ First implementation.
               annotation (Placement(transformation(extent={{-18,-90},{-38,-70}})));
             Modelica.Blocks.Math.Gain gain(k=0.9)
               annotation (Placement(transformation(extent={{10,-68},{2,-60}})));
-            Modelica.Fluid.Sensors.Pressure pressure(redeclare package Medium = Medium)
+            Modelica.Fluid.Sensors.Pressure pressure(redeclare package Medium
+                =                                                               Medium)
               annotation (Placement(transformation(extent={{58,42},{78,62}})));
           equation
             connect(sin.ports[1], Pum.port_a) annotation (Line(
@@ -4926,7 +4934,8 @@ First implementation.
               PreCur(displayUnit="Pa") = {300,250,200,150,100},
               VolFloCur={0.3,0.5,0.7,0.9,1.5})
               annotation (Placement(transformation(extent={{-30,-90},{-50,-70}})));
-            Modelica.Fluid.Sensors.Pressure pressure(redeclare package Medium = Medium)
+            Modelica.Fluid.Sensors.Pressure pressure(redeclare package Medium
+                =                                                               Medium)
               annotation (Placement(transformation(extent={{58,42},{78,62}})));
             BuildingControlEmulator.Devices.FlowMover.Control.VAVDualFanControl
               vAVDualFanControl(
@@ -5345,8 +5354,8 @@ First implementation.
               T=273.15 + 21.11,
               m_flow=per.mCon_flow_nominal) "Source for CHW"
               annotation (Placement(transformation(extent={{-80,18},{-60,38}})));
-            Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                  MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+            Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+                = MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                   transformation(
                   extent={{-10,-10},{10,10}},
                   rotation=0,
@@ -7647,18 +7656,18 @@ First implementation.
             Medium =
               MediumCHW)
           annotation (Placement(transformation(extent={{-78,-90},{-60,-70}})));
-        Buildings.Fluid.Sensors.Pressure senPreCHWEnt(redeclare package Medium =
-              MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCHWEnt(redeclare package Medium
+            = MediumCHW)
           annotation (Placement(transformation(extent={{2,10},{22,30}})));
-        Buildings.Fluid.Sensors.Pressure senPreCHWLea(redeclare package Medium =
-              MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCHWLea(redeclare package Medium
+            = MediumCHW)
           annotation (Placement(transformation(extent={{78,-50},{98,-30}})));
         Buildings.Fluid.Sensors.Pressure     senPreCWLea(redeclare package
             Medium =
               MediumCHW)
           annotation (Placement(transformation(extent={{-76,68},{-96,48}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
-              MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium
+            = MediumCHW)
           annotation (Placement(transformation(extent={{-96,-70},{-76,-50}})));
         replaceable
           .MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.Control.conPI
@@ -7999,18 +8008,18 @@ First implementation.
             Medium =
               MediumCHW)
           annotation (Placement(transformation(extent={{-78,-90},{-60,-70}})));
-        Buildings.Fluid.Sensors.Pressure senPreCHWEnt(redeclare package Medium =
-              MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCHWEnt(redeclare package Medium
+            = MediumCHW)
           annotation (Placement(transformation(extent={{2,10},{22,30}})));
-        Buildings.Fluid.Sensors.Pressure senPreCHWLea(redeclare package Medium =
-              MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCHWLea(redeclare package Medium
+            = MediumCHW)
           annotation (Placement(transformation(extent={{78,-50},{98,-30}})));
         Buildings.Fluid.Sensors.Pressure     senPreCWLea(redeclare package
             Medium =
               MediumCHW)
           annotation (Placement(transformation(extent={{-76,68},{-96,48}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
-              MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium
+            = MediumCHW)
           annotation (Placement(transformation(extent={{-96,-70},{-76,-50}})));
 
       equation
@@ -8286,11 +8295,11 @@ First implementation.
             Medium =
               MediumCW)
           annotation (Placement(transformation(extent={{60,-10},{78,10}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWLea(redeclare package Medium =
-              MediumCW)
+        Buildings.Fluid.Sensors.Pressure senPreCWLea(redeclare package Medium
+            = MediumCW)
           annotation (Placement(transformation(extent={{94,-16},{74,-36}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
-              MediumCW)
+        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium
+            = MediumCW)
           annotation (Placement(transformation(extent={{-22,-16},{-42,-36}})));
         Modelica.Blocks.Math.RealToBoolean realToBoolean
           annotation (Placement(transformation(extent={{-86,20},{-72,34}})));
@@ -8388,11 +8397,11 @@ First implementation.
           "Pressure difference between the outlet and inlet of the valve ";
         parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
           "Nominal mass flow rate";
-        Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
-              MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium
+            = MediumCW)
           annotation (Placement(transformation(extent={{90,30},{110,50}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
-              MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium
+            = MediumCW)
           annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
         Modelica.Blocks.Interfaces.RealInput yBypVal "(0: closed, 1: open)"
           annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
@@ -8410,11 +8419,11 @@ First implementation.
         Modelica.Blocks.Interfaces.RealOutput m_flow_bypass
           "Mass flow rate through the bypass "
           annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
-              MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium
+            = MediumCW)
           annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
-              MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium
+            = MediumCW)
           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
         replaceable Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage valByp(
           redeclare package Medium = MediumCW,
@@ -8555,11 +8564,11 @@ First implementation.
             Medium =
               MediumHW)
           annotation (Placement(transformation(extent={{72,-10},{54,10}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
-              MediumHW)
+        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium
+            = MediumHW)
           annotation (Placement(transformation(extent={{2,10},{22,30}})));
-        Buildings.Fluid.Sensors.Pressure senPreHWLea(redeclare package Medium =
-              MediumHW)
+        Buildings.Fluid.Sensors.Pressure senPreHWLea(redeclare package Medium
+            = MediumHW)
           annotation (Placement(transformation(extent={{78,-50},{98,-30}})));
         Modelica.Blocks.Math.RealToBoolean realToBoolean
           annotation (Placement(transformation(extent={{-70,-18},{-54,-2}})));
@@ -8717,12 +8726,12 @@ First implementation.
           annotation (Placement(transformation(extent={{-84,30},{-64,50}})));
         Modelica.Blocks.Sources.Constant TSet(k=TBuiSetPoi)
           annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
-              Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+            = Medium)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-              Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+            = Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
         Modelica.Blocks.Interfaces.RealInput Loa "Cooling load"
@@ -9000,8 +9009,8 @@ First implementation.
             T=273.15 + 21.11,
             m_flow=per.mCon_flow_nominal) "Source for CHW"
             annotation (Placement(transformation(extent={{-80,18},{-60,38}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              = MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{-10,-10},{10,10}},
                 rotation=0,
@@ -9114,8 +9123,8 @@ First implementation.
             T=273.15 + 21.11,
             m_flow=per.mCon_flow_nominal) "Source for CHW"
             annotation (Placement(transformation(extent={{-80,18},{-60,38}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              = MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{-10,-10},{10,10}},
                 rotation=0,
@@ -9229,8 +9238,8 @@ First implementation.
             T=273.15 + 21.11,
             m_flow=per.mCon_flow_nominal) "Source for CHW"
             annotation (Placement(transformation(extent={{-80,18},{-60,38}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              = MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{-10,-10},{10,10}},
                 rotation=0,
@@ -9344,8 +9353,8 @@ First implementation.
             T=273.15 + 21.11,
             m_flow=per.mCon_flow_nominal) "Source for CHW"
             annotation (Placement(transformation(extent={{-80,18},{-60,38}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              = MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{-10,-10},{10,10}},
                 rotation=0,
@@ -9446,8 +9455,8 @@ First implementation.
             annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
           Modelica.Blocks.Sources.Constant TSet(k=273.15 + 29.44)
             annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
-          Buildings.Fluid.Sources.Boundary_pT   sinCW(redeclare package Medium =
-                       MediumCW, nPorts=1) "Sink for CW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT   sinCW(redeclare package Medium
+              =        MediumCW, nPorts=1) "Sink for CW" annotation (Placement(
                 transformation(
                 extent={{10,-10},{-10,10}},
                 rotation=0,
@@ -9547,8 +9556,8 @@ First implementation.
             annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
           Modelica.Blocks.Sources.Constant TSet(k=273.15 + 29.44)
             annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
-          Buildings.Fluid.Sources.Boundary_pT   sinCW(redeclare package Medium =
-                       MediumCW, nPorts=1) "Sink for CW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT   sinCW(redeclare package Medium
+              =        MediumCW, nPorts=1) "Sink for CW" annotation (Placement(
                 transformation(
                 extent={{10,-10},{-10,10}},
                 rotation=0,
@@ -9637,8 +9646,8 @@ First implementation.
             nPorts=1,
             use_T_in=false) "Source1"
             annotation (Placement(transformation(extent={{80,-22},{60,-2}})));
-          Buildings.Fluid.Sources.Boundary_pT   sin1(redeclare package Medium =
-                       MediumCW, nPorts=1) "Sink1" annotation (Placement(transformation(
+          Buildings.Fluid.Sources.Boundary_pT   sin1(redeclare package Medium
+              =        MediumCW, nPorts=1) "Sink1" annotation (Placement(transformation(
                 extent={{-10,-10},{10,10}},
                 rotation=0,
                 origin={-70,-10})));
@@ -9649,8 +9658,8 @@ First implementation.
             nPorts=1,
             use_T_in=false) "Source1"
             annotation (Placement(transformation(extent={{-80,-62},{-60,-42}})));
-          Buildings.Fluid.Sources.Boundary_pT   sin2(redeclare package Medium =
-                       MediumCW, nPorts=1) "Sink1" annotation (Placement(transformation(
+          Buildings.Fluid.Sources.Boundary_pT   sin2(redeclare package Medium
+              =        MediumCW, nPorts=1) "Sink1" annotation (Placement(transformation(
                 extent={{10,-10},{-10,10}},
                 rotation=0,
                 origin={70,-52})));
@@ -10985,8 +10994,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             T=273.15 + 21.11,
             m_flow=per.mCon_flow_nominal) "Source for CHW"
             annotation (Placement(transformation(extent={{-80,18},{-60,38}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              = MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{-10,-10},{10,10}},
                 rotation=0,
@@ -12168,8 +12177,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             T=273.15 + 21.11,
             m_flow=per.mCon_flow_nominal) "Source for CHW"
             annotation (Placement(transformation(extent={{-80,18},{-60,38}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              = MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{-10,-10},{10,10}},
                 rotation=0,
@@ -12280,8 +12289,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             T=273.15 + 21.11,
             m_flow=per.mCon_flow_nominal) "Source for CHW"
             annotation (Placement(transformation(extent={{-80,18},{-60,38}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              = MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{-10,-10},{10,10}},
                 rotation=0,
@@ -13655,11 +13664,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
           dp_nominal={PreDroMai2/2,PreDroBra3/2,PreDroBra2/2})
                             annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-              Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+            = Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
-              Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+            = Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
         Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package
             Medium =                                                                  Medium)
@@ -13835,11 +13844,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
           dp_nominal={PreDroBra5/2,PreDroMai4/2,PreDroBra4/2})
                                                       annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
 
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-              Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+            = Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
-              Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+            = Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
         replaceable Buildings.Fluid.Sensors.Pressure         senRelPre(redeclare
             package Medium =                                                                  Medium)
@@ -16233,11 +16242,11 @@ First implementation.
           annotation (Placement(transformation(extent={{0,-20},{20,0}})));
         Modelica.Blocks.Interfaces.RealInput On[n] "On signal"
           annotation (Placement(transformation(extent={{-118,51},{-100,69}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
-              MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+            = MediumCW)
           annotation (Placement(transformation(extent={{90,50},{110,70}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
-              MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+            = MediumCW)
           annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
         replaceable Buildings.Fluid.Sensors.TemperatureTwoPort senTCWEntChi(
             redeclare package Medium = MediumCW,
@@ -17641,10 +17650,12 @@ First implementation.
             hydraulicEfficiency(eta=Hydra_eta)),
           dp_nominal=dp_nominal)                                                           "Constant Speed pump"
           annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+            =                                                                   Medium)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+            =                                                                   Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
         Modelica.Blocks.Interfaces.RealInput On[n] "On signal"    annotation (Placement(transformation(extent={{-118,51},
@@ -17770,10 +17781,12 @@ First implementation.
           PreCur=PreCur,
           TimCon=900)          annotation (Placement(transformation(extent={{-12,-10},
                   {10,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
+            =                                                                   Medium)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
+            =                                                                   Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
         Modelica.Blocks.Interfaces.RealInput speSig[n] "On signal"
@@ -18985,8 +18998,8 @@ First implementation.
             use_m_flow_in=true,
             T=298.15) "Source for CHW"
             annotation (Placement(transformation(extent={{42,-24},{22,-4}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                       MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              =        MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{10,-10},{-10,10}},
                 rotation=0,
@@ -19157,8 +19170,8 @@ First implementation.
             use_m_flow_in=true,
             T=298.15) "Source for CHW"
             annotation (Placement(transformation(extent={{42,-24},{22,-4}})));
-          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium =
-                       MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
+          Buildings.Fluid.Sources.Boundary_pT sinCHW(redeclare package Medium
+              =        MediumCHW, nPorts=1) "Sink for CHW" annotation (Placement(
                 transformation(
                 extent={{10,-10},{-10,10}},
                 rotation=0,
@@ -19496,30 +19509,36 @@ First implementation.
         PreDroWat5=PreDroWat5,
         eps5=eps5)
         annotation (Placement(transformation(extent={{30,-18},{66,-46}})));
-      Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package Medium =
+      Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package
+          Medium =
             MediumCooWat)
         "Fluid connector b (positive design flow direction is from port_a to port_b)"
         annotation (Placement(transformation(extent={{-64,-110},{-44,-90}}),
             iconTransformation(extent={{-64,-110},{-44,-90}})));
-      Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package Medium =
+      Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package
+          Medium =
             MediumCooWat)
         "Fluid connector a (positive design flow direction is from port_a to port_b)"
         annotation (Placement(transformation(extent={{-40,-110},{-20,-90}}),
             iconTransformation(extent={{-40,-110},{-20,-90}})));
-      Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package Medium =
+      Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package
+          Medium =
             MediumHeaWat)
         "Second port, typically outlet"
         annotation (Placement(transformation(extent={{30,-110},{50,-90}}),
             iconTransformation(extent={{30,-110},{50,-90}})));
-      Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package Medium =
+      Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package
+          Medium =
             MediumHeaWat)
         "Second port, typically outlet"
         annotation (Placement(transformation(extent={{46,-110},{66,-90}}),
             iconTransformation(extent={{46,-110},{66,-90}})));
-      Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium = MediumAir)
+      Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package
+          Medium =                                                                  MediumAir)
         "Fluid connector b (positive design flow direction is from port_a to port_b)"
         annotation (Placement(transformation(extent={{-174,-50},{-154,-30}})));
-      Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium = MediumAir)
+      Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package
+          Medium =                                                                  MediumAir)
         "Fluid connector b (positive design flow direction is from port_a to port_b)"
         annotation (Placement(transformation(extent={{-170,30},{-150,50}})));
       Modelica.Blocks.Routing.BooleanReplicator booleanReplicator(nout=5)
@@ -23016,5 +23035,7 @@ for a description of the boiler stage control.
       end FloorNWithCon;
     end Examples;
   end Systems;
-annotation ();
+annotation (Documentation(info="<html>
+<p>This package contains emulators designed for testing building control. </p>
+</html>"));
 end BuildingControlEmulator;

@@ -162,8 +162,8 @@ equation
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
-      points={{134.313,20},{134.313,0},{112,0},{112,-102},{72,-102},{72,
-          -101.933},{40,-101.933}},
+      points={{134.313,20},{134.313,0},{112,0},{112,-102},{72,-102},{72,-101.933},
+          {40,-101.933}},
       color={0,127,225},
       thickness=1));
 
@@ -194,15 +194,14 @@ equation
       points={{20,-104},{16,-104},{16,-106},{10,-106}},
       color={0,127,255},
       thickness=1));
-  connect(chiWatNet.p, chiWatPla.dP) annotation (Line(points={{41,-100},{54,
-          -100},{54,-120},{-16,-120},{-16,-94},{-11.6,-94}},
+  connect(chiWatNet.p, chiWatPla.dP) annotation (Line(points={{41,-100},{54,-100},
+          {54,-120},{-16,-120},{-16,-94},{-11.6,-94}},
                                                     color={0,0,127}));
   connect(chiWatPla.TCWSet, TCWSupSet.y) annotation (Line(points={{-11.6,-106},
           {-20,-106},{-20,-50},{-59,-50}},
                                       color={0,0,127}));
-  connect(chiWatPla.TWetBul, TWetBul) annotation (Line(points={{-11.6,-110},{
-          -92,-110},{-92,-68},{-114,-68}},
-                                       color={0,0,127}));
+  connect(chiWatPla.TWetBul, TWetBul) annotation (Line(points={{-11.6,-110},{-92,
+          -110},{-92,-68},{-114,-68}}, color={0,0,127}));
   connect(boiWatPla.port_a, boiWatNet.port_b) annotation (Line(
       points={{140,-96},{140,-96},{156,-96}},
       color={238,46,47},

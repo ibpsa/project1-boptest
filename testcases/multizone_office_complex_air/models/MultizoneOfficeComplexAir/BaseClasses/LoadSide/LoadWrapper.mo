@@ -1,5 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.LoadSide;
-model LoadWrapper
+model LoadWrapper "Load calculation in EnergyPlus using Spawn"
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus
     whoBui annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
   Modelica.Blocks.Interfaces.RealInput Tem[15] "temperature vector"
