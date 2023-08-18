@@ -162,8 +162,8 @@ equation
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
-      points={{134.313,20},{134.313,0},{112,0},{112,-102},{72,-102},{72,-101.933},
-          {40,-101.933}},
+      points={{134.313,20},{134.313,0},{112,0},{112,-102},{72,-102},{72,
+          -101.933},{40,-101.933}},
       color={0,127,225},
       thickness=1));
 
@@ -271,22 +271,9 @@ equation
           textColor={0,0,255}), Bitmap(extent={{-98,-98},{96,94}}, fileName=
               "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}),
     Documentation(info="<html>
-<p>This model consist of a full HVAC system that contains the air side and water side systems. The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. There is also a reheat coil and an air damper in each of the three zone inlet branches. There are two fans (i.e., one supply fan, and one return fan) in the AHU system. A mixing box carries out the economizer function of providing cooling and ventilation. See the model
-<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor\">
-MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor</a>
-for a description of the air side systems.</p>
+<p>This model consist of a full HVAC system that contains the air side and water side systems. The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. There is also a reheat coil and an air damper in each of the three zone inlet branches. There are two fans (i.e., one supply fan, and one return fan) in the AHU system. A mixing box carries out the economizer function of providing cooling and ventilation. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor</a> for a description of the air side systems and the thermal zones.</p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AirSide.png\"/> </p>
-<p>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps . The hot water system consists of two gas boilers and two variable speed pumps. 
-See the model
-<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.ChillerPlant\">
-MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.ChillerPlant</a>
-for a description of the chilled water system.
-See the model
-<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.BoilerPlant\">
-MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.BoilerPlant</a>
-for a description of the hot water system.
-
-</p>
+<p>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps . The hot water system consists of two gas boilers and two variable speed pumps. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.ChillerPlant\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.ChillerPlant</a> for a description of the chilled water system. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.BoilerPlant\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.BoilerPlant</a> for a description of the hot water system. </p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChilledWater.png\"/> </p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/HotWater.png\"/> </p>
 <p>The air side system controls include the VAV air flow rate control, VAV supply air temperature Control, AHU duct static pressure control, AHU supply air temperature control, and mixing box damper and economizer control.</p>
