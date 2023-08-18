@@ -56,6 +56,13 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Documentation(info="<html>
-<p><span style=\"font-family: MS Shell Dlg 2;\">This testcase represents a large office building model that includes HVAC system (i.e., air side systems, water side systems) from Modelica, and building thermal load calucation module from EnergyPlus.</span></p>
+<p><span style=\"font-family: MS Shell Dlg 2;\">This testcase represents a large office building model that includes HVAC system (i.e., air side systems, water side systems) from Modelica, and building thermal load calculation module from EnergyPlus.</span></p>
+<p><span style=\"font-family: MS Shell Dlg 2;\">See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC\">Buildings.Examples.VAVReheat.BaseClasses.PartialHVAC</a> for a description of the HVAC system, 
+and see the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper\"> MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper</a> for a description of the building thermal load calculated by EnergyPlus. </span></p>
+</html>", revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"));
 end TestCase;
