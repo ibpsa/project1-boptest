@@ -37,7 +37,7 @@ model TestCase "Complex office building model that includes air side systems, wa
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
 equation
-  connect(hva.Occ, loaEnePlu.occ) annotation (Line(points={{11.4,8},{24,8},{24,
+  connect(hva.occ, loaEnePlu.occ) annotation (Line(points={{11.4,8},{24,8},{24,
           -48.4},{11,-48.4}}, color={0,0,127}));
   connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{11,-42},{22,-42},{
           22,3},{11.4,3}}, color={0,0,127}));
@@ -46,7 +46,7 @@ equation
   connect(loaEnePlu.wetBul, hva.TWetBul) annotation (Line(points={{11,-31},{18,
           -31},{18,-6.85},{11.35,-6.85}}, color={0,0,127}));
 
-  connect(hva.TZon, loaEnePlu.Tem) annotation (Line(points={{-11,0},{-20,0},{-20,
+  connect(hva.TZon, loaEnePlu.T) annotation (Line(points={{-11,0},{-20,0},{-20,
           -40},{-12,-40}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),

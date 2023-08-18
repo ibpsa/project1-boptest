@@ -2,7 +2,7 @@ within MultizoneOfficeComplexAir.BaseClasses.LoadSide;
 model LoadWrapper "Load calculation in EnergyPlus using Spawn"
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus
     whoBui annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-  Modelica.Blocks.Interfaces.RealInput Tem[15] "temperature vector"
+  Modelica.Blocks.Interfaces.RealInput T[15] "temperature vector"
     annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
   Modelica.Blocks.Interfaces.RealOutput wetBul "wet bulb temperature"
     annotation (Placement(transformation(extent={{100,80},{120,100}}),
@@ -43,22 +43,22 @@ model LoadWrapper "Load calculation in EnergyPlus using Spawn"
 equation
   connect(whoBui.Outdoor_Humidity, relHum) annotation (Line(points={{-38,0},{40,
           0},{40,-50},{110,-50}}, color={0,0,127}));
-  connect(Tem[1], whoBui.Temp1_bot);
-  connect(Tem[2], whoBui.Temp2_bot);
-  connect(Tem[3], whoBui.Temp3_bot);
-  connect(Tem[4], whoBui.Temp4_bot);
-  connect(Tem[5], whoBui.Temp5_bot);
-  connect(Tem[6], whoBui.Temp1);
-  connect(Tem[7], whoBui.Temp2);
-  connect(Tem[8], whoBui.Temp3) annotation (Line(points={{-120,-2.66454e-15},{-120,
+  connect(T[1], whoBui.Temp1_bot);
+  connect(T[2], whoBui.Temp2_bot);
+  connect(T[3], whoBui.Temp3_bot);
+  connect(T[4], whoBui.Temp4_bot);
+  connect(T[5], whoBui.Temp5_bot);
+  connect(T[6], whoBui.Temp1);
+  connect(T[7], whoBui.Temp2);
+  connect(T[8], whoBui.Temp3) annotation (Line(points={{-120,-2.66454e-15},{-120,
           0},{-62,0}}, color={0,0,127}));
-  connect(Tem[9], whoBui.Temp4);
-  connect(Tem[10], whoBui.Temp5);
-  connect(Tem[11], whoBui.Temp1_top);
-  connect(Tem[12], whoBui.Temp2_top);
-  connect(Tem[13], whoBui.Temp3_top);
-  connect(Tem[14], whoBui.Temp4_top);
-  connect(Tem[15], whoBui.Temp5_top);
+  connect(T[9], whoBui.Temp4);
+  connect(T[10], whoBui.Temp5);
+  connect(T[11], whoBui.Temp1_top);
+  connect(T[12], whoBui.Temp2_top);
+  connect(T[13], whoBui.Temp3_top);
+  connect(T[14], whoBui.Temp4_top);
+  connect(T[15], whoBui.Temp5_top);
   connect(numOcc[1], whoBui.Zone1_bot_People);
   connect(numOcc[2], whoBui.Zone2_bot_People);
   connect(numOcc[3], whoBui.Zone3_bot_People);

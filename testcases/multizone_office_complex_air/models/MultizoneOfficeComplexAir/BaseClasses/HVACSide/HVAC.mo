@@ -194,9 +194,8 @@ equation
       points={{20,-104},{16,-104},{16,-106},{10,-106}},
       color={0,127,255},
       thickness=1));
-  connect(chiWatNet.p, chiWatPla.dP) annotation (Line(points={{41,-100},{54,-100},
-          {54,-120},{-16,-120},{-16,-94},{-11.6,-94}},
-                                                    color={0,0,127}));
+  connect(chiWatNet.p, chiWatPla.dpMea) annotation (Line(points={{41,-100},{54,
+          -100},{54,-120},{-16,-120},{-16,-94},{-11.6,-94}}, color={0,0,127}));
   connect(chiWatPla.TCWSet, TCWSupSet.y) annotation (Line(points={{-11.6,-106},
           {-20,-106},{-20,-50},{-59,-50}},
                                       color={0,0,127}));
@@ -210,7 +209,7 @@ equation
       points={{156,-106},{140,-106},{140,-106}},
       color={238,46,47},
       thickness=1));
-  connect(boiWatNet.p, boiWatPla.dP) annotation (Line(points={{177,-102},{182,
+  connect(boiWatNet.p,boiWatPla.dp)  annotation (Line(points={{177,-102},{182,
           -102},{182,-120},{110,-120},{110,-100},{118,-100}},
                                                             color={0,0,127}));
 
@@ -228,16 +227,16 @@ equation
     annotation (Line(points={{-61,-20},{-52,-20}}, color={0,0,127}));
   connect(oveChiWatSys.TW_set_out, chiWatPla.TCHWSet) annotation (Line(points={{-29,-20},
           {-22,-20},{-22,-102},{-11.6,-102}},           color={0,0,127}));
-  connect(oveChiWatSys.dp_set_out, chiWatPla.dpSetPoi) annotation (Line(points={{-29,-30},
-          {-24,-30},{-24,-97.8},{-11.6,-97.8}},            color={0,0,127}));
+  connect(oveChiWatSys.dp_set_out, chiWatPla.dpSet) annotation (Line(points={{-29,
+          -30},{-24,-30},{-24,-97.8},{-11.6,-97.8}}, color={0,0,127}));
   connect(dpChiWatStaSet.y, oveChiWatSys.dp_set_in) annotation (Line(points={{
           -59,-86},{-56,-86},{-56,-30},{-52,-30}}, color={0,0,127}));
   connect(oveHotWatSys.TW_set_out, boiWatPla.THWSet) annotation (Line(points={{
           91,-20},{100,-20},{100,-94},{118,-94}}, color={0,0,127}));
   connect(dpHotWatStaSet.y, oveHotWatSys.dp_set_in) annotation (Line(points={{
           61,-70},{64,-70},{64,-30},{68,-30}}, color={0,0,127}));
-  connect(oveHotWatSys.dp_set_out, boiWatPla.dpSetPoi) annotation (Line(points=
-          {{91,-30},{96,-30},{96,-106},{118,-106}}, color={0,0,127}));
+  connect(oveHotWatSys.dp_set_out, boiWatPla.dpSet) annotation (Line(points={{
+          91,-30},{96,-30},{96,-106},{118,-106}}, color={0,0,127}));
   connect(oveChiWatSys.dp_set_out, reaChiWatSys.dp_in)
     annotation (Line(points={{-29,-30},{16,-30}}, color={0,0,127}));
   connect(oveChiWatSys.TW_set_out, reaChiWatSys.TW_in) annotation (Line(points=
