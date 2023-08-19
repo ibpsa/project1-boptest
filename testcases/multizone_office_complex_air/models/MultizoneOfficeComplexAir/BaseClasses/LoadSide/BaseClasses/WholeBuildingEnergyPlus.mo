@@ -1,5 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses;
-model whoBui96 "EnergyPlus FMU for Model Exchange"
+model WholeBuildingEnergyPlus "EnergyPlusFMU"
+
   parameter Real _Temp1_start = 23.9 + 273.15
   annotation (Dialog( group="Start values for inputs "));
   parameter Real _Temp2_start = 23.9 + 273.15
@@ -30,15 +31,8 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
   annotation (Dialog( group="Start values for inputs "));
   parameter Real _Temp5_bot_start = 23.9 + 273.15
   annotation (Dialog( group="Start values for inputs "));
-
-  inner Buildings.ThermalZones.EnergyPlus_9_6_0.Building building(
-    idfName=Modelica.Utilities.Files.loadResource(
-        "modelica://MultizoneOfficeComplexAir/Resources/idf/wholebuilding96_spawn.idf"),
-    epwName=Modelica.Utilities.Files.loadResource("modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw"),
-    weaName=Modelica.Utilities.Files.loadResource("modelica://MultizoneOfficeComplexAir/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
-    computeWetBulbTemperature=true,
-    usePrecompiledFMU=false) "Building model"
-    annotation (Placement(transformation(extent={{-80,70},{-60,90}})));
+  outer Buildings.ThermalZones.EnergyPlus_9_6_0.Building building
+    "Building-level declarations";
 
   Buildings.ThermalZones.EnergyPlus_9_6_0.BaseClasses.ThermalZoneAdapter
     fmuZonTopFlr[5](
@@ -48,8 +42,8 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
     each final idfName=building.idfName,
     each final epwName=building.epwName,
     each final relativeSurfaceTolerance=building.relativeSurfaceTolerance,
-    final zoneName={"Core_top","Perimeter_top_ZN_1","Perimeter_top_ZN_2","Perimeter_top_ZN_3",
-        "Perimeter_top_ZN_4"},
+    final zoneName={"Core_top","Perimeter_top_ZN_1","Perimeter_top_ZN_2",
+        "Perimeter_top_ZN_3","Perimeter_top_ZN_4"},
     each usePrecompiledFMU=false,
     each logLevel=building.logLevel,
     each final nFluPor=2) "Adapter to EnergyPlus"
@@ -81,8 +75,8 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
     each final idfName=building.idfName,
     each final epwName=building.epwName,
     each final relativeSurfaceTolerance=building.relativeSurfaceTolerance,
-    final zoneName={"Core_mid","Perimeter_mid_ZN_1","Perimeter_mid_ZN_2","Perimeter_mid_ZN_3",
-        "Perimeter_mid_ZN_4"},
+    final zoneName={"Core_mid","Perimeter_mid_ZN_1","Perimeter_mid_ZN_2",
+        "Perimeter_mid_ZN_3","Perimeter_mid_ZN_4"},
     each usePrecompiledFMU=false,
     each logLevel=building.logLevel,
     each final nFluPor=2) "Adapter to EnergyPlus"
@@ -95,8 +89,8 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
     each final idfName=building.idfName,
     each final epwName=building.epwName,
     each final relativeSurfaceTolerance=building.relativeSurfaceTolerance,
-    final zoneName={"Core_bot","Perimeter_bot_ZN_1","Perimeter_bot_ZN_2","Perimeter_bot_ZN_3",
-        "Perimeter_bot_ZN_4"},
+    final zoneName={"Core_bot","Perimeter_bot_ZN_1","Perimeter_bot_ZN_2",
+        "Perimeter_bot_ZN_3","Perimeter_bot_ZN_4"},
     each usePrecompiledFMU=false,
     each logLevel=building.logLevel,
     each final nFluPor=2) "Adapter to EnergyPlus"
@@ -293,8 +287,8 @@ model whoBui96 "EnergyPlus FMU for Model Exchange"
   Modelica.Blocks.Routing.RealPassThrough relHum
     annotation (Placement(transformation(extent={{80,70},{100,90}})));
   Modelica.Icons.SignalBus weaBus
-    annotation (Placement(transformation(extent={{-28,90},{-12,106}}),
-        iconTransformation(extent={{-28,90},{-12,106}})));
+    annotation (Placement(transformation(extent={{-8,92},{8,108}}),
+        iconTransformation(extent={{-8,92},{8,108}})));
   Modelica.Blocks.Sources.RealExpression temDryBul(y=TDryBul.y)
     "Dry bulb temperature in K"
     annotation (Placement(transformation(extent={{60,50},{80,70}})));
@@ -454,13 +448,13 @@ equation
   connect(Zone5_bot_People, peoCou[15].y);
 
   connect(weaBus.TDryBul, TDryBul.u)
-  annotation (Line(points={{-20,98},{-14,98},{-14,80},{-2,80}},
+  annotation (Line(points={{0,100},{-14,100},{-14,80},{-2,80}},
                                         color={255,204,51}));
   connect(weaBus.TWetBul, TWetBul.u)
-  annotation (Line(points={{-20,98},{30,98},{30,80},{38,80}},
+  annotation (Line(points={{0,100},{30,100},{30,80},{38,80}},
                                         color={255,204,51}));
   connect(weaBus.relHum, relHum.u)
-  annotation (Line(points={{-20,98},{68,98},{68,80},{78,80}},
+  annotation (Line(points={{0,100},{68,100},{68,80},{78,80}},
                                         color={255,204,51}));
   connect(Outdoor_Temperature, temDryBul.y)
   annotation (Line(points={{120,0},{86,0},{86,60},{81,60}},
@@ -472,10 +466,6 @@ equation
   connect(OccSch.y, Occ)
     annotation (Line(points={{-39,-90},{50,-90},{50,0},{120,0}},
                                         color={0,0,127}));
-  connect(building.weaBus, weaBus) annotation (Line(
-      points={{-60,80},{-30,80},{-30,98},{-20,98}},
-      color={255,204,51},
-      thickness=0.5));
 
   annotation (
     Documentation(
@@ -522,4 +512,4 @@ First implementation.
         textColor={0,0,255}),
         Bitmap(extent={{-96,-82},{92,86}}, fileName=
               "modelica://MultizoneOfficeComplexAir/Resources/figure/spawn_icon.png")}));
-end whoBui96;
+end WholeBuildingEnergyPlus;

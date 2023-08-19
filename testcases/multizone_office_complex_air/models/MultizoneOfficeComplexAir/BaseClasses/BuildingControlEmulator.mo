@@ -35,7 +35,7 @@ package BuildingControlEmulator
               points={{-20,-25.6},{-58,-25.6},{-58,-80},{-102,-80}},
               color={0,127,255},
               thickness=1));
-          connect(coi.TAirLea, pI.Mea) annotation (Line(
+          connect(coi.TAirLea,pI.mea)  annotation (Line(
               points={{19.9,-17.2},{58,-17.2},{58,-60},{-52,-60},{-52,14},{-42,14}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -107,7 +107,7 @@ package BuildingControlEmulator
                   thickness=0.5)}));
         end HeaCoil;
 
-        model CooCoil
+        model cooCoi "The model of the cooling coil"
           extends BaseClasses.WatCoil(val(
                 dpValve_nominal=PreDroWat), pI(reverseActing=false, conPID(y_reset=1)));
           parameter Real UA "Rated heat exchange coefficients";
@@ -136,7 +136,7 @@ package BuildingControlEmulator
               points={{-18,-25.6},{-58,-25.6},{-58,-80},{-102,-80}},
               color={0,127,255},
               thickness=1));
-          connect(coi.TAirLea, pI.Mea) annotation (Line(
+          connect(coi.TAirLea,pI.mea)  annotation (Line(
               points={{21.9,-17.2},{58,-17.2},{58,-60},{-52,-60},{-52,14},{-42,14}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -206,7 +206,7 @@ package BuildingControlEmulator
                   points={{30,46},{48,72}},
                   color={0,0,127},
                   thickness=0.5)}));
-        end CooCoil;
+        end cooCoi;
 
         model DxCoil
           import MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator;
@@ -350,13 +350,11 @@ package BuildingControlEmulator
               UA_nominal=UA,
               energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
               annotation (Placement(transformation(extent={{-14,-10},{6,10}})));
-            Modelica.Fluid.Sensors.TemperatureTwoPort temEntWat(redeclare
-                package Medium =
-                  MediumWat)
-              annotation (Placement(transformation(extent={{-74,-4},{-54,16}})));
-             Modelica.Fluid.Sensors.TemperatureTwoPort temLeaWat(redeclare
-                package Medium =
-                  MediumWat)
+            Modelica.Fluid.Sensors.TemperatureTwoPort TEntWat(redeclare package
+                Medium = MediumWat) annotation (Placement(transformation(extent
+                    ={{-74,-4},{-54,16}})));
+             Modelica.Fluid.Sensors.TemperatureTwoPort TLeaWat(redeclare
+                package Medium = MediumWat)
               annotation (Placement(transformation(extent={{62,-4},{82,16}})));
             Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
                 Medium =
@@ -368,18 +366,17 @@ package BuildingControlEmulator
                   MediumWat)
               "Fluid connector b (positive design flow direction is from port_a to port_b)"
               annotation (Placement(transformation(extent={{90,50},{110,70}})));
-            Modelica.Fluid.Sensors.TemperatureTwoPort temEntAir(redeclare
-                package Medium =
-                  MediumAir)
-              annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
-            Modelica.Fluid.Sensors.MassFlowRate masFloWat(redeclare package
+            Modelica.Fluid.Sensors.TemperatureTwoPort TEntAir(redeclare package
+                Medium = MediumAir) annotation (Placement(transformation(extent
+                    ={{50,-70},{30,-50}})));
+            Modelica.Fluid.Sensors.MassFlowRate m_flowWat(redeclare package
                 Medium =
                   MediumWat)
               annotation (Placement(transformation(extent={{32,-4},{52,16}})));
-            Modelica.Fluid.Sensors.Pressure preWatEnt(redeclare package Medium =
+            Modelica.Fluid.Sensors.Pressure pWatEnt(redeclare package Medium =
                   MediumWat)
               annotation (Placement(transformation(extent={{-20,6},{-40,26}})));
-            Modelica.Fluid.Sensors.Pressure preWatLea(redeclare package Medium =
+            Modelica.Fluid.Sensors.Pressure pWatLea(redeclare package Medium =
                   MediumWat)
               annotation (Placement(transformation(extent={{32,6},{12,26}})));
             Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
@@ -387,92 +384,91 @@ package BuildingControlEmulator
                   MediumAir)
               "Fluid connector a (positive design flow direction is from port_a to port_b)"
               annotation (Placement(transformation(extent={{90,-70},{110,-50}})));
-            Modelica.Fluid.Sensors.MassFlowRate masFloAir(redeclare package
+            Modelica.Fluid.Sensors.MassFlowRate m_flowAir(redeclare package
                 Medium =
                   MediumAir)
               annotation (Placement(transformation(extent={{-40,-70},{-60,-50}})));
-            replaceable Buildings.Fluid.Sensors.TemperatureTwoPort temLeaAir(redeclare
-                package Medium =
-                  MediumAir, m_flow_nominal=mAirFloRat)
+            replaceable Buildings.Fluid.Sensors.TemperatureTwoPort TLeaAir(
+                redeclare package Medium = MediumAir, m_flow_nominal=mAirFloRat)
               annotation (Placement(transformation(extent={{-68,-70},{-88,-50}})));
             Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
                 Medium =
                   MediumAir)
               "Fluid connector b (positive design flow direction is from port_a to port_b)"
               annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-            Modelica.Fluid.Sensors.Pressure preAirLea(redeclare package Medium =
-                  MediumAir)
-              annotation (Placement(transformation(extent={{-30,-46},{-50,-26}})));
-            Modelica.Fluid.Sensors.Pressure preAirEnt(redeclare package Medium =
-                  MediumAir)
-              annotation (Placement(transformation(extent={{50,-44},{30,-24}})));
+            Modelica.Fluid.Sensors.Pressure pAirLea(redeclare package Medium =
+                  MediumAir) annotation (Placement(transformation(extent={{-30,
+                      -46},{-50,-26}})));
+            Modelica.Fluid.Sensors.Pressure pAirEnt(redeclare package Medium =
+                  MediumAir) annotation (Placement(transformation(extent={{50,-44},
+                      {30,-24}})));
             Modelica.Blocks.Interfaces.RealOutput TAirLea
               "Temperature of the passing fluid"
               annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
           equation
-            connect(cooCoi.port_a1, temEntWat.port_b) annotation (Line(
+            connect(cooCoi.port_a1, TEntWat.port_b) annotation (Line(
                 points={{-14,6},{-40,6},{-54,6}},
                 color={0,127,255},
                 thickness=1));
-            connect(temEntWat.port_a, port_a_Wat) annotation (Line(
+            connect(TEntWat.port_a, port_a_Wat) annotation (Line(
                 points={{-74,6},{-88,6},{-88,60},{-100,60}},
                 color={0,127,255},
                 thickness=1));
-            connect(temLeaWat.port_b, port_b_Wat) annotation (Line(
+            connect(TLeaWat.port_b, port_b_Wat) annotation (Line(
                 points={{82,6},{90,6},{90,60},{100,60}},
                 color={0,127,255},
                 thickness=1));
-            connect(cooCoi.port_b1, masFloWat.port_a) annotation (Line(
+            connect(cooCoi.port_b1,m_flowWat. port_a) annotation (Line(
                 points={{6,6},{32,6}},
                 color={0,127,255},
                 thickness=1));
-            connect(masFloWat.port_b, temLeaWat.port_a) annotation (Line(
+            connect(m_flowWat.port_b, TLeaWat.port_a) annotation (Line(
                 points={{52,6},{52,6},{62,6}},
                 color={0,127,255},
                 thickness=1));
-            connect(preWatEnt.port, temEntWat.port_b) annotation (Line(
+            connect(pWatEnt.port, TEntWat.port_b) annotation (Line(
                 points={{-30,6},{-30,6},{-40,6},{-54,6}},
                 color={0,127,255},
                 thickness=1));
-            connect(preWatLea.port, masFloWat.port_a) annotation (Line(
+            connect(pWatLea.port, m_flowWat.port_a) annotation (Line(
                 points={{22,6},{22,6},{32,6}},
                 color={0,127,255},
                 thickness=1));
-            connect(temEntAir.port_b, cooCoi.port_a2) annotation (Line(
+            connect(TEntAir.port_b, cooCoi.port_a2) annotation (Line(
                 points={{30,-60},{20,-60},{20,-6},{6,-6}},
                 color={0,127,255},
                 thickness=1));
-            connect(temEntAir.port_a, port_a_Air) annotation (Line(
+            connect(TEntAir.port_a, port_a_Air) annotation (Line(
                 points={{50,-60},{100,-60}},
                 color={0,127,255},
                 thickness=1));
-            connect(masFloAir.port_a, cooCoi.port_b2) annotation (Line(
+            connect(m_flowAir.port_a, cooCoi.port_b2) annotation (Line(
                 points={{-40,-60},{-20,-60},{-20,-6},{-14,-6}},
                 color={0,127,255},
                 thickness=1));
-            connect(temLeaAir.port_a, masFloAir.port_b) annotation (Line(
+            connect(TLeaAir.port_a, m_flowAir.port_b) annotation (Line(
                 points={{-68,-60},{-60,-60}},
                 color={0,127,255},
                 thickness=1));
-            connect(temLeaAir.port_b, port_b_Air) annotation (Line(
+            connect(TLeaAir.port_b, port_b_Air) annotation (Line(
                 points={{-88,-60},{-100,-60}},
                 color={0,127,255},
                 thickness=1));
-            connect(preAirLea.port, cooCoi.port_b2) annotation (Line(
+            connect(pAirLea.port, cooCoi.port_b2) annotation (Line(
                 points={{-40,-46},{-20,-46},{-20,-6},{-14,-6}},
                 color={0,127,255},
                 thickness=1));
-            connect(preAirEnt.port, cooCoi.port_a2) annotation (Line(
+            connect(pAirEnt.port, cooCoi.port_a2) annotation (Line(
                 points={{40,-44},{40,-46},{20,-46},{20,-6},{6,-6}},
                 color={0,127,255},
                 thickness=1));
-            connect(temLeaAir.T, TAirLea) annotation (Line(
+            connect(TLeaAir.T, TAirLea) annotation (Line(
                 points={{-78,-49},{-78,-20},{110,-20}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(cooCoi.port_a1, preWatEnt.port)
+            connect(cooCoi.port_a1, pWatEnt.port)
               annotation (Line(points={{-14,6},{-30,6}}, color={0,127,255}));
-            connect(cooCoi.port_b1, preWatLea.port)
+            connect(cooCoi.port_b1, pWatLea.port)
               annotation (Line(points={{6,6},{22,6}}, color={0,127,255}));
             annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                   Line(
@@ -921,8 +917,7 @@ package BuildingControlEmulator
                 points={{-42,26},{-42,26},{-52,26},{-80,26},{-80,40},{-120,40}},
                 color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(pI.SetPoi, SetPoi)
-              annotation (Line(
+            connect(pI.set, SetPoi) annotation (Line(
                 points={{-42,20},{-42,20},{-80,20},{-80,-20},{-120,-20}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -1475,8 +1470,7 @@ package BuildingControlEmulator
             extends Modelica.Icons.Example;
             package Medium1 = Buildings.Media.Water "Medium model";
             package Medium2 = Buildings.Media.Air "Medium model";
-            BuildingControlEmulator.Devices.AirSide.Coil.CooCoil
-                                                         Coi(
+            BuildingControlEmulator.Devices.AirSide.Coil.cooCoi Coi(
               redeclare package MediumAir = Medium2,
               redeclare package MediumWat = Medium1,
               mWatFloRat=1,
@@ -1485,7 +1479,8 @@ package BuildingControlEmulator
               mAirFloRat=1,
               UA=4.2*1000,
               k=1,
-              Ti=60) annotation (Placement(transformation(extent={{-20,14},{22,-28}})));
+              Ti=60) annotation (Placement(transformation(extent={{-20,14},{22,
+                      -28}})));
             Buildings.Fluid.Sources.Boundary_pT souWat(
               nPorts=1,
               redeclare package Medium = Medium1,
@@ -1693,7 +1688,7 @@ package BuildingControlEmulator
 
       package MixingBox
 
-        model MixingBox
+        model MixingBox "The model of the mixing box"
           replaceable package Medium = Modelica.Media.Interfaces.PartialMedium "medium for the fluid";
           parameter Modelica.Units.SI.Pressure PreDro "pressure drop in the air side";
           parameter Modelica.Units.SI.MassFlowRate mFreAirFloRat
@@ -1736,8 +1731,9 @@ package BuildingControlEmulator
             DamMin=DamMin,
             k=k,
             Ti=Ti)              annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
-          Modelica.Blocks.Interfaces.RealInput SetPoi "Connector of setpoint input signal"
-            annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
+          Modelica.Blocks.Interfaces.RealInput set
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-140,-20},{-100,20}})));
           Modelica.Blocks.Interfaces.BooleanInput On annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
           Modelica.Blocks.Interfaces.RealInput Tout
             "Connector of measurement input signal"
@@ -1766,8 +1762,7 @@ package BuildingControlEmulator
               points={{35,-11.18},{64,-11.18},{64,20},{-88,20},{-88,32},{-72,32}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(ecoCon.SetPoi, SetPoi)
-            annotation (Line(
+          connect(ecoCon.set, set) annotation (Line(
               points={{-72,40},{-92,40},{-92,0},{-120,0}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -1779,7 +1774,7 @@ package BuildingControlEmulator
               points={{-72,36},{-80,36},{-80,-60},{-120,-60}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(ecoCon.y, mixBox.DamPos) annotation (Line(points={{-49,40},{
+          connect(ecoCon.y,mixBox.damPos)  annotation (Line(points={{-49,40},{
                   -46,40},{-46,1},{-34,1}}, color={0,0,127}));
           annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                 Line(
@@ -1903,35 +1898,32 @@ package BuildingControlEmulator
                 Medium =                                                              Medium)
               "Fluid connector b (positive design flow direction is from port_a to port_b)"
               annotation (Placement(transformation(extent={{50,90},{70,110}})));
-            replaceable Buildings.Fluid.Sensors.TemperatureTwoPort temOut(redeclare
-                package Medium =                                                                 Medium,
-                m_flow_nominal=mFreAirFloRat)
-              annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+            replaceable Buildings.Fluid.Sensors.TemperatureTwoPort TOutSen(
+                redeclare package Medium = Medium, m_flow_nominal=mFreAirFloRat)
+              annotation (Placement(transformation(
+                  extent={{-10,-10},{10,10}},
                   rotation=-90,
                   origin={60,82})));
-            replaceable Buildings.Fluid.Sensors.TemperatureTwoPort temMix(redeclare
-                package Medium =
-                  Medium, m_flow_nominal=mTotAirFloRat)
-                          annotation (Placement(transformation(
+            replaceable Buildings.Fluid.Sensors.TemperatureTwoPort TMix(
+                redeclare package Medium = Medium, m_flow_nominal=mTotAirFloRat)
+              annotation (Placement(transformation(
                   extent={{-10,-10},{10,10}},
                   rotation=-90,
                   origin={60,-42})));
-            Modelica.Fluid.Sensors.TemperatureTwoPort temRet(redeclare package
-                Medium =
-                  Medium) annotation (Placement(transformation(
+            Modelica.Fluid.Sensors.TemperatureTwoPort TRet(redeclare package
+                Medium = Medium) annotation (Placement(transformation(
                   extent={{-10,-10},{10,10}},
                   rotation=90,
                   origin={-70,-50})));
-            Modelica.Fluid.Sensors.MassFlowRate masFloAir(redeclare package
+            Modelica.Fluid.Sensors.MassFlowRate m_flowAir(redeclare package
                 Medium =                                                             Medium)
               annotation (Placement(transformation(extent={{10,-10},{-10,10}},
                   rotation=90,
                   origin={60,20})));
-            Modelica.Blocks.Interfaces.RealInput DamPos "Actuator position (0: closed, 1: open)"
+            Modelica.Blocks.Interfaces.RealInput damPos "Actuator position (0: closed, 1: open)"
               annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-            Modelica.Fluid.Sensors.MassFlowRate masSupAir(redeclare package
-                Medium =
-                  Medium) annotation (Placement(transformation(
+            Modelica.Fluid.Sensors.MassFlowRate m_flowSupAir(redeclare package
+                Medium = Medium) annotation (Placement(transformation(
                   extent={{10,-10},{-10,10}},
                   rotation=90,
                   origin={60,-72})));
@@ -1947,7 +1939,7 @@ package BuildingControlEmulator
                   extent={{10,10},{-10,-10}},
                   rotation=180,
                   origin={0,-12})));
-            Modelica.Blocks.Sources.RealExpression realExpression(y=1 - DamPos)
+            Modelica.Blocks.Sources.RealExpression realExpression(y=1 -damPos)
               annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
             Buildings.Utilities.IO.SignalExchange.Overwrite yOA(description=
                   "Outside air damper position setpoint for AHU", u(
@@ -1978,49 +1970,49 @@ package BuildingControlEmulator
                 points={{-70,68},{-70,100}},
                 color={0,127,255},
                 thickness=1));
-            connect(port_Fre,temOut. port_a) annotation (Line(
+            connect(port_Fre, TOutSen.port_a) annotation (Line(
                 points={{60,100},{60,100},{60,92}},
                 color={0,127,255},
                 thickness=1));
-            connect(jun1.port_2, temMix.port_a) annotation (Line(
+            connect(jun1.port_2, TMix.port_a) annotation (Line(
                 points={{60,-22},{60,-28},{60,-32}},
                 color={0,127,255},
                 thickness=1));
-            connect(jun.port_1, temRet.port_b) annotation (Line(
+            connect(jun.port_1, TRet.port_b) annotation (Line(
                 points={{-70,-22},{-70,-32},{-70,-40}},
                 color={0,127,255},
                 thickness=1));
-            connect(temRet.port_a, port_Ret) annotation (Line(
+            connect(TRet.port_a, port_Ret) annotation (Line(
                 points={{-70,-60},{-70,-80},{-70,-100}},
                 color={0,127,255},
                 thickness=1));
-            connect(masFloAir.port_b, jun1.port_1) annotation (Line(
+            connect(m_flowAir.port_b, jun1.port_1) annotation (Line(
                 points={{60,10},{60,4},{60,-2}},
                 color={0,127,255},
                 thickness=1));
             connect(port_Fre, port_Fre) annotation (Line(points={{60,100},{60,104},{56,104},{60,104},{60,100}},
                                                                                      color={0,127,255}));
-            connect(port_Sup,masSupAir. port_b) annotation (Line(
+            connect(port_Sup, m_flowSupAir.port_b) annotation (Line(
                 points={{60,-100},{60,-92},{60,-82}},
                 color={0,127,255},
                 thickness=1));
-            connect(masSupAir.port_a, temMix.port_b) annotation (Line(
+            connect(m_flowSupAir.port_a, TMix.port_b) annotation (Line(
                 points={{60,-62},{60,-62},{60,-52}},
                 color={0,127,255},
                 thickness=1));
-            connect(temMix.T, T) annotation (Line(
+            connect(TMix.T, T) annotation (Line(
                 points={{71,-42},{110,-42}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(temOut.T, TOut) annotation (Line(
+            connect(TOutSen.T, TOut) annotation (Line(
                 points={{71,82},{110,82}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(temOut.port_b, valFre.port_a) annotation (Line(
+            connect(TOutSen.port_b, valFre.port_a) annotation (Line(
                 points={{60,72},{60,64}},
                 color={0,127,255},
                 thickness=1));
-            connect(valFre.port_b, masFloAir.port_a)
+            connect(valFre.port_b,m_flowAir. port_a)
               annotation (Line(
                 points={{60,44},{60,44},{60,30}},
                 color={0,127,255},
@@ -2035,13 +2027,13 @@ package BuildingControlEmulator
                 thickness=1));
             connect(yOA.y, valFre.y)
               annotation (Line(points={{21,54},{48,54}}, color={0,0,127}));
-            connect(yOA.u, DamPos) annotation (Line(points={{-2,54},{-40,54},{
+            connect(yOA.u,damPos)  annotation (Line(points={{-2,54},{-40,54},{
                     -40,32},{-84,32},{-84,0},{-120,0}}, color={0,0,127}));
             connect(realExpression.y, yRet.u)
               annotation (Line(points={{-39,20},{-30,20}}, color={0,0,127}));
             connect(yRet.y, valRet.y) annotation (Line(points={{-7,20},{0,20},{
                     0,-1.77636e-15}}, color={0,0,127}));
-            connect(DamPos, yEA.u) annotation (Line(points={{-120,0},{-92,0},{
+            connect(damPos, yEA.u) annotation (Line(points={{-120,0},{-92,0},{
                     -92,90},{-50,90}}, color={0,0,127}));
             connect(yEA.y, valExh.y) annotation (Line(points={{-27,90},{-18,90},
                     {-18,76},{-88,76},{-88,58},{-82,58}}, color={0,0,127}));
@@ -2144,7 +2136,7 @@ package BuildingControlEmulator
                   points={{-11.2,18},{-10,18},{-10,36},{-12,36},{-12,72},{-22,72}},
                   color={0,127,255},
                   thickness=1));
-              connect(DamPos.y, mixBox.DamPos) annotation (Line(
+              connect(DamPos.y,mixBox.damPos)  annotation (Line(
                   points={{-57,2},{-40,2},{-19.2,2}},
                   color={0,0,127},
                   pattern=LinePattern.Dash));
@@ -2174,8 +2166,9 @@ package BuildingControlEmulator
               conPID(y_reset=1))
               annotation (Placement(transformation(extent={{10,2},{30,22}})));
             Modelica.Blocks.Interfaces.BooleanInput On annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-            Modelica.Blocks.Interfaces.RealInput SetPoi "Connector of setpoint input signal"
-              annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
+            Modelica.Blocks.Interfaces.RealInput set
+              "Connector of setpoint input signal" annotation (Placement(
+                  transformation(extent={{-140,-20},{-100,20}})));
             Modelica.Blocks.Interfaces.RealInput Mea "Connector of measurement input signal"
               annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
             Modelica.Blocks.Sources.BooleanExpression integerExpression(y=(Tout <= TemHig)
@@ -2197,12 +2190,11 @@ package BuildingControlEmulator
             Modelica.Blocks.Sources.RealExpression realExpression1(y=DamMin)
               annotation (Placement(transformation(extent={{-34,-68},{-14,-48}})));
           equation
-            connect(pI.SetPoi, SetPoi)
-              annotation (Line(
+            connect(pI.set, set) annotation (Line(
                 points={{8,12},{8,10},{-60,10},{-60,0},{-120,0}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(pI.Mea, Mea) annotation (Line(
+            connect(pI.mea, Mea) annotation (Line(
                 points={{8,6},{8,4},{-40,4},{-40,-80},{-120,-80}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -2304,7 +2296,7 @@ package BuildingControlEmulator
                 points={{-79,62},{-46,62},{-46,14.8},{-19.2,14.8}},
                 color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(con.y, mixBox.SetPoi) annotation (Line(
+            connect(con.y, mixBox.set) annotation (Line(
                 points={{-77.1,-17},{-48,-17},{-48,2},{-19.2,2}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -2418,11 +2410,11 @@ package BuildingControlEmulator
                 points={{70,11},{70,23.2}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(gain.y, pI.Mea) annotation (Line(
+            connect(gain.y,pI.mea)  annotation (Line(
                 points={{70,32.4},{70,44},{42,44}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(pI.SetPoi, AirFlowRatSetPoi) annotation (Line(
+            connect(pI.set, AirFlowRatSetPoi) annotation (Line(
                 points={{42,50},{52,50},{60,50},{60,80},{-110,80}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -2589,11 +2581,11 @@ package BuildingControlEmulator
                 points={{70,11},{70,23.2}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(gain.y, pI.Mea) annotation (Line(
+            connect(gain.y,pI.mea)  annotation (Line(
                 points={{70,32.4},{70,44},{42,44}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(pI.SetPoi, AirFlowRatSetPoi) annotation (Line(
+            connect(pI.set, AirFlowRatSetPoi) annotation (Line(
                 points={{42,50},{52,50},{60,50},{60,80},{-110,80}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -2651,7 +2643,7 @@ package BuildingControlEmulator
                   coordinateSystem(preserveAspectRatio=false)));
           end VAV;
 
-          model VAV_advance_temp_sensor
+          model VAV_advance_temp_sensor "The model of the VAV terminals."
               parameter String zonNam "Zone designation, required if KPIs is AirZoneTemperature,
     RadiativeZoneTemperature, OperativeZoneTemperature, RelativeHumidity,
     or CO2Concentration";
@@ -2667,32 +2659,31 @@ package BuildingControlEmulator
               "Pressure drop in the water side";
             parameter Modelica.Units.SI.Efficiency eps(max=1) = 0.8
               "Heat exchanger effectiveness";
-            Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage Dam(
+            Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage dam(
               redeclare package Medium = MediumAir,
               m_flow_nominal=mAirFloRat,
               dpValve_nominal=PreDroAir,
               riseTime=15,
               y_start=0.3)               annotation (Placement(transformation(extent={{-12,-10},
                       {8,10}})));
-            Modelica.Fluid.Sensors.TemperatureTwoPort temEnt(redeclare package
-                Medium =
-                  MediumAir)
-              annotation (Placement(transformation(extent={{-88,-10},{-68,10}})));
-            Buildings.Fluid.Sensors.TemperatureTwoPort temLea(redeclare package
-                Medium =
-                  MediumAir,
+            Modelica.Fluid.Sensors.TemperatureTwoPort TEnt(redeclare package
+                Medium = MediumAir) annotation (Placement(transformation(extent
+                    ={{-88,-10},{-68,10}})));
+            Buildings.Fluid.Sensors.TemperatureTwoPort TLea(
+              redeclare package Medium = MediumAir,
               m_flow_nominal=mAirFloRat,
               tau=1,
               transferHeat=true)
               annotation (Placement(transformation(extent={{26,10},{46,-10}})));
-            Modelica.Fluid.Sensors.MassFlowRate masFloRat(redeclare package
-                Medium =
-                  MediumAir)
+            Modelica.Fluid.Sensors.MassFlowRate m_flow(redeclare package Medium
+                = MediumAir)
               annotation (Placement(transformation(extent={{56,-10},{76,10}})));
-            Modelica.Fluid.Sensors.Pressure preEnt(redeclare package Medium = MediumAir)
-              annotation (Placement(transformation(extent={{-16,-20},{-36,-40}})));
-            Modelica.Fluid.Sensors.Pressure preLea(redeclare package Medium = MediumAir)
-              annotation (Placement(transformation(extent={{30,-20},{10,-40}})));
+            Modelica.Fluid.Sensors.Pressure pEnt(redeclare package Medium =
+                  MediumAir) annotation (Placement(transformation(extent={{-16,
+                      -20},{-36,-40}})));
+            Modelica.Fluid.Sensors.Pressure pLea(redeclare package Medium =
+                  MediumAir) annotation (Placement(transformation(extent={{30,-20},
+                      {10,-40}})));
             Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package
                 Medium =
                   MediumAir)
@@ -2731,14 +2722,14 @@ package BuildingControlEmulator
                   extent={{4,-4},{-4,4}},
                   rotation=-90,
                   origin={66,24})));
-            Modelica.Blocks.Interfaces.RealInput AirFlowRatSetPoi
-              "Connector of setpoint input signal"
-              annotation (Placement(transformation(extent={{-120,70},{-100,90}})));
-            Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage ReheaVal(
+            Modelica.Blocks.Interfaces.RealInput airFloRatSet
+              "Connector of setpoint input signal" annotation (Placement(
+                  transformation(extent={{-120,70},{-100,90}})));
+            Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage rehVal(
               redeclare package Medium = MediumWat,
               m_flow_nominal=mWatFloRat,
               dpValve_nominal=PreDroWat,
-              y_start=0.01)              annotation (Placement(transformation(
+              y_start=0.01) annotation (Placement(transformation(
                   extent={{10,10},{-10,-10}},
                   rotation=-90,
                   origin={-20,44})));
@@ -2755,51 +2746,48 @@ package BuildingControlEmulator
               annotation (Placement(transformation(extent={{-68,44},{-48,64}})));
 
           equation
-            connect(temEnt.port_a,port_a)  annotation (Line(
+            connect(TEnt.port_a, port_a) annotation (Line(
                 points={{-88,0},{-88,0},{-100,0}},
                 color={0,140,72},
                 thickness=0.5));
-            connect(Dam.port_b, temLea.port_a)
-              annotation (Line(
+            connect(dam.port_b, TLea.port_a) annotation (Line(
                 points={{8,0},{26,0}},
                 color={0,140,72},
                 thickness=0.5));
-            connect(temLea.port_b,masFloRat. port_a) annotation (Line(
+            connect(TLea.port_b, m_flow.port_a) annotation (Line(
                 points={{46,0},{56,0}},
                 color={0,140,72},
                 thickness=0.5));
-            connect(preLea.port,temLea. port_a) annotation (Line(
+            connect(pLea.port, TLea.port_a) annotation (Line(
                 points={{20,-20},{20,0},{26,0}},
                 color={0,140,72},
                 thickness=0.5));
-            connect(preEnt.port, Dam.port_a)
-              annotation (Line(
+            connect(pEnt.port, dam.port_a) annotation (Line(
                 points={{-26,-20},{-26,0},{-12,0}},
                 color={0,140,72},
                 thickness=0.5));
-            connect(masFloRat.m_flow, gain.u) annotation (Line(
+            connect(m_flow.m_flow, gain.u) annotation (Line(
                 points={{66,11},{66,19.2}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(gain.y, pI.Mea) annotation (Line(
+            connect(gain.y,pI.mea)  annotation (Line(
                 points={{66,28.4},{66,52},{0,52},{0,74},{8,74}},
                 color={0,0,127}));
-            connect(pI.SetPoi, AirFlowRatSetPoi) annotation (Line(
-                points={{8,80},{-110,80}},
-                color={0,0,127}));
-            connect(ReheaVal.port_b, port_b_Wat)
-              annotation (Line(
+            connect(pI.set, airFloRatSet)
+              annotation (Line(points={{8,80},{-110,80}}, color={0,0,127}));
+            connect(rehVal.port_b, port_b_Wat) annotation (Line(
                 points={{-20,54},{-20,100}},
                 color={255,0,0},
                 thickness=1));
-            connect(heaCoil.port_a_Air, temEnt.port_b)
-              annotation (Line(points={{-60,0},{-64,0},{-68,0}}, color={0,140,72},
+            connect(heaCoil.port_a_Air, TEnt.port_b) annotation (Line(
+                points={{-60,0},{-64,0},{-68,0}},
+                color={0,140,72},
                 thickness=0.5));
-            connect(heaCoil.port_b_Air, Dam.port_a)
+            connect(heaCoil.port_b_Air,dam. port_a)
               annotation (Line(points={{-40,0},{-26,0},{-12,0}},
                                                          color={0,140,72},
                 thickness=0.5));
-            connect(ReheaVal.port_a, heaCoil.port_b_Wat) annotation (Line(
+            connect(rehVal.port_a, heaCoil.port_b_Wat) annotation (Line(
                 points={{-20,34},{-22,34},{-22,28},{-60,28},{-60,12}},
                 color={255,0,0},
                 thickness=1));
@@ -2810,20 +2798,19 @@ package BuildingControlEmulator
             connect(booleanExpression.y, pI.On) annotation (Line(
                 points={{-39,86},{8,86}},
                 color={255,0,255}));
-            connect(temLea.T, TAirLea) annotation (Line(
-                points={{36,-11},{36,-60},{110,-60}},
-                color={0,0,127}));
-            connect(masFloRat.port_b, port_b) annotation (Line(
+            connect(TLea.T, TAirLea) annotation (Line(points={{36,-11},{36,-60},
+                    {110,-60}}, color={0,0,127}));
+            connect(m_flow.port_b, port_b) annotation (Line(
                 points={{76,0},{88,0},{88,0},{100,0}},
                 color={0,140,72},
                 thickness=0.5));
-            connect(oveZonLoc.yReaHea_out, ReheaVal.y) annotation (Line(points={{-47,50},{
-                    -40,50},{-40,44},{-32,44}}, color={0,0,127}));
+            connect(oveZonLoc.yReaHea_out, rehVal.y) annotation (Line(points={{
+                    -47,50},{-40,50},{-40,44},{-32,44}}, color={0,0,127}));
             connect(yVal, oveZonLoc.yReaHea_in) annotation (Line(points={{-110,40},{-90,40},
                     {-90,50},{-70,50}}, color={0,0,127}));
             connect(pI.y, oveZonLoc.yDam_in) annotation (Line(points={{31,80},{40,80},{40,
                     68},{-78,68},{-78,58},{-70,58}}, color={0,0,127}));
-            connect(oveZonLoc.yDam_out, Dam.y)
+            connect(oveZonLoc.yDam_out,dam. y)
               annotation (Line(points={{-47,58},{-2,58},{-2,12}}, color={0,0,127}));
             annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                   Rectangle(
@@ -2981,7 +2968,7 @@ package BuildingControlEmulator
 
         package Controls
 
-          model ZonCon
+          model ZonCon "Zone terminal VAV controller"
             parameter Real MinFlowRateSetPoi "Minimum flow rate ratio";
             parameter Real HeatingFlowRateSetPoi "constant flow rate ratio during heating mode";
             Buildings.Controls.Continuous.LimPID cooCon(
@@ -3001,15 +2988,15 @@ package BuildingControlEmulator
             Modelica.Blocks.Interfaces.RealInput T
               "Connector of measurement input signal"
               annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-            Modelica.Blocks.Interfaces.RealInput TCooSetPoi
-              "Connector of setpoint input signal"
-              annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-            Modelica.Blocks.Interfaces.RealInput THeaSetPoi
-              "Connector of setpoint input signal"
-              annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-            Modelica.Blocks.Interfaces.RealOutput yAirFlowSetPoi
-              "Connector of actuator output signal"
-              annotation (Placement(transformation(extent={{100,-30},{120,-10}}),
+            Modelica.Blocks.Interfaces.RealInput TCooSet
+              "Connector of setpoint input signal" annotation (Placement(
+                  transformation(extent={{-140,40},{-100,80}})));
+            Modelica.Blocks.Interfaces.RealInput THeaSet
+              "Connector of setpoint input signal" annotation (Placement(
+                  transformation(extent={{-140,-80},{-100,-40}})));
+            Modelica.Blocks.Interfaces.RealOutput yAirFlowSet
+              "Connector of actuator output signal" annotation (Placement(
+                  transformation(extent={{100,-30},{120,-10}}),
                   iconTransformation(extent={{100,-30},{120,-10}})));
             Modelica.Blocks.Interfaces.RealOutput yValPos
               "Connector of actuator output signal"
@@ -3044,7 +3031,7 @@ package BuildingControlEmulator
             connect(hysteresis.y, swi.u2) annotation (Line(
                 points={{-5,20},{48,20}},
                 color={255,0,255}));
-            connect(TCooSetPoi, cooCon.u_s)
+            connect(TCooSet, cooCon.u_s)
               annotation (Line(points={{-120,60},{-12,60}}, color={0,0,127}));
             connect(T, add.u1) annotation (Line(points={{-120,0},{-80,0},{-80,
                     26},{-58,26}}, color={0,0,127}));
@@ -3052,15 +3039,14 @@ package BuildingControlEmulator
                     48}}, color={0,0,127}));
             connect(T, heaCon.u_m) annotation (Line(points={{-120,0},{-40,0},{
                     -40,-80},{60,-80},{60,-72}}, color={0,0,127}));
-            connect(THeaSetPoi, heaCon.u_s)
+            connect(THeaSet, heaCon.u_s)
               annotation (Line(points={{-120,-60},{48,-60}}, color={0,0,127}));
-            connect(THeaSetPoi, add.u2) annotation (Line(points={{-120,-60},{
-                    -72,-60},{-72,14},{-58,14}}, color={0,0,127}));
+            connect(THeaSet, add.u2) annotation (Line(points={{-120,-60},{-72,-60},
+                    {-72,14},{-58,14}}, color={0,0,127}));
             connect(heaCon.y, yValPos)
               annotation (Line(points={{71,-60},{110,-60}}, color={0,0,127}));
-            connect(swi.y, yAirFlowSetPoi) annotation (Line(points={{71,20},{84,
-                    20},{84,-20},{110,-20}},
-                                           color={0,0,127}));
+            connect(swi.y, yAirFlowSet) annotation (Line(points={{71,20},{84,20},
+                    {84,-20},{110,-20}}, color={0,0,127}));
             connect(cooCon.y, yCoo) annotation (Line(points={{11,60},{34,60},{
                     34,80},{110,80}}, color={0,0,127}));
             connect(heaCon.y, yHea) annotation (Line(points={{71,-60},{80,-60},
@@ -3075,7 +3061,15 @@ package BuildingControlEmulator
                     extent={{-154,112},{146,152}},
                     textString="%name",
                     textColor={0,0,255})}),           Diagram(coordinateSystem(
-                    preserveAspectRatio=false)));
+                    preserveAspectRatio=false)),
+              Documentation(info="<html>
+<p>This is the zone terminal VAV controller. It takes the temperature measurements and cooling/heating setpoints as inputs. It takes the VAV damper position as the output.</p>
+</html>",           revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
+</html>"));
           end ZonCon;
 
           package Examples
@@ -3097,12 +3091,13 @@ package BuildingControlEmulator
                 f=1/86400)
                 annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
             equation
-              connect(TCooSetPoi.y, zonCon.TCooSetPoi) annotation (Line(
+              connect(TCooSetPoi.y, zonCon.TCooSet) annotation (Line(
                   points={{-59,30},{-30,30},{-30,7.6},{-12.2,7.6}},
                   color={0,0,127},
                   pattern=LinePattern.Dash));
-              connect(THeaSetPoi.y, zonCon.THeaSetPoi) annotation (Line(
+              connect(THeaSetPoi.y, zonCon.THeaSet) annotation (Line(
                   points={{-61,-30},{-61,-30},{-30,-30},{-30,-5.6},{-12.2,-5.6}},
+
                   color={0,0,127},
                   pattern=LinePattern.Dash));
               connect(TZon.y, zonCon.T) annotation (Line(
@@ -3142,10 +3137,10 @@ package BuildingControlEmulator
           reverseActing=reverseActing,
           y_reset=yMin)
           annotation (Placement(transformation(extent={{-8,-30},{12,-10}})));
-        Modelica.Blocks.Interfaces.RealInput SetPoi
+        Modelica.Blocks.Interfaces.RealInput set
           "Connector of setpoint input signal"
           annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-        Modelica.Blocks.Interfaces.RealInput Mea
+        Modelica.Blocks.Interfaces.RealInput mea
           "Connector of measurement input signal"
           annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
         Buildings.Controls.OBC.CDL.Continuous.Switch swi
@@ -3155,13 +3150,12 @@ package BuildingControlEmulator
           "Zero fan speed when it becomes OFF"
           annotation (Placement(transformation(extent={{-10,26},{10,46}})));
       equation
-        connect(conPID.u_s, SetPoi) annotation (Line(
-            points={{-10,-20},{-66,-20},{-66,0},{-120,0}},
-            color={0,0,127}));
+        connect(conPID.u_s, set) annotation (Line(points={{-10,-20},{-66,-20},{
+                -66,0},{-120,0}}, color={0,0,127}));
         connect(swi.y, y) annotation (Line(
             points={{62,0},{110,0}},
             color={0,0,127}));
-        connect(Mea, conPID.u_m) annotation (Line(
+        connect(mea, conPID.u_m) annotation (Line(
             points={{-120,-60},{-60,-60},{2,-60},{2,-32}},
             color={0,0,127}));
         connect(On, swi.u2) annotation (Line(points={{-120,60},{-40,60},{-40,0},{38,0}},
@@ -3778,7 +3772,7 @@ First implementation.
           Modelica.Blocks.Sources.RealExpression realExpression(y=vol.T)
             annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
         equation
-          connect(const.y, conPI.SetPoi) annotation (Line(
+          connect(const.y, conPI.set) annotation (Line(
               points={{-79,30},{-76,30},{-76,50},{-64,50}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -3814,7 +3808,7 @@ First implementation.
               points={{40,-20},{28,-20},{28,-6}},
               color={0,127,255},
               thickness=1));
-          connect(realExpression.y, conPI.Mea) annotation (Line(
+          connect(realExpression.y,conPI.mea)  annotation (Line(
               points={{-79,0},{-70,0},{-70,44},{-64,44}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -3829,7 +3823,7 @@ First implementation.
       model VariableSpeedMover
         "the component contains both the variable speed fan/pump and the controller"
         import MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator;
-        extends BaseClasses.FlowMover(withoutMotor(VarSpeFloMov(riseTime=240)));
+        extends BaseClasses.FlowMover(withoutMotor(varSpeFloMov(riseTime=240)));
         parameter Real k(min=0, unit="1") = 1 "Gain of controller";
         parameter Modelica.Units.SI.Time Ti(min=Modelica.Constants.small) = 0.5
           "Time constant of Integrator block";
@@ -3883,11 +3877,11 @@ First implementation.
             points={{-120,60},{-68,60},{-68,56},{-62,56}},
             color={255,0,255},
             pattern=LinePattern.Dash));
-        connect(variableSpeed.SetPoi, SetPoi) annotation (Line(
+        connect(variableSpeed.set, SetPoi) annotation (Line(
             points={{-62,50},{-72,50},{-78,50},{-78,20},{-120,20}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(variableSpeed.Mea, Mea) annotation (Line(
+        connect(variableSpeed.mea, Mea) annotation (Line(
             points={{-62,44},{-66,44},{-66,16},{-56,16},{-56,-60},{-120,-60}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -3904,8 +3898,8 @@ First implementation.
                 textString="V")}));
       end VariableSpeedMover;
 
-      model VAVSupplyFan
-        "the component contains both the variable speed fan/pump and the controller"
+      model VAVSupFan
+        "The component contains both the variable speed fan/pump and the controller"
         extends BaseClasses.FlowMover;
         parameter Real k(min=0, unit="1") = 1 "Gain of controller";
         parameter Modelica.Units.SI.Time Ti(min=Modelica.Constants.small) = 0.5
@@ -3916,26 +3910,28 @@ First implementation.
             "Speed ratio";
         parameter Integer numTemp(min=1) = 1
             "The size of the temeprature vector";
-        Control.VAVDualFanControl variableSpeed(k=k, Ti=Ti,
+        Control.VAVDualFanControl varSpe(
+          k=k,
+          Ti=Ti,
           waitTime=waitTime)
           annotation (Placement(transformation(extent={{-60,44},{-40,64}})));
-        Modelica.Blocks.Interfaces.RealInput PreSetPoi
+        Modelica.Blocks.Interfaces.RealInput pSet
           "Connector of setpoint input signal"
           annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
-        Modelica.Blocks.Interfaces.RealInput PreMea
-          "Connector of measurement input signal"
-          annotation (Placement(transformation(extent={{-140,-120},{-100,-80}})));
+        Modelica.Blocks.Interfaces.RealInput pMea
+          "Connector of measurement input signal" annotation (Placement(
+              transformation(extent={{-140,-120},{-100,-80}})));
         Modelica.Blocks.Interfaces.RealOutput yRet "Output signal connector"
           annotation (Placement(transformation(extent={{100,-92},{120,-72}})));
-        Control.TempCheck tempCheck(numTemp=numTemp)
+        Control.TempCheck TChe(numTemp=numTemp)
           annotation (Placement(transformation(extent={{-92,-50},{-72,-30}})));
-        Modelica.Blocks.Interfaces.RealInput Temp[numTemp]
-          "Connector of setpoint input signal"
-          annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-        Modelica.Blocks.Interfaces.RealInput CooTempSetPoi[numTemp]
+        Modelica.Blocks.Interfaces.RealInput T[numTemp]
+          "Connector of setpoint input signal" annotation (Placement(
+              transformation(extent={{-140,-80},{-100,-40}})));
+        Modelica.Blocks.Interfaces.RealInput cooTSet[numTemp]
           "Connector of setpoint input signal"
           annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
-        Modelica.Blocks.Interfaces.RealInput HeaTempSetPoi[numTemp]
+        Modelica.Blocks.Interfaces.RealInput heaTSet[numTemp]
           "Connector of setpoint input signal"
           annotation (Placement(transformation(extent={{-140,80},{-100,120}})));
         Buildings.Utilities.IO.SignalExchange.Overwrite oveSpeSupFan(
@@ -3978,30 +3974,23 @@ First implementation.
         connect(withoutMotor.P, P) annotation (Line(
             points={{3,6},{12,6},{20,6},{20,40},{110,40}},
             color={0,0,127}));
-        connect(On, variableSpeed.On) annotation (Line(
-            points={{-120,60},{-62,60}},
-            color={255,0,255}));
-        connect(variableSpeed.SetPoi, PreSetPoi) annotation (Line(
-            points={{-62,56},{-80,56},{-80,20},{-120,20}},
-            color={0,0,127}));
-        connect(variableSpeed.Mea, PreMea) annotation (Line(
-            points={{-62,52},{-66,52},{-66,16},{-56,16},{-56,-100},{-120,-100}},
-            color={0,0,127}));
-        connect(tempCheck.Temp, Temp) annotation (Line(
-            points={{-94,-40},{-100,-40},{-100,-60},{-120,-60}},
-            color={0,0,127}));
-        connect(tempCheck.On, variableSpeed.CyclingOn) annotation (Line(
-            points={{-71,-40},{-68,-40},{-68,48},{-62,48}},
-            color={255,0,255}));
-        connect(tempCheck.CooSetPoi, CooTempSetPoi) annotation (Line(
-            points={{-94,-34},{-98,-34},{-98,-20},{-120,-20}},
-            color={0,0,127}));
-        connect(tempCheck.HeaSetPoi, HeaTempSetPoi) annotation (Line(
-            points={{-94,-46},{-98,-46},{-98,-60},{-60,-60},{-60,34},{-88,34},{-88,
-                100},{-120,100}},
-            color={0,0,127}));
-        connect(variableSpeed.ySup, oveSpeSupFan.u) annotation (Line(points={{-39,54},
-                {-28,54}},                                 color={0,0,127}));
+        connect(On, varSpe.On)
+          annotation (Line(points={{-120,60},{-62,60}}, color={255,0,255}));
+        connect(varSpe.SetPoi, pSet) annotation (Line(points={{-62,56},{-80,56},
+                {-80,20},{-120,20}}, color={0,0,127}));
+        connect(varSpe.Mea, pMea) annotation (Line(points={{-62,52},{-66,52},{-66,
+                16},{-56,16},{-56,-100},{-120,-100}}, color={0,0,127}));
+        connect(TChe.Temp, T) annotation (Line(points={{-94,-40},{-100,-40},{-100,
+                -60},{-120,-60}}, color={0,0,127}));
+        connect(TChe.On, varSpe.CyclingOn) annotation (Line(points={{-71,-40},{
+                -68,-40},{-68,48},{-62,48}}, color={255,0,255}));
+        connect(TChe.CooSetPoi, cooTSet) annotation (Line(points={{-94,-34},{-98,
+                -34},{-98,-20},{-120,-20}}, color={0,0,127}));
+        connect(TChe.HeaSetPoi, heaTSet) annotation (Line(points={{-94,-46},{-98,
+                -46},{-98,-60},{-60,-60},{-60,34},{-88,34},{-88,100},{-120,100}},
+              color={0,0,127}));
+        connect(varSpe.ySup, oveSpeSupFan.u)
+          annotation (Line(points={{-39,54},{-28,54}}, color={0,0,127}));
         connect(oveSpeSupFan.y, withoutMotor.u) annotation (Line(points={{-5,54},
                 {2,54},{2,26},{-30,26},{-30,6},{-19,6}},     color={0,0,127}));
         connect(oveSpeSupFan.y, gain.u)
@@ -4023,7 +4012,7 @@ First implementation.
                 extent={{-152,106},{148,146}},
                 textString="%name",
                 textColor={0,0,255})}));
-      end VAVSupplyFan;
+      end VAVSupFan;
 
       package BaseClasses "\"Base classes for modelling fans or pumps\""
         model WithoutMotor
@@ -4035,7 +4024,7 @@ First implementation.
             "Volume flow rate curve";
           parameter Modelica.Units.SI.Pressure PreCur[:] "Pressure curve";
           parameter Modelica.Units.SI.Time TimCon "Time constant for the fluid";
-          Buildings.Fluid.Movers.SpeedControlled_y VarSpeFloMov(
+          Buildings.Fluid.Movers.SpeedControlled_y varSpeFloMov(
             redeclare package Medium = Medium,
             per(
               pressure(V_flow=VolFloCur, dp=PreCur),
@@ -4060,23 +4049,23 @@ First implementation.
             "Actual normalised pump speed that is used for computations"
             annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
         equation
-          connect(VarSpeFloMov.port_a, port_a)
+          connect(varSpeFloMov.port_a, port_a)
             annotation (Line(
               points={{-10,0},{-10,0},{-100,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(VarSpeFloMov.port_b, port_b)
+          connect(varSpeFloMov.port_b, port_b)
             annotation (Line(
               points={{10,0},{56,0},{100,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(VarSpeFloMov.P, P) annotation (Line(
+          connect(varSpeFloMov.P, P) annotation (Line(
               points={{11,9},{40,9},{40,60},{110,60}},
               color={0,0,127}));
-          connect(VarSpeFloMov.y_actual, Rat) annotation (Line(
+          connect(varSpeFloMov.y_actual, Rat) annotation (Line(
               points={{11,7},{40,7},{40,-60},{110,-60}},
               color={0,0,127}));
-          connect(u, VarSpeFloMov.y) annotation (Line(points={{-110,60},{0,60},
+          connect(u,varSpeFloMov. y) annotation (Line(points={{-110,60},{0,60},
                   {0,12}}, color={0,0,127}));
           annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                 Polygon(points={{-40,60},{-40,-60},{60,0},{-40,60}}, lineColor={28,108,
@@ -4751,7 +4740,7 @@ First implementation.
           connect(variableSpeed.On, On) annotation (Line(
               points={{-62,52},{-80,52},{-80,60},{-120,60}},
               color={255,0,255}));
-          connect(variableSpeed.Mea, Mea) annotation (Line(
+          connect(variableSpeed.mea, Mea) annotation (Line(
               points={{-62,40},{-70,40},{-70,-20},{-120,-20}},
               color={0,0,127}));
           connect(cyclingOn.OnSigOut, constantSpeed.On) annotation (Line(points={{-39,-30},
@@ -4775,8 +4764,8 @@ First implementation.
                 color={0,0,127}));
           connect(ramLim.u, swi.y) annotation (Line(points={{38,0},{36,0},{36,
                   38},{34,38}}, color={0,0,127}));
-          connect(SetPoi, variableSpeed.SetPoi) annotation (Line(points={{-120,
-                  20},{-74,20},{-74,46},{-62,46}}, color={0,0,127}));
+          connect(SetPoi, variableSpeed.set) annotation (Line(points={{-120,20},
+                  {-74,20},{-74,46},{-62,46}}, color={0,0,127}));
           connect(On, swi.u2) annotation (Line(points={{-120,60},{-80,60},{-80,
                   28},{-20,28},{-20,38},{10,38}}, color={255,0,255}));
           annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
@@ -5163,7 +5152,7 @@ First implementation.
             nPorts=1,
             p=100000,
             T=293.15) annotation (Placement(transformation(extent={{-96,10},{-76,30}})));
-          BuildingControlEmulator.Devices.FlowMover.VAVSupplyFan PumSup(
+          BuildingControlEmulator.Devices.FlowMover.VAVSupFan PumSup(
             redeclare package Medium = Medium,
             TimCon=10,
             HydEff={0.7,0.7,0.7,0.7,0.7},
@@ -5270,28 +5259,28 @@ First implementation.
               points={{-71,70},{-60,70},{-60,26},{-52,26}},
               color={255,0,255},
               pattern=LinePattern.Dash));
-          connect(con.y, PumSup.PreSetPoi) annotation (Line(
+          connect(con.y, PumSup.pSet) annotation (Line(
               points={{-87.4,0},{-64,0},{-64,22},{-52,22}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(PumSup.PreMea, senRelPre.p_rel) annotation (Line(
+          connect(PumSup.pMea, senRelPre.p_rel) annotation (Line(
               points={{-52,10},{-56,10},{-56,-14},{14,-14},{14,-32},{9,-32}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(const.y, PumSup.CooTempSetPoi) annotation (Line(
+          connect(const.y, PumSup.cooTSet) annotation (Line(
               points={{-87.4,-20},{-62,-20},{-62,18},{-52,18}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(sine2.y, PumSup.Temp[1]) annotation (Line(
-              points={{-47.4,-40},{-36,-40},{-24,-40},{-24,-6},{-58,-6},{-58,12.6667},{
-                  -52,12.6667}},
+          connect(sine2.y, PumSup.T[1]) annotation (Line(
+              points={{-47.4,-40},{-36,-40},{-24,-40},{-24,-6},{-58,-6},{-58,
+                  12.6667},{-52,12.6667}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(sine1.y, PumSup.Temp[2]) annotation (Line(
+          connect(sine1.y, PumSup.T[2]) annotation (Line(
               points={{-67.4,-40},{-60,-40},{-60,14},{-52,14}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(sine.y, PumSup.Temp[3]) annotation (Line(
+          connect(sine.y, PumSup.T[3]) annotation (Line(
               points={{-87.4,-40},{-82,-40},{-82,10},{-68,10},{-68,15.3333},{-52,
                   15.3333}},
               color={0,0,127},
@@ -5300,7 +5289,7 @@ First implementation.
               points={{-29,11.8},{-14,11.8},{-14,-74},{-29,-74}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(const1.y, PumSup.HeaTempSetPoi) annotation (Line(
+          connect(const1.y, PumSup.heaTSet) annotation (Line(
               points={{-83.4,46},{-56,46},{-56,30},{-52,30}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -7103,38 +7092,35 @@ First implementation.
           Modelica.Blocks.Interfaces.BooleanInput
                                                On "On signal"
             annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-          Modelica.Blocks.Interfaces.RealInput Status[n] "Compressor speed ratio"
+          Modelica.Blocks.Interfaces.RealInput sta[n] "Compressor speed ratio"
             annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
-          Modelica.Blocks.Interfaces.RealInput Loa
+          Modelica.Blocks.Interfaces.RealInput loa
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
           PlantStageCondition plantNStageCondition(
             thehol=thehol,
             n=n,
             Cap=Cap) annotation (Placement(transformation(extent={{-60,-16},{
                     -40,4}})));
-          BaseClasses.StageN NStage(tWai=tWai, n=n)
+          BaseClasses.StageN nSta(tWai=tWai, n=n)
             annotation (Placement(transformation(extent={{-8,-18},{12,2}})));
         equation
 
           for i in 1:n loop
-             y[i] =if i <= integer(NStage.y) then 1 else 0;
+             y[i] =if i <= integer(nSta.y) then 1 else 0;
           end for;
 
           connect(plantNStageCondition.OnSin, On) annotation (Line(
               points={{-62,-6},{-80,-6},{-80,80},{-120,80}},
               color={255,0,255}));
-          connect(plantNStageCondition.Loa, Loa) annotation (Line(
+          connect(plantNStageCondition.Loa,loa)  annotation (Line(
               points={{-62,0},{-120,0}},
               color={0,0,127}));
-          connect(plantNStageCondition.Status, Status) annotation (Line(
-              points={{-62,-12},{-80,-12},{-80,-80},{-120,-80}},
-              color={0,0,127}));
-          connect(plantNStageCondition.Off, NStage.Off) annotation (Line(
-              points={{-39,-10},{-24,-10},{-24,-14},{-10,-14}},
-              color={255,0,255}));
-          connect(plantNStageCondition.On, NStage.On) annotation (Line(
-              points={{-39,-2},{-10,-2}},
-              color={255,0,255}));
+          connect(plantNStageCondition.Status, sta) annotation (Line(points={{-62,
+                  -12},{-80,-12},{-80,-80},{-120,-80}}, color={0,0,127}));
+          connect(plantNStageCondition.Off, nSta.Off) annotation (Line(points={
+                  {-39,-10},{-24,-10},{-24,-14},{-10,-14}}, color={255,0,255}));
+          connect(plantNStageCondition.On, nSta.On)
+            annotation (Line(points={{-39,-2},{-10,-2}}, color={255,0,255}));
           annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
                     -100},{100,100}})),           Icon(coordinateSystem(
                   preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
@@ -7240,7 +7226,7 @@ First implementation.
           Modelica.Blocks.Interfaces.BooleanInput
                                                On "On signal"
             annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-          Modelica.Blocks.Interfaces.RealInput Status[n] "Compressor speed ratio"
+          Modelica.Blocks.Interfaces.RealInput sta[n] "Compressor speed ratio"
             annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
           PumpStageCondition pumNStaCon(
             n=n,
@@ -7258,8 +7244,8 @@ First implementation.
 
           connect(pumNStaCon.OnSin, On) annotation (Line(points={{-62,6},{-80,6},
                   {-80,80},{-120,80}}, color={255,0,255}));
-          connect(pumNStaCon.Status, Status) annotation (Line(points={{-62,-6},
-                  {-80,-6},{-80,-80},{-120,-80}}, color={0,0,127}));
+          connect(pumNStaCon.Status, sta) annotation (Line(points={{-62,-6},{-80,
+                  -6},{-80,-80},{-120,-80}}, color={0,0,127}));
           connect(pumNStaCon.Off, pumNSta.Off) annotation (Line(points={{-39,-4},
                   {-20,-4},{-20,-6},{-10,-6}}, color={255,0,255}));
           connect(pumNStaCon.On, pumNSta.On) annotation (Line(points={{-39,4},{
@@ -7450,12 +7436,13 @@ First implementation.
                 points={{-19,70},{40,70},{40,20},{-40,20},{-40,8},{-12,8}},
                 color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(loa.y, plantSta.Loa) annotation (Line(
+            connect(loa.y,plantSta.loa)  annotation (Line(
                 points={{-59,0},{-40,0},{-12,0}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(plantSta.y, plantSta.Status) annotation (Line(
+            connect(plantSta.y, plantSta.sta) annotation (Line(
                 points={{11,0},{26,0},{40,0},{40,-60},{-28,-60},{-28,-8},{-12,-8}},
+
                 color={0,0,127},
                 pattern=LinePattern.Dash));
             annotation (__Dymola_Commands(file=
@@ -7507,11 +7494,11 @@ First implementation.
                 points={{-3,70},{10,70},{20,70},{20,30},{-20,30},{-20,8},{-10,8}},
                 color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(s1.y, pumpStageN.Status[1]) annotation (Line(
+            connect(s1.y, pumpStageN.sta[1]) annotation (Line(
                 points={{-59,-10},{-32,-10},{-32,-9},{-10,-9}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(s2.y, pumpStageN.Status[2]) annotation (Line(
+            connect(s2.y, pumpStageN.sta[2]) annotation (Line(
                 points={{-59,-50},{-26,-50},{-26,-7},{-10,-7}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -7772,12 +7759,11 @@ First implementation.
             points={{-28,68},{-32,68},{-32,-60},{-3,-59},{-3,-54}},
             color={255,0,255},
             pattern=LinePattern.Dash));
-        connect(senTCHWLea.T, conPI.Mea) annotation (Line(
+        connect(senTCHWLea.T,conPI.mea)  annotation (Line(
             points={{30,-69},{30,-69},{30,-20},{-42,-20},{-42,56},{-28,56}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(conPI.SetPoi, TCHWSet)
-          annotation (Line(
+        connect(conPI.set, TCHWSet) annotation (Line(
             points={{-28,62},{-46,62},{-46,40},{-109,40}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -8355,11 +8341,11 @@ First implementation.
             points={{-71.3,27},{-54,27},{-54,88},{-32,88}},
             color={255,0,255},
             pattern=LinePattern.Dash));
-        connect(conPI.SetPoi, TSet) annotation (Line(
+        connect(conPI.set, TSet) annotation (Line(
             points={{-32,82},{-76,82},{-76,80},{-120,80}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(senTCWLea.T, conPI.Mea) annotation (Line(
+        connect(senTCWLea.T,conPI.mea)  annotation (Line(
             points={{44,11},{44,11},{44,40},{-44,40},{-44,76},{-32,76}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -8622,15 +8608,13 @@ First implementation.
         connect(realToBoolean.y, conPI.On) annotation (Line(
             points={{-53.2,-10},{-40,-10},{-40,10},{-80,10},{-80,46},{-66,46}},
             color={255,0,255}));
-        connect(conPI.SetPoi, THWSet)
-          annotation (Line(
-            points={{-66,40},{-109,40}},
-            color={0,0,127}));
+        connect(conPI.set, THWSet)
+          annotation (Line(points={{-66,40},{-109,40}}, color={0,0,127}));
         connect(conPI.y, boi.y)
           annotation (Line(
             points={{-43,40},{-8,40},{-8,-26}},
             color={0,0,127}));
-        connect(realExpression.y, conPI.Mea) annotation (Line(
+        connect(realExpression.y,conPI.mea)  annotation (Line(
             points={{-49,-30},{-30,-30},{-30,22},{-76,22},{-76,34},{-66,34}},
             color={0,0,127}));
         annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
@@ -12362,7 +12346,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
 
       package BaseClasses
 
-        model DuaFanAirHanUnit
+        model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
 
           replaceable package MediumAir =
               Modelica.Media.Interfaces.PartialMedium "Medium for the air";
@@ -12419,7 +12403,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             TimCon=1,
             PreCur=RetPreCur)                               annotation (Placement(transformation(extent={{-10,-90},{-30,-70}})));
 
-          Devices.FlowMover.VAVSupplyFan supFan(redeclare package Medium = MediumAir,
+          Devices.FlowMover.VAVSupFan supFan(
+            redeclare package Medium = MediumAir,
             TimCon=1,
             k=Fan_k,
             Ti=Fan_Ti,
@@ -12429,15 +12414,15 @@ First implementation, based on <code>Modelica.Fluid</code>.
             HydEff=HydEff,
             MotEff=MotEff,
             VolFloCur=VolFloCur,
-            PreCur=SupPreCur)                   annotation (Placement(transformation(extent={{18,-10},
-                    {38,10}})));
+            PreCur=SupPreCur)
+            annotation (Placement(transformation(extent={{18,-10},{38,10}})));
           Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
               Medium = MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
             annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-          Devices.AirSide.Coil.CooCoil
-                               cooCoil(redeclare package MediumAir = MediumAir, redeclare
-              package MediumWat = MediumWat,
+          Devices.AirSide.Coil.cooCoi cooCoi(
+            redeclare package MediumAir = MediumAir,
+            redeclare package MediumWat = MediumWat,
             mAirFloRat=mAirFloRat,
             mWatFloRat=mWatFloRat,
             PreDroAir=PreDroCoiAir,
@@ -12446,17 +12431,17 @@ First implementation, based on <code>Modelica.Fluid</code>.
             Ti=Coi_Ti,
             UA=UA*1.2*eps)
             annotation (Placement(transformation(extent={{-2,-2},{-20,18}})));
-          Devices.AirSide.MixingBox.MixingBox
-                                      mixingBox(mTotAirFloRat=mAirFloRat, redeclare
-              package Medium = MediumAir,
+          Devices.AirSide.MixingBox.MixingBox mixingBox(
+            mTotAirFloRat=mAirFloRat,
+            redeclare package Medium = MediumAir,
             PreDro=PreDroMixingBoxAir,
             mFreAirFloRat=mFreAirFloRat,
             TemHig=TemEcoHig,
             TemLow=TemEcoLow,
             DamMin=MixingBoxDamMin,
             k=MixingBox_k,
-            Ti=MixingBox_Ti)
-            annotation (Placement(transformation(extent={{-10,-10},{10,10}},
+            Ti=MixingBox_Ti) annotation (Placement(transformation(
+                extent={{-10,-10},{10,10}},
                 rotation=90,
                 origin={-60,0})));
           Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
@@ -12481,28 +12466,31 @@ First implementation, based on <code>Modelica.Fluid</code>.
             annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
           Modelica.Blocks.Interfaces.BooleanInput On
             annotation (Placement(transformation(extent={{-120,-110},{-100,-90}})));
-          Modelica.Blocks.Interfaces.RealInput DisTemPSetPoi "Connector of setpoint input signal" annotation (Placement(transformation(extent={{-120,
-                    -30},{-100,-10}})));
-          Modelica.Blocks.Interfaces.RealInput PreSetPoi
-            "Connector of setpoint input signal"                                              annotation (Placement(transformation(extent={{-120,-70},{-100,-50}})));
-          Modelica.Blocks.Interfaces.RealInput PreMea "Connector of measurement input signal" annotation (Placement(transformation(extent={{-120,84},
-                    {-100,104}})));
-          Modelica.Blocks.Interfaces.RealInput CooTempSetPoi[numTemp]
-            "Connector of setpoint input signal"
-            annotation (Placement(transformation(extent={{-120,30},{-100,50}})));
-          Modelica.Blocks.Interfaces.RealInput ZonTemp[numTemp] "Connector of setpoint input signal" annotation (Placement(transformation(extent={{-120,
-                    -50},{-100,-30}})));
-          Buildings.Fluid.Sensors.TemperatureTwoPort senTemDisAir(redeclare
-              package Medium =
-                MediumAir, m_flow_nominal=mAirFloRat)
+          Modelica.Blocks.Interfaces.RealInput disTSet
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,-30},{-100,-10}})));
+          Modelica.Blocks.Interfaces.RealInput pSet
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,-70},{-100,-50}})));
+          Modelica.Blocks.Interfaces.RealInput pMea
+            "Connector of measurement input signal" annotation (Placement(
+                transformation(extent={{-120,84},{-100,104}})));
+          Modelica.Blocks.Interfaces.RealInput cooTSet[numTemp]
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,30},{-100,50}})));
+          Modelica.Blocks.Interfaces.RealInput zonT[numTemp]
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,-50},{-100,-30}})));
+          Buildings.Fluid.Sensors.TemperatureTwoPort senTDisAir(redeclare
+              package Medium = MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{72,-10},{92,10}})));
           Modelica.Blocks.Sources.RealExpression realExpression(y=100000)
             annotation (Placement(transformation(extent={{40,66},{60,86}})));
           Modelica.Blocks.Math.Add add(k2=-1)
             annotation (Placement(transformation(extent={{50,40},{30,60}})));
-          Modelica.Blocks.Interfaces.RealInput HeaTempSetPoi[numTemp]
-            "Connector of setpoint input signal"
-            annotation (Placement(transformation(extent={{-120,70},{-100,90}})));
+          Modelica.Blocks.Interfaces.RealInput heaTSet[numTemp]
+            "Connector of setpoint input signal" annotation (Placement(
+                transformation(extent={{-120,70},{-100,90}})));
           Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
             annotation (Placement(transformation(extent={{-34,-58},{-14,-38}})));
           Modelica.Blocks.Interfaces.RealInput TOut "outdoor air temperature"
@@ -12513,18 +12501,16 @@ First implementation, based on <code>Modelica.Fluid</code>.
             final quantity="ThermodynamicTemperature")
             "AHU supply air temperature"
             annotation (Placement(transformation(extent={{100,30},{120,50}})));
-          Buildings.Fluid.Sensors.TemperatureTwoPort senTemMixAir(redeclare
-              package Medium =
-                       MediumAir, m_flow_nominal=mAirFloRat)
+          Buildings.Fluid.Sensors.TemperatureTwoPort senTMixAir(redeclare
+              package Medium = MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{-44,-10},{-24,10}})));
           Modelica.Blocks.Interfaces.RealOutput TMixAir(
             final unit="K",
             final displayUnit="degC",
             final quantity="ThermodynamicTemperature") "Mixing air temperature"
             annotation (Placement(transformation(extent={{100,18},{120,38}})));
-          Buildings.Fluid.Sensors.TemperatureTwoPort senTemDisAir1(redeclare
-              package Medium =
-                       MediumAir, m_flow_nominal=mAirFloRat)
+          Buildings.Fluid.Sensors.TemperatureTwoPort senTDisAir1(redeclare
+              package Medium = MediumAir, m_flow_nominal=mAirFloRat)
             annotation (Placement(transformation(extent={{72,-90},{92,-70}})));
           Modelica.Blocks.Interfaces.RealOutput TRetAir "AHU return air temperature"
             annotation (Placement(transformation(extent={{100,-64},{120,-44}})));
@@ -12568,11 +12554,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
             final quantity="ThermodynamicTemperature")
             "AHU return chilled water temperature"
             annotation (Placement(transformation(extent={{100,-24},{120,-4}})));
-          Modelica.Blocks.Sources.RealExpression TSupCHWMea(y=cooCoil.coi.temEntWat.T)
+          Modelica.Blocks.Sources.RealExpression TSupCHWMea(y=cooCoi.coi.TEntWat.T)
             annotation (Placement(transformation(extent={{72,70},{92,90}})));
-          Modelica.Blocks.Sources.RealExpression TRetCHWMea(y=cooCoil.coi.temLeaWat.T)
+          Modelica.Blocks.Sources.RealExpression TRetCHWMea(y=cooCoi.coi.TLeaWat.T)
             annotation (Placement(transformation(extent={{72,-24},{92,-4}})));
-          Modelica.Blocks.Sources.RealExpression yCooValMea(y=cooCoil.val.y)
+          Modelica.Blocks.Sources.RealExpression yCooValMea(y=cooCoi.val.y)
             annotation (Placement(transformation(extent={{70,-50},{90,-30}})));
           Modelica.Blocks.Interfaces.RealOutput yCooVal
             "AHU cooling coil valve position measurement" annotation (Placement(
@@ -12596,22 +12582,18 @@ First implementation, based on <code>Modelica.Fluid</code>.
               unit="1"))
             annotation (Placement(transformation(extent={{48,-56},{64,-40}})));
         equation
-          connect(cooCoil.port_b_Air, supFan.port_a) annotation (Line(
+          connect(cooCoi.port_b_Air, supFan.port_a) annotation (Line(
               points={{-1.82,0},{18,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(mixingBox.SetPoi, DisTemPSetPoi) annotation (Line(
-              points={{-60,-12},{-60,-20},{-110,-20}},
-              color={0,0,127}));
-          connect(cooCoil.SetPoi, DisTemPSetPoi) annotation (Line(
-              points={{-0.2,6},{6,6},{6,-20},{-110,-20}},
-              color={0,0,127}));
-          connect(supFan.Temp, ZonTemp) annotation (Line(
-              points={{16,-6},{16,-40},{-110,-40}},
-              color={0,0,127}));
-          connect(supFan.PreSetPoi, PreSetPoi) annotation (Line(
-              points={{16,2},{12,2},{12,-60},{-110,-60}},
-              color={0,0,127}));
+          connect(mixingBox.set, disTSet) annotation (Line(points={{-60,-12},{-60,
+                  -20},{-110,-20}}, color={0,0,127}));
+          connect(cooCoi.SetPoi, disTSet) annotation (Line(points={{-0.2,6},{6,
+                  6},{6,-20},{-110,-20}}, color={0,0,127}));
+          connect(supFan.T, zonT) annotation (Line(points={{16,-6},{16,-40},{-110,
+                  -40}}, color={0,0,127}));
+          connect(supFan.pSet, pSet) annotation (Line(points={{16,2},{12,2},{12,
+                  -60},{-110,-60}}, color={0,0,127}));
           connect(port_Exh_Air, mixingBox.port_Exh) annotation (Line(
               points={{-102,0},{-82,0},{-82,-6},{-70,-6}},
               color={0,140,72},
@@ -12620,57 +12602,52 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{-50,-5.8},{-42,-5.8},{-42,-80},{-30,-80}},
               color={0,140,72},
               thickness=0.5));
-          connect(port_b_Air, senTemDisAir.port_b) annotation (Line(
+          connect(port_b_Air, senTDisAir.port_b) annotation (Line(
               points={{100,0},{92,0}},
               color={0,127,255},
               thickness=1));
-          connect(PreMea, add.u1) annotation (Line(
-              points={{-110,94},{-20,94},{-20,68},{68,68},{68,56},{52,56}},
-              color={0,0,127}));
+          connect(pMea, add.u1) annotation (Line(points={{-110,94},{-20,94},{-20,
+                  68},{68,68},{68,56},{52,56}}, color={0,0,127}));
           connect(realExpression.y, add.u2) annotation (Line(
               points={{61,76},{80,76},{80,44},{52,44}},
               color={0,0,127}));
-          connect(add.y, supFan.PreMea) annotation (Line(
-              points={{29,50},{10,50},{10,-10},{16,-10}},
-              color={0,0,127}));
-          connect(supFan.HeaTempSetPoi, HeaTempSetPoi) annotation (Line(
-              points={{16,10},{12,10},{12,80},{-110,80}},
-              color={0,0,127}));
-          connect(supFan.CooTempSetPoi, CooTempSetPoi) annotation (Line(
-              points={{16,-2},{-46,-2},{-46,40},{-110,40}},
-              color={0,0,127}));
-          connect(booleanExpression.y, cooCoil.On) annotation (Line(points={{-13,-48},{
-                  8,-48},{8,12},{-0.2,12}}, color={255,0,255}));
-          connect(mixingBox.Tout, TOut) annotation (Line(
-              points={{-54,-12},{-54,-80},{-110,-80}},
-              color={0,0,127}));
-          connect(On, mixingBox.On) annotation (Line(points={{-110,-100},{-68,-100},{
-                  -68,-12}}, color={255,0,255}));
+          connect(add.y, supFan.pMea) annotation (Line(points={{29,50},{10,50},
+                  {10,-10},{16,-10}}, color={0,0,127}));
+          connect(supFan.heaTSet, heaTSet) annotation (Line(points={{16,10},{12,
+                  10},{12,80},{-110,80}}, color={0,0,127}));
+          connect(supFan.cooTSet, cooTSet) annotation (Line(points={{16,-2},{-46,
+                  -2},{-46,40},{-110,40}}, color={0,0,127}));
+          connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,
+                  -48},{8,-48},{8,12},{-0.2,12}}, color={255,0,255}));
+          connect(mixingBox.Tout, TOut) annotation (Line(points={{-54,-12},{-54,
+                  -80},{-110,-80}}, color={0,0,127}));
+          connect(On, mixingBox.On) annotation (Line(points={{-110,-100},{-68,-100},
+                  {-68,-12}}, color={255,0,255}));
           connect(On, supFan.On) annotation (Line(points={{-110,-100},{4,-100},{4,6},{16,
                   6}},     color={255,0,255}));
-          connect(senTemDisAir.T, TSupAir)
-            annotation (Line(points={{82,11},{82,40},{110,40}}, color={0,0,127}));
-          connect(senTemMixAir.port_b, cooCoil.port_a_Air) annotation (Line(
+          connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,11},{82,
+                  40},{110,40}}, color={0,0,127}));
+          connect(senTMixAir.port_b, cooCoi.port_a_Air) annotation (Line(
               points={{-24,0},{-20,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(mixingBox.port_Sup, senTemMixAir.port_a) annotation (Line(
+          connect(mixingBox.port_Sup, senTMixAir.port_a) annotation (Line(
               points={{-49.8,6},{-48,6},{-48,0},{-44,0}},
               color={0,140,72},
               thickness=0.5));
-          connect(senTemMixAir.T, TMixAir)
-            annotation (Line(points={{-34,11},{-34,28},{110,28}}, color={0,0,127}));
-          connect(senTemDisAir1.T, TRetAir)
-            annotation (Line(points={{82,-69},{82,-54},{110,-54}}, color={0,0,127}));
-          connect(senVolFloSupAir.port_b, senTemDisAir.port_a)
+          connect(senTMixAir.T, TMixAir) annotation (Line(points={{-34,11},{-34,
+                  28},{110,28}}, color={0,0,127}));
+          connect(senTDisAir1.T, TRetAir) annotation (Line(points={{82,-69},{82,
+                  -54},{110,-54}}, color={0,0,127}));
+          connect(senVolFloSupAir.port_b, senTDisAir.port_a)
             annotation (Line(points={{64,0},{72,0}}, color={0,127,255}));
           connect(senVolFloSupAir.port_a, supFan.port_b)
             annotation (Line(points={{44,0},{38,0}}, color={0,127,255}));
           connect(senVolFloSupAir.V_flow, V_flowSupAir) annotation (Line(points={{54,11},
                   {56,11},{56,16},{110,16}}, color={0,0,127}));
-          connect(senVolFloSupAir1.port_b, senTemDisAir1.port_a)
+          connect(senVolFloSupAir1.port_b, senTDisAir1.port_a)
             annotation (Line(points={{54,-80},{72,-80}}, color={0,127,255}));
-          connect(senTemDisAir1.port_b, port_a_Air)
+          connect(senTDisAir1.port_b, port_a_Air)
             annotation (Line(points={{92,-80},{100,-80}}, color={0,127,255}));
           connect(senVolFloSupAir1.port_a, retFan.port_a)
             annotation (Line(points={{34,-80},{-10,-80}}, color={0,127,255}));
@@ -12681,11 +12658,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
           connect(PFanTot.y, PFan) annotation (Line(points={{-13,-32},{44,-32},
                   {44,-28},{110,-28}},
                               color={0,0,127}));
-          connect(cooCoil.port_a_Wat, port_a_Wat) annotation (Line(
+          connect(cooCoi.port_a_Wat, port_a_Wat) annotation (Line(
               points={{-2,16},{20,16},{20,100}},
               color={0,127,255},
               thickness=1));
-          connect(cooCoil.port_b_Wat, port_b_Wat) annotation (Line(
+          connect(cooCoi.port_b_Wat, port_b_Wat) annotation (Line(
               points={{-20,16},{-40,16},{-40,100}},
               color={0,127,255},
               thickness=1));
@@ -12747,7 +12724,22 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 Text(
                   extent={{-146,300},{154,340}},
                   textString="%name",
-                  textColor={0,0,255})}));
+                  textColor={0,0,255})}),
+            Documentation(info="<html>
+<p>There are two fans (i.e., one supply fan, and one return fan) in the AHU system. Only a cooling coil is installed in the AHU.</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AHUControl.png\"/></p>
+<p>Supply fan speed is controlled by a PI controller to maintain duct static pressure (DSP) at setpoint when the fan is proven ON. Cooling coil valve position is controlled by a PI controller to maintain the AHU supply air temperature at setpoint.</p>
+<p>In the mixing box of the AHU, an economizer is implemented to use the outdoor air to meet the cooling load when outdoor conditions are favorable. Outdoor air damper position is controlled by a PI controller to maintain the mixed air temperature at setpoint. It takes the mixed and outdoor air temperature measurements, as well as the mixed air temperature setpoints as inputs. It takes the outdoor air damper position as the output. The return air damper are interlocked with the outdoor air damper while exhausted air damper share the same opening position with the outdoor air damper. On top of that, an economizer control based on the fixed dry-bulb outdoor air temperature-based is adopted. The economizer higher temperature limit is set as 21 degC according to ASHRAE 90.1-2019 for Climate Zone 5A.</p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.FlowMover.VAVSupFan\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.FlowMover.VAVSupFan</a> for a description of the supply fan model. </p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.FlowMover.BaseClasses.WithoutMotor\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.FlowMover.BaseClasses.WithoutMotor</a> for a description of the return fan model. </p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Coil.cooCoi\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Coil.cooCoi</a> for a description of the cooling coil model. </p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.MixingBox.MixingBox\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.MixingBox.MixingBox</a> for a description of the mixing box model. </p>
+</html>",         revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
+</html>"));
         end DuaFanAirHanUnit;
 
         model DuaFanAirHanUnitDX
@@ -12800,7 +12792,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             TimCon=60,
             PreCur=RetPreCur)                               annotation (Placement(transformation(extent={{-10,-90},{-30,-70}})));
 
-          Devices.FlowMover.VAVSupplyFan supFan(redeclare package Medium = MediumAir,
+          Devices.FlowMover.VAVSupFan supFan(
+            redeclare package Medium = MediumAir,
             TimCon=60,
             k=Fan_k,
             Ti=Fan_Ti,
@@ -12810,7 +12803,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
             HydEff=HydEff,
             MotEff=MotEff,
             VolFloCur=VolFloCur,
-            PreCur=SupPreCur)                   annotation (Placement(transformation(extent={{28,-10},{48,10}})));
+            PreCur=SupPreCur)
+            annotation (Placement(transformation(extent={{28,-10},{48,10}})));
           Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
               Medium =                                                                MediumAir)
             "Fluid connector b (positive design flow direction is from port_a to port_b)"
@@ -12913,7 +12907,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{49,-8.2},{60,-8.2},{60,-74},{-9,-74}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(mixingBox.SetPoi, DisTemPSetPoi) annotation (Line(
+          connect(mixingBox.set, DisTemPSetPoi) annotation (Line(
               points={{-60,-12},{-60,-20},{-110,-20}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -12921,11 +12915,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{-0.2,12},{6,12},{6,-20},{-110,-20}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(supFan.Temp, ZonTemp) annotation (Line(
+          connect(supFan.T, ZonTemp) annotation (Line(
               points={{26,-6},{16,-6},{16,-60},{110,-60}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(supFan.PreSetPoi, PreSetPoi) annotation (Line(
+          connect(supFan.pSet, PreSetPoi) annotation (Line(
               points={{26,2},{12,2},{12,-60},{-110,-60}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -12953,15 +12947,15 @@ First implementation, based on <code>Modelica.Fluid</code>.
               points={{63,76},{80,76},{80,44},{62,44}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(add.y, supFan.PreMea) annotation (Line(
+          connect(add.y, supFan.pMea) annotation (Line(
               points={{39,50},{32,50},{32,-30},{20,-30},{20,-10},{26,-10}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(supFan.HeaTempSetPoi, HeaTempSetPoi) annotation (Line(
+          connect(supFan.heaTSet, HeaTempSetPoi) annotation (Line(
               points={{26,10},{12,10},{12,80},{-110,80}},
               color={0,0,127},
               pattern=LinePattern.Dash));
-          connect(supFan.CooTempSetPoi, CooTempSetPoi) annotation (Line(
+          connect(supFan.cooTSet, CooTempSetPoi) annotation (Line(
               points={{26,-2},{-46,-2},{-46,40},{-110,40}},
               color={0,0,127},
               pattern=LinePattern.Dash));
@@ -13117,8 +13111,9 @@ First implementation, based on <code>Modelica.Fluid</code>.
               "Pressure curve";
             parameter Modelica.Units.SI.Pressure RetPreCur[:]={200,150,100,50}
               "Pressure curve";
-            DuaFanAirHanUnit duaFanAirHanUnit(redeclare package MediumAir = MediumAir, redeclare
-                package MediumWat =                                                                                  MediumWat,
+            DuaFanAirHanUnit duaFanAirHanUnit(
+              redeclare package MediumAir = MediumAir,
+              redeclare package MediumWat = MediumWat,
               mAirFloRat=mAirFloRat,
               mWatFloRat=mWatFloRat,
               PreDroCoiAir=PreDroCoiAir,
@@ -13138,11 +13133,13 @@ First implementation, based on <code>Modelica.Fluid</code>.
               Coi_Ti=60,
               MixingBox_Ti=60,
               Fan_Ti=60,
-              UA=-mAirFloRat*(1000*17)/Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
-                  273.15 + 6,
-                  273.15 + 12,
-                  273.15 + 30,
-                  273.15 + 12.88))            annotation (Placement(transformation(extent={{-14,26},{14,50}})));
+              UA=-mAirFloRat*(1000*17)/
+                  Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
+                            273.15 + 6,
+                            273.15 + 12,
+                            273.15 + 30,
+                            273.15 + 12.88))
+              annotation (Placement(transformation(extent={{-14,26},{14,50}})));
             Buildings.Fluid.Sources.Boundary_pT souWat(
               nPorts=1,
               redeclare package Medium = MediumWat,
@@ -13250,8 +13247,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 points={{-42,-24},{-66,-24},{-66,32},{-48,32},{-48,26},{-15.4,26}},
                 color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(realExpression.y, pI.SetPoi)
-              annotation (Line(
+            connect(realExpression.y, pI.set) annotation (Line(
                 points={{-57,-68},{-50,-68},{-50,-30},{-42,-30}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -13269,21 +13265,21 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 points={{66,0},{80,0},{80,-78},{6,-78}},
                 color={0,127,255},
                 thickness=1));
-            connect(senRelPre.p_rel, duaFanAirHanUnit.PreMea) annotation (Line(
+            connect(senRelPre.p_rel, duaFanAirHanUnit.pMea) annotation (Line(
                 points={{54,51},{54,44},{44,44},{44,45.2},{15.4,45.2}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(duaFanAirHanUnit.ZonTemp[1], senTem.T) annotation (Line(
+            connect(duaFanAirHanUnit.zonT[1], senTem.T) annotation (Line(
                 points={{15.4,30.8},{22,30.8},{22,-46},{-44,-46},{-44,-69}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(duaFanAirHanUnit.DisTemPSetPoi, TSupSetPoi.y)
-              annotation (Line(
+            connect(duaFanAirHanUnit.disTSet, TSupSetPoi.y) annotation (Line(
                 points={{-15.4,35.6},{-58,35.6},{-58,52},{-77,52}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(PreSetPoi.y, duaFanAirHanUnit.PreSetPoi) annotation (Line(
+            connect(PreSetPoi.y, duaFanAirHanUnit.pSet) annotation (Line(
                 points={{-39,-10},{-30,-10},{-20,-10},{-20,30.8},{-15.4,30.8}},
+
                 color={0,0,127},
                 pattern=LinePattern.Dash));
             connect(prescribedHeatFlow.port, vol.heatPort)
@@ -13304,16 +13300,16 @@ First implementation, based on <code>Modelica.Fluid</code>.
               annotation (Line(points={{-85,112},{-74,112},{-74,94},{-108,94},{-108,74},{-98,74}}, color={0,0,127}));
             connect(senRelPre.port_b, souAir.ports[3])
               annotation (Line(points={{44,60},{-16,60},{-16,75.3333},{-76,75.3333}}, color={0,127,255}));
-            connect(TZ.y, pI.Mea) annotation (Line(
+            connect(TZ.y,pI.mea)  annotation (Line(
                 points={{-85,-40},{-74,-40},{-74,-38},{-42,-38},{-42,-36}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
             connect(souAir.T_in, TOut.y) annotation (Line(points={{-98,82},{-117,82},{-117,112}}, color={0,0,127}));
-            connect(HeaSetPoi.y, duaFanAirHanUnit.HeaTempSetPoi[1]) annotation (Line(
+            connect(HeaSetPoi.y, duaFanAirHanUnit.heaTSet[1]) annotation (Line(
                 points={{-81,-20},{-30,-20},{-30,47.6},{-15.4,47.6}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(CoolSetPoi.y, duaFanAirHanUnit.CooTempSetPoi[1]) annotation (Line(
+            connect(CoolSetPoi.y, duaFanAirHanUnit.cooTSet[1]) annotation (Line(
                 points={{-81,8},{-38,8},{-38,42.8},{-15.4,42.8}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -13492,8 +13488,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 points={{-42,-24},{-66,-24},{-66,32},{-48,32},{-48,26},{-15.4,26}},
                 color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(realExpression.y, pI.SetPoi)
-              annotation (Line(
+            connect(realExpression.y, pI.set) annotation (Line(
                 points={{-57,-68},{-50,-68},{-50,-30},{-42,-30}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -13547,7 +13542,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
               annotation (Line(points={{-85,112},{-74,112},{-74,94},{-108,94},{-108,74},{-98,74}}, color={0,0,127}));
             connect(senRelPre.port_b, souAir.ports[3])
               annotation (Line(points={{44,60},{-16,60},{-16,75.3333},{-76,75.3333}}, color={0,127,255}));
-            connect(TZ.y, pI.Mea) annotation (Line(
+            connect(TZ.y,pI.mea)  annotation (Line(
                 points={{-85,-40},{-74,-40},{-74,-38},{-42,-38},{-42,-36}},
                 color={0,0,127},
                 pattern=LinePattern.Dash));
@@ -13602,7 +13597,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
     end AirHanUnit;
 
     package HydDisturbution
-      model ThreZonNetWor "\"Three zone system\""
+      model ThreZonNetWor "Water distribution network"
         replaceable package Medium = Modelica.Media.Interfaces.PartialMedium "Medium for the air";
         parameter Modelica.Units.SI.Pressure PreDroMai1
           "Pressure drop 1 across the duct";
@@ -14197,7 +14192,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
           annotation (Line(points={{-74,-45.2},{-80,-45.2},{-80,-60},{-100,-60}}, color={0,140,72},
             thickness=0.5));
 
-        connect(vAV.AirFlowRatSetPoi, AirFlowRatSetPoi) annotation (Line(
+        connect(vAV.airFloRatSet, AirFlowRatSetPoi) annotation (Line(
             points={{19,16},{-34,16},{-34,100},{-110,100}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -14279,7 +14274,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 Diagram(coordinateSystem(preserveAspectRatio=false)));
       end FivZonVAV;
 
-      model FivZonVAVNoVec
+      model FivZonVAVNoVec "Thermal zones and VAV terminals."
         replaceable package MediumAir = Modelica.Media.Interfaces.PartialMedium
                                                                                 "medium for the air";
 
@@ -14405,7 +14400,8 @@ First implementation, based on <code>Modelica.Fluid</code>.
         parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
           "Heat exchanger effectiveness of vav 5";
 
-        FivZonNetWor ReheatWatNet(redeclare package Medium = MediumWat,
+        FivZonNetWor ReheatWatNet(
+          redeclare package Medium = MediumWat,
           PreDroMai1=PreWatDroMai1,
           PreDroMai2=PreWatDroMai2,
           PreDroMai3=PreWatDroMai3,
@@ -14448,10 +14444,10 @@ First implementation, based on <code>Modelica.Fluid</code>.
           eps=eps1) annotation (Placement(transformation(extent={{-10,-2},{10,18}})));
         Buildings.Fluid.MixingVolumes.MixingVolume vol[5](
           redeclare package Medium = MediumAir,
-          energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-          nPorts=10,
+          each energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+          each nPorts=10,
           m_flow_nominal={mAirFloRat1,mAirFloRat2,mAirFloRat3,mAirFloRat4,mAirFloRat5},
-          V=10)     annotation (Placement(transformation(extent={{70,-70},{90,-50}})));
+          each V=10)     annotation (Placement(transformation(extent={{70,-70},{90,-50}})));
         Buildings.HeatTransfer.Sources.PrescribedHeatFlow fixedHeatFlow[5]
           annotation (Placement(transformation(extent={{-40,-90},{-20,-70}})));
         Modelica.Blocks.Interfaces.RealInput Q_flow[5]
@@ -14474,7 +14470,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-        Modelica.Blocks.Interfaces.RealInput AirFlowRatSetPoi[5]
+        Modelica.Blocks.Interfaces.RealInput airFloRatSet[5]
           "Connector of setpoint input signal"
           annotation (Placement(transformation(extent={{-120,76},{-100,96}})));
         Modelica.Blocks.Interfaces.RealInput yVal[5]
@@ -14482,11 +14478,11 @@ First implementation, based on <code>Modelica.Fluid</code>.
           annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
         Modelica.Blocks.Interfaces.BooleanInput On[5]
           annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-        Modelica.Fluid.Sensors.TemperatureTwoPort temZon[5](redeclare package
-            Medium =                                                                   MediumAir)
+        Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package
+            Medium = MediumAir)
           annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
-        Modelica.Blocks.Interfaces.RealOutput pre "Pressure at port"
-          annotation (Placement(transformation(extent={{200,-22},{220,-2}}),
+        Modelica.Blocks.Interfaces.RealOutput p "Pressure at port" annotation (
+            Placement(transformation(extent={{200,-22},{220,-2}}),
               iconTransformation(extent={{100,-100},{120,-80}})));
         Modelica.Blocks.Interfaces.RealOutput TZon[5]
           "Temperature of the passing fluid"
@@ -14497,16 +14493,16 @@ First implementation, based on <code>Modelica.Fluid</code>.
           "Control signal for terminal box damper"
           annotation (Placement(transformation(extent={{200,44},{220,64}}),
               iconTransformation(extent={{100,20},{120,40}})));
-        Modelica.Blocks.Sources.RealExpression yDamMea[5](y={vAV1.Dam.y,vAV2.Dam.y,
-              vAV3.Dam.y,vAV4.Dam.y,vAV5.Dam.y})
+        Modelica.Blocks.Sources.RealExpression yDamMea[5](y={vAV1.dam.y,vAV2.dam.y,
+              vAV3.dam.y,vAV4.dam.y,vAV5.dam.y})
           annotation (Placement(transformation(extent={{170,44},{190,64}}),
               iconTransformation(extent={{100,70},{120,90}})));
         Modelica.Blocks.Interfaces.RealOutput yReaHea[5]
           "Control signal for terminal box reheat"
           annotation (Placement(transformation(extent={{200,18},{220,38}}),
               iconTransformation(extent={{100,-10},{120,10}})));
-        Modelica.Blocks.Sources.RealExpression yReaValMea[5](y={vAV1.ReheaVal.y,vAV2.ReheaVal.y,
-              vAV3.ReheaVal.y,vAV4.ReheaVal.y,vAV5.ReheaVal.y})
+        Modelica.Blocks.Sources.RealExpression yReaValMea[5](y={vAV1.rehVal.y,
+              vAV2.rehVal.y,vAV3.rehVal.y,vAV4.rehVal.y,vAV5.rehVal.y})
           annotation (Placement(transformation(extent={{170,18},{190,38}})));
 
         Modelica.Blocks.Sources.RealExpression TZonAir[5](y=vol.heatPort.T)
@@ -14554,20 +14550,19 @@ First implementation, based on <code>Modelica.Fluid</code>.
         Modelica.Blocks.Interfaces.RealInput yHea[5]
           "Heating PID signal measurement"
           annotation (Placement(transformation(extent={{-120,-4},{-100,16}})));
-        Modelica.Blocks.Sources.RealExpression Vflow_setMea[5](y={vAV1.AirFlowRatSetPoi
-              *vAV1.mAirFloRat/1.2,vAV2.AirFlowRatSetPoi*vAV2.mAirFloRat/1.2,
-              vAV3.AirFlowRatSetPoi*vAV3.mAirFloRat/1.2,vAV4.AirFlowRatSetPoi*
-              vAV4.mAirFloRat/1.2,vAV5.AirFlowRatSetPoi*vAV5.mAirFloRat/1.2})
+        Modelica.Blocks.Sources.RealExpression Vflow_setMea[5](y={vAV1.airFloRatSet
+              *vAV1.mAirFloRat/1.2,vAV2.airFloRatSet*vAV2.mAirFloRat/1.2,vAV3.airFloRatSet
+              *vAV3.mAirFloRat/1.2,vAV4.airFloRatSet*vAV4.mAirFloRat/1.2,vAV5.airFloRatSet
+              *vAV5.mAirFloRat/1.2})
           "VAV terminal airflow setpoint measurement"
           annotation (Placement(transformation(extent={{170,-50},{190,-30}})));
         Modelica.Blocks.Interfaces.RealOutput Vflow_set[5]
           "VAV terminal airflow setpoint" annotation (Placement(transformation(
                 extent={{200,-50},{220,-30}}), iconTransformation(extent={{100,
                   -40},{120,-20}})));
-        Modelica.Blocks.Sources.RealExpression Vflow_Mea[5](y={vAV1.masFloRat.m_flow
-              /1.2,vAV2.masFloRat.m_flow/1.2,vAV3.masFloRat.m_flow/1.2,vAV4.masFloRat.m_flow
-              /1.2,vAV5.masFloRat.m_flow/1.2})
-          "VAV terminal airflow measurement"
+        Modelica.Blocks.Sources.RealExpression Vflow_Mea[5](y={vAV1.m_flow.m_flow
+              /1.2,vAV2.m_flow.m_flow/1.2,vAV3.m_flow.m_flow/1.2,vAV4.m_flow.m_flow
+              /1.2,vAV5.m_flow.m_flow/1.2}) "VAV terminal airflow measurement"
           annotation (Placement(transformation(extent={{170,-70},{190,-50}})));
         Modelica.Blocks.Interfaces.RealOutput Vflow[5] "VAV terminal airflow"
           annotation (Placement(transformation(extent={{200,-70},{220,-50}}),
@@ -14616,16 +14611,18 @@ First implementation, based on <code>Modelica.Fluid</code>.
             thickness=0.5,      pattern=LinePattern.Dash));
 
         for i in 1:5 loop
-          connect(temZon[i].port_b, AirNetWor.ports_a[i]);
-          connect(temZon[i].port_a, vol[i].ports[2]);
+          connect(TZonSen[i].port_b, AirNetWor.ports_a[i]);
+          connect(TZonSen[i].port_a, vol[i].ports[2]);
         end for;
 
-        connect(ReheatWatNet.port_b, port_b_Wat) annotation (Line(points={{-76,57.2},{
-                -74,57.2},{-74,72},{40,72},{40,100}},
-                                               color={255,0,0},
+        connect(ReheatWatNet.port_b, port_b_Wat) annotation (Line(
+            points={{-76,57.2},{-74,57.2},{-74,72},{40,72},{40,100}},
+            color={255,0,0},
             thickness=1));
-        connect(ReheatWatNet.port_a, port_a_Wat) annotation (Line(points={{-76,40.2},{-76,40.2},{-76,40},{-82,40},{-82,76},
-                {-40,76},{-40,100}},                             color={255,0,0},
+        connect(ReheatWatNet.port_a, port_a_Wat) annotation (Line(
+            points={{-76,40.2},{-76,40.2},{-76,40},{-82,40},{-82,76},{-40,76},{
+                -40,100}},
+            color={255,0,0},
             thickness=1));
         connect(AirNetWor.port_a, port_a_Air)
           annotation (Line(points={{-74,-28.2},{-88,-28.2},{-88,40},{-100,40}}, color={0,140,72},
@@ -14635,7 +14632,7 @@ First implementation, based on <code>Modelica.Fluid</code>.
           annotation (Line(points={{-74,-45.2},{-80,-45.2},{-80,-60},{-100,-60}}, color={0,140,72},
             thickness=0.5));
 
-        connect(AirNetWor.p, pre) annotation (Line(
+        connect(AirNetWor.p, p) annotation (Line(
             points={{-42.5,-35},{-8,-35},{-8,-12},{210,-12}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -14668,16 +14665,16 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 {117,12}}, color={0,0,127}));
         connect(yVal[5], vAV5.yVal) annotation (Line(points={{-110,68},{-4,68},{-4,62},
                 {150,62},{150,12},{157,12}}, color={0,0,127}));
-        connect(AirFlowRatSetPoi[1], vAV1.AirFlowRatSetPoi) annotation (Line(points={{
-                -110,78},{-30,78},{-30,16},{-11,16}}, color={0,0,127}));
-        connect(AirFlowRatSetPoi[2], vAV2.AirFlowRatSetPoi) annotation (Line(points={{
-                -110,82},{18,82},{18,16},{29,16}}, color={0,0,127}));
-        connect(AirFlowRatSetPoi[3], vAV3.AirFlowRatSetPoi) annotation (Line(points={{
-                -110,86},{62,86},{62,16},{71,16}}, color={0,0,127}));
-        connect(AirFlowRatSetPoi[4], vAV4.AirFlowRatSetPoi) annotation (Line(points={{
-                -110,90},{108,90},{108,16},{117,16}}, color={0,0,127}));
-        connect(AirFlowRatSetPoi[5], vAV5.AirFlowRatSetPoi) annotation (Line(points={{
-                -110,94},{148,94},{148,16},{157,16}}, color={0,0,127}));
+        connect(airFloRatSet[1], vAV1.airFloRatSet) annotation (Line(points={{-110,
+                78},{-30,78},{-30,16},{-11,16}}, color={0,0,127}));
+        connect(airFloRatSet[2], vAV2.airFloRatSet) annotation (Line(points={{-110,
+                82},{18,82},{18,16},{29,16}}, color={0,0,127}));
+        connect(airFloRatSet[3], vAV3.airFloRatSet) annotation (Line(points={{-110,
+                86},{62,86},{62,16},{71,16}}, color={0,0,127}));
+        connect(airFloRatSet[4], vAV4.airFloRatSet) annotation (Line(points={{-110,
+                90},{108,90},{108,16},{117,16}}, color={0,0,127}));
+        connect(airFloRatSet[5], vAV5.airFloRatSet) annotation (Line(points={{-110,
+                94},{148,94},{148,16},{157,16}}, color={0,0,127}));
         connect(vAV1.port_a_Wat, ReheatWatNet.ports_b[1]) annotation (Line(
             points={{-8,18},{-10,18},{-10,44.62},{-46,44.62}},
             color={238,46,47},
@@ -14814,7 +14811,25 @@ First implementation, based on <code>Modelica.Fluid</code>.
                 textColor={0,0,255},
                 textString="%name")}),
                 Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
-                  {200,100}})));
+                  {200,100}})),
+          Documentation(info="<html>
+<p>A reheat coil is installed in the VAV terminal. The components and control systems of the VAV is shown in the figure below:</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/VAVControl.png\"/></p>
+<p>The controller for terminal VAV box is based on the &quot;single maximum VAV reheat control logic&quot;.</p>
+<p>When the Zone State is cooling, the cooling-loop output shall be mapped to the active airflow setpoint from the cooling minimum endpoint to the cooling maximum endpoint. Heating coil is disabled. When the Zone State is deadband, the active airflow setpoint shall be the minimum endpoint. Heating coil is disabled. When the Zone State is heating, the active airflow setpoint shall be the minimum endpoint. The reheat valve position shall be mapped to the supply air temperature setpoint from the heating minimum endpoint to the heating maximum endpoint.</p>
+<p>VAV damper position is controlled by a PI controller to maintain the air flow rate at setpoint. Heating coil valve position is controlled by a PI controller to maintain the supply air temperature at setpoint.</p>
+<p>
+See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.BaseClasses.VAV_advance_temp_sensor\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.BaseClasses.VAV_advance_temp_sensor</a>
+for a description of the VAV terminal model.
+</p>
+</html>",       revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
+</html>"));
       end FivZonVAVNoVec;
 
       model FivZonVAVDX
@@ -16221,7 +16236,7 @@ First implementation.
           annotation (Placement(transformation(extent={{-118,-9},{-100,9}})));
 
         Devices.Control.conPI conPI(k=1, Ti=60)
-          annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
+          annotation (Placement(transformation(extent={{-40,38},{-20,58}})));
         Modelica.Blocks.Sources.RealExpression realExpression(y=TCWLowSet)
                                                               annotation (Placement(transformation(extent={{-74,10},{-54,30}})));
         Modelica.Blocks.Sources.BooleanExpression realExpression1(y=true)
@@ -16263,19 +16278,19 @@ First implementation.
             smooth=Smooth.None,
             pattern=LinePattern.Dash));
         connect(conPI.y, byp.yBypVal) annotation (Line(
-            points={{-19,50},{-8,50},{0,50},{0,22},{-20,22},{-20,-2},{-2,-2}},
+            points={{-19,48},{0,48},{0,22},{-20,22},{-20,-2},{-2,-2}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(senTCWEntChi.T, conPI.Mea) annotation (Line(
-            points={{70,-69},{70,-69},{70,70},{-58,70},{-58,44},{-42,44}},
+        connect(senTCWEntChi.T,conPI.mea)  annotation (Line(
+            points={{70,-69},{70,70},{-58,70},{-58,42},{-42,42}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(realExpression.y, conPI.SetPoi) annotation (Line(
-            points={{-53,20},{-48,20},{-48,50},{-42,50}},
+        connect(realExpression.y, conPI.set) annotation (Line(
+            points={{-53,20},{-48,20},{-48,48},{-42,48}},
             color={0,0,127},
             pattern=LinePattern.Dash));
         connect(realExpression1.y, conPI.On) annotation (Line(
-            points={{-59,80},{-50,80},{-50,56},{-42,56}},
+            points={{-59,80},{-50,80},{-50,54},{-42,54}},
             color={255,0,255},
             pattern=LinePattern.Dash));
         connect(On, mulCooTowSys.On) annotation (Line(
@@ -17068,7 +17083,7 @@ First implementation.
 
     package Boiler
 
-      model MultiBoilers
+      model MultiBoilers "The boiler system with N boilers and associated local controllers."
         replaceable package MediumHW =
            Modelica.Media.Interfaces.PartialMedium
           "Medium in the hot water side";
@@ -17731,14 +17746,13 @@ First implementation.
           "Volume flow rate curve";
         parameter Modelica.Units.SI.Pressure PreCur[n,:] "Pressure curve";
         Devices.FlowMover.BaseClasses.WithoutMotor                  pum[n](
+          varSpeFloMov(addPowerToMedium=false),
           redeclare package Medium = Medium,
           HydEff=HydEff,
           MotEff=MotEff,
           VolFloCur=VolFloCur,
           PreCur=PreCur,
-          TimCon=900,
-          VarSpeFloMov(addPowerToMedium=false))
-                               annotation (Placement(transformation(extent={{-12,-10},
+          TimCon=900)          annotation (Placement(transformation(extent={{-12,-10},
                   {10,10}})));
         Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
@@ -17746,9 +17760,9 @@ First implementation.
         Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
-        Modelica.Blocks.Interfaces.RealInput SpeSig[n] "On signal"
+        Modelica.Blocks.Interfaces.RealInput speSig[n] "On signal"
           annotation (Placement(transformation(extent={{-118,71},{-100,89}})));
-        Modelica.Blocks.Interfaces.RealOutput SpeRat[n]
+        Modelica.Blocks.Interfaces.RealOutput speRat[n]
           "Speed of the pump divided by the nominal value"
           annotation (Placement(transformation(extent={{100,52},{120,72}})));
         Modelica.Blocks.Interfaces.RealOutput P[n]
@@ -17766,17 +17780,17 @@ First implementation.
       equation
 
         for i in 1:n loop
-         connect(pum[i].Rat, SpeRat[i]);
+         connect(pum[i].Rat,speRat [i]);
          connect(pum[i].port_a, port_a);
          connect(val[i].port_b, port_b);
          connect(pum[i].P, P[i]);
            connect(pum[i].port_b, val[i].port_a);
         end for;
 
-        connect(pum.u, SpeSig) annotation (Line(
+        connect(pum.u,speSig)  annotation (Line(
             points={{-13.1,6},{-80,6},{-80,80},{-109,80}},
             color={0,0,127}));
-        connect(valCon.On, SpeSig) annotation (Line(
+        connect(valCon.On,speSig)  annotation (Line(
             points={{-10.9,60},{-60,60},{-60,80},{-109,80}},
             color={0,0,127}));
         connect(valCon.y, val.y) annotation (Line(
@@ -17796,7 +17810,7 @@ First implementation.
 
       package Control
 
-        model SecPumCon
+        model SecPumCon "This model is used for secondary chilled water pump control."
           parameter Real tWai = 300 "Waiting time";
 
             parameter Integer n=3
@@ -17809,9 +17823,9 @@ First implementation.
             annotation (Placement(transformation(extent={{-50,-10},{-30,10}})));
           Modelica.Blocks.Interfaces.BooleanInput On "On signal"
             annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-          Modelica.Blocks.Interfaces.RealInput Status[n] "Speeds of pumps"
+          Modelica.Blocks.Interfaces.RealInput sta[n] "Speeds of pumps"
             annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
-          Modelica.Blocks.Interfaces.RealInput dP "Measured pressure drop"
+          Modelica.Blocks.Interfaces.RealInput dpMea "Measured pressure drop"
             annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
           Modelica.Blocks.Math.Product product[n]
             annotation (Placement(transformation(extent={{20,40},{40,60}})));
@@ -17821,15 +17835,15 @@ First implementation.
           Modelica.Blocks.Routing.Replicator replicator(nout=n)
             annotation (Placement(transformation(extent={{56,-40},{76,-20}})));
           Devices.Control.conPI conPI(k=0.001, Ti=60)
-            annotation (Placement(transformation(extent={{16,-20},{36,0}})));
-          Modelica.Blocks.Interfaces.RealInput dpSetPoi
+            annotation (Placement(transformation(extent={{18,-20},{38,0}})));
+          Modelica.Blocks.Interfaces.RealInput dpSet
             "Static differential pressure setpoint for the secondary pump"
             annotation (Placement(transformation(extent={{-140,-60},{-100,-20}})));
         equation
           connect(pumSta.On, On) annotation (Line(points={{-52,8},{-66,8},{-80,
                   8},{-80,80},{-120,80}}, color={255,0,255}));
-          connect(pumSta.Status, Status) annotation (Line(points={{-52,-8},{-80,
-                  -8},{-80,-80},{-120,-80}}, color={0,0,127}));
+          connect(pumSta.sta, sta) annotation (Line(points={{-52,-8},{-80,-8},{
+                  -80,-80},{-120,-80}}, color={0,0,127}));
           connect(product.y, y) annotation (Line(
               points={{41,50},{60,50},{80,50},{80,0},{110,0}},
               color={0,0,127}));
@@ -17840,16 +17854,15 @@ First implementation.
               color={0,0,127}));
 
           connect(conPI.On, On) annotation (Line(
-              points={{14,-4},{-20,-4},{-20,80},{-120,80}},
+              points={{16,-4},{-20,-4},{-20,80},{-120,80}},
               color={255,0,255}));
           connect(conPI.y, replicator.u) annotation (Line(
-              points={{37,-10},{46,-10},{46,-30},{54,-30}},
+              points={{39,-10},{46,-10},{46,-30},{54,-30}},
               color={0,0,127}));
-          connect(conPI.Mea, dP) annotation (Line(
-              points={{14,-16},{-92,-16},{-92,0},{-120,0}},
-              color={0,0,127}));
-          connect(conPI.SetPoi, dpSetPoi) annotation (Line(points={{14,-10},{-20,-10},{-20,
-                  -40},{-120,-40}}, color={0,0,127}));
+          connect(conPI.mea, dpMea) annotation (Line(points={{16,-16},{-92,-16},
+                  {-92,0},{-120,0}}, color={0,0,127}));
+          connect(conPI.set, dpSet) annotation (Line(points={{16,-10},{-20,-10},
+                  {-20,-40},{-120,-40}}, color={0,0,127}));
           annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                   Rectangle(
                   extent={{-100,100},{100,-100}},
@@ -17902,14 +17915,17 @@ First implementation.
             connect(realToBoolean.y, secPumCon.On) annotation (Line(points={{-29,70},{-24,
                     70},{-20,70},{-20,8},{-12,8}}, color={255,0,255},
                 pattern=LinePattern.Dash));
-            connect(dP.y, secPumCon.dP) annotation (Line(points={{-61,0},{-61,0},{-12,0}},
-                                   color={0,0,127},
+            connect(dP.y, secPumCon.dpMea) annotation (Line(
+                points={{-61,0},{-61,0},{-12,0}},
+                color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(s1.y, secPumCon.Status[1]) annotation (Line(points={{-59,-40},{-48,
-                    -40},{-40,-40},{-40,-9},{-12,-9}}, color={0,0,127},
+            connect(s1.y, secPumCon.sta[1]) annotation (Line(
+                points={{-59,-40},{-48,-40},{-40,-40},{-40,-9},{-12,-9}},
+                color={0,0,127},
                 pattern=LinePattern.Dash));
-            connect(s2.y, secPumCon.Status[2]) annotation (Line(points={{-59,-80},{-26,-80},
-                    {-26,-7},{-12,-7}},      color={0,0,127},
+            connect(s2.y, secPumCon.sta[2]) annotation (Line(
+                points={{-59,-80},{-26,-80},{-26,-7},{-12,-7}},
+                color={0,0,127},
                 pattern=LinePattern.Dash));
             annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)),
               experiment(StopTime=86400));
@@ -18102,17 +18118,17 @@ First implementation.
               color={0,127,255},
               smooth=Smooth.None,
               thickness=1));
-          connect(OnC.y, pumSys.SpeSig[3]) annotation (Line(
+          connect(OnC.y, pumSys.speSig[3]) annotation (Line(
               points={{59,70},{-20,70},{-20,21.9},{-9.35,21.9}},
               color={0,0,127},
               smooth=Smooth.None,
               pattern=LinePattern.Dash));
-          connect(OnB.y, pumSys.SpeSig[2]) annotation (Line(
+          connect(OnB.y, pumSys.speSig[2]) annotation (Line(
               points={{-59,70},{-40,70},{-40,21},{-9.35,21}},
               color={0,0,127},
               smooth=Smooth.None,
               pattern=LinePattern.Dash));
-          connect(OnA.y, pumSys.SpeSig[1]) annotation (Line(
+          connect(OnA.y, pumSys.speSig[1]) annotation (Line(
               points={{-61,30},{-44,30},{-44,20.1},{-9.35,20.1}},
               color={0,0,127},
               smooth=Smooth.None,
@@ -19230,7 +19246,7 @@ First implementation.
   end Subsystems;
 
   package Systems
-    model Floor
+    model Floor "Thermal zones and corresponding air side HVAC systems"
 
       replaceable package MediumAir = Modelica.Media.Interfaces.PartialMedium "Medium for the air";
 
@@ -19382,7 +19398,8 @@ First implementation.
       parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
         "Heat exchanger effectiveness of vav 5";
 
-      Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit duaFanAirHanUnit(numTemp=5,
+      Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit duaFanAirHanUni(
+        numTemp=5,
         redeclare package MediumAir = MediumAir,
         redeclare package MediumWat = MediumCooWat,
         PreDroCoiAir=PreDroCoiAir,
@@ -19397,21 +19414,25 @@ First implementation.
         VolFloCur=VolFloCur,
         SupPreCur=SupPreCur,
         RetPreCur=RetPreCur,
-        mAirFloRat=mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5,
+        mAirFloRat=mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+            mAirFloRat5,
         PreDroWat=PreDroCooWat,
         Coi_k=1,
         Coi_Ti=60,
         TemEcoHig=TemEcoHig,
         TemEcoLow=TemEcoLow,
         MixingBoxDamMin=MixingBoxDamMin,
-        mWatFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5)*(30 - 12.88)/4.2/6,
-        mFreAirFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5)*0.3,
-        UA=-(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5)*(
-            1000*17)/Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
-            273.15 + 6,
-            273.15 + 12,
-            273.15 + 30,
-            273.15 + 12.88),
+        mWatFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+            mAirFloRat5)*(30 - 12.88)/4.2/6,
+        mFreAirFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+            mAirFloRat5)*0.3,
+        UA=-(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+            mAirFloRat5)*(1000*17)/
+            Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
+                273.15 + 6,
+                273.15 + 12,
+                273.15 + 30,
+                273.15 + 12.88),
         Fan_k=0.01)
         annotation (Placement(transformation(extent={{-78,14},{-50,-12}})));
       Subsystems.HydDisturbution.FivZonVAVNoVec fivZonVAV(
@@ -19503,18 +19524,18 @@ First implementation.
         "Connector of Boolean input signal"
         annotation (Placement(transformation(extent={{-180,-100},{-160,-80}}),
             iconTransformation(extent={{-180,-100},{-160,-80}})));
-      Modelica.Blocks.Interfaces.RealInput ZonCooTempSetPoi[5]
-        "Connector of setpoint input signal"
-        annotation (Placement(transformation(extent={{-180,90},{-160,110}}),
-            iconTransformation(extent={{-180,90},{-160,110}})));
-      Modelica.Blocks.Interfaces.RealInput DisTemPSetPoi
-        "Connector of setpoint input signal"
-        annotation (Placement(transformation(extent={{-180,50},{-160,70}}),
-            iconTransformation(extent={{-180,50},{-160,70}})));
-      Modelica.Blocks.Interfaces.RealInput PreSetPoi
-        "Connector of setpoint input signal"
-        annotation (Placement(transformation(extent={{-180,0},{-160,20}}),
-            iconTransformation(extent={{-180,0},{-160,20}})));
+      Modelica.Blocks.Interfaces.RealInput zonCooTSet[5]
+        "Connector of setpoint input signal" annotation (Placement(
+            transformation(extent={{-180,90},{-160,110}}), iconTransformation(
+              extent={{-180,90},{-160,110}})));
+      Modelica.Blocks.Interfaces.RealInput disTSet
+        "Connector of setpoint input signal" annotation (Placement(
+            transformation(extent={{-180,50},{-160,70}}), iconTransformation(
+              extent={{-180,50},{-160,70}})));
+      Modelica.Blocks.Interfaces.RealInput pSet
+        "Connector of setpoint input signal" annotation (Placement(
+            transformation(extent={{-180,0},{-160,20}}), iconTransformation(
+              extent={{-180,0},{-160,20}})));
       Modelica.Blocks.Interfaces.RealInput Q_flow[5]
         annotation (Placement(transformation(extent={{10,-10},{-10,10}},
             rotation=-90,
@@ -19526,10 +19547,10 @@ First implementation.
         "Temperature of the passing fluid"
         annotation (Placement(transformation(extent={{160,-10},{180,10}}),
             iconTransformation(extent={{160,-10},{180,10}})));
-      Modelica.Blocks.Interfaces.RealInput ZonHeaTempSetPoi[5]
-        "Connector of setpoint input signal"
-        annotation (Placement(transformation(extent={{-180,70},{-160,90}}),
-            iconTransformation(extent={{-180,70},{-160,90}})));
+      Modelica.Blocks.Interfaces.RealInput zonHeaTSet[5]
+        "Connector of setpoint input signal" annotation (Placement(
+            transformation(extent={{-180,70},{-160,90}}), iconTransformation(
+              extent={{-180,70},{-160,90}})));
       Modelica.Blocks.Interfaces.RealInput TOut
         "Connector of setpoint input signal" annotation (Placement(transformation(
             extent={{10,-10},{-10,10}},
@@ -19538,7 +19559,7 @@ First implementation.
             extent={{10,-10},{-10,10}},
             rotation=-90,
             origin={-14,-110})));
-      ReadOverwrite.ReadAhu readAhu
+      ReadOverwrite.ReadAhu reaAhu
         annotation (Placement(transformation(extent={{28,2},{48,66}})));
       Buildings.Utilities.IO.SignalExchange.Overwrite TSupAirSet(description=
             "Supply air temperature setpoint for AHU", u(
@@ -19563,12 +19584,12 @@ First implementation.
       ReadOverwrite.ReadZone reaZonWes(zone="wes")
         annotation (Placement(transformation(extent={{140,20},{160,48}})));
       Devices.AirSide.Terminal.Controls.ZonCon zonVAVCon[5](
-        MinFlowRateSetPoi=0.3,
-        HeatingFlowRateSetPoi=0.5,
+        each MinFlowRateSetPoi=0.3,
+        each HeatingFlowRateSetPoi=0.5,
         heaCon(Ti=60, yMin=0.01),
         cooCon(k=11, Ti=60))
         "Zone terminal VAV controller (airflow rate, reheat valve)l "
-        annotation (Placement(transformation(extent={{-16,120},{4,140}})));
+        annotation (Placement(transformation(extent={{-14,118},{6,138}})));
       ReadOverwrite.WriteZoneSup oveZonCor(zone="cor")
         annotation (Placement(transformation(extent={{-120,178},{-100,198}})));
       ReadOverwrite.WriteZoneSup oveZonSou(zone="sou")
@@ -19586,21 +19607,21 @@ First implementation.
           nout=5)
         annotation (Placement(transformation(extent={{-72,68},{-52,88}})));
     equation
-      connect(fivZonVAV.port_a_Air, duaFanAirHanUnit.port_b_Air) annotation (
+      connect(fivZonVAV.port_a_Air, duaFanAirHanUni.port_b_Air) annotation (
           Line(
           points={{30,-37.6},{-10,-37.6},{-10,-22},{-20,-22},{-20,1},{-50,1}},
           color={0,140,72},
           thickness=0.5));
-      connect(fivZonVAV.port_b_Air, duaFanAirHanUnit.port_a_Air) annotation (
+      connect(fivZonVAV.port_b_Air, duaFanAirHanUni.port_a_Air) annotation (
           Line(
           points={{30,-23.6},{16,-23.6},{16,-4},{-50,-4},{-50,11.4}},
           color={0,140,72},
           thickness=0.5));
-      connect(duaFanAirHanUnit.port_b_Wat, port_b_CooWat) annotation (Line(
+      connect(duaFanAirHanUni.port_b_Wat, port_b_CooWat) annotation (Line(
           points={{-69.6,-12},{-70,-12},{-70,-66},{-54,-66},{-54,-100}},
           color={0,127,255},
           thickness=1));
-      connect(duaFanAirHanUnit.port_a_Wat, port_a_CooWat) annotation (Line(
+      connect(duaFanAirHanUni.port_a_Wat, port_a_CooWat) annotation (Line(
           points={{-61.2,-12},{-62,-12},{-62,-30},{-30,-30},{-30,-100}},
           color={0,127,255},
           thickness=1));
@@ -19612,29 +19633,26 @@ First implementation.
           points={{55.2,-46},{56,-46},{56,-100}},
           color={255,0,0},
           thickness=1));
-      connect(duaFanAirHanUnit.port_Exh_Air, port_Exh_Air) annotation (Line(
+      connect(duaFanAirHanUni.port_Exh_Air, port_Exh_Air) annotation (Line(
           points={{-78.28,1},{-114,1},{-114,-40},{-164,-40}},
           color={0,140,72},
           thickness=0.5));
-      connect(duaFanAirHanUnit.port_Fre_Air, port_Fre_Air) annotation (Line(
+      connect(duaFanAirHanUni.port_Fre_Air, port_Fre_Air) annotation (Line(
           points={{-78,-6.8},{-114,-6.8},{-114,40},{-160,40}},
           color={0,140,72},
           thickness=0.5));
       connect(booleanReplicator.y, fivZonVAV.On) annotation (Line(
           points={{-125.3,-90},{0,-90},{0,-30.32},{28.2,-30.32}},
           color={255,0,255}));
-      connect(fivZonVAV.pre, duaFanAirHanUnit.PreMea) annotation (Line(
-          points={{67.8,-19.4},{70,-19.4},{70,-16},{-88,-16},{-88,-11.22},{
-              -79.4,-11.22}},
-          color={0,0,127}));
-      connect(fivZonVAV.TZon, duaFanAirHanUnit.ZonTemp) annotation (Line(
-          points={{67.8,-40.4},{84,-40.4},{84,-64},{-104,-64},{-104,6.2},{-79.4,
-              6.2}},
-          color={0,0,127}));
+      connect(fivZonVAV.p, duaFanAirHanUni.pMea) annotation (Line(points={{67.8,
+              -19.4},{70,-19.4},{70,-16},{-88,-16},{-88,-11.22},{-79.4,-11.22}},
+            color={0,0,127}));
+      connect(fivZonVAV.TZon, duaFanAirHanUni.zonT) annotation (Line(points={{
+              67.8,-40.4},{84,-40.4},{84,-64},{-104,-64},{-104,6.2},{-79.4,6.2}},
+            color={0,0,127}));
 
-      connect(OnFan, duaFanAirHanUnit.On) annotation (Line(
-          points={{-170,-50},{-108,-50},{-108,14},{-79.4,14}},
-          color={255,0,255}));
+      connect(OnFan, duaFanAirHanUni.On) annotation (Line(points={{-170,-50},{-108,
+              -50},{-108,14},{-79.4,14}}, color={255,0,255}));
       connect(booleanReplicator.u, OnZon) annotation (Line(
           points={{-141.4,-90},{-170,-90}},
           color={255,0,255}));
@@ -19647,73 +19665,83 @@ First implementation.
           pattern=LinePattern.Dash));
       connect(port_a_CooWat, port_a_CooWat) annotation (Line(points={{-30,-100},
               {-30,-100}},     color={0,127,255}));
-      connect(duaFanAirHanUnit.TOut, TOut) annotation (Line(
-          points={{-79.4,11.4},{-112,11.4},{-112,-74},{-14,-74},{-14,-110}},
-          color={0,0,127}));
+      connect(duaFanAirHanUni.TOut, TOut) annotation (Line(points={{-79.4,11.4},
+              {-112,11.4},{-112,-74},{-14,-74},{-14,-110}}, color={0,0,127}));
 
-      connect(OnFan, readAhu.occ_in) annotation (Line(points={{-170,-50},{-112,
-              -50},{-112,62},{26,62},{26,62.3826}},  color={255,0,255}));
-      connect(duaFanAirHanUnit.TSupAir, readAhu.TSup_in) annotation (Line(
-            points={{-48.6,-4.2},{-34,-4.2},{-34,54.8696},{26,54.8696}}, color={0,0,127},
-          pattern=LinePattern.Dash));
-
-      connect(duaFanAirHanUnit.TMixAir, readAhu.TMix_in) annotation (Line(
-            points={{-48.6,-2.64},{-48.6,-4},{-32,-4},{-32,50.6957},{26,50.6957}},
-            color={0,0,127},
-          pattern=LinePattern.Dash));
-      connect(duaFanAirHanUnit.TRetAir, readAhu.TRet_in) annotation (Line(
-            points={{-48.6,8.02},{-28,8.02},{-28,46.5217},{26,46.5217}}, color={0,0,127},
+      connect(OnFan, reaAhu.occ_in) annotation (Line(points={{-170,-50},{-112,-50},
+              {-112,62},{26,62},{26,62.3826}}, color={255,0,255}));
+      connect(duaFanAirHanUni.TSupAir, reaAhu.TSup_in) annotation (Line(
+          points={{-48.6,-4.2},{-34,-4.2},{-34,54.8696},{26,54.8696}},
+          color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.V_flowSupAir, readAhu.V_flow_sup_in) annotation (
-         Line(points={{-48.6,-1.08},{-26,-1.08},{-26,42.3478},{26,42.3478}},
-            color={0,0,127},
-          pattern=LinePattern.Dash));
-      connect(duaFanAirHanUnit.V_flowRetAir, readAhu.V_flow_ret_in) annotation (
-         Line(points={{-48.6,9.58},{-30,9.58},{-30,38.1739},{26,38.1739}},
-            color={0,0,127},
-          pattern=LinePattern.Dash));
-      connect(duaFanAirHanUnit.yDamOutAir, readAhu.yOA_in) annotation (Line(
-            points={{-48.6,-11.22},{-24,-11.22},{-24,34.2783},{26,34.2783}},
-            color={0,0,127},
-          pattern=LinePattern.Dash));
-      connect(duaFanAirHanUnit.PreMea, readAhu.dp_in) annotation (Line(points={{-79.4,
-              -11.22},{-22,-11.22},{-22,29.8261},{26,29.8261}},        color={0,0,127},
+      connect(duaFanAirHanUni.TMixAir, reaAhu.TMix_in) annotation (Line(
+          points={{-48.6,-2.64},{-48.6,-4},{-32,-4},{-32,50.6957},{26,50.6957}},
+          color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.PFan,readAhu.PFanTot_in)  annotation (Line(
-            points={{-48.6,4.64},{-20,4.64},{-20,25.6522},{26,25.6522}}, color={0,0,127},
+      connect(duaFanAirHanUni.TRetAir, reaAhu.TRet_in) annotation (Line(
+          points={{-48.6,8.02},{-28,8.02},{-28,46.5217},{26,46.5217}},
+          color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.TSupCHW, readAhu.TCooCoiSup_in) annotation (Line(
-            points={{-48.6,-9.4},{-18,-9.4},{-18,21.4783},{26,21.4783}}, color={0,0,127},
+      connect(duaFanAirHanUni.V_flowSupAir, reaAhu.V_flow_sup_in) annotation (
+          Line(
+          points={{-48.6,-1.08},{-26,-1.08},{-26,42.3478},{26,42.3478}},
+          color={0,0,127},
+          pattern=LinePattern.Dash));
+      connect(duaFanAirHanUni.V_flowRetAir, reaAhu.V_flow_ret_in) annotation (
+          Line(
+          points={{-48.6,9.58},{-30,9.58},{-30,38.1739},{26,38.1739}},
+          color={0,0,127},
+          pattern=LinePattern.Dash));
+      connect(duaFanAirHanUni.yDamOutAir, reaAhu.yOA_in) annotation (Line(
+          points={{-48.6,-11.22},{-24,-11.22},{-24,34.2783},{26,34.2783}},
+          color={0,0,127},
+          pattern=LinePattern.Dash));
+      connect(duaFanAirHanUni.pMea, reaAhu.dp_in) annotation (Line(
+          points={{-79.4,-11.22},{-22,-11.22},{-22,29.8261},{26,29.8261}},
+          color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.TRetCHW, readAhu.TCooCoiRet_in) annotation (Line(
-            points={{-48.6,2.82},{-16,2.82},{-16,17.3043},{26,17.3043}}, color={0,0,127},
+      connect(duaFanAirHanUni.PFan, reaAhu.PFanTot_in) annotation (Line(
+          points={{-48.6,4.64},{-20,4.64},{-20,25.6522},{26,25.6522}},
+          color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(readAhu.yCooVal_in, duaFanAirHanUnit.yCooVal) annotation (Line(
-            points={{26,13.1304},{-14,13.1304},{-14,6.2},{-48.6,6.2}}, color={0,0,127},
+      connect(duaFanAirHanUni.TSupCHW, reaAhu.TCooCoiSup_in) annotation (Line(
+          points={{-48.6,-9.4},{-18,-9.4},{-18,21.4783},{26,21.4783}},
+          color={0,0,127},
           pattern=LinePattern.Dash));
 
-      connect(duaFanAirHanUnit.V_flowOutAir, readAhu.V_flow_OA_in) annotation (
-          Line(points={{-48.6,-6.8},{-48.6,-4},{-12,-4},{-12,10},{26,10},{26,
-              8.95652}}, color={0,0,127},
+      connect(duaFanAirHanUni.TRetCHW, reaAhu.TCooCoiRet_in) annotation (Line(
+          points={{-48.6,2.82},{-16,2.82},{-16,17.3043},{26,17.3043}},
+          color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(TSupAirSet.y, readAhu.TSup_set_in) annotation (Line(
+
+      connect(reaAhu.yCooVal_in, duaFanAirHanUni.yCooVal) annotation (Line(
+          points={{26,13.1304},{-14,13.1304},{-14,6.2},{-48.6,6.2}},
+          color={0,0,127},
+          pattern=LinePattern.Dash));
+
+      connect(duaFanAirHanUni.V_flowOutAir, reaAhu.V_flow_OA_in) annotation (
+          Line(
+          points={{-48.6,-6.8},{-48.6,-4},{-12,-4},{-12,10},{26,10},{26,8.95652}},
+          color={0,0,127},
+          pattern=LinePattern.Dash));
+
+      connect(TSupAirSet.y, reaAhu.TSup_set_in) annotation (Line(
           points={{-127.4,60},{26,60},{26,58.2087}},
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(DisTemPSetPoi, TSupAirSet.u)
+      connect(disTSet, TSupAirSet.u)
         annotation (Line(points={{-170,60},{-141.2,60}}, color={0,0,127}));
-      connect(TSupAirSet.y, duaFanAirHanUnit.DisTemPSetPoi) annotation (Line(
-            points={{-127.4,60},{-110,60},{-110,3.6},{-79.4,3.6}}, color={0,0,
-              127}));
-      connect(PreSetPoi, dpSet.u)
-        annotation (Line(points={{-170,10},{-141.2,10}},color={0,0,127}));
-      connect(dpSet.y, duaFanAirHanUnit.PreSetPoi) annotation (Line(points={{-127.4,
-              10},{-110,10},{-110,8.8},{-79.4,8.8}},     color={0,0,127}));
+      connect(TSupAirSet.y, duaFanAirHanUni.disTSet) annotation (Line(points={{
+              -127.4,60},{-110,60},{-110,3.6},{-79.4,3.6}}, color={0,0,127}));
+      connect(pSet, dpSet.u)
+        annotation (Line(points={{-170,10},{-141.2,10}}, color={0,0,127}));
+      connect(dpSet.y, duaFanAirHanUni.pSet) annotation (Line(points={{-127.4,
+              10},{-110,10},{-110,8.8},{-79.4,8.8}}, color={0,0,127}));
       connect(fivZonVAV.yDam[1], reaZonCor.yDam_in) annotation (Line(
           points={{67.8,-35.08},{88,-35.08},{88,141},{98,141}},
           color={0,0,127},
@@ -19828,38 +19856,37 @@ First implementation.
           points={{67.8,-28.92},{124,-28.92},{124,32.6},{138,32.6}},
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(zonVAVCon.yValPos, fivZonVAV.yVal) annotation (Line(points={{5,
-              124},{6,124},{6,-40.4},{28.2,-40.4}}, color={0,0,127}));
-      connect(zonVAVCon.yAirFlowSetPoi, fivZonVAV.AirFlowRatSetPoi) annotation (
-         Line(points={{5,128},{8,128},{8,-44.04},{28.2,-44.04}}, color={0,0,127}));
-      connect(zonVAVCon.yHea, fivZonVAV.yHea) annotation (Line(points={{5,134},
-              {8,134},{8,-32.84},{28.2,-32.84}}, color={0,0,127}));
-      connect(zonVAVCon.yCoo, fivZonVAV.yCoo) annotation (Line(points={{5,138},
-              {10,138},{10,-35.64},{28.2,-35.64}}, color={0,0,127}));
-      connect(zonVAVCon.T, fivZonVAV.TZon) annotation (Line(points={{-18,130},{
-              -26,130},{-26,98},{88,98},{88,-40.4},{67.8,-40.4}}, color={0,0,
+      connect(zonVAVCon.yValPos, fivZonVAV.yVal) annotation (Line(points={{7,122},
+              {6,122},{6,-40.4},{28.2,-40.4}},      color={0,0,127}));
+      connect(zonVAVCon.yAirFlowSet, fivZonVAV.airFloRatSet) annotation (Line(
+            points={{7,126},{8,126},{8,-44.04},{28.2,-44.04}}, color={0,0,127}));
+      connect(zonVAVCon.yHea, fivZonVAV.yHea) annotation (Line(points={{7,132},
+              {8,132},{8,-32.84},{28.2,-32.84}}, color={0,0,127}));
+      connect(zonVAVCon.yCoo, fivZonVAV.yCoo) annotation (Line(points={{7,136},
+              {10,136},{10,-35.64},{28.2,-35.64}}, color={0,0,127}));
+      connect(zonVAVCon.T, fivZonVAV.TZon) annotation (Line(points={{-16,128},{
+              -26,128},{-26,98},{88,98},{88,-40.4},{67.8,-40.4}}, color={0,0,
               127}));
-      connect(ZonHeaTempSetPoi[1], oveZonCor.TZonHeaSet_in) annotation (Line(
-            points={{-170,72},{-150,72},{-150,192},{-122,192}}, color={0,0,127}));
-      connect(ZonHeaTempSetPoi[2], oveZonSou.TZonHeaSet_in) annotation (Line(
-            points={{-170,76},{-150,76},{-150,164},{-122,164}}, color={0,0,127}));
-      connect(ZonHeaTempSetPoi[3], oveZonEas.TZonHeaSet_in) annotation (Line(
-            points={{-170,80},{-150,80},{-150,136},{-122,136}}, color={0,0,127}));
-      connect(ZonHeaTempSetPoi[4], oveZonNor.TZonHeaSet_in) annotation (Line(
-            points={{-170,84},{-150,84},{-150,112},{-122,112}}, color={0,0,127}));
-      connect(ZonHeaTempSetPoi[5], oveZonWes.TZonHeaSet_in) annotation (Line(
-            points={{-170,88},{-150,88},{-150,84},{-122,84}}, color={0,0,127}));
-      connect(ZonCooTempSetPoi[1], oveZonCor.TZonCooSet_in) annotation (Line(
-            points={{-170,92},{-154,92},{-154,184},{-122,184}}, color={0,0,127}));
-      connect(ZonCooTempSetPoi[2], oveZonSou.TZonCooSet_in) annotation (Line(
-            points={{-170,96},{-154,96},{-154,156},{-122,156}}, color={0,0,127}));
-      connect(ZonCooTempSetPoi[3], oveZonEas.TZonCooSet_in) annotation (Line(
-            points={{-170,100},{-154,100},{-154,128},{-122,128}}, color={0,0,
-              127}));
-      connect(ZonCooTempSetPoi[4], oveZonNor.TZonCooSet_in)
+      connect(zonHeaTSet[1], oveZonCor.TZonHeaSet_in) annotation (Line(points={
+              {-170,72},{-150,72},{-150,192},{-122,192}}, color={0,0,127}));
+      connect(zonHeaTSet[2], oveZonSou.TZonHeaSet_in) annotation (Line(points={
+              {-170,76},{-150,76},{-150,164},{-122,164}}, color={0,0,127}));
+      connect(zonHeaTSet[3], oveZonEas.TZonHeaSet_in) annotation (Line(points={
+              {-170,80},{-150,80},{-150,136},{-122,136}}, color={0,0,127}));
+      connect(zonHeaTSet[4], oveZonNor.TZonHeaSet_in) annotation (Line(points={
+              {-170,84},{-150,84},{-150,112},{-122,112}}, color={0,0,127}));
+      connect(zonHeaTSet[5], oveZonWes.TZonHeaSet_in) annotation (Line(points={
+              {-170,88},{-150,88},{-150,84},{-122,84}}, color={0,0,127}));
+      connect(zonCooTSet[1], oveZonCor.TZonCooSet_in) annotation (Line(points={
+              {-170,92},{-154,92},{-154,184},{-122,184}}, color={0,0,127}));
+      connect(zonCooTSet[2], oveZonSou.TZonCooSet_in) annotation (Line(points={
+              {-170,96},{-154,96},{-154,156},{-122,156}}, color={0,0,127}));
+      connect(zonCooTSet[3], oveZonEas.TZonCooSet_in) annotation (Line(points={
+              {-170,100},{-154,100},{-154,128},{-122,128}}, color={0,0,127}));
+      connect(zonCooTSet[4], oveZonNor.TZonCooSet_in)
         annotation (Line(points={{-170,104},{-122,104}}, color={0,0,127}));
-      connect(ZonCooTempSetPoi[5], oveZonWes.TZonCooSet_in) annotation (Line(
-            points={{-170,108},{-150,108},{-150,76},{-122,76}}, color={0,0,127}));
+      connect(zonCooTSet[5], oveZonWes.TZonCooSet_in) annotation (Line(points={
+              {-170,108},{-150,108},{-150,76},{-122,76}}, color={0,0,127}));
       connect(oveZonCor.TZonHeaSet_out, TZonHeaSet.u[1]) annotation (Line(
             points={{-99,192},{-76,192},{-76,174.4},{-72,174.4}}, color={0,0,
               127}));
@@ -19874,8 +19901,8 @@ First implementation.
       connect(oveZonWes.TZonHeaSet_out, TZonHeaSet.u[5]) annotation (Line(
             points={{-99,84},{-76,84},{-76,176},{-72,176},{-72,177.6}}, color={
               0,0,127}));
-      connect(TZonHeaSet.y, zonVAVCon.THeaSetPoi) annotation (Line(points={{-48,
-              176},{-24,176},{-24,124},{-18,124}}, color={0,0,127}));
+      connect(TZonHeaSet.y, zonVAVCon.THeaSet) annotation (Line(points={{-48,
+              176},{-24,176},{-24,122},{-16,122}}, color={0,0,127}));
       connect(oveZonCor.TZonCooSet_out, TZonCooSet.u[1]) annotation (Line(
             points={{-99,184},{-80,184},{-80,76.4},{-74,76.4}}, color={0,0,127}));
       connect(oveZonSou.TZonCooSet_out, TZonCooSet.u[2]) annotation (Line(
@@ -19886,14 +19913,14 @@ First implementation.
             points={{-99,104},{-80,104},{-80,78.8},{-74,78.8}}, color={0,0,127}));
       connect(oveZonWes.TZonCooSet_out, TZonCooSet.u[5]) annotation (Line(
             points={{-99,76},{-80,76},{-80,79.6},{-74,79.6}}, color={0,0,127}));
-      connect(TZonCooSet.y, zonVAVCon.TCooSetPoi) annotation (Line(points={{-50,
-              78},{-28,78},{-28,136},{-18,136}}, color={0,0,127}));
-      connect(TZonCooSet.y, duaFanAirHanUnit.CooTempSetPoi) annotation (Line(
-            points={{-50,78},{-50,58},{-110,58},{-110,-4.2},{-79.4,-4.2}},
-            color={0,0,127}));
-      connect(TZonHeaSet.y, duaFanAirHanUnit.HeaTempSetPoi) annotation (Line(
-            points={{-48,176},{-48,60},{-106,60},{-106,-9.4},{-79.4,-9.4}},
-            color={0,0,127}));
+      connect(TZonCooSet.y, zonVAVCon.TCooSet) annotation (Line(points={{-50,78},
+              {-28,78},{-28,134},{-16,134}}, color={0,0,127}));
+      connect(TZonCooSet.y, duaFanAirHanUni.cooTSet) annotation (Line(points={{
+              -50,78},{-50,58},{-110,58},{-110,-4.2},{-79.4,-4.2}}, color={0,0,
+              127}));
+      connect(TZonHeaSet.y, duaFanAirHanUni.heaTSet) annotation (Line(points={{
+              -48,176},{-48,60},{-106,60},{-106,-9.4},{-79.4,-9.4}}, color={0,0,
+              127}));
       connect(TZonHeaSet.y[1], reaZonCor.TRoo_Hea_set_in) annotation (Line(
             points={{-48,174.4},{76,174.4},{76,123.8},{98,123.8}}, color={0,0,
               127}));
@@ -19917,26 +19944,26 @@ First implementation.
             points={{-50,78.8},{70,78.8},{70,88.6},{138,88.6}}, color={0,0,127}));
       connect(TZonCooSet.y[5], reaZonWes.TRoo_Coo_set_in) annotation (Line(
             points={{-50,79.6},{70,79.6},{70,26.6},{138,26.6}}, color={0,0,127}));
-      connect(zonVAVCon[1].yCoo, reaZonCor.yCoo_in) annotation (Line(points={{5,138},
-              {68,138},{68,118},{98,118}},      color={0,0,127}));
-      connect(zonVAVCon[2].yCoo, reaZonSou.yCoo_in) annotation (Line(points={{5,
-              138},{68,138},{68,54},{98,54}}, color={0,0,127}));
-      connect(zonVAVCon[3].yCoo, reaZonEas.yCoo_in) annotation (Line(points={{5,
-              138},{68,138},{68,-10},{98,-10}}, color={0,0,127}));
-      connect(zonVAVCon[4].yCoo, reaZonNor.yCoo_in) annotation (Line(points={{5,
-              138},{70,138},{70,86},{138,86}}, color={0,0,127}));
-      connect(zonVAVCon[5].yCoo, reaZonWes.yCoo_in) annotation (Line(points={{5,
-              138},{68,138},{68,24},{138,24}}, color={0,0,127}));
-      connect(zonVAVCon[1].yHea, reaZonCor.yHea_in) annotation (Line(points={{5,134},
-              {66,134},{66,115},{98,115}},      color={0,0,127}));
-      connect(zonVAVCon[2].yHea, reaZonSou.yHea_in) annotation (Line(points={{5,
-              134},{66,134},{66,51},{98,51}}, color={0,0,127}));
-      connect(zonVAVCon[3].yHea, reaZonEas.yHea_in) annotation (Line(points={{5,
-              134},{66,134},{66,-13},{98,-13}}, color={0,0,127}));
-      connect(zonVAVCon[4].yHea, reaZonNor.yHea_in) annotation (Line(points={{5,
-              134},{66,134},{66,83},{138,83}}, color={0,0,127}));
-      connect(zonVAVCon[5].yHea, reaZonWes.yHea_in) annotation (Line(points={{5,
-              134},{66,134},{66,21},{138,21}}, color={0,0,127}));
+      connect(zonVAVCon[1].yCoo, reaZonCor.yCoo_in) annotation (Line(points={{7,136},
+              {68,136},{68,118},{98,118}},      color={0,0,127}));
+      connect(zonVAVCon[2].yCoo, reaZonSou.yCoo_in) annotation (Line(points={{7,136},
+              {68,136},{68,54},{98,54}},      color={0,0,127}));
+      connect(zonVAVCon[3].yCoo, reaZonEas.yCoo_in) annotation (Line(points={{7,136},
+              {68,136},{68,-10},{98,-10}},      color={0,0,127}));
+      connect(zonVAVCon[4].yCoo, reaZonNor.yCoo_in) annotation (Line(points={{7,136},
+              {70,136},{70,86},{138,86}},      color={0,0,127}));
+      connect(zonVAVCon[5].yCoo, reaZonWes.yCoo_in) annotation (Line(points={{7,136},
+              {68,136},{68,24},{138,24}},      color={0,0,127}));
+      connect(zonVAVCon[1].yHea, reaZonCor.yHea_in) annotation (Line(points={{7,132},
+              {66,132},{66,115},{98,115}},      color={0,0,127}));
+      connect(zonVAVCon[2].yHea, reaZonSou.yHea_in) annotation (Line(points={{7,132},
+              {66,132},{66,51},{98,51}},      color={0,0,127}));
+      connect(zonVAVCon[3].yHea, reaZonEas.yHea_in) annotation (Line(points={{7,132},
+              {66,132},{66,-13},{98,-13}},      color={0,0,127}));
+      connect(zonVAVCon[4].yHea, reaZonNor.yHea_in) annotation (Line(points={{7,132},
+              {66,132},{66,83},{138,83}},      color={0,0,127}));
+      connect(zonVAVCon[5].yHea, reaZonWes.yHea_in) annotation (Line(points={{7,132},
+              {66,132},{66,21},{138,21}},      color={0,0,127}));
       annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,
                 -100},{160,140}}),                                  graphics={
             Rectangle(
@@ -19955,7 +19982,25 @@ First implementation.
               textString="%name",
               textColor={0,0,255})}),                                Diagram(
             coordinateSystem(preserveAspectRatio=false, extent={{-160,-100},{
-                160,200}})));
+                160,200}})),
+        Documentation(info="<html>
+<p>The represented floor has five zones, with four perimeter zones and one core zone. Each perimeter zone has a window-to-wall ratio of about 0.38. The height of each zone is 2.74 m and the areas are as follows:</p>
+<ul>
+<li>North and South: 313.42 m<sup>2</sup></li>
+<li>East and West: 201.98 m<sup>2</sup></li>
+<li>Core: 2532.32 m<sup>2</sup></li>
+</ul>
+<p>The geometry of the floor is shown as the following figure:</p>
+<p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/Zones.png\"/></p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.DuaFanAirHanUnit </a>for a description of the AHU.</p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.FivZonVAVNoVec\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.FivZonVAVNoVec</a> for a description of the VAV terminals.</p>
+<p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.Controls.ZonCon\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.AirSide.Terminal.Controls.ZonCon</a> for a description of the zone terminal VAV controller. </p>
+</html>",     revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
+</html>"));
     end Floor;
 
     model FloorDX
@@ -20244,7 +20289,7 @@ First implementation.
             coordinateSystem(preserveAspectRatio=false)));
     end FloorDX;
 
-    model ChillerPlant "a typical chiller plant"
+    model ChillerPlant "Chiller plant, chilled water pump system, and cooling towers"
 
       replaceable package MediumCHW = Modelica.Media.Interfaces.PartialMedium
         "Medium model";
@@ -20371,10 +20416,10 @@ First implementation.
             rotation=90,
             origin={0,-10})));
       Buildings.Fluid.Storage.ExpansionVessel expVesCHW(
-          redeclare package Medium = MediumCHW)
+          redeclare package Medium = MediumCHW, V_start=1)
         annotation (Placement(transformation(extent={{-44,-78},{-36,-70}})));
-      Buildings.Fluid.Sensors.MassFlowRate senMasFloByp(redeclare package
-          Medium =         MediumCHW) annotation (Placement(transformation(
+      Buildings.Fluid.Sensors.MassFlowRate senMasFloByp(redeclare package Medium =
+                           MediumCHW) annotation (Placement(transformation(
             extent={{10,-10},{-10,10}},
             rotation=-90,
             origin={0,-52})));
@@ -20398,7 +20443,7 @@ First implementation.
         n=n,
         TCWLowSet=288.71,
         dTCW_nominal=dTCW_nominal)
-        annotation (Placement(transformation(extent={{-190,-42},{-162,-14}})));
+        annotation (Placement(transformation(extent={{-190,-44},{-162,-16}})));
       Subsystems.Pump.SimPumpSystem      pumCW(
         redeclare package Medium = MediumCW,
         m_flow_nominal=mCW_flow_nominal,
@@ -20415,7 +20460,7 @@ First implementation.
                              annotation (Placement(transformation(extent={{-144,-102},
                 {-116,-76}})));
       Buildings.Fluid.Storage.ExpansionVessel expVesCW(
-          redeclare package Medium = MediumCW)
+          redeclare package Medium = MediumCW, V_start=1)
         annotation (Placement(transformation(extent={{-184,-78},{-176,-70}})));
       replaceable Devices.WaterSide.Control.PlantStageN chiSta(
         tWai=tWai,
@@ -20425,7 +20470,7 @@ First implementation.
       Subsystems.Pump.Control.SecPumCon secPumCon(
         tWai=1800,
         n=m)
-        annotation (Placement(transformation(extent={{60,40},{80,60}})));
+        annotation (Placement(transformation(extent={{60,38},{80,58}})));
       replaceable Buildings.Fluid.Sensors.TemperatureTwoPort senTCHWBuiEnt(
         redeclare package Medium = MediumCHW,
         allowFlowReversal=true,
@@ -20484,7 +20529,7 @@ First implementation.
         "Entering air wet bulb temperature"
         annotation (Placement(transformation(extent={{-312,-116},{-280,-84}}),
             iconTransformation(extent={{-132,-96},{-100,-64}})));
-      Modelica.Blocks.Interfaces.RealInput dP "Measured pressure drop"
+      Modelica.Blocks.Interfaces.RealInput dpMea "Measured pressure drop"
         annotation (Placement(transformation(extent={{-312,64},{-280,96}}),
             iconTransformation(extent={{-132,64},{-100,96}})));
       Modelica.Blocks.Interfaces.RealInput TCHWSet
@@ -20511,9 +20556,9 @@ First implementation.
       Modelica.Blocks.Sources.RealExpression Loa(y=senMasFloSecCHW.m_flow*4200*(
             senTCHWBuiLea.T - senTCHWBuiEnt.T))
         annotation (Placement(transformation(extent={{-174,16},{-154,36}})));
-      Modelica.Blocks.Interfaces.RealInput dpSetPoi
-        "Static differential pressure setpoint for the secondary pump" annotation (
-          Placement(transformation(extent={{-312,30},{-280,62}}),
+      Modelica.Blocks.Interfaces.RealInput dpSet
+        "Static differential pressure setpoint for the secondary pump"
+        annotation (Placement(transformation(extent={{-312,30},{-280,62}}),
             iconTransformation(extent={{-132,26},{-100,58}})));
     equation
       connect(senTCHWByp.port_a, senMasFloByp.port_b) annotation (Line(
@@ -20539,11 +20584,11 @@ First implementation.
       connect(On.y, reaToBoo.u)
         annotation (Line(points={{-219,96},{-162,96}}, color={0,0,127}));
       connect(cooTowWithByp.port_a, mulChiSys.port_b_CW) annotation (Line(
-          points={{-162,-19.6},{-162,18},{-100,18},{-100,-3.4},{-88,-3.4}},
+          points={{-162,-21.6},{-162,18},{-100,18},{-100,-3.4},{-88,-3.4}},
           color={0,127,255},
           thickness=1));
       connect(cooTowWithByp.port_b, pumCW.port_a) annotation (Line(
-          points={{-162,-39.2},{-162,-89},{-144,-89}},
+          points={{-162,-41.2},{-162,-89},{-144,-89}},
           color={0,127,255},
           thickness=1));
       connect(pumCW.port_b, mulChiSys.port_a_CW) annotation (Line(
@@ -20567,21 +20612,23 @@ First implementation.
               -11.8}},
           color={0,0,127}));
       connect(cooTowWithByp.On, mulChiSys.On) annotation (Line(
-          points={{-191.26,-19.6},{-200,-19.6},{-200,-8},{-120,-8},{-120,-11.8},{-88.63,
-              -11.8}},
+          points={{-191.26,-21.6},{-200,-21.6},{-200,-8},{-120,-8},{-120,-11.8},
+              {-88.63,-11.8}},
           color={0,0,127}));
       connect(chiSta.On, reaToBoo.y) annotation (Line(points={{-79.6,70.6},{-120,70.6},
               {-120,96},{-139,96}}, color={255,0,255}));
-      connect(chiSta.Status, mulChiSys.Rat) annotation (Line(points={{-79.6,59.4},{-90,
-              59.4},{-90,36},{-44,36},{-44,-11.8},{-73.3,-11.8}}, color={0,0,127}));
+      connect(chiSta.sta, mulChiSys.Rat) annotation (Line(points={{-79.6,59.4},
+              {-90,59.4},{-90,36},{-44,36},{-44,-11.8},{-73.3,-11.8}}, color={0,
+              0,127}));
       connect(pumPriCHW.On, mulChiSys.On) annotation (Line(
           points={{-10.38,28.8},{10,28.8},{10,52},{-120,52},{-120,-11.8},{-88.63,-11.8}},
           color={0,0,127}));
-      connect(secPumCon.On, reaToBoo.y) annotation (Line(points={{58,58},{40,58},{40,
-              96},{-139,96}}, color={255,0,255}));
-      connect(pumSecCHW.SpeRat, secPumCon.Status) annotation (Line(
-          points={{61,-63.8},{88,-63.8},{88,-14},{30,-14},{30,42},{58,42}},
-          color={0,0,127}));
+      connect(secPumCon.On, reaToBoo.y) annotation (Line(points={{58,56},{40,56},
+              {40,96},{-139,96}},
+                              color={255,0,255}));
+      connect(pumSecCHW.speRat, secPumCon.sta) annotation (Line(points={{61,
+              -63.8},{88,-63.8},{88,-14},{30,-14},{30,40},{58,40}}, color={0,0,
+              127}));
       connect(pumSecCHW.port_b, senTCHWBuiEnt.port_a) annotation (Line(
           points={{60,-70},{84,-70},{84,-90},{88,-90}},
           color={0,127,255},
@@ -20605,20 +20652,19 @@ First implementation.
       connect(runCh.y, maiCos.u)
         annotation (Line(points={{181,-120},{198,-120}}, color={0,0,127}));
       connect(cooTowWithByp.TCWSet, TCWSet) annotation (Line(
-          points={{-191.26,-28},{-244,-28},{-244,-60},{-296,-60}},
+          points={{-191.26,-30},{-244,-30},{-244,-60},{-296,-60}},
           color={0,0,127}));
       connect(cooTowWithByp.TWetBul, TWetBul) annotation (Line(
-          points={{-191.26,-36.4},{-220,-36.4},{-220,-100},{-296,-100}},
+          points={{-191.26,-38.4},{-220,-38.4},{-220,-100},{-296,-100}},
           color={0,0,127}));
-      connect(secPumCon.dP, dP) annotation (Line(
-          points={{58,50},{20,50},{20,80},{-296,80}},
-          color={0,0,127}));
+      connect(secPumCon.dpMea, dpMea) annotation (Line(points={{58,48},{20,48},
+              {20,80},{-296,80}}, color={0,0,127}));
 
       connect(mulChiSys.TCHWSet, TCHWSet) annotation (Line(
           points={{-88.63,-6.2},{-260,-6.2},{-260,-6},{-296,-6}},
           color={0,0,127}));
-      connect(pumSecCHW.SpeSig, secPumCon.y) annotation (Line(
-          points={{39.1,-62},{18,-62},{18,0},{88,0},{88,50},{81,50}},
+      connect(pumSecCHW.speSig, secPumCon.y) annotation (Line(
+          points={{39.1,-62},{18,-62},{18,0},{88,0},{88,48},{81,48}},
           color={0,0,127}));
       connect(senTCHWBuiEnt.T, T) annotation (Line(
           points={{96,-81.2},{96,0},{250,0}},
@@ -20637,10 +20683,10 @@ First implementation.
           points={{138,-90},{148,-90},{148,-42},{240,-42},{240,-40}},
           color={0,127,255},
           thickness=1));
-      connect(Loa.y, chiSta.Loa) annotation (Line(points={{-153,26},{-124,26},{-124,
+      connect(Loa.y,chiSta.loa)  annotation (Line(points={{-153,26},{-124,26},{-124,
               65},{-79.6,65}}, color={0,0,127}));
-      connect(secPumCon.dpSetPoi, dpSetPoi)
-        annotation (Line(points={{58,46},{-296,46}}, color={0,0,127}));
+      connect(secPumCon.dpSet, dpSet) annotation (Line(points={{58,44},{-120,44},
+              {-120,46},{-296,46}}, color={0,0,127}));
       annotation (__Dymola_Commands(file=
               "modelica://ChillerPlantSystem/Resources/Scripts/Dymola/LejeunePlant/ChillerPlantSystem.mos"
             "Simulate and plot"),
@@ -20653,18 +20699,47 @@ First implementation.
           __Dymola_Algorithm="Dassl"),
         __Dymola_experimentSetupOutput,
         Documentation(info="<html>
-<p>The schematic drawing of the Lejeune plant is shown as folowing.</p>
-<p><img src=\"Resources/Images/lejeunePlant/lejeune_schematic_drawing.jpg\" alt=\"image\"/> </p>
-<p>In addition, the parameters are listed as below.</p>
-<p>The parameters for the chiller plant.</p>
-<p><img src=\"Resources/Images/lejeunePlant/Chiller.png\" alt=\"image\"/> </p>
-<p>The parameters for the primary chilled water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/PriCHWPum.png\" alt=\"image\"/> </p>
-<p>The parameters for the secondary chilled water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/SecCHWPum1.png\" alt=\"image\"/> </p>
-<p><img src=\"Resources/Images/lejeunePlant/SecCHWPum2.png\" alt=\"image\"/> </p>
-<p>The parameters for the condenser water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/CWPum.png\" alt=\"image\"/> </p>
+<p>The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps.</p>
+<p align=\\\"center\\\">
+  <img alt=\\\"ChillerControl.\\\"
+  src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChillerControl.PNG\" width=800>
+</p>
+<p><br>The number of operating chillers is determined via a state machine based on the thermal load (Q, kW), rated chiller cooling capacity of chiller k (cck, kW), threshold to start chiller k+1 (&xi;k = 0.9), and waiting time (30 min). The maximum operating chiller number is N, which is equal to 3. </p>
+<p>The chiller model takes as an input the set point for the leaving chilled water temperature, which is met if the chiller has sufficient capacity. Thus, the model has a built-in, ideal temperature control. </p>
+<p>The number of secondary chilled water pump is determined via a state machine based on the pump speed (S, rpm) and waiting time (30 min). The maximum operating pump number is M, which is equal to 2. </p>
+<p>Secondary chilled water pump speed is controlled by a PI controller to maintain the static pressure of the secondary chilled water loop at setpoint.</p>
+<p>Cooling tower fan speed is controlled by a PI controller to maintain the cooling tower supply water temperature at setpoint. </p>
+<p>Three-way valve position is controlled by a PI controller to maintain the temperature of the condenser water leaving the condenser water loop to be larger than 15.56 &deg;C. </p>
+<p>See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Chiller.MultiChillers\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Chiller.MultiChillers</a>
+for a description of the chiller model.</p>
+<p>See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.CoolingTower.CoolingTowersWithBypass\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.CoolingTower.CoolingTowersWithBypass</a>
+for a description of the cooling tower model.</p>
+<p>See the model
+<a href=\"MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.SimPumpSystem\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.SimPumpSystem</a>
+for a description of the primary chilled water pump and condensed water pump model.</p>
+<p>See the model
+<a href=\"MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.PumpSystem\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.PumpSystem</a>
+for a description of the secondary chilled water pump model.</p>
+<p>See the model
+<a href=\"MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN</a>
+for a description of the chiller stage control.</p>
+<p>See the model
+<a href=\"MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.Control.SecPumCon\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Pump.Control.SecPumCon</a>
+for a description of the chilled water secondary pump control.</p>
+
+</html>",     revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"),
         Icon(graphics={
             Rectangle(
@@ -20702,7 +20777,7 @@ First implementation.
               textColor={0,0,255})}));
     end ChillerPlant;
 
-    model BoilerPlant
+    model BoilerPlant "Boiler hot water plant"
       replaceable package MediumHW =
          Modelica.Media.Interfaces.PartialMedium
         "Medium in the hot water side";
@@ -20763,7 +20838,7 @@ First implementation.
             extent={{-10,-10},{10,10}},
             rotation=0,
             origin={64,-96})));
-      replaceable Subsystems.Boiler.MultiBoilers multiBoiler(
+      replaceable Subsystems.Boiler.MultiBoilers mulBoi(
         redeclare package MediumHW = MediumHW,
         dPHW_nominal=dP_nominal*0.5,
         mHW_flow_nominal=mHW_flow_nominal,
@@ -20784,12 +20859,12 @@ First implementation.
         "Fluid connector b (positive design flow direction is from port_a to port_b)"
         annotation (Placement(transformation(extent={{230,-70},{250,-50}}),
             iconTransformation(extent={{90,-70},{110,-50}})));
-      Devices.WaterSide.Control.PlantStageN BoiSta(
+      Devices.WaterSide.Control.PlantStageN boiSta(
         tWai=1800,
         n=n,
         thehol=thrhol,
         Cap=Cap) annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
-      Modelica.Blocks.Interfaces.RealInput dP "Measured pressure drop"
+      Modelica.Blocks.Interfaces.RealInput dp "Measured pressure drop"
         annotation (Placement(transformation(extent={{-320,-20},{-280,20}}),
             iconTransformation(extent={{-140,-20},{-100,20}})));
 
@@ -20818,12 +20893,12 @@ First implementation.
         "Temperature setpoint of the hot water"
         annotation (Placement(transformation(extent={{-320,40},{-280,80}}),
             iconTransformation(extent={{-140,40},{-100,80}})));
-      Modelica.Blocks.Interfaces.RealInput dpSetPoi
+      Modelica.Blocks.Interfaces.RealInput dpSet
         "Static differential pressure setpoint for the secondary pump"
         annotation (Placement(transformation(extent={{-320,-80},{-280,-40}}),
             iconTransformation(extent={{-140,-80},{-100,-40}})));
       Modelica.Blocks.Sources.RealExpression PTot(y=sum(pumSecHW.P) + sum(
-            multiBoiler.boi.boi.QFue_flow))
+            mulBoi.boi.boi.QFue_flow))
         annotation (Placement(transformation(extent={{140,-120},{160,-100}})));
       Modelica.Blocks.Continuous.Integrator ETot
         annotation (Placement(transformation(extent={{180,-120},{200,-100}})));
@@ -20833,34 +20908,31 @@ First implementation.
 
       connect(secPumCon.On, reaToBoolea.y) annotation (Line(points={{58,64},{40,64},
               {40,90},{-139,90}}, color={255,0,255}));
-      connect(multiBoiler.port_a_HW, pumSecHW.port_b)
-        annotation (Line(
+      connect(mulBoi.port_a_HW, pumSecHW.port_b) annotation (Line(
           points={{-62,-18.8},{-62,30},{-10,30}},
           color={255,0,0},
           thickness=1));
-      connect(multiBoiler.port_b_HW, senTHWBuiEnt.port_a) annotation (Line(
+      connect(mulBoi.port_b_HW, senTHWBuiEnt.port_a) annotation (Line(
           points={{-62,-41.2},{-58,-41.2},{-58,-96},{54,-96}},
           color={255,0,0},
           thickness=1));
 
-      connect(pumSecHW.SpeRat, secPumCon.Status) annotation (Line(
-          points={{-11,36.2},{-20,36.2},{-20,48},{58,48}},
-          color={0,0,127}));
+      connect(pumSecHW.speRat, secPumCon.sta) annotation (Line(points={{-11,
+              36.2},{-20,36.2},{-20,48},{58,48}}, color={0,0,127}));
       connect(senTHWBuiEnt.port_b, port_b) annotation (Line(
           points={{74,-96},{106,-96},{106,-60},{240,-60}},
           color={255,0,0},
           thickness=1));
-      connect(BoiSta.On, reaToBoolea.y) annotation (Line(points={{-82,78},{-120,78},
+      connect(boiSta.On, reaToBoolea.y) annotation (Line(points={{-82,78},{-120,78},
               {-120,90},{-139,90}}, color={255,0,255}));
-      connect(secPumCon.dP, dP) annotation (Line(
-          points={{58,56},{-180,56},{-180,0},{-300,0}},
-          color={0,0,127}));
+      connect(secPumCon.dpMea, dp) annotation (Line(points={{58,56},{-180,56},{
+              -180,0},{-300,0}}, color={0,0,127}));
       connect(senTHWBuiEnt.T, THWLea) annotation (Line(
           points={{64,-85},{64,0},{250,0}},
           color={0,0,127}));
-      connect(multiBoiler.Rat, BoiSta.Status) annotation (Line(points={{-60.3,-35.6},
-              {-32,-35.6},{-32,34},{-92,34},{-92,62},{-82,62}}, color={0,0,127}));
-      connect(BoiSta.y, multiBoiler.On) annotation (Line(points={{-59,70},{-42,70},{
+      connect(mulBoi.Rat, boiSta.sta) annotation (Line(points={{-60.3,-35.6},{-32,
+              -35.6},{-32,34},{-92,34},{-92,62},{-82,62}}, color={0,0,127}));
+      connect(boiSta.y, mulBoi.On) annotation (Line(points={{-59,70},{-42,70},{
               -42,28},{-142,28},{-142,-35.6},{-97.53,-35.6}}, color={0,0,127}));
       connect(senTHWBuiLea.port_a, port_a) annotation (Line(
           points={{130,22},{134,22},{134,40},{240,40}},
@@ -20878,15 +20950,14 @@ First implementation.
           points={{92,22},{110,22}},
           color={255,0,0},
           thickness=1));
-      connect(realExpression.y, BoiSta.Loa) annotation (Line(points={{41,-40},{-20,-40},
+      connect(realExpression.y,boiSta.loa)  annotation (Line(points={{41,-40},{-20,-40},
               {-20,2},{-110,2},{-110,70},{-82,70}}, color={0,0,127}));
-      connect(secPumCon.y, pumSecHW.SpeSig) annotation (Line(
+      connect(secPumCon.y,pumSecHW.speSig)  annotation (Line(
           points={{81,56},{86,56},{86,38},{10.9,38}},
           color={0,0,127}));
-      connect(multiBoiler.THWSet, THWSet) annotation (Line(
-          points={{-97.53,-24.4},{-220,-24.4},{-220,60},{-300,60}},
-          color={0,0,127}));
-      connect(secPumCon.dpSetPoi, dpSetPoi) annotation (Line(points={{58,52},{-240,52},
+      connect(mulBoi.THWSet, THWSet) annotation (Line(points={{-97.53,-24.4},{-220,
+              -24.4},{-220,60},{-300,60}}, color={0,0,127}));
+      connect(secPumCon.dpSet, dpSet) annotation (Line(points={{58,52},{-240,52},
               {-240,-60},{-300,-60}}, color={0,0,127}));
       connect(PTot.y,ETot. u) annotation (Line(
           points={{161,-110},{178,-110}},
@@ -20903,18 +20974,30 @@ First implementation.
           __Dymola_Algorithm="Dassl"),
         __Dymola_experimentSetupOutput,
         Documentation(info="<html>
-<p>The schematic drawing of the Lejeune plant is shown as folowing.</p>
-<p><img src=\"Resources/Images/lejeunePlant/lejeune_schematic_drawing.jpg\" alt=\"image\"/> </p>
-<p>In addition, the parameters are listed as below.</p>
-<p>The parameters for the chiller plant.</p>
-<p><img src=\"Resources/Images/lejeunePlant/Chiller.png\" alt=\"image\"/> </p>
-<p>The parameters for the primary chilled water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/PriCHWPum.png\" alt=\"image\"/> </p>
-<p>The parameters for the secondary chilled water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/SecCHWPum1.png\" alt=\"image\"/> </p>
-<p><img src=\"Resources/Images/lejeunePlant/SecCHWPum2.png\" alt=\"image\"/> </p>
-<p>The parameters for the condenser water pump.</p>
-<p><img src=\"Resources/Images/lejeunePlant/CWPum.png\" alt=\"image\"/> </p>
+<p>The hot water system consists of two gas boilers and two variable speed pumps.</p>
+<p align=\\\"center\\\">
+  <img alt=\\\"BoilerControl.\\\"
+  src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/BoilerControl.PNG\" width=800>
+</p>
+<p>The number of operating boilers is determined via a state machine based on the thermal load(Q, kW), rated heating capacity of boiler k (hck, kW), threshold to start boiler k+1 (&xi;k = 0.9), and waiting time (30 min). The maximum operating boiler number is N, which is equal to 2.</p><p>Boiler heating power is controlled by a PI controller to maintain the temperature of the hot water leaving each boiler to be 80 &deg;C. It takes the hot water measurements and set points as inputs. It takes the heating power as the output. </p>
+<p>Boiler pump speed is controlled by a PI controller to maintain the static pressure of the boiler water loop at setpoint. It takes the heat water loop pressure drop measurements and setpoints as inputs. It takes the pump speed as the output. All the boiler pumps share the same speed. </p>
+<p>
+See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Boiler.MultiBoilers\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.Boiler.MultiBoilers</a>
+for a description of the boiler model.
+</p>
+<p>
+See the model
+<a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN\">
+MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Devices.WaterSide.Control.PlantStageN</a>
+for a description of the boiler stage control.
+</p>
+</html>",     revisions = "<html>
+<ul>
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<p> First implementation.</p>
+</ul>
 </html>"),
         Icon(graphics={
             Rectangle(
@@ -21083,8 +21166,9 @@ First implementation.
           points={{110,-79},{110,-79},{110,0},{110,2},{250,2}},
           color={0,0,127},
           pattern=LinePattern.Dash));
-      connect(multiBoiler.Rat, BoilerStage.Status) annotation (Line(
+      connect(multiBoiler.Rat, BoilerStage.sta) annotation (Line(
           points={{-60.3,-35.6},{-32,-35.6},{-32,34},{-92,34},{-92,60},{-82,60}},
+
           color={0,0,127},
           pattern=LinePattern.Dash));
       connect(BoilerStage.y, multiBoiler.On) annotation (Line(
@@ -21107,18 +21191,18 @@ First implementation.
           points={{92,18},{110,18}},
           color={255,0,0},
           thickness=1));
-      connect(realExpression.y, BoilerStage.Loa) annotation (Line(
+      connect(realExpression.y,BoilerStage.loa)  annotation (Line(
           points={{41,-40},{-20,-40},{-20,2},{-110,2},{-110,68},{-82,68}},
           color={0,0,127},
           pattern=LinePattern.Dash));
       connect(conPI.On, realToBoolean.y)
         annotation (Line(points={{64,90},{-139,90}}, color={255,0,255}));
-      connect(SetPoi.y, conPI.SetPoi) annotation (Line(points={{21,70},{44,70},{44,84},
-              {64,84}}, color={0,0,127}));
-      connect(dP, conPI.Mea) annotation (Line(points={{-300,0},{-128,0},{-128,48},{52,
+      connect(SetPoi.y, conPI.set) annotation (Line(points={{21,70},{44,70},{44,
+              84},{64,84}}, color={0,0,127}));
+      connect(dP,conPI.mea)  annotation (Line(points={{-300,0},{-128,0},{-128,48},{52,
               48},{52,78},{64,78}}, color={0,0,127}));
-      connect(conPI.y, pumSecHW.SpeSig[1]) annotation (Line(points={{87,84},{108,84},
-              {108,44},{52,44},{52,32.4},{23.53,32.4}}, color={0,0,127}));
+      connect(conPI.y, pumSecHW.speSig[1]) annotation (Line(points={{87,84},{
+              108,84},{108,44},{52,44},{52,32.4},{23.53,32.4}}, color={0,0,127}));
       annotation (__Dymola_Commands(file=
               "modelica://ChillerPlantSystem/Resources/Scripts/Dymola/LejeunePlant/ChillerPlantSystem.mos"
             "Simulate and plot"),
@@ -21493,8 +21577,9 @@ First implementation.
           points={{-82,76},{-120,76},{-120,90},{-139,90}},
           color={255,0,255},
           pattern=LinePattern.Dash));
-      connect(chillerStage.Status, mulChiSys.Rat) annotation (Line(
+      connect(chillerStage.sta, mulChiSys.Rat) annotation (Line(
           points={{-82,60},{-90,60},{-90,36},{-44,36},{-44,-16.6},{-54.1,-16.6}},
+
           color={0,0,127},
           pattern=LinePattern.Dash));
       connect(pumPriCHW.On, mulChiSys.On) annotation (Line(
@@ -21561,18 +21646,19 @@ First implementation.
           points={{136,-90},{140,-90},{140,-142}},
           color={0,127,255},
           thickness=1));
-      connect(Loa.y, chillerStage.Loa) annotation (Line(
+      connect(Loa.y,chillerStage.loa)  annotation (Line(
           points={{-153,26},{-124,26},{-124,68},{-82,68}},
           color={0,0,127},
           pattern=LinePattern.Dash));
       connect(conPI.On, realToBoolean.y) annotation (Line(points={{58,66},{28,66},{
               28,90},{-139,90}}, color={255,0,255}));
-      connect(SetPoi.y, conPI.SetPoi) annotation (Line(points={{9,72},{36,72},{36,
+      connect(SetPoi.y, conPI.set) annotation (Line(points={{9,72},{36,72},{36,
               60},{58,60}}, color={0,0,127}));
-      connect(conPI.Mea, dP) annotation (Line(points={{58,54},{26,54},{26,44},{-194,
+      connect(conPI.mea, dP) annotation (Line(points={{58,54},{26,54},{26,44},{-194,
               44},{-194,100},{-298,100}}, color={0,0,127}));
-      connect(conPI.y, pumSecCHW.SpeSig[1]) annotation (Line(points={{81,60},{96,60},
-              {96,-30},{18,-30},{18,-75.6},{42.47,-75.6}}, color={0,0,127}));
+      connect(conPI.y, pumSecCHW.speSig[1]) annotation (Line(points={{81,60},{
+              96,60},{96,-30},{18,-30},{18,-75.6},{42.47,-75.6}}, color={0,0,
+              127}));
       annotation (__Dymola_Commands(file=
               "modelica://ChillerPlantSystem/Resources/Scripts/Dymola/LejeunePlant/ChillerPlantSystem.mos"
             "Simulate and plot"),
@@ -21788,6 +21874,7 @@ First implementation.
           "Heat exchanger effectiveness of vav 5";
 
         BuildingControlEmulator.Systems.Floor floor(
+          duaFanAirHanUni(Fan_k=0.01),
           redeclare package MediumAir = MediumAir,
           redeclare package MediumHeaWat = MediumHeaWat,
           redeclare package MediumCooWat = MediumCooWat,
@@ -21845,8 +21932,7 @@ First implementation.
           eps4=eps4,
           PreDroAir5=PreDroAir5,
           PreDroWat5=PreDroWat5,
-          eps5=eps5,
-          duaFanAirHanUnit(Fan_k=0.01))
+          eps5=eps5)
           annotation (Placement(transformation(extent={{-24,-20},{26,22}})));
         Buildings.Fluid.Sources.Boundary_pT sou(
           nPorts=2,
@@ -21932,11 +22018,11 @@ First implementation.
             points={{21,-50},{60,-50},{60,-16.01},{28.75,-16.01}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const1.y, floor.DisTemPSetPoi) annotation (Line(
+        connect(const1.y, floor.disTSet) annotation (Line(
             points={{-79,-30},{-64,-30},{-46,-30},{-46,13.6},{-27,13.6}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const2.y, floor.PreSetPoi) annotation (Line(
+        connect(const2.y, floor.pSet) annotation (Line(
             points={{-79,-70},{-38,-70},{-38,5.41},{-26.75,5.41}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -21956,11 +22042,11 @@ First implementation.
             points={{-51,-50},{-42,-50},{-42,-15.8},{-27,-15.8}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const.y, floor.ZonCooTempSetPoi) annotation (Line(
+        connect(const.y, floor.zonCooTSet) annotation (Line(
             points={{-79,28},{-44,28},{-44,22},{-27,22}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const3.y, floor.ZonHeaTempSetPoi) annotation (Line(
+        connect(const3.y, floor.zonHeaTSet) annotation (Line(
             points={{-21,-90},{-50,-90},{-50,17.8},{-27,17.8}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -22376,6 +22462,7 @@ First implementation.
           "Heat exchanger effectiveness of vav 1";
 
         BuildingControlEmulator.Systems.Floor floor(
+          duaFanAirHanUni(Fan_k=0.01),
           fivZonVAV(vol(V=100)),
           redeclare package MediumAir = MediumAir,
           redeclare package MediumHeaWat = MediumHeaWat,
@@ -22434,8 +22521,7 @@ First implementation.
           eps4=eps4,
           PreDroAir5=PreDroAir5,
           PreDroWat5=PreDroWat5,
-          eps5=eps5,
-          duaFanAirHanUnit(Fan_k=0.01))
+          eps5=eps5)
           annotation (Placement(transformation(extent={{-26,-20},{24,22}})));
         Buildings.Fluid.Sources.Boundary_pT sou(
           nPorts=2,
@@ -22526,11 +22612,11 @@ First implementation.
             points={{17,-50},{38,-50},{38,-16},{34,-16},{34,-16.01},{26.75,-16.01}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const1.y, floor.DisTemPSetPoi) annotation (Line(
+        connect(const1.y, floor.disTSet) annotation (Line(
             points={{-79,-30},{-64,-30},{-46,-30},{-46,13.6},{-29,13.6}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const2.y, floor.PreSetPoi) annotation (Line(
+        connect(const2.y, floor.pSet) annotation (Line(
             points={{-79,-70},{-38,-70},{-38,5.41},{-28.75,5.41}},
             color={0,0,127},
             pattern=LinePattern.Dash));
@@ -22546,31 +22632,33 @@ First implementation.
             points={{26.5,1},{43.25,1},{43.25,0},{58,0}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(TCooSetPoi.y, zonCon.TCooSetPoi) annotation (Line(
+        connect(TCooSetPoi.y, zonCon.TCooSet) annotation (Line(
             points={{59,30},{44,30},{44,6},{58,6}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(THeaSetPoi.y, zonCon.THeaSetPoi) annotation (Line(
+        connect(THeaSetPoi.y, zonCon.THeaSet) annotation (Line(
             points={{59,-30},{44,-30},{44,-6},{58,-6}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(zonCon.yAirFlowSetPoi, floor.AirFlowRatSetPoi) annotation (Line(
-            points={{81,6},{90,6},{90,92},{-88,92},{-88,50},{-62,50},{-62,-2.99},{-28.75,
-                -2.99}},
+        connect(zonCon.yAirFlowSet, floor.AirFlowRatSetPoi) annotation (Line(
+            points={{81,6},{90,6},{90,92},{-88,92},{-88,50},{-62,50},{-62,-2.99},
+                {-28.75,-2.99}},
             color={0,0,127},
             pattern=LinePattern.Dash));
         connect(zonCon.yValPos, floor.yVal) annotation (Line(
             points={{81,-6},{92,-6},{92,-62},{-60,-62},{-60,-15.8},{-29,-15.8}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const.y, floor.ZonCooTempSetPoi) annotation (Line(
+        connect(const.y, floor.zonCooTSet) annotation (Line(
             points={{-79,28},{-54,28},{-54,22},{-29,22}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(const3.y, floor.ZonHeaTempSetPoi) annotation (Line(
+        connect(const3.y, floor.zonHeaTSet) annotation (Line(
             points={{-1,-88},{-24,-88},{-24,-86},{-52,-86},{-52,17.8},{-29,17.8}},
+
             color={0,0,127},
             pattern=LinePattern.Dash));
+
         connect(weaDat.weaBus, weaBus) annotation (Line(
             points={{48,-80},{58,-80}},
             color={255,204,51},
@@ -22751,6 +22839,7 @@ First implementation.
           "Heat exchanger effectiveness of vav 1";
 
         BuildingControlEmulator.Systems.Floor floor[n](
+          duaFanAirHanUni(Fan_k=0.01),
           fivZonVAV(vol(V=100)),
           redeclare package MediumAir = MediumAir,
           redeclare package MediumHeaWat = MediumHeaWat,
@@ -22809,8 +22898,7 @@ First implementation.
           eps4=eps4,
           PreDroAir5=PreDroAir5,
           PreDroWat5=PreDroWat5,
-          eps5=eps5,
-          duaFanAirHanUnit(Fan_k=0.01))
+          eps5=eps5)
           annotation (Placement(transformation(extent={{-26,-20},{24,22}})));
         Buildings.Fluid.Sources.Boundary_pT sou[n](
           nPorts=3,
@@ -22898,21 +22986,22 @@ First implementation.
          connect(floor[i].port_a_CooWat, souCooWat[i].ports[1]);
          connect(floor[i].port_a_HeaWat, souHeaWat[i].ports[1]);
          connect(floor[i].port_b_HeaWat, sinHeaWat[i].ports[1]);
-         connect(const2[i].y, floor[i].PreSetPoi);
-          connect(const1[i].y, floor[i].DisTemPSetPoi);
+          connect(const2[i].y, floor[i].pSet);
+          connect(const1[i].y, floor[i].disTSet);
          connect(booleanExpression[i].y, floor[i].OnFan);
          connect(floor[i].OnZon, booleanExpression[i].y);
          for j in 1:5 loop
           connect(loa[(i-1)*5+j].y, floor[i].Q_flow[j]);
             connect(floor[i].TZon[j], zonCon[(i - 1)*5 + j].T);
-          connect(zonCon[(i-1)*5+j].yAirFlowSetPoi, floor[i].AirFlowRatSetPoi[j]);
+            connect(zonCon[(i - 1)*5 + j].yAirFlowSet, floor[i].AirFlowRatSetPoi[
+              j]);
           connect(zonCon[(i-1)*5+j].yValPos, floor[i].yVal[j]);
-          connect(TCooSetPoi[(i-1)*5+j].y, floor[i].ZonCooTempSetPoi[j]);
-          connect(THeaSetPoi[(i-1)*5+j].y, floor[i].ZonHeaTempSetPoi[j]);
+            connect(TCooSetPoi[(i - 1)*5 + j].y, floor[i].zonCooTSet[j]);
+            connect(THeaSetPoi[(i - 1)*5 + j].y, floor[i].zonHeaTSet[j]);
          end for;
         end for;
-        connect(THeaSetPoi.y, zonCon.THeaSetPoi);
-        connect(TCooSetPoi.y, zonCon.TCooSetPoi);
+        connect(THeaSetPoi.y, zonCon.THeaSet);
+        connect(TCooSetPoi.y, zonCon.TCooSet);
 
         connect(weaDat.weaBus, weaBus) annotation (Line(
             points={{18,-80},{28,-80}},
@@ -22930,5 +23019,7 @@ First implementation.
       end FloorNWithCon;
     end Examples;
   end Systems;
-annotation ();
+annotation (Documentation(info="<html>
+<p>This package contains emulators designed for testing building control. </p>
+</html>"));
 end BuildingControlEmulator;
