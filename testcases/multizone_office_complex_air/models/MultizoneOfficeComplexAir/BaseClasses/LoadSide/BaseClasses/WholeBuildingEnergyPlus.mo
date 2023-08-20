@@ -475,11 +475,7 @@ equation
       revisions="<html>
 <ul>
 <li>
-March 23, 2022, by Michael Wetter:<br/>
-Changed model to use the instance name of the <code>building</code> instance as is done for the other Spawn models.
-</li>
-<li>
-March 19, 2018, by Michael Wetter:<br/>
+March 19, 2023, by Xing Lu:<br/>
 First implementation.
 </li>
 </ul>

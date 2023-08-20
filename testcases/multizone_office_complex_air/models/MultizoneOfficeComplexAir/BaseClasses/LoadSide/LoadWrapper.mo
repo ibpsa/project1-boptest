@@ -161,7 +161,7 @@ equation
 <p>See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus\">MultizoneOfficeComplexAir.BaseClasses.LoadSide.BaseClasses.WholeBuildingEnergyPlus</a> for the EnergyPlus model.</p>
 </html>", revisions = "<html>
 <ul>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:
 <p> First implementation.</p>
 </ul>"));
 end LoadWrapper;

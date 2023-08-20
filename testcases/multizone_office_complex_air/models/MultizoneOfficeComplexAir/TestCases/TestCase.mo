@@ -61,7 +61,7 @@ equation
 <p><span style=\"font-family: MS Shell Dlg 2;\">See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC\">Buildings.Examples.VAVReheat.BaseClasses.HVAC</a> for a description of the HVAC system, and see the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper\">MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper</a> for a description of the building thermal load calculated by EnergyPlus. </span></p>
 </html>", revisions = "<html>
 <ul>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:
 <p> First implementation.</p>
 </ul>
 </html>"),

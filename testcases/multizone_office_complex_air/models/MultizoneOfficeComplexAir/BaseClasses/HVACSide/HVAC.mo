@@ -279,7 +279,7 @@ equation
 <p>The water side system controls include the chiller plant staging control, chilled water supply temperature control, secondary chilled water pump staging control, secondary chilled water loop static pressure control, cooling Tower supply water temperature control, minimum condenser supply water temperature control, boiler staging control, boiler water temperature control, and boiler hot water loop static pressure control.</p>
 </html>", revisions = "<html>
 <ul>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
+<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:
 <p> First implementation.</p>
 </ul>
 </html>"),
