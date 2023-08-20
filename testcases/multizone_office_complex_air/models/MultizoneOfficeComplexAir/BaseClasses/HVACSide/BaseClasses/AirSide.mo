@@ -10,7 +10,6 @@ model AirSide "Air side system"
    annotation (Placement(transformation(extent={{-128,-14},{-100,14}}),
                               iconTransformation(extent={{-128,-34},{-100,-6}})));
 
-  final parameter Real alpha =  0.8  "Sizing factor";
   package MediumAir = Buildings.Media.Air "Medium model for air";
   package MediumCHW = Buildings.Media.Water "Medium model for chilled water";
   package MediumHeaWat = Buildings.Media.Water "Medium model for heating water";
@@ -146,6 +145,7 @@ model AirSide "Air side system"
     "Pressure drop in the water side of vav 1";
   parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 1";
+  final parameter Real alpha =  1.2  "Sizing factor";
   MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor
     floor1(
     duaFanAirHanUni(
@@ -501,5 +501,8 @@ equation
       StartTime=14515200,
       StopTime=14860800,
       __Dymola_NumberOfIntervals=1440,
-      __Dymola_Algorithm="Cvode"));
+      __Dymola_Algorithm="Cvode"),
+    Documentation(info="<html>
+<p>This model is a baseclass for the airside HVAC system.</p>
+</html>"));
 end AirSide;

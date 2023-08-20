@@ -470,14 +470,7 @@ equation
   annotation (
     Documentation(
       info="<html>
-<p>
-Validation model that communicates with an FMU that emulates three simple thermal zones.
-All thermal zones are identical.
-</p>
-<p>
-This test is done to validate the FMI API, using an FMU 2.0 for Model Exchange, compiled
-for Linux 64 bit by JModelica.
-</p>
+<p>Model that calcualte the building thermal loads of three floors for in toal fifteen thermal zones by calling EnergyPlus using <a href=\"modelica://Buildings.ThermalZones.EnergyPlus_9_6_0.BaseClasses.ThermalZoneAdapter\">Buildings.ThermalZones.EnergyPlus_9_6_0.BaseClasses.ThermalZoneAdapter</a>.</p>
 </html>",
       revisions="<html>
 <ul>
