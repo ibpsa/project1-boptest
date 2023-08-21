@@ -21,13 +21,13 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         self.name = 'multizone_office_complex_air'
         self.url = 'http://127.0.0.1:5000'
-        self.points_check = ['hvac_reaChiWatSys_reaPChi_y', 'hvac_reaHotWatSys_reaPBoi_y',
-                            'hvac_reaChiWatSys_reaPPum_y','hvac_reaChiWatSys_reaPCooTow_y',
-                            'hvac_reaHotWatSys_reaPPum_y',
-                             'hvac_floor1_reaZonCor_TZon_y', 'hvac_floor1_reaZonNor_TZon_y',
-                             'hvac_floor2_reaZonEas_TZon_y','hvac_floor3_reaZonWes_TZon_y',
-                             'hvac_floor1_readAhu_TMix_y','hvac_floor2_readAhu_TMix_y','hvac_floor3_readAhu_TMix_y',
-                             'loaEPlus_weatherStation_reaWeaTDryBul_y', 'loaEPlus_weatherStation_reaWeaHGloHor_y']
+        self.points_check = ['hva_reaChiWatSys_reaPChi_y', 'hva_reaHotWatSys_reaPBoi_y',
+                            'hva_reaChiWatSys_reaPPum_y','hva_reaChiWatSys_reaPCooTow_y',
+                            'hva_reaHotWatSys_reaPPum_y',
+                             'hva_floor1_reaZonCor_TZon_y', 'hva_floor1_reaZonNor_TZon_y',
+                             'hva_floor2_reaZonEas_TZon_y','hva_floor3_reaZonWes_TZon_y',
+                             'hva_floor1_reaAhu_TMix_y','hva_floor2_reaAhu_TMix_y','hva_floor3_reaAhu_TMix_y',
+                             'loaEnePlu_weaSta_reaWeaTDryBul_y', 'loaEnePlu_weaSta_reaWeaHGloHor_y']
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
@@ -62,9 +62,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
-        self.input = {'hvac_floor1_TSupAirSet_activate': 0,
-                      'hvac_floor1_TSupAirSet_u': 273.15 + 22}
-        self.measurement = 'hvac_reaHotWatSys_reaPBoi_y'
+        self.input = {'hva_floor1_TSupAirSet_activate': 0,
+                      'hva_floor1_TSupAirSet_u': 273.15 + 22}
+        self.measurement = 'hva_reaHotWatSys_reaPBoi_y'
         self.forecast_point = 'EmissionsElectricPower'
 
 if __name__ == '__main__':
