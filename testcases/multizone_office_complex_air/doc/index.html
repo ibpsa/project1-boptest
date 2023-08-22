@@ -9,7 +9,8 @@
     thermal loads with the boundary conditions. Modelica is responsible 
     for the airflow calculation (e.g., building infiltration) and HVAC system 
     and controls. Spawn integrated model is compiled into Functional Mockup 
-    Unit (FMU) using Optimica (V1.40).
+    Unit (FMU) using Optimica (V1.40). The geometry of the large offcie building is shown
+    in the figure below.
 </p>
 <p align=\"center\">
     <img alt=\"BuildingGeometry.\"
@@ -21,8 +22,7 @@
     The layout is representative of the large commercial office building 
     stock and is consistent with the building prototypes. The test case is 
     located in Chicago, IL and based on the DOE Reference Large Office Building
-    Model (Constructed In or After 1980). The geometry of the building is shown
-    in the Figure below. The original model has 12 floors with a basement. For 
+    Model (Constructed In or After 1980). The original model has 12 floors with a basement. For 
     simplicity, the middle 10 floors are treated as identical. The ground floor is 
     assumed to be adiabatic with the basement.
 </p>
@@ -58,13 +58,14 @@
     Windows: Window-to-wall ratio = 38.0%, equal distribution of windows.
 </p>
 <p>
-    Infiltration: No infiltration.
+    Infiltration: The infiltration fraction of the Energyplus model is 0.25 during occupied hours and 1 during unoccupied hours.
 </p>
 <h4>Occupancy and internal loads schedules</h4>
 <p>
-    The design occupancy density is 0.05 people/m<sup>2</sup>. The number of occupants 
+    The design occupancy density is 0.05 people/m<sup>2</sup>. The people internal gain is calucalted 
+    based on the activity level of 120 W. The number of occupants 
     present in each zone at any time coincides with the internal gain schedule. 
-    The occupied time for the HVAC system is between 9:00 and 17:00  each day. 
+    The occupied time for the HVAC system is between 6:00 and 23:00  each day. 
     The unoccupied time is outside of this period.
 </p>
 <p>
@@ -82,7 +83,7 @@
 <p>
     The power densities of the internal gains are listed in the following table.
 </p>
-<table>
+<table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
     <tr>
     <th>Internal Gains</th>
     <th>Power Density [W/m<sup>2</sup>]</th>
@@ -124,10 +125,10 @@
 <h4>Water-side system designs</h4>
 <p>
     The water-side systems of the test case include one chilled water system and one hot 
-    water system. The chilled water systems composed of three chillers, three cooling 
+    water system. The chilled water systems are composed of three chillers, three cooling 
     towers, a primary chilled water loop with three constant speed pumps, a secondary 
     chilled water loop with two variable speed pumps, and a condenser water loop with 
-    three constant speed pumps  . The hot water system consists of two gas boilers and 
+    three constant speed pumps. The hot water system consists of two gas boilers and 
     two variable speed pumps. The figure below shows the schematics of the chilled water 
     and hot water systems.
 </p>
@@ -482,7 +483,76 @@
                         </tbody>
                         </table>
  <br>						
-
+ <h4>Rule-based controllers</h4>
+ <p>
+  Zone air temperature setpoints and equipment enable/disable are determined by a schedule-based 
+  supervisory control scheme that defines a set of operating modes. The table below shows the zone air 
+  temperature setpoints, fan, and pump enable/disable.
+  </p>
+  <p>
+  <table cellspacing=\"2\" cellpadding=\"0\" border=\"0\" summary=\"Layers\">
+    <tr>
+    <th>Name</th>
+    <th>Condition </th>
+    <th>TZonHeaSet [degC]</th>
+    <th>TZonCooSet [degC]</th>
+    <th>Fan</th>
+    <th>Pump</th>
+    <th>TSupSet [degC]</th>
+    <th>Economizer</th>
+    <th>Min OA Flow</th>
+    </tr>
+    <tr>
+    <td>Occupied</td>
+    <td>In occupied period.</td>
+    <td>20</td>
+    <td>24</td>
+    <td>Enabled</td>
+    <td>Enabled</td>
+    <td>12</td>
+    <td>Enabled</td>
+    <td>Ventilation</td>
+    </tr>
+    <tr>
+    <td>Unoccupied off</td>
+    <td>In unoccupied period, all TZon within setback deadband.  Minimum state time is <mark>1 min</mark>.</td>
+    <td>15.6</td>
+    <td>26.7</td>
+    <td>Disabled</td>
+    <td>Enabled (With the lowest flow rate)</td>
+    <td><mark>12</mark></td>
+    <td><mark>Disabled</mark></td>
+    <td><mark>Zero</mark></td>
+    </tr>
+    <tr>
+    <td>Unoccupied, night setback</td>
+    <td>In unoccupied period, minimum TZon below unoccupied TZonHeaSet.  Minimum state time is 60 min.</td>
+    <td>15.6</td>
+    <td>26.7</td>
+    <td>Enabled</td>
+    <td>Enabled</td>
+    <td><mark>35</mark></td>
+    <td><mark>Disabled</mark></td>
+    <td><mark>Zero</mark></td>
+    </tr>
+    <tr>
+    <td>Unoccupied, night setup</td>
+    <td>In unoccupied period, maximum TZon above unoccupied TZonCooSet.  Minimum state time is 60 min.</td>
+    <td>15.6</td>
+    <td>26.7</td>
+    <td>Enabled</td>
+    <td>Enabled</td>
+    <td><mark>35</mark></td>
+    <td><mark>Disabled</mark></td>
+    <td><mark>Zero</mark></td>
+    </tr>
+  </table>
+  </p>
+<p>
+    Once the operating mode is determined, a number of low-level, local-loop
+    controllers are used to maintain the desired setpoints using the available
+    actuators.  The primary local-loop controllers are specified in the HVAC system control section.
+</p>
 <h4>HVAC system control</h4>
 <h4>Air-side system control</h4>
 <p align=\"center\">
@@ -491,7 +561,10 @@
 </p>
 <h4>VAV terminal control</h4>
 <p>
-    Controller for terminal VAV box with hot water reheat and damper. It is based on the 
+  <i>VAV reheat control</i>
+</p>
+<p>
+    The VAV reheat is controlled based on the
     "single maximum VAV reheat control logic". 
 </p>
     <li>
@@ -517,7 +590,7 @@
     no. 12, Dec. 2012.
 </p>
 <p>
-    VAV air flow rate control
+    <i>VAV air flow rate control</i>
 </p>
 <p>
     VAV damper position is controlled by a PI controller to maintain the air flow rate at 
@@ -525,7 +598,7 @@
      the VAV damper position as the output. 
 </p>
 <p>
-    VAV supply air temperature Control
+  <i>VAV supply air temperature Control</i>
 </p>
 <P>
     Heating coil valve position is controlled by a PI controller to maintain the supply air 
@@ -536,7 +609,7 @@
     AHU control
 </h4>
 <p>
-    AHU duct static pressure control
+    <i>AHU duct static pressure control</i>
 </p>
 <p>
     Supply fan speed is controlled by a PI controller to maintain duct static pressure 
@@ -545,7 +618,7 @@
     fan speed is set as a constant ratio (0.9) of the supply fan speed  .   
 </p>
 <p>
-    AHU supply air temperature control
+  <i>AHU supply air temperature control</i>
 </p>
 <p>
     Cooling coil valve position is controlled by a PI controller to maintain the AHU 
@@ -553,7 +626,7 @@
      and setpoints as inputs. It takes the cooling coil valve position as the output.
 </p>
 <p>
-    Mixing box damper and economizer control 
+  <i>Mixing box damper and economizer control</i>
 </p>
 <p>
     In the mixing box of the AHU, an economizer is implemented to use the outdoor air 
@@ -584,13 +657,13 @@
     Chiller control
 </h4>
 <p>
-    Chiller plant staging control
+  <i>Chiller plant staging control</i>
 </p>
 <p>
     The number of operating chillers is determined via a state machine based on the thermal 
     load (Q, kW), rated chiller cooling capacity of chiller k (cc<sup>k</sup>, kW), 
     threshold to start chiller k+1 (ξ<sup>k</sup> = 0.9), and waiting time 
-    (30 min). The maximum operating chiller number is N,  which is equal to 3.
+    (<mark>15 min</mark>). The maximum operating chiller number is N,  which is equal to 3.
     <ul>
         <li>
             One chiller is commanded on when the plant is on.
@@ -618,7 +691,7 @@
     src="images/ChillerStage.png" width=400>
 </p>
 <p>
-    Chilled water supply temperature control
+  <i>Chilled water supply temperature control</i>
 </p>
 <p>
     The model takes as an input the set point for the leaving chilled water temperature, 
@@ -626,11 +699,11 @@
     ideal temperature control.
 </p>
 <p>
-    Secondary chilled water pump staging control
+  <i>Secondary chilled water pump staging control</i>
 </p>
 <p>
     The number of secondary chilled water pump is determined via a state machine based 
-    on the pump speed (S, rpm) and waiting time (30 min). The maximum operating pump 
+    on the pump speed (S, rpm) and waiting time (<mark>30 min</mark>). The maximum operating pump 
     number is M,  which is equal to 2.
     <ul>
         <li>
@@ -650,7 +723,7 @@
     src="images/ChillerPumpStage.png" width=350>
 </p>
 <p>
-    Secondary chilled water loop static pressure control
+  <i>Secondary chilled water loop static pressure control</i>
 </p>
 <p>
     Secondary chilled water pump speed is controlled by a PI controller to maintain 
@@ -660,17 +733,17 @@
     the same speed.
 </p>
 <h4>Cooling tower control</h4>
-<p>Cooling Tower supply water temperature control</p>
+<p><i>Cooling tower supply water temperature control</i></p>
 <p>
     Cooling tower fan speed is controlled by a PI controller to maintain the cooling 
     tower supply water temperature at setpoint. It takes the cooling tower supply water 
     temperature measurements and setpoints as inputs. It takes the cooling tower fan 
     speed as the output. All the operating cooling towers share the same fan speed.
 </p>
-<p>Minimum condenser supply water temperature control </p>
+<p><i>Minimum condenser supply water temperature control</i> </p>
 <p>
     Three-way valve position is controlled by a PI controller to maintain the temperature 
-    of the condenser water leaving the condenser water loop to be larger than 15.56 ℃. 
+    of the condenser water leaving the condenser water loop to be larger than <mark>15.56</mark> ℃. 
     It takes the condenser supply water temperature measurements and setpoints as inputs. 
     It takes the three-way valve position as the output.
 </p>
@@ -678,12 +751,12 @@
     Boiler control
 </h4>
 <p>
-    Boiler staging control
+  <i>Boiler staging control</i>
 </p>
 <p>
     The number of operating boilers is determined via a state machine based on the thermal 
     load(Q, kW), rated heating capacity of boiler k (hc<sup>k</sup>, kW), threshold to start boiler
-     k+1 (ξ<sup>k</sup> = 0.9), and waiting time (30 min). The maximum operating boiler number is N,
+     k+1 (ξ<sup>k</sup> = 0.9), and waiting time (<mark>30</mark> min). The maximum operating boiler number is N,
        which is equal to 2.
     <ul>
         <li>
@@ -704,16 +777,18 @@
     <img alt=\"BoilerStage.\"
     src="images/BoilerStage.png" width=400>
 </p>
-<p>Boiler water temperature control</p>
+<p><i>Boiler water temperature control</i></p>
 <p>
     Boiler heating power is controlled by a PI controller to maintain the temperature 
-    of the hot water leaving each boiler to be 80 ℃. It takes the hot water measurements 
+    of the hot water leaving each boiler to be <mark>80</mark> ℃. It takes the hot water measurements 
     and set points as inputs. It takes the heating power as the output.
 </p>
-<p>Boiler hot water loop static pressure control</p>
+<p>
+  <i>Boiler hot water loop static pressure control</i>
+  </p>
 <p>
     Boiler pump speed   is controlled by a PI controller to maintain the static pressure 
-    of the boiler water loop   at setpoint. It takes the heat water loop pressure drop 
+    of the boiler water loop   at setpoint. It takes the heat water loop static pressure 
     measurements and setpoints as inputs. It takes the pump speed as the output. All 
     the boiler pumps share the same speed.
 </p>
@@ -723,256 +798,256 @@
     The model inputs are:
     <ul>
         <li>
-            <code>hvac_floor1_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
+            <code>hvac_floor1_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU
+            <code>hvac_floor1_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_duaFanAirHanUnit_cooCoil_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil valve control signal for AHU
+            <code>hvac_floor1_duaFanAirHanUnit_cooCoil_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil valve control signal for AHU of floor 1 
             </li>
             <li>
-            <code>hvac_floor1_duaFanAirHanUnit_mixingBox_mixBox_yEA_u</code> [1] [min=0.0, max=1.0]: Exhaust air damper position setpoint for AHU
+            <code>hvac_floor1_duaFanAirHanUnit_mixingBox_mixBox_yEA_u</code> [1] [min=0.0, max=1.0]: Exhaust air damper position setpoint for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_duaFanAirHanUnit_mixingBox_mixBox_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU
+            <code>hvac_floor1_duaFanAirHanUnit_mixingBox_mixBox_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_duaFanAirHanUnit_mixingBox_mixBox_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU
+            <code>hvac_floor1_duaFanAirHanUnit_mixingBox_mixBox_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_duaFanAirHanUnit_oveSpeRetFan_u</code> [1] [min=0.0, max=1.0]: AHU return fan speed control signal
+            <code>hvac_floor1_duaFanAirHanUnit_oveSpeRetFan_u</code> [1] [min=0.0, max=1.0]: Return fan speed control signal for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_duaFanAirHanUnit_supFan_oveSpeSupFan_u</code> [1] [min=0.0, max=1.0]: AHU supply fan speed control signal
+            <code>hvac_floor1_duaFanAirHanUnit_supFan_oveSpeSupFan_u</code> [1] [min=0.0, max=1.0]: Supply fan speed control signal for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone cor
+            <code>hvac_floor1_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone cor
+            <code>hvac_floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone sou
+            <code>hvac_floor1_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone sou
+            <code>hvac_floor1_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone eas
+            <code>hvac_floor1_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone eas
+            <code>hvac_floor1_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone nor
+            <code>hvac_floor1_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone nor
+            <code>hvac_floor1_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone wes
+            <code>hvac_floor1_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone wes
+            <code>hvac_floor1_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_cor
+            <code>hvac_floor1_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_cor
+            <code>hvac_floor1_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_eas
+            <code>hvac_floor1_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_eas
+            <code>hvac_floor1_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_nor
+            <code>hvac_floor1_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_nor
+            <code>hvac_floor1_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_sou
+            <code>hvac_floor1_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_sou
+            <code>hvac_floor1_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone bot_floor_wes
+            <code>hvac_floor1_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone bot_floor_wes
+            <code>hvac_floor1_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor2_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
+            <code>hvac_floor2_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU
+            <code>hvac_floor2_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_duaFanAirHanUnit_cooCoil_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil valve control signal for AHU
+            <code>hvac_floor2_duaFanAirHanUnit_cooCoil_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil valve control signal for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_duaFanAirHanUnit_mixingBox_mixBox_yEA_u</code> [1] [min=0.0, max=1.0]: Exhaust air damper position setpoint for AHU
+            <code>hvac_floor2_duaFanAirHanUnit_mixingBox_mixBox_yEA_u</code> [1] [min=0.0, max=1.0]: Exhaust air damper position setpoint for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_duaFanAirHanUnit_mixingBox_mixBox_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU
+            <code>hvac_floor2_duaFanAirHanUnit_mixingBox_mixBox_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_duaFanAirHanUnit_mixingBox_mixBox_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU
+            <code>hvac_floor2_duaFanAirHanUnit_mixingBox_mixBox_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_duaFanAirHanUnit_oveSpeRetFan_u</code> [1] [min=0.0, max=1.0]: AHU return fan speed control signal
+            <code>hvac_floor2_duaFanAirHanUnit_oveSpeRetFan_u</code> [1] [min=0.0, max=1.0]: AHU return fan speed control signal of floor 2
             </li>
             <li>
-            <code>hvac_floor2_duaFanAirHanUnit_supFan_oveSpeSupFan_u</code> [1] [min=0.0, max=1.0]: AHU supply fan speed control signal
+            <code>hvac_floor2_duaFanAirHanUnit_supFan_oveSpeSupFan_u</code> [1] [min=0.0, max=1.0]: AHU supply fan speed control signal of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone cor
+            <code>hvac_floor2_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone cor
+            <code>hvac_floor2_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone sou
+            <code>hvac_floor2_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone sou
+            <code>hvac_floor2_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone eas
+            <code>hvac_floor2_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone eas
+            <code>hvac_floor2_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone nor
+            <code>hvac_floor2_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone nor
+            <code>hvac_floor2_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone wes
+            <code>hvac_floor2_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone wes
+            <code>hvac_floor2_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_cor
+            <code>hvac_floor2_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_cor
+            <code>hvac_floor2_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_eas
+            <code>hvac_floor2_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_eas
+            <code>hvac_floor2_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_nor
+            <code>hvac_floor2_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_nor
+            <code>hvac_floor2_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_sou
+            <code>hvac_floor2_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_sou
+            <code>hvac_floor2_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone mid_floor_wes
+            <code>hvac_floor2_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone mid_floor_wes
+            <code>hvac_floor2_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor3_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
+            <code>hvac_floor3_TSupAirSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU
+            <code>hvac_floor3_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_duaFanAirHanUnit_cooCoil_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil valve control signal for AHU
+            <code>hvac_floor3_duaFanAirHanUnit_cooCoil_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil valve control signal for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_duaFanAirHanUnit_mixingBox_mixBox_yEA_u</code> [1] [min=0.0, max=1.0]: Exhaust air damper position setpoint for AHU
+            <code>hvac_floor3_duaFanAirHanUnit_mixingBox_mixBox_yEA_u</code> [1] [min=0.0, max=1.0]: Exhaust air damper position setpoint for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_duaFanAirHanUnit_mixingBox_mixBox_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU
+            <code>hvac_floor3_duaFanAirHanUnit_mixingBox_mixBox_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_duaFanAirHanUnit_mixingBox_mixBox_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU
+            <code>hvac_floor3_duaFanAirHanUnit_mixingBox_mixBox_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_duaFanAirHanUnit_oveSpeRetFan_u</code> [1] [min=0.0, max=1.0]: AHU return fan speed control signal
+            <code>hvac_floor3_duaFanAirHanUnit_oveSpeRetFan_u</code> [1] [min=0.0, max=1.0]: AHU return fan speed control signal of floor 3
             </li>
             <li>
-            <code>hvac_floor3_duaFanAirHanUnit_supFan_oveSpeSupFan_u</code> [1] [min=0.0, max=1.0]: AHU supply fan speed control signal
+            <code>hvac_floor3_duaFanAirHanUnit_supFan_oveSpeSupFan_u</code> [1] [min=0.0, max=1.0]: AHU supply fan speed control signal of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone cor
+            <code>hvac_floor3_fivZonVAV_vAV1_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone cor
+            <code>hvac_floor3_fivZonVAV_vAV1_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone sou
+            <code>hvac_floor3_fivZonVAV_vAV2_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone sou
+            <code>hvac_floor3_fivZonVAV_vAV2_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone eas
+            <code>hvac_floor3_fivZonVAV_vAV3_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone eas
+            <code>hvac_floor3_fivZonVAV_vAV3_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone nor
+            <code>hvac_floor3_fivZonVAV_vAV4_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone nor
+            <code>hvac_floor3_fivZonVAV_vAV4_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone wes
+            <code>hvac_floor3_fivZonVAV_vAV5_oveZonLoc_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone wes
+            <code>hvac_floor3_fivZonVAV_vAV5_oveZonLoc_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_cor
+            <code>hvac_floor3_oveZonCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_cor
+            <code>hvac_floor3_oveZonCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_eas
+            <code>hvac_floor3_oveZonEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_eas
+            <code>hvac_floor3_oveZonEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_nor
+            <code>hvac_floor3_oveZonNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_nor
+            <code>hvac_floor3_oveZonNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_sou
+            <code>hvac_floor3_oveZonSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_sou
+            <code>hvac_floor3_oveZonSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone top_floor_wes
+            <code>hvac_floor3_oveZonWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone top_floor_wes
+            <code>hvac_floor3_oveZonWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone wes of floor 3
             </li>
             <li>
             <code>hvac_oveChiWatSys_TW_set_u</code> [K] [min=278.15, max=288.15]: Chilled/hot water supply setpoint
@@ -993,583 +1068,583 @@
     The model outputs are:
     <ul>
         <li>
-            <code>hvac_floor1_reaZonCor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonebot_floor_cor
+            <code>hvac_floor1_reaZonCor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone bot_floor_cor
+            <code>hvac_floor1_reaZonCor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_cor
+            <code>hvac_floor1_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_cor
+            <code>hvac_floor1_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointbot_floor_cor
+            <code>hvac_floor1_reaZonCor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_cor
+            <code>hvac_floor1_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone bot_floor_cor
+            <code>hvac_floor1_reaZonCor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_cor
+            <code>hvac_floor1_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone bot_floor_cor
+            <code>hvac_floor1_reaZonCor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_cor
+            <code>hvac_floor1_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone cor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonebot_floor_eas
+            <code>hvac_floor1_reaZonEas_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone bot_floor_eas
+            <code>hvac_floor1_reaZonEas_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_eas
+            <code>hvac_floor1_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_eas
+            <code>hvac_floor1_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointbot_floor_eas
+            <code>hvac_floor1_reaZonEas_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_eas
+            <code>hvac_floor1_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone bot_floor_eas
+            <code>hvac_floor1_reaZonEas_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_eas
+            <code>hvac_floor1_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone bot_floor_eas
+            <code>hvac_floor1_reaZonEas_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_eas
+            <code>hvac_floor1_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone eas of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonebot_floor_nor
+            <code>hvac_floor1_reaZonNor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone bot_floor_nor
+            <code>hvac_floor1_reaZonNor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_nor
+            <code>hvac_floor1_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_nor
+            <code>hvac_floor1_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointbot_floor_nor
+            <code>hvac_floor1_reaZonNor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_nor
+            <code>hvac_floor1_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone bot_floor_nor
+            <code>hvac_floor1_reaZonNor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_nor
+            <code>hvac_floor1_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone bot_floor_nor
+            <code>hvac_floor1_reaZonNor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_nor
+            <code>hvac_floor1_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone nor of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonebot_floor_sou
+            <code>hvac_floor1_reaZonSou_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone bot_floor_sou
+            <code>hvac_floor1_reaZonSou_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_sou
+            <code>hvac_floor1_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_sou
+            <code>hvac_floor1_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointbot_floor_sou
+            <code>hvac_floor1_reaZonSou_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_sou
+            <code>hvac_floor1_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone bot_floor_sou
+            <code>hvac_floor1_reaZonSou_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_sou
+            <code>hvac_floor1_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone bot_floor_sou
+            <code>hvac_floor1_reaZonSou_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_sou
+            <code>hvac_floor1_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone sou of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonebot_floor_wes
+            <code>hvac_floor1_reaZonWes_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone bot_floor_wes
+            <code>hvac_floor1_reaZonWes_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone bot_floor_wes
+            <code>hvac_floor1_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone bot_floor_wes
+            <code>hvac_floor1_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointbot_floor_wes
+            <code>hvac_floor1_reaZonWes_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone bot_floor_wes
+            <code>hvac_floor1_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone bot_floor_wes
+            <code>hvac_floor1_reaZonWes_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone bot_floor_wes
+            <code>hvac_floor1_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone bot_floor_wes
+            <code>hvac_floor1_reaZonWes_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone bot_floor_wes
+            <code>hvac_floor1_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone wes of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU
+            <code>hvac_floor1_readAhu_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+            <code>hvac_floor1_readAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+            <code>hvac_floor1_readAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+            <code>hvac_floor1_readAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+            <code>hvac_floor1_readAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_TSup_set_y</code> [K] [min=None, max=None]: Supply air temperature setpoint measurement for AHU
+            <code>hvac_floor1_readAhu_TSup_set_y</code> [K] [min=None, max=None]: Supply air temperature setpoint measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+            <code>hvac_floor1_readAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_V_flow_OA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
+            <code>hvac_floor1_readAhu_V_flow_OA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+            <code>hvac_floor1_readAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+            <code>hvac_floor1_readAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU
+            <code>hvac_floor1_readAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
+            <code>hvac_floor1_readAhu_occ_y</code> [1] [min=None, max=None]: Occupancy status of floor 1 (1 occupied, 0 unoccupied)
             </li>
             <li>
-            <code>hvac_floor1_readAhu_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+            <code>hvac_floor1_readAhu_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement of floor 1
             </li>
             <li>
-            <code>hvac_floor1_readAhu_yOA_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+            <code>hvac_floor1_readAhu_yOA_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement of floor 1
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonemid_floor_cor
+            <code>hvac_floor2_reaZonCor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone mid_floor_cor
+            <code>hvac_floor2_reaZonCor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_cor
+            <code>hvac_floor2_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_cor
+            <code>hvac_floor2_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointmid_floor_cor
+            <code>hvac_floor2_reaZonCor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_cor
+            <code>hvac_floor2_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone mid_floor_cor
+            <code>hvac_floor2_reaZonCor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_cor
+            <code>hvac_floor2_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone mid_floor_cor
+            <code>hvac_floor2_reaZonCor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_cor
+            <code>hvac_floor2_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone cor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonemid_floor_eas
+            <code>hvac_floor2_reaZonEas_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone mid_floor_eas
+            <code>hvac_floor2_reaZonEas_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_eas
+            <code>hvac_floor2_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_eas
+            <code>hvac_floor2_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointmid_floor_eas
+            <code>hvac_floor2_reaZonEas_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_eas
+            <code>hvac_floor2_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone mid_floor_eas
+            <code>hvac_floor2_reaZonEas_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_eas
+            <code>hvac_floor2_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone mid_floor_eas
+            <code>hvac_floor2_reaZonEas_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_eas
+            <code>hvac_floor2_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone eas of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonemid_floor_nor
+            <code>hvac_floor2_reaZonNor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone mid_floor_nor
+            <code>hvac_floor2_reaZonNor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_nor
+            <code>hvac_floor2_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_nor
+            <code>hvac_floor2_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointmid_floor_nor
+            <code>hvac_floor2_reaZonNor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_nor
+            <code>hvac_floor2_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone mid_floor_nor
+            <code>hvac_floor2_reaZonNor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_nor
+            <code>hvac_floor2_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone mid_floor_nor
+            <code>hvac_floor2_reaZonNor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_nor
+            <code>hvac_floor2_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone nor of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonemid_floor_sou
+            <code>hvac_floor2_reaZonSou_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone mid_floor_sou
+            <code>hvac_floor2_reaZonSou_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_sou
+            <code>hvac_floor2_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_sou
+            <code>hvac_floor2_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointmid_floor_sou
+            <code>hvac_floor2_reaZonSou_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_sou
+            <code>hvac_floor2_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone mid_floor_sou
+            <code>hvac_floor2_reaZonSou_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_sou
+            <code>hvac_floor2_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone mid_floor_sou
+            <code>hvac_floor2_reaZonSou_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_sou
+            <code>hvac_floor2_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone sou of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonemid_floor_wes
+            <code>hvac_floor2_reaZonWes_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone mid_floor_wes
+            <code>hvac_floor2_reaZonWes_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone mid_floor_wes
+            <code>hvac_floor2_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone mid_floor_wes
+            <code>hvac_floor2_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointmid_floor_wes
+            <code>hvac_floor2_reaZonWes_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone mid_floor_wes
+            <code>hvac_floor2_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone mid_floor_wes
+            <code>hvac_floor2_reaZonWes_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone mid_floor_wes
+            <code>hvac_floor2_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone mid_floor_wes
+            <code>hvac_floor2_reaZonWes_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone mid_floor_wes
+            <code>hvac_floor2_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone wes of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU
+            <code>hvac_floor2_readAhu_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+            <code>hvac_floor2_readAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+            <code>hvac_floor2_readAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+            <code>hvac_floor2_readAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+            <code>hvac_floor2_readAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_TSup_set_y</code> [K] [min=None, max=None]: Supply air temperature setpoint measurement for AHU
+            <code>hvac_floor2_readAhu_TSup_set_y</code> [K] [min=None, max=None]: Supply air temperature setpoint measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+            <code>hvac_floor2_readAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_V_flow_OA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
+            <code>hvac_floor2_readAhu_V_flow_OA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+            <code>hvac_floor2_readAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+            <code>hvac_floor2_readAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU
+            <code>hvac_floor2_readAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
+            <code>hvac_floor2_readAhu_occ_y</code> [1] [min=None, max=None]: Occupancy status of floor 2 (1 occupied, 0 unoccupied)
             </li>
             <li>
-            <code>hvac_floor2_readAhu_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+            <code>hvac_floor2_readAhu_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement of floor 2
             </li>
             <li>
-            <code>hvac_floor2_readAhu_yOA_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+            <code>hvac_floor2_readAhu_yOA_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement of floor 2
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonetop_floor_cor
+            <code>hvac_floor3_reaZonCor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone top_floor_cor
+            <code>hvac_floor3_reaZonCor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_cor
+            <code>hvac_floor3_reaZonCor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_cor
+            <code>hvac_floor3_reaZonCor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointtop_floor_cor
+            <code>hvac_floor3_reaZonCor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_cor
+            <code>hvac_floor3_reaZonCor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone top_floor_cor
+            <code>hvac_floor3_reaZonCor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_cor
+            <code>hvac_floor3_reaZonCor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone top_floor_cor
+            <code>hvac_floor3_reaZonCor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_cor
+            <code>hvac_floor3_reaZonCor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone cor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonetop_floor_eas
+            <code>hvac_floor3_reaZonEas_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone top_floor_eas
+            <code>hvac_floor3_reaZonEas_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_eas
+            <code>hvac_floor3_reaZonEas_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_eas
+            <code>hvac_floor3_reaZonEas_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointtop_floor_eas
+            <code>hvac_floor3_reaZonEas_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_eas
+            <code>hvac_floor3_reaZonEas_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone top_floor_eas
+            <code>hvac_floor3_reaZonEas_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_eas
+            <code>hvac_floor3_reaZonEas_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone top_floor_eas
+            <code>hvac_floor3_reaZonEas_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_eas
+            <code>hvac_floor3_reaZonEas_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone eas of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonetop_floor_nor
+            <code>hvac_floor3_reaZonNor_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone top_floor_nor
+            <code>hvac_floor3_reaZonNor_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_nor
+            <code>hvac_floor3_reaZonNor_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_nor
+            <code>hvac_floor3_reaZonNor_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointtop_floor_nor
+            <code>hvac_floor3_reaZonNor_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_nor
+            <code>hvac_floor3_reaZonNor_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone top_floor_nor
+            <code>hvac_floor3_reaZonNor_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_nor
+            <code>hvac_floor3_reaZonNor_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone top_floor_nor
+            <code>hvac_floor3_reaZonNor_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_nor
+            <code>hvac_floor3_reaZonNor_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone nor of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonetop_floor_sou
+            <code>hvac_floor3_reaZonSou_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone top_floor_sou
+            <code>hvac_floor3_reaZonSou_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_sou
+            <code>hvac_floor3_reaZonSou_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_sou
+            <code>hvac_floor3_reaZonSou_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointtop_floor_sou
+            <code>hvac_floor3_reaZonSou_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_sou
+            <code>hvac_floor3_reaZonSou_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone top_floor_sou
+            <code>hvac_floor3_reaZonSou_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_sou
+            <code>hvac_floor3_reaZonSou_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone top_floor_sou
+            <code>hvac_floor3_reaZonSou_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_sou
+            <code>hvac_floor3_reaZonSou_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone sou of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zonetop_floor_wes
+            <code>hvac_floor3_reaZonWes_TRoo_Coo_set_y</code> [K] [min=None, max=None]: Zone temperature cooling setpoint for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone top_floor_wes
+            <code>hvac_floor3_reaZonWes_TRoo_Hea_set_y</code> [K] [min=None, max=None]: Zone temperature heating setpoint for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone top_floor_wes
+            <code>hvac_floor3_reaZonWes_TSup_y</code> [K] [min=None, max=None]: Discharge air temperature to zone measurement for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone top_floor_wes
+            <code>hvac_floor3_reaZonWes_TZon_y</code> [K] [min=None, max=None]: Zone air temperature measurement for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpointtop_floor_wes
+            <code>hvac_floor3_reaZonWes_V_flow_set_y</code> [m3/s] [min=None, max=None]: Airflow setpoint of zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone top_floor_wes
+            <code>hvac_floor3_reaZonWes_V_flow_y</code> [m3/s] [min=None, max=None]: Discharge air flowrate to zone measurement for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone top_floor_wes
+            <code>hvac_floor3_reaZonWes_yCoo_y</code> [1] [min=None, max=None]: Cooling PID signal measurement for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone top_floor_wes
+            <code>hvac_floor3_reaZonWes_yDam_y</code> [1] [min=None, max=None]: Damper position measurement for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone top_floor_wes
+            <code>hvac_floor3_reaZonWes_yHea_y</code> [1] [min=None, max=None]: Heating PID signal measurement for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone top_floor_wes
+            <code>hvac_floor3_reaZonWes_yReheaVal_y</code> [1] [min=None, max=None]: Reheat valve position measurement for zone wes of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU
+            <code>hvac_floor3_readAhu_PFanTot_y</code> [W] [min=None, max=None]: Total electrical power measurement of supply and return fans for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU
+            <code>hvac_floor3_readAhu_TCooCoiRet_y</code> [K] [min=None, max=None]: Cooling coil return water temperature measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU
+            <code>hvac_floor3_readAhu_TCooCoiSup_y</code> [K] [min=None, max=None]: Cooling coil supply water temperature measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU
+            <code>hvac_floor3_readAhu_TMix_y</code> [K] [min=None, max=None]: Mixed air temperature measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU
+            <code>hvac_floor3_readAhu_TRet_y</code> [K] [min=None, max=None]: Return air temperature measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_TSup_set_y</code> [K] [min=None, max=None]: Supply air temperature setpoint measurement for AHU
+            <code>hvac_floor3_readAhu_TSup_set_y</code> [K] [min=None, max=None]: Supply air temperature setpoint measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU
+            <code>hvac_floor3_readAhu_TSup_y</code> [K] [min=None, max=None]: Supply air temperature measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_V_flow_OA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU
+            <code>hvac_floor3_readAhu_V_flow_OA_y</code> [m3/s] [min=None, max=None]: Supply outdoor airflow rate measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU
+            <code>hvac_floor3_readAhu_V_flow_ret_y</code> [m3/s] [min=None, max=None]: Return air flowrate measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU
+            <code>hvac_floor3_readAhu_V_flow_sup_y</code> [m3/s] [min=None, max=None]: Supply air flowrate measurement for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU
+            <code>hvac_floor3_readAhu_dp_sup_y</code> [Pa] [min=None, max=None]: Discharge pressure of supply fan for AHU of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_occ_y</code> [1] [min=None, max=None]: Occupancy status (1 occupied, 0 unoccupied)
+            <code>hvac_floor3_readAhu_occ_y</code> [1] [min=None, max=None]: Occupancy status of floor 3 (1 occupied, 0 unoccupied)
             </li>
             <li>
-            <code>hvac_floor3_readAhu_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+            <code>hvac_floor3_readAhu_yCooVal_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement of floor 3
             </li>
             <li>
-            <code>hvac_floor3_readAhu_yOA_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement
+            <code>hvac_floor3_readAhu_yOA_y</code> [1] [min=None, max=None]: AHU cooling coil valve position measurement of floor 3
             </li>
             <li>
-            <code>hvac_reaChiWatSys_TW_y</code> [K] [min=None, max=None]: Chilled water temperature measurement
+            <code>hvac_reaChiWatSys_TW_y</code> [K] [min=None, max=None]: Chilled water temperature measurement of floor 3
             </li>
             <li>
             <code>hvac_reaChiWatSys_dp_y</code> [K] [min=None, max=None]: Differential pressure of chilled/hot water measurement
@@ -1690,229 +1765,229 @@
             <code>HHorIR</code> [W/m2]: Horizontal infrared irradiation
             </li>
             <li>
-            <code>InternalGainsCon[bot_floor_cor]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[bot_floor_cor]</code> [W]: Convective internal gains of zone cor of floor 1
             </li>
             <li>
-            <code>InternalGainsCon[bot_floor_eas]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[bot_floor_eas]</code> [W]: Convective internal gains of zone eas of floor 1
             </li>
             <li>
-            <code>InternalGainsCon[bot_floor_nor]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[bot_floor_nor]</code> [W]: Convective internal gains of zone nor of floor 1
             </li>
             <li>
-            <code>InternalGainsCon[bot_floor_sou]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[bot_floor_sou]</code> [W]: Convective internal gains of zone sou of floor 1
             </li>
             <li>
-            <code>InternalGainsCon[bot_floor_wes]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[bot_floor_wes]</code> [W]: Convective internal gains of zone wes of floor 1
             </li>
             <li>
-            <code>InternalGainsCon[mid_floor_cor]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[mid_floor_cor]</code> [W]: Convective internal gains of zone cor of floor 2
             </li>
             <li>
-            <code>InternalGainsCon[mid_floor_eas]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[mid_floor_eas]</code> [W]: Convective internal gains of zone eas of floor 2
             </li>
             <li>
-            <code>InternalGainsCon[mid_floor_nor]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[mid_floor_nor]</code> [W]: Convective internal gains of zone nor of floor 2
             </li>
             <li>
-            <code>InternalGainsCon[mid_floor_sou]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[mid_floor_sou]</code> [W]: Convective internal gains of zone sou of floor 2
             </li>
             <li>
-            <code>InternalGainsCon[mid_floor_wes]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[mid_floor_wes]</code> [W]: Convective internal gains of zone wes of floor 2
             </li>
             <li>
-            <code>InternalGainsCon[top_floor_cor]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[top_floor_cor]</code> [W]: Convective internal gains of zone cor of floor 3
             </li>
             <li>
-            <code>InternalGainsCon[top_floor_eas]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[top_floor_eas]</code> [W]: Convective internal gains of zone eas of floor 3
             </li>
             <li>
-            <code>InternalGainsCon[top_floor_nor]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[top_floor_nor]</code> [W]: Convective internal gains of zone nor of floor 3
             </li>
             <li>
-            <code>InternalGainsCon[top_floor_sou]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[top_floor_sou]</code> [W]: Convective internal gains of zone sou of floor 3
             </li>
             <li>
-            <code>InternalGainsCon[top_floor_wes]</code> [W]: Convective internal gains of zone
+            <code>InternalGainsCon[top_floor_wes]</code> [W]: Convective internal gains of zone wes of floor 3
             </li>
             <li>
-            <code>InternalGainsLat[bot_floor_cor]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[bot_floor_cor]</code> [W]: Latent internal gains of zone cor of floor 1
             </li>
             <li>
-            <code>InternalGainsLat[bot_floor_eas]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[bot_floor_eas]</code> [W]: Latent internal gains of zone eas of floor 1
             </li>
             <li>
-            <code>InternalGainsLat[bot_floor_nor]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[bot_floor_nor]</code> [W]: Latent internal gains of zone nor of floor 1
             </li>
             <li>
-            <code>InternalGainsLat[bot_floor_sou]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[bot_floor_sou]</code> [W]: Latent internal gains of zone sou of floor 1
             </li>
             <li>
-            <code>InternalGainsLat[bot_floor_wes]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[bot_floor_wes]</code> [W]: Latent internal gains of zone wes of floor 1
             </li>
             <li>
-            <code>InternalGainsLat[mid_floor_cor]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[mid_floor_cor]</code> [W]: Latent internal gains of zone cor of floor 2
             </li>
             <li>
-            <code>InternalGainsLat[mid_floor_eas]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[mid_floor_eas]</code> [W]: Latent internal gains of zone eas of floor 2
             </li>
             <li>
-            <code>InternalGainsLat[mid_floor_nor]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[mid_floor_nor]</code> [W]: Latent internal gains of zone nor of floor 2
             </li>
             <li>
-            <code>InternalGainsLat[mid_floor_sou]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[mid_floor_sou]</code> [W]: Latent internal gains of zone sou of floor 2
             </li>
             <li>
-            <code>InternalGainsLat[mid_floor_wes]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[mid_floor_wes]</code> [W]: Latent internal gains of zone wes of floor 2
             </li>
             <li>
-            <code>InternalGainsLat[top_floor_cor]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[top_floor_cor]</code> [W]: Latent internal gains of zone cor of floor 3
             </li>
             <li>
-            <code>InternalGainsLat[top_floor_eas]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[top_floor_eas]</code> [W]: Latent internal gains of zone eas of floor 3
             </li>
             <li>
-            <code>InternalGainsLat[top_floor_nor]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[top_floor_nor]</code> [W]: Latent internal gains of zone nor of floor 3
             </li>
             <li>
-            <code>InternalGainsLat[top_floor_sou]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[top_floor_sou]</code> [W]: Latent internal gains of zone sou of floor 3
             </li>
             <li>
-            <code>InternalGainsLat[top_floor_wes]</code> [W]: Latent internal gains of zone
+            <code>InternalGainsLat[top_floor_wes]</code> [W]: Latent internal gains of zone wes of floor 3
             </li>
             <li>
-            <code>InternalGainsRad[bot_floor_cor]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[bot_floor_cor]</code> [W]: Radiative internal gains of zone cor of floor 1
             </li>
             <li>
-            <code>InternalGainsRad[bot_floor_eas]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[bot_floor_eas]</code> [W]: Radiative internal gains of zone eas of floor 1
             </li>
             <li>
-            <code>InternalGainsRad[bot_floor_nor]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[bot_floor_nor]</code> [W]: Radiative internal gains of zone nor of floor 1
             </li>
             <li>
-            <code>InternalGainsRad[bot_floor_sou]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[bot_floor_sou]</code> [W]: Radiative internal gains of zone sou of floor 1
             </li>
             <li>
-            <code>InternalGainsRad[bot_floor_wes]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[bot_floor_wes]</code> [W]: Radiative internal gains of zone wes of floor 1
             </li>
             <li>
-            <code>InternalGainsRad[mid_floor_cor]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[mid_floor_cor]</code> [W]: Radiative internal gains of zone cor of floor 2
             </li>
             <li>
-            <code>InternalGainsRad[mid_floor_eas]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[mid_floor_eas]</code> [W]: Radiative internal gains of zone eas of floor 2
             </li>
             <li>
-            <code>InternalGainsRad[mid_floor_nor]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[mid_floor_nor]</code> [W]: Radiative internal gains of zone nor of floor 2
             </li>
             <li>
-            <code>InternalGainsRad[mid_floor_sou]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[mid_floor_sou]</code> [W]: Radiative internal gains of zone sou of floor 2
             </li>
             <li>
-            <code>InternalGainsRad[mid_floor_wes]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[mid_floor_wes]</code> [W]: Radiative internal gains of zone wes of floor 2
             </li>
             <li>
-            <code>InternalGainsRad[top_floor_cor]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[top_floor_cor]</code> [W]: Radiative internal gains of zone cor of floor 3
             </li>
             <li>
-            <code>InternalGainsRad[top_floor_eas]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[top_floor_eas]</code> [W]: Radiative internal gains of zone eas of floor 3
             </li>
             <li>
-            <code>InternalGainsRad[top_floor_nor]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[top_floor_nor]</code> [W]: Radiative internal gains of zone nor of floor 3
             </li>
             <li>
-            <code>InternalGainsRad[top_floor_sou]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[top_floor_sou]</code> [W]: Radiative internal gains of zone sou of floor 3
             </li>
             <li>
-            <code>InternalGainsRad[top_floor_wes]</code> [W]: Radiative internal gains of zone
+            <code>InternalGainsRad[top_floor_wes]</code> [W]: Radiative internal gains of zone wes of floor 3
             </li>
             <li>
-            <code>LowerSetp[bot_floor_cor]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[bot_floor_cor]</code> [K]: Lower temperature set point for thermal comfort of zone cor of floor 1
             </li>
             <li>
-            <code>LowerSetp[bot_floor_eas]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[bot_floor_eas]</code> [K]: Lower temperature set point for thermal comfort of zone eas of floor 1
             </li>
             <li>
-            <code>LowerSetp[bot_floor_nor]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[bot_floor_nor]</code> [K]: Lower temperature set point for thermal comfort of zone nor of floor 1
             </li>
             <li>
-            <code>LowerSetp[bot_floor_sou]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[bot_floor_sou]</code> [K]: Lower temperature set point for thermal comfort of zone sou of floor 1
             </li>
             <li>
-            <code>LowerSetp[bot_floor_wes]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[bot_floor_wes]</code> [K]: Lower temperature set point for thermal comfort of zone wes of floor 1
             </li>
             <li>
-            <code>LowerSetp[mid_floor_cor]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[mid_floor_cor]</code> [K]: Lower temperature set point for thermal comfort of zone cor of floor 2
             </li>
             <li>
-            <code>LowerSetp[mid_floor_eas]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[mid_floor_eas]</code> [K]: Lower temperature set point for thermal comfort of zone eas of floor 2
             </li>
             <li>
-            <code>LowerSetp[mid_floor_nor]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[mid_floor_nor]</code> [K]: Lower temperature set point for thermal comfort of zone nor of floor 2
             </li>
             <li>
-            <code>LowerSetp[mid_floor_sou]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[mid_floor_sou]</code> [K]: Lower temperature set point for thermal comfort of zone sou of floor 2
             </li>
             <li>
-            <code>LowerSetp[mid_floor_wes]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[mid_floor_wes]</code> [K]: Lower temperature set point for thermal comfort of zone wes of floor 2
             </li>
             <li>
-            <code>LowerSetp[top_floor_cor]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[top_floor_cor]</code> [K]: Lower temperature set point for thermal comfort of zone cor of floor 3
             </li>
             <li>
-            <code>LowerSetp[top_floor_eas]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[top_floor_eas]</code> [K]: Lower temperature set point for thermal comfort of zone eas of floor 3
             </li>
             <li>
-            <code>LowerSetp[top_floor_nor]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[top_floor_nor]</code> [K]: Lower temperature set point for thermal comfort of zone nor of floor 3
             </li>
             <li>
-            <code>LowerSetp[top_floor_sou]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[top_floor_sou]</code> [K]: Lower temperature set point for thermal comfort of zone sou of floor 3
             </li>
             <li>
-            <code>LowerSetp[top_floor_wes]</code> [K]: Lower temperature set point for thermal comfort of zone
+            <code>LowerSetp[top_floor_wes]</code> [K]: Lower temperature set point for thermal comfort of zone wes of floor 3
             </li>
             <li>
-            <code>Occupancy[bot_floor_cor]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[bot_floor_cor]</code> [number of people]: Number of occupants of zone cor of floor 1
             </li>
             <li>
-            <code>Occupancy[bot_floor_eas]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[bot_floor_eas]</code> [number of people]: Number of occupants of zone eas of floor 1
             </li>
             <li>
-            <code>Occupancy[bot_floor_nor]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[bot_floor_nor]</code> [number of people]: Number of occupants of zone nor of floor 1
             </li>
             <li>
-            <code>Occupancy[bot_floor_sou]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[bot_floor_sou]</code> [number of people]: Number of occupants of zone sou of floor 1
             </li>
             <li>
-            <code>Occupancy[bot_floor_wes]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[bot_floor_wes]</code> [number of people]: Number of occupants of zone wes of floor 1
             </li>
             <li>
-            <code>Occupancy[mid_floor_cor]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[mid_floor_cor]</code> [number of people]: Number of occupants of zone cor of floor 2
             </li>
             <li>
-            <code>Occupancy[mid_floor_eas]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[mid_floor_eas]</code> [number of people]: Number of occupants of zone eas of floor 2
             </li>
             <li>
-            <code>Occupancy[mid_floor_nor]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[mid_floor_nor]</code> [number of people]: Number of occupants of zone nor of floor 2
             </li>
             <li>
-            <code>Occupancy[mid_floor_sou]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[mid_floor_sou]</code> [number of people]: Number of occupants of zone sou of floor 2
             </li>
             <li>
-            <code>Occupancy[mid_floor_wes]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[mid_floor_wes]</code> [number of people]: Number of occupants of zone wes of floor 2
             </li>
             <li>
-            <code>Occupancy[top_floor_cor]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[top_floor_cor]</code> [number of people]: Number of occupants of zone cor of floor 3
             </li>
             <li>
-            <code>Occupancy[top_floor_eas]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[top_floor_eas]</code> [number of people]: Number of occupants of zone eas of floor 3
             </li>
             <li>
-            <code>Occupancy[top_floor_nor]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[top_floor_nor]</code> [number of people]: Number of occupants of zone nor of floor 3
             </li>
             <li>
-            <code>Occupancy[top_floor_sou]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[top_floor_sou]</code> [number of people]: Number of occupants of zone sou of floor 3
             </li>
             <li>
-            <code>Occupancy[top_floor_wes]</code> [number of people]: Number of occupants of zone
+            <code>Occupancy[top_floor_wes]</code> [number of people]: Number of occupants of zone wes of floor 3
             </li>
             <li>
             <code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price
@@ -1939,94 +2014,94 @@
             <code>TWetBul</code> [K]: Wet bulb temperature
             </li>
             <li>
-            <code>UpperCO2[bot_floor_cor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[bot_floor_cor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone cor of floor 1
             </li>
             <li>
-            <code>UpperCO2[bot_floor_eas]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[bot_floor_eas]</code> [ppm]: Upper CO2 set point for indoor air quality of zone eas of floor 1
             </li>
             <li>
-            <code>UpperCO2[bot_floor_nor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[bot_floor_nor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone nor of floor 1
             </li>
             <li>
-            <code>UpperCO2[bot_floor_sou]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[bot_floor_sou]</code> [ppm]: Upper CO2 set point for indoor air quality of zone sou of floor 1
             </li>
             <li>
-            <code>UpperCO2[bot_floor_wes]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[bot_floor_wes]</code> [ppm]: Upper CO2 set point for indoor air quality of zone wes of floor 1
             </li>
             <li>
-            <code>UpperCO2[mid_floor_cor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[mid_floor_cor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone cor of floor 2
             </li>
             <li>
-            <code>UpperCO2[mid_floor_eas]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[mid_floor_eas]</code> [ppm]: Upper CO2 set point for indoor air quality of zone eas of floor 2
             </li>
             <li>
-            <code>UpperCO2[mid_floor_nor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[mid_floor_nor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone nor of floor 2
             </li>
             <li>
-            <code>UpperCO2[mid_floor_sou]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[mid_floor_sou]</code> [ppm]: Upper CO2 set point for indoor air quality of zone sou of floor 2
             </li>
             <li>
-            <code>UpperCO2[mid_floor_wes]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[mid_floor_wes]</code> [ppm]: Upper CO2 set point for indoor air quality of zone wes of floor 2
             </li>
             <li>
-            <code>UpperCO2[top_floor_cor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[top_floor_cor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone cor of floor 3
             </li>
             <li>
-            <code>UpperCO2[top_floor_eas]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[top_floor_eas]</code> [ppm]: Upper CO2 set point for indoor air quality of zone eas of floor 3
             </li>
             <li>
-            <code>UpperCO2[top_floor_nor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[top_floor_nor]</code> [ppm]: Upper CO2 set point for indoor air quality of zone nor of floor 3
             </li>
             <li>
-            <code>UpperCO2[top_floor_sou]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[top_floor_sou]</code> [ppm]: Upper CO2 set point for indoor air quality of zone sou of floor 3
             </li>
             <li>
-            <code>UpperCO2[top_floor_wes]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+            <code>UpperCO2[top_floor_wes]</code> [ppm]: Upper CO2 set point for indoor air quality of zone wes of floor 3
             </li>
             <li>
-            <code>UpperSetp[bot_floor_cor]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[bot_floor_cor]</code> [K]: Upper temperature set point for thermal comfort of zone cor of floor 1
             </li>
             <li>
-            <code>UpperSetp[bot_floor_eas]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[bot_floor_eas]</code> [K]: Upper temperature set point for thermal comfort of zone eas of floor 1
             </li>
             <li>
-            <code>UpperSetp[bot_floor_nor]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[bot_floor_nor]</code> [K]: Upper temperature set point for thermal comfort of zone nor of floor 1
             </li>
             <li>
-            <code>UpperSetp[bot_floor_sou]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[bot_floor_sou]</code> [K]: Upper temperature set point for thermal comfort of zone sou of floor 1
             </li>
             <li>
-            <code>UpperSetp[bot_floor_wes]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[bot_floor_wes]</code> [K]: Upper temperature set point for thermal comfort of zone wes of floor 1
             </li>
             <li>
-            <code>UpperSetp[mid_floor_cor]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[mid_floor_cor]</code> [K]: Upper temperature set point for thermal comfort of zone cor of floor 2
             </li>
             <li>
-            <code>UpperSetp[mid_floor_eas]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[mid_floor_eas]</code> [K]: Upper temperature set point for thermal comfort of zone eas of floor 2
             </li>
             <li>
-            <code>UpperSetp[mid_floor_nor]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[mid_floor_nor]</code> [K]: Upper temperature set point for thermal comfort of zone nor of floor 2
             </li>
             <li>
-            <code>UpperSetp[mid_floor_sou]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[mid_floor_sou]</code> [K]: Upper temperature set point for thermal comfort of zone sou of floor 2
             </li>
             <li>
-            <code>UpperSetp[mid_floor_wes]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[mid_floor_wes]</code> [K]: Upper temperature set point for thermal comfort of zone wes of floor 2
             </li>
             <li>
-            <code>UpperSetp[top_floor_cor]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[top_floor_cor]</code> [K]: Upper temperature set point for thermal comfort of zone cor of floor 3
             </li>
             <li>
-            <code>UpperSetp[top_floor_eas]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[top_floor_eas]</code> [K]: Upper temperature set point for thermal comfort of zone eas of floor 3
             </li>
             <li>
-            <code>UpperSetp[top_floor_nor]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[top_floor_nor]</code> [K]: Upper temperature set point for thermal comfort of zone nor of floor 3
             </li>
             <li>
-            <code>UpperSetp[top_floor_sou]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[top_floor_sou]</code> [K]: Upper temperature set point for thermal comfort of zone sou of floor 3
             </li>
             <li>
-            <code>UpperSetp[top_floor_wes]</code> [K]: Upper temperature set point for thermal comfort of zone
+            <code>UpperSetp[top_floor_wes]</code> [K]: Upper temperature set point for thermal comfort of zone wes of floor 3
             </li>
             <li>
             <code>ceiHei</code> [m]: Ceiling height
