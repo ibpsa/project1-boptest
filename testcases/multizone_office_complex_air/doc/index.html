@@ -483,7 +483,7 @@
                         </tbody>
                         </table>
  <br>						
- <h4>Rule-based controllers</h4>
+ <h4>Supervisory-level mode control</h4>
  <p>
   Zone air temperature setpoints and equipment enable/disable are determined by a schedule-based 
   supervisory control scheme that defines a set of operating modes. The table below shows the zone air 
@@ -509,42 +509,42 @@
     <td>24</td>
     <td>Enabled</td>
     <td>Enabled</td>
-    <td>12</td>
+    <td>12.8</td>
     <td>Enabled</td>
     <td>Ventilation</td>
     </tr>
     <tr>
     <td>Unoccupied off</td>
-    <td>In unoccupied period, all TZon within setback deadband.  Minimum state time is <mark>1 min</mark>.</td>
+    <td>In unoccupied period, all TZon within setback deadband.</td>
     <td>15.6</td>
     <td>26.7</td>
     <td>Disabled</td>
     <td>Enabled (With the lowest flow rate)</td>
-    <td><mark>12</mark></td>
-    <td><mark>Disabled</mark></td>
-    <td><mark>Zero</mark></td>
+    <td>12.8</td>
+    <td>Disabled</td>
+    <td>Zero</td>
     </tr>
     <tr>
     <td>Unoccupied, night setback</td>
-    <td>In unoccupied period, minimum TZon below unoccupied TZonHeaSet.  Minimum state time is 60 min.</td>
+    <td>In unoccupied period, triggered by minimum TZon below unoccupied TZonHeaSet.  Minimum state time is 60 min.</td>
     <td>15.6</td>
     <td>26.7</td>
     <td>Enabled</td>
     <td>Enabled</td>
-    <td><mark>35</mark></td>
-    <td><mark>Disabled</mark></td>
-    <td><mark>Zero</mark></td>
+    <td>12.8</td>
+    <td>Disabled</td>
+    <td>Zero</td>
     </tr>
     <tr>
     <td>Unoccupied, night setup</td>
-    <td>In unoccupied period, maximum TZon above unoccupied TZonCooSet.  Minimum state time is 60 min.</td>
+    <td>In unoccupied period, triggered by maximum TZon above unoccupied TZonCooSet.  Minimum state time is 60 min.</td>
     <td>15.6</td>
     <td>26.7</td>
     <td>Enabled</td>
     <td>Enabled</td>
-    <td><mark>35</mark></td>
-    <td><mark>Disabled</mark></td>
-    <td><mark>Zero</mark></td>
+    <td>12.8</td>
+    <td>Disabled</td>
+    <td>Zero</td>
     </tr>
   </table>
   </p>
@@ -663,7 +663,7 @@
     The number of operating chillers is determined via a state machine based on the thermal 
     load (Q, kW), rated chiller cooling capacity of chiller k (cc<sup>k</sup>, kW), 
     threshold to start chiller k+1 (ξ<sup>k</sup> = 0.9), and waiting time 
-    (<mark>15 min</mark>). The maximum operating chiller number is N,  which is equal to 3.
+    (15 min). The maximum operating chiller number is N,  which is equal to 3.
     <ul>
         <li>
             One chiller is commanded on when the plant is on.
@@ -703,7 +703,7 @@
 </p>
 <p>
     The number of secondary chilled water pump is determined via a state machine based 
-    on the pump speed (S, rpm) and waiting time (<mark>30 min</mark>). The maximum operating pump 
+    on the pump speed (S, rpm) and waiting time (30 min). The maximum operating pump 
     number is M,  which is equal to 2.
     <ul>
         <li>
@@ -743,7 +743,7 @@
 <p><i>Minimum condenser supply water temperature control</i> </p>
 <p>
     Three-way valve position is controlled by a PI controller to maintain the temperature 
-    of the condenser water leaving the condenser water loop to be larger than <mark>15.56</mark> ℃. 
+    of the condenser water leaving the condenser water loop to be larger than 15.56 ℃. 
     It takes the condenser supply water temperature measurements and setpoints as inputs. 
     It takes the three-way valve position as the output.
 </p>
@@ -756,7 +756,7 @@
 <p>
     The number of operating boilers is determined via a state machine based on the thermal 
     load(Q, kW), rated heating capacity of boiler k (hc<sup>k</sup>, kW), threshold to start boiler
-     k+1 (ξ<sup>k</sup> = 0.9), and waiting time (<mark>30</mark> min). The maximum operating boiler number is N,
+     k+1 (ξ<sup>k</sup> = 0.9), and waiting time (30 min). The maximum operating boiler number is N,
        which is equal to 2.
     <ul>
         <li>
@@ -780,7 +780,7 @@
 <p><i>Boiler water temperature control</i></p>
 <p>
     Boiler heating power is controlled by a PI controller to maintain the temperature 
-    of the hot water leaving each boiler to be <mark>80</mark> ℃. It takes the hot water measurements 
+    of the hot water leaving each boiler to be 80 ℃. It takes the hot water measurements 
     and set points as inputs. It takes the heating power as the output.
 </p>
 <p>
