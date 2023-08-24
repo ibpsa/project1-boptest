@@ -227,7 +227,7 @@ class TestCase(object):
         u : dict
             Defines the control input data to be used for the step.
             {<input_name>_activate : bool, int, float, or str convertable to 1 or 0
-             <input_name>_u        : int or float}
+             <input_name>_u        : int or float, or str convertable to float}
 
         Returns
         -------
@@ -276,7 +276,7 @@ class TestCase(object):
                         message = "Unexpected input variable: {}.".format(key)
                         logging.error(message)
                         return status, message, payload
-                    if key != 'time' and u[key]:
+                    if (key != 'time' and (u[key] != None)):
                         if '_activate' in key:
                             try:
                                 if float(u[key]) == 1:

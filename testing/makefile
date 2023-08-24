@@ -36,6 +36,15 @@ copy_testcase_to_jm:
 	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing/${TESTCASE}
 	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
 
+copy_framework_with_testcase_to_jm:
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=kpis
+	make copy_to_jm ARGS=forecast
+	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing
+	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing
+	docker exec -it ${IMG_NAME} /bin/bash -c "mkdir /usr/local/testing/testcases && exit"
+	docker cp ../testcases/${TESTCASE} ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}
+
 copy_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
 
@@ -208,6 +217,20 @@ test_kpis:
 # Report test results
 	python report.py
 
+test_testcase:
+# Run jm docker container
+	make run_jm
+# Copy the required files and folders for the test
+	make copy_framework_with_testcase_to_jm TESTCASE=bestest_air
+# Run test_kpis.py
+	make exec_jm ARGS="python test_testcase.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/testcase ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/test_testcase.log ./test_testcase.log
+# Stop jm docker container
+	make stop_jm
+# Report test results
+	python report.py
+
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
 	cd .. && TESTCASE=testcase2 docker-compose up -d
@@ -250,6 +273,7 @@ test_all:
 	make test_data
 	make test_forecast
 	make test_kpis
+	make test_testcase
 	make test_readme_commands
 	make test_testcase1
 	make test_testcase2
