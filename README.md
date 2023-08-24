@@ -19,6 +19,7 @@ that is being developed as part of the [IBPSA Project 1](https://ibpsa.github.io
 - ``/forecast`` contains code for returning boundary condition forecast, such as weather, schedules, and energy prices.
 - ``/kpis`` contains code for calculating key performance indicators.
 - ``/docs`` contains design documentation and delivered workshop content.
+- ``/bacnet`` contains code for a bacnet interface.
 
 ## Quick-Start to Deploy a Test Case
 1) Download this repository.
@@ -102,6 +103,9 @@ See the related [section in the user guide](https://ibpsa.github.io/project1-bop
 ### OpenAI-Gym Environment
 An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-gym](https://github.com/ibpsa/project1-boptest-gym).
 See the documentation there for getting started.
+
+### BACnet Interface
+A BACnet interface for BOPTEST is implemented in the ``/bacnet`` directory of this repository.  See the ``/bacnet/README.md`` there for getting started.
 
 ### Results Dashboard
 A proposed BOPTEST home page and dashboard for creating accounts and sharing results is published here https://xd.adobe.com/view/0e0c63d4-3916-40a9-5e5c-cc03f853f40a-783d/.

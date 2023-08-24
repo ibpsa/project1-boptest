@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Creates ttl file for creation of Brick objects
+Creates ttl file for creation of Brick objects.
+Deploy a test case and then use this file to read the available input
+and measurement points and create the ttl file accordingly.
 
 """
 
