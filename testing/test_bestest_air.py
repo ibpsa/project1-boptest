@@ -8,6 +8,7 @@ bestest_air must already be deployed.
 import unittest
 import os
 import utilities
+import requests
 
 class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     '''Tests the example test case.
@@ -42,6 +43,32 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
     def test_mix_day(self):
         self.run_time_period('mix_day')
+
+    def test_scenario_flag(self):
+        '''Ensures the scenario flag is set properly.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+
+        '''
+
+        length = 86400*14
+        # Initialize test case scenario
+        requests.put('{0}/scenario'.format(self.url), json={'time_period':'peak_heat_day'})
+        # Set simulation step
+        requests.put('{0}/step'.format(self.url), json={'step':length}).json()['payload']
+        # Simulation Loop
+        requests.post('{0}/advance'.format(self.url)).json()['payload']
+        # Try submit results to dashboard
+        status = requests.post("{0}/submit".format(self.url), json={"api_key": 'valid_key',
+                                                                     "unit_test":"True"}).json()['status']
+        # Check result
+        self.assertEqual(status,200)
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase.
