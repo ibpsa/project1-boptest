@@ -12,6 +12,7 @@ Released on xx/xx/xxxx.
 - In unit test checking fetching of single forecast variable, specify specific forecast point to check for each test case.  This is for [#529](https://github.com/ibpsa/project1-boptest/issues/529).
 - Update ``KPI_Calculator.get_computational_time_ratio`` to return ``None`` if no simulation steps have been processed. This is for [#540](https://github.com/ibpsa/project1-boptest/issues/540).
 - Add ``forecastParameters`` to dashboard submission with empty dictionary and update url for submitting dashboard results.  This is for [#548](https://github.com/ibpsa/project1-boptest/issues/548).
+- Fix so that results can be submitted to dashboard if sitting at end of scenario time period instead of needing to try to advance one step past.  This is for [#546](https://github.com/ibpsa/project1-boptest/issues/546).
 
 **The following changes are backwards-compatible, but might change benchmark results:**
 
