@@ -3,12 +3,12 @@ model TestCase "Complex office building model that includes air side systems, wa
   extends Modelica.Icons.Example;
 
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper loaEnePlu(building(
-        spawnExe="spawn-0.3.0-8d93151657"))
+        spawnExe="spawn-0.3.0-0fa49be497"))
     "Load calculation in EnergyPlus using Spawn, note this version spawn-0.3.0-8d93151657 is specified for BOPTEST environment; Use spawn-0.3.0-0fa49be497 for Buildings library version"
     annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC hva(
     floor1(duaFanAirHanUni(
-        mixingBox(mixBox(
+        mixBox(mixBox(
             valRet(riseTime=15, y_start=1),
             valExh(riseTime=15, y_start=0),
             valFre(riseTime=15, y_start=0))),
@@ -17,7 +17,7 @@ model TestCase "Complex office building model that includes air side systems, wa
                 use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))),
     floor2(duaFanAirHanUni(
-        mixingBox(mixBox(
+        mixBox(mixBox(
             valRet(riseTime=15, y_start=1),
             valExh(riseTime=15, y_start=0),
             valFre(riseTime=15, y_start=0))),
@@ -26,7 +26,7 @@ model TestCase "Complex office building model that includes air side systems, wa
                 use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))),
     floor3(duaFanAirHanUni(
-        mixingBox(mixBox(
+        mixBox(mixBox(
             valRet(riseTime=15, y_start=1),
             valExh(riseTime=15, y_start=0),
             valFre(riseTime=15, y_start=0))),
@@ -57,8 +57,11 @@ equation
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Documentation(info="<html>
-<p><span style=\"font-family: MS Shell Dlg 2;\">This testcase represents a large office building that includes HVAC system (i.e., air side systems, water side systems) from Modelica, and building thermal load calculation module from EnergyPlus.</span></p>
-<p><span style=\"font-family: MS Shell Dlg 2;\">See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC\">Buildings.Examples.VAVReheat.BaseClasses.HVAC</a> for a description of the HVAC system, and see the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper\">MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper</a> for a description of the building thermal load calculated by EnergyPlus. </span></p>
+<p><span style=\"font-family: MS Shell Dlg 2;\">This testcase represents a large office building that includes HVAC system (i.e., air side systems, water side systems) from Modelica, 
+and building thermal load calculation module from EnergyPlus.</span></p>
+<p><span style=\"font-family: MS Shell Dlg 2;\">See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC</a> 
+for a description of the HVAC system, and see the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper\">MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper</a> 
+for a description of the building thermal load calculated by EnergyPlus. </span></p>
 </html>", revisions = "<html>
 <ul>
 <li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:

@@ -1,6 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide;
 model HVAC "Full HVAC system that contains the air side and water side systems"
-  extends MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirSide(
+  extends MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Airside(
       sou(nPorts=3),
       floor1(
       reaZonCor(zone="bot_floor_cor"),
@@ -35,8 +35,7 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonEas(zone="top_floor_eas"),
       oveZonNor(zone="top_floor_nor"),
       oveZonWes(zone="top_floor_wes")));
-  package MediumCW = Buildings.Media.Water
-    "Medium model";
+
   parameter Modelica.Units.SI.MassFlowRate mCHW_flow_nominal[:]={-datChi[1].QEva_flow_nominal
       /4200/5.56 for i in linspace(
       1,
@@ -51,12 +50,16 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   parameter Modelica.Units.SI.Pressure dP_nominal=478250
     "Nominal pressure drop";
 
+  package MediumCW = Buildings.Media.Water
+    "Medium model";
 
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.BoilerPlant boiWatPla(secPumCon(conPI(k=0.001)),
-      redeclare package MediumHW = MediumHeaWat) "Boiler hot water plant"
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant
+    boiWatPla(secPumCon(conPI(k=0.001)), redeclare package MediumHW =
+        MediumHeaWat) "Boiler hot water plant"
     annotation (Placement(transformation(extent={{120,-110},{140,-90}})));
 
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.ThreZonNetWor boiWatNet(
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork
+    boiWatNet(
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
     PreDroMai1(displayUnit="Pa") = (79712/4),
@@ -71,7 +74,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     PreDroBra1(displayUnit="Pa") = (79712/4))
     "Hot water plant distribution network"
     annotation (Placement(transformation(extent={{156,-92},{176,-112}})));
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.ChillerPlant chiWatPla(
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant
+    chiWatPla(
     datChi=datChi,
     redeclare package MediumCHW = MediumCHW,
     redeclare package MediumCW = MediumCW,
@@ -81,7 +85,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     secPumCon(conPI(k=0.000001, Ti=240))) "Chilled water plant"
     annotation (Placement(transformation(extent={{-10,-112},{10,-92}})));
 
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.HydDisturbution.ThreZonNetWor chiWatNet(
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork
+    chiWatNet(
     redeclare package Medium = MediumCHW,
     mFloRat1=-datChi[1].QEva_flow_nominal/4200/5.56,
     mFloRat2=-datChi[1].QEva_flow_nominal/4200/5.56,
@@ -270,13 +275,19 @@ equation
           textColor={0,0,255}), Bitmap(extent={{-98,-98},{96,94}}, fileName=
               "modelica://MultizoneOfficeComplexAir/Resources/figure/hvac.png")}),
     Documentation(info="<html>
-<p>This model consist of a full HVAC system that contains the air side and water side systems. The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. There is also a reheat coil and an air damper in each of the three zone inlet branches. There are two fans (i.e., one supply fan, and one return fan) in the AHU system. A mixing box carries out the economizer function of providing cooling and ventilation. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor</a> for a description of the air side systems and the thermal zones.</p>
+<p>This model consist of a full HVAC system that contains the air side and water side systems. The air side system is a variable air volume (VAV) flow system with economizer and a cooling coil in the air handler unit. 
+There are two fans (i.e., one supply fan, and one return fan) in the AHU. A mixing box carries out the economizer function of providing cooling and ventilation. 
+Each VAV terminals contain a modulating damper and a hot water reheat coil. 
+See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor</a> for a description of the air side systems and the thermal zones.</p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/AirSide.png\"/> </p>
-<p>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps . The hot water system consists of two gas boilers and two variable speed pumps. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.ChillerPlant\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.ChillerPlant</a> for a description of the chilled water system. See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.BoilerPlant\">MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.BoilerPlant</a> for a description of the hot water system. </p>
+<p>The water side systems include one chilled water system and one hot water system. The chilled water systems composed of three chillers, three cooling towers, a primary chilled water loop with three constant speed pumps, 
+a secondary chilled water loop with two variable speed pumps, and a condenser water loop with three constant speed pumps. The hot water system consists of two gas boilers and two variable speed pumps. 
+See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.ChillerPlant</a> for a description of the chilled water system. 
+See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant</a> for a description of the hot water system. </p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/ChilledWater.png\"/> </p>
 <p><img src=\"modelica://MultiZoneOfficeComplexAir/../../doc/images/HotWater.png\"/> </p>
-<p>The air side system controls include the VAV air flow rate control, VAV supply air temperature Control, AHU duct static pressure control, AHU supply air temperature control, and mixing box damper and economizer control.</p>
-<p>The water side system controls include the chiller plant staging control, chilled water supply temperature control, secondary chilled water pump staging control, secondary chilled water loop static pressure control, cooling Tower supply water temperature control, minimum condenser supply water temperature control, boiler staging control, boiler water temperature control, and boiler hot water loop static pressure control.</p>
+<p>The air side system controls include the VAV air flow rate control, VAV supply air temperature control, AHU duct static pressure control, AHU supply air temperature control, and mixing box damper and economizer control.</p>
+<p>The water side system controls include the chiller plant staging control, chilled water supply temperature control, secondary chilled water pump staging control, secondary chilled water loop static pressure control, cooling tower supply water temperature control, minimum condenser supply water temperature control, boiler staging control, boiler water temperature control, and boiler hot water loop static pressure control.</p>
 </html>", revisions = "<html>
 <ul>
 <li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:

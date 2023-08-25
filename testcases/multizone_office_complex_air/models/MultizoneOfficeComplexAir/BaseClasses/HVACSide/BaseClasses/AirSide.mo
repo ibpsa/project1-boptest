@@ -1,18 +1,5 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses;
-model AirSide "Air side system"
-  Modelica.Blocks.Interfaces.RealInput loa[15] "Load from external calculator"
-    annotation (Placement(transformation(extent={{-128,46},{-100,74}}),
-        iconTransformation(extent={{-128,16},{-100,44}})));
-  Modelica.Blocks.Interfaces.RealOutput TZon[15] "Zone air temperature"
-   annotation (Placement(transformation(extent={{200,-10},{220,10}}),
-                        iconTransformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.RealInput TDryBul "Zone air dry bulb temperature"
-   annotation (Placement(transformation(extent={{-128,-14},{-100,14}}),
-                              iconTransformation(extent={{-128,-34},{-100,-6}})));
-
-  package MediumAir = Buildings.Media.Air "Medium model for air";
-  package MediumCHW = Buildings.Media.Water "Medium model for chilled water";
-  package MediumHeaWat = Buildings.Media.Water "Medium model for heating water";
+model Airside "Air side system"
   parameter Integer n =  3  "Number of floors";
   parameter Modelica.Units.SI.Pressure PreDroCoiAir=50
     "Pressure drop in the air side";
@@ -145,8 +132,23 @@ model AirSide "Air side system"
     "Pressure drop in the water side of vav 1";
   parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 1";
-  final parameter Real alpha =  1.2  "Sizing factor";
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor
+  final parameter Real alpha = 0.8  "Sizing factor";
+
+  package MediumAir = Buildings.Media.Air "Medium model for air";
+  package MediumCHW = Buildings.Media.Water "Medium model for chilled water";
+  package MediumHeaWat = Buildings.Media.Water "Medium model for heating water";
+
+  Modelica.Blocks.Interfaces.RealInput loa[15] "Load from external calculator"
+    annotation (Placement(transformation(extent={{-128,46},{-100,74}}),
+        iconTransformation(extent={{-128,16},{-100,44}})));
+  Modelica.Blocks.Interfaces.RealOutput TZon[15] "Zone air temperature"
+   annotation (Placement(transformation(extent={{200,-10},{220,10}}),
+                        iconTransformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Interfaces.RealInput TDryBul "Zone air dry bulb temperature"
+   annotation (Placement(transformation(extent={{-128,-14},{-100,14}}),
+                              iconTransformation(extent={{-128,-34},{-100,-6}})));
+
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor
     floor1(
     duaFanAirHanUni(
       Coi_k=0.1,
@@ -217,7 +219,7 @@ model AirSide "Air side system"
     redeclare package MediumCooWat = MediumCHW)
     annotation (Placement(transformation(extent={{114,20},{164,62}})));
 
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor
     floor2(
     duaFanAirHanUni(
       Coi_k=0.1,
@@ -288,7 +290,7 @@ model AirSide "Air side system"
     redeclare package MediumCooWat = MediumCHW)
     annotation (Placement(transformation(extent={{114,20},{164,62}})));
 
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Systems.Floor
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor
     floor3(
     duaFanAirHanUni(
       Coi_k=0.1,
@@ -376,13 +378,17 @@ model AirSide "Air side system"
     "Zone VAV terminal on signal"
     annotation (Placement(transformation(extent={{40,62},{60,82}})));
 
-  MultizoneOfficeComplexAir.BaseClasses.BuildingControlEmulator.Subsystems.AirHanUnit.BaseClasses.SetPoi TZonAirSet[15](
+  MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.AirHandlingUnit.BaseClasses.ZoneSetpoint
+    TZonAirSet[15](
     n=2,
     setpoint_on={{273.15 + 24,273.15 + 20} for i in linspace(
         1,
         15,
         15)},
-    setpoint_off={{273.15 + 26.7,273.15 + 15.6} for i in linspace(1, 15, 15)})
+    setpoint_off={{273.15 + 26.7,273.15 + 15.6} for i in linspace(
+        1,
+        15,
+        15)})
     "Zone air temperature setpoint controllers based on the occupancy signal"
     annotation (Placement(transformation(extent={{-2,90},{18,110}})));
   Modelica.Blocks.Routing.BooleanReplicator booRep(nout=15)
@@ -481,7 +487,6 @@ equation
   connect(reaToBooOcc.y, booRep.u)
     annotation (Line(points={{-39,100},{-32,100}}, color={255,0,255}));
 
-
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),                                        graphics={
           Rectangle(
@@ -505,4 +510,4 @@ equation
     Documentation(info="<html>
 <p>This model is a baseclass for the airside HVAC system.</p>
 </html>"));
-end AirSide;
+end Airside;
