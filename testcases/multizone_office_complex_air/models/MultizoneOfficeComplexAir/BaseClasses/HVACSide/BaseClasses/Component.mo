@@ -1241,126 +1241,6 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
 
       end BaseClasses;
 
-      package Control
-        model OnOffSta
-          parameter Modelica.Units.SI.Time minOffTim(min=0) = 0 "Minimum off time";
-          parameter Modelica.Units.SI.Time minOnTim(min=0) = 0 "Minimum on time";
-          parameter Real dT
-              "Temperature control deadband";
-          Modelica.Units.SI.Time OffTim(start=0);
-          Modelica.Units.SI.Time OnTim(start=0);
-
-          Modelica.StateGraph.StepWithSignal On(nOut=2, nIn=1)
-                                                annotation (Placement(transformation(
-                extent={{-10,10},{10,-10}},
-                rotation=-90,
-                origin={34,-44})));
-          Modelica.StateGraph.InitialStepWithSignal Off(nIn=2, nOut=1)
-                                                        annotation (Placement(
-                transformation(
-                extent={{-10,10},{10,-10}},
-                rotation=-90,
-                origin={34,42})));
-          Modelica.StateGraph.TransitionWithSignal transitionWithSignal(enableTimer=false)
-            annotation (Placement(transformation(
-                extent={{10,-10},{-10,10}},
-                rotation=-90,
-                origin={0,-40})));
-          Modelica.StateGraph.TransitionWithSignal transitionWithSignal1 annotation (
-              Placement(transformation(
-                extent={{-10,-10},{10,10}},
-                rotation=-90,
-                origin={34,0})));
-          Modelica.StateGraph.TransitionWithSignal transitionWithSignal2(enableTimer=false)
-            annotation (Placement(transformation(
-                extent={{10,-10},{-10,10}},
-                rotation=-90,
-                origin={-40,60})));
-          Modelica.Blocks.Interfaces.BooleanOutput OnSigOut
-            annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-          Modelica.Blocks.Interfaces.BooleanInput OnSigIn
-            annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
-          Modelica.Blocks.Logical.Not not1
-            annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
-          Modelica.Blocks.Interfaces.RealInput Mea "Connector of measurement input signal"
-            annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
-          Modelica.Blocks.Interfaces.RealInput SetPoi
-            "Connector of setpoint input signal"
-            annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-          Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=(Mea > SetPoi
-                 + dT) and (time - OffTim) > minOffTim and OnSigIn)
-            annotation (Placement(transformation(extent={{-78,10},{-58,30}})));
-          Modelica.Blocks.Sources.BooleanExpression booleanExpression1(y=(Mea < SetPoi -
-                dT) and (time - OnTim) > minOnTim)
-            annotation (Placement(transformation(extent={{-80,-70},{-60,-50}})));
-          inner Modelica.StateGraph.StateGraphRoot stateGraphRoot
-            annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-
-        equation
-            when OnSigOut==false then
-                OffTim = time;
-            end when;
-            when OnSigOut==true then
-                OnTim = time;
-            end when;
-          connect(transitionWithSignal.inPort,On. outPort[1]) annotation (Line(
-              points={{-6.66134e-016,-44},{-6.66134e-016,-80},{33.75,-80},{33.75,-54.5}},
-              color={0,0,0},
-              pattern=LinePattern.Dash));
-          connect(transitionWithSignal.outPort,Off. inPort[1]) annotation (Line(
-              points={{4.44089e-016,-38.5},{0,-38.5},{0,60},{33.5,60},{33.5,53}},
-              color={0,0,0},
-              pattern=LinePattern.Dash));
-          connect(Off.outPort[1],transitionWithSignal1. inPort) annotation (Line(
-              points={{34,31.5},{34,20},{34,4}},
-              color={0,0,0},
-              pattern=LinePattern.Dash));
-          connect(transitionWithSignal1.outPort,On. inPort[1]) annotation (Line(
-              points={{34,-1.5},{34,-12},{34,-33}},
-              color={0,0,0},
-              pattern=LinePattern.Dash));
-          connect(On.active,OnSigOut)  annotation (Line(
-              points={{45,-44},{45,-44},{60,-44},{60,0},{110,0}},
-              color={255,0,255},
-              pattern=LinePattern.Dash));
-          connect(transitionWithSignal2.inPort,On. outPort[2]) annotation (Line(
-              points={{-40,56},{-40,56},{-40,42},{-40,36},{-40,-94},{34.25,-94},{34.25,-54.5}},
-              color={0,0,0},
-              pattern=LinePattern.Dash));
-          connect(transitionWithSignal2.outPort,Off. inPort[2]) annotation (Line(
-              points={{-40,61.5},{-40,61.5},{-40,80},{34,80},{34,66},{34.5,66},{34.5,53}},
-              color={0,0,0},
-              pattern=LinePattern.Dash));
-          connect(transitionWithSignal2.condition, not1.y) annotation (Line(
-              points={{-52,60},{-56,60},{-59,60}},
-              color={255,0,255},
-              pattern=LinePattern.Dash));
-          connect(not1.u, OnSigIn) annotation (Line(
-              points={{-82,60},{-88,60},{-94,60},{-120,60}},
-              color={255,0,255},
-              pattern=LinePattern.Dash));
-          connect(booleanExpression.y, transitionWithSignal1.condition) annotation (
-              Line(points={{-57,20},{-20,20},{-20,0},{22,0}}, color={255,0,255},
-              pattern=LinePattern.Dash));
-          connect(booleanExpression1.y, transitionWithSignal.condition) annotation (
-              Line(points={{-59,-60},{-26,-60},{-26,-40},{-12,-40}}, color={255,0,255},
-              pattern=LinePattern.Dash));
-
-          annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
-                  Rectangle(
-                  extent={{-100,100},{100,-100}},
-                  lineColor={0,127,255},
-                  lineThickness=0.5,
-                  fillColor={255,255,255},
-                  fillPattern=FillPattern.Solid), Text(
-                  extent={{-52,22},{52,-30}},
-                  lineColor={0,127,255},
-                  lineThickness=1,
-                  textString="ON")}), Diagram(coordinateSystem(preserveAspectRatio=false)));
-        end OnOffSta;
-
-      end Control;
-
     end Coil;
 
     package MixingBox
@@ -1386,21 +1266,17 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           mFreAirFloRat=mFreAirFloRat,
           mTotAirFloRat=mTotAirFloRat)
           annotation (Placement(transformation(extent={{-10,-24},{26,0}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_Exh(redeclare package Medium
-            =                                                                     Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_Exh(redeclare package Medium = Medium)
                                                        "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-70,90},{-50,110}}),
               iconTransformation(extent={{-70,90},{-50,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_Fre(redeclare package Medium
-            =                                                                     Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_Fre(redeclare package Medium = Medium)
                                                        "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{50,90},{70,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_Ret(redeclare package Medium
-            =                                                                     Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_Ret(redeclare package Medium = Medium)
                                                        "First port, typically inlet" annotation (Placement(transformation(extent={{-68,
                   -110},{-48,-90}}), iconTransformation(extent={{-68,-110},{-48,-90}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_Sup(redeclare package Medium
-            =                                                                     Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_Sup(redeclare package Medium = Medium)
                                                        "Second port, typically outlet" annotation (Placement(transformation(extent={{50,-112},{70,-92}})));
         Control.ecoCon ecoCon(
           TemHig=TemHig,
@@ -1957,11 +1833,11 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           dp_nominal={PreDroBra5/2,PreDroMai4/2,PreDroBra4/2})
                                                       annotation (Placement(transformation(extent={{50,-70},{30,-50}})));
 
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
-            = Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
+              Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
-            = Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
+              Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
         replaceable Buildings.Fluid.Sensors.Pressure         senRelPre(redeclare
             package Medium =                                                                  Medium)
@@ -2674,8 +2550,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
           riseTime=15,
           y_start=0.3)               annotation (Placement(transformation(extent={{-12,-10},
                   {8,10}})));
-        Modelica.Fluid.Sensors.TemperatureTwoPort TEnt(redeclare package Medium
-            =        MediumAir) annotation (Placement(transformation(extent=
+        Modelica.Fluid.Sensors.TemperatureTwoPort TEnt(redeclare package Medium =
+                     MediumAir) annotation (Placement(transformation(extent=
                  {{-88,-10},{-68,10}})));
         Buildings.Fluid.Sensors.TemperatureTwoPort TLea(
           redeclare package Medium = MediumAir,
@@ -2692,12 +2568,12 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
         Modelica.Fluid.Sensors.Pressure pLea(redeclare package Medium =
               MediumAir) annotation (Placement(transformation(extent={{30,-20},
                   {10,-40}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
-            = MediumAir)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
+              MediumAir)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
-            = MediumAir)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
+              MediumAir)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
         Coil.BaseClasses.DryCoil heaCoil(
@@ -3163,19 +3039,17 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
             Medium =
               Medium)
           annotation (Placement(transformation(extent={{30,-10},{50,10}})));
-        Modelica.Fluid.Sensors.MassFlowRate masFloRat(redeclare package Medium
-            = Medium)
+        Modelica.Fluid.Sensors.MassFlowRate masFloRat(redeclare package Medium =
+              Medium)
           annotation (Placement(transformation(extent={{60,-10},{80,10}})));
         Modelica.Fluid.Sensors.Pressure preEnt(redeclare package Medium = Medium)
           annotation (Placement(transformation(extent={{-32,-20},{-52,-40}})));
         Modelica.Fluid.Sensors.Pressure preLea(redeclare package Medium = Medium)
           annotation (Placement(transformation(extent={{30,-20},{10,-40}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
-            =                                                                   Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
-            =                                                                   Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
         Modelica.Blocks.Interfaces.RealOutput P "Electrical power consumed"
@@ -3247,12 +3121,10 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
           energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
           use_inputFilter=false)
                       annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
-            =                                                                   Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
-            =                                                                   Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
 
@@ -3601,12 +3473,10 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
             hydraulicEfficiency(eta=Hydra_eta)),
           dp_nominal=dp_nominal)                                                           "Constant Speed pump"
           annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
-            =                                                                   Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
-            =                                                                   Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
         Modelica.Blocks.Interfaces.RealInput On[n] "On signal"    annotation (Placement(transformation(extent={{-118,51},
@@ -3733,12 +3603,10 @@ First implementation.
           PreCur=PreCur,
           TimCon=900)
           annotation (Placement(transformation(extent={{-12,-10},{10,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
-            =                                                                   Medium)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium = Medium)
           "Fluid connector a (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{-110,-10},{-90,10}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
-            =                                                                   Medium)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium = Medium)
           "Fluid connector b (positive design flow direction is from port_a to port_b)"
           annotation (Placement(transformation(extent={{90,-10},{110,10}})));
         Modelica.Blocks.Interfaces.RealInput speSig[n] "On signal"
@@ -4116,11 +3984,11 @@ First implementation.
             Medium =
               MediumHW)
           annotation (Placement(transformation(extent={{72,-10},{54,10}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium
-            = MediumHW)
+        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
+              MediumHW)
           annotation (Placement(transformation(extent={{2,10},{22,30}})));
-        Buildings.Fluid.Sensors.Pressure senPreHWLea(redeclare package Medium
-            = MediumHW)
+        Buildings.Fluid.Sensors.Pressure senPreHWLea(redeclare package Medium =
+              MediumHW)
           annotation (Placement(transformation(extent={{78,-50},{98,-30}})));
         Modelica.Blocks.Math.RealToBoolean realToBoolean
           annotation (Placement(transformation(extent={{-70,-18},{-54,-2}})));
@@ -4936,357 +4804,6 @@ First implementation.
                 textColor={0,0,255})}));
       end MultiChillers;
 
-      model Chiller "Chiller"
-        replaceable package MediumCHW =
-           Modelica.Media.Interfaces.PartialMedium
-          "Medium in the chilled water side";
-        replaceable package MediumCW =
-           Modelica.Media.Interfaces.PartialMedium
-          "Medium in the condenser water side";
-        parameter Modelica.Units.SI.Pressure dPCHW_nominal
-          "Pressure difference at the chilled water side";
-        parameter Modelica.Units.SI.Pressure dPCW_nominal
-          "Pressure difference at the condenser water wide";
-        parameter Modelica.Units.SI.MassFlowRate mCHW_flow_nominal
-          "Nominal mass flow rate at the chilled water side";
-        parameter Modelica.Units.SI.MassFlowRate mCW_flow_nominal
-          "Nominal mass flow rate at the condenser water wide";
-        parameter Modelica.Units.SI.Temperature TCW_start
-          "The start temperature of condenser water side";
-        parameter Modelica.Units.SI.Temperature TCHW_start
-          "The start temperature of chilled water side";
-
-         parameter Buildings.Fluid.Chillers.Data.ElectricEIR.Generic per
-          "Performance data"
-          annotation (choicesAllMatching = true,
-                      Placement(transformation(extent={{40,80},{60,100}})));
-
-        BaseClasses.ElectricEIR chi(
-          redeclare package Medium1 = MediumCW,
-          redeclare package Medium2 = MediumCHW,
-          m1_flow_nominal=mCW_flow_nominal,
-          m2_flow_nominal=mCHW_flow_nominal,
-          dp1_nominal=0,
-          dp2_nominal=0,
-          allowFlowReversal1=true,
-          allowFlowReversal2=true,
-          tau1=300,
-          tau2=300,
-          T1_start=TCW_start,
-          T2_start=TCHW_start,
-          energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-          per=per) annotation (Placement(transformation(
-              extent={{-10,-10},{10,10}},
-              rotation=90,
-              origin={0,-42})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_CW(redeclare package
-            Medium =
-              MediumCW)
-          "Fluid connector a1 (positive design flow direction is from port_a1 to port_b1)"
-          annotation (Placement(transformation(extent={{-110,-90},{-90,-70}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_CW(redeclare package
-            Medium =
-              MediumCW)
-          "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
-          annotation (Placement(transformation(extent={{-110,70},{-90,90}}),
-              iconTransformation(extent={{-110,70},{-90,90}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_CHW(redeclare package
-            Medium =
-              MediumCHW)
-          "Fluid connector b2 (positive design flow direction is from port_a2 to port_b2)"
-          annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_CHW(redeclare package
-            Medium =
-              MediumCHW)
-          "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
-          annotation (Placement(transformation(extent={{90,70},{110,90}}),
-              iconTransformation(extent={{90,70},{110,90}})));
-        replaceable Buildings.Fluid.Sensors.TemperatureTwoPort senTCHWLea(
-          redeclare package Medium = MediumCHW,
-          m_flow_nominal=mCHW_flow_nominal,
-          T_start=TCHW_start)
-          annotation (Placement(transformation(extent={{20,-90},{40,-70}})));
-        Buildings.Fluid.Actuators.Valves.TwoWayLinear valCW(
-          redeclare package Medium = MediumCW,
-          m_flow_nominal=mCW_flow_nominal,
-          allowFlowReversal=false,
-          dpValve_nominal=dPCW_nominal)
-          annotation (Placement(transformation(extent={{-60,90},{-80,70}})));
-        Buildings.Fluid.Actuators.Valves.TwoWayLinear valCHW(
-          redeclare package Medium = MediumCHW,
-          m_flow_nominal=mCHW_flow_nominal,
-          dpValve_nominal=dPCHW_nominal)
-          annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
-        Modelica.Blocks.Interfaces.RealInput On(min=0,max=1)
-          "True to enable compressor to operate, or false to disable the operation of the compressor"
-          annotation (Placement(transformation(extent={{-118,-50},{-100,-30}}),
-              iconTransformation(extent={{-140,-70},{-100,-30}})));
-        Modelica.Blocks.Interfaces.RealInput TCHWSet
-          "Temperature setpoint of chilled water"
-          annotation (Placement(transformation(extent={{-118,30},{-100,50}}),
-              iconTransformation(extent={{-140,10},{-100,50}})));
-        Modelica.Blocks.Interfaces.RealOutput P
-          "Electric power consumed by compressor"
-          annotation (Placement(transformation(extent={{100,30},{120,50}}),
-              iconTransformation(extent={{100,30},{120,50}})));
-
-        Modelica.Blocks.Math.RealToBoolean realToBoolean
-          annotation (Placement(transformation(extent={{-56,-66},{-42,-52}})));
-        Buildings.Fluid.Sensors.TemperatureTwoPort senTCWLea(
-          allowFlowReversal=true,
-          redeclare package Medium = MediumCW,
-          m_flow_nominal=mCW_flow_nominal) annotation (Placement(transformation(
-              extent={{10,-10},{-10,10}},
-              rotation=0,
-              origin={-40,0})));
-        Buildings.Fluid.Sensors.TemperatureTwoPort senTCWEnt(
-          allowFlowReversal=true,
-          redeclare package Medium = MediumCW,
-          m_flow_nominal=mCW_flow_nominal) annotation (Placement(transformation(
-              extent={{-10,-10},{10,10}},
-              rotation=0,
-              origin={-40,-80})));
-        Buildings.Fluid.Sensors.TemperatureTwoPort senTCHWEnt(
-          allowFlowReversal=true,
-          redeclare package Medium = MediumCHW,
-          m_flow_nominal=mCHW_flow_nominal) annotation (Placement(transformation(
-              extent={{10,-10},{-10,10}},
-              rotation=0,
-              origin={30,0})));
-        Buildings.Fluid.Sensors.MassFlowRate senMasFloCHW(redeclare package
-            Medium =
-              MediumCHW)
-          annotation (Placement(transformation(extent={{72,-10},{54,10}})));
-        Buildings.Fluid.Sensors.MassFlowRate senMasFloCW(redeclare package
-            Medium =
-              MediumCHW)
-          annotation (Placement(transformation(extent={{-78,-90},{-60,-70}})));
-        Buildings.Fluid.Sensors.Pressure senPreCHWEnt(redeclare package Medium
-            = MediumCHW)
-          annotation (Placement(transformation(extent={{2,10},{22,30}})));
-        Buildings.Fluid.Sensors.Pressure senPreCHWLea(redeclare package Medium
-            = MediumCHW)
-          annotation (Placement(transformation(extent={{78,-50},{98,-30}})));
-        Buildings.Fluid.Sensors.Pressure     senPreCWLea(redeclare package
-            Medium =
-              MediumCHW)
-          annotation (Placement(transformation(extent={{-76,68},{-96,48}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium
-            = MediumCHW)
-          annotation (Placement(transformation(extent={{-96,-70},{-76,-50}})));
-        replaceable
-          .MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.conPI
-          conPI(
-          Ti=2400,
-          k=1,
-          reverseActing=false)
-          annotation (Placement(transformation(extent={{-26,52},{-6,72}})));
-
-      equation
-        connect(chi.port_b2, senTCHWLea.port_a) annotation (Line(
-            points={{6,-52},{6,-80},{20,-80}},
-            color={0,127,255},
-            smooth=Smooth.None,
-            thickness=1));
-        connect(chi.P, P) annotation (Line(
-            points={{-9,-31},{-9,40},{110,40}},
-            color={0,0,127},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
-        connect(senTCHWLea.port_b, valCHW.port_a) annotation (Line(
-            points={{40,-80},{60,-80}},
-            color={0,127,255},
-            smooth=Smooth.None,
-            thickness=1));
-        connect(valCHW.port_b, port_b_CHW) annotation (Line(
-            points={{80,-80},{100,-80}},
-            color={0,127,255},
-            smooth=Smooth.None,
-            thickness=1));
-        connect(valCW.port_b, port_b_CW) annotation (Line(
-            points={{-80,80},{-100,80}},
-            color={0,127,255},
-            smooth=Smooth.None,
-            thickness=1));
-        connect(realToBoolean.y, chi.on) annotation (Line(
-            points={{-41.3,-59},{-3,-59},{-3,-54}},
-            color={255,0,255},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash));
-        connect(On, valCW.y) annotation (Line(
-            points={{-109,-40},{-90,-40},{-70,-40},{-70,-26},{-70,-26},{-70,68}},
-            color={0,0,127},
-            pattern=LinePattern.Dash));
-        connect(valCHW.y, valCW.y) annotation (Line(
-            points={{70,-68},{70,-26},{-70,-26},{-70,68}},
-            color={0,0,127},
-            pattern=LinePattern.Dash));
-        connect(realToBoolean.u, valCW.y) annotation (Line(
-            points={{-57.4,-59},{-70,-59},{-70,-40},{-70,-26},{-70,68}},
-            color={0,0,127},
-            pattern=LinePattern.Dash));
-        connect(chi.port_b1, senTCWLea.port_a) annotation (Line(
-            points={{-6,-32},{-6,0},{-30,0}},
-            color={0,127,255},
-            thickness=1));
-        connect(senTCWLea.port_b, valCW.port_a) annotation (Line(
-            points={{-50,0},{-50,0},{-54,0},{-54,80},{-60,80}},
-            color={0,127,255},
-            thickness=1));
-        connect(senTCWEnt.port_b, chi.port_a1) annotation (Line(
-            points={{-30,-80},{-6,-80},{-6,-52}},
-            color={0,127,255},
-            thickness=1));
-        connect(senTCHWEnt.port_b, chi.port_a2) annotation (Line(
-            points={{20,0},{6,0},{6,-32}},
-            color={0,127,255},
-            thickness=1));
-        connect(senPreCHWEnt.port, chi.port_a2) annotation (Line(
-            points={{12,10},{12,0},{6,0},{6,-32}},
-            color={0,127,255},
-            thickness=1));
-        connect(senPreCHWLea.port, port_b_CHW) annotation (Line(
-            points={{88,-50},{88,-50},{88,-80},{100,-80}},
-            color={0,127,255},
-            thickness=1));
-        connect(senPreCWLea.port, port_b_CW) annotation (Line(
-            points={{-86,68},{-86,80},{-100,80}},
-            color={0,127,255},
-            thickness=1));
-        connect(senMasFloCHW.port_b, senTCHWEnt.port_a) annotation (Line(
-            points={{54,0},{47,0},{40,0}},
-            color={0,127,255},
-            thickness=1));
-        connect(senMasFloCHW.port_a, port_a_CHW) annotation (Line(
-            points={{72,0},{80,0},{80,80},{100,80}},
-            color={0,127,255},
-            thickness=1));
-        connect(senMasFloCW.port_b, senTCWEnt.port_a) annotation (Line(
-            points={{-60,-80},{-55,-80},{-50,-80}},
-            color={0,127,255},
-            thickness=1));
-        connect(senMasFloCW.port_a, port_a_CW) annotation (Line(
-            points={{-78,-80},{-100,-80}},
-            color={0,127,255},
-            thickness=1));
-        connect(senPreCWEnt.port, port_a_CW) annotation (Line(
-            points={{-86,-70},{-86,-80},{-100,-80}},
-            color={0,127,255},
-            thickness=1));
-        connect(conPI.On, chi.on) annotation (Line(
-            points={{-28,68},{-32,68},{-32,-60},{-3,-59},{-3,-54}},
-            color={255,0,255},
-            pattern=LinePattern.Dash));
-        connect(senTCHWLea.T,conPI.mea)  annotation (Line(
-            points={{30,-69},{30,-69},{30,-20},{-42,-20},{-42,56},{-28,56}},
-            color={0,0,127},
-            pattern=LinePattern.Dash));
-        connect(conPI.set, TCHWSet) annotation (Line(
-            points={{-28,62},{-46,62},{-46,40},{-109,40}},
-            color={0,0,127},
-            pattern=LinePattern.Dash));
-        connect(conPI.y, chi.y) annotation (Line(
-            points={{-5,62},{26,62},{60,62},{60,-60},{3,-60},{3,-54}},
-            color={0,0,127},
-            pattern=LinePattern.Dash));
-        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-                  -100},{100,100}})),           Icon(coordinateSystem(
-                preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
-              Text(
-                extent={{-44,-144},{50,-112}},
-                lineColor={0,0,255},
-                textString="%name"),
-              Rectangle(
-                extent={{-101,82},{100,72}},
-                lineColor={0,0,255},
-                pattern=LinePattern.None,
-                fillColor={0,0,0},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-95,-76},{106,-86}},
-                lineColor={0,0,255},
-                pattern=LinePattern.None,
-                fillColor={0,0,0},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-54,50},{60,32}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-52,-50},{62,-68}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-101,82},{100,72}},
-                lineColor={0,0,255},
-                pattern=LinePattern.None,
-                fillColor={0,0,255},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{0,72},{100,82}},
-                lineColor={0,0,255},
-                pattern=LinePattern.None,
-                fillColor={255,0,0},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-95,-76},{106,-86}},
-                lineColor={0,0,255},
-                pattern=LinePattern.None,
-                fillColor={0,0,255},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-102,-86},{-2,-76}},
-                lineColor={0,0,127},
-                pattern=LinePattern.None,
-                fillColor={0,0,127},
-                fillPattern=FillPattern.Solid),
-              Polygon(
-                points={{-32,-10},{-42,-22},{-22,-22},{-32,-10}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid),
-              Polygon(
-                points={{-32,-10},{-42,0},{-22,0},{-32,-10}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-34,32},{-30,0}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{-34,-22},{-30,-50}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid),
-              Rectangle(
-                extent={{34,32},{38,-50}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid),
-              Ellipse(
-                extent={{14,10},{58,-32}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid),
-              Polygon(
-                points={{36,10},{18,-22},{54,-22},{36,10}},
-                lineColor={0,128,255},
-                fillColor={170,170,255},
-                fillPattern=FillPattern.Solid)}),
-          Documentation(revisions="<html>
-<ul>
-<li>
-March 19, 2014 by Sen Huang:<br/>
-First implementation.
-</li>
-</ul>
-</html>"));
-      end Chiller;
-
       model ChillerTSet "Chiller"
         replaceable package MediumCHW =
            Modelica.Media.Interfaces.PartialMedium
@@ -5412,18 +4929,18 @@ First implementation.
             Medium =
               MediumCHW)
           annotation (Placement(transformation(extent={{-78,-90},{-60,-70}})));
-        Buildings.Fluid.Sensors.Pressure senPreCHWEnt(redeclare package Medium
-            = MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCHWEnt(redeclare package Medium =
+              MediumCHW)
           annotation (Placement(transformation(extent={{2,10},{22,30}})));
-        Buildings.Fluid.Sensors.Pressure senPreCHWLea(redeclare package Medium
-            = MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCHWLea(redeclare package Medium =
+              MediumCHW)
           annotation (Placement(transformation(extent={{78,-50},{98,-30}})));
         Buildings.Fluid.Sensors.Pressure     senPreCWLea(redeclare package
             Medium =
               MediumCHW)
           annotation (Placement(transformation(extent={{-76,68},{-96,48}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium
-            = MediumCHW)
+        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
+              MediumCHW)
           annotation (Placement(transformation(extent={{-96,-70},{-76,-50}})));
 
       equation
@@ -6519,11 +6036,11 @@ First implementation.
           annotation (Placement(transformation(extent={{0,-20},{20,0}})));
         Modelica.Blocks.Interfaces.RealInput On[n] "On signal"
           annotation (Placement(transformation(extent={{-118,51},{-100,69}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
-            = MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
+              MediumCW)
           annotation (Placement(transformation(extent={{90,50},{110,70}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
-            = MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
+              MediumCW)
           annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
         replaceable Buildings.Fluid.Sensors.TemperatureTwoPort senTCWEntChi(
             redeclare package Medium = MediumCW,
@@ -6873,11 +6390,11 @@ First implementation.
             Medium =
               MediumCW)
           annotation (Placement(transformation(extent={{60,-10},{78,10}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWLea(redeclare package Medium
-            = MediumCW)
+        Buildings.Fluid.Sensors.Pressure senPreCWLea(redeclare package Medium =
+              MediumCW)
           annotation (Placement(transformation(extent={{94,-16},{74,-36}})));
-        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium
-            = MediumCW)
+        Buildings.Fluid.Sensors.Pressure senPreCWEnt(redeclare package Medium =
+              MediumCW)
           annotation (Placement(transformation(extent={{-22,-16},{-42,-36}})));
         Modelica.Blocks.Math.RealToBoolean realToBoolean
           annotation (Placement(transformation(extent={{-86,20},{-72,34}})));
@@ -6975,11 +6492,11 @@ First implementation.
           "Pressure difference between the outlet and inlet of the valve ";
         parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
           "Nominal mass flow rate";
-        Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium
-            = MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a1(redeclare package Medium =
+              MediumCW)
           annotation (Placement(transformation(extent={{90,30},{110,50}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium
-            = MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b2(redeclare package Medium =
+              MediumCW)
           annotation (Placement(transformation(extent={{90,-50},{110,-30}})));
         Modelica.Blocks.Interfaces.RealInput yBypVal "(0: closed, 1: open)"
           annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
@@ -6997,11 +6514,11 @@ First implementation.
         Modelica.Blocks.Interfaces.RealOutput m_flow_bypass
           "Mass flow rate through the bypass "
           annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium
-            = MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_a port_a2(redeclare package Medium =
+              MediumCW)
           annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium
-            = MediumCW)
+        Modelica.Fluid.Interfaces.FluidPort_b port_b1(redeclare package Medium =
+              MediumCW)
           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
         replaceable Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage valByp(
           redeclare package Medium = MediumCW,
@@ -7799,123 +7316,6 @@ First implementation.
 </html>"));
       end PumpStageN;
 
-      model ChillerStageNWithRotation
-        "Combined stage controller for N chillers"
-        parameter Real tWai "Waiting time";
-
-        parameter Real thehol[n-1] "Threshold";
-
-        parameter Real Cap[n] "Rated Plant Capacity";
-
-        parameter Integer n=3
-          "the number of chillers";
-
-        Modelica.Blocks.Interfaces.RealOutput y[n]
-          "Output of stage control"
-          annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-        Modelica.Blocks.Interfaces.BooleanInput
-                                             On "On signal"
-          annotation (Placement(transformation(extent={{-140,60},{-100,100}})));
-        Modelica.Blocks.Interfaces.RealInput Status[n] "Compressor speed ratio"
-          annotation (Placement(transformation(extent={{-140,-100},{-100,-60}})));
-        Modelica.Blocks.Interfaces.RealInput Loa
-          annotation (Placement(transformation(extent={{-140,-20},{-100,20}})));
-        PlantStageCondition plantNStageCondition(
-          thehol=thehol,
-          n=n,
-          Cap=Cap)
-               annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
-        BaseClasses.StageN NStage(tWai=tWai, n=n)
-          annotation (Placement(transformation(extent={{-8,-10},{12,10}})));
-        Modelica.Blocks.Continuous.Integrator counter[n]
-          annotation (Placement(transformation(extent={{-60,-60},{-40,-40}})));
-        Modelica.Blocks.Discrete.Sampler sampler[n](                   startTime=0,
-            samplePeriod=1800)
-          annotation (Placement(transformation(extent={{0,-60},{20,-40}})));
-        Modelica.Blocks.Sources.RealExpression record_status[n](y=y_with_no_order)
-          annotation (Placement(transformation(extent={{-98,-30},{-78,-10}})));
-        Modelica.Blocks.Interfaces.RealInput sort_index[n] "Compressor speed ratio"
-          annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
-      protected
-        Boolean change;
-
-        Real last_value;
-
-        Real y_with_no_order[n];
-
-      public
-        Modelica.Blocks.Interfaces.RealOutput runTim[n] "Continuous output signal"
-          annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
-      initial algorithm
-
-        last_value :=NStage.y;
-
-        y_with_no_order :=y;
-
-      equation
-
-      algorithm
-        when pre(change) then
-
-          for i in 1:n loop
-
-               y_with_no_order[i] := if i <= integer(NStage.y) then 1 else 0;
-               y[i] := if integer(sort_index[i]) <= integer(NStage.y) then 1 else 0;
-
-          end for;
-          last_value := NStage.y;
-        end when;
-
-        change := abs(NStage.y - last_value) >= 0.1;
-
-      equation
-        connect(plantNStageCondition.OnSin, On) annotation (Line(points={{-62,0},{-80,
-                0},{-80,80},{-120,80}}, color={255,0,255}));
-        connect(plantNStageCondition.Loa, Loa) annotation (Line(
-            points={{-62,6},{-78,6},{-94,6},{-94,0},{-120,0}},
-            color={0,0,127}));
-        connect(plantNStageCondition.Off, NStage.Off) annotation (Line(
-            points={{-39,-4},{-20,-4},{-20,-6},{-10,-6}},
-            color={255,0,255}));
-        connect(plantNStageCondition.On, NStage.On) annotation (Line(
-            points={{-39,4},{-20,4},{-20,6},{-10,6}},
-            color={255,0,255}));
-        connect(record_status.y, plantNStageCondition.Status) annotation (Line(
-            points={{-77,-20},{-68,-20},{-68,-6},{-62,-6}},
-            color={0,0,127}));
-        connect(counter.u, Status) annotation (Line(points={{-62,-50},{-80,-50},{-80,-80},
-                {-120,-80}}, color={0,0,127}));
-        connect(sampler.u, counter.y)
-          annotation (Line(points={{-2,-50},{-39,-50}},           color={0,0,127}));
-        connect(sampler.y, runTim) annotation (Line(
-            points={{21,-50},{60,-50},{60,-80},{110,-80}},
-            color={0,0,127}));
-        annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-                  -100},{100,100}})),           Icon(coordinateSystem(
-                preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
-                Rectangle(
-                extent={{-100,100},{100,-100}},
-                lineColor={0,0,255},
-                fillColor={255,255,255},
-                fillPattern=FillPattern.Solid),
-              Text(
-                extent={{-56,42},{58,-42}},
-                lineColor={0,0,255},
-                textString="CompressorStage"),
-              Text(
-                extent={{-44,-144},{50,-112}},
-                lineColor={0,0,255},
-                textString="%name")}),
-          Documentation(revisions="<html>
-<ul>
-<li>
-March 19, 2014 by Sen Huang:<br/>
-First implementation.
-</li>
-</ul>
-</html>"));
-      end ChillerStageNWithRotation;
-
       package BaseClasses
 
         block MultiSwitch
@@ -8220,11 +7620,11 @@ First implementation.
           dp_nominal={PreDroMai2/2,PreDroBra3/2,PreDroBra2/2})
                             annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 
-        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium
-            = Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
+              Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium
-            = Medium) "Second port, typically outlet"
+        Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
+              Medium) "Second port, typically outlet"
                                           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
         Buildings.Fluid.Sensors.RelativePressure senRelPre(redeclare package
             Medium =                                                                  Medium)
