@@ -158,7 +158,7 @@ model Airside "Air side system"
       Fan_Ti=600,
       booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 283.15 then floor1.duaFanAirHanUni.On
              else true)),
-    fivZonVAV(vol(V=200000)),
+    fivZonVAV(vol(V=20000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     PreDroCoiAir=PreDroCoiAir,
@@ -300,7 +300,7 @@ model Airside "Air side system"
       Fan_Ti=600,
       booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 283.15 then floor3.duaFanAirHanUni.On
              else true)),
-    fivZonVAV(vol(V=200000)),
+    fivZonVAV(vol(V=20000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     PreDroCoiAir=PreDroCoiAir,
