@@ -63,9 +63,9 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         # Initialize test case scenario
         requests.put('{0}/scenario'.format(self.url), json={'time_period':'peak_heat_day'})
         # Set simulation step
-        requests.put('{0}/step'.format(self.url), json={'step':length}).json()['payload']
+        requests.put('{0}/step'.format(self.url), json={'step':length})
         # Simulation Loop
-        requests.post('{0}/advance'.format(self.url)).json()['payload']
+        requests.post('{0}/advance'.format(self.url))
         # Try submit results to dashboard
         status = requests.post("{0}/submit".format(self.url), json={"api_key": 'valid_key',
                                                                      "unit_test":"True"}).json()['status']
