@@ -22,9 +22,9 @@ utilizing BOPTEST.  The anticipated generalized outcomes are as follows:
 1. Outreach and community building activities that encourage community feedback on development and usage.
 2. Enhanced framework software infrastructure for improved performance and additional features.
 3. New emulators representing additional application scopes of interest to the community.
-4. Benchmark results from CS solutions using BOPTEST.
+4. Benchmark performance results from control strategy solutions using BOPTEST.
 
-Details of the work plan, participation, schedule, and meetings are available
+Details of the work plan, participation, and meetings are available
 on the menu bar on the left.
 
 BOPTEST development started within the [IBPSA Project 1](https://ibpsa.github.io/project1/index.html) Work Package 1.2.

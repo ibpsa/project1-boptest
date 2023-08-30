@@ -12,15 +12,15 @@ permalink: /ibpsa/project/participation/
 
 # Participation
 Participation is primarily envisioned to include software development,
-including methods research, code implementation, code testing, and test
-case creation, as well as CS benchmarking using BOPTEST and Project administration.
+including research methods, code implementation, code testing, and test
+case creation, as well as control strategy performance benchmarking using BOPTEST and Project administration.
 Please see the [workplan](/project1-boptest/ibpsa/project/workplan) for more details
 on tasks and project organization.
 
 Three participation levels are envisioned, to be approved annually by the
 operating agent(s).  They are described and listed below.
 
-**To join the project**, use this *google form* (coming soon).
+**To join the project**, use this [google form](https://forms.gle/21ce7Uro74Qvs5E89).
 
 **To join the mailing list**, register with this
 [google group](https://groups.google.com/g/ibpsa-boptest).  Note that you do
