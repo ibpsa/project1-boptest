@@ -12,6 +12,22 @@ permalink: /ibpsa/project/meetings/
 
 # Upcoming Meetings
 
+### December 12, 2023
+
+**Location:** Online
+
+**Time:** 10:30 AM - 12:00 PM U.S. ET. 
+
+**Invite:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/4BND2FMgWbY)
+
+### November 14, 2023
+
+**Location:** Online
+
+**Time:** 9:00 AM - 10:30 AM U.S. ET. 
+
+**Invite:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/r6CTlAOUSYg)
+
 ### October 12, 2023: In-Person Expert Meeting, Aachen
 
 **Location:** RWTH Aachen University, Germany
@@ -31,6 +47,14 @@ taking place October 9-11, 2023, and is co-organized with the [IBPSA Modelica Wo
 | 11:30 - 12:30 | Lab Tour|
 | 12:30 - 13:30 | Lunch Break|
 | 13:30 - 16/17:00 | IBPSA Modelica Working Group|
+
+### September 19, 2023
+
+**Location:** Online
+
+**Time:** 9:00 AM - 10:30 AM U.S. ET. 
+
+**Invite:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/vLUlyJL8Quw)
 
 # Past Meetings
 
