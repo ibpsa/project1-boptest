@@ -16,8 +16,7 @@ build-env-no-cache:
 	--no-cache \
 	--progress=plain --rm -t ${IMG_NAME} ../
 
-run-build-and-test:
-	docker run \
+COMMAND_RUN=docker run \
 		--name ${IMG_NAME} \
 		--platform=linux/amd64 \
 		--detach=false \
@@ -26,11 +25,18 @@ run-build-and-test:
 		-v ${ROOT}:${IMG_HOME}/boptest:rw \
 		-w ${IMG_HOME}/boptest/web \
 		-it \
-		${IMG_NAME} /bin/bash -c "make build_and_test"
+		${IMG_NAME} 
+
+run-and-build:
+	$(COMMAND_RUN) /bin/bash -c "make build"
+
+run-build-and-test:
+	$(COMMAND_RUN) /bin/bash -c "make build_and_test"
+
+build:
+	./build_docs.sh
 
 build_and_test:
 	./build_docs.sh
 	bundle exec jekyll serve
 
-build:
-	./build_docs.sh
