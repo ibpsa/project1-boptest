@@ -24,7 +24,6 @@ COMMAND_RUN=docker run \
 		--rm \
 		-v ${ROOT}:${IMG_HOME}/boptest:rw \
 		-w ${IMG_HOME}/boptest/web \
-		-it \
 		${IMG_NAME} 
 
 run-and-build:
