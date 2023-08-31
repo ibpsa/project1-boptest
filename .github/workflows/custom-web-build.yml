@@ -38,8 +38,8 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v2
       with:
-        # upload only /web directory
-        path: './web'
+        # upload only /web/_site directory. 
+        path: './web/_site'
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v2
