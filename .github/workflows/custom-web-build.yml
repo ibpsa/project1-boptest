@@ -34,7 +34,7 @@ jobs:
     - name: Build Docker environment image
       run: cd web && make build-env
     - name: Build docs and website in container
-      run: cd web && make run-build-and-test
+      run: cd web && make run-build-docs-and-build-web
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v2
       with:
