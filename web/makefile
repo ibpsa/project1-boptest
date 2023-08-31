@@ -26,16 +26,23 @@ COMMAND_RUN=docker run \
 		-w ${IMG_HOME}/boptest/web \
 		${IMG_NAME} 
 
-run-and-build:
-	$(COMMAND_RUN) /bin/bash -c "make build"
+run-build-docs:
+	$(COMMAND_RUN) /bin/bash -c "make build_docs"
 
-run-build-and-test:
-	$(COMMAND_RUN) /bin/bash -c "make build_and_test"
+run-build-docs-and-build-web:
+	$(COMMAND_RUN) /bin/bash -c "make build_docs_and_build_web"
 
-build:
+run-build-docs-and-serve-web:
+	$(COMMAND_RUN) /bin/bash -c "make build_docs_and_serve_web"
+
+build_docs:
 	./build_docs.sh
 
-build_and_test:
+build_docs_and_build_web:
+	./build_docs.sh
+	bundle exec jekyll build
+
+build_docs_and_serve_web:
 	./build_docs.sh
 	bundle exec jekyll serve
 
