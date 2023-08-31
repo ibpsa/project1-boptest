@@ -1,0 +1,20 @@
+name: Custom web build and deploy
+
+on:
+  push:
+    branches:
+      - gh-pages-custom
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: cd web && make build-env
+
+    - name: Build and deploy website in container
+      run: cd web && make run
