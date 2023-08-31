@@ -33,7 +33,7 @@ jobs:
         sparse-checkout: .
     - name: Build Docker environment image
       run: cd web && make build-env
-    - name: Build website in container
+    - name: Build docs and website in container
       run: cd web && make run-and-build
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v2
