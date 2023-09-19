@@ -12,7 +12,14 @@ Released on xx/xx/xxxx.
 - In unit test checking fetching of single forecast variable, specify specific forecast point to check for each test case.  This is for [#529](https://github.com/ibpsa/project1-boptest/issues/529).
 - Update ``KPI_Calculator.get_computational_time_ratio`` to return ``None`` if no simulation steps have been processed. This is for [#540](https://github.com/ibpsa/project1-boptest/issues/540).
 - Add ``forecastParameters`` to dashboard submission with empty dictionary and update url for submitting dashboard results.  This is for [#548](https://github.com/ibpsa/project1-boptest/issues/548).
+- Fix so that results can be submitted to dashboard if sitting at end of scenario time period instead of needing to try to advance one step past.  This is for [#546](https://github.com/ibpsa/project1-boptest/issues/546).
+- Fix for just-in-time adding example python controller scripts to PYTHONPATH.  This is for [#565](https://github.com/ibpsa/project1-boptest/issues/565).
 - Update Flask API argument type for overwrite values in the ``/advance`` request to be float to prevent truncation.  This is for [#577](https://github.com/ibpsa/project1-boptest/issues/577).
+
+**The following changes are backwards-compatible, but might change benchmark results:**
+
+- Fix check on control input overwrite in ``testcase.TestCase.advance`` when overwriting a value of 0. This will change results if using BOPTEST-Service and delivering control input overwrites, with value of 0, in an /advance request using the ``json`` attribute with the python requests library.  This is for [#533](https://github.com/ibpsa/project1-boptest/issues/533).
+
 
 ## BOPTEST v0.4.0
 

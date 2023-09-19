@@ -11,8 +11,8 @@ in controllers/pidTwoZones.py.
 # ----------------------
 import sys
 import os
-from examples.python.interface import control_test
 sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-2]))
+from examples.python.interface import control_test
 
 
 def run(plot=False):

@@ -161,7 +161,7 @@ class partialChecks(object):
         df : pandas DataFrame
             Test dataframe with "time" as index.
         ref_filepath : str
-            Reference file path relative to testing directory.
+            Reference file path.
 
         Returns
         -------
