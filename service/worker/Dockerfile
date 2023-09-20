@@ -1,4 +1,4 @@
-FROM michaelwetter/ubuntu-1804_jmodelica_trunk
+FROM ubuntu:20.04
 
 USER root
 ENV HOME /home/boptest
@@ -6,7 +6,7 @@ ENV HOME /home/boptest
 WORKDIR /
 
 RUN apt-get update -y && apt-get install -y \
-    ca-certificates curl libglu1 libjpeg8 libfreetype6 libxi6 libdbus-glib-1-2 libfontconfig1 libsm6 gdebi-core python3.5 python3-pip \
+    ca-certificates wget curl libglu1 libgfortran4 libjpeg8 libfreetype6 libxi6 libdbus-glib-1-2 libfontconfig1 libsm6 gdebi-core \
     && apt-get install -y git
 
 # Install commands for Spawn
@@ -15,12 +15,19 @@ RUN wget https://spawn.s3.amazonaws.com/custom/Spawn-$SPAWN_VERSION-Linux.tar.gz
     && tar -xzf Spawn-$SPAWN_VERSION-Linux.tar.gz \
     && ln -s /Spawn-$SPAWN_VERSION-Linux/bin/spawn-$SPAWN_VERSION /usr/local/bin/
 
-RUN curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py \
-  && python3 get-pip.py
-
 COPY worker/requirements/production.txt /boptest/
-RUN  python3 -m pip install --ignore-installed -r /boptest/production.txt
-RUN  python -m pip install --ignore-installed -r /boptest/production.txt
+
+# Download and install miniconda, pyfmi, and remaining python requirements
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.1.0-1-Linux-x86_64.sh -O /miniconda.sh \
+	&& /bin/bash /miniconda.sh -b -p /miniconda \
+	&& . miniconda/bin/activate \
+	&& conda update -n base -c defaults conda \
+	&& conda create --name pyfmi3 python=3.10 -y \
+	&& conda activate pyfmi3 \
+	&& conda install -c conda-forge pyfmi=2.11 -y \
+	&& pip install -U pip setuptools \
+  && python -m pip install --ignore-installed -r /boptest/production.txt \
+  && conda install pandas==1.5.3
 
 COPY worker /worker
 
@@ -35,14 +42,6 @@ RUN touch /boptest/__init__.py /boptest/lib/__init__.py
 # which will be "/", therefore this link is required
 RUN ln -sf /boptest/version.txt /version.txt
 
-ENV ROOT_DIR /usr/local
-ENV JMODELICA_HOME $ROOT_DIR/JModelica
-ENV IPOPT_HOME $ROOT_DIR/Ipopt-3.12.4
-ENV SUNDIALS_HOME $JMODELICA_HOME/ThirdParty/Sundials
-ENV SEPARATE_PROCESS_JVM /usr/lib/jvm/java-8-openjdk-amd64/
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
-ENV PYTHONPATH $PYTHONPATH:$JMODELICA_HOME/Python:$JMODELICA_HOME/Python/pymodelica:/worker/jobs/:/
+ENV PYTHONPATH $PYTHONPATH:/worker/jobs/:/boptest:/boptest/lib:/boptest/lib/kpis:/boptest/lib/forecast:/boptest/lib/data
 
-RUN sed -i "350 i \\\n        if isinstance(self.model, fmi.FMUModelME2):\n            self.model.event_update()" $JMODELICA_HOME/Python/pyfmi/fmi_algorithm_drivers.py
-
-CMD [ "python3", "-m", "worker" ]
+CMD . miniconda/bin/activate && conda activate pyfmi3 && python -m worker

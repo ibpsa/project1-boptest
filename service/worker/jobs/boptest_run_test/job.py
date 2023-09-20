@@ -101,14 +101,14 @@ class Job:
         self.message_handlers[method] = callback
 
     def unpack(self, data):
-        return msgpack.unpackb(data, raw=True)
+        return msgpack.unpackb(data)
 
     def pack(self, data):
         # use_bin_type=False is because this is running in python 2,
         # it should be avoided in the future.
         # Also, python 2, means this is falling back to a pure python
         # ipmlementation which is slower.
-        return msgpack.packb(data, use_bin_type=False)
+        return msgpack.packb(data)
 
     class InvalidRequestError(Exception):
         pass
@@ -132,12 +132,12 @@ class Job:
                 message_type = message["type"]
                 if message_type == "message":
                     message_data = self.unpack(message.get("data"))
+
                     request_id = message_data["requestID"]
                     method = message_data.get("method")
                     params = message_data.get("params")
 
                     callback_result = self.call_message_handler(method, params)
-
                     packed_result = self.pack({"requestID": request_id, "payload": callback_result})
                     self.redis.publish(response_channel, packed_result)
 
