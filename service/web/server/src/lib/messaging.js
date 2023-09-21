@@ -1,15 +1,15 @@
 import node_redis from 'redis'
-import {promisify} from 'util'
+import { promisify } from 'util'
 import { v4 as uuidv4 } from 'uuid'
 import { pack, unpack } from 'msgpackr'
 
 class Messaging {
   constructor() {
-    this.client = node_redis.createClient({host: process.env.BOPTEST_REDIS_HOST, return_buffers: true})
+    this.client = node_redis.createClient({ host: process.env.BOPTEST_REDIS_HOST, return_buffers: true })
     this.pubclient = this.client.duplicate()
     this.subclient = this.client.duplicate()
-    this.subTimeoutTime = 180000
-    this.responseTimeoutTime = 120000
+    this.subTimeoutTime = 600000
+    this.responseTimeoutTime = 480000
 
     this.del = promisify(this.client.del).bind(this.client)
     this.hget = promisify(this.client.hget).bind(this.client)
