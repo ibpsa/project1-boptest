@@ -1,0 +1,24 @@
+- name: Software
+  link: software/index.html
+- name: Test Cases
+  link: testcases/index.html
+- name: Results Dashboard
+  link: dashboard/index.html
+- name: Documentation
+  dropdown:
+    - name: User Guide
+      link: docs-userguide/index.html
+    - name: Design Specification
+      link: docs-design/index.html
+- name: Training
+  link: training/index.html
+- name: Publications
+  link: publications/index.html
+- name: Related Projects
+  link: relatedProjects/index.html
+- name: IBPSA Project 2
+  link: ibpsa/index.html
+- name: News
+  link: blog/index.html
+- name: Contributors
+  link: contributors/index.html
