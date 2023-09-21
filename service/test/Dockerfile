@@ -1,7 +1,7 @@
 FROM python:3.8.15-alpine3.15
 
 RUN pip3 install -I \
-    pytest==6.2.5 \
+    pytest==7.3.1 \
     requests==2.28.1 \
     requests-toolbelt==0.10.1 \
     websockets==10.4 \

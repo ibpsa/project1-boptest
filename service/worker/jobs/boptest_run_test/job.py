@@ -120,13 +120,12 @@ class Job:
         try:
             return handler(params)
         except Exception as e:
-            raise Job.InvalidRequestError(e.message)
+            raise Job.InvalidRequestError(e)
 
     def process_messages(self):
         request_id = False
-        response_channel = False
+        response_channel = self.get_response_channel()
         try:
-            response_channel = self.get_response_channel()
             message = self.redis_pubsub.get_message()
             if message:
                 message_type = message["type"]
@@ -143,7 +142,7 @@ class Job:
 
                     self.last_message_time = datetime.now()
         except Job.InvalidRequestError as e:
-            payload = {"status": 400, "message": "Bad Request", "payload": e.message}
+            payload = {"status": 400, "message": "Bad Request", "payload": str(e)}
             packed_result = self.pack({"requestID": request_id, "payload": payload})
             self.redis.publish(response_channel, packed_result)
         except Exception:
