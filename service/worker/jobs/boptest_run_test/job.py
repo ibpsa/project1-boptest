@@ -31,17 +31,16 @@ class Job:
         self.timeout = float(os.environ["BOPTEST_TIMEOUT"])
 
         # Prepare a directory where the test will run
-        self.test_dir = os.path.join("/simulate", self.testid)
-        self.boptest_dir = os.path.join(self.test_dir, "boptest")
+        self.simulate_dir = "/simulate"
+        self.test_dir = os.path.join(self.simulate_dir, self.testid)
         self.fmu_path = os.path.join(self.test_dir, "model.fmu")
 
         if not os.path.exists(self.test_dir):
             os.makedirs(self.test_dir)
 
         os.chdir(self.test_dir)
-        # testcase.py makes assumptions about certain files
+        # testcase.py assumes version.txt is in the cwd
         shutil.copyfile("/version.txt", "./version.txt")
-        os.symlink("/boptest", self.boptest_dir)
 
         # Download the testcase FMU
         self.s3 = boto3.resource(
@@ -258,7 +257,6 @@ class Job:
         self.redis.srem(userTestsKey, self.testid)
         self.unsubscribe()
 
-        os.remove(self.boptest_dir)
         tarname = "%s.tar.gz" % self.testid
         tar = tarfile.open(tarname, "w:gz")
         tar.add(self.test_dir, filter=self.reset, arcname=self.testid)
@@ -266,8 +264,10 @@ class Job:
 
         uploadkey = "simulated/%s" % tarname
         self.s3_bucket.upload_file(tarname, uploadkey)
-        os.remove(tarname)
 
+        # Disable logging to prevent a trailing log file to be generated in the simulat dir
+        self.tc.fmu.set_log_level(0)
+        os.chdir(self.simulate_dir)
         shutil.rmtree(self.test_dir)
 
     def to_camel_case(self, snake_str):
