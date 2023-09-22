@@ -30,13 +30,20 @@ class Job:
 
         self.timeout = float(os.environ["BOPTEST_TIMEOUT"])
 
-        # Download the testcase FMU
+        # Prepare a directory where the test will run
         self.test_dir = os.path.join("/simulate", self.testid)
+        self.boptest_dir = os.path.join(self.test_dir, "boptest")
         self.fmu_path = os.path.join(self.test_dir, "model.fmu")
 
         if not os.path.exists(self.test_dir):
             os.makedirs(self.test_dir)
 
+        os.chdir(self.test_dir)
+        # testcase.py makes assumptions about certain files
+        shutil.copyfile("/version.txt", "./version.txt")
+        os.symlink("/boptest", self.boptest_dir)
+
+        # Download the testcase FMU
         self.s3 = boto3.resource(
             "s3", region_name=os.environ["BOPTEST_REGION"], endpoint_url=os.environ["BOPTEST_INTERNAL_S3_URL"]
         )
@@ -251,6 +258,7 @@ class Job:
         self.redis.srem(userTestsKey, self.testid)
         self.unsubscribe()
 
+        os.remove(self.boptest_dir)
         tarname = "%s.tar.gz" % self.testid
         tar = tarfile.open(tarname, "w:gz")
         tar.add(self.test_dir, filter=self.reset, arcname=self.testid)
