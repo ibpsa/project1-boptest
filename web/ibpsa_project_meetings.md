@@ -35,7 +35,7 @@ Energy Research Center, Mathieustraße 10, 50274 Aachen
 [https://goo.gl/maps/5kYKHy5eD4xbqoA87](https://goo.gl/maps/5kYKHy5eD4xbqoA87)
 Rooms 00.17 up to 00.21.
 
-**Registration:** [Google Form](https://forms.gle/VMu1LZ7pWW5etzsz9)
+**Registration:** [Google Form](https://forms.gle/VMu1LZ7pWW5etzsz9) (by September 30)
 
 This meeting is co-located with the
 [International Modelica Conference 2023](https://2023.international.conference.modelica.org/)
