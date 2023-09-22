@@ -263,7 +263,8 @@ class Job:
         tar.close()
 
         uploadkey = "simulated/%s" % tarname
-        self.s3_bucket.upload_file(tarname, uploadkey)
+        # minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
+        self.s3_bucket.upload_file(tarname, uploadkey, ExtraArgs={'ACL': 'public-read'})
 
         # Disable logging to prevent a trailing log file to be generated in the simulat dir
         self.tc.fmu.set_log_level(0)
