@@ -6,7 +6,7 @@ Released on xx/xx/xxxx.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
-- Add materials for BS2023 workshop at ``docs/workshops/BS23Workshop_20230904``. This is for [#552](https://github.com/ibpsa/project1-boptest/issues/552). 
+- Add materials for BS2023 workshop at ``docs/workshops/BS23Workshop_20230904``. This is for [#552](https://github.com/ibpsa/project1-boptest/issues/552).
 - Allow forecast horizons of 0 to retrieve boundary condition data at current time like pricing or temperature setpoints. This is for [#554](https://github.com/ibpsa/project1-boptest/issues/554).
 - Update ``docs/tutorials/tutorial1_developer`` and ``docs/workshops/BS21Workshop_20210831``.  This is for [#532](https://github.com/ibpsa/project1-boptest/issues/532).
 - In examples and unit test Python requests, use ``json`` attribute instead of ``data``.  This is for [#528](https://github.com/ibpsa/project1-boptest/issues/528).
@@ -15,6 +15,7 @@ Released on xx/xx/xxxx.
 - Add ``forecastParameters`` to dashboard submission with empty dictionary and update url for submitting dashboard results.  This is for [#548](https://github.com/ibpsa/project1-boptest/issues/548).
 - Fix so that results can be submitted to dashboard if sitting at end of scenario time period instead of needing to try to advance one step past.  This is for [#546](https://github.com/ibpsa/project1-boptest/issues/546).
 - Fix for just-in-time adding example python controller scripts to PYTHONPATH.  This is for [#565](https://github.com/ibpsa/project1-boptest/issues/565).
+- Add an interface for interacting with a test case through BACnet.  See new directory ``bacnet``.  This is for [#547](https://github.com/ibpsa/project1-boptest/issues/547).
 
 **The following changes are backwards-compatible, but might change benchmark results:**
 
