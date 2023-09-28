@@ -36,6 +36,9 @@ jobs:
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
     script: cd testing && make build_jm_image && make test_kpis
   - python: 3.9
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1 rdflib==6.3.2 bacpypes==0.18.7
+    script: cd testing && make build_jm_image && make test_bacnet
+  - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
     script: cd testing && make build_jm_image && make test_testcase
   - python: 3.9
