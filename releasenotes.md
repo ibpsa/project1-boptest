@@ -17,6 +17,7 @@ Released on xx/xx/xxxx.
 - Fix for just-in-time adding example python controller scripts to PYTHONPATH.  This is for [#565](https://github.com/ibpsa/project1-boptest/issues/565).
 - Add an interface for interacting with a test case through BACnet.  See new directory ``bacnet``.  This is for [#547](https://github.com/ibpsa/project1-boptest/issues/547).
 - Update Flask API argument type for overwrite values in the ``/advance`` request to be float to prevent truncation.  This is for [#577](https://github.com/ibpsa/project1-boptest/issues/577).
+- Update BOPTEST test case Docker container to use Python 3.10, pyfmi 2.11, and co-simulation FMUs.  Also convert all test case FMUs to co-simulation.   This is for [#146](https://github.com/ibpsa/project1-boptest/issues/146).
 
 **The following changes are backwards-compatible, but might change benchmark results:**
 
