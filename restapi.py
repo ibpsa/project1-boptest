@@ -77,7 +77,7 @@ parser_initialize.add_argument('warmup_period', required=True)
 parser_advance = reqparse.RequestParser(argument_class=CustomArgument)
 for key in case.u.keys():
     if key != 'time':
-        parser_advance.add_argument(key)
+        parser_advance.add_argument(key, type=float)
 # ``price_scenario`` interface
 parser_scenario = reqparse.RequestParser(argument_class=CustomArgument)
 parser_scenario.add_argument('electricity_price', type=str)

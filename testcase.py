@@ -74,8 +74,8 @@ class TestCase(object):
         # Get building area
         self.area = self.config_json['area']
         # Get available control inputs and outputs
-        self.input_names = self.fmu.get_model_variables(causality = 2).keys()
-        self.output_names = self.fmu.get_model_variables(causality = 3).keys()
+        self.input_names = list(self.fmu.get_model_variables(causality = 2).keys())
+        self.output_names = list(self.fmu.get_model_variables(causality = 3).keys())
         self.forecast_names = list(self.data.keys())
         # Set default communication step
         self.set_step(self.config_json['step'])
@@ -83,8 +83,6 @@ class TestCase(object):
         self.__initilize_data()
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
-        self.options['CVode_options']['rtol'] = 1e-6
-        self.options['CVode_options']['store_event_points'] = False
         self.options['filter'] = self.output_names + self.input_names
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
@@ -159,7 +157,13 @@ class TestCase(object):
         # Set fmu initialization option
         self.options['initialize'] = self.initialize_fmu
         # Set sample rate
-        self.options['ncp'] = int((end_time-start_time)/30)
+        step = end_time - start_time
+        if step >= 30:
+            self.options['ncp'] = int((end_time-start_time)/30)
+        elif step == 0:
+            pass
+        elif (step < 30) and (step > 0):
+            self.options['ncp'] = int((end_time-start_time)/step)
         # Simulate fmu
         try:
             res = self.fmu.simulate(start_time=start_time,
@@ -203,8 +207,12 @@ class TestCase(object):
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                for x in res[key][i:]:
-                    self.y_store[key].append(x)
+                # Handle initialization of cs fmu generating multiple points for the same time
+                if res['time'][0] == res['time'][-1]:
+                    self.y_store[key].append(res[key][-1])
+                else:
+                    for x in res[key][i:]:
+                        self.y_store[key].append(x)
         # Store control signals (will be baseline if not activated, test controller input if activated)
         for key in self.u.keys():
             # Replace '_u' and '_y' for key used to collect data and don't overwrite time
@@ -216,8 +224,12 @@ class TestCase(object):
                 key_data = key
             self.u[key] = res[key_data][-1]
             if store:
-                for x in res[key_data][i:]:
-                    self.u_store[key].append(x)
+                # Handle initialization of cs fmu generating multiple points for the same time
+                if res['time'][0] == res['time'][-1]:
+                    self.u_store[key].append(res[key_data][-1])
+                else:
+                    for x in res[key_data][i:]:
+                        self.u_store[key].append(x)
 
     def advance(self, u):
         '''Advances the test case model simulation forward one step.

@@ -41,13 +41,15 @@ def clean_up(dir_path):
         if f.endswith('.fmu') or f.endswith('.mo') or f.endswith('.txt') or f.endswith('.mat') or f.endswith('.json'):
             os.remove(os.path.join(dir_path, f))
 
-def run_tests(test_file_name):
+def run_tests(test_file_name, test_names=[]):
     '''Run tests and save results for specified test file.
 
     Parameters
     ----------
     test_file_name : str
         Test file name (ends in .py)
+    test_names : list or tuple of str
+        List of test functions or classes to run present within test module.
 
     '''
 
@@ -56,13 +58,17 @@ def run_tests(test_file_name):
     suite = test_loader.discover(os.path.join(get_root_path(),'testing'), pattern = test_file_name)
     num_cases = suite.countTestCases()
     # Run tests
-    print('\nFound {0} tests to run in {1}.\n\nRunning...'.format(num_cases, test_file_name))
+    if test_names:
+        print('\nRunning only these tests within {0}: {1}. Skipping others.\n\nRunning...'.format(test_file_name, test_names))
+    else:
+        print('\nRunning all {0} tests within {1}.\n\nRunning...'.format(num_cases, test_file_name))
     result = unittest.TextTestRunner(verbosity = 1).run(suite);
     # Parse and save results
     num_failures = len(result.failures)
     num_errors = len(result.errors)
-    num_passed = num_cases - num_errors - num_failures
-    log_json = {'TestFile':test_file_name, 'NCases':num_cases, 'NPassed':num_passed, 'NErrors':num_errors, 'NFailures':num_failures, 'Failures':{}, 'Errors':{}}
+    num_skipped = len(result.skipped)
+    num_passed = num_cases - num_errors - num_failures - num_skipped
+    log_json = {'TestFile':test_file_name, 'NCases':num_cases, 'NPassed':num_passed, 'NErrors':num_errors, 'NFailures':num_failures, 'NSkipped':num_skipped, 'Failures':{}, 'Errors':{}}
     for i, failure in enumerate(result.failures):
         log_json['Failures'][i]= failure[1]
     for i, error in enumerate(result.errors):
@@ -520,7 +526,7 @@ class partialTestAPI(partialChecks):
         # Advance
         step_advance = 1*24*3600
         requests.put('{0}/step'.format(self.url), json={'step':step_advance})
-        y = requests.post('{0}/advance'.format(self.url)).json()['payload']
+        y = requests.post('{0}/advance'.format(self.url), json=dict()).json()['payload']
         # Check trajectories
         df = self.results_to_df(points, start_time, start_time+step_advance, self.url)
         # Set reference file path
@@ -696,7 +702,7 @@ class partialTestAPI(partialChecks):
                     "electricity_price":"dynamic"}
         # Set test case scenario
         y = requests.put("{0}/scenario".format(self.url),
-                         data=scenario).json()["payload"]["time_period"]
+                         json=scenario).json()["payload"]["time_period"]
         # Set step so doesn't take too long
         requests.put('{0}/step'.format(self.url), json={'step':86400})
         # Simulation Loop
@@ -897,7 +903,7 @@ class partialTestAPI(partialChecks):
                     "electricity_price":"dynamic"}
         # Set test case scenario
         y = requests.put("{0}/scenario".format(self.url),
-                         data=scenario).json()["payload"]["time_period"]
+                         json=scenario).json()["payload"]["time_period"]
         # Set step so doesn't take too long
         requests.put('{0}/step'.format(self.url), json={'step':86400})
         # Simulation Loop

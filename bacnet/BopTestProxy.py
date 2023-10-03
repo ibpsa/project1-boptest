@@ -145,7 +145,7 @@ def update_boptest_data():
     # ask the web service
     # We get results direct from /advance now but you could ask the simulation for historic data
     # response = requests.put(
-    #    "http://localhost:5000/results", data={'point_name':'TRooAir_y', 'start_time': timestep * 30, 'final_time': (timestep+1)*30}
+    #    "http://localhost:5000/results", json={'point_name':'TRooAir_y', 'start_time': timestep * 30, 'final_time': (timestep+1)*30}
     #)
 
     signals = {}
@@ -181,8 +181,8 @@ def update_boptest_data():
 
     #print("Advancing with signals: " + str(signals))
     response = requests.post(
-    #    "http://localhost:5000/advance", data={"oveAct_u": next_oveAct_u, "oveAct_activate": next_oveAct_activate}
-        '{0}/advance'.format(baseurl), data=signals
+    #    "http://localhost:5000/advance", json={"oveAct_u": next_oveAct_u, "oveAct_activate": next_oveAct_activate}
+        '{0}/advance'.format(baseurl), json=signals
 
     )
     if response.status_code != 200:
@@ -244,7 +244,7 @@ def main():
     #
     global nextState
 
-    res = requests.put('{0}/initialize'.format(baseurl), data={'start_time':args.start_time, 'warmup_period':args.warmup_period} ).json()
+    res = requests.put('{0}/initialize'.format(baseurl), json={'start_time':args.start_time, 'warmup_period':args.warmup_period} ).json()
     nextState = res
 
     global boptest_measurements, boptest_inputs
@@ -253,7 +253,7 @@ def main():
 
     # We advance the simulation by 5 seconds at each call to /advance, and APPINTERVAL is also 5 seconds, so the simulationo
     # moves in sync with wallclock time. To see things happen faster, set this time greater than 5 seconds
-    res = requests.put('{0}/step'.format(baseurl), data={'step':5})
+    res = requests.put('{0}/step'.format(baseurl), json={'step':5})
 
     # make a device object
     this_device = LocalDeviceObject(ini=args.ini)
