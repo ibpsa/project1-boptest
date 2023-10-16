@@ -28,6 +28,8 @@ permalink: /ibpsa/project/meetings/
 
 **Invite:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/r6CTlAOUSYg)
 
+# Past Meetings
+
 ### October 12, 2023: In-Person Expert Meeting, Aachen
 
 **Location:**
@@ -63,8 +65,6 @@ taking place October 9-11, 2023, and is co-organized with the [IBPSA Modelica Wo
 
 **Time:** 9:00 AM - 10:30 AM U.S. ET.
 
-**Invite:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/vLUlyJL8Quw)
-
-# Past Meetings
+**Minutes:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/vLUlyJL8Quw)
 
 For meeting minutes before September 1, 2023, see the [google group](https://groups.google.com/g/ibpsa-boptest).
