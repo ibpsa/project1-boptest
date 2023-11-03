@@ -945,6 +945,8 @@ class partialTestTimePeriod(partialChecks):
     def run_time_period(self, time_period):
         '''Runs the example and tests the kpi and trajectory results for time period.
 
+        Only runs two days from time period.
+
         Parameters
         ----------
         time_period: str
@@ -958,9 +960,11 @@ class partialTestTimePeriod(partialChecks):
 
         # Set time period scenario
         requests.put('{0}/scenario'.format(self.url), json={'time_period':time_period})
+        # Get default simulation step
+        step_def = requests.get('{0}/step'.format(self.url)).json()['payload']
         # Simulation Loop
-        y = 1
-        while y:
+        length = 48*3600
+        for i in range(int(length/step_def)):
             # Advance simulation
             y = requests.post('{0}/advance'.format(self.url), json={}).json()['payload']
         # Check results
