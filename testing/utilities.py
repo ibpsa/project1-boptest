@@ -962,9 +962,12 @@ class partialTestTimePeriod(partialChecks):
         requests.put('{0}/scenario'.format(self.url), json={'time_period':time_period})
         # Get default simulation step
         step_def = requests.get('{0}/step'.format(self.url)).json()['payload']
+        # Set step to one day
+        step = 24*3600
+        requests.put('{0}/step'.format(self.url), json={'step':24*3600})
         # Simulation Loop
         length = 48*3600
-        for i in range(int(length/step_def)):
+        for i in range(int(length/step)):
             # Advance simulation
             y = requests.post('{0}/advance'.format(self.url), json={}).json()['payload']
         # Check results
@@ -982,7 +985,10 @@ class partialTestTimePeriod(partialChecks):
             df.index.name = 'keys'
             ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
             self.compare_ref_values_df(df, ref_filepath)
+        # Return test case to constant electricity price
         requests.put('{0}/scenario'.format(self.url), json={'electricity_price':'constant'})
+        # Return test case to default step
+        requests.put('{0}/step'.format(self.url), json={'step':step_def})
 
 class partialTestSeason(partialChecks):
     '''Partial class for testing the time periods for each test case
