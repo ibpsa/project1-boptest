@@ -1,5 +1,14 @@
 # Release Notes
 
+## BOPTEST v0.5.0-dev
+
+Released on xx/xx/xxxx.
+
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Add materials for RLEM23 workshop at ``docs/workshops/RlemWorkshop_20231112``. This is for [#585](https://github.com/ibpsa/project1-boptest/issues/585).
+
+
 ## BOPTEST v0.5.0
 
 Released on 10/04/2023.
