@@ -9,22 +9,9 @@ The best way to learn BOPTEST is by using it!
 Here you can find a list with links to training material (tutorials, workshops, presentations, etc.) that you may want to use for learning. 
 We provide a small description for each so you know what material suits you best. 
 
-## An introduction to BOPTEST Software for Test Case Development and Interaction
+# User Tutorials and Workshops
 
-- 🗓️ **Last updated**: 2023/04/16
-
-- ⚙️ **Compatible with**: `BOPTEST-v0.4.0`
-
-- 🔗 **Links**: [link to pdf](https://github.com/ibpsa/project1-boptest/blob/master/docs/tutorials/
-tutorial1_developer/BOPTEST_Tutorial1_developer_20230416.pdf)
-
-- 📝 **Brief description**: The purpose of this tutorial is to provide basic introduction of the BOPTEST framework and associated software components to potential test case developers and controller testers. Therefore, the tutorial is split into three main parts:
-
-    1. Software requirements 
-    2. Test case development 
-    3. Test case interaction
-
-## Introduction to the BOPTEST Framework for the BS2021 Workshop
+#### Introduction to the BOPTEST Framework for the BS2021 Workshop
 
 - 🗓️ **Last updated**: 2023/04/06
 
@@ -41,7 +28,7 @@ tutorial1_developer/BOPTEST_Tutorial1_developer_20230416.pdf)
     3. Presentation 2: Example development and evaluation of an MPC controller
     4. Exercise 2: Improving controller performance and reporting results
 
-## Introduction to the BOPTEST Framework for the BS2023 Workshop
+#### Introduction to the BOPTEST Framework for the BS2023 Workshop
 
 - 🗓️ **Last updated**: 2023/09/04
 
@@ -58,7 +45,7 @@ The tutorial is split into three main parts:
     2. Exercise 1: Introduction to the BOPTEST API and sample controller testing
     3. Exercise 2: Learning BOPTEST-Gym: the OpenAI-Gym interface of BOPTEST
 
-## Introduction to the BOPTEST Framework for the RLEM2023 Workshop
+#### Introduction to the BOPTEST Framework for the RLEM2023 Workshop
 
 - 🗓️ **Last updated**: 2023/11/13
 
@@ -76,7 +63,7 @@ The tutorial is split into four main parts:
     3. Presentation 2: MPC and RL examples in BOPTEST 
     4. Exercise 2: Learning BOPTEST-Gym: the OpenAI-Gym interface of BOPTEST
 
-## BOPTEST-Gym: Building Control with RL using BOPTEST
+#### BOPTEST-Gym: Building Control with RL using BOPTEST
 
 - 🗓️ **Last updated**: 2023/11/11
 
@@ -98,5 +85,22 @@ The tutorial has the following parts:
     3. The BOPTEST framework
     4. Implementing RL for a building with BOPTEST-Gym
 
- 
+
+# Software Development Guidance
+
+#### An introduction to BOPTEST Software for Test Case Development and Interaction
+
+- 🗓️ **Last updated**: 2023/04/16
+
+- ⚙️ **Compatible with**: `BOPTEST-v0.4.0`
+
+- 🔗 **Links**: [link to pdf](https://github.com/ibpsa/project1-boptest/blob/master/docs/tutorials/
+tutorial1_developer/BOPTEST_Tutorial1_developer_20230416.pdf)
+
+- 📝 **Brief description**: The purpose of this tutorial is to provide basic introduction of the BOPTEST framework and associated software components to potential test case developers and controller testers. Therefore, the tutorial is split into three main parts:
+
+    1. Software requirements 
+    2. Test case development 
+    3. Test case interaction
+
 
