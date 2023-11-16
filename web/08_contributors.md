@@ -8,17 +8,17 @@ hero_height: is-fullwidth
 Thank you to all contributors of the project.  They are in alphabetical order:
 
 - **Krzysztof Arendt (Southern Denmark University, Denmark)** for framework development, forecast uncertainty characterization.
-- **Javier Arroyo (KU Leuven, Belgium)** for framework development, software implementation, test case development (bestest_hydronic_heat_pump), test case review, controller testing.
+- **Javier Arroyo (KU Leuven, Belgium)** for framework development, software implementation, test case development (bestest_hydronic_heat_pump), test case review, controller testing, tutorial and workshop development, website.
 - **Yeonjin Bae (Oak Ridge National Laboratory, USA)** for framework development, test case implementation (flexible_research_platform).
 - **Aritz Bengoetxea (IK4 Tekniker, Spain)** for forecast uncertainty characterization.
-- **Kyle Benne (National Renewable Energy Laboratory, USA)** for framework development, web-service development, online dashboard development.
+- **Kyle Benne (National Renewable Energy Laboratory, USA)** for framework development, web-service development, online dashboard development, tutorial and workshop development.
 - **Chris Berger (Devetry, USA)** for online dashboard development.
 - **Dave Biagioni (National Renewable Energy Laboratory, USA)** for software implementation.
-- **David Blum (Lawrence Berkeley National Laboratory, USA)** for framework development, software implementation, test case development (bestest_air, multizone_office_simple_air, singlezone_commercial_air), test case review.
+- **David Blum (Lawrence Berkeley National Laboratory, USA)** for ibpsa project 2 co-operating agent, framework development, software implementation, test case development (bestest_air, multizone_office_simple_air, singlezone_commercial_air), test case review, tutorial and workshop development, website.
 - **Felix Bunning (ETH Zurich / EMPA, Switzerland)** for controller testing.
 - **Yan Chen (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Tim Coleman (National Renewable Energy Laboratory, USA)** for web-service development.
-- **Iago Cupeiro Figueroa (Cupeiro Sinte, DeltaQ, Spain)** for framework development, test case implementation (multizone_office_simple_hybrid).
+- **Iago Cupeiro Figueroa (Cupeiro Sinte, DeltaQ, Spain)** for framework development, test case implementation (multizone_office_simple_hybrid), tutorial and workshop development.
 - **Roel De Coninck (DeltaQ, Belgium)** for framework development.
 - **Jan Drgona (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Jesus Febres (IK4 Tekniker, Spain)** for framework development.
@@ -26,19 +26,19 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Konstantin Filonenko (Southern Denmark University, Denmark)** for framework development, test case development (singlezone_commercial_hydronic), test case review.
 - **Valentin Gavan (Engie, France)** for framework development, test case implementation (multizone_residential_hydronic).
 - **Philip Gonzalez (Devetry, USA)** for online dashboard development.
-- **Lieve Helsen (KU Leuven, Belgium)** for ibpsa project 1 wp 1.2 leader, framework development.
+- **Lieve Helsen (KU Leuven, Belgium)** for ibpsa project 2 co-operating agent, ibpsa project 1 wp 1.2 leader, framework development.
 - **Sen Huang (Oak Ridge National Laboratory, USA)** for framework development, software implementation, test case implementation (multizone_office_complex_air), controller testing.
 - **Piljae Im (Oak Ridge National Laboratory, USA)** for framework development, test case implementation (flexible_research_platform).
 - **Filip Jorissen (KU Leuven, Belgium)** for framework development, test case implementation (bestest_hydronic), test case review.
 - **Amit Kapoor (Devetry, USA)** for online dashboard development.
-- **Donghun Kim (Lawrence Berkeley National Laboratory, USA)** for framework development.
+- **Donghun Kim (Lawrence Berkeley National Laboratory, USA)** for framework development, tutorial development.
 - **Nicholas Long (National Renewable Energy Laboratory, USA)** for software implementation.
 - **Robert Lutes (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Bart Merema (DeltaQ, Belgium)** for test case implementation (multizone_office_simple_hybrid).
 - **Kefei Mo (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Erik Paulson (Independent, USA)** for BACnet interface development.
 - **Marjorie Schott (National Renewable Energy Laboratory, USA)** for online dashboard development.
-- **Jermy Thomas (National Renewable Energy Laboratory, USA)** for web-service development.
+- **Jermy Thomas (National Renewable Energy Laboratory, USA)** for web-service development, tutorial development.
 - **Christian Veje (Southern Denmark University, Denmark)** for framework development.
 - **Draguna Vrabie (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Harald Walnum (SINTEF, Norway)** for framework development, controller testing.
