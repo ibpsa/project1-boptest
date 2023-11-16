@@ -11,7 +11,7 @@ We provide a small description for each so you know what material suits you best
 
 # User Tutorials and Workshops
 
-#### Introduction to the BOPTEST Framework for the BS2021 Workshop
+#### BS2021 Workshop: Introduction to the BOPTEST Framework
 
 - 🗓️ **Last updated**: 2023/04/06
 
@@ -28,7 +28,7 @@ We provide a small description for each so you know what material suits you best
     3. Presentation 2: Example development and evaluation of an MPC controller
     4. Exercise 2: Improving controller performance and reporting results
 
-#### Introduction to the BOPTEST Framework for the BS2023 Workshop
+#### BS2023 Workshop: Introduction to the BOPTEST Framework
 
 - 🗓️ **Last updated**: 2023/09/04
 
@@ -45,7 +45,7 @@ The tutorial is split into three main parts:
     2. Exercise 1: Introduction to the BOPTEST API and sample controller testing
     3. Exercise 2: Learning BOPTEST-Gym: the OpenAI-Gym interface of BOPTEST
 
-#### Introduction to the BOPTEST Framework for the RLEM2023 Workshop
+#### RLEM2023 Workshop: Introduction to the BOPTEST Framework
 
 - 🗓️ **Last updated**: 2023/11/13
 
@@ -63,7 +63,7 @@ The tutorial is split into four main parts:
     3. Presentation 2: MPC and RL examples in BOPTEST 
     4. Exercise 2: Learning BOPTEST-Gym: the OpenAI-Gym interface of BOPTEST
 
-#### BOPTEST-Gym: Building Control with RL using BOPTEST
+#### CCAI2022: BOPTEST-Gym - Building Control with RL using BOPTEST
 
 - 🗓️ **Last updated**: 2023/11/11
 
