@@ -11,40 +11,6 @@ We provide a small description for each so you know what material suits you best
 
 # User Tutorials and Workshops
 
-#### BS2021 Workshop: Introduction to the BOPTEST Framework
-
-- 🗓️ **Last updated**: 2023/04/06
-
-- ⚙️ **Compatible with**: `BOPTEST-v0.4.0`
-
-- 🔗 **Links**: <a href="https://colab.research.google.com/github/ibpsa/project1-boptest/blob/master/docs/workshops/BS21Workshop_20210831/Introduction_to_the_BOPTEST_framework.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>, [presentation BOPTEST project](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS21Workshop_20210831/presentations/Introduction%20to%20the%20BOPTEST%20project.pdf), [presentation MPC example in BOPTEST](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS21Workshop_20210831/presentations/Example%20MPC%20in%20BOPTEST.pdf). 
-
-- ⏰ **Duration**: 3.5 hours
-
-- 📝 **Brief description**: This is an introductory, hands-on tutorial to guide you through the BOPTEST framework for performance benchmarking of control algorithms. The tutorial is split into four main parts:
-
-    1. Presentation 1: Introduction to the BOPTEST project, goals and approach 
-    2. Exercise 1: Introduction to the BOPTEST API and sample controller testing
-    3. Presentation 2: Example development and evaluation of an MPC controller
-    4. Exercise 2: Improving controller performance and reporting results
-
-#### BS2023 Workshop: Introduction to the BOPTEST Framework
-
-- 🗓️ **Last updated**: 2023/09/04
-
-- ⚙️ **Compatible with**: `BOPTEST-v0.4.0`, `BOPTEST-Gym-v0.4.0`
-
-- 🔗 **Links**: <a href="https://colab.research.google.com/github/ibpsa/project1-boptest/blob/master/docs/workshops/BS23Workshop_20230904/Introduction_to_the_BOPTEST_framework_BS2023.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>, [presentation BOPTEST project](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS23Workshop_20230904/presentations/BOPTEST_Overview_BS23_20230904.pdf), [presentation ADRENALIN contest](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS23Workshop_20230904/presentations/Adrenalin_boptest_workshop_pitch.pdf)
-
-- ⏰ **Duration**: 1.5 hours
-
-- 📝 **Brief description**: This is an introductory, hands-on tutorial to guide you through the BOPTEST framework and its Gym interface for performance benchmarking of control algorithms. The first exercise is common to the one from the BS2021 workshop but the second exercise explains BOPTEST-Gym instead of diving further into the BOPTEST API. The overall time is also shorter. Therefore, this tutorial gives a faster (but less deep) intro to both BOPTEST and BOPTEST-Gym. 
-The tutorial is split into three main parts:
-
-    1. Presentation 1: Introduction to the BOPTEST project, goals and approach 
-    2. Exercise 1: Introduction to the BOPTEST API and sample controller testing
-    3. Exercise 2: Learning BOPTEST-Gym: the OpenAI-Gym interface of BOPTEST
-
 #### RLEM2023 Workshop: Introduction to the BOPTEST Framework
 
 - 🗓️ **Last updated**: 2023/11/13
@@ -63,7 +29,24 @@ The tutorial is split into four main parts:
     3. Presentation 2: MPC and RL examples in BOPTEST 
     4. Exercise 2: Learning BOPTEST-Gym: the OpenAI-Gym interface of BOPTEST
 
-#### CCAI2022: BOPTEST-Gym - Building Control with RL using BOPTEST
+#### BS2023 Workshop: Introduction to the BOPTEST Framework
+
+- 🗓️ **Last updated**: 2023/09/04
+
+- ⚙️ **Compatible with**: `BOPTEST-v0.4.0`, `BOPTEST-Gym-v0.4.0`
+
+- 🔗 **Links**: <a href="https://colab.research.google.com/github/ibpsa/project1-boptest/blob/master/docs/workshops/BS23Workshop_20230904/Introduction_to_the_BOPTEST_framework_BS2023.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>, [presentation BOPTEST project](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS23Workshop_20230904/presentations/BOPTEST_Overview_BS23_20230904.pdf), [presentation ADRENALIN contest](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS23Workshop_20230904/presentations/Adrenalin_boptest_workshop_pitch.pdf)
+
+- ⏰ **Duration**: 1.5 hours
+
+- 📝 **Brief description**: This is an introductory, hands-on tutorial to guide you through the BOPTEST framework and its Gym interface for performance benchmarking of control algorithms. The first exercise is common to the one from the BS2021 workshop but the second exercise explains BOPTEST-Gym instead of diving further into the BOPTEST API. The overall time is also shorter. Therefore, this tutorial gives a faster (but less deep) intro to both BOPTEST and BOPTEST-Gym. 
+The tutorial is split into three main parts:
+
+    1. Presentation 1: Introduction to the BOPTEST project, goals and approach 
+    2. Exercise 1: Introduction to the BOPTEST API and sample controller testing
+    3. Exercise 2: Learning BOPTEST-Gym: the OpenAI-Gym interface of BOPTEST
+
+#### CCAI2022 Workshop: BOPTEST-Gym - Building Control with RL using BOPTEST
 
 - 🗓️ **Last updated**: 2023/11/11
 
@@ -85,6 +68,22 @@ The tutorial has the following parts:
     3. The BOPTEST framework
     4. Implementing RL for a building with BOPTEST-Gym
 
+#### BS2021 Workshop: Introduction to the BOPTEST Framework
+
+- 🗓️ **Last updated**: 2023/04/06
+
+- ⚙️ **Compatible with**: `BOPTEST-v0.4.0`
+
+- 🔗 **Links**: <a href="https://colab.research.google.com/github/ibpsa/project1-boptest/blob/master/docs/workshops/BS21Workshop_20210831/Introduction_to_the_BOPTEST_framework.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>, [presentation BOPTEST project](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS21Workshop_20210831/presentations/Introduction%20to%20the%20BOPTEST%20project.pdf), [presentation MPC example in BOPTEST](https://github.com/ibpsa/project1-boptest/blob/master/docs/workshops/BS21Workshop_20210831/presentations/Example%20MPC%20in%20BOPTEST.pdf). 
+
+- ⏰ **Duration**: 3.5 hours
+
+- 📝 **Brief description**: This is an introductory, hands-on tutorial to guide you through the BOPTEST framework for performance benchmarking of control algorithms. The tutorial is split into four main parts:
+
+    1. Presentation 1: Introduction to the BOPTEST project, goals and approach 
+    2. Exercise 1: Introduction to the BOPTEST API and sample controller testing
+    3. Presentation 2: Example development and evaluation of an MPC controller
+    4. Exercise 2: Improving controller performance and reporting results
 
 # Software Development Guidance
 
