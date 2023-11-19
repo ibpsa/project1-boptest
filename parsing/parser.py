@@ -42,7 +42,7 @@ def parse_instances(model_path, file_name):
     '''
 
     # Compile fmu
-    fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+    fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
     # Load fmu
     fmu = load_fmu(fmu_path)
     # Check version
@@ -179,13 +179,13 @@ def write_wrapper(model_path, file_name, instances):
             # End file -- with hard line ending
             f.write('end wrapped;\n')
         # Export as fmu
-        fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, jvm_args="-Xmx8g")
+        fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, jvm_args="-Xmx8g", target='cs')
     # If there are not, write and export wrapper model
     else:
         # Warn user
         warnings.warn('No signal exchange block instances found in model.  Exporting model as is.')
         # Compile fmu
-        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g")
+        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
         wrapped_path = None
 
     return fmu_path, wrapped_path

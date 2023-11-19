@@ -2,6 +2,10 @@
 ###############################################################################
 
 IMG_NAME=jm
+# Set SINGLE to true to run tests as single arguments (as is done in travis.)
+# Note that the target test_all sets SINGLE=false so as to run the tests in a batch.
+SINGLE=true
+TRAVIS=false
 
 COMMAND_RUN=docker run \
 	  --name ${IMG_NAME} \
@@ -28,13 +32,22 @@ run_jm:
 
 copy_to_jm:
 	docker cp ../${ARGS} ${IMG_NAME}:/usr/local/testing
-	docker exec -it ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
+	docker exec -i ${IMG_NAME} /bin/bash -c "sudo chown -R developer: /usr/local/testing && exit"
 
 copy_testcase_to_jm:
 	make copy_to_jm ARGS=testcases/${TESTCASE}
 	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing/${TESTCASE}
 	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing/${TESTCASE}
 	make exec_jm ARGS="touch ${TESTCASE}/__init__.py"
+
+copy_framework_with_testcase_to_jm:
+	make copy_to_jm ARGS=data
+	make copy_to_jm ARGS=kpis
+	make copy_to_jm ARGS=forecast
+	docker cp ../testcase.py ${IMG_NAME}:/usr/local/testing
+	docker cp ../version.txt ${IMG_NAME}:/usr/local/testing
+	docker exec -it ${IMG_NAME} /bin/bash -c "mkdir /usr/local/testing/testcases && exit"
+	docker cp ../testcases/${TESTCASE} ${IMG_NAME}:/usr/local/testing/testcases/${TESTCASE}
 
 copy_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../${ARGS}
@@ -43,7 +56,7 @@ copy_testcase_from_jm:
 	docker cp ${IMG_NAME}:/usr/local/testing/${ARGS} ../testcases/${ARGS}
 
 exec_jm:
-	docker exec -it ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
+	docker exec -i ${IMG_NAME} /bin/bash -c "cd /usr/local/testing && ${ARGS} && exit"
 
 stop_jm:
 	docker stop ${IMG_NAME}
@@ -74,7 +87,17 @@ generate_testcase_data:
 # Tests
 ###############################################################################
 
-# Generic test for all testcases except testcase1 and testcase2
+# Generic test for all testcases except testcase1 and testcase2 to run on travis
+test_%_travis:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=$*
+# Build and deploy testcase image
+	cd .. && TESTCASE=$* docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_$*.py $(ARG)
+
+# Generic test for all testcases except testcase1 and testcase2 to run locally with cleanup
 test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
@@ -82,11 +105,13 @@ test_%:
 	cd .. && TESTCASE=$* docker-compose up -d
 	python sleep10.py
 # Run testcase tests
-	cd .. && python testing/test_$*.py
+	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
 	cd .. && docker-compose down
-# Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
+
 
 test_testcase1:
 # Compile testcase model
@@ -108,7 +133,9 @@ test_testcase1:
 	cd ../examples/javascript && make remove-image Script=testcase1
 	cd ../examples/javascript && rm geckodriver
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_testcase2:
 # Compile testcase model
@@ -130,7 +157,9 @@ test_testcase2:
 	cd ../examples/javascript && make remove-image Script=testcase2
 	cd ../examples/javascript && rm geckodriver
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_parser:
 	make run_jm
@@ -141,7 +170,9 @@ test_parser:
 	docker cp ${IMG_NAME}:/usr/local/testing/test_parser.log ./test_parser.log
 	make stop_jm
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_data:
 # Compile testcase model
@@ -164,7 +195,9 @@ test_data:
 # Stop jm docker container
 	make stop_jm
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_forecast:
 # Compile testcase model
@@ -185,7 +218,9 @@ test_forecast:
 # Stop jm docker container
 	make stop_jm
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_kpis:
 # Compile testcase model
@@ -206,7 +241,40 @@ test_kpis:
 # Stop jm docker container
 	make stop_jm
 # Report test results
-	python report.py
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
+
+test_bacnet:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=bestest_air
+# Build and deploy testcase image
+	cd .. && TESTCASE=bestest_air docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_bacnet.py
+# Stop testcase container
+	cd .. && docker-compose down
+# Report test results
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
+
+test_testcase:
+# Run jm docker container
+	make run_jm
+# Copy the required files and folders for the test
+	make copy_framework_with_testcase_to_jm TESTCASE=bestest_air
+# Run test_kpis.py
+	make exec_jm ARGS="python test_testcase.py"
+	docker cp ${IMG_NAME}:/usr/local/testing/references/testcase ./references
+	docker cp ${IMG_NAME}:/usr/local/testing/test_testcase.log ./test_testcase.log
+# Stop jm docker container
+	make stop_jm
+# Report test results
+	if [ $(SINGLE) = true ]; then\
+        	python report.py;\
+	fi
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
@@ -246,21 +314,23 @@ test_all:
 # Build boptest base image
 	make build_boptest_image
 # Run tests
-	make test_parser
-	make test_data
-	make test_forecast
-	make test_kpis
-	make test_readme_commands
-	make test_testcase1
-	make test_testcase2
-	make test_testcase3
-	make test_bestest_air
-	make test_bestest_hydronic
-	make test_bestest_hydronic_heat_pump
-	make test_multizone_residential_hydronic
-	make test_singlezone_commercial_hydronic
-	make test_multizone_office_simple_air
-	make test_twozone_apartment_hydronic
+	make test_parser SINGLE=false
+	make test_data SINGLE=false
+	make test_forecast SINGLE=false
+	make test_kpis SINGLE=false
+	make test_bacnet SINGLE=false
+	make test_testcase SINGLE=false
+	make test_readme_commands SINGLE=false
+	make test_testcase1 SINGLE=false
+	make test_testcase2 SINGLE=false
+	make test_testcase3 SINGLE=false
+	make test_bestest_air SINGLE=false
+	make test_bestest_hydronic SINGLE=false
+	make test_bestest_hydronic_heat_pump SINGLE=false
+	make test_multizone_residential_hydronic SINGLE=false
+	make test_singlezone_commercial_hydronic SINGLE=false
+	make test_multizone_office_simple_air SINGLE=false
+	make test_twozone_apartment_hydronic SINGLE=false
 # Remove jm
 	make remove_jm_image
 # Remove boptest base image
