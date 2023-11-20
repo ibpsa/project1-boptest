@@ -89,6 +89,7 @@ class TestCase(object):
         # Initialize test case
         self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
+        self.config_json['scenario']['weather_forecast_uncertainty']=None #todo
         self.set_scenario(self.config_json['scenario'])
         self.uncertainty_params = self.load_uncertainty_params()
 
@@ -854,9 +855,23 @@ class TestCase(object):
 
         '''
 
+
         # Get the forecast
         status = 200
         message = "Queried the forecast data successfully."
+        if 'weather_forecast_uncertainty' in self.scenario:
+            if self.scenario['weather_forecast_uncertainty'] and (temperature_uncertainty or solar_uncertainty):
+                payload = None
+                status = 400
+                message =("Weather forecast uncertainty has already been set to '{}' in the scenario. "
+               "Overriding 'temperature_uncertainty' or 'solar_uncertainty' here is not allowed. ").format(
+                   self.scenario['weather_forecast_uncertainty'])
+                logging.error(message)
+                return status, message, payload
+
+            if self.scenario['weather_forecast_uncertainty']:
+                temperature_uncertainty=self.scenario['weather_forecast_uncertainty']
+                solar_uncertainty=self.scenario['weather_forecast_uncertainty']
         # Check inputs
         try:
             horizon = float(horizon)
@@ -874,12 +889,7 @@ class TestCase(object):
             message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
             logging.error(message)
             return status, message, payload
-        if horizon < 0:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter horizon. Value must not be negative.".format(horizon)
-            logging.error(message)
-            return status, message, payload
+
         if interval <= 0:
             payload = None
             status = 400
@@ -887,19 +897,19 @@ class TestCase(object):
             logging.error(message)
             return status, message, payload
             # Check the temperature_uncertainty value
-        if temperature_uncertainty and 'TDryBul' not in point_names:
-            payload = None
-            status = 400
-            message = "Temperature uncertainty provided but 'TDryBul' is missing in point_names."
-            logging.error(message)
-            return status, message, payload
+        # if temperature_uncertainty and 'TDryBul' not in point_names:
+        #     payload = None
+        #     status = 400
+        #     message = "Temperature uncertainty provided but 'TDryBul' is missing in point_names."
+        #     logging.error(message)
+        #     return status, message, payload
 
-        if solar_uncertainty and 'HGloHor' not in point_names:
-            payload = None
-            status = 400
-            message = "Solar uncertainty provided but 'HGloHor' is missing in point_names."
-            logging.error(message)
-            return status, message, payload
+        # if solar_uncertainty and 'HGloHor' not in point_names:
+        #     payload = None
+        #     status = 400
+        #     message = "Solar uncertainty provided but 'HGloHor' is missing in point_names."
+        #     logging.error(message)
+        #     return status, message, payload
         allowed_uncertainties = [None, 'low', 'medium', 'high']
         if temperature_uncertainty not in allowed_uncertainties:
             payload = None
@@ -969,7 +979,8 @@ class TestCase(object):
         ----------
         scenario : dict
             {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
-             'time_period': see available <str> keys for test case
+             'time_period': see available <str> keys for test case,
+             'weather_forecast_uncertainty':<'low' or 'medium' or 'high'>
             }
             If any value is None, it will not change existing.
 
@@ -984,7 +995,8 @@ class TestCase(object):
             Includes the detailed debug information
         payload: dict
             {'electricity_price': if succeeded in changing then True, else None,
-             'time_period': if succeeded then initial measurements, else None
+             'time_period': if succeeded then initial measurements, else None,
+             'weather_forecast_uncertainty': if succeeded in changing then True, else None
             }
         '''
 
@@ -992,7 +1004,8 @@ class TestCase(object):
         message = "Test case scenario was set successfully."
         payload = {
             'electricity_price': None,
-            'time_period': None
+            'time_period': None,
+            'weather_forecast_uncertainty':None
         }
         if not hasattr(self, 'scenario'):
             self.scenario = {}
@@ -1022,6 +1035,19 @@ class TestCase(object):
                 key = self.scenario['time_period']
                 start_time = self.days_json[key]*24*3600.-7*24*3600.
                 end_time = start_time + 14*24*3600.
+
+            # Handle weather forecast uncertainty
+            if scenario['weather_forecast_uncertainty']:
+                if scenario['weather_forecast_uncertainty'] not in ['low', 'medium', 'high']:
+                    status = 400
+                    message = "Scenario parameter weather_forecast_uncertainty is {}, " \
+                              "but should be 'low', 'medium' or 'high'.". \
+                              format(scenario['weather_forecast_uncertainty'])
+                    logging.error(message)
+                    return status, message, payload
+                self.scenario['weather_forecast_uncertainty'] = scenario['weather_forecast_uncertainty']
+                payload['weather_forecast_uncertainty'] = self.scenario['weather_forecast_uncertainty']
+
         except:
             status = 400
             message = "Invalid values for the scenario parameters: {}".format(traceback.format_exc())

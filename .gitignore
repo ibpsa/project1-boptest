@@ -17,3 +17,4 @@ parser/*.mo
 parser/*.json
 
 xx.ipynb
+connect_boptest.py
