@@ -90,6 +90,7 @@ class TestCase(object):
         self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
         self.set_scenario(self.config_json['scenario'])
+        self.uncertainty_params = self.load_uncertainty_params()
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
@@ -824,7 +825,7 @@ class TestCase(object):
 
         return status, message, payload
 
-    def get_forecast(self, point_names, horizon, interval):
+    def get_forecast(self, point_names, horizon, interval, temperature_uncertainty=None, solar_uncertainty=None):
         '''Returns the test case data forecast
 
         Parameters
@@ -885,6 +886,37 @@ class TestCase(object):
             message = "Invalid value {} for parameter interval. Value must be positive.".format(interval)
             logging.error(message)
             return status, message, payload
+            # Check the temperature_uncertainty value
+        if temperature_uncertainty and 'TDryBul' not in point_names:
+            payload = None
+            status = 400
+            message = "Temperature uncertainty provided but 'TDryBul' is missing in point_names."
+            logging.error(message)
+            return status, message, payload
+
+        if solar_uncertainty and 'HGloHor' not in point_names:
+            payload = None
+            status = 400
+            message = "Solar uncertainty provided but 'HGloHor' is missing in point_names."
+            logging.error(message)
+            return status, message, payload
+        allowed_uncertainties = [None, 'low', 'medium', 'high']
+        if temperature_uncertainty not in allowed_uncertainties:
+            payload = None
+            status = 400
+            message = "Invalid value for temperature_uncertainty. Allowed values are: {}".format(
+                allowed_uncertainties[1:])
+            logging.error(message)
+            return status, message, payload
+
+        # Check the solar_uncertainty value
+        if solar_uncertainty not in allowed_uncertainties:
+            payload = None
+            status = 400
+            message = "Invalid value for solar_uncertainty. Allowed values are: {}".format(allowed_uncertainties[1:])
+            logging.error(message)
+            return status, message, payload
+
         wrong_points = []
         for point in point_names:
             if point not in self.forecast_names:
@@ -895,10 +927,32 @@ class TestCase(object):
             message = "Invalid point name(s) {} in parameter point_names.  Check list of available forecast points.".format(wrong_points)
             logging.error(message)
             return status, message, payload
+        # Check for missing point_names related to uncertainty parameters
+
+        temperature_params = {
+            "F0": 0, "K0": 0, "F": 0, "K": 0, "mu": 0
+        }
+
+        solar_params = {
+            "ag0": 0, "bg0": 0, "phi": 0, "ag": 0, "bg": 0
+        }
+
+        if temperature_uncertainty is not None:
+            temperature_params.update(self.uncertainty_params['temperature'][temperature_uncertainty])
+
+        if solar_uncertainty is not None:
+            solar_params.update(self.uncertainty_params['solar'][solar_uncertainty])
+
         try:
-            payload = self.forecaster.get_forecast(point_names,
-                                                   horizon=horizon,
-                                                   interval=interval)
+
+            payload = self.forecaster.get_forecast(
+                point_names,
+                horizon=horizon,
+                interval=interval,
+                weather_temperature_dry_bulb=temperature_params,
+                weather_solar_global_horizontal=solar_params
+            )
+
         except:
             status = 500
             message = "Failed to query the test case forecast data: {}".format(traceback.format_exc())
@@ -1347,3 +1401,21 @@ class TestCase(object):
             scenario['weatherForecastUncertainty'] = 'deterministic'
 
         return scenario
+
+    def load_uncertainty_params(self, filepath='forecast/forecast_uncertainty_params.json'):
+        '''Load the uncertainty parameters from a JSON file.
+
+        Parameters
+        ----------
+        filepath : str, optional
+            Path to the JSON file containing the uncertainty parameters.
+            Default is 'forecast_uncertainty_params.json'.
+
+        Returns
+        -------
+        dict
+            Uncertainty parameters loaded from the JSON file.
+        '''
+        with open(filepath, 'r') as f:
+            uncertainty_params = json.load(f)
+        return uncertainty_params
