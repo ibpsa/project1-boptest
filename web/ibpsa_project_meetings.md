@@ -20,15 +20,18 @@ permalink: /ibpsa/project/meetings/
 
 **Invite:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/4BND2FMgWbY)
 
+# Past Meetings
+
 ### November 14, 2023
 
 **Location:** Online
 
 **Time:** 9:00 AM - 10:30 AM U.S. ET.
 
-**Invite:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/r6CTlAOUSYg)
+**Notes:**
 
-# Past Meetings
+- [Minutes](/ibpsa_project/meetings/20231114_Progress/20231114_IBPSA-BOPTEST_Progress_Minutes.pdf)
+- Presentation: [Repo Refactor Proposal](/ibpsa_project/meetings/20231114_Progress/20231114_RepositoryRefactor_Proposal.pdf), by David Blum
 
 ### October 12, 2023: In-Person Expert Meeting, Aachen
 
@@ -65,6 +68,10 @@ taking place October 9-11, 2023, and is co-organized with the [IBPSA Modelica Wo
 
 **Time:** 9:00 AM - 10:30 AM U.S. ET.
 
-**Minutes:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/vLUlyJL8Quw)
+**Notes:**
 
-For meeting minutes before September 1, 2023, see the [google group](https://groups.google.com/g/ibpsa-boptest).
+- [Minutes](/ibpsa_project/meetings/20230919_Progress/20230919_IBPSA-BOPTEST_Progress_minutes.pdf)
+
+### Meetings before September 1, 2023
+
+See the [google group](https://groups.google.com/g/ibpsa-boptest).
