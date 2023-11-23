@@ -18,8 +18,8 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Felix Bunning (ETH Zurich / EMPA, Switzerland)** for controller testing.
 - **Yan Chen (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Tim Coleman (National Renewable Energy Laboratory, USA)** for web-service development.
-- **Iago Cupeiro Figueroa (Cupeiro Sinte, DeltaQ, Spain)** for framework development, test case implementation (multizone_office_simple_hybrid), tutorial and workshop development.
-- **Roel De Coninck (DeltaQ, Belgium)** for framework development.
+- **Iago Cupeiro Figueroa (Cupeiro Sinte, dnergy, Spain)** for framework development, test case implementation (multizone_office_simple_hybrid), tutorial and workshop development.
+- **Roel De Coninck (dnergy, Belgium)** for framework development.
 - **Jan Drgona (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Jesus Febres (IK4 Tekniker, Spain)** for framework development.
 - **Gauthier-Clerc Francois (Pure Control, France)** for software implementation.
@@ -34,7 +34,7 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Donghun Kim (Lawrence Berkeley National Laboratory, USA)** for framework development, tutorial development.
 - **Nicholas Long (National Renewable Energy Laboratory, USA)** for software implementation.
 - **Robert Lutes (Pacific Northwest National Laboratory, USA)** for software implementation.
-- **Bart Merema (DeltaQ, Belgium)** for test case implementation (multizone_office_simple_hybrid).
+- **Bart Merema (dnergy, Belgium)** for test case implementation (multizone_office_simple_hybrid).
 - **Kefei Mo (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Erik Paulson (Independent, USA)** for BACnet interface development.
 - **Marjorie Schott (National Renewable Energy Laboratory, USA)** for online dashboard development.
