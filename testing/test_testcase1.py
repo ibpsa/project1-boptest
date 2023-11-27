@@ -163,8 +163,8 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":-500000}).json()['payload']
+        requests.put('{0}/initialize'.format(self.url), json={'start_time':0, 'warmup_period':0})
+        y = requests.post('{0}/advance'.format(self.url), json={"oveAct_activate":1,"oveAct_u":-500000}).json()['payload']
         # Check kpis
         value = float(y['PHea_y'])
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
@@ -175,8 +175,8 @@ class MinMax(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
-        y = requests.post('{0}/advance'.format(self.url), data={"oveAct_activate":1,"oveAct_u":500000}).json()['payload']
+        requests.put('{0}/initialize'.format(self.url), json={'start_time':0, 'warmup_period':0})
+        y = requests.post('{0}/advance'.format(self.url), json={"oveAct_activate":1,"oveAct_u":500000}).json()['payload']
         # Check kpis
         value = float(y['PHea_y'])
         self.assertAlmostEqual(value, 10101.010101010103, places=3)
@@ -200,12 +200,12 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         '''
 
         scenario = {'time_period': 'test_day'}
-        requests.put('{0}/scenario'.format(self.url), data=scenario)
+        requests.put('{0}/scenario'.format(self.url), json=scenario)
         # Try simulating past test period
         step = 7*24*3600
-        requests.put('{0}/step'.format(self.url), data={'step':step})
+        requests.put('{0}/step'.format(self.url), json={'step':step})
         for i in [0, 1, 2]:
-            y = requests.post('{0}/advance'.format(self.url), data={}).json()['payload']
+            y = requests.post('{0}/advance'.format(self.url), json={}).json()['payload']
         # Check y[2] indicates no simulation (empty dict)
         self.assertDictEqual(y,dict())
         # Check results
@@ -220,11 +220,11 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         '''
 
         scenario = {'time_period':'test_day'}
-        requests.put('{0}/scenario'.format(self.url), data=scenario)
+        requests.put('{0}/scenario'.format(self.url), json=scenario)
         # Try simulating past test period
         step = 5*7*24*3600
-        requests.put('{0}/step'.format(self.url), data={'step':step})
-        requests.post('{0}/advance'.format(self.url), data={})
+        requests.put('{0}/step'.format(self.url), json={'step':step})
+        requests.post('{0}/advance'.format(self.url), json={})
         # Check results
         points = self.get_all_points(self.url)
         df = self.results_to_df(points, -np.inf, np.inf, self.url)
@@ -236,11 +236,11 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
 
         '''
         start_time = 14*86400
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
+        requests.put('{0}/initialize'.format(self.url), json={'start_time':start_time, 'warmup_period':0})
         # Try simulating past a typical test period
         step = 5*7*24*3600
-        requests.put('{0}/step'.format(self.url), data={'step':step})
-        y = requests.post('{0}/advance'.format(self.url), data={}).json()['payload']
+        requests.put('{0}/step'.format(self.url), json={'step':step})
+        y = requests.post('{0}/advance'.format(self.url), json={}).json()['payload']
         # Check results
         self.assertEqual(y['time'], start_time+step)
 
@@ -254,7 +254,7 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         scenario_time = {'time_period':'test_day'}
         scenario_elec = {'electricity_price':'dynamic'}
         # Both
-        res = requests.put('{0}/scenario'.format(self.url), data=scenario_both).json()['payload']
+        res = requests.put('{0}/scenario'.format(self.url), json=scenario_both).json()['payload']
         # Check return is valid for electricity price
         self.assertTrue(res['electricity_price'])
         # Check return is valid for time period
@@ -263,7 +263,7 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'initial_values_set_scenario.csv')
         self.compare_ref_values_df(df, ref_filepath)
         # Time only
-        res = (requests.put('{0}/scenario'.format(self.url), data=scenario_time).json()['payload'])
+        res = (requests.put('{0}/scenario'.format(self.url), json=scenario_time).json()['payload'])
         # Check return is valid for electricity price
         self.assertTrue(res['electricity_price'] is None)
         # Check return is valid for time period
@@ -272,7 +272,7 @@ class Scenario(unittest.TestCase, utilities.partialChecks):
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'initial_values_set_scenario.csv')
         self.compare_ref_values_df(df, ref_filepath)
         # Electricity price only
-        res = requests.put('{0}/scenario'.format(self.url), data=scenario_elec).json()['payload']
+        res = requests.put('{0}/scenario'.format(self.url), json=scenario_elec).json()['payload']
         # Check return is valid for electricity price
         self.assertTrue(res['electricity_price'])
         # Check return is valid for time period
@@ -296,15 +296,15 @@ class ComputationalTimeRatio(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/initialize'.format(self.url), json={'start_time':0, 'warmup_period':0})
         step = requests.get('{0}/step'.format(self.url)).json()['payload']
         for i in range(10):
-            requests.post('{0}/advance'.format(self.url), data={})
+            requests.post('{0}/advance'.format(self.url), json={})
             time.sleep(2)
         # Check kpis
         kpi = requests.get('{0}/kpi'.format(self.url)).json()['payload']
         self.assertAlmostEqual(kpi['time_rat'], 2.0/step, places=2)
-        requests.put('{0}/step'.format(self.url), data={'step':step})
+        requests.put('{0}/step'.format(self.url), json={'step':step})
 
     def test_variable_step(self):
         '''Tests the calculation of the kpi with a variable step.
@@ -312,17 +312,17 @@ class ComputationalTimeRatio(unittest.TestCase):
         '''
 
         # Run test
-        requests.put('{0}/initialize'.format(self.url), data={'start_time':0, 'warmup_period':0})
+        requests.put('{0}/initialize'.format(self.url), json={'start_time':0, 'warmup_period':0})
         step = requests.get('{0}/step'.format(self.url)).json()['payload']
         for i in range(5):
             if i > 2:
-                requests.put('{0}/step'.format(self.url), data={'step':2*step})
-            requests.post('{0}/advance'.format(self.url), data={})
+                requests.put('{0}/step'.format(self.url), json={'step':2*step})
+            requests.post('{0}/advance'.format(self.url), json={})
             time.sleep(2)
         # Check kpis
         kpi = requests.get('{0}/kpi'.format(self.url)).json()['payload']
         self.assertAlmostEqual(kpi['time_rat'], (3*2.0/step+2*2.0/(2*step))/5, places=2)
-        requests.put('{0}/step'.format(self.url), data={'step':step})
+        requests.put('{0}/step'.format(self.url), json={'step':step})
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase 1.
@@ -344,7 +344,9 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
         self.input = {'oveAct_activate': 0, 'oveAct_u': 1500}
         self.measurement = 'PHea_y'
-        requests.put('{0}/step'.format(self.url), data={'step': self.step_ref})
+        self.forecast_point = 'EmissionsBiomassPower'
+        requests.put('{0}/step'.format(self.url), json={'step': self.step_ref})
+
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
