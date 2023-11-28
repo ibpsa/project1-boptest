@@ -64,7 +64,7 @@ class Forecaster(object):
             )
 
             # forecast error just added to dry bulb temperature
-            forecast['TDryBul'] = forecast['TDryBul'] + error_forecast_temp
+            forecast['TDryBul'] = forecast['TDryBul'] - error_forecast_temp
             forecast['TDryBul']=forecast['TDryBul'].tolist()
         if 'HGloHor' in point_names and any(weather_solar_global_horizontal.values()):
 
@@ -75,7 +75,7 @@ class Forecaster(object):
             for _ in range(200):
             # while True:
                 error_forecast_solar = predict_solar_error_AR1(
-                    horizon / interval + 1,
+                    int(horizon / interval) + 1,
                     weather_solar_global_horizontal["ag0"],
                     weather_solar_global_horizontal["bg0"],
                     weather_solar_global_horizontal["phi"],
@@ -83,17 +83,17 @@ class Forecaster(object):
                     weather_solar_global_horizontal["bg"]
                 )
 
-                forecast['HGloHor'] = original_HGloHor + error_forecast_solar
+                forecast['HGloHor'] = original_HGloHor - error_forecast_solar
 
-                # Check if any point in forecast['HGloHor'] is out of the specified range
-
+                #Check if any point in forecast['HGloHor'] is out of the specified range
                 condition = np.any((forecast['HGloHor'][indices] > 2 * original_HGloHor[indices]) |
                                (forecast['HGloHor'][indices] < 0.2 * original_HGloHor[indices]))
-                # forecast['HGloHor']=gaussian_filter_ignoring_nans(forecast['HGloHor'])
-                forecast['HGloHor'] = mean_filter(forecast['HGloHor'])
-                forecast['HGloHor'] = np.clip(forecast['HGloHor'], lower_bound, upper_bound)
-                forecast['HGloHor']=forecast['HGloHor'].tolist()
                 if not condition:
                     break
+
+            forecast['HGloHor'] = mean_filter(forecast['HGloHor'])
+            forecast['HGloHor'] = np.clip(forecast['HGloHor'], lower_bound, upper_bound)
+            forecast['HGloHor']=forecast['HGloHor'].tolist()
+
 
         return forecast

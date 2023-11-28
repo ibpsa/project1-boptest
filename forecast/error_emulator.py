@@ -53,7 +53,7 @@ def predict_temperature_error_AR1(hp, F0, K0, F, K, mu):
     '''
     hp=int(hp)
     error = np.zeros(hp)
-    error[0,] = np.random.normal(F0, K0)
+    error[0] = np.random.normal(F0, K0)
     for i_c in range(hp - 1):
         error[i_c + 1] = np.random.normal(
             error[i_c] * F + mu, K
@@ -77,7 +77,7 @@ def predict_solar_error_AR1(hp, ag0, bg0, phi, ag, bg):
         error : 1D numpy array
             Contains the error values in the hp points.
     '''
-    hp = int(hp)
+
     error = np.zeros(hp)
     error[0] = np.random.laplace(ag0, bg0)
     for i_c in range(1, hp):

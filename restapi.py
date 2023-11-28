@@ -60,8 +60,7 @@ api = Api(app)
 
 # INSTANTIATE TEST CASE
 # ---------------------
-# case = TestCase() #todo
-case = TestCase(fmupath='testcases/bestest_hydronic_heat_pump/models/wrapped.fmu')
+case = TestCase()
 # ---------------------
 
 # DEFINE ARGUMENT PARSERS
@@ -83,7 +82,8 @@ for key in case.u.keys():
 parser_scenario = reqparse.RequestParser(argument_class=CustomArgument)
 parser_scenario.add_argument('electricity_price', type=str)
 parser_scenario.add_argument('time_period', type=str)
-parser_scenario.add_argument('weather_forecast_uncertainty', type=str)
+parser_scenario.add_argument('temperature_uncertainty', type=str)
+parser_scenario.add_argument('solar_uncertainty', type=str)
 # ``forecast`` interface
 parser_forecast_points = reqparse.RequestParser(argument_class=CustomArgument)
 parser_forecast_points.add_argument('point_names', type=list, action='append', required=True)

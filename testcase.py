@@ -89,7 +89,8 @@ class TestCase(object):
         # Initialize test case
         self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
-        self.config_json['scenario']['weather_forecast_uncertainty']=None #todo
+        self.config_json['scenario']['solar_uncertainty']=None #todo
+        self.config_json['scenario']['temperature_uncertainty']=None #todo
         self.set_scenario(self.config_json['scenario'])
         self.uncertainty_params = self.load_uncertainty_params()
 
@@ -859,19 +860,42 @@ class TestCase(object):
         # Get the forecast
         status = 200
         message = "Queried the forecast data successfully."
-        if 'weather_forecast_uncertainty' in self.scenario:
-            if self.scenario['weather_forecast_uncertainty'] and (temperature_uncertainty or solar_uncertainty):
+
+        if (temperature_uncertainty!=None and 'TDryBul' not in self.forecast_names) or \
+                (solar_uncertainty!=None and 'HGloHor' not in self.forecast_names):
+            payload = None
+            missing_variables = []
+            if temperature_uncertainty and 'TDryBul' not in self.forecast_names:
+                missing_variables.append('TDryBul for temperature uncertainty')
+            if solar_uncertainty and 'HGloHor' not in self.forecast_names:
+                missing_variables.append('HGloHor for solar uncertainty')
+
+            status = 400
+            message = "Set the forecast uncertainty, but the forecast variables do not include: {}.".format(
+                ', '.join(missing_variables))
+            logging.error(message)
+            return status, message, payload
+
+        if 'temperature_uncertainty' in self.scenario or 'solar_uncertainty' in self.scenario:
+            if (self.scenario.get('temperature_uncertainty') and temperature_uncertainty) or (self.scenario.get('solar_uncertainty') and solar_uncertainty):
                 payload = None
                 status = 400
-                message =("Weather forecast uncertainty has already been set to '{}' in the scenario. "
-               "Overriding 'temperature_uncertainty' or 'solar_uncertainty' here is not allowed. ").format(
-                   self.scenario['weather_forecast_uncertainty'])
+
+                message = "The scenario configuration already includes specific uncertainty settings. "
+                if (self.scenario.get('temperature_uncertainty') and temperature_uncertainty):
+                    message += "'temperature_uncertainty' is already set to '{}', further overriding of 'temperature_uncertainty' is not allowed. ".format(
+                        self.scenario['temperature_uncertainty'])
+                if (self.scenario.get('solar_uncertainty') and solar_uncertainty):
+                    message += "'solar_uncertainty' is already set to '{}', further overriding of 'solar_uncertainty' is not allowed. ".format(
+                        self.scenario['solar_uncertainty'])
                 logging.error(message)
                 return status, message, payload
 
-            if self.scenario['weather_forecast_uncertainty']:
-                temperature_uncertainty=self.scenario['weather_forecast_uncertainty']
-                solar_uncertainty=self.scenario['weather_forecast_uncertainty']
+            if self.scenario.get('temperature_uncertainty'):
+                temperature_uncertainty=self.scenario['temperature_uncertainty']
+            if self.scenario.get('solar_uncertainty'):
+                solar_uncertainty=self.scenario['solar_uncertainty']
+
         # Check inputs
         try:
             horizon = float(horizon)
@@ -980,7 +1004,8 @@ class TestCase(object):
         scenario : dict
             {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
              'time_period': see available <str> keys for test case,
-             'weather_forecast_uncertainty':<'low' or 'medium' or 'high'>
+             'temperature_uncertainty':<'low' or 'medium' or 'high'>,
+             'solar_uncertainty':<'low' or 'medium' or 'high'>
             }
             If any value is None, it will not change existing.
 
@@ -996,7 +1021,8 @@ class TestCase(object):
         payload: dict
             {'electricity_price': if succeeded in changing then True, else None,
              'time_period': if succeeded then initial measurements, else None,
-             'weather_forecast_uncertainty': if succeeded in changing then True, else None
+             'temperature_uncertainty': if succeeded in changing then True, else None,
+             'solar_uncertainty': if succeeded in changing then True, else None
             }
         '''
 
@@ -1005,11 +1031,30 @@ class TestCase(object):
         payload = {
             'electricity_price': None,
             'time_period': None,
-            'weather_forecast_uncertainty':None
+            'temperature_uncertainty': None,
+            'solar_uncertainty': None
         }
+
+
         if not hasattr(self, 'scenario'):
             self.scenario = {}
         try:
+
+            if (scenario['temperature_uncertainty'] and 'TDryBul' not in self.forecast_names) or \
+                    (scenario['solar_uncertainty'] and 'HGloHor' not in self.forecast_names):
+
+                missing_variables = []
+                if scenario['temperature_uncertainty'] and 'TDryBul' not in self.forecast_names:
+                    missing_variables.append('TDryBul for temperature uncertainty')
+                if scenario['solar_uncertainty'] and 'HGloHor' not in self.forecast_names:
+                    missing_variables.append('HGloHor for solar uncertainty')
+
+                status = 400
+                message = "Scenario parameters are set for uncertainty, but the forecast variables do not include: {}.".format(
+                    ', '.join(missing_variables))
+                logging.error(message)
+                return status, message, payload
+
             # Handle electricity price
             if scenario['electricity_price']:
                 if scenario['electricity_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
@@ -1036,17 +1081,36 @@ class TestCase(object):
                 start_time = self.days_json[key]*24*3600.-7*24*3600.
                 end_time = start_time + 14*24*3600.
 
-            # Handle weather forecast uncertainty
-            if scenario['weather_forecast_uncertainty']:
-                if scenario['weather_forecast_uncertainty'] not in ['low', 'medium', 'high']:
+            # Handle temperature uncertainty
+
+
+
+            if scenario['temperature_uncertainty']:
+                if scenario['temperature_uncertainty'] not in ['low', 'medium', 'high']:
                     status = 400
-                    message = "Scenario parameter weather_forecast_uncertainty is {}, " \
+                    message = "Scenario parameter temperature_uncertainty is {}, " \
                               "but should be 'low', 'medium' or 'high'.". \
-                              format(scenario['weather_forecast_uncertainty'])
+                              format(scenario['temperature_uncertainty'])
                     logging.error(message)
                     return status, message, payload
-                self.scenario['weather_forecast_uncertainty'] = scenario['weather_forecast_uncertainty']
-                payload['weather_forecast_uncertainty'] = self.scenario['weather_forecast_uncertainty']
+                self.scenario['temperature_uncertainty'] = scenario['temperature_uncertainty']
+                payload['temperature_uncertainty'] = self.scenario['temperature_uncertainty']
+            else:
+                self.scenario['temperature_uncertainty'] = None
+
+            # Handle solar uncertainty
+            if scenario['solar_uncertainty']:
+                if scenario['solar_uncertainty'] not in ['low', 'medium', 'high']:
+                    status = 400
+                    message = "Scenario parameter solar_uncertainty is {}, " \
+                              "but should be 'low', 'medium' or 'high'.". \
+                        format(scenario['solar_uncertainty'])
+                    logging.error(message)
+                    return status, message, payload
+                self.scenario['solar_uncertainty'] = scenario['solar_uncertainty']
+                payload['solar_uncertainty'] = self.scenario['solar_uncertainty']
+            else:
+                self.scenario['solar_uncertainty'] = None
 
         except:
             status = 400
