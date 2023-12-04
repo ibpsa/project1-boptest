@@ -1,4 +1,4 @@
-﻿within MultiZoneOfficeSimpleAir.TestCases;
+within MultiZoneOfficeSimpleAir.TestCases;
 model TestCase
   "Variable air volume flow system with terminal reheat and five thermal zones based on Buildings.Examples.VAVReheat.ASHRAE2006"
   extends Modelica.Icons.Example;
@@ -76,6 +76,13 @@ equation
       color={255,204,51},
       thickness=0.5));
   annotation (
+    __Buildings(semantic(
+      metdataLanguageDefinition="Brick 1.3 text/turtle" "https://brickscheme.org",
+      metadataLanguage="Brick 1.3 text/turtle" "@prefix Brick: <https://brickschema.org/schema/Brick#> .
+                                                @prefix bldg: <urn:bldg/> . 
+                                                bldg:chi a Brick:Chiller . "
+      )
+    ),
     Documentation(info="<html>
 <p>
 <h3>General</h3>
