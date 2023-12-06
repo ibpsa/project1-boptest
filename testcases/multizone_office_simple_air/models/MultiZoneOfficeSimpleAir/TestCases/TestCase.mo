@@ -79,8 +79,7 @@ equation
     __Buildings(semantic(
       metdataLanguageDefinition="Brick 1.3 text/turtle" "https://brickscheme.org",
       metadataLanguage="Brick 1.3 text/turtle" "@prefix Brick: <https://brickschema.org/schema/Brick#> .
-                                                @prefix bldg: <urn:bldg/> . 
-                                                bldg:chi a Brick:Chiller . "
+                                                @prefix bldg: <urn:bldg/> ."
       )
     ),
     Documentation(info="<html>
