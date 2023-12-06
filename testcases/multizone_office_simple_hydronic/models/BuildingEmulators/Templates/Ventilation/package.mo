@@ -1,5 +1,5 @@
 within BuildingEmulators.Templates;
-package Ventilation
+package Ventilation 
 
 
 extends Modelica.Icons.Package;

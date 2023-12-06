@@ -158,12 +158,12 @@ equation
   annotation (Documentation(info="<html>
 <p>
 Interface for building model, that allows to select a structure, heating system,
-ventilation system, occupant model and optional in-home electrical grid.
+ventilation system, occupant model and optional in-home electrical grid. 
 These components must also be defined as extensions of the respective templates in
 <a href=\"modelica://IDEAS.Templates.Interfaces.BaseClasses\">
 IDEAS.Templates.Interfaces.BaseClasses</a>. This interface connects the componets appropriately and defines the media that are used. <br/>
 By setting <code>standAlone=false</code> an electric pin becomes available for connection to an external electricity grid. <br/>
-Fluid ports for the connection to a district heating network will be used if parameter <code>isDH=true</code> in the <code>heatingSystem</code> model.
+Fluid ports for the connection to a district heating network will be used if parameter <code>isDH=true</code> in the <code>heatingSystem</code> model. 
 Furthermore, the number of embeded ports of the structure is taken from the one defined by the heating system: <code>building.nEmb=heatingSystem.nEmbPorts</code>.
 </p>
 </html>", revisions="<html>

@@ -273,9 +273,9 @@ equation
 <ul>
 <li>
 March 17, 2020 by Filip Jorissen:<br/>
-Revised fluid port connections to use <code>ports</code> instead
+Revised fluid port connections to use <code>ports</code> instead 
 of <code>port_a</code> and <code>port_b</code>.
-This is for
+This is for 
 <a href=https://github.com/open-ideas/IDEAS/issues/1029>#1029</a>.
 </li>
 </ul>

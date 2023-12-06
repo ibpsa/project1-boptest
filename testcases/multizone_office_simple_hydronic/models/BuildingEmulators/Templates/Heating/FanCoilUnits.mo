@@ -76,8 +76,9 @@ model FanCoilUnits
     each nPorts=2,
     each use_X_in = true)
     annotation (Placement(transformation(extent={{-148.0,20.0},{-128.0,40.0}},rotation = 0.0,origin = {0.0,0.0})));
-  BuildingEmulators.Components.IdealProduction  boi(
-    chiller=false,
+  BuildingEmulators.Components.IdealProduction  heapro(
+    boiler=false,
+    heating=true,
     redeclare package Medium = MediumHeating,
     use_X_wSet=false,
     allowFlowReversal=false,
@@ -146,14 +147,15 @@ model FanCoilUnits
     .IDEAS.Fluid.FixedResistances.PressureDrop preDroProCoo(dp_nominal = dp_nominal_wat_pro,m_flow_nominal = mWatProCoo_flow_nominal,allowFlowReversal = false,redeclare package Medium = MediumCooling) "Flow resistance to decouple pressure state from boundary" annotation(Placement(transformation(extent = {{28.80070688621906,-75.63034123495989},{39.19929311378094,-64.36965876504011}},rotation = 0.0,origin = {0.0,0.0})));
     .Modelica.Blocks.Interfaces.RealOutput[nVen] TSupAhuHea(each min = 0,each displayUnit = "degC",each unit = "K",each quantity = "ThermodynamicTemperature") annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},origin = {188.0,110.0},rotation = 90.0)));
     .Modelica.Blocks.Interfaces.RealOutput[nVen] TSupAhuCoo(each min = 0,each displayUnit = "degC",each unit = "K",each quantity = "ThermodynamicTemperature") annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},origin = {100.0,110.0},rotation = 90.0)));
-    .BuildingEmulators.Components.IdealProduction chi(
+    .BuildingEmulators.Components.IdealProduction coopro(
         QMin_flow = QCoo_flow_nominal,
         QMax_flow = 0,
         m_flow_nominal = mWatProCoo_flow_nominal,
         allowFlowReversal = false,
         use_X_wSet = false,
         redeclare package Medium = MediumCooling,
-        chiller = true) "Ideal heater" annotation(Placement(transformation(extent = {{-10.0,10.0},{10.0,-10.0}},origin = {10.0,-48.0},rotation = 180.0)));
+        boiler=false,
+        heating=false) "Ideal heater" annotation(Placement(transformation(extent = {{-10.0,10.0},{10.0,-10.0}},origin = {10.0,-48.0},rotation = 180.0)));
     .Modelica.Blocks.Interfaces.RealOutput[nVen] TSupEmiHea(each min = 0,each displayUnit = "degC",each unit = "K",each quantity = "ThermodynamicTemperature") annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},origin = {-10.0,110.0},rotation = 90.0)));
     .Modelica.Blocks.Interfaces.RealOutput[nVen] TSupEmiCoo(each min = 0,each displayUnit = "degC",each unit = "K",each quantity = "ThermodynamicTemperature") annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},origin = {-38.0,110.0},rotation = 90.0)));
     .Modelica.Blocks.Interfaces.RealInput[nZones] TZonSetMin(each quantity = "ThermodynamicTemperature",each unit = "K",each displayUnit = "degC",each min = 0) "Setpoint temperature for the zones" annotation(Placement(transformation(extent = {{-10.0,-10.0},{10.0,10.0}},rotation = 90.0,origin = {40.0,-104.0}),iconTransformation(extent = {{-10,-10},{10,10}},rotation = 90,origin = {0,-102})));
@@ -203,7 +205,6 @@ end for;
     connect(fanCoilUnit.QCoo,add.u1) annotation(Line(points = {{-80.3,89.84},{-86.89533307706319,89.84},{-86.89533307706319,83.24533307706318},{-92.49066615412636,83.24533307706318}},color = {0,0,127}));
     connect(add.y,prescribedHeatFlow.Q_flow) annotation(Line(points = {{-103.05022269205084,86},{-126,86}},color = {0,0,127}));
     connect(prescribedHeatFlow.port,heatPortCon) annotation(Line(points = {{-146,86},{-160,86},{-160,38},{-182,38},{-182,20},{-200,20}},color = {191,0,0}));
-    connect(TSupProHea,boi.TSet) annotation(Line(points = {{200,-30},{136,-30},{136,5.999999999999998},{75,5.999999999999998}},color = {0,0,127}));
     connect(fanCoilUnit.port_coo_b,mixingEmiCoo.port_a2) annotation(Line(points = {{-69.9,68},{-69.9,36},{-80,36},{-80,20}},color = {0,127,255}));
     connect(mixingEmiCoo.port_b1,fanCoilUnit.port_coo_a) annotation(Line(points = {{-68,20},{-68,32},{-64.7,32},{-64.7,68}},color = {0,127,255}));
     connect(mixingEmiCoo.valPos,valPosEmiCoo) annotation(Line(points = {{-64,5.000000000000002},{-64,-16},{-120,-16},{-120,-100}},color = {0,0,127}));
@@ -213,16 +214,11 @@ end for;
     connect(mixingAhuCoo.valPos,valPosAhuCoo) annotation(Line(points = {{69.13477794117637,48.03643333333331},{114,48.03643333333331},{114,20},{206,20}},color = {0,0,127}));
     connect(mixingAhuHea.valPos,valPosAhuHea) annotation(Line(points = {{153.55261249999992,55.65324852941174},{176,55.65324852941174},{176,46},{206,46}},color = {0,0,127}));
     connect(senTSupProCoo.port_b,cooCol.portsProdSup[1]) annotation(Line(points = {{-33.432019603135984,-48},{-46.13106295149639,-48},{-46.13106295149639,-51.12},{-54.26212590299278,-51.12}},color = {0,127,255}));
-    connect(boi.port_b,senTSupProHea.port_a) annotation(Line(points = {{54,-1.9999999999999987},{38.821359009711834,-1.9999999999999987},{38.821359009711834,-2}},color = {0,127,255}));
     connect(senTSupProHea.port_b,heaCol.portsProdSup[1]) annotation(Line(points = {{29.178640990288162,-2},{19,-2},{19,-2.119999999999999},{14,-2.119999999999999}},color = {0,127,255}));
     connect(pumHea.port_b,preDroProHea.port_a) annotation(Line(points = {{95.71914756294473,-30},{132,-30},{132,-2},{95.19929311378094,-2}},color = {0,127,255}));
-    connect(preDroProHea.port_b,boi.port_a) annotation(Line(points = {{84.80070688621906,-2},{74,-2.0000000000000013}},color = {0,127,255}));
     connect(pumCoo.port_b,preDroProCoo.port_a) annotation(Line(points = {{-2.666629170228588,-70},{28.80070688621906,-70}},color = {0,127,255}));
     connect(mixingAhuHea.TSup,TSupAhuHea) annotation(Line(points = {{154.55261249999992,67.65324852941174},{188,67.65324852941174},{188,110}},color = {0,0,127}));
     connect(mixingAhuCoo.TSup,TSupAhuCoo) annotation(Line(points = {{70.13477794117637,60.03643333333331},{100,60.03643333333331},{100,110}},color = {0,0,127}));
-    connect(chi.port_b,senTSupProCoo.port_a) annotation(Line(points = {{0,-48},{-22.567980396864016,-48}},color = {0,127,255}));
-    connect(chi.port_a,preDroProCoo.port_b) annotation(Line(points = {{20,-48},{58,-48},{58,-70},{39.19929311378094,-70}},color = {0,127,255}));
-    connect(TSupProCoo,chi.TSet) annotation(Line(points = {{200,-50},{172,-50},{172,-64},{78,-64},{78,-40},{21,-40}},color = {0,0,127}));
     connect(bouHea.ports[1],pumHea.port_b) annotation(Line(points = {{118,-36.586218333515205},{118,-30},{95.71914756294473,-30}},color = {0,127,255}));
     connect(bouCoo.ports[1],pumCoo.port_b) annotation(Line(points = {{50,-86.42687848206917},{50,-82},{16,-82},{16,-70},{-2.666629170228588,-70}},color = {0,127,255}));
     connect(mixingEmiCoo.TSup,TSupEmiCoo) annotation(Line(points = {{-63,17.000000000000004},{-38,17.000000000000004},{-38,110}},color = {0,0,127}));
@@ -242,6 +238,12 @@ end for;
     connect(prfEmiCoo,fanCoilUnit.prfEmiCoo) annotation(Line(points = {{-106,-100},{-92.5,-100},{-92.5,76.96},{-79,76.96}},color = {255,127,0}));
     connect(prfEmiHea,fanCoilUnit.prfEmiHea) annotation(Line(points = {{10,100},{10,106},{-85,106},{-85,79.76},{-79,79.76}},color = {255,127,0}));
     connect(Occ,fanCoilUnit.Occ) annotation(Line(points = {{-144,-100},{-144,82.56},{-79,82.56}},color = {255,0,255}));
+    connect(TSupProHea,heapro.TSet) annotation(Line(points = {{200,-30},{136,-30},{136,5.999999999999998},{75,5.999999999999998}},color = {0,0,127}));
+    connect(heapro.port_b,senTSupProHea.port_a) annotation(Line(points = {{54,-1.9999999999999987},{38.821359009711834,-1.9999999999999987},{38.821359009711834,-2}},color = {0,127,255}));
+    connect(preDroProHea.port_b,heapro.port_a) annotation(Line(points = {{84.80070688621906,-2},{74,-2.0000000000000013}},color = {0,127,255}));
+    connect(coopro.port_b,senTSupProCoo.port_a) annotation(Line(points = {{0,-48},{-22.567980396864016,-48}},color = {0,127,255}));
+    connect(coopro.port_a,preDroProCoo.port_b) annotation(Line(points = {{20,-48},{58,-48},{58,-70},{39.19929311378094,-70}},color = {0,127,255}));
+    connect(TSupProCoo,coopro.TSet) annotation(Line(points = {{200,-50},{172,-50},{172,-64},{78,-64},{78,-40},{21,-40}},color = {0,0,127}));
 annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end FanCoilUnits;

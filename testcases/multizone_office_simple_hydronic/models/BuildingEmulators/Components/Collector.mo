@@ -5,10 +5,10 @@ model Collector
   parameter Integer nOut(min=2) = 2 "Number of outlet connections of the collector";
 
   parameter Boolean isSupply = true " =true is the supply collector, else is the return collector";
-
+  
   parameter Modelica.Units.SI.MassFlowRate[nOut] m_flow_nominal "Nominal mass flow rates at the outlet side";
   parameter Modelica.Units.SI.PressureDifference dp_nominal "Nominal pressure drop, placed at supply collector";
-
+    
   replaceable package Medium = IDEAS.Media.Water;
 
   Modelica.Fluid.Interfaces.FluidPorts_a portsIn[nIn](redeclare package Medium =
