@@ -380,31 +380,9 @@ src="images/schematic.svg" width=1200 />
 
 <h4>Equipment specifications and performance maps</h4>
 
-<p><b>Boiler</b> </p>
+<p><b>Heat pump</b> </p>
 <p>
-The gas boiler efficiency is dependant on the supply temperature imposed.
-The gas boiler efficiency has a linear term with respect to the supply temperature and,
-when the condensation temperature occurs (around 45 &#176;C), a sudden increase of
-the efficiency occurs which is modeled with a sigmoid function.
-The efficiency can thus be expressed as:
-</p>
-<p>
-ε = 2.46575 - 0.005 T<sub>supply</sub> + 0.1/(1+(e<sup>(T<sub>supply</sub> - T<sub>condensation</sub>)</sup>))
-</p>
-<p>
-where T<sub>supply</sub> is in Kelvin and T<sub>condensation</sub> is 273.15+45 K.
-In essence, the boiler efficiency is 75% at 70 &#176;C and 105% at 30 &#176;C
-The above expression can be visualized as:
-</p>
-
-<p align=\"center\">
-<img alt=\"Gas boiler efficiency.\"
-src="images/boiler_efficiency.png" width=500 />
-</p>
-
-<p><b>Chiller</b> </p>
-<p>
-The energy efficiency ratio (EER) of the chiller is dependant on the supply temperature imposed
+The coefficient of performance (COP) of the heat pump is dependant on the supply temperature imposed
 and the ambient temperature,
 and takes the following bi-linear relation:
 </p>
@@ -414,6 +392,20 @@ EER = -68.5 + 0.4 T<sub>supply</sub> - 4/30 T<sub>ambient</sub>
 <p>
 where T<sub>supply</sub> and T<sub>ambient</sub> are in Kelvin.
 In essence, the chiller nominal EER (at 7 &#176;C supply and 35 &#176;C ambient temperature) is 2.5.
+</p>
+
+<p><b>Chiller</b> </p>
+<p>
+The energy efficiency ratio (EER) of the chiller is dependant on the supply temperature imposed
+and the ambient temperature,
+and takes the following bi-linear relation:
+</p>
+<p>
+EER = -15.11 0 0.05 T<sub>supply</sub> + 0.125 T<sub>ambient</sub>
+</p>
+<p>
+where T<sub>supply</sub> and T<sub>ambient</sub> are in Kelvin.
+In essence, the heat pump nominal COP (at 35 &#176;C supply and 7 &#176;C ambient temperature) is 4.5.
 </p>
 
 <p><b>Fluid movers</b> </p>
