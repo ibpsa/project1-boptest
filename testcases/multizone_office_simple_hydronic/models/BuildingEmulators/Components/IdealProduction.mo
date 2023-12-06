@@ -16,7 +16,7 @@ model IdealProduction "Ideal production model which assumes a linear efficiency 
     parameter Real B = if boiler then -0.005 else B_vcrs "Rate of change with the inlet temperature";
     parameter Real C = if boiler then 0 else C_vcrs  "Rate of change with the ambient temperature";
 
-    parameter Real A_vcrs = if heating then -15.36 else -68.5 "Intercept of the linear expression of the vapor-compression refrigeration system";
+    parameter Real A_vcrs = if heating then -15.11 else -68.5 "Intercept of the linear expression of the vapor-compression refrigeration system";
     parameter Real B_vcrs = if heating then -0.05 else 0.4 "Rate of change with th inlet temperature of the vapor-compression refrigeration system";
     parameter Real C_vcrs = if heating then 0.125 else -4/30  "Rate of change with the ambient temperature of the vapor-compression refrigeration system";    
     
