@@ -150,7 +150,12 @@ equation
           42,-40},{72,-40},{72,-90},{60,-90}}, color={0,127,255}));
   connect(jun1.port_2, hvac.portHeaCoiRet) annotation (Line(points={{22,-41},{6,
           -41},{6,-40},{-13,-40},{-13,-28}}, color={0,127,255}));
-  annotation (
+  annotation (__Buildings(semantic(
+      metdataLanguageDefinition="Brick 1.3 text/turtle" "https://brickscheme.org",
+      metadataLanguage="Brick 1.3 text/turtle" "@prefix Brick: <https://brickschema.org/schema/Brick#> .
+                                                @prefix bldg: <urn:bldg/> . 
+                                                bldg:<cdl_instance_name> a Brick:Building . "
+    )),
     Documentation(info="<html>
 <p>
 Partial model that contains an HVAC system connected to a building

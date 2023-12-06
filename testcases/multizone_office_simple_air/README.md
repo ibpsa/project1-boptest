@@ -9,8 +9,8 @@ export MODELICAJSONPATH="/path/to/modelica-json"
 
 * Run the following command to extract a semantic model from the BOPTEST testcase:
 ```
-cd /path/to/project1-boptest
-node $MODELICAJSONPATH/app.js -f testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/TestCases/TestCase.mo -o semantic -m modelica -d testcases/multizone_office_simple_air/m2j_output
+cd /path/to/project1-boptest/testcases/multizone_office_simple_air/models
+node $MODELICAJSONPATH/app.js -f MultiZoneOfficeSimpleAir/TestCases/TestCase.mo -o semantic -m modelica -d m2j_output
 ```
 
 * For the purposes of this development, we have added semantic annotations to the following files in the `testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir` directory (keep this list updated):

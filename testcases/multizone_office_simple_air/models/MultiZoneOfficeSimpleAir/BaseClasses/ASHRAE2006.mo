@@ -148,7 +148,7 @@ model ASHRAE2006
         rotation=0,
         origin={490,460})));
   ReadZone reaZonSou(zone="sou") "Read zone measurements"
-    annotation (Placement(transformation(extent={{830,82},{850,100}})));
+    annotation (__Buildings(semantic(metadataLanguage="Brick 1.3 text/turtle" "bldg:sou a Brick:HVAC_Zone . ")),Placement(transformation(extent={{830,82},{850,100}})));
   ReadZone reaZonEas(zone="eas") "Read zone measurements"
     annotation (Placement(transformation(extent={{1010,82},{1030,100}})));
   ReadZone reaZonNor(zone="nor") "Read zone measurements"
@@ -644,6 +644,9 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   annotation (
+  __Buildings(semantic(
+    metdataLanguageDefinition="Brick 1.3 text/turtle" "https://brickscheme.org")
+  ),
   defaultComponentName="hvac",
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1420,
             660}})),
