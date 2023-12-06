@@ -1,8 +1,46 @@
 # Release Notes
 
-## BOPTEST v0.3.0-dev
+## BOPTEST v0.5.0-dev
 
 Released on xx/xx/xxxx.
+
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Add materials for RLEM23 workshop at ``docs/workshops/RlemWorkshop_20231112``. This is for [#585](https://github.com/ibpsa/project1-boptest/issues/585).
+
+
+## BOPTEST v0.5.0
+
+Released on 10/04/2023.
+
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Add materials for BS2023 workshop at ``docs/workshops/BS23Workshop_20230904``. This is for [#552](https://github.com/ibpsa/project1-boptest/issues/552).
+- Allow forecast horizons of 0 to retrieve boundary condition data at current time like pricing or temperature setpoints. This is for [#554](https://github.com/ibpsa/project1-boptest/issues/554).
+- Update ``docs/tutorials/tutorial1_developer`` and ``docs/workshops/BS21Workshop_20210831``.  This is for [#532](https://github.com/ibpsa/project1-boptest/issues/532).
+- In examples and unit test Python requests, use ``json`` attribute instead of ``data``.  This is for [#528](https://github.com/ibpsa/project1-boptest/issues/528).
+- In unit test checking fetching of single forecast variable, specify specific forecast point to check for each test case.  This is for [#529](https://github.com/ibpsa/project1-boptest/issues/529).
+- Update ``KPI_Calculator.get_computational_time_ratio`` to return ``None`` if no simulation steps have been processed. This is for [#540](https://github.com/ibpsa/project1-boptest/issues/540).
+- Add ``forecastParameters`` to dashboard submission with empty dictionary and update url for submitting dashboard results.  This is for [#548](https://github.com/ibpsa/project1-boptest/issues/548).
+- Fix so that results can be submitted to dashboard if sitting at end of scenario time period instead of needing to try to advance one step past.  This is for [#546](https://github.com/ibpsa/project1-boptest/issues/546).
+- Fix for just-in-time adding example python controller scripts to PYTHONPATH.  This is for [#565](https://github.com/ibpsa/project1-boptest/issues/565).
+- Add an interface for interacting with a test case through BACnet.  See new directory ``bacnet``.  This is for [#547](https://github.com/ibpsa/project1-boptest/issues/547).
+- Update Flask API argument type for overwrite values in the ``/advance`` request to be float to prevent truncation.  This is for [#577](https://github.com/ibpsa/project1-boptest/issues/577).
+
+**The following changes are backwards-compatible, but might change benchmark results:**
+
+- Fix check on control input overwrite in ``testcase.TestCase.advance`` when overwriting a value of 0. This will change results if using BOPTEST-Service and delivering control input overwrites, with value of 0, in an /advance request using the ``json`` attribute with the python requests library.  This is for [#533](https://github.com/ibpsa/project1-boptest/issues/533).
+
+**The following changes are not backwards-compatible, but do not significantly change benchmark results:**
+
+- Update BOPTEST test case Docker container to use Python 3.10, pyfmi 2.11, and co-simulation FMUs.  Also convert all test case FMUs to co-simulation. This is for [#146](https://github.com/ibpsa/project1-boptest/issues/146).
+  - Non-backwards compatible due to stricter check by Flask REST API to require content as application/json.  If using Python ``requests``, use the ``json`` parameter instead of ``data``.
+  - Tends to slightly speed up simulation time for simpler, single-zone models, while more significantly slowing simulation time for more complex, multi-zone models.  Refer to [this comment](https://github.com/ibpsa/project1-boptest/pull/536#issuecomment-1585183094) for some benchmarking.
+
+
+## BOPTEST v0.4.0
+
+Released on 03/21/2023.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
