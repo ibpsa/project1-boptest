@@ -42,7 +42,8 @@ export async function identify(req, res, next) {
           }
         }).json()
         req.account = body
-      } catch(error) {
+      } catch (err) {
+        console.log(err.stack)
         res.sendStatus(401)
         return
       }
