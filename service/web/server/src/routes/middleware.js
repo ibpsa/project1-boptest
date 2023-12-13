@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator'
+import got from 'got'
 
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
 const testUsername = process.env.BOPTEST_TEST_USERNAME
