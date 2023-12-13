@@ -7,6 +7,7 @@ Released on xx/xx/xxxx.
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
 - Add materials for RLEM23 workshop at ``docs/workshops/RlemWorkshop_20231112``. This is for [#585](https://github.com/ibpsa/project1-boptest/issues/585).
+- Allow simulations and forecast to work across the year. This is for [#239](https://github.com/ibpsa/project1-boptest/issues/239).
 
 
 ## BOPTEST v0.5.0
