@@ -7,7 +7,8 @@ Released on xx/xx/xxxx.
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
 - Add materials for RLEM23 workshop at ``docs/workshops/RlemWorkshop_20231112``. This is for [#585](https://github.com/ibpsa/project1-boptest/issues/585).
-
+- Change JModelica docker container address  in ``testing/Dockerfile``. This is for [#590](https://github.com/ibpsa/project1-boptest/issues/590).
+- Specify the Python version (3.7) used for building the wrapper to execute the example JavaScript controllers in the unit test. This is for [#594](https://github.com/ibpsa/project1-boptest/issues/594).
 
 ## BOPTEST v0.5.0
 
