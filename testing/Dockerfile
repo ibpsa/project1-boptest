@@ -1,4 +1,4 @@
-FROM michaelwetter/ubuntu-1804_jmodelica_trunk
+FROM lbnlblum/ubuntu-1804_jmodelica_trunk
 
 USER root
 
