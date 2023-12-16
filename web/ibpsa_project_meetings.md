@@ -12,15 +12,19 @@ permalink: /ibpsa/project/meetings/
 
 # Upcoming Meetings
 
+Coming soon...
+
+# Past Meetings
+
 ### December 12, 2023
 
 **Location:** Online
 
 **Time:** 10:30 AM - 12:00 PM U.S. ET.
 
-**Invite:** [Progress meeting invite](https://groups.google.com/g/ibpsa-boptest/c/4BND2FMgWbY)
+**Notes:**
 
-# Past Meetings
+- [Minutes](/ibpsa_project/meetings/20231212_Progress/20231212_IBPSA-BOPTEST_Progress_Minutes.pdf)
 
 ### November 14, 2023
 
