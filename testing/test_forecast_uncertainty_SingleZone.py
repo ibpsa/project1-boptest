@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module runs tests for testcase2. To run these tests, testcase2 must already be deployed.
+This module runs tests for testcase2. To run these tests, testcase2 must already be deployed.Ensure 'testcase2'
+is deployed by running `TESTCASE=testcase2 docker-compose up` in the terminal at the root directory of the software.
 It includes tests to check forecast intervals, horizon, and uncertainty levels.
 
 """
@@ -60,7 +61,8 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         requests.put('{0}/scenario'.format(self.url), json={
             'electricity_price': 'constant',
             'solar_uncertainty': uncertain_level,
-            'temperature_uncertainty': uncertain_level
+            'temperature_uncertainty': uncertain_level,
+            'seed':5
         })
         forecasts = requests.put('{0}/forecast'.format(self.url),
                                  json={'point_names': ['TDryBul', 'HGloHor'],
@@ -78,7 +80,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
     def test_low_uncertainty(self):
         """Test forecasts under low uncertainty."""
         self.check_uncertainty(uncertain_level='low')
-
+    #
     def test_medium_uncertainty(self):
         """Test forecasts under medium uncertainty."""
         self.check_uncertainty(uncertain_level='medium')
@@ -86,6 +88,51 @@ class ForecasterSingleZoneTest(unittest.TestCase):
     def test_high_uncertainty(self):
         """Test forecasts under high uncertainty."""
         self.check_uncertainty(uncertain_level='high')
+
+    def test_forecast_solar_radiation_are_positive(self):
+        requests.put('{0}/scenario'.format(self.url), json={
+            'electricity_price': 'constant',
+            'solar_uncertainty': 'high',
+            'seed': 5
+        })
+        u = {
+            self.input_names[0]: float(1),
+            self.input_names[1]: float(self.inputs_metadata[self.input_names[1]]['Minimum'])
+        }
+
+        for _ in range(1000):
+
+            forecasts=requests.put('{0}/forecast'.format(self.url),
+                         json={'point_names': ['HGloHor'],
+                               'interval': 3600,
+                               'horizon': 48 * 3600},
+                         ).json()['payload']['HGloHor']
+            for forecast in forecasts:
+                self.assertGreaterEqual(forecast, 0, f"Forecast value {forecast} is not greater than 0")
+            requests.post('{0}/advance'.format(self.url), json=u).json()
+
+    def test_forecast_temperature_are_within_range(self):
+        requests.put('{0}/scenario'.format(self.url), json={
+            'electricity_price': 'constant',
+            'temperature_uncertainty': 'high',
+            'seed': 5
+        })
+        u = {
+            self.input_names[0]: float(1),
+            self.input_names[1]: float(self.inputs_metadata[self.input_names[1]]['Minimum'])
+        }
+
+        for _ in range(1000):
+
+            forecasts=requests.put('{0}/forecast'.format(self.url),
+                         json={'point_names': ['TDryBul'],
+                               'interval': 3600,
+                               'horizon': 48 * 3600},
+                         ).json()['payload']['TDryBul']
+            for forecast in forecasts:
+                self.assertGreaterEqual(forecast, 173.15, f"Forecast temperature {forecast} is below -100°C")
+                self.assertLessEqual(forecast, 373.15, f"Forecast temperature {forecast} is above 100°C")
+            requests.post('{0}/advance'.format(self.url), json=u).json()
 
     def check_uncertainty(self,uncertain_level):
         """Check the forecast uncertainty parameters against references.
@@ -111,7 +158,8 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         requests.put('{0}/scenario'.format(self.url), json={
             'electricity_price': 'constant',
             'solar_uncertainty': uncertain_level,
-            'temperature_uncertainty': uncertain_level
+            'temperature_uncertainty': uncertain_level,
+            'seed':5
         })
 
         # Collect forecasts and calculate errors

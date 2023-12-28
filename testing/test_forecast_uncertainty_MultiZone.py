@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module runs tests for testcase3. To run these tests, testcase3 must already be deployed.
+This module runs tests for testcase3. To run these tests, testcase3 must already be deployed.Ensure 'testcase3'
+is deployed by running `TESTCASE=testcase3 docker-compose up` in the terminal at the root directory of the software.
 It includes tests to check forecast intervals, horizon, and uncertainty levels.
 
 """
@@ -57,7 +58,8 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         uncertain_level = 'low'
         requests.put('{0}/scenario'.format(self.url), json={
             'electricity_price': 'constant',
-            'temperature_uncertainty': uncertain_level
+            'temperature_uncertainty': uncertain_level,
+            'seed': 5
         })
         forecasts = requests.put('{0}/forecast'.format(self.url),
                                  json={'point_names': ['TDryBul'],
@@ -84,6 +86,30 @@ class ForecasterSingleZoneTest(unittest.TestCase):
         """Test forecasts under high uncertainty."""
         self.check_uncertainty(uncertain_level='high')
 
+    def test_forecast_temperature_are_within_range(self):
+        requests.put('{0}/scenario'.format(self.url), json={
+            'electricity_price': 'constant',
+            'temperature_uncertainty': 'high',
+            'seed': 5
+        })
+        u = {
+            self.input_names[0]: float(1),
+            self.input_names[1]: float(self.inputs_metadata[self.input_names[1]]['Minimum'])
+        }
+
+        for _ in range(1000):
+
+            forecasts=requests.put('{0}/forecast'.format(self.url),
+                         json={'point_names': ['TDryBul'],
+                               'interval': 3600,
+                               'horizon': 48 * 3600},
+                         ).json()['payload']['TDryBul']
+            for forecast in forecasts:
+                self.assertGreaterEqual(forecast, 173.15, f"Forecast temperature {forecast} is below -100°C")
+                self.assertLessEqual(forecast, 373.15, f"Forecast temperature {forecast} is above 100°C")
+            requests.post('{0}/advance'.format(self.url), json=u).json()
+
+
     def check_uncertainty(self,uncertain_level):
         """Check the forecast uncertainty parameters against references.
 
@@ -106,7 +132,8 @@ class ForecasterSingleZoneTest(unittest.TestCase):
 
         requests.put('{0}/scenario'.format(self.url), json={
             'electricity_price': 'constant',
-            'temperature_uncertainty': uncertain_level
+            'temperature_uncertainty': uncertain_level,
+            'seed': 5
         })
 
         # Collect forecasts and calculate errors

@@ -91,6 +91,7 @@ class TestCase(object):
         # Set default scenario
         self.config_json['scenario']['solar_uncertainty']=None #todo
         self.config_json['scenario']['temperature_uncertainty']=None #todo
+        self.config_json['scenario']['seed'] = None #todo
         self.set_scenario(self.config_json['scenario'])
         self.uncertainty_params = self.load_uncertainty_params()
 
@@ -978,13 +979,17 @@ class TestCase(object):
             solar_params.update(self.uncertainty_params['solar'][solar_uncertainty])
 
         try:
-
+            if self.scenario['seed'] is not None :
+                applied_seed=int(self.scenario['seed']+self.start_time)
+            else:
+                applied_seed=None
             payload = self.forecaster.get_forecast(
                 point_names,
                 horizon=horizon,
                 interval=interval,
                 weather_temperature_dry_bulb=temperature_params,
-                weather_solar_global_horizontal=solar_params
+                weather_solar_global_horizontal=solar_params,
+                seed=applied_seed
             )
 
         except:
@@ -1032,7 +1037,8 @@ class TestCase(object):
             'electricity_price': None,
             'time_period': None,
             'temperature_uncertainty': None,
-            'solar_uncertainty': None
+            'solar_uncertainty': None,
+            'seed':None,
         }
 
 
@@ -1111,6 +1117,19 @@ class TestCase(object):
                 payload['solar_uncertainty'] = self.scenario['solar_uncertainty']
             else:
                 self.scenario['solar_uncertainty'] = None
+
+            if scenario['seed']:
+                if isinstance(scenario['seed'], int) and scenario['seed'] >= 0:
+                    self.scenario['seed'] = scenario['seed']
+                    payload['seed'] = self.scenario['seed']
+                else:
+                    status = 400
+                    message = "Scenario parameter seed is {}, " \
+                              "but should be a non-negative integer.".format(scenario['seed'])
+                    logging.error(message)
+                    return status, message, payload
+            else:
+                self.scenario['seed'] = None
 
         except:
             status = 400

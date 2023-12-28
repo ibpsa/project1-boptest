@@ -84,6 +84,7 @@ parser_scenario.add_argument('electricity_price', type=str)
 parser_scenario.add_argument('time_period', type=str)
 parser_scenario.add_argument('temperature_uncertainty', type=str)
 parser_scenario.add_argument('solar_uncertainty', type=str)
+parser_scenario.add_argument('seed', type=int)
 # ``forecast`` interface
 parser_forecast_points = reqparse.RequestParser(argument_class=CustomArgument)
 parser_forecast_points.add_argument('point_names', type=list, action='append', required=True)
