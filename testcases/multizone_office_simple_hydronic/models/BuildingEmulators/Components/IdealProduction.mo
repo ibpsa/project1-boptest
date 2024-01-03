@@ -33,10 +33,9 @@ model IdealProduction "Ideal production model which assumes a linear efficiency 
     
 equation
     
-    if use_TSet then
-        connect(TSet,TSetIn);
-    else 
-        TSetIn = 0;
+    connect(TSet,TSetIn);
+    if not use_TSet then       
+        TSet = 0;
     end if;
     
     connect(effExp.y,P) annotation(Line(points = {{41,-60},{110,-60}},color = {0,0,127}));
