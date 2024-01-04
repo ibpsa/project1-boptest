@@ -1,6 +1,6 @@
 within BuildingEmulators.Components;
 model IdealProduction "Ideal production model which assumes a linear efficiency curve"
-    extends IDEAS.Fluid.Interfaces.PrescribedOutlet(show_T = true, allowFlowReversal=false);
+    extends IDEAS.Fluid.Interfaces.PrescribedOutlet(final use_TSet=true, show_T = true, allowFlowReversal=false);
     outer .IDEAS.BoundaryConditions.SimInfoManager sim "Simulation information manager for climate data" annotation(Placement(transformation(extent = {{-100.0,80.0},{-80.0,100.0}},rotation = 0.0,origin = {0.0,0.0}))); 
     parameter Boolean boiler = true 
     "if true, gas boiler whose efficiency only depends on the inlet temperature; if false, chiller/heat pump whose efficiency depends on inlet and ambient temperatures";
@@ -9,7 +9,7 @@ model IdealProduction "Ideal production model which assumes a linear efficiency 
     
     .Modelica.Blocks.Interfaces.RealOutput P(unit = "W") "Energy used by the production component" annotation(Placement(transformation(extent = {{100.0,-70.0},{120.0,-50.0}},rotation = 0.0,origin = {0.0,0.0})));
 
-    .Modelica.Blocks.Interfaces.RealInput TSetIn(unit = "K", displayUnit="degC");
+    .Modelica.Blocks.Interfaces.RealInput TSetIn(unit = "K", displayUnit="degC") if use_TSet;
     
     
     parameter Real A = if boiler then 2.46575 else A_vcrs "Intercept of the linear expression";

@@ -46,7 +46,7 @@ model FanCoilUnits
 
   parameter Modelica.Units.SI.TemperatureDifference deltaTCoo_nominal = 5 "Nominal temperature difference in water side in the cooling coil" annotation (
     Dialog(group = "Cooling coil parameters"));
-  parameter Modelica.Units.SI.TemperatureDifference deltaTHea_nominal = 20 "Nominal temperature difference in water side in the heating coil" annotation (
+  parameter Modelica.Units.SI.TemperatureDifference deltaTHea_nominal = 5 "Nominal temperature difference in water side in the heating coil" annotation (
     Dialog(group = "Heating coil parameters"));
   parameter Modelica.Units.SI.MassFlowRate[nZones] mWatEmiHea_flow_nominal = QHeaEmi_flow_nominal / 4180 / deltaTHea_nominal "Nominal mass flow of the heating coil";
   parameter Modelica.Units.SI.MassFlowRate[nZones] mWatEmiCoo_flow_nominal = -QCooEmi_flow_nominal / 4180 / deltaTCoo_nominal "Nominal mass flow of the cooling coil";
@@ -63,7 +63,7 @@ model FanCoilUnits
     each TCoo_a1_nominal = 273.15 + 7,
     each TCoo_a2_nominal = 273.15 + 31, 
     QHea_flow_nominal = QHeaEmi_flow_nominal,
-    each THea_a1_nominal = 273.15 + 60,
+    each THea_a1_nominal = 273.15 + 50,
     each THea_a2_nominal = 273.15 + 16,deltaTHea_nominal = {20,20})
     annotation (Placement(transformation(extent={{-79.0,68.0},{-53.0,96.0}},rotation = 0.0,origin = {0.0,0.0})));
   Components.CollectorPair cooCol(nDist = nZones + nVen, m_flow_nominal = {mWatProCoo_flow_nominal},dp_nominal = 0) "Cooling collector"
