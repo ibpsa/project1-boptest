@@ -33,7 +33,7 @@ model IdealProduction "Ideal production model which assumes a linear efficiency 
     
 equation
     
-    connect(TSet,TSetIn);
+    TSet=TSetIn;
     if not use_TSet then       
         TSet = 0;
     end if;

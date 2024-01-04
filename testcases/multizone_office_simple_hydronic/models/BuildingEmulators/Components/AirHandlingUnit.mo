@@ -207,7 +207,7 @@ model AirHandlingUnit
     Placement(visible = true, transformation(origin={50.0,110.0},    extent = {{-10.0,-10.0},{10.0,10.0}}, rotation = 90.0), iconTransformation(origin={92,-110},    extent = {{-10, -10}, {10, 10}}, rotation=270)));
   IDEAS.Fluid.Sources.OutsideAir outsideAir(
     redeclare package Medium = MediumAir,
-    nPorts=2)    annotation (
+    nPorts=2, azi = 0)    annotation (
     Placement(visible = true, transformation(origin={144,4},    extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium = MediumAir) annotation (
     Placement(visible = true, transformation(origin={-198,-16},    extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-202, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
