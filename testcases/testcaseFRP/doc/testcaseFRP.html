@@ -380,24 +380,83 @@ The PI controller manipulated the VAV damper position, and the control variable 
 <h3>Scenario Information</h3>
 <p><b>Energy Pricing</b> </p>
 <p>
-The <b>Constant Electricity Price</b> profile is: 
+The <b>Constant Electricity Price</b> profile is: <ul>
+Based on the Schedule commercial GSA-2 tariff, it is defined as $0.06931/kWh. For reference, see https://www.kub.org/bills-payments/understand-your-bill/business-rates/business-electric-rate-schedules/.
+</ul>
 </p>
 
 <p>
 The <b>Dynamic Electricity Price</b> profile is: 
+<ul>
+Based on the Schedule commercial GSD tariff, the following electric rate is defined. For reference, see https://www.kub.org/uploads/GSD_1099.pdf.
+<li> Energy charge
+	<ul>
+	<li>Summer:
+		<ul>
+		<li>onpeak: $0.09250/kWh </li>
+		<li>offpeak: $0.02751/kWh </li>
+		</ul>
+	</li>
+	<li>Winter:
+		<ul>
+		<li>onpeak:$0.08076/kWh </li>
+		<li>offpeak: $0.02751/kWh </li>
+		</ul>
+	</li>
+	<li>Transition period
+		<ul>
+		<li>onpeak:$0.06642/kWh </li>
+		<li>offpeak: $0.02751/kWh </li>
+		</ul>
+	</li>
+	</ul>
+</li>
+<li> Determination of seasonal periods
+	<ul>
+	<li> Summer period: June, July, August, and September</li>
+	<li> Winter period: December, January, February, and March</li>
+	<li> Transition Period: April May, October, and November</li>
+	</ul>
+</li>
+<li> Determination of on peak and offpeak hours
+	<ul>
+	<li>Onpeak period is:
+		<ul>
+		<li>Weekdays except holidays during the months of April, May, June, July, August, September, and October: 1pm-7pm CST or CDT. </li>
+		<li>Weekdays except holidays during the months of January, February, March, November and December: 4am-10am CST or CDT. </li>
+		</ul>
+	</li>
+	<li>Offpeak period is:
+		<ul>
+		<li>All other hours of each day that are not otherwise defined as onpeak hours and all hours of such excepted days shall be offpeak hours.</li>
+		</ul>
+	</li>
+	</ul>
+</li>
+</ul>
 </p>
 <p>
-The <b>Highly Dynamic Electricity Price</b> profile is: 
-</p>
-<p>
-The <b>Gas Price</b> profile is: 
+The <b>Gas Price</b> profile is:
+<ul>
+Based on the Schedule commercial G-4 tariff, the first 250 Therms are defined as $0.036283/kWh ($1.0631/Therms). For reference, see https://www.kub.org/bills-payments/understand-your-bill/business-rates/business-electric-rate-schedules/.
+</ul>
 </p>
 <h4>Emission Factors</h4>
 <p>
 The <b>Electricity Emissions Factor</b> profile is: 
+<ul>
+Based on the average electricity generation mix for Tennessee, USA for the year of 2022. 
+It is 0.340194 CO2kg/kWh (750 CO2lbs/MWh). For reference, see https://www.eia.gov/electricity/state/tennessee/.
+</ul>
 </p>
-<p>The <b>Gas Emissions Factor</b> profile is: </p>
-
-
+<p>
+The <b>Gas Emissions Factor</b> profile is:
+<ul>
+Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference,
+see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
+</ul>
+</p>
 </body>
 </html>
