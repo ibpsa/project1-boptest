@@ -370,12 +370,66 @@ The PI controller manipulated the VAV damper position, and the control variable 
 
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
+The model inputs are:
+<ul>
+<li>
+<code>supplyTempCon.oveTSup.u </code>[K] [min=285.15, max=313.15]: Supply air temperature setpoint
+</li>
+<li>
+<code>thermostat_T.oveTSetHea_u </code>[K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+</li>
+<li>
+<code>thermostat_T.oveTSetCoo.u </code>[K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+</li>
+</ul>
 
 <h4>Outputs</h4>
 
+The model outputs are:
+<ul>
+<li>
+<code>fan.m_flow </code>[kg/s] [min=None, max=None]: Supply air mass flow rate
+</li>
+<li>
+<code>supplyTempCon.reaTSup.y </code>[K] [min=None, max=None]: Supply air temperature setpoint
+</li>
+<li>
+<code>thermostat_T.reaTSetCoo.y </code>[K] [min=None, max=None]: Zone air temperature setpoint for cooling
+</li>
+<code>thermostat_T.reaTSetHea_y </code>[K] [min=None, max=None]: Zone air temperature setpoint for heating
+<li>
+<code>DX.P [W] </code>[min=None, max=None]: DX coil power consumption 
+</li>
+<li>
+<code>DX.QSen_flow </code>[W] [min=None, max=None]: DX coil sensible heat flow rate 
+</li>
+<li>
+<code>DX.QLat_flow </code>[W] [min=None, max=None]: DX coil latent heat flow rate
+</li>
+<li>
+<code>elecHea.P </code>[W] [min=None, max=None]: Electric heater power consumption 
+</li>
+<li>
+<code>VAVReHeat_withCtrl_TRooCon102.conCoo.y </code><sup>a </sup> [min=None, max=None]: VAV control output for cooling for zone 102
+</li>
+<li>
+<code>VAVReHeat_withCtrl_TRooCon102. conHea.y </code><sup>a </sup>[min=None, max=None]: VAV control output for heating for zone 102
+</li>
+<li>
+<code>VAVREheat_withCtrl_TrooCon102ReHeat.Q_flow </code><sup>a </sup>[W] [min=None, max=None]: VAV reheat power consumption for zone 102 
+</li>
 
-
- 
+</i>
+<li>
+<code>TRooFir.y1 </code><sup>b </sup>[K] [min=None, max=None]: Zone temperature of 101
+</li>
+<p style="font-size:80%;">
+<i>a)Outputs are available for all conditioned zones (102,103,104,105,106, 202,203,204,205,206).
+<br>
+b)Outputs are available for all zones (TRooFir.y1, TRooFir.y2, TRooFir.y3, TRooFir.y4, TRooFir.y5, TRooFir.y6, TRooSec.y1, TRooSec.y2, TRooSec.y3, TRooSec.y4, TRooSec.y5, TRooSec.y6).
+</i>
+</p>
+</ul> 
 </p>
 <h3>Scenario Information</h3>
 <p><b>Energy Pricing</b> </p>
