@@ -1,0 +1,516 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>FRP.Example.RTU_VAV_Control_Example_FRP_v1</title>
+<meta name="HTML-Generator" content="Dymola">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="&quot;Multi-zone commercial air example using a VAV RTU with reheat&quot;">
+<style type="text/css">
+*       { font-size: 100%; font-family: Arial, sans-serif; }
+.modelica, .modelica * { font-size: 90%; font-family: Courier, monospace; white-space: pre; } /* For the Modelica code (in exported html). */
+h4      { font-size: 100%; font-weight: bold; color: green; } 
+h3      { font-size: 110%; font-weight: bold; color: green; }
+h2      { font-size: 130%; font-weight: bold; color: green; }
+address { font-weight: normal; }
+td      { padding: 2px; border: 1px solid #808080; vertical-align: top; }
+th      { padding: 2px; border: 1px solid #808080; vertical-align: top; font-weight: bold; }
+table   { border: 1px solid #808080; border-collapse: collapse; }
+pre, code {font-family: "Courier New", monospace;}
+pre {white-space: pre; overflow-x : hidden;}
+.ModelicaDescription {font-weight: bold;} /* For the description string of the class. */
+.ModelicaBaseClass {} /* For the list of base-classes at the of the description. */
+.ModelicaKeyword { color: blue; font-weight: normal; font-style: normal; } /* Keywords in Modelica. */
+.ModelicaComment { color: #006400;  font-weight: normal; font-style: normal;} /* All three variants of comments in Modelica.  */
+.ModelicaString { color: #006400;  font-weight: normal; font-style: normal;} /* String constants. */
+.ModelicaClass { color: red; font-weight: normal; font-style: normal;} /* Formatting the names of referenced classes (for base-class and components). */
+.ModelicaFunction { color: red; font-weight: normal; font-style: normal;} /* Formatting for called functions. */
+.ModelicaTablePackageContent { } /* The table of contents for each package. */
+.ModelicaTableCrossReference { } /* The optional cross-reference table. */
+.ModelicaTableInputs {} /* The table of inputs for a function. */
+.ModelicaTableOutputs {} /* The table of outputs for a function. */
+.ModelicaTableParameters {} /* The table of parameters for a model/block. */
+.ModelicaTableConnectors {} /* The table of connectors for a model/block. */
+.ModelicaTableContents {} /* The table of contents for a connector. */
+.ModelicaStartAttribute { font-weight: bold; } /* The formatting used for start-attribute in the table of parameters, to separate them from parameter values. */
+.ModelicaParameterTab { background-color: #c0c0c0; font-weight: bold; } /* The tab-heading in the table of parameters */
+.ModelicaParameterGroup { background-color: #e0e0e0; } /* The group-heading in the table of parameters */
+</style>
+</head>
+<body>
+<!--[if supportFields]><span style="mso-element:field-begin"></span>
+<span style="mso-spacerun:yes"></span>XE SingleZoneResidentialHydronicHeatPump<![endif]-->
+<!--[if supportFields]><span style="mso-element:field-end"></span><![endif]-->
+<h2>
+<a name="FRP.Example.RTU_VAV_Control_Example_FRP_v1"></a>FRP.Example.RTU_VAV_Control_Example_FRP_v1</h2>
+<p>
+<span class="ModelicaDescription">Multi-zone commercial air example using a VAV RTU with reheat</span>
+</p>
+<h3>Information</h3>
+
+<p>
+This is a Multi-zone commercial air system model with a RTU VAV with reheat system. 
+</p>
+<h3>Building Design and Use</h3>
+<h4>Architecture</h4>
+<p>
+This test cases is modeled based on an actual research platform that represents a typical medium-sized office building
+Built in 2013, the two-story flexible research platform (FRP) (Figure 1) is located in Oak Ridge, Tennessee (84°19' longitude, 35°55' latitude). 
+The FRP, with a footprint of 40 ×40 ft (12 × 12 m), is an unoccupied research apparatus that can be used to physically simulate light commercial buildings common in the United States’ existing building stock.
+Figure 2 shows the floor plans of FRP. 
+<p>
+<img src="FRP.png" alt="Figure 1. Oak Ridge National Laboratory FRP" align="center" style="border: 1px solid" height="300" >
+
+</p>
+<p>
+Figure 1. Oak Ridge National Laboratory FRP</b>
+</p>
+<p>
+<img src="FRP_FloorPlan.png" alt="Figure 2. FRP Floor plans" align="center" style="border: 1px solid" height="400">
+
+</p>
+<p>
+Figure 2. FRP Floor plans</b>
+</p>
+The building is exposed to natural weather conditions for research and development, leading to system- and building-level advanced energy efficiency solutions for new and retrofit applications. 
+Additionally, a dedicated weather station is installed on the roof of the FRP so that actual weather data can be used in performance analysis and modeling.
+The eight windows were evenly distributed on the top floor. The window distribution for the first floor was identical to the top floor except that two windows on the north and east sides were replaced by glass doors.
+</p>
+<p>The HVAC system in the FRP building is a rooftop unit (RTU) variable air volume (VAV) system with electric reheat, and the building has 10 thermal zones (8 perimeter zones and 2 core zones) that can be individually controlled. 
+Fixed infiltration rate (0.432 air changes/h) is applied to the perimeter zones.
+</p>
+<h4>Constructions</h4>
+<p><b>Exterior walls</b> </p>
+<p>
+The multi-zone model was developed using the room model in Modelica Buildings Library (Version 8.1.0), and the typical walls consist of the following layers:  
+</p>
+<p><b>&nbsp Typical Exterior Walls</b></p>
+<table cellspacing="2" cellpadding="0" border="0" summary="Layers">
+<tr>
+<td><h4>Name</h4></td>
+<td><h4>Thickness [m]</h4></td>
+<td><h4>Thermal Conductivity [W/m-K]</h4></td>
+<td><h4>Specific Heat Capacity [J/kg-K]</h4></td>
+<td><h4>Density [kg/m3]</h4></td>
+</tr>
+<tr>
+<td><p>Face Brick</p></td>
+<td><p>0.092</p></td>
+<td><p>1.31</p></td>
+<td><p>920.48</p></td>
+<td><p>2082.3</p></td>
+</tr>
+<tr>
+<td><p>Air</p></td>
+<td><p>0.004106</p></td>
+<td><p>0.0262</p></td>
+<td><p>0.000718</p></td>
+<td><p>1.2</p></td>
+</tr>
+<tr>
+<td><p>Concrete Block</p></td>
+<td><p>0.203</p></td>
+<td><p>1.31</p></td>
+<td><p>920</p></td>
+<td><p>1121.3</p></td>
+</tr>
+<tr>
+<td><p>Spray foam with Metal Stud</p></td>
+<td><p>0.0889</p></td>
+<td><p>0.02884</p></td>
+<td><p>1210</p></td>
+<td><p>32</p></td>
+</tr>
+<tr>
+<td><p>Gypsum</p></td>
+<td><p>0.0158</p></td>
+<td><p>0.16</p></td>
+<td><p>1090</p></td>
+<td><p>784.9</p></td>
+</tr>
+</table>
+
+
+<p><b>&nbsp Exterior Wall (Room 104)</b></p>
+
+
+<table cellspacing="2" cellpadding="0" border="0" summary="Layers">
+<tr>
+<td><h4>Name</h4></td>
+<td><h4>Thickness [m]</h4></td>
+<td><h4>Thermal Conductivity [W/m-K]</h4></td>
+<td><h4>Specific Heat Capacity [J/kg-K]</h4></td>
+<td><h4>Density [kg/m3]</h4></td>
+</tr>
+<tr>
+<td><p>Face Brick</p></td>
+<td><p>0.092</p></td>
+<td><p>1.31</p></td>
+<td><p>920.48</p></td>
+<td><p>2082.3</p></td>
+</tr>
+<tr>
+<td><p>Air</p></td>
+<td><p>0.004106</p></td>
+<td><p>0.0262</p></td>
+<td><p>0.000718</p></td>
+<td><p>1.2</p></td>
+</tr>
+<tr>
+<td><p>Concrete Block</p></td>
+<td><p>0.203</p></td>
+<td><p>1.31</p></td>
+<td><p>920</p></td>
+<td><p>1121.3</p></td>
+</tr>
+<tr>
+<td><p>Spray Foam with Metal Stud</p></td>
+<td><p>0.0889</p></td>
+<td><p>0.02884</p></td>
+<td><p>1210</p></td>
+<td><p>32</p></td>
+</tr>
+<tr>
+<td><p>Air</p></td>
+<td><p>0.004106</p></td>
+<td><p>0.0262</p></td>
+<td><p>0.000718</p></td>
+<td><p>1.2</p></td>
+</tr>
+<tr>
+<td><p>Gypsum</p></td>
+<td><p>0.0158</p></td>
+<td><p>0.16</p></td>
+<td><p>1090</p></td>
+<td><p>784.9</p></td>
+</tr>
+</table>
+
+<p><b>&nbsp Exterior Wall (Room 204)</b></p>
+
+<table cellspacing="2" cellpadding="0" border="0" summary="Layers">
+<tr>
+<td><h4>Name</h4></td>
+<td><h4>Thickness [m]</h4></td>
+<td><h4>Thermal Conductivity [W/m-K]</h4></td>
+<td><h4>Specific Heat Capacity [J/kg-K]</h4></td>
+<td><h4>Density [kg/m3]</h4></td>
+</tr>
+<tr>
+<td><p>Face Brick</p></td>
+<td><p>0.092</p></td>
+<td><p>1.31</p></td>
+<td><p>920.48</p></td>
+<td><p>2082.3</p></td>
+</tr>
+<tr>
+<td><p>Air</p></td>
+<td><p>0.004106</p></td>
+<td><p>0.0262</p></td>
+<td><p>0.000718</p></td>
+<td><p>1.2</p></td>
+</tr>
+<tr>
+<td><p>Concrete Block</p></td>
+<td><p>0.203</p></td>
+<td><p>1.31</p></td>
+<td><p>920</p></td>
+<td><p>1121.3</p></td>
+</tr>
+<tr>
+<td><p>Spray Foam with Metal Stud</p></td>
+<td><p>0.0889</p></td>
+<td><p>0.02884</p></td>
+<td><p>1210</p></td>
+<td><p>32</p></td>
+</tr>
+<tr>
+<td><p>Rigid Foam Board</p></td>
+<td><p>0.0058</p></td>
+<td><p>0.02605</p></td>
+<td><p>920</p></td>
+<td><p>32.0</p></td>
+</tr>
+<tr>
+<td><p>Gypsum</p></td>
+<td><p>0.0158</p></td>
+<td><p>0.16</p></td>
+<td><p>1090</p></td>
+<td><p>784.9</p></td>
+</tr>
+</table>
+
+<p><b>Floor</b> </p>
+<p>
+The floor consists of the following layers: 
+</p>
+<table cellspacing="2" cellpadding="0" border="0" summary="Layers">
+<tr>
+<td><h4>Name</h4></td>
+<td><h4>Thickness [m]</h4></td>
+<td><h4>Thermal Conductivity [W/m-K]</h4></td>
+<td><h4>Specific Heat Capacity [J/kg-K]</h4></td>
+<td><h4>Density [kg/m3]</h4></td>
+</tr>
+<tr>
+<td><p>Lower Concrete</p></td>
+<td><p>0.1524</p></td>
+<td><p>1.95</p></td>
+<td><p>900</p></td>
+<td><p>2322.6</p></td>
+</tr>
+<tr>
+<td><p>Insulation</p></td>
+<td><p>0.3048</p></td>
+<td><p>0.033</p></td>
+<td><p>836.8</p></td>
+<td><p>30</p></td>
+</tr>
+<tr>
+<td><p>Upper Concrete</p></td>
+<td><p>0.3048</p></td>
+<td><p>1.95</p></td>
+<td><p>900</p></td>
+<td><p>2322.6</p></td>
+</tr>
+
+</table>
+<p><b>Roof</b> </p>
+<p>
+The roof consist of the following layers:
+</p>
+<table cellspacing="2" cellpadding="0" border="0" summary="Layers">
+<tr>
+<td><h4>Name</h4></td>
+<td><h4>Thickness [m]</h4></td>
+<td><h4>Thermal Conductivity [W/m-K]</h4></td>
+<td><h4>Specific Heat Capacity [J/kg-K]</h4></td>
+<td><h4>Density [kg/m3]</h4></td>
+</tr>
+<tr>
+<td><p>Standard PW05</p></td>
+<td><p>0.01909</p></td>
+<td><p>0.115</p></td>
+<td><p>1213</p></td>
+<td><p>545</p></td>
+</tr>
+<tr>
+<td><p>Roof Insulation</p></td>
+<td><p>0.0762</p></td>
+<td><p>0.024023</p></td>
+<td><p>836.8</p></td>
+<td><p>265.0</p></td>
+</tr>
+<tr>
+<td><p>Roof Membrane</p></td>
+<td><p>0.0095</p></td>
+<td><p>0.16</p></td>
+<td><p>1460</p></td>
+<td><p>1121.3</p></td>
+</tr>
+<tr>
+<td><p>Metal Decking</p></td>
+<td><p>0.0015</p></td>
+<td><p>45.006</p></td>
+<td><p>418.4</p></td>
+<td><p>7680.0</p></td>
+</tr>
+</table>
+<h4>Occupancy schedules</h4>
+<p>
+The building is is an unoccupied research apparatus. 
+</p>
+<h4>Internal loads and schedules</h4>
+<p>
+There are electric and lighting loads during weekdays and weekends.
+</p>
+
+<h4>Climate data</h4>
+<p>
+A dedicated weather station is installed on the roof of the FRP so that actual weather data can be used in performance analysis and modeling.
+The model uses a climate file containing one year of weather data for Oak Ridge, Tennessee. 
+</p>
+
+<h3>HVAC System Design</h3>
+<h4>Primary and secondary system designs</h4>
+<p>
+The multi-zone HVAC system of the FRP is shown in Figure 3. 
+</p>
+<img src="FRPHVACSchematic.png" alt="Figure 3. Schematic of the HVAC system" align="center" style="border: 1px solid">
+
+<p>
+Figure 3. Schematic of the HVAC system</b>
+</p>
+The following assumptions were made for model simplification. 
+The direct expansion (DX) coil was modeled as a variable speed DX coil with a 12.5 ton capacity. 
+The RTU had a 9.6 energy efficiency rating, and each room had a VAV box with electric resistance reheat, and the heating coil was modeled as an electric heating coil. 
+The zone electric heat in the VAV boxes was activated to provide the necessary perimeter heat. 
+The electric reheat capacities were set from 1,000 to 5,000 W, and each nominal airflow rate was set from 0.108 to 0.334 m3/s. 
+The central fan in the air handling unit drew return air from each room, and the nominal airflow rate of the system was set to 2.543 m3/s.
+</p>
+
+
+<h4>Rule-based or local-loop controllers </h4>
+<p>
+The supply fan controller and VAV terminal controllers are shown in Figure 4. 
+</p>
+<p>
+<img src="LocalController.png" alt="Figure 4. Supply fan controller and VAV terminal controller" align="center" style="border: 1px solid" width="600" >
+</p>
+<p>
+Figure 4. Supply fan controller and VAV terminal controller
+</p>
+
+The supply fan was controlled by a local proportional-integral (PI) controller to maintain a static pressure of 1,000 Pa. 
+To be consistent with the experimental condition of the FRP, the outdoor air damper in the Modelica model was fully closed, and the DX coil was controlled by a PI controller to meet the supply air temperature of 15°C. 
+The PI controller manipulated the VAV damper position, and the control variable was the zone air temperature (cooling setpoint temperature: 22°C; heating setpoint temperature: 20°C). 
+</p>
+
+
+
+
+<h3>Model IO's</h3>
+<h4>Inputs</h4>
+The model inputs are:
+<ul>
+<li>
+<code>supplyTempCon.oveTSup.u </code>[K] [min=285.15, max=313.15]: Supply air temperature setpoint
+</li>
+<li>
+<code>thermostat_T.oveTSetHea_u </code>[K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+</li>
+<li>
+<code>thermostat_T.oveTSetCoo.u </code>[K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+</li>
+</ul>
+
+<h4>Outputs</h4>
+
+The model outputs are:
+<ul>
+<li>
+<code>fan.m_flow </code>[kg/s] [min=None, max=None]: Supply air mass flow rate
+</li>
+<li>
+<code>supplyTempCon.reaTSup.y </code>[K] [min=None, max=None]: Supply air temperature setpoint
+</li>
+<li>
+<code>thermostat_T.reaTSetCoo.y </code>[K] [min=None, max=None]: Zone air temperature setpoint for cooling
+</li>
+<code>thermostat_T.reaTSetHea_y </code>[K] [min=None, max=None]: Zone air temperature setpoint for heating
+<li>
+<code>DX.P [W] </code>[min=None, max=None]: DX coil power consumption 
+</li>
+<li>
+<code>DX.QSen_flow </code>[W] [min=None, max=None]: DX coil sensible heat flow rate 
+</li>
+<li>
+<code>DX.QLat_flow </code>[W] [min=None, max=None]: DX coil latent heat flow rate
+</li>
+<li>
+<code>elecHea.P </code>[W] [min=None, max=None]: Electric heater power consumption 
+</li>
+<li>
+<code>VAVReHeat_withCtrl_TRooCon102.conCoo.y </code><sup>a </sup> [min=None, max=None]: VAV control output for cooling for zone 102
+</li>
+<li>
+<code>VAVReHeat_withCtrl_TRooCon102. conHea.y </code><sup>a </sup>[min=None, max=None]: VAV control output for heating for zone 102
+</li>
+<li>
+<code>VAVREheat_withCtrl_TrooCon102ReHeat.Q_flow </code><sup>a </sup>[W] [min=None, max=None]: VAV reheat power consumption for zone 102 
+</li>
+
+</i>
+<li>
+<code>TRooFir.y1 </code><sup>b </sup>[K] [min=None, max=None]: Zone temperature of 101
+</li>
+<p style="font-size:80%;">
+<i>a)Outputs are available for all conditioned zones (102,103,104,105,106, 202,203,204,205,206).
+<br>
+b)Outputs are available for all zones (TRooFir.y1, TRooFir.y2, TRooFir.y3, TRooFir.y4, TRooFir.y5, TRooFir.y6, TRooSec.y1, TRooSec.y2, TRooSec.y3, TRooSec.y4, TRooSec.y5, TRooSec.y6).
+</i>
+</p>
+</ul> 
+</p>
+<h3>Scenario Information</h3>
+<p><b>Energy Pricing</b> </p>
+<p>
+The <b>Constant Electricity Price</b> profile is: <ul>
+Based on the Schedule commercial GSA-2 tariff, it is defined as $0.06931/kWh. For reference, see https://www.kub.org/bills-payments/understand-your-bill/business-rates/business-electric-rate-schedules/.
+</ul>
+</p>
+
+<p>
+The <b>Dynamic Electricity Price</b> profile is: 
+<ul>
+Based on the Schedule commercial GSD tariff, the following electric rate is defined. For reference, see https://www.kub.org/uploads/GSD_1099.pdf.
+<li> Energy charge
+	<ul>
+	<li>Summer:
+		<ul>
+		<li>onpeak: $0.09250/kWh </li>
+		<li>offpeak: $0.02751/kWh </li>
+		</ul>
+	</li>
+	<li>Winter:
+		<ul>
+		<li>onpeak:$0.08076/kWh </li>
+		<li>offpeak: $0.02751/kWh </li>
+		</ul>
+	</li>
+	<li>Transition period
+		<ul>
+		<li>onpeak:$0.06642/kWh </li>
+		<li>offpeak: $0.02751/kWh </li>
+		</ul>
+	</li>
+	</ul>
+</li>
+<li> Determination of seasonal periods
+	<ul>
+	<li> Summer period: June, July, August, and September</li>
+	<li> Winter period: December, January, February, and March</li>
+	<li> Transition Period: April May, October, and November</li>
+	</ul>
+</li>
+<li> Determination of on peak and offpeak hours
+	<ul>
+	<li>Onpeak period is:
+		<ul>
+		<li>Weekdays except holidays during the months of April, May, June, July, August, September, and October: 1pm-7pm CST or CDT. </li>
+		<li>Weekdays except holidays during the months of January, February, March, November and December: 4am-10am CST or CDT. </li>
+		</ul>
+	</li>
+	<li>Offpeak period is:
+		<ul>
+		<li>All other hours of each day that are not otherwise defined as onpeak hours and all hours of such excepted days shall be offpeak hours.</li>
+		</ul>
+	</li>
+	</ul>
+</li>
+</ul>
+</p>
+<p>
+The <b>Gas Price</b> profile is:
+<ul>
+Based on the Schedule commercial G-4 tariff, the first 250 Therms are defined as $0.036283/kWh ($1.0631/Therms). For reference, see https://www.kub.org/bills-payments/understand-your-bill/business-rates/business-electric-rate-schedules/.
+</ul>
+</p>
+<h4>Emission Factors</h4>
+<p>
+The <b>Electricity Emissions Factor</b> profile is: 
+<ul>
+Based on the average electricity generation mix for Tennessee, USA for the year of 2022. 
+It is 0.340194 CO2kg/kWh (750 CO2lbs/MWh). For reference, see https://www.eia.gov/electricity/state/tennessee/.
+</ul>
+</p>
+<p>
+The <b>Gas Emissions Factor</b> profile is:
+<ul>
+Based on the kgCO2 emitted per amount of natural gas burned in terms of 
+energy content.  It is 0.18108 kgCO2/kWh (53.07 kgCO2/milBTU).
+For reference,
+see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
+</ul>
+</p>
+</body>
+</html>
