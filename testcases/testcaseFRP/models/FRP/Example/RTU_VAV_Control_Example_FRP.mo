@@ -1,5 +1,5 @@
 within FRP.Example;
-model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
+model RTU_VAV_Control_Example_FRP "v8. 0107.2024"
     extends Modelica.Icons.Example;
     package MediumA = Buildings.Media.Air "Medium model";
     parameter Modelica.SIunits.MassFlowRate m_flow_nominal=2.543; // kg/s
@@ -48,8 +48,8 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
     parameter Modelica.SIunits.MassFlowRate m_flow_nominal_max=m_flow_nominal/0.4 "maximum air flow rate for zero-pressure loss for a fan";
 
     parameter Boolean allowFlowReversal=true;
-  FRP.Envelope.FRPMultiZone_Envelope_Icon fRPMultiZone_Envelope_Icon
-    annotation (Placement(transformation(extent={{472,-136},{948,356}})));
+  Envelope.FRPMultiZone_Envelope_Icon_v1  fRPMultiZone_Envelope_Icon_v1_1
+    annotation (Placement(transformation(extent={{470,-136},{946,356}})));
   Buildings.Fluid.Sources.Outside out(redeclare package Medium = MediumA,
       nPorts=2)
     annotation (Placement(transformation(extent={{-972,-38},{-932,2}})));
@@ -70,10 +70,10 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
     redeclare package Medium = MediumA,
     allowFlowReversal=allowFlowReversal,
     dp_nominal=dp_nominal,
-    minSpeRat=0.25,
+    minSpeRat=0,
     speRatDeaBan=0.1)
                  "multi-stage DX unit"
-    annotation (Placement(transformation(extent={{-636,-78},{-512,46}})));
+    annotation (Placement(transformation(extent={{-638,-72},{-514,52}})));
   Buildings.Fluid.Sensors.Pressure senPreSup(redeclare package Medium = MediumA)
     annotation (Placement(transformation(extent={{-300,-20},{-252,28}})));
   Buildings.Fluid.Sensors.MassFlowRate senMret(redeclare package Medium =
@@ -103,7 +103,7 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
     dp_nominal=200 + 200 + 100 + 40,
     eta=0.81)
     "Electric heater"
-    annotation (Placement(transformation(extent={{-444,-56},{-378,14}})));
+    annotation (Placement(transformation(extent={{-444,-54},{-378,16}})));
   Modelica.Blocks.Sources.RealExpression SupAirTemSPHeating(y=273.15 + 30)
     annotation (Placement(transformation(extent={{-596,152},{-496,220}})));
     // use FRP performance curve
@@ -141,64 +141,64 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
           m_flow_nominal=m_flow_nominal),
         perCur=
           FRP.RTUVAV.Performance_Stage2())})                                                                                                        "Coil data"
-    annotation (Placement(transformation(extent={{-982,464},{-920,526}})));
+    annotation (Placement(transformation(extent={{-1062,518},{-1000,580}})));
 
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_4(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_4(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_104,
     Q_flow_nominal=VAV_Heater_nominal_104,
     dp_nominal=dp_nominal_VAVbox_104)
     annotation (Placement(transformation(extent={{48,-30},{100,20}})));
 
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_1(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_1(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_204,
     Q_flow_nominal=VAV_Heater_nominal_204,
     dp_nominal=dp_nominal_VAVbox_204)
     annotation (Placement(transformation(extent={{38,264},{94,324}})));
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_9(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_9(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_203,
     Q_flow_nominal=VAV_Heater_nominal_203,
     dp_nominal=dp_nominal_VAVbox_203)
     annotation (Placement(transformation(extent={{218,264},{274,324}})));
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_5(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_5(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_205,
     Q_flow_nominal=VAV_Heater_nominal_205,
     dp_nominal=dp_nominal_VAVbox_205)
-    annotation (Placement(transformation(extent={{-16,160},{40,220}})));
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_6(
+    annotation (Placement(transformation(extent={{-40,168},{36,230}})));
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_6(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_202,
     Q_flow_nominal=VAV_Heater_nominal_202,
     dp_nominal=dp_nominal_VAVbox_202)
     annotation (Placement(transformation(extent={{136,154},{192,214}})));
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_10(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_10(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_206,
     Q_flow_nominal=VAV_Heater_nominal_206,
     dp_nominal=dp_nominal_VAVbox_206)
     annotation (Placement(transformation(extent={{322,150},{378,210}})));
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_8(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_8(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_102,
     Q_flow_nominal=VAV_Heater_nominal_102,
     dp_nominal=dp_nominal_VAVbox_102)
     annotation (Placement(transformation(extent={{220,-26},{272,24}})));
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_3(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_3(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_105,
     Q_flow_nominal=VAV_Heater_nominal_105,
     dp_nominal=dp_nominal_VAVbox_105)
     annotation (Placement(transformation(extent={{-26,-134},{26,-84}})));
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_7(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_7(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_103,
     Q_flow_nominal=VAV_Heater_nominal_103,
     dp_nominal=dp_nominal_VAVbox_103)
     annotation (Placement(transformation(extent={{136,-132},{188,-82}})));
-  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon_v2  vAVReHeat_withCtrl_TRooCon_v2_2(
+  RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_v2_2(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_106,
     Q_flow_nominal=VAV_Heater_nominal_106,
@@ -419,7 +419,7 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
         rotation=90,
         origin={1072,122})));
   Modelica.Blocks.Routing.DeMultiplex6 TRooSec
-    annotation (Placement(transformation(extent={{-298,336},{-236,398}})));
+    annotation (Placement(transformation(extent={{-298,338},{-236,400}})));
   Modelica.Blocks.Routing.DeMultiplex6 TRooFir
     annotation (Placement(transformation(extent={{-294,-178},{-232,-116}})));
   Modelica.Blocks.Sources.BooleanConstant HeaterControl(k=false)
@@ -430,20 +430,6 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
     annotation (Placement(transformation(extent={{-850,126},{-786,194}})));
   Modelica.Blocks.Interfaces.RealOutput TOA
     annotation (Placement(transformation(extent={{-752,132},{-716,186}})));
-  Buildings.Controls.Continuous.LimPID conDX(
-    yMax=1,
-    Td=60,
-    k=0.3,
-    Ti=120,
-    controllerType=Buildings.Controls.OBC.CDL.Types.SimpleController.PI,
-    yMin=0.1,
-    initType=Modelica.Blocks.Types.InitPID.NoInit,
-    reverseActing=false)
-                        "Controller for cooling (acts on damper)"
-    annotation (Placement(transformation(extent={{-582,412},{-510,484}})));
-  Modelica.Blocks.Sources.RealExpression SupAirTemSP(y=273.15 + 12.78)
-    "Supply air temperature setpoint [K]"
-    annotation (Placement(transformation(extent={{-760,406},{-632,488}})));
   Modelica.Blocks.Sources.RealExpression StaPre_SP(y=124)
     "Static pressure setpoint [pa]"
     annotation (Placement(transformation(extent={{-978,274},{-900,344}})));
@@ -466,30 +452,6 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
     initType=Modelica.Blocks.Types.InitPID.NoInit,
     reverseActing=true)  "Controller for fan"
     annotation (Placement(transformation(extent={{-848,276},{-776,348}})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable CoolingSP2(
-    table=[0,SP_TCSP; 3600*8,SP_TCSP; 3600*18,SP_TCSP; 3600*24,SP_TCSP],
-    smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
-    extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
-    "Zone cooling setpoint temperature-second floor [K]"
-    annotation (Placement(transformation(extent={{-148,442},{-114,476}})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable CoolingSP1(
-    table=[0,SP_TCSP; 3600*8,SP_TCSP; 3600*18,SP_TCSP; 3600*24,SP_TCSP],
-    smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
-    extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
-    "Zone cooling setpoint temperature-first floor [K]"
-    annotation (Placement(transformation(extent={{-140,112},{-106,146}})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable HeatingSP2(
-    table=[0,SP_THSP; 3600*8,SP_THSP; 3600*18,SP_THSP; 3600*24,SP_THSP],
-    smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
-    extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
-    "Zone heating setpoint temperature-second floor [K]"
-    annotation (Placement(transformation(extent={{-148,390},{-114,424}})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.TimeTable HeatingSP1(
-    table=[0,SP_THSP; 3600*8,SP_THSP; 3600*18,SP_THSP; 3600*24,SP_THSP],
-    smoothness=Buildings.Controls.OBC.CDL.Types.Smoothness.ConstantSegments,
-    extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
-    "Zone heating setpoint temperature-first floor [K]"
-    annotation (Placement(transformation(extent={{-140,62},{-106,96}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort T_before_CC(redeclare package
       Medium =                                                                      MediumA,
       m_flow_nominal=m_flow_nominal)
@@ -503,6 +465,10 @@ model RTU_VAV_Control_Example_FRP "v8. 0930.2022"
   Buildings.Fluid.Sensors.TemperatureTwoPort TRA(redeclare package Medium =
         MediumA, m_flow_nominal=m_flow_nominal) "Return air temperature"
     annotation (Placement(transformation(extent={{-204,-328},{-170,-274}})));
+  RTUVAV.Component.SupplyTempCon supplyTempCon
+    annotation (Placement(transformation(extent={{-710,314},{-588,368}})));
+  RTUVAV.Component.Thermostat_T thermostat_T
+    annotation (Placement(transformation(extent={{-378,220},{-232,322}})));
 equation
   connect(out.ports[1],mixBox. port_Out) annotation (Line(points={{-932,-14},{
           -916,-14},{-916,-18.8},{-898,-18.8}},
@@ -517,67 +483,78 @@ equation
   connect(OA_actuator.y, mixBox.y) annotation (Line(points={{-908,55},{-882,55},
           {-882,6.4},{-856,6.4}}, color={0,0,127}));
   connect(SupAirTemSPHeating.y, eleHea.TSet) annotation (Line(points={{-491,186},
-          {-450,186},{-450,98},{-450.6,98},{-450.6,7}}, color={0,0,127}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_1.port_b, fRPMultiZone_Envelope_Icon.port_204
-    [1]) annotation (Line(points={{94,295.2},{98,295.2},{98,396},{608,396},{608,
-          265.8},{629.162,265.8}}, color={0,127,255}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_4.port_b, fRPMultiZone_Envelope_Icon.port_104
-    [1]) annotation (Line(points={{100,-4},{124,-4},{124,66},{590,66},{590,
-          38.66},{607.003,38.66}}, color={0,127,255}));
-  connect(fRPMultiZone_Envelope_Icon.weaBus1, out.weaBus) annotation (Line(
-      points={{604.952,-122.88},{604.952,-400},{-972,-400},{-972,-17.6}},
+          {-450,186},{-450,98},{-450.6,98},{-450.6,9}}, color={0,0,127}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_1.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_204[1]) annotation (Line(points={{94,
+          295.2},{98,295.2},{98,396},{608,396},{608,265.8},{627.162,265.8}},
+        color={0,127,255}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_4.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_104[1]) annotation (Line(points={{100,-4},
+          {124,-4},{124,66},{590,66},{590,38.66},{605.003,38.66}},     color={0,
+          127,255}));
+  connect(fRPMultiZone_Envelope_Icon_v1_1.weaBus1, out.weaBus) annotation (Line(
+      points={{602.952,-122.88},{602.952,-400},{-972,-400},{-972,-17.6}},
       color={255,204,51},
       thickness=0.5));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_9.port_b, fRPMultiZone_Envelope_Icon.port_203
-    [1]) annotation (Line(points={{274,295.2},{274,388},{740,388},{740,346},{
-          738.314,346},{738.314,299.42}}, color={0,127,255}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_5.port_b, fRPMultiZone_Envelope_Icon.port_205
-    [1]) annotation (Line(points={{40,191.2},{44,191.2},{44,180},{50,180},{50,
-          222},{604,222},{604,206},{604.952,206},{604.952,203.48}}, color={0,
-          127,255}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_6.port_b, fRPMultiZone_Envelope_Icon.port_202
-    [1]) annotation (Line(points={{192,185.2},{200,185.2},{200,178},{204,178},{
-          204,238},{698,238},{698,256},{710,256},{710,251.86},{718.207,251.86}},
+  connect(vAVReHeat_withCtrl_TRooCon_v2_9.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_203[1]) annotation (Line(points={{274,
+          295.2},{274,388},{740,388},{740,346},{736.314,346},{736.314,299.42}},
         color={0,127,255}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_10.port_b, fRPMultiZone_Envelope_Icon.port_206
-    [1]) annotation (Line(points={{378,181.2},{388,181.2},{388,178},{796.993,
-          178},{796.993,188.72}}, color={0,127,255}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_8.port_b, fRPMultiZone_Envelope_Icon.port_102
-    [1]) annotation (Line(points={{272,0},{298,0},{298,70},{740,70},{740,63.26},
-          {741.186,63.26}}, color={0,127,255}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_3.port_b, fRPMultiZone_Envelope_Icon.port_105
-    [1]) annotation (Line(points={{26,-108},{44,-108},{44,-46},{558,-46},{558,
-          -30},{600,-30},{600,-35.14},{613.979,-35.14}}, color={0,127,255}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_7.port_b, fRPMultiZone_Envelope_Icon.port_103
-    [1]) annotation (Line(points={{188,-106},{196,-106},{196,-52},{716,-52},{
-          716,16},{716.976,16},{716.976,11.6}}, color={0,127,255}));
-  connect(vAVReHeat_withCtrl_TRooCon_v2_2.port_b, fRPMultiZone_Envelope_Icon.port_106
-    [1]) annotation (Line(points={{370,-108},{384,-108},{384,-60},{732,-60},{
-          732,-44.98},{802.738,-44.98}}, color={0,127,255}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_5.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_205[1]) annotation (Line(points={{36,
+          200.24},{44,200.24},{44,200},{52,200},{52,222},{604,222},{604,206},{
+          602.952,206},{602.952,203.48}}, color={0,127,255}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_6.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_202[1]) annotation (Line(points={{192,
+          185.2},{200,185.2},{200,184},{202,184},{202,238},{698,238},{698,256},
+          {710,256},{710,251.86},{716.207,251.86}}, color={0,127,255}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_10.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_206[1]) annotation (Line(points={{378,
+          181.2},{388,181.2},{388,178},{794.993,178},{794.993,188.72}}, color={
+          0,127,255}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_8.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_102[1]) annotation (Line(points={{272,0},
+          {298,0},{298,70},{740,70},{740,63.26},{739.186,63.26}},    color={0,
+          127,255}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_3.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_105[1]) annotation (Line(points={{26,-108},
+          {44,-108},{44,-46},{558,-46},{558,-30},{600,-30},{600,-35.14},{
+          611.979,-35.14}}, color={0,127,255}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_7.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_103[1]) annotation (Line(points={{188,
+          -106},{196,-106},{196,-52},{716,-52},{716,16},{714.976,16},{714.976,
+          11.6}}, color={0,127,255}));
+  connect(vAVReHeat_withCtrl_TRooCon_v2_2.port_b,
+    fRPMultiZone_Envelope_Icon_v1_1.port_106[1]) annotation (Line(points={{370,
+          -108},{384,-108},{384,-60},{732,-60},{732,-44.98},{800.738,-44.98}},
+        color={0,127,255}));
   connect(senPreSup.port, splSupRoo.port_1)
     annotation (Line(points={{-276,-20},{-228,-20}}, color={0,127,255}));
   connect(splSupRoo1.port_3, vAVReHeat_withCtrl_TRooCon_v2_5.port_a)
-    annotation (Line(points={{-68,493},{-56,493},{-56,191.2},{-16,191.2}},
+    annotation (Line(points={{-68,493},{-54,493},{-54,200.24},{-39.4571,200.24}},
         color={0,127,255}));
   connect(splSupRoo1.port_2, splSupRoo2.port_1) annotation (Line(points={{-42,519},
           {-24,519},{-24,510},{-14,510},{-14,517},{-8,517}},
                                         color={0,127,255}));
   connect(splSupRoo2.port_3, vAVReHeat_withCtrl_TRooCon_v2_1.port_a)
-    annotation (Line(points={{18,491},{18,295.2},{38,295.2}}, color={0,127,255}));
+    annotation (Line(points={{18,491},{18,295.2},{38.4,295.2}},
+                                                              color={0,127,255}));
   connect(splSupRoo2.port_2, splSupRoo3.port_1) annotation (Line(points={{44,517},
           {66,517},{66,508},{76,508},{76,517},{86,517}},
                                        color={0,127,255}));
   connect(splSupRoo3.port_3, vAVReHeat_withCtrl_TRooCon_v2_6.port_a)
-    annotation (Line(points={{112,491},{112,185.2},{136,185.2}}, color={0,127,
+    annotation (Line(points={{112,491},{112,185.2},{136.4,185.2}},
+                                                                 color={0,127,
           255}));
   connect(splSupRoo3.port_2, splSupRoo4.port_1) annotation (Line(points={{138,517},
           {158,517},{158,508},{168,508},{168,517},{176,517}},
                                           color={0,127,255}));
   connect(splSupRoo4.port_3, vAVReHeat_withCtrl_TRooCon_v2_9.port_a)
-    annotation (Line(points={{202,491},{202,295.2},{218,295.2}}, color={0,127,
+    annotation (Line(points={{202,491},{202,295.2},{218.4,295.2}},
+                                                                 color={0,127,
           255}));
   connect(splSupRoo4.port_2, vAVReHeat_withCtrl_TRooCon_v2_10.port_a)
-    annotation (Line(points={{228,517},{302,517},{302,181.2},{322,181.2}},
+    annotation (Line(points={{228,517},{302,517},{302,181.2},{322.4,181.2}},
         color={0,127,255}));
   connect(splSupRoo.port_2, splSupRoo5.port_1) annotation (Line(points={{-172,
           -20},{-136,-20},{-136,-208},{-80,-208}},
@@ -592,130 +569,130 @@ equation
     annotation (Line(points={{154,-206},{164,-206},{164,-204},{172,-204},{172,-206},
           {186,-206}},                               color={0,127,255}));
   connect(splSupRoo5.port_3, vAVReHeat_withCtrl_TRooCon_v2_3.port_a)
-    annotation (Line(points={{-54,-182},{-54,-108},{-26,-108}}, color={0,127,
+    annotation (Line(points={{-54,-182},{-54,-108},{-25.6286,-108}},
+                                                                color={0,127,
           255}));
   connect(splSupRoo6.port_3, vAVReHeat_withCtrl_TRooCon_v2_4.port_a)
-    annotation (Line(points={{34,-180},{32,-180},{32,-4},{48,-4}}, color={0,127,
+    annotation (Line(points={{34,-180},{32,-180},{32,-4},{48.3714,-4}},
+                                                                   color={0,127,
           255}));
   connect(splSupRoo7.port_3, vAVReHeat_withCtrl_TRooCon_v2_7.port_a)
-    annotation (Line(points={{128,-180},{128,-106},{136,-106}}, color={0,127,
+    annotation (Line(points={{128,-180},{128,-106},{136.371,-106}},
+                                                                color={0,127,
           255}));
   connect(splSupRoo8.port_3, vAVReHeat_withCtrl_TRooCon_v2_8.port_a)
-    annotation (Line(points={{212,-180},{212,0},{220,0}}, color={0,127,255}));
+    annotation (Line(points={{212,-180},{212,0},{220.371,0}},
+                                                          color={0,127,255}));
   connect(splSupRoo8.port_2, vAVReHeat_withCtrl_TRooCon_v2_2.port_a)
-    annotation (Line(points={{238,-206},{302,-206},{302,-108},{318,-108}},
+    annotation (Line(points={{238,-206},{302,-206},{302,-108},{318.371,-108}},
         color={0,127,255}));
   connect(splSupRoo.port_3, splSupRoo1.port_1) annotation (Line(points={{-200,8},
           {-198,8},{-198,519},{-94,519}},  color={0,127,255}));
-  connect(splRetRoo1.port_1, fRPMultiZone_Envelope_Icon.port_205[2])
-    annotation (Line(points={{646,509},{634.497,509},{634.497,203.48}}, color={0,
+  connect(splRetRoo1.port_1, fRPMultiZone_Envelope_Icon_v1_1.port_205[2])
+    annotation (Line(points={{646,509},{632.497,509},{632.497,203.48}}, color={
+          0,127,255}));
+  connect(splRetRoo1.port_3, fRPMultiZone_Envelope_Icon_v1_1.port_204[2])
+    annotation (Line(points={{671,484},{671,265.8},{655.886,265.8}}, color={0,
           127,255}));
-  connect(splRetRoo1.port_3, fRPMultiZone_Envelope_Icon.port_204[2])
-    annotation (Line(points={{671,484},{671,265.8},{657.886,265.8}}, color={0,127,
-          255}));
   connect(splRetRoo1.port_2, splRetRoo2.port_1) annotation (Line(points={{696,509},
           {716,509},{716,506},{724,506},{724,507},{732,507}},
                                           color={0,127,255}));
-  connect(fRPMultiZone_Envelope_Icon.port_202[2], splRetRoo2.port_3)
-    annotation (Line(points={{744.469,251.86},{757,251.86},{757,482}}, color={0,
+  connect(fRPMultiZone_Envelope_Icon_v1_1.port_202[2], splRetRoo2.port_3)
+    annotation (Line(points={{742.469,251.86},{757,251.86},{757,482}}, color={0,
           127,255}));
   connect(splRetRoo2.port_2, splRetRoo3.port_1) annotation (Line(points={{782,507},
           {800,507},{800,506},{808,506},{808,507},{818,507}},
                                           color={0,127,255}));
-  connect(fRPMultiZone_Envelope_Icon.port_203[2], splRetRoo3.port_3)
-    annotation (Line(points={{762.114,299.42},{843,299.42},{843,482}}, color={0,
+  connect(fRPMultiZone_Envelope_Icon_v1_1.port_203[2], splRetRoo3.port_3)
+    annotation (Line(points={{760.114,299.42},{843,299.42},{843,482}}, color={0,
           127,255}));
   connect(splRetRoo3.port_2, splRetRoo4.port_1) annotation (Line(points={{868,507},
           {880,507},{880,506},{888,506},{888,505},{898,505}},
                                           color={0,127,255}));
-  connect(fRPMultiZone_Envelope_Icon.port_206[2], splRetRoo4.port_3)
-    annotation (Line(points={{819.972,188.72},{923,188.72},{923,480}}, color={0,
+  connect(fRPMultiZone_Envelope_Icon_v1_1.port_206[2], splRetRoo4.port_3)
+    annotation (Line(points={{817.972,188.72},{923,188.72},{923,480}}, color={0,
           127,255}));
-  connect(fRPMultiZone_Envelope_Icon.port_105[2], splRetRoo5.port_1)
-    annotation (Line(points={{638.6,-35.14},{638.6,-209},{656,-209}}, color={0,127,
-          255}));
-  connect(fRPMultiZone_Envelope_Icon.port_104[2], splRetRoo5.port_3)
-    annotation (Line(points={{634.086,38.66},{681,38.66},{681,-184}}, color={0,127,
-          255}));
+  connect(fRPMultiZone_Envelope_Icon_v1_1.port_105[2], splRetRoo5.port_1)
+    annotation (Line(points={{636.6,-35.14},{636.6,-209},{656,-209}}, color={0,
+          127,255}));
+  connect(fRPMultiZone_Envelope_Icon_v1_1.port_104[2], splRetRoo5.port_3)
+    annotation (Line(points={{632.086,38.66},{681,38.66},{681,-184}}, color={0,
+          127,255}));
   connect(splRetRoo5.port_2, splRetRoo6.port_1) annotation (Line(points={{706,-209},
           {718,-209},{718,-210},{726,-210},{726,-209},{742,-209}},
                                              color={0,127,255}));
-  connect(fRPMultiZone_Envelope_Icon.port_103[2], splRetRoo6.port_3)
-    annotation (Line(points={{740.776,11.6},{767,11.6},{767,-184}}, color={0,127,
-          255}));
+  connect(fRPMultiZone_Envelope_Icon_v1_1.port_103[2], splRetRoo6.port_3)
+    annotation (Line(points={{738.776,11.6},{767,11.6},{767,-184}}, color={0,
+          127,255}));
   connect(splRetRoo6.port_2, splRetRoo7.port_1) annotation (Line(points={{792,-209},
           {802,-209},{802,-210},{810,-210},{810,-209},{822,-209}},
                                              color={0,127,255}));
-  connect(fRPMultiZone_Envelope_Icon.port_102[2], splRetRoo7.port_3)
-    annotation (Line(points={{764.166,63.26},{847,63.26},{847,-184}}, color={0,127,
-          255}));
+  connect(fRPMultiZone_Envelope_Icon_v1_1.port_102[2], splRetRoo7.port_3)
+    annotation (Line(points={{762.166,63.26},{847,63.26},{847,-184}}, color={0,
+          127,255}));
   connect(splRetRoo7.port_2, splRetRoo8.port_1) annotation (Line(points={{872,-209},
           {882,-209},{882,-210},{890,-210},{890,-209},{902,-209}},
                                              color={0,127,255}));
-  connect(fRPMultiZone_Envelope_Icon.port_106[2], splRetRoo8.port_3)
-    annotation (Line(points={{827.359,-44.98},{927,-44.98},{927,-184}}, color={0,
-          127,255}));
+  connect(fRPMultiZone_Envelope_Icon_v1_1.port_106[2], splRetRoo8.port_3)
+    annotation (Line(points={{825.359,-44.98},{927,-44.98},{927,-184}}, color={
+          0,127,255}));
   connect(splRetRoo8.port_2, splRetRoo.port_3) annotation (Line(points={{952,
           -209},{1006,-209},{1006,122},{1044,122}},
                                               color={0,127,255}));
   connect(splRetRoo4.port_2, splRetRoo.port_2) annotation (Line(points={{948,505},
           {1072,505},{1072,150}}, color={0,127,255}));
 
-  connect(TRooSec.u, fRPMultiZone_Envelope_Icon.TrooVecSec) annotation (Line(
-        points={{-304.2,367},{-350,367},{-350,566},{1112,566},{1112,229.72},{
-          964.414,229.72}},
-                    color={0,0,0},
+  connect(TRooSec.u, fRPMultiZone_Envelope_Icon_v1_1.TrooVecSec) annotation (
+      Line(
+      points={{-304.2,369},{-350,369},{-350,566},{1112,566},{1112,229.72},{
+          962.414,229.72}},
+      color={0,0,0},
       pattern=LinePattern.Dash));
-  connect(TRooFir.u, fRPMultiZone_Envelope_Icon.TrooVecFir) annotation (Line(
-        points={{-300.2,-147},{-350,-147},{-350,-336},{1112,-336},{1112,29.64},
-          {966.055,29.64}},color={0,0,0},
+  connect(TRooFir.u, fRPMultiZone_Envelope_Icon_v1_1.TrooVecFir) annotation (
+      Line(
+      points={{-300.2,-147},{-350,-147},{-350,-336},{1112,-336},{1112,29.64},{
+          964.055,29.64}},
+      color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooFir.y5[1], vAVReHeat_withCtrl_TRooCon_v2_3.TRoo) annotation (Line(
-      points={{-228.9,-163.74},{-76,-163.74},{-76,-66},{-6.93333,-66},{-6.93333,
-          -80.5}},
+      points={{-228.9,-163.74},{-76,-163.74},{-76,-66},{1.85714,-66},{1.85714,
+          -79}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(HeaterControl.y, eleHea.on) annotation (Line(points={{-518.2,130},{
-          -450.6,130},{-450.6,-10.5}}, color={255,0,255}));
+          -450.6,130},{-450.6,-8.5}},  color={255,0,255}));
   connect(TRooFir.y4[1], vAVReHeat_withCtrl_TRooCon_v2_4.TRoo) annotation (Line(
-      points={{-228.9,-152.58},{-68,-152.58},{-68,40},{67.0667,40},{67.0667,
-          23.5}},
+      points={{-228.9,-152.58},{-68,-152.58},{-68,40},{75.8571,40},{75.8571,25}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooFir.y3[1], vAVReHeat_withCtrl_TRooCon_v2_7.TRoo) annotation (Line(
-      points={{-228.9,-141.42},{-82,-141.42},{-82,-62},{155.067,-62},{155.067,
-          -78.5}},
+      points={{-228.9,-141.42},{-82,-141.42},{-82,-62},{163.857,-62},{163.857,
+          -77}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooFir.y2[1], vAVReHeat_withCtrl_TRooCon_v2_8.TRoo) annotation (Line(
-      points={{-228.9,-130.26},{-86,-130.26},{-86,44},{239.067,44},{239.067,
-          27.5}},
+      points={{-228.9,-130.26},{-86,-130.26},{-86,44},{247.857,44},{247.857,29}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooFir.y6[1], vAVReHeat_withCtrl_TRooCon_v2_2.TRoo) annotation (Line(
-      points={{-228.9,-174.9},{296,-174.9},{296,-64},{337.067,-64},{337.067,
-          -80.5}},
-      color={0,0,0},
-      pattern=LinePattern.Dash));
-  connect(TRooSec.y5[1], vAVReHeat_withCtrl_TRooCon_v2_5.TRoo) annotation (Line(
-      points={{-232.9,350.26},{4.53333,350.26},{4.53333,224.2}},
+      points={{-228.9,-174.9},{296,-174.9},{296,-64},{345.857,-64},{345.857,-79}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooSec.y4[1], vAVReHeat_withCtrl_TRooCon_v2_1.TRoo) annotation (Line(
-      points={{-232.9,361.42},{58.5333,361.42},{58.5333,328.2}},
+      points={{-232.9,363.42},{68,363.42},{68,330}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooSec.y2[1], vAVReHeat_withCtrl_TRooCon_v2_6.TRoo) annotation (Line(
-      points={{-232.9,383.74},{156.533,383.74},{156.533,218.2}},
+      points={{-232.9,385.74},{166,385.74},{166,220}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooSec.y3[1], vAVReHeat_withCtrl_TRooCon_v2_9.TRoo) annotation (Line(
-      points={{-232.9,372.58},{238.533,372.58},{238.533,328.2}},
+      points={{-232.9,374.58},{248,374.58},{248,330}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooSec.y6[1], vAVReHeat_withCtrl_TRooCon_v2_10.TRoo) annotation (
       Line(
-      points={{-232.9,339.1},{342.533,339.1},{342.533,214.2}},
+      points={{-232.9,341.1},{352,341.1},{352,216}},
       color={0,0,0},
       pattern=LinePattern.Dash));
 
@@ -735,17 +712,9 @@ equation
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(TOA,DX. TConIn) annotation (Line(points={{-734,159},{-660,159},{-660,2.6},
-          {-642.2,2.6}},              color={0,0,127}));
-  connect(SupAirTemSP.y, conDX.u_s) annotation (Line(
-      points={{-625.6,447},{-610,447},{-610,448},{-589.2,448}},
-      color={217,67,180},
-      pattern=LinePattern.Dash));
+  connect(TOA,DX. TConIn) annotation (Line(points={{-734,159},{-660,159},{-660,
+          8.6},{-644.2,8.6}},         color={0,0,127}));
 
-  connect(conDX.y, DX.speRat) annotation (Line(points={{-506.4,448},{-468,448},{
-          -468,230},{-642,230},{-642,128},{-642.2,128},{-642.2,33.6}},
-                                                       color={0,0,0},
-      pattern=LinePattern.Dash));
   connect(mixBox.port_Sup, senPreMix.port) annotation (Line(points={{-814,-18.8},
           {-814,-16.4},{-810,-16.4},{-810,-14}}, color={0,127,255}));
   connect(senPreSup_.y, minus.u1) annotation (Line(
@@ -766,92 +735,104 @@ equation
   connect(confan.y, fan.y) annotation (Line(points={{-772.4,312},{-756,312},{
           -756,22.2},{-755,22.2}}, color={0,0,0},
       pattern=LinePattern.Dash));
-  connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_5.TRooCooSet)
-    annotation (Line(points={{-110.6,459},{16.6667,459},{16.6667,223.6}}, color=
-         {0,0,127}));
-  connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_1.TRooCooSet)
-    annotation (Line(points={{-110.6,459},{70.6667,459},{70.6667,327.6}}, color=
-         {0,0,127}));
-  connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_6.TRooCooSet)
-    annotation (Line(points={{-110.6,459},{168.667,459},{168.667,217.6}}, color=
-         {0,0,127}));
-  connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_9.TRooCooSet)
-    annotation (Line(points={{-110.6,459},{250.667,459},{250.667,327.6}}, color=
-         {0,0,127}));
-  connect(CoolingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_10.TRooCooSet)
-    annotation (Line(points={{-110.6,459},{354.667,459},{354.667,213.6}}, color=
-         {0,0,127}));
-  connect(CoolingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_3.TRooCooSet)
-    annotation (Line(points={{-102.6,129},{4.33333,129},{4.33333,-81}}, color={
-          0,0,127}));
-  connect(CoolingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_4.TRooCooSet)
-    annotation (Line(points={{-102.6,129},{78.3333,129},{78.3333,23}}, color={0,
-          0,127}));
-  connect(CoolingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_7.TRooCooSet)
-    annotation (Line(points={{-102.6,129},{166.333,129},{166.333,-79}}, color={
-          0,0,127}));
-  connect(CoolingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_8.TRooCooSet)
-    annotation (Line(points={{-102.6,129},{250.333,129},{250.333,27}}, color={0,
-          0,127}));
-  connect(CoolingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_2.TRooCooSet)
-    annotation (Line(points={{-102.6,129},{348.333,129},{348.333,-81}}, color={
-          0,0,127}));
-  connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_5.TRooHeaSet)
-    annotation (Line(points={{-110.6,407},{-12.7333,407},{-12.7333,223}}, color=
-         {0,0,127}));
-  connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_1.TRooHeaSet)
-    annotation (Line(points={{-110.6,407},{41.2667,407},{41.2667,327}}, color={
-          0,0,127}));
-  connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_6.TRooHeaSet)
-    annotation (Line(points={{-110.6,407},{139.267,407},{139.267,217}}, color={
-          0,0,127}));
-  connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_9.TRooHeaSet)
-    annotation (Line(points={{-110.6,407},{221.267,407},{221.267,327}}, color={
-          0,0,127}));
-  connect(HeatingSP2.y[1], vAVReHeat_withCtrl_TRooCon_v2_10.TRooHeaSet)
-    annotation (Line(points={{-110.6,407},{325.267,407},{325.267,213}}, color={
-          0,0,127}));
-  connect(HeatingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_3.TRooHeaSet)
-    annotation (Line(points={{-102.6,79},{-22.9667,79},{-22.9667,-81.5}}, color=
-         {0,0,127}));
-  connect(HeatingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_4.TRooHeaSet)
-    annotation (Line(points={{-102.6,79},{51.0333,79},{51.0333,22.5}}, color={0,
-          0,127}));
-  connect(HeatingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_7.TRooHeaSet)
-    annotation (Line(points={{-102.6,79},{139.033,79},{139.033,-79.5}}, color={
-          0,0,127}));
-  connect(HeatingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_8.TRooHeaSet)
-    annotation (Line(points={{-102.6,79},{223.033,79},{223.033,26.5}}, color={0,
-          0,127}));
-  connect(HeatingSP1.y[1], vAVReHeat_withCtrl_TRooCon_v2_2.TRooHeaSet)
-    annotation (Line(points={{-102.6,79},{321.033,79},{321.033,-81.5}}, color={
-          0,0,127}));
   connect(fan.port_b, T_before_CC.port_a) annotation (Line(points={{-720,-15},{
           -710,-15},{-710,-19},{-700,-19}},
                                        color={0,127,255}));
-  connect(T_before_CC.port_b, DX.port_a) annotation (Line(points={{-666,-19},{-648,
-          -19},{-648,-16},{-636,-16}}, color={0,127,255}));
-  connect(DX.port_b, T_after_CC.port_a) annotation (Line(points={{-512,-16},{-504,
-          -16},{-504,-15},{-496,-15}},      color={0,127,255}));
+  connect(T_before_CC.port_b, DX.port_a) annotation (Line(points={{-666,-19},{
+          -648,-19},{-648,-10},{-638,-10}},
+                                       color={0,127,255}));
+  connect(DX.port_b, T_after_CC.port_a) annotation (Line(points={{-514,-10},{
+          -504,-10},{-504,-15},{-496,-15}}, color={0,127,255}));
   connect(T_after_CC.port_b, eleHea.port_a) annotation (Line(points={{-462,-15},
-          {-452,-15},{-452,-21},{-444,-21}}, color={0,127,255}));
-  connect(conDX.u_m, T_after_CC.T) annotation (Line(
-      points={{-546,404.8},{-546,266},{-482,266},{-482,14.7},{-479,14.7}},
-      color={0,0,127},
-      pattern=LinePattern.Dash));
-  connect(eleHea.port_b, TSA.port_a) annotation (Line(points={{-378,-21},{-363,
-          -21},{-363,-21},{-348,-21}}, color={0,127,255}));
+          {-452,-15},{-452,-19},{-444,-19}}, color={0,127,255}));
+  connect(eleHea.port_b, TSA.port_a) annotation (Line(points={{-378,-19},{-363,
+          -19},{-363,-21},{-348,-21}}, color={0,127,255}));
   connect(TSA.port_b, senPreSup.port) annotation (Line(points={{-314,-21},{-295,
           -21},{-295,-20},{-276,-20}}, color={0,127,255}));
   connect(senMret.port_a, TRA.port_a) annotation (Line(points={{-510,-298},{
           -359,-298},{-359,-301},{-204,-301}}, color={0,127,255}));
   connect(TRA.port_b, splRetRoo.port_1) annotation (Line(points={{-170,-301},{
           1072,-301},{1072,94}}, color={0,127,255}));
+  connect(supplyTempCon.y1, DX.speRat) annotation (Line(
+      points={{-584.611,338.686},{-584.611,268},{-600,268},{-600,64},{-644.2,64},
+          {-644.2,39.6}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
+  connect(T_after_CC.T, supplyTempCon.u_m1) annotation (Line(
+      points={{-479,14.7},{-479,150},{-480,150},{-480,284},{-619.856,284},{
+          -619.856,310.914}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_5.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-23.7143,290.38},{-23.7143,
+          236.2}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_1.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-24,290.38},{-24,352},{50,352},
+          {50,330}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_6.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-22,290.38},{-22,402},{148,402},
+          {148,220}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_9.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-22,290.38},{-22,402},{230,402},
+          {230,330}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_10.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-22,290.38},{-22,402},{334,402},
+          {334,216}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_3.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-60,290.38},{-60,100},{-14.8571,
+          100},{-14.8571,-79}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_4.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-58,290.38},{-58,100},{59.1429,
+          100},{59.1429,25}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_7.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-58,290.38},{-58,100},{147.143,
+          100},{147.143,-77}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_8.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-142,290.38},{-142,292},{-58,
+          292},{-58,100},{232,100},{232,64},{231.143,64},{231.143,29}}, color={
+          0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_2.TRooHeaSet)
+    annotation (Line(points={{-227.508,290.38},{-144,290.38},{-144,292},{-60,
+          292},{-60,100},{329.143,100},{329.143,-79}}, color={0,0,127}));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_5.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{20,260.8},{20,250},{19.7143,250},
+          {19.7143,236.2}}, color={0,0,127}));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_9.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{20,260.8},{20,386},{262,386},{
+          262,330}}, color={0,0,127}));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_10.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{20,260.8},{20,386},{366,386},{
+          366,216}}, color={0,0,127}));
+  connect(thermostat_T.HeatingSet, vAVReHeat_withCtrl_TRooCon_v2_1.TRooCooSet)
+    annotation (Line(points={{-227.508,290.38},{6,290.38},{6,356},{84,356},{84,
+          330},{82,330}}, color={0,0,127}));
+  connect(TRooSec.y5[1], vAVReHeat_withCtrl_TRooCon_v2_5.TRoo) annotation (Line(
+      points={{-232.9,352.26},{0.714286,352.26},{0.714286,236.2}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_6.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{20,260.8},{20,386},{180,386},{
+          180,220}}, color={0,0,127}));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_3.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{-76,260.8},{-76,80},{14.8571,80},
+          {14.8571,-79}}, color={0,0,127}));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_4.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{-74,260.8},{-74,78},{88.8571,78},
+          {88.8571,25}}, color={0,0,127}));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_7.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{-74,260.8},{-74,78},{176.857,78},
+          {176.857,-77}}, color={0,0,127}));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_8.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{-76,260.8},{-76,78},{260.857,78},
+          {260.857,29}}, color={0,0,127}));
+  connect(thermostat_T.CoolingSet, vAVReHeat_withCtrl_TRooCon_v2_2.TRooCooSet)
+    annotation (Line(points={{-226.385,260.8},{-76,260.8},{-76,78},{358.857,78},
+          {358.857,-79}}, color={0,0,127}));
    annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false, extent={{-1160,-420},{1160,620}})),
     experiment(
-      StartTime=16070400,
-      StopTime=16156800,
+      StartTime=15984000,
+      StopTime=16070400,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"),
     __Dymola_Commands(file="Example/RTU_VAV_Control_Example.mos"),
