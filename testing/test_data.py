@@ -290,7 +290,7 @@ class PartialDataManagerTest(object):
         # Check the data retrieved with the manager
         df_man = pd.DataFrame(data_dict).set_index('time')
         self.compare_ref_timeseries_df(df_man, self.ref_data_index)
-        
+
     def test_get_data_over_year(self):
         '''Check that the data manager can retrieve the test case data
         when an arbitrary time index across the year is provided.
@@ -298,7 +298,7 @@ class PartialDataManagerTest(object):
         '''
 
         # Define index
-        index = np.arange(362*24*3600, (362+7)*24*3600, 321)
+        index = np.arange(364*24*3600, (364+2)*24*3600, 1800)
 
         # Get the data
         data_dict = self.man.get_data(index=index)
