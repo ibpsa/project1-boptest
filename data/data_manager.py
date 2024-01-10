@@ -340,7 +340,7 @@ class Data_Manager(object):
         # Reindex to the desired index
         start = index[0]
         # 1 year in (s)
-        year = 31536000 
+        year = 31536000
         # Starting year
         year_start = int(np.floor(start/year))*year
         # Normalizing index with respect to starting year
@@ -361,7 +361,7 @@ class Data_Manager(object):
         else:
             data_slice_reindexed = data_slice.reindex(index_norm)
             data_slice_reindexed = self.interpolate_data(data_slice_reindexed,index_norm)
-        # Add starting year back to index desired by user 
+        # Add starting year back to index desired by user
         data_slice_reindexed.index = data_slice_reindexed.index + year_start
 
         if plot:
@@ -519,21 +519,21 @@ class Data_Manager(object):
             data_metadata[key] = metadata
 
         return data_metadata
-    
+
     def interpolate_data(self,df,index):
         '''Interpolate testcase data.
 
         Parameters
         ----------
         df: pandas.DataFrame
-        Dataframe that needs to be interpolated
+            Dataframe that needs to be interpolated
         index: np.array()
-        Index to use to get interpolated data
+            Index to use to get interpolated data
 
         Returns
         -------
         df: pandas.DataFrame
-        Interpolated dataframe
+            Interpolated dataframe
 
         '''
         for key in df.keys():
@@ -545,7 +545,7 @@ class Data_Manager(object):
             else:
                 f = interpolate.interp1d(self.case.data.index,
                     self.case.data[key], kind='zero')
-            df.loc[:,key] = f(index) 
+            df.loc[:,key] = f(index)
         return df
 
 if __name__ == "__main__":
