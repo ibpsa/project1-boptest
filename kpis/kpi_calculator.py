@@ -215,6 +215,37 @@ class KPI_Calculator(object):
 
         return ckpi
 
+    def get_kpis_disaggregated(self, price_scenario='Constant'):
+            '''Return the core KPIs of a test case disaggregated and 
+            with absolute values (not normalized by area or zone) 
+            to see the contributions of each element to each KPI. 
+            Parameters
+            ----------
+            price_scenario : str, optional
+                Price scenario for cost kpi calculation.
+                'Constant' or 'Dynamic' or 'HighlyDynamic'.
+                Default is 'Constant'.
+            Returns
+            -------
+            dkpi = dict
+                Dictionary with the core KPIs disaggregated and 
+                with absolute values.
+            '''
+
+            _ = self.get_core_kpis(price_scenario=price_scenario)
+
+            dkpi = OrderedDict()
+            dkpi['tdis'] = self.tdis_dict
+            dkpi['idis'] = self.idis_dict 
+            dkpi['ener'] = self.ener_dict
+            dkpi['cost'] = self.cost_dict
+            dkpi['emis'] = self.emis_dict
+            dkpi['pele'] = self.pele_dict
+            dkpi['pgas'] = self.pgas_dict
+            dkpi['pdih'] = self.pdih_dict
+
+            return dkpi
+
     def get_thermal_discomfort(self):
         '''The thermal discomfort is the integral of the deviation
         of the temperature with respect to the predefined comfort
