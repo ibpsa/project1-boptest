@@ -9,6 +9,7 @@ Released on xx/xx/xxxx.
 - Add materials for RLEM23 workshop at ``docs/workshops/RlemWorkshop_20231112``. This is for [#585](https://github.com/ibpsa/project1-boptest/issues/585).
 - Change JModelica docker container address  in ``testing/Dockerfile``. This is for [#590](https://github.com/ibpsa/project1-boptest/issues/590).
 - Specify the Python version (3.7) used for building the wrapper to execute the example JavaScript controllers in the unit test. This is for [#594](https://github.com/ibpsa/project1-boptest/issues/594).
+- Implement method to get disaggregated KPIs with absolute values. This enables to make a more comprehensive analysis of which elements are contributing to each KPI. This is for [#604](https://github.com/ibpsa/project1-boptest/issues/604).
 
 ## BOPTEST v0.5.0
 
