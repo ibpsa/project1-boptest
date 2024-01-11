@@ -21,6 +21,7 @@ from datetime import datetime
 import uuid
 import os
 import json
+import array as a
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -73,8 +74,8 @@ class TestCase(object):
         # Get building area
         self.area = self.config_json['area']
         # Get available control inputs and outputs
-        self.input_names = self.fmu.get_model_variables(causality = 2).keys()
-        self.output_names = self.fmu.get_model_variables(causality = 3).keys()
+        self.input_names = list(self.fmu.get_model_variables(causality = 2).keys())
+        self.output_names = list(self.fmu.get_model_variables(causality = 3).keys())
         self.forecast_names = list(self.data.keys())
         # Set default communication step
         self.set_step(self.config_json['step'])
@@ -82,15 +83,17 @@ class TestCase(object):
         self.__initilize_data()
         # Set default fmu simulation options
         self.options = self.fmu.simulate_options()
-        self.options['CVode_options']['rtol'] = 1e-6
-        self.options['CVode_options']['store_event_points'] = False
         self.options['filter'] = self.output_names + self.input_names
         # Instantiate a KPI calculator for the test case
         self.cal = KPI_Calculator(testcase=self)
         # Initialize test case
         self.initialize(self.config_json['start_time'], self.config_json['warmup_period'])
         # Set default scenario
+        self.config_json['scenario']['solar_uncertainty']=None #todo
+        self.config_json['scenario']['temperature_uncertainty']=None #todo
+        self.config_json['scenario']['seed'] = None #todo
         self.set_scenario(self.config_json['scenario'])
+        self.uncertainty_params = self.load_uncertainty_params()
 
     def __initilize_data(self):
         '''Initializes objects for simulation data storage.
@@ -114,7 +117,7 @@ class TestCase(object):
         self.outputs_metadata = self._get_var_metadata(self.fmu, self.output_names)
         self.forecasts_metadata = self.data_manager.get_data_metadata()
         # Outputs data
-        self.y = {'time': np.array([])}
+        self.y = {'time': a.array('d',[])}
         for key in self.output_names:
             # Do not store outputs that are current values of control inputs
             flag = False
@@ -127,12 +130,12 @@ class TestCase(object):
                 # from outputs metadata dictionary
                 self.outputs_metadata.pop(key)
             else:
-                self.y[key] = np.array([])
+                self.y[key] = a.array('d',[])
         self.y_store = copy.deepcopy(self.y)
         # Inputs data
-        self.u = {'time':np.array([])}
+        self.u = {'time':a.array('d',[])}
         for key in self.input_names:
-            self.u[key] = np.array([])
+            self.u[key] = a.array('d',[])
         self.u_store = copy.deepcopy(self.u)
 
     def __simulation(self,start_time,end_time,input_object=None):
@@ -158,7 +161,13 @@ class TestCase(object):
         # Set fmu initialization option
         self.options['initialize'] = self.initialize_fmu
         # Set sample rate
-        self.options['ncp'] = int((end_time-start_time)/30)
+        step = end_time - start_time
+        if step >= 30:
+            self.options['ncp'] = int((end_time-start_time)/30)
+        elif step == 0:
+            pass
+        elif (step < 30) and (step > 0):
+            self.options['ncp'] = int((end_time-start_time)/step)
         # Simulate fmu
         try:
             res = self.fmu.simulate(start_time=start_time,
@@ -202,7 +211,12 @@ class TestCase(object):
         for key in self.y.keys():
             self.y[key] = res[key][-1]
             if store:
-                self.y_store[key] = np.append(self.y_store[key], res[key][i:])
+                # Handle initialization of cs fmu generating multiple points for the same time
+                if res['time'][0] == res['time'][-1]:
+                    self.y_store[key].append(res[key][-1])
+                else:
+                    for x in res[key][i:]:
+                        self.y_store[key].append(x)
         # Store control signals (will be baseline if not activated, test controller input if activated)
         for key in self.u.keys():
             # Replace '_u' and '_y' for key used to collect data and don't overwrite time
@@ -214,7 +228,12 @@ class TestCase(object):
                 key_data = key
             self.u[key] = res[key_data][-1]
             if store:
-                self.u_store[key] = np.append(self.u_store[key], res[key_data][i:])
+                # Handle initialization of cs fmu generating multiple points for the same time
+                if res['time'][0] == res['time'][-1]:
+                    self.u_store[key].append(res[key_data][-1])
+                else:
+                    for x in res[key_data][i:]:
+                        self.u_store[key].append(x)
 
     def advance(self, u):
         '''Advances the test case model simulation forward one step.
@@ -224,7 +243,7 @@ class TestCase(object):
         u : dict
             Defines the control input data to be used for the step.
             {<input_name>_activate : bool, int, float, or str convertable to 1 or 0
-             <input_name>_u        : int or float}
+             <input_name>_u        : int or float, or str convertable to float}
 
         Returns
         -------
@@ -273,7 +292,7 @@ class TestCase(object):
                         message = "Unexpected input variable: {}.".format(key)
                         logging.error(message)
                         return status, message, payload
-                    if key != 'time' and u[key]:
+                    if (key != 'time' and (u[key] != None)):
                         if '_activate' in key:
                             try:
                                 if float(u[key]) == 1:
@@ -341,6 +360,9 @@ class TestCase(object):
                     message = alert_message
                 # Advance start time
                 self.start_time = self.final_time
+                # Check if scenario is over
+                if self.start_time >= self.end_time:
+                    self.scenario_end = True
                 # Log and return
                 logging.info(message)
                 return status, message, payload
@@ -354,7 +376,6 @@ class TestCase(object):
                 return status, message, payload
         else:
             # Simulation at end time
-            self.scenario_end = True
             payload = dict()
             message = "End of test case scenario time period reached."
             logging.info(message)
@@ -681,11 +702,38 @@ class TestCase(object):
                 payload['time'] = self.u_store['time']
             # Get correct time
             if payload and 'time' in payload:
-                time1 = payload['time']
+                # Find min and max time
+                min_t = min(payload['time'])
+                max_t = max(payload['time'])
+                # If min time is before start time
+                if min_t < start_time:
+                    # Check if start time in time array
+                    if start_time in payload['time']:
+                        t1 = start_time
+                    # Otherwise, find first time in time array after start time
+                    else:
+                        np_t = np.array(payload['time'])
+                        t1 = np_t[np_t>=start_time][0]
+                # Otherwise, first time is min time
+                else:
+                    t1 = min_t
+                # If max time is after final time
+                if max_t > final_time:
+                    # Check if final time in time array
+                    if final_time in payload['time']:
+                        t2 = final_time
+                    # Otherwise, find last time in time array before final time
+                    else:
+                        np_t = np.array(payload['time'])
+                        t2 = np_t[np_t<=final_time][-1]
+                # Otherwise, last time is max time
+                else:
+                    t2 = max_t
+                # Use found first and last time to find corresponding indecies
+                i1 = payload['time'].index(t1)
+                i2 = payload['time'].index(t2)+1
                 for key in (point_names +['time']):
-                    payload[key] = payload[key][time1>=start_time]
-                    time2 = time1[time1>=start_time]
-                    payload[key] = payload[key][time2<=final_time]
+                    payload[key] = payload[key][i1:i2]
         except:
             status = 500
             message = "Failed to query simulation results: {}".format(traceback.format_exc())
@@ -780,7 +828,7 @@ class TestCase(object):
 
         return status, message, payload
 
-    def get_forecast(self, point_names, horizon, interval):
+    def get_forecast(self, point_names, horizon, interval, temperature_uncertainty=None, solar_uncertainty=None):
         '''Returns the test case data forecast
 
         Parameters
@@ -809,9 +857,46 @@ class TestCase(object):
 
         '''
 
+
         # Get the forecast
         status = 200
         message = "Queried the forecast data successfully."
+
+        if (temperature_uncertainty!=None and 'TDryBul' not in self.forecast_names) or \
+                (solar_uncertainty!=None and 'HGloHor' not in self.forecast_names):
+            payload = None
+            missing_variables = []
+            if temperature_uncertainty and 'TDryBul' not in self.forecast_names:
+                missing_variables.append('TDryBul for temperature uncertainty')
+            if solar_uncertainty and 'HGloHor' not in self.forecast_names:
+                missing_variables.append('HGloHor for solar uncertainty')
+
+            status = 400
+            message = "Set the forecast uncertainty, but the forecast variables do not include: {}.".format(
+                ', '.join(missing_variables))
+            logging.error(message)
+            return status, message, payload
+
+        if 'temperature_uncertainty' in self.scenario or 'solar_uncertainty' in self.scenario:
+            if (self.scenario.get('temperature_uncertainty') and temperature_uncertainty) or (self.scenario.get('solar_uncertainty') and solar_uncertainty):
+                payload = None
+                status = 400
+
+                message = "The scenario configuration already includes specific uncertainty settings. "
+                if (self.scenario.get('temperature_uncertainty') and temperature_uncertainty):
+                    message += "'temperature_uncertainty' is already set to '{}', further overriding of 'temperature_uncertainty' is not allowed. ".format(
+                        self.scenario['temperature_uncertainty'])
+                if (self.scenario.get('solar_uncertainty') and solar_uncertainty):
+                    message += "'solar_uncertainty' is already set to '{}', further overriding of 'solar_uncertainty' is not allowed. ".format(
+                        self.scenario['solar_uncertainty'])
+                logging.error(message)
+                return status, message, payload
+
+            if self.scenario.get('temperature_uncertainty'):
+                temperature_uncertainty=self.scenario['temperature_uncertainty']
+            if self.scenario.get('solar_uncertainty'):
+                solar_uncertainty=self.scenario['solar_uncertainty']
+
         # Check inputs
         try:
             horizon = float(horizon)
@@ -829,18 +914,44 @@ class TestCase(object):
             message = "Invalid value {} for parameter interval. Value must be a float, integer, or string able to be converted to a float, but is {}.".format(interval, type(interval))
             logging.error(message)
             return status, message, payload
-        if horizon <= 0:
-            payload = None
-            status = 400
-            message = "Invalid value {} for parameter horizon. Value must be positive.".format(horizon)
-            logging.error(message)
-            return status, message, payload
+
         if interval <= 0:
             payload = None
             status = 400
             message = "Invalid value {} for parameter interval. Value must be positive.".format(interval)
             logging.error(message)
             return status, message, payload
+            # Check the temperature_uncertainty value
+        # if temperature_uncertainty and 'TDryBul' not in point_names:
+        #     payload = None
+        #     status = 400
+        #     message = "Temperature uncertainty provided but 'TDryBul' is missing in point_names."
+        #     logging.error(message)
+        #     return status, message, payload
+
+        # if solar_uncertainty and 'HGloHor' not in point_names:
+        #     payload = None
+        #     status = 400
+        #     message = "Solar uncertainty provided but 'HGloHor' is missing in point_names."
+        #     logging.error(message)
+        #     return status, message, payload
+        allowed_uncertainties = [None, 'low', 'medium', 'high']
+        if temperature_uncertainty not in allowed_uncertainties:
+            payload = None
+            status = 400
+            message = "Invalid value for temperature_uncertainty. Allowed values are: {}".format(
+                allowed_uncertainties[1:])
+            logging.error(message)
+            return status, message, payload
+
+        # Check the solar_uncertainty value
+        if solar_uncertainty not in allowed_uncertainties:
+            payload = None
+            status = 400
+            message = "Invalid value for solar_uncertainty. Allowed values are: {}".format(allowed_uncertainties[1:])
+            logging.error(message)
+            return status, message, payload
+
         wrong_points = []
         for point in point_names:
             if point not in self.forecast_names:
@@ -851,10 +962,36 @@ class TestCase(object):
             message = "Invalid point name(s) {} in parameter point_names.  Check list of available forecast points.".format(wrong_points)
             logging.error(message)
             return status, message, payload
+        # Check for missing point_names related to uncertainty parameters
+
+        temperature_params = {
+            "F0": 0, "K0": 0, "F": 0, "K": 0, "mu": 0
+        }
+
+        solar_params = {
+            "ag0": 0, "bg0": 0, "phi": 0, "ag": 0, "bg": 0
+        }
+
+        if temperature_uncertainty is not None:
+            temperature_params.update(self.uncertainty_params['temperature'][temperature_uncertainty])
+
+        if solar_uncertainty is not None:
+            solar_params.update(self.uncertainty_params['solar'][solar_uncertainty])
+
         try:
-            payload = self.forecaster.get_forecast(point_names,
-                                                   horizon=horizon,
-                                                   interval=interval)
+            if self.scenario['seed'] is not None :
+                applied_seed=int(self.scenario['seed']+self.start_time)
+            else:
+                applied_seed=None
+            payload = self.forecaster.get_forecast(
+                point_names,
+                horizon=horizon,
+                interval=interval,
+                weather_temperature_dry_bulb=temperature_params,
+                weather_solar_global_horizontal=solar_params,
+                seed=applied_seed
+            )
+
         except:
             status = 500
             message = "Failed to query the test case forecast data: {}".format(traceback.format_exc())
@@ -871,7 +1008,9 @@ class TestCase(object):
         ----------
         scenario : dict
             {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
-             'time_period': see available <str> keys for test case
+             'time_period': see available <str> keys for test case,
+             'temperature_uncertainty':<'low' or 'medium' or 'high'>,
+             'solar_uncertainty':<'low' or 'medium' or 'high'>
             }
             If any value is None, it will not change existing.
 
@@ -886,7 +1025,9 @@ class TestCase(object):
             Includes the detailed debug information
         payload: dict
             {'electricity_price': if succeeded in changing then True, else None,
-             'time_period': if succeeded then initial measurements, else None
+             'time_period': if succeeded then initial measurements, else None,
+             'temperature_uncertainty': if succeeded in changing then True, else None,
+             'solar_uncertainty': if succeeded in changing then True, else None
             }
         '''
 
@@ -894,11 +1035,32 @@ class TestCase(object):
         message = "Test case scenario was set successfully."
         payload = {
             'electricity_price': None,
-            'time_period': None
+            'time_period': None,
+            'temperature_uncertainty': None,
+            'solar_uncertainty': None,
+            'seed':None,
         }
+
+
         if not hasattr(self, 'scenario'):
             self.scenario = {}
         try:
+
+            if (scenario['temperature_uncertainty'] and 'TDryBul' not in self.forecast_names) or \
+                    (scenario['solar_uncertainty'] and 'HGloHor' not in self.forecast_names):
+
+                missing_variables = []
+                if scenario['temperature_uncertainty'] and 'TDryBul' not in self.forecast_names:
+                    missing_variables.append('TDryBul for temperature uncertainty')
+                if scenario['solar_uncertainty'] and 'HGloHor' not in self.forecast_names:
+                    missing_variables.append('HGloHor for solar uncertainty')
+
+                status = 400
+                message = "Scenario parameters are set for uncertainty, but the forecast variables do not include: {}.".format(
+                    ', '.join(missing_variables))
+                logging.error(message)
+                return status, message, payload
+
             # Handle electricity price
             if scenario['electricity_price']:
                 if scenario['electricity_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
@@ -924,6 +1086,51 @@ class TestCase(object):
                 key = self.scenario['time_period']
                 start_time = self.days_json[key]*24*3600.-7*24*3600.
                 end_time = start_time + 14*24*3600.
+
+            # Handle temperature uncertainty
+
+
+
+            if scenario['temperature_uncertainty']:
+                if scenario['temperature_uncertainty'] not in ['low', 'medium', 'high']:
+                    status = 400
+                    message = "Scenario parameter temperature_uncertainty is {}, " \
+                              "but should be 'low', 'medium' or 'high'.". \
+                              format(scenario['temperature_uncertainty'])
+                    logging.error(message)
+                    return status, message, payload
+                self.scenario['temperature_uncertainty'] = scenario['temperature_uncertainty']
+                payload['temperature_uncertainty'] = self.scenario['temperature_uncertainty']
+            else:
+                self.scenario['temperature_uncertainty'] = None
+
+            # Handle solar uncertainty
+            if scenario['solar_uncertainty']:
+                if scenario['solar_uncertainty'] not in ['low', 'medium', 'high']:
+                    status = 400
+                    message = "Scenario parameter solar_uncertainty is {}, " \
+                              "but should be 'low', 'medium' or 'high'.". \
+                        format(scenario['solar_uncertainty'])
+                    logging.error(message)
+                    return status, message, payload
+                self.scenario['solar_uncertainty'] = scenario['solar_uncertainty']
+                payload['solar_uncertainty'] = self.scenario['solar_uncertainty']
+            else:
+                self.scenario['solar_uncertainty'] = None
+
+            if scenario['seed']:
+                if isinstance(scenario['seed'], int) and scenario['seed'] >= 0:
+                    self.scenario['seed'] = scenario['seed']
+                    payload['seed'] = self.scenario['seed']
+                else:
+                    status = 400
+                    message = "Scenario parameter seed is {}, " \
+                              "but should be a non-negative integer.".format(scenario['seed'])
+                    logging.error(message)
+                    return status, message, payload
+            else:
+                self.scenario['seed'] = None
+
         except:
             status = 400
             message = "Invalid values for the scenario parameters: {}".format(traceback.format_exc())
@@ -1109,6 +1316,7 @@ class TestCase(object):
               "account": {
                 "apiKey": api_key
               },
+              "forecastParameters":{},
               "tags": tags,
               "kpis": self.get_kpis()[2],
               "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
@@ -1302,3 +1510,21 @@ class TestCase(object):
             scenario['weatherForecastUncertainty'] = 'deterministic'
 
         return scenario
+
+    def load_uncertainty_params(self, filepath='forecast/forecast_uncertainty_params.json'):
+        '''Load the uncertainty parameters from a JSON file.
+
+        Parameters
+        ----------
+        filepath : str, optional
+            Path to the JSON file containing the uncertainty parameters.
+            Default is 'forecast_uncertainty_params.json'.
+
+        Returns
+        -------
+        dict
+            Uncertainty parameters loaded from the JSON file.
+        '''
+        with open(filepath, 'r') as f:
+            uncertainty_params = json.load(f)
+        return uncertainty_params

@@ -137,7 +137,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     print('Initializing test case simulation.')
     if scenario is not None:
         # Initialize test with a scenario time period
-        res = check_response(requests.put('{0}/scenario'.format(url), data=scenario))['time_period']
+        res = check_response(requests.put('{0}/scenario'.format(url), json=scenario))['time_period']
         print(res)
         # Record test simulation start time
         start_time = int(res['time'])
@@ -146,7 +146,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         total_time_steps = int((365 * 24 * 3600)/step)
     else:
         # Initialize test with a specified start time and warmup period
-        res = check_response(requests.put('{0}/initialize'.format(url), data={'start_time': start_time, 'warmup_period': warmup_period}))
+        res = check_response(requests.put('{0}/initialize'.format(url), json={'start_time': start_time, 'warmup_period': warmup_period}))
         print("RESULT: {}".format(res))
         # Set final time and total time steps according to specified length (seconds)
         final_time = start_time + length
@@ -155,7 +155,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         print('Successfully initialized the simulation')
     print('\nRunning test case...')
     # Set simulation time step
-    res = check_response(requests.put('{0}/step'.format(url), data={'step': step}))
+    res = check_response(requests.put('{0}/step'.format(url), json={'step': step}))
     # Initialize input to simulation from controller
     u = controller.initialize()
     # Initialize forecast storage structure
@@ -164,7 +164,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Simulation Loop
     for t in range(total_time_steps):
         # Advance simulation with control input value(s)
-        y = check_response(requests.post('{0}/advance'.format(url), data=u))
+        y = check_response(requests.post('{0}/advance'.format(url), json=u))
         # If simulation is complete break simulation loop
         if not y:
             break
@@ -179,7 +179,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         if controller.use_forecast:
             # Retrieve forecast from restful API
             forecast_parameters = controller.get_forecast_parameters()
-            forecast_data = check_response(requests.put('{0}/forecast'.format(url), data=forecast_parameters))
+            forecast_data = check_response(requests.put('{0}/forecast'.format(url), json=forecast_parameters))
             # Use forecast data to update controller-specific forecast data
             forecasts = controller.update_forecasts(forecast_data, forecasts)
         else:
@@ -222,7 +222,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Get result data
     points = list(measurements.keys()) + list(inputs.keys())
     df_res = pd.DataFrame()
-    res = check_response(requests.put('{0}/results'.format(url), data={'point_names': points, 'start_time': start_time, 'final_time': final_time}))
+    res = check_response(requests.put('{0}/results'.format(url), json={'point_names': points, 'start_time': start_time, 'final_time': final_time}))
     df_res = pd.DataFrame.from_dict(res)
     df_res = df_res.set_index('time')
     return kpi, df_res, custom_kpi_result, forecasts

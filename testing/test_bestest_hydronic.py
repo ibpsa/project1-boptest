@@ -60,6 +60,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       'ovePum_activate': 0,
                       'ovePum_u': 1}
         self.measurement = 'reaQHea_y'
-        
+        self.forecast_point = 'EmissionsElectricPower'
+
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

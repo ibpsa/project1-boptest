@@ -1,0 +1,333 @@
+@prefix bldg: <urn:example#> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix bacnet: <http://data.ashrae.org/bacnet/2020#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<urn:example#> a owl:Ontology ;
+	owl:imports <https://brickschema.org/schema/1.2/Brick#> .
+
+bldg:boptest-proxy-device a bacnet:BACnetDevice ;
+	bacnet:device-instance 599 .
+
+bldg:reaCO2RooAir_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,1" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaCO2RooAir_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaCOP_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,2" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaCOP_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaPFan_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,3" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaPFan_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaPHeaPum_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,4" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaPHeaPum_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaPPumEmi_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,5" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaPPumEmi_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaQFloHea_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,6" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaQFloHea_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaQHeaPumCon_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,7" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaQHeaPumCon_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaQHeaPumEva_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,8" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaQHeaPumEva_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaTRet_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,9" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaTRet_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaTSetCoo_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,10" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaTSetCoo_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaTSetHea_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,11" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaTSetHea_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaTSup_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,12" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaTSup_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:reaTZon_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,13" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "reaTZon_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaCeiHei_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,14" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaCeiHei_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaCloTim_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,15" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaCloTim_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaHDifHor_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,16" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaHDifHor_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaHDirNor_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,17" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaHDirNor_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaHGloHor_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,18" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaHGloHor_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaHHorIR_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,19" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaHHorIR_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaLat_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,20" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaLat_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaLon_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,21" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaLon_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaNOpa_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,22" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaNOpa_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaNTot_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,23" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaNTot_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaPAtm_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,24" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaPAtm_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaRelHum_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,25" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaRelHum_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaSolAlt_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,26" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaSolAlt_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaSolDec_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,27" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaSolDec_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaSolHouAng_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,28" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaSolHouAng_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaSolTim_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,29" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaSolTim_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaSolZen_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,30" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaSolZen_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaTBlaSky_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,31" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaTBlaSky_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaTDewPoi_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,32" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaTDewPoi_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaTDryBul_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,33" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaTDryBul_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaTWetBul_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,34" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaTWetBul_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaWinDir_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,35" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaWinDir_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:weaSta_reaWeaWinSpe_y a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-input,36" ;
+		bacnet:object-type "analog-input" ;
+		bacnet:object-name "weaSta_reaWeaWinSpe_y" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:oveFan_u a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-output,37" ;
+		bacnet:object-type "analog-output" ;
+		bacnet:object-name "oveFan_u" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:oveHeaPumY_u a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-output,38" ;
+		bacnet:object-type "analog-output" ;
+		bacnet:object-name "oveHeaPumY_u" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:ovePum_u a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-output,39" ;
+		bacnet:object-type "analog-output" ;
+		bacnet:object-name "ovePum_u" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .
+
+bldg:oveTSet_u a brick:Point ;
+	ref:hasExternalReference [
+		bacnet:object-identifier "analog-output,40" ;
+		bacnet:object-type "analog-output" ;
+		bacnet:object-name "oveTSet_u" ;
+		bacnet:objectOf bldg:boptest-proxy-device
+	] .

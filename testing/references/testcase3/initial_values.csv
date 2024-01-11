@@ -1,12 +1,12 @@
 keys,value
-CO2RooAirSou_y,750.0
 CO2RooAirNor_y,750.0
-TRooAirSou_y,297.96529674042137
+CO2RooAirSou_y,750.0
 PHeaNor_y,0.0
 PHeaSou_y,0.0
-time,43200.0
-oveActSou_u,0.0
+TRooAirNor_y,297.9838271004316
+TRooAirSou_y,297.96991643491447
 oveActNor_activate,0.0
-TRooAirNor_y,297.9792944148173
 oveActNor_u,0.0
 oveActSou_activate,0.0
+oveActSou_u,0.0
+time,43200.0

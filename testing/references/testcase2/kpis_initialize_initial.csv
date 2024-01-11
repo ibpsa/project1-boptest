@@ -1,10 +1,10 @@
 keys,value
-tdis_tot,0.0
-idis_tot,0.0
-ener_tot,0.0
 cost_tot,0.0
 emis_tot,0.0
-pele_tot,0.0016637177793755813
-pgas_tot,
+ener_tot,0.0
+idis_tot,0.0
 pdih_tot,
+pele_tot,0.001663744238227378
+pgas_tot,
+tdis_tot,0.0
 time_rat,
