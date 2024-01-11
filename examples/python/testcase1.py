@@ -11,8 +11,8 @@ in controllers/pid.py.
 # ----------------------
 import sys
 import os
-from examples.python.interface import control_test
 sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-2]))
+from examples.python.interface import control_test
 
 
 def run(plot=False):
@@ -38,7 +38,7 @@ def run(plot=False):
     """
 
     # CONFIGURATION FOR THE CONTROL TEST
-    # ----------------------------------
+    # ---------------------------------------
     control_module = 'examples.python.controllers.pid'
     start_time = 0
     warmup_period = 0
@@ -46,6 +46,7 @@ def run(plot=False):
     step = 300
     customized_kpi_dir_path = os.path.dirname(os.path.realpath(__file__))
     customized_kpi_config = os.path.join(customized_kpi_dir_path, 'custom_kpi', 'custom_kpis_example.config')
+    # ---------------------------------------
 
     # RUN THE CONTROL TEST
     # --------------------
@@ -54,7 +55,7 @@ def run(plot=False):
                                                              warmup_period=warmup_period,
                                                              length=length,
                                                              step=step,
-                                                             customized_kpi_config= customized_kpi_config)
+                                                             customized_kpi_config=customized_kpi_config)
     # POST-PROCESS RESULTS
     # --------------------
     time = df_res.index.values/3600  # convert s --> hr

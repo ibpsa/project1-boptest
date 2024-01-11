@@ -48,18 +48,22 @@ if __name__ == '__main__':
     # Get total number of tests run
     cases = 0
     passed = 0
+    skipped = 0
     record('The following test modules were run:')
     for log in logs:
         with open(log, 'r') as f:
             d = json.load(f)
         cases = cases + d['NCases']
         passed = passed + d['NPassed']
+        skipped = skipped + d['NSkipped']
         record(d['TestFile'])
     # Report total number run
-    record('The total number of individual tests run was {0}.'.format(cases))
+    record('The total number of individual tests run was {0}.'.format(cases-skipped))
     # Report if all passed
     if cases == passed:
         record('\n-------------\nAll tests OK.\n-------------\n\nOutput saved to {0}.'.format(report_file))
+    elif (cases == passed+skipped) and (skipped>0):
+        record('\n------------------------\nAll tests OK or Skipped.\n------------------------\n\nOutput saved to {0}.'.format(report_file))
     else:
         exit_code = 1
         record('\n-------------\nNot all tests passed.  See {0} for more detailed report.\n-------------\n'.format(report_file))
@@ -69,6 +73,7 @@ if __name__ == '__main__':
             record('\nFrom {0}\n========================='.format(d['TestFile']))
             record('Of {0} tests run...'.format(d['NCases']))
             record('Passed: {0}'.format(d['NPassed']))
+            record('Skipped: {0}'.format(d['NSkipped']))
             record('Failures: {0}'.format(d['NFailures']))
             record('Errors: {0}'.format(d['NErrors']))
             record('\nFailure Messages\n----------------')
