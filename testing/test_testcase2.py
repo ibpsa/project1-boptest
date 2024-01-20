@@ -174,5 +174,49 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.measurement = 'PFan_y'
         self.forecast_point = 'EmissionsBiomassPower'
 
+class SimOverYear(unittest.TestCase, utilities.partialChecks):
+    '''Test if testcase can simulate across the year and retrieve forecasts.
+
+    '''
+
+    def setUp(self):
+        '''Setup for each test.
+
+        '''
+
+        self.url = 'http://127.0.0.1:5000'
+
+    def test_advance_over_year(self):
+        '''Tests that simulation can advance over one year.
+
+        '''
+
+        # Run test
+        requests.put('{0}/initialize'.format(self.url), json={'start_time':365*24*3600 - 1800, 'warmup_period':0})
+        y = requests.post('{0}/advance'.format(self.url), json={}).json()['payload']
+        # Check trajectories
+        df = pd.DataFrame.from_dict(y, orient = 'index', columns=['value'])
+        df.index.name = 'keys'
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'advance_over_year.csv')
+        self.compare_ref_values_df(df, ref_filepath)
+
+    def test_put_forecast_over_year(self):
+        '''Tests that forecast across the year can be retrived.
+
+        '''
+
+        horizon = 7200
+        interval = 1800
+        # Initialize
+        requests.put('{0}/initialize'.format(self.url), json={'start_time':365*24*3600 - 1800, 'warmup_period':0})
+        # Test case forecast
+        forecast_points = list(requests.get('{0}/forecast_points'.format(self.url)).json()['payload'].keys())
+        forecast = requests.put('{0}/forecast'.format(self.url), json={'point_names':forecast_points, 'horizon':horizon, 'interval':interval}).json()['payload']
+        df_forecaster = pd.DataFrame(forecast).set_index('time')
+        # Set reference file path
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'put_forecast_over_year.csv')
+        # Check the forecast
+        self.compare_ref_timeseries_df(df_forecaster, ref_filepath)
+
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
