@@ -11,9 +11,9 @@ if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
 elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].* ]]; then
     export VERSION_TAG="${GITHUB_REF/refs\/tags\//}"
     echo "The docker tag is set to: ${VERSION_TAG}"
-# uncomment conditional below if you want to build a custom branch
-# elif [[] "${GITHUB_REF}" == "refs/heads/boptest-service-custom" ]]; then
-#     export VERSION_TAG="experimental"
+elif [[] "${GITHUB_REF}" == "refs/heads/experimental" ]]; then
+    export VERSION_TAG="experimental"
+    echo "The docker tag is set to: ${VERSION_TAG}"
 fi
 
  if [[ "${VERSION_TAG}" == "develop" ]] || [[ "${VERSION_TAG}" =~ ^v[0-9].* ]] || [[ "${VERSION_TAG}" == "experimental" ]] ; then
