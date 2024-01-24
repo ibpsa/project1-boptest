@@ -11,7 +11,7 @@ if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
 elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].* ]]; then
     export VERSION_TAG="${GITHUB_REF/refs\/tags\//}"
     echo "The docker tag is set to: ${VERSION_TAG}"
-elif [[] "${GITHUB_REF}" == "refs/heads/experimental" ]]; then
+elif [[ "${GITHUB_REF}" == "refs/heads/experimental" ]]; then
     export VERSION_TAG="experimental"
     echo "The docker tag is set to: ${VERSION_TAG}"
 fi
