@@ -4,5 +4,16 @@
       link: /ibpsa/project/workplan/
     - name: Participation
       link: /ibpsa/project/participation/
-    - name: Meetings
-      link: /ibpsa/project/meetings/
+- label: Meetings
+  items:
+    - name: General
+      link: /ibpsa/project/meetings/general/
+    - name: Task 1. Outreach and Community Building
+      link: /ibpsa/project/meetings/task1/
+    - name: Task 2. Methods and Infrastructure
+      link: /ibpsa/project/meetings/task2/
+    - name: Task 3. Test Cases
+      link: /ibpsa/project/meetings/task3/
+    - name: Task 4. Controller Testing
+      link: /ibpsa/project/meetings/task4/
+      

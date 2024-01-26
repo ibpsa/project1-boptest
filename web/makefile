@@ -26,6 +26,7 @@ COMMAND_RUN=docker run \
 		-w ${IMG_HOME}/boptest/web \
 		${IMG_NAME} 
 
+# Use these commands if you're outside the boptestweb container
 run-build-docs:
 	$(COMMAND_RUN) /bin/bash -c "make build_docs"
 
@@ -35,6 +36,7 @@ run-build-docs-and-build-web:
 run-build-docs-and-serve-web:
 	$(COMMAND_RUN) /bin/bash -c "make build_docs_and_serve_web"
 
+# Use these commands if you're inside the boptestweb container
 build_docs:
 	./build_docs.sh
 

@@ -291,6 +291,22 @@ class PartialDataManagerTest(object):
         df_man = pd.DataFrame(data_dict).set_index('time')
         self.compare_ref_timeseries_df(df_man, self.ref_data_index)
 
+    def test_get_data_over_year(self):
+        '''Check that the data manager can retrieve the test case data
+        when an arbitrary time index across the year is provided.
+
+        '''
+
+        # Define index
+        index = np.arange(364*24*3600, (364+2)*24*3600, 1800)
+
+        # Get the data
+        data_dict = self.man.get_data(index=index)
+
+        # Check the data retrieved with the manager
+        df_man = pd.DataFrame(data_dict).set_index('time')
+        self.compare_ref_timeseries_df(df_man, self.ref_data_over_year)
+
 class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
                       PartialDataManagerTest):
     '''Tests the data manager class in a single-zone example.
@@ -321,6 +337,8 @@ class DataManagerSingleZoneTest(unittest.TestCase, utilities.partialChecks,
             'references', 'data', 'testcase2', 'tc2_data_retrieved_default.csv')
         self.ref_data_index = os.path.join(testing_root_dir,
             'references', 'data', 'testcase2', 'tc2_data_retrieved_index.csv')
+        self.ref_data_over_year = os.path.join(testing_root_dir,
+            'references', 'data', 'testcase2', 'tc2_data_retrieved_over_year.csv')
 
 class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
                                PartialDataManagerTest):
@@ -352,6 +370,8 @@ class DataManagerMultiZoneTest(unittest.TestCase, utilities.partialChecks,
             'references', 'data', 'testcase3', 'tc3_data_retrieved_default.csv')
         self.ref_data_index = os.path.join(testing_root_dir,
             'references', 'data', 'testcase3', 'tc3_data_retrieved_index.csv')
+        self.ref_data_over_year = os.path.join(testing_root_dir,
+            'references', 'data', 'testcase3', 'tc3_data_retrieved_over_year.csv')
 
 class FindDaysTest(unittest.TestCase, utilities.partialChecks):
     '''Tests module to find peak and typical heating and cooling
