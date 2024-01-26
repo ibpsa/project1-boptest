@@ -7,13 +7,13 @@
 - label: Meetings
   items:
     - name: General
-      link: /ibpsa/project/meetings/general/
+      link: /ibpsa/project/general/
     - name: Task 1. Outreach and Community Building
-      link: /ibpsa/project/meetings/task1/
+      link: /ibpsa/project/task1/
     - name: Task 2. Methods and Infrastructure
-      link: /ibpsa/project/meetings/task2/
+      link: /ibpsa/project/task2/
     - name: Task 3. Test Cases
-      link: /ibpsa/project/meetings/task3/
+      link: /ibpsa/project/task3/
     - name: Task 4. Controller Testing
-      link: /ibpsa/project/meetings/task4/
+      link: /ibpsa/project/task4/
       
