@@ -146,7 +146,7 @@ The second function is to export a wrapper FMU that utilizes the signal exchange
 
 4. Add one output for every Read block found named :code:`<block_instance_path>_y`.  Assign :code:`<block_instance_path>_y` the unit, descriptions, min/max, and other signal attribute data specified by the Read block.
 
-5. For Overwrite blocks, connect :code:`<block_instance_path>_u` to :code:`<block.instance.path>.u`, :code:`<block_instance_path>_activate` to :code:`<block.instance.path>.activate`, and :code:`<block_instance_path>_y` to :code:`<block.instance.path>.y`.
+5. For Overwrite blocks, connect :code:`<block_instance_path>_u` to :code:`<block.instance.path>.uExt.y`, :code:`<block_instance_path>_activate` to :code:`<block.instance.path>.activate.y`, and :code:`<block_instance_path>_y` to :code:`<block.instance.path>.y`.
 
 6. For Read blocks, connect :code:`<block_insance_path>_y` to :code:`<block.instance.path>.y`.
 
