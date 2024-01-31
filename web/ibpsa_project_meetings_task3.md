@@ -12,4 +12,26 @@ permalink: /ibpsa/project/meetings/task3/
 
 # Upcoming Meetings
 
-Coming soon...
+### May 2, 2024
+
+**Location:** Online
+
+**Time:** 6:00-7:00 pacific
+
+[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=N3IxOG82cWFwaDY2NmswMGluOG9vN2xyZDYgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov) 
+
+### March 28, 2024
+
+**Location:** Online
+
+**Time:** 6:00-7:00 pacific
+
+[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MDA0MjJnMHVpNGVlcTMxNG40OWxpaXQxZnIgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov) 
+
+### February 22, 2024
+
+**Location:** Online
+
+**Time:** 6:00-7:00 pacific
+
+[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NXUwZDZqcTd2YnZic2xqcW84cDNkajRyNmwgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov) 
