@@ -29,6 +29,8 @@ not need to join the project to register for the mailing list.
 
 # Registered Participants
 
+*Updated: February 1, 2024*
+
 ### Organizational Participants
 
 Organizations such as companies, research institutes, or
@@ -36,6 +38,26 @@ universities that commit to contribute a minimum of 6 months of a full-time
 employee per project year to the overall project using their own funding,
 contribute to 5-10 virtual meetings annually, and attend two-day semi-annual
 expert meetings using their own funding.
+
+| Name | Institution |
+|------|-------------|
+| Javier Arroyo | KU Leuven - EnergyVille, Belgium |
+| Peder Bacher | Technical University of Denmark, Denmark |
+| Yeonjin Bae | Oak Ridge National Laboratory, USA |
+| David Blum | Lawrence Berkeley National Laboratory, USA |
+| Yan Chen | Pacific Northwest National Laboratory, USA |
+| Iago Cupeiro | dnergy, Belgium |
+| Roel De Coninck | dnergy, Belgium |
+| Konstantin Filonenko | Technical University of Denmark, Denmark |
+| Lieve Helsen | KU Leuven - EnergyVille, Belgium |
+| Bart Merema | dnergy, Belgium |
+| Harald Taxt Walnum | SINTEF AS, Norway |
+| Dan Wang | The Hong Kong University of Science and Technology, China |
+| Zhe Wang | The Hong Kong University of Science and Technology, China |
+| Michael Wetter | Lawrence Berkeley National Laboratory, USA |
+| Ettore Zanetti | Lawrence Berkeley National Laboratory, USA |
+| Kun Zhang | Ecole de technologie superieure, Canada |
+| Wanfu Zheng | The Hong Kong University of Science and Technology, China |
 
 ### Sponsoring Participants
 
@@ -51,3 +73,16 @@ continuous integration testing, such as for GitHub, travis, or similar.
 ### Individual Participants
 Contributors that participate in the Project as is custom in
 other open-source projects without a predetermined level of commitment.
+
+| Name | Institution |
+|------|-------------|
+| Esther Borkowski | ETH Zurich, Switzerland |
+| François Gauthier-Clerc | Purecontrol, France |
+| Christoph Gehbauer | Lawrence Berkeley National Laboratory, USA |
+| Xu Han | University of Kansas, USA |
+| Filip Jorissen | Builtwins BV, Belgium |
+| Mingzhe Liu | Texas A&M University, USA |
+| Matthias Van Hove | Technical University of Denmark, Denmark |
+| David Wölfle | FZI Research Center for Information Technology, Germany |
+| Laura Zabala Urrutia | R2M Solution Spain, Spain |
+| Sicheng Zhan | National University of Singapore, Singapore |
