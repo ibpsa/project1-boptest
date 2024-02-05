@@ -1,0 +1,7 @@
+boto3==1.11.0
+botocore==1.14.0
+redis==3.3.11
+requests==2.22.0
+msgpack==1.0.4
+kubernetes==18.20.0
+matplotlib==3.7.1
