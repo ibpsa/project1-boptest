@@ -15,7 +15,7 @@ RUN wget https://spawn.s3.amazonaws.com/custom/Spawn-$SPAWN_VERSION-Linux.tar.gz
     && tar -xzf Spawn-$SPAWN_VERSION-Linux.tar.gz \
     && ln -s /Spawn-$SPAWN_VERSION-Linux/bin/spawn-$SPAWN_VERSION /usr/local/bin/
 
-COPY worker/requirements/production.txt /boptest/
+COPY service/worker/requirements/production.txt /boptest/
 
 # Download and install miniconda, pyfmi, and remaining python requirements
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.1.0-1-Linux-x86_64.sh -O /miniconda.sh \
@@ -29,14 +29,14 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.1.0-1-Linux-x86
   && python -m pip install --ignore-installed -r /boptest/production.txt \
   && conda install pandas==1.5.3
 
-COPY worker /worker
+COPY service/worker /worker
 
 # Organize boptest python source into a module
-COPY boptest/testcase.py /boptest/lib/
-COPY boptest/data /boptest/lib/data
-COPY boptest/forecast /boptest/lib/forecast
-COPY boptest/kpis /boptest/lib/kpis
-COPY boptest/version.txt /boptest/
+COPY testcase.py /boptest/lib/
+COPY data /boptest/lib/data
+COPY forecast /boptest/lib/forecast
+COPY kpis /boptest/lib/kpis
+COPY version.txt /boptest/
 RUN touch /boptest/__init__.py /boptest/lib/__init__.py
 # Boptest TestCase will look for version.txt in the current working directory
 # which will be "/", therefore this link is required
