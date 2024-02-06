@@ -23,7 +23,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         '''
 
         self.name = 'bestest_hydronic_heat_pump'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.points_check = ['reaPFan_y', 'reaQHeaPumCon_y',
                              'reaTRet_y', 'reaQHeaPumEva_y',
                              'ovePum_u', 'reaTZon_y',
@@ -31,6 +31,10 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
                              'oveFan_u', 'reaPHeaPum_y',
                              'oveHeaPumY_u', 'reaQFloHea_y',
                              'reaCOP_y']
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
@@ -97,6 +101,10 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         self.input = {'oveTSet_activate': 0, 'oveTSet_u': 273.15+22}
         self.measurement = 'weaSta_reaWeaPAtm_y'
         self.forecast_point = 'EmissionsElectricPower'
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
