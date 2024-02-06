@@ -1,4 +1,4 @@
-﻿within MultiZoneOfficeSimpleAir.TestCases;
+within MultiZoneOfficeSimpleAir.TestCases;
 model TestCase
   "Variable air volume flow system with terminal reheat and five thermal zones based on Buildings.Examples.VAVReheat.ASHRAE2006"
   extends Modelica.Icons.Example;
@@ -314,7 +314,7 @@ during unoccupied hours to maintain a cooling set point.
   <td>Unoccupied, night setup</td>
   <td>In unoccupied period, maximum TZon above unoccupied TZonCooSet.  Minimum state time is 30 min.</td>
   <td>12</td>
-  <td>12</td>
+  <td>30</td>
   <td>Enabled</td>
   <td>35</td>
   <td>Enabled</td>
@@ -1141,6 +1141,11 @@ For reference, see https://www.eia.gov/electricity/state/illinois/
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 5, 2024, by Ettore Zanetti:<br/>
+Fixed typo in unoccupied cooling setpoint documentation.
+This is for BOPTEST <a href="https://github.com/ibpsa/project1-boptest/issues/605">issue #605</a>.
+</li>
 <li>
 August 25, 2022, by David Blum:<br/>
 Add forecast point documentation.

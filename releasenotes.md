@@ -12,6 +12,7 @@ Released on xx/xx/xxxx.
 - Allow simulations and forecast to work across the end of the year to the next year. This is for [#239](https://github.com/ibpsa/project1-boptest/issues/239).
 - Pin base Docker image to ``linux/x86_64`` platform. This is for [#608](https://github.com/ibpsa/project1-boptest/issues/608).
 - Correct typo in design documentation about connecting inputs to overwrite blocks in wrapper model. This is for [#601](https://github.com/ibpsa/project1-boptest/issues/601).
+- Correct typo in ``multizone_office_simple_air``, cooling setback temperature changed from 12 to 30. This is for [#605](https://github.com/ibpsa/project1-boptest/issues/605).
 
 ## BOPTEST v0.5.0
 
