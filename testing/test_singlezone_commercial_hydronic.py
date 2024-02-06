@@ -22,13 +22,16 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         '''
 
         self.name = 'singlezone_commercial_hydronic'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.points_check = ['oveTZonSet_u','oveTSupSet_u',
                              'reaCO2Zon_y','reaTZon_y',
                              'reaPFan_y','reaPPum_y',
                              'reaQHea_y','ahu_reaTSupAir_y',
                              'ahu_reaTRetAir_y']
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
 
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
@@ -58,16 +61,16 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         start_time = 15*24*3600
         length = 48*3600/12
         # Initialize test case
-        requests.put('{0}/initialize'.format(self.url), json={'start_time':start_time, 'warmup_period':7*24*3600})
+        requests.put('{0}/initialize/{1}'.format(self.url,self.testid), json={'start_time':start_time, 'warmup_period':7*24*3600})
         # Get default simulation step
-        step_def = requests.get('{0}/step'.format(self.url)).json()['payload']
+        step_def = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
         # Simulation Loop
         for i in range(int(length/step_def)):
             # Advance simulation
             #switch pump on/off for each timestep
             pump = 0 if (i % 2) == 0 else 1
             u = {'ovePum_activate':1, 'ovePum_u':pump}
-            requests.post('{0}/advance'.format(self.url), json=u).json()['payload']
+            requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u).json()['payload']
         # Check results
         points = self.get_all_points(self.url)
         df = self.results_to_df(points, start_time, start_time+length, self.url)
@@ -88,7 +91,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'singlezone_commercial_hydronic'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
@@ -98,6 +101,10 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       'oveTZonSet_u':273.15+25}
         self.measurement = 'ahu_reaTRetAir_y'
         self.forecast_point = 'EmissionsBiomassPower'
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
