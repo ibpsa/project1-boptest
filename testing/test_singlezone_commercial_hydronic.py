@@ -72,8 +72,8 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
             u = {'ovePum_activate':1, 'ovePum_u':pump}
             requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u).json()['payload']
         # Check results
-        points = self.get_all_points(self.url)
-        df = self.results_to_df(points, start_time, start_time+length, self.url)
+        points = self.get_all_points(self.testid, self.url)
+        df = self.results_to_df(points, start_time, start_time+length, self.testid, self.url)
         ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_zero_flow_test.csv')
         self.compare_ref_timeseries_df(df,ref_filepath)
 
