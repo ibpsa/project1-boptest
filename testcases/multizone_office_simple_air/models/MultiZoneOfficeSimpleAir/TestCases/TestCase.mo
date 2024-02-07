@@ -1144,7 +1144,7 @@ For reference, see https://www.eia.gov/electricity/state/illinois/
 <li>
 February 5, 2024, by Ettore Zanetti:<br/>
 Fixed typo in unoccupied cooling setpoint documentation.
-This is for BOPTEST <a href="https://github.com/ibpsa/project1-boptest/issues/605">issue #605</a>.
+This is for BOPTEST <a href=\"https://github.com/ibpsa/project1-boptest/issues/605\">issue #605</a>.
 </li>
 <li>
 August 25, 2022, by David Blum:<br/>
