@@ -19,7 +19,12 @@ import json
 from data.data_manager import Data_Manager
 import warnings
 
-def parse_instances(model_path, file_name):
+if 'MODELICAPATH' in os.environ:
+    modelicapath=os.environ['MODELICAPATH']
+else:
+    modelicapath=os.path.abspath('.')
+
+def parse_instances(model_path, file_name, tool='JModelica'):
     '''Parse the signal exchange block class instances using fmu xml.
 
     Parameters
@@ -29,6 +34,9 @@ def parse_instances(model_path, file_name):
     file_name : list
         Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
+    tool : str, optional
+        FMU compilation tool. "JModelica" or "OCT" supported.
+        Default is "JModelica".
 
     Returns
     -------
@@ -42,7 +50,12 @@ def parse_instances(model_path, file_name):
     '''
 
     # Compile fmu
-    fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
+    if tool == 'JModelica':
+        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
+    elif tool == 'OCT':
+        fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+    else:
+        raise ValueError('Tool {0} unknown.'.format(tool))
     # Load fmu
     fmu = load_fmu(fmu_path)
     # Check version
@@ -105,7 +118,7 @@ def parse_instances(model_path, file_name):
 
     return instances, signals
 
-def write_wrapper(model_path, file_name, instances):
+def write_wrapper(model_path, file_name, instances, tool='JModelica'):
     '''Write the wrapper modelica model and export as fmu
 
     Parameters
@@ -118,6 +131,9 @@ def write_wrapper(model_path, file_name, instances):
     instances : dict
         Dictionary of overwrite and read block class instance lists.
         {'Overwrite': [str], 'Read': [str]}
+    tool : str, optional
+        FMU compilation tool. "JModelica" or "OCT" supported.
+        Default is "JModelica".
 
     Returns
     -------
@@ -179,18 +195,28 @@ def write_wrapper(model_path, file_name, instances):
             # End file -- with hard line ending
             f.write('end wrapped;\n')
         # Export as fmu
-        fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, jvm_args="-Xmx8g", target='cs')
+        if tool == 'JModelica':
+            fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
+        elif tool == 'OCT':
+            fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+        else:
+            raise ValueError('Tool {0} unknown.'.format(tool))
     # If there are not, write and export wrapper model
     else:
         # Warn user
         warnings.warn('No signal exchange block instances found in model.  Exporting model as is.')
         # Compile fmu
-        fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
+        if tool == 'JModelica':
+            fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
+        elif tool == 'OCT':
+            fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+        else:
+            raise ValueError('Tool {0} unknown.'.format(tool))
         wrapped_path = None
 
     return fmu_path, wrapped_path
 
-def export_fmu(model_path, file_name):
+def export_fmu(model_path, file_name, tool='JModelica'):
     '''Parse signal exchange blocks and export boptest fmu and kpi json.
 
     Parameters
@@ -200,6 +226,9 @@ def export_fmu(model_path, file_name):
     file_name : list
         Path(s) to modelica file and required libraries not on MODELICAPATH.
         Passed to file_name parameter of pymodelica.compile_fmu() in JModelica.
+    tool : str, optional
+        FMU compilation tool. "JModelica" or "OCT" supported.
+        Default is "JModelica".
 
     Returns
     -------
@@ -211,9 +240,9 @@ def export_fmu(model_path, file_name):
     '''
 
     # Get signal exchange instances and kpi signals
-    instances, signals = parse_instances(model_path, file_name)
+    instances, signals = parse_instances(model_path, file_name, tool)
     # Write wrapper and export as fmu
-    fmu_path, _ = write_wrapper(model_path, file_name, instances)
+    fmu_path, _ = write_wrapper(model_path, file_name, instances, tool)
     # Write kpi json
     kpi_path = os.path.join(os.getcwd(), 'kpis.json')
     with open(kpi_path, 'w') as f:
