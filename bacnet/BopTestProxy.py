@@ -50,7 +50,7 @@ activation_signal = {}
 nextState = None
 g = None
 
-baseurl = "http://localhost:5000"
+baseurl = "http://127.0.0.1:80"
 boptest_measurements = None
 boptest_inputs = None
 
@@ -140,7 +140,7 @@ def update_boptest_data():
     """Read the current simulation data from the API and set the object values."""
     if _debug:
         update_boptest_data._debug("update_boptest_data")
-    global objects, inputs, baseurl
+    global objects, inputs, baseurl, testid
 
     # ask the web service
     # We get results direct from /advance now but you could ask the simulation for historic data
@@ -180,11 +180,7 @@ def update_boptest_data():
 
 
     #print("Advancing with signals: " + str(signals))
-    response = requests.post(
-    #    "http://localhost:5000/advance", json={"oveAct_u": next_oveAct_u, "oveAct_activate": next_oveAct_activate}
-        '{0}/advance'.format(baseurl), json=signals
-
-    )
+    response = requests.post('{0}/advance/{1}'.format(baseurl,testid), json=signals)
     if response.status_code != 200:
         print("Error response: %r" % (response.status_code,))
         return
@@ -228,9 +224,10 @@ def main():
 
     parser = ConfigArgumentParser(description=__doc__)
 
+    parser.add_argument('testcase', type=str, help="Name of BOPTEST test case to deploy")
     parser.add_argument('start_time', type=int, default=0, help="timestamp (in seconds) at which to start the simulation")
     parser.add_argument('warmup_period', type=int, default=0, help="timestamp (in seconds) at which to start the simulation")
-    parser.add_argument('--baseurl', dest='baseurl', type=str, default='http://localhost:5000', help="URL for BOPTest endpoint")
+    parser.add_argument('--baseurl', dest='baseurl', type=str, default='http://127.0.0.1:80', help="URL for BOPTest endpoint")
     # parse the command line arguments
     args = parser.parse_args()
     baseurl = args.baseurl
@@ -243,20 +240,23 @@ def main():
     # TODO: check the results to make sure we acutally get an OK!
     #
     global nextState
+    global testid
 
-    res = requests.put('{0}/initialize'.format(baseurl), json={'start_time':args.start_time, 'warmup_period':args.warmup_period} ).json()
+    testid = requests.post("{0}/testcases/{1}/select".format(baseurl, args.testcase)).json()["testid"]
+    res = requests.put('{0}/initialize/{1}'.format(baseurl,testid), json={'start_time':args.start_time, 'warmup_period':args.warmup_period} ).json()
     nextState = res
 
     global boptest_measurements, boptest_inputs
-    boptest_measurements = requests.get(baseurl + "/measurements").json()
-    boptest_inputs = requests.get(baseurl+"/inputs").json()
+    boptest_measurements = requests.get('{0}/measurements/{1}'.format(baseurl,testid)).json()
+    boptest_inputs = requests.get('{0}/inputs/{1}'.format(baseurl,testid)).json()
 
     # We advance the simulation by 5 seconds at each call to /advance, and APPINTERVAL is also 5 seconds, so the simulationo
     # moves in sync with wallclock time. To see things happen faster, set this time greater than 5 seconds
-    res = requests.put('{0}/step'.format(baseurl), json={'step':5})
+    res = requests.put('{0}/step/{1}'.format(baseurl,testid), json={'step':5})
 
     # make a device object
     this_device = LocalDeviceObject(ini=args.ini)
+    print(args.ini)
     if _debug:
         _log.debug("    - this_device: %r", this_device)
 
@@ -264,7 +264,7 @@ def main():
     this_application = ReadPropertyMultipleApplication(this_device, args.ini.address)
 
     # create the objects and add them to the application
-    test_case_name = requests.get('{0}/name'.format(baseurl)).json()['payload']['name']
+    test_case_name = requests.get('{0}/name/{1}'.format(baseurl,testid)).json()['payload']['name']
     file_name = '../testcases/{0}/models/bacnet.ttl'.format(test_case_name)
     create_objects(this_application, file_name)
 
@@ -276,6 +276,12 @@ def main():
 
     run()
 
+    # shutdown test case when done
+    res = requests.put("{0}/stop/{1}".format(baseurl, testid))
+    if res.status_code == 200:
+        _log.debug('Done shutting down test case.')
+    else:
+        _log.debug('Error shutting down test case.')
     if _debug:
         _log.debug("fini")
 
