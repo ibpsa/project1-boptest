@@ -4,23 +4,17 @@ This folder contains examples and results for performing testing of baseline con
 
 ## Baseline Controller and Test Case Implementation
 
-- For each ``<TestCase>``, the baseline controller module file ``<TestCase>.py`` and the test script ``testcase<TestCase>scenario.py`` will be used for running an example baseline test.
+- The ``baseline.py`` module file is utilized for executing the baseline control for each test case. It simplifies the process by setting ``u={}``.
 
-- Baseline control modules files ``<TestCase>.py`` are located in ``root/examples/python/controllers``. The baseline controllers are actually incorporated in the testcase models.
-The function ``compute_control`` is psuedo. The control inputs will not be overwritten by this external controller. Thus, baseline controllers in the testcase models will be used. 
-
-- For test scripts ``testcase<TestCase>scenario.py`` for performing the baseline control test, user could specify the predefined typical test case scenarios (e.g., typical heat day), or a combination of user-defined
-``start_time``, ``warmup_period``, and ``length``. For the default setting of the baseline tests,
- scenarios with different electricity prices and time periods will be  simulated. If ``scenario`` is specified, ``start_time``, ``warmup_period``, and ``length`` will not be used.
+- The test script ``run_baselines.py`` facilitates the execution of a sample baseline test, with the test case name provided as a command-line argument. If not explicitly mentioned, the default test case is assumed to be  ``bestest_air``. If the Boolean parameter ``run_user_defined_test`` is set to ``False``, the script simulates predefined test case scenarios outlined in ``config.json``. Alternatively, if it is ``True``, the baseline scenario can be customized by specifying parameters such as ``start_time``, ``warmup_period``, and ``length``. Additionally, the user has the option to save the results of KPIs and measurements by setting both  ``save_kpi_results`` and ``save_measurements`` to ``True``. The default values are both set to ``False``.
 
 ## Run an Example Baseline Test
 The baseline testing could be conducted in either of the two methods:
 
-- Check if Docker image ``jm`` exists. If not, run command: ``$ make build_jm_image``. 
-Then, run the test with command: ``$ make run_baseline_<testcase>``. Run all the baseline testcases with command: ``$ make run_baseline_all``
+- Run the test with command: ``$ make run_baseline_<TestCase>``. Run all the baseline testcases with command: ``$ make run_baseline_all``
 
 - Or, deploy the test case corresponding to the desired example (see repository root ``README.md`` for instructions on deploying a test case). 
-Then, use ``$ python testcase<TestCase>scenario.py`` to run the desired example.
+Then, use ``$ python testcase. py <TestCase>`` to run the desired example.
 
 ## Baseline Testing Scenarios
 Two-week simulation are conducted with three electricity price schemes and representative time periods for each testcase. Please see ``root/Testcases/README.md`` for different predefined scenarios for each testcase. 

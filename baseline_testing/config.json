@@ -1,0 +1,31 @@
+{
+    "bestest_air": {
+        "price_elec": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day", "peak_cool_day", "typical_cool_day", "mix_day"]
+    },
+	
+	"bestest_hydronic_heat_pump": {
+        "price_elec": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    },
+		
+	"bestest_hydronic_heat_pump": {
+        "price_elec": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    },
+		
+	"multizone_office_simple_air": {
+        "price_elec": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day", "peak_cool_day", "typical_cool_day", "mix_day"]
+    },
+		
+	"multizone_residential_hydronic": {
+        "price_elec": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    },
+		
+	"singlezone_commercial_hydronic": {
+        "price_elec": ["constant", "dynamic", "highly_dynamic"],
+        "time_period": ["peak_heat_day", "typical_heat_day"]
+    }
+}
