@@ -196,9 +196,9 @@ def write_wrapper(model_path, file_name, instances, tool='JModelica'):
             f.write('end wrapped;\n')
         # Export as fmu
         if tool == 'JModelica':
-            fmu_path = compile_fmu(model_path, file_name, jvm_args="-Xmx8g", target='cs')
+            fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, jvm_args="-Xmx8g", target='cs')
         elif tool == 'OCT':
-            fmu_path = compile_fmu(model_path, file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
+            fmu_path = compile_fmu('wrapped', [wrapped_path]+file_name, modelicapath=modelicapath, jvm_args="-Xmx8g", target='cs')
         else:
             raise ValueError('Tool {0} unknown.'.format(tool))
     # If there are not, write and export wrapper model
