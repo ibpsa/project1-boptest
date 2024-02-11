@@ -54,6 +54,7 @@ following structure:
 	|  |  |  |--prices.csv 		// Energy pricing schedules
 	|  |  |  |--emissions.csv 	// Energy emission factor schedules
 	|  |  |  |--setpoints.csv 	// Thermal  and IAQ comfort region schedules
+	|  |--bacnet.ttl        // BACnet object definition file
 	|--doc				// Documentation directory
 	|  |--doc.html 			// Copy of .mo file documentation
 	|  |--images 			// Image directory
@@ -145,7 +146,7 @@ The second function is to export a wrapper FMU that utilizes the signal exchange
 
 4. Add one output for every Read block found named :code:`<block_instance_path>_y`.  Assign :code:`<block_instance_path>_y` the unit, descriptions, min/max, and other signal attribute data specified by the Read block.
 
-5. For Overwrite blocks, connect :code:`<block_instance_path>_u` to :code:`<block.instance.path>.u`, :code:`<block_instance_path>_activate` to :code:`<block.instance.path>.activate`, and :code:`<block_instance_path>_y` to :code:`<block.instance.path>.y`.
+5. For Overwrite blocks, connect :code:`<block_instance_path>_u` to :code:`<block.instance.path>.uExt.y`, :code:`<block_instance_path>_activate` to :code:`<block.instance.path>.activate.y`, and :code:`<block_instance_path>_y` to :code:`<block.instance.path>.y`.
 
 6. For Read blocks, connect :code:`<block_insance_path>_y` to :code:`<block.instance.path>.y`.
 
@@ -254,12 +255,57 @@ for a test case upon loading in BOPTEST, a configuration JSON saved as
     "start_time"    : <float>,                       // Default start time
     "warmup_period" : <float>,                       // Default warmup_period
     "step"          : <float>,                       // Default control step in seconds
-    "horizon"       : <float>,                       // Default forecast horizon in seconds
-    "interval"      : <float>,                       // Default forecast interval in seconds
     "scenario"      : {"electricity_price":<str>,    // Default electricity price scenario
                        "time_period":null},          // Default time_period scenario
     "resource_file_exclusion" : [<str>]              // Optional: List of data files within fmu /resources directory to exclude from loading into test case (e.g. "filename.csv")
     }
+
+BACnet Object Configuration and .ttl Mapping
+--------------------------------------------
+In order to enable a BACnet interface to read and write to BOPTEST points, a
+:code:`bacnet.ttl` file is used to configure assignment of a BACnet object for each point
+to a single BACnet device.  The file should be placed in the testcase :code:`models` directory
+and have the following template structure:
+
+::
+
+    @prefix bldg: <urn:example#> .
+    @prefix brick: <https://brickschema.org/schema/Brick#> .
+    @prefix bacnet: <http://data.ashrae.org/bacnet/2020#> .
+    @prefix unit: <http://qudt.org/vocab/unit/> .
+    @prefix owl: <http://www.w3.org/2002/07/owl#> .
+    @prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+    <urn:example#> a owl:Ontology ;
+    	owl:imports <https://brickschema.org/schema/1.2/Brick#> .
+
+    bldg:boptest-proxy-device a bacnet:BACnetDevice ;
+    	bacnet:device-instance 599 .
+
+    bldg:<boptest_point_name> a brick:Point ;
+    	ref:hasExternalReference [
+    		bacnet:object-identifier "analog-input,n" ;
+    		bacnet:object-type "analog-input" ;
+    		bacnet:object-name "<boptest_point_name>" ;
+    		bacnet:objectOf bldg:boptest-proxy-device
+    	] .
+
+    # ... Repeat for each BOPTEST measurement point 1:n and replace <boptest_point_name> with the BOPTEST point name.
+
+    bldg:<boptest_point_name> a brick:Point ;
+    	ref:hasExternalReference [
+    		bacnet:object-identifier "analog-output,m" ;
+    		bacnet:object-type "analog-output" ;
+    		bacnet:object-name "<boptest_point_name>" ;
+    		bacnet:objectOf bldg:boptest-proxy-device
+    	] .
+
+    # ... Repeat for each BOPTEST input point 1:m and replace <boptest_point_name> with the BOPTEST point name. Only needed for inputs ending with _u and not _activate.
+
+The file can be created automatically using the script
+:code: `bacnet/create_ttl.py` located in the IBPSA github repository.
+
 
 Data Generation and Collection Module
 -------------------------------------
@@ -426,6 +472,7 @@ should be included:
 **Points List**
 	- Control input signals, descriptions, and meta-data
 	- Measurement output signals, descriptions, and meta-data
+	- Forecast signals, descriptions, and meta-data
 **Important Model Implementation Assumption**
 	- (e.g. moist vs. dry air, airflow network, and infiltration models)
 **Scenario Information**

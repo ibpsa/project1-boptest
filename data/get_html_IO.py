@@ -52,6 +52,12 @@ def run():
         for i in sorted(measurements.keys()):
             if 'activate' not in i:
                 f.write('<li>\n<code>{0}</code> [{1}] [min={2}, max={3}]: {4}\n</li>\n'.format(i,measurements[i]['Unit'],measurements[i]['Minimum'], measurements[i]['Maximum'], measurements[i]['Description']))
+    # Forecasts available
+    forecast_points = requests.get('{0}/forecast_points'.format(url)).json()['payload']
+    with open('forecast_points.txt', 'w') as f:
+        for i in sorted(forecast_points.keys()):
+            if 'activate' not in i:
+                f.write('<li>\n<code>{0}</code> [{1}]: {2}\n</li>\n'.format(i,forecast_points[i]['Unit'],forecast_points[i]['Description']))
     # --------------------
 
 if __name__ == "__main__":

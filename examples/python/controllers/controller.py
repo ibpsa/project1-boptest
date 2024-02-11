@@ -31,8 +31,9 @@ class Controller(object):
             sys.exit()
 
         if use_forecast:
-            self.update_forecasts = controller.update_forecasts
             self.use_forecast = True
+            self.update_forecasts = controller.update_forecasts
+            self.get_forecast_parameters = controller.get_forecast_parameters
         else:
             self.use_forecast = False
         self.compute_control = controller.compute_control

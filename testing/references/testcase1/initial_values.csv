@@ -1,7 +1,7 @@
 keys,value
-PHea_y,0
-TRooAir_y,297.965324683488
-CO2RooAir_y,750
-oveAct_u,0
-oveAct_activate,0
-time,43200
+CO2RooAir_y,750.0
+PHea_y,0.0
+TRooAir_y,297.96991459565413
+oveAct_activate,0.0
+oveAct_u,0.0
+time,43200.0
