@@ -699,10 +699,10 @@ The model inputs are:
 <code>bms_oveTSupAhuCooSz_u</code> [K] [min=273.15, max=293.15]: South zone AHU cooling water supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupAhuHeaNz_u</code> [K] [min=293.15, max=353.15]: North zone AHU heating water supply temperature setpoint
+<code>bms_oveTSupAhuHeaNz_u</code> [K] [min=293.15, max=323.15]: North zone AHU heating water supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupAhuHeaSz_u</code> [K] [min=293.15, max=353.15]: South zone AHU heating water supply temperature setpoint
+<code>bms_oveTSupAhuHeaSz_u</code> [K] [min=293.15, max=323.15]: South zone AHU heating water supply temperature setpoint
 </li>
 <li>
 <code>bms_oveTSupAhuNz_u</code> [K] [min=289.15, max=298.15]: North zone AHU air supply temperature setpoint
@@ -714,13 +714,13 @@ The model inputs are:
 <code>bms_oveTSupEmiCooNz_u</code> [K] [min=273.15, max=293.15]: North zone cooling emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiCooSz_u</code> [K] [min=273.15, max=293.15]: South zone cooling emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiCooSz_u</code> [K] [min=273.15, max=293.15]: Southh zone cooling emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiHeaNz_u</code> [K] [min=293.15, max=353.15]: North zone heating emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiHeaNz_u</code> [K] [min=293.15, max=323.15]: North zone heating emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiHeaSz_u</code> [K] [min=293.15, max=353.15]: South zone heating emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiHeaSz_u</code> [K] [min=293.15, max=323.15]: South zone heating emission circuit supply temperature setpoint
 </li>
 <li>
 <code>bms_oveTZonSetMaxNz_u</code> [K] [min=288.15, max=303.15]: North zone maximum (cooling) zone temperature setpoint
@@ -874,9 +874,6 @@ The model outputs are:
 <code>structure_reaTZonNz_y</code> [K] [min=None, max=None]: North zone operative temperature
 </li>
 <li>
-<code>structure_reaTZonSz_y</code> [K] [min=None, max=None]: South zone operative temperature
-</li>
-<li>
 <code>structure_reaTZonPercHighNz_y</code> [K] [min=None, max=None]: North zone upper percentile temperature
 </li>
 <li>
@@ -887,6 +884,9 @@ The model outputs are:
 </li>
 <li>
 <code>structure_reaTZonPercLowSz_y</code> [K] [min=None, max=None]: South zone lower percentile temperature
+</li>
+<li>
+<code>structure_reaTZonSz_y</code> [K] [min=None, max=None]: South zone operative temperature
 </li>
 <li>
 <code>ventilation_reaPAhuRetNz_y</code> [W] [min=None, max=None]: North zone AHU return fan electric power
@@ -1000,6 +1000,139 @@ The model outputs are:
 <code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
+The model forecasts are:
+<ul>
+<li>
+<code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity
+</li>
+<li>
+<code>EmissionsGasPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>HDifHor</code> [W/m2]: Horizontal diffuse solar radiation
+</li>
+<li>
+<code>HDirNor</code> [W/m2]: Direct normal radiation
+</li>
+<li>
+<code>HGloHor</code> [W/m2]: Horizontal global radiation
+</li>
+<li>
+<code>HHorIR</code> [W/m2]: Horizontal infrared irradiation
+</li>
+<li>
+<code>InternalGainsCon[nZ]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[sZ]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[nZ]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[sZ]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[nZ]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[sZ]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>LowerSetp[nZ]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[sZ]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>Occupancy[nZ]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[sZ]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price
+</li>
+<li>
+<code>PriceElectricPowerDynamic</code> [($/Euro)/kWh]: Electricity price for a day/night tariff
+</li>
+<li>
+<code>PriceElectricPowerHighlyDynamic</code> [($/Euro)/kWh]: Spot electricity price
+</li>
+<li>
+<code>PriceGasPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>TBlaSky</code> [K]: Black Sky temperature
+</li>
+<li>
+<code>TDewPoi</code> [K]: Dew point temperature
+</li>
+<li>
+<code>TDryBul</code> [K]: Dry bulb temperature at ground level
+</li>
+<li>
+<code>TWetBul</code> [K]: Wet bulb temperature
+</li>
+<li>
+<code>UpperCO2[nZ]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[sZ]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperSetp[nZ]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[sZ]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>ceiHei</code> [m]: Ceiling height
+</li>
+<li>
+<code>cloTim</code> [s]: One-based day number in seconds
+</li>
+<li>
+<code>lat</code> [rad]: Latitude of the location
+</li>
+<li>
+<code>lon</code> [rad]: Longitude of the location
+</li>
+<li>
+<code>nOpa</code> [1]: Opaque sky cover [0, 1]
+</li>
+<li>
+<code>nTot</code> [1]: Total sky Cover [0, 1]
+</li>
+<li>
+<code>pAtm</code> [Pa]: Atmospheric pressure
+</li>
+<li>
+<code>relHum</code> [1]: Relative Humidity
+</li>
+<li>
+<code>solAlt</code> [rad]: Altitude angel
+</li>
+<li>
+<code>solDec</code> [rad]: Declination angle
+</li>
+<li>
+<code>solHouAng</code> [rad]: Solar hour angle.
+</li>
+<li>
+<code>solTim</code> [s]: Solar time
+</li>
+<li>
+<code>solZen</code> [rad]: Zenith angle
+</li>
+<li>
+<code>winDir</code> [rad]: Wind direction
+</li>
+<li>
+<code>winSpe</code> [m/s]: Wind speed
+</li>
+</ul>
+
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
