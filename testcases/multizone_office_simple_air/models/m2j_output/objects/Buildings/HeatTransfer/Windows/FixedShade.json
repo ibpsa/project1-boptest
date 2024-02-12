@@ -1,0 +1,1664 @@
+{
+  "instances": {
+    "FixedShade": {
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Bitmap",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -92,
+                                  "y": 92
+                                },
+                                {
+                                  "x": 92,
+                                  "y": -92
+                                }
+                              ],
+                              "fileName": "\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/Overhang.png\""
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"sha\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model outputs the fraction of the window area that is sun exposed\nfor a window that may have an overhang and sidefins.\nDepending on the record with construction data <code>conPar</code>,\nan overhang, side fins or no external shade is modeled.\nThe model allows having an overhang and side fins at the same time.\nIn such a case, the overhang width should be\nmeasured from the window edge to the sidefin,\nbecause the overhang width beyond the sidefin will\ncast a shadow on the side fin and not on the window.\nSimilarly, the side fin height should be measured\nfrom the upper window edge to the overhang,\nbecause the side fin height above the\noverhang will not cast a shadow on the window.\nThe parameters for the dimensions of the overhang and side fins are as\ndescribed in the models\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.Overhang\\\">\nBuildings.HeatTransfer.Windows.Overhang</a>\nand\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.SideFins\\\">\nBuildings.HeatTransfer.Windows.SideFins</a>.\n</p>\n\n<h4>Limitations</h4>\n<p>\nFor overhangs, the model assumes that\n</p>\n<ul>\n<li>\nthe overhang is at least as wide as the window, i.e.,\n<i>w<sub>L</sub> &ge; 0</i> and\n<i>w<sub>R</sub> &ge; 0</i>, and\n</li>\n<li>\nthe overhang is horizontal.\n</li>\n</ul>\n\n<p>\nFor side fins, the model assumes that\n</p>\n<ul>\n<li>\nthe side fins are placed symmetrically to the left and right of the window,\n</li>\n<li>\nthe top of the side fins must be at an equal or greater height than the window, and\n</li>\n<li>\nthe side fins extends at least to the lower edge of the window.\n</li>\n</ul>\n\n<h4>Implementation</h4>\n<p>\nThe detailed calculation method is explained in\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.BaseClasses.SideFins\\\">\nBuildings.HeatTransfer.Windows.BaseClasses.SideFins</a>\nand in\n<a href=\\\"modelica://Buildings.HeatTransfer.Windows.BaseClasses.Overhang\\\">\nBuildings.HeatTransfer.Windows.BaseClasses.Overhang</a>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nSeptember 16, 2021, by Michael Wetter:<br/>\nRemoved parameter <code>lat</code> because the latitude is now obtained from the weather data bus.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\\\">IBPSA, #1477</a>.\n</li>\n<li>\nMay 30, 2014, by Michael Wetter:<br/>\nRemoved undesirable annotation <code>Evaluate=true</code>.\n</li>\n<li>\nJuly 7, 2012, by Michael Wetter:<br/>\nRenamed model from <code>Shade</code> to <code>FixedShade</code> because\nshade is already used for window interior and exterior shades.\n</li><li>\nJuly 5, 2012, by Michael Wetter:<br/>\nMoved model from package <code>Buildings.ThermalZones.Detailed.BaseClasses</code> to\n<code>Buildings.HeatTransfer.Windows</code>, because the overhang and side fin\nmodels are also in this package.\n</li>\n<li>\nMay 21, 2012, by Kaustubh Phalak:<br/>\nEnabled the model to use overhang and side at the same time.\n</li>\n<li>\nMarch 5, 2012, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "conPar": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.ThermalZones.Detailed.BaseClasses.ParameterConstructionWithWindow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conPar"
+        },
+        "description": {
+          "description_string": "Construction parameters"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "azi": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "azi",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"deg\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Surface azimuth; azi= -90 degree East; azi= 0 South"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "mulFraSun": {
+      "type_specifier": "Modelica.Blocks.Routing.Multiplex4",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mulFraSun",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "n1",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "n2",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "n3",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "n4",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Multiplex for fraction of shaded area",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 32,
+                          "y": 0
+                        },
+                        {
+                          "x": 52,
+                          "y": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 32,
+                      "y": 0
+                    },
+                    {
+                      "x": 52,
+                      "y": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "sumFraSun": {
+      "type_specifier": "Modelica.Blocks.Math.Add",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sumFraSun"
+        },
+        "description": {
+          "description_string": "Addition of sun exposed window area fractions",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -40
+                        },
+                        {
+                          "x": -28,
+                          "y": -28
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -40
+                    },
+                    {
+                      "x": -28,
+                      "y": -28
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "resFraSun": {
+      "type_specifier": "Modelica.Blocks.Math.Add",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "resFraSun",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k2",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k1",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "-1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Calculates resultant sun exposed window area fraction",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -6
+                        },
+                        {
+                          "x": -28,
+                          "y": 6
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -6
+                    },
+                    {
+                      "x": -28,
+                      "y": 6
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "overlap": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "overlap",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Overlap of sun exposed window area fraction",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": 20
+                        },
+                        {
+                          "x": -28,
+                          "y": 32
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": 20
+                    },
+                    {
+                      "x": -28,
+                      "y": 32
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "noSunCond": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "noSunCond",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "small"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Condition when the sun is not in front of window",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -40
+                        },
+                        {
+                          "x": -8,
+                          "y": -28
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -40
+                    },
+                    {
+                      "x": -8,
+                      "y": -28
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "small": {
+      "type_prefix": "constant",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "small",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "0.001"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Small number, used to avoid that sun-exposed fraction of window is negative"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "haveOverhang": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "haveOverhang",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "conPar.ove.haveOverhang"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag for overhang",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "haveSideFins": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "haveSideFins",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "conPar.sidFin.haveSideFins"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag for sidefins",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "haveOverhangAndSideFins": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "haveOverhangAndSideFins",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "(haveOverhang and haveSideFins)"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag for overhang and sidefins"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "idx": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "idx",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": "haveOverhangAndSideFins"
+                    },
+                    "then": {
+                      "simple_expression": "2"
+                    }
+                  },
+                  {
+                    "condition": {
+                      "simple_expression": "haveOverhang"
+                    },
+                    "then": {
+                      "simple_expression": "1"
+                    }
+                  },
+                  {
+                    "condition": {
+                      "simple_expression": "haveSideFins"
+                    },
+                    "then": {
+                      "simple_expression": "3"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": "4"
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Integer used to pick the appropriate output signal"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "ove": {
+      "type_specifier": "HeatTransfer.Windows.BaseClasses.Overhang",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "ove",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "azi",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.azi"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "hWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.hWin"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "wWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.wWin"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "dep",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.ove.dep"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "gap",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.ove.gap"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "wR",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.ove.wR"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "wL",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.ove.wL"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Model for overhang",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": 40
+                        },
+                        {
+                          "x": -20,
+                          "y": 60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": 40
+                    },
+                    {
+                      "x": -20,
+                      "y": 60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "sidFin": {
+      "type_specifier": "HeatTransfer.Windows.BaseClasses.SideFins",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sidFin",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "hWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.hWin"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "wWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.wWin"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "h",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.sidFin.h"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "dep",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.sidFin.dep"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "gap",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "conPar.sidFin.gap"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Model for side fins",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -70
+                        },
+                        {
+                          "x": -20,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -70
+                    },
+                    {
+                      "x": -20,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "walSolAzi": {
+      "type_specifier": "BoundaryConditions.SolarGeometry.BaseClasses.WallSolarAzimuth",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "walSolAzi"
+        },
+        "description": {
+          "description_string": "Angle measured in horizontal plane between projection of sun's rays and normal to vertical surface",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -80,
+                          "y": -90
+                        },
+                        {
+                          "x": -60,
+                          "y": -70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -80,
+                      "y": -90
+                    },
+                    {
+                      "x": -60,
+                      "y": -70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "mulHDir": {
+      "type_specifier": "Modelica.Blocks.Math.Product",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mulHDir"
+        },
+        "description": {
+          "description_string": "Multiplication to obtain direct solar irradiation on shaded window",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": 50
+                        },
+                        {
+                          "x": 80,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": 50
+                    },
+                    {
+                      "x": 80,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "extFraSun": {
+      "type_specifier": "Modelica.Blocks.Routing.Extractor",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "extFraSun",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "allowOutOfRange",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "nin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "4"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "index",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "start",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "idx"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "fixed",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "true"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Extractor to pick the appropriate output signal",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": 0
+                        },
+                        {
+                          "x": 80,
+                          "y": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": 0
+                    },
+                    {
+                      "x": 80,
+                      "y": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "idxSou": {
+      "type_specifier": "Modelica.Blocks.Sources.IntegerConstant",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "idxSou",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "idx"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Source term to pick output signal",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 40,
+                          "y": -80
+                        },
+                        {
+                          "x": 60,
+                          "y": -60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 40,
+                      "y": -80
+                    },
+                    {
+                      "x": 60,
+                      "y": -60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "const": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "const",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": -90
+                        },
+                        {
+                          "x": 20,
+                          "y": -70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": -90
+                    },
+                    {
+                      "x": 20,
+                      "y": -70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    },
+    "smoMax": {
+      "type_specifier": "Utilities.Math.SmoothMax",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FixedShade",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "smoMax",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "deltaX",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "small/2"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Limiter to avoid that the fraction of sun-exposed window is below zero",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -10
+                        },
+                        {
+                          "x": 10,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -10
+                    },
+                    {
+                      "x": 10,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/FixedShade.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "HeatTransfer.Windows.BaseClasses.ShadeInterface_weatherBus",
+        "long_class_specifier_identifier": "FixedShade",
+        "within": "Buildings.HeatTransfer.Windows",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "weaBus.solAlt": [
+        "walSolAzi.alt",
+        "sidFin.alt",
+        "ove.alt"
+      ],
+      "incAng": [
+        "walSolAzi.incAng"
+      ],
+      "walSolAzi.verAzi": [
+        "ove.verAzi",
+        "sidFin.verAzi"
+      ],
+      "mulHDir.y": [
+        "HDirTil"
+      ],
+      "mulHDir.u1": [
+        "HDirTilUns"
+      ],
+      "weaBus": [
+        "ove.weaBus"
+      ],
+      "extFraSun.y": [
+        "fraSun",
+        "mulHDir.u2"
+      ],
+      "mulFraSun.y": [
+        "extFraSun.u"
+      ],
+      "ove.fraSun": [
+        "mulFraSun.u1[1]",
+        "sumFraSun.u1"
+      ],
+      "sidFin.fraSun": [
+        "mulFraSun.u3[1]",
+        "sumFraSun.u2"
+      ],
+      "const.y": [
+        "mulFraSun.u4[1]"
+      ],
+      "sumFraSun.y": [
+        "resFraSun.u2"
+      ],
+      "overlap.y": [
+        "resFraSun.u1"
+      ],
+      "idxSou.y": [
+        "extFraSun.index"
+      ],
+      "resFraSun.y": [
+        "smoMax.u1"
+      ],
+      "noSunCond.y": [
+        "smoMax.u2"
+      ],
+      "smoMax.y": [
+        "mulFraSun.u2[1]"
+      ]
+    }
+  }
+}

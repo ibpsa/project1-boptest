@@ -1,0 +1,1818 @@
+{
+  "instances": {
+    "InfraredRadiationExchange": {
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "preferredView",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"info\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -240,
+                              "y": -240
+                            },
+                            {
+                              "x": 240,
+                              "y": 240
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -240,
+                              "y": -240
+                            },
+                            {
+                              "x": 240,
+                              "y": 240
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -144,
+                                  "y": -8
+                                },
+                                {
+                                  "x": 146,
+                                  "y": -8
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "thickness": 0.5,
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -144,
+                                  "y": -8
+                                },
+                                {
+                                  "x": 2,
+                                  "y": 184
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "thickness": 0.5,
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -144,
+                                  "y": -8
+                                },
+                                {
+                                  "x": 2,
+                                  "y": -200
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "thickness": 0.5,
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 2,
+                                  "y": -200
+                                },
+                                {
+                                  "x": 2,
+                                  "y": 184
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "thickness": 0.5,
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 2,
+                                  "y": 184
+                                },
+                                {
+                                  "x": 148,
+                                  "y": -8
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "thickness": 0.5,
+                              "smooth": "Smooth.None"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 2,
+                                  "y": -200
+                                },
+                                {
+                                  "x": 148,
+                                  "y": -8
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "thickness": 0.5,
+                              "smooth": "Smooth.None"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model computes the infrared radiative heat transfer between the interior\nsurfaces of a room. Each opaque surface emits radiation according to\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  E<sup>i</sup> = &sigma; &nbsp; A<sup>i</sup> &nbsp; &epsilon;<sup>i</sup> &nbsp;\n(T<sup>i</sup>)<sup>4</sup>,\n</p>\n<p>\nwhere\n<i>&sigma;</i>\nis the Stefan-Boltzmann constant,\n<i>A<sup>i</sup> </i>\nis the surface area,\n<i>&epsilon;<sup>i</sup> </i>\nis the absorptivity in the infrared spectrum, and\n<i>T<sup>i</sup></i>\nis the surface temperature.\nIf the parameter <code>linearizeRadidation</code> is set to <code>true</code>,\nthen the term <i>(T<sup>i</sup>)<sup>4</sup></i> is replaced with\n<i>T<sub>0</sub><sup>3</sup> T<sup>i</sup></i>,\nwhere <i>T<sub>0</sub> = 20&deg;C</i> is a parameter.\n</p>\n<p>\nThe incoming radiation at surface <i>i</i> is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  G<sup>i</sup> = -&sum;<sub>j</sub> &nbsp; F<sup>j,i</sup> &nbsp; J<sup>j</sup>\n</p>\n<p>\nwhere\n<i>F<sup>j,i</sup></i>\nis the view factor from surface\n<i>j</i> to surface <i>i</i>,\n<i>J<sup>j</sup></i>\nis the radiosity leaving surface <i>j</i>\nand the sum is over all surfaces.\nFor opaque surfaces, it follows from the first law\nthat the radiosity\n<i>J<sup>i</sup></i>\nis\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n J<sup>i</sup> = -E<sup>i</sup>  - (1-&epsilon;<sup>i</sup>) &nbsp; G<sup>i</sup>.\n</p>\n<p>\nFor windows, the outgoing radiosity is an input into this model\nbecause the window model computes this quantity directly.\n</p>\n<p>\nFor each surface <i>i</i>, the heat balance is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  0 = Q<sup>i</sup> + J<sup>i</sup> + G<sup>i</sup>.\n</p>\n<p>\nFor opaque surfaces, the heat flow rate\n<i>Q<sup>i</sup></i>\nis set to be equal to the heat flow rate at the heat port.\nFor the glass of the windows, the radiosity outflow at the connector is\nset to the radiosity\n<i>G<sup>i</sup></i>\nthat is leaving the surface.\n</p>\n<p>\nThe view factor from surface <i>i</i> to <i>j</i> is approximated as\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  F<sup>i,j</sup> = A<sup>j</sup> &frasl; &sum;<sub>k </sub> A<sup>k</sup>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nNovember 30, 2021, by Michael Wetter:<br/>\nRemoved test on radiation balance that was added for debugging purposes.\n</li>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nChanged <code>homotopyInitialization</code> to a constant.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\\\">IBPSA, #1341</a>.\n</li>\n<li>\nJanuary 23, 2017, by Michael Wetter:<br/>\nCorrected wrong start value for <code>J</code>.\nThe start value was positive, but <code>J(each max =0)</code>.<br/>\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/627\\\">issue 627</a>.\n</li>\n<li>\nMay 21, 2015, by Michael Wetter:<br/>\nReformulated to reduce use of the division macro\nin Dymola.\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/417\\\">issue 417</a>.\n</li>\n<li>\nMay 30, 2014, by Michael Wetter:<br/>\nRemoved undesirable annotation <code>Evaluate=true</code>.\n</li>\n<li>\nJune 27, 2013, by Michael Wetter:<br/>\nChanged model because the outflowing radiosity has been changed to be a non-negative quantity.\nSee track issue <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/158\\\">#158</a>.\n</li>\n<li>\nApril 18, 2013, by Michael Wetter:<br/>\nRemoved <code>cardinality</code> function as this is\ndeprecated in the MSL specification and not correctly implemented in omc.\n</li>\n<li>\nFebruary 10, 2012 by Wangda Zuo:<br/>\nFixed a bug for linearization of T4.\n</li>\n<li>\nApril 21, 2011 by Michael Wetter:<br/>\nFixed a bug in the view factor calculation, and rewrote the model to reduce simulation time. The bug caused too much radiosity to flow from large to small surfaces because the law of reciprocity for view factors was not satisfied. This led to low surface temperatures if a surface had a large area compared to other surfaces.\n</li>\n<li>\nApril 2, 2011 by Michael Wetter:<br/>\nAdded <code>homotopy</code> operator.\n</li>\n<li>\nFeb. 3, 2011, by Michael Wetter:<br/>\nCorrected bug in start value of radiosity, reformulated equations to get\nsmaller system of coupled equations.\n</li>\n<li>\nDec. 1, 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "homotopyInitialization": {
+      "type_prefix": "constant",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "homotopyInitialization",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "true"
+            }
+          }
+        },
+        "description": {
+          "description_string": "= true, use homotopy method",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "HideResult",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "HideResult",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "linearizeRadiation": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "linearizeRadiation"
+        },
+        "description": {
+          "description_string": "Set to true to linearize emissive power"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "sampleModel": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sampleModel",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "false"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to true to time-sample the model, which can give shorter simulation time if there is already time sampling in the system model",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Experimental (may be changed in future releases)\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Experimental (may be changed in future releases)\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "JInConExtWin": {
+      "type_specifier": "HeatTransfer.Interfaces.RadiosityInflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JInConExtWin",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveConExtWin"
+          }
+        },
+        "description": {
+          "description_string": "Incoming radiosity that connects to non-frame part of the window",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 260,
+                          "y": 70
+                        },
+                        {
+                          "x": 240,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 260,
+                      "y": 70
+                    },
+                    {
+                      "x": 240,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "JOutConExtWin": {
+      "type_specifier": "HeatTransfer.Interfaces.RadiosityOutflow",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JOutConExtWin",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ]
+        },
+        "description": {
+          "description_string": "Outgoing radiosity that connects to non-frame part of the window",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 240,
+                          "y": 110
+                        },
+                        {
+                          "x": 260,
+                          "y": 130
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 240,
+                      "y": 110
+                    },
+                    {
+                      "x": 260,
+                      "y": 130
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "T30": {
+      "type_prefix": "constant",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "T30",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K3\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "293.15^3"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Nominal temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "T40": {
+      "type_prefix": "constant",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "T40",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K4\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "293.15^4"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Nominal temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "NOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NOpa",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NConExt +2*NConExtWin +2*NConPar +NConBou +NSurBou"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of opaque surfaces, including the window frame"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "nOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nOpa",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "nConExt +2*nConExtWin +2*nConPar +nConBou +nSurBou"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of opaque surfaces, including the window frame"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "NWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NWin",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NConExtWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of window surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "nWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nWin",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "nConExtWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of window surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "NTot": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NTot",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NOpa +NWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Total number of surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "nTot": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nTot",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "nOpa +nWin"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Total number of surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "epsOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "epsOpa",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Absorptivity of opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "rhoOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "rhoOpa",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Reflectivity of opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "AOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AOpa",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Surface area of opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "A": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Area",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "A",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Surface areas"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "kOpa": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "kOpa",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W/K4\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Product sigma*epsilon*A for opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "kOpaInv": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "kOpaInv",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K4/W\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Inverse of kOpa, used to avoid having to use a safe division"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "F": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "F",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nTot"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "nTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "View factor from surface i to j"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "t0": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "t0",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "First sample time instant"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "JInConExtWin_internal": {
+      "type_specifier": "Buildings.HeatTransfer.Interfaces.RadiosityInflow",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "JInConExtWin_internal",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NConExtWin"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AConExtWinGla*0.8*Modelica.Constants.sigma*293.15^4"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "logical_expression": {
+                            "logical_or": [
+                              {
+                                "logical_and": [
+                                  {
+                                    "arithmetic_expressions": [
+                                      {
+                                        "name": "nConExtWin"
+                                      },
+                                      {
+                                        "name": "0"
+                                      }
+                                    ],
+                                    "relation_operator": ">"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Incoming radiosity that connects to non-frame part of the window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "J": {
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "J",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "-A.*0.8*Modelica.Constants.sigma*293.15^4"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "for_loop": {
+                            "expression": {
+                              "simple_expression": "sampleModel and ([object Object])"
+                            },
+                            "for_loop": [
+                              {
+                                "name": "i",
+                                "range": "1:nTot"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "-10*0.8*Modelica.Constants.sigma*293.15^4"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Radiosity leaving the surface"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "G": {
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "G",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "A.*0.8*Modelica.Constants.sigma*293.15^4"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "10*0.8*Modelica.Constants.sigma*293.15^4"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Radiosity entering the surface"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "TOpa": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TOpa",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Temperature of opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "T4Opa": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "T4Opa",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOpa"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K4\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "T40"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15^4"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Forth power of temperature of opaque surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "Q_flow": {
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Q_flow",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nTot"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "sampleModel"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Heat flow rate at surfaces"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "T0": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "T0",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "293.15"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Temperature used to linearize radiative heat transfer"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    },
+    "T03": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "InfraredRadiationExchange",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "T03",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K3\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "T0^3"
+            }
+          }
+        },
+        "description": {
+          "description_string": "3rd power of temperature T0"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.ThermalZones.Detailed.BaseClasses.PartialSurfaceInterfaceRadiative",
+        "long_class_specifier_identifier": "InfraredRadiationExchange",
+        "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "JInConExtWin": [
+        "JInConExtWin_internal"
+      ]
+    }
+  }
+}

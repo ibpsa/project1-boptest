@@ -1,0 +1,1773 @@
+{
+  "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "block",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "Overhang",
+          "description_string": "For a window with an overhang, outputs the fraction of the area that is sun exposed",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Modelica.Blocks.Icons.Block"
+                }
+              },
+              {
+                "extends_clause": {
+                  "name": "Buildings.ThermalZones.Detailed.BaseClasses.Overhang"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "verAzi",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Angle\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"rad\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"deg\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Wall solar azimuth angle (angle between projection of sun's rays and normal to vertical surface)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 60
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "alt",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Angle\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"rad\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"deg\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Altitude angle",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": -60
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": -20
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "fraSun",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "max",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "1"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Fraction of window area exposed to the sun",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Angle",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "azi",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"deg\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Surface azimuth; azi= -90 degree East; azi= 0 degree South"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Length",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "hWin"
+                      },
+                      "description": {
+                        "description_string": "Window height",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"General\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Window\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Length",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "wWin"
+                      },
+                      "description": {
+                        "description_string": "Window width",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"General\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Window\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Buildings.BoundaryConditions.WeatherData.Bus",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "weaBus"
+                      },
+                      "description": {
+                        "description_string": "Weather data",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -112,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": -92,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_prefix": "constant",
+                      "type_specifier": "Modelica.Units.SI.Angle",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "delSolAzi",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "0.005"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Half-width of transition interval between left and right formulation for overhang"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AWin",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "hWin*wWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Window area"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "tmpH",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Height rectangular sections used for superposition"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "w"
+                          },
+                          "description": {
+                            "description_string": "Either wL or wR, depending on the sun relative to the wall azimuth"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "tmpW",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Width of rectangular sections used for superpositions"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "del_L",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "wWin/100"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Fraction of window dimension over which min-max functions are smoothened"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "x1"
+                          },
+                          "description": {
+                            "description_string": "Horizontal distance between window side edge and shadow corner"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "x2",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Horizontal distance between window side edge and point where shadow line and window lower edge intersects"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "y1"
+                          },
+                          "description": {
+                            "description_string": "Vertical distance between overhang and shadow lower edge"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "y2",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Window height (vertical distance corresponding to x2)"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "shdwTrnglRtio"
+                          },
+                          "description": {
+                            "description_string": "Ratio of y1 and x1"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "area",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Shaded areas of the sections used in superposition"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "shdArea"
+                          },
+                          "description": {
+                            "description_string": "Shaded area calculated from equations"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "crShdArea"
+                          },
+                          "description": {
+                            "description_string": "Final value for shaded area"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "crShdArea1"
+                          },
+                          "description": {
+                            "description_string": "Corrected for the sun behind the surface/wall"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "crShdArea2"
+                          },
+                          "description": {
+                            "description_string": "Corrected for the sun below horizon"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses.SolarAzimuth",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "solAzi"
+                          },
+                          "description": {
+                            "description_string": "Solar azimuth",
+                            "annotation": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "Placement": {
+                                      "transformation": {
+                                        "extent": [
+                                          {
+                                            "x": -60,
+                                            "y": -10
+                                          },
+                                          {
+                                            "x": -40,
+                                            "y": 10
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "initial": true,
+                  "equation": [
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "wL"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": ">="
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"Overhang must cover complete window\n    Received overhang width on left hand side, wL = \" +String(wL)"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "wR"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": ">="
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"Overhang must cover complete window\n    Received overhang width on right hand side, wR = \" +String(wR)"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:4"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "tmpH[i]",
+                              "rhs": {
+                                "simple_expression": "gap +mod((i -1),2)*hWin"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "haveOverhang"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "w",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.spliceFunction",
+                                          "arguments": [
+                                            {
+                                              "name": "pos=wL,neg=wR,x=solAzi.solAzi -azi,deltax=delSolAzi"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "tmpW[1]",
+                                    "rhs": {
+                                      "simple_expression": "w +wWin"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "tmpW[2]",
+                                    "rhs": {
+                                      "simple_expression": "w"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "tmpW[3]",
+                                    "rhs": {
+                                      "simple_expression": "w"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "tmpW[4]",
+                                    "rhs": {
+                                      "simple_expression": "w +wWin"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "y1*Modelica.Math.cos(verAzi)",
+                                    "rhs": {
+                                      "simple_expression": "dep*Modelica.Math.tan(alt)"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "x1",
+                                    "rhs": {
+                                      "simple_expression": "dep*Modelica.Math.tan(verAzi)"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "shdwTrnglRtio*x1",
+                                    "rhs": {
+                                      "simple_expression": "y1"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "for_equation": {
+                                    "for_indices": [
+                                      {
+                                        "identifier": "i",
+                                        "expression": {
+                                          "simple_expression": "1:4"
+                                        }
+                                      }
+                                    ],
+                                    "loop_equations": [
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "y2[i]",
+                                          "rhs": {
+                                            "simple_expression": "tmpH[i]"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "x2[i]",
+                                          "rhs": {
+                                            "simple_expression": "x1*tmpH[i]/Buildings.Utilities.Math.Functions.smoothMax(x1=y1,x2=1e-8*hWin,deltaX=1e-9*hWin)"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "area[i]",
+                                          "rhs": {
+                                            "simple_expression": "Buildings.Utilities.Math.Functions.smoothMin(x1=y1,x2=y2[i],deltaX=del_L)*tmpW[i] -(Buildings.Utilities.Math.Functions.smoothMin(y1,tmpH[i],del_L)*Buildings.Utilities.Math.Functions.smoothMin(x1=x2[i],x2=y1,deltaX=del_L)/2) +Buildings.Utilities.Math.Functions.smoothMax(x1=shdwTrnglRtio*(Buildings.Utilities.Math.Functions.smoothMin(x1=x1,x2=x2[i],deltaX=del_L) -tmpW[i]),x2=0,deltaX=del_L)*Buildings.Utilities.Math.Functions.smoothMax(x1=(Buildings.Utilities.Math.Functions.smoothMin(x1=x1,x2=x2[i],deltaX=del_L) -tmpW[i]),x2=0,deltaX=del_L)/2"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "shdArea",
+                                    "rhs": {
+                                      "simple_expression": "area[4] +area[3] -area[2] -area[1]"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "crShdArea1",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.spliceFunction",
+                                          "arguments": [
+                                            {
+                                              "name": "pos=shdArea,neg=AWin,x=(Modelica.Constants.pi/2) -verAzi,deltax=0.01"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "crShdArea2",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.spliceFunction",
+                                          "arguments": [
+                                            {
+                                              "name": "pos=shdArea,neg=AWin,x=alt,deltax=0.01"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "crShdArea",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.smoothMax",
+                                          "arguments": [
+                                            {
+                                              "name": "x1=crShdArea1,x2=crShdArea2,deltaX=0.01"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "fraSun",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.smoothMin",
+                                          "arguments": [
+                                            {
+                                              "name": "x1=Buildings.Utilities.Math.Functions.smoothMax(x1=1 -crShdArea/AWin,x2=0,deltaX=0.01),x2=1,deltaX=0.01"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "w",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "tmpW",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "y1",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "x1",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "shdwTrnglRtio",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "for_equation": {
+                              "for_indices": [
+                                {
+                                  "identifier": "i",
+                                  "expression": {
+                                    "simple_expression": "1:4"
+                                  }
+                                }
+                              ],
+                              "loop_equations": [
+                                {
+                                  "assignment_equation": {
+                                    "lhs": "y2[i]",
+                                    "rhs": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                },
+                                {
+                                  "assignment_equation": {
+                                    "lhs": "x2[i]",
+                                    "rhs": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                },
+                                {
+                                  "assignment_equation": {
+                                    "lhs": "area[i]",
+                                    "rhs": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "shdArea",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "crShdArea1",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "crShdArea2",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "crShdArea",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "fraSun",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "solTim"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "solAzi"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "solTim"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -102,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -80,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -80,
+                                      "y": -4
+                                    },
+                                    {
+                                      "x": -62,
+                                      "y": -4
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 204,
+                                    "b": 51
+                                  },
+                                  "thickness": 0.5,
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": -6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": -6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "textString": "\"%first\"",
+                                  "index": -1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "solZen"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "solAzi"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "zen"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -102,
+                                      "y": 5.55112e-16
+                                    },
+                                    {
+                                      "x": -80,
+                                      "y": 5.55112e-16
+                                    },
+                                    {
+                                      "x": -80,
+                                      "y": 6
+                                    },
+                                    {
+                                      "x": -62,
+                                      "y": 6
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 204,
+                                    "b": 51
+                                  },
+                                  "thickness": 0.5,
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": -6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": -6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "textString": "\"%first\"",
+                                  "index": -1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "solDec"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "solAzi"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "decAng"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -102,
+                                      "y": 5.55112e-16
+                                    },
+                                    {
+                                      "x": -92,
+                                      "y": 5.55112e-16
+                                    },
+                                    {
+                                      "x": -92,
+                                      "y": 1.22125e-15
+                                    },
+                                    {
+                                      "x": -82,
+                                      "y": 1.22125e-15
+                                    },
+                                    {
+                                      "x": -82,
+                                      "y": 6.66134e-16
+                                    },
+                                    {
+                                      "x": -62,
+                                      "y": 6.66134e-16
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 204,
+                                    "b": 51
+                                  },
+                                  "thickness": 0.5,
+                                  "smooth": "Smooth.None"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": -6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": -6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "textString": "\"%first\"",
+                                  "index": -1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "weaBus"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "lat"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "solAzi"
+                          },
+                          {
+                            "dot_op": true
+                          },
+                          {
+                            "dot_op": false,
+                            "identifier": "lat"
+                          }
+                        ]
+                      },
+                      "description": {
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Line": {
+                                  "points": [
+                                    {
+                                      "x": -102,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -80,
+                                      "y": 0
+                                    },
+                                    {
+                                      "x": -80,
+                                      "y": -10
+                                    },
+                                    {
+                                      "x": -62,
+                                      "y": -10
+                                    }
+                                  ],
+                                  "color": {
+                                    "r": 255,
+                                    "g": 204,
+                                    "b": 51
+                                  },
+                                  "thickness": 0.5
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Text": {
+                                  "extent": [
+                                    {
+                                      "x": -6,
+                                      "y": 3
+                                    },
+                                    {
+                                      "x": -6,
+                                      "y": 3
+                                    }
+                                  ],
+                                  "horizontalAlignment": "TextAlignment.Right",
+                                  "string": "\"%first\"",
+                                  "index": -1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -100,
+                                    "y": -100
+                                  },
+                                  {
+                                    "x": 100,
+                                    "y": 100
+                                  }
+                                ],
+                                "preserveAspectRatio": "false"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -100,
+                                        "y": 100
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": -100
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Bitmap",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -114,
+                                        "y": 98
+                                      },
+                                      {
+                                        "x": 122,
+                                        "y": -94
+                                      }
+                                    ],
+                                    "fileName": "\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/Overhang.png\""
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "defaultComponentName",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"overhang\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nFor a window with an overhang, this block outputs the fraction of\nthe area that is exposed to the sun.\nThis models can also be used for doors with an overhang.\n</p>\n<p>\nInput to this block are the\nwall solar azimuth angle and the altitude angle of the sun.\nThese angles can be calculated using blocks from the package\n<a href=\\\"modelica://Buildings.BoundaryConditions.SolarGeometry.BaseClasses\\\">\nBuildings.BoundaryConditions.SolarGeometry.BaseClasses</a>.\n</p>\n<p>\nThe overhang can be asymmetrical (i.e. <code>wR &ne; wL</code>)\nabout the vertical centerline\nof the window.\nThe overhang must completely cover the window (i.e.,\n<code>wL &ge; 0</code> and\n<code>wR &ge; 0</code>).\n<code>wL</code> and <code>wR</code> are measured from the left and right edge of the window.\n</p>\n<p>\nThe surface azimuth <code>azi</code> is as defined in\n<a href=\\\"modelica://Buildings.Types.Azimuth\\\">\nBuildings.Types.Azimuth</a>.\n</p>\n<h4>Implementation</h4>\n<p>\nThe method of super position is used to calculate the window shaded area.\nThe area below the overhang is divided as shown in the figure.\n</p>\n<p align=\\\"center\\\">\n<img alt=\\\"image\\\" src=\\\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/OverhangSuperPosition.png\\\" />\n</p>\n<p>\nDimensional variables used in code for the rectangle <i>DEGI, AEGH, CFGI</i> and <i>BFGH</i>\nare shown in the figure below:\n</p>\n<p align=\\\"center\\\">\n<img alt=\\\"image\\\" src=\\\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/OverhangVariables.png\\\" />\n</p>\n<p>\nThe rectangles <i>DEGI, AEGH, CFGI</i> and <i>BFGH</i> have the same geometric configuration\nwith respect to the overhang.\nThus, the same algorithm can be used to calculate the shaded portion in these areas.\nA single equation in the <code>for</code> loop improves the total calculation time,\nas compared to <code>if-then-else</code>\nconditions, considering the various shapes of the shaded portions.\nTo find the shaded area in window <i>ABCD</i>, the shaded portion of <i>AEGD</i> and <i>CFGI</i>\nshould be subtracted from that of <i>DEGI</i> and <i>BFGH</i>.\nThis shaded area of the window is then divided by the total window area\nto calculate the shaded fraction of the window.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nSeptember 16, 2021, by Michael Wetter:<br/>\nRemoved parameter <code>lat</code> because the latitude is now obtained from the weather data bus.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\\\">IBPSA, #1477</a>.\n</li>\n<li>\nOctober 28, 2014, by Michael Wetter:<br/>\nReformulated <code>shdwTrnglRtio*x1 = y1</code> to avoid a division by\nzero if the model is exported as an FMU.<br/>\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/234\\\">#234</a>.\n</li>\n<li>\nJuly 5, 2012, by Michael Wetter:<br/>\nChanged definitions of <code>wL</code> and <code>wR</code> to be\nmeasured from the corner of the window instead of the centerline.\nThis allows changing the window width without having to adjust the\noverhang parameters.\n</li>\n<li>\nJuly 5, 2012, by Michael Wetter:<br/>\nRevised implementation to avoid state events when horizontal projection\nof the sun beam is perpendicular to window.\n</li>\n<li>\nMay 7, 2012, by Kaustubh Phalak:<br/>\nModified for use of asymmetrical overhang.\n</li>\n<li>\nFeb 23, 2012, by Michael Wetter:<br/>\nRevised implementation.\n</li>\n<li>\nFeb 01, 2012, by Kaustubh Phalak:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/HeatTransfer/Windows/BaseClasses/Overhang.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/Overhang.mo",
+  "checksum": "d3b29d02b8072446c6c48b6a0ef243cc"
+}

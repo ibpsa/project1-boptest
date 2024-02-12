@@ -1,0 +1,2214 @@
+{
+  "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "RadiationTemperature",
+          "description_string": "Radiative temperature of the room",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Buildings.ThermalZones.Detailed.BaseClasses.PartialSurfaceInterfaceRadiative"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "glaUns",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConExtWin"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface of unshaded glass",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 230,
+                                        "y": 110
+                                      },
+                                      {
+                                        "x": 250,
+                                        "y": 130
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "glaSha",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveShade"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface of shaded glass",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 230,
+                                        "y": 70
+                                      },
+                                      {
+                                        "x": 250,
+                                        "y": 90
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "sha",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveShade"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to shade",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 230,
+                                        "y": 28
+                                      },
+                                      {
+                                        "x": 250,
+                                        "y": 48
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "haveShade"
+                      },
+                      "description": {
+                        "description_string": "Set to true if the windows have a shade",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "HideResult",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "uSha",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ],
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "each": true,
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "each": true,
+                                "element_modification": {
+                                  "name": "max",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "1"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveShade"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Control signal for the shading device (removed if no shade is present)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -280,
+                                        "y": 160
+                                      },
+                                      {
+                                        "x": -240,
+                                        "y": 200
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -280,
+                                        "y": 160
+                                      },
+                                      {
+                                        "x": -240,
+                                        "y": 200
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TRad",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"K\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"degC\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Radiative temperature",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -240,
+                                        "y": -190
+                                      },
+                                      {
+                                        "x": -260,
+                                        "y": -170
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -240,
+                                        "y": -194
+                                      },
+                                      {
+                                        "x": -260,
+                                        "y": -174
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "NOpa",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "NConExt +2*NConExtWin +2*NConPar +NConBou +NSurBou"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Number of opaque surfaces, including the window frame"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "NWin",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "NConExtWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Number of window surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "NTot",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "NOpa +NWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Total number of surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AGla",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConExtWin.AGla"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Surface area of opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsGla",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "for_loop": {
+                                    "expression": {
+                                      "simple_expression": "datConExtWin[i].glaSys.glass[[object Object]].absIR_b"
+                                    },
+                                    "for_loop": [
+                                      {
+                                        "name": "i",
+                                        "range": "1:NWin"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of glass"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsSha",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "for_loop": {
+                                    "expression": {
+                                      "simple_expression": "datConExtWin[i].glaSys.shade.absIR_a"
+                                    },
+                                    "for_loop": [
+                                      {
+                                        "name": "i",
+                                        "range": "1:NWin"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of shade"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "tauSha",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "for_loop": {
+                                    "expression": {
+                                      "simple_expression": {
+                                        "if_expression": [
+                                          {
+                                            "if_elseif": [
+                                              {
+                                                "condition": "datConExtWin[i].glaSys.haveInteriorShade",
+                                                "then": "datConExtWin[i].glaSys.shade.tauIR_a"
+                                              }
+                                            ],
+                                            "else": "1"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "for_loop": [
+                                      {
+                                        "name": "i",
+                                        "range": "1:NWin"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Transmissivity of shade"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsAOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Product of area times absorptivity of opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsAGla",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Product of area times absorptivity of window surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsASha",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Product of area times absorptivity of window shade"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsTauASha",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Product of area times glass absorptivity times shade transmittance"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Temperature of opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TGlaUns",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Temperature of unshaded part of glass"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TGlaSha",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Temperature of shaded part of glass"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TSha",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Temperature of shade"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "glaUns_internal",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Heat port that connects to room-side surface of unshaded glass"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "glaSha_internal",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Heat port that connects to room-side surface of shaded glass"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "sha_internal",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Heat port that connects to shade"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "uSha_internal",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Control signal for the shading device"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "initial": true,
+                  "equation": [
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConExt"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsAOpa[i]",
+                              "rhs": {
+                                "simple_expression": "epsConExt[i]*AConExt[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConPar"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsAOpa[i +NConExt]",
+                              "rhs": {
+                                "simple_expression": "epsConPar_a[i]*AConPar[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsAOpa[i +NConExt +NConPar]",
+                              "rhs": {
+                                "simple_expression": "epsConPar_b[i]*AConPar[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsAOpa[i +NConExt +2*NConPar]",
+                              "rhs": {
+                                "simple_expression": "epsConBou[i]*AConBou[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NSurBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsAOpa[i +NConExt +2*NConPar +NConBou]",
+                              "rhs": {
+                                "simple_expression": "epsSurBou[i]*ASurBou[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConExtWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsAOpa[i +NConExt +2*NConPar +NConBou +NSurBou]",
+                              "rhs": {
+                                "simple_expression": "epsConExtWinOpa[i]*AConExtWinOpa[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsAOpa[i +NConExt +2*NConPar +NConBou +NSurBou +NConExtWin]",
+                              "rhs": {
+                                "simple_expression": "epsConExtWinFra[i]*AConExtWinFra[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConExtWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsAGla[i]",
+                              "rhs": {
+                                "simple_expression": "AGla[i]*epsGla[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsASha[i]",
+                              "rhs": {
+                                "simple_expression": "AGla[i]*epsSha[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsTauASha[i]",
+                              "rhs": {
+                                "simple_expression": "AGla[i]*epsGla[i]*tauSha[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "glaUns"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "glaUns_internal"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "glaSha"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "glaSha_internal"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "sha"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "sha_internal"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "uSha"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "uSha_internal"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "not haveConExtWin"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "glaUns_internal.T",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "fill",
+                                          "arguments": [
+                                            {
+                                              "name": "293.15"
+                                            },
+                                            {
+                                              "name": "NConExtWin"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "not haveShade"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "glaSha_internal.T",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "fill",
+                                          "arguments": [
+                                            {
+                                              "name": "293.15"
+                                            },
+                                            {
+                                              "name": "NConExtWin"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "sha_internal.T",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "fill",
+                                          "arguments": [
+                                            {
+                                              "name": "293.15"
+                                            },
+                                            {
+                                              "name": "NConExtWin"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "uSha_internal",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "fill",
+                                          "arguments": [
+                                            {
+                                              "name": "0"
+                                            },
+                                            {
+                                              "name": "NConExtWin"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConExt"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i]",
+                              "rhs": {
+                                "simple_expression": "conExt[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConPar"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +NConExt]",
+                              "rhs": {
+                                "simple_expression": "conPar_a[i].T"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +NConExt +NConPar]",
+                              "rhs": {
+                                "simple_expression": "conPar_b[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +NConExt +2*NConPar]",
+                              "rhs": {
+                                "simple_expression": "conBou[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NSurBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +NConExt +2*NConPar +NConBou]",
+                              "rhs": {
+                                "simple_expression": "conSurBou[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConExtWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +NConExt +2*NConPar +NConBou +NSurBou]",
+                              "rhs": {
+                                "simple_expression": "conExtWin[i].T"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +NConExt +2*NConPar +NConBou +NConExtWin +NSurBou]",
+                              "rhs": {
+                                "simple_expression": "conExtWinFra[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:NConExtWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TGlaUns[i]",
+                              "rhs": {
+                                "simple_expression": "glaUns_internal[i].T"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "TGlaSha[i]",
+                              "rhs": {
+                                "simple_expression": "glaSha_internal[i].T"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "TSha[i]",
+                              "rhs": {
+                                "simple_expression": "sha_internal[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "haveShade"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "TRad",
+                                    "rhs": {
+                                      "simple_expression": "(sum(epsAOpa[i]*TOpa[i] for i in 1:NOpa) +sum((uSha_internal[i]*(epsASha[i]*TSha[i] +epsTauASha[i]*TGlaSha[i]) +(1 -uSha_internal[i])*epsAGla[i]*TGlaUns[i]) for i in 1:NConExtWin))/(sum(epsAOpa) +sum((uSha_internal[i]*(epsASha[i] +epsTauASha[i]) +(1 -uSha_internal[i])*epsAGla[i]) for i in 1:NConExtWin))"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TRad",
+                              "rhs": {
+                                "simple_expression": "(sum(epsAOpa[i]*TOpa[i] for i in 1:NOpa) +sum(epsAGla.*TGlaUns))/(sum(epsAOpa) +sum(epsAGla))"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "haveConExt"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "for_equation": {
+                                    "for_indices": [
+                                      {
+                                        "identifier": "i",
+                                        "expression": {
+                                          "simple_expression": "1:NConExt"
+                                        }
+                                      }
+                                    ],
+                                    "loop_equations": [
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "0",
+                                          "rhs": {
+                                            "simple_expression": "conExt[i].Q_flow"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "conExt[1].T",
+                              "rhs": {
+                                "simple_expression": "293.15"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "haveConPar"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "for_equation": {
+                                    "for_indices": [
+                                      {
+                                        "identifier": "i",
+                                        "expression": {
+                                          "simple_expression": "1:NConPar"
+                                        }
+                                      }
+                                    ],
+                                    "loop_equations": [
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "0",
+                                          "rhs": {
+                                            "simple_expression": "conPar_a[i].Q_flow"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "0",
+                                          "rhs": {
+                                            "simple_expression": "conPar_b[i].Q_flow"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "conPar_a[1].T",
+                              "rhs": {
+                                "simple_expression": "293.15"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "conPar_b[1].T",
+                              "rhs": {
+                                "simple_expression": "293.15"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "haveConBou"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "for_equation": {
+                                    "for_indices": [
+                                      {
+                                        "identifier": "i",
+                                        "expression": {
+                                          "simple_expression": "1:NConBou"
+                                        }
+                                      }
+                                    ],
+                                    "loop_equations": [
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "0",
+                                          "rhs": {
+                                            "simple_expression": "conBou[i].Q_flow"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "conBou[1].T",
+                              "rhs": {
+                                "simple_expression": "293.15"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "haveSurBou"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "for_equation": {
+                                    "for_indices": [
+                                      {
+                                        "identifier": "i",
+                                        "expression": {
+                                          "simple_expression": "1:NSurBou"
+                                        }
+                                      }
+                                    ],
+                                    "loop_equations": [
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "0",
+                                          "rhs": {
+                                            "simple_expression": "conSurBou[i].Q_flow"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "conSurBou[1].T",
+                              "rhs": {
+                                "simple_expression": "293.15"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "haveConExtWin"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "for_equation": {
+                                    "for_indices": [
+                                      {
+                                        "identifier": "i",
+                                        "expression": {
+                                          "simple_expression": "1:NConExtWin"
+                                        }
+                                      }
+                                    ],
+                                    "loop_equations": [
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "0",
+                                          "rhs": {
+                                            "simple_expression": "conExtWin[i].Q_flow"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "0",
+                                          "rhs": {
+                                            "simple_expression": "conExtWinFra[i].Q_flow"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "conExtWin[1].T",
+                              "rhs": {
+                                "simple_expression": "293.15"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "conExtWinFra[1].T",
+                              "rhs": {
+                                "simple_expression": "293.15"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "preferredView",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"info\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Diagram",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -240,
+                                    "y": -240
+                                  },
+                                  {
+                                    "x": 240,
+                                    "y": 240
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {}
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -240,
+                                    "y": -240
+                                  },
+                                  {
+                                    "x": 240,
+                                    "y": 240
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -144,
+                                        "y": -8
+                                      },
+                                      {
+                                        "x": 146,
+                                        "y": -8
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "thickness": 0.5,
+                                    "smooth": "Smooth.None"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 2,
+                                        "y": -200
+                                      },
+                                      {
+                                        "x": 2,
+                                        "y": 184
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "thickness": 0.5,
+                                    "smooth": "Smooth.None"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nThis model computes the radiative temperature in the room.\nFor a room with windows but no shade, the radiative temperature is\ncomputed as\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  T<sub>rad</sub> = &sum;<sub>i</sub> &nbsp; (A<sup>i</sup> &nbsp; &epsilon;<sup>i</sup> &nbsp; T<sup>i</sup>)\n  &frasl;\n  &sum;<sub>i</sub> &nbsp; (A<sup>i</sup> &nbsp; &epsilon;<sup>i</sup>)\n</p>\n<p>\nwhere\n<i>T<sub>rad</sub></i> is the radiative temperature of the room,\n<i>A<sup>i</sup></i> are the surface areas of the room,\n<i>&epsilon;<sup>i</sup></i> are the infrared emissivities of the surfaces, and\n<i>T<sup>i</sup></i> are the surface temperatures.\n</p>\n<p>\nIf a the windows have a shade, then the equation is modified to take the actual shaded and non-shaded\nsurface area into account. In this situation, the shaded part of a window has a infrared radiative power\nof</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n E = A &nbsp; ( u &nbsp; &epsilon;<sub>s</sub> &nbsp; T<sub>s</sub> +\n   (1-u) &nbsp; &epsilon;<sub>g</sub> &tau;<sub>s</sub> &nbsp; T<sub>gs</sub>)\n</p>\n<p>\nwhere\n<i>A</i> is the surface area of the glass,\n<i>u</i> is the control signal of the shade,\n<i>&epsilon;<sub>s</sub></i> is the infrared absorptivity of the shade,\n<i>T<sub>s</sub></i> is the temperature of the shade,\n<i>&epsilon;<sub>g</sub></i> is the infrared absorptivity of the glass,\n<i>&tau;<sub>s</sub></i> is the infrared transmittance of the shade, and\n<i>T<sub>gs</sub></i> is the glass temperature behind the shade.\n</p>\n<p>\nFor the unshaded part of the window, the radiative power is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n E = A &nbsp; (1-u) &nbsp; &epsilon;<sub>g</sub> &nbsp; T<sub>gn</sub>\n</p>\n<p>where\n<i>T<sub>gn</sub></i> is the glass temperature of the non-shaded part of the window.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 13, 2015, by Michael Wetter:<br/>\nChanged model to avoid a translation error\nin OpenModelica.\n</li>\n<li>\nJuly 16, 2013, by Michael Wetter:<br/>\nAdded assignment of heat port temperature instead of heat flow rate\nfor the cases where a construction has been conditionally removed.\nThis is required to avoid a singularity.\n</li>\n<li>\nMarch 29 2011, by Michael Wetter:<br/>\nRewrote sum for the radiation temperature.\n</li>\n<li>\nJan. 18 2011, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationTemperature.mo",
+  "checksum": "5d65e8ea6926e4c33f0888d5f45ab2f9"
+}

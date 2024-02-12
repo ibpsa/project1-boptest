@@ -16,14 +16,22 @@ model WriteZoneSup
       min=285.15,
       max=313.15))
     "Zone air temperature heating setpoint"
-    annotation (Placement(transformation(extent={{0,30},{20,50}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+               "bldg:<cdl_instance_name> a brick:Zone_Air_Heating_Temperature_Setpoint ;
+                          brick:hasLocation bldg:hvac_cor_zone .")),
+      Placement(transformation(extent={{0,30},{20,50}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite TZonCooSet(description=
         "Zone air temperature cooling setpoint for zone " + zone, u(
       unit="K",
       min=285.15,
       max=313.15))
     "Zone air temperature cooling setpoint"
-    annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+               "bldg:<cdl_instance_name> a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+                          brick:hasLocation bldg:hvac_cor_zone .")),
+      Placement(transformation(extent={{0,-50},{20,-30}})));
   Modelica.Blocks.Interfaces.RealOutput TZonHeaSet_out
     "Zone air temperature heating setpoint"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));

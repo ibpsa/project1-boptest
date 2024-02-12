@@ -1,0 +1,2589 @@
+{
+  "instances": {
+    "Economizer": {
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"conEco\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 200,
+                              "y": 200
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 200,
+                              "y": 200
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": 200
+                                },
+                                {
+                                  "x": 200,
+                                  "y": -100
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -92,
+                                  "y": 110
+                                },
+                                {
+                                  "x": -52,
+                                  "y": 90
+                                }
+                              ],
+                              "textString": "\"TRet\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -92,
+                                  "y": 32
+                                },
+                                {
+                                  "x": -52,
+                                  "y": 12
+                                }
+                              ],
+                              "textString": "\"TMix\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -92,
+                                  "y": -36
+                                },
+                                {
+                                  "x": -24,
+                                  "y": -84
+                                }
+                              ],
+                              "textString": "\"VOut_flow\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 138,
+                                  "y": 96
+                                },
+                                {
+                                  "x": 184,
+                                  "y": 62
+                                }
+                              ],
+                              "textString": "\"yOA\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 140,
+                                  "y": 20
+                                },
+                                {
+                                  "x": 186,
+                                  "y": -14
+                                }
+                              ],
+                              "textString": "\"yRet\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -92,
+                                  "y": 194
+                                },
+                                {
+                                  "x": -24,
+                                  "y": 170
+                                }
+                              ],
+                              "textString": "\"uOATSup\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -140,
+                                  "y": 288
+                                },
+                                {
+                                  "x": 240,
+                                  "y": 214
+                                }
+                              ],
+                              "textString": "\"%name\"",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis is a controller for an economizer, that adjusts the mixed air dampers\nto fulfill three control functions.\nIt is based on Buildings.Examples.VAVReheat.BaseClasses.Controls.Economizer\nbut edited to not use outside airflow measurement for outside air flow\ncontrol and instead adjust the minimum outside air damper position\nbased on fan speed linearly between support points assumed to be determined\nduring commissioning.\n</p>\n<ol>\n<li>\nFreeze protection, based on the mixed air temperature measurement\n</li>\n<li>\nMinimum outside air requirement, based on supply fan speed.\n</li>\n<li>\nSupply air cooling, based on the logic implemented in\n<a href=\\\"modelica://Buildings.Examples.VAVReheat.BaseClasses.Controls.SupplyAirTemperature\\\">\nBuildings.Examples.VAVReheat.BaseClasses.Controls.SupplyAirTemperature</a>,\nwith the additional condition that when the outside air dry bulb is greater\nthan the return air dry bulb, economizer cooling is disabled.\n</li>\n</ol>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nAugust 31, 2021, by Michael Wetter:<br/>\nCorrected selection of control signal during freeze protection.\n</li>\n<li>\nOctober 27, 2020, by Antoine Gautier:<br/>\nRefactored for compatibility with new supply air temperature control.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2024\\\">#2024</a>.\n</li>\n<li>\nJuly 10, 2020, by Antoine Gautier:<br/>\nAdded optional reset signal.\nCorrected connections to <code>yOATFre</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2019\\\">#2019</a>\nand\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/1995\\\">#1995</a>.\n</li>\n<li>\nDecember 20, 2016, by Michael Wetter:<br/>\nAdded type conversion for enumeration when used as an array index.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/602\\\">#602</a>.\n</li>\n<li>\nApril 26, 2016, by Michael Wetter:<br/>\nChanged controller for freeze protection as the old implementation closed\nthe outdoor air damper during summer.\nThis is\nfor <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/511\\\">#511</a>.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "have_reset": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "have_reset",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "false"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to true to reset the outdoor air damper controllers with the enable signal",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "have_frePro": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "have_frePro",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "false"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to true to enable freeze protection (mixed air low temperature control)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "TFreSet": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TFreSet",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "277.15"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Lower limit of mixed air temperature for freeze protection",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "have_frePro"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "have_frePro"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "dTLock": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.TemperatureDifference",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dTLock",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.1"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "1"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Temperature difference between return and outdoor air for economizer lockout"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "controllerType": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Blocks.Types.SimpleController",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "controllerType",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Modelica.Blocks.Types.SimpleController.PI"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Type of controller"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "k": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "k",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "0.05"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Gain of controller"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "Ti": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Time",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Ti",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "120"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Time constant of integrator block"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "uEna": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Interfaces.BooleanInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "uEna"
+        },
+        "description": {
+          "description_string": "Enable signal for economizer",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 170
+                        },
+                        {
+                          "x": -100,
+                          "y": 210
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": -140
+                      },
+                      "extent": [
+                        {
+                          "x": -40,
+                          "y": -40
+                        },
+                        {
+                          "x": 40,
+                          "y": 40
+                        }
+                      ],
+                      "rotation": 90
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 170
+                    },
+                    {
+                      "x": -100,
+                      "y": 210
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": -140
+                  },
+                  "extent": [
+                    {
+                      "x": -40,
+                      "y": -40
+                    },
+                    {
+                      "x": 40,
+                      "y": 40
+                    }
+                  ],
+                  "rotation": 90
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "controlBus": {
+      "type_specifier": "Buildings.Examples.VAVReheat.BaseClasses.Controls.ControlBus",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "controlBus"
+        },
+        "description": {
+          "description_string": "Control bus",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 30,
+                          "y": -88
+                        },
+                        {
+                          "x": 50,
+                          "y": -68
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 30,
+                          "y": -88
+                        },
+                        {
+                          "x": 50,
+                          "y": -68
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 30,
+                      "y": -88
+                    },
+                    {
+                      "x": 50,
+                      "y": -68
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 30,
+                      "y": -88
+                    },
+                    {
+                      "x": 50,
+                      "y": -68
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "uOATSup": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "uOATSup"
+        },
+        "description": {
+          "description_string": "Control signal for outdoor air damper from supply temperature controller",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 140
+                        },
+                        {
+                          "x": -100,
+                          "y": 180
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 160
+                        },
+                        {
+                          "x": -100,
+                          "y": 200
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 140
+                    },
+                    {
+                      "x": -100,
+                      "y": 180
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 160
+                    },
+                    {
+                      "x": -100,
+                      "y": 200
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "TMix": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TMix"
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "have_frePro"
+          }
+        },
+        "description": {
+          "description_string": "Measured mixed air temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 20
+                        },
+                        {
+                          "x": -100,
+                          "y": 60
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 0
+                        },
+                        {
+                          "x": -100,
+                          "y": 40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 20
+                    },
+                    {
+                      "x": -100,
+                      "y": 60
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 0
+                    },
+                    {
+                      "x": -100,
+                      "y": 40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "yFan": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yFan"
+        },
+        "description": {
+          "description_string": "Measured fan speed",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -80
+                        },
+                        {
+                          "x": -100,
+                          "y": -40
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -80
+                        },
+                        {
+                          "x": -100,
+                          "y": -40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -80
+                    },
+                    {
+                      "x": -100,
+                      "y": -40
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -80
+                    },
+                    {
+                      "x": -100,
+                      "y": -40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "TRet": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TRet"
+        },
+        "description": {
+          "description_string": "Return air temperature",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 100
+                        },
+                        {
+                          "x": -100,
+                          "y": 140
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 80
+                        },
+                        {
+                          "x": -100,
+                          "y": 120
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 100
+                    },
+                    {
+                      "x": -100,
+                      "y": 140
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 80
+                    },
+                    {
+                      "x": -100,
+                      "y": 120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "yRet": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yRet"
+        },
+        "description": {
+          "description_string": "Control signal for return air damper",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 200,
+                          "y": -20
+                        },
+                        {
+                          "x": 240,
+                          "y": 20
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 200,
+                          "y": -20
+                        },
+                        {
+                          "x": 240,
+                          "y": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 200,
+                      "y": -20
+                    },
+                    {
+                      "x": 240,
+                      "y": 20
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 200,
+                      "y": -20
+                    },
+                    {
+                      "x": 240,
+                      "y": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "yOA": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yOA"
+        },
+        "description": {
+          "description_string": "Control signal for outside air damper",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 200,
+                          "y": 60
+                        },
+                        {
+                          "x": 240,
+                          "y": 100
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 200,
+                          "y": 60
+                        },
+                        {
+                          "x": 240,
+                          "y": 100
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 200,
+                      "y": 60
+                    },
+                    {
+                      "x": 240,
+                      "y": 100
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 200,
+                      "y": 60
+                    },
+                    {
+                      "x": 240,
+                      "y": 100
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "minOADmaxSpe": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "minOADmaxSpe",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.32"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Minimum outside air damper position at maximum fan speed",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": -80
+                        },
+                        {
+                          "x": -40,
+                          "y": -60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": -80
+                    },
+                    {
+                      "x": -40,
+                      "y": -60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "closed": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "closed",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Signal to close OA damper",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 30,
+                          "y": 30
+                        },
+                        {
+                          "x": 50,
+                          "y": 50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 30,
+                      "y": 30
+                    },
+                    {
+                      "x": 50,
+                      "y": 50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "yOATFre": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Continuous.PID",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yOATFre",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "controllerType",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "controllerType"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "k"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Ti",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Ti"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Td",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "60"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "yMax",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "yMin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "reverseActing",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "have_frePro"
+          }
+        },
+        "description": {
+          "description_string": "Controller of outdoor damper to track freeze temperature setpoint",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -30,
+                          "y": 70
+                        },
+                        {
+                          "x": -10,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -30,
+                      "y": 70
+                    },
+                    {
+                      "x": -10,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "minFrePro": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Continuous.Min",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "minFrePro"
+        },
+        "description": {
+          "description_string": "Takes lower signal (limits damper opening for freeze protection)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 80,
+                          "y": 4
+                        },
+                        {
+                          "x": 100,
+                          "y": 24
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 80,
+                      "y": 4
+                    },
+                    {
+                      "x": 100,
+                      "y": 24
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "TFre": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TFre",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "TFreSet"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Setpoint for freeze protection",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": 70
+                        },
+                        {
+                          "x": -40,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": 70
+                    },
+                    {
+                      "x": -40,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "invSig": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Continuous.AddParameter",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "invSig",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "p",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "-1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Invert control signal for interlocked damper",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 170,
+                          "y": -10
+                        },
+                        {
+                          "x": 190,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 170,
+                      "y": -10
+                    },
+                    {
+                      "x": 190,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "hysLoc": {
+      "type_specifier": "Modelica.Blocks.Logical.Hysteresis",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "hysLoc",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "uLow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "uHigh",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "dTLock"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Hysteresis for economizer lockout",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -30,
+                          "y": 110
+                        },
+                        {
+                          "x": -10,
+                          "y": 130
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -30,
+                      "y": 110
+                    },
+                    {
+                      "x": -10,
+                      "y": 130
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "feedback": {
+      "type_specifier": "Modelica.Blocks.Math.Feedback",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "feedback"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -90,
+                          "y": 110
+                        },
+                        {
+                          "x": -70,
+                          "y": 130
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -90,
+                      "y": 110
+                    },
+                    {
+                      "x": -70,
+                      "y": 130
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "swiOA": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Continuous.Switch",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "swiOA"
+        },
+        "description": {
+          "description_string": "Switch to close outdoor air damper",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 90,
+                          "y": 110
+                        },
+                        {
+                          "x": 110,
+                          "y": 130
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 90,
+                      "y": 110
+                    },
+                    {
+                      "x": 110,
+                      "y": 130
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "one": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "one",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "not have_frePro"
+          }
+        },
+        "description": {
+          "description_string": "Fill value in case freeze protection is disabled",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": 10
+                        },
+                        {
+                          "x": -40,
+                          "y": 30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": 10
+                    },
+                    {
+                      "x": -40,
+                      "y": 30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "swiModClo": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Continuous.Switch",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "swiModClo"
+        },
+        "description": {
+          "description_string": "Switch between modulating or closing outdoor air damper",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 130,
+                          "y": -10
+                        },
+                        {
+                          "x": 150,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 130,
+                      "y": -10
+                    },
+                    {
+                      "x": 150,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "maxOutDam": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Continuous.Max",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "maxOutDam"
+        },
+        "description": {
+          "description_string": "Select larger of the outdoor damper signals",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 40,
+                          "y": -10
+                        },
+                        {
+                          "x": 60,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 40,
+                      "y": -10
+                    },
+                    {
+                      "x": 60,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "lin": {
+      "type_specifier": "Buildings.Controls.OBC.CDL.Continuous.Line",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "lin"
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -40
+                        },
+                        {
+                          "x": 10,
+                          "y": -20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -40
+                    },
+                    {
+                      "x": 10,
+                      "y": -20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "minOADminSpe": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "minOADminSpe",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.47"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Minimum outside air damper position at minimum fan speed",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": -50
+                        },
+                        {
+                          "x": -40,
+                          "y": -30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": -50
+                    },
+                    {
+                      "x": -40,
+                      "y": -30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    },
+    "minSpe": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Economizer",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "minSpe",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.44"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Minimum fan speed for calibration",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": -20
+                        },
+                        {
+                          "x": -40,
+                          "y": 0
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": -20
+                    },
+                    {
+                      "x": -40,
+                      "y": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/Economizer.mo"
+    }
+  },
+  "requiredReferences": {
+    "import_clause": [
+      {
+        "identifier": "",
+        "name": "Buildings.Examples.VAVReheat.BaseClasses.Controls.OperationModes",
+        "long_class_specifier_identifier": "Economizer",
+        "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "yOATFre.y": [
+        "minFrePro.u1"
+      ],
+      "yRet": [
+        "invSig.y"
+      ],
+      "feedback.y": [
+        "hysLoc.u"
+      ],
+      "TRet": [
+        "feedback.u1"
+      ],
+      "controlBus.TOut": [
+        "feedback.u2"
+      ],
+      "closed.y": [
+        "swiOA.u3",
+        "swiModClo.u3"
+      ],
+      "hysLoc.y": [
+        "swiOA.u2"
+      ],
+      "uOATSup": [
+        "swiOA.u1"
+      ],
+      "one.y": [
+        "minFrePro.u1"
+      ],
+      "yOATFre.u_s": [
+        "TFre.y"
+      ],
+      "TMix": [
+        "yOATFre.u_m"
+      ],
+      "swiModClo.y": [
+        "invSig.u",
+        "yOA"
+      ],
+      "uEna": [
+        "swiModClo.u2"
+      ],
+      "maxOutDam.u1": [
+        "swiOA.y"
+      ],
+      "minFrePro.y": [
+        "swiModClo.u1"
+      ],
+      "maxOutDam.y": [
+        "minFrePro.u2"
+      ],
+      "lin.y": [
+        "maxOutDam.u2"
+      ],
+      "lin.u": [
+        "yFan"
+      ],
+      "minOADminSpe.y": [
+        "lin.f1"
+      ],
+      "lin.f2": [
+        "minOADmaxSpe.y"
+      ],
+      "lin.x2": [
+        "minFrePro.u1"
+      ],
+      "minSpe.y": [
+        "lin.x1"
+      ]
+    }
+  }
+}

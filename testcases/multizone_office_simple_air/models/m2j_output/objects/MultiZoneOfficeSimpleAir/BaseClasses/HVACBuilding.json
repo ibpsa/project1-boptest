@@ -1,0 +1,1080 @@
+{
+  "instances": {
+    "HVACBuilding": {
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nPartial model that contains an HVAC system connected to a building\nwith five conditioned thermal zones.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nOctober 4, 2021, by Michael Wetter:<br/>\nRefactored <a href=\\\"modelica://Buildings.Examples.VAVReheat\\\">Buildings.Examples.VAVReheat</a>\nand its base classes to separate building from HVAC model.<br/>\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2652\\\">issue #2652</a>.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "VRooCor": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Volume",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "VRooCor",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.VRooCor"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Room volume corridor"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "VRooSou": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Volume",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "VRooSou",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.VRooSou"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Room volume south"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "VRooNor": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Volume",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "VRooNor",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.VRooNor"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Room volume north"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "VRooEas": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Volume",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "VRooEas",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.VRooEas"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Room volume east"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "VRooWes": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Volume",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "VRooWes",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.VRooWes"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Room volume west"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "AFloCor": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Area",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AFloCor",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.AFloCor"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Floor area corridor"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "AFloSou": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Area",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AFloSou",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.AFloSou"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Floor area south"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "AFloNor": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Area",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AFloNor",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.AFloNor"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Floor area north"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "AFloEas": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Area",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AFloEas",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.AFloEas"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Floor area east"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "AFloWes": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Area",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AFloWes",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "flo.AFloWes"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Floor area west"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "AFlo": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Area",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "AFlo",
+          "array_subscripts": [
+            {
+              "colon_op": true
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "{AFloCor,AFloSou,AFloEas,AFloNor,AFloWes}"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Floor area of each zone"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "ATot": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Area",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "ATot",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "sum",
+                  "arguments": [
+                    {
+                      "name": "AFlo"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Total floor area"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "conv": {
+      "type_prefix": "constant",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conv",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "1.2/3600"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Conversion factor for nominal mass flow rate"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "mCor_flow_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mCor_flow_nominal"
+        },
+        "description": {
+          "description_string": "Design mass flow rate core"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "mSou_flow_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mSou_flow_nominal"
+        },
+        "description": {
+          "description_string": "Design mass flow rate south"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "mEas_flow_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mEas_flow_nominal"
+        },
+        "description": {
+          "description_string": "Design mass flow rate east"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "mNor_flow_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mNor_flow_nominal"
+        },
+        "description": {
+          "description_string": "Design mass flow rate north"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "mWes_flow_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mWes_flow_nominal"
+        },
+        "description": {
+          "description_string": "Design mass flow rate west"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "THotWatInl_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.SIunits.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "THotWatInl_nominal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"degC\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "45 +273.15"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Reheat coil nominal inlet water temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "hvac": {
+      "type_specifier": "MultiZoneOfficeSimpleAir.BaseClasses.PartialHVAC",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "hvac"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "flo": {
+      "type_specifier": "Buildings.Examples.VAVReheat.BaseClasses.PartialFloor",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "flo"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "weaDat": {
+      "type_specifier": "Buildings.BoundaryConditions.WeatherData.ReaderTMY3",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "weaDat",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "filNam",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "function_call": {
+                            "name": "Modelica.Utilities.Files.loadResource",
+                            "arguments": [
+                              {
+                                "name": "\"modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos\""
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "computeWetBulbTemperature",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Weather data reader",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -90,
+                          "y": 0
+                        },
+                        {
+                          "x": -70,
+                          "y": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -90,
+                      "y": 0
+                    },
+                    {
+                      "x": -70,
+                      "y": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "chi": {
+      "type_specifier": "AirCooledChiller",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "chi"
+        },
+        "description": {
+          "description_string": "Chiller",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -10,
+                          "y": -100
+                        },
+                        {
+                          "x": 10,
+                          "y": -80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -10,
+                      "y": -100
+                    },
+                    {
+                      "x": 10,
+                      "y": -80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "heaPum": {
+      "type_specifier": "AirToWaterHeatPump",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "heaPum"
+        },
+        "description": {
+          "description_string": "Heat pump for heating coil and reheat coils",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 40,
+                          "y": -100
+                        },
+                        {
+                          "x": 60,
+                          "y": -80
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 40,
+                      "y": -100
+                    },
+                    {
+                      "x": 60,
+                      "y": -80
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "jun": {
+      "type_specifier": "Buildings.Fluid.FixedResistances.Junction",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "jun",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "dp_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "{0,0,0}"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 22,
+                          "y": -46
+                        },
+                        {
+                          "x": 12,
+                          "y": -56
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 22,
+                      "y": -46
+                    },
+                    {
+                      "x": 12,
+                      "y": -56
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    },
+    "jun1": {
+      "type_specifier": "Buildings.Fluid.FixedResistances.Junction",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HVACBuilding",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "jun1",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "MediumW"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "dp_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "{0,0,0}"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 32,
+                          "y": -36
+                        },
+                        {
+                          "x": 22,
+                          "y": -46
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 32,
+                      "y": -36
+                    },
+                    {
+                      "x": 22,
+                      "y": -46
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/HVACBuilding.mo"
+    }
+  },
+  "requiredReferences": {
+    "connections": {
+      "weaDat.weaBus": [
+        "hvac.weaBus",
+        "flo.weaBus",
+        "chi.weaBus"
+      ],
+      "flo.TRooAir": [
+        "hvac.TRoo"
+      ],
+      "hvac.port_supAir[1]": [
+        "flo.portsSou[1]"
+      ],
+      "hvac.port_supAir[2]": [
+        "flo.portsEas[1]"
+      ],
+      "hvac.port_supAir[3]": [
+        "flo.portsNor[1]"
+      ],
+      "hvac.port_supAir[4]": [
+        "flo.portsWes[1]"
+      ],
+      "hvac.port_supAir[5]": [
+        "flo.portsCor[1]"
+      ],
+      "hvac.port_retAir[1]": [
+        "flo.portsSou[2]"
+      ],
+      "hvac.port_retAir[2]": [
+        "flo.portsEas[2]"
+      ],
+      "hvac.port_retAir[3]": [
+        "flo.portsNor[2]"
+      ],
+      "hvac.port_retAir[4]": [
+        "flo.portsWes[2]"
+      ],
+      "hvac.port_retAir[5]": [
+        "flo.portsCor[2]"
+      ],
+      "chi.sup": [
+        "hvac.portCooCoiSup"
+      ],
+      "chi.ret": [
+        "hvac.portCooCoiRet"
+      ],
+      "heaPum.weaBus": [
+        "chi.weaBus"
+      ],
+      "jun.port_1": [
+        "heaPum.sup"
+      ],
+      "jun.port_3": [
+        "hvac.portHeaTerSup"
+      ],
+      "jun.port_2": [
+        "hvac.portHeaCoiSup"
+      ],
+      "hvac.portHeaTerRet": [
+        "jun1.port_3"
+      ],
+      "jun1.port_1": [
+        "heaPum.ret"
+      ],
+      "jun1.port_2": [
+        "hvac.portHeaCoiRet"
+      ]
+    }
+  }
+}

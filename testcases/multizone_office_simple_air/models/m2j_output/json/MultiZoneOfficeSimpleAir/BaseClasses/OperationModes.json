@@ -1,0 +1,21 @@
+{
+  "within": "MultiZoneOfficeSimpleAir.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "type",
+      "class_specifier": {
+        "short_class_specifier": {
+          "identifier": "OperationModes",
+          "value": {
+            "description": {
+              "description_string": "Enumeration for modes of operation"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "MultiZoneOfficeSimpleAir/BaseClasses/OperationModes.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/project1-boptest/testcases/multizone_office_simple_air/models/MultiZoneOfficeSimpleAir/BaseClasses/OperationModes.mo",
+  "checksum": "f80769f410ba7b144ee987491348583b"
+}

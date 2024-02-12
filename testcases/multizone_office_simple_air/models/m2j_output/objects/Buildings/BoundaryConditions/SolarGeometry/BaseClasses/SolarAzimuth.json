@@ -1,0 +1,969 @@
+{
+  "instances": {
+    "SolarAzimuth": {
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"solAzi\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis component computes the solar azimuth angle.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nSeptember 16, 2021, by Michael Wetter:<br/>\nRemoved parameter <code>lat</code> and added an input connector for this quantity.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\\\">IBPSA, #1477</a>.\n</li>\n<li>\nJune 9, 2020, by David Blum:<br/>\nReformulated to use one-line if-statements.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1373\\\">issue 1373</a>.\n</li>\n<li>\nOctober 13, 2017, by Michael Wetter:<br/>\nReformulated to use equation rather than algorithm section.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/834\\\">issue 834</a>.\n</li>\n<li>\nJuly 5, 2012, by Michael Wetter:<br/>\nChanged model to avoid an event at solar noon.\n</li>\n<li>\nFebruary 28, 2012, by Wangda Zuo:<br/>\nAdd solar time conversion since it is removed from <code>solTim</code>.\n</li>\n<li>\nMay 18, 2010, by Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Bitmap",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -90,
+                                  "y": -90
+                                },
+                                {
+                                  "x": 90,
+                                  "y": 90
+                                }
+                              ],
+                              "fileName": "\"modelica://Buildings/Resources/Images/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.png\""
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -150,
+                                  "y": 110
+                                },
+                                {
+                                  "x": 150,
+                                  "y": 150
+                                }
+                              ],
+                              "textString": "\"%name\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -102,
+                                  "y": 84
+                                },
+                                {
+                                  "x": -60,
+                                  "y": 74
+                                }
+                              ],
+                              "textString": "\"zen\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -96,
+                                  "y": -36
+                                },
+                                {
+                                  "x": -54,
+                                  "y": -46
+                                }
+                              ],
+                              "textString": "\"solTim\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -96,
+                                  "y": 24
+                                },
+                                {
+                                  "x": -54,
+                                  "y": 14
+                                }
+                              ],
+                              "textString": "\"decAng\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -96,
+                                  "y": -86
+                                },
+                                {
+                                  "x": -54,
+                                  "y": -96
+                                }
+                              ],
+                              "textString": "\"lat\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "zen": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "zen",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Angle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"rad\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Zenith angle",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 60
+                        },
+                        {
+                          "x": -100,
+                          "y": 100
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 60
+                        },
+                        {
+                          "x": -100,
+                          "y": 100
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 60
+                    },
+                    {
+                      "x": -100,
+                      "y": 100
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 60
+                    },
+                    {
+                      "x": -100,
+                      "y": 100
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "solTim": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solTim",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Time\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"s\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Solar time",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -60
+                        },
+                        {
+                          "x": -100,
+                          "y": -20
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -60
+                        },
+                        {
+                          "x": -100,
+                          "y": -20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -60
+                    },
+                    {
+                      "x": -100,
+                      "y": -20
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -60
+                    },
+                    {
+                      "x": -100,
+                      "y": -20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "lat": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "lat",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Angle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"rad\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Latitude",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -100
+                        },
+                        {
+                          "x": -100,
+                          "y": -60
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -100
+                        },
+                        {
+                          "x": -100,
+                          "y": -60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -100
+                    },
+                    {
+                      "x": -100,
+                      "y": -60
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -100
+                    },
+                    {
+                      "x": -100,
+                      "y": -60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "solAzi": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solAzi",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Angle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"rad\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"deg\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Solar Azimuth",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -10
+                        },
+                        {
+                          "x": 120,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -10
+                    },
+                    {
+                      "x": 120,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "decAng": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "decAng",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Angle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"rad\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Declination angle",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 20
+                        },
+                        {
+                          "x": -100,
+                          "y": 60
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 18
+                        },
+                        {
+                          "x": -100,
+                          "y": 58
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 20
+                    },
+                    {
+                      "x": -100,
+                      "y": 60
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 18
+                    },
+                    {
+                      "x": -100,
+                      "y": 58
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "arg": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "arg"
+        },
+        "description": {
+          "description_string": "cos(solAzi) after data validity check"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "tmp": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tmp"
+        },
+        "description": {
+          "description_string": "cos(solAzi) before data validity check"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "solAziTem": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "solAziTem"
+        },
+        "description": {
+          "description_string": "Temporary variable for solar azimuth"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "day": {
+      "type_prefix": "constant",
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "day",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "86400"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of seconds in a day"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "polarCircle": {
+      "type_prefix": "constant",
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "polarCircle",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "1.1617"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Latitude of polar circle (66 degree 33 min 44 sec)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    },
+    "outsidePolarCircle": {
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "SolarAzimuth",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "outsidePolarCircle",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "logical_expression": {
+                  "logical_or": [
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "lat"
+                            },
+                            {
+                              "name": "polarCircle"
+                            }
+                          ],
+                          "relation_operator": "<"
+                        },
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "lat"
+                            },
+                            {
+                              "name": "-polarCircle"
+                            }
+                          ],
+                          "relation_operator": ">"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag, true if latitude is outside polar region"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarGeometry/BaseClasses/SolarAzimuth.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Blocks.Icons.Block",
+        "long_class_specifier_identifier": "SolarAzimuth",
+        "within": "Buildings.BoundaryConditions.SolarGeometry.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}

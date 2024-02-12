@@ -1,0 +1,147 @@
+{
+  "instances": {
+    "GlazingSystems": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/GlazingSystems.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "preferredView",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"info\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\nPackage with generic records that implement thermophysical properties for glazing systems.\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMay 15, 2013, by Michael Wetter:<br/>\nIn <a href=\\\"modelica://Buildings.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear\\\">\nBuildings.HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear</a>,\ncorrected the glass layer thickness, which was <i>5.7</i> mm instead of\n<i>3</i> mm, as the documentation states.\n</li>\n<li>\nSep. 3 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "Generic": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/GlazingSystems.mo",
+      "classPrefixes": "record",
+      "compositionSpecifier": "public",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentPrefixes",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"parameter\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"datGlaSys\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\nGeneric record that implements thermophysical properties for glazing systems.\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 13, 2015, by Michael Wetter:<br/>\nRefactored model to avoid a translation error\nin OpenModelica.\n</li>\n<li>\nMay 30, 2014, by Michael Wetter:<br/>\nRemoved undesirable annotation <code>Evaluate=true</code>.\n</li>\n<li>\nJuly 15, 2013, by Michael Wetter:<br/>\nRemoved parameter <code>windowHasShade</code> which is redundant with <code>haveShade</code>.\n</li>\n<li>\nSep. 3 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Icons.MaterialPropertiesPackage",
+        "long_class_specifier_identifier": "GlazingSystems",
+        "within": "Buildings.HeatTransfer.Data",
+        "compositionSpecifier": "public"
+      }
+    ]
+  }
+}

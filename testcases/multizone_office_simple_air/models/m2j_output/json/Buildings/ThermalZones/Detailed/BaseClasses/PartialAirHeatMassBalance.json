@@ -1,0 +1,1562 @@
+{
+  "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "partial model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "PartialAirHeatMassBalance",
+          "description_string": "Partial model for heat and mass balance of the air",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Buildings.ThermalZones.Detailed.BaseClasses.ConstructionRecords"
+                }
+              },
+              {
+                "replaceable": true,
+                "class_definition": {
+                  "class_prefixes": "package",
+                  "class_specifier": {
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "Modelica.Media.Interfaces.PartialMedium",
+                        "description": {
+                          "description_string": "Medium in the component",
+                          "annotation": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "choicesAllMatching",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "true"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Integer",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "nPorts",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "0"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Number of ports",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Evaluate",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "connectorSizing",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "true"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"General\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Ports\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "haveShade"
+                      },
+                      "description": {
+                        "description_string": "Set to true if at least one window has an interior or exterior shade"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Volume",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "V"
+                      },
+                      "description": {
+                        "description_string": "Volume"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "uSha",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveShade"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Input connector, used to scale the surface area to take into account an operable shading device, 0: unshaded; 1: fully shaded",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -280,
+                                        "y": 180
+                                      },
+                                      {
+                                        "x": -240,
+                                        "y": 220
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -256,
+                                        "y": 192
+                                      },
+                                      {
+                                        "x": -240,
+                                        "y": 208
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "QRadAbs_flow",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ],
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "each": true,
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"W\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveShade"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Total net radiation that is absorbed by the shade (positive if absorbed)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -280,
+                                        "y": 70
+                                      },
+                                      {
+                                        "x": -240,
+                                        "y": 110
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -260,
+                                        "y": 90
+                                      },
+                                      {
+                                        "x": -240,
+                                        "y": 110
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "QCon_flow"
+                      },
+                      "description": {
+                        "description_string": "Convective sensible heat gains of the room",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -280,
+                                        "y": -120
+                                      },
+                                      {
+                                        "x": -240,
+                                        "y": -80
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "QLat_flow"
+                      },
+                      "description": {
+                        "description_string": "Latent heat gains for the room",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -280,
+                                        "y": -180
+                                      },
+                                      {
+                                        "x": -240,
+                                        "y": -140
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "TSha",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ],
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "each": true,
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"K\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "each": true,
+                                "final": true,
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"ThermodynamicTemperature\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveShade"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Shade temperature",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -240,
+                                        "y": 50
+                                      },
+                                      {
+                                        "x": -260,
+                                        "y": 70
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "ports",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "nPorts"
+                            }
+                          }
+                        ],
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_redeclaration": {
+                                "each": true,
+                                "final": true,
+                                "short_class_definition": {
+                                  "class_prefixes": "package",
+                                  "short_class_specifier": {
+                                    "identifier": "Medium",
+                                    "value": {
+                                      "name": "Medium"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Fluid inlets and outlets",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "origin": {
+                                      "x": 0,
+                                      "y": -238
+                                    },
+                                    "extent": [
+                                      {
+                                        "x": -40,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 40,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "heaPorAir"
+                      },
+                      "description": {
+                        "description_string": "Heat port to air volume",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -250,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": -230,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conExt",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExt"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConExt"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface of exterior constructions",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 230,
+                                        "y": 210
+                                      },
+                                      {
+                                        "x": 250,
+                                        "y": 230
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conExtWin",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConExtWin"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface of exterior constructions that contain a window",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 230,
+                                        "y": 170
+                                      },
+                                      {
+                                        "x": 250,
+                                        "y": 190
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "glaUns",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConExtWin"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface of unshaded glass",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 230,
+                                        "y": 110
+                                      },
+                                      {
+                                        "x": 250,
+                                        "y": 130
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "glaSha",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveShade"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface of shaded glass",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 230,
+                                        "y": 70
+                                      },
+                                      {
+                                        "x": 250,
+                                        "y": 90
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": 230,
+                                        "y": 70
+                                      },
+                                      {
+                                        "x": 250,
+                                        "y": 90
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conExtWinFra",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConExtWin"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface of window frame",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 232,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 252,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conPar_a",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConPar"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConPar"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface a of partition constructions",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 232,
+                                        "y": -70
+                                      },
+                                      {
+                                        "x": 252,
+                                        "y": -50
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conPar_b",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConPar"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConPar"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface b of partition constructions",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 232,
+                                        "y": -110
+                                      },
+                                      {
+                                        "x": 252,
+                                        "y": -90
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conBou",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConBou"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConBou"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port that connects to room-side surface of constructions that expose their other surface to the outside",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 232,
+                                        "y": -170
+                                      },
+                                      {
+                                        "x": 252,
+                                        "y": -150
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conSurBou",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NSurBou"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveSurBou"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Heat port to surfaces of models that compute the heat conduction outside of this room",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 231,
+                                        "y": -230
+                                      },
+                                      {
+                                        "x": 251,
+                                        "y": -210
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AConExt",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExt"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConExt.A"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Areas of exterior constructions"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AConExtWinOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConExtWin.AOpa"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Opaque areas of exterior construction that have a window"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AConExtWinGla",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "(1 .-datConExtWin.fFra).*datConExtWin.AWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Glass areas of exterior construction that have a window"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AConExtWinFra",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConExtWin.fFra.*datConExtWin.AWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Frame areas of exterior construction that have a window"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AConPar",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConPar"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConPar.A"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Areas of partition constructions"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AConBou",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConBou"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "datConBou.A"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Areas of constructions with exterior boundary conditions exposed to outside of room model"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "ASurBou",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NSurBou"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "surBou.A"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Area of surface models of constructions that are modeled outside of this room"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "preferredView",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"info\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Diagram",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -240,
+                                    "y": -240
+                                  },
+                                  {
+                                    "x": 240,
+                                    "y": 240
+                                  }
+                                ],
+                                "preserveAspectRatio": "false"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {}
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -240,
+                                    "y": -240
+                                  },
+                                  {
+                                    "x": 240,
+                                    "y": 240
+                                  }
+                                ],
+                                "preserveAspectRatio": "false"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -230,
+                                        "y": 182
+                                      },
+                                      {
+                                        "x": -188,
+                                        "y": 216
+                                      }
+                                    ],
+                                    "textString": "\"uSha\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -232,
+                                        "y": 82
+                                      },
+                                      {
+                                        "x": -190,
+                                        "y": 116
+                                      }
+                                    ],
+                                    "textString": "\"QRadAbs\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -228,
+                                        "y": 44
+                                      },
+                                      {
+                                        "x": -186,
+                                        "y": 78
+                                      }
+                                    ],
+                                    "textString": "\"TSha\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -144,
+                                        "y": 184
+                                      },
+                                      {
+                                        "x": 148,
+                                        "y": -200
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 170,
+                                      "g": 213,
+                                      "b": 255
+                                    },
+                                    "pattern": "LinePattern.None",
+                                    "fillPattern": "FillPattern.Sphere"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -84,
+                                        "y": 232
+                                      },
+                                      {
+                                        "x": 94,
+                                        "y": 282
+                                      }
+                                    ],
+                                    "textString": "\"%name\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -230,
+                                        "y": -124
+                                      },
+                                      {
+                                        "x": -180,
+                                        "y": -74
+                                      }
+                                    ],
+                                    "textString": "\"QCon\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -228,
+                                        "y": -184
+                                      },
+                                      {
+                                        "x": -178,
+                                        "y": -134
+                                      }
+                                    ],
+                                    "textString": "\"QLat\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    },
+                                    "fillColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nThis is a partial model that is used to implement the heat and mass balance of the air.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nJanuary 12, 2019, by Michael Wetter:<br/>\nAdded missing <code>each</code>.\n</li>\n<li>\nMay 2, 2016, by Michael Wetter:<br/>\nRefactored implementation of latent heat gain.\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/515\\\">issue 515</a>.\n</li>\n<li>\nJuly 17, 2013, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/ThermalZones/Detailed/BaseClasses/PartialAirHeatMassBalance.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/PartialAirHeatMassBalance.mo",
+  "checksum": "499dce802ef6bf7aeb68791d7ee1b963"
+}

@@ -1,0 +1,5425 @@
+{
+  "instances": {
+    "Floor": {
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"flo\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -160,
+                              "y": -100
+                            },
+                            {
+                              "x": 380,
+                              "y": 500
+                            }
+                          ],
+                          "preserveAspectRatio": "true",
+                          "initialScale": 0.1
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -80,
+                              "y": -80
+                            },
+                            {
+                              "x": 380,
+                              "y": 180
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -80,
+                                  "y": -80
+                                },
+                                {
+                                  "x": 380,
+                                  "y": 180
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -60,
+                                  "y": 160
+                                },
+                                {
+                                  "x": 360,
+                                  "y": -60
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 117,
+                                "g": 148,
+                                "b": 176
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Sphere"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 0,
+                                  "y": -80
+                                },
+                                {
+                                  "x": 294,
+                                  "y": -60
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 0,
+                                  "y": -74
+                                },
+                                {
+                                  "x": 294,
+                                  "y": -66
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 8,
+                                  "y": 8
+                                },
+                                {
+                                  "x": 294,
+                                  "y": 100
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 20,
+                                  "y": 88
+                                },
+                                {
+                                  "x": 280,
+                                  "y": 22
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 117,
+                                "g": 148,
+                                "b": 176
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Sphere"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -56,
+                                  "y": 170
+                                },
+                                {
+                                  "x": 20,
+                                  "y": 94
+                                },
+                                {
+                                  "x": 12,
+                                  "y": 88
+                                },
+                                {
+                                  "x": -62,
+                                  "y": 162
+                                },
+                                {
+                                  "x": -56,
+                                  "y": 170
+                                }
+                              ],
+                              "smooth": "Smooth.None",
+                              "fillColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 290,
+                                  "y": 16
+                                },
+                                {
+                                  "x": 366,
+                                  "y": -60
+                                },
+                                {
+                                  "x": 358,
+                                  "y": -66
+                                },
+                                {
+                                  "x": 284,
+                                  "y": 8
+                                },
+                                {
+                                  "x": 290,
+                                  "y": 16
+                                }
+                              ],
+                              "smooth": "Smooth.None",
+                              "fillColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 284,
+                                  "y": 96
+                                },
+                                {
+                                  "x": 360,
+                                  "y": 168
+                                },
+                                {
+                                  "x": 368,
+                                  "y": 162
+                                },
+                                {
+                                  "x": 292,
+                                  "y": 90
+                                },
+                                {
+                                  "x": 284,
+                                  "y": 96
+                                }
+                              ],
+                              "smooth": "Smooth.None",
+                              "fillColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -80,
+                                  "y": 120
+                                },
+                                {
+                                  "x": -60,
+                                  "y": -20
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -74,
+                                  "y": 120
+                                },
+                                {
+                                  "x": -66,
+                                  "y": -20
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -64,
+                                  "y": -56
+                                },
+                                {
+                                  "x": 18,
+                                  "y": 22
+                                },
+                                {
+                                  "x": 26,
+                                  "y": 16
+                                },
+                                {
+                                  "x": -58,
+                                  "y": -64
+                                },
+                                {
+                                  "x": -64,
+                                  "y": -56
+                                }
+                              ],
+                              "smooth": "Smooth.None",
+                              "fillColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 360,
+                                  "y": 122
+                                },
+                                {
+                                  "x": 380,
+                                  "y": -18
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 366,
+                                  "y": 122
+                                },
+                                {
+                                  "x": 374,
+                                  "y": -18
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 2,
+                                  "y": 170
+                                },
+                                {
+                                  "x": 296,
+                                  "y": 178
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 2,
+                                  "y": 160
+                                },
+                                {
+                                  "x": 296,
+                                  "y": 180
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 2,
+                                  "y": 166
+                                },
+                                {
+                                  "x": 296,
+                                  "y": 174
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nOctober 4, 2021, by Michael Wetter:<br/>\nRefactored <a href=\\\"modelica://Buildings.Examples.VAVReheat\\\">Buildings.Examples.VAVReheat</a>\nand its base classes to separate building from HVAC model.<br/>\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2652\\\">issue #2652</a>.\n</li>\n<li>\nSeptember 16, 2021, by Michael Wetter:<br/>\nRemoved parameter <code>lat</code> as this is now obtained from the weather data reader.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\\\">IBPSA, #1477</a>.\n</li>\n<li>\nSeptember 3, 2021, by Michael Wetter:<br/>\nUpdated documentation.<br/>\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2600\\\">issue #2600</a>.\n</li>\n<li>\nApril 30, 2021, by Michael Wetter:<br/>\nReformulated replaceable class and introduced floor areas in base class\nto avoid access of components that are not in the constraining type.<br/>\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2471\\\">issue #2471</a>.\n</li>\n<li>\nJanuary 23, 2020, by Milica Grahovac:<br/>\nUpdated core zone geometry parameters related to\nroom heat and mass balance.\n</li>\n<li>\nNovember 15, 2019, by Milica Grahovac:<br/>\nAdded extend from a partial floor model.\n</li>\n<li>\nMay 1, 2013, by Michael Wetter:<br/>\nDeclared the parameter record to be a parameter, as declaring its elements\nto be parameters does not imply that the whole record has the variability of a parameter.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nModel of a floor that consists\nof five thermal zones.\n</p>\n<p>\nThe five room model is representative of one floor of the\nnew construction medium office building for Chicago, IL,\nas described in the set of DOE Commercial Building Benchmarks\n(Deru et al, 2009). There are four perimeter zones and one core zone.\nThe envelope thermal properties meet ASHRAE Standard 90.1-2004.\nThe thermal room model computes transient heat conduction through\nwalls, floors and ceilings and long-wave radiative heat exchange between\nsurfaces. The convective heat transfer coefficient is computed based\non the temperature difference between the surface and the room air.\nThere is also a layer-by-layer short-wave radiation,\nlong-wave radiation, convection and conduction heat transfer model for the\nwindows. The model is similar to the\nWindow 5 model and described in TARCOG 2006.\n</p>\n<p>\nEach thermal zone can have air flow from the HVAC system,\nthrough leakages of the building envelope (except for the core zone)\nand through bi-directional air exchange through open doors that connect adjacent zones.\nThe bi-directional air exchange is modeled based on the differences in\nstatic pressure between adjacent rooms at a reference height plus the\ndifference in static pressure across the door height as a function of the difference in air density.\nInfiltration is a function of the\nflow imbalance of the HVAC system.\n</p>\n\n<h4>References</h4>\n<p>\nDeru M., K. Field, D. Studer, K. Benne, B. Griffith, P. Torcellini,\n M. Halverson, D. Winiarski, B. Liu, M. Rosenberg, J. Huang, M. Yazdanian, and D. Crawley.\n<i>DOE commercial building research benchmarks for commercial buildings</i>.\nTechnical report, U.S. Department of Energy, Energy Efficiency and\nRenewable Energy, Office of Building Technologies, Washington, DC, 2009.\n</p>\n<p>\nTARCOG 2006: Carli, Inc., TARCOG: Mathematical models for calculation\nof thermal performance of glazing systems with our without\nshading devices, Technical Report, Oct. 17, 2006.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "wExtSou": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "wExtSou",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "49.91"
+            }
+          }
+        },
+        "description": {
+          "description_string": "South zone exterior wall width"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "wExtNor": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "wExtNor",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "49.91"
+            }
+          }
+        },
+        "description": {
+          "description_string": "North zone exterior wall width"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "wExtEas": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "wExtEas",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "33.27"
+            }
+          }
+        },
+        "description": {
+          "description_string": "East zone exterior wall width"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "wExtWes": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "wExtWes",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "33.27"
+            }
+          }
+        },
+        "description": {
+          "description_string": "West zone exterior wall width"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "intConMod": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Types.InteriorConvection",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "intConMod",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Buildings.HeatTransfer.Types.InteriorConvection.Temperature"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Convective heat transfer model for room-facing surfaces of opaque constructions"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "winWalRat": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "winWalRat",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.01"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "max",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.99"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "0.33"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Window to wall ratio for exterior walls"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "hWin": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Length",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "hWin",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "1.5"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Height of windows"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "matFur": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.Solids.Plywood",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "matFur",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "x",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.15"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nStaRef",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Material for furniture",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 140,
+                          "y": 460
+                        },
+                        {
+                          "x": 160,
+                          "y": 480
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 140,
+                      "y": 460
+                    },
+                    {
+                      "x": 160,
+                      "y": 480
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "matCar": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.Resistances.Carpet",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "matCar"
+        },
+        "description": {
+          "description_string": "Carpet",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 180,
+                          "y": 460
+                        },
+                        {
+                          "x": 200,
+                          "y": 480
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 180,
+                      "y": 460
+                    },
+                    {
+                      "x": 200,
+                      "y": 480
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "matCon": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.Solids.Concrete",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "matCon",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "x",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1.311"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "c",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "836"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nStaRef",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Concrete",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 140,
+                          "y": 430
+                        },
+                        {
+                          "x": 160,
+                          "y": 450
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 140,
+                      "y": 430
+                    },
+                    {
+                      "x": 160,
+                      "y": 450
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "matWoo": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.Solids.Plywood",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "matWoo",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "x",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.01"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.11"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "d",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "544"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nStaRef",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Wood for exterior construction",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 140,
+                          "y": 400
+                        },
+                        {
+                          "x": 160,
+                          "y": 420
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 140,
+                      "y": 400
+                    },
+                    {
+                      "x": 160,
+                      "y": 420
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "matIns": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.Solids.Generic",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "matIns",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "x",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.087"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.049"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "c",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "836.8"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "d",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "265"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nStaRef",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Steelframe construction with insulation",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 180,
+                          "y": 400
+                        },
+                        {
+                          "x": 200,
+                          "y": 420
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 180,
+                      "y": 400
+                    },
+                    {
+                      "x": 200,
+                      "y": 420
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "matGyp": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.Solids.GypsumBoard",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "matGyp",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "x",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.0127"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.16"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "c",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "830"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "d",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "784"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nStaRef",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Gypsum board",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 138,
+                          "y": 372
+                        },
+                        {
+                          "x": 158,
+                          "y": 392
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 138,
+                      "y": 372
+                    },
+                    {
+                      "x": 158,
+                      "y": 392
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "matGyp2": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.Solids.GypsumBoard",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "matGyp2",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "x",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.025"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.16"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "c",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "830"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "d",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "784"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nStaRef",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Gypsum board",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 178,
+                          "y": 372
+                        },
+                        {
+                          "x": 198,
+                          "y": 392
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 178,
+                      "y": 372
+                    },
+                    {
+                      "x": 198,
+                      "y": 392
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "conExtWal": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.OpaqueConstructions.Generic",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conExtWal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "nLay",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "3"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "material",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "{matWoo,matIns,matGyp}"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Exterior construction",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 280,
+                          "y": 460
+                        },
+                        {
+                          "x": 300,
+                          "y": 480
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 280,
+                      "y": 460
+                    },
+                    {
+                      "x": 300,
+                      "y": 480
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "conIntWal": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.OpaqueConstructions.Generic",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conIntWal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "nLay",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "material",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "{matGyp2}"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Interior wall construction",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 320,
+                          "y": 460
+                        },
+                        {
+                          "x": 340,
+                          "y": 480
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 320,
+                      "y": 460
+                    },
+                    {
+                      "x": 340,
+                      "y": 480
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "conFlo": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.OpaqueConstructions.Generic",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conFlo",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "nLay",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "material",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "{matCon}"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Floor construction (opa_a is carpet)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 280,
+                          "y": 420
+                        },
+                        {
+                          "x": 300,
+                          "y": 440
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 280,
+                      "y": 420
+                    },
+                    {
+                      "x": 300,
+                      "y": 440
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "conFur": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.OpaqueConstructions.Generic",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "conFur",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "nLay",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "material",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "{matFur}"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Construction for internal mass of furniture",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 320,
+                          "y": 420
+                        },
+                        {
+                          "x": 340,
+                          "y": 440
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 320,
+                      "y": 420
+                    },
+                    {
+                      "x": 340,
+                      "y": 440
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "matCarTra": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.Solids.Plywood",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "matCarTra",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.11"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "d",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "544"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nStaRef",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "x",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.215/0.11"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Wood for floor",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 102,
+                          "y": 460
+                        },
+                        {
+                          "x": 122,
+                          "y": 480
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 102,
+                      "y": 460
+                    },
+                    {
+                      "x": 122,
+                      "y": 480
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "glaSys": {
+      "type_prefix": "parameter",
+      "type_specifier": "HeatTransfer.Data.GlazingSystems.DoubleClearAir13Clear",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glaSys",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "UFra",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "shade",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": {
+                          "function_call": {
+                            "name": "Buildings.HeatTransfer.Data.Shades.Gray"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "haveInteriorShade",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "haveExteriorShade",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Data record for the glazing system",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 240,
+                          "y": 460
+                        },
+                        {
+                          "x": 260,
+                          "y": 480
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 240,
+                      "y": 460
+                    },
+                    {
+                      "x": 260,
+                      "y": 480
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "hRoo": {
+      "type_prefix": "constant",
+      "type_specifier": "Modelica.Units.SI.Height",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "hRoo",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "2.74"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Room height"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "sampleModel": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sampleModel",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "false"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to true to time-sample the model, which can give shorter simulation time if there is already time sampling in the system model",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Experimental (may be changed in future releases)\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Experimental (may be changed in future releases)\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "sou": {
+      "type_specifier": "Buildings.ThermalZones.Detailed.MixedAir",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sou",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "Medium"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "AFlo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AFloSou"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "hRoo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "hRoo"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExt",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExtWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConExtWin",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conExtWal}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{wExtSou*hRoo}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "glaSys",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{glaSys}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "wWin",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{winWalRat/hWin*wExtSou*hRoo}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "hWin",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "hWin"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "fFra",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{0.1}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "azi",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Azimuth.S}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConPar",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConPar",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conFlo,conFur}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{AFloSou,414.68}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Floor,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "3"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConBou",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conIntWal,conIntWal,conIntWal}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{6.47,40.76,6.47}*hRoo"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nSurBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nPorts",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "intConMod",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intConMod"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "energyDynamics",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Fluid.Types.Dynamics.FixedInitial"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "sampleModel",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "sampleModel"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "South zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 144,
+                          "y": -44
+                        },
+                        {
+                          "x": 184,
+                          "y": -4
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 144,
+                      "y": -44
+                    },
+                    {
+                      "x": 184,
+                      "y": -4
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "eas": {
+      "type_specifier": "Buildings.ThermalZones.Detailed.MixedAir",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "eas",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "Medium"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "AFlo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AFloEas"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "hRoo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "hRoo"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExt",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExtWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConExtWin",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conExtWal}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{wExtEas*hRoo}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "glaSys",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{glaSys}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "wWin",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{winWalRat/hWin*wExtEas*hRoo}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "hWin",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "hWin"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "fFra",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{0.1}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "azi",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Azimuth.E}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConPar",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConPar",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conFlo,conFur}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{AFloEas,262.52}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Floor,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConBou",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conIntWal}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{24.13}*hRoo"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nSurBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "surBou",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "6.47*hRoo"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "absIR",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "0.9"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "absSol",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "0.9"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nPorts",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "intConMod",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intConMod"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "energyDynamics",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Fluid.Types.Dynamics.FixedInitial"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "sampleModel",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "sampleModel"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "East zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 304,
+                          "y": 56
+                        },
+                        {
+                          "x": 344,
+                          "y": 96
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 304,
+                      "y": 56
+                    },
+                    {
+                      "x": 344,
+                      "y": 96
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "nor": {
+      "type_specifier": "Buildings.ThermalZones.Detailed.MixedAir",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "Medium"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "AFlo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AFloNor"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "hRoo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "hRoo"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExt",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExtWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConExtWin",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conExtWal}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{wExtNor*hRoo}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "glaSys",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{glaSys}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "wWin",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{winWalRat/hWin*wExtNor*hRoo}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "hWin",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "hWin"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "fFra",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{0.1}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "azi",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Azimuth.N}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConPar",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConPar",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conFlo,conFur}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{AFloNor,414.68}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Floor,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "3"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConBou",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conIntWal,conIntWal,conIntWal}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{6.47,40.76,6.47}*hRoo"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nSurBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nPorts",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "intConMod",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intConMod"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "energyDynamics",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Fluid.Types.Dynamics.FixedInitial"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "sampleModel",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "sampleModel"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "North zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 144,
+                          "y": 116
+                        },
+                        {
+                          "x": 184,
+                          "y": 156
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 144,
+                      "y": 116
+                    },
+                    {
+                      "x": 184,
+                      "y": 156
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "wes": {
+      "type_specifier": "Buildings.ThermalZones.Detailed.MixedAir",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "wes",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "Medium"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "AFlo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AFloWes"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "hRoo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "hRoo"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExt",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExtWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConExtWin",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conExtWal}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{wExtEas*hRoo}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "glaSys",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{glaSys}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "wWin",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{winWalRat/hWin*wExtEas*hRoo}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "hWin",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "hWin"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "fFra",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{0.1}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "azi",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Azimuth.W}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConPar",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConPar",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conFlo,conFur}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{AFloWes,262.52}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Floor,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConBou",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conIntWal}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{24.13}*hRoo"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nSurBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "surBou",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "6.47*hRoo"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "absIR",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "0.9"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "absSol",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "0.9"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nPorts",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "5"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "intConMod",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intConMod"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "energyDynamics",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Fluid.Types.Dynamics.FixedInitial"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "sampleModel",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "sampleModel"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "West zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 12,
+                          "y": 36
+                        },
+                        {
+                          "x": 52,
+                          "y": 76
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 12,
+                      "y": 36
+                    },
+                    {
+                      "x": 52,
+                      "y": 76
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "cor": {
+      "type_specifier": "Buildings.ThermalZones.Detailed.MixedAir",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "cor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "Medium"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "AFlo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "AFloCor"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "hRoo",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "hRoo"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExt",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConExtWin",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConPar",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "datConPar",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "layers",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{conFlo,conFur}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{AFloCor,1967.01}"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Floor,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nConBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nSurBou",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "4"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "surBou",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "A",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{40.76,24.13,40.76,24.13}*hRoo"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "absIR",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "0.9"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "each": true,
+                            "element_modification": {
+                              "name": "absSol",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "0.9"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "til",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "{Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall,Buildings.Types.Tilt.Wall}"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nPorts",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "11"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "intConMod",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intConMod"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "energyDynamics",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Fluid.Types.Dynamics.FixedInitial"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "sampleModel",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "sampleModel"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Core zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 144,
+                          "y": 36
+                        },
+                        {
+                          "x": 184,
+                          "y": 76
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 144,
+                      "y": 36
+                    },
+                    {
+                      "x": 184,
+                      "y": 76
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "gai": {
+      "type_specifier": "Modelica.Blocks.Math.MatrixGain",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "gai",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "K",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "20*[0.4;0.4;0.2]"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Matrix gain to split up heat gain in radiant, convective and latent gain",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -100,
+                          "y": 100
+                        },
+                        {
+                          "x": -80,
+                          "y": 120
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -100,
+                      "y": 100
+                    },
+                    {
+                      "x": -80,
+                      "y": 120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "intGaiFra": {
+      "type_specifier": "Modelica.Blocks.Sources.CombiTimeTable",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "intGaiFra",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "table",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "[0,0.05;8,0.05;9,0.9;12,0.9;12,0.8;13,0.8;13,1;17,1;19,0.1;24,0.05]"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "timeScale",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "3600"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "extrapolation",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Blocks.Types.Extrapolation.Periodic"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Fraction of internal heat gain",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 100
+                        },
+                        {
+                          "x": -120,
+                          "y": 120
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 100
+                    },
+                    {
+                      "x": -120,
+                      "y": 120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "gaiIntNor": {
+      "type_specifier": "Modelica.Blocks.Math.Gain",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "gaiIntNor",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "kIntNor"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Gain for internal heat gain amplification for north zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": 134
+                        },
+                        {
+                          "x": -40,
+                          "y": 154
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": 134
+                    },
+                    {
+                      "x": -40,
+                      "y": 154
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "gaiIntSou": {
+      "type_specifier": "Modelica.Blocks.Math.Gain",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "gaiIntSou",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "2 -kIntNor"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Gain to change the internal heat gain for south",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": -38
+                        },
+                        {
+                          "x": -40,
+                          "y": -18
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": -38
+                    },
+                    {
+                      "x": -40,
+                      "y": -18
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "uSha": {
+      "type_specifier": "Modelica.Blocks.Sources.Constant",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "uSha",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Control signal for the shading device",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -100,
+                          "y": 170
+                        },
+                        {
+                          "x": -80,
+                          "y": 190
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -100,
+                      "y": 170
+                    },
+                    {
+                      "x": -80,
+                      "y": 190
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    },
+    "replicator": {
+      "type_specifier": "Modelica.Blocks.Routing.Replicator",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "replicator",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "nout",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -60,
+                          "y": 170
+                        },
+                        {
+                          "x": -40,
+                          "y": 190
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -60,
+                      "y": 170
+                    },
+                    {
+                      "x": -40,
+                      "y": 190
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/BaseClasses/Floor.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.Examples.VAVReheat.BaseClasses.PartialFloor",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "VRooCor",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "cor.AFlo*hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "VRooSou",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "sou.AFlo*hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "VRooNor",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "nor.AFlo*hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "VRooEas",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "eas.AFlo*hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "VRooWes",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "wes.AFlo*hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "AFloCor",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "2698/hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "AFloSou",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "568.77/hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "AFloNor",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "568.77/hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "AFloEas",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "360.0785/hRoo"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "AFloWes",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "360.0785/hRoo"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "Floor",
+        "within": "Buildings.Examples.VAVReheat.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "sou.surf_conBou[1]": [
+        "wes.surf_surBou[2]"
+      ],
+      "sou.surf_conBou[2]": [
+        "cor.surf_surBou[1]"
+      ],
+      "sou.surf_conBou[3]": [
+        "eas.surf_surBou[1]"
+      ],
+      "eas.surf_conBou[1]": [
+        "cor.surf_surBou[2]"
+      ],
+      "eas.surf_surBou[2]": [
+        "nor.surf_conBou[1]"
+      ],
+      "nor.surf_conBou[2]": [
+        "cor.surf_surBou[3]"
+      ],
+      "nor.surf_conBou[3]": [
+        "wes.surf_surBou[1]"
+      ],
+      "wes.surf_conBou[1]": [
+        "cor.surf_surBou[4]"
+      ],
+      "replicator.y": [
+        "nor.uSha",
+        "wes.uSha",
+        "eas.uSha",
+        "sou.uSha",
+        "cor.uSha"
+      ],
+      "gai.y": [
+        "cor.qGai_flow",
+        "eas.qGai_flow",
+        "wes.qGai_flow",
+        "gaiIntSou.u",
+        "gaiIntNor.u"
+      ],
+      "sou.weaBus": [
+        "weaBus"
+      ],
+      "eas.weaBus": [
+        "weaBus"
+      ],
+      "nor.weaBus": [
+        "weaBus"
+      ],
+      "wes.weaBus": [
+        "weaBus"
+      ],
+      "cor.weaBus": [
+        "weaBus"
+      ],
+      "sou.heaPorAir": [
+        "temAirSou.port"
+      ],
+      "eas.heaPorAir": [
+        "temAirEas.port"
+      ],
+      "nor.heaPorAir": [
+        "temAirNor.port"
+      ],
+      "wes.heaPorAir": [
+        "temAirWes.port"
+      ],
+      "cor.heaPorAir": [
+        "temAirCor.port"
+      ],
+      "sou.ports[1]": [
+        "portsSou[1]"
+      ],
+      "sou.ports[2]": [
+        "portsSou[2]"
+      ],
+      "eas.ports[1]": [
+        "portsEas[1]"
+      ],
+      "eas.ports[2]": [
+        "portsEas[2]"
+      ],
+      "nor.ports[1]": [
+        "portsNor[1]"
+      ],
+      "nor.ports[2]": [
+        "portsNor[2]"
+      ],
+      "wes.ports[1]": [
+        "portsWes[1]"
+      ],
+      "wes.ports[2]": [
+        "portsWes[2]"
+      ],
+      "cor.ports[1]": [
+        "portsCor[1]"
+      ],
+      "cor.ports[2]": [
+        "portsCor[2]"
+      ],
+      "leaSou.port_b": [
+        "sou.ports[3]"
+      ],
+      "leaEas.port_b": [
+        "eas.ports[3]"
+      ],
+      "leaNor.port_b": [
+        "nor.ports[3]"
+      ],
+      "leaWes.port_b": [
+        "wes.ports[3]"
+      ],
+      "opeSouCor.port_b1": [
+        "cor.ports[3]"
+      ],
+      "opeSouCor.port_a2": [
+        "cor.ports[4]"
+      ],
+      "opeSouCor.port_a1": [
+        "sou.ports[4]"
+      ],
+      "opeSouCor.port_b2": [
+        "sou.ports[5]"
+      ],
+      "opeEasCor.port_b1": [
+        "eas.ports[4]"
+      ],
+      "opeEasCor.port_a2": [
+        "eas.ports[5]"
+      ],
+      "opeEasCor.port_a1": [
+        "cor.ports[5]"
+      ],
+      "opeEasCor.port_b2": [
+        "cor.ports[6]"
+      ],
+      "opeNorCor.port_b1": [
+        "nor.ports[4]"
+      ],
+      "opeNorCor.port_a2": [
+        "nor.ports[5]"
+      ],
+      "opeNorCor.port_a1": [
+        "cor.ports[7]"
+      ],
+      "opeNorCor.port_b2": [
+        "cor.ports[8]"
+      ],
+      "opeWesCor.port_b1": [
+        "cor.ports[9]"
+      ],
+      "opeWesCor.port_a2": [
+        "cor.ports[10]"
+      ],
+      "opeWesCor.port_a1": [
+        "wes.ports[4]"
+      ],
+      "opeWesCor.port_b2": [
+        "wes.ports[5]"
+      ],
+      "cor.ports[11]": [
+        "senRelPre.port_a"
+      ],
+      "senRelPre.p_rel": [
+        "p_rel"
+      ],
+      "gaiIntNor.y": [
+        "nor.qGai_flow"
+      ],
+      "gaiIntSou.y": [
+        "sou.qGai_flow"
+      ],
+      "intGaiFra.y": [
+        "gai.u"
+      ],
+      "uSha.y": [
+        "replicator.u"
+      ]
+    }
+  }
+}

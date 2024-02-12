@@ -132,7 +132,16 @@ model ASHRAE2006
   ReadAhu reaAhu
     annotation (Placement(transformation(extent={{200,360},{220,392}})));
   ReadZone reaZonCor(zone="cor") "Read zone measurements"
-    annotation (Placement(transformation(extent={{650,82},{670,100}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+              "bldg:hvac_cor_zone a brick:Zone ;
+               brick:hasPoint bldg:hvac_oveZonSupCor_TZonCooSet_u,
+                              bldg:hvac_oveZonSupCor_TZonHeaSet_u,
+                              bldg:hvac_reaZonCor_TZon_y ,
+                              bldg:LowerSetp_cor,
+                              bldg:UpperSetp_cor,
+                              bldg:occ_cor .")),
+      Placement(transformation(extent={{650,82},{670,100}})));
   Modelica.Blocks.Interfaces.RealInput CO2Roo[numZon] "Mass fraction of CO2"
     annotation (Placement(transformation(
         extent={{-20,-20},{20,20}},
@@ -148,13 +157,49 @@ model ASHRAE2006
         rotation=0,
         origin={490,460})));
   ReadZone reaZonSou(zone="sou") "Read zone measurements"
-    annotation (__Buildings(semantic(metadataLanguage="Brick 1.3 text/turtle" "bldg:sou a Brick:HVAC_Zone . ")),Placement(transformation(extent={{830,82},{850,100}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+              "bldg:hvac_sou_zone a brick:Zone ;
+               brick:hasPoint bldg:hvac_oveZonSupSou_TZonCooSet_u,
+                              bldg:hvac_oveZonSupSou_TZonHeaSet_u,
+                              bldg:hvac_reaZonSou_TZon_y ,
+                              bldg:LowerSetp_sou,
+                              bldg:UpperSetp_sou,
+                              bldg:occ_sou .")),
+    Placement(transformation(extent={{830,82},{850,100}})));
   ReadZone reaZonEas(zone="eas") "Read zone measurements"
-    annotation (Placement(transformation(extent={{1010,82},{1030,100}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+              "bldg:hvac_eas_zone a brick:Zone ;
+               brick:hasPoint bldg:hvac_oveZonSupEas_TZonCooSet_u,
+                              bldg:hvac_oveZonSupEas_TZonHeaSet_u,
+                              bldg:hvac_reaZonEas_TZon_y ,
+                              bldg:LowerSetp_eas,
+                              bldg:UpperSetp_eas,
+                              bldg:occ_eas .")),
+    Placement(transformation(extent={{1010,82},{1030,100}})));
   ReadZone reaZonNor(zone="nor") "Read zone measurements"
-    annotation (Placement(transformation(extent={{1180,82},{1200,100}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+              "bldg:hvac_nor_zone a brick:Zone ;
+               brick:hasPoint bldg:hvac_oveZonSupNor_TZonCooSet_u,
+                              bldg:hvac_oveZonSupNor_TZonHeaSet_u,
+                              bldg:hvac_reaZonNor_TZon_y ,
+                              bldg:LowerSetp_nor,
+                              bldg:UpperSetp_nor,
+                              bldg:occ_nor .")),
+      Placement(transformation(extent={{1180,82},{1200,100}})));
   ReadZone reaZonWes(zone="wes") "Read zone measurements"
-    annotation (Placement(transformation(extent={{1380,82},{1400,100}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+              "bldg:hvac_wes_zone a brick:Zone ;
+               brick:hasPoint bldg:hvac_oveZonSupWes_TZonCooSet_u,
+                              bldg:hvac_oveZonSupWes_TZonHeaSet_u,
+                              bldg:hvac_reaZonWes_TZon_y ,
+                              bldg:LowerSetp_wes,
+                              bldg:UpperSetp_wes,
+                              bldg:occ_wes .")),
+      Placement(transformation(extent={{1380,82},{1400,100}})));
   WriteZoneLoc oveZonActCor(zone="cor") "Overwrite zone actuator signals"
     annotation (Placement(transformation(extent={{490,-124},{510,-104}})));
   WriteZoneLoc oveZonActSou(zone="sou") "Overwrite zone actuator signals"
@@ -643,11 +688,7 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  annotation (
-  __Buildings(semantic(
-    metdataLanguageDefinition="Brick 1.3 text/turtle" "https://brickscheme.org")
-  ),
-  defaultComponentName="hvac",
+  annotation (defaultComponentName="hvac",
     Diagram(coordinateSystem(preserveAspectRatio=false,extent={{-380,-400},{1420,
             660}})),
     Documentation(info="<html>

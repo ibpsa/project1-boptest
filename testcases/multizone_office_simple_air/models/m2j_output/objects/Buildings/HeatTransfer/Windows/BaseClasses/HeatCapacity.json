@@ -1,0 +1,1073 @@
+{
+  "instances": {
+    "HeatCapacity": {
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -20,
+                                  "y": 60
+                                },
+                                {
+                                  "x": 20,
+                                  "y": -60
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 170,
+                                "g": 213,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -6,
+                                  "y": 45
+                                },
+                                {
+                                  "x": 6,
+                                  "y": 34
+                                }
+                              ],
+                              "visible": "haveShade",
+                              "lineColor": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 191,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 0,
+                                  "y": 40
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 40
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "visible": "haveShade"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -94,
+                                  "y": 64
+                                },
+                                {
+                                  "x": -60,
+                                  "y": 22
+                                }
+                              ],
+                              "textString": "\"ySha\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -92,
+                                  "y": -16
+                                },
+                                {
+                                  "x": -58,
+                                  "y": -58
+                                }
+                              ],
+                              "textString": "\"yCom\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -6,
+                                  "y": -35
+                                },
+                                {
+                                  "x": 6,
+                                  "y": -46
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 191,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 100,
+                                  "y": -40
+                                },
+                                {
+                                  "x": 0,
+                                  "y": -40
+                                }
+                              ],
+                              "color": {
+                                "r": 255,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -52,
+                                  "y": 76
+                                },
+                                {
+                                  "x": -48,
+                                  "y": 4
+                                }
+                              ],
+                              "visible": "haveShade",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -70,
+                                  "y": 18
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 10
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 22
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 30
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 18
+                                }
+                              ],
+                              "smooth": "Smooth.None",
+                              "visible": "haveShade",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 135,
+                                "g": 135,
+                                "b": 135
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -70,
+                                  "y": 38
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 30
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 42
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 50
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 38
+                                }
+                              ],
+                              "smooth": "Smooth.None",
+                              "visible": "haveShade",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 135,
+                                "g": 135,
+                                "b": 135
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -70,
+                                  "y": 58
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 50
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 62
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 70
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 58
+                                }
+                              ],
+                              "smooth": "Smooth.None",
+                              "visible": "haveShade",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 135,
+                                "g": 135,
+                                "b": 135
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nHeat capacitor in which the capacity is scaled based on the input signal <code>u</code>.\n</p>\n<p>\nThis model is similar to\n<a href=\\\"modelica://Modelica.Thermal.HeatTransfer.Components.HeatCapacitor\\\">\nModelica.Thermal.HeatTransfer.Components.HeatCapacitor</a>.\nHowever, it has, depending on the parameterization, either\none or two heat capacities. Depending on the input signal <code>ySha</code>,\nthe size of one of the capacity is decreased, and the size of the other capacity\nis increased.\nThis model is used to add a state variable on the room-facing surface of a window.\nThe window implementation in the <code>Buildings</code> library is such that\nthere are two parts of a window, one for the unshaded part, and one for the\nshaded part.\nThis model allows adding heat capacity to such a window with variable\nareas, while conserving energy when one area shrinks and the other expands\naccordingly.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nOctober 29, 2016, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "haveShade": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "haveShade"
+        },
+        "description": {
+          "description_string": "Parameter, equal to true if the window has a shade",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "C": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.HeatCapacity",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "C"
+        },
+        "description": {
+          "description_string": "Heat capacity of element (= cp*m)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "ySha": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "ySha"
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Control signal for shade",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 20
+                        },
+                        {
+                          "x": -100,
+                          "y": 60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 20
+                    },
+                    {
+                      "x": -100,
+                      "y": 60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "yCom": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yCom"
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Input 1-y",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -60
+                        },
+                        {
+                          "x": -100,
+                          "y": -20
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -60
+                        },
+                        {
+                          "x": -100,
+                          "y": -20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -60
+                    },
+                    {
+                      "x": -100,
+                      "y": -20
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -60
+                    },
+                    {
+                      "x": -100,
+                      "y": -20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "portUns": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "portUns"
+        },
+        "description": {
+          "description_string": "Heat port to unshaded part of the window",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 95,
+                          "y": -45
+                        },
+                        {
+                          "x": 105,
+                          "y": -35
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 95,
+                          "y": -45
+                        },
+                        {
+                          "x": 105,
+                          "y": -35
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 95,
+                      "y": -45
+                    },
+                    {
+                      "x": 105,
+                      "y": -35
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 95,
+                      "y": -45
+                    },
+                    {
+                      "x": 105,
+                      "y": -35
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "portSha": {
+      "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "portSha",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "T",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "TSha"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Q_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "QSha_flow"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "haveShade"
+          }
+        },
+        "description": {
+          "description_string": "Heat port to shaded part of the window",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 95,
+                          "y": 35
+                        },
+                        {
+                          "x": 105,
+                          "y": 45
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 95,
+                          "y": 35
+                        },
+                        {
+                          "x": 105,
+                          "y": 45
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 95,
+                      "y": 35
+                    },
+                    {
+                      "x": 105,
+                      "y": 45
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 95,
+                      "y": 35
+                    },
+                    {
+                      "x": 105,
+                      "y": 45
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "TUns": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TUns",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Temperature of unshaded part of window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "TSha": {
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "TSha",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "293.15"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Temperature of unshaded part of window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "der_TUns": {
+      "type_specifier": "Modelica.Units.SI.TemperatureSlope",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "der_TUns",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Time derivative of temperature (= der(T))"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "der_TSha": {
+      "type_specifier": "Modelica.Units.SI.TemperatureSlope",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "der_TSha",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Time derivative of temperature (= der(T))"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "CInv": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "CInv",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"K/J\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "1/C"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Inverse of heat capacity"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "ySha_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "ySha_internal"
+        },
+        "description": {
+          "description_string": "Internal connector"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "yCom_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yCom_internal"
+        },
+        "description": {
+          "description_string": "Internal connector"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    },
+    "QSha_flow": {
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "HeatCapacity",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "QSha_flow"
+        },
+        "description": {
+          "description_string": "Heat flow rate for shaded part of the window"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/HeatCapacity.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.BaseClasses.BaseIcon",
+        "long_class_specifier_identifier": "HeatCapacity",
+        "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "ySha": [
+        "ySha_internal"
+      ],
+      "yCom": [
+        "yCom_internal"
+      ]
+    }
+  }
+}

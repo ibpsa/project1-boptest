@@ -5,7 +5,11 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.AirZoneTemperature,
     y(unit="K"),
     zone=zone) "Zone air temperature measurement"
-    annotation (Placement(transformation(extent={{0,50},{20,70}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+               "bldg:<cdl_instance_name>_y a brick:Zone_Air_Temperature_Sensor ;
+                          brick:hasLocation bldg:hvac_cor_zone .")),
+      Placement(transformation(extent={{0,50},{20,70}})));
 
   Modelica.Blocks.Interfaces.RealInput TZon_in
     "Zone air temperature measurement"

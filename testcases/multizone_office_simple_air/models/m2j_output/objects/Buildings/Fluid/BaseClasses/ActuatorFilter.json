@@ -1,0 +1,1007 @@
+{
+  "instances": {
+    "ActuatorFilter": {
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"act\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -80.6897,
+                                  "y": 77.6256
+                                },
+                                {
+                                  "x": -80.6897,
+                                  "y": -90.3744
+                                }
+                              ],
+                              "color": {
+                                "r": 192,
+                                "g": 192,
+                                "b": 192
+                              }
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -79.7044,
+                                  "y": 90.6305
+                                },
+                                {
+                                  "x": -87.7044,
+                                  "y": 68.6305
+                                },
+                                {
+                                  "x": -71.7044,
+                                  "y": 68.6305
+                                },
+                                {
+                                  "x": -79.7044,
+                                  "y": 90.6305
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 192,
+                                "g": 192,
+                                "b": 192
+                              },
+                              "fillColor": {
+                                "r": 192,
+                                "g": 192,
+                                "b": 192
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -90,
+                                  "y": -80
+                                },
+                                {
+                                  "x": 82,
+                                  "y": -80
+                                }
+                              ],
+                              "color": {
+                                "r": 192,
+                                "g": 192,
+                                "b": 192
+                              }
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 90,
+                                  "y": -80
+                                },
+                                {
+                                  "x": 68,
+                                  "y": -72
+                                },
+                                {
+                                  "x": 68,
+                                  "y": -88
+                                },
+                                {
+                                  "x": 90,
+                                  "y": -80
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 192,
+                                "g": 192,
+                                "b": 192
+                              },
+                              "fillColor": {
+                                "r": 192,
+                                "g": 192,
+                                "b": 192
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 96.962,
+                                  "y": 55.158
+                                },
+                                {
+                                  "x": 16.42,
+                                  "y": 50.489
+                                },
+                                {
+                                  "x": -18.988,
+                                  "y": 18.583
+                                },
+                                {
+                                  "x": -32.024,
+                                  "y": -53.479
+                                },
+                                {
+                                  "x": -62.024,
+                                  "y": -73.479
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "smooth": "Smooth.Bezier"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -70,
+                                  "y": 48
+                                },
+                                {
+                                  "x": 26,
+                                  "y": 94
+                                }
+                              ],
+                              "textString": "\"%n\"",
+                              "textColor": {
+                                "r": 192,
+                                "g": 192,
+                                "b": 192
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 8,
+                                  "y": -146
+                                },
+                                {
+                                  "x": 8,
+                                  "y": -106
+                                }
+                              ],
+                              "textString": ",textString="
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Diagram",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis block implements a filter that is used to approximate the actuators\nof valves, dampers and fans.\n</p>\n<h4>Implementation</h4>\n<p>\nThe implementation is based on\n<a href=\\\"modelica://Modelica.Blocks.Continuous.CriticalDamping\\\">\nModelica.Blocks.Continuous.CriticalDamping</a>.\nIt differs from that model in that the internal state of the filter <code>s</code>\nis transformed using <code>x = u_nominal*s</code>.\nIt turns out that this transformation leads to smaller system of nonlinear equations if <code>u_nominal &ne; 0</code>, see\n<a href=\\\"https://https://github.com/ibpsa/modelica-ibpsa/issues/1498#issuecomment-885020611\\\">IBPSA, #1498</a>\nfor a discussion.\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nJuly 22, 2021, by Michael Wetter:<br/>\nFirst implementation for\n<a href=\\\"https://https://github.com/ibpsa/modelica-ibpsa/issues/1498\\\">IBPSA, #1498</a>\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "n": {
+      "type_prefix": "constant",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "n",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "2"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Order of filter"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "f": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Frequency",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "f",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Cut-off frequency"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "normalized": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "normalized",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "true"
+            }
+          }
+        },
+        "description": {
+          "description_string": "= true, if amplitude at f_cut is 3 dB, otherwise unmodified filter"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "initType": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Blocks.Types.Init",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "initType",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Modelica.Blocks.Types.Init.NoInit"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Type of initialization (1: no init, 2: steady state, 3: initial state, 4: initial output)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "x_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "x_start",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "n"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "zeros",
+                  "arguments": [
+                    {
+                      "name": "n"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Initial or guess values of states",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "y_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "y_start",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "0"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Initial value of output (remaining states are in steady state)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "logical_expression": {
+                                    "logical_or": [
+                                      {
+                                        "logical_and": [
+                                          {
+                                            "arithmetic_expressions": [
+                                              {
+                                                "name": "initType"
+                                              },
+                                              {
+                                                "name": "Init.InitialOutput"
+                                              }
+                                            ],
+                                            "relation_operator": "=="
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": {
+                              "logical_expression": {
+                                "logical_or": [
+                                  {
+                                    "logical_and": [
+                                      {
+                                        "arithmetic_expressions": [
+                                          {
+                                            "name": "initType"
+                                          },
+                                          {
+                                            "name": "Init.InitialOutput"
+                                          }
+                                        ],
+                                        "relation_operator": "=="
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "u_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "u_nominal",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "1"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Magnitude of input"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "x": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "x",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "n"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "final": true,
+                  "element_modification": {
+                    "name": "stateSelect",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "StateSelect.never"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "u_nom*s"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Transformed filter states"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "u_nom": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "u_nom",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "abs(u_nominal -1)"
+                                    },
+                                    {
+                                      "name": "1e-12"
+                                    }
+                                  ],
+                                  "relation_operator": "<"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": "1 -1e-12"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": "u_nominal"
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Magnitude of input (set to a value different from 1 to avoid elimination by symbolic processing)"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "alpha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "alpha",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": "normalized"
+                    },
+                    "then": {
+                      "simple_expression": {
+                        "function_call": {
+                          "name": "sqrt",
+                          "arguments": [
+                            {
+                              "name": "2^(1/n) -1"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": "1"
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Frequency correction factor for normalized filter"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "w_u": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "w_u",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "2*Modelica.Constants.pi*f/alpha/u_nom"
+            }
+          }
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    },
+    "s": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "ActuatorFilter",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "s",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "n"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "x_start/u_nom"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Filter states"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/BaseClasses/ActuatorFilter.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Blocks.Interfaces.SISO",
+        "long_class_specifier_identifier": "ActuatorFilter",
+        "within": "Buildings.Fluid.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "import_clause": [
+      {
+        "identifier": "",
+        "name": "Modelica.Blocks.Types.Init",
+        "long_class_specifier_identifier": "ActuatorFilter",
+        "within": "Buildings.Fluid.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}

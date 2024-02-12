@@ -1,0 +1,807 @@
+{
+  "instances": {
+    "VolumeFlowRate": {
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"senVolFlo\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 160,
+                                  "y": 120
+                                },
+                                {
+                                  "x": 0,
+                                  "y": 90
+                                }
+                              ],
+                              "textString": "\"V_flow\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 0,
+                                  "y": 100
+                                },
+                                {
+                                  "x": 0,
+                                  "y": 70
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -100,
+                                  "y": 0
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 128,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 70,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 128,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -20,
+                                  "y": 120
+                                },
+                                {
+                                  "x": -140,
+                                  "y": 70
+                                }
+                              ],
+                              "textString": "DynamicSelect(\"\",String(V_flow",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model outputs the volume flow rate flowing from\n<code>port_a</code> to <code>port_b</code>.\nThe sensor is ideal, i.e., it does not influence the fluid.\nIf the parameter <code>tau</code> is non-zero, then the measured\ndensity that is used to convert the mass flow rate into\nvolumetric flow rate is computed using a first order differential equation.\nSetting <code>tau=0</code> is <i>not</i> recommend. See\n<a href=\\\"modelica://Buildings.Fluid.Sensors.UsersGuide\\\">\nBuildings.Fluid.Sensors.UsersGuide</a> for an explanation.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nOctober 19, 2020, by Antoine Gautier:<br/>\nChanged default value for <code>tau</code> from <code>1</code> to <code>0</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1406\\\">#1406</a>.\n</li>\n<li>\nFebruary 25, 2020, by Michael Wetter:<br/>\nChanged icon to display its operating state.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1294\\\">#1294</a>.\n</li>\n<li>\nJanuary 18, 2016 by Filip Jorissen:<br/>\nUsing parameter <code>tauInv</code>\nsince this now exists in\n<a href=\\\"modelica://Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor\\\">Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor</a>.\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/372\\\">#372</a>.\n</li>\n<li>\nAugust 31, 2013, by Michael Wetter:<br/>\nRemoved default value <code>tau=0</code> as the base class\nalready sets <code>tau=1</code>.\nThis change was made so that all sensors use the same default value.\n</li>\n<li>\nJune 3, 2011 by Michael Wetter:<br/>\nRevised implementation to add dynamics in such a way that\nthe time constant increases as the mass flow rate tends to zero.\nThis significantly improves the numerics.\n</li>\n<li>\nSeptember 29, 2009, by Michael Wetter:<br/>\nFirst implementation.\nImplementation is based on <code>Modelica.Fluid</code>.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "d_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Medium.Density",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "d_start",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Medium.density",
+                  "arguments": [
+                    {
+                      "name": "Medium.setState_pTX(p_start,T_start,X_start)"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Initial or guess value of density",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    },
+    "T_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Temperature",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "T_start",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Medium.T_default"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Temperature used to compute d_start",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    },
+    "p_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Pressure",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "p_start",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Medium.p_default"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Pressure used to compute d_start",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    },
+    "X_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.MassFraction",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "X_start",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "Medium.nX"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Medium.X_default"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Mass fraction used to compute d_start",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Initialization\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Initialization\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    },
+    "V_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "V_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"VolumeFlowRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"m3/s\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Volume flow rate from port_a to port_b",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": 110
+                      },
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -10
+                        },
+                        {
+                          "x": -10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 270
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": 110
+                  },
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -10
+                    },
+                    {
+                      "x": -10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 270
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    },
+    "dMed": {
+      "type_specifier": "Medium.Density",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dMed",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "d_start"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Medium temperature to which the sensor is exposed"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    },
+    "d_a_inflow": {
+      "type_specifier": "Medium.Density",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "d_a_inflow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "d_start"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Density of inflowing fluid at port_a"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    },
+    "d_b_inflow": {
+      "type_specifier": "Medium.Density",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "d_b_inflow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "d_start"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Density of inflowing fluid at port_b, or rho_a_inflow if uni-directional flow"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    },
+    "d": {
+      "type_specifier": "Medium.Density",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "VolumeFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "d",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "d_start"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Density of the passing fluid"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/VolumeFlowRate.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.Fluid.Sensors.BaseClasses.PartialDynamicFlowSensor",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "tau",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "0"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "VolumeFlowRate",
+        "within": "Buildings.Fluid.Sensors",
+        "compositionSpecifier": "public"
+      },
+      {
+        "name": "Modelica.Icons.RoundSensor",
+        "long_class_specifier_identifier": "VolumeFlowRate",
+        "within": "Buildings.Fluid.Sensors",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}

@@ -1,0 +1,654 @@
+{
+  "instances": {
+    "OccupancySchedule": {
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -62,
+                                  "y": -68
+                                },
+                                {
+                                  "x": -38,
+                                  "y": -20
+                                },
+                                {
+                                  "x": -14,
+                                  "y": -70
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -38,
+                                  "y": -20
+                                },
+                                {
+                                  "x": -38,
+                                  "y": 44
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -54,
+                                  "y": 74
+                                },
+                                {
+                                  "x": -22,
+                                  "y": 44
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -66,
+                                  "y": 22
+                                },
+                                {
+                                  "x": -38,
+                                  "y": 36
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -38,
+                                  "y": 36
+                                },
+                                {
+                                  "x": -6,
+                                  "y": 20
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 34,
+                                  "y": 74
+                                },
+                                {
+                                  "x": 90,
+                                  "y": 50
+                                }
+                              ],
+                              "textString": "\"occupancy\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 32,
+                                  "y": 16
+                                },
+                                {
+                                  "x": 92,
+                                  "y": -16
+                                }
+                              ],
+                              "textString": "\"non-occupancy\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 34,
+                                  "y": -44
+                                },
+                                {
+                                  "x": 94,
+                                  "y": -76
+                                }
+                              ],
+                              "textString": "\"occupied\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"occSch\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model outputs whether the building is currently occupied,\nand how long it will take until the next time when the building\nwill be occupied or non-occupied.\nThe latter may be used, for example, to start a ventilation system\nhalf an hour before occupancy starts in order to ventilate the room.\n</p>\n<p>\nThe occupancy is defined by a time schedule of the form\n</p>\n<pre>\n  occupancy = 3600*{7, 12, 14, 19}\n</pre>\n<p>\nThis indicates that the occupancy is from <i>7:00</i> until <i>12:00</i>\nand from <i>14:00</i> to <i>19:00</i>. This will be repeated periodically.\nThe parameter <code>periodicity</code> defines the periodicity.\nThe period always starts at <i>t=0</i> seconds.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 25, 2021, by Michael Wetter:<br/>\nIntegrated changes from Buildings for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1454\\\">IBPSA, #1454</a>.\n</li>\n<li>\nFebruary 26, 2021, by Michael Wetter:<br/>\nRefactored implementation to use a function to compute the next time events.<br/>\nThis is a work-around for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2369\\\">Buildings, issue 2369</a>.\n</li>\n<li>\nOctober 30, 2017, by Michael Wetter:<br/>\nRewrote using <code>equation</code> rather than <code>algorithm</code>\nand removed assertion.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/844\\\">issue 844</a>.\n</li>\n<li>\nSeptember 11, 2012, by Michael Wetter:<br/>\nAdded <code>pre</code> operator in <code>when</code> clause and relaxed\ntolerance in <code>assert</code> statement.\n</li>\n<li>\nJuly 26, 2012, by Michael Wetter:<br/>\nFixed a bug that caused an error in the schedule if the simulation start time was negative or equal to the first entry in the schedule.\n</li>\n<li>\nFebruary 16, 2012, by Michael Wetter:<br/>\nRemoved parameter <code>startTime</code>. It was removed because <code>startTime=0</code>\nwould imply that the schedule should not start for one day if the simulation were\nto be started at <i>t=-8760</i> seconds.\nFixed bug that prevented schedule to start when the simulation was started at a time that\nis higher than <code>endTime</code>.\nRenamed parameter <code>endTime</code> to <code>period</code>.\n</li>\n<li>\nApril 2, 2009, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "occupancy": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "occupancy",
+          "array_subscripts": [
+            {
+              "colon_op": true
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "3600*{7,19}"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Occupancy table, each entry switching occupancy on or off"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "firstEntryOccupied": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "firstEntryOccupied",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "true"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to true if first entry in occupancy denotes a changed from unoccupied to occupied"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "period": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "period",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "86400"
+            }
+          }
+        },
+        "description": {
+          "description_string": "End time of periodicity"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "tNexNonOcc": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tNexNonOcc"
+        },
+        "description": {
+          "description_string": "Time until next non-occupancy",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -10
+                        },
+                        {
+                          "x": 120,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -10
+                    },
+                    {
+                      "x": 120,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "tNexOcc": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tNexOcc"
+        },
+        "description": {
+          "description_string": "Time until next occupancy",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 50
+                        },
+                        {
+                          "x": 120,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 50
+                    },
+                    {
+                      "x": 120,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "occupied": {
+      "type_specifier": "Modelica.Blocks.Interfaces.BooleanOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "occupied"
+        },
+        "description": {
+          "description_string": "Outputs true if occupied at current time",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -70
+                        },
+                        {
+                          "x": 120,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -70
+                    },
+                    {
+                      "x": 120,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "nRow": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nRow",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "size",
+                  "arguments": [
+                    {
+                      "name": "occupancy"
+                    },
+                    {
+                      "name": "1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of rows in the schedule"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "tOcc": {
+      "type_prefix": "discrete",
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tOcc"
+        },
+        "description": {
+          "description_string": "Time when next occupancy starts"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "tNonOcc": {
+      "type_prefix": "discrete",
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tNonOcc"
+        },
+        "description": {
+          "description_string": "Time when next non-occupancy starts"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "tNext": {
+      "type_prefix": "discrete",
+      "type_specifier": "Modelica.Units.SI.Time",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "OccupancySchedule",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "tNext"
+        },
+        "description": {
+          "description_string": "Time of next switch in schedule"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo"
+    },
+    "getOutput": {
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "protected",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "switchInteger": {
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "protected",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "switchReal": {
+      "within": "Buildings.Controls.SetPoints",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Controls/SetPoints/OccupancySchedule.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "protected",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Blocks.Icons.Block",
+        "long_class_specifier_identifier": "OccupancySchedule",
+        "within": "Buildings.Controls.SetPoints",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}

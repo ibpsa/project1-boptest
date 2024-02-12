@@ -1,0 +1,4394 @@
+{
+  "instances": {
+    "FlowMachineInterface": {
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 56,
+                                  "y": 84
+                                },
+                                {
+                                  "x": 106,
+                                  "y": 70
+                                }
+                              ],
+                              "textString": "\"dp\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 56,
+                                  "y": -10
+                                },
+                                {
+                                  "x": 106,
+                                  "y": -24
+                                }
+                              ],
+                              "textString": "\"PEle\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 48,
+                                  "y": -48
+                                },
+                                {
+                                  "x": 98,
+                                  "y": -62
+                                }
+                              ],
+                              "textString": "\"eta\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 50,
+                                  "y": -68
+                                },
+                                {
+                                  "x": 100,
+                                  "y": -82
+                                }
+                              ],
+                              "textString": "\"etaHyd\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 50,
+                                  "y": -86
+                                },
+                                {
+                                  "x": 100,
+                                  "y": -100
+                                }
+                              ],
+                              "textString": "\"etaMot\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -78,
+                                  "y": 34
+                                },
+                                {
+                                  "x": 44,
+                                  "y": -88
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -62,
+                                  "y": 18
+                                },
+                                {
+                                  "x": 28,
+                                  "y": -72
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Ellipse",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -26,
+                                  "y": -18
+                                },
+                                {
+                                  "x": -8,
+                                  "y": -36
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 100,
+                                "g": 100,
+                                "b": 100
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -26,
+                                  "y": -22
+                                },
+                                {
+                                  "x": -32,
+                                  "y": -8
+                                },
+                                {
+                                  "x": -30,
+                                  "y": 10
+                                },
+                                {
+                                  "x": -8,
+                                  "y": 20
+                                },
+                                {
+                                  "x": -6,
+                                  "y": 14
+                                },
+                                {
+                                  "x": -24,
+                                  "y": 6
+                                },
+                                {
+                                  "x": -24,
+                                  "y": -8
+                                },
+                                {
+                                  "x": -18,
+                                  "y": -20
+                                },
+                                {
+                                  "x": -26,
+                                  "y": -22
+                                }
+                              ],
+                              "smooth": "Smooth.Bezier",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 100,
+                                "g": 100,
+                                "b": 100
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -8,
+                                  "y": -32
+                                },
+                                {
+                                  "x": -2,
+                                  "y": -46
+                                },
+                                {
+                                  "x": -4,
+                                  "y": -64
+                                },
+                                {
+                                  "x": -26,
+                                  "y": -74
+                                },
+                                {
+                                  "x": -28,
+                                  "y": -68
+                                },
+                                {
+                                  "x": -10,
+                                  "y": -60
+                                },
+                                {
+                                  "x": -10,
+                                  "y": -46
+                                },
+                                {
+                                  "x": -16,
+                                  "y": -34
+                                },
+                                {
+                                  "x": -8,
+                                  "y": -32
+                                }
+                              ],
+                              "smooth": "Smooth.Bezier",
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 100,
+                                "g": 100,
+                                "b": 100
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 7,
+                                  "y": 21
+                                },
+                                {
+                                  "x": 13,
+                                  "y": 7
+                                },
+                                {
+                                  "x": 11,
+                                  "y": -11
+                                },
+                                {
+                                  "x": -11,
+                                  "y": -21
+                                },
+                                {
+                                  "x": -13,
+                                  "y": -15
+                                },
+                                {
+                                  "x": 5,
+                                  "y": -7
+                                },
+                                {
+                                  "x": 5,
+                                  "y": 7
+                                },
+                                {
+                                  "x": -1,
+                                  "y": 19
+                                },
+                                {
+                                  "x": 7,
+                                  "y": 21
+                                }
+                              ],
+                              "smooth": "Smooth.Bezier",
+                              "origin": {
+                                "x": 9,
+                                "y": -23
+                              },
+                              "rotation": 90,
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 100,
+                                "g": 100,
+                                "b": 100
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Polygon",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -7,
+                                  "y": -21
+                                },
+                                {
+                                  "x": -13,
+                                  "y": -7
+                                },
+                                {
+                                  "x": -11,
+                                  "y": 11
+                                },
+                                {
+                                  "x": 11,
+                                  "y": 21
+                                },
+                                {
+                                  "x": 13,
+                                  "y": 15
+                                },
+                                {
+                                  "x": -5,
+                                  "y": 7
+                                },
+                                {
+                                  "x": -5,
+                                  "y": -7
+                                },
+                                {
+                                  "x": 1,
+                                  "y": -19
+                                },
+                                {
+                                  "x": -7,
+                                  "y": -21
+                                }
+                              ],
+                              "smooth": "Smooth.Bezier",
+                              "origin": {
+                                "x": -43,
+                                "y": -31
+                              },
+                              "rotation": 90,
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 100,
+                                "g": 100,
+                                "b": 100
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 56,
+                                  "y": 28
+                                },
+                                {
+                                  "x": 106,
+                                  "y": 14
+                                }
+                              ],
+                              "textString": "\"WFlo\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 56,
+                                  "y": 66
+                                },
+                                {
+                                  "x": 106,
+                                  "y": 52
+                                }
+                              ],
+                              "textString": "\"V_flow\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -74,
+                                  "y": 92
+                                },
+                                {
+                                  "x": -74,
+                                  "y": 40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "smooth": "Smooth.Bezier"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -74,
+                                  "y": 40
+                                },
+                                {
+                                  "x": 46,
+                                  "y": 40
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "smooth": "Smooth.Bezier"
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -70,
+                                  "y": 86
+                                },
+                                {
+                                  "x": -40,
+                                  "y": 84
+                                },
+                                {
+                                  "x": 8,
+                                  "y": 68
+                                },
+                                {
+                                  "x": 36,
+                                  "y": 42
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "smooth": "Smooth.Bezier"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 56,
+                                  "y": 102
+                                },
+                                {
+                                  "x": 106,
+                                  "y": 88
+                                }
+                              ],
+                              "textString": "\"y_out\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 56,
+                                  "y": 8
+                                },
+                                {
+                                  "x": 106,
+                                  "y": -6
+                                }
+                              ],
+                              "textString": "\"WHyd\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis is an interface that implements the functions to compute the head, power draw\nand efficiency of fans and pumps.\n</p>\n<p>\nThe nominal hydraulic characteristic (total pressure rise versus volume flow rate)\nis given by a set of data points\nusing the data record <code>per</code>, which is an instance of\n<a href=\\\"modelica://Buildings.Fluid.Movers.Data.Generic\\\">\nBuildings.Fluid.Movers.Data.Generic</a>.\nA cubic hermite spline with linear extrapolation is used to compute\nthe performance at other operating points.\n</p>\n<p>\nThe model computes the power and efficiency items in the list below.\n</p>\n<ul>\n<li>\nFlow work:<br/>\n<i>W&#775;<sub>flo</sub> = V&#775; &sdot; &Delta;p</i>\n</li>\n<li>\nTotal efficiency and consumed electric power:<br/>\n<i>&eta; = W&#775;<sub>flo</sub> &frasl; P<sub>ele</sub></i>\n</li>\n<li>\nHydraulic effiency and hydraulic work (shaft work, brake horsepower):<br/>\n<i>&eta;<sub>hyd</sub> = W&#775;<sub>flo</sub> &frasl; W&#775;<sub>hyd</sub></i>\n</li>\n<li>\nMotor efficiency:<br/>\n<i>&eta;<sub>mot</sub> = W&#775;<sub>hyd</sub> &frasl; P<sub>ele</sub></i>\n</li>\n</ul>\n<p>\nSee\n<a href=\\\"modelica://Buildings.Fluid.Movers.UsersGuide\\\">\nBuildings.Fluid.Movers.UsersGuide</a>\nfor how the user can provide power and efficiency information to the model.\n</p>\n<h4>Implementation</h4>\n<p>\nFor numerical reasons, the user-provided data points for volume flow rate\nversus pressure rise are modified to add a fan internal flow resistance.\nBecause this flow resistance is subtracted during the simulation when\ncomputing the fan pressure rise, the model reproduces the exact points\nthat were provided by the user.\n</p>\n<p>\nAlso for numerical reasons, the pressure rise at zero flow rate and\nthe flow rate at zero pressure rise is added to the user-provided data,\nunless the user already provides these data points.\nSince Modelica 3.2 does not allow dynamic memory allocation, this\nimplementation required the use of three different arrays for the\nsituation where no additional point is added, where one additional\npoint is added and where two additional points are added.\nThe parameter <code>curve</code> causes the correct data record\nto be used during the simulation.\n</p>\n<p>\nIn order to prevent the model from producing negative mover power\nwhen either the flow rate or pressure rise is forced to be negative,\nthe flow work <i>W&#775;<sub>flo</sub></i> is constrained to be non-negative.\nThe regularisation starts around 0.01% of the characteristic maximum power\n<i>W&#775;<sub>max</sub> = V&#775;<sub>max</sub> &Delta;p<sub>max</sub></i>.\nSee discussions and an example of this situation in\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1621\\\">IBPSA, #1621</a>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nAugust 8, 2022, by Hongxiang Fu:<br/>\n<ul>\n<li>\nModified the power and efficiency computation to allow computing\nthe hydraulic efficiency <code>etaHyd</code> and\nthe motor efficiency <code>etaMot</code> separately;\n</li>\n<li>\nImplemented the option to compute the total efficiency <code>eta</code>\nor the hydraulic efficiency <code>etaHyd</code> using the Euler number.\n</li>\n<li>\nImplemented the option for the user to provide the motor efficiency\n<code>etaMot</code> as a function of part load ratio <i>y</i>. Also allowed generic\ncurves to be used.\n</li>\n<li>\nMoved <code>haveVMax</code> here from\n<a href=\\\"modelica://Buildings.Fluid.Movers.BaseClasses.PartialFlowMachine\\\">\nBuildings.Fluid.Movers.BaseClasses.PartialFlowMachine</a>.\n</li>\n<li>\nNow it passes <code>WHyd</code> instead of <code>etaHyd</code> to\n<a href=\\\"modelica://Buildings.Fluid.Movers.BaseClasses.PowerInterface\\\">\nBuildings.Fluid.Movers.BaseClasses.PowerInterface</a>.\n</li>\n<li>\nNow the flow work <code>WFlo</code> is bounded to be non-negative.\n</li>\n</ul>\nThese are for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2668\\\">#2668</a>.\nJune 6, 2022, by Hongxiang Fu:<br/>\nAdded a constraint that <i>W<sub>flo</sub> = V&#775; &Delta;p &ge; 0</i>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1621\\\">IBPSA, #1621</a>.\n</li>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nChanged <code>homotopyInitialization</code> to a constant.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\\\">IBPSA, #1341</a>.\n</li>\n<li>\nDecember 2, 2016, by Michael Wetter:<br/>\nRemoved <code>min</code> attribute as otherwise numerical noise can cause\nthe assertion on the limit to fail.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/606\\\">#606</a>.\n</li>\n<li>\nFebruary 19, 2016, by Michael Wetter and Filip Jorissen:<br/>\nRefactored model to make implementation clearer.\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/417\\\">#417</a>.\n</li>\n<li>\nJanuary 22, 2016, by Michael Wetter:<br/>\nCorrected type declaration of pressure difference and reformatted code.\nThis is\nfor <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/404\\\">#404</a>.\n</li>\n<li>\nSeptember 2, 2015, by Michael Wetter:<br/>\nCorrected computation of\n<code>etaMot = cha.efficiency(per=per.motorEfficiency, V_flow=V_flow, d=motDer, r_N=r_N, delta=1E-4)</code>\nwhich previously used <code>V_flow_max</code> instead of <code>V_flow</code>.\n</li>\n<li>\nJanuary 6, 2015, by Michael Wetter:<br/>\nRevised model for OpenModelica.\n</li>\n<li>\nNovember 22, 2014, by Michael Wetter:<br/>\nRemoved in <code>N_actual</code> and <code>N_filtered</code>\nthe <code>max</code> attribute to\navoid a translation warning.\n</li>\n<li>\nApril 21, 2014, by Filip Jorissen and Michael Wetter:<br/>\nChanged model to use\n<a href=\\\"modelica://Buildings.Fluid.Movers.Data.Generic\\\">\nBuildings.Fluid.Movers.Data.Generic</a>.\nApril 19, 2014, by Filip Jorissen:<br/>\nPassed extra parameters to power() and efficiency()\nto be able to properly evaluate the\nscaling law. See\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/pull/202\\\">#202</a>\nfor a discussion and validation.\n</li>\n<li>\nSeptember 27, 2013, by Michael Wetter:<br/>\nReformulated <code>per=if (curve == 1) then pCur1 elseif (curve == 2) then pCur2 else pCur3</code>\nby moving the computation into the idividual logical branches because OpenModelica generates an\nerror when assign the statement to <code>data</code>\nas <code>pCur1</code>, <code>pCur2</code> and <code>pCur3</code> have different dimensions.\n</li>\n<li>\nSeptember 17, 2013, by Michael Wetter:<br/>\nAdded missing <code>each</code> keyword in declaration of parameters\nthat are an array.\n</li>\n<li>\nMarch 20, 2013, by Michael Wetter:<br/>\nRemoved assignment in declaration of <code>pCur?.V_flow</code> as\nthese parameters have the attribute <code>fixed=false</code> set.\n</li>\n<li>\nOctober 11, 2012, by Michael Wetter:<br/>\nAdded implementation of <code>WFlo = eta * P</code> with\nguard against division by zero.\nChanged implementation of <code>etaMot=sqrt(eta)</code> to\n<code>etaHyd = 1</code> to avoid infinite derivative as <code>eta</code>\nconverges to zero.\n</li>\n<li>\nFebruary 20, 2012, by Michael Wetter:<br/>\nAssigned value to nominal attribute of <code>V_flow</code>.\n</li>\n<li>\nFebruary 14, 2012, by Michael Wetter:<br/>\nAdded filter for start-up and shut-down transient.\n</li>\n<li>\nOctober 4 2011, by Michael Wetter:<br/>\nRevised the implementation of the pressure drop computation as a function\nof speed and volume flow rate.\nThe new implementation avoids a singularity near zero volume flow rate and zero speed.\n</li>\n<li>\nMarch 28 2011, by Michael Wetter:<br/>\nAdded <code>homotopy</code> operator.\n</li>\n<li>\nMarch 23 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "homotopyInitialization": {
+      "type_prefix": "constant",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "homotopyInitialization",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "true"
+            }
+          }
+        },
+        "description": {
+          "description_string": "= true, use homotopy method",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "HideResult",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "HideResult",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "per": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.Fluid.Movers.Data.Generic",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "per"
+        },
+        "description": {
+          "description_string": "Record with performance data",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "choicesAllMatching",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 60,
+                          "y": -80
+                        },
+                        {
+                          "x": 80,
+                          "y": -60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "choicesAllMatching",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 60,
+                      "y": -80
+                    },
+                    {
+                      "x": 80,
+                      "y": -60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "preVar": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.Fluid.Movers.BaseClasses.Types.PrescribedVariable",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "preVar",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "Buildings.Fluid.Movers.BaseClasses.Types.PrescribedVariable.Speed"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Type of prescribed variable"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "computePowerUsingSimilarityLaws": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "computePowerUsingSimilarityLaws"
+        },
+        "description": {
+          "description_string": "= true, compute power exactly, using similarity laws. Otherwise approximate."
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "V_flow_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.VolumeFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "V_flow_nominal",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "per.pressure.V_flow[nOri]"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Nominal volume flow rate, used for homotopy"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "rho_default": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Density",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "rho_default"
+        },
+        "description": {
+          "description_string": "Fluid density at medium default state"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "haveVMax": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "haveVMax",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "([object Object])"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag, true if user specified data that contain V_flow_max"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "V_flow_max": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.VolumeFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "V_flow_max",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "per.V_flow_max"
+                                    },
+                                    {
+                                      "name": "Modelica.Constants.eps"
+                                    }
+                                  ],
+                                  "relation_operator": ">"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": "per.V_flow_max"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": "V_flow_nominal"
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Maximum volume flow rate, used for smoothing"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "nOri": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "nOri",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Number of data points for pressure curve",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "y_in": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "y_in",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "preSpe"
+          }
+        },
+        "description": {
+          "description_string": "Prescribed mover speed",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": -40,
+                        "y": 120
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 270
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": -40,
+                    "y": 120
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 270
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "y_out": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "y_out",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Mover speed (prescribed or computed)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 90
+                        },
+                        {
+                          "x": 120,
+                          "y": 110
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 90
+                    },
+                    {
+                      "x": 120,
+                      "y": 110
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "m_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "m_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"MassFlowRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"kg/s\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Mass flow rate",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": 20
+                        },
+                        {
+                          "x": -100,
+                          "y": 60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": 20
+                    },
+                    {
+                      "x": -100,
+                      "y": 60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "rho": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "rho",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Density\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"kg/m3\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Medium density",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -140,
+                          "y": -80
+                        },
+                        {
+                          "x": -100,
+                          "y": -40
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -140,
+                      "y": -80
+                    },
+                    {
+                      "x": -100,
+                      "y": -40
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "V_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "V_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"VolumeFlowRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"m3/s\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Volume flow rate",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 50
+                        },
+                        {
+                          "x": 120,
+                          "y": 70
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 50
+                        },
+                        {
+                          "x": 120,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 50
+                    },
+                    {
+                      "x": 120,
+                      "y": 70
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 50
+                    },
+                    {
+                      "x": 120,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "dp_in": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp_in",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"PressureDifference\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "prePre"
+          }
+        },
+        "description": {
+          "description_string": "Prescribed pressure increase",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 40,
+                        "y": 120
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 270
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 40,
+                    "y": 120
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 270
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "dp": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pressure\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "not prePre"
+          }
+        },
+        "description": {
+          "description_string": "Pressure increase (computed or prescribed)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 70
+                        },
+                        {
+                          "x": 120,
+                          "y": 90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 70
+                    },
+                    {
+                      "x": 120,
+                      "y": 90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "WFlo": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "WFlo",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Power\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Flow work",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 10
+                        },
+                        {
+                          "x": 120,
+                          "y": 30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 10
+                    },
+                    {
+                      "x": 120,
+                      "y": 30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "WHyd": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "WHyd",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Power\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Hydraulic work (shaft work, brake horsepower)",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -10
+                        },
+                        {
+                          "x": 120,
+                          "y": 10
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -10
+                        },
+                        {
+                          "x": 120,
+                          "y": 10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -10
+                    },
+                    {
+                      "x": 120,
+                      "y": 10
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -10
+                    },
+                    {
+                      "x": 120,
+                      "y": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "PEle": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "PEle",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Power\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"W\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Electrical power consumed",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -30
+                        },
+                        {
+                          "x": 120,
+                          "y": -10
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -30
+                        },
+                        {
+                          "x": 120,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -30
+                    },
+                    {
+                      "x": 120,
+                      "y": -10
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -30
+                    },
+                    {
+                      "x": 120,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "eta": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "eta",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Efficiency\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.49"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Overall efficiency",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -70
+                        },
+                        {
+                          "x": 120,
+                          "y": -50
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -70
+                        },
+                        {
+                          "x": 120,
+                          "y": -50
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -70
+                    },
+                    {
+                      "x": 120,
+                      "y": -50
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -70
+                    },
+                    {
+                      "x": 120,
+                      "y": -50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "etaHyd": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "etaHyd",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Efficiency\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Hydraulic efficiency",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -90
+                        },
+                        {
+                          "x": 120,
+                          "y": -70
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -90
+                        },
+                        {
+                          "x": 120,
+                          "y": -70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -90
+                    },
+                    {
+                      "x": 120,
+                      "y": -70
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -90
+                    },
+                    {
+                      "x": 120,
+                      "y": -70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "etaMot": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "etaMot",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Efficiency\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Motor efficiency",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -110
+                        },
+                        {
+                          "x": 120,
+                          "y": -90
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -110
+                        },
+                        {
+                          "x": 120,
+                          "y": -90
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -110
+                    },
+                    {
+                      "x": 120,
+                      "y": -90
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -110
+                    },
+                    {
+                      "x": 120,
+                      "y": -90
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "r_N": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "r_N",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Ratio N_actual/N_nominal"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "r_V": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "r_V",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"1\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Ratio V_flow/V_flow_max"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "preSpe": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "preSpe",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "logical_expression": {
+                  "logical_or": [
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "preVar"
+                            },
+                            {
+                              "name": "Buildings.Fluid.Movers.BaseClasses.Types.PrescribedVariable.Speed"
+                            }
+                          ],
+                          "relation_operator": "=="
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "True if speed is a prescribed variable of this block"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "prePre": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "prePre",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "logical_expression": {
+                  "logical_or": [
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "preVar"
+                            },
+                            {
+                              "name": "Buildings.Fluid.Movers.BaseClasses.Types.PrescribedVariable.PressureDifference"
+                            }
+                          ],
+                          "relation_operator": "=="
+                        }
+                      ]
+                    },
+                    {
+                      "logical_and": [
+                        {
+                          "arithmetic_expressions": [
+                            {
+                              "name": "preVar"
+                            },
+                            {
+                              "name": "Buildings.Fluid.Movers.BaseClasses.Types.PrescribedVariable.FlowRate"
+                            }
+                          ],
+                          "relation_operator": "=="
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "True if pressure head is a prescribed variable of this block"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "etaDer": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "etaDer",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": {
+                  "function_call": {
+                    "name": "size",
+                    "arguments": [
+                      {
+                        "name": "per.efficiency.V_flow"
+                      },
+                      {
+                        "name": "1"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "not": true,
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "per.etaHydMet"
+                                    },
+                                    {
+                                      "name": "Buildings.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Efficiency_VolumeFlowRate"
+                                    }
+                                  ],
+                                  "relation_operator": "=="
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": {
+                        "function_call": {
+                          "name": "zeros",
+                          "arguments": [
+                            {
+                              "name": "size(per.efficiency.V_flow,1)"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "condition": {
+                      "simple_expression": "([object Object])"
+                    },
+                    "then": {
+                      "simple_expression": "{0}"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": {
+                    "function_call": {
+                      "name": "Buildings.Utilities.Math.Functions.splineDerivatives",
+                      "arguments": [
+                        {
+                          "name": "x=per.efficiency.V_flow,y=per.efficiency.eta,ensureMonotonicity=Buildings.Utilities.Math.Functions.isMonotonic(x=per.efficiency.eta,strict=false)"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Coefficients for cubic spline of total or hydraulic efficiency vs. volume flow rate"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "motDer": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "motDer",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": {
+                  "function_call": {
+                    "name": "size",
+                    "arguments": [
+                      {
+                        "name": "per.motorEfficiency.V_flow"
+                      },
+                      {
+                        "name": "1"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "not": true,
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "per.etaMotMet"
+                                    },
+                                    {
+                                      "name": "Buildings.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod.Efficiency_VolumeFlowRate"
+                                    }
+                                  ],
+                                  "relation_operator": "=="
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": {
+                        "function_call": {
+                          "name": "zeros",
+                          "arguments": [
+                            {
+                              "name": "size(per.motorEfficiency.V_flow,1)"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "condition": {
+                      "simple_expression": "([object Object])"
+                    },
+                    "then": {
+                      "simple_expression": "{0}"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": {
+                    "function_call": {
+                      "name": "Buildings.Utilities.Math.Functions.splineDerivatives",
+                      "arguments": [
+                        {
+                          "name": "x=per.motorEfficiency.V_flow,y=per.motorEfficiency.eta,ensureMonotonicity=Buildings.Utilities.Math.Functions.isMonotonic(x=per.motorEfficiency.eta,strict=false)"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Coefficients for cubic spline of motor efficiency vs. volume flow rate"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "motDer_yMot": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "motDer_yMot",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": {
+                  "function_call": {
+                    "name": "size",
+                    "arguments": [
+                      {
+                        "name": "per.motorEfficiency_yMot.y"
+                      },
+                      {
+                        "name": "1"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "not": true,
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "per.etaMotMet"
+                                    },
+                                    {
+                                      "name": "Buildings.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod.Efficiency_MotorPartLoadRatio"
+                                    }
+                                  ],
+                                  "relation_operator": "=="
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": {
+                        "function_call": {
+                          "name": "zeros",
+                          "arguments": [
+                            {
+                              "name": "size(per.motorEfficiency_yMot.y,1)"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "condition": {
+                      "simple_expression": "([object Object])"
+                    },
+                    "then": {
+                      "simple_expression": "{0}"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": {
+                    "function_call": {
+                      "name": "Buildings.Utilities.Math.Functions.splineDerivatives",
+                      "arguments": [
+                        {
+                          "name": "x=per.motorEfficiency_yMot.y,y=per.motorEfficiency_yMot.eta,ensureMonotonicity=Buildings.Utilities.Math.Functions.isMonotonic(x=per.motorEfficiency_yMot.eta,strict=false)"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Coefficients for cubic spline of motor efficiency vs. motor PLR"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "motDer_yMot_generic": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "motDer_yMot_generic",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "9"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "per.etaMotMet"
+                                    },
+                                    {
+                                      "name": "Buildings.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod.GenericCurve"
+                                    }
+                                  ],
+                                  "relation_operator": "=="
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": {
+                        "function_call": {
+                          "name": "Buildings.Utilities.Math.Functions.splineDerivatives",
+                          "arguments": [
+                            {
+                              "name": "x=per.motorEfficiency_yMot_generic.y,y=per.motorEfficiency_yMot_generic.eta,ensureMonotonicity=true"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": {
+                    "function_call": {
+                      "name": "zeros",
+                      "arguments": [
+                        {
+                          "name": "9"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Coefficients for cubic spline of motor efficiency vs. motor PLR with generic curves"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "dpMax": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.PressureDifference",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dpMax",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "per.dpMax"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Maximum head"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "delta": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "delta",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "0.05"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Small value used to for regularization and to approximate an internal flow resistance of the fan"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "kRes": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "kRes",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"kg/(s.m4)\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "dpMax/V_flow_max*delta^2/10"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Coefficient for internal pressure drop of the fan or pump"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "curve": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "curve",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": "(haveVMax and haveDPMax) or ([object Object])"
+                    },
+                    "then": {
+                      "simple_expression": "1"
+                    }
+                  },
+                  {
+                    "condition": {
+                      "simple_expression": "haveVMax or haveDPMax"
+                    },
+                    "then": {
+                      "simple_expression": "2"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": "3"
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag, used to pick the right representation of the fan or pump's pressure curve"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "pCur1": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "pCur1",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "n",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "nOri"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "V_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "(haveVMax and haveDPMax) or ([object Object])"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "for_loop": {
+                                    "expression": {
+                                      "simple_expression": "per.pressure.V_flow[i]"
+                                    },
+                                    "for_loop": [
+                                      {
+                                        "name": "i",
+                                        "range": "1:nOri"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": {
+                              "function_call": {
+                                "name": "zeros",
+                                "arguments": [
+                                  {
+                                    "name": "nOri"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "dp",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "(haveVMax and haveDPMax) or ([object Object])"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "for_loop": {
+                                    "expression": {
+                                      "simple_expression": "(per.pressure.dp[i] +per.pressure.V_flow[i]*kRes)"
+                                    },
+                                    "for_loop": [
+                                      {
+                                        "name": "i",
+                                        "range": "1:nOri"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": {
+                              "function_call": {
+                                "name": "zeros",
+                                "arguments": [
+                                  {
+                                    "name": "nOri"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Volume flow rate vs. total pressure rise with correction for fan or pump's resistance added"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "pCur2": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "pCur2",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "n",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "nOri +1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "V_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "(haveVMax and haveDPMax) or ([object Object])"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "zeros",
+                                    "arguments": [
+                                      {
+                                        "name": "nOri +1"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "condition": {
+                                "simple_expression": "haveVMax"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "cat",
+                                    "arguments": [
+                                      {
+                                        "name": "1"
+                                      },
+                                      {
+                                        "name": "{0},{per.pressure.V_flow[i] for i in 1:nOri}"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "condition": {
+                                "simple_expression": "haveDPMax"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "cat",
+                                    "arguments": [
+                                      {
+                                        "name": "1"
+                                      },
+                                      {
+                                        "name": "{per.pressure.V_flow[i] for i in 1:nOri},{V_flow_max}"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": {
+                              "function_call": {
+                                "name": "zeros",
+                                "arguments": [
+                                  {
+                                    "name": "nOri +1"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "dp",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "(haveVMax and haveDPMax) or ([object Object])"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "zeros",
+                                    "arguments": [
+                                      {
+                                        "name": "nOri +1"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "condition": {
+                                "simple_expression": "haveVMax"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "cat",
+                                    "arguments": [
+                                      {
+                                        "name": "1"
+                                      },
+                                      {
+                                        "name": "{dpMax},{per.pressure.dp[i] +per.pressure.V_flow[i]*kRes for i in 1:nOri}"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "condition": {
+                                "simple_expression": "haveDPMax"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "cat",
+                                    "arguments": [
+                                      {
+                                        "name": "1"
+                                      },
+                                      {
+                                        "name": "{per.pressure.dp[i] +per.pressure.V_flow[i]*kRes for i in 1:nOri},{0}"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": {
+                              "function_call": {
+                                "name": "zeros",
+                                "arguments": [
+                                  {
+                                    "name": "nOri +1"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Volume flow rate vs. total pressure rise with correction for fan or pump's resistance added"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "pCur3": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParametersInternal",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "pCur3",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "n",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "nOri +2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "V_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "(haveVMax and haveDPMax) or ([object Object])"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "zeros",
+                                    "arguments": [
+                                      {
+                                        "name": "nOri +2"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "condition": {
+                                "simple_expression": "haveVMax or haveDPMax"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "zeros",
+                                    "arguments": [
+                                      {
+                                        "name": "nOri +2"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": {
+                              "function_call": {
+                                "name": "cat",
+                                "arguments": [
+                                  {
+                                    "name": "1"
+                                  },
+                                  {
+                                    "name": "{0},{per.pressure.V_flow[i] for i in 1:nOri},{V_flow_max}"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "dp",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "if_expression": {
+                          "if_elseif": [
+                            {
+                              "condition": {
+                                "simple_expression": "(haveVMax and haveDPMax) or ([object Object])"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "zeros",
+                                    "arguments": [
+                                      {
+                                        "name": "nOri +2"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "condition": {
+                                "simple_expression": "haveVMax or haveDPMax"
+                              },
+                              "then": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "zeros",
+                                    "arguments": [
+                                      {
+                                        "name": "nOri +2"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ],
+                          "else_expression": {
+                            "simple_expression": {
+                              "function_call": {
+                                "name": "cat",
+                                "arguments": [
+                                  {
+                                    "name": "1"
+                                  },
+                                  {
+                                    "name": "{dpMax},{per.pressure.dp[i] +per.pressure.V_flow[i]*kRes for i in 1:nOri},{0}"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Volume flow rate vs. total pressure rise with correction for fan or pump's resistance added"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "preDer1": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "preDer1",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOri"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Derivatives of flow rate vs. pressure at the support points"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "preDer2": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "preDer2",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOri +1"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Derivatives of flow rate vs. pressure at the support points"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "preDer3": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "preDer3",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "nOri +2"
+              }
+            }
+          ],
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "fixed",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "false"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Derivatives of flow rate vs. pressure at the support points"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "powDer": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "powDer",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": {
+                  "function_call": {
+                    "name": "size",
+                    "arguments": [
+                      {
+                        "name": "per.power.V_flow"
+                      },
+                      {
+                        "name": "1"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "per.etaHydMet"
+                                    },
+                                    {
+                                      "name": "Buildings.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.Power_VolumeFlowRate"
+                                    }
+                                  ],
+                                  "relation_operator": "=="
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": {
+                        "function_call": {
+                          "name": "Buildings.Utilities.Math.Functions.splineDerivatives",
+                          "arguments": [
+                            {
+                              "name": "x=per.power.V_flow,y=per.power.P,ensureMonotonicity=Buildings.Utilities.Math.Functions.isMonotonic(x=per.power.P,strict=false)"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": {
+                    "function_call": {
+                      "name": "zeros",
+                      "arguments": [
+                        {
+                          "name": "size(per.power.V_flow,1)"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Coefficients for polynomial of power vs. flow rate"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "powEu_internal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.Fluid.Movers.BaseClasses.Euler.powerWithDerivative",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "powEu_internal",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": "([object Object])"
+                    },
+                    "then": {
+                      "simple_expression": {
+                        "function_call": {
+                          "name": "Buildings.Fluid.Movers.BaseClasses.Euler.power",
+                          "arguments": [
+                            {
+                              "name": "peak=per.peak,pressure=pCur1"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "condition": {
+                      "simple_expression": "([object Object])"
+                    },
+                    "then": {
+                      "simple_expression": {
+                        "function_call": {
+                          "name": "Buildings.Fluid.Movers.BaseClasses.Euler.power",
+                          "arguments": [
+                            {
+                              "name": "peak=per.peak,pressure=pCur2"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": {
+                    "function_call": {
+                      "name": "Buildings.Fluid.Movers.BaseClasses.Euler.power",
+                      "arguments": [
+                        {
+                          "name": "peak=per.peak,pressure=pCur3"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Intermediate parameter"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "powEu": {
+      "type_prefix": "parameter",
+      "type_specifier": "Buildings.Fluid.Movers.BaseClasses.Characteristics.powerParameters",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "powEu",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "V_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "powEu_internal.V_flow"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "P",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "powEu_internal.P"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Power vs. volumetric flow rate computed from Euler number"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "powEuDer": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "powEuDer",
+          "array_subscripts": [
+            {
+              "colon_op": true
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "powEu_internal.d"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Power derivative with respect to volumetric flow rate computed from Euler number"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "haveMinimumDecrease": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "haveMinimumDecrease",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "nOri"
+                                    },
+                                    {
+                                      "name": "2"
+                                    }
+                                  ],
+                                  "relation_operator": "<"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": "false"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": {
+                    "function_call": {
+                      "name": "Modelica.Math.BooleanVectors.allTrue",
+                      "arguments": [
+                        {
+                          "name": "{(per.pressure.dp[i +1] -per.pressure.dp[i])/(per.pressure.V_flow[i +1] -per.pressure.V_flow[i]) < -kRes for i in 1:nOri -1}"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag used for reporting"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "haveDPMax": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "haveDPMax",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "([object Object])"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Flag, true if user specified data that contain dpMax"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "dp_internal": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp_internal"
+        },
+        "description": {
+          "description_string": "If dp is prescribed, use dp_in and solve for r_N, otherwise compute dp using r_N"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "eta_internal": {
+      "type_specifier": "Modelica.Units.SI.Efficiency",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "eta_internal"
+        },
+        "description": {
+          "description_string": "Either eta or etaHyd"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "P_internal": {
+      "type_specifier": "Modelica.Units.SI.Power",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "P_internal"
+        },
+        "description": {
+          "description_string": "Either PEle or WHyd"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "deltaP": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "deltaP",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "0.0001*V_flow_max*dpMax"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Small value for regularisation of power"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "yMot": {
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowMachineInterface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "yMot",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "start",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0.833"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": "per.haveWMot_nominal"
+                    },
+                    "then": {
+                      "simple_expression": "WHyd/per.WMot_nominal"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": "1"
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Motor part load ratio"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo"
+    },
+    "getPerformanceDataAsString": {
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "protected",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "getArrayAsString": {
+      "within": "Buildings.Fluid.Movers.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/BaseClasses/FlowMachineInterface.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "protected",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Blocks.Icons.Block",
+        "long_class_specifier_identifier": "FlowMachineInterface",
+        "within": "Buildings.Fluid.Movers.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "import_clause": [
+      {
+        "identifier": "cha",
+        "name": "Buildings.Fluid.Movers.BaseClasses.Characteristics",
+        "long_class_specifier_identifier": "FlowMachineInterface",
+        "within": "Buildings.Fluid.Movers.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "dp_internal": [
+        "dp",
+        "dp_in"
+      ],
+      "r_N": [
+        "y_in"
+      ]
+    }
+  }
+}

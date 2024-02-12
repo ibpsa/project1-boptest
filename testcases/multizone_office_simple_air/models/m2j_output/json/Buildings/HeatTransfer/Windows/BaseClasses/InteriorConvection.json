@@ -1,0 +1,1225 @@
+{
+  "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "InteriorConvection",
+          "description_string": "Model for a interior (room-side) convective heat transfer with variable surface area",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Buildings.HeatTransfer.Convection.BaseClasses.PartialConvection"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "constant",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "homotopyInitialization",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "true"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "= true, use homotopy method",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "HideResult",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Buildings.HeatTransfer.Types.InteriorConvection",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "conMod",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "Buildings.HeatTransfer.Types.InteriorConvection.Fixed"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Convective heat transfer model",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Evaluate",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.CoefficientOfHeatTransfer",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "hFixed",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "3"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Constant convection coefficient",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "enable",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "([object Object])"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Angle",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "til",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"deg\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Surface tilt",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "enable",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "([object Object])"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "u"
+                      },
+                      "description": {
+                        "description_string": "Input connector, used to scale the surface area to take into account an operable shading device",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 60
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 100
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -120,
+                                        "y": 70
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 90
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_prefix": "constant",
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "dT0",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "2"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Initial temperature used in homotopy method"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "cosTil",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "Modelica.Math.cos",
+                                    "arguments": [
+                                      {
+                                        "name": "til"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Cosine of window tilt"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "sinTil",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "Modelica.Math.sin",
+                                    "arguments": [
+                                      {
+                                        "name": "til"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Sine of window tilt"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Boolean",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "is_ceiling",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "logical_expression": {
+                                    "logical_or": [
+                                      {
+                                        "logical_and": [
+                                          {
+                                            "arithmetic_expressions": [
+                                              {
+                                                "name": "abs(sinTil)"
+                                              },
+                                              {
+                                                "name": "1e-9"
+                                              }
+                                            ],
+                                            "relation_operator": "<"
+                                          },
+                                          {
+                                            "arithmetic_expressions": [
+                                              {
+                                                "name": "cosTil"
+                                              },
+                                              {
+                                                "name": "0"
+                                              }
+                                            ],
+                                            "relation_operator": ">"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Flag, true if the surface is a ceiling"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Boolean",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "is_floor",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "logical_expression": {
+                                    "logical_or": [
+                                      {
+                                        "logical_and": [
+                                          {
+                                            "arithmetic_expressions": [
+                                              {
+                                                "name": "abs(sinTil)"
+                                              },
+                                              {
+                                                "name": "1e-9"
+                                              }
+                                            ],
+                                            "relation_operator": "<"
+                                          },
+                                          {
+                                            "arithmetic_expressions": [
+                                              {
+                                                "name": "cosTil"
+                                              },
+                                              {
+                                                "name": "0"
+                                              }
+                                            ],
+                                            "relation_operator": "<"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Flag, true if the surface is a floor"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "initial": true,
+                  "equation": [
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": "homotopyInitialization"
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"In \" +getInstanceName() +\": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.\""
+                              }
+                            },
+                            "function_arguments": {
+                              "named_arguments": [
+                                {
+                                  "identifier": "level",
+                                  "value": {
+                                    "expression": {
+                                      "simple_expression": "AssertionLevel.warning"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "([object Object])"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "q_flow",
+                                    "rhs": {
+                                      "simple_expression": "u*hFixed*dT"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "if_equation": {
+                              "if_elseif": [
+                                {
+                                  "condition": {
+                                    "simple_expression": "homotopyInitialization"
+                                  },
+                                  "then": [
+                                    {
+                                      "equation": {
+                                        "if_equation": {
+                                          "if_elseif": [
+                                            {
+                                              "condition": {
+                                                "simple_expression": "is_ceiling"
+                                              },
+                                              "then": [
+                                                {
+                                                  "equation": {
+                                                    "assignment_equation": {
+                                                      "lhs": "q_flow",
+                                                      "rhs": {
+                                                        "simple_expression": "u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT),simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT0))"
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "condition": {
+                                                "simple_expression": "is_floor"
+                                              },
+                                              "then": [
+                                                {
+                                                  "equation": {
+                                                    "assignment_equation": {
+                                                      "lhs": "q_flow",
+                                                      "rhs": {
+                                                        "simple_expression": "u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT),simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT0))"
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ],
+                                          "else_equation": [
+                                            {
+                                              "assignment_equation": {
+                                                "lhs": "q_flow",
+                                                "rhs": {
+                                                  "simple_expression": "u*homotopy(actual=Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT),simplified=dT/dT0*Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT0))"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ],
+                              "else_equation": [
+                                {
+                                  "if_equation": {
+                                    "if_elseif": [
+                                      {
+                                        "condition": {
+                                          "simple_expression": "is_ceiling"
+                                        },
+                                        "then": [
+                                          {
+                                            "equation": {
+                                              "assignment_equation": {
+                                                "lhs": "q_flow",
+                                                "rhs": {
+                                                  "simple_expression": "u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling(dT=dT)"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "condition": {
+                                          "simple_expression": "is_floor"
+                                        },
+                                        "then": [
+                                          {
+                                            "equation": {
+                                              "assignment_equation": {
+                                                "lhs": "q_flow",
+                                                "rhs": {
+                                                  "simple_expression": "u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor(dT=dT)"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    ],
+                                    "else_equation": [
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "q_flow",
+                                          "rhs": {
+                                            "simple_expression": "u*Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall(dT=dT)"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -100,
+                                    "y": -100
+                                  },
+                                  {
+                                    "x": 100,
+                                    "y": 100
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -100,
+                                        "y": 100
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": -100
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -90,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": -60,
+                                        "y": -80
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 192,
+                                      "g": 192,
+                                      "b": 192
+                                    },
+                                    "fillPattern": "FillPattern.Backward"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 100,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": 0
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 100,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": 0
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 100,
+                                        "y": 0
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": 0
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -35,
+                                        "y": 42
+                                      },
+                                      {
+                                        "x": -5,
+                                        "y": 20
+                                      }
+                                    ],
+                                    "textString": "\"Q_flow\"",
+                                    "textColor": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -60,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": 76,
+                                        "y": 20
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 191,
+                                      "g": 0,
+                                      "b": 0
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -60,
+                                        "y": -20
+                                      },
+                                      {
+                                        "x": 76,
+                                        "y": -20
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 191,
+                                      "g": 0,
+                                      "b": 0
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -34,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": -34,
+                                        "y": -80
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 6,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": 6,
+                                        "y": -80
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 40,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": 40,
+                                        "y": -80
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 76,
+                                        "y": 80
+                                      },
+                                      {
+                                        "x": 76,
+                                        "y": -80
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -34,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": -44,
+                                        "y": -60
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -34,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": -24,
+                                        "y": -60
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 6,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": -4,
+                                        "y": -60
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 6,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": 16,
+                                        "y": -60
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 40,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": 30,
+                                        "y": -60
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 40,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": 50,
+                                        "y": -60
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 76,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": 66,
+                                        "y": -60
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 76,
+                                        "y": -80
+                                      },
+                                      {
+                                        "x": 86,
+                                        "y": -60
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 0,
+                                      "g": 127,
+                                      "b": 255
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 56,
+                                        "y": -30
+                                      },
+                                      {
+                                        "x": 76,
+                                        "y": -20
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 191,
+                                      "g": 0,
+                                      "b": 0
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 56,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 76,
+                                        "y": -20
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 191,
+                                      "g": 0,
+                                      "b": 0
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 56,
+                                        "y": 10
+                                      },
+                                      {
+                                        "x": 76,
+                                        "y": 20
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 191,
+                                      "g": 0,
+                                      "b": 0
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 56,
+                                        "y": 30
+                                      },
+                                      {
+                                        "x": 76,
+                                        "y": 20
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 191,
+                                      "g": 0,
+                                      "b": 0
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "defaultComponentName",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"con\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nThis is a model for a convective heat transfer for interior, room-facing surfaces.\nThe parameter <code>conMod</code> determines the model that is used to compute\nthe heat transfer coefficient:\n</p>\n<ul>\n<li>If <code>conMod=<a href=\\\"modelica://Buildings.HeatTransfer.Types.InteriorConvection\\\">\nBuildings.HeatTransfer.Types.InteriorConvection.Fixed</a></code>, then\nthe convective heat transfer coefficient is set to the value specified by the parameter\n<code>hFixed</code>.\n</li>\n<li>\nIf <code>conMod=<a href=\\\"modelica://Buildings.HeatTransfer.Types.InteriorConvection\\\">\nBuildings.HeatTransfer.Types.InteriorConvection.Temperature</a></code>, then\nthe convective heat tranfer coefficient is a function of the temperature difference.\nThe convective heat flux is computed using\n<ul>\n<li>\nfor floors the function\n<a href=\\\"modelica://Buildings.HeatTransfer.Convection.Functions.HeatFlux.floor\\\">\nBuildings.HeatTransfer.Convection.Functions.HeatFlux.floor</a>\n</li>\n<li>\nfor ceilings the function\n<a href=\\\"modelica://Buildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling\\\">\nBuildings.HeatTransfer.Convection.Functions.HeatFlux.ceiling</a>\n</li>\n<li>\nfor walls the function\n<a href=\\\"modelica://Buildings.HeatTransfer.Convection.Functions.HeatFlux.wall\\\">\nBuildings.HeatTransfer.Convection.Functions.HeatFlux.wall</a>\n</li>\n</ul>\n</li>\n</ul>\n<p>\nThis model is identical to\n<a href=\\\"modelica://Buildings.HeatTransfer.Convection.Interior\\\">\nBuildings.HeatTransfer.Convection.Interior</a>\nexcept that it has an input <code>u</code> that is used to scale the\nheat transfer.\nThis can be used if the heat transfer area is variable.\nAn example usage is for a window with shade, in which\nthe surface area of a shaded part of a window changes depending on the shading\ncontrol signal.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nFebruary 11, 2022, by Michael Wetter:<br/>\nChange parameter <code>isFloor</code> to <code>is_floor</code>,\nand <code>isCeiling</code> to <code>is_ceiling</code>,\nfor consistency with naming convention.\n</li>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nChanged <code>homotopyInitialization</code> to a constant.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\\\">IBPSA, #1341</a>.\n</li>\n<li>\nMarch 2, 2015, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/HeatTransfer/Windows/BaseClasses/InteriorConvection.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/InteriorConvection.mo",
+  "checksum": "3af82545e993e9a5aea0882c82c5c5c4"
+}

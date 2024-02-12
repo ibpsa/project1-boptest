@@ -1,0 +1,879 @@
+{
+  "instances": {
+    "StaticFourPortHeatMassExchanger": {
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "preferredView",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"info\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis component transports two fluid streams between four ports, without\nstoring mass or energy. It is similar to\n<a href=\\\"modelica://Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger\\\">\nBuildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger</a>,\nbut it has four ports instead of two.\n</p>\n<p>\nIf <code>dp<i>N</i>_nominal &gt; Modelica.Constants.eps</code>,\nwhere <code><i>N</i></code> denotes the fluid <i>1</i> or <i>2</i>,\nthen the model computes\npressure drop due to flow friction in the respective fluid stream.\nThe pressure drop is defined by a quadratic function that goes through\nthe point <code>(m<i>N</i>_flow_nominal, dp<i>N</i>_nominal)</code>.\nAt <code>|m<i>N</i>_flow| &lt; deltaM<i>N</i> * m<i>N</i>_flow_nominal</code>,\nthe pressure drop vs. flow relation is linearized.\nIf the parameter <code>linearizeFlowResistance<i>N</i></code> is set to true,\nthen the whole pressure drop vs. flow resistance curve is linearized.\n</p>\n\n<h4>Implementation</h4>\n<p>\nThis model uses inputs and constants that need to be set by models\nthat extend or instantiate this model.\nThe following inputs need to be assigned, where <code><i>N</i></code> denotes <code>1</code> or\n<code>2</code>:</p>\n<ul>\n<li>\n<code>Q<i>N</i>_flow</code>, which is the sensible and latent heat flow rate added to the medium <i>N</i>.\n</li>\n<li>\n<code>mWat<i>N</i>_flow</code>, which is the moisture mass flow rate added to the medium <i>N</i>.\n</li>\n</ul>\n<p>\nSet the constant <code>sensibleOnly<i>N</i>=true</code> if the model that extends\nor instantiates this model sets <code>mWat<i>N</i>_flow = 0</code>.\n</p>\n<p>\n     Note that the model does not implement <code>0 = Q1_flow + Q2_flow</code> or\n     <code>0 = mXi1_flow + mXi2_flow</code>. If there is no heat or mass transfer\n     with the environment, then a model that extends this model needs to provide these\n     equations.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nChanged <code>homotopyInitialization</code> to a constant.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\\\">IBPSA, #1341</a>.\n</li>\n<li>\nApril 11, 2017, by Michael Wetter:<br/>\nUpdated documentation to make clear that <code>Q1_flow</code> and <code>Q2_flow</code>\ninclude latent heat flow rate.<br/>\nThis is for issue\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/704\\\">Buildings #704</a>.\n</li>\n<li>\nJanuary 22, 2016 by Michael Wetter:<br/>\nRemoved assignment of <code>sensibleOnly</code> in <code>bal1</code> and <code>bal2</code>\nas this constant has been removed in\n<a href=\\\"modelica://Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger\\\">\nBuildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger</a>.\n</li>\n<li>\nNovember 13, 2013 by Michael Wetter:<br/>\nAdded parameter <code>homotopyInitialization</code> as\nit has been removed in the base class.\n</li>\n<li>\nNovember 13, 2013, by Michael Wetter:<br/>\nRemoved <code>import Modelica.Constants;</code> statement.\n</li>\n<li>\nOctober 8, 2013, by Michael Wetter:<br/>\nRemoved parameter <code>show_V_flow</code>.\n</li>\n<li>\nJuly 30, 2013 by Michael Wetter:<br/>\nChanged connector <code>mXi_flow[Medium.nXi]</code>\nto a scalar input connector <code>mWat_flow</code>.\nThe reason is that <code>mXi_flow</code> does not allow\nto compute the other components in <code>mX_flow</code> and\ntherefore leads to an ambiguous use of the model.\nBy only requesting <code>mWat_flow</code>, the mass balance\nand species balance can be implemented correctly.\n</li>\n<li>\nMarch 29, 2011, by Michael Wetter:<br/>\nChanged energy and mass balance to avoid a division by zero if <code>m_flow=0</code>.\n</li>\n<li>\nMarch 27, 2011, by Michael Wetter:<br/>\nAdded <code>homotopy</code> operator.\n</li>\n<li>\nAugust 19, 2010, by Michael Wetter:<br/>\nFixed bug in energy and moisture balance that affected results if a component\nadds or removes moisture to the air stream.\nIn the old implementation, the enthalpy and species\noutflow at <code>port_b</code> was multiplied with the mass flow rate at\n<code>port_a</code>. The old implementation led to small errors that were proportional\nto the amount of moisture change. For example, if the moisture added by the component\nwas <code>0.005 kg/kg</code>, then the error was <code>0.5%</code>.\nAlso, the results for forward flow and reverse flow differed by this amount.\nWith the new implementation, the energy and moisture balance is exact.\n</li>\n<li>\nMarch 22, 2010, by Michael Wetter:<br/>\nAdded constants <code>sensibleOnly1</code> and\n<code>sensibleOnly2</code> to\nsimplify species balance equations.\n</li>\n<li>\nApril 13, 2009, by Michael Wetter:<br/>\nAdded model to compute flow friction.\n</li>\n<li>\nMarch 25, 2008, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -70,
+                                  "y": 80
+                                },
+                                {
+                                  "x": 70,
+                                  "y": -80
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 95,
+                                "g": 95,
+                                "b": 95
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": 65
+                                },
+                                {
+                                  "x": 101,
+                                  "y": 55
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": -55
+                                },
+                                {
+                                  "x": 101,
+                                  "y": -65
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "pattern": "LinePattern.None",
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "prescribedHeatFlowRate1": {
+      "type_prefix": "constant",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "prescribedHeatFlowRate1",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "false"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to true if the heat flow rate into fluid 1 is not a function of the component temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "prescribedHeatFlowRate2": {
+      "type_prefix": "constant",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "prescribedHeatFlowRate2",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "false"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Set to true if the heat flow rate into fluid 2 is not a function of the component temperature"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "homotopyInitialization": {
+      "type_prefix": "constant",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "homotopyInitialization",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "true"
+            }
+          }
+        },
+        "description": {
+          "description_string": "= true, use homotopy method",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "HideResult",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "HideResult",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "Q1_flow": {
+      "type_prefix": "input",
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Q1_flow"
+        },
+        "description": {
+          "description_string": "Heat transferred into the medium 1"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "mWat1_flow": {
+      "type_prefix": "input",
+      "type_specifier": "Medium1.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mWat1_flow"
+        },
+        "description": {
+          "description_string": "Moisture mass flow rate added to the medium 1"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "Q2_flow": {
+      "type_prefix": "input",
+      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "Q2_flow"
+        },
+        "description": {
+          "description_string": "Heat transferred into the medium 2"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "mWat2_flow": {
+      "type_prefix": "input",
+      "type_specifier": "Medium2.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "mWat2_flow"
+        },
+        "description": {
+          "description_string": "Moisture mass flow rate added to the medium 2"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "sensibleOnly1": {
+      "type_prefix": "constant",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sensibleOnly1"
+        },
+        "description": {
+          "description_string": "Set to true if sensible exchange only for medium 1"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "sensibleOnly2": {
+      "type_prefix": "constant",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "sensibleOnly2"
+        },
+        "description": {
+          "description_string": "Set to true if sensible exchange only for medium 2"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "bal1": {
+      "type_specifier": "Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "bal1",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "final": true,
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "Medium1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "sensibleOnly",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "sensibleOnly1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "prescribedHeatFlowRate",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "prescribedHeatFlowRate1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "m_flow_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "m1_flow_nominal"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "dp_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "dp1_nominal"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "allowFlowReversal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "allowFlowReversal1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "m_flow_small",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "m1_flow_small"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "homotopyInitialization",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "homotopyInitialization"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "from_dp",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "from_dp1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "linearizeFlowResistance",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "linearizeFlowResistance1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "deltaM",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "deltaM1"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "Q_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Q1_flow"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "mWat_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "mWat1_flow"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Model for heat, mass, species, trace substance and pressure balance of stream 1"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    },
+    "bal2": {
+      "type_specifier": "Buildings.Fluid.Interfaces.StaticTwoPortHeatMassExchanger",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "bal2",
+          "modification": {
+            "class_modification": [
+              {
+                "element_redeclaration": {
+                  "final": true,
+                  "short_class_definition": {
+                    "class_prefixes": "package",
+                    "short_class_specifier": {
+                      "identifier": "Medium",
+                      "value": {
+                        "name": "Medium2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "sensibleOnly",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "sensibleOnly2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "prescribedHeatFlowRate",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "prescribedHeatFlowRate2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "m_flow_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "m2_flow_nominal"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "dp_nominal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "dp2_nominal"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "allowFlowReversal",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "allowFlowReversal2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "m_flow_small",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "m2_flow_small"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "homotopyInitialization",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "homotopyInitialization"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "from_dp",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "from_dp2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "linearizeFlowResistance",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "linearizeFlowResistance2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "deltaM",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "deltaM2"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "Q_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Q2_flow"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "mWat_flow",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "mWat2_flow"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Model for heat, mass, species, trace substance and pressure balance of stream 2"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Interfaces",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Interfaces/StaticFourPortHeatMassExchanger.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.Fluid.Interfaces.PartialFourPortInterface",
+        "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+        "within": "Buildings.Fluid.Interfaces",
+        "compositionSpecifier": "public"
+      },
+      {
+        "name": "Buildings.Fluid.Interfaces.FourPortFlowResistanceParameters",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "computeFlowResistance1",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "([object Object])"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "computeFlowResistance2",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "([object Object])"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "StaticFourPortHeatMassExchanger",
+        "within": "Buildings.Fluid.Interfaces",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "bal1.port_a": [
+        "port_a1"
+      ],
+      "bal1.port_b": [
+        "port_b1"
+      ],
+      "bal2.port_a": [
+        "port_a2"
+      ],
+      "bal2.port_b": [
+        "port_b2"
+      ]
+    }
+  }
+}

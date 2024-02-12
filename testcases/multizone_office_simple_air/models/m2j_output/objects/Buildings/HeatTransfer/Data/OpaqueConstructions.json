@@ -1,0 +1,310 @@
+{
+  "instances": {
+    "OpaqueConstructions": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/OpaqueConstructions.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "preferredView",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"info\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nPackage with material definitions for constructions\nwith one or more layers of material.\nBy convention, <code>layer[1]</code> is facing the outside, and the last\nlayer is facing the room-side.\nThis is the same convention as is used in EnergyPlus and in Window 6.\n</p>\n<p>\nThe parameters <code>absIR_a</code> and <code>absIR_b</code>\nare used to compute infrared heat radiation (in the infrared spectrum).\nThe parameters <code>absSol_a</code> and <code>absSol_b</code>\nare used to compute solar heat radiation (in the solar spectrum).\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nNovember 16, 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "Generic": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/OpaqueConstructions.mo",
+      "classPrefixes": "record",
+      "compositionSpecifier": "public",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -100,
+                                  "y": 50
+                                },
+                                {
+                                  "x": 100,
+                                  "y": -100
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 85
+                              },
+                              "fillPattern": "FillPattern.Solid"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -54,
+                                  "y": 42
+                                },
+                                {
+                                  "x": -36,
+                                  "y": -92
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 215,
+                                "g": 215,
+                                "b": 215
+                              },
+                              "fillPattern": "FillPattern.Forward"
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 4,
+                                  "y": 42
+                                },
+                                {
+                                  "x": 54,
+                                  "y": -92
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 215,
+                                "g": 215,
+                                "b": 215
+                              },
+                              "fillPattern": "FillPattern.CrossDiag"
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -127,
+                                  "y": 113
+                                },
+                                {
+                                  "x": 127,
+                                  "y": 53
+                                }
+                              ],
+                              "textString": "\"%name\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Rectangle",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -36,
+                                  "y": 42
+                                },
+                                {
+                                  "x": 4,
+                                  "y": -92
+                                }
+                              ],
+                              "lineColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              },
+                              "fillColor": {
+                                "r": 255,
+                                "g": 255,
+                                "b": 255
+                              },
+                              "fillPattern": "FillPattern.Backward"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentPrefixes",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"parameter\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"datOpaCon\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nGeneric record with material definitions for constructions\nwith one or more layers of material.\nBy convention, <code>layer[1]</code> is facing the outside, and the last\nlayer is facing the room-side.\nThis is the same convention as is used in EnergyPlus and in Window 6.\n</p>\n<p>\nThe parameters <code>absIR_a</code> and <code>absIR_b</code>\nare used to compute infrared heat radiation (in the infrared spectrum).\nThe parameters <code>absSol_a</code> and <code>absSol_b</code>\nare used to compute solar heat radiation (in the solar spectrum).\n</p>\n<p>\nThe parameter <code>roughness_a</code> is used if the convective heat transfer\ncoefficient of the exterior surface is computed based on the wind-speed, wind-direction\nand temperature difference. See\n<a href=\\\"modelica://Buildings.HeatTransfer.Convection.Exterior\\\">\nBuildings.HeatTransfer.Convection.Exterior</a>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nSeptember 10, 2018, by Michael Wetter:<br/>\nDeclared <code>nSta</code> to be <code>final</code>\nas the user is not supposed to change its value.\n</li>\n<li>\nJanuary 05, 2017, by Thierry S. Nouidui:<br/>\nAdded parameter <code>nSta</code> to avoid translation error\nin Dymola 2107. This is a work-around for a bug in Dymola\nwhich will be addressed in future releases.\n</li>\n<li>\nJuly 1, 2013, by Michael Wetter:<br/>\nChanged the annotation of the instance <code>material</code>\nfrom\n<code>Evaluate=true</code> to <code>Evaluate=false</code>.\nThis is required to allow changing the material properties after compilation.\nNote, however, that the number of state variables in\n<a href=\\\"modelica://Buildings.HeatTransfer.Data.BaseClasses.Material\\\">\nBuildings.HeatTransfer.Data.BaseClasses.Material</a>\nare only computed when the model is translated, because\nthe number of state variables is fixed at compilation time.\n</li>\n<li>\nMarch 13, 2013, by Michael Wetter:<br/>\nReplaced <code>Buildings.HeatTransfer.Data.Solids.Generic</code>\nwith\n<code>Buildings.HeatTransfer.Data.OpaqueConstructions.Generic</code>\nto allow use of phase change material.\n</li>\n<li>\nNovember 16, 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Icons.MaterialPropertiesPackage",
+        "long_class_specifier_identifier": "OpaqueConstructions",
+        "within": "Buildings.HeatTransfer.Data",
+        "compositionSpecifier": "public"
+      }
+    ]
+  }
+}

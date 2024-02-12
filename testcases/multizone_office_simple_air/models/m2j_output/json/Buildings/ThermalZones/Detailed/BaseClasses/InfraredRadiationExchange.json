@@ -1,0 +1,2821 @@
+{
+  "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "InfraredRadiationExchange",
+          "description_string": "Infrared radiation heat exchange between the room facing surfaces",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Buildings.ThermalZones.Detailed.BaseClasses.PartialSurfaceInterfaceRadiative"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "constant",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "homotopyInitialization",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "true"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "= true, use homotopy method",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "HideResult",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "linearizeRadiation"
+                      },
+                      "description": {
+                        "description_string": "Set to true to linearize emissive power"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Boolean",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "sampleModel",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "false"
+                          }
+                        }
+                      },
+                      "description": {
+                        "description_string": "Set to true to time-sample the model, which can give shorter simulation time if there is already time sampling in the system model",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Evaluate",
+                                "modification": {
+                                  "equal": true,
+                                  "expression": {
+                                    "simple_expression": "true"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Experimental (may be changed in future releases)\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "HeatTransfer.Interfaces.RadiosityInflow",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "JInConExtWin",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "condition_attribute": {
+                        "expression": {
+                          "simple_expression": "haveConExtWin"
+                        }
+                      },
+                      "description": {
+                        "description_string": "Incoming radiosity that connects to non-frame part of the window",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 260,
+                                        "y": 70
+                                      },
+                                      {
+                                        "x": 240,
+                                        "y": 90
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "HeatTransfer.Interfaces.RadiosityOutflow",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "JOutConExtWin",
+                        "array_subscripts": [
+                          {
+                            "expression": {
+                              "simple_expression": "NConExtWin"
+                            }
+                          }
+                        ]
+                      },
+                      "description": {
+                        "description_string": "Outgoing radiosity that connects to non-frame part of the window",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 240,
+                                        "y": 110
+                                      },
+                                      {
+                                        "x": 260,
+                                        "y": 130
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "component_clause": {
+                      "type_prefix": "constant",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "T30",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"K3\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "293.15^3"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Nominal temperature"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "constant",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "T40",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"K4\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "293.15^4"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Nominal temperature"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "NOpa",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "NConExt +2*NConExtWin +2*NConPar +NConBou +NSurBou"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Number of opaque surfaces, including the window frame"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "nOpa",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "nConExt +2*nConExtWin +2*nConPar +nConBou +nSurBou"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Number of opaque surfaces, including the window frame"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "NWin",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "NConExtWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Number of window surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "nWin",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "nConExtWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Number of window surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "NTot",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "NOpa +NWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Total number of surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Integer",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "nTot",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "nOpa +nWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Total number of surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "epsOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Absorptivity of opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "rhoOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Reflectivity of opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Surface area of opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "A",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nTot"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Surface areas"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "kOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"W/K4\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Product sigma*epsilon*A for opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "kOpaInv",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"K4/W\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Inverse of kOpa, used to avoid having to use a safe division"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "F",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nTot"
+                                }
+                              },
+                              {
+                                "expression": {
+                                  "simple_expression": "nTot"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "1"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "View factor from surface i to j"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Time",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "t0",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "false"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "First sample time instant"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Buildings.HeatTransfer.Interfaces.RadiosityInflow",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "JInConExtWin_internal",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "NConExtWin"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "AConExtWinGla*0.8*Modelica.Constants.sigma*293.15^4"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": {
+                                            "logical_expression": {
+                                              "logical_or": [
+                                                {
+                                                  "logical_and": [
+                                                    {
+                                                      "arithmetic_expressions": [
+                                                        {
+                                                          "name": "nConExtWin"
+                                                        },
+                                                        {
+                                                          "name": "0"
+                                                        }
+                                                      ],
+                                                      "relation_operator": ">"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Incoming radiosity that connects to non-frame part of the window"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "J",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nTot"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "max",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "-A.*0.8*Modelica.Constants.sigma*293.15^4"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": {
+                                            "for_loop": {
+                                              "expression": {
+                                                "simple_expression": "sampleModel and ([object Object])"
+                                              },
+                                              "for_loop": [
+                                                {
+                                                  "name": "i",
+                                                  "range": "1:nTot"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "-10*0.8*Modelica.Constants.sigma*293.15^4"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Radiosity leaving the surface"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "G",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nTot"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "A.*0.8*Modelica.Constants.sigma*293.15^4"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "10*0.8*Modelica.Constants.sigma*293.15^4"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Radiosity entering the surface"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TOpa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Temperature of opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "T4Opa",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nOpa"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"K4\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "T40"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "nominal",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "293.15^4"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Forth power of temperature of opaque surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.HeatFlowRate",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "Q_flow",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "nTot"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "start",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "each": true,
+                                    "element_modification": {
+                                      "name": "fixed",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "sampleModel"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "description": {
+                            "description_string": "Heat flow rate at surfaces"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Temperature",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "T0",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "293.15"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Temperature used to linearize radiative heat transfer"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "T03",
+                            "modification": {
+                              "class_modification": [
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "min",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "0"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "element_modification_or_replaceable": {
+                                    "element_modification": {
+                                      "name": "unit",
+                                      "modification": {
+                                        "equal": true,
+                                        "expression": {
+                                          "simple_expression": "\"K3\""
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ],
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "T0^3"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "3rd power of temperature T0"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "initial": true,
+                  "equation": [
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": "homotopyInitialization"
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"In \" +getInstanceName() +\": The constant homotopyInitialization has been modified from its default value. This constant will be removed in future releases.\""
+                              }
+                            },
+                            "function_arguments": {
+                              "named_arguments": [
+                                {
+                                  "identifier": "level",
+                                  "value": {
+                                    "expression": {
+                                      "simple_expression": "AssertionLevel.warning"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConExt"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsOpa[i]",
+                              "rhs": {
+                                "simple_expression": "epsConExt[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "AOpa[i]",
+                              "rhs": {
+                                "simple_expression": "AConExt[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "kOpa[i]",
+                              "rhs": {
+                                "simple_expression": "Modelica.Constants.sigma*epsConExt[i]*AOpa[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConPar"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsOpa[i +nConExt]",
+                              "rhs": {
+                                "simple_expression": "epsConPar_a[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "AOpa[i +nConExt]",
+                              "rhs": {
+                                "simple_expression": "AConPar[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "kOpa[i +nConExt]",
+                              "rhs": {
+                                "simple_expression": "Modelica.Constants.sigma*epsConPar_a[i]*AOpa[i +nConExt]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsOpa[i +nConExt +nConPar]",
+                              "rhs": {
+                                "simple_expression": "epsConPar_b[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "AOpa[i +nConExt +nConPar]",
+                              "rhs": {
+                                "simple_expression": "AConPar[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "kOpa[i +nConExt +nConPar]",
+                              "rhs": {
+                                "simple_expression": "Modelica.Constants.sigma*epsConPar_b[i]*AOpa[i +nConExt +nConPar]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsOpa[i +nConExt +2*nConPar]",
+                              "rhs": {
+                                "simple_expression": "epsConBou[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "AOpa[i +nConExt +2*nConPar]",
+                              "rhs": {
+                                "simple_expression": "AConBou[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "kOpa[i +nConExt +2*nConPar]",
+                              "rhs": {
+                                "simple_expression": "Modelica.Constants.sigma*epsConBou[i]*AOpa[i +nConExt +2*nConPar]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nSurBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsOpa[i +nConExt +2*nConPar +nConBou]",
+                              "rhs": {
+                                "simple_expression": "epsSurBou[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "AOpa[i +nConExt +2*nConPar +nConBou]",
+                              "rhs": {
+                                "simple_expression": "ASurBou[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "kOpa[i +nConExt +2*nConPar +nConBou]",
+                              "rhs": {
+                                "simple_expression": "Modelica.Constants.sigma*epsSurBou[i]*AOpa[i +nConExt +2*nConPar +nConBou]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConExtWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsOpa[i +nConExt +2*nConPar +nConBou +nSurBou]",
+                              "rhs": {
+                                "simple_expression": "epsConExtWinOpa[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "AOpa[i +nConExt +2*nConPar +nConBou +nSurBou]",
+                              "rhs": {
+                                "simple_expression": "AConExtWinOpa[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "kOpa[i +nConExt +2*nConPar +nConBou +nSurBou]",
+                              "rhs": {
+                                "simple_expression": "Modelica.Constants.sigma*epsConExtWinOpa[i]*AOpa[i +nConExt +2*nConPar +nConBou +nSurBou]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "epsOpa[i +nConExt +2*nConPar +nConBou +nSurBou +nConExtWin]",
+                              "rhs": {
+                                "simple_expression": "epsConExtWinFra[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "AOpa[i +nConExt +2*nConPar +nConBou +nSurBou +nConExtWin]",
+                              "rhs": {
+                                "simple_expression": "AConExtWinFra[i]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "kOpa[i +nConExt +2*nConPar +nConBou +nSurBou +nConExtWin]",
+                              "rhs": {
+                                "simple_expression": "Modelica.Constants.sigma*epsConExtWinFra[i]*AOpa[i +nConExt +2*nConPar +nConBou +nSurBou +nConExtWin]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nOpa"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "A[i]",
+                              "rhs": {
+                                "simple_expression": "AOpa[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "A[i +nOpa]",
+                              "rhs": {
+                                "simple_expression": "AConExtWinGla[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "rhoOpa",
+                        "rhs": {
+                          "simple_expression": "1 .-epsOpa"
+                        }
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nTot"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "for_equation": {
+                              "for_indices": [
+                                {
+                                  "identifier": "j",
+                                  "expression": {
+                                    "simple_expression": "1:nTot"
+                                  }
+                                }
+                              ],
+                              "loop_equations": [
+                                {
+                                  "assignment_equation": {
+                                    "lhs": "F[i,j]",
+                                    "rhs": {
+                                      "simple_expression": "A[j]/sum((A[k]) for k in 1:nTot)"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nOpa"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "kOpaInv[i]",
+                              "rhs": {
+                                "simple_expression": "1/kOpa[i]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nTot"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "function_call_equation": {
+                              "function_name": "assert",
+                              "function_call_args": {
+                                "function_argument": {
+                                  "expression": {
+                                    "simple_expression": {
+                                      "logical_expression": {
+                                        "logical_or": [
+                                          {
+                                            "logical_and": [
+                                              {
+                                                "arithmetic_expressions": [
+                                                  {
+                                                    "name": "([object Object])"
+                                                  },
+                                                  {
+                                                    "name": "1e-10"
+                                                  }
+                                                ],
+                                                "relation_operator": "<"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                },
+                                "function_arguments": {
+                                  "function_argument": {
+                                    "expression": {
+                                      "simple_expression": "\"Program error: Sum 1 of view factors is \" +String(sum(F[i,j] for j in 1:nTot))"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "t0",
+                        "rhs": {
+                          "simple_expression": "time"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "connect_clause": {
+                        "from": [
+                          {
+                            "dot_op": false,
+                            "identifier": "JInConExtWin"
+                          }
+                        ],
+                        "to": [
+                          {
+                            "dot_op": false,
+                            "identifier": "JInConExtWin_internal"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "not haveConExtWin"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "JInConExtWin_internal",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "fill",
+                                          "arguments": [
+                                            {
+                                              "name": "0"
+                                            },
+                                            {
+                                              "name": "NConExtWin"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConExt"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i]",
+                              "rhs": {
+                                "simple_expression": "conExt[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConPar"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +nConExt]",
+                              "rhs": {
+                                "simple_expression": "conPar_a[i].T"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +nConExt +nConPar]",
+                              "rhs": {
+                                "simple_expression": "conPar_b[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +nConExt +2*nConPar]",
+                              "rhs": {
+                                "simple_expression": "conBou[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nSurBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +nConExt +2*nConPar +nConBou]",
+                              "rhs": {
+                                "simple_expression": "conSurBou[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConExtWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +nConExt +2*nConPar +nConBou +nSurBou]",
+                              "rhs": {
+                                "simple_expression": "conExtWin[i].T"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "TOpa[i +nConExt +2*nConPar +nConBou +nConExtWin +nSurBou]",
+                              "rhs": {
+                                "simple_expression": "conExtWinFra[i].T"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "sampleModel"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "when_equation": [
+                                    {
+                                      "condition": {
+                                        "simple_expression": {
+                                          "function_call": {
+                                            "name": "sample",
+                                            "arguments": [
+                                              {
+                                                "name": "t0"
+                                              },
+                                              {
+                                                "name": "2*60"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      "then": [
+                                        {
+                                          "assignment_equation": {
+                                            "lhs": "G",
+                                            "rhs": {
+                                              "simple_expression": "-transpose(F)*pre(J)"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "G",
+                              "rhs": {
+                                "simple_expression": "-transpose(F)*J"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "Q_flow",
+                              "rhs": {
+                                "simple_expression": "-J -G"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "j",
+                            "expression": {
+                              "simple_expression": "1:nOpa"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "T4Opa[j]",
+                              "rhs": {
+                                "simple_expression": "(-J[j] -rhoOpa[j]*G[j])*kOpaInv[j]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "linearizeRadiation"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "TOpa",
+                                    "rhs": {
+                                      "simple_expression": "(T4Opa .+3*T40)/(4*T30)"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "if_equation": {
+                              "if_elseif": [
+                                {
+                                  "condition": {
+                                    "simple_expression": "homotopyInitialization"
+                                  },
+                                  "then": [
+                                    {
+                                      "equation": {
+                                        "assignment_equation": {
+                                          "lhs": "TOpa",
+                                          "rhs": {
+                                            "simple_expression": {
+                                              "function_call": {
+                                                "name": "homotopy",
+                                                "arguments": [
+                                                  {
+                                                    "name": "actual=Buildings.Utilities.Math.Functions.powerLinearized(x=T4Opa,x0=243.15^4,n=0.25),simplified=(T4Opa .+3*T40)/(4*T30)"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ],
+                              "else_equation": [
+                                {
+                                  "assignment_equation": {
+                                    "lhs": "TOpa",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.powerLinearized",
+                                          "arguments": [
+                                            {
+                                              "name": "x=T4Opa,x0=243.15^4,n=0.25"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "j",
+                            "expression": {
+                              "simple_expression": "1:nWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "J[j +nOpa]",
+                              "rhs": {
+                                "simple_expression": "-JInConExtWin_internal[j]"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "G[j +nOpa]",
+                              "rhs": {
+                                "simple_expression": "+JOutConExtWin[j]"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConExt"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "Q_flow[i]",
+                              "rhs": {
+                                "simple_expression": "conExt[i].Q_flow"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "nConExt"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": "=="
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "conExt[1].T",
+                                    "rhs": {
+                                      "simple_expression": "T0"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConPar"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "Q_flow[i +nConExt]",
+                              "rhs": {
+                                "simple_expression": "conPar_a[i].Q_flow"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "Q_flow[i +nConExt +nConPar]",
+                              "rhs": {
+                                "simple_expression": "conPar_b[i].Q_flow"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "nConPar"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": "=="
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "conPar_a[1].T",
+                                    "rhs": {
+                                      "simple_expression": "T0"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "conPar_b[1].T",
+                                    "rhs": {
+                                      "simple_expression": "T0"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "Q_flow[i +nConExt +2*nConPar]",
+                              "rhs": {
+                                "simple_expression": "conBou[i].Q_flow"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "nConBou"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": "=="
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "conBou[1].T",
+                                    "rhs": {
+                                      "simple_expression": "T0"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nSurBou"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "Q_flow[i +nConExt +2*nConPar +nConBou]",
+                              "rhs": {
+                                "simple_expression": "conSurBou[i].Q_flow"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "nSurBou"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": "=="
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "conSurBou[1].T",
+                                    "rhs": {
+                                      "simple_expression": "T0"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "for_equation": {
+                        "for_indices": [
+                          {
+                            "identifier": "i",
+                            "expression": {
+                              "simple_expression": "1:nConExtWin"
+                            }
+                          }
+                        ],
+                        "loop_equations": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "Q_flow[i +nConExt +2*nConPar +nConBou +nSurBou]",
+                              "rhs": {
+                                "simple_expression": "conExtWin[i].Q_flow"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "Q_flow[i +nConExt +2*nConPar +nConBou +nSurBou +nConExtWin]",
+                              "rhs": {
+                                "simple_expression": "conExtWinFra[i].Q_flow"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "nConExtWin"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": "=="
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "conExtWin[1].T",
+                                    "rhs": {
+                                      "simple_expression": "T0"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "conExtWinFra[1].T",
+                                    "rhs": {
+                                      "simple_expression": "T0"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "JOutConExtWin[1]",
+                                    "rhs": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "preferredView",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"info\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Diagram",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -240,
+                                    "y": -240
+                                  },
+                                  {
+                                    "x": 240,
+                                    "y": 240
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "coordinateSystem": {
+                                "extent": [
+                                  {
+                                    "x": -240,
+                                    "y": -240
+                                  },
+                                  {
+                                    "x": 240,
+                                    "y": 240
+                                  }
+                                ],
+                                "preserveAspectRatio": "true"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -144,
+                                        "y": -8
+                                      },
+                                      {
+                                        "x": 146,
+                                        "y": -8
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "thickness": 0.5,
+                                    "smooth": "Smooth.None"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -144,
+                                        "y": -8
+                                      },
+                                      {
+                                        "x": 2,
+                                        "y": 184
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "thickness": 0.5,
+                                    "smooth": "Smooth.None"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": -144,
+                                        "y": -8
+                                      },
+                                      {
+                                        "x": 2,
+                                        "y": -200
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "thickness": 0.5,
+                                    "smooth": "Smooth.None"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 2,
+                                        "y": -200
+                                      },
+                                      {
+                                        "x": 2,
+                                        "y": 184
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "thickness": 0.5,
+                                    "smooth": "Smooth.None"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 2,
+                                        "y": 184
+                                      },
+                                      {
+                                        "x": 148,
+                                        "y": -8
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "thickness": 0.5,
+                                    "smooth": "Smooth.None"
+                                  }
+                                },
+                                {
+                                  "name": "Line",
+                                  "attribute": {
+                                    "points": [
+                                      {
+                                        "x": 2,
+                                        "y": -200
+                                      },
+                                      {
+                                        "x": 148,
+                                        "y": -8
+                                      }
+                                    ],
+                                    "color": {
+                                      "r": 255,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "thickness": 0.5,
+                                    "smooth": "Smooth.None"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nThis model computes the infrared radiative heat transfer between the interior\nsurfaces of a room. Each opaque surface emits radiation according to\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  E<sup>i</sup> = &sigma; &nbsp; A<sup>i</sup> &nbsp; &epsilon;<sup>i</sup> &nbsp;\n(T<sup>i</sup>)<sup>4</sup>,\n</p>\n<p>\nwhere\n<i>&sigma;</i>\nis the Stefan-Boltzmann constant,\n<i>A<sup>i</sup> </i>\nis the surface area,\n<i>&epsilon;<sup>i</sup> </i>\nis the absorptivity in the infrared spectrum, and\n<i>T<sup>i</sup></i>\nis the surface temperature.\nIf the parameter <code>linearizeRadidation</code> is set to <code>true</code>,\nthen the term <i>(T<sup>i</sup>)<sup>4</sup></i> is replaced with\n<i>T<sub>0</sub><sup>3</sup> T<sup>i</sup></i>,\nwhere <i>T<sub>0</sub> = 20&deg;C</i> is a parameter.\n</p>\n<p>\nThe incoming radiation at surface <i>i</i> is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  G<sup>i</sup> = -&sum;<sub>j</sub> &nbsp; F<sup>j,i</sup> &nbsp; J<sup>j</sup>\n</p>\n<p>\nwhere\n<i>F<sup>j,i</sup></i>\nis the view factor from surface\n<i>j</i> to surface <i>i</i>,\n<i>J<sup>j</sup></i>\nis the radiosity leaving surface <i>j</i>\nand the sum is over all surfaces.\nFor opaque surfaces, it follows from the first law\nthat the radiosity\n<i>J<sup>i</sup></i>\nis\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n J<sup>i</sup> = -E<sup>i</sup>  - (1-&epsilon;<sup>i</sup>) &nbsp; G<sup>i</sup>.\n</p>\n<p>\nFor windows, the outgoing radiosity is an input into this model\nbecause the window model computes this quantity directly.\n</p>\n<p>\nFor each surface <i>i</i>, the heat balance is\n</p>\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  0 = Q<sup>i</sup> + J<sup>i</sup> + G<sup>i</sup>.\n</p>\n<p>\nFor opaque surfaces, the heat flow rate\n<i>Q<sup>i</sup></i>\nis set to be equal to the heat flow rate at the heat port.\nFor the glass of the windows, the radiosity outflow at the connector is\nset to the radiosity\n<i>G<sup>i</sup></i>\nthat is leaving the surface.\n</p>\n<p>\nThe view factor from surface <i>i</i> to <i>j</i> is approximated as\n<p align=\\\"center\\\" style=\\\"font-style:italic;\\\">\n  F<sup>i,j</sup> = A<sup>j</sup> &frasl; &sum;<sub>k </sub> A<sup>k</sup>.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nNovember 30, 2021, by Michael Wetter:<br/>\nRemoved test on radiation balance that was added for debugging purposes.\n</li>\n<li>\nApril 14, 2020, by Michael Wetter:<br/>\nChanged <code>homotopyInitialization</code> to a constant.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1341\\\">IBPSA, #1341</a>.\n</li>\n<li>\nJanuary 23, 2017, by Michael Wetter:<br/>\nCorrected wrong start value for <code>J</code>.\nThe start value was positive, but <code>J(each max =0)</code>.<br/>\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/627\\\">issue 627</a>.\n</li>\n<li>\nMay 21, 2015, by Michael Wetter:<br/>\nReformulated to reduce use of the division macro\nin Dymola.\nThis is for <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/417\\\">issue 417</a>.\n</li>\n<li>\nMay 30, 2014, by Michael Wetter:<br/>\nRemoved undesirable annotation <code>Evaluate=true</code>.\n</li>\n<li>\nJune 27, 2013, by Michael Wetter:<br/>\nChanged model because the outflowing radiosity has been changed to be a non-negative quantity.\nSee track issue <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/158\\\">#158</a>.\n</li>\n<li>\nApril 18, 2013, by Michael Wetter:<br/>\nRemoved <code>cardinality</code> function as this is\ndeprecated in the MSL specification and not correctly implemented in omc.\n</li>\n<li>\nFebruary 10, 2012 by Wangda Zuo:<br/>\nFixed a bug for linearization of T4.\n</li>\n<li>\nApril 21, 2011 by Michael Wetter:<br/>\nFixed a bug in the view factor calculation, and rewrote the model to reduce simulation time. The bug caused too much radiosity to flow from large to small surfaces because the law of reciprocity for view factors was not satisfied. This led to low surface temperatures if a surface had a large area compared to other surfaces.\n</li>\n<li>\nApril 2, 2011 by Michael Wetter:<br/>\nAdded <code>homotopy</code> operator.\n</li>\n<li>\nFeb. 3, 2011, by Michael Wetter:<br/>\nCorrected bug in start value of radiosity, reformulated equations to get\nsmaller system of coupled equations.\n</li>\n<li>\nDec. 1, 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/InfraredRadiationExchange.mo",
+  "checksum": "09a36fe17a959eaceb073cf6ce53edf5"
+}

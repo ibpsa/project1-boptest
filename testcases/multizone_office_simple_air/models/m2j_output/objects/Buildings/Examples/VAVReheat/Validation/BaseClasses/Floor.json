@@ -1,0 +1,947 @@
+{
+  "instances": {
+    "Floor": {
+      "within": "Buildings.Examples.VAVReheat.Validation.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/Validation/BaseClasses/Floor.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model is used in the model\n<a href=\\\"modelica://Buildings.Examples.VAVReheat.Validation.TraceSubstance\\\">\nBuildings.Examples.VAVReheat.Validation.TraceSubstance</a>.  It extends\n<a href=\\\"modelica://Buildings.Examples.VAVReheat.BaseClasses.Floor\\\">\nBuildings.Examples.VAVReheat.BaseClasses.Floor</a> with CO<sub>2</sub> generation\nfrom people and CO<sub>2</sub> from outside air infiltration.  Calculation of the\ngeneration from people uses the internal gain schedule and uses 0.05 people per m<sup>2</sup>\nalong with the zone area to calculate the number of people.  Then, it assumes\nCO<sub>2</sub> generation is 0.0048 l/s per person (Table 5, Persily and De Jonge 2017)\nand density of CO<sub>2</sub> to be 1.8 kg/m<sup>3</sup>, making CO<sub>2</sub> generation equal to\n8.64e-6 kg/s per person. Outside air CO<sub>2</sub> concentration is assumed 400 ppm.\n</p>\n<h4>References</h4>\n<p>\nPersily, A. and De Jonge, L. (2017). Carbon dioxide generation rates for\nbuilding occupants. <i>Indoor Air</i>, 27, 868–879.\nhttps://doi.org/10.1111/ina.12383.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nNovember 24, 2021, by David Blum:<br/>\nUpdate calculation of CO2 generation.\nThis is\nfor <a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2781\\\">issue #2781</a>.\n</li>\n<li>\nMay 9, 2021, by David Blum:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 258,
+                                  "y": -18
+                                },
+                                {
+                                  "x": 324,
+                                  "y": -62
+                                }
+                              ],
+                              "textString": "\"CO2\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "CO2GenWes": {
+      "type_specifier": "Modelica.Blocks.Sources.RealExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "CO2GenWes",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intGaiFra.y[1]*AFloWes*0.05*0.00000864"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "CO2 generated by people in the west zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -110,
+                          "y": 50
+                        },
+                        {
+                          "x": -90,
+                          "y": 70
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -110,
+                      "y": 50
+                    },
+                    {
+                      "x": -90,
+                      "y": 70
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.Validation.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/Validation/BaseClasses/Floor.mo"
+    },
+    "CO2GenCor": {
+      "type_specifier": "Modelica.Blocks.Sources.RealExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "CO2GenCor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intGaiFra.y[1]*AFloCor*0.05*0.00000864"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "CO2 generated by people in the corridor zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 82,
+                          "y": 56
+                        },
+                        {
+                          "x": 102,
+                          "y": 76
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 82,
+                      "y": 56
+                    },
+                    {
+                      "x": 102,
+                      "y": 76
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.Validation.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/Validation/BaseClasses/Floor.mo"
+    },
+    "CO2GenEas": {
+      "type_specifier": "Modelica.Blocks.Sources.RealExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "CO2GenEas",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intGaiFra.y[1]*AFloEas*0.05*0.00000864"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "CO2 generated by people in the east zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 254,
+                          "y": 64
+                        },
+                        {
+                          "x": 274,
+                          "y": 84
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 254,
+                      "y": 64
+                    },
+                    {
+                      "x": 274,
+                      "y": 84
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.Validation.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/Validation/BaseClasses/Floor.mo"
+    },
+    "CO2GenNor": {
+      "type_specifier": "Modelica.Blocks.Sources.RealExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "CO2GenNor",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intGaiFra.y[1]*AFloNor*0.05*0.00000864"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "CO2 generated by people in the north zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 80,
+                          "y": 142
+                        },
+                        {
+                          "x": 100,
+                          "y": 162
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 80,
+                      "y": 142
+                    },
+                    {
+                      "x": 100,
+                      "y": 162
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.Validation.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/Validation/BaseClasses/Floor.mo"
+    },
+    "CO2GenSou": {
+      "type_specifier": "Modelica.Blocks.Sources.RealExpression",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "Floor",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "CO2GenSou",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "y",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "intGaiFra.y[1]*AFloSou*0.05*0.00000864"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "CO2 generated by people in the south zone",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 84,
+                          "y": -20
+                        },
+                        {
+                          "x": 104,
+                          "y": 0
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 84,
+                      "y": -20
+                    },
+                    {
+                      "x": 104,
+                      "y": 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Examples.VAVReheat.Validation.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Examples/VAVReheat/Validation/BaseClasses/Floor.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.Examples.VAVReheat.BaseClasses.Floor",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "nor",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "use_C_flow",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "true"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "C_start",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": {
+                                "function_call": {
+                                  "name": "fill",
+                                  "arguments": [
+                                    {
+                                      "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                    },
+                                    {
+                                      "name": "Medium.nC"
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "eas",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "use_C_flow",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "true"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "C_start",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": {
+                                "function_call": {
+                                  "name": "fill",
+                                  "arguments": [
+                                    {
+                                      "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                    },
+                                    {
+                                      "name": "Medium.nC"
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "cor",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "use_C_flow",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "true"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "C_start",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": {
+                                "function_call": {
+                                  "name": "fill",
+                                  "arguments": [
+                                    {
+                                      "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                    },
+                                    {
+                                      "name": "Medium.nC"
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "wes",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "use_C_flow",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "true"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "C_start",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": {
+                                "function_call": {
+                                  "name": "fill",
+                                  "arguments": [
+                                    {
+                                      "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                    },
+                                    {
+                                      "name": "Medium.nC"
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "sou",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "use_C_flow",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "true"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "C_start",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": {
+                                "function_call": {
+                                  "name": "fill",
+                                  "arguments": [
+                                    {
+                                      "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                    },
+                                    {
+                                      "name": "Medium.nC"
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "leaSou",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "amb",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "name": "C",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "simple_expression": {
+                                          "function_call": {
+                                            "name": "fill",
+                                            "arguments": [
+                                              {
+                                                "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                              },
+                                              {
+                                                "name": "Medium.nC"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "leaEas",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "amb",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "name": "C",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "simple_expression": {
+                                          "function_call": {
+                                            "name": "fill",
+                                            "arguments": [
+                                              {
+                                                "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                              },
+                                              {
+                                                "name": "Medium.nC"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "leaNor",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "amb",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "name": "C",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "simple_expression": {
+                                          "function_call": {
+                                            "name": "fill",
+                                            "arguments": [
+                                              {
+                                                "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                              },
+                                              {
+                                                "name": "Medium.nC"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "leaWes",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "amb",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "name": "C",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "simple_expression": {
+                                          "function_call": {
+                                            "name": "fill",
+                                            "arguments": [
+                                              {
+                                                "name": "0.0004*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM"
+                                              },
+                                              {
+                                                "name": "Medium.nC"
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "Floor",
+        "within": "Buildings.Examples.VAVReheat.Validation.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "CO2GenNor.y": [
+        "nor.C_flow[1]"
+      ],
+      "CO2GenWes.y": [
+        "wes.C_flow[1]"
+      ],
+      "CO2GenCor.y": [
+        "cor.C_flow[1]"
+      ],
+      "CO2GenSou.y": [
+        "sou.C_flow[1]"
+      ],
+      "CO2GenEas.y": [
+        "eas.C_flow[1]"
+      ]
+    }
+  }
+}

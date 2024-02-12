@@ -1,0 +1,170 @@
+{
+  "instances": {
+    "Gases": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/Gases.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\nPackage with records for thermophysical properties for window\ngas fills.\nThe implementation is according to\n<a href=\\\"http://www.iso.org/iso/catalogue_detail.htm?csnumber=26425\\\">ISO 15099:2003,\nThermal performance of windows, doors and shading devices -- Detailed calculations</a>.\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nAugust 18 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "Generic": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/Gases.mo",
+      "classPrefixes": "record",
+      "compositionSpecifier": "public",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentPrefixes",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"parameter\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"datGas\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\nGeneric record for thermophysical properties for window\ngas fills.\nThe implementation is according to\n<a href=\\\"http://www.iso.org/iso/catalogue_detail.htm?csnumber=26425\\\">ISO 15099:2003,\nThermal performance of windows, doors and shading devices -- Detailed calculations</a>.\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nOctober 17, 2014, by Michael Wetter:<br/>\nChanged <code>P0</code> from a <code>constant</code> to a\n<code>parameter</code> to avoid a compilation error in\nOpenModelica.\n</li>\n<li>\nAugust 18 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "thermalConductivity": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/Gases.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "public",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "density": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/Gases.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "public",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "dynamicViscosity": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/Gases.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "public",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "specificHeatCapacity": {
+      "within": "Buildings.HeatTransfer.Data",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Data/Gases.mo",
+      "classPrefixes": "function",
+      "compositionSpecifier": "public",
+      "type": "long_class_specifier",
+      "semantics": {},
+      "cdl_annotations": {}
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Icons.MaterialPropertiesPackage",
+        "long_class_specifier_identifier": "Gases",
+        "within": "Buildings.HeatTransfer.Data",
+        "compositionSpecifier": "public"
+      }
+    ]
+  }
+}

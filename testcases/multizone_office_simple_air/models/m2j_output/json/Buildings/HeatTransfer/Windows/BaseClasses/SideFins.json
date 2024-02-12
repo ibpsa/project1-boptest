@@ -1,0 +1,1593 @@
+{
+  "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "block",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "SideFins",
+          "description_string": "For a window with side fins, outputs the fraction of the area that is sun exposed",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Modelica.Blocks.Icons.Block"
+                }
+              },
+              {
+                "extends_clause": {
+                  "name": "Buildings.ThermalZones.Detailed.BaseClasses.SideFins"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "alt",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Angle\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"rad\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"deg\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Solar altitude angle (angle between sun ray and horizontal surface)",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": -60
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": -20
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "verAzi",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "quantity",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"Angle\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"rad\""
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "element_modification": {
+                                  "name": "displayUnit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"deg\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Angle between projection of sun's rays and normal to vertical surface",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -140,
+                                        "y": 20
+                                      },
+                                      {
+                                        "x": -100,
+                                        "y": 60
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "fraSun",
+                        "modification": {
+                          "class_modification": [
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "min",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "0"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "max",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "1"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "element_modification_or_replaceable": {
+                                "final": true,
+                                "element_modification": {
+                                  "name": "unit",
+                                  "modification": {
+                                    "equal": true,
+                                    "expression": {
+                                      "simple_expression": "\"1\""
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "description": {
+                        "description_string": "Fraction of window area exposed to the sun",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": 100,
+                                        "y": -10
+                                      },
+                                      {
+                                        "x": 120,
+                                        "y": 10
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Length",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "hWin"
+                      },
+                      "description": {
+                        "description_string": "Window height",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"General\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Window\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "component_clause": {
+                  "type_prefix": "parameter",
+                  "type_specifier": "Modelica.Units.SI.Length",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "wWin"
+                      },
+                      "description": {
+                        "description_string": "Window width",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "name": "Dialog",
+                                "modification": {
+                                  "class_modification": [
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "tab",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"General\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "element_modification_or_replaceable": {
+                                        "element_modification": {
+                                          "name": "group",
+                                          "modification": {
+                                            "equal": true,
+                                            "expression": {
+                                              "simple_expression": "\"Window\""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "protected_element_list": [
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "tmpH",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "{h +hWin,h,h +hWin,h}"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Height of rectangular sections used for superposition"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "tmpW",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ],
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "{gap +wWin,gap +wWin,gap,gap}"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Width of rectangular sections used for superpositions; c1,c2 etc"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "deltaL",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "wWin/100"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Fraction of window dimension over which min-max functions are smoothened"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "final": true,
+                    "component_clause": {
+                      "type_prefix": "parameter",
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "AWin",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "hWin*wWin"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Window area"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "x1",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Horizontal distance between side fin and point where shadow line and window lower edge intersects"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "x2"
+                          },
+                          "description": {
+                            "description_string": "Horizontal distance between side fin and shadow corner"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "x3",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Window width"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "y1",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Window height"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "y2"
+                          },
+                          "description": {
+                            "description_string": "Vertical distance between window upper edge and shadow corner"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "y3",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Vertical distance between window upper edge and point where shadow line and window side edge intersects"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "area",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          },
+                          "description": {
+                            "description_string": "Shaded areas of the sections used in superposition"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "shdArea"
+                          },
+                          "description": {
+                            "description_string": "Shaded area"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "crShdArea"
+                          },
+                          "description": {
+                            "description_string": "Final value of shaded area"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "crShdArea1"
+                          },
+                          "description": {
+                            "description_string": "Shaded area, corrected for the sun behind the surface/wall"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Area",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "crShdArea2"
+                          },
+                          "description": {
+                            "description_string": "Shaded area, corrected for the sun below horizon"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "minX",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "minY",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "minX2X3",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Units.SI.Length",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "minY2Y3",
+                            "array_subscripts": [
+                              {
+                                "expression": {
+                                  "simple_expression": "4"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "delta",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "0.000001"
+                              }
+                            }
+                          },
+                          "description": {
+                            "description_string": "Small number to avoid division by zero"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "tanLambda"
+                          },
+                          "description": {
+                            "description_string": "Tangent of angle between horizontal and sun ray projection on vertical wall"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "verAzi_t"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "lambda_t"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "verAzi_c"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Real",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "alt_t"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "initial": true,
+                  "equation": [
+                    {
+                      "function_call_equation": {
+                        "function_name": "assert",
+                        "function_call_args": {
+                          "function_argument": {
+                            "expression": {
+                              "simple_expression": {
+                                "logical_expression": {
+                                  "logical_or": [
+                                    {
+                                      "logical_and": [
+                                        {
+                                          "arithmetic_expressions": [
+                                            {
+                                              "name": "h"
+                                            },
+                                            {
+                                              "name": "0"
+                                            }
+                                          ],
+                                          "relation_operator": ">="
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          },
+                          "function_arguments": {
+                            "function_argument": {
+                              "expression": {
+                                "simple_expression": "\"Sidefin parameter 'h' must be at least zero.\n  It is measured from the upper edge of the window to the top of the side fin.\n  Received h = \" +String(h)"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "if_equation": {
+                        "if_elseif": [
+                          {
+                            "condition": {
+                              "simple_expression": "haveSideFins"
+                            },
+                            "then": [
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "lambda_t",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.smoothMax",
+                                          "arguments": [
+                                            {
+                                              "name": "x1=tanLambda,x2=delta,deltaX=delta/10"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "verAzi_t",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.smoothMax",
+                                          "arguments": [
+                                            {
+                                              "name": "x1=Modelica.Math.tan(verAzi),x2=delta,deltaX=delta/10"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "verAzi_c",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.smoothMax",
+                                          "arguments": [
+                                            {
+                                              "name": "x1=Modelica.Math.cos(verAzi),x2=delta,deltaX=delta/10"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "alt_t",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.smoothMax",
+                                          "arguments": [
+                                            {
+                                              "name": "x1=Modelica.Math.tan(alt),x2=delta,deltaX=delta/10"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "tanLambda",
+                                    "rhs": {
+                                      "simple_expression": "alt_t/verAzi_t"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "y2",
+                                    "rhs": {
+                                      "simple_expression": "dep*alt_t/verAzi_c"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "x2",
+                                    "rhs": {
+                                      "simple_expression": "dep*verAzi_t"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "for_equation": {
+                                    "for_indices": [
+                                      {
+                                        "identifier": "i",
+                                        "expression": {
+                                          "simple_expression": "1:4"
+                                        }
+                                      }
+                                    ],
+                                    "loop_equations": [
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "x1[i]",
+                                          "rhs": {
+                                            "simple_expression": "tmpH[i]/lambda_t"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "x3[i]",
+                                          "rhs": {
+                                            "simple_expression": "tmpW[i]"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "y1[i]",
+                                          "rhs": {
+                                            "simple_expression": "tmpH[i]"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "y3[i]",
+                                          "rhs": {
+                                            "simple_expression": "tmpW[i]*lambda_t"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "minX2X3[i]",
+                                          "rhs": {
+                                            "simple_expression": {
+                                              "function_call": {
+                                                "name": "Buildings.Utilities.Math.Functions.smoothMin",
+                                                "arguments": [
+                                                  {
+                                                    "name": "x1=x2,x2=x3[i],deltaX=deltaL"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "minX[i]",
+                                          "rhs": {
+                                            "simple_expression": {
+                                              "function_call": {
+                                                "name": "Buildings.Utilities.Math.Functions.smoothMin",
+                                                "arguments": [
+                                                  {
+                                                    "name": "x1=x1[i],x2=minX2X3[i],deltaX=deltaL"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "minY2Y3[i]",
+                                          "rhs": {
+                                            "simple_expression": {
+                                              "function_call": {
+                                                "name": "Buildings.Utilities.Math.Functions.smoothMin",
+                                                "arguments": [
+                                                  {
+                                                    "name": "x1=y2,x2=y3[i],deltaX=deltaL"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "minY[i]",
+                                          "rhs": {
+                                            "simple_expression": {
+                                              "function_call": {
+                                                "name": "Buildings.Utilities.Math.Functions.smoothMin",
+                                                "arguments": [
+                                                  {
+                                                    "name": "x1=y1[i],x2=minY2Y3[i],deltaX=deltaL"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "assignment_equation": {
+                                          "lhs": "area[i]",
+                                          "rhs": {
+                                            "simple_expression": "tmpH[i]*minX[i] -minX[i]*minY[i]/2"
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "shdArea",
+                                    "rhs": {
+                                      "simple_expression": "area[1] +area[4] -area[2] -area[3]"
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "crShdArea1",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.spliceFunction",
+                                          "arguments": [
+                                            {
+                                              "name": "pos=shdArea,neg=AWin,x=(Modelica.Constants.pi/2) -verAzi,deltax=0.01"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "crShdArea2",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.spliceFunction",
+                                          "arguments": [
+                                            {
+                                              "name": "pos=shdArea,neg=AWin,x=alt,deltax=0.01"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "crShdArea",
+                                    "rhs": {
+                                      "simple_expression": {
+                                        "function_call": {
+                                          "name": "Buildings.Utilities.Math.Functions.smoothMax",
+                                          "arguments": [
+                                            {
+                                              "name": "x1=crShdArea1,x2=crShdArea2,deltaX=0.0001*AWin"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "equation": {
+                                  "assignment_equation": {
+                                    "lhs": "fraSun",
+                                    "rhs": {
+                                      "simple_expression": "1 -crShdArea/AWin"
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "else_equation": [
+                          {
+                            "assignment_equation": {
+                              "lhs": "lambda_t",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "verAzi_t",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "verAzi_c",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "alt_t",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "tanLambda",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "y2",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "x2",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "x1",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "x3",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "y1",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "y3",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "minX2X3",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "minX",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "minY2Y3",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "minY",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "area",
+                              "rhs": {
+                                "simple_expression": {
+                                  "function_call": {
+                                    "name": "fill",
+                                    "arguments": [
+                                      {
+                                        "name": "0"
+                                      },
+                                      {
+                                        "name": "4"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "shdArea",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "crShdArea1",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "crShdArea2",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "crShdArea",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          },
+                          {
+                            "assignment_equation": {
+                              "lhs": "fraSun",
+                              "rhs": {
+                                "simple_expression": "0"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Bitmap",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -92,
+                                        "y": 92
+                                      },
+                                      {
+                                        "x": 92,
+                                        "y": -92
+                                      }
+                                    ],
+                                    "fileName": "\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/SideFins.png\""
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "defaultComponentName",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"fin\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<p>\nFor a window with side fins, this block outputs the fraction of\nthe area that is exposed to the sun.\nThis models can also be used for doors with side fins.\n</p>\n<p>\nInput to this block are the\nwall solar azimuth angle and the altitude angle of the sun.\nThese angles can be calculated using blocks from the package\n<a href=\\\"modelica://Buildings.BoundaryConditions.SolarGeometry.BaseClasses\\\">\nBuildings.BoundaryConditions.SolarGeometry.BaseClasses</a>.\n</p>\n\n<h4>Limitations</h4>\n<p>\nThe model assumes that\n</p>\n<ul>\n<li>\nthe side fins are placed symmetrically to the left and right of the window,\n</li>\n<li>\nthe top of the side fins must be at an equal or greater height than the window, and\n</li>\n<li>\nthe bottom of the side fins must be at an equal or lower height than the\nbottom of the window.\n</li>\n</ul>\n\n<h4>Implementation</h4>\n<p>\nThe method of super position is used to calculate the shaded area of the window.\nThe area besides the side fin is divided as shown in the figure below.\n</p>\n<p align=\\\"center\\\">\n<img alt=\\\"imaghe\\\" src=\\\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/SideFinsSuperPosition.png\\\" />\n</p>\n\n<p>\nVariables used in the code for the rectangle <i>AEGI, BEGH, DFGI</i> and <i>CFGH</i> are shown in figure below.\n</p>\n<p align=\\\"center\\\">\n<img alt=\\\"imaghe\\\" src=\\\"modelica://Buildings/Resources/Images/HeatTransfer/Windows/BaseClasses/SideFinsVariables.png\\\" />\n</p>\n\n<p>\nThe rectangles <i>AEGI, BEGH, DFGI</i> and <i>CFGH</i>  have the same geometric configuration\nwith respect to the side fin.\nThus, the same algorithm is used to calculate the shaded portion in these areas.\nA single equation in the <code>for</code> loop improves the total calculation time,\nas compared to <code>if-then-else</code>\nconditions, considering the various shapes of the shaded portions.\nTo find the shaded area in the window <i>ABCD</i>, the shaded portion of\n<i>BEGH</i> and <i>DFGI</i> is subtracted from <i>AEGI</i> and <i>CFGH</i>.\nThis shaded area of the window is then divided by the total window area\nto calculate the shaded fraction of the window.\n</p>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nJuly 5, 2012, by Michael Wetter:<br/>\nChanged definitions of side fin height <code>h</code> to be\nmeasured from the top of the window.\nThis allows changing the window height without having to adjust the\nside fin parameters.\n</li>\n<li>\nFebruary 25, 2012, by Michael Wetter:<br/>\nRevised implementation.\n</li>\n<li>\nFeb 01, 2012, by Kaustubh Phalak:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/SideFins.mo",
+  "checksum": "6bd7e678ae1da425f767906bad268ad7"
+}

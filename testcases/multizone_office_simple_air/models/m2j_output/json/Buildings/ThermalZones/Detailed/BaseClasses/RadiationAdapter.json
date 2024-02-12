@@ -1,0 +1,372 @@
+{
+  "within": "Buildings.ThermalZones.Detailed.BaseClasses",
+  "class_definition": [
+    {
+      "class_prefixes": "model",
+      "class_specifier": {
+        "long_class_specifier": {
+          "identifier": "RadiationAdapter",
+          "description_string": "Model to connect between signals and heat port for radiative gains of the room",
+          "composition": {
+            "element_list": [
+              {
+                "extends_clause": {
+                  "name": "Buildings.BaseClasses.BaseIcon"
+                }
+              },
+              {
+                "component_clause": {
+                  "type_specifier": "Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a",
+                  "component_list": [
+                    {
+                      "declaration": {
+                        "identifier": "rad"
+                      },
+                      "description": {
+                        "description_string": "Port for radiative heat gain and radiation temperature",
+                        "annotation": [
+                          {
+                            "element_modification_or_replaceable": {
+                              "element_modification": {
+                                "Placement": {
+                                  "transformation": {
+                                    "extent": [
+                                      {
+                                        "x": -10,
+                                        "y": -110
+                                      },
+                                      {
+                                        "x": 10,
+                                        "y": -90
+                                      }
+                                    ]
+                                  },
+                                  "iconTransformation": {
+                                    "extent": [
+                                      {
+                                        "x": -12,
+                                        "y": -110
+                                      },
+                                      {
+                                        "x": 8,
+                                        "y": -90
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "element_sections": [
+              {
+                "public_element_list": [
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "TRad"
+                          },
+                          "description": {
+                            "description_string": "Radiation temperature of room",
+                            "annotation": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "Placement": {
+                                      "transformation": {
+                                        "extent": [
+                                          {
+                                            "x": -140,
+                                            "y": -20
+                                          },
+                                          {
+                                            "x": -100,
+                                            "y": 20
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "component_clause": {
+                      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+                      "component_list": [
+                        {
+                          "declaration": {
+                            "identifier": "QRad_flow"
+                          },
+                          "description": {
+                            "description_string": "Radiative heat gain",
+                            "annotation": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "Placement": {
+                                      "transformation": {
+                                        "extent": [
+                                          {
+                                            "x": 100,
+                                            "y": -10
+                                          },
+                                          {
+                                            "x": 120,
+                                            "y": 10
+                                          }
+                                        ]
+                                      },
+                                      "iconTransformation": {
+                                        "extent": [
+                                          {
+                                            "x": 100,
+                                            "y": -10
+                                          },
+                                          {
+                                            "x": 120,
+                                            "y": 10
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "equation_section": {
+                  "equation": [
+                    {
+                      "assignment_equation": {
+                        "lhs": "QRad_flow",
+                        "rhs": {
+                          "simple_expression": "rad.Q_flow"
+                        }
+                      }
+                    },
+                    {
+                      "assignment_equation": {
+                        "lhs": "rad.T",
+                        "rhs": {
+                          "simple_expression": "TRad"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "annotation": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "Placement": {
+                      "transformation": {
+                        "extent": [
+                          {
+                            "x": -140,
+                            "y": -20
+                          },
+                          {
+                            "x": -100,
+                            "y": 20
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\nThis model can be used as a thermal adapter in situations where the temperature\nand the heat flow rate are computed in separate models.\nFor example, this thermal adapter is used in the room model, which computes\nthe distribution of radiative heat gains (such as due to a radiator) in\n<a href=\\\"modelica://Buildings.ThermalZones.Detailed.BaseClasses.InfraredRadiationGainDistribution\\\">\nBuildings.ThermalZones.Detailed.BaseClasses.InfraredRadiationGainDistribution</a>\nand computes the radiative temperature in\n<a href=\\\"modelica://Buildings.ThermalZones.Detailed.BaseClasses.RadiationTemperature\\\">\nBuildings.ThermalZones.Detailed.BaseClasses.RadiationTemperature</a>.\nThis adapter combines the heat flow rate and the temperatures that are computed in these\nseparate models, and exposes these two quantities at its heat port.\n\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nFeb. 2, 2011, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Icon",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "graphics": [
+                                {
+                                  "name": "Rectangle",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -100,
+                                        "y": 100
+                                      },
+                                      {
+                                        "x": 100,
+                                        "y": -100
+                                      }
+                                    ],
+                                    "lineColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 0
+                                    },
+                                    "fillColor": {
+                                      "r": 255,
+                                      "g": 255,
+                                      "b": 255
+                                    },
+                                    "fillPattern": "FillPattern.Solid"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": -90,
+                                        "y": 24
+                                      },
+                                      {
+                                        "x": -40,
+                                        "y": -26
+                                      }
+                                    ],
+                                    "textString": "\"TRad\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "attribute": {
+                                    "extent": [
+                                      {
+                                        "x": 50,
+                                        "y": 14
+                                      },
+                                      {
+                                        "x": 92,
+                                        "y": -12
+                                      }
+                                    ],
+                                    "textString": "\"Q\"",
+                                    "textColor": {
+                                      "r": 0,
+                                      "g": 0,
+                                      "b": 127
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "Documentation",
+                    "modification": {
+                      "class_modification": [
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "info",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\nThis is a dummy model that is required to implement the room\nmodel with a variable number of surface models.\nThe model is required since arrays of models, such as used for the surfaces\nthat model the construction outside of the room,\nmust have at least one element, unless the whole array\nis conditionally removed if its size is zero.\nHowever, conditionally removing the surface models does not work in this\nsituation since some models, such as for computing the radiative heat exchange\nbetween the surfaces, require access to the area and absorptivity of the surface models.\n\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "element_modification_or_replaceable": {
+                            "element_modification": {
+                              "name": "revisions",
+                              "modification": {
+                                "equal": true,
+                                "expression": {
+                                  "simple_expression": "\"<html>\n<ul>\n<li>\nJune 8 2010, by Michael Wetter:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "modelicaFile": "Buildings/ThermalZones/Detailed/BaseClasses/RadiationAdapter.mo",
+  "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/ThermalZones/Detailed/BaseClasses/RadiationAdapter.mo",
+  "checksum": "2c674cd27e397d8c7e6ea432b81dac57"
+}

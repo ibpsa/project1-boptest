@@ -1,0 +1,430 @@
+{
+  "instances": {
+    "DirectTiltedSurface": {
+      "within": "Buildings.BoundaryConditions.SolarIrradiation",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarIrradiation/DirectTiltedSurface.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"HDirTil\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis component computes the direct solar irradiation on a tilted surface.\nFor a definition of the parameters, see the\n<a href=\\\"modelica://Buildings.BoundaryConditions.UsersGuide\\\">User's Guide</a>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nSeptember 6, 2021, by Ettore Zanetti:<br/>\nRemoved parameter <code>lat</code> as it is now obtained from the weather data bus.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1477\\\">IBPSA, #1477</a>.\n</li>\n<li>\nApril 21, 2016, by Michael Wetter:<br/>\nRemoved duplicate instance <code>weaBus</code>.\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/461\\\">\nhttps://github.com/ibpsa/modelica-ibpsa/issues/461</a>.\n</li>\n<li>\nDecember 12, 2010, by Michael Wetter:<br/>\nAdded incidence angle as output as this is needed for the room model.\n</li>\n<li>\nMay 24, 2010, by Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "true"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -150,
+                                  "y": 110
+                                },
+                                {
+                                  "x": 150,
+                                  "y": 150
+                                }
+                              ],
+                              "textString": "\"%name\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 255
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "azi": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "DirectTiltedSurface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "azi"
+        },
+        "description": {
+          "description_string": "Surface azimuth"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarIrradiation",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarIrradiation/DirectTiltedSurface.mo"
+    },
+    "inc": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "DirectTiltedSurface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "inc",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Angle\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"rad\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"deg\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Incidence angle",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": -50
+                        },
+                        {
+                          "x": 120,
+                          "y": -30
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": -50
+                    },
+                    {
+                      "x": 120,
+                      "y": -30
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarIrradiation",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarIrradiation/DirectTiltedSurface.mo"
+    },
+    "incAng": {
+      "type_specifier": "SolarGeometry.IncidenceAngle",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "DirectTiltedSurface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "incAng",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "azi",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "azi"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "til",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "til"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Incidence angle",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": -50,
+                          "y": -30
+                        },
+                        {
+                          "x": -30,
+                          "y": -10
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": -50,
+                      "y": -30
+                    },
+                    {
+                      "x": -30,
+                      "y": -10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarIrradiation",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarIrradiation/DirectTiltedSurface.mo"
+    },
+    "HDirTil": {
+      "type_specifier": "Buildings.BoundaryConditions.SolarIrradiation.BaseClasses.DirectTiltedSurface",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "DirectTiltedSurface",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HDirTil"
+        },
+        "description": {
+          "description_string": "Direct irradition on tilted surface",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 0,
+                          "y": -20
+                        },
+                        {
+                          "x": 40,
+                          "y": 20
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 0,
+                      "y": -20
+                    },
+                    {
+                      "x": 40,
+                      "y": 20
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.BoundaryConditions.SolarIrradiation",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/BoundaryConditions/SolarIrradiation/DirectTiltedSurface.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.BoundaryConditions.SolarIrradiation.BaseClasses.PartialSolarIrradiation",
+        "long_class_specifier_identifier": "DirectTiltedSurface",
+        "within": "Buildings.BoundaryConditions.SolarIrradiation",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "incAng.y": [
+        "HDirTil.incAng",
+        "inc"
+      ],
+      "weaBus.HDirNor": [
+        "HDirTil.HDirNor"
+      ],
+      "HDirTil.HDirTil": [
+        "H"
+      ],
+      "weaBus": [
+        "incAng.weaBus"
+      ]
+    }
+  }
+}

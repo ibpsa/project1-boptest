@@ -1,0 +1,353 @@
+{
+  "instances": {
+    "MassFlowRate": {
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/MassFlowRate.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"senMasFlo\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "coordinateSystem": {
+                          "extent": [
+                            {
+                              "x": -100,
+                              "y": -100
+                            },
+                            {
+                              "x": 100,
+                              "y": 100
+                            }
+                          ],
+                          "preserveAspectRatio": "false"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 70,
+                                  "y": 0
+                                },
+                                {
+                                  "x": 100,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 128,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": 162,
+                                  "y": 120
+                                },
+                                {
+                                  "x": 2,
+                                  "y": 90
+                                }
+                              ],
+                              "textString": "\"m_flow\"",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": 0,
+                                  "y": 100
+                                },
+                                {
+                                  "x": 0,
+                                  "y": 70
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              }
+                            }
+                          },
+                          {
+                            "name": "Line",
+                            "attribute": {
+                              "points": [
+                                {
+                                  "x": -100,
+                                  "y": 0
+                                },
+                                {
+                                  "x": -70,
+                                  "y": 0
+                                }
+                              ],
+                              "color": {
+                                "r": 0,
+                                "g": 128,
+                                "b": 255
+                              }
+                            }
+                          },
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -20,
+                                  "y": 116
+                                },
+                                {
+                                  "x": -140,
+                                  "y": 66
+                                }
+                              ],
+                              "textString": "DynamicSelect(\"\",String(m_flow",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 0
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model outputs the mass flow rate flowing from\n<code>port_a</code> to <code>port_b</code>.\nThe sensor is ideal, i.e., it does not influence the fluid.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nFebruary 25, 2020, by Michael Wetter:<br/>\nChanged icon to display its operating state.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1294\\\">#1294</a>.\n</li>\n<li>\nFebruary 21, 2020, by Michael Wetter:<br/>\nChanged icon to display its operating state.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1294\\\">#1294</a>.\n</li>\n<li>\nSeptember 29, 2009, by Michael Wetter:<br/>\nFirst implementation.\nImplementation is based on <code>Modelica.Fluid</code>.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "m_flow": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "MassFlowRate",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "m_flow",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"MassFlowRate\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"kg/s\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Mass flow rate from port_a to port_b",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": 110
+                      },
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -10
+                        },
+                        {
+                          "x": -10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 270
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": 110
+                  },
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -10
+                    },
+                    {
+                      "x": -10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 270
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Sensors",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Sensors/MassFlowRate.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.Fluid.Sensors.BaseClasses.PartialFlowSensor",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "m_flow_nominal",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "0"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "m_flow_small",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "0"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "MassFlowRate",
+        "within": "Buildings.Fluid.Sensors",
+        "compositionSpecifier": "public"
+      },
+      {
+        "name": "Modelica.Icons.RoundSensor",
+        "long_class_specifier_identifier": "MassFlowRate",
+        "within": "Buildings.Fluid.Sensors",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {}
+  }
+}

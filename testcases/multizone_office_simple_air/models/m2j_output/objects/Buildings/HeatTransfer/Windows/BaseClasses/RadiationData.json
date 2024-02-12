@@ -1,0 +1,934 @@
+{
+  "instances": {
+    "RadiationData": {
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\nRecord that computes the solar radiation data for a glazing system.\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nAugust 7, 2015, by Michael Wetter:<br/>\nRevised model to allow modeling of electrochromic windows.\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/445\\\">issue 445</a>.\n</li>\n<li>\nDecember 12, 2011, by Wangda Zuo:<br/>\nAdd glass thickness as a parameter for glassProperty(). It is needed by the calculation of property for uncoated glass.\n</li>\n<li>\nDecember 12, 2010, by Michael Wetter:<br/>\nReplaced record\n<a href=\\\"modelica://Buildings.HeatTransfer.Data.GlazingSystems\\\">\nBuildings.HeatTransfer.Data.GlazingSystems</a> with the\nparameters used by this model.\nThis was needed to integrate the radiation model into the room model.\n</li>\n<li>\nDecember 10, 2010, by Wangda Zuo:<br/>\nFirst implementation.\n</li>\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "glass": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "glass",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "{tauGlaSol,rhoGlaSol_a,rhoGlaSol_b}"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Glass solar transmissivity, solar reflectivity at surface a and b, at normal incident angle"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "traRefShaDev": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "traRefShaDev",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "2"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "2"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "{{tauShaSol_a,tauShaSol_b},{rhoShaSol_a,rhoShaSol_b}}"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Shading device property"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "NDIR": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "NDIR",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "10"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Number of incident angles"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "HEM": {
+      "type_prefix": "parameter",
+      "type_specifier": "Integer",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "HEM",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "NDIR +1"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Index of hemispherical integration"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "psi": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.Angle",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "psi",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NDIR"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.getAngle",
+                  "arguments": [
+                    {
+                      "name": "NDIR"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Incident angles used for solar radiation calculation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "layer": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "layer",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "HEM"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.glassProperty",
+                  "arguments": [
+                    {
+                      "name": "N=N,NSta=NSta,HEM=HEM,glass=glass,xGla=xGla,psi=psi"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Angular and hemispherical transmissivity, front (outside-facing) and back (room facing) reflectivity\n      of each glass pane"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "traRef": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "traRef",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "HEM"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.getGlassTR",
+                  "arguments": [
+                    {
+                      "name": "N=N,NSta=NSta,HEM=HEM,layer=layer"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Angular and hemispherical transmissivity, front (outside-facing) and back (room facing) reflectivity\n      between glass panes for exterior or interior irradiation without shading"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "absExtIrrNoSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "absExtIrrNoSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "HEM"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.glassAbsExteriorIrradiationNoShading",
+                  "arguments": [
+                    {
+                      "name": "traRef=traRef,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Angular and hemispherical absorptivity of each glass pane\n      for exterior irradiation without shading"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "absIntIrrNoSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "absIntIrrNoSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.glassAbsInteriorIrradiationNoShading",
+                  "arguments": [
+                    {
+                      "name": "traRef=traRef,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Hemispherical absorptivity of each glass pane\n      for interior irradiation without shading"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "winTraExtIrrExtSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "winTraExtIrrExtSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "HEM"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.winTExteriorIrradiatrionExteriorShading",
+                  "arguments": [
+                    {
+                      "name": "traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Angular and hemispherical transmissivity of a window system (glass + exterior shading device)\n     for exterior irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "absExtIrrExtSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "absExtIrrExtSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "HEM"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.glassAbsExteriorIrradiationExteriorShading",
+                  "arguments": [
+                    {
+                      "name": "absExtIrrNoSha=absExtIrrNoSha,traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Angular and hemispherical absorptivity of each glass pane\n      for exterior irradiation with exterior shading"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "winTraExtIrrIntSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "winTraExtIrrIntSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "HEM"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.winTExteriorIrradiationInteriorShading",
+                  "arguments": [
+                    {
+                      "name": "traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Angular and hemispherical transmissivity of a window system (glass and interior shading device)\n      for exterior irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "absExtIrrIntSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "absExtIrrIntSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "HEM"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.glassAbsExteriorIrradiationInteriorShading",
+                  "arguments": [
+                    {
+                      "name": "absExtIrrNoSha=absExtIrrNoSha,traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Angular and hemispherical absorptivity of each glass layer\n     for exterior irradiation with interior shading"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "devAbsExtIrrIntShaDev": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "devAbsExtIrrIntShaDev",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "HEM"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.devAbsExteriorIrradiationInteriorShading",
+                  "arguments": [
+                    {
+                      "name": "traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Angular and hemispherical absorptivity of an interior shading device\n      for exterior irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "winTraRefIntIrrExtSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "winTraRefIntIrrExtSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.winTRInteriorIrradiationExteriorShading",
+                  "arguments": [
+                    {
+                      "name": "traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Hemisperical transmissivity and reflectivity of a window system (glass and exterior shadig device)\n      for interior irradiation. traRefIntIrrExtSha[1]: transmissivity,\n      traRefIntIrrExtSha[2]: Back reflectivity; traRefIntIrrExtSha[3]: dummy value"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "absIntIrrExtSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "absIntIrrExtSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.glassAbsInteriorIrradiationExteriorShading",
+                  "arguments": [
+                    {
+                      "name": "absIntIrrNoSha=absIntIrrNoSha,traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Hemispherical absorptivity of each glass pane\n      for interior irradiation with exterior shading"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "absIntIrrIntSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "absIntIrrIntSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "N"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.glassAbsInteriorIrradiationInteriorShading",
+                  "arguments": [
+                    {
+                      "name": "absIntIrrNoSha=absIntIrrNoSha,traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Hemispherical absorptivity of each glass pane\n      for interior irradiation with interior shading"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "winTraRefIntIrrIntSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "winTraRefIntIrrIntSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "3"
+              }
+            },
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.winTRInteriorIrradiationInteriorShading",
+                  "arguments": [
+                    {
+                      "name": "traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Hemisperical transmissivity and back reflectivity of a window system (glass and interior shadig device)\n      for interior irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    },
+    "devAbsIntIrrIntSha": {
+      "type_prefix": "parameter",
+      "type_specifier": "Real",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "RadiationData",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "devAbsIntIrrIntSha",
+          "array_subscripts": [
+            {
+              "expression": {
+                "simple_expression": "NSta"
+              }
+            }
+          ],
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": {
+                "function_call": {
+                  "name": "Buildings.HeatTransfer.Windows.Functions.devAbsInteriorIrradiationInteriorShading",
+                  "arguments": [
+                    {
+                      "name": "traRef=traRef,traRefShaDev=traRefShaDev,N=N,NSta=NSta,HEM=HEM"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Hemiperical absorptivity of an interior shading device for interior irradiation"
+        }
+      },
+      "annotation": null,
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/HeatTransfer/Windows/BaseClasses/RadiationData.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Modelica.Icons.Record",
+        "long_class_specifier_identifier": "RadiationData",
+        "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+        "compositionSpecifier": "public"
+      },
+      {
+        "name": "Buildings.HeatTransfer.Windows.BaseClasses.RadiationBaseData",
+        "long_class_specifier_identifier": "RadiationData",
+        "within": "Buildings.HeatTransfer.Windows.BaseClasses",
+        "compositionSpecifier": "public"
+      }
+    ]
+  }
+}

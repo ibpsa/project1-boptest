@@ -1,0 +1,1782 @@
+{
+  "instances": {
+    "FlowControlled_dp": {
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo",
+      "type": "long_class_specifier",
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Icon",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "graphics": [
+                          {
+                            "name": "Text",
+                            "attribute": {
+                              "extent": [
+                                {
+                                  "x": -40,
+                                  "y": 126
+                                },
+                                {
+                                  "x": -160,
+                                  "y": 76
+                                }
+                              ],
+                              "textString": "DynamicSelect(\"dp\",if [object Object] then [object Object] else [object Object])",
+                              "textColor": {
+                                "r": 0,
+                                "g": 0,
+                                "b": 127
+                              },
+                              "visible": ",visible="
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "defaultComponentName",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "\"mov\""
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Documentation",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "info",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<p>\nThis model describes a fan or pump with prescribed head.\nThe input connector provides the pressure rise from the inlet to the outlet.\n</p>\n<h4>Main equations</h4>\n<p>\nSee the\n<a href=\\\"modelica://Buildings.Fluid.Movers.UsersGuide\\\">\nUser's Guide</a>.\n</p>\n<h4>Typical use and important parameters</h4>\n<p>\nIf <code>use_inputFilter=true</code>, then the parameter <code>dp_nominal</code> is\nused to normalize the filter. This is used to improve the numerics of the transient response.\nThe actual pressure raise of the mover at steady-state is independent\nof the value of <code>dp_nominal</code>. It is recommended to set\n<code>dp_nominal</code> to approximately the pressure raise that the mover has during\nfull speed.\n</p>\n<h4>Options</h4>\n<p>\nParameter <code>prescribeSystemPressure</code>\ncan be used to control the mover such that the pressure\ndifference set point is obtained across two points\nin the system, instead of across the fan.\nThis allows an efficient implementation of\nstatic pressure reset controllers.\nA measurement of the pressure difference between the\ntwo points in system then needs to be connected\nto <code>RealInput dpMea</code>.\nThis functionality is demonstrated in\n<a href=\\\"modelica://Buildings.Fluid.Movers.Validation.FlowControlled_dpSystem\\\">\nBuildings.Fluid.Movers.Validation.FlowControlled_dpSystem</a>.\n</p>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "revisions",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"<html>\n<ul>\n<li>\nMarch 1, 2023, by Hongxiang Fu:<br/>\nRefactored the model with a new declaration for\n<code>m_flow_nominal</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1705\\\">#1705</a>.\n</li>\n<li>\nApril 27, 2022, by Hongxiang Fu:<br/>\nReplaced <code>not use_powerCharacteristic</code> with the enumerations\n<a href=\\\"modelica://Buildings.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod\\\">\nBuildings.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod</a>\nand\n<a href=\\\"modelica://Buildings.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod\\\">\nBuildings.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod</a>.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/2668\\\">#2668</a>.\n</li>\n<li>\nMarch 7, 2022, by Michael Wetter:<br/>\nSet <code>final massDynamics=energyDynamics</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1542\\\">#1542</a>.\n</li>\n<li>\nJune 17, 2021, by Michael Wetter:<br/>\nChanged implementation of the filter.<br/>\nRemoved parameter <code>y_start</code> which is not used because <code>dp_start</code> is used.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1498\\\">#1498</a>.\n</li>\n<li>\nFebruary 21, 2020, by Michael Wetter:<br/>\nChanged icon to display its operating stage.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/1294\\\">#1294</a>.\n</li>\n<li>\nMay 5, 2017, by Filip Jorissen:<br/>\nAdded parameters, documentation and functionality for\n<code>prescribeSystemPressure</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/770\\\">#770</a>.\n</li>\n<li>\nMarch 24, 2017, by Michael Wetter:<br/>\nRenamed <code>filteredSpeed</code> to <code>use_inputFilter</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/665\\\">#665</a>.\n</li>\n<li>\nDecember 2, 2016, by Michael Wetter:<br/>\nRemoved <code>min</code> attribute as otherwise numerical noise can cause\nthe assertion on the limit to fail.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/606\\\">#606</a>.\n</li>\n<li>\nNovember 14, 2016, by Michael Wetter:<br/>\nChanged default values for <code>heads</code>.<br/>\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/583\\\">#583</a>.\n</li>\n<li>\nMarch 2, 2016, by Filip Jorissen:<br/>\nRefactored model such that it directly extends <code>PartialFlowMachine</code>.\nThis is for\n<a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/417\\\">#417</a>.\n</li>\n<li>\nJanuary 22, 2016, by Michael Wetter:<br/>\nCorrected type declaration of pressure difference.\nThis is\nfor <a href=\\\"https://github.com/ibpsa/modelica-ibpsa/issues/404\\\">#404</a>.\n</li>\n<li>\nNovember 5, 2015, by Michael Wetter:<br/>\nRemoved the parameters <code>use_powerCharacteristics</code> and <code>power</code>\nfrom the performance data record <code>per</code>\nbecause\n<a href=\\\"modelica://Buildings.Fluid.Movers.FlowControlled_dp\\\">\nBuildings.Fluid.Movers.FlowControlled_dp</a>\nand\n<a href=\\\"modelica://Buildings.Fluid.Movers.FlowControlled_m_flow\\\">\nBuildings.Fluid.Movers.FlowControlled_m_flow</a>\nfix the flow rate or head, which can give a flow work that is higher\nthan the power consumption specified in this record.\nHence, users should use the efficiency data for this model.\nThe record has been moved to\n<a href=\\\"modelica://Buildings.Fluid.Movers.Data.SpeedControlled_y\\\">\nBuildings.Fluid.Movers.Data.SpeedControlled_y</a>\nas it makes sense to use it for the movers\n<a href=\\\"modelica://Buildings.Obsolete.Fluid.Movers.FlowControlled_Nrpm\\\">\nBuildings.Obsolete.Fluid.Movers.FlowControlled_Nrpm</a>\nand\n<a href=\\\"modelica://Buildings.Fluid.Movers.FlowControlled_y\\\">\nBuildings.Fluid.Movers.FlowControlled_y</a>.<br/>\nThis is for\n<a href=\\\"https://github.com/lbl-srg/modelica-buildings/issues/457\\\">\nissue 457</a>.\n</li>\n<li>\nApril 2, 2015, by Filip Jorissen:<br/>\nAdded code for supporting stage input and constant input.\n</li>\n<li>\nJanuary 6, 2015, by Michael Wetter:<br/>\nRevised model for OpenModelica.\n</li>\n<li>\nFebruary 14, 2012, by Michael Wetter:<br/>\nAdded filter for start-up and shut-down transient.\n</li>\n<li>\nMay 25, 2011, by Michael Wetter:<br/>\nRevised implementation of energy balance to avoid having to use conditionally removed models.\n</li>\n<li>\nJuly 27, 2010, by Michael Wetter:<br/>\nRedesigned model to fix bug in medium balance.\n</li>\n<li>July 5, 2010, by Michael Wetter:<br/>\nChanged <code>assert(dp_in >= 0, ...)</code> to <code>assert(dp_in >= -0.1, ...)</code>.\nThe former implementation triggered the assert if <code>dp_in</code> was solved for\nin a nonlinear equation since the solution can be slightly negative while still being\nwithin the solver tolerance.\n</li>\n<li>March 24, 2010, by Michael Wetter:<br/>\nRevised implementation to allow zero flow rate.\n</li>\n<li>October 1, 2009,\n    by Michael Wetter:<br/>\n       Added model to the Buildings library.\n</ul>\n</html>\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {}
+    },
+    "dp_start": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.PressureDifference",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp_start",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "0"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Initial value of pressure raise",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Dynamics\""
+                              }
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Filtered speed\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Dynamics\""
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Filtered speed\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "m_flow_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.MassFlowRate",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "m_flow_nominal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Constants.small"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Nominal mass flow rate",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Nominal condition\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Nominal condition\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "dp_nominal": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.PressureDifference",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp_nominal",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "Modelica.Constants.small"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "if_expression": {
+                "if_elseif": [
+                  {
+                    "condition": {
+                      "simple_expression": {
+                        "logical_expression": {
+                          "logical_or": [
+                            {
+                              "logical_and": [
+                                {
+                                  "arithmetic_expressions": [
+                                    {
+                                      "name": "rho_default"
+                                    },
+                                    {
+                                      "name": "500"
+                                    }
+                                  ],
+                                  "relation_operator": "<"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "simple_expression": "500"
+                    }
+                  }
+                ],
+                "else_expression": {
+                  "simple_expression": "10000"
+                }
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Nominal pressure raise, used to normalized the filter if use_inputFilter=true,\n        to set default values of constantHead and heads, and\n        and for default pressure curve if not specified in record per",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "group",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Nominal condition\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "group",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Nominal condition\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "constantHead": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.PressureDifference",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "constantHead",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "dp_nominal"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Constant pump head, used when inputType=Constant",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "logical_expression": {
+                                    "logical_or": [
+                                      {
+                                        "logical_and": [
+                                          {
+                                            "arithmetic_expressions": [
+                                              {
+                                                "name": "inputType"
+                                              },
+                                              {
+                                                "name": "Buildings.Fluid.Types.InputType.Constant"
+                                              }
+                                            ],
+                                            "relation_operator": "=="
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": {
+                              "logical_expression": {
+                                "logical_or": [
+                                  {
+                                    "logical_and": [
+                                      {
+                                        "arithmetic_expressions": [
+                                          {
+                                            "name": "inputType"
+                                          },
+                                          {
+                                            "name": "Buildings.Fluid.Types.InputType.Constant"
+                                          }
+                                        ],
+                                        "relation_operator": "=="
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "heads": {
+      "type_prefix": "parameter",
+      "type_specifier": "Modelica.Units.SI.PressureDifference",
+      "array_subscripts": [
+        {
+          "colon_op": true
+        }
+      ],
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "heads",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "min",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "0"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "each": true,
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "dp_nominal*{(per.speeds[i]/per.speeds[end])^2 for i in 1:size(per.speeds,1)}"
+            }
+          }
+        },
+        "description": {
+          "description_string": "Vector of head set points, used when inputType=Stages",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "enable",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": {
+                                  "logical_expression": {
+                                    "logical_or": [
+                                      {
+                                        "logical_and": [
+                                          {
+                                            "arithmetic_expressions": [
+                                              {
+                                                "name": "inputType"
+                                              },
+                                              {
+                                                "name": "Buildings.Fluid.Types.InputType.Stages"
+                                              }
+                                            ],
+                                            "relation_operator": "=="
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "enable",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": {
+                              "logical_expression": {
+                                "logical_or": [
+                                  {
+                                    "logical_and": [
+                                      {
+                                        "arithmetic_expressions": [
+                                          {
+                                            "name": "inputType"
+                                          },
+                                          {
+                                            "name": "Buildings.Fluid.Types.InputType.Stages"
+                                          }
+                                        ],
+                                        "relation_operator": "=="
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "prescribeSystemPressure": {
+      "type_prefix": "parameter",
+      "type_specifier": "Boolean",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "prescribeSystemPressure",
+          "modification": {
+            "equal": true,
+            "expression": {
+              "simple_expression": "false"
+            }
+          }
+        },
+        "description": {
+          "description_string": "=true, to control mover such that pressure difference is obtained across two remote points in system",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Evaluate",
+                  "modification": {
+                    "equal": true,
+                    "expression": {
+                      "simple_expression": "true"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "name": "Dialog",
+                  "modification": {
+                    "class_modification": [
+                      {
+                        "element_modification_or_replaceable": {
+                          "element_modification": {
+                            "name": "tab",
+                            "modification": {
+                              "equal": true,
+                              "expression": {
+                                "simple_expression": "\"Advanced\""
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Evaluate",
+              "modification": {
+                "equal": true,
+                "expression": {
+                  "simple_expression": "true"
+                }
+              }
+            }
+          }
+        },
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "name": "Dialog",
+              "modification": {
+                "class_modification": [
+                  {
+                    "element_modification_or_replaceable": {
+                      "element_modification": {
+                        "name": "tab",
+                        "modification": {
+                          "equal": true,
+                          "expression": {
+                            "simple_expression": "\"Advanced\""
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "dpMea": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dpMea",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "quantity",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"PressureDifference\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "displayUnit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "equal": true,
+            "expression": {
+              "simple_expression": "gain.u"
+            }
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": "prescribeSystemPressure"
+          }
+        },
+        "description": {
+          "description_string": "Measurement of pressure difference between two points where the set point should be obtained",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": -80,
+                        "y": 120
+                      },
+                      "extent": [
+                        {
+                          "x": 20,
+                          "y": -20
+                        },
+                        {
+                          "x": -20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": 90
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": -80,
+                    "y": 120
+                  },
+                  "extent": [
+                    {
+                      "x": 20,
+                      "y": -20
+                    },
+                    {
+                      "x": -20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": 90
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "dp_in": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealInput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp_in",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "condition_attribute": {
+          "expression": {
+            "simple_expression": {
+              "logical_expression": {
+                "logical_or": [
+                  {
+                    "logical_and": [
+                      {
+                        "arithmetic_expressions": [
+                          {
+                            "name": "inputType"
+                          },
+                          {
+                            "name": "Buildings.Fluid.Types.InputType.Continuous"
+                          }
+                        ],
+                        "relation_operator": "=="
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": {
+          "description_string": "Prescribed pressure rise",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": 120
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": -90
+                    },
+                    "iconTransformation": {
+                      "origin": {
+                        "x": 0,
+                        "y": 120
+                      },
+                      "extent": [
+                        {
+                          "x": -20,
+                          "y": -20
+                        },
+                        {
+                          "x": 20,
+                          "y": 20
+                        }
+                      ],
+                      "rotation": -90
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": 120
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": -90
+                },
+                "iconTransformation": {
+                  "origin": {
+                    "x": 0,
+                    "y": 120
+                  },
+                  "extent": [
+                    {
+                      "x": -20,
+                      "y": -20
+                    },
+                    {
+                      "x": 20,
+                      "y": 20
+                    }
+                  ],
+                  "rotation": -90
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "dp_actual": {
+      "type_specifier": "Modelica.Blocks.Interfaces.RealOutput",
+      "type": "element",
+      "compositionSpecifier": "public",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "dp_actual",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "unit",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "\"Pa\""
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "description_string": "Pressure difference between the mover inlet and outlet",
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 40
+                        },
+                        {
+                          "x": 120,
+                          "y": 60
+                        }
+                      ]
+                    },
+                    "iconTransformation": {
+                      "extent": [
+                        {
+                          "x": 100,
+                          "y": 40
+                        },
+                        {
+                          "x": 120,
+                          "y": 60
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 40
+                    },
+                    {
+                      "x": 120,
+                      "y": 60
+                    }
+                  ]
+                },
+                "iconTransformation": {
+                  "extent": [
+                    {
+                      "x": 100,
+                      "y": 40
+                    },
+                    {
+                      "x": 120,
+                      "y": 60
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    },
+    "gain": {
+      "type_specifier": "Modelica.Blocks.Math.Gain",
+      "type": "element",
+      "compositionSpecifier": "protected",
+      "long_class_specifier_identifier": "FlowControlled_dp",
+      "single_component_list": {
+        "declaration": {
+          "identifier": "gain",
+          "modification": {
+            "class_modification": [
+              {
+                "element_modification_or_replaceable": {
+                  "final": true,
+                  "element_modification": {
+                    "name": "k",
+                    "modification": {
+                      "equal": true,
+                      "expression": {
+                        "simple_expression": "-1"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "description": {
+          "annotation": [
+            {
+              "element_modification_or_replaceable": {
+                "element_modification": {
+                  "Placement": {
+                    "transformation": {
+                      "origin": {
+                        "x": 44,
+                        "y": 30
+                      },
+                      "extent": [
+                        {
+                          "x": 10,
+                          "y": -10
+                        },
+                        {
+                          "x": -10,
+                          "y": 10
+                        }
+                      ],
+                      "rotation": 90
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "annotation": [
+        {
+          "element_modification_or_replaceable": {
+            "element_modification": {
+              "Placement": {
+                "transformation": {
+                  "origin": {
+                    "x": 44,
+                    "y": 30
+                  },
+                  "extent": [
+                    {
+                      "x": 10,
+                      "y": -10
+                    },
+                    {
+                      "x": -10,
+                      "y": 10
+                    }
+                  ],
+                  "rotation": 90
+                }
+              }
+            }
+          }
+        }
+      ],
+      "semantics": {},
+      "cdl_annotations": {},
+      "within": "Buildings.Fluid.Movers",
+      "fullMoFilePath": "/Users/akprakash/Programming/modelica/modelica-buildings/Buildings/Fluid/Movers/FlowControlled_dp.mo"
+    }
+  },
+  "requiredReferences": {
+    "extends_clause": [
+      {
+        "name": "Buildings.Fluid.Movers.BaseClasses.PartialFlowMachine",
+        "class_modification": [
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "preVar",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "Buildings.Fluid.Movers.BaseClasses.Types.PrescribedVariable.PressureDifference"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "computePowerUsingSimilarityLaws",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "per.havePressureCurve"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "preSou",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "dp_start",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "dp_start"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "control_dp",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "not prescribeSystemPressure"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "stageInputs",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "each": true,
+                        "final": true,
+                        "element_modification": {
+                          "name": "unit",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "\"Pa\""
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "heads"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "constInput",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "final": true,
+                        "element_modification": {
+                          "name": "unit",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "\"Pa\""
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "constantHead"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "final": true,
+              "element_modification": {
+                "name": "_m_flow_nominal",
+                "modification": {
+                  "equal": true,
+                  "expression": {
+                    "simple_expression": "m_flow_nominal"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "filter",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "final": true,
+                        "element_modification": {
+                          "name": "y_start",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "dp_start"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "u",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "final": true,
+                                  "element_modification": {
+                                    "name": "unit",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "simple_expression": "\"Pa\""
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "y",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "final": true,
+                                  "element_modification": {
+                                    "name": "unit",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "simple_expression": "\"Pa\""
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "x",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "each": true,
+                                  "element_modification": {
+                                    "name": "nominal",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "simple_expression": "dp_nominal"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "u_nominal",
+                          "modification": {
+                            "equal": true,
+                            "expression": {
+                              "simple_expression": "dp_nominal"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "element_modification_or_replaceable": {
+              "element_modification": {
+                "name": "eff",
+                "modification": {
+                  "class_modification": [
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "per",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "final": true,
+                                  "element_modification": {
+                                    "name": "pressure",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "if_expression": {
+                                          "if_elseif": [
+                                            {
+                                              "condition": {
+                                                "simple_expression": "per.havePressureCurve"
+                                              },
+                                              "then": {
+                                                "simple_expression": "per.pressure"
+                                              }
+                                            }
+                                          ],
+                                          "else_expression": {
+                                            "simple_expression": {
+                                              "function_call": {
+                                                "name": "Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters",
+                                                "arguments": [
+                                                  {
+                                                    "name": "V_flow={i/(nOri -1)*2*m_flow_nominal/rho_default for i in 0:(nOri -1)},dp={i/(nOri -1)*2*dp_nominal for i in (nOri -1):-1:0}"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "element_modification_or_replaceable": {
+                                  "final": true,
+                                  "element_modification": {
+                                    "name": "etaHydMet",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "if_expression": {
+                                          "if_elseif": [
+                                            {
+                                              "condition": {
+                                                "simple_expression": "([object Object]) and not per.havePressureCurve"
+                                              },
+                                              "then": {
+                                                "simple_expression": "Buildings.Fluid.Movers.BaseClasses.Types.HydraulicEfficiencyMethod.NotProvided"
+                                              }
+                                            }
+                                          ],
+                                          "else_expression": {
+                                            "simple_expression": "per.etaHydMet"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "element_modification_or_replaceable": {
+                                  "final": true,
+                                  "element_modification": {
+                                    "name": "etaMotMet",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "if_expression": {
+                                          "if_elseif": [
+                                            {
+                                              "condition": {
+                                                "simple_expression": "([object Object]) and (not per.haveWMot_nominal and not per.havePressureCurve)"
+                                              },
+                                              "then": {
+                                                "simple_expression": "Buildings.Fluid.Movers.BaseClasses.Types.MotorEfficiencyMethod.NotProvided"
+                                              }
+                                            }
+                                          ],
+                                          "else_expression": {
+                                            "simple_expression": "per.etaMotMet"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "element_modification_or_replaceable": {
+                        "element_modification": {
+                          "name": "r_N",
+                          "modification": {
+                            "class_modification": [
+                              {
+                                "element_modification_or_replaceable": {
+                                  "element_modification": {
+                                    "name": "start",
+                                    "modification": {
+                                      "equal": true,
+                                      "expression": {
+                                        "if_expression": {
+                                          "if_elseif": [
+                                            {
+                                              "condition": {
+                                                "simple_expression": {
+                                                  "logical_expression": {
+                                                    "logical_or": [
+                                                      {
+                                                        "logical_and": [
+                                                          {
+                                                            "arithmetic_expressions": [
+                                                              {
+                                                                "name": "abs(dp_nominal)"
+                                                              },
+                                                              {
+                                                                "name": "1e-8"
+                                                              }
+                                                            ],
+                                                            "relation_operator": ">"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              },
+                                              "then": {
+                                                "simple_expression": "dp_start/dp_nominal"
+                                              }
+                                            }
+                                          ],
+                                          "else_expression": {
+                                            "simple_expression": "0"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "long_class_specifier_identifier": "FlowControlled_dp",
+        "within": "Buildings.Fluid.Movers",
+        "compositionSpecifier": "public"
+      }
+    ],
+    "connections": {
+      "inputSwitch.u": [
+        "dp_in"
+      ],
+      "preSou.dp_in": [
+        "gain.y"
+      ],
+      "senRelPre.p_rel": [
+        "dp_actual"
+      ]
+    }
+  }
+}
