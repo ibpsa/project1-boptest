@@ -91,6 +91,17 @@ class BoptestSubmit:
         payload = {
           'buildingTypes': [
             {
+              'uid': 'twozone_apartment_hydronic',
+              'name': 'Two Zone Apartment Hydronic',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
+            {
               'uid': 'bestest_air',
               'name': 'BESTEST Air',
               'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
