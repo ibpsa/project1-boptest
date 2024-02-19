@@ -87,17 +87,7 @@ generate_testcase_data:
 # Tests
 ###############################################################################
 
-# Generic test for all testcases except testcase1 and testcase2 to run on travis
-test_%_travis:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=$*
-# Build and deploy boptest
-	cd .. && docker compose up -d web worker provision
-	python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_$*.py $(ARG)
-
-# Generic test for all testcases except testcase1 and testcase2 to run locally with cleanup
+# Generic test for all testcases except testcase1 and testcase2
 test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
