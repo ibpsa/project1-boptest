@@ -10,59 +10,28 @@ import itertools
 sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-1]))
 from examples.python.interface import control_test
 import pandas as pd
-import multiprocessing
-import time
-import subprocess 
 
-def run_scenario(scenario_params, result_dict):
-    try:
-        kpi, df_res = run_single_case(scenario_params)
-        result_dict['kpi'] = kpi
-        result_dict['df_res'] = df_res
-    except Exception as e:
-        result_dict['error'] = e
-
-def run_scenario_with_timeout(scenario_params, timeout):
-    with multiprocessing.Manager() as manager:
-        result_dict = manager.dict()
-        p = multiprocessing.Process(target=run_scenario, args=(scenario_params, result_dict))
-        p.start()
-        p.join(timeout)
-        if p.is_alive():
-            p.terminate()
-            p.join()
-            return None, None  # Return None if timeout occurred
-        else:
-            if 'error' in result_dict:
-                raise result_dict['error']
-            return result_dict['kpi'], result_dict['df_res']
 
 def run_all_scenarios(electricity_price_lst, time_period_lst, global_config):
+    """
+    Run simulations for all combinations of electricity prices and time periods as defined in the config file.
+
+    Parameters
+    ----------
+    electricity_price_lst (List[float]): List of electricity prices.
+    time_period_lst (List[int]): List of time periods.
+    global_config (GlobalConfig): Global configuration loaded from config.json.
+
+    Returns
+    -------
+    scenario_name_lst (ScenarioNameList): List of scenario names.
+    """
     scenario_lst = list(itertools.product(electricity_price_lst, time_period_lst))
     scenario_name_lst = [f'{scenario[0]}+{scenario[1]}' for scenario in scenario_lst]
     
-    script_dir = os.path.dirname(os.path.abspath(__file__))  # Directory of the current Python script
-    docker_dir = os.path.abspath(os.path.join(script_dir, ".."))  # Docker directory path
-    os.chdir(docker_dir)  # Change directory to the Docker directory
-    print (docker_dir)
-    
     for scenario in scenario_lst:
         scenario_params = {'time_period': scenario[1], 'electricity_price': scenario[0]}
-        print("Testing start", scenario_params)
-        try:
-            kpi, df_res = run_scenario_with_timeout(scenario_params, timeout=1800)  # Timeout set to 10 minutes (600 seconds)
-            if kpi is None or df_res is None:
-                print("Scenario execution timed out.")
-                # Perform Docker compose down and up
-                subprocess.run(["docker","compose", "down"])
-                time.sleep(10)
-                subprocess.run(["docker","compose", "up", "-d"])
-                time.sleep(10)
-                continue  # Skip to the next scenario
-        except Exception as e:
-            print(f"Scenario execution failed: {e}")
-            continue  # Skip to the next scenario
-
+        kpi, df_res  = run_single_case(scenario_params)
         print("Finished testing", scenario_params)
 
         # Save KPI result for the current scenario if save_kpi_results is True
@@ -80,30 +49,32 @@ def run_single_case(scenario_params, start_time=0, warmup_period=0, length=24*36
     """
     Run simulation for a single scenario.
 
-    Args:
-    - scenario_params (Scenario): Parameters for the scenario.
-    - start_time (int): Start time of the simulation (default: 0).
-    - warmup_period (int): Warm-up period for the simulation (default: 0).
-    - length (int): Length of the simulation (default: 24*3600).
+    Parameters
+    ----------
+    scenario_params (Scenario): Parameters for the scenario.
+    start_time (int): Start time of the simulation (default: 0).
+    warmup_period (int): Warm-up period for the simulation (default: 0).
+    length (int): Length of the simulation (default: 24*3600).
 
-    Returns:
-    - kpi (float): Key Performance Indicator (KPI) for the scenario.
-    - df_res (pd.DataFrame): DataFrame containing simulation results.
+    Returns
+    -------
+    kpi (float): Key Performance Indicator (KPI) for the scenario.
+    df_res (pd.DataFrame): DataFrame containing simulation results.
     """
     control_module = 'examples.python.controllers.baseline'
     step = length
     kpi, df_res, _ , _ = control_test(control_module, start_time, warmup_period, length,
                                                       scenario=scenario_params, step=step)
-    time.sleep(5)  # Simulating some processing time
     return kpi, df_res
 
 def save_kpi_result(scenario_params, kpi):
     """
     Save KPI result for a scenario to a JSON file.
 
-    Args:
-    - scenario_params (Scenario): Parameters for the scenario.
-    - kpi (float): Key Performance Indicator (KPI) for the scenario.
+    Parameters
+    ----------
+    scenario_params (Scenario): Parameters for the scenario.
+    kpi (float): Key Performance Indicator (KPI) for the scenario.
     """
     script_dir = os.path.dirname(os.path.abspath(__file__))  # Directory of the current Python script
     result_folder = os.path.join(script_dir, "result")  # Result folder path
@@ -130,9 +101,10 @@ def save_measurements_to_csv(df_res, scenario_name):
     """
     Save simulation results to a CSV file.
 
-    Args:
-    - df_res (pd.DataFrame): DataFrame containing simulation results.
-    - scenario_name (str): Name of the scenario.
+    Parameters
+    ----------
+    df_res (pd.DataFrame): DataFrame containing simulation results.
+    scenario_name (str): Name of the scenario.
     """
 
     script_dir = os.path.dirname(os.path.abspath(__file__))  # Directory of the current Python script
@@ -149,8 +121,9 @@ def main(test_case):
     """
     Main function to run simulations based on the specified test case.
 
-    Args:
-    - test_case (str): Name of the test case.
+    Parameters
+    ----------
+    test_case (str): Name of the test case.
     """
     # Load configuration from JSON file
     with open('config.json') as config_file:

@@ -34,7 +34,7 @@
     },
 			
 	"twozone_apartment_hydronic": {
-        "electricity_price": ["constant", "dynamic", "highly_dynamic"],
-        "time_period": ["heat_day26", "heat_day32", "heat_day62", "heat_day79"]
+        "electricity_price": ["constant", "dynamic"],
+        "time_period": ["peak_heat_day"]
     }
 }

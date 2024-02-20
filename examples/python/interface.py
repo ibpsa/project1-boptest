@@ -109,10 +109,10 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     print('Name:\t\t\t\t{0}'.format(name))
     # Retrieve a list of inputs (controllable points) for the model from REST API
     inputs = check_response(requests.get('{0}/inputs'.format(url)))
-    #print('Control Inputs:\t\t\t{0}'.format(inputs))
+    print('Control Inputs:\t\t\t{0}'.format(inputs))
     # Retrieve a list of measurements (outputs) for the model from REST API
     measurements = check_response(requests.get('{0}/measurements'.format(url)))
-    #print('Measurements:\t\t\t{0}'.format(measurements))
+    print('Measurements:\t\t\t{0}'.format(measurements))
     # Get the default simulation timestep for the model for simulation run
     step_def = check_response(requests.get('{0}/step'.format(url)))
     print('Default Control Step:\t{0}'.format(step_def))
@@ -138,7 +138,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     if scenario is not None:
         # Initialize test with a scenario time period
         res = check_response(requests.put('{0}/scenario'.format(url), json=scenario))['time_period']
-        #print(res)
+        print(res)
         # Record test simulation start time
         start_time = int(res['time'])
         # Set final time and total time steps to be very large since scenario defines length
@@ -147,7 +147,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     else:
         # Initialize test with a specified start time and warmup period
         res = check_response(requests.put('{0}/initialize'.format(url), json={'start_time': start_time, 'warmup_period': warmup_period}))
-        #print("RESULT: {}".format(res))
+        print("RESULT: {}".format(res))
         # Set final time and total time steps according to specified length (seconds)
         final_time = start_time + length
         total_time_steps = int(length / step)  # calculate number of timesteps
