@@ -6,7 +6,7 @@ This folder contains examples and results for performing testing of baseline con
 
 - The ``baseline.py`` module file is utilized for executing the baseline control for each test case. It simplifies the process by setting ``u={}``.
 
-- The test script ``run_baselines.py`` facilitates the execution of a sample baseline test, with the test case name provided as a command-line argument. If not explicitly mentioned, the default test case is assumed to be  ``bestest_air``. If the Boolean parameter ``run_user_defined_test`` is set to ``False``, the script simulates predefined test case scenarios outlined in ``config.json``. Alternatively, if it is ``True``, the baseline scenario can be customized by specifying parameters such as ``start_time``, ``warmup_period``, and ``length``. Additionally, the user has the option to save the results of KPIs and measurements by setting both  ``save_kpi_results`` and ``save_measurements`` to ``True``. The default values are both set to ``False``.
+- The test script ``run_baselines.py`` facilitates the execution of a sample baseline test, with the test case name provided as a command-line argument. If not explicitly mentioned, the default test case is assumed to be  ``bestest_air``. If the configuration parameter ``run_user_defined_test`` is set to ``false``, the script simulates predefined test case scenarios outlined in ``config.json``. Alternatively, if it is ``true``, the baseline scenario can be customized by specifying parameters such as ``start_time``, ``warmup_period``, and ``length``. Additionally, the user has the option to save the results of KPIs and measurements by setting both configuration parameter ``save_kpi_results`` and ``save_measurements`` to ``true``.
 
 ## Run an Example Baseline Test
 The baseline testing could be conducted in either of the two methods:
@@ -33,7 +33,8 @@ The by-testcase results with different time periods are individually illustrated
 3. bestest_hydronic (Day 15-45,297-358)
 4. bestest_hydronic_heat_pump (Day 15-45,297-358)
 5. multizone_residential_hydronic (Day 15-45,297-358)
-6. singlezone_commercial_hydronic (Day 15-45,297-358)
+6. twozone_apartment_hydronic (Day 15-45,297-358)
+7. singlezone_commercial_hydronic (Day 15-45,297-358)
 
 After that the high-level statistical results for all the testcases are summarized. 
 

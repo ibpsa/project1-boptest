@@ -3,7 +3,7 @@
 
 run_baseline_%:
 # Build and deploy testcase image
-	cd .. && TESTCASE=$* docker-compose up -d
+	cd .. && set TESTCASE=$*&& docker-compose up -d
 # Run testcase tests
 	python sleep10.py
 	python run_baselines.py $*
