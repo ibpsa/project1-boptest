@@ -783,19 +783,37 @@ The figure below reports a scheme of the controls.
 The model inputs are:
 <ul>
 <li>
+<code>hydronicSystem_oveMDayZ_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hydronicSystem_oveMDayZ_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hydronicSystem_oveMDayZ_u</code> [1] [min=0.0, max=1.0]: Signal Day zone valve
+</li>
+<li>
+<code>hydronicSystem_oveMNigZ_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hydronicSystem_oveMNigZ_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hydronicSystem_oveMNigZ_u</code> [1] [min=0.0, max=1.0]: Signal Night zone valve
 </li>
 <li>
+<code>hydronicSystem_oveMpumCon_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hydronicSystem_oveMpumCon_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hydronicSystem_oveMpumCon_u</code> [kg/s] [min=0.0, max=5.0]: Mass flow rate control input to circulation pump for water through floor heating system
+</li>
+<li>
+<code>hydronicSystem_oveTHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hydronicSystem_oveTHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hydronicSystem_oveTHea_u</code> [K] [min=273.15, max=318.15]: Heat system supply temperature
 </li>
 <li>
+<code>thermostatDayZon_oveTsetZon_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input thermostatDayZon_oveTsetZon_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>thermostatDayZon_oveTsetZon_u</code> [K] [min=273.15, max=318.15]: Setpoint temperature for thermal zone
+</li>
+<li>
+<code>thermostatNigZon_oveTsetZon_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input thermostatNigZon_oveTsetZon_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>thermostatNigZon_oveTsetZon_u</code> [K] [min=273.15, max=318.15]: Setpoint temperature for thermal zone
