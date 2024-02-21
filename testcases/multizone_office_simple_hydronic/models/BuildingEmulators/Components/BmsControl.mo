@@ -55,8 +55,9 @@ model BmsControl
     .Modelica.Blocks.Sources.RealExpression maxPrfProCoo(y = if sum(prfAhuCoo) + sum(prfEmiCoo) > 0.5 then 1 else 0) annotation(Placement(transformation(extent = {{-36.562783472371926,129.43721652762807},{-19.437216527628074,146.56278347237193}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.RealOutput[nVen] prfAhuRet annotation(Placement(transformation(extent = {{100.0,38.0},{120.0,58.0}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.BooleanOutput[nVen] oveByPass annotation(Placement(transformation(extent = {{100.0,56.0},{120.0,76.0}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfProCoo(description = "Cooling production system pump activation setpoint", u(min=0, max=1, unit="1")) annotation(Placement(transformation(extent = {{-1.3158974849173006,132.6841025150827},{9.3158974849173,143.3158974849173}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfProHea(description = "Heating production system supply temperature setpoint", u(min=0, max=1, unit="1")) annotation(Placement(transformation(extent = {{-1.3158974849173006,154.6841025150827},{9.3158974849173,165.3158974849173}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfProCoo(description = "Cooling production system pump activation setpoint", u(min=0, max=1, unit="1")) annotation(Placement(transformation(extent = {{-1.3158974849173006,132.6841025150827},{9.3158974849173,143.3158974849173}},                   rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfProHea(description=
+        "Heating production system pump activation setpoint",                                                                        u(min=0, max=1, unit="1")) annotation(Placement(transformation(extent = {{-1.3158974849173006,154.6841025150827},{9.3158974849173,165.3158974849173}},                   rotation = 0.0)));
     .Modelica.Blocks.Math.RealToInteger realToIntPrfProHea annotation(Placement(transformation(extent = {{29.259458112116533,155.25945811211653},{38.74054188788347,164.74054188788347}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.RealToInteger realToIntPrfProCoo annotation(Placement(transformation(extent = {{29.259458112116533,133.25945811211653},{38.74054188788347,142.74054188788347}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSupAhuNz(description = "North zone AHU air supply temperature setpoint", u(min=273.15+16, max=273.15+25, unit="K")) annotation(Placement(transformation(extent = {{0.7964094858412487,76.7964094858413},{11.203590514158751,87.2035905141587}},origin = {0.0,0.0},rotation = 0.0)));
@@ -85,22 +86,34 @@ model BmsControl
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveByPassNz(u(min = 0,max = 1, unit="1"),description = "North zone AHU setpoint to override the recovery bypass (for night free cooling purposes)") annotation(Placement(transformation(extent = {{24.6841025150827,60.684102515082714},{35.3158974849173,71.31589748491729}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Utilities.IO.SignalExchange.Overwrite oveByPassSz(u(min = 0,max = 1, unit="1"),description = "South zone AHU setpoint to override the recovery bypass (for night free cooling purposes)") annotation(Placement(transformation(extent = {{24.6841025150827,60.684102515082714},{35.3158974849173,71.31589748491729}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.RealToBoolean[nVen] realToBoolByPass annotation(Placement(transformation(extent = {{51.351672695830956,61.351672695830956},{60.648327304169044,70.64832730416904}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuSupNz(description = "North zone AHU supply fan setpoint",u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{60.6841025150827,24.684102515082714},{71.3158974849173,35.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuRetNz(u(min = 0,max = 1, unit="1"),description = "North zone AHU return fan setpoint") annotation(Placement(transformation(extent = {{60.6841025150827,42.684102515082714},{71.3158974849173,53.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuSupSz(description = "South zone AHU supply fan setpoint",u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{60.6841025150827,10.684102515082714},{71.3158974849173,21.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuRetSz(u(min = 0,max = 1, unit="1"),description = "South zone AHU return fan setpoint") annotation(Placement(transformation(extent = {{60.6841025150827,42.684102515082714},{71.3158974849173,53.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuHeaNz(u(min = 0,max = 1, unit="1"),description = "North zone AHU heating circuit activation setpoint") annotation(Placement(transformation(extent = {{54.6841025150827,-21.315897484917286},{65.3158974849173,-10.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuCooNz(description = "North zone AHU cooling circuit activation setpoint",u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{54.6841025150827,-59.315897484917286},{65.3158974849173,-48.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuHeaSz(u(min = 0,max = 1, unit="1"),description = "South zone AHU heating circuit activation setpoint") annotation(Placement(transformation(extent = {{54.6841025150827,-9.315897484917286},{65.3158974849173,1.3158974849172864}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuCooSz(description = "South zone AHU cooling circuit activation setpoint",u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{54.6841025150827,-47.315897484917286},{65.3158974849173,-36.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuSupNz(description=
+        "North zone AHU supply fan speed setpoint",                                                                u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{60.6841025150827,24.684102515082714},{71.3158974849173,35.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuRetNz(u(min = 0,max = 1, unit="1"),
+      description="North zone AHU return fan speed setpoint")                                                                                    annotation(Placement(transformation(extent = {{60.6841025150827,42.684102515082714},{71.3158974849173,53.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuSupSz(description=
+        "South zone AHU supply fan speed setpoint",                                                                u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{60.6841025150827,10.684102515082714},{71.3158974849173,21.315897484917286}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuRetSz(u(min = 0,max = 1, unit="1"),
+      description="South zone AHU return fan speed setpoint")                                                                                    annotation(Placement(transformation(extent = {{60.6841025150827,42.684102515082714},{71.3158974849173,53.315897484917286}},origin={16,-8},    rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuHeaNz(u(min = 0,max = 1, unit="1"),
+      description="North zone AHU heating pump activation setpoint")                                                                                             annotation(Placement(transformation(extent = {{54.6841025150827,-21.315897484917286},{65.3158974849173,-10.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuCooNz(description=
+        "North zone AHU cooling pump activation setpoint",                                                                         u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{54.6841025150827,-59.315897484917286},{65.3158974849173,-48.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuHeaSz(u(min = 0,max = 1, unit="1"),
+      description="South zone AHU heating pump activation setpoint")                                                                                             annotation(Placement(transformation(extent = {{54.6841025150827,-9.315897484917286},{65.3158974849173,1.3158974849172864}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfAhuCooSz(description=
+        "South zone AHU cooling pump activation setpoint",                                                                         u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{54.6841025150827,-47.315897484917286},{65.3158974849173,-36.684102515082714}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.RealToInteger[nVen] realToIntPrfAhuHea annotation(Placement(transformation(extent = {{83.25945811211653,-12.740541887883467},{92.74054188788347,-3.2594581121165334}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.RealToInteger[nVen] realToIntPrfAhuCoo annotation(Placement(transformation(extent = {{83.25945811211653,-52.74054188788347},{92.74054188788347,-43.25945811211653}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.RealToInteger[nZones] realToIntPrfEmiHea annotation(Placement(transformation(extent = {{87.25945811211653,-90.74054188788347},{96.74054188788347,-81.25945811211653}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.RealToInteger[nZones] realToIntPrfEmiCoo annotation(Placement(transformation(extent = {{87.25945811211653,-130.74054188788347},{96.74054188788347,-121.25945811211653}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfEmiCooNz(u(min = 0,max = 1, unit="1"),description = "North zone emission cooling circuit activation setpoint") annotation(Placement(transformation(extent = {{72.68410251508271,-131.3158974849173},{83.31589748491729,-120.68410251508271}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfEmiHeaNz(description = "North zone emission heating circuit activation setpoint",u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{72.43172280599326,-91.56827719400674},{83.56827719400674,-80.43172280599326}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfEmiCooSz(u(min = 0,max = 1, unit="1"),description = "South zone emission cooling circuit activation setpoint") annotation(Placement(transformation(extent = {{72.68410251508271,-131.3158974849173},{83.31589748491729,-120.68410251508271}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfEmiHeaSz(description = "South zone emission heating circuit activation setpoint",u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{72.43172280599326,-91.56827719400674},{83.56827719400674,-80.43172280599326}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfEmiCooNz(u(min = 0,max = 1, unit="1"),
+      description="North zone emission cooling pump activation setpoint")                                                                                             annotation(Placement(transformation(extent = {{72.68410251508271,-131.3158974849173},{83.31589748491729,-120.68410251508271}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfEmiHeaNz(description=
+        "North zone emission heating pump activation setpoint",                                                                         u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{72.43172280599326,-91.56827719400674},{83.56827719400674,-80.43172280599326}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfEmiCooSz(u(min = 0,max = 1, unit="1"),
+      description="South zone emission cooling pump activation setpoint")                                                                                             annotation(Placement(transformation(extent = {{72.68410251508271,-131.3158974849173},{83.31589748491729,-120.68410251508271}},origin={0,12},     rotation = 0.0)));
+    .IDEAS.Utilities.IO.SignalExchange.Overwrite ovePrfEmiHeaSz(description=
+        "South zone emission heating pump activation setpoint",                                                                         u(min = 0,max = 1, unit="1")) annotation(Placement(transformation(extent = {{72.43172280599326,-91.56827719400674},{83.56827719400674,-80.43172280599326}},origin={0,-12},    rotation = 0.0)));
     .Modelica.Blocks.Tables.CombiTable1Ds[nZones] heaCur(each table = [273.15 - 10, 273.15 + 50; 273.15 + 20, 273.15 + 35]) annotation(Placement(transformation(extent = {{-75.38187521415755,-73.38187521415755},{-64.61812478584245,-62.618124785842454}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.RealInput Te annotation(Placement(transformation(extent = {{-111.38569444853543,78.61430555146458},{-88.61430555146457,101.38569444853542}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Tables.CombiTable1Ds[nZones] cooCur(each table = [273.15 + 15, 273.15 + 12; 273.15 + 35, 273.15 + 7]) annotation(Placement(transformation(extent = {{-75.38187521415755,-113.38187521415755},{-64.61812478584245,-102.61812478584245}},origin = {0.0,0.0},rotation = 0.0)));
@@ -166,11 +179,15 @@ equation
     connect(TSetMeas.y,TSet) annotation(Line(points = {{89.16524303817232,-178},{110,-178}},color = {0,0,127}));
     connect(oveTProHea.y,TSetProHea) annotation(Line(points = {{54.15517954110133,120.74358974358975},{110.3076923076923,120.74358974358975}},color = {0,0,127}));
     connect(oveTProCoo.y,TSetProCoo) annotation(Line(points = {{54.15517954110134,100.74358974358975},{110.3076923076923,100.74358974358975}},color = {0,0,127}));
-    connect(maxPrfProHea.y,ovePrfProHea.u) annotation(Line(points = {{-18.89188286993639,160},{-2.379076981900761,160}},color = {0,0,127}));
-    connect(maxPrfProCoo.y,ovePrfProCoo.u) annotation(Line(points = {{-18.58093818039088,138},{-2.379076981900761,138}},color = {0,0,127}));
-    connect(ovePrfProHea.y,realToIntPrfProHea.u) annotation(Line(points = {{9.84748723340903,160},{28.31134973453984,160}},color = {0,0,127}));
+    connect(maxPrfProHea.y,ovePrfProHea.u) annotation(Line(points={{-18.8919,
+          160},{-2.37908,160}},                                                                                         color = {0,0,127}));
+    connect(maxPrfProCoo.y,ovePrfProCoo.u) annotation(Line(points={{-18.5809,
+          138},{-2.37908,138}},                                                                                         color = {0,0,127}));
+    connect(ovePrfProHea.y,realToIntPrfProHea.u) annotation(Line(points={{9.84749,
+          160},{28.3113,160}},                                                                                             color = {0,0,127}));
     connect(realToIntPrfProHea.y,prfProHea) annotation(Line(points = {{39.21459607667181,160},{100,160},{100,158.74358974358975},{110.3076923076923,158.74358974358975}},color = {255,127,0}));
-    connect(realToIntPrfProCoo.u,ovePrfProCoo.y) annotation(Line(points = {{28.31134973453984,138},{9.84748723340903,138}},color = {0,0,127}));
+    connect(realToIntPrfProCoo.u,ovePrfProCoo.y) annotation(Line(points={{28.3113,
+          138},{9.84749,138}},                                                                                             color = {0,0,127}));
     connect(realToIntPrfProCoo.y,prfProCoo) annotation(Line(points = {{39.21459607667181,138},{100,138},{100,138.74358974358975},{110.3076923076923,138.74358974358975}},color = {255,127,0}));
     connect(TSetAhu[1].y,oveTSupAhuNz.u) annotation(Line(points = {{-62.90626587063616,80.74358974358975},{-0.24430861699050155,80.74358974358975},{-0.24430861699050155,82}},color = {0,0,127}));
     connect(oveTSupAhuNz.y,TSupAhuSet[1]) annotation(Line(points = {{11.723949565574626,82},{58.07758977055067,82},{58.07758977055067,86},{100,86}},color = {0,0,127}));
@@ -229,9 +246,11 @@ equation
     connect(boolToReaOcc[1].y,ovePrfAhuSupNz.u) annotation(Line(points = {{47.54376824972677,30},{59.62092301809924,30}},color = {0,0,127}));
     connect(ovePrfAhuRetNz.y,prfAhuRet[1]) annotation(Line(points = {{71.84748723340903,48},{110,48}},color = {0,0,127}));
     connect(ovePrfAhuSupNz.y,prfAhuSup[1]) annotation(Line(points = {{71.84748723340903,30},{110,30}},color = {0,0,127}));
-    connect(boolToReaOcc[2].y,ovePrfAhuRetSz.u) annotation(Line(points = {{47.54376824972677,30},{53.58234563391301,30},{53.58234563391301,48},{59.62092301809924,48}},color = {0,0,127}));
+    connect(boolToReaOcc[2].y,ovePrfAhuRetSz.u) annotation(Line(points={{47.5438,
+          30},{54,30},{54,58},{75.6209,58},{75.6209,40}},                                                                                                              color = {0,0,127}));
     connect(boolToReaOcc[2].y,ovePrfAhuSupSz.u) annotation(Line(points = {{47.54376824972677,30},{59.62092301809924,30},{59.62092301809924,16}},color = {0,0,127}));
-    connect(ovePrfAhuRetSz.y,prfAhuRet[2]) annotation(Line(points = {{71.84748723340903,48},{110,48}},color = {0,0,127}));
+    connect(ovePrfAhuRetSz.y,prfAhuRet[2]) annotation(Line(points={{87.8475,40},
+          {94,40},{94,48},{110,48}},                                                                  color = {0,0,127}));
     connect(ovePrfAhuSupSz.y,prfAhuSup[2]) annotation(Line(points = {{71.84748723340903,16},{78,16},{78,30},{110,30}},color = {0,0,127}));
     connect(realToIntPrfAhuHea.y,prfAhuHea) annotation(Line(points = {{93.21459607667181,-8},{101.6072980383359,-8},{101.6072980383359,-7.666666666666664},{110,-7.666666666666664}},color = {255,127,0}));
     connect(realToIntPrfAhuCoo.y,prfAhuCoo) annotation(Line(points = {{93.21459607667181,-48},{101.6072980383359,-48},{101.6072980383359,-47.666666666666664},{110,-47.666666666666664}},color = {255,127,0}));
@@ -243,10 +262,13 @@ equation
     connect(realToIntPrfEmiHea.y,prfEmiHea) annotation(Line(points = {{97.21459607667181,-86},{110,-86}},color = {255,127,0}));
     connect(ovePrfEmiHeaNz.u,boolToRealEmiHea[1].y) annotation(Line(points = {{71.31806736719192,-86},{69.54376824972677,-86}},color = {0,0,127}));
     connect(ovePrfEmiHeaNz.y,realToIntPrfEmiHea[1].u) annotation(Line(points = {{84.12510491340741,-86},{86.31134973453985,-86}},color = {0,0,127}));
-    connect(ovePrfEmiHeaSz.u,boolToRealEmiHea[2].y) annotation(Line(points = {{71.31806736719192,-86},{69.54376824972677,-86}},color = {0,0,127}));
-    connect(ovePrfEmiHeaSz.y,realToIntPrfEmiHea[2].u) annotation(Line(points = {{84.12510491340741,-86},{86.31134973453985,-86}},color = {0,0,127}));
+    connect(ovePrfEmiHeaSz.u,boolToRealEmiHea[2].y) annotation(Line(points={{71.3181,
+          -98},{72,-98},{72,-94},{69.5438,-94},{69.5438,-86}},                                                                 color = {0,0,127}));
+    connect(ovePrfEmiHeaSz.y,realToIntPrfEmiHea[2].u) annotation(Line(points={{84.1251,
+          -98},{84,-98},{84,-92},{86.3113,-92},{86.3113,-86}},                                                                   color = {0,0,127}));
     connect(ovePrfEmiCooNz.y,realToIntPrfEmiCoo[1].u) annotation(Line(points = {{83.84748723340901,-126},{86.31134973453985,-126}},color = {0,0,127}));
-    connect(ovePrfEmiCooSz.y,realToIntPrfEmiCoo[2].u) annotation(Line(points = {{83.84748723340901,-126},{86.31134973453985,-126}},color = {0,0,127}));
+    connect(ovePrfEmiCooSz.y,realToIntPrfEmiCoo[2].u) annotation(Line(points={{83.8475,
+          -114},{84,-114},{84,-122},{86.3113,-122},{86.3113,-126}},                                                                color = {0,0,127}));
     connect(heaCur[1].u,Te) annotation(Line(points = {{-76.45825025698906,-68},{-80,-68},{-80,90},{-100,90}},color = {0,0,127}));
     connect(heaCur[2].u,Te) annotation(Line(points = {{-76.45825025698906,-68},{-80,-68},{-80,90},{-100,90}},color = {0,0,127}));
     connect(cooCur[1].u,Te) annotation(Line(points = {{-76.45825025698906,-108},{-80,-108},{-80,90},{-100,90}},color = {0,0,127}));
@@ -272,7 +294,8 @@ equation
     connect(andPrfEmiHea.y,boolToRealEmiHea.u) annotation(Line(points = {{48.221314261364384,-86},{57.95225281847989,-86}},color = {255,0,255}));
     connect(andPrfEmiCoo.y,boolToRealEmiCoo.u) annotation(Line(points = {{48.221314261364384,-126},{57.95225281847989,-126}},color = {255,0,255}));
     connect(ovePrfEmiCooNz.u,boolToRealEmiCoo[1].y) annotation(Line(points = {{71.62092301809926,-126},{69.54376824972677,-126}},color = {0,0,127}));
-    connect(ovePrfEmiCooSz.u,boolToRealEmiCoo[2].y) annotation(Line(points = {{71.62092301809926,-126},{69.54376824972677,-126}},color = {0,0,127}));
+    connect(ovePrfEmiCooSz.u,boolToRealEmiCoo[2].y) annotation(Line(points={{71.6209,
+          -114},{72,-114},{72,-120},{69.5438,-120},{69.5438,-126}},                                                              color = {0,0,127}));
     connect(nightSetback.y,proSetpoint.u2) annotation(Line(points = {{-63.21395817832847,-178},{-51.711499490548405,-178},{-51.711499490548405,-177.10452040138418},{-40.209040802768335,-177.10452040138418}},color = {0,0,127}));
     connect(proSetpoint.y,add.u2) annotation(Line(points = {{-28.308379264129027,-174},{-22.97159492561305,-174},{-22.97159492561305,-162.81740529354852},{-17.634810587097075,-162.81740529354852}},color = {0,0,127}));
     connect(andSetpoint.y,boolToReaSetbackSetpoint.u) annotation(Line(points = {{5.778685738635614,-102},{-4,-102},{-4,-128},{-8.788579028817182,-128}},color = {255,0,255}));

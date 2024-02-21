@@ -286,7 +286,7 @@ Internal gains from appliances are assumed to have a convective-radiative split 
 <li>A base load of idle components per zone: a printer, a copier, two projector screens and a coffe machine; totalling 1175 W per zone.</li>
 <li>An occupancy dependant load of per zone: a workstation and a monitor per occupant; totalling 155 W extra per occupant.</li>
 </ul>
-these values are taken from ASHRAE appliances data.
+these values are taken from ASHRAE appliances data in ANSI/ASHRAE Fundamentals 2017.
 </p>
 
 
@@ -331,7 +331,7 @@ from these nominal values using the <a href=https://en.wikipedia.org/wiki/NTU_me
 </p>
 
 <p>
-The ventilation system is composed by two individual air handling units (AHUs) per zone.
+The ventilation system is composed of one air handling unit (AHU) per zone.
 These AHUs are equipped with a double mechanical flux system (i.e., a supply and a return fan),
 a heat recovery system and a heating and cooling coils.
 No humidifier/dehumidifer system is installed.
@@ -550,16 +550,16 @@ The model inputs are:
 <code>bms_ovePrfAhuHeaSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU heating circuit activation setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuRetNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU return fan setpoint
+<code>bms_ovePrfAhuRetNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU return fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuRetSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU return fan setpoint
+<code>bms_ovePrfAhuRetSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU return fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuSupNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU supply fan setpoint
+<code>bms_ovePrfAhuSupNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU supply fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuSupSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU supply fan setpoint
+<code>bms_ovePrfAhuSupSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU supply fan speed setpoint
 </li>
 <li>
 <code>bms_ovePrfEmiCooNz_u</code> [1] [min=0.0, max=1.0]: North zone emission cooling circuit activation setpoint
@@ -577,7 +577,7 @@ The model inputs are:
 <code>bms_ovePrfProCoo_u</code> [1] [min=0.0, max=1.0]: Cooling production system pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfProHea_u</code> [1] [min=0.0, max=1.0]: Heating production system supply temperature setpoint
+<code>bms_ovePrfProHea_u</code> [1] [min=0.0, max=1.0]: Heating production system pump activation setpoint
 </li>
 <li>
 <code>bms_oveTProCoo_u</code> [K] [min=273.15, max=293.15]: Cooling production system supply temperature setpoint
