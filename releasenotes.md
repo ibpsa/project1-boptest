@@ -16,6 +16,7 @@ Released on xx/xx/xxxx.
 - Correct typo in documentation for ``multizone_office_simple_air``, cooling setback temperature changed from 12 to 30. This is for [#605](https://github.com/ibpsa/project1-boptest/issues/605).
 - Modify unit tests for test case scenarios to only simulate two days after warmup instead of the whole two-week scenario. This is for [#576](https://github.com/ibpsa/project1-boptest/issues/576).
 - Fix unit tests for possible false passes in certain test cases. This is for [#620](https://github.com/ibpsa/project1-boptest/issues/620).
+- Add ``activate`` control inputs to all test cases documentations and updated ``get_html_IO.py`` to print one file with all inputs,outputs and forecasts. This is for [#555](https://github.com/ibpsa/project1-boptest/issues/555).
 
 
 ## BOPTEST v0.5.0
