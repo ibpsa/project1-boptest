@@ -75,6 +75,12 @@ def test_shared_namespace_testcase():
     testcase_id = "testcase1"
     testcase_path = f"/boptest/testcases/{testcase_id}/models/wrapped.fmu"
 
+    # Invalid test case namespace should return 404
+    response = requests.get(
+        f"{host}/testcases/rubbish"
+    )
+    check.equal(response.status_code, 404)
+
     # Delete for an invalid test case should return 404
     response = requests.delete(
         f'{host}/testcases/{testcase_namespace}/{testcase_id + "xyz"}', headers={"Authorization": auth_token}

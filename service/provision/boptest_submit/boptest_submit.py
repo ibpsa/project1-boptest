@@ -75,9 +75,14 @@ class BoptestSubmit:
             return False
 
     def _exists(self, url_prefix, testcaseid, auth_token):
-        url = '{}{}{}'.format(self.server, url_prefix, testcaseid)
+        url = '{}{}'.format(self.server, url_prefix)
         response = requests.get(url, headers={'Authorization': auth_token})
-        return response.ok
+        response_data = response.json()
+        for test_case in response_data:
+          if test_case["testcaseid"] == testcaseid:
+            return True
+
+        return False
 
     def _wait_for_testcase(self, url_prefix, testcaseid, auth_token):
         attempts = 0

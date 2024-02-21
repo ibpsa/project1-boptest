@@ -158,7 +158,13 @@ boptestRoutes.post('/users/:userName/testcases/:testcaseID/select-?:async?',
 // Get testcases //
 
 const getTestcases = async (req, res, next) => {
-  res.json(await boptestLib.getTestcases(req.testcaseKeyPrefix))
+  const testcases = await boptestLib.getTestcases(req.testcaseKeyPrefix)
+
+  if (testcases.length == 0) {
+    res.sendStatus(404)
+  } else {
+    res.json(testcases)
+  }
 }
 
 boptestRoutes.get('/testcases',
