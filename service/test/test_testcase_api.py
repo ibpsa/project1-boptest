@@ -25,48 +25,48 @@ def test_ibpsa_boptest_testcase():
 
     # Delete for an invalid test case should return 404
     response = requests.delete(f'{host}/testcases/{testcase_id + "xyz"}', headers={"Authorization": auth_token})
-    check.is_true(response.status_code == 404)
+    check.equal(response.status_code, 404)
 
     # Invalid auth_token to get post-form should return 401
     response = requests.get(f"{host}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token + "xyz"})
-    check.is_true(response.status_code == 401)
+    check.equal(response.status_code,401)
 
     # Get post-form should return 200
     # This authorizes a new test case upload
     response = requests.get(f"{host}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token})
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # New test cases are uploaded directly to storage (e.g. minio/s3)
     # 204 indicates a successful upload
     response = upload_testcase(response, testcase_path)
-    check.is_true(response.status_code == 204)
+    check.equal(response.status_code, 204)
 
     # Confirm that the test case has been received
     response = requests.get(f"{host}/testcases")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
     # Select the test case
     response = requests.post(f"{host}/testcases/{testcase_id}/select")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     testid = response.json().get("testid")
 
     # Get the test's name (testcaseID) to demonstrate that it is running
     # Other test APIs are exercised by the core BOPTEST test suite
     response = requests.get(f"{host}/name/{testid}")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # Stop the test
     response = requests.put(f"{host}/stop/{testid}")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # Invalid auth_token to delete test case should return 401
     response = requests.delete(f"{host}/testcases/{testcase_id}", headers={"Authorization": auth_token + "xyz"})
-    check.is_true(response.status_code == 401)
+    check.equal(response.status_code, 401)
 
     # Successful delete should return 200
     response = requests.delete(f"{host}/testcases/{testcase_id}", headers={"Authorization": auth_token})
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
 
 def test_shared_namespace_testcase():
@@ -85,56 +85,56 @@ def test_shared_namespace_testcase():
     response = requests.delete(
         f'{host}/testcases/{testcase_namespace}/{testcase_id + "xyz"}', headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 404)
+    check.equal(response.status_code, 404)
 
     # Invalid auth_token to get post-form should return 401
     response = requests.get(
         f"{host}/testcases/{testcase_namespace}/{testcase_id}/post-form", headers={"Authorization": auth_token + "xyz"}
     )
-    check.is_true(response.status_code == 401)
+    check.equal(response.status_code, 401)
 
     # Get post-form should return 200
     # This authorizes a new test case upload
     response = requests.get(
         f"{host}/testcases/{testcase_namespace}/{testcase_id}/post-form", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # New test cases are uploaded directly to storage (e.g. minio/s3)
     # 204 indicates a successful upload
     response = upload_testcase(response, testcase_path)
-    check.is_true(response.status_code == 204)
+    check.equal(response.status_code, 204)
 
     # Confirm that the test case has been received
     response = requests.get(f"{host}/testcases/{testcase_namespace}")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
     # Select the test case
     response = requests.post(f"{host}/testcases/{testcase_namespace}/{testcase_id}/select")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     testid = response.json().get("testid")
 
     # Get the test's name (testcaseID) to demonstrate that it is running
     # Other test APIs are exercised by the core BOPTEST test suite
     response = requests.get(f"{host}/name/{testid}")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # Stop the test
     response = requests.put(f"{host}/stop/{testid}")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # Invalid auth_token to delete test case should return 401
     response = requests.delete(
         f"{host}/testcases/{testcase_namespace}/{testcase_id}", headers={"Authorization": auth_token + "xyz"}
     )
-    check.is_true(response.status_code == 401)
+    check.equal(response.status_code, 401)
 
     # Successful delete should return 200
     response = requests.delete(
         f"{host}/testcases/{testcase_namespace}/{testcase_id}", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
 
 def test_private_user_testcase():
@@ -147,58 +147,58 @@ def test_private_user_testcase():
     response = requests.delete(
         f'{host}/users/{username}/testcases/{testcase_id + "xyz"}', headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 404)
+    check.equal(response.status_code, 404)
 
     # Invalid auth_token to get post-form should return 401
     response = requests.get(
         f"{host}/users/{username}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token + "xyz"}
     )
-    check.is_true(response.status_code == 401)
+    check.equal(response.status_code, 401)
 
     # Get post-form should return 200
     # This authorizes a new test case upload
     response = requests.get(
         f"{host}/users/{username}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # New test cases are uploaded directly to storage (e.g. minio/s3)
     # 204 indicates a successful upload
     response = upload_testcase(response, testcase_path)
-    check.is_true(response.status_code == 204)
+    check.equal(response.status_code, 204)
 
     # Confirm that the test case has been received
     response = requests.get(f"{host}/users/{username}/testcases", headers={"Authorization": auth_token})
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     check.is_true(testcase_id in map(lambda item: item.get("testcaseid"), response.json()))
 
     # Select the test case
     response = requests.post(
         f"{host}/users/{username}/testcases/{testcase_id}/select", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     testid = response.json().get("testid")
 
     # Get the test's name (testcaseID) to demonstrate that it is running
     # Other test APIs are exercised by the core BOPTEST test suite
     response = requests.get(f"{host}/name/{testid}")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # Stop the test
     response = requests.put(f"{host}/stop/{testid}")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # Invalid auth_token to delete test case should return 401
     response = requests.delete(
         f"{host}/users/{username}/testcases/{testcase_id}", headers={"Authorization": auth_token + "xyz"}
     )
-    check.is_true(response.status_code == 401)
+    check.equal(response.status_code, 401)
 
     # Successful delete should return 200
     response = requests.delete(
         f"{host}/users/{username}/testcases/{testcase_id}", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
 
 def test_tests_api():
@@ -212,42 +212,42 @@ def test_tests_api():
     response = requests.get(
         f"{host}/users/{username}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # New test cases are uploaded directly to storage (e.g. minio/s3)
     # 204 indicates a successful upload
     response = upload_testcase(response, testcase_path)
-    check.is_true(response.status_code == 204)
+    check.equal(response.status_code, 204)
 
     # Select the test case
     response = requests.post(
         f"{host}/users/{username}/testcases/{testcase_id}/select", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     testid = response.json().get("testid")
 
     # Get all tests for user
     response = requests.get(
         f"{host}/users/{username}/tests", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     check.is_true(testid in response.json())
 
     # Without the Authorization header, should return 401
     response = requests.get(
         f"{host}/users/{username}/tests"
     )
-    check.is_true(response.status_code == 401)
+    check.equal(response.status_code, 401)
 
     # With incorrect auth_token, should also receive 401
     response = requests.get(
         f"{host}/users/{username}/tests", headers={"Authorization": auth_token + "xyz"}
     )
-    check.is_true(response.status_code == 401)
+    check.equal(response.status_code, 401)
 
     # Stop the test
     response = requests.put(f"{host}/stop/{testid}")
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
 
 def test_async_select_api():
@@ -261,12 +261,12 @@ def test_async_select_api():
     response = requests.get(
         f"{host}/users/{username}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
 
     # New test cases are uploaded directly to storage (e.g. minio/s3)
     # 204 indicates a successful upload
     response = upload_testcase(response, testcase_path)
-    check.is_true(response.status_code == 204)
+    check.equal(response.status_code, 204)
 
     # Select the test case asynchronously a large number of times
     # More than we likely have worker resources for. Tests should queue
@@ -276,14 +276,14 @@ def test_async_select_api():
         response = requests.post(
             f"{host}/users/{username}/testcases/{testcase_id}/select-async", headers={"Authorization": auth_token}
         )
-        check.is_true(response.status_code == 200)
+        check.equal(response.status_code, 200)
         test_ids.append(response.json().get('testid'))
 
     # Getting status for an invalid testid should return 400
     response = requests.get(
         f"{host}/status/invalid_testid"
     )
-    check.is_true(response.status_code == 400)
+    check.equal(response.status_code, 400)
 
     # Status api should return 200 for a valid testid
     # Check status for a while and then move on,
@@ -294,18 +294,18 @@ def test_async_select_api():
             response = requests.get(
                 f"{host}/status/{test}"
             )
-            check.is_true(response.status_code == 200)
+            check.equal(response.status_code, 200)
             # A good practice is to keep alive running tests while waiting on others in the queue
             if response.json() == "Running":
                 response = requests.get(f"{host}/name/{test}")
-                check.is_true(response.status_code == 200)
+                check.equal(response.status_code, 200)
 
     # Get all tests for user
     # Most will be in Queued status, unless `test_count` workers are available
     response = requests.get(
         f"{host}/users/{username}/tests", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     # All of the queued/running tests should be returned bythe /tests API
     check.is_true(len(response.json()) == test_count)
     for test in test_ids:
@@ -317,12 +317,12 @@ def test_async_select_api():
     for test in response.json():
         # Stop the test
         response = requests.put(f"{host}/stop/{test}")
-        check.is_true(response.status_code == 200)
+        check.equal(response.status_code, 200)
 
     # Get all tests again
     # The response should be an empty list at this point
     response = requests.get(
         f"{host}/users/{username}/tests", headers={"Authorization": auth_token}
     )
-    check.is_true(response.status_code == 200)
+    check.equal(response.status_code, 200)
     check.is_true(len(response.json()) == 0)
