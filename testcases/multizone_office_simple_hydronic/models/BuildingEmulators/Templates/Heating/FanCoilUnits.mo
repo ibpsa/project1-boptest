@@ -64,7 +64,7 @@ model FanCoilUnits
     each TCoo_a2_nominal = 273.15 + 31,
     QHea_flow_nominal = QHeaEmi_flow_nominal,
     each THea_a1_nominal = 273.15 + 50,
-    each THea_a2_nominal = 273.15 + 16,deltaTHea_nominal = {20,20})
+    each THea_a2_nominal = 273.15 + 16,deltaTHea_nominal = {5,5})
     annotation (Placement(transformation(extent={{-79.0,68.0},{-53.0,96.0}},rotation = 0.0,origin = {0.0,0.0})));
   Components.CollectorPair cooCol(nDist = nZones + nVen, m_flow_nominal = {mWatProCoo_flow_nominal},dp_nominal = 0) "Cooling collector"
     annotation (Placement(transformation(extent={{-54.26212590299278,-80.0},{-102.26212590299278,-42.0}},rotation = 0.0,origin = {0.0,0.0})));
