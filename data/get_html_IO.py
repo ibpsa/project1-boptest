@@ -8,7 +8,7 @@ To run:
 3. Run this script
 
 Output:
-"inputs_measurements_forecasts.html" html code documenting inputs,outputs and 
+"inputs_measurements_forecasts.html" html code documenting inputs, outputs and 
 forecasts together
 """
 
