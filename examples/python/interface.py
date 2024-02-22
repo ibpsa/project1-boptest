@@ -142,7 +142,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         # Record test simulation start time
         start_time = int(res['time'])
         # Set final time and total time steps to be very large since scenario defines length
-        final_time = np.inf
+        final_time = 10e9 # np.inf
         total_time_steps = int((365 * 24 * 3600)/step)
     else:
         # Initialize test with a specified start time and warmup period
