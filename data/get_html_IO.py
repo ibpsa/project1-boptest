@@ -7,10 +7,7 @@ To run:
 2. Run BOPTEST test case on localhost:5000
 3. Run this script
 
-Outputs:
-"inputs.html": html code documenting the inputs
-"measurements.html": html code documenting the outputs
-"forecast_points.html" html code documenting the forecasts
+Output:
 "inputs_measurements_forecasts.html" html code documenting inputs,outputs and 
 forecasts together
 """
