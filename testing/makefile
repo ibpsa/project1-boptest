@@ -87,17 +87,7 @@ generate_testcase_data:
 # Tests
 ###############################################################################
 
-# Generic test for all testcases except testcase1 and testcase2 to run on travis
-test_%_travis:
-# Compile testcase model
-	make compile_testcase_model TESTCASE=$*
-# Build and deploy testcase image
-	cd .. && TESTCASE=$* docker-compose up -d
-	python sleep10.py
-# Run testcase tests
-	cd .. && python testing/test_$*.py $(ARG)
-
-# Generic test for all testcases except testcase1 and testcase2 to run locally with cleanup
+# Generic test for all testcases except testcase1 and testcase2
 test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
@@ -112,6 +102,18 @@ test_%:
 	     python report.py;\
 	fi\
 
+# Generic test for all testcases that will not test with model compile to run locally with cleanup
+test_%_no_compile:
+# Build and deploy testcase image
+	cd .. && TESTCASE=$* docker-compose up -d
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_$*.py $(ARG)
+# Stop testcase container
+	cd .. && docker-compose down
+	if [ $(SINGLE) = true ]; then\
+	     python report.py;\
+	fi\
 
 test_testcase1:
 # Compile testcase model
@@ -330,6 +332,7 @@ test_all:
 	make test_multizone_residential_hydronic SINGLE=false
 	make test_singlezone_commercial_hydronic SINGLE=false
 	make test_multizone_office_simple_air SINGLE=false
+	make test_multizone_office_simple_hydronic SINGLE=false
 	make test_twozone_apartment_hydronic SINGLE=false
 # Remove jm
 	make remove_jm_image

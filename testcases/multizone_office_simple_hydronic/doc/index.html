@@ -1,10 +1,10 @@
 <html>
 <h3>General</h3>
 This is the multi-zone office hydronic simple emulator model
-of BOPTEST, emulating a 2-zone building model.
+of BOPTEST, emulating a 2-zone building.
 Each zone is equipped with independent air handling units (AHUs) for ventilation
 and circuits connected to fan-coil units (also known as ventiloconvectors) as the emission system.
-Heat/cold is procuded by means of a heat pump and a chiller.
+Hot and cold water serving the fan-coil units is produced by means of an air-source heat pump and an air-cooled chiller.
 </p>
 <h3>Building Design and Use</h3>
 <h4>Architecture</h4>
@@ -231,7 +231,7 @@ The windows are modelled using IDEAS.Buildings.Components.Window
 and the glazing information of IDEAS.Buildings.Data.Glazing.Ins2Ar2020,
 with an U-value of 1.028 W/(m<sup>2</sup>K) and a g-value of 0.551.
 The window model assumes that the frame occupies 15% of the area
-and is made of insulated aluminium, with an U-value of 2.8 W/(m<sup>2</sup>K).
+and is made of insulated aluminium, with a U-value of 2.8 W/(m<sup>2</sup>K).
 </p>
 
 
@@ -249,7 +249,7 @@ src="images/occupancySchedule.png" width=400 />
 The occupied time for the HVAC system is between 7 AM and 7 PM during the weekdays.
 The unoccupied time is outside of this period.
 During summer months (July and August), the occupancy is reduced by half
-since it is assumed people takes holiday and the work load is reduced.
+since it is assumed people take holiday and the work load is reduced.
 A bank holiday schedule is also implemented according to the Belgian calendar
 for the following days:
 <ul>
@@ -284,9 +284,9 @@ with an efficiency of 150 lm/W and with a convective-radiative split of 65/35% r
 Internal gains from appliances are assumed to have a convective-radiative split of 70/30% respectively and are distributed as follows:
 <ul>
 <li>A base load of idle components per zone: a printer, a copier, two projector screens and a coffe machine; totalling 1175 W per zone.</li>
-<li>An occupancy dependant load of per zone: a workstation and a monitors per occupant; totalling 155 W extra per occupant.</li>
+<li>An occupancy dependant load of per zone: a workstation and a monitor per occupant; totalling 155 W extra per occupant.</li>
 </ul>
-these values are taken from ASHRAE appliances data.
+these values are taken from ASHRAE appliances data in ANSI/ASHRAE Fundamentals 2017.
 </p>
 
 
@@ -298,7 +298,7 @@ The weather file is hosted in <a href="https://github.com/open-ideas/IDEAS/blob/
 <h3>HVAC System Design</h3>
 <h4>Primary and secondary system designs</h4>
 <p>
-The emission system (ventiloconvectors) nominal powers are determined by using the following rules of thumb for design.
+The emission system (ventiloconvectors) nominal heating and cooling powers are determined by using the following conventional rules for design.
 <ul>
 <li>North zone:
 <ul>
@@ -331,7 +331,7 @@ from these nominal values using the <a href=https://en.wikipedia.org/wiki/NTU_me
 </p>
 
 <p>
-The ventilation system is composed by two individual air handling units (AHUs) per zone.
+The ventilation system is composed of one air handling unit (AHU) per zone.
 These AHUs are equipped with a double mechanical flux system (i.e., a supply and a return fan),
 a heat recovery system and a heating and cooling coils.
 No humidifier/dehumidifer system is installed.
@@ -339,10 +339,10 @@ No variable air volume (VAV) boxes are equipped in the ventilation ducts.
 However, the fans of the AHU can modulate their pressure head to achieve the required ventilation rate.
 The nominal supply and return air flow rates are computed based on the volume of the zones to be conditioned,
 and they are 3 kg/s and 2.5 kg/s of air respectively.
-Based on this nominal air flows, the nominal powers and nominal mass flow rates of the heating and cooling coils
+Based on these nominal air flows, the nominal powers and nominal mass flow rates of the heating and cooling coils
 are calculated using the same relations as for the emission system.
 The nominal temperature differences in this case are 20 K and
-5 K for the water stream for heating and cooling respectively,
+5 K for the water streams for heating and cooling respectively,
 and 30 K and 15 K for the air stream for heating and cooling respectively.
 As a result, for each individual AHU the nominal heating power is 90 kW
 whereas the nominal cooling power is 45 kW.
@@ -350,7 +350,7 @@ The heat recovery exchanger is assumed to have a constant effectiveness of 84%.
 </p>
 
 <p>
-The production system is composed by a heat pump for heating and a chiller for cooling.
+The production system is composed of an air-source heat pump for heating and an air-cooled chiller for cooling.
 The nominal powers of the production system are determined by the sum of the nominal powers
 of each emission and ventilation coil loop, which are 75+62.5+90+90=317.5 kW and 100+112.5+45+45=302.5 kW
 for heating and cooling respectively.
@@ -360,15 +360,15 @@ The nominal mass flow rates are calculated from the resulting heating and coolin
 <p>
 The production system is connected to the emission and ventilation systems through the distribution system shown
 in the schematic below.
-The production system supplies heat/cold to a supply manifold or collector.
+The production system supplies hot and cold water to supply manifolds or collectors.
 From here, the different circuit loops distribute the water to the different heat exchangers
 in the emission system or the ventilation system.
-Each circuit loop is equipped with a pump that allows to activate the circuit and a
-mixing 3-way valve placed downstream the pump, which allows to regulate the supply temperature in the distribution loop.
+Each circuit loop is equipped with a pump that allows for activating the circuit and a
+mixing 3-way valve placed downstream of the pump, which allows for regulating the supply temperature in the distribution loop.
 </p>
 
 <p>
-In addition, each heat exchanger is internally equipped with a 3-way valve that allows to regulate the heating or cooling load.
+In addition, each heat exchanger is internally equipped with a 3-way valve that allows for regulating the heating or cooling load.
 However, this component should be seen as an internal part of the heat exchanger and not the distribution system.
 </p>
 
@@ -550,16 +550,16 @@ The model inputs are:
 <code>bms_ovePrfAhuHeaSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU heating circuit activation setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuRetNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU return fan setpoint
+<code>bms_ovePrfAhuRetNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU return fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuRetSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU return fan setpoint
+<code>bms_ovePrfAhuRetSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU return fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuSupNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU supply fan setpoint
+<code>bms_ovePrfAhuSupNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU supply fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuSupSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU supply fan setpoint
+<code>bms_ovePrfAhuSupSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU supply fan speed setpoint
 </li>
 <li>
 <code>bms_ovePrfEmiCooNz_u</code> [1] [min=0.0, max=1.0]: North zone emission cooling circuit activation setpoint
@@ -577,7 +577,7 @@ The model inputs are:
 <code>bms_ovePrfProCoo_u</code> [1] [min=0.0, max=1.0]: Cooling production system pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfProHea_u</code> [1] [min=0.0, max=1.0]: Heating production system supply temperature setpoint
+<code>bms_ovePrfProHea_u</code> [1] [min=0.0, max=1.0]: Heating production system pump activation setpoint
 </li>
 <li>
 <code>bms_oveTProCoo_u</code> [K] [min=273.15, max=293.15]: Cooling production system supply temperature setpoint
@@ -592,10 +592,10 @@ The model inputs are:
 <code>bms_oveTSupAhuCooSz_u</code> [K] [min=273.15, max=293.15]: South zone AHU cooling water supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupAhuHeaNz_u</code> [K] [min=293.15, max=353.15]: North zone AHU heating water supply temperature setpoint
+<code>bms_oveTSupAhuHeaNz_u</code> [K] [min=293.15, max=323.15]: North zone AHU heating water supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupAhuHeaSz_u</code> [K] [min=293.15, max=353.15]: South zone AHU heating water supply temperature setpoint
+<code>bms_oveTSupAhuHeaSz_u</code> [K] [min=293.15, max=323.15]: South zone AHU heating water supply temperature setpoint
 </li>
 <li>
 <code>bms_oveTSupAhuNz_u</code> [K] [min=289.15, max=298.15]: North zone AHU air supply temperature setpoint
@@ -607,13 +607,13 @@ The model inputs are:
 <code>bms_oveTSupEmiCooNz_u</code> [K] [min=273.15, max=293.15]: North zone cooling emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiCooSz_u</code> [K] [min=273.15, max=293.15]: South zone cooling emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiCooSz_u</code> [K] [min=273.15, max=293.15]: Southh zone cooling emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiHeaNz_u</code> [K] [min=293.15, max=353.15]: North zone heating emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiHeaNz_u</code> [K] [min=293.15, max=323.15]: North zone heating emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiHeaSz_u</code> [K] [min=293.15, max=353.15]: South zone heating emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiHeaSz_u</code> [K] [min=293.15, max=323.15]: South zone heating emission circuit supply temperature setpoint
 </li>
 <li>
 <code>bms_oveTZonSetMaxNz_u</code> [K] [min=288.15, max=303.15]: North zone maximum (cooling) zone temperature setpoint
@@ -767,9 +767,6 @@ The model outputs are:
 <code>structure_reaTZonNz_y</code> [K] [min=None, max=None]: North zone operative temperature
 </li>
 <li>
-<code>structure_reaTZonSz_y</code> [K] [min=None, max=None]: South zone operative temperature
-</li>
-<li>
 <code>structure_reaTZonPercHighNz_y</code> [K] [min=None, max=None]: North zone upper percentile temperature
 </li>
 <li>
@@ -780,6 +777,9 @@ The model outputs are:
 </li>
 <li>
 <code>structure_reaTZonPercLowSz_y</code> [K] [min=None, max=None]: South zone lower percentile temperature
+</li>
+<li>
+<code>structure_reaTZonSz_y</code> [K] [min=None, max=None]: South zone operative temperature
 </li>
 <li>
 <code>ventilation_reaPAhuRetNz_y</code> [W] [min=None, max=None]: North zone AHU return fan electric power
@@ -893,6 +893,139 @@ The model outputs are:
 <code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
+The model forecasts are:
+<ul>
+<li>
+<code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity
+</li>
+<li>
+<code>EmissionsGasPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>HDifHor</code> [W/m2]: Horizontal diffuse solar radiation
+</li>
+<li>
+<code>HDirNor</code> [W/m2]: Direct normal radiation
+</li>
+<li>
+<code>HGloHor</code> [W/m2]: Horizontal global radiation
+</li>
+<li>
+<code>HHorIR</code> [W/m2]: Horizontal infrared irradiation
+</li>
+<li>
+<code>InternalGainsCon[nZ]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsCon[sZ]</code> [W]: Convective internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[nZ]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsLat[sZ]</code> [W]: Latent internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[nZ]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>InternalGainsRad[sZ]</code> [W]: Radiative internal gains of zone
+</li>
+<li>
+<code>LowerSetp[nZ]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>LowerSetp[sZ]</code> [K]: Lower temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>Occupancy[nZ]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>Occupancy[sZ]</code> [number of people]: Number of occupants of zone
+</li>
+<li>
+<code>PriceElectricPowerConstant</code> [($/Euro)/kWh]: Completely constant electricity price
+</li>
+<li>
+<code>PriceElectricPowerDynamic</code> [($/Euro)/kWh]: Electricity price for a day/night tariff
+</li>
+<li>
+<code>PriceElectricPowerHighlyDynamic</code> [($/Euro)/kWh]: Spot electricity price
+</li>
+<li>
+<code>PriceGasPower</code> [($/Euro)/kWh]: Price to produce 1 kWh thermal from gas
+</li>
+<li>
+<code>TBlaSky</code> [K]: Black Sky temperature
+</li>
+<li>
+<code>TDewPoi</code> [K]: Dew point temperature
+</li>
+<li>
+<code>TDryBul</code> [K]: Dry bulb temperature at ground level
+</li>
+<li>
+<code>TWetBul</code> [K]: Wet bulb temperature
+</li>
+<li>
+<code>UpperCO2[nZ]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperCO2[sZ]</code> [ppm]: Upper CO2 set point for indoor air quality of zone
+</li>
+<li>
+<code>UpperSetp[nZ]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>UpperSetp[sZ]</code> [K]: Upper temperature set point for thermal comfort of zone
+</li>
+<li>
+<code>ceiHei</code> [m]: Ceiling height
+</li>
+<li>
+<code>cloTim</code> [s]: One-based day number in seconds
+</li>
+<li>
+<code>lat</code> [rad]: Latitude of the location
+</li>
+<li>
+<code>lon</code> [rad]: Longitude of the location
+</li>
+<li>
+<code>nOpa</code> [1]: Opaque sky cover [0, 1]
+</li>
+<li>
+<code>nTot</code> [1]: Total sky Cover [0, 1]
+</li>
+<li>
+<code>pAtm</code> [Pa]: Atmospheric pressure
+</li>
+<li>
+<code>relHum</code> [1]: Relative Humidity
+</li>
+<li>
+<code>solAlt</code> [rad]: Altitude angel
+</li>
+<li>
+<code>solDec</code> [rad]: Declination angle
+</li>
+<li>
+<code>solHouAng</code> [rad]: Solar hour angle.
+</li>
+<li>
+<code>solTim</code> [s]: Solar time
+</li>
+<li>
+<code>solZen</code> [rad]: Zenith angle
+</li>
+<li>
+<code>winDir</code> [rad]: Wind direction
+</li>
+<li>
+<code>winSpe</code> [m/s]: Wind speed
+</li>
+</ul>
+
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>

@@ -7,7 +7,20 @@ Released on xx/xx/xxxx.
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
 - Add materials for RLEM23 workshop at ``docs/workshops/RlemWorkshop_20231112``. This is for [#585](https://github.com/ibpsa/project1-boptest/issues/585).
+- Change JModelica docker container address  in ``testing/Dockerfile``. This is for [#590](https://github.com/ibpsa/project1-boptest/issues/590).
+- Specify the Python version (3.7) used for building the wrapper to execute the example JavaScript controllers in the unit test. This is for [#594](https://github.com/ibpsa/project1-boptest/issues/594).
+- Allow simulations and forecast to work across the end of the year to the next year. This is for [#239](https://github.com/ibpsa/project1-boptest/issues/239).
+- Pin base Docker image to ``linux/x86_64`` platform. This is for [#608](https://github.com/ibpsa/project1-boptest/issues/608).
+- Correct typo in design documentation about connecting inputs to overwrite blocks in wrapper model. This is for [#601](https://github.com/ibpsa/project1-boptest/issues/601).
+- Add Git LFS configuration in the ``testing/Dockerfile`` image used in tests and compilation. This is for [#613](https://github.com/ibpsa/project1-boptest/issues/613).
+- Correct typo in documentation for ``multizone_office_simple_air``, cooling setback temperature changed from 12 to 30. This is for [#605](https://github.com/ibpsa/project1-boptest/issues/605).
+- Modify unit tests for test case scenarios to only simulate two days after warmup instead of the whole two-week scenario. This is for [#576](https://github.com/ibpsa/project1-boptest/issues/576).
+- Fix unit tests for possible false passes in certain test cases. This is for [#620](https://github.com/ibpsa/project1-boptest/issues/620).
 
+
+**The following new test cases have been added:**
+
+- ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
 
 ## BOPTEST v0.5.0
 

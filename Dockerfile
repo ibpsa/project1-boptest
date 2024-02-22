@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM --platform=linux/x86_64 ubuntu:20.04
 
 # Install required packages
 RUN 	apt-get update && \

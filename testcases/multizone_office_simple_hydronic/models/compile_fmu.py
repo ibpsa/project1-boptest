@@ -3,9 +3,10 @@
 This module compiles the defined test case model into an FMU using the
 overwrite block parser.
 
-The following libraries must be on the MODELICAPATH:
+The following libraries with correct versions/commits must be on the MODELICAPATH:
 
-- Modelica IBPSA
+- Modelica Buildings Library
+- IDEAS Library
 
 """
 
@@ -30,7 +31,7 @@ def compile_fmu():
 
     # COMPILE FMU
     # -----------
-    fmupath = parser.export_fmu(modelpath, [mopath])
+    fmupath = parser.export_fmu(modelpath, [mopath], tool='OCT')
     # -----------
 
     return fmupath

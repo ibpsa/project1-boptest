@@ -7,6 +7,8 @@ Thank you to all who have provided guidance on the development of this software.
 - Dave Biagioni, National Renewable Energy Laboratory
 - David Blum, Lawrence Berkeley National Laboratory
 - Yan Chen, Pacific Northwest National Laboratory
+- Roel De Coninck, dnergy
+- Iago Cupeiro Figueroa, Cupeiro Sinte, dnergy
 - Konstantin Filonenko, University of Southern Denmark
 - Gauthier-Clerc Francois, Pure Control
 - Valentin Gavan, ENGIE
@@ -17,8 +19,10 @@ Thank you to all who have provided guidance on the development of this software.
 - Yanfei Li, National Renewable Energy Laboratory
 - Nicholas Long, National Renewable Energy Laboratory
 - Robert Lutes, Pacific Northwest National Laboratory
+- Bart Merema, dnergy
 - Kefei Mo, Pacific Northwest National Laboratory
 - Erik Paulson, Independent
+- Matt Robinson, University of Colorado - Boulder
 - Jermy Thomas, National Renewable Energy Laboratory
 - Christian Veje, University of Southern Denmark
 - Draguna Vrabie, Pacific Northwest National Laboratory
