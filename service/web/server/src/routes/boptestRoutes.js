@@ -455,4 +455,13 @@ boptestRoutes.get('/forecast_points/:testid',
   }
 );
 
+// Check identity for all generic endpoints under /users and /testcases
+// Specific endpoints will have already been handled from the preceeding routes
+// If the Authorization header is invalid then the middleware will send 401
+boptestRoutes.all('/testcases/*', middleware.identify)
+boptestRoutes.all('/users', middleware.identify)
+boptestRoutes.all('/users/*', middleware.identify)
+boptestRoutes.all('/users/:userName', middleware.requireUser)
+boptestRoutes.all('/users/:userName/*', middleware.requireUser)
+
 export default boptestRoutes;

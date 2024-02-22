@@ -326,3 +326,52 @@ def test_async_select_api():
     )
     check.equal(response.status_code, 200)
     check.is_true(len(response.json()) == 0)
+
+def test_authorization_for_generic_endpoints():
+    auth_token = os.environ.get("BOPTEST_TEST_KEY")
+    username = os.environ.get("BOPTEST_TEST_USERNAME")
+
+    # Invalid auth_token sent to testcases/* should return 401,
+    # regardless of specific endpoint
+    response = requests.get(f"{host}/testcases", headers={"Authorization": auth_token + "xyz"})
+    check.equal(response.status_code,401)
+
+    response = requests.get(f"{host}/testcases/anything", headers={"Authorization": auth_token + "xyz"})
+    check.equal(response.status_code,401)
+
+    response = requests.get(f"{host}/testcases/anything/atall", headers={"Authorization": auth_token + "xyz"})
+    check.equal(response.status_code,401)
+
+    # Valid auth_token should return 404 for invalid endpoints
+    response = requests.get(f"{host}/testcases/anything", headers={"Authorization": auth_token})
+    check.equal(response.status_code,404)
+
+    response = requests.get(f"{host}/testcases/anything/atall", headers={"Authorization": auth_token})
+    check.equal(response.status_code,404)
+
+    # Invalid auth_token sent to users/* should return 401,
+    response = requests.get(f"{host}/users", headers={"Authorization": auth_token + "xyz"})
+    check.equal(response.status_code,401)
+
+    response = requests.get(f"{host}/users/anything", headers={"Authorization": auth_token + "xyz"})
+    check.equal(response.status_code,401)
+
+    response = requests.get(f"{host}/users/anything/atall", headers={"Authorization": auth_token + "xyz"})
+    check.equal(response.status_code,401)
+
+    # Valid auth_token to the incorrect username is also a 401
+    response = requests.get(
+        f"{host}/users/wronguser", headers={"Authorization": auth_token}
+    )
+    check.equal(response.status_code, 401)
+
+    response = requests.get(
+        f"{host}/users/wronguser/rubbish", headers={"Authorization": auth_token}
+    )
+    check.equal(response.status_code, 401)
+
+    # Valid auth_token to the correct username, but invalid endpoint is a 404
+    response = requests.get(
+        f"{host}/users/{username}/rubbish", headers={"Authorization": auth_token}
+    )
+    check.equal(response.status_code, 404)
