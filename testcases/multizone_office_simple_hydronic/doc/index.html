@@ -277,7 +277,7 @@ for the following days:
 <h4>Internal loads and schedules</h4>
 <p>
 Internal gains from occupancy are taken as 45 W of latent heat and 73 W of sensible heat for
-<a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo\">typical office work</a>,
+<a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo">typical office work</a>,
 with a convective-radiative split of 40/60% respectively.
 </p>
 <p>
@@ -899,6 +899,8 @@ The model outputs are:
 <code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
+
+<h4>Forecasts</h4>
 The model forecasts are:
 <ul>
 <li>
@@ -1062,14 +1064,14 @@ Air exchange between zones is not modeled.
 <h4>Infiltration models</h4>
 <p>
 Airflow due to infiltration is calculated using the
-<a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InterzonalAirFlow/n50FixedPressure.mo\"><code>IDEAS.Buildings.Components.InterzonalAirFlow.n50FixedPressure</code></a> model
+<a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InterzonalAirFlow/n50FixedPressure.mo"><code>IDEAS.Buildings.Components.InterzonalAirFlow.n50FixedPressure</code></a> model
 and a n50 value of 5.
 </p>
 <h4>CO<sub>2</sub> models</h4>
 <p>
 CO<sub>2</sub> generation in the zones is calculated using the
-<a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InternalGains/Occupants.mo\"><code>IDEAS.Buildings.Components.Occupants</code></a> and
-<a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo\"><code>IDEAS.Buildings.Components.OccupancyType.OfficeWork</code></a>
+<a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InternalGains/Occupants.mo"><code>IDEAS.Buildings.Components.Occupants</code></a> and
+<a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo"><code>IDEAS.Buildings.Components.OccupancyType.OfficeWork</code></a>
 models.
 Outside air CO<sub>2</sub> concentration is 400 ppm.
 </p>
