@@ -21,6 +21,12 @@ class Job:
 
         self.redis = redis.Redis(host=os.environ["BOPTEST_REDIS_HOST"])
         self.redis_pubsub = self.redis.pubsub()
+        if self.redis.hexists(self.testKey, "user"):
+            self.user = self.redis.hget(self.testKey, "user").decode('utf-8')
+            self.userTestsKey = "users:%s:tests" % self.user
+        else:
+            self.user = None
+            self.userTestsKey = None
 
         if not self.redis.hexists(self.testKey, "status"):
             self.abort = True
@@ -46,7 +52,8 @@ class Job:
         self.s3 = boto3.resource(
             "s3", region_name=os.environ["BOPTEST_REGION"], endpoint_url=os.environ["BOPTEST_INTERNAL_S3_URL"]
         )
-        self.s3_bucket = self.s3.Bucket(os.environ["BOPTEST_S3_BUCKET"])
+        self.s3_bucket_name = os.environ["BOPTEST_S3_BUCKET"]
+        self.s3_bucket = self.s3.Bucket(self.s3_bucket_name)
         self.s3_bucket.download_file(self.testcaseKey, self.fmu_path)
 
         self.tc = TestCase(self.fmu_path)
@@ -251,10 +258,9 @@ class Job:
 
     # cleanup after the simulation is stopped
     def cleanup(self):
-        user = self.redis.hget(self.testKey, "user")
-        userTestsKey = "users:%s:tests" % user
         self.redis.delete(self.testKey)
-        self.redis.srem(userTestsKey, self.testid)
+        if self.userTestsKey:
+            self.redis.srem(self.userTestsKey, self.testid)
         self.unsubscribe()
 
         tarname = "%s.tar.gz" % self.testid
@@ -265,6 +271,9 @@ class Job:
         uploadkey = "simulated/%s" % tarname
         # minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
         self.s3_bucket.upload_file(tarname, uploadkey, ExtraArgs={'ACL': 'public-read'})
+        usertag = self.user or 'unknown'
+        tagging = {'TagSet': [{'Key': 'user', 'Value': usertag}, {'Key': 'testcase', 'Value': self.testcaseKey}]}
+        self.s3.meta.client.put_object_tagging(Bucket=self.s3_bucket_name, Key=uploadkey, Tagging=tagging)
 
         # Disable logging to prevent a trailing log file to be generated in the simulat dir
         self.tc.fmu.set_log_level(0)
