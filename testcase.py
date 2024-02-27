@@ -22,6 +22,7 @@ import uuid
 import os
 import json
 import array as a
+import pandas as pd
 
 class TestCase(object):
     '''Class that implements the test case.
@@ -359,6 +360,8 @@ class TestCase(object):
                 # Check if scenario is over
                 if self.start_time >= self.end_time:
                     self.scenario_end = True
+                    # store results
+                    self.store_results()
                 # Log and return
                 logging.info(message)
                 return status, message, payload
@@ -1326,6 +1329,41 @@ class TestCase(object):
         z.update(self.u)
 
         return z
+
+    def store_results(self):
+        '''Stores results from scenario in working directory.
+        When ran with service, the result will be packed in the result tarball and
+        be retrieveable with the test_id
+
+
+        Returns
+        -------
+        None.
+
+        '''
+
+        name = "results"
+        # get results_json
+        results_json = {
+            "dateRun": str(datetime.now(tz=pytz.UTC)),
+            "boptestVersion": self.version,
+            "emulatorName": self.get_name()[2]['name'],
+            "controlStep": str(self.get_step()[2]),
+            "forecastParameters": {},  # for future use to store used parameters?
+            "measurementParameters": {},  # for future use to store used parameters?
+            "kpis": self.get_kpis()[2],
+            "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
+        }
+
+        # store results_json
+        with open(name + ".json", "w") as outfile:
+            json.dump(results_json, outfile)
+
+        # get results trajectories
+        results = self.get_results(self, self.input_names + self.output_names, self.initial_time, self.end_time)[2]
+        results_df = pd.DataFrame.from_dict(results)
+        # store
+        results_df.to_csv(name + ".csv")
 
     def to_camel_case(self, snake_str):
         components = snake_str.split('_')
