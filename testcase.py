@@ -1358,9 +1358,12 @@ class TestCase(object):
         # store results_json
         with open(name + ".json", "w") as outfile:
             json.dump(results_json, outfile)
-
+ 
+        # get list of results, need to use output metadata because duplicate inputs are removed
+        result_list = self.input_names + list(self.outputs_metadata.keys())
         # get results trajectories
-        results = self.get_results(self.input_names + self.output_names, self.initial_time, self.end_time)[2]
+        results = self.get_results(result_list, self.initial_time, self.end_time)[2]
+        # convert to dataframe
         results_df = pd.DataFrame.from_dict(results)
         # store
         results_df.to_csv(name + ".csv")
