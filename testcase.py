@@ -1360,7 +1360,7 @@ class TestCase(object):
             json.dump(results_json, outfile)
 
         # get results trajectories
-        results = self.get_results(self, self.input_names + self.output_names, self.initial_time, self.end_time)[2]
+        results = self.get_results(self.input_names + self.output_names, self.initial_time, self.end_time)[2]
         results_df = pd.DataFrame.from_dict(results)
         # store
         results_df.to_csv(name + ".csv")
