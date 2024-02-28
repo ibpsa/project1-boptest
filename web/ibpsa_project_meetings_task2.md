@@ -34,4 +34,6 @@ permalink: /ibpsa/project/meetings/task2/
 
 **Time:** 6:00-7:00 AM U.S. Pacific
 
-[**Zoom link**](https://lbnl.zoom.us/j/93507013094?pwd=Y3krcll2NERHTWhWNC9PMFg2Z3JVdz09)
+**Notes:**
+
+- [Minutes](/ibpsa_project/meetings/task2/20240227_Progress/20240227_IBPSA-BOPTEST_Task2_minutes.pdf)
