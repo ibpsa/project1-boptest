@@ -53,7 +53,7 @@ boptestRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
   middleware.identify,
   middleware.requireUser,
   (req, res, next) => {
-    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
+    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.sub, req.params.testcaseID)
     req.share = false
     next()
   },
@@ -100,8 +100,8 @@ boptestRoutes.delete('/users/:userName/testcases/:testcaseID',
   middleware.requireUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
-    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.dis)
-    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
+    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.sub)
+    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.sub, req.params.testcaseID)
     next()
   },
   deleteTestcase
@@ -148,8 +148,8 @@ boptestRoutes.post('/users/:userName/testcases/:testcaseID/select-?:async?',
   middleware.requireUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
-    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.dis)
-    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
+    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.sub)
+    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.sub, req.params.testcaseID)
     next()
   },
   select
@@ -189,7 +189,7 @@ boptestRoutes.get('/users/:userName/testcases',
   middleware.identify,
   middleware.requireUser,
   (req, res, next) => {
-    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.dis)
+    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.sub)
     next()
   },
   getTestcases
