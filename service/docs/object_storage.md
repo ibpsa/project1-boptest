@@ -24,5 +24,5 @@ where `usersub` is the OAuth user "sub".
 
 When a test is completed, the entire working directory of the test is archived and stored in object storage using the following key naming conventions.
 ```
-simulated/<test_id>.tar.gz
+tests/<test_id>.tar.gz
 ```

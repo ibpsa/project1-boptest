@@ -268,7 +268,7 @@ class Job:
         tar.add(self.test_dir, filter=self.reset, arcname=self.testid)
         tar.close()
 
-        uploadkey = "simulated/%s" % tarname
+        uploadkey = "tests/%s" % tarname
         # minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
         self.s3_bucket.upload_file(tarname, uploadkey, ExtraArgs={'ACL': 'public-read'})
         usertag = self.user or 'unknown'
