@@ -10,7 +10,7 @@ export async function addJobToQueue(jobtype, params) {
     const m = {
       MessageBody: JSON.stringify(body),
       QueueUrl: process.env.BOPTEST_JOB_QUEUE_URL,
-      MessageGroupId: "Alfalfa"
+      MessageGroupId: "BOPTEST"
     }
 
     sqs.sendMessage(m, (err, data) => {
