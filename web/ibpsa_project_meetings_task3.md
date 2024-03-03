@@ -35,3 +35,7 @@ permalink: /ibpsa/project/meetings/task3/
 **Time:** 6:00-7:00 pacific
 
 [**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NXUwZDZqcTd2YnZic2xqcW84cDNkajRyNmwgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov) 
+
+**Notes:**
+
+- [Minutes](/ibpsa_project/meetings/task3/20240222_IBPSA-BOPTEST_Task3_minutes.pdf)
