@@ -157,7 +157,6 @@ async function removeTestFromDB(testid) {
 export async function select(testcaseKey, userSub, asyc) {
   const testid = uuidv4()
   await addTestToDB(testid, userSub)
-  const testKey = getTestKey(testid)
   await addJobToQueue("boptest_run_test", { testid, testcaseKey })
   if (!asyc) {
     try {
