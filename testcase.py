@@ -1145,27 +1145,16 @@ class TestCase(object):
         dash_server = os.environ['BOPTEST_DASHBOARD_SERVER']
         # Create payload
         uid = str(uuid.uuid4())
-        payload = {
-          "results": [
-            {
-              "uid": uid,
-              "dateRun": str(datetime.now(tz=pytz.UTC)),
-              "boptestVersion": self.version,
-              "isShared": True,
-              "controlStep": str(self.get_step()[2]),
-              "account": {
+        test_results = self._get_test_results()
+        api_parameters = {
+            "uid": uid,
+            "isShared": True,
+            "account": {
                 "apiKey": api_key
-              },
-              "forecastParameters":{},
-              "tags": tags,
-              "kpis": self.get_kpis()[2],
-              "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
-              "buildingType": {
-                "uid": self.get_name()[2]['name']
-              }
-            }
-          ]
+            },
+            "tags": tags,
         }
+        payload = {"results":[{**test_results, **api_parameters}]}
         dash_url = "%s/api/results" % dash_server
         # Post to dashboard
         if not unit_test:
@@ -1329,6 +1318,28 @@ class TestCase(object):
         z.update(self.u)
 
         return z
+    
+    def _get_test_results(self):
+        '''Collect test results.
+
+        Returns
+        -------
+        results: dict
+            Dictionary of test specific results.
+        '''
+        results = {
+            "dateRun": str(datetime.now(tz=pytz.UTC)),
+            "boptestVersion": self.version,
+            "controlStep": str(self.get_step()[2]),
+            "forecastParameters": {},  # for future use to store used parameters?
+            "measurementParameters": {},  # for future use to store used parameters?
+            "kpis": self.get_kpis()[2],
+            "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
+            "buildingType": {
+                "uid": self.get_name()[2]['name'],
+            }
+        }
+        return results
 
     def store_results(self):
         '''Stores results from scenario in working directory.
@@ -1342,21 +1353,12 @@ class TestCase(object):
 
         '''
 
-        name = "results"
+        file_name = "results"
         # get results_json
-        results_json = {
-            "dateRun": str(datetime.now(tz=pytz.UTC)),
-            "boptestVersion": self.version,
-            "emulatorName": self.get_name()[2]['name'],
-            "controlStep": str(self.get_step()[2]),
-            "forecastParameters": {},  # for future use to store used parameters?
-            "measurementParameters": {},  # for future use to store used parameters?
-            "kpis": self.get_kpis()[2],
-            "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
-        }
+        results_json = self._get_test_results()
 
         # store results_json
-        with open(name + ".json", "w") as outfile:
+        with open(file_name + ".json", "w") as outfile:
             json.dump(results_json, outfile)
  
         # get list of results, need to use output metadata because duplicate inputs are removed
@@ -1366,7 +1368,7 @@ class TestCase(object):
         # convert to dataframe
         results_df = pd.DataFrame.from_dict(results)
         # store
-        results_df.to_csv(name + ".csv")
+        results_df.to_csv(file_name + ".csv")
 
     def to_camel_case(self, snake_str):
         components = snake_str.split('_')
