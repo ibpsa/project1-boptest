@@ -19,6 +19,10 @@ Released on xx/xx/xxxx.
 - Add ``activate`` control inputs to all test case documentation and update ``get_html_IO.py`` to print one file with all inputs, outputs, and forecasts. This is for [#555](https://github.com/ibpsa/project1-boptest/issues/555).
 
 
+**The following new test cases have been added:**
+
+- ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
+
 ## BOPTEST v0.5.0
 
 Released on 10/04/2023.
