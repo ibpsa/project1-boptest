@@ -38,4 +38,4 @@ permalink: /ibpsa/project/meetings/task3/
 
 **Notes:**
 
-- [Minutes](/ibpsa_project/meetings/task3/20240222_IBPSA-BOPTEST_Task3_minutes.pdf)
+- [Minutes](/ibpsa_project/meetings/task3/20240222_Progress/20240222_IBPSA-BOPTEST_Task3_minutes.pdf)
