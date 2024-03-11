@@ -1320,13 +1320,15 @@ class TestCase(object):
         return z
 
     def _get_test_results(self):
-        '''Collect test results.
+        '''Collect test results and information into a dictionary.
 
         Returns
         -------
         results: dict
-            Dictionary of test specific results.
+            Dictionary of test specific results and information.
+
         '''
+
         results = {
             "dateRun": str(datetime.now(tz=pytz.UTC)),
             "boptestVersion": self.version,
@@ -1340,36 +1342,35 @@ class TestCase(object):
                 "uid": self.get_name()[2]['name'],
             }
         }
+
         return results
 
     def store_results(self):
-        '''Stores results from scenario in working directory.
-        When ran with service, the result will be packed in the result tarball and
-        be retrieveable with the test_id
+        '''Stores results from scenario in working directory as json and csv.
 
+        When run with Service, the result will be packed in the result tarball and
+        be retrieveable with the test_id.
 
         Returns
         -------
-        None.
+        None
 
         '''
 
         file_name = "results"
         # get results_json
         results_json = self._get_test_results()
-
         # store results_json
         with open(file_name + ".json", "w") as outfile:
             json.dump(results_json, outfile)
-
-        # get list of results, need to use output metadata because duplicate inputs are removed
+        # get list of results, need to use output metadata so duplicate inputs are removed
         result_list = self.input_names + list(self.outputs_metadata.keys())
         # get results trajectories
         results = self.get_results(result_list, self.initial_time, self.end_time)[2]
         # convert to dataframe with time as index
         results_df = pd.DataFrame.from_dict(results)
         results_df.index = results_df['time']
-        # store
+        # store results csv
         results_df.to_csv(file_name + ".csv")
 
     def to_camel_case(self, snake_str):
