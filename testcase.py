@@ -1318,7 +1318,7 @@ class TestCase(object):
         z.update(self.u)
 
         return z
-    
+
     def _get_test_results(self):
         '''Collect test results.
 
@@ -1360,13 +1360,14 @@ class TestCase(object):
         # store results_json
         with open(file_name + ".json", "w") as outfile:
             json.dump(results_json, outfile)
- 
+
         # get list of results, need to use output metadata because duplicate inputs are removed
         result_list = self.input_names + list(self.outputs_metadata.keys())
         # get results trajectories
         results = self.get_results(result_list, self.initial_time, self.end_time)[2]
-        # convert to dataframe
+        # convert to dataframe with time as index
         results_df = pd.DataFrame.from_dict(results)
+        results_df.index = results_df['time']
         # store
         results_df.to_csv(file_name + ".csv")
 
