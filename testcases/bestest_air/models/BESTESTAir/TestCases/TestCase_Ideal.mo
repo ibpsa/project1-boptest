@@ -1,4 +1,4 @@
-﻿within BESTESTAir.TestCases;
+within BESTESTAir.TestCases;
 model TestCase_Ideal "Testcase model with ideal airflow"
   extends Modelica.Icons.Example;
   BaseClasses.Case900FF zon(mAir_flow_nominal=fcu.mAir_flow_nominal)
@@ -19,7 +19,12 @@ equation
           9.11111},{-21.4286,9.11111}}, color={0,0,127}));
   connect(con.yFan, fcu.uFan) annotation (Line(points={{-59,0},{-44,0},{-44,
           2.88889},{-21.4286,2.88889}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
+  annotation (__Buildings(semantic(
+    metdataLanguageDefinition="Brick 1.3 text/turtle" "https://brickschema.org",
+    metadataLanguage="Brick 1.3 text/turtle" 
+       "@prefix bldg: <urn:bldg/> .
+        @prefix brick: <https://brickschema.org/schema/Brick#> .")),
+        Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
       StopTime=31536000,

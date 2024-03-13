@@ -34,7 +34,9 @@ model Thermostat_T
       min=273.15 + 23,
       max=273.15 + 30), description="Zone temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint"
-    annotation (Placement(transformation(extent={{-70,70},{-50,90}})));
+    annotation (
+    __Buildings(semantic(metadataLanguage="Brick 1.3 text/turtle" "bldg:<cdl_instance_name> a brick:Zone_Air_Cooling_Temperature_Setpoint .")),
+    Placement(transformation(extent={{-70,70},{-50,90}})));
   Modelica.Blocks.Sources.CombiTimeTable TSetCoo(
     smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
