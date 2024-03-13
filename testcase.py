@@ -1154,7 +1154,8 @@ class TestCase(object):
             },
             "tags": tags,
         }
-        payload = {"results":[{**test_results, **api_parameters}]}
+        test_results.update(api_parameters)
+        payload = {"results":[test_results]}
         dash_url = "%s/api/results" % dash_server
         # Post to dashboard
         if not unit_test:
