@@ -1333,9 +1333,7 @@ class TestCase(object):
             "dateRun": str(datetime.now(tz=pytz.UTC)),
             "boptestVersion": self.version,
             "controlStep": str(self.get_step()[2]),
-            "forecastPoints": {},  # for future use to store used forecast points
-            "measurementPoints": {},  # for future use to store used measurement points
-            "inputPoints": {},  # for future use to store used input points
+            "forecastParameters":{},
             "kpis": self.get_kpis()[2],
             "scenario": self.add_forecast_uncertainty(self.keys_to_camel_case(self.get_scenario()[2])),
             "buildingType": {
