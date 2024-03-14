@@ -27,8 +27,8 @@ operating agent(s).  They are described and listed below.
 not need to join the project to register for the mailing list.
 
 **To submit a new testcase application**, use this
-[google form](https://groups.google.com/g/ibpsa-boptest). Applications will be
-discussed during Task 3 [meetings](/ibpsa/project/meetings/task3/).
+[google form](https://docs.google.com/forms/d/e/1FAIpQLSdJpGsaJRflkn1shAos86gPjFEvEMH-gblKPq5tjt8kob8-Pg/viewform). Applications will be
+discussed during Task 3 [meetings](/project1-boptest/ibpsa/project/meetings/task3/).
 
 
 # Registered Participants
