@@ -9,6 +9,7 @@ import unittest
 import os
 import utilities
 import argparse
+import requests
 
 # Configure the argument parser
 parser = argparse.ArgumentParser(description='Configure the unit tests that are run')
@@ -31,13 +32,17 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         '''
 
         self.name = 'multizone_office_simple_air'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.points_check = ['chi_reaPChi_y', 'heaPum_reaPHeaPum_y',
                              'hvac_reaZonCor_TZon_y', 'hvac_reaZonNor_TZon_y',
                              'hvac_reaZonWes_TZon_y', 'hvac_reaZonSou_CO2Zon_y',
                              'hvac_reaZonEas_CO2Zon_y',
                              'hvac_reaAhu_PFanSup_y', 'hvac_reaAhu_TMix_y',
                              'weaSta_reaWeaTDryBul_y', 'weaSta_reaWeaHGloHor_y']
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
     @unittest.skipUnless(('test_peak_heat_day' in test_names) or not(test_names), 'Skipping test_peak_heat_day.')
     def test_peak_heat_day(self):
@@ -74,7 +79,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'multizone_office_simple_air'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
@@ -82,6 +87,10 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       'hvac_oveAhu_TSupSet_u': 273.15 + 22}
         self.measurement = 'hvac_reaAhu_PPumHea_y'
         self.forecast_point = 'EmissionsElectricPower'
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__), test_names)
