@@ -13,3 +13,9 @@ testcase2/doc/build/
 parser/*.fmu
 parser/*.mo
 parser/*.json
+*.c
+*.exe
+*.bak-mo
+testcases/testcaseFRP/models/FRP/request
+testcases/testcaseFRP/models/FRP/stop
+*.ex_
