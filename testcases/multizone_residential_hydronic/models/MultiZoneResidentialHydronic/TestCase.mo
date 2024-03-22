@@ -2483,97 +2483,174 @@ vacuum failures when all valves are closed while the distribution pump is workin
 
 <h3>Model IO's</h3>
 <h4>Inputs</h4>
-<p>The model inputs are: </p>
+The model inputs are:
 <ul>
 <li>
+<code>boi_oveBoi_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input boi_oveBoi_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>boi_oveBoi_u</code> [1] [min=0.0, max=1.0]: Boiler control signal for part load ratio
+</li>
+<li>
+<code>conCooBth_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooBth_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooBth_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Bth
 </li>
 <li>
+<code>conCooBth_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooBth_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooBth_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Bth
+</li>
+<li>
+<code>conCooHal_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooHal_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooHal_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Hal
 </li>
 <li>
+<code>conCooHal_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooHal_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooHal_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Hal
+</li>
+<li>
+<code>conCooLiv_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooLiv_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooLiv_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Liv
 </li>
 <li>
+<code>conCooLiv_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooLiv_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooLiv_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Liv
+</li>
+<li>
+<code>conCooRo1_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo1_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooRo1_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro1
 </li>
 <li>
+<code>conCooRo1_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo1_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooRo1_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro1
+</li>
+<li>
+<code>conCooRo2_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo2_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooRo2_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro2
 </li>
 <li>
+<code>conCooRo2_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo2_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooRo2_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro2
+</li>
+<li>
+<code>conCooRo3_oveCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo3_oveCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conCooRo3_oveCoo_u</code> [1] [min=0.0, max=1.0]: Cooling control signal as fraction of maximum for zone Ro3
 </li>
 <li>
+<code>conCooRo3_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conCooRo3_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conCooRo3_oveTSetCoo_u</code> [K] [min=283.15, max=303.15]: Air temperature cooling setpoint for zone Ro3
+</li>
+<li>
+<code>conHeaBth_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaBth_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaBth_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Bth
 </li>
 <li>
+<code>conHeaBth_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaBth_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaBth_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Bth
+</li>
+<li>
+<code>conHeaLiv_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaLiv_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaLiv_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Liv
 </li>
 <li>
+<code>conHeaLiv_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaLiv_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaLiv_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Liv
+</li>
+<li>
+<code>conHeaRo1_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo1_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaRo1_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro1
 </li>
 <li>
+<code>conHeaRo1_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo1_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaRo1_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro1
+</li>
+<li>
+<code>conHeaRo2_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo2_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaRo2_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro2
 </li>
 <li>
+<code>conHeaRo2_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo2_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaRo2_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro2
+</li>
+<li>
+<code>conHeaRo3_oveActHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo3_oveActHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>conHeaRo3_oveActHea_u</code> [1] [min=0.0, max=1.0]: Actuator signal for heating valve for zone Ro3
 </li>
 <li>
+<code>conHeaRo3_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input conHeaRo3_oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>conHeaRo3_oveTSetHea_u</code> [K] [min=283.15, max=368.15]: Air temperature heating setpoint for zone Ro3
+</li>
+<li>
+<code>oveEmiPum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveEmiPum_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveEmiPum_u</code> [1] [min=0.0, max=1.0]: Control signal to the circulation pump of the emission system
 </li>
 <li>
-<code>oveMixValSup_u</code> [1] [min=0.0, max=1.0]: Actuator signal for 0three-way mixing valve controlling supply water temperature to radiators
+<code>oveMixValSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveMixValSup_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveMixValSup_u</code> [1] [min=0.0, max=1.0]: Actuator signal for three-way mixing valve controlling supply water temperature to radiators
+</li>
+<li>
+<code>oveTSetPum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetPum_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveTSetPum_u</code> [K] [min=283.15, max=368.15]: Heating zone air temperature setpoint used to control circulation pump of the emission system
 </li>
 <li>
+<code>oveTSetSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetSup_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>oveTSetSup_u</code> [K] [min=283.15, max=368.15]: Supply water temperature setpoint to radiators
 </li>
 </ul>
-
 <h4>Outputs</h4>
-<p>The model outputs are: </p>
+The model outputs are:
 <ul>
-<li>
-<code>boi_oveBoi_y</code> [1] [min=None, max=None]: Boiler control signal for part load ratio
-</li>
 <li>
 <code>boi_reaGasBoi_y</code> [W] [min=None, max=None]: Boiler gas power use
 </li>
@@ -2581,100 +2658,34 @@ vacuum failures when all valves are closed while the distribution pump is workin
 <code>boi_reaPpum_y</code> [W] [min=None, max=None]: Boiler pump electrical power use
 </li>
 <li>
-<code>conCooBth_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Bth
-</li>
-<li>
-<code>conCooBth_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Bth
-</li>
-<li>
 <code>conCooBth_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Bth
-</li>
-<li>
-<code>conCooHal_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Hal
-</li>
-<li>
-<code>conCooHal_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Hal
 </li>
 <li>
 <code>conCooHal_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Hal
 </li>
 <li>
-<code>conCooLiv_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Liv
-</li>
-<li>
-<code>conCooLiv_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Liv
-</li>
-<li>
 <code>conCooLiv_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Liv
-</li>
-<li>
-<code>conCooRo1_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro1
-</li>
-<li>
-<code>conCooRo1_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro1
 </li>
 <li>
 <code>conCooRo1_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro1
 </li>
 <li>
-<code>conCooRo2_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro2
-</li>
-<li>
-<code>conCooRo2_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro2
-</li>
-<li>
 <code>conCooRo2_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro2
-</li>
-<li>
-<code>conCooRo3_oveCoo_y</code> [1] [min=None, max=None]: Cooling control signal as fraction of maximum for zone Ro3
-</li>
-<li>
-<code>conCooRo3_oveTSetCoo_y</code> [K] [min=None, max=None]: Air temperature cooling setpoint for zone Ro3
 </li>
 <li>
 <code>conCooRo3_reaPCoo_y</code> [W] [min=None, max=None]: Cooling electrical power use in zone Ro3
 </li>
 <li>
-<code>conHeaBth_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Bth
-</li>
-<li>
-<code>conHeaBth_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Bth
-</li>
-<li>
 <code>conHeaBth_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Bth
-</li>
-<li>
-<code>conHeaLiv_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Liv
-</li>
-<li>
-<code>conHeaLiv_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Liv
 </li>
 <li>
 <code>conHeaLiv_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Liv
 </li>
 <li>
-<code>conHeaRo1_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro1
-</li>
-<li>
-<code>conHeaRo1_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro1
-</li>
-<li>
 <code>conHeaRo1_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro1
 </li>
 <li>
-<code>conHeaRo2_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro2
-</li>
-<li>
-<code>conHeaRo2_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro2
-</li>
-<li>
 <code>conHeaRo2_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro2
-</li>
-<li>
-<code>conHeaRo3_oveActHea_y</code> [1] [min=None, max=None]: Actuator signal for heating valve for zone Ro3
-</li>
-<li>
-<code>conHeaRo3_oveTSetHea_y</code> [K] [min=None, max=None]: Air temperature heating setpoint for zone Ro3
 </li>
 <li>
 <code>conHeaRo3_reaTZon_y</code> [K] [min=None, max=None]: Air temperature of zone Ro3
@@ -2702,18 +2713,6 @@ vacuum failures when all valves are closed while the distribution pump is workin
 </li>
 <li>
 <code>infRo3_reaCO2RooAir_y</code> [ppm] [min=None, max=None]: Air CO2 concentration of zone Ro3
-</li>
-<li>
-<code>oveEmiPum_y</code> [1] [min=None, max=None]: Control signal to the circulation pump of the emission system
-</li>
-<li>
-<code>oveMixValSup_y</code> [1] [min=None, max=None]: Actuator signal for three-way mixing valve controlling supply water temperature to radiators
-</li>
-<li>
-<code>oveTSetPum_y</code> [K] [min=None, max=None]: Heating zone air temperature setpoint used to control circulation pump of the emission system
-</li>
-<li>
-<code>oveTSetSup_y</code> [K] [min=None, max=None]: Supply water temperature setpoint to radiators
 </li>
 <li>
 <code>reaHeaBth_y</code> [W] [min=None, max=None]: Heating delivered to Bth
@@ -2822,7 +2821,7 @@ vacuum failures when all valves are closed while the distribution pump is workin
 </li>
 </ul>
 <h4>Forecasts</h4>
-<p>The model forecasts are: </p>
+The model forecasts are:
 <ul>
 <li>
 <code>EmissionsElectricPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh of electricity
