@@ -226,6 +226,7 @@ class KPI_Calculator(object):
                 Price scenario for cost kpi calculation.
                 'Constant' or 'Dynamic' or 'HighlyDynamic'.
                 Default is 'Constant'.
+
             Returns
             -------
             dkpi = dict
