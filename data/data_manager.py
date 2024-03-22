@@ -186,8 +186,8 @@ class Data_Manager(object):
                     'seconds from the beginning of the year', Warning)
                     print(f)
 
-    def save_data_and_kpisjson(self, fmu_path):
-        '''Store all of the .csv and kpis.json test case data within the
+    def save_data_and_jsons(self, fmu_path):
+        '''Store all of the .csv, kpis.json, and days.json test case data within the
         resources folder of the fmu.
 
         Parameters
@@ -211,6 +211,10 @@ class Data_Manager(object):
 
         # Find the kpis.json path
         self.kpi_path = os.path.join(models_dir, 'kpis.json')
+        # Find the days.json path
+        self.days_path = os.path.join(models_dir, 'days.json')
+        # Find the config.json path
+        self.config_path = os.path.join(models_dir, 'config.json')
 
         if os.path.exists(resources_dir):
             # Find all files within Resources folder
@@ -231,7 +235,22 @@ class Data_Manager(object):
                              os.path.join('resources', 'kpis.json'))
         else:
             warnings.warn('No kpis.json found for this test case, ' \
-                          'use the parser to get this file or otherwise create it.')
+                          'use the parsing/parser.py to get this file or otherwise create it.')
+
+        # Write a copy of the days.json within the fmu resources folder
+        if os.path.exists(self.days_path):
+            self.z_fmu.write(self.days_path,
+                             os.path.join('resources', 'days.json'))
+        else:
+            warnings.warn('No days.json found for this test case, ' \
+                          'use the data/find_days.py to get this file or otherwise create it.')
+
+        # Write a copy of config.json to the fmu resources folder
+        if os.path.exists(self.config_path):
+            self.z_fmu.write(self.config_path,
+                             os.path.join('resources', 'config.json'))
+        else:
+            warnings.warn('No config.json found for this test case')
 
         # Close the fmu
         self.z_fmu.close()
@@ -281,7 +300,7 @@ class Data_Manager(object):
         Notes
         -----
         The loading and pre-processing of the data happens only
-        once (at load_data_and_kpisjson) to reduce the computational
+        once (at load_data_and_jsons) to reduce the computational
         load during the co-simulation
 
         '''
@@ -314,20 +333,36 @@ class Data_Manager(object):
             # the closest possible point under stop will be the end
             # point in order to keep interval unchanged among index.
             index = np.arange(start,stop+0.1,interval).astype(int)
+        else:
+            if not isinstance(index, np.ndarray):
+                index = np.asarray(index)
 
         # Reindex to the desired index
-        data_slice_reindexed = data_slice.reindex(index)
-
-        for key in data_slice_reindexed.keys():
-            # Use linear interpolation for continuous variables
-            if key in self.categories['weather']:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='linear')
-            # Use forward fill for discrete variables
-            else:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='zero')
-            data_slice_reindexed.loc[:,key] = f(index)
+        start = index[0]
+        # 1 year in (s)
+        year = 31536000
+        # Starting year
+        year_start = int(np.floor(start/year))*year
+        # Normalizing index with respect to starting year
+        index_norm = index - year_start
+        stop_norm = index_norm[-1]
+        # If stop happens across the year divide df and interpolate separately
+        if stop_norm > data_slice.index[-1]:
+            idx_year = (np.abs(index_norm - year)).argmin() + 1
+            # Take previous index value if index at idx_year > year
+            if index_norm[idx_year - 1] - year > np.finfo(float).eps:
+                idx_year = idx_year -1
+            df_slice1 = data_slice.reindex(index_norm[:idx_year])
+            df_slice1 = self.interpolate_data(df_slice1,index_norm[:idx_year])
+            df_slice2 = data_slice.reindex(index_norm[idx_year:] - year)
+            df_slice2 = self.interpolate_data(df_slice2,index_norm[idx_year:] - year)
+            df_slice2.index = df_slice2.index + year
+            data_slice_reindexed = pd.concat([df_slice1,df_slice2])
+        else:
+            data_slice_reindexed = data_slice.reindex(index_norm)
+            data_slice_reindexed = self.interpolate_data(data_slice_reindexed,index_norm)
+        # Add starting year back to index desired by user
+        data_slice_reindexed.index = data_slice_reindexed.index + year_start
 
         if plot:
             if category is None:
@@ -343,8 +378,8 @@ class Data_Manager(object):
         # Transform data frame to dictionary
         return data_slice_reindexed.reset_index().to_dict('list')
 
-    def load_data_and_kpisjson(self):
-        '''Load the data and kpis.json from the resources folder of the fmu
+    def load_data_and_jsons(self):
+        '''Load the data, kpis.json, and days.json from the resources folder of the fmu
         into the test case object.  The data is resampled according to the
         minimum sampling rate, where weather is linearly interpolated and
         schedules use a forward-fill.
@@ -359,12 +394,24 @@ class Data_Manager(object):
         # Load kpi json
         json_str = z_fmu.open('resources/kpis.json').read()
         self.case.kpi_json = json.loads(json_str)
+        # Load days json
+        json_str = z_fmu.open('resources/days.json').read()
+        self.case.days_json = json.loads(json_str)
+        # Load config json
+        json_str = z_fmu.open('resources/config.json').read()
+        self.case.config_json = json.loads(json_str)
 
         # Find the test case data files
         files = []
         for f in z_fmu.namelist():
             if f.startswith('resources/') and f.endswith('.csv'):
-                files.append(f)
+                if 'resource_file_exclusion' in self.case.config_json:
+                    if f.split('/')[-1] in self.case.config_json['resource_file_exclusion']:
+                        print('{0} found on"resource_file_exclusion" list.  Not loading data into testcase.'.format(f))
+                    else:
+                        files.append(f)
+                else:
+                    files.append(f)
 
         # Find the minimum sampling resolution
         sampling = 3600.
@@ -400,7 +447,10 @@ class Data_Manager(object):
                                        'you want this variable to be part of the test case data '\
                                        'make sure that the column has a key with any of the specified '\
                                        'formats in categories.json and that, if it is a zone related '\
-                                       'key, it is in the format: variable[zone_identifier] '.format(col,f))
+                                       'key, it is in the format: variable[zone_identifier].  If you '\
+                                       'do not intend for this variable to be included, consider adding '\
+                                       'the file it is contained within to the "resource_file_exclusion" '\
+                                       'list in the test case config.json.'.format(col,f))
                     else:
                         for category in self.categories:
                             # Use linear interpolation for continuous variables
@@ -427,6 +477,76 @@ class Data_Manager(object):
         # Convert any string formatted numbers to floats.
         self.case.data = self.case.data.applymap(float)
 
+    def get_data_metadata(self):
+        '''Get the metadata of the test case data variables.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        data_metadata: dict
+            {<variable>: {
+                    "Description":<string>,
+                    "Unit":<string>
+                    }
+            }
+
+        '''
+
+        data_metadata = dict()
+        for key in self.case.data.columns:
+            # Remove zone identifier if present to find variable metadata
+            if '[' in key:
+                var=key[:key.find('[')]
+            else:
+                var=key
+            # Find key category and pass variable metadata
+            if var in self.categories['weather']:
+                metadata = self.categories['weather'][var]
+            elif var in self.categories['prices']:
+                metadata = self.categories['prices'][var]
+            elif var in self.categories['emissions']:
+                metadata = self.categories['emissions'][var]
+            elif var in self.categories['occupancy']:
+                metadata = self.categories['occupancy'][var]
+            elif var in self.categories['internalGains']:
+                metadata = self.categories['internalGains'][var]
+            elif var in self.categories['setpoints']:
+                metadata = self.categories['setpoints'][var]
+            # Add key with metadata to dictionary
+            data_metadata[key] = metadata
+
+        return data_metadata
+
+    def interpolate_data(self,df,index):
+        '''Interpolate testcase data.
+
+        Parameters
+        ----------
+        df: pandas.DataFrame
+            Dataframe that needs to be interpolated
+        index: np.array()
+            Index to use to get interpolated data
+
+        Returns
+        -------
+        df: pandas.DataFrame
+            Interpolated dataframe
+
+        '''
+        for key in df.keys():
+            # Use linear interpolation for continuous variables
+            if key in self.categories['weather']:
+                f = interpolate.interp1d(self.case.data.index,
+                    self.case.data[key], kind='linear')
+            # Use forward fill for discrete variables
+            else:
+                f = interpolate.interp1d(self.case.data.index,
+                    self.case.data[key], kind='zero')
+            df.loc[:,key] = f(index)
+        return df
 
 if __name__ == "__main__":
     import sys

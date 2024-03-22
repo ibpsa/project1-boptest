@@ -30,7 +30,7 @@ class ExampleProportionalPython(unittest.TestCase, utilities.partialChecks):
         '''
 
         # Run test
-        kpi,df_res = testcase3.run()
+        kpi,df_res,custom_kpi_result = testcase3.run()
         # Check kpis
         df = pd.DataFrame.from_dict(kpi, orient='index', columns=['value'])
         df.index.name = 'keys'
@@ -55,8 +55,13 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.name = 'testcase3'
         self.url = 'http://127.0.0.1:5000'
-        self.name_ref = 'wrapped'
-        self.step_ref = 60.0
+        self.step_ref = 60
+        self.test_time_period = 'test_day'
+        #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
+        self.input = {'oveActNor_activate': 0, 'oveActNor_u': 1500,
+                      'oveActSou_activate': 0, 'oveActSou_u': 1500}
+        self.measurement = 'CO2RooAirSou_y'
+        self.forecast_point = 'EmissionsBiomassPower'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

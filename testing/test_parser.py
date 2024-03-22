@@ -24,20 +24,16 @@ read_blocks = {'PHeat':{'Unit':'W',
                'TZone':{'Unit':'K',
                         'Description': 'Zone temperature',
                         'Minimum': None,
-                        'Maximum': None},
-               'setZone':{'Unit':'K',
-                          'Description': 'Zone temperature setpoint',
-                          'Minimum': None,
-                          'Maximum': None}}
+                        'Maximum': None}}
 overwrite_blocks = {'oveAct':{'Unit':'W',
-                              'Description': 'Heater thermal power',
+                              'Description': 'Control signal for heater thermal power',
                               'Minimum': 0,
                               'Maximum': 3000},
                     'oveSet':{'Unit':'K',
                               'Description': 'Zone temperature setpoint',
                               'Minimum': 273.15+10,
                               'Maximum': 273.15+35}}
-signal_outputs = ['PHeat_y', 'TZone_y', 'setZone_y']
+signal_outputs = ['PHeat_y', 'TZone_y', 'oveSet_y', 'oveAct_y']
 
 def _compare_kpis_json(fmu_path, ref_kpi_json_path):
     '''Compares the kpis json in a test case fmu with a reference file.
@@ -96,8 +92,8 @@ class ParseInstances(unittest.TestCase):
         # Checks
         for key in instances.keys():
             if key is 'Read':
-                # Check there are 3 Read blocks
-                self.assertEqual(len(instances[key]),3)
+                # Check there are 2 Read blocks
+                self.assertEqual(len(instances[key]),2)
                 for instance in instances[key].keys():
                     # Check each Read block instance is identified correctly
                     self.assertTrue(instance in read_blocks)
@@ -167,8 +163,8 @@ class ParseInstances(unittest.TestCase):
         # Checks
         for key in instances.keys():
             if key is 'Read':
-                # Check there are 3 Read blocks
-                self.assertEqual(len(instances[key]),3)
+                # Check there are 2 Read blocks
+                self.assertEqual(len(instances[key]),2)
                 for instance in instances[key]:
                     # Check each Read block instance is identified correctly
                     self.assertTrue(instance in read_blocks)
@@ -281,7 +277,8 @@ class ExportSimulate(unittest.TestCase, utilities.partialChecks):
         res = simulate.simulate(overwrite=None)
         # Check results
         df = pd.DataFrame()
-        for key in ['TZone_y', 'PHeat_y', 'setZone_y']:
+        # Note oveSet_y and oveAct_y used because simulate.simulate simulates actual FMU, which exposes overwrite block output as _y
+        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveSet_activate', 'oveAct_y', 'oveAct_activate']:
             df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'],columns=[key])), axis=1)
         df.index.name = 'time'
         # Set reference file path
@@ -298,7 +295,8 @@ class ExportSimulate(unittest.TestCase, utilities.partialChecks):
         res = simulate.simulate(overwrite='set')
         # Check results
         df = pd.DataFrame()
-        for key in ['TZone_y', 'PHeat_y', 'setZone_y']:
+        # Note oveSet_y and oveAct_y used because simulate.simulate simulates actual FMU, which exposes overwrite block output as _y
+        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveSet_activate', 'oveAct_y', 'oveAct_activate']:
             df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'], columns=[key])), axis=1)
         df.index.name = 'time'
         # Set reference file path
@@ -315,7 +313,8 @@ class ExportSimulate(unittest.TestCase, utilities.partialChecks):
         res = simulate.simulate(overwrite='act')
         # Check results
         df = pd.DataFrame()
-        for key in ['TZone_y', 'PHeat_y', 'setZone_y']:
+        # Note oveSet_y and oveAct_y used because simulate.simulate simulates actual FMU, which exposes overwrite block output as _y
+        for key in ['TZone_y', 'PHeat_y', 'oveSet_y', 'oveSet_activate', 'oveAct_y', 'oveAct_activate']:
             df = pd.concat((df, pd.DataFrame(data=res[key], index=res['time'], columns=[key])), axis=1)
         df.index.name = 'time'
         # Set reference file path

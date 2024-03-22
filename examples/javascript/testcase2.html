@@ -129,13 +129,14 @@ function send()
     		              }
     		              else {
     								 console.log( "SUCCESS in getting results" );
-								 result.value = xhr_get_result.response;
+									 json = JSON.parse(xhr_get_result.responseText)["payload"];
+								     result.value = JSON.stringify(json);
     		              }
             }
       };
       var results = {};
 
-      var results_arg='{"point_name":"TRooAir_y","start_time":0,"final_time":'+length.toString()+'}';
+      var results_arg='{"point_names":["TRooAir_y"],"start_time":0,"final_time":'+length.toString()+'}';
       xhr_get_result.send(results_arg);
 
       xhr_get_kpi = new XMLHttpRequest();
@@ -147,7 +148,8 @@ function send()
     		              }
     		              else {
     								 console.log( "SUCCESS in getting kpi" );
-    								 kpi.value = xhr_get_kpi.response;
+									 json = JSON.parse(xhr_get_kpi.responseText)["payload"];
+    								 kpi.value = JSON.stringify(json);
     		              }
             }
       };
@@ -188,7 +190,7 @@ function send()
 
             data = '{"oveTSetRooHea_u":295.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_u":296.15,"oveTSetRooCoo_activate":1}'
        };
-       console.log(data);
+
 
        <!-- Advance simulation -->
        xhr = new XMLHttpRequest();
@@ -196,8 +198,9 @@ function send()
        xhr.setRequestHeader("Content-type", "application/json");
        xhr.onreadystatechange = function () {
        if (xhr.readyState == 4 && xhr.status == 200) {
-            output.value = xhr.response;
-            json = JSON.parse(xhr.responseText);
+            json = JSON.parse(xhr.responseText)["payload"];
+			console.log(json)
+            output.value = JSON.stringify(json);
        <!-- initialize the information for the select box and plotting-->
     		if (count ==1) {
     		              for (key in json) {

@@ -30,16 +30,18 @@ class Forecaster(object):
         # Point to the test case object
         self.case = testcase
 
-    def get_forecast(self,horizon=None, interval=None,
+    def get_forecast(self,point_names, horizon=24*3600, interval=3600,
                      category=None, plot=False):
         '''Returns forecast of the test case data
 
         Parameters
         ----------
-        horizon : int, default is None
+        point_names : list of str
+            List of forecast point names for which to get data.
+        horizon : int, default is 86400 (one day)
             Length of the requested forecast in seconds. If None,
             the test case horizon will be used instead.
-        interval : int, default is None
+        interval : int, default is 3600 (one hour)
             resampling time interval in seconds. If None,
             the test case interval will be used instead.
         category : string, default is None
@@ -62,14 +64,9 @@ class Forecaster(object):
 
         '''
 
-        # Set default parameters if not provided
-        if horizon is None:
-            horizon = self.case.horizon
-        if interval is None:
-            interval = self.case.interval
-
         # Get the forecast
-        forecast = self.case.data_manager.get_data(horizon=horizon,
+        forecast = self.case.data_manager.get_data(variables=point_names,
+                                                   horizon=horizon,
                                                    interval=interval,
                                                    category=category,
                                                    plot=plot)

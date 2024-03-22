@@ -6,12 +6,11 @@ bestest_air must already be deployed.
 """
 
 import unittest
-import pandas as pd
 import os
 import utilities
 import requests
 
-class Run(unittest.TestCase, utilities.partialChecks):
+class Run(unittest.TestCase, utilities.partialTestTimePeriod):
     '''Tests the example test case.
 
     '''
@@ -23,24 +22,34 @@ class Run(unittest.TestCase, utilities.partialChecks):
 
         self.name = 'bestest_air'
         self.url = 'http://127.0.0.1:5000'
-        self.length = 48*3600
+        self.points_check = ['fcu_reaPCoo_y', 'fcu_reaFloSup_y',
+                             'fcu_oveTSup_u', 'fcu_oveFan_u',
+                             'zon_reaPPlu_y', 'fcu_reaPFan_y',
+                             'fcu_reaPHea_y', 'zon_reaPLig_y',
+                             'zon_reaTRooAir_y', 'zon_reaCO2RooAir_y',
+                             'zon_weaSta_reaWeaTDryBul_y']
 
-    def test_winter(self):
-        self._run('winter')
+    def test_peak_heat_day(self):
+        self.run_time_period('peak_heat_day')
 
-    def test_summer(self):
-        self._run('summer')
+    def test_peak_cool_day(self):
+        self.run_time_period('peak_cool_day')
 
-    def test_shoulder(self):
-        self._run('shoulder')
+    def test_typical_heat_day(self):
+        self.run_time_period('typical_heat_day')
 
-    def _run(self, season):
-        '''Runs the example and tests the kpi and trajectory results for season.
+    def test_typical_cool_day(self):
+        self.run_time_period('typical_cool_day')
+
+    def test_mix_day(self):
+        self.run_time_period('mix_day')
+
+    def test_scenario_flag(self):
+        '''Ensures the scenario flag is set properly.
 
         Parameters
         ----------
-        season: str
-            'winter' or 'summer' or 'shoulder'
+        None
 
         Returns
         -------
@@ -48,37 +57,22 @@ class Run(unittest.TestCase, utilities.partialChecks):
 
         '''
 
-        if season == 'winter':
-            start_time = 1*24*3600
-        elif season == 'summer':
-            start_time = 248*24*3600
-        elif season == 'shoulder':
-            start_time = 118*24*3600
-        else:
-            raise ValueError('Season {0} unknown.'.format(season))
-        # Initialize test case
-        res_initialize = requests.put('{0}/initialize'.format(self.url), data={'start_time':start_time, 'warmup_period':0})
-        # Get default simulation step
-        step_def = requests.get('{0}/step'.format(self.url)).json()
+        length = 86400*14
+        # Get current step
+        step_current = requests.get('{0}/step'.format(self.url)).json()['payload']
+        # Initialize test case scenario
+        requests.put('{0}/scenario'.format(self.url), json={'time_period':'peak_heat_day'})
+        # Set simulation step
+        requests.put('{0}/step'.format(self.url), json={'step':length})
         # Simulation Loop
-        for i in range(int(self.length/step_def)):
-            # Advance simulation
-            y = requests.post('{0}/advance'.format(self.url), data={}).json()
-        # Report KPIs
-        for price_scenario in ['constant', 'dynamic', 'highly_dynamic']:
-            requests.put('{0}/scenario'.format(self.url), data={'electricity_price':price_scenario})
-            res_kpi = requests.get('{0}/kpi'.format(self.url)).json()
-            # Check kpis
-            df = pd.DataFrame.from_dict(res_kpi, orient='index', columns=['value'])
-            df.index.name = 'keys'
-            ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(season, price_scenario))
-            self.compare_ref_values_df(df, ref_filepath)
-        requests.put('{0}/scenario'.format(self.url), data={'electricity_price':'constant'})
-        # Check results
-        points = self.get_all_points(self.url)
-        df = self.results_to_df(points, start_time, start_time+self.length, self.url)
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', self.name, 'results_{0}.csv'.format(season))
-        self.compare_ref_timeseries_df(df,ref_filepath)
+        requests.post('{0}/advance'.format(self.url), json=dict())
+        # Try submit results to dashboard
+        status = requests.post("{0}/submit".format(self.url), json={"api_key": 'valid_key',
+                                                                     "unit_test":"True"}).json()['status']
+        # Check result
+        self.assertEqual(status,200)
+        # Return scenario and step to original
+        requests.put('{0}/step'.format(self.url), json={'step':step_current})
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase.
@@ -95,8 +89,12 @@ class API(unittest.TestCase, utilities.partialTestAPI):
 
         self.name = 'bestest_air'
         self.url = 'http://127.0.0.1:5000'
-        self.name_ref = 'wrapped'
         self.step_ref = 3600
+        self.test_time_period = 'peak_heat_day'
+        #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
+        self.input = {'fcu_oveTSup_activate': 0, 'fcu_oveTSup_u': 290}
+        self.measurement = 'zon_weaSta_reaWeaSolHouAng_y'
+        self.forecast_point = 'EmissionsElectricPower'
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))
