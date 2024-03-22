@@ -215,6 +215,40 @@ class KPI_Calculator(object):
 
         return ckpi
 
+    def get_kpis_disaggregated(self, price_scenario='Constant'):
+            '''Return the core KPIs of a test case disaggregated and
+            with absolute values (not normalized by area or zone)
+            to see the contributions of each element to each KPI.
+
+            Parameters
+            ----------
+            price_scenario : str, optional
+                Price scenario for cost kpi calculation.
+                'Constant' or 'Dynamic' or 'HighlyDynamic'.
+                Default is 'Constant'.
+
+            Returns
+            -------
+            dkpi = dict
+                Dictionary with the core KPIs disaggregated and
+                with absolute values.
+
+            '''
+
+            _ = self.get_core_kpis(price_scenario=price_scenario)
+
+            dkpi = OrderedDict()
+            dkpi['tdis'] = self.tdis_dict
+            dkpi['idis'] = self.idis_dict
+            dkpi['ener'] = self.ener_dict
+            dkpi['cost'] = self.cost_dict
+            dkpi['emis'] = self.emis_dict
+            dkpi['pele'] = self.pele_dict
+            dkpi['pgas'] = self.pgas_dict
+            dkpi['pdih'] = self.pdih_dict
+
+            return dkpi
+
     def get_thermal_discomfort(self):
         '''The thermal discomfort is the integral of the deviation
         of the temperature with respect to the predefined comfort
@@ -333,11 +367,10 @@ class KPI_Calculator(object):
             if 'Power' in source:
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_ener))
-                    self.ener_dict[signal] += \
-                        trapz(pow_data,
-                              self._get_data_from_last_index('time',self.i_last_ener))*2.77778e-7 # Convert to kWh
-                    self.ener_dict_by_source[source+'_'+signal] += \
-                        self.ener_dict[signal]
+                    integral = trapz(pow_data,
+                            self._get_data_from_last_index('time',self.i_last_ener))*2.77778e-7 # Convert to kWh
+                    self.ener_dict[signal] += integral
+                    self.ener_dict_by_source[source+'_'+signal] += integral
                     self.ener_tot = self.ener_tot + self.ener_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Assign to case
@@ -382,10 +415,10 @@ class KPI_Calculator(object):
                     df_pow_data_all = pd.concat([df_pow_data_all, df_pow_data], axis=1)
             df_pow_data_all.index = pd.TimedeltaIndex(df_pow_data_all.index, unit='s')
             df_pow_data_all['total_demand'] = df_pow_data_all.sum(axis=1)
-            df_pow_data_all = df_pow_data_all.resample('15T').mean()/self.case._get_area()/1000.
+            df_pow_data_all = df_pow_data_all.resample('15T').mean()/1000.
             i = df_pow_data_all['total_demand'].idxmax()
             peak = df_pow_data_all.loc[i,'total_demand']
-            self.pele_tot = peak
+            self.pele_tot = peak/self.case._get_area()
             # Find contributions to peak by each signal
             for signal in self.case.kpi_json[source]:
                 self.pele_dict[signal] = df_pow_data_all.loc[i,signal]
@@ -429,10 +462,10 @@ class KPI_Calculator(object):
                     df_pow_data_all = pd.concat([df_pow_data_all, df_pow_data], axis=1)
             df_pow_data_all.index = pd.TimedeltaIndex(df_pow_data_all.index, unit='s')
             df_pow_data_all['total_demand'] = df_pow_data_all.sum(axis=1)
-            df_pow_data_all = df_pow_data_all.resample('15T').mean()/self.case._get_area()/1000.
+            df_pow_data_all = df_pow_data_all.resample('15T').mean()/1000.
             i = df_pow_data_all['total_demand'].idxmax()
             peak = df_pow_data_all.loc[i,'total_demand']
-            self.pgas_tot = peak
+            self.pgas_tot = peak/self.case._get_area()
             # Find contributions to peak by each signal
             for signal in self.case.kpi_json[source]:
                 self.pgas_dict[signal] = df_pow_data_all.loc[i,signal]
@@ -476,10 +509,10 @@ class KPI_Calculator(object):
                     df_pow_data_all = pd.concat([df_pow_data_all, df_pow_data], axis=1)
             df_pow_data_all.index = pd.TimedeltaIndex(df_pow_data_all.index, unit='s')
             df_pow_data_all['total_demand'] = df_pow_data_all.sum(axis=1)
-            df_pow_data_all = df_pow_data_all.resample('15T').mean()/self.case._get_area()/1000.
+            df_pow_data_all = df_pow_data_all.resample('15T').mean()/1000.
             i = df_pow_data_all['total_demand'].idxmax()
             peak = df_pow_data_all.loc[i,'total_demand']
-            self.pdih_tot = peak
+            self.pdih_tot = peak/self.case._get_area()
             # Find contributions to peak by each signal
             for signal in self.case.kpi_json[source]:
                 self.pdih_dict[signal] = df_pow_data_all.loc[i,signal]
@@ -541,11 +574,10 @@ class KPI_Calculator(object):
             # Calculate costs
             for signal in self.case.kpi_json[source]:
                 pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_cost))
-                self.cost_dict[signal] += \
-                    trapz(np.multiply(source_price_data,pow_data),
+                integral = trapz(np.multiply(source_price_data,pow_data),
                           self._get_data_from_last_index('time',self.i_last_cost))*factor
-                self.cost_dict_by_source[source+'_'+signal] += \
-                    self.cost_dict[signal]
+                self.cost_dict[signal] += integral
+                self.cost_dict_by_source[source+'_'+signal] += integral
                 self.cost_tot = self.cost_tot + self.cost_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Assign to case
@@ -585,11 +617,10 @@ class KPI_Calculator(object):
                          ['Emissions'+source])
                 for signal in self.case.kpi_json[source]:
                     pow_data = np.array(self._get_data_from_last_index(signal,self.i_last_emis))
-                    self.emis_dict[signal] += \
-                        trapz(np.multiply(source_emissions_data,pow_data),
+                    integral = trapz(np.multiply(source_emissions_data,pow_data),
                               self._get_data_from_last_index('time',self.i_last_emis))*2.77778e-7 # Convert to kWh
-                    self.emis_dict_by_source[source+'_'+signal] += \
-                        self.emis_dict[signal]
+                    self.emis_dict[signal] += integral
+                    self.emis_dict_by_source[source+'_'+signal] += integral
                     self.emis_tot = self.emis_tot + self.emis_dict[signal]/self.case._get_area() # Normalize total by floor area
 
         # Update last integration index

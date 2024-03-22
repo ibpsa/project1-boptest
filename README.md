@@ -68,7 +68,7 @@ Example RESTful interaction:
 
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional json data "{<input_name>:<value>}" |
+| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional arguments ``<input_name_u>:<value>``, and corresponding ``<input_name_activate>:<0 or 1>``, where 1 enables value overwrite and 0 disables (0 is default)  |
 | Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
 | Receive communication step in seconds.                                 |  GET ``step``                                             |
 | Set communication step in seconds.                                     |  PUT ``step`` with required argument ``step=<value>``              |
@@ -76,6 +76,7 @@ Example RESTful interaction:
 | Receive control signal point names (u) and metadata.                        |  GET ``inputs``                                           |
 | Receive test result data for the given point names between the start and final time in seconds. |  PUT ``results`` with required arguments ``point_names=<list of strings>``, ``start_time=<value>``, ``final_time=<value>``|
 | Receive test KPIs.                                                     |  GET ``kpi``                                              |
+| Receive test KPIs disaggregated into contributing components (e.g. each equipment or zone) ...|  GET ``kpi_disaggregated``                                |
 | Receive test case name.                                                |  GET ``name``                                             |
 | Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  PUT ``forecast`` with required arguments ``point_names=<list of strings>``, ``horizon=<value>``, ``interval=<value>``|
 | Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points``                              |
