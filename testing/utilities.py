@@ -749,35 +749,35 @@ class partialTestAPI(partialChecks):
                                    'horizon': 'foo',
                                    'interval': 300}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid non-numeric horizon in forecast request did not return 400 message.")
         # Try setting non-numeric interval
         forecast_parameters_ref = {'point_names':forecast_points,
                                    'horizon': 3600,
                                    'interval': 'foo'}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid non-numeric interval in forecast request did not return 400 message.")
         # Try setting negative horizon
         forecast_parameters_ref = {'point_names':forecast_points,
                                    'horizon': -3600,
                                    'interval': 300}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid negative horizon in forecast request did not return 400 message.")
         # Try setting negative interval
         forecast_parameters_ref = {'point_names':forecast_points,
                                    'horizon': 3600,
                                    'interval': -300}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid negative interval in forecast request did not return 400 message.")
         # Try setting invalid point name
         forecast_parameters_ref = {'point_names':['foo'],
                                    'horizon': 3600,
                                    'interval': 300}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
 
     def test_invalid_scenario(self):
@@ -945,6 +945,8 @@ class partialTestTimePeriod(partialChecks):
     def run_time_period(self, time_period):
         '''Runs the example and tests the kpi and trajectory results for time period.
 
+        Only runs two days from time period.
+
         Parameters
         ----------
         time_period: str
@@ -958,9 +960,14 @@ class partialTestTimePeriod(partialChecks):
 
         # Set time period scenario
         requests.put('{0}/scenario'.format(self.url), json={'time_period':time_period})
+        # Get default simulation step
+        step_def = requests.get('{0}/step'.format(self.url)).json()['payload']
+        # Set step to one day
+        step = 24*3600
+        requests.put('{0}/step'.format(self.url), json={'step':24*3600})
         # Simulation Loop
-        y = 1
-        while y:
+        length = 48*3600
+        for i in range(int(length/step)):
             # Advance simulation
             y = requests.post('{0}/advance'.format(self.url), json={}).json()['payload']
         # Check results
@@ -978,7 +985,10 @@ class partialTestTimePeriod(partialChecks):
             df.index.name = 'keys'
             ref_filepath = os.path.join(get_root_path(), 'testing', 'references', self.name, 'kpis_{0}_{1}.csv'.format(time_period, price_scenario))
             self.compare_ref_values_df(df, ref_filepath)
+        # Return test case to constant electricity price
         requests.put('{0}/scenario'.format(self.url), json={'electricity_price':'constant'})
+        # Return test case to default step
+        requests.put('{0}/step'.format(self.url), json={'step':step_def})
 
 class partialTestSeason(partialChecks):
     '''Partial class for testing the time periods for each test case

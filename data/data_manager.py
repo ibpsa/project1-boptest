@@ -333,20 +333,36 @@ class Data_Manager(object):
             # the closest possible point under stop will be the end
             # point in order to keep interval unchanged among index.
             index = np.arange(start,stop+0.1,interval).astype(int)
+        else:
+            if not isinstance(index, np.ndarray):
+                index = np.asarray(index)
 
         # Reindex to the desired index
-        data_slice_reindexed = data_slice.reindex(index)
-
-        for key in data_slice_reindexed.keys():
-            # Use linear interpolation for continuous variables
-            if key in self.categories['weather']:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='linear')
-            # Use forward fill for discrete variables
-            else:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='zero')
-            data_slice_reindexed.loc[:,key] = f(index)
+        start = index[0]
+        # 1 year in (s)
+        year = 31536000
+        # Starting year
+        year_start = int(np.floor(start/year))*year
+        # Normalizing index with respect to starting year
+        index_norm = index - year_start
+        stop_norm = index_norm[-1]
+        # If stop happens across the year divide df and interpolate separately
+        if stop_norm > data_slice.index[-1]:
+            idx_year = (np.abs(index_norm - year)).argmin() + 1
+            # Take previous index value if index at idx_year > year
+            if index_norm[idx_year - 1] - year > np.finfo(float).eps:
+                idx_year = idx_year -1
+            df_slice1 = data_slice.reindex(index_norm[:idx_year])
+            df_slice1 = self.interpolate_data(df_slice1,index_norm[:idx_year])
+            df_slice2 = data_slice.reindex(index_norm[idx_year:] - year)
+            df_slice2 = self.interpolate_data(df_slice2,index_norm[idx_year:] - year)
+            df_slice2.index = df_slice2.index + year
+            data_slice_reindexed = pd.concat([df_slice1,df_slice2])
+        else:
+            data_slice_reindexed = data_slice.reindex(index_norm)
+            data_slice_reindexed = self.interpolate_data(data_slice_reindexed,index_norm)
+        # Add starting year back to index desired by user
+        data_slice_reindexed.index = data_slice_reindexed.index + year_start
 
         if plot:
             if category is None:
@@ -504,6 +520,33 @@ class Data_Manager(object):
 
         return data_metadata
 
+    def interpolate_data(self,df,index):
+        '''Interpolate testcase data.
+
+        Parameters
+        ----------
+        df: pandas.DataFrame
+            Dataframe that needs to be interpolated
+        index: np.array()
+            Index to use to get interpolated data
+
+        Returns
+        -------
+        df: pandas.DataFrame
+            Interpolated dataframe
+
+        '''
+        for key in df.keys():
+            # Use linear interpolation for continuous variables
+            if key in self.categories['weather']:
+                f = interpolate.interp1d(self.case.data.index,
+                    self.case.data[key], kind='linear')
+            # Use forward fill for discrete variables
+            else:
+                f = interpolate.interp1d(self.case.data.index,
+                    self.case.data[key], kind='zero')
+            df.loc[:,key] = f(index)
+        return df
 
 if __name__ == "__main__":
     import sys
