@@ -232,6 +232,7 @@ class KPI_Calculator(object):
             dkpi = dict
                 Dictionary with the core KPIs disaggregated and
                 with absolute values.
+
             '''
 
             _ = self.get_core_kpis(price_scenario=price_scenario)
