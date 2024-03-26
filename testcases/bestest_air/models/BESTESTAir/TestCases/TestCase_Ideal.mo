@@ -5,9 +5,11 @@ model TestCase_Ideal "Testcase model with ideal airflow"
     annotation (Placement(transformation(extent={{34,-10},{54,10}})));
 
   BaseClasses.Thermostat_T con "Thermostat controller"
-    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+    annotation (
+      Placement(transformation(extent={{-80,-10},{-60,10}})));
   BaseClasses.FanCoilUnit_T fcu "Fan coil unit"
-    annotation (Placement(transformation(extent={{-20,-8},{0,20}})));
+    annotation (
+        Placement(transformation(extent={{-20,-8},{0,20}})));
 equation
   connect(fcu.supplyAir, zon.supplyAir) annotation (Line(points={{0,13.7778},{
           20,13.7778},{20,2},{34,2}}, color={0,127,255}));
@@ -22,8 +24,20 @@ equation
   annotation (__Buildings(semantic(
     metdataLanguageDefinition="Brick 1.3 text/turtle" "https://brickschema.org",
     metadataLanguage="Brick 1.3 text/turtle" 
-       "@prefix bldg: <urn:bldg/> .
-        @prefix brick: <https://brickschema.org/schema/Brick#> .")),
+       "@prefix bldg: <https://BESTESTAir.urn#> .
+        @prefix brick: <https://brickschema.org/schema/Brick#> .
+        @prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+        @prefix literal: <https://literal_values.urn#> .
+        @prefix quantitykind: <http://qudt.org/vocab/quantitykind/> .
+        @prefix qudt: <http://qudt.org/schema/qudt/> .
+        @prefix sh: <http://www.w3.org/ns/shacl#> .
+        @prefix boptestrules: <https://boptest-rules.urn#> .
+
+        bldg:con a brick:Thermostat;
+          boptestrules:sameAs bldg:con_Thermostat_T .
+        bldg:fcu a brick:FCU ;
+          boptestrules:sameAs bldg:fcu_FanCoilUnit_T .
+        ")),
         Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
