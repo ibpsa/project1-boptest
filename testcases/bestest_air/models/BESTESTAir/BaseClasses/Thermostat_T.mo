@@ -34,7 +34,22 @@ model Thermostat_T
       min=273.15 + 23,
       max=273.15 + 30), description="Zone temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint"
-    annotation (Placement(transformation(extent={{-70,70},{-50,90}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+      "bldg:<cdl_instance_name> a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
+          qudt:hasQuantityKind quantitykind:Temperature ;
+          qudt:hasUnit qudt:K .
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
+          ref:activate literal:<cdl_instance_name>_activate ;
+          ref:name literal:<cdl_instance_name> ;
+          ref:isWritable true ;
+          ref:description literal:description ;
+          ref:max literal:max ;
+          ref:min literal:min ;
+          ref:unit literal:K .
+          ")),
+    Placement(transformation(extent={{-70,70},{-50,90}})));
   Modelica.Blocks.Sources.CombiTimeTable TSetCoo(
     smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
@@ -46,7 +61,22 @@ model Thermostat_T
       max=273.15 + 23,
       unit="K",
       min=273.15 + 15)) "Overwrite for zone heating setpoint"
-    annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
+    annotation (
+      __Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+      "bldg:<cdl_instance_name> a brick:Zone_Air_Heating_Temperature_Setpoint ;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
+          qudt:hasQuantityKind quantitykind:Temperature ;
+          qudt:hasUnit qudt:K .
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
+          ref:activate literal:<cdl_instance_name>_activate ;
+          ref:name literal:<cdl_instance_name> ;
+          ref:isWritable true ;
+          ref:description literal:description ;
+          ref:max literal:max ;
+          ref:min literal:min ;
+          ref:unit literal:K .")),
+          Placement(transformation(extent={{-70,30},{-50,50}})));
   Modelica.Blocks.Sources.CombiTimeTable TSetHea(
     smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
     extrapolation=Modelica.Blocks.Types.Extrapolation.Periodic,
@@ -116,7 +146,12 @@ equation
     annotation (Line(points={{-49,40},{-12,40}}, color={0,0,127}));
   connect(oveTSetCoo.y, cooPI.u_s)
     annotation (Line(points={{-49,80},{-12,80}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+  annotation (
+    __Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle" 
+      "bldg:<cdl_instance_name> brick:hasPoint bldg:<cdl_instance_name>_oveTSetHea;
+          brick:hasPoint bldg:<cdl_instance_name>_oveTSetCoo .")),
+    Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                                 Rectangle(
         extent={{-100,-100},{100,100}},
         lineColor={0,0,127},
