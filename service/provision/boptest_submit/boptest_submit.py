@@ -75,9 +75,14 @@ class BoptestSubmit:
             return False
 
     def _exists(self, url_prefix, testcaseid, auth_token):
-        url = '{}{}{}'.format(self.server, url_prefix, testcaseid)
+        url = '{}{}'.format(self.server, url_prefix)
         response = requests.get(url, headers={'Authorization': auth_token})
-        return response.ok
+        response_data = response.json()
+        for test_case in response_data:
+          if test_case["testcaseid"] == testcaseid:
+            return True
+
+        return False
 
     def _wait_for_testcase(self, url_prefix, testcaseid, auth_token):
         attempts = 0
@@ -90,6 +95,17 @@ class BoptestSubmit:
     def submit_to_dashboard(self):
         payload = {
           'buildingTypes': [
+            {
+              'uid': 'twozone_apartment_hydronic',
+              'name': 'Two Zone Apartment Hydronic',
+              'markdownURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'pdfURL': 'https://raw.githubusercontent.com/ibpsa/project1-boptest/master/README.md',
+              'scenarios': {
+                'timePeriod': ['peak_heat_day', 'peak_cool_day', 'typical_heat_day', 'typical_cool_day', 'mix_day'],
+                'electricityPrice': ['constant', 'dynamic', 'highly dynamic'],
+                'weatherForecastUncertainty': ['deterministic']
+              }
+            },
             {
               'uid': 'bestest_air',
               'name': 'BESTEST Air',

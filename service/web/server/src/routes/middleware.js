@@ -29,6 +29,9 @@ export async function identify(req, res, next) {
         sub: 'abc' + testPrivilegedUsername + 'xyz',
         privileged: true,
       }
+    } else if (key) {
+      res.sendStatus(401)
+      return
     }
   } else {
     if (key) {

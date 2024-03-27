@@ -1,4 +1,4 @@
-print("Starting Alfalfa Worker")
+print("Starting BOPTEST Worker")
 
 import sys
 from .worker import Worker

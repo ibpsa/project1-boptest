@@ -53,7 +53,7 @@ boptestRoutes.get('/users/:userName/testcases/:testcaseID/post-form',
   middleware.identify,
   middleware.requireUser,
   (req, res, next) => {
-    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
+    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.sub, req.params.testcaseID)
     req.share = false
     next()
   },
@@ -100,8 +100,8 @@ boptestRoutes.delete('/users/:userName/testcases/:testcaseID',
   middleware.requireUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
-    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.dis)
-    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
+    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.sub)
+    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.sub, req.params.testcaseID)
     next()
   },
   deleteTestcase
@@ -148,8 +148,8 @@ boptestRoutes.post('/users/:userName/testcases/:testcaseID/select-?:async?',
   middleware.requireUser,
   (req, res, next) => {
     req.testcaseID = req.params.testcaseID
-    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.dis)
-    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.dis, req.params.testcaseID)
+    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.sub)
+    req.testcaseKey = boptestLib.getKeyForUserTestcase(req.account.sub, req.params.testcaseID)
     next()
   },
   select
@@ -158,7 +158,13 @@ boptestRoutes.post('/users/:userName/testcases/:testcaseID/select-?:async?',
 // Get testcases //
 
 const getTestcases = async (req, res, next) => {
-  res.json(await boptestLib.getTestcases(req.testcaseKeyPrefix))
+  const testcases = await boptestLib.getTestcases(req.testcaseKeyPrefix)
+
+  if (testcases.length == 0) {
+    res.sendStatus(404)
+  } else {
+    res.json(testcases)
+  }
 }
 
 boptestRoutes.get('/testcases',
@@ -183,7 +189,7 @@ boptestRoutes.get('/users/:userName/testcases',
   middleware.identify,
   middleware.requireUser,
   (req, res, next) => {
-    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.dis)
+    req.testcaseKeyPrefix = boptestLib.getPrefixForUserTestcase(req.account.sub)
     next()
   },
   getTestcases
@@ -448,5 +454,14 @@ boptestRoutes.get('/forecast_points/:testid',
     }
   }
 );
+
+// Check identity for all generic endpoints under /users and /testcases
+// Specific endpoints will have already been handled from the preceeding routes
+// If the Authorization header is invalid then the middleware will send 401
+boptestRoutes.all('/testcases/*', middleware.identify)
+boptestRoutes.all('/users', middleware.identify)
+boptestRoutes.all('/users/*', middleware.identify)
+boptestRoutes.all('/users/:userName', middleware.requireUser)
+boptestRoutes.all('/users/:userName/*', middleware.requireUser)
 
 export default boptestRoutes;

@@ -1,9 +1,9 @@
 import Path from 'path';
 import { promises as fs } from "fs";
 import { v4 as uuidv4 } from 'uuid';
-import { commandOptions } from 'redis';
+import redis from '../redis';
 import s3 from '../s3';
-import {addJobToQueue} from './job';
+import { addJobToQueue } from './job';
 import messaging from './messaging';
 
 const bucket = process.env.BOPTEST_S3_BUCKET
@@ -45,11 +45,11 @@ function getUserTestsKey(userSub) {
 export async function getVersion() {
   const libraryVersion = (await fs.readFile('/boptest/version.txt', 'utf8')).trim()
   const serviceVersion = (await fs.readFile('/boptest/service-version.txt', 'utf8')).trim()
-  
+
   const status = 200;
   const message = "Queried the version number successfully."
-  const payload = {'version': libraryVersion, 'service-version': serviceVersion}
-  return {status, message, payload}
+  const payload = { 'version': libraryVersion, 'service-version': serviceVersion }
+  return { status, message, payload }
 }
 
 function promiseTaskLater(task, time, ...args) {
@@ -79,7 +79,7 @@ export function getTestcasePostForm(testcaseKey, s3url, share) {
       // minio does not support object level ACL, therefore ExtraArgs will only apply to s3 configurations
       params.Fields.acl = "public-read"
     }
-    
+
     s3.createPresignedPost(params, function(err, data) {
       if (err) {
         reject(err)
@@ -135,31 +135,30 @@ export function deleteTestcase(testcaseKey) {
 
 async function addTestToDB(testid, userSub) {
   const testKey = getTestKey(testid)
-  await messaging.hset(testKey, "status", "Queued")
-  await messaging.hset(testKey, "timestamp", Date.now())
+  await redis.hset(testKey, "status", "Queued")
+  await redis.hset(testKey, "timestamp", Date.now())
   if (userSub) {
     const userTestsKey = getUserTestsKey(userSub)
-    await messaging.hset(testKey, "user", userSub)
-    await messaging.sadd(userTestsKey, testid)
+    await redis.hset(testKey, "user", userSub)
+    await redis.sadd(userTestsKey, testid)
   }
 }
 
 async function removeTestFromDB(testid) {
   const testKey = getTestKey(testid)
-  const userSub = await messaging.hget(testKey, "user")
+  const userSub = await redis.hget(testKey, "user")
   if (userSub) {
     const userTestsKey = getUserTestsKey(userSub)
-    await messaging.srem(userTestsKey, testid)
+    await redis.srem(userTestsKey, testid)
   }
-  await messaging.del(testKey)
+  await redis.del(testKey)
 }
 
 export async function select(testcaseKey, userSub, asyc) {
   const testid = uuidv4()
   await addTestToDB(testid, userSub)
-  const testKey = getTestKey(testid)
-  await addJobToQueue("boptest_run_test", {testid, testcaseKey})
-  if (! asyc) {
+  await addJobToQueue("boptest_run_test", { testid, testcaseKey })
+  if (!asyc) {
     try {
       await waitForStatus(testid, "Running")
     } catch (e) {
@@ -173,17 +172,17 @@ export async function select(testcaseKey, userSub, asyc) {
 
 export async function isTest(testid) {
   const testKey = getTestKey(testid)
-  return await messaging.hexists(testKey, "status")
+  return await redis.hexists(testKey, "status")
 }
 
 export async function getStatus(testid) {
   const exists = await isTest(testid)
   if (exists) {
     const testKey = getTestKey(testid)
-    const status = await messaging.hget(testKey, "status")
+    const status = await redis.hget(testKey, "status")
     return status.toString()
   } else {
-    throw(`Cannot getStatus for testid ${testid}, because it does not exist`);
+    throw (`Cannot getStatus for testid ${testid}, because it does not exist`);
   }
 }
 
@@ -195,7 +194,7 @@ export async function waitForStatus(testid, desiredStatus, count, maxCount) {
   if (currentStatus == desiredStatus) {
     return;
   } else if (count >= maxCount) {
-    throw(`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
+    throw (`Timeout waiting for test: ${testid} to reach status: ${desiredStatus}`);
   } else {
     // check status every 1000 miliseconds
     await promiseTaskLater(waitForStatus, 1000, testid, desiredStatus, count, maxCount);
@@ -210,7 +209,7 @@ export async function getTests(userSub) {
   let items = []
   let curser = 0
   do {
-    [curser, items] = await messaging.sscan(userTestsKey, curser)
+    [curser, items] = await redis.sscan(userTestsKey, curser)
     for (const i in items) {
       userTests.push(items[i].toString())
     }
