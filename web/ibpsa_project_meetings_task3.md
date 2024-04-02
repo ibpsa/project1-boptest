@@ -28,6 +28,11 @@ permalink: /ibpsa/project/meetings/task3/
 
 [**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MDA0MjJnMHVpNGVlcTMxNG40OWxpaXQxZnIgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov) 
 
+**Notes:**
+
+- [Minutes](/ibpsa_project/meetings/task3/20240328_Progress/20240328_IBPSA-BOPTEST_Task3_minutes.pdf)
+
+
 ### February 22, 2024
 
 **Location:** Online
