@@ -20,6 +20,8 @@ permalink: /ibpsa/project/meetings/task2/
 
 [**Zoom link**](https://lbnl.zoom.us/j/97973434569?pwd=WjBYS3RxNVQyODY1WnViaVgwMmRMQT09)
 
+# Past Meetings
+
 ### March 26, 2024
 
 **Location:** Online
