@@ -225,13 +225,14 @@ PUT /forecast
 POST /advance
 -------------
 
-- **Description:** Advance simulation one control step with optional control input(s) and receive measurements.  If specified, control input value(s) will be constant over the control step.
+- **Description:** Advance simulation one control step with optional control input(s) and receive measurements.  If specified, control input value(s) will be constant over the control step.  Use <input_name_u> to specify value and corresponding <input_name_activate> to enable value overwrite for the input.
 
 - **Arguments:**
 
     ::
 
-        <input_name>  // optional, float, value of input point
+        <input_name_u>          // optional, float, value of input point to overwrite
+        <input_name_activate>   // optional, float, enable corresponding input overwrite if greater than 0 (default is 0)
 
 - **Returns:**
 

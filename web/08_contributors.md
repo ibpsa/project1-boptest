@@ -37,6 +37,7 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Bart Merema (dnergy, Belgium)** for test case implementation (multizone_office_simple_hybrid).
 - **Kefei Mo (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Erik Paulson (Independent, USA)** for BACnet interface development.
+- **Matt Robinson (University of Colorado Boulder, USA)** for software implementation.
 - **Marjorie Schott (National Renewable Energy Laboratory, USA)** for online dashboard development.
 - **Jermy Thomas (National Renewable Energy Laboratory, USA)** for web-service development, tutorial development.
 - **Christian Veje (Southern Denmark University, Denmark)** for framework development.
