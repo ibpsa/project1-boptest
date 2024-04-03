@@ -7,7 +7,7 @@ Building Optimization Performance Tests
 Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for more information about the project, software, and documentation.
 
 This repository contains code for the Building Optimization Performance Test framework (BOPTEST)
-that is being developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
+that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io/project1-boptest/ibpsa/index.html) and was previously developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
 
 
 ## Structure
@@ -68,7 +68,7 @@ Example RESTful interaction:
 
 | Interaction                                                           | Request                                                   |
 |-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional json data "{<input_name>:<value>}" |
+| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional arguments ``<input_name_u>:<value>``, and corresponding ``<input_name_activate>:<0 or 1>``, where 1 enables value overwrite and 0 disables (0 is default)  |
 | Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
 | Receive communication step in seconds.                                 |  GET ``step``                                             |
 | Set communication step in seconds.                                     |  PUT ``step`` with required argument ``step=<value>``              |
