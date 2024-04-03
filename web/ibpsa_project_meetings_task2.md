@@ -26,7 +26,10 @@ permalink: /ibpsa/project/meetings/task2/
 
 **Time:** 7:00-8:00 AM U.S. Pacific
 
-[**Zoom link**](https://lbnl.zoom.us/j/95622514591?pwd=ZmV1N016S1hFQ1NPaW9OUXNTZVV2QT09)
+**Notes:**
+
+- [Minutes](/ibpsa_project/meetings/task2/20240326_Progress/20240326_IBPSA-BOPTEST_Task2_Minutes.pdf)
+- [Presentation: New KPI-Actuator Travel](/ibpsa_project/meetings/task2/20240326_Progress/NewKPI-ActuatorTravel.pdf)
 
 ### February 27, 2024
 
