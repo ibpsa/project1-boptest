@@ -16,43 +16,37 @@ model Thermostat_T
     extrapolation=Buildings.Controls.OBC.CDL.Types.Extrapolation.Periodic)
     "Zone heating setpoint temperature [K]"
     annotation (Placement(transformation(extent={{-144,12},{-110,46}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              oveTSetCoo(u(
       unit="K",
       min=273.15 + 23,
       max=273.15 + 30), description="Zone temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint"
-    annotation (Placement(transformation(extent={{-78,-34},{-52,-8}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSetCoo(y(unit="K"), description="Zone air temperature setpoint for cooling")
-    "Read zone cooling setpoint"
-    annotation (Placement(transformation(extent={{-38,-34},{-12,-8}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSetHea(description="Zone temperature setpoint for heating",
+    annotation (Placement(transformation(extent={{-80,-30},{-60,-10}})));
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              oveTSetHea(description="Zone temperature setpoint for heating",
       u(
       max=273.15 + 23,
       unit="K",
       min=273.15 + 15)) "Overwrite for zone heating setpoint"
-    annotation (Placement(transformation(extent={{-78,24},{-52,50}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSetHea(y(unit="K"), description="Zone air temperature setpoint for heating")
-                                                    "Read zone cooling heating"
-    annotation (Placement(transformation(extent={{-36,24},{-10,50}})));
+    annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
   Modelica.Blocks.Interfaces.RealOutput CoolingSet
     "Connector of Real output signal"
     annotation (Placement(transformation(extent={{100,-30},{120,-10}})));
   Modelica.Blocks.Interfaces.RealOutput HeatingSet
     "Connector of Real output signal"
-    annotation (Placement(transformation(extent={{98,28},{118,48}})));
+    annotation (Placement(transformation(extent={{100,30},{120,50}})));
 equation
-  connect(oveTSetHea.y, reaTSetHea.u)
-    annotation (Line(points={{-50.7,37},{-38.6,37}}, color={0,0,127}));
-  connect(reaTSetCoo.y, CoolingSet) annotation (Line(points={{-10.7,-21},{50,-21},
-          {50,-20},{110,-20}}, color={0,0,127}));
-  connect(reaTSetHea.y, HeatingSet) annotation (Line(points={{-8.7,37},{52,37},{
-          52,38},{108,38}}, color={0,0,127}));
-  connect(oveTSetCoo.y, reaTSetCoo.u)
-    annotation (Line(points={{-50.7,-21},{-40.6,-21}}, color={0,0,127}));
-  connect(HeatingSP.y[1], oveTSetHea.u) annotation (Line(points={{-106.6,29},{-92,
-          29},{-92,37},{-80.6,37}}, color={0,0,127}));
-  connect(CoolingSP.y[1], oveTSetCoo.u) annotation (Line(points={{-106.6,-17},{-92,
-          -17},{-92,-21},{-80.6,-21}}, color={0,0,127}));
+  connect(HeatingSP.y[1], oveTSetHea.u) annotation (Line(points={{-106.6,29},{
+          -92,29},{-92,40},{-82,40}},
+                                    color={0,0,127}));
+  connect(CoolingSP.y[1], oveTSetCoo.u) annotation (Line(points={{-106.6,-17},{
+          -92,-17},{-92,-20},{-82,-20}},
+                                       color={0,0,127}));
+  connect(oveTSetHea.y, HeatingSet)
+    annotation (Line(points={{-59,40},{110,40}}, color={0,0,127}));
+  connect(oveTSetCoo.y, CoolingSet)
+    annotation (Line(points={{-59,-20},{110,-20}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-160,-100},
             {100,100}}), graphics={Rectangle(
           extent={{-100,58},{100,-66}},
