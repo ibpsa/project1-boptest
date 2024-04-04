@@ -22,7 +22,7 @@ It contains these key components:
 
 Head over to the [Software](/project1-boptest/software/index.html) page to start testing your control strategy or look at the [Results Dashboard](/project1-boptest/dashboard/index.html) to view and compare tested control strategies.
 
-Stay up to date on the latest [News](/project1-boptest/blog/index.html).
+Stay up to date on the latest [News](/project1-boptest/blog/index.html), participate in the [Discussion](https://github.com/ibpsa/project1-boptest/discussions), or join our google group [Mailing List](https://groups.google.com/g/ibpsa-boptest).
 
 
 # Collaboration and Support
