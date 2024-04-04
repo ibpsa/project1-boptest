@@ -11,13 +11,8 @@ model SupplyTempCon "Supply Ari Temperature Control"
     reverseActing=false)
                         "Controller for cooling (acts on damper)"
     annotation (Placement(transformation(extent={{50,-30},{80,0}})));
-  IBPSA.Utilities.IO.SignalExchange.Read reaTSup(
-    y(unit="K"),
-    KPIs=IBPSA.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    description="Supply air temperature setpoint")
-    "Read supply air temperature setpoint"
-    annotation (Placement(transformation(extent={{-6,-32},{28,2}})));
-  IBPSA.Utilities.IO.SignalExchange.Overwrite oveTSup(description=
+  Buildings.Utilities.IO.SignalExchange.Overwrite
+                                              oveTSup(description=
         "Supply air temperature setpoint", u(
       min=285.15,
       max=313.15,
@@ -36,16 +31,14 @@ model SupplyTempCon "Supply Ari Temperature Control"
         rotation=90,
         origin={66,-88})));
 equation
-  connect(reaTSup.y, conDX.u_s)
-    annotation (Line(points={{29.7,-15},{47,-15}}, color={0,0,127}));
-  connect(oveTSup.y, reaTSup.u)
-    annotation (Line(points={{-36.1,-15},{-9.4,-15}}, color={0,0,127}));
   connect(SupAirTemSP.y, oveTSup.u)
     annotation (Line(points={{-114.5,-15},{-79.8,-15}}, color={0,0,127}));
   connect(conDX.y, y1) annotation (Line(points={{81.5,-15},{170,-15},{170,-16}},
         color={0,0,127}));
   connect(conDX.u_m, u_m1)
     annotation (Line(points={{65,-33},{65,-88},{66,-88}}, color={0,0,127}));
+  connect(oveTSup.y, conDX.u_s)
+    annotation (Line(points={{-36.1,-15},{47,-15}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -80},{160,60}}), graphics={Rectangle(
           extent={{-200,60},{160,-78}},

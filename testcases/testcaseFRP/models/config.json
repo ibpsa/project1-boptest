@@ -1,0 +1,9 @@
+{
+"name"          : "frp",
+"area"          : 48.0,
+"start_time"    : 0.0,
+"warmup_period" : 0.0,
+"step"          : 3600.0,
+"scenario"      : {"electricity_price":"constant",
+                   "time_period":null}
+}

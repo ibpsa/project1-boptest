@@ -10,7 +10,7 @@ import numpy as np
 
 def simulate(start_time=0, final_time=3600*48, overwrite = None, plot = False):
     '''Simulate the wrapper fmu with any overwriting signals.
-    
+
     Parameters
     ----------
     start_time : int
@@ -24,14 +24,14 @@ def simulate(start_time=0, final_time=3600*48, overwrite = None, plot = False):
         'act' to overwrite the actuator.
         None to overwrite nothing.
         Default is None
-        
+
     Returns
     -------
     res : pyfmi results object
         Results from simulation.
-    
+
     '''
-    
+
     fmu = load_fmu('wrapped.fmu')
     # Get input names
     input_names = fmu.get_model_variables(causality = 2).keys();
@@ -51,12 +51,11 @@ def simulate(start_time=0, final_time=3600*48, overwrite = None, plot = False):
         input_object = None
     # Set options
     options = fmu.simulate_options()
-    options['CVode_options']['rtol'] = 1e-6 
     options['ncp'] = 500
     # Simulate
     print(input_object)
     res = fmu.simulate(start_time,final_time, options=options, input=input_object)
-    
+
     if plot:
         from matplotlib import pyplot as plt
         # Plot
@@ -72,26 +71,26 @@ def simulate(start_time=0, final_time=3600*48, overwrite = None, plot = False):
         plt.plot(time,PHeat,label='PHeat')
         plt.legend()
         plt.show()
-        
+
     return res
-    
+
 def overwrite_set(input_names):
     '''Creates input object for overwriting the setpoint.
-    
+
     Setpoint is 25 degC.
-    
+
     Parameters
     ----------
     input_names : list
         List of FMU input names.
-        
+
     Returns
     -------
     input_object : tuple
         pyfmi fmu input object
-    
+
     '''
-    
+
     u_list = []
     u_trajectory = 0
     for key in input_names:
@@ -105,26 +104,26 @@ def overwrite_set(input_names):
         u_list.append(key)
         u_trajectory = np.vstack((u_trajectory, value))
     input_object = (u_list, np.transpose(u_trajectory))
-    
+
     return input_object
-    
+
 def overwrite_act(input_names):
     '''Creates input object for overwriting the actuator.
-    
+
     Heater is always at 500 W.
-    
+
     Parameters
     ----------
     input_names : list
         List of FMU input names.
-        
+
     Returns
     -------
     input_object : tuple
         pyfmi fmu input object
-    
+
     '''
-    
+
     u_list = []
     u_trajectory = 0
     for key in input_names:
@@ -137,9 +136,9 @@ def overwrite_act(input_names):
         u_list.append(key)
         u_trajectory = np.vstack((u_trajectory, value))
     input_object = (u_list, np.transpose(u_trajectory))
-    
+
     return input_object
-    
+
 
 if __name__ == '__main__':
     res = simulate(overwrite=None)

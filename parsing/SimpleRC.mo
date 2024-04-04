@@ -40,7 +40,7 @@ model SimpleRC
                                 u(
       unit="W",
       min=0,
-      max=3000), description="Heater thermal power")
+      max=3000), description="Control signal for heater thermal power")
     annotation (Placement(transformation(extent={{-10,-30},{10,-10}})));
   IBPSA.Utilities.IO.SignalExchange.Read
                       TZone(
@@ -54,10 +54,6 @@ model SimpleRC
                                               y(unit="W"),
     description="Heater electrical power")
     annotation (Placement(transformation(extent={{100,-90},{120,-70}})));
-  IBPSA.Utilities.IO.SignalExchange.Read
-                      setZone(y(unit="K"), description=
-        "Zone temperature setpoint")
-    annotation (Placement(transformation(extent={{-40,-70},{-20,-50}})));
 equation
   connect(res.port_b, cap.port)
     annotation (Line(points={{20,20},{40,20}},
@@ -88,7 +84,5 @@ equation
     annotation (Line(points={{70,20},{98,20}}, color={0,0,127}));
   connect(eff.y, PHeat.u) annotation (Line(points={{41,-80},{98,-80}},
                     color={0,0,127}));
-  connect(oveSet.y, setZone.u) annotation (Line(points={{-49,-20},{-46,-20},{
-          -46,-60},{-42,-60}}, color={0,0,127}));
   annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
 end SimpleRC;
