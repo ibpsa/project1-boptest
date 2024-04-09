@@ -21,21 +21,42 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
 - ``/docs`` contains design documentation and delivered workshop content.
 - ``/bacnet`` contains code for a bacnet interface.
 
-## Quick-Start to Deploy a Test Case
-1) Download this repository.
-2) Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
-3) To build and deploy a test case, use the following commands within the root directory of the extracted software:
+## Quick-Start to Deploy BOPTEST on a Personal Computer
+1) Download or Clone this repository.
 
-  * Linux or macOS: ``$ TESTCASE=<testcase_name> docker-compose up``
-  * Windows PowerShell: ``> ($env:TESTCASE="<testcase_name>") -and (docker-compose up)``
-  * A couple notes:
-    * Replace ``<testcase_name>`` with the name of the test case you wish to deploy.  Test case names can be found in the ["testcases" directory](https://github.com/ibpsa/project1-boptest/tree/master/testcases) or on the ["Test Cases" web page](https://ibpsa.github.io/project1-boptest/testcases/index.html).
-    * The first time this command is run, the image ``boptest_base`` will be built. This takes about a minute. Subsequent usage will use the already-built image and deploy much faster.
-    * If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
-    * ``TESTCASE`` is simply an environment variable. Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.
+2) Install [Docker](https://docs.docker.com/get-docker/).
 
-4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described below.
-5) Shutdown the test case by the command ``docker-compose down`` executed in the root directory of this repository
+3) Use Docker to build and run BOPTEST.  In the root of this repository, run: ``docker compose up web worker provision``
+
+4) In a separate process, use the API below to first select a test case, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``
+
+5) Shutdown BOPTEST by the command ``docker compose down`` executed in the root directory of this repository.
+
+## RESTful HTTP API
+- The API will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``. Status codes in ``"status"`` are integers: ``200`` for successful with or without warning, ``400`` for bad input error, or ``500`` for internal error.  Data returned in ``"payload"`` is the data of interest relvant to the specific API request, while the string in ``"message"`` will report any warnings or error messages to help debug encountered problems.
+
+| Interaction                                                           | Request                                                   |
+|-----------------------------------------------------------------------|-----------------------------------------------------------|
+| List IBPSA BOPTEST test cases.                                                                                           | GET `testcases`                                            |
+| Select an IBPSA BOPTEST test case and begin a new test (Auth optional). Returns a `testid` which is required by all APIs that interact with the test or provide test information.                                                            | POST ``testcases/{testcase_name}/select``                  |
+| Advance simulation with control input and receive measurements.        |  POST ``advance/{testid}`` with optional arguments ``<input_name_u>:<value>``, and corresponding ``<input_name_activate>:<0 or 1>``, where 1 enables value overwrite and 0 disables (0 is default)  |
+| Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize/{testid}`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
+| Receive communication step in seconds.                                 |  GET ``step/{testid}``                                             |
+| Set communication step in seconds.                                     |  PUT ``step/{testid}`` with required argument ``step=<value>``              |
+| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements/{testid}``                                     |
+| Receive control signal point names (u) and metadata.                        |  GET ``inputs/{testid}``                                           |
+| Receive test result data for the given point names between the start and final time in seconds. |  PUT ``results/{testid}`` with required arguments ``point_names=<list of strings>``, ``start_time=<value>``, ``final_time=<value>``|
+| Receive test KPIs.                                                     |  GET ``kpi/{testid}``                                              |
+| Receive test case name.                                                |  GET ``name/{testid}``                                             |
+| Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  PUT ``forecast/{testid}`` with required arguments ``point_names=<list of strings>``, ``horizon=<value>``, ``interval=<value>``|
+| Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points/{testid}``                              |
+| Receive current test scenario.                                         |  GET ``scenario/{testid}``                                   |
+| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario/{testid}`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
+| Receive BOPTEST version.                                               |  GET ``version/{testid}``                                             |
+| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit/{testid}`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered with the online dashboard.|
+| Get test status as `Running` or `Queued`                                                                                    | GET ``status/{testid}``                                    |
+| Stop a queued or running test.                                                                                              | PUT ``stop/{testid}``                                      |
+
 
 ## Run an example test controller:
 
@@ -56,34 +77,6 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
   * Ince the test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images, and use ``$ cd examples/javascript && rm geckodriver`` to remove the geckodriver file.
   * Note that those two controllers can also be executed by web browers, such as chrome or firefox.
 
-## Test Case RESTful API
-- To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
-- The API will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``. Status codes in ``"status"`` are integers: ``200`` for successful with or without warning, ``400`` for bad input error, or ``500`` for internal error.  Data returned in ``"payload"`` is the data of interest relvant to the specific API request, while the string in ``"message"`` will report any warnings or error messages to help debug encountered problems.
-
-Example RESTful interaction:
-
-- Receive a list of available measurement names and their metadata: ``$ curl http://127.0.0.1:5000/measurements``
-- Receive a forecast of boundary condition data: ``$ curl http://127.0.0.1:5000/forecast``
-- Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"``.  Leave an empty json to advance the simulation using the setpoints embedded in the model.
-
-| Interaction                                                           | Request                                                   |
-|-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional arguments ``<input_name_u>:<value>``, and corresponding ``<input_name_activate>:<0 or 1>``, where 1 enables value overwrite and 0 disables (0 is default)  |
-| Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
-| Receive communication step in seconds.                                 |  GET ``step``                                             |
-| Set communication step in seconds.                                     |  PUT ``step`` with required argument ``step=<value>``              |
-| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements``                                     |
-| Receive control signal point names (u) and metadata.                        |  GET ``inputs``                                           |
-| Receive test result data for the given point names between the start and final time in seconds. |  PUT ``results`` with required arguments ``point_names=<list of strings>``, ``start_time=<value>``, ``final_time=<value>``|
-| Receive test KPIs.                                                     |  GET ``kpi``                                              |
-| Receive test case name.                                                |  GET ``name``                                             |
-| Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  PUT ``forecast`` with required arguments ``point_names=<list of strings>``, ``horizon=<value>``, ``interval=<value>``|
-| Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points``                              |
-| Receive current test scenario.                                         |  GET ``scenario``                                   |
-| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
-| Receive BOPTEST version.                                               |  GET ``version``                                             |
-| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered with the online dashboard.|
-
 ## Development
 Community development is welcome through reporting [issues](https://github.com/ibpsa/project1-boptest/issues) and/or making pull requests. If making a pull request,
 make sure an issue is opened first, name the development branch according to the convention ``issue<issue#>_<descriptor>``, and cite in the pull request which issue is being addressed.
@@ -95,10 +88,6 @@ pre-commit into your Python version using pip `pip install pre-commit`. Pre-comm
 as a hook on all commits by calling `pre-commit install` in the root directory of the BOPTEST GitHub checkout.
 
 ## Additional Software
-
-### Deployment as a Web-Service
-BOPTEST is delpoyed as a web-service using [BOPTEST-Service](https://github.com/NREL/boptest-service).
-See the related [section in the user guide](https://ibpsa.github.io/project1-boptest/docs-userguide/getting_started.html#public-web-service) for getting started.
 
 ### OpenAI-Gym Environment
 An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-gym](https://github.com/ibpsa/project1-boptest-gym).
