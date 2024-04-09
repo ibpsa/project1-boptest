@@ -47,10 +47,6 @@ The core BOPTEST APIs are [documented](https://github.com/ibpsa/project1-boptest
 
 The family of the `select` APIs are used to choose a test case and begin a running test. Select returns a `testid` which is required by all APIs that interact with the test or provide test information.
 
-# OpenAI Gym Interface
-
-An [OpenAI-Gym](https://github.com/openai/gym) environment for BOPTEST is [available](https://github.com/ibpsa/project1-boptest-gym).
-
 # Building and Running on a Personal Computer
 1) Clone this repository.
 
