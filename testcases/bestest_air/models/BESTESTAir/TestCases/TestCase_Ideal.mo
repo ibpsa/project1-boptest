@@ -37,6 +37,10 @@ equation
           boptestrules:sameAs bldg:con_Thermostat_T .
         bldg:fcu a brick:FCU ;
           boptestrules:sameAs bldg:fcu_FanCoilUnit_T .
+        bldg:zon a brick:Zone ;
+          brick:isLocationOf bldg:con .  
+        bldg:fcu brick:feeds bldg:zon .
+
         ")),
         Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),

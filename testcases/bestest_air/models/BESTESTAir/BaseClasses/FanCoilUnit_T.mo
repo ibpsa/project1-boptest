@@ -41,8 +41,7 @@ model FanCoilUnit_T
           qudt:hasQuantityKind quantitykind:MassFlowRate ;
           qudt:hasUnit qudt:KiloGM-PER-SEC .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name> ;
+          ref:name literal:<cdl_instance_name>_y ;
           ref:isWritable false .
           ")),
         Placement(transformation(extent={{40,110},{60,130}})));
@@ -61,8 +60,7 @@ model FanCoilUnit_T
           qudt:hasQuantityKind quantitykind:ElectricPower ;
           qudt:hasUnit qudt:W .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name> ;
+          ref:name literal:<cdl_instance_name>_y ;
           ref:isWritable false .
           ")),
           Placement(transformation(extent={{70,170},{90,190}})));
@@ -79,8 +77,7 @@ model FanCoilUnit_T
           qudt:hasQuantityKind quantitykind:ElectricPower ;
           qudt:hasUnit qudt:W .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name> ;
+          ref:name literal:<cdl_instance_name>_y ;
           ref:isWritable false .
           ")),
           Placement(transformation(extent={{70,150},{90,170}})));
@@ -98,8 +95,7 @@ model FanCoilUnit_T
           qudt:hasQuantityKind quantitykind:ElectricPower ;
           qudt:hasUnit qudt:W .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-          ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name> ;
+          ref:name literal:<cdl_instance_name>_y ;
           ref:isWritable false .
       bldg:<cdl_instance_name> boptestrules:pointOf brick:Supply_Fan .
           ")),
@@ -154,7 +150,7 @@ model FanCoilUnit_T
           qudt:hasUnit qudt:K .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
           ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name> ;
+          ref:name literal:<cdl_instance_name>_u ;
           ref:isWritable true .
           ")),
           Placement(transformation(extent={{-120,30},{-100,50}})));
@@ -173,7 +169,7 @@ model FanCoilUnit_T
           qudt:hasUnit qudt:K .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
           ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name> ;
+          ref:name literal:<cdl_instance_name>_u ;
           ref:isWritable true .
       bldg:<cdl_instance_name> boptestrules:pointOf brick:Supply_Fan .
           ")),

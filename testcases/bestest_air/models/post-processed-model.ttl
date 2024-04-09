@@ -7,11 +7,8 @@
 @prefix ref: <https://brickschema.org/schema/Brick/ref#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-bldg:con a brick:Thermostat ;
-    brick:hasPoint bldg:con_oveTSetCoo,
-        bldg:con_oveTSetHea .
-
 bldg:fcu a brick:FCU ;
+    brick:feeds bldg:zon ;
     brick:hasPart bldg:fcu_fan ;
     brick:hasPoint bldg:fcu_oveFan,
         bldg:fcu_oveTSup,
@@ -20,12 +17,9 @@ bldg:fcu a brick:FCU ;
         bldg:fcu_reaPFan,
         bldg:fcu_reaPHea .
 
-bldg:fcu_FanCoilUnit_T brick:hasPart bldg:fcu_FanCoilUnit_T_fan .
-
-bldg:con_oveTSetCoo a brick:Zone_Air_Cooling_Temperature_Setpoint ;
-    qudt:hasQuantityKind quantitykind:Temperature ;
-    qudt:hasUnit qudt:K ;
-    ref:hasExternalReference bldg:con_oveTSetCoo_Reference .
+bldg:con a brick:Thermostat ;
+    brick:hasPoint bldg:con_oveTSetCoo,
+        bldg:con_oveTSetHea .
 
 bldg:con_oveTSetCoo_Reference a ref:BOPTestReference ;
     ref:activate literal:con_oveTSetCoo_activate ;
@@ -33,13 +27,8 @@ bldg:con_oveTSetCoo_Reference a ref:BOPTestReference ;
     ref:isWritable true ;
     ref:max literal:max ;
     ref:min literal:min ;
-    ref:name literal:con_oveTSetCoo ;
+    ref:name literal:con_oveTSetCoo_u ;
     ref:unit literal:K .
-
-bldg:con_oveTSetHea a brick:Zone_Air_Heating_Temperature_Setpoint ;
-    qudt:hasQuantityKind quantitykind:Temperature ;
-    qudt:hasUnit qudt:K ;
-    ref:hasExternalReference bldg:con_oveTSetHea_Reference .
 
 bldg:con_oveTSetHea_Reference a ref:BOPTestReference ;
     ref:activate literal:con_oveTSetHea_activate ;
@@ -47,21 +36,17 @@ bldg:con_oveTSetHea_Reference a ref:BOPTestReference ;
     ref:isWritable true ;
     ref:max literal:max ;
     ref:min literal:min ;
-    ref:name literal:con_oveTSetHea ;
+    ref:name literal:con_oveTSetHea_u ;
     ref:unit literal:K .
 
-bldg:fcu_fan a brick:Supply_Fan .
-
-bldg:fcu_oveFan a brick:Fan_Command ;
-    qudt:hasQuantityKind quantitykind:Temperature ;
-    qudt:hasUnit qudt:K ;
-    boptestrules:pointOf brick:Supply_Fan ;
-    ref:hasExternalReference bldg:fcu_oveFan_Reference .
+bldg:fcu_fan a brick:Supply_Fan ;
+    brick:hasPoint bldg:fcu_oveFan,
+        bldg:fcu_reaPFan .
 
 bldg:fcu_oveFan_Reference a ref:BOPTestReference ;
     ref:activate literal:fcu_oveFan_activate ;
     ref:isWritable true ;
-    ref:name literal:fcu_oveFan .
+    ref:name literal:fcu_oveFan_u .
 
 bldg:fcu_oveTSup a brick:Supply_Air_Temperature_Setpoint ;
     qudt:hasQuantityKind quantitykind:Temperature ;
@@ -71,7 +56,7 @@ bldg:fcu_oveTSup a brick:Supply_Air_Temperature_Setpoint ;
 bldg:fcu_oveTSup_Reference a ref:BOPTestReference ;
     ref:activate literal:fcu_oveTSup_activate ;
     ref:isWritable true ;
-    ref:name literal:fcu_oveTSup .
+    ref:name literal:fcu_oveTSup_u .
 
 bldg:fcu_reaFloSup a brick:Supply_Air_Flow_Sensor ;
     qudt:hasQuantityKind quantitykind:MassFlowRate ;
@@ -79,9 +64,8 @@ bldg:fcu_reaFloSup a brick:Supply_Air_Flow_Sensor ;
     ref:hasExternalReference bldg:fcu_reaFloSup_Reference .
 
 bldg:fcu_reaFloSup_Reference a ref:BOPTestReference ;
-    ref:activate literal:fcu_reaFloSup_activate ;
     ref:isWritable false ;
-    ref:name literal:fcu_reaFloSup .
+    ref:name literal:fcu_reaFloSup_y .
 
 bldg:fcu_reaPCoo a brick:Electric_Power_Sensor ;
     qudt:hasQuantityKind quantitykind:ElectricPower ;
@@ -89,20 +73,12 @@ bldg:fcu_reaPCoo a brick:Electric_Power_Sensor ;
     ref:hasExternalReference bldg:fcu_reaPCoo_Reference .
 
 bldg:fcu_reaPCoo_Reference a ref:BOPTestReference ;
-    ref:activate literal:fcu_reaPCoo_activate ;
     ref:isWritable false ;
-    ref:name literal:fcu_reaPCoo .
-
-bldg:fcu_reaPFan a brick:Electric_Power_Sensor ;
-    qudt:hasQuantityKind quantitykind:ElectricPower ;
-    qudt:hasUnit qudt:W ;
-    boptestrules:pointOf brick:Supply_Fan ;
-    ref:hasExternalReference bldg:fcu_reaPFan_Reference .
+    ref:name literal:fcu_reaPCoo_y .
 
 bldg:fcu_reaPFan_Reference a ref:BOPTestReference ;
-    ref:activate literal:fcu_reaPFan_activate ;
     ref:isWritable false ;
-    ref:name literal:fcu_reaPFan .
+    ref:name literal:fcu_reaPFan_y .
 
 bldg:fcu_reaPHea a brick:Heating_Thermal_Power_Sensor ;
     qudt:hasQuantityKind quantitykind:ElectricPower ;
@@ -110,7 +86,33 @@ bldg:fcu_reaPHea a brick:Heating_Thermal_Power_Sensor ;
     ref:hasExternalReference bldg:fcu_reaPHea_Reference .
 
 bldg:fcu_reaPHea_Reference a ref:BOPTestReference ;
-    ref:activate literal:fcu_reaPHea_activate ;
     ref:isWritable false ;
-    ref:name literal:fcu_reaPHea .
+    ref:name literal:fcu_reaPHea_y .
+
+bldg:zon a brick:Zone ;
+    brick:hasPoint bldg:con_oveTSetCoo,
+        bldg:con_oveTSetHea ;
+    brick:isLocationOf bldg:con .
+
+bldg:con_oveTSetCoo a brick:Zone_Air_Cooling_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:con_oveTSetCoo_Reference .
+
+bldg:con_oveTSetHea a brick:Zone_Air_Heating_Temperature_Setpoint ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    ref:hasExternalReference bldg:con_oveTSetHea_Reference .
+
+bldg:fcu_oveFan a brick:Fan_Command ;
+    qudt:hasQuantityKind quantitykind:Temperature ;
+    qudt:hasUnit qudt:K ;
+    boptestrules:pointOf brick:Supply_Fan ;
+    ref:hasExternalReference bldg:fcu_oveFan_Reference .
+
+bldg:fcu_reaPFan a brick:Electric_Power_Sensor ;
+    qudt:hasQuantityKind quantitykind:ElectricPower ;
+    qudt:hasUnit qudt:W ;
+    boptestrules:pointOf brick:Supply_Fan ;
+    ref:hasExternalReference bldg:fcu_reaPFan_Reference .
 
