@@ -12,6 +12,7 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
+- ``/service`` contains code for deploying BOPTEST framework as a web-service.
 - ``/examples`` contains code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (Version 2.7 and 3.9), Julia (Version 1.0.3), and JavaScript (Version ECMAScript 2018).
 - ``/parsing`` contains code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
@@ -26,7 +27,9 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
 
 2) Install [Docker](https://docs.docker.com/get-docker/).
 
-3) Use Docker to build and run BOPTEST.  In the root of this repository, run: ``docker compose up web worker provision``
+3) Use Docker to build and run BOPTEST.  In the root of this repository, run: 
+
+``docker compose up web worker provision``
 
 4) In a separate process, use the API below to first select a test case, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``
 
