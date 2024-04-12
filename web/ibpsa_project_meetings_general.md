@@ -25,7 +25,7 @@ Room: Senate Chambers #329
 **Time:**
 8:00 am - 9:00 am MT (local)
 
-**Registration:** https://forms.gle/yPj7QRPa6hgjDQyr9
+**Registration:** [https://forms.gle/yPj7QRPa6hgjDQyr9](https://forms.gle/yPj7QRPa6hgjDQyr9)
 
 **Agenda:** Coming soon.
 
