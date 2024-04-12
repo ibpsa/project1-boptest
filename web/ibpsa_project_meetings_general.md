@@ -12,7 +12,22 @@ permalink: /ibpsa/project/meetings/general/
 
 # Upcoming Meetings
 
-Coming soon...
+### May 21, 2024: In-Person Meeting, Denver
+
+This meeting is co-located with the
+[IBPSA USA SimBuild Conference 2024](https://www.ibpsa.us/simbuild-2024/)
+taking place May 21-23, 2024.
+
+**Location:**
+Auraria Campus, Denver, CO, USA.
+Room: Senate Chambers #329
+
+**Time:**
+8:00 am - 9:00 am MT (local)
+
+**Registration:** https://forms.gle/yPj7QRPa6hgjDQyr9
+
+**Agenda:** Coming soon.
 
 # Past Meetings
 
