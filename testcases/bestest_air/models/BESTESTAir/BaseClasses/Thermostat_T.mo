@@ -42,7 +42,7 @@ model Thermostat_T
           qudt:hasUnit qudt:K .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
           ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name> ;
+          ref:name literal:<cdl_instance_name>_u ;
           ref:isWritable true ;
           ref:description literal:description ;
           ref:max literal:max ;
@@ -70,7 +70,7 @@ model Thermostat_T
           qudt:hasUnit qudt:K .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
           ref:activate literal:<cdl_instance_name>_activate ;
-          ref:name literal:<cdl_instance_name> ;
+          ref:name literal:<cdl_instance_name>_u ;
           ref:isWritable true ;
           ref:description literal:description ;
           ref:max literal:max ;
