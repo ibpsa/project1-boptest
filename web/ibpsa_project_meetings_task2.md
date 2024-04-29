@@ -12,15 +12,19 @@ permalink: /ibpsa/project/meetings/task2/
 
 # Upcoming Meetings
 
+Coming soon...
+
+# Past Meetings
+
 ### April 25, 2024
 
 **Location:** Online
 
 **Time:** 6:00-7:00 AM U.S. Pacific
 
-[**Zoom link**](https://lbnl.zoom.us/j/97973434569?pwd=WjBYS3RxNVQyODY1WnViaVgwMmRMQT09)
+**Notes:**
 
-# Past Meetings
+- [Minutes](/ibpsa_project/meetings/task2/20240425_Progress/20240425_IBPSA-BOPTEST_Task2_Minutes.pdf)
 
 ### March 26, 2024
 
