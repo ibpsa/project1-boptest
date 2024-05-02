@@ -12,6 +12,10 @@ permalink: /ibpsa/project/meetings/task3/
 
 # Upcoming Meetings
 
+
+
+# Past Meetings
+
 ### May 2, 2024
 
 **Location:** Online
@@ -20,7 +24,7 @@ permalink: /ibpsa/project/meetings/task3/
 
 [**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=N3IxOG82cWFwaDY2NmswMGluOG9vN2xyZDYgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
 
-# Past Meetings
+- [Minutes](/ibpsa_project/meetings/task3/20240502_Progress/20240502_IBPSA-BOPTEST_Task3_minutes.pdf)
 
 ### March 28, 2024
 
