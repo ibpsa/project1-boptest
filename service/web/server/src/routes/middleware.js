@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator'
+import got from 'got'
 
 const dashboardServer = process.env.BOPTEST_DASHBOARD_SERVER
 const testUsername = process.env.BOPTEST_TEST_USERNAME
@@ -28,6 +29,9 @@ export async function identify(req, res, next) {
         sub: 'abc' + testPrivilegedUsername + 'xyz',
         privileged: true,
       }
+    } else if (key) {
+      res.sendStatus(401)
+      return
     }
   } else {
     if (key) {
@@ -42,7 +46,8 @@ export async function identify(req, res, next) {
           }
         }).json()
         req.account = body
-      } catch(error) {
+      } catch (err) {
+        console.log(err.stack)
         res.sendStatus(401)
         return
       }
