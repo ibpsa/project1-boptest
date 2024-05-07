@@ -5,7 +5,7 @@ services:
   # This is not a production container,
   # but the "boptest_submit" python module that is executed
   # by this service may be useful in provisioning a production environment
-  provision:
+  provision: 
     build: service/provision
     depends_on:
       - web
@@ -43,14 +43,8 @@ services:
       - BOPTEST_TEST_PRIVILEGED_KEY # Only for testing
     depends_on:
       - redis
-      - goaws
       - worker
       - mc
-  # Provides a local queue, conforming to aws Queue API
-  goaws:
-    image: pafortin/goaws
-    ports:
-      - "4100:4100"
   # Local implementation of s3
   minio:
     image: minio/minio
@@ -72,10 +66,10 @@ services:
       /bin/sh -c "
       sleep 5;
       /usr/bin/mc config host add myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
-      /usr/bin/mc mb myminio/alfalfa;
-      /usr/bin/mc anonymous set public myminio/alfalfa;
-      /usr/bin/mc policy set download myminio/alfalfa/testcases;
-      /usr/bin/mc policy set download myminio/alfalfa/simulated;
+      /usr/bin/mc mb myminio/boptest;
+      /usr/bin/mc anonymous set public myminio/boptest;
+      /usr/bin/mc anonymous set download myminio/boptest/testcases;
+      /usr/bin/mc anonymous set download myminio/boptest/tests;
       /usr/bin/mc admin user svcacct add --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_SECRET_ACCESS_KEY} myminio ${MINIO_ROOT_USER};
       "
     depends_on:
@@ -98,7 +92,6 @@ services:
       - AWS_SECRET_ACCESS_KEY
     depends_on:
       - redis
-      - goaws
       - mc
   redis:
     image: redis
