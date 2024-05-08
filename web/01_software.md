@@ -23,7 +23,7 @@ To access the latest development version or contribute to the project, go to the
 
 # Use BOPTEST-Service
 
-Use a web-hosted instance of BOPTEST that provides the functionality of BOPTEST ``v0.5.0`` as a web-service without the need to download or install anything locally.
+Use a web-hosted instance of BOPTEST that provides the functionality of BOPTEST ``v0.6.0`` as a web-service without the need to download or install anything locally.
 
 Get started with the [User Guide](/docs-userguide/index.html).
 
