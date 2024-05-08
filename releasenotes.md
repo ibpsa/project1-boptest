@@ -4,6 +4,10 @@
 
 Released on xx/xx/xxxx.
 
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Remove support and unit testing of example python controllers using Python 2. This is for [#634](https://github.com/ibpsa/project1-boptest/issues/634).
+
 
 ## BOPTEST v0.6.0
 
