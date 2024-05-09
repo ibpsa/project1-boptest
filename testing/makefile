@@ -15,7 +15,7 @@ COMMAND_RUN=docker run \
 	  ${IMG_NAME}
 
 build_jm_image:
-	docker build --no-cache --rm -t ${IMG_NAME} .
+	docker build --no-cache --rm -t -q ${IMG_NAME} .
 
 build_boptest_image:
 	cd .. && docker compose build
@@ -102,7 +102,7 @@ test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
-	cd .. && docker compose up -d web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_$*.py $(ARG)
@@ -117,7 +117,7 @@ test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
 # Build and deploy testcase image
-	cd .. && docker compose up -d web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 # Julia
@@ -141,7 +141,7 @@ test_testcase2:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 # Build and deploy testcase image
-	cd .. && docker compose up -d web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 # Julia
@@ -249,7 +249,7 @@ test_bacnet:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
-	cd .. && docker compose up -d web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bacnet.py
@@ -278,7 +278,7 @@ test_testcase:
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
-	cd .. && docker compose up -d web worker provision
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 	curl http://127.0.0.1:80/measurements
 	curl http://127.0.0.1:80/forecast
