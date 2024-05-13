@@ -100,8 +100,9 @@ test_%_travis:
 # Generic test for all testcases except testcase1 and testcase2 to run locally with cleanup
 test_%:
 # Compile testcase model
-	make compile_testcase_model TESTCASE=$*
+#	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
+	cd .. && docker compose build -q web worker provision	
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -117,6 +118,7 @@ test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
 # Build and deploy testcase image
+	cd .. && docker compose build -q web worker provision	
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -141,6 +143,7 @@ test_testcase2:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 # Build and deploy testcase image
+	cd .. && docker compose build -q web worker provision	
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -249,6 +252,7 @@ test_bacnet:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
+	cd .. && docker compose build -q web worker provision	
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
@@ -278,6 +282,7 @@ test_testcase:
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
+	cd .. && docker compose build -q web worker provision	
 	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 	curl http://127.0.0.1:80/measurements
