@@ -15,7 +15,7 @@ COMMAND_RUN=docker run \
 	  ${IMG_NAME}
 
 build_jm_image:
-	docker build --no-cache --rm -t -q ${IMG_NAME} .
+	docker build --no-cache --rm -q -t ${IMG_NAME} .
 
 build_boptest_image:
 	cd .. && docker compose build
