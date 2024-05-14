@@ -11,7 +11,7 @@ This folder contains examples and results for performing testing of baseline con
 ## Configuration File Description
 
 - The `config.json` file is used to configure settings for running baseline simulations. It controls options for defining test scenarios, enabling user-defined tests, and saving results. 
-- The `config.json` file includes predefined representative scenarios for all the testcases with different combinations of electricity pricing and time periods. Two-week simulation are conducted with three electricity price schemes and representative time periods for each testcase. For each predefined representative scenario, one week simulation before `time_period` is conducted for the warm-up and two-week simulation is then conducted. Please see `root/Testcases/README.md` for different predefined scenarios for each testcase.
+- The `config.json` file includes predefined representative scenarios for all the testcases with different combinations of electricity pricing and time periods. Two-week simulation are conducted with three electricity price schemes and representative time periods for each testcase. For each predefined representative scenario, one week simulation is conducted for the warm-up and two-week simulation (one week before `time_period` and one week after) is then conducted. Please see `root/Testcases/README.md` for different predefined scenarios for each testcase.
 - **`save_kpi_results`**: Save calculated key performance indicator (KPI) results (`true` or `false`).
 - **`save_measurements`**: Save measurement outputs (`true` or `false`).
 - **`run_user_defined_test`**: Enable user-defined scenarios (`true` or `false`).
