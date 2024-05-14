@@ -90,7 +90,7 @@ generate_testcase_data:
 # Generic test for all testcases except testcase1 and testcase2
 test_%:
 # Compile testcase model
-#	make compile_testcase_model TESTCASE=$*
+	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
 	cd .. && docker compose build -q web worker provision	
 	cd .. && docker compose up -d --quiet-pull web worker provision
