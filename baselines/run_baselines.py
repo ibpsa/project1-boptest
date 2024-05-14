@@ -9,10 +9,9 @@ import json
 import itertools
 sys.path.insert(0, '/'.join((os.path.dirname(os.path.abspath(__file__))).split('/')[:-1]))
 from examples.python.interface import control_test
-import pandas as pd
 
 
-def run_all_scenarios(electricity_price_lst, time_period_lst, global_config):
+def run_all_scenarios(electricity_price_lst, time_period_lst, save_kpi_results, save_measurements):
     """
     Run simulations for all combinations of electricity prices and time periods as defined in the config file.
 
@@ -20,14 +19,11 @@ def run_all_scenarios(electricity_price_lst, time_period_lst, global_config):
     ----------
     electricity_price_lst (List[float]): List of electricity prices.
     time_period_lst (List[int]): List of time periods.
-    global_config (GlobalConfig): Global configuration loaded from config.json.
+    save_kpi_results (Boolean): Whether to save KPI results.
+    save_measurements (Boolean): Whether to save all the measurements.
 
-    Returns
-    -------
-    scenario_name_lst (ScenarioNameList): List of scenario names.
     """
     scenario_lst = list(itertools.product(electricity_price_lst, time_period_lst))
-    scenario_name_lst = [f'{scenario[0]}+{scenario[1]}' for scenario in scenario_lst]
     
     for scenario in scenario_lst:
         scenario_params = {'time_period': scenario[1], 'electricity_price': scenario[0]}
@@ -35,15 +31,14 @@ def run_all_scenarios(electricity_price_lst, time_period_lst, global_config):
         print("Finished testing", scenario_params)
 
         # Save KPI result for the current scenario if save_kpi_results is True
-        if global_config["save_kpi_results"]:
+        if save_kpi_results:
             save_kpi_result(scenario_params, kpi)
 
         # Save measurements for the current scenario if save_measurements is True
-        if global_config["save_measurements"]:
+        if save_measurements:
             scenario_name = f'{scenario[0]}+{scenario[1]}'  # Unique sheet name
-            save_measurements_to_csv(df_res, scenario_name)
+            save_measurements_to_csv(scenario_name, df_res)
 
-    return scenario_name_lst
 
 def run_single_case(scenario_params, start_time=0, warmup_period=0, length=24*3600):
     """
@@ -97,14 +92,15 @@ def save_kpi_result(scenario_params, kpi):
         json.dump(kpi_results, f)
         
 
-def save_measurements_to_csv(df_res, scenario_name):
+def save_measurements_to_csv(scenario_name, df_res):
     """
     Save simulation results to a CSV file.
 
     Parameters
     ----------
-    df_res (pd.DataFrame): DataFrame containing simulation results.
     scenario_name (str): Name of the scenario.
+    df_res (pd.DataFrame): DataFrame containing simulation results.
+    
     """
 
     script_dir = os.path.dirname(os.path.abspath(__file__))  # Directory of the current Python script
@@ -133,34 +129,40 @@ def main(test_case):
     if test_case not in config:
         print(f"Test case '{test_case}' not found in config.")
         sys.exit(1)
-    
-    model_config = config[test_case]
-    
+            
     # Run user-defined baseline control testing or run all scenarios
-    if model_config.get("run_user_defined_test", False):
-        scenario_name_lst, df_res_scenario_lst = run_single_case(scenario=None, 
-                                                                 start_time=15*24*3600, 
-                                                                 warmup_period=1*24*3600, 
-                                                                 length=7*24*3600)
-        scenario_name_lst = ["user_defined"]
-        df_res_scenario_lst = [df_res_scenario_lst]
+    if config.get("run_user_defined_test", False):
+        user_options = config.get("user_defined_test_options", {})
+        
+        # Extract user-defined options
+        electricity_price = user_options.get("electricity_price", "dynamic")
+        start_time = user_options.get("start_time", 15*24*3600)
+        warmup_period = user_options.get("warmup_period", 7*24*3600)
+        length = user_options.get("length", 14*24*3600)
+        
+        # Run the test
+        kpi, df_res_scenario_lst = run_single_case(scenario_params={"electricity_price": electricity_price},
+                                                   start_time=start_time,
+                                                   warmup_period=warmup_period,
+                                                   length=length)
         
         # Save KPI results if required
-        if model_config.get("save_kpi_results", True):
-            save_kpi_result(scenario_name_lst[0], kpi)
+        if config.get("save_kpi_results", True):
+            save_kpi_result("user_defined", kpi)
         
         # Save measurements if required
-        if model_config.get("save_measurements", False):
-            save_measurements_to_csv(df_res_scenario_lst[0], scenario_name_lst[0])
+        if config.get("save_measurements", False):
+            save_measurements_to_csv("user_defined", df_res_scenario_lst)
         
     else:
-        electricity_price_lst = model_config["electricity_price"]
-        time_period_lst = model_config["time_period"]
-        scenario_name_lst = run_all_scenarios(electricity_price_lst, 
-                                                                    time_period_lst, 
-                                                                    config)
+        save_kpi_results= config["save_kpi_results"]
+        save_measurements= config["save_measurements"]
+        electricity_price_lst = config[test_case]["electricity_price"]
+        time_period_lst = config[test_case]["time_period"]
+        run_all_scenarios(electricity_price_lst,time_period_lst,
+                                  save_kpi_results,save_measurements)
     
 if __name__ == "__main__":
     # Set the default test case if no command-line argument is provided
-    test_case = sys.argv[1] if len(sys.argv) > 1 else 'bestest_air'
-    main(test_case)
+    test_case = sys.argv[1] if len(sys.argv) > 1 else input("Enter the test case name: ")
+    scenario_df = main(test_case)

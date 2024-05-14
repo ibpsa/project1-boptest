@@ -4,6 +4,9 @@
 
 Released on xx/xx/xxxx.
 
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Add the testing script and associated results of the baseline controllers for all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 
 ## BOPTEST v0.6.0
 
