@@ -19,8 +19,7 @@ This meeting is co-located with the
 taking place May 21-23, 2024.
 
 **Location:**
-Auraria Campus, Denver, CO, USA.
-Room: Senate Chambers #329
+Room: Denver 5-6
 
 **Time:**
 7:30 am - 8:30 am MT (local)
