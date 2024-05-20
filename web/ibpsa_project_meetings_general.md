@@ -26,7 +26,7 @@ Room: Denver 5-6
 
 **Registration:** [https://forms.gle/yPj7QRPa6hgjDQyr9](https://forms.gle/yPj7QRPa6hgjDQyr9)
 
-**Agenda:** Coming soon.
+**Agenda Draft:** Click [here](/ibpsa_project/meetings/general/20240522_Denver/202405_Denver_Agenda.pdf) for pdf
 
 # Past Meetings
 
