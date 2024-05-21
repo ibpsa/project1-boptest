@@ -33,7 +33,7 @@ discussed during Task 3 [meetings](/project1-boptest/ibpsa/project/meetings/task
 
 # Registered Participants
 
-*Updated: February 1, 2024*
+*Updated: May 20, 2024*
 
 ### Organizational Participants
 
@@ -45,7 +45,7 @@ expert meetings using their own funding.
 
 | Name | Institution |
 |------|-------------|
-| Javier Arroyo | KU Leuven - EnergyVille, Belgium |
+| Javier Arroyo | WEDOCO, Spain |
 | Peder Bacher | Technical University of Denmark, Denmark |
 | Yeonjin Bae | Oak Ridge National Laboratory, USA |
 | David Blum | Lawrence Berkeley National Laboratory, USA |
@@ -86,7 +86,9 @@ other open-source projects without a predetermined level of commitment.
 | Xu Han | University of Kansas, USA |
 | Filip Jorissen | Builtwins BV, Belgium |
 | Mingzhe Liu | Texas A&M University, USA |
+| Jan Marco Ruiz de Vargas Staudacher | Technical University Munich, Germany |
 | Matthias Van Hove | Technical University of Denmark, Denmark |
+| Xinlin Wang | CSIRO, Australia |
 | David Wölfle | FZI Research Center for Information Technology, Germany |
 | Laura Zabala Urrutia | R2M Solution Spain, Spain |
 | Sicheng Zhan | National University of Singapore, Singapore |
