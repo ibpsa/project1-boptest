@@ -36,6 +36,36 @@ class Forecaster(object):
     def get_forecast(self, point_names, horizon=24 * 3600, interval=3600,
                      weather_temperature_dry_bulb=None, weather_solar_global_horizontal=None, seed=None,
                      category=None, plot=False):
+        '''
+        Retrieves forecast data for specified points over a given horizon and interval.
+
+        Parameters
+        ----------
+        point_names : list of str
+            List of data point names for which the forecast is to be retrieved.
+        horizon : int, optional
+            Forecast horizon in seconds (default is 86400 seconds, i.e., one day).
+        interval : int, optional
+            Time interval between forecast points in seconds (default is 3600 seconds, i.e., one hour).
+        weather_temperature_dry_bulb : dict, optional
+            Parameters for the AR1 model to simulate forecast error in dry bulb temperature:
+                - F0, K0, F, K, mu : coefficients and mean used in the AR1 model.
+        weather_solar_global_horizontal : dict, optional
+            Parameters for the AR1 model to simulate forecast error in global horizontal solar irradiation:
+                - ag0, bg0, phi, ag, bg : coefficients used in the AR1 model.
+        seed : int, optional
+            Seed for the random number generator to ensure reproducibility of the stochastic forecast error.
+        category : str, optional
+            Category of the forecast data, which may affect data retrieval and processing methods.
+        plot : bool, optional
+            Flag indicating whether to plot the forecast data; useful for debugging or analysis.
+
+        Returns
+        -------
+        forecast : dict
+            A dictionary containing the forecast data for the requested points with applied error models.
+
+        '''
 
         if weather_temperature_dry_bulb is None:
             weather_temperature_dry_bulb = {
