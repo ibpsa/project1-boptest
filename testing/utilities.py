@@ -748,35 +748,35 @@ class partialTestAPI(partialChecks):
                                    'horizon': 'foo',
                                    'interval': 300}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid non-numeric horizon in forecast request did not return 400 message.")
         # Try setting non-numeric interval
         forecast_parameters_ref = {'point_names':forecast_points,
                                    'horizon': 3600,
                                    'interval': 'foo'}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid non-numeric interval in forecast request did not return 400 message.")
         # Try setting negative horizon
         forecast_parameters_ref = {'point_names':forecast_points,
                                    'horizon': -3600,
                                    'interval': 300}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid negative horizon in forecast request did not return 400 message.")
         # Try setting negative interval
         forecast_parameters_ref = {'point_names':forecast_points,
                                    'horizon': 3600,
                                    'interval': -300}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid negative interval in forecast request did not return 400 message.")
         # Try setting invalid point name
         forecast_parameters_ref = {'point_names':['foo'],
                                    'horizon': 3600,
                                    'interval': 300}
         payload = requests.put('{0}/forecast'.format(self.url),
-                               data=forecast_parameters_ref)
+                               json=forecast_parameters_ref)
         self.compare_error_code(payload, "Invalid point_names in forecast request did not return 400 message.")
 
     def test_invalid_scenario(self):

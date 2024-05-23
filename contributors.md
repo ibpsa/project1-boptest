@@ -19,6 +19,7 @@ Thank you to all who have provided guidance on the development of this software.
 - Robert Lutes, Pacific Northwest National Laboratory
 - Kefei Mo, Pacific Northwest National Laboratory
 - Erik Paulson, Independent
+- Matt Robinson, University of Colorado - Boulder
 - Jermy Thomas, National Renewable Energy Laboratory
 - Christian Veje, University of Southern Denmark
 - Draguna Vrabie, Pacific Northwest National Laboratory
