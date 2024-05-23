@@ -48,10 +48,10 @@ class Forecaster(object):
             Time interval between forecast points in seconds (default is 3600 seconds, i.e., one hour).
         weather_temperature_dry_bulb : dict, optional
             Parameters for the AR1 model to simulate forecast error in dry bulb temperature:
-                - F0, K0, F, K, mu : coefficients and mean used in the AR1 model.
+                - F0, K0, F, K, mu : parameters used in the AR1 model.
         weather_solar_global_horizontal : dict, optional
             Parameters for the AR1 model to simulate forecast error in global horizontal solar irradiation:
-                - ag0, bg0, phi, ag, bg : coefficients used in the AR1 model.
+                - ag0, bg0, phi, ag, bg : parameters used in the AR1 model.
         seed : int, optional
             Seed for the random number generator to ensure reproducibility of the stochastic forecast error.
 
