@@ -34,7 +34,7 @@ class Forecaster(object):
         self.case = testcase
 
     def get_forecast(self, point_names, horizon=24 * 3600, interval=3600,
-                     weather_temperature_dry_bulb=None, weather_solar_global_horizontal=None, seed=None):
+                     wea_tem_dry_bul=None, wea_sol_glo_hor=None, seed=None):
         '''
         Retrieves forecast data for specified points over a given horizon and interval.
 
@@ -46,12 +46,14 @@ class Forecaster(object):
             Forecast horizon in seconds (default is 86400 seconds, i.e., one day).
         interval : int, optional
             Time interval between forecast points in seconds (default is 3600 seconds, i.e., one hour).
-        weather_temperature_dry_bulb : dict, optional
+        wea_tem_dry_bul : dict, optional
             Parameters for the AR1 model to simulate forecast error in dry bulb temperature:
                 - F0, K0, F, K, mu : parameters used in the AR1 model.
-        weather_solar_global_horizontal : dict, optional
+            If None, defaults to a dictionary with all parameters set to zero, simulating no forecast error.
+        wea_sol_glo_hor : dict, optional
             Parameters for the AR1 model to simulate forecast error in global horizontal solar irradiation:
                 - ag0, bg0, phi, ag, bg : parameters used in the AR1 model.
+            If None, defaults to a dictionary with all parameters set to zero, simulating no forecast error.
         seed : int, optional
             Seed for the random number generator to ensure reproducibility of the stochastic forecast error.
 
@@ -62,13 +64,13 @@ class Forecaster(object):
 
         '''
 
-        if weather_temperature_dry_bulb is None:
-            weather_temperature_dry_bulb = {
+        if wea_tem_dry_bul is None:
+            wea_tem_dry_bul = {
                 "F0": 0, "K0": 0, "F": 0, "K": 0, "mu": 0
             }
 
-        if weather_solar_global_horizontal is None:
-            weather_solar_global_horizontal = {
+        if wea_sol_glo_hor is None:
+            wea_sol_glo_hor = {
                 "ag0": 0, "bg0": 0, "phi": 0, "ag": 0, "bg": 0
             }
         # Get the forecast
@@ -76,23 +78,23 @@ class Forecaster(object):
                                                    horizon=horizon,
                                                    interval=interval)
 
-        if 'TDryBul' in point_names and any(weather_temperature_dry_bulb.values()):
+        if 'TDryBul' in point_names and any(wea_tem_dry_bul.values()):
             if seed is not None:
                 np.random.seed(seed)
             # error in the forecast
             error_forecast_temp = predict_temperature_error_AR1(
                 hp=int(horizon / interval + 1),
-                F0=weather_temperature_dry_bulb["F0"],
-                K0=weather_temperature_dry_bulb["K0"],
-                F=weather_temperature_dry_bulb["F"],
-                K=weather_temperature_dry_bulb["K"],
-                mu=weather_temperature_dry_bulb["mu"]
+                F0=wea_tem_dry_bul["F0"],
+                K0=wea_tem_dry_bul["K0"],
+                F=wea_tem_dry_bul["F"],
+                K=wea_tem_dry_bul["K"],
+                mu=wea_tem_dry_bul["mu"]
             )
 
             # forecast error just added to dry bulb temperature
             forecast['TDryBul'] = forecast['TDryBul'] - error_forecast_temp
             forecast['TDryBul'] = forecast['TDryBul'].tolist()
-        if 'HGloHor' in point_names and any(weather_solar_global_horizontal.values()):
+        if 'HGloHor' in point_names and any(wea_sol_glo_hor.values()):
 
             original_HGloHor = np.array(forecast['HGloHor']).copy()
             lower_bound = 0.2 * original_HGloHor
@@ -105,11 +107,11 @@ class Forecaster(object):
                     np.random.seed(seed+i*i)
                 error_forecast_solar = predict_solar_error_AR1(
                     int(horizon / interval + 1),
-                    weather_solar_global_horizontal["ag0"],
-                    weather_solar_global_horizontal["bg0"],
-                    weather_solar_global_horizontal["phi"],
-                    weather_solar_global_horizontal["ag"],
-                    weather_solar_global_horizontal["bg"]
+                    wea_sol_glo_hor["ag0"],
+                    wea_sol_glo_hor["bg0"],
+                    wea_sol_glo_hor["phi"],
+                    wea_sol_glo_hor["ag"],
+                    wea_sol_glo_hor["bg"]
                 )
 
                 forecast['HGloHor'] = original_HGloHor - error_forecast_solar
