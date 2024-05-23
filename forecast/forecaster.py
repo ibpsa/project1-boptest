@@ -1,7 +1,7 @@
 '''
 Created on Apr 25, 2019
 
-@author: Javier Arroyo
+@author: Javier Arroyo, Laura Zabala and Wanfu Zheng
 
 This module contains the Forecaster class with methods to obtain
 forecast data for the test case. It relies on the data_manager object
