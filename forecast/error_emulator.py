@@ -36,7 +36,7 @@ def mean_filter(data, window_size=3):
     return filtered_data
 def predict_temperature_error_AR1(hp, F0, K0, F, K, mu):
     '''
-    Generates an error with an AR model in the hp points of the predictions horizon.
+    Generates an error for the temperature forecast with an AR model with normal distribution in the hp points of the predictions horizon.
 
         Parameters
         ----------
@@ -72,7 +72,7 @@ def predict_temperature_error_AR1(hp, F0, K0, F, K, mu):
 
 
 def predict_solar_error_AR1(hp, ag0, bg0, phi, ag, bg):
-    '''Generates an error based on the specified parameters using an AR model in the hp points of the predictions horizon.
+    '''Generates an error for the solar forecast based on the specified parameters using an AR model with Laplace distribution in the hp points of the predictions horizon.
 
         Parameters
         ----------
