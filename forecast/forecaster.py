@@ -34,8 +34,7 @@ class Forecaster(object):
         self.case = testcase
 
     def get_forecast(self, point_names, horizon=24 * 3600, interval=3600,
-                     weather_temperature_dry_bulb=None, weather_solar_global_horizontal=None, seed=None,
-                     category=None, plot=False):
+                     weather_temperature_dry_bulb=None, weather_solar_global_horizontal=None, seed=None):
         '''
         Retrieves forecast data for specified points over a given horizon and interval.
 
@@ -55,10 +54,6 @@ class Forecaster(object):
                 - ag0, bg0, phi, ag, bg : coefficients used in the AR1 model.
         seed : int, optional
             Seed for the random number generator to ensure reproducibility of the stochastic forecast error.
-        category : str, optional
-            Category of the forecast data, which may affect data retrieval and processing methods.
-        plot : bool, optional
-            Flag indicating whether to plot the forecast data; useful for debugging or analysis.
 
         Returns
         -------
@@ -79,9 +74,7 @@ class Forecaster(object):
         # Get the forecast
         forecast = self.case.data_manager.get_data(variables=point_names,
                                                    horizon=horizon,
-                                                   interval=interval,
-                                                   category=category,
-                                                   plot=plot)
+                                                   interval=interval)
 
         if 'TDryBul' in point_names and any(weather_temperature_dry_bulb.values()):
             if seed is not None:
