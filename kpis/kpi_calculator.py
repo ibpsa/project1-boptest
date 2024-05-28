@@ -840,7 +840,7 @@ if __name__ == "__main__":
                 'Cooling_pump_y':80.,
                 'Lighting_floor_1_zone1_lamp1_y':15.,
                 'Lighting_floor_1_zone1_lamp2_y':23.,
-                'Lighting_floor_1_zone2_y':87,
+                'Lighting_floor_1_zone2_y':87.,
                 'Lighting_floor_2_y':37.}
 
     cal = KPI_Calculator(testcase=None)
