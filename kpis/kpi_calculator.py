@@ -178,22 +178,26 @@ class KPI_Calculator(object):
 
         elif label=='ltra':
             keys = self.case.u_store.keys()
-            # Filter keys that contain "oveFan" or "ovePum" and end with "_u"
-            filtered_keys = [key for key in keys if ("oveFan" in key or "ovePum" in key) and key.endswith('_u')]
+
+            # Map the sources to their corresponding keywords
+            source_keywords = {
+                "dam": ["yDam","yOA", "yRet"],
+                "val": ["yCoo","oveCoo", "yReaHea","yHea","oveActHea", "oveMixValSup", "oveVal", "oveMNigZ", "oveMDayZ"],
+                "fan": ["oveFan","yFan"],
+                "pum": ["ovePum","yPum","oveEmiPum", "oveMpum"],
+                "equ": ["oveHeaPum", "oveBoi", "oveAct_u", "oveActNor_u","oveActSou_u"],
+            }
+            # Filter keys that contain any of the elements in source_keywords and end with "_u"
+            filtered_keys = [
+                key for key in keys
+                if any(keyword in key for group in source_keywords.values() for keyword in group) and key.endswith('_u')
+            ]
 
             # Initialize sources of actuator travel
             self.sources_ltra = []
             self.ltra_dict = {}
             self.ltra_dict_by_source = {}
             self.ltra_source_key_mapping = {}
-
-            # Map the sources to their corresponding keywords
-            source_keywords = {
-                "dam": "Dam",
-                "val": ["yCoo", "yHea"],  # Separate substrings in a list
-                "fan": "Fan",
-                "pum": "Pum"
-            }
 
             # Iterate over the filtered keys and determine the corresponding source
             for key in filtered_keys:
@@ -840,7 +844,7 @@ if __name__ == "__main__":
                 'Cooling_pump_y':80.,
                 'Lighting_floor_1_zone1_lamp1_y':15.,
                 'Lighting_floor_1_zone1_lamp2_y':23.,
-                'Lighting_floor_1_zone2_y':87.,
+                'Lighting_floor_1_zone2_y':87,
                 'Lighting_floor_2_y':37.}
 
     cal = KPI_Calculator(testcase=None)
