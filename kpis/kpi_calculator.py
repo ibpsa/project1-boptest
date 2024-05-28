@@ -68,13 +68,14 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('pele')
         self.initialize_kpi_vars('pgas')
         self.initialize_kpi_vars('pdih')
+        self.initialize_kpi_vars('ltra', store="u_store")
 
-    def initialize_kpi_vars(self, label='ener'):
+    def initialize_kpi_vars(self, label='ener', store="y_store"):
         '''Initialize variables required for KPI calculation
 
         '''
         # Initialize index
-        self._set_last_index(label, set_initial=True)
+        self._set_last_index(label, set_initial=True, store="y_store")
         # Dictionary to store energy usage by element
         setattr(self, '{}_dict'.format(label), OrderedDict())
         # Dictionary to store energy usage by source
@@ -175,6 +176,42 @@ class KPI_Calculator(object):
                         self.emis_dict[signal] = 0.
                         self.emis_dict_by_source[source+'_'+signal] = 0.
 
+        elif label=='ltra':
+            keys = self.case.u_store.keys()
+            # Filter keys that contain "oveFan" or "ovePum" and end with "_u"
+            filtered_keys = [key for key in keys if ("oveFan" in key or "ovePum" in key) and key.endswith('_u')]
+
+            # Initialize sources of actuator travel
+            self.sources_ltra = []
+            self.ltra_dict = {}
+            self.ltra_dict_by_source = {}
+            self.ltra_source_key_mapping = {}
+
+            # Map the sources to their corresponding keywords
+            source_keywords = {
+                "dam": "Dam",
+                "val": ["yCoo", "yHea"],  # Separate substrings in a list
+                "fan": "Fan",
+                "pum": "Pum"
+            }
+
+            # Iterate over the filtered keys and determine the corresponding source
+            for key in filtered_keys:
+                for source, keywords in source_keywords.items():
+                    if isinstance(keywords, str):  # Check if the value is a string
+                        keywords = [keywords]  # Convert single string to list for uniform processing
+                    for keyword in keywords:
+                        if keyword in key:
+                            if source not in self.sources_ltra:
+                                self.sources_ltra.append(source)
+                            self.ltra_dict[key] = 0.
+                            self.ltra_dict_by_source[source + '_' + key] = 0.
+                            # Add to the ltra_source_key_mapping dictionary
+                            if source in self.ltra_source_key_mapping:
+                                self.ltra_source_key_mapping[source].append(key)
+                            else:
+                                self.ltra_source_key_mapping[source] = [key]
+
     def initialize(self):
         '''
         Method to reset all kpi variables while maintaining pointer to
@@ -212,6 +249,7 @@ class KPI_Calculator(object):
         ckpi['pgas_tot'] = self.get_peak_gas()
         ckpi['pdih_tot'] = self.get_peak_district_heating()
         ckpi['time_rat'] = self.get_computational_time_ratio()
+        ckpi['ltra_tot'] = self.get_actuator_travel()
 
         return ckpi
 
@@ -631,7 +669,73 @@ class KPI_Calculator(object):
 
         return time_rat
 
-    def _set_last_index(self,label, set_initial=False):
+    def get_actuator_travel(self):
+        '''This method returns the measure of the actuator travel arc length when accounting for the sum of all
+        the actuators present in the test case.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        ltra_tot: float
+            total arc length of actuator travel
+
+        '''
+        self.ltra_tot = 0.
+        # Calculate total arc length of actuator travel
+
+        for source in self.sources_ltra:
+            for signal in self.ltra_source_key_mapping[source]:
+                ltra_data = np.array(self._get_data_from_last_index(signal,self.i_last_ltra, store="u_store"))
+                index_data = np.array(self._get_data_from_last_index('time',self.i_last_ltra, store="u_store"))
+                self.ltra_dict[signal] +=  self._arclength(index_data-index_data[0],ltra_data, 0, len(index_data))/(index_data[-1]-index_data[0])
+                self.ltra_dict_by_source[source+'_'+signal] += self.ltra_dict[signal]
+                self.ltra_tot = self.ltra_tot + self.ltra_dict[signal] #/self.case._get_area() # Normalize total by floor area
+
+        # Assign to case
+        self.case.ltra_tot            = self.ltra_tot
+        self.case.ltra_dict           = self.ltra_dict
+        self.case.ltra_dict_by_source = self.ltra_dict_by_source
+
+        # Update last integration index
+        self._set_last_index('ltra', set_initial=False, store="u_store")
+
+        return self.ltra_tot
+
+
+    def _arclength(self, x, y, a, b):
+        """
+        Computes the arclength of the given curve
+        defined by (x0, y0), (x1, y1) ... (xn, yn)
+        over the provided bounds, `a` and `b`.
+
+        Parameters
+        ----------
+        x: numpy.ndarray
+            The array of x values
+
+        y: numpy.ndarray
+            The array of y values corresponding to each value of x
+
+        a: int
+            The lower limit to integrate from
+
+        b: int
+            The upper limit to integrate to
+
+        Returns
+        -------
+        numpy.float64
+            The arclength of the curve
+
+        """
+        bounds = (x >= a) & (x <= b)
+
+        return np.trapz(np.sqrt(1 + np.gradient(y[bounds], x[bounds]) ** 2),x[bounds])
+
+    def _set_last_index(self,label, set_initial=False, store="y_store"):
         '''Set last index for kpi calcualtion.
 
         Parameters
@@ -640,22 +744,28 @@ class KPI_Calculator(object):
             Suffix of last index variable for which to set.
         set_initial: boolean
             True to force index to be set at initial testing time.
-
+        store: str, optional
+            Store to get data from, either "y_store" or "u_store". Default is "y_store".
         '''
 
+        if store not in ["y_store", "u_store"]:
+            raise ValueError("store must be 'y_store' or 'u_store'")
+
+        data_store = getattr(self.case, store)
+
         # Initialize index
-        if len(self.case.y_store['time']) > 0:
+        if len(data_store['time']) > 0:
             if set_initial:
                 # Find initial testing time index
-                i = len([x for x in self.case.y_store['time'] if x < self.case.initial_time])
+                i = len([x for x in data_store['time'] if x < self.case.initial_time])
             else:
                 # Use index since last integration
-                i = len(self.case.y_store['time'])-1
+                i = len(data_store['time'])-1
         else:
             i = 0
         setattr(self, 'i_last_{}'.format(label),i)
 
-    def _get_data_from_last_index(self,point,i):
+    def _get_data_from_last_index(self,point,i, store="y_store"):
         '''Get data from last index indicated by i.
 
         Parameters
@@ -664,6 +774,8 @@ class KPI_Calculator(object):
             Name of point to get data for from case.y_store
         i: int
             Integer to indicate the first time to get data
+        store: str, optional
+            Store to get data from, either "y_store" or "u_store". Default is "y_store".
 
         Returns
         -------
@@ -671,8 +783,11 @@ class KPI_Calculator(object):
             Array of data from key from i onward
 
         '''
+        if store not in ["y_store", "u_store"]:
+            raise ValueError("store must be 'y_store' or 'u_store'")
 
-        data=self.case.y_store[point][i:]
+        data_store = getattr(self.case, store)
+        data = data_store[point][i:]
 
         return data
 
@@ -725,7 +840,7 @@ if __name__ == "__main__":
                 'Cooling_pump_y':80.,
                 'Lighting_floor_1_zone1_lamp1_y':15.,
                 'Lighting_floor_1_zone1_lamp2_y':23.,
-                'Lighting_floor_1_zone2_y':87.,
+                'Lighting_floor_1_zone2_y':87,
                 'Lighting_floor_2_y':37.}
 
     cal = KPI_Calculator(testcase=None)
