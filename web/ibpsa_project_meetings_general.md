@@ -12,6 +12,10 @@ permalink: /ibpsa/project/meetings/general/
 
 # Upcoming Meetings
 
+Coming soon...
+
+# Past Meetings
+
 ### May 22, 2024: In-Person Meeting, Denver
 
 This meeting is co-located with the
@@ -24,11 +28,11 @@ Room: Denver 5-6
 **Time:**
 7:30 am - 8:30 am MT (local)
 
-**Registration:** [https://forms.gle/yPj7QRPa6hgjDQyr9](https://forms.gle/yPj7QRPa6hgjDQyr9)
+**Notes:**
 
-**Agenda Draft:** Click [here](/ibpsa_project/meetings/general/20240522_Denver/202405_Denver_Agenda.pdf) for pdf
-
-# Past Meetings
+- [Minutes](/ibpsa_project/meetings/general/20240522_Denver/202405_Denver_Minutes.pdf)
+- Presentation: [IBPSA Project 2: Overview and Status](/ibpsa_project/meetings/general/20240522_Denver/202405_Overview.pdf), by David Blum
+- Presentation: [Weather Forecast Uncertainty](/ibpsa_project/meetings/general/20240522_Denver/202405_BOPTEST_weather_uncertainty.pdf), by Laura Zabala
 
 ### December 12, 2023
 
