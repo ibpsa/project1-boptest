@@ -52,7 +52,7 @@ subsequent ASHRAE Standard 140 [ASH11] as well as the optimization fields
 (e.g. OpenAI Gym [Ope22]).
 
 ### Task 1: Outreach and Community Building
-**Task Leader**: Javier Arroyo, KU Leuven, Belgium
+**Task Leader**: Javier Arroyo, Wedoco, Spain
 
 This task will focus on activities that encourage, facilitate, and disseminate
 BOPTEST usage, adoption, and feedback to development.
