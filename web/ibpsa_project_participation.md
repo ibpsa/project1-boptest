@@ -45,7 +45,7 @@ expert meetings using their own funding.
 
 | Name | Institution |
 |------|-------------|
-| Javier Arroyo | WEDOCO, Spain |
+| Javier Arroyo | Wedoco, Spain |
 | Peder Bacher | Technical University of Denmark, Denmark |
 | Yeonjin Bae | Oak Ridge National Laboratory, USA |
 | David Blum | Lawrence Berkeley National Laboratory, USA |

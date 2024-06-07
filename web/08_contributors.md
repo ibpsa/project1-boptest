@@ -8,7 +8,7 @@ hero_height: is-fullwidth
 Thank you to all contributors of the project.  They are in alphabetical order:
 
 - **Krzysztof Arendt (Southern Denmark University, Denmark)** for framework development, forecast uncertainty characterization.
-- **Javier Arroyo (KU Leuven, Belgium)** for framework development, software implementation, test case development (bestest_hydronic_heat_pump), test case review, controller testing, tutorial and workshop development, website.
+- **Javier Arroyo (Wedoco, Spain)** for framework development, software implementation, test case development (bestest_hydronic_heat_pump), test case review, controller testing, tutorial and workshop development, website.
 - **Yeonjin Bae (Oak Ridge National Laboratory, USA)** for framework development, test case implementation (flexible_research_platform).
 - **Aritz Bengoetxea (IK4 Tekniker, Spain)** for forecast uncertainty characterization.
 - **Kyle Benne (National Renewable Energy Laboratory, USA)** for framework development, web-service development, online dashboard development, tutorial and workshop development.

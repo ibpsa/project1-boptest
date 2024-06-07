@@ -2,7 +2,7 @@
 
 Thank you to all who have provided guidance on the development of this software.  The following people have contributed directly to the development of this software and its design (in alphabetical order):
 
-- Javier Arroyo, KU Leuven
+- Javier Arroyo, Wedoco
 - Kyle Benne, National Renewable Energy Laboratory
 - Dave Biagioni, National Renewable Energy Laboratory
 - David Blum, Lawrence Berkeley National Laboratory
