@@ -9,6 +9,7 @@ Released on xx/xx/xxxx.
 - Update pyfmi version from 2.11 to 2.12 and miniconda version from py310_23.1.0-1-Linux-x86_64 to py310_24.3.0-0-Linux-x86_64. This is for [#643](https://github.com/ibpsa/project1-boptest/issues/643).
 - Remove support and unit testing of example python controllers using Python 2. This is for [#634](https://github.com/ibpsa/project1-boptest/issues/634).
 - Add a warning message upon test case compilation in ``data/data_manager.py`` that is displayed if any of the weather variables in ``data/categories.json`` is not in ``<testcase_folder>/resources/weather.csv``. This is for [#500](https://github.com/ibpsa/project1-boptest/issues/500).
+- Implement method to get disaggregated KPIs with absolute values. This enables to make a more comprehensive analysis of which elements are contributing to each KPI. This is for [#604](https://github.com/ibpsa/project1-boptest/issues/604).
 
 ## BOPTEST v0.6.0
 
@@ -28,7 +29,6 @@ Released on 04/03/2024.
 - Fix unit tests for possible false passes in certain test cases. This is for [#620](https://github.com/ibpsa/project1-boptest/issues/620).
 - Add ``activate`` control inputs to all test case documentation and update ``get_html_IO.py`` to print one file with all inputs, outputs, and forecasts. This is for [#555](https://github.com/ibpsa/project1-boptest/issues/555).
 - Add storing of scenario result trajectories, kpis, and test information to simulation directory within test case docker container. This is for [#626](https://github.com/ibpsa/project1-boptest/issues/626).
-- Implement method to get disaggregated KPIs with absolute values. This enables to make a more comprehensive analysis of which elements are contributing to each KPI. This is for [#604](https://github.com/ibpsa/project1-boptest/issues/604).
 
 ## BOPTEST v0.5.0
 
