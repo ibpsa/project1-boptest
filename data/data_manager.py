@@ -146,12 +146,20 @@ class Data_Manager(object):
 
         # Get zone and boundary data keys allowed
         zon_keys, bou_keys = self._get_zone_and_boundary_keys()
+        weather_keys = list(self.categories['weather'].keys())
 
         # Search for .csv files in the resources folder
         for f in self.files:
             if f.endswith('.csv'):
                 df = pd.read_csv(f, comment='#')
                 cols = df.keys()
+                
+                # Check if all weather variables are included in weather.csv
+                if 'weather' in f:
+                    if not set(cols) <= set(weather_keys):
+                        warnings.warn('The file weather.csv is missing '\
+                        'the following variables '+str(set(weather_keys).difference(set(cols)))+'.', Warning)
+                
                 if 'time' in cols:
                     for col in cols.drop('time'):
                         # Raise error if col already appended
@@ -427,7 +435,8 @@ class Data_Manager(object):
 
         # Get zone and boundary data keys allowed
         zon_keys, bou_keys = self._get_zone_and_boundary_keys()
-
+        
+        
         # Initialize test case data frame
         self.case.data = \
             pd.DataFrame(index=index).rename_axis('time')
@@ -436,6 +445,7 @@ class Data_Manager(object):
         for f in files:
             df = pd.read_csv(z_fmu.open(f))
             cols = df.keys()
+                               
             if 'time' in cols:
                 for col in cols.drop('time'):
                     # Check that column has any of the allowed data keys

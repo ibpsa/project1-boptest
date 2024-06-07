@@ -275,25 +275,6 @@ test_readme_commands:
 	curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
 	cd .. && TESTCASE=testcase2 docker-compose down
 
-test_python2:
-# Test example controllers written in python run with python 2
-# Test testcase1
-	cd .. && TESTCASE=testcase1 docker-compose up -d
-	python sleep10.py
-	cd ../examples/python && python testcase1.py
-	cd ../examples/python && python testcase1_scenario.py
-	cd .. && TESTCASE=testcase1 docker-compose down
-# Test testcase2
-	cd .. && TESTCASE=testcase2 docker-compose up -d
-	python sleep10.py
-	cd ../examples/python && python testcase2.py
-	cd .. && TESTCASE=testcase2 docker-compose down
-# Test testcase3
-	cd .. && TESTCASE=testcase3 docker-compose up -d
-	python sleep10.py
-	cd ../examples/python && python testcase3.py
-	cd .. && TESTCASE=testcase32 docker-compose down
-
 ###############################################################################
 
 # Run all tests
