@@ -136,14 +136,26 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Initialize test case
     print('Initializing test case simulation.')
     if scenario is not None:
-        # Initialize test with a scenario time period
+        # Initialize test with a scenario time period specified
         res = check_response(requests.put('{0}/scenario'.format(url), json=scenario))['time_period']
         print(res)
-        # Record test simulation start time
-        start_time = int(res['time'])
-        # Set final time and total time steps to be very large since scenario defines length
-        final_time = np.inf
-        total_time_steps = int((365 * 24 * 3600)/step)
+        
+        # Initialize test with a scenario without time period specified
+        if res == None:
+            # Initialize test with a specified start time and warmup period
+            res = check_response(requests.put('{0}/initialize'.format(url), json={'start_time': start_time, 'warmup_period': warmup_period}))
+            print("RESULT: {}".format(res))
+            # Set final time and total time steps according to specified length (seconds)
+            final_time = start_time + length
+            total_time_steps = int(length / step)  # calculate number of timesteps
+        else:
+            # Record test simulation start time
+            start_time = int(res['time'])
+            # Set final time and total time steps to be very large since scenario defines length
+            final_time = 10e9 # np.inf
+            total_time_steps = int((365 * 24 * 3600)/step)
+
+
     else:
         # Initialize test with a specified start time and warmup period
         res = check_response(requests.put('{0}/initialize'.format(url), json={'start_time': start_time, 'warmup_period': warmup_period}))

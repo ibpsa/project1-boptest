@@ -1,8 +1,19 @@
 # Release Notes
 
-## BOPTEST v0.5.0-dev
+## BOPTEST v0.6.0-dev
 
 Released on xx/xx/xxxx.
+
+**The following changes are backwards-compatible and do not significantly change benchmark results:**
+
+- Add baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
+- Update pyfmi version from 2.11 to 2.12 and miniconda version from py310_23.1.0-1-Linux-x86_64 to py310_24.3.0-0-Linux-x86_64. This is for [#643](https://github.com/ibpsa/project1-boptest/issues/643).
+- Remove support and unit testing of example python controllers using Python 2. This is for [#634](https://github.com/ibpsa/project1-boptest/issues/634).
+
+
+## BOPTEST v0.6.0
+
+Released on 04/03/2024.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
@@ -16,6 +27,8 @@ Released on xx/xx/xxxx.
 - Correct typo in documentation for ``multizone_office_simple_air``, cooling setback temperature changed from 12 to 30. This is for [#605](https://github.com/ibpsa/project1-boptest/issues/605).
 - Modify unit tests for test case scenarios to only simulate two days after warmup instead of the whole two-week scenario. This is for [#576](https://github.com/ibpsa/project1-boptest/issues/576).
 - Fix unit tests for possible false passes in certain test cases. This is for [#620](https://github.com/ibpsa/project1-boptest/issues/620).
+- Add ``activate`` control inputs to all test case documentation and update ``get_html_IO.py`` to print one file with all inputs, outputs, and forecasts. This is for [#555](https://github.com/ibpsa/project1-boptest/issues/555).
+- Add storing of scenario result trajectories, kpis, and test information to simulation directory within test case docker container. This is for [#626](https://github.com/ibpsa/project1-boptest/issues/626).
 
 
 ## BOPTEST v0.5.0
