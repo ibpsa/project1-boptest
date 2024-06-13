@@ -1,11 +1,10 @@
-version: '3'
 services:
   # A service to provision needed resources during development
   # The main task is to upload test cases
   # This is not a production container,
   # but the "boptest_submit" python module that is executed
   # by this service may be useful in provisioning a production environment
-  provision: 
+  provision:
     build: service/provision
     depends_on:
       - web
@@ -97,18 +96,3 @@ services:
     image: redis
     ports:
       - "6379:6379"
-  test:
-    build:
-      dockerfile: test/Dockerfile
-      context: .
-    depends_on:
-      - web
-    environment:
-      - BOPTEST_SERVER
-      - BOPTEST_DASHBOARD_API_KEY
-      - BOPTEST_DASHBOARD_USERNAME
-      - BOPTEST_TEST_USERNAME
-      - BOPTEST_TEST_KEY
-      - BOPTEST_TEST_PRIVILEGED_USERNAME
-      - BOPTEST_TEST_PRIVILEGED_KEY
-      - BOPTEST_USE_TEST_USERS
