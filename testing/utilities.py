@@ -214,7 +214,7 @@ class partialChecks(object):
                 # If reference exists, check it
                 with open(ref_filepath, 'r') as f:
                     json_ref = json.load(f)
-                self.assertTrue(json_test==json_ref, 'json_test:\n{0}\ndoes not equal\njson_ref:\n{1}'.format(json_test, json_ref))
+                self.assertEqual(json_test,json_ref, 'json_test:\n{0}\ndoes not equal\njson_ref:\n{1}'.format(json_test, json_ref))
             else:
                 # Otherwise, save as reference
                 with open(ref_filepath, 'w') as f:
