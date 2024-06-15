@@ -209,6 +209,9 @@ class partialChecks(object):
 
             '''
 
+            # Allow unlimited diff output
+            self.maxDiff = None
+
             # Perform test
             if os.path.exists(ref_filepath):
                 # If reference exists, check it
