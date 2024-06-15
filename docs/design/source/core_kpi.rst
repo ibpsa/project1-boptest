@@ -227,6 +227,27 @@ Maximum allowed capital cost
    relies on the BOPTEST user, who can use the objective quantification
    of this KPI to take the decision.
 
+Core KPIs disaggregation
+---------------------------
+
+The main purpose of the core KPIs is to enable benchmarking across different controllers.
+That is the why these KPIs are provided in an aggregated format with all contributions
+from each source added up to a unique value which is normlized by floor area or number of zones.
+Returning a unique value facilitates comparisons between controllers.
+However, there may be some cases where getting all contributions from each source separately
+could be useful to gain insights and anlyze results.
+We might be interested, for example, in what is the specific contribution of a pump and
+a heat pump to the overal energy use of a building to decide whether we can
+neglect the pump operation in our controller logic.
+
+The GET ´´kpi_disaggregated´´ API call gives this information as it returns the value of the core
+KPIs disaggregated by the contribution of each source element.
+The returned results are in absolute values, that is, they are not normalized by floor area or
+by number of zones.
+In the case of peak power KPIs it should be noted that what is returned is the contribution of
+each element to the total peak when it is reached (instead of providing the peak power of each
+individual element separately).
+
 Calculation Module
 ---------------------
 

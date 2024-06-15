@@ -262,6 +262,36 @@ class partialKpiCalculatorTest(utilities.partialChecks):
         # Check results
         self._perform_test(self.case.cost_tot, self.case.cost_dict, 'cost_warmup_highly_dynamic')
 
+    def test_get_kpis(self):
+        '''Check for getting all core KPIs. 
+
+        '''
+
+        # Reset kpi calculator
+        self.cal.initialize()
+        
+        # Calculate all core KPIs
+        ckpis = self.cal.get_core_kpis()
+
+        # Check results
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'kpis', 'all_ckpis_{0}.csv'.format(self.name))
+        self.compare_ref_json(ckpis, ref_filepath)
+
+    def test_get_kpis_disaggregated(self):
+        '''Check for getting all core KPIs in a disaggregated format. 
+
+        '''
+
+        # Reset kpi calculator
+        self.cal.initialize()
+        
+        # Calculate all core KPIs
+        dkpis = self.cal.get_kpis_disaggregated()
+
+        # Check disaggregated results
+        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'kpis', 'all_dkpis_{0}.csv'.format(self.name))
+        self.compare_ref_json(dkpis, ref_filepath)
+
     def _perform_test(self, tot, dictionary, label):
         '''Common function for performing the tests.
 
