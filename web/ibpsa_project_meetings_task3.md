@@ -12,10 +12,6 @@ permalink: /ibpsa/project/meetings/task3/
 
 # Upcoming Meetings
 
-
-
-# Past Meetings
-
 ### August 5, 2024
 
 **Location:** Online
@@ -32,13 +28,17 @@ permalink: /ibpsa/project/meetings/task3/
 
 [**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NGg4Z2VlOWZvNzBybG5scjR0OWMxNTg2bW0gZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
 
+
+# Past Meetings
+
+
 ### June 4, 2024
 
 **Location:** Online
 
 **Time:** 6:00-7:00 pacific
 
-[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=N2ljcTA4dmZpcmpvN25xczY5ZGFvbXJmbWggZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
+
 
 - [Minutes](/ibpsa_project/meetings/task3/20240604_Progress/20240604_IBPSA-BOPTEST_Task3_minutes.pdf)
 
@@ -48,7 +48,6 @@ permalink: /ibpsa/project/meetings/task3/
 
 **Time:** 6:00-7:00 pacific
 
-[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=N3IxOG82cWFwaDY2NmswMGluOG9vN2xyZDYgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
 
 - [Minutes](/ibpsa_project/meetings/task3/20240502_Progress/20240502_IBPSA-BOPTEST_Task3_minutes.pdf)
 
@@ -58,7 +57,6 @@ permalink: /ibpsa/project/meetings/task3/
 
 **Time:** 6:00-7:00 pacific
 
-[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MDA0MjJnMHVpNGVlcTMxNG40OWxpaXQxZnIgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
 
 **Notes:**
 
@@ -71,7 +69,6 @@ permalink: /ibpsa/project/meetings/task3/
 
 **Time:** 6:00-7:00 pacific
 
-[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NXUwZDZqcTd2YnZic2xqcW84cDNkajRyNmwgZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
 
 **Notes:**
 
