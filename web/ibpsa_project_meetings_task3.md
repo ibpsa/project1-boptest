@@ -41,6 +41,7 @@ permalink: /ibpsa/project/meetings/task3/
 
 
 - [Minutes](/ibpsa_project/meetings/task3/20240604_Progress/20240604_IBPSA-BOPTEST_Task3_minutes.pdf)
+- [Presentation](/ibpsa_project/meetings/task3/20240604_Progress/Testcase_Presentation.pdf)
 
 ### May 2, 2024
 
