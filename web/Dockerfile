@@ -24,6 +24,7 @@ RUN pip install \
     sphinxcontrib-bibtex
 
 RUN gem install ffi -v 1.16.3
+RUN gem install public_suffix -v 5.1.1
 RUN gem install jekyll -v 4.1.0
 RUN gem install bundler -v 2.1.4
 
