@@ -10,6 +10,7 @@ import unittest
 import os
 import utilities
 import argparse
+import requests
 
 # Configure the argument parser
 parser = argparse.ArgumentParser(description='Configure the unit tests that are run')
@@ -32,7 +33,7 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
         '''
 
         self.name = 'multizone_residential_hydronic'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.points_check = ['boi_reaGasBoi_y', 'boi_reaPpum_y',
                              'conHeaBth_reaTZon_y', 'conHeaLiv_reaTZon_y',
                              'conHeaRo1_reaTZon_y', 'conHeaRo2_reaTZon_y',
@@ -44,6 +45,10 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod, utilities.partialT
                              'conHeaLiv_oveActHea_u',
                              'conHeaRo1_oveActHea_u', 'conHeaRo2_oveActHea_u',
                              'conHeaRo3_oveActHea_u']
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
     @unittest.skipUnless(('test_peak_heat_day' in test_names) or not(test_names), 'Skipping test_peak_heat_day.')
     def test_peak_heat_day(self):
@@ -76,7 +81,7 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'multizone_residential_hydronic'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
@@ -86,6 +91,10 @@ class API(unittest.TestCase, utilities.partialTestAPI):
                       'oveEmiPum_u': 1}
         self.measurement = 'weatherStation_reaWeaWinSpe_y'
         self.forecast_point = 'EmissionsElectricPower'
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__), test_names)
