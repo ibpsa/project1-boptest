@@ -35,7 +35,7 @@ model AirHandlingUnit
     parameter .Modelica.Units.SI.TemperatureDifference dT_air_nominal_coo = 15
      "Nominal air temperature difference in the cooling coil";
 
-    parameter .Modelica.Units.SI.TemperatureDifference dT_wat_nominal_hea = 20
+    parameter .Modelica.Units.SI.TemperatureDifference dT_wat_nominal_hea = 5
      "Nominal water temperature difference in the heating coil";
 
     parameter .Modelica.Units.SI.TemperatureDifference dT_wat_nominal_coo = 5

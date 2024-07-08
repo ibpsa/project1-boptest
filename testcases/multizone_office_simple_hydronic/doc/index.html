@@ -15,8 +15,14 @@ The height of each floor is considered to be 3 m,
 and at each floor internal floors are added to account for the thermal mass.
 Hence, the total floor area to be conditioned is 5000 m<sup>2</sup>.
 The building is divided in two zones/spaces of equal floor area,
-with their main façades oriented towards north (NZ) and south (SZ) respectively.
+with their main façades oriented towards north (NZ) and south (SZ) respectively, as shown in the figure below.
 Each zone has a window-to-wall ratio of 50%.
+
+<p align=\"center\">
+<img alt=\"Floor plan of one floor.\"
+src="images/floorPlan.png" width=500 />
+</p>
+
 </p>
 <h4>Constructions</h4>
 <p><b>Exterior walls</b> </p>
@@ -271,7 +277,7 @@ for the following days:
 <h4>Internal loads and schedules</h4>
 <p>
 Internal gains from occupancy are taken as 45 W of latent heat and 73 W of sensible heat for
-<a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo\">typical office work</a>,
+<a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo">typical office work</a>,
 with a convective-radiative split of 40/60% respectively.
 </p>
 <p>
@@ -427,7 +433,7 @@ curve of the model and have the following nominal pressure heads and powers:
 <li>
 Production pumps:
 <ul>
-<li>Heating: 6 m head and 470 W</li>
+<li>Heating: 6 m head and 1.9 kW</li>
 <li>Cooling: 6 m head and 1.8 kW</li>
 </ul>
 </li>
@@ -436,17 +442,17 @@ Distribution pumps:
 <ul>
 <li>Emission:
 <ul>
-<li>Heating north zone: 12 m head and 220 W</li>
+<li>Heating north zone: 12 m head and 880 W</li>
 <li>Cooling north zone: 12 m head and 1.2 kW</li>
-<li>Heating south zone: 12 m head and 185 W</li>
+<li>Heating south zone: 12 m head and 740 W</li>
 <li>Cooling south zone: 12 m head and 1.3 kW</li>
 </ul>
 </li>
 <li>Ventilation:
 <ul>
-<li>Heating north zone: 9 m head and 200 W</li>
+<li>Heating north zone: 9 m head and 800 W</li>
 <li>Cooling north zone: 9 m head and 400 W</li>
-<li>Heating south zone: 9 m head and 200 W</li>
+<li>Heating south zone: 9 m head and 800 W</li>
 <li>Cooling south zone: 9 m head and 400 W</li>
 </ul>
 </li>
@@ -538,16 +544,16 @@ The model inputs are:
 <code>bms_oveByPassSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU setpoint to override the recovery bypass (for night free cooling purposes)
 </li>
 <li>
-<code>bms_ovePrfAhuCooNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU cooling circuit activation setpoint
+<code>bms_ovePrfAhuCooNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU cooling pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuCooSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU cooling circuit activation setpoint
+<code>bms_ovePrfAhuCooSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU cooling pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuHeaNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU heating circuit activation setpoint
+<code>bms_ovePrfAhuHeaNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU heating pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuHeaSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU heating circuit activation setpoint
+<code>bms_ovePrfAhuHeaSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU heating pump activation setpoint
 </li>
 <li>
 <code>bms_ovePrfAhuRetNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU return fan speed setpoint
@@ -562,16 +568,16 @@ The model inputs are:
 <code>bms_ovePrfAhuSupSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU supply fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfEmiCooNz_u</code> [1] [min=0.0, max=1.0]: North zone emission cooling circuit activation setpoint
+<code>bms_ovePrfEmiCooNz_u</code> [1] [min=0.0, max=1.0]: North zone emission cooling pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfEmiCooSz_u</code> [1] [min=0.0, max=1.0]: South zone emission cooling circuit activation setpoint
+<code>bms_ovePrfEmiCooSz_u</code> [1] [min=0.0, max=1.0]: South zone emission cooling pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfEmiHeaNz_u</code> [1] [min=0.0, max=1.0]: North zone emission heating circuit activation setpoint
+<code>bms_ovePrfEmiHeaNz_u</code> [1] [min=0.0, max=1.0]: North zone emission heating pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfEmiHeaSz_u</code> [1] [min=0.0, max=1.0]: South zone emission heating circuit activation setpoint
+<code>bms_ovePrfEmiHeaSz_u</code> [1] [min=0.0, max=1.0]: South zone emission heating pump activation setpoint
 </li>
 <li>
 <code>bms_ovePrfProCoo_u</code> [1] [min=0.0, max=1.0]: Cooling production system pump activation setpoint
@@ -893,6 +899,8 @@ The model outputs are:
 <code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
+
+<h4>Forecasts</h4>
 The model forecasts are:
 <ul>
 <li>
@@ -1056,14 +1064,14 @@ Air exchange between zones is not modeled.
 <h4>Infiltration models</h4>
 <p>
 Airflow due to infiltration is calculated using the
-<a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InterzonalAirFlow/n50FixedPressure.mo\"><code>IDEAS.Buildings.Components.InterzonalAirFlow.n50FixedPressure</code></a> model
+<a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InterzonalAirFlow/n50FixedPressure.mo"><code>IDEAS.Buildings.Components.InterzonalAirFlow.n50FixedPressure</code></a> model
 and a n50 value of 5.
 </p>
 <h4>CO<sub>2</sub> models</h4>
 <p>
 CO<sub>2</sub> generation in the zones is calculated using the
-<a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InternalGains/Occupants.mo\"><code>IDEAS.Buildings.Components.Occupants</code></a> and
-<a href=\"https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo\"><code>IDEAS.Buildings.Components.OccupancyType.OfficeWork</code></a>
+<a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/InternalGains/Occupants.mo"><code>IDEAS.Buildings.Components.Occupants</code></a> and
+<a href="https://github.com/open-ideas/IDEAS/blob/master/IDEAS/Buildings/Components/OccupancyType/OfficeWork.mo"><code>IDEAS.Buildings.Components.OccupancyType.OfficeWork</code></a>
 models.
 Outside air CO<sub>2</sub> concentration is 400 ppm.
 </p>
