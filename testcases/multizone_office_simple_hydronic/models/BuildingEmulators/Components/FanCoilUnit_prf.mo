@@ -1,5 +1,4 @@
 within BuildingEmulators.Components;
-
 model FanCoilUnit_prf
   replaceable package MediumAir = .IDEAS.Media.Air;
   replaceable package MediumHeating = .IDEAS.Media.Water;
@@ -31,42 +30,42 @@ model FanCoilUnit_prf
     Dialog(group = "Cooling coil parameters"));
   .IDEAS.Fluid.Movers.FlowControlled_m_flow fan(redeclare package Medium = MediumAir, addPowerToMedium = false, allowFlowReversal = allowFlowReversal, dp_nominal = dpAir_nominal, energyDynamics = .Modelica.Fluid.Types.Dynamics.SteadyState, m_flow_nominal = mAir_flow_nominal, tau = 0, use_inputFilter = false,redeclare replaceable .IDEAS.Fluid.Movers.Data.Generic per) "Fan recirculating the air in the zone through the fan coil unit" annotation (
     Placement(transformation(extent = {{-50, -10}, {-30, 10}})));
-  
+
     .Buildings.Fluid.HeatExchangers.WetCoilEffectivenessNTU cooCoi(
-   //         IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU cooCoi(    
-    redeclare package Medium2 = MediumAir, 
-    redeclare package Medium1 = MediumCooling,                                                                                                                            
-        Q_flow_nominal = QCoo_flow_nominal, 
-        T_a1_nominal = TCoo_a1_nominal, 
-        T_a2_nominal = TCoo_a2_nominal, 
-        allowFlowReversal1 = false, 
-        allowFlowReversal2 = false, 
-        configuration = .Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow, 
-        dp1_nominal = 0, 
-        dp2_nominal = dpAir_nominal / (2), 
-        from_dp1 = false, 
-        m2_flow_nominal = mAir_flow_nominal, 
-        show_T = true, 
-        use_Q_flow_nominal = true, 
+    redeclare package Medium2 = MediumAir,
+    redeclare package Medium1 = MediumCooling,
+        Q_flow_nominal = QCoo_flow_nominal,
+        T_a1_nominal = TCoo_a1_nominal,
+        T_a2_nominal = TCoo_a2_nominal,
+        allowFlowReversal1 = false,
+        allowFlowReversal2 = false,
+        configuration = .Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow,
+        dp1_nominal = 0,
+        dp2_nominal = dpAir_nominal / (2),
+        from_dp1 = false,
+        m2_flow_nominal = mAir_flow_nominal,
+        show_T = true,
+        use_Q_flow_nominal = true,
         w_a2_nominal = 0.01,
-        m1_flow_nominal = mWatCoo_flow_nominal
-        //UA_nominal = QCoo_flow_nominal / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(TCoo_a1_nominal,TCoo_a1_nominal + 5,TCoo_a2_nominal,TCoo_a2_nominal - 10))  
-        ) annotation (
+        m1_flow_nominal = mWatCoo_flow_nominal)
+          annotation (
     Placement(visible = true, transformation(origin = {-10, -6}, extent = {{10, 10}, {-10, -10}}, rotation = 0)));
+   //         IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU cooCoi(
+        //UA_nominal = QCoo_flow_nominal / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(TCoo_a1_nominal,TCoo_a1_nominal + 5,TCoo_a2_nominal,TCoo_a2_nominal - 10))
   .IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU heaCoi(
-    redeclare package Medium1 = MediumHeating, 
-    configuration = .IDEAS.Fluid.Types.HeatExchangerConfiguration.CounterFlow, 
-    m1_flow_nominal = mWatHea_flow_nominal, 
-    m2_flow_nominal = mAir_flow_nominal, 
-    Q_flow_nominal = QHea_flow_nominal, 
-    T_a1_nominal = THea_a1_nominal, 
-    T_a2_nominal = THea_a2_nominal, 
-    show_T = true, 
-    allowFlowReversal1 = false, 
-    allowFlowReversal2 = false, 
-    redeclare package Medium2 = MediumAir, 
-    dp2_nominal = dpAir_nominal / (2), 
-    use_Q_flow_nominal = true, 
+    redeclare package Medium1 = MediumHeating,
+    configuration = .IDEAS.Fluid.Types.HeatExchangerConfiguration.CounterFlow,
+    m1_flow_nominal = mWatHea_flow_nominal,
+    m2_flow_nominal = mAir_flow_nominal,
+    Q_flow_nominal = QHea_flow_nominal,
+    T_a1_nominal = THea_a1_nominal,
+    T_a2_nominal = THea_a2_nominal,
+    show_T = true,
+    allowFlowReversal1 = false,
+    allowFlowReversal2 = false,
+    redeclare package Medium2 = MediumAir,
+    dp2_nominal = dpAir_nominal / (2),
+    use_Q_flow_nominal = true,
     dp1_nominal = 0) annotation (
     Placement(transformation(extent = {{66, 4}, {46, -16}})));
   .Modelica.Fluid.Interfaces.FluidPort_a port_coo_a(redeclare final package Medium =
@@ -130,7 +129,7 @@ model FanCoilUnit_prf
         m_flow_nominal = {1,1,1},
         energyDynamics = .Modelica.Fluid.Types.Dynamics.FixedInitial,
         redeclare package Medium = MediumHeating,tau = 60) annotation(Placement(transformation(extent = {{7.372587688383533,-7.372587688383533},{-7.372587688383533,7.372587688383533}},origin = {40.0,-50.0},rotation = 90.0)));
-    .BuildingEmulators.Components.FcuInternal_ove_Control fcuInternalControl annotation(Placement(transformation(extent = {{-92.0,-76.0},{-72.0,-56.0}},origin = {0.0,0.0},rotation = 0.0)));
+    FcuInternalControl                                    fcuInternalControl annotation(Placement(transformation(extent = {{-92.0,-76.0},{-72.0,-56.0}},origin = {0.0,0.0},rotation = 0.0)));
     .IDEAS.Fluid.Sensors.TemperatureTwoPort TSupFCU(
     tau = 0,
     allowFlowReversal = allowFlowReversal,
@@ -142,7 +141,7 @@ model FanCoilUnit_prf
 equation
   fcuInternalControl.TZonMax = TMax;
   fcuInternalControl.TZonMin = TMin;
-        
+
   connect(fan.port_a, senTem.port_b) annotation (
     Line(points = {{-50, 0}, {-60, 0}, {-60, 40}}, color = {0, 127, 255}));
   connect(senTem.port_a, port_air_a) annotation (
@@ -175,9 +174,6 @@ equation
     connect(TSupFCU.port_b,port_air_b) annotation(Line(points = {{72,58},{72,100},{70,100}},color = {0,127,255}));
     connect(fcuInternalControl.speFanHea,add3_1.u1) annotation(Line(points = {{-71,-60.6},{-64,-60.6},{-64,33},{-57,33}},color = {0,0,127}));
     connect(fcuInternalControl.speFanCoo,add3_1.u2) annotation(Line(points = {{-71,-63.2},{-66,-63.2},{-66,29},{-57,29}},color = {0,0,127}));
-    connect(fcuInternalControl.prfEmiCoo,prfEmiCoo) annotation(Line(points = {{-92,-74},{-98,-74},{-98,-55},{-94,-55},{-94,-36},{-100,-36}},color = {255,127,0}));
-    connect(fcuInternalControl.prfEmiHea,prfEmiHea) annotation(Line(points = {{-92,-70},{-98,-70},{-98,-43},{-94,-43},{-94,-16},{-100,-16}},color = {255,127,0}));
-    connect(Occ,fcuInternalControl.Occ) annotation(Line(points = {{-100,4},{-94,4},{-94,-31.5},{-98,-31.5},{-98,-67},{-92,-67}},color = {255,0,255}));
   annotation (
     Documentation(revisions = "<html>
 <ul>

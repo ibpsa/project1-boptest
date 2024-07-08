@@ -35,7 +35,7 @@ model AirHandlingUnit
     parameter .Modelica.Units.SI.TemperatureDifference dT_air_nominal_coo = 15
      "Nominal air temperature difference in the cooling coil";
 
-    parameter .Modelica.Units.SI.TemperatureDifference dT_wat_nominal_hea = 5
+    parameter .Modelica.Units.SI.TemperatureDifference dT_wat_nominal_hea = 20
      "Nominal water temperature difference in the heating coil";
 
     parameter .Modelica.Units.SI.TemperatureDifference dT_wat_nominal_coo = 5
@@ -68,7 +68,6 @@ model AirHandlingUnit
         extent={{-29.5742,-7.57416},{-14.4258,7.57416}},
         rotation=0)));
   Buildings.Fluid.HeatExchangers.WetCoilEffectivenessNTU cooCoi(
-//            IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU cooCoi(
     redeclare package Medium1 = MediumWater,
     redeclare package Medium2 = MediumAir,
     allowFlowReversal1 = false,
@@ -82,10 +81,17 @@ model AirHandlingUnit
     w_a2_nominal = 0.01,
     T_a1_nominal = 273.15 + 9,
     T_a2_nominal = 273.15 + 30,
+<<<<<<< HEAD
     configuration = Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow
     //UA_nominal = 2000,energyDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial) // -Q_flow_nominal_coo / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(273.15 + 12,273.15 + 15,273.15 + 30,273.15 + 20))
 )                                         annotation (
+=======
+    configuration = Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow)
+                                          annotation (
+>>>>>>> c0a2e894... Corrected model with the following changes 1. Changed hysteresis and reset trigger in Ahu internal control 2. Avoid preconditioning at full throttle on both sides 3. Changed AHU parameter from entering to leaving
     Placement(visible = true, transformation(origin={-46,-16},    extent = {{-57.7991, 3.79906}, {-38.2009, -15.7991}}, rotation = 0)));
+//            IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU cooCoi(
+    //UA_nominal = 2000,energyDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial) // -Q_flow_nominal_coo / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(273.15 + 12,273.15 + 15,273.15 + 30,273.15 + 20))
   IDEAS.Fluid.Movers.FlowControlled_dp fanSup(
     redeclare package Medium = MediumAir,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -208,9 +214,11 @@ model AirHandlingUnit
     redeclare package Medium = MediumAir,
     nPorts=2, azi=0)    annotation (
     Placement(visible = true, transformation(origin={144,4},    extent = {{10, -10}, {-10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium = MediumAir) annotation (
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium = MediumAir)
+                                                                                           annotation (
     Placement(visible = true, transformation(origin={-198,-16},    extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-202, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare final package Medium = MediumAir) annotation (
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare final package Medium = MediumAir)
+                                                                                           annotation (
     Placement(visible = true, transformation(origin={-200,26},    extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-198, 18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   IDEAS.Fluid.Sensors.TemperatureTwoPort senTInAhu(
     redeclare final package Medium = MediumAir,
@@ -259,9 +267,9 @@ model AirHandlingUnit
             energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial,
             redeclare package Medium = MediumWater,from_dp = false,tau = 60) annotation(Placement(transformation(extent = {{-7.372587688383533,-7.372587688383533},{7.372587688383533,7.372587688383533}},origin = {-78.0,-60.0},rotation = -90.0)));
     .IDEAS.Fluid.FixedResistances.Junction junRec(
-            portFlowDirection_3 = .Modelica.Fluid.Types.PortFlowDirection.Entering,
-            portFlowDirection_2 = .Modelica.Fluid.Types.PortFlowDirection.Leaving,
-            portFlowDirection_1 = .Modelica.Fluid.Types.PortFlowDirection.Entering,
+    portFlowDirection_3=Modelica.Fluid.Types.PortFlowDirection.Leaving,
+    portFlowDirection_2=Modelica.Fluid.Types.PortFlowDirection.Leaving,
+    portFlowDirection_1=Modelica.Fluid.Types.PortFlowDirection.Entering,
             dp_nominal = {0,0,0},
             m_flow_nominal = {1,1,1},
             energyDynamics = Modelica.Fluid.Types.Dynamics.FixedInitial,

@@ -1,10 +1,15 @@
 within BuildingEmulators.Components;
-
 model AhuInternalControl
 
 
-    .IDEAS.Controls.Continuous.LimPID pidAhuHea(k = 0.1,Ti = 600,reset = IDEAS.Types.Reset.Parameter) annotation(Placement(transformation(extent = {{-45.340067323178786,-33.11784510095655},{-31.993266010154557,-19.77104378793232}},origin = {0.0,0.0},rotation = 0.0)));
-    .IDEAS.Controls.Continuous.LimPID pidAhuCoo(k = 0.2,Ti = 900,reverseActing = false,reset = IDEAS.Types.Reset.Parameter,controllerType = Modelica.Blocks.Types.SimpleController.PI) annotation(Placement(transformation(extent = {{-44.433269153984476,-62.433269153984476},{-31.566730846015524,-49.566730846015524}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Controls.Continuous.LimPID pidAhuHea(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    k=0.1,
+    Ti=600,                                                      reset = IDEAS.Types.Reset.Parameter) annotation(Placement(transformation(extent = {{-45.340067323178786,-33.11784510095655},{-31.993266010154557,-19.77104378793232}},origin = {0.0,0.0},rotation = 0.0)));
+    .IDEAS.Controls.Continuous.LimPID pidAhuCoo(
+    k=0.1,
+    Ti=900,                                                      reverseActing = false,reset = IDEAS.Types.Reset.Parameter,
+    controllerType=Modelica.Blocks.Types.SimpleController.PI)                                                                                                                          annotation(Placement(transformation(extent = {{-44.433269153984476,-62.433269153984476},{-31.566730846015524,-49.566730846015524}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.RealInput TSupAhu annotation(Placement(transformation(extent = {{-111.39778880753413,-91.50889991864526},{-89.93554452579922,-70.04665563691034}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.RealOutput valPosAhuHea annotation(Placement(transformation(extent = {{99.33333333333333,-36.444444444444436},{119.33333333333333,-16.444444444444436}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.RealOutput valPosAhuCoo annotation(Placement(transformation(extent = {{99.33333333333333,-66.7777777777778},{119.33333333333333,-46.77777777777779}},origin = {0.0,0.0},rotation = 0.0)));
@@ -17,9 +22,9 @@ model AhuInternalControl
     .Modelica.Blocks.Logical.And andRecCoo annotation(Placement(transformation(extent = {{-7.059244146799895,64.9407558532001},{7.059244146799895,79.0592441467999}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Logical.And andRecHea annotation(Placement(transformation(extent = {{-7.0592441467998945,10.940755853200102},{7.0592441467998945,25.059244146799898}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Logical.Nor byPass annotation(Placement(transformation(extent = {{28,36},{48,56}},origin = {0,0},rotation = 0)));
-    .Modelica.Blocks.Logical.Hysteresis hystCoo(uLow = -0.75,uHigh = 0.5) annotation(Placement(transformation(extent = {{-18.998648648600845,-80.99864864860085},{-5.001351351399155,-67.00135135139915}},origin = {0.0,0.0},rotation = 0.0)));
+    .Modelica.Blocks.Logical.Hysteresis hystCoo(uLow=-0.25, uHigh=0.75)   annotation(Placement(transformation(extent = {{-18.998648648600845,-80.99864864860085},{-5.001351351399155,-67.00135135139915}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.Feedback feedback annotation(Placement(transformation(extent = {{-89.04635911183502,-38.95364088816498},{-74.95364088816498,-53.04635911183502}},origin = {0.0,0.0},rotation = 0.0)));
-    .Modelica.Blocks.Logical.Hysteresis hystHea(uHigh = 0.5,uLow = -0.25) annotation(Placement(transformation(extent = {{-18.998648648600845,-52.99864864860085},{-5.001351351399155,-39.00135135139915}},origin = {0.0,0.0},rotation = 0.0)));
+    .Modelica.Blocks.Logical.Hysteresis hystHea(uHigh = 0.5, uLow=-0.5)   annotation(Placement(transformation(extent = {{-18.998648648600845,-52.99864864860085},{-5.001351351399155,-39.00135135139915}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.Product proCoo annotation(Placement(transformation(extent = {{43.63704934105082,-76.36295065894917},{56.36295065894918,-63.637049341050826}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Math.BooleanToReal booToReaCoo annotation(Placement(transformation(extent = {{8.299371056482087,-79.70062894351791},{19.700628943517913,-68.29937105648209}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Logical.Not not1 annotation(Placement(transformation(extent = {{5.671880037107968,-50.32811996289203},{14.328119962892032,-41.67188003710797}},origin = {0.0,0.0},rotation = 0.0)));
@@ -60,8 +65,6 @@ equation
     connect(proHea.u1,pidAhuHea.y) annotation(Line(points = {{60.36445920926097,-34.18222960463049},{14.519266632378812,-34.18222960463049},{14.519266632378812,-26.444444444444436},{-31.325925944503346,-26.444444444444436}},color = {0,0,127}));
     connect(hystHea.u,feedback.y) annotation(Line(points = {{-20.398378378321013,-46},{-75.65827679934849,-46}},color = {0,0,127}));
     connect(greaterThreshold.u,prfAhu) annotation(Line(points = {{-71.87583627311886,-36},{-100,-36}},color = {0,0,127}));
-    connect(greaterThreshold.y,pidAhuHea.trigger) annotation(Line(points = {{-60.61381674964104,-36},{-44.005387191876366,-36},{-44.005387191876366,-34.45252523225897}},color = {255,0,255}));
-    connect(greaterThreshold.y,pidAhuCoo.trigger) annotation(Line(points = {{-60.61381674964104,-36},{-55.10346977240094,-36},{-55.10346977240094,-69.71992298478136},{-43.14661532318758,-69.71992298478136},{-43.14661532318758,-63.71992298478137}},color = {255,0,255}));
     connect(orOveWrite.y,valPosRec) annotation(Line(points = {{81,54},{95.5,54},{95.5,80},{110,80}},color = {255,0,255}));
     connect(orOveWrite.u2,byPass.y) annotation(Line(points = {{58,46},{49,46}},color = {255,0,255}));
     connect(orOveWrite.u1,oveByPass) annotation(Line(points = {{58,54},{50,54},{50,100}},color = {255,0,255}));
@@ -72,6 +75,12 @@ equation
     connect(feedbackBypass.y,hystBypassHea.u) annotation(Line(points = {{-51.658276799348485,32},{-44.39837837832102,32}},color = {0,0,127}));
     connect(hystBypassCoo.y,andRecCoo.u1) annotation(Line(points = {{-28.301486486539066,90},{-18.38628973134947,90},{-18.38628973134947,72},{-8.471092976159873,72}},color = {255,0,255}));
     connect(feedbackBypass.y,hystBypassCoo.u) annotation(Line(points = {{-51.658276799348485,32},{-51.658276799348485,90},{-44.39837837832102,90}},color = {0,0,127}));
+  connect(not1.y, pidAhuHea.trigger) annotation (Line(points={{14.7609,-46},{18,
+          -46},{18,-36},{-28,-36},{-28,-38},{-44.0054,-38},{-44.0054,-34.4525}},
+        color={255,0,255}));
+  connect(hystCoo.y, pidAhuCoo.trigger) annotation (Line(points={{-4.30149,-74},
+          {-4,-74},{-4,-84},{-42,-84},{-42,-68},{-43.1466,-68},{-43.1466,
+          -63.7199}}, color={255,0,255}));
     annotation(Icon(coordinateSystem(preserveAspectRatio = false,extent = {{-100.0,-100.0},{100.0,100.0}}),graphics={Text(lineColor={0,0,255},extent={{-150,150},{150,110}},textString="%name"),Text(lineColor={0,0,255},extent={{-150,150},{150,110}},textString="",origin={214,2}),Ellipse(origin={-56,86},extent={{-10,10},{10,-10}}),Ellipse(origin={-16,16},extent={{-10,10},{10,-10}}),Ellipse(origin={24,66},extent={{-10,10},{10,-10}}),Ellipse(origin={64,-14},extent={{-10,10},{10,-10}}),Line(origin={-56,-2},points={{0.00012126970964487782,90.08584540026541},{-0.00012126970964487782,-90.08584540026541}}),Line(origin={-16,-2},points={{0.00012126970964487782,90.08584540026541},{-0.00012126970964487782,-90.08584540026541}}),Line(origin={24,-2},points={{0.00012126970964487782,90.08584540026541},{-0.00012126970964487782,-90.08584540026541}}),Line(origin={64,0},points={{0.00012126970964487782,90.08584540026541},{-0.00012126970964487782,-90.08584540026541}}),Rectangle(extent={{-100,100},{100,-100}})}), uses(
         Modelica(version="4.0.0")));
 end AhuInternalControl;
