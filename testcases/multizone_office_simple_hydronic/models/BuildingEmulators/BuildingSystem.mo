@@ -65,7 +65,8 @@ equation
     connect(structure.heatPortCon,heating_cooling.heatPortCon) annotation(Line(points = {{5.196428571428584,12.546415441176478},{34,12.546415441176478},{34,12}},color = {191,0,0}));
     connect(heating_cooling.heatPortRad,structure.heatPortRad) annotation(Line(points = {{34,8},{34,8.546415441176478},{5.196428571428584,8.546415441176478}},color = {191,0,0}));
     connect(heating_cooling.portHea_a,ventilation.portHea_b) annotation(Line(points = {{66.4,20},{66.4,39.848805147058826},{44.375,39.848805147058826},{44.375,48.848805147058826}},color = {0,127,255}));
-    connect(heating_cooling.portHea_a,ventilation.portHea_b) annotation(Line(points = {{67.775,21.848805147058826},{67.775,39.848805147058826},{44.375,39.848805147058826},{44.375,48.848805147058826}},color = {0,127,255}));
+    connect(heating_cooling.portHea_a,ventilation.portHea_b) annotation(Line(points={{66.4,20},
+          {66.4,39.8488},{44.375,39.8488},{44.375,48.8488}},                                                                                                                                            color = {0,127,255}));
     connect(heating_cooling.portHea_b,ventilation.portHea_a) annotation(Line(points = {{70.4,20},{70.4,37.848805147058826},{41.675,37.848805147058826},{41.675,48.848805147058826}},color = {0,127,255}));
     connect(heating_cooling.portCoo_b,ventilation.portCoo_a) annotation(Line(points = {{62,20},{62,31.848805147058826},{35.375,31.848805147058826},{35.375,48.848805147058826}},color = {0,127,255}));
     connect(heating_cooling.portCoo_a,ventilation.portCoo_b) annotation(Line(points = {{58,20},{58,33.848805147058826},{38.075,33.848805147058826},{38.075,48.848805147058826}},color = {0,127,255}));
@@ -391,7 +392,7 @@ Internal gains from appliances are assumed to have a convective-radiative split 
 <li>A base load of idle components per zone: a printer, a copier, two projector screens and a coffe machine; totalling 1175 W per zone.</li>
 <li>An occupancy dependant load of per zone: a workstation and a monitor per occupant; totalling 155 W extra per occupant.</li>
 </ul>
-these values are taken from ASHRAE appliances data.
+these values are taken from ASHRAE appliances data in ANSI/ASHRAE Fundamentals 2017.
 </p>
 
 
@@ -599,15 +600,15 @@ For the ventiloconvectors, the set-points follow a heating/cooling curve
 based only in the outdoor temperature (no room compensation is included).
 <ul>
 <li>The heating curve of the ventiloconvector heating coil takes the following points:</li>
-	<ul>
-	<li>70 &#176;C when the outdoor temperature is -10 &#176;C</li>
-	<li>40 &#176;C when the outdoor temperature is 20 &#176;C</li>
-	</ul>
+        <ul>
+        <li>70 &#176;C when the outdoor temperature is -10 &#176;C</li>
+        <li>40 &#176;C when the outdoor temperature is 20 &#176;C</li>
+        </ul>
 <li>The cooling curve of the ventiloconvector cooling coil takes the following points:</li>
-	<ul>
-	<li>7 &#176;C when the outdoor temperature is 35 &#176;C</li>
-	<li>12 &#176;C when the outdoor temperature is 15 &#176;C</li>
-	</ul>
+        <ul>
+        <li>7 &#176;C when the outdoor temperature is 35 &#176;C</li>
+        <li>12 &#176;C when the outdoor temperature is 15 &#176;C</li>
+        </ul>
 </ul>
 
 
@@ -654,16 +655,16 @@ The model inputs are:
 <code>bms_ovePrfAhuHeaSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU heating pump activation setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuRetNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU return fan setpoint
+<code>bms_ovePrfAhuRetNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU return fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuRetSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU return fan setpoint
+<code>bms_ovePrfAhuRetSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU return fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuSupNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU supply fan setpoint
+<code>bms_ovePrfAhuSupNz_u</code> [1] [min=0.0, max=1.0]: North zone AHU supply fan speed setpoint
 </li>
 <li>
-<code>bms_ovePrfAhuSupSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU supply fan setpoint
+<code>bms_ovePrfAhuSupSz_u</code> [1] [min=0.0, max=1.0]: South zone AHU supply fan speed setpoint
 </li>
 <li>
 <code>bms_ovePrfEmiCooNz_u</code> [1] [min=0.0, max=1.0]: North zone emission cooling pump activation setpoint
@@ -696,10 +697,10 @@ The model inputs are:
 <code>bms_oveTSupAhuCooSz_u</code> [K] [min=273.15, max=293.15]: South zone AHU cooling water supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupAhuHeaNz_u</code> [K] [min=293.15, max=353.15]: North zone AHU heating water supply temperature setpoint
+<code>bms_oveTSupAhuHeaNz_u</code> [K] [min=293.15, max=323.15]: North zone AHU heating water supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupAhuHeaSz_u</code> [K] [min=293.15, max=353.15]: South zone AHU heating water supply temperature setpoint
+<code>bms_oveTSupAhuHeaSz_u</code> [K] [min=293.15, max=323.15]: South zone AHU heating water supply temperature setpoint
 </li>
 <li>
 <code>bms_oveTSupAhuNz_u</code> [K] [min=289.15, max=298.15]: North zone AHU air supply temperature setpoint
@@ -711,13 +712,13 @@ The model inputs are:
 <code>bms_oveTSupEmiCooNz_u</code> [K] [min=273.15, max=293.15]: North zone cooling emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiCooSz_u</code> [K] [min=273.15, max=293.15]: South zone cooling emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiCooSz_u</code> [K] [min=273.15, max=293.15]: Southh zone cooling emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiHeaNz_u</code> [K] [min=293.15, max=353.15]: North zone heating emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiHeaNz_u</code> [K] [min=293.15, max=323.15]: North zone heating emission circuit supply temperature setpoint
 </li>
 <li>
-<code>bms_oveTSupEmiHeaSz_u</code> [K] [min=293.15, max=353.15]: South zone heating emission circuit supply temperature setpoint
+<code>bms_oveTSupEmiHeaSz_u</code> [K] [min=293.15, max=323.15]: South zone heating emission circuit supply temperature setpoint
 </li>
 <li>
 <code>bms_oveTZonSetMaxNz_u</code> [K] [min=288.15, max=303.15]: North zone maximum (cooling) zone temperature setpoint
@@ -871,9 +872,6 @@ The model outputs are:
 <code>structure_reaTZonNz_y</code> [K] [min=None, max=None]: North zone operative temperature
 </li>
 <li>
-<code>structure_reaTZonSz_y</code> [K] [min=None, max=None]: South zone operative temperature
-</li>
-<li>
 <code>structure_reaTZonPercHighNz_y</code> [K] [min=None, max=None]: North zone upper percentile temperature
 </li>
 <li>
@@ -884,6 +882,9 @@ The model outputs are:
 </li>
 <li>
 <code>structure_reaTZonPercLowSz_y</code> [K] [min=None, max=None]: South zone lower percentile temperature
+</li>
+<li>
+<code>structure_reaTZonSz_y</code> [K] [min=None, max=None]: South zone operative temperature
 </li>
 <li>
 <code>ventilation_reaPAhuRetNz_y</code> [W] [min=None, max=None]: North zone AHU return fan electric power
@@ -997,8 +998,6 @@ The model outputs are:
 <code>weaSta_reaWeaWinSpe_y</code> [m/s] [min=None, max=None]: Wind speed measurement
 </li>
 </ul>
-<<<<<<< HEAD
-
 <h4>Forecasts</h4>
 The model forecasts are:
 <ul>
@@ -1133,8 +1132,6 @@ The model forecasts are:
 </li>
 </ul>
 
-=======
->>>>>>> c0a2e894... Corrected model with the following changes 1. Changed hysteresis and reset trigger in Ahu internal control 2. Avoid preconditioning at full throttle on both sides 3. Changed AHU parameter from entering to leaving
 <h3>Additional System Design</h3>
 <h4>Lighting</h4>
 <p>
