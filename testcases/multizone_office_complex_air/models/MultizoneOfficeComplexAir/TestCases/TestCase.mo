@@ -38,10 +38,11 @@ model TestCase "Complex office building model that includes air side systems, wa
     annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
 
 equation
-  connect(hva.occ, loaEnePlu.occ) annotation (Line(points={{11.4,8},{24,8},{24,
+  connect(hva.occ, loaEnePlu.occ) annotation (Line(points={{11.4,8},{26,8},{26,
           -48.4},{11,-48.4}}, color={0,0,127}));
-  connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{11,-42},{22,-42},{
-          22,3},{11.4,3}}, color={0,0,127}));
+  connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{11,-42},{24,-42},{
+          24,4.6},{11.4,4.6}},
+                           color={0,0,127}));
   connect(loaEnePlu.dryBul, hva.TDryBul) annotation (Line(points={{11,-34},{20,
           -34},{20,-2},{11.4,-2}}, color={0,0,127}));
   connect(loaEnePlu.wetBul, hva.TWetBul) annotation (Line(points={{11,-31},{18,
@@ -49,6 +50,8 @@ equation
 
   connect(hva.TZon, loaEnePlu.T) annotation (Line(points={{-11,0},{-20,0},{-20,
           -40},{-12,-40}}, color={0,0,127}));
+  connect(loaEnePlu.numOcc, hva.numOcc) annotation (Line(points={{11,-38},{22,
+          -38},{22,1.4},{11.4,1.4}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
