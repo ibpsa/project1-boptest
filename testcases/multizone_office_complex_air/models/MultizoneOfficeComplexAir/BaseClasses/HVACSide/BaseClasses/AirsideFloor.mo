@@ -1,8 +1,7 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses;
 model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
 
-  //replaceable package MediumAir = Modelica.Media.Interfaces.PartialMedium "Medium for the air";
-  replaceable package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
+  replaceable package MediumAir = Modelica.Media.Interfaces.PartialMedium "Medium for the air";
 
   replaceable package MediumHeaWat =
       Modelica.Media.Interfaces.PartialMedium "Medium for the heating water";
@@ -152,6 +151,26 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
   parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 5";
 
+  // Initialization
+  parameter MediumAir.AbsolutePressure p_start = MediumAir.p_default
+    "Start value of zone air pressure"
+    annotation(Dialog(tab = "Initialization"));
+  parameter MediumAir.Temperature T_start=MediumAir.T_default
+    "Start value of zone air temperature"
+    annotation(Dialog(tab = "Initialization"));
+  parameter MediumAir.MassFraction X_start[MediumAir.nX](
+       quantity=MediumAir.substanceNames) = MediumAir.X_default
+    "Start value of zone air mass fractions m_i/m"
+    annotation (Dialog(tab="Initialization", enable=Medium.nXi > 0));
+  parameter MediumAir.ExtraProperty C_start[MediumAir.nC](
+       quantity=MediumAir.extraPropertiesNames)=fill(0, MediumAir.nC)
+    "Start value of zone air trace substances"
+    annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
+  parameter MediumAir.ExtraProperty C_nominal[MediumAir.nC](
+       quantity=MediumAir.extraPropertiesNames) = fill(1E-2, MediumAir.nC)
+    "Nominal value of zone air trace substances. (Set to typical order of magnitude.)"
+   annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
+
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.AirHandlingUnit.DuaFanAirHanUnit
     duaFanAirHanUni(
     numTemp=5,
@@ -193,6 +212,11 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     fivZonVAV(
     redeclare package MediumAir = MediumAir,
     redeclare package MediumWat = MediumHeaWat,
+    p_start=p_start,
+    T_start=T_start,
+    X_start=X_start,
+    C_start=C_start,
+    C_nominal=C_nominal,
     PreAirDroMai1=PreAirDroMai1,
     PreAirDroMai2=PreAirDroMai2,
     PreAirDroMai3=PreAirDroMai3,
