@@ -134,8 +134,8 @@ model Airside "Air side system"
     "Heat exchanger effectiveness of vav 1";
   final parameter Real alpha = 0.8  "Sizing factor";
 
-  package MediumAir = Buildings.Media.Air "Medium model for air";
-  //package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
+  //package MediumAir = Buildings.Media.Air "Medium model for air";
+  package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
   package MediumCHW = Buildings.Media.Water "Medium model for chilled water";
   package MediumHeaWat = Buildings.Media.Water "Medium model for heating water";
 
@@ -371,8 +371,11 @@ model Airside "Air side system"
     nPorts=3,
     redeclare package Medium = MediumAir,
     each p(displayUnit="Pa") = 100000,
+    each C=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
     use_T_in=true) "Source"
     annotation (Placement(transformation(extent={{40,30},{60,50}})));
+
 
   Modelica.Blocks.Sources.Constant TSupAirSet[n](k=273.15 + 12.88)
     "AHU supply air temperature setpoint"

@@ -2170,8 +2170,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           each nPorts=3,
           each V=10,
           m_flow_nominal={mAirFloRat1,mAirFloRat2,mAirFloRat3,mAirFloRat4,mAirFloRat5},
-          allowFlowReversal=true,
-          each use_C_flow=false)
+          each allowFlowReversal=true,
+          each use_C_flow=true)
           annotation (Placement(transformation(extent={{70,-70},{90,-50}})));
 
         Buildings.HeatTransfer.Sources.PrescribedHeatFlow fixedHeatFlow[5]
@@ -2505,6 +2505,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
       //   connect(senCO2.C, volFraCO2.m)
         connect(nPeo, gaiCO2.u)
           annotation (Line(points={{-110,-90},{-41.2,-90}}, color={0,0,127}));
+        connect(gaiCO2.y, vol.C_flow[1])
+          annotation (Line(points={{-27.4,-90},{68,-90},{68,-66}}, color={0,0,127}));
           annotation (Placement(transformation(extent={{84,-82},{100,-98}})),
                       Placement(transformation(extent={{122,-98},{138,-82}})),
                       Line(points={{100.8,-90},{121.2,-90}}, color={0,0,127}),
