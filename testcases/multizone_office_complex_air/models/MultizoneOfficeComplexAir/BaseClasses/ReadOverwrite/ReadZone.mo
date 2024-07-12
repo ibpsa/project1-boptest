@@ -98,6 +98,15 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     annotation (Placement(transformation(extent={{-140,-150},{-100,-110}})));
   Modelica.Blocks.Interfaces.RealInput yCoo_in "Cooling PID signal measurement"
     annotation (Placement(transformation(extent={{-140,-120},{-100,-80}})));
+  Buildings.Utilities.IO.SignalExchange.Read CO2Zon(
+    description="Zone air CO2 measurement for zone " + zone,
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
+
+    y(unit="ppm"),
+    zone=zone) "Zone air CO2 concentration measurement"
+    annotation (Placement(transformation(extent={{0,-170},{20,-150}})));
+  Modelica.Blocks.Interfaces.RealInput CO2Zon_in "Volume fraction of CO2 (PPM)"
+    annotation (Placement(transformation(extent={{-140,-180},{-100,-140}})));
 equation
   connect(TZon.u, TZon_in)
     annotation (Line(points={{-2,70},{-120,70}}, color={0,0,127}));
@@ -121,10 +130,12 @@ equation
   connect(yCoo_in,yCoo. u)
     annotation (Line(points={{-120,-100},{-2,-100}},
                                                    color={0,0,127}));
+  connect(CO2Zon_in, CO2Zon.u)
+    annotation (Line(points={{-120,-160},{-2,-160}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -140},{100,140}}),                                  graphics={
+            -180},{100,140}}),                                  graphics={
           Rectangle(
-          extent={{-100,140},{100,-140}},
+          extent={{-100,140},{100,-180}},
           lineColor={0,0,0},
           fillColor={255,170,170},
           fillPattern=FillPattern.Solid),
@@ -136,5 +147,5 @@ Zone"), Text(
           extent={{-152,152},{148,192}},
           textString="%name",
           textColor={0,0,255})}),Diagram(coordinateSystem(preserveAspectRatio=
-            false, extent={{-100,-140},{100,140}})));
+            false, extent={{-100,-180},{100,140}})));
 end ReadZone;

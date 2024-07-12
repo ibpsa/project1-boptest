@@ -2158,17 +2158,21 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Placement(transformation(extent={{-40,-84},{-20,-64}})));
         Modelica.Blocks.Interfaces.RealInput Q_flow[5]
           annotation (Placement(transformation(extent={{-120,-84},{-100,-64}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
+            Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{30,90},{50,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
+            Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
+            Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
+            Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
@@ -2180,8 +2184,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
         Modelica.Blocks.Interfaces.BooleanInput On[5]
           annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-        Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium =
-                     MediumAir)
+        Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package
+            Medium = MediumAir)
           annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
         Modelica.Blocks.Interfaces.RealOutput p "Pressure at port" annotation (
             Placement(transformation(extent={{200,-22},{220,-2}}),
@@ -2189,12 +2193,12 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         Modelica.Blocks.Interfaces.RealOutput TZon[5]
           "Temperature of the passing fluid"
           annotation (Placement(transformation(extent={{200,70},{220,90}}),
-              iconTransformation(extent={{100,50},{120,70}})));
+              iconTransformation(extent={{100,30},{120,50}})));
 
         Modelica.Blocks.Interfaces.RealOutput yDam[5]
           "Control signal for terminal box damper"
           annotation (Placement(transformation(extent={{200,44},{220,64}}),
-              iconTransformation(extent={{100,20},{120,40}})));
+              iconTransformation(extent={{100,4},{120,24}})));
         Modelica.Blocks.Sources.RealExpression yDamMea[5](y={vAV1.dam.y,vAV2.dam.y,
               vAV3.dam.y,vAV4.dam.y,vAV5.dam.y})
           annotation (Placement(transformation(extent={{170,44},{190,64}}),
@@ -2202,7 +2206,7 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         Modelica.Blocks.Interfaces.RealOutput yReaHea[5]
           "Control signal for terminal box reheat"
           annotation (Placement(transformation(extent={{200,18},{220,38}}),
-              iconTransformation(extent={{100,-10},{120,10}})));
+              iconTransformation(extent={{100,-20},{120,0}})));
         Modelica.Blocks.Sources.RealExpression yReaValMea[5](y={vAV1.rehVal.y,
               vAV2.rehVal.y,vAV3.rehVal.y,vAV4.rehVal.y,vAV5.rehVal.y})
           annotation (Placement(transformation(extent={{170,18},{190,38}})));
@@ -2268,22 +2272,22 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Placement(transformation(extent={{170,-50},{190,-30}})));
         Modelica.Blocks.Interfaces.RealOutput Vflow_set[5]
           "VAV terminal airflow setpoint" annotation (Placement(transformation(
-                extent={{200,-50},{220,-30}}), iconTransformation(extent={{100,
-                  -40},{120,-20}})));
+                extent={{200,-50},{220,-30}}), iconTransformation(extent={{100,-46},
+                  {120,-26}})));
         Modelica.Blocks.Sources.RealExpression Vflow_Mea[5](y={vAV1.m_flow.m_flow
               /1.2,vAV2.m_flow.m_flow/1.2,vAV3.m_flow.m_flow/1.2,vAV4.m_flow.m_flow
               /1.2,vAV5.m_flow.m_flow/1.2}) "VAV terminal airflow measurement"
           annotation (Placement(transformation(extent={{170,-70},{190,-50}})));
         Modelica.Blocks.Interfaces.RealOutput Vflow[5] "VAV terminal airflow"
           annotation (Placement(transformation(extent={{200,-70},{220,-50}}),
-              iconTransformation(extent={{100,-70},{120,-50}})));
+              iconTransformation(extent={{100,-72},{120,-52}})));
         Modelica.Blocks.Interfaces.RealOutput TSup[5]
           "VAV supply air temperature" annotation (Placement(transformation(
-                extent={{200,-94},{220,-74}}), iconTransformation(extent={{100,
-                  80},{120,100}})));
+                extent={{200,-90},{220,-70}}), iconTransformation(extent={{100,56},
+                  {120,76}})));
         Modelica.Blocks.Sources.RealExpression TSupMea[5](y={vAV1.TAirLea,vAV2.TAirLea,
               vAV3.TAirLea,vAV4.TAirLea,vAV5.TAirLea})
-          annotation (Placement(transformation(extent={{170,-94},{190,-74}})));
+          annotation (Placement(transformation(extent={{170,-90},{190,-70}})));
 
         Modelica.Blocks.Interfaces.RealInput nPeo[5] "Number of occupant" annotation (
            Placement(transformation(extent={{-120,-100},{-100,-80}}),
@@ -2292,12 +2296,21 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           "CO2 emission per person"
           annotation (Placement(transformation(extent={{-40,-96},{-28,-84}})));
 
-        Buildings.Fluid.Sensors.TraceSubstances senCO2[5](redeclare package Medium = MediumAir,
+        Buildings.Fluid.Sensors.TraceSubstances senCO2[5](redeclare package
+            Medium =                                                                 MediumAir,
           each warnAboutOnePortConnection=false) "Sensor at volume"
           annotation (Placement(transformation(extent={{82,-98},{98,-82}})));
-        Buildings.Fluid.Sensors.Conversions.To_VolumeFraction volFraCO2[5](
-          each MMMea = Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM) "CO2 volume fraction"
+        Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra[5](each
+            MMMea=Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
+          "Conversion from mass fraction CO2 to volume fraction CO2"
           annotation (Placement(transformation(extent={{104,-96},{116,-84}})));
+        Modelica.Blocks.Math.Gain gaiPPM[5](k=1e6)
+          "Convert mass fraction to PPM"
+          annotation (Placement(transformation(extent={{126,-96},{138,-84}})));
+        Modelica.Blocks.Interfaces.RealOutput CO2Zon[5]
+          "Zonal CO2 volume fraction PPM" annotation (Placement(transformation(
+                extent={{200,-104},{220,-84}}), iconTransformation(extent={{100,
+                  80},{120,100}})));
       equation
 
         connect(fixedHeatFlow.port, vol.heatPort) annotation (Line(points={{-20,-74},{
@@ -2473,7 +2486,7 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         connect(Vflow_Mea.y, Vflow)
           annotation (Line(points={{191,-60},{210,-60}}, color={0,0,127}));
         connect(TSupMea.y, TSup)
-          annotation (Line(points={{191,-84},{210,-84}}, color={0,0,127}));
+          annotation (Line(points={{191,-80},{210,-80}}, color={0,0,127}));
 
         connect(nPeo, gaiCO2.u)
           annotation (Line(points={{-110,-90},{-41.2,-90}}, color={0,0,127}));
@@ -2483,10 +2496,14 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         for i in 1:5 loop
           connect(senCO2[i].port, vol[i].ports[3]);
         end for;
-        connect(senCO2.C,volFraCO2. m) annotation (Line(
+        connect(senCO2.C, conMasVolFra.m) annotation (Line(
             points={{98.8,-90},{103.4,-90}},
             color={0,0,127},
             smooth=Smooth.None));
+        connect(conMasVolFra.V, gaiPPM.u)
+          annotation (Line(points={{116.6,-90},{124.8,-90}}, color={0,0,127}));
+        connect(gaiPPM.y, CO2Zon) annotation (Line(points={{138.6,-90},{166,-90},
+                {166,-94},{210,-94}}, color={0,0,127}));
           annotation (Placement(transformation(extent={{84,-82},{100,-98}})),
                       Placement(transformation(extent={{122,-98},{138,-82}})),
                       Line(points={{100.8,-90},{121.2,-90}}, color={0,0,127}),
