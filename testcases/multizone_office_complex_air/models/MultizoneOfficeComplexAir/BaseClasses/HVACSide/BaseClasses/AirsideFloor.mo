@@ -2,6 +2,7 @@ within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses;
 model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
 
   replaceable package MediumAir = Modelica.Media.Interfaces.PartialMedium "Medium for the air";
+  //replaceable package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
 
   replaceable package MediumHeaWat =
       Modelica.Media.Interfaces.PartialMedium "Medium for the heating water";

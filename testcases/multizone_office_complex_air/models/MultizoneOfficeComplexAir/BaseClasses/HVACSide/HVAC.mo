@@ -163,12 +163,12 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     annotation (Placement(transformation(extent={{70,-36},{90,-14}})));
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
-      points={{40,-91.1333},{40,-94},{106,-94},{106,6},{130.563,6},{130.563,20}},
+      points={{40,-92.4667},{40,-94},{106,-94},{106,6},{130.562,6},{130.562,20}},
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
-      points={{134.313,20},{134.313,0},{112,0},{112,-102},{72,-102},{72,
-          -101.933},{40,-101.933}},
+      points={{134.312,20},{134.312,0},{112,0},{112,-102},{72,-102},{72,
+          -103.267},{40,-103.267}},
       color={0,127,225},
       thickness=1));
 
@@ -177,12 +177,12 @@ equation
   connect(chiWatNet.ports_a[3], floor3.port_b_CooWat);
   connect(floor3.port_a_CooWat, chiWatNet.ports_b[3]);
   connect(boiWatNet.ports_a[1], floor1.port_b_HeaWat) annotation (Line(
-      points={{176,-93.1333},{196,-93.1333},{196,6},{154,6},{154,20},{147.75,20}},
+      points={{176,-94.4667},{196,-94.4667},{196,6},{154,6},{154,20},{147.75,20}},
       color={238,46,47},
       thickness=1));
 
   connect(boiWatNet.ports_b[1], floor1.port_a_HeaWat) annotation (Line(
-      points={{176,-103.933},{192,-103.933},{192,0},{150,0},{150,20},{145.25,20}},
+      points={{176,-105.267},{192,-105.267},{192,0},{150,0},{150,20},{145.25,20}},
       color={238,46,47},
       thickness=1));
 

@@ -414,7 +414,6 @@ model Airside "Air side system"
     annotation (Placement(transformation(extent={{-90,90},{-70,110}})));
   Modelica.Blocks.Math.Gain loaMulMidFlo[5](k=10) "Load multiplier"
     annotation (Placement(transformation(extent={{-94,54},{-82,66}})));
-
 equation
 
    connect(sou[1].T_in, TDryBul)
@@ -436,7 +435,7 @@ equation
           100},{-36,86},{106,86},{106,28.75},{112.438,28.75}},
                                                       color={255,0,255}));
   connect(floor1.OnZon, onZon[1].y) annotation (Line(points={{112.438,21.75},{
-          108,21.75},{108,22},{104,22},{104,70},{61,70}},
+          108,21.75},{108,22},{104,22},{104,72},{61,72}},
                                                       color={255,0,255}));
    for j in 1:5 loop
     connect(loa[(1 - 1)*5 + j], floor1.Q_flow[j]);
