@@ -299,31 +299,34 @@ equation
   connect(X_w.y, fmuZonTopFlr.X_w) annotation (Line(points={{-67,54},{-14,54},{
           -14,-44},{18,-44}},
                         color={0,0,127}));
-  connect(fmuZonTopFlr.m_flow[1], mIn_flow.y) annotation (Line(points={{18,-49},
-          {-8,-49},{-8,10},{-67,10}},
+  connect(fmuZonTopFlr.m_flow[1], mIn_flow.y) annotation (Line(points={{18,
+          -48.5},{-8,-48.5},{-8,10},{-67,10}},
                                     color={0,0,127}));
   connect(mOut_flow.u,mIn_flow.y)
     annotation (Line(points={{-52,30},{-60,30},{-60,10},{-67,10}},color={0,0,127}));
   connect(mOut_flow.y, fmuZonTopFlr.m_flow[2]) annotation (Line(points={{-29,30},
-          {-10,30},{-10,-47},{18,-47}},
+          {-10,30},{-10,-47.5},{18,-47.5}},
                                       color={0,0,127}));
   connect(fmuZonTopFlr.QGaiRad_flow, QGaiRad_flow.y) annotation (Line(points={{18,-56},
           {-4,-56},{-4,-36},{-67,-36}},    color={0,0,127}));
   connect(X_w.y, fmuZonMidFlr.X_w) annotation (Line(points={{-67,54},{-14,54},{-14,
           -6},{18,-6}}, color={0,0,127}));
-  connect(fmuZonMidFlr.m_flow[1], mIn_flow.y) annotation (Line(points={{18,-11},
-          {-8,-11},{-8,10},{-67,10}}, color={0,0,127}));
+  connect(fmuZonMidFlr.m_flow[1], mIn_flow.y) annotation (Line(points={{18,
+          -10.5},{-8,-10.5},{-8,10},{-67,10}},
+                                      color={0,0,127}));
   connect(mOut_flow.y, fmuZonMidFlr.m_flow[2]) annotation (Line(points={{-29,30},
-          {-10,30},{-10,-9},{18,-9}}, color={0,0,127}));
+          {-10,30},{-10,-9.5},{18,-9.5}},
+                                      color={0,0,127}));
   connect(fmuZonMidFlr.QGaiRad_flow, QGaiRad_flow.y) annotation (Line(points={{18,
           -18},{-4,-18},{-4,-36},{-67,-36}}, color={0,0,127}));
   connect(X_w.y, fmuZonBotFlr.X_w) annotation (Line(points={{-67,54},{-14,54},{
           -14,36},{18,36}},
                           color={0,0,127}));
-  connect(fmuZonBotFlr.m_flow[1], mIn_flow.y) annotation (Line(points={{18,31},
-          {-8,31},{-8,10},{-67,10}},  color={0,0,127}));
+  connect(fmuZonBotFlr.m_flow[1], mIn_flow.y) annotation (Line(points={{18,31.5},
+          {-8,31.5},{-8,10},{-67,10}},color={0,0,127}));
   connect(mOut_flow.y, fmuZonBotFlr.m_flow[2]) annotation (Line(points={{-29,30},
-          {-10,30},{-10,33},{18,33}},   color={0,0,127}));
+          {-10,30},{-10,32.5},{18,32.5}},
+                                        color={0,0,127}));
   connect(fmuZonBotFlr.QGaiRad_flow, QGaiRad_flow.y) annotation (Line(points={{18,24},
           {-4,24},{-4,-36},{-67,-36}},       color={0,0,127}));
   for numZon in 1:5 loop

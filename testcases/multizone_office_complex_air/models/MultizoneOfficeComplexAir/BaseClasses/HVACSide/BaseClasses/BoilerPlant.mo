@@ -22,12 +22,15 @@ model BoilerPlant "Boiler hot water plant"
   parameter Real eta[n,:]={{0.8} for i in linspace(1,n,n)} "Fan efficiency";
   parameter Modelica.Units.SI.Pressure dP_nominal=478250
     "Nominal pressure drop for the secondary hot water pump ";
-  parameter Real v_flow_rate[m,:] = {{0.1*sum(mHW_flow_nominal)/m/996,0.6*sum(mHW_flow_nominal)/m/996,0.8*sum(mHW_flow_nominal)/m/996,sum(mHW_flow_nominal)/m/996,1.2*sum(mHW_flow_nominal)/m/996} for i in linspace(1,m,m)};
-  parameter Real pressure[m,:] = {{2*dP_nominal,1.5*dP_nominal,1.1*dP_nominal,dP_nominal,0.75*dP_nominal} for i in linspace(1,m,m)};
+//   parameter Real v_flow_rate[m,:] = {{0.1*sum(mHW_flow_nominal)/m/996,0.6*sum(mHW_flow_nominal)/m/996,0.8*sum(mHW_flow_nominal)/m/996,sum(mHW_flow_nominal)/m/996,1.2*sum(mHW_flow_nominal)/m/996} for i in linspace(1,m,m)};
+//   parameter Real pressure[m,:] = {{2*dP_nominal,1.5*dP_nominal,1.1*dP_nominal,dP_nominal,0.75*dP_nominal} for i in linspace(1,m,m)};
+//   parameter Real Motor_eta_Sec[m,:] = {{0.6,0.76,0.87,0.86,0.74} for i in linspace(1,m,m)} "Motor efficiency";
+//   parameter Real Hydra_eta_Sec[m,:] = {{1,1,1,1,1} for i in linspace(1,m,m)} "Hydraulic efficiency";
 
-  parameter Real Motor_eta_Sec[m,:] = {{0.6,0.76,0.87,0.86,0.74} for i in linspace(1,m,m)}
-    "Motor efficiency";
-  parameter Real Hydra_eta_Sec[m,:] = {{1,1,1,1,1} for i in linspace(1,m,m)} "Hydraulic efficiency";
+  parameter Real v_flow_rate[m,:] = {{0, sum(mHW_flow_nominal)/m/996} for i in linspace(1,m,m)};
+  parameter Real pressure[m,:] = {{2*dP_nominal,0} for i in linspace(1,m,m)};
+  parameter Real Motor_eta_Sec[m,:] = {{0.7,0.7} for i in linspace(1,m,m)}  "Motor efficiency";
+  parameter Real Hydra_eta_Sec[m,:] = {{1,1} for i in linspace(1,m,m)} "Hydraulic efficiency";
 
   Component.FlowMover.Pump.PumpSystem pumSecHW(
     redeclare package Medium = MediumHW,

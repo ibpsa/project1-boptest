@@ -2131,7 +2131,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         Buildings.Fluid.MixingVolumes.MixingVolume vol[5](
           redeclare package Medium = MediumAir,
           each energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-          each nPorts=10,
+          use_C_flow=true,
+          each nPorts=3,
           m_flow_nominal={mAirFloRat1,mAirFloRat2,mAirFloRat3,mAirFloRat4,mAirFloRat5},
           each V=10)     annotation (Placement(transformation(extent={{70,-70},{90,-50}})));
         Buildings.HeatTransfer.Sources.PrescribedHeatFlow fixedHeatFlow[5]
@@ -2269,6 +2270,9 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
               vAV3.TAirLea,vAV4.TAirLea,vAV5.TAirLea})
           annotation (Placement(transformation(extent={{170,-94},{190,-74}})));
 
+        Modelica.Blocks.Sources.RealExpression gaiCO2[5](y=8.18E-4)
+          "CO2 emission per person"
+          annotation (Placement(transformation(extent={{30,-102},{50,-82}})));
       equation
 
         connect(fixedHeatFlow.port, vol.heatPort) annotation (Line(points={{-20,-80},{
@@ -2279,29 +2283,29 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
             pattern=LinePattern.Dash));
 
         connect(vAV1.port_b, vol[1].ports[1])
-                                             annotation (Line(points={{10,8},{14,8},{14,
-                -78},{76,-78},{76,-74},{76.4,-74},{76.4,-70}},
+                                             annotation (Line(points={{10,8},{
+                14,8},{14,-78},{76,-78},{76,-74},{78.6667,-74},{78.6667,-70}},
                                                color={0,140,72},
             thickness=0.5,
             pattern=LinePattern.Dash));
         connect(vAV2.port_b, vol[2].ports[1])
-                                             annotation (Line(points={{50,8},{60,8},{60,
-                -78},{76,-78},{76,-74},{76.4,-74},{76.4,-70}},
+                                             annotation (Line(points={{50,8},{
+                60,8},{60,-78},{76,-78},{76,-74},{78.6667,-74},{78.6667,-70}},
                                                color={0,140,72},
             thickness=0.5,      pattern=LinePattern.Dash));
         connect(vAV3.port_b, vol[3].ports[1])
-                                             annotation (Line(points={{92,8},{100,8},{
-                100,-78},{80,-78},{80,-70},{76.4,-70}},
+                                             annotation (Line(points={{92,8},{
+                100,8},{100,-78},{80,-78},{80,-70},{78.6667,-70}},
                                                color={0,140,72},
             thickness=0.5,      pattern=LinePattern.Dash));
         connect(vAV4.port_b, vol[4].ports[1])
-                                             annotation (Line(points={{138,8},{150,8},
-                {150,-78},{80,-78},{80,-70},{76.4,-70}},
+                                             annotation (Line(points={{138,8},{
+                150,8},{150,-78},{80,-78},{80,-70},{78.6667,-70}},
                                                color={0,140,72},
             thickness=0.5,      pattern=LinePattern.Dash));
         connect(vAV5.port_b, vol[5].ports[1])
-                                             annotation (Line(points={{178,8},{188,8},
-                {188,-78},{80,-78},{80,-70},{76.4,-70}},
+                                             annotation (Line(points={{178,8},{
+                188,8},{188,-78},{80,-78},{80,-70},{78.6667,-70}},
                                                color={0,140,72},
             thickness=0.5,      pattern=LinePattern.Dash));
 
@@ -2335,47 +2339,46 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
             points={{191,80},{210,80}},
             color={0,0,127},
             pattern=LinePattern.Dash));
-        connect(On[2], vAV2.On) annotation (Line(points={{-110,-16},{18,-16},{
-                18,0},{29,0}},
-                     color={255,0,255}));
+        connect(On[2], vAV2.On) annotation (Line(points={{-110,-14},{18,-14},{18,0},{29,
+                0}}, color={255,0,255}));
         connect(On[3], vAV3.On) annotation (Line(points={{-110,-12},{-72,-12},{
                 -72,-8},{56,-8},{56,0},{71,0}},
                                     color={255,0,255}));
-        connect(On[4], vAV4.On) annotation (Line(points={{-110,-8},{-72,-8},{
-                -72,-10},{100,-10},{100,0},{117,0}},
+        connect(On[4], vAV4.On) annotation (Line(points={{-110,-10},{-72,-10},{-72,-10},
+                {100,-10},{100,0},{117,0}},
                                        color={255,0,255}));
-        connect(On[5], vAV5.On) annotation (Line(points={{-110,-4},{-72,-4},{
-                -72,-10},{148,-10},{148,0},{157,0}},
+        connect(On[5], vAV5.On) annotation (Line(points={{-110,-8},{-72,-8},{-72,-10},
+                {148,-10},{148,0},{157,0}},
                                        color={255,0,255}));
-        connect(On[1], vAV1.On) annotation (Line(points={{-110,-20},{-72,-20},{
-                -72,0},{-11,0}},
+        connect(On[1], vAV1.On) annotation (Line(points={{-110,-16},{-72,-16},{-72,0},
+                {-11,0}},
                      color={255,0,255}));
-        connect(yVal[1], vAV1.yVal) annotation (Line(points={{-110,52},{-34,52},{-34,12},
+        connect(yVal[1], vAV1.yVal) annotation (Line(points={{-110,56},{-34,56},{-34,12},
                 {-11,12}}, color={0,0,127}));
-        connect(yVal[2], vAV2.yVal) annotation (Line(points={{-110,56},{20,56},{20,12},
+        connect(yVal[2], vAV2.yVal) annotation (Line(points={{-110,58},{20,58},{20,12},
                 {29,12}}, color={0,0,127}));
         connect(yVal[3], vAV3.yVal) annotation (Line(points={{-110,60},{64,60},{64,12},
                 {71,12}}, color={0,0,127}));
-        connect(yVal[4], vAV4.yVal) annotation (Line(points={{-110,64},{110,64},{110,12},
+        connect(yVal[4], vAV4.yVal) annotation (Line(points={{-110,62},{110,62},{110,12},
                 {117,12}}, color={0,0,127}));
-        connect(yVal[5], vAV5.yVal) annotation (Line(points={{-110,68},{-4,68},{-4,62},
+        connect(yVal[5], vAV5.yVal) annotation (Line(points={{-110,64},{-4,64},{-4,62},
                 {150,62},{150,12},{157,12}}, color={0,0,127}));
-        connect(airFloRatSet[1], vAV1.airFloRatSet) annotation (Line(points={{-110,
-                78},{-30,78},{-30,16},{-11,16}}, color={0,0,127}));
-        connect(airFloRatSet[2], vAV2.airFloRatSet) annotation (Line(points={{-110,
-                82},{18,82},{18,16},{29,16}}, color={0,0,127}));
+        connect(airFloRatSet[1], vAV1.airFloRatSet) annotation (Line(points={{-110,82},
+                {-30,82},{-30,16},{-11,16}},     color={0,0,127}));
+        connect(airFloRatSet[2], vAV2.airFloRatSet) annotation (Line(points={{-110,84},
+                {18,84},{18,16},{29,16}},     color={0,0,127}));
         connect(airFloRatSet[3], vAV3.airFloRatSet) annotation (Line(points={{-110,
                 86},{62,86},{62,16},{71,16}}, color={0,0,127}));
-        connect(airFloRatSet[4], vAV4.airFloRatSet) annotation (Line(points={{-110,
-                90},{108,90},{108,16},{117,16}}, color={0,0,127}));
-        connect(airFloRatSet[5], vAV5.airFloRatSet) annotation (Line(points={{-110,
-                94},{148,94},{148,16},{157,16}}, color={0,0,127}));
+        connect(airFloRatSet[4], vAV4.airFloRatSet) annotation (Line(points={{-110,88},
+                {108,88},{108,16},{117,16}},     color={0,0,127}));
+        connect(airFloRatSet[5], vAV5.airFloRatSet) annotation (Line(points={{-110,90},
+                {148,90},{148,16},{157,16}},     color={0,0,127}));
         connect(vAV1.port_a_Wat, ReheatWatNet.ports_b[1]) annotation (Line(
-            points={{-8,18},{-10,18},{-10,44.62},{-46,44.62}},
+            points={{-8,18},{-10,18},{-10,41.9},{-46,41.9}},
             color={238,46,47},
             thickness=0.5));
         connect(vAV2.port_a_Wat, ReheatWatNet.ports_b[2]) annotation (Line(
-            points={{32,18},{32,38},{-46,38},{-46,41.9}},
+            points={{32,18},{32,38},{-46,38},{-46,40.54}},
             color={238,46,47},
             thickness=0.5));
         connect(vAV3.port_a_Wat, ReheatWatNet.ports_b[3]) annotation (Line(
@@ -2383,20 +2386,20 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
             color={238,46,47},
             thickness=0.5));
         connect(vAV4.port_a_Wat, ReheatWatNet.ports_b[4]) annotation (Line(
-            points={{120,18},{118,18},{118,36.46},{-46,36.46}},
+            points={{120,18},{118,18},{118,37.82},{-46,37.82}},
             color={238,46,47},
             thickness=0.5));
         connect(vAV5.port_a_Wat, ReheatWatNet.ports_b[5]) annotation (Line(
-            points={{160,18},{162,18},{162,33.74},{-46,33.74}},
+            points={{160,18},{162,18},{162,36.46},{-46,36.46}},
             color={238,46,47},
             thickness=0.5));
         connect(vAV1.port_b_Wat, ReheatWatNet.ports_a[1]) annotation (Line(
-            points={{-2,18},{-2,62.98},{-46,62.98}},
+            points={{-2,18},{-2,60.26},{-46,60.26}},
             color={238,46,47},
             thickness=0.5,
             pattern=LinePattern.Dash));
         connect(vAV2.port_b_Wat, ReheatWatNet.ports_a[2]) annotation (Line(
-            points={{38,18},{40,18},{40,60.26},{-46,60.26}},
+            points={{38,18},{40,18},{40,58.9},{-46,58.9}},
             color={238,46,47},
             thickness=0.5,
             pattern=LinePattern.Dash));
@@ -2406,21 +2409,21 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
             thickness=0.5,
             pattern=LinePattern.Dash));
         connect(vAV4.port_b_Wat, ReheatWatNet.ports_a[4]) annotation (Line(
-            points={{126,18},{126,54.82},{-46,54.82}},
+            points={{126,18},{126,56.18},{-46,56.18}},
             color={238,46,47},
             thickness=0.5,
             pattern=LinePattern.Dash));
         connect(vAV5.port_b_Wat, ReheatWatNet.ports_a[5]) annotation (Line(
-            points={{166,18},{166,52},{-46,52},{-46,52.1}},
+            points={{166,18},{166,52},{-46,52},{-46,54.82}},
             color={238,46,47},
             thickness=0.5,
             pattern=LinePattern.Dash));
         connect(vAV1.port_a, AirNetWor.ports_b[1]) annotation (Line(
-            points={{-10,8},{-28,8},{-28,-32.62},{-44,-32.62}},
+            points={{-10,8},{-28,8},{-28,-29.9},{-44,-29.9}},
             color={0,127,0},
             thickness=0.5));
         connect(vAV2.port_a, AirNetWor.ports_b[2]) annotation (Line(
-            points={{30,8},{16,8},{16,-30},{-16,-30},{-16,-29.9},{-44,-29.9}},
+            points={{30,8},{16,8},{16,-30},{-16,-30},{-16,-28.54},{-44,-28.54}},
             color={0,127,0},
             thickness=0.5));
         connect(vAV3.port_a, AirNetWor.ports_b[3]) annotation (Line(
@@ -2428,11 +2431,11 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
             color={0,127,0},
             thickness=0.5));
         connect(vAV4.port_a, AirNetWor.ports_b[4]) annotation (Line(
-            points={{118,8},{108,8},{108,-24.46},{-44,-24.46}},
+            points={{118,8},{108,8},{108,-25.82},{-44,-25.82}},
             color={0,127,0},
             thickness=0.5));
         connect(vAV5.port_a, AirNetWor.ports_b[5]) annotation (Line(
-            points={{158,8},{146,8},{146,-21.74},{-44,-21.74}},
+            points={{158,8},{146,8},{146,-24.46},{-44,-24.46}},
             color={0,127,0},
             thickness=0.5));
 
@@ -2446,6 +2449,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Line(points={{191,-60},{210,-60}}, color={0,0,127}));
         connect(TSupMea.y, TSup)
           annotation (Line(points={{191,-84},{210,-84}}, color={0,0,127}));
+        connect(gaiCO2.y, vol.C_flow[1]) annotation (Line(points={{51,-92},{64,
+                -92},{64,-66},{68,-66}}, color={0,0,127}));
         annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
               Line(points={{-90,40},{80,40}}, color={0,127,255}),
               Line(points={{-90,-60},{80,-60}}, color={0,127,255}),
@@ -2828,6 +2833,233 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
         end ZonCon;
 
       end Control;
+
+      package Examples
+        extends Modelica.Icons.ExamplesPackage;
+        model FivZonVAVCO2
+          extends Modelica.Icons.Example;
+            //package MediumAir = Buildings.Media.Air "Medium model for air";
+            package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
+
+            package MediumWat = Buildings.Media.Water "Medium model for water";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroMai1=140
+            "Pressure drop 1 across the duct";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroMai2=140
+            "Pressure drop 2 across the main duct";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroMai3=120
+            "Pressure drop 3 across the main duct";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroMai4=152
+            "Pressure drop 4 across the main duct";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroBra1=0
+            "Pressure drop 1 across the duct branch 1";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroBra2=0
+            "Pressure drop 1 across the duct branch 2";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroBra3=0
+            "Pressure drop 1 across the duct branch 3";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroBra4=0
+            "Pressure drop 1 across the duct branch 4";
+
+          parameter Modelica.Units.SI.Pressure PreAirDroBra5=0
+            "Pressure drop 1 across the duct branch 5";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroMai1=79712*0.2
+            "Pressure drop 1 across the pipe";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroMai2=79712*0.2
+            "Pressure drop 2 across the main pipe";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroMai3=79712*0.2
+            "Pressure drop 3 across the main pipe";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroMai4=79712*0.2
+            "Pressure drop 4 across the main pipe";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroBra1=0
+            "Pressure drop 1 across the pipe branch 1";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroBra2=0
+            "Pressure drop 1 across the pipe branch 2";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroBra3=0
+            "Pressure drop 1 across the pipe branch 3";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroBra4=0
+            "Pressure drop 1 across the pipe branch 4";
+
+          parameter Modelica.Units.SI.Pressure PreWatDroBra5=0
+            "Pressure drop 1 across the pipe branch 5";
+
+          parameter Modelica.Units.SI.MassFlowRate mAirFloRat1=10.92*1.2
+            "mass flow rate for vav 1";
+
+          parameter Modelica.Units.SI.MassFlowRate mAirFloRat2=2.25*1.2
+            "mass flow rate for vav 2";
+
+          parameter Modelica.Units.SI.MassFlowRate mAirFloRat3=1.49*1.2
+            "mass flow rate for vav 3";
+
+          parameter Modelica.Units.SI.MassFlowRate mAirFloRat4=1.9*1.2
+            "mass flow rate for vav 4";
+
+          parameter Modelica.Units.SI.MassFlowRate mAirFloRat5=1.73*1.2
+            "mass flow rate for vav 5";
+
+          parameter Modelica.Units.SI.MassFlowRate mWatFloRat1=mAirFloRat1*0.3*(35 -
+              12.88)/4.2/20 "mass flow rate for vav 1";
+
+          parameter Modelica.Units.SI.MassFlowRate mWatFloRat2=mAirFloRat2*0.3*(35 -
+              12.88)/4.2/20 "mass flow rate for vav 2";
+
+          parameter Modelica.Units.SI.MassFlowRate mWatFloRat3=mAirFloRat3*0.3*(35 -
+              12.88)/4.2/20 "mass flow rate for vav 3";
+
+          parameter Modelica.Units.SI.MassFlowRate mWatFloRat4=mAirFloRat4*0.3*(35 -
+              12.88)/4.2/20 "mass flow rate for vav 4";
+
+          parameter Modelica.Units.SI.MassFlowRate mWatFloRat5=mAirFloRat5*0.3*(35 -
+              12.88)/4.2/20 "mass flow rate for vav 5";
+
+          parameter Modelica.Units.SI.Pressure PreDroAir1=200
+            "Pressure drop in the air side of vav 1";
+          parameter Modelica.Units.SI.Pressure PreDroWat1=79712
+            "Pressure drop in the water side of vav 1";
+          parameter Modelica.Units.SI.Efficiency eps1(max=1) = 0.8
+            "Heat exchanger effectiveness of vav 1";
+
+          parameter Modelica.Units.SI.Pressure PreDroAir2=124
+            "Pressure drop in the air side of vav 2";
+          parameter Modelica.Units.SI.Pressure PreDroWat2=79712
+            "Pressure drop in the water side of vav 2";
+          parameter Modelica.Units.SI.Efficiency eps2(max=1) = 0.8
+            "Heat exchanger effectiveness of vav 2";
+
+          parameter Modelica.Units.SI.Pressure PreDroAir3=124
+            "Pressure drop in the air side of vav 3";
+          parameter Modelica.Units.SI.Pressure PreDroWat3=79712
+            "Pressure drop in the water side of vav 3";
+          parameter Modelica.Units.SI.Efficiency eps3(max=1) = 0.8
+            "Heat exchanger effectiveness of vav 1";
+
+          parameter Modelica.Units.SI.Pressure PreDroAir4=124
+            "Pressure drop in the air side of vav 4";
+          parameter Modelica.Units.SI.Pressure PreDroWat4=79712
+            "Pressure drop in the water side of vav 4";
+          parameter Modelica.Units.SI.Efficiency eps4(max=1) = 0.8
+            "Heat exchanger effectiveness of vav 1";
+
+          parameter Modelica.Units.SI.Pressure PreDroAir5=124
+            "Pressure drop in the air side of vav 1";
+          parameter Modelica.Units.SI.Pressure PreDroWat5=79712
+            "Pressure drop in the water side of vav 1";
+          parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
+            "Heat exchanger effectiveness of vav 1";
+
+          Buildings.Fluid.Sources.Boundary_pT souAir(
+            p(displayUnit="Pa") = 100000 + PreAirDroMai1 + PreAirDroMai2 + PreAirDroMai3 + PreAirDroMai4 + PreAirDroBra5 + PreDroAir5,
+            redeclare package Medium = MediumAir,
+            nPorts=1,
+            T=286.02) annotation (Placement(transformation(extent={{-100,18},{-80,38}})));
+
+          Buildings.Fluid.Sources.Boundary_pT sinAir(
+            redeclare package Medium = MediumAir,
+            p(displayUnit="Pa") = 100000,
+            nPorts=1,
+            T=299.15) annotation (Placement(transformation(extent={{-100,-50},{-80,-30}})));
+
+          Modelica.Blocks.Sources.Ramp ramp[5](duration=86400, height=1*1000*10)
+                                                                         annotation (Placement(transformation(extent={{-100,-90},{-80,-70}})));
+          FiveZoneVAV                                                     fivZonVAV(
+            redeclare package MediumAir = MediumAir,
+            redeclare package MediumWat = MediumWat,
+            PreAirDroMai1=PreAirDroMai1,
+            PreAirDroMai2=PreAirDroMai2,
+            PreAirDroMai3=PreAirDroMai3,
+            PreAirDroMai4=PreAirDroMai4,
+            PreAirDroBra1=PreAirDroBra1,
+            PreAirDroBra2=PreAirDroBra2,
+            PreAirDroBra3=PreAirDroBra3,
+            PreAirDroBra4=PreAirDroBra4,
+            PreAirDroBra5=PreAirDroBra5,
+            PreWatDroMai1=PreWatDroMai1,
+            PreWatDroMai2=PreWatDroMai2,
+            PreWatDroMai3=PreWatDroMai3,
+            PreWatDroMai4=PreWatDroMai4,
+            PreWatDroBra1=PreWatDroBra1,
+            PreWatDroBra2=PreWatDroBra2,
+            PreWatDroBra3=PreWatDroBra3,
+            PreWatDroBra4=PreWatDroBra4,
+            PreWatDroBra5=PreWatDroBra5,
+            mAirFloRat1=mAirFloRat1,
+            mAirFloRat2=mAirFloRat2,
+            mAirFloRat3=mAirFloRat3,
+            mAirFloRat4=mAirFloRat4,
+            mAirFloRat5=mAirFloRat5,
+            mWatFloRat1=mWatFloRat1,
+            mWatFloRat2=mWatFloRat2,
+            mWatFloRat3=mWatFloRat3,
+            mWatFloRat4=mWatFloRat4,
+            mWatFloRat5=mWatFloRat5,
+            PreDroAir1=PreDroAir1,
+            PreDroWat1=PreDroWat1,
+            eps1=eps1,
+            PreDroAir2=PreDroAir2,
+            PreDroWat2=PreDroWat2,
+            eps2=eps2,
+            PreDroAir3=PreDroAir3,
+            PreDroWat3=PreDroWat3,
+            eps3=eps3,
+            PreDroAir4=PreDroAir4,
+            PreDroWat4=PreDroWat4,
+            eps4=eps4,
+            PreDroAir5=PreDroAir5,
+            PreDroWat5=PreDroWat5,
+            eps5=eps5)
+            annotation (Placement(transformation(extent={{-28,-28},{18,22}})));
+          Buildings.Fluid.Sources.Boundary_pT souWat(
+            p(displayUnit="Pa") = 100000 + PreWatDroMai1 + PreWatDroMai2 + PreWatDroMai3 + PreWatDroMai4 + PreWatDroBra5 + PreDroWat5,
+            nPorts=1,
+            redeclare package Medium = MediumWat,
+            T=353.15) annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
+          Buildings.Fluid.Sources.Boundary_pT sinWat(
+            p(displayUnit="Pa") = 100000,
+            nPorts=1,
+            redeclare package Medium = MediumWat,
+            T=299.15) annotation (Placement(transformation(extent={{20,70},{0,90}})));
+          Modelica.Blocks.Sources.BooleanExpression booleanExpression[5](y=true) annotation (Placement(transformation(extent={{-100,-26},{-80,-6}})));
+          Modelica.Blocks.Sources.Ramp ramp1[
+                                            5](duration=86400, height=1) annotation (Placement(transformation(extent={{-100,58},
+                    {-80,78}})));
+          Modelica.Blocks.Sources.Ramp ramp2[
+                                            5](duration=86400,
+            height=-1,
+            offset=1)                                                    annotation (Placement(transformation(extent={{-72,-70},{-52,-50}})));
+        equation
+
+          connect(fivZonVAV.port_a_Air, souAir.ports[1]) annotation (Line(points={{-28,7},{-72,7},{-72,28},{-80,28}},   color={0,127,255}));
+          connect(fivZonVAV.port_b_Air, sinAir.ports[1]) annotation (Line(points={{-28,-18},{-50,-18},{-72,-18},{-72,-40},{-80,-40}}, color={0,127,255}));
+          connect(souWat.ports[1], fivZonVAV.port_a_Wat) annotation (Line(points={{-40,80},{-28,80},{-28,56},{-60,56},{-60,
+                  22},{-14.2,22}},                                                                                                         color={0,127,255}));
+          connect(sinWat.ports[1], fivZonVAV.port_b_Wat) annotation (Line(points={{0,80},{
+                  -10,80},{-20,80},{-20,36},{4,36},{4,22},{4.2,22}},                                                                             color={0,127,255}));
+          connect(ramp.y, fivZonVAV.Q_flow) annotation (Line(points={{-79,-80},{-60,-80},{-40,-80},{-40,-23},{-30.3,-23}}, color={0,0,127}));
+          connect(booleanExpression.y, fivZonVAV.On) annotation (Line(points={{-79,-16},
+                  {-40,-16},{-40,-6},{-30.3,-6}},                                                                       color={255,0,255}));
+          connect(ramp2.y, fivZonVAV.yVal) annotation (Line(points={{-51,-60},{-24,-60},{-24,-34},{-52,-34},{-52,12},{-30.3,
+                  12}},                                                                                                             color={0,0,127}));
+          connect(ramp1.y, fivZonVAV.airFloRatSet) annotation (Line(points={{
+                  -79,68},{-64,68},{-64,18.5},{-30.3,18.5}}, color={0,0,127}));
+          annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)),
+            experiment(StopTime=259200, __Dymola_Algorithm="Dassl"));
+        end FivZonVAVCO2;
+      end Examples;
     end ZoneTerminal;
   end AirSide;
 

@@ -134,7 +134,8 @@ model Airside "Air side system"
     "Heat exchanger effectiveness of vav 1";
   final parameter Real alpha = 0.8  "Sizing factor";
 
-  package MediumAir = Buildings.Media.Air "Medium model for air";
+  //package MediumAir = Buildings.Media.Air "Medium model for air";
+  package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
   package MediumCHW = Buildings.Media.Water "Medium model for chilled water";
   package MediumHeaWat = Buildings.Media.Water "Medium model for heating water";
 
@@ -411,7 +412,7 @@ equation
    annotation (Line(points={{38,44},{-38,44},{-38,1.77636e-15},{-114,
           1.77636e-15}},  color={0,0,127}));
    connect(floor1.port_Exh_Air, sou[1].ports[1]) annotation (Line(
-      points={{113.375,30.5},{90,30.5},{90,42.6667},{60,42.6667}},
+      points={{113.375,30.5},{90,30.5},{90,38.6667},{60,38.6667}},
       color={0,140,72},
       thickness=0.5));
    connect(floor1.port_Fre_Air, sou[1].ports[2]) annotation (Line(
@@ -432,10 +433,11 @@ equation
     connect(loa[(1 - 1)*5 + j], floor1.Q_flow[j]);
     connect(floor1.TZon[j], TZon[(1-1)*5+j]);
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[1], floor1.zonCooTSet[j])
-      annotation (Line(points={{20,99},{96,99},{96,55},{112.438,55}}, color={0,
+      annotation (Line(points={{20,99.5},{96,99.5},{96,55},{112.438,55}},
+                                                                      color={0,
             0,127}));
     connect(TZonAirSet[(1 - 1)*5 + j].SetPoi[2], floor1.zonHeaTSet[j])
-      annotation (Line(points={{20,101},{96,101},{96,51.5},{112.438,51.5}},
+      annotation (Line(points={{20,100.5},{96,100.5},{96,51.5},{112.438,51.5}},
           color={0,0,127}));
    end for;
 
@@ -474,8 +476,8 @@ equation
    end for;
   connect(booRep.y, TZonAirSet.Occ)
     annotation (Line(points={{-9,100},{-4,100}}, color={255,0,255}));
-  connect(floor1.TOut, TDryBul) annotation (Line(points={{136.813,18.25},{
-          136.813,0},{-84,0},{-84,1.77636e-15},{-114,1.77636e-15}},
+  connect(floor1.TOut, TDryBul) annotation (Line(points={{136.812,18.25},{
+          136.812,0},{-84,0},{-84,0},{-114,0}},
                                 color={0,0,127}));
   connect(floor2.TOut, TDryBul);
   connect(floor3.TOut, TDryBul);
