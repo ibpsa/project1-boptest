@@ -249,15 +249,15 @@ package Examples
 
     Modelica.Blocks.Sources.Ramp loa[5](duration=86400, height=1*1000*10)
       annotation (Placement(transformation(extent={{0,-60},{20,-40}})));
-    Modelica.Blocks.Sources.Constant const[5](k=273.15 + 24)
-      annotation (Placement(transformation(extent={{-100,20},{-80,40}})));
-    Modelica.Blocks.Sources.Constant const1(k=273.15 + 12.88)
-      annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
-    Modelica.Blocks.Sources.Constant const2(k=400)
+    Modelica.Blocks.Sources.Constant zonCooTset[5](k=273.15 + 24)
+      annotation (Placement(transformation(extent={{-98,44},{-82,60}})));
+    Modelica.Blocks.Sources.Constant disTset(k=273.15 + 12.88)
+      annotation (Placement(transformation(extent={{-98,20},{-82,36}})));
+    Modelica.Blocks.Sources.Constant pSet(k=400)
       annotation (Placement(transformation(extent={{-100,-80},{-80,-60}})));
     Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
       annotation (Placement(transformation(extent={{-100,-106},{-80,-86}})));
-    Modelica.Blocks.Sources.Constant const3[5](k=273.15 + 20)
+    Modelica.Blocks.Sources.Constant zonHeaTset[5](k=273.15 + 20)
       annotation (Placement(transformation(extent={{0,-100},{-20,-80}})));
     Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
           Modelica.Utilities.Files.loadResource(
@@ -274,6 +274,8 @@ package Examples
                                        weaBus
       "Weather data bus"
       annotation (Placement(transformation(extent={{50,-80},{70,-60}})));
+    Modelica.Blocks.Sources.Constant nPeo[5](k=20)
+      annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
   equation
     connect(airsideFloor.port_Fre_Air, sou.ports[1]) annotation (Line(points={{-24,
             4.5},{-56,4.5},{-56,-1},{-80,-1}}, color={0,127,255}));
@@ -310,14 +312,17 @@ package Examples
       annotation (Line(points={{70,-70},{60,-70}}, color={0,0,127}));
     connect(TOut.y, airsideFloor.TOut) annotation (Line(points={{93,-70},{96,-70},
             {96,-28},{-2,-28},{-2,-21.75},{-1.1875,-21.75}}, color={0,0,127}));
-    connect(const2.y, airsideFloor.pSet) annotation (Line(points={{-79,-70},{-40,-70},
-            {-40,0},{-25.5625,0},{-25.5625,-0.75}}, color={0,0,127}));
-    connect(const.y, airsideFloor.zonCooTSet) annotation (Line(points={{-79,30},{-32,
-            30},{-32,15},{-25.5625,15}}, color={0,0,127}));
-    connect(const3.y, airsideFloor.zonHeaTSet) annotation (Line(points={{-21,-90},
-            {-48,-90},{-48,12},{-25.5625,12},{-25.5625,11.5}}, color={0,0,127}));
-    connect(const1.y, airsideFloor.disTSet) annotation (Line(points={{-79,-30},{-70,
-            -30},{-70,8},{-25.5625,8}}, color={0,0,127}));
+    connect(pSet.y, airsideFloor.pSet) annotation (Line(points={{-79,-70},{-40,
+            -70},{-40,0},{-25.5625,0},{-25.5625,-0.75}}, color={0,0,127}));
+    connect(zonCooTset.y, airsideFloor.zonCooTSet) annotation (Line(points={{
+            -81.2,52},{-54,52},{-54,15},{-25.5625,15}}, color={0,0,127}));
+    connect(zonHeaTset.y, airsideFloor.zonHeaTSet) annotation (Line(points={{-21,
+            -90},{-48,-90},{-48,12},{-25.5625,12},{-25.5625,11.5}}, color={0,0,
+            127}));
+    connect(disTset.y, airsideFloor.disTSet) annotation (Line(points={{-81.2,28},
+            {-56,28},{-56,8},{-25.5625,8}}, color={0,0,127}));
+    connect(nPeo.y, airsideFloor.nPeo) annotation (Line(points={{-79,-30},{-36,
+            -30},{-36,-4.25},{-25.5625,-4.25}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(
             preserveAspectRatio=false)),
       experiment(StopTime=86400));

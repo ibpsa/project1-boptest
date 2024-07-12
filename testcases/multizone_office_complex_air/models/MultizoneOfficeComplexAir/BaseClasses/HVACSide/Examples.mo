@@ -6,7 +6,7 @@ package Examples
     //package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
     //package MediumHeaWat = Buildings.Media.Water "Medium model for heating water";
 
-    MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC hVAC(
+    MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC hva(
       floor1(duaFanAirHanUni(
           mixBox(mixBox(
               valRet(riseTime=15, y_start=1),
@@ -37,9 +37,9 @@ package Examples
       annotation (Placement(transformation(extent={{0,-20},{40,20}})));
 
     Modelica.Blocks.Sources.Ramp loa[15](duration=86400, height=1000)
-      annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
+      annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
     Modelica.Blocks.Sources.Step occ(startTime=3600*6)
-      annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
+      annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
     Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
           Modelica.Utilities.Files.loadResource(
           "modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
@@ -57,17 +57,19 @@ package Examples
       annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
     Buildings.Utilities.Psychrometrics.TWetBul_TDryBulPhi TWetBul
       annotation (Placement(transformation(extent={{-40,-88},{-20,-68}})));
+    Modelica.Blocks.Sources.Constant numOcc[15](k=10)
+      annotation (Placement(transformation(extent={{-80,-20},{-60,0}})));
   equation
     connect(weaDat.weaBus, weaBus) annotation (Line(
         points={{-80,-50},{-70,-50}},
         color={255,204,51},
         thickness=0.5));
-    connect(loa.y, hVAC.loa) annotation (Line(points={{-59,10},{-36,10},{-36,6},
-            {-2.8,6}},    color={0,0,127}));
-    connect(TDryBul.y, hVAC.TDryBul) annotation (Line(points={{-19,-50},{-18,
-            -50},{-18,-4},{-2.8,-4}}, color={0,0,127}));
-    connect(occ.y, hVAC.occ) annotation (Line(points={{-59,50},{-36,50},{-36,16},
-            {-2.8,16}},    color={0,0,127}));
+    connect(loa.y, hva.loa) annotation (Line(points={{-59,30},{-20,30},{-20,10},
+            {-2.8,10}}, color={0,0,127}));
+    connect(TDryBul.y, hva.TDryBul) annotation (Line(points={{-19,-50},{-14,-50},
+            {-14,-4},{-2.8,-4}}, color={0,0,127}));
+    connect(occ.y, hva.occ) annotation (Line(points={{-59,70},{-14,70},{-14,16},
+            {-2.8,16}}, color={0,0,127}));
     connect(weaBus.TDryBul, TWetBul.TDryBul) annotation (Line(
         points={{-70,-50},{-70,-70},{-41,-70}},
         color={255,204,51},
@@ -92,9 +94,8 @@ package Examples
         index=-1,
         extent={{-6,3},{-6,3}},
         horizontalAlignment=TextAlignment.Right));
-    connect(TWetBul.TWetBul, hVAC.TWetBul) annotation (Line(points={{-19,-78},{
-            -10,-78},{-10,-12},{-6,-12},{-6,-13.7},{-2.7,-13.7}},       color={
-            0,0,127}));
+    connect(TWetBul.TWetBul, hva.TWetBul) annotation (Line(points={{-19,-78},{
+            -10,-78},{-10,-13.7},{-2.7,-13.7}}, color={0,0,127}));
     connect(weaBus.TDryBul, TDryBul.u) annotation (Line(
         points={{-70,-50},{-42,-50}},
         color={255,204,51},
@@ -103,6 +104,8 @@ package Examples
         index=-1,
         extent={{-6,3},{-6,3}},
         horizontalAlignment=TextAlignment.Right));
+    connect(numOcc.y, hva.numOcc) annotation (Line(points={{-59,-10},{-20,-10},
+            {-20,4},{-2.8,4}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(
             preserveAspectRatio=false)),
       experiment(StopTime=86400));

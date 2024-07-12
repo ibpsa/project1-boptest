@@ -38,14 +38,16 @@ model TestSuccess
 equation
   connect(hva.TZon, loaEnePlu.T) annotation (Line(points={{-22,-30},{-34,-30},{
           -34,30},{-24,30}}, color={0,0,127}));
-  connect(loaEnePlu.wetBul, hva.TWetBul) annotation (Line(points={{22,48},{54,
-          48},{54,-43.7},{22.7,-43.7}}, color={0,0,127}));
-  connect(loaEnePlu.dryBul, hva.TDryBul) annotation (Line(points={{22,42},{50,
-          42},{50,-34},{22.8,-34}}, color={0,0,127}));
-  connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{22,26},{46,26},{46,
-          -24},{22.8,-24}}, color={0,0,127}));
+  connect(loaEnePlu.wetBul, hva.TWetBul) annotation (Line(points={{22,48},{52,
+          48},{52,-43.7},{22.7,-43.7}}, color={0,0,127}));
+  connect(loaEnePlu.dryBul, hva.TDryBul) annotation (Line(points={{22,42},{48,
+          42},{48,-34},{22.8,-34}}, color={0,0,127}));
+  connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{22,26},{40,26},{40,
+          -20},{22.8,-20}}, color={0,0,127}));
   connect(loaEnePlu.occ, hva.occ) annotation (Line(points={{22,13.2},{36,13.2},
           {36,-14},{22.8,-14}}, color={0,0,127}));
+  connect(loaEnePlu.numOcc, hva.numOcc) annotation (Line(points={{22,34},{44,34},
+          {44,-26},{22.8,-26}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(
           preserveAspectRatio=false)),
     experiment(

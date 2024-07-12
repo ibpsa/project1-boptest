@@ -161,7 +161,7 @@ model Airside "Air side system"
       Fan_Ti=600,
       booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 283.15 then floor1.duaFanAirHanUni.On
              else true)),
-    fivZonVAV(vol(V=200000)),
+    fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
@@ -435,7 +435,7 @@ equation
           100},{-36,86},{106,86},{106,28.75},{112.438,28.75}},
                                                       color={255,0,255}));
   connect(floor1.OnZon, onZon[1].y) annotation (Line(points={{112.438,21.75},{
-          108,21.75},{108,22},{104,22},{104,72},{61,72}},
+          108,21.75},{108,22},{104,22},{104,70},{61,70}},
                                                       color={255,0,255}));
    for j in 1:5 loop
     connect(loa[(1 - 1)*5 + j], floor1.Q_flow[j]);

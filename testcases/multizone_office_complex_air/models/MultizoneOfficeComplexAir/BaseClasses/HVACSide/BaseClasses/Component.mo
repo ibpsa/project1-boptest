@@ -2081,26 +2081,6 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
           "Heat exchanger effectiveness of vav 5";
 
-      //   // Initialization
-      //   parameter Modelica.Media.Interfaces.Types.AbsolutePressure p_start = MediumAirCO2.p_default
-      //     "Start value of zone air pressure"
-      //     annotation(Dialog(tab = "Initialization"));
-      //   parameter Modelica.Media.Interfaces.Types.Temperature T_start=MediumAirCO2.T_default
-      //     "Start value of zone air temperature"
-      //     annotation(Dialog(tab = "Initialization"));
-      //   parameter Modelica.Media.Interfaces.Types.MassFraction X_start[MediumAirCO2.nX](
-      //        quantity=MediumAirCO2.substanceNames) = MediumAirCO2.X_default
-      //     "Start value of zone air mass fractions m_i/m"
-      //     annotation (Dialog(tab="Initialization", enable=MediumAirCO2.nXi > 0));
-      //   parameter Modelica.Media.Interfaces.Types.ExtraProperty C_start[MediumAirCO2.nC](
-      //        quantity=MediumAirCO2.extraPropertiesNames)=fill(0, MediumAirCO2.nC)
-      //     "Start value of zone air trace substances"
-      //     annotation (Dialog(tab="Initialization", enable=MediumAirCO2.nC > 0));
-      //   parameter Modelica.Media.Interfaces.Types.ExtraProperty C_nominal[MediumAirCO2.nC](
-      //        quantity=MediumAirCO2.extraPropertiesNames) = fill(1E-2, MediumAirCO2.nC)
-      //     "Nominal value of zone air trace substances. (Set to typical order of magnitude.)"
-      //    annotation (Dialog(tab="Initialization", enable=MediumAirCO2.nC > 0));
-
         parameter Modelica.Media.Interfaces.Types.AbsolutePressure p_start=p_start
           "Start value of pressure";
         parameter Modelica.Media.Interfaces.Types.Temperature T_start=T_start
@@ -2178,21 +2158,17 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Placement(transformation(extent={{-40,-84},{-20,-64}})));
         Modelica.Blocks.Interfaces.RealInput Q_flow[5]
           annotation (Placement(transformation(extent={{-120,-84},{-100,-64}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{30,90},{50,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
@@ -2204,8 +2180,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
         Modelica.Blocks.Interfaces.BooleanInput On[5]
           annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-        Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package
-            Medium = MediumAir)
+        Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium =
+                     MediumAir)
           annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
         Modelica.Blocks.Interfaces.RealOutput p "Pressure at port" annotation (
             Placement(transformation(extent={{200,-22},{220,-2}}),
@@ -2315,13 +2291,13 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         Modelica.Blocks.Math.Gain gaiCO2[5](each k=8.18E-6)
           "CO2 emission per person"
           annotation (Placement(transformation(extent={{-40,-96},{-28,-84}})));
-      //   Buildings.Fluid.Sensors.TraceSubstances senCO2[5](
-      //         redeclare package Medium = MediumAir,
-      //         each warnAboutOnePortConnection=false) "Sensor at volume"
-      //   Buildings.Fluid.Sensors.Conversions.To_VolumeFraction volFraCO2[5](
-      //         each MMMea=Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
-      //     "CO2 volume fraction"
 
+        Buildings.Fluid.Sensors.TraceSubstances senCO2[5](redeclare package Medium = MediumAir,
+          each warnAboutOnePortConnection=false) "Sensor at volume"
+          annotation (Placement(transformation(extent={{82,-98},{98,-82}})));
+        Buildings.Fluid.Sensors.Conversions.To_VolumeFraction volFraCO2[5](
+          each MMMea = Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM) "CO2 volume fraction"
+          annotation (Placement(transformation(extent={{104,-96},{116,-84}})));
       equation
 
         connect(fixedHeatFlow.port, vol.heatPort) annotation (Line(points={{-20,-74},{
@@ -2498,15 +2474,19 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Line(points={{191,-60},{210,-60}}, color={0,0,127}));
         connect(TSupMea.y, TSup)
           annotation (Line(points={{191,-84},{210,-84}}, color={0,0,127}));
-      //   for i in 1:5 loop
-      //     //connect(gaiCO2[i].y, vol[i].C_flow[1]) annotation (Line(points={{-27.4,-90},{68,-90},{68,-66}}, color={0,0,127}));
-      //     connect(senCO2[i].port, vol[i].ports[3]);
-      //   end for;
-      //   connect(senCO2.C, volFraCO2.m)
+
         connect(nPeo, gaiCO2.u)
           annotation (Line(points={{-110,-90},{-41.2,-90}}, color={0,0,127}));
         connect(gaiCO2.y, vol.C_flow[1])
           annotation (Line(points={{-27.4,-90},{68,-90},{68,-66}}, color={0,0,127}));
+
+        for i in 1:5 loop
+          connect(senCO2[i].port, vol[i].ports[3]);
+        end for;
+        connect(senCO2.C,volFraCO2. m) annotation (Line(
+            points={{98.8,-90},{103.4,-90}},
+            color={0,0,127},
+            smooth=Smooth.None));
           annotation (Placement(transformation(extent={{84,-82},{100,-98}})),
                       Placement(transformation(extent={{122,-98},{138,-82}})),
                       Line(points={{100.8,-90},{121.2,-90}}, color={0,0,127}),
@@ -3021,23 +3001,48 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
           parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
             "Heat exchanger effectiveness of vav 1";
 
+          // Initialization
+          parameter MediumAir.AbsolutePressure p_start = MediumAir.p_default
+            "Start value of zone air pressure"
+            annotation(Dialog(tab = "Initialization"));
+          parameter MediumAir.Temperature T_start=MediumAir.T_default
+            "Start value of zone air temperature"
+            annotation(Dialog(tab = "Initialization"));
+          parameter MediumAir.MassFraction X_start[MediumAir.nX](
+               quantity=MediumAir.substanceNames) = MediumAir.X_default
+            "Start value of zone air mass fractions m_i/m"
+            annotation (Dialog(tab="Initialization", enable=Medium.nXi > 0));
+          parameter MediumAir.ExtraProperty C_start[MediumAir.nC](
+               quantity=MediumAir.extraPropertiesNames)=fill(0, MediumAir.nC)
+            "Start value of zone air trace substances"
+            annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
+          parameter MediumAir.ExtraProperty C_nominal[MediumAir.nC](
+               quantity=MediumAir.extraPropertiesNames) = fill(1E-2, MediumAir.nC)
+            "Nominal value of zone air trace substances. (Set to typical order of magnitude.)"
+           annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
+
           Buildings.Fluid.Sources.Boundary_pT souAir(
             p(displayUnit="Pa") = 100000 + PreAirDroMai1 + PreAirDroMai2 + PreAirDroMai3 + PreAirDroMai4 + PreAirDroBra5 + PreDroAir5,
             redeclare package Medium = MediumAir,
             nPorts=1,
-            T=286.02) annotation (Placement(transformation(extent={{-100,18},{-80,38}})));
+            T=286.02) annotation (Placement(transformation(extent={{-100,40},{-80,60}})));
 
           Buildings.Fluid.Sources.Boundary_pT sinAir(
             redeclare package Medium = MediumAir,
             p(displayUnit="Pa") = 100000,
             nPorts=1,
-            T=299.15) annotation (Placement(transformation(extent={{-100,-50},{-80,-30}})));
+            T=299.15) annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
 
-          Modelica.Blocks.Sources.Ramp ramp[5](duration=86400, height=1*1000*10)
-                                                                         annotation (Placement(transformation(extent={{-100,-90},{-80,-70}})));
+          Modelica.Blocks.Sources.Ramp Q_flow[5](duration=86400, height=1*1000*10)
+            annotation (Placement(transformation(extent={{-100,-68},{-80,-48}})));
           FiveZoneVAV                                                     fivZonVAV(
             redeclare package MediumAir = MediumAir,
             redeclare package MediumWat = MediumWat,
+            p_start=p_start,
+            T_start=T_start,
+            X_start=X_start,
+            C_start=C_start,
+            C_nominal=C_nominal,
             PreAirDroMai1=PreAirDroMai1,
             PreAirDroMai2=PreAirDroMai2,
             PreAirDroMai3=PreAirDroMai3,
@@ -3092,29 +3097,37 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
             nPorts=1,
             redeclare package Medium = MediumWat,
             T=299.15) annotation (Placement(transformation(extent={{20,70},{0,90}})));
-          Modelica.Blocks.Sources.BooleanExpression booleanExpression[5](y=true) annotation (Placement(transformation(extent={{-100,-26},{-80,-6}})));
-          Modelica.Blocks.Sources.Ramp ramp1[
-                                            5](duration=86400, height=1) annotation (Placement(transformation(extent={{-100,58},
-                    {-80,78}})));
-          Modelica.Blocks.Sources.Ramp ramp2[
-                                            5](duration=86400,
+          Modelica.Blocks.Sources.BooleanExpression booleanExpression[5](y=true) annotation (Placement(transformation(extent={{-100,
+                    -16},{-80,4}})));
+          Modelica.Blocks.Sources.Ramp airFloRat[5](duration=86400, height=1)
+            annotation (Placement(transformation(extent={{-100,70},{-80,90}})));
+          Modelica.Blocks.Sources.Ramp yVal[5](
+            duration=86400,
             height=-1,
-            offset=1)                                                    annotation (Placement(transformation(extent={{-72,-70},{-52,-50}})));
+            offset=1)
+            annotation (Placement(transformation(extent={{-100,10},{-80,30}})));
+          Modelica.Blocks.Sources.Constant nPeo[5](k=20)
+            annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
         equation
 
-          connect(fivZonVAV.port_a_Air, souAir.ports[1]) annotation (Line(points={{-28,7},{-72,7},{-72,28},{-80,28}},   color={0,127,255}));
-          connect(fivZonVAV.port_b_Air, sinAir.ports[1]) annotation (Line(points={{-28,-18},{-50,-18},{-72,-18},{-72,-40},{-80,-40}}, color={0,127,255}));
+          connect(fivZonVAV.port_a_Air, souAir.ports[1]) annotation (Line(points={{-28,7},
+                  {-74,7},{-74,50},{-80,50}},                                                                           color={0,127,255}));
+          connect(fivZonVAV.port_b_Air, sinAir.ports[1]) annotation (Line(points={{-28,-18},
+                  {-72,-18},{-72,-30},{-80,-30}},                                                                                     color={0,127,255}));
           connect(souWat.ports[1], fivZonVAV.port_a_Wat) annotation (Line(points={{-40,80},{-28,80},{-28,56},{-60,56},{-60,
                   22},{-14.2,22}},                                                                                                         color={0,127,255}));
           connect(sinWat.ports[1], fivZonVAV.port_b_Wat) annotation (Line(points={{0,80},{
                   -10,80},{-20,80},{-20,36},{4,36},{4,22},{4.2,22}},                                                                             color={0,127,255}));
-          connect(ramp.y, fivZonVAV.Q_flow) annotation (Line(points={{-79,-80},{-60,-80},{-40,-80},{-40,-23},{-30.3,-23}}, color={0,0,127}));
-          connect(booleanExpression.y, fivZonVAV.On) annotation (Line(points={{-79,-16},
-                  {-40,-16},{-40,-6},{-30.3,-6}},                                                                       color={255,0,255}));
-          connect(ramp2.y, fivZonVAV.yVal) annotation (Line(points={{-51,-60},{-24,-60},{-24,-34},{-52,-34},{-52,12},{-30.3,
-                  12}},                                                                                                             color={0,0,127}));
-          connect(ramp1.y, fivZonVAV.airFloRatSet) annotation (Line(points={{
-                  -79,68},{-64,68},{-64,18.5},{-30.3,18.5}}, color={0,0,127}));
+          connect(Q_flow.y, fivZonVAV.Q_flow) annotation (Line(points={{-79,-58},{-40,-58},
+                  {-40,-21.5},{-30.3,-21.5}}, color={0,0,127}));
+          connect(booleanExpression.y, fivZonVAV.On) annotation (Line(points={{-79,-6},{
+                  -30.3,-6}},                                                                                           color={255,0,255}));
+          connect(yVal.y, fivZonVAV.yVal) annotation (Line(points={{-79,20},{-68,20},{-68,
+                  12},{-30.3,12}}, color={0,0,127}));
+          connect(airFloRat.y, fivZonVAV.airFloRatSet) annotation (Line(points={{-79,80},
+                  {-66,80},{-66,18.5},{-30.3,18.5}}, color={0,0,127}));
+          connect(nPeo.y, fivZonVAV.nPeo) annotation (Line(points={{-79,-90},{-36,-90},{
+                  -36,-28},{-30.3,-28}}, color={0,0,127}));
           annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)),
             experiment(StopTime=259200, __Dymola_Algorithm="Dassl"));
         end FivZonVAVCO2;
