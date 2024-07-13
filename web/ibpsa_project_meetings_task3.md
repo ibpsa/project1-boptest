@@ -20,16 +20,19 @@ permalink: /ibpsa/project/meetings/task3/
 
 [**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2w0amtjY3Rub2NiY2JkcWphaDNxbmFydDggZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
 
+
+
+
+# Past Meetings
+
 ### July 8, 2024
 
 **Location:** Online
 
 **Time:** 6:00-7:00 pacific
 
-[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NGg4Z2VlOWZvNzBybG5scjR0OWMxNTg2bW0gZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
-
-
-# Past Meetings
+- [Minutes](/ibpsa_project/meetings/task3/20240708_Progress/20240708_IBPSA-BOPTEST_Task3_minutes.pdf)
+- [Presentation](/ibpsa_project/meetings/task3/20240708_Progress/BOPTEST_school_emulator_20240709.pdf)
 
 
 ### June 4, 2024
