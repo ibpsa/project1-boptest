@@ -7,7 +7,7 @@ Building Optimization Performance Tests
 Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for more information about the project, software, and documentation.
 
 This repository contains code for the Building Optimization Performance Test framework (BOPTEST)
-that is being developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
+that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io/project1-boptest/ibpsa/index.html) and was previously developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
 
 
 ## Structure
