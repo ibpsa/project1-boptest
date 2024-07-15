@@ -81,14 +81,8 @@ model AirHandlingUnit
     w_a2_nominal = 0.01,
     T_a1_nominal = 273.15 + 9,
     T_a2_nominal = 273.15 + 30,
-<<<<<<< HEAD
-    configuration = Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow
-    //UA_nominal = 2000,energyDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial) // -Q_flow_nominal_coo / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(273.15 + 12,273.15 + 15,273.15 + 30,273.15 + 20))
-)                                         annotation (
-=======
     configuration = Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow)
                                           annotation (
->>>>>>> c0a2e894... Corrected model with the following changes 1. Changed hysteresis and reset trigger in Ahu internal control 2. Avoid preconditioning at full throttle on both sides 3. Changed AHU parameter from entering to leaving
     Placement(visible = true, transformation(origin={-46,-16},    extent = {{-57.7991, 3.79906}, {-38.2009, -15.7991}}, rotation = 0)));
 //            IDEAS.Fluid.HeatExchangers.DryCoilEffectivenessNTU cooCoi(
     //UA_nominal = 2000,energyDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial) // -Q_flow_nominal_coo / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(273.15 + 12,273.15 + 15,273.15 + 30,273.15 + 20))
