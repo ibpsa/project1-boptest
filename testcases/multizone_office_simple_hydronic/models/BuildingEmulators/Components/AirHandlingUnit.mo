@@ -83,9 +83,8 @@ model AirHandlingUnit
     T_a1_nominal = 273.15 + 9,
     T_a2_nominal = 273.15 + 30,
     configuration = Buildings.Fluid.Types.HeatExchangerConfiguration.CounterFlow
-    //UA_nominal = 2000,energyDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial) // -Q_flow_nominal_coo / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(273.15 + 12,273.15 + 15,273.15 + 30,273.15 + 20))  
-            )
-                                          annotation (
+    //UA_nominal = 2000,energyDynamics = Modelica.Fluid.Types.Dynamics.DynamicFreeInitial) // -Q_flow_nominal_coo / (Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(273.15 + 12,273.15 + 15,273.15 + 30,273.15 + 20))
+)                                         annotation (
     Placement(visible = true, transformation(origin={-46,-16},    extent = {{-57.7991, 3.79906}, {-38.2009, -15.7991}}, rotation = 0)));
   IDEAS.Fluid.Movers.FlowControlled_dp fanSup(
     redeclare package Medium = MediumAir,
@@ -207,7 +206,7 @@ model AirHandlingUnit
     Placement(visible = true, transformation(origin={50.0,110.0},    extent = {{-10.0,-10.0},{10.0,10.0}}, rotation = 90.0), iconTransformation(origin={92,-110},    extent = {{-10, -10}, {10, 10}}, rotation=270)));
   IDEAS.Fluid.Sources.OutsideAir outsideAir(
     redeclare package Medium = MediumAir,
-    nPorts=2)    annotation (
+    nPorts=2, azi=0)    annotation (
     Placement(visible = true, transformation(origin={144,4},    extent = {{10, -10}, {-10, 10}}, rotation = 0)));
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare final package Medium = MediumAir) annotation (
     Placement(visible = true, transformation(origin={-198,-16},    extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-202, -18}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -282,7 +281,7 @@ model AirHandlingUnit
             m_flow_nominal = m_flow_nominal_wat_hea,
             portFlowDirection_1 = Modelica.Fluid.Types.PortFlowDirection.Leaving,
             portFlowDirection_2 = Modelica.Fluid.Types.PortFlowDirection.Entering,
-            portFlowDirection_3 = Modelica.Fluid.Types.PortFlowDirection.Leaving,from_dp = false,tau = 60) annotation(Placement(transformation(extent = {{10.0,-10.0},{-10.0,10.0}},origin = {-48.0,-60.0},rotation = 90.0)));            
+            portFlowDirection_3 = Modelica.Fluid.Types.PortFlowDirection.Leaving,from_dp = false,tau = 60) annotation(Placement(transformation(extent = {{10.0,-10.0},{-10.0,10.0}},origin = {-48.0,-60.0},rotation = 90.0)));
     .BuildingEmulators.Components.AhuInternalControl ahuInternalControl annotation(Placement(transformation(extent = {{94.0,-84.0},{74.0,-64.0}},origin = {0.0,0.0},rotation = 0.0)));
     .Modelica.Blocks.Interfaces.RealInput TSupAhuSet annotation(Placement(visible = true,transformation(origin = {160.0,100.0},extent = {{-14.0,-14.0},{14.0,14.0}},rotation = -90.0),iconTransformation(origin = {-14,100},extent = {{-20,-20},{20,20}},rotation = 270)));
     .Modelica.Blocks.Interfaces.RealInput prfAhuSup annotation(Placement(visible = true,transformation(origin = {20.0,100.0},extent = {{-14.0,-14.0},{14.0,14.0}},rotation = -90.0),iconTransformation(origin = {-14,100},extent = {{-20,-20},{20,20}},rotation = 270)));
