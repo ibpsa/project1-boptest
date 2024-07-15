@@ -222,7 +222,7 @@ package Component "System conmponent models"
               transformation(extent={{-120,-50},{-100,-30}})));
         Buildings.Fluid.Sensors.TemperatureTwoPort senTDisAir(redeclare package
             Medium =         MediumAir, m_flow_nominal=mAirFloRat)
-          annotation (Placement(transformation(extent={{72,-10},{92,10}})));
+          annotation (Placement(transformation(extent={{76,-6},{88,6}})));
         Modelica.Blocks.Sources.RealExpression realExpression(y=100000)
           annotation (Placement(transformation(extent={{40,66},{60,86}})));
         Modelica.Blocks.Math.Add add(k2=-1)
@@ -231,7 +231,7 @@ package Component "System conmponent models"
           "Connector of setpoint input signal" annotation (Placement(
               transformation(extent={{-120,70},{-100,90}})));
         Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
-          annotation (Placement(transformation(extent={{-34,-58},{-14,-38}})));
+          annotation (Placement(transformation(extent={{-34,-60},{-14,-40}})));
         Modelica.Blocks.Interfaces.RealInput TOut "outdoor air temperature"
           annotation (Placement(transformation(extent={{-120,-90},{-100,-70}})));
         Modelica.Blocks.Interfaces.RealOutput TSupAir(
@@ -248,24 +248,25 @@ package Component "System conmponent models"
           final displayUnit="degC",
           final quantity="ThermodynamicTemperature") "Mixing air temperature"
           annotation (Placement(transformation(extent={{100,18},{120,38}})));
-        Buildings.Fluid.Sensors.TemperatureTwoPort senTDisAir1(redeclare
-            package Medium = MediumAir, m_flow_nominal=mAirFloRat)
-          annotation (Placement(transformation(extent={{72,-90},{92,-70}})));
+        Buildings.Fluid.Sensors.TemperatureTwoPort senTRetAir(redeclare package
+            Medium = MediumAir, m_flow_nominal=mAirFloRat)
+          annotation (Placement(transformation(extent={{86,-88},{70,-72}})));
         Modelica.Blocks.Interfaces.RealOutput TRetAir "AHU return air temperature"
           annotation (Placement(transformation(extent={{100,-64},{120,-44}})));
         Buildings.Fluid.Sensors.VolumeFlowRate senVolFloSupAir(
           redeclare package Medium = MediumAir,
           m_flow_nominal=mAirFloRat,
-          tau=1) annotation (Placement(transformation(extent={{44,-10},{64,10}})));
+          tau=1) annotation (Placement(transformation(extent={{60,-6},{72,6}})));
         Modelica.Blocks.Interfaces.RealOutput V_flowSupAir(
           final min=0,
           final unit = "m3/s",
           final quantity = "VolumeFlowRate") "Supply air volume flow rate"
           annotation (Placement(transformation(extent={{100,6},{120,26}})));
-        Buildings.Fluid.Sensors.VolumeFlowRate senVolFloSupAir1(
+        Buildings.Fluid.Sensors.VolumeFlowRate senVolFloRetAir(
           redeclare package Medium = MediumAir,
           m_flow_nominal=mAirFloRat,
-          tau=1) annotation (Placement(transformation(extent={{34,-90},{54,-70}})));
+          tau=1)
+          annotation (Placement(transformation(extent={{54,-88},{38,-72}})));
         Modelica.Blocks.Interfaces.RealOutput V_flowRetAir
           "Return air volume flow rate "
           annotation (Placement(transformation(extent={{100,-76},{120,-56}})));
@@ -296,7 +297,7 @@ package Component "System conmponent models"
         Modelica.Blocks.Sources.RealExpression TSupCHWMea(y=cooCoi.coi.TEntWat.T)
           annotation (Placement(transformation(extent={{72,70},{92,90}})));
         Modelica.Blocks.Sources.RealExpression TRetCHWMea(y=cooCoi.coi.TLeaWat.T)
-          annotation (Placement(transformation(extent={{72,-24},{92,-4}})));
+          annotation (Placement(transformation(extent={{70,-32},{90,-12}})));
         Modelica.Blocks.Sources.RealExpression yCooValMea(y=cooCoi.val.y)
           annotation (Placement(transformation(extent={{70,-50},{90,-30}})));
         Modelica.Blocks.Interfaces.RealOutput yCooVal
@@ -306,9 +307,9 @@ package Component "System conmponent models"
           redeclare package Medium = MediumAir,
           m_flow_nominal=mAirFloRat,
           tau=1) annotation (Placement(transformation(
-              extent={{-10,-10},{10,10}},
+              extent={{-8,-8},{8,8}},
               rotation=-90,
-              origin={-80,30})));
+              origin={-80,28})));
         Modelica.Blocks.Interfaces.RealOutput V_flowOutAir(
           final min=0,
           final unit="m3/s",
@@ -320,6 +321,52 @@ package Component "System conmponent models"
             max=1,
             unit="1"))
           annotation (Placement(transformation(extent={{48,-56},{64,-40}})));
+        Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2RetAir(redeclare
+            package Medium = MediumAir, m_flow_nominal=mAirFloRat)
+          "Sensor at AHU return air"
+          annotation (Placement(transformation(extent={{24,-72},{8,-88}})));
+        Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra(each
+            MMMea=Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
+          "Conversion from mass fraction CO2 to volume fraction CO2"
+          annotation (Placement(transformation(extent={{24,-106},{36,-94}})));
+        Modelica.Blocks.Math.Gain gaiPPM(k=1e6) "Convert mass fraction to PPM"
+          annotation (Placement(transformation(extent={{60,-106},{72,-94}})));
+        Modelica.Blocks.Interfaces.RealOutput CO2_AHURetAir
+          "AHU return air CO2 volume fraction PPM" annotation (Placement(
+              transformation(extent={{100,-110},{120,-90}}), iconTransformation(
+                extent={{100,-110},{120,-90}})));
+        Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2FreAir(redeclare
+            package Medium = MediumAir, m_flow_nominal=mAirFloRat)
+          "Sensor at AHU fresh air" annotation (Placement(transformation(
+              extent={{8,8},{-8,-8}},
+              rotation=90,
+              origin={-80,50})));
+        Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra1(each
+            MMMea=Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
+          "Conversion from mass fraction CO2 to volume fraction CO2"
+          annotation (Placement(transformation(extent={{24,-126},{36,-114}})));
+        Modelica.Blocks.Math.Gain gaiPPM1(k=1e6) "Convert mass fraction to PPM"
+          annotation (Placement(transformation(extent={{60,-126},{72,-114}})));
+        Modelica.Blocks.Interfaces.RealOutput CO2_AHUFreAir
+          "AHU fresh air CO2 volume fraction PPM" annotation (Placement(
+              transformation(extent={{100,-130},{120,-110}}),
+              iconTransformation(extent={{100,-120},{120,-100}})));
+        Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra2(each
+            MMMea=Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
+          "Conversion from mass fraction CO2 to volume fraction CO2"
+          annotation (Placement(transformation(extent={{24,-144},{36,-132}})));
+        Modelica.Blocks.Math.Gain gaiPPM2(k=1e6) "Convert mass fraction to PPM"
+          annotation (Placement(transformation(extent={{60,-144},{72,-132}})));
+        Modelica.Blocks.Interfaces.RealOutput CO2_AHUSupAir
+          "AHU supply air CO2 volume fraction PPM" annotation (Placement(
+              transformation(extent={{100,-148},{120,-128}}),
+              iconTransformation(extent={{100,-132},{120,-112}})));
+        Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2SupAir(redeclare
+            package Medium = MediumAir, m_flow_nominal=mAirFloRat)
+          "Sensor at AHU supply air" annotation (Placement(transformation(
+              extent={{6,6},{-6,-6}},
+              rotation=180,
+              origin={50,0})));
       equation
         connect(cooCoi.port_b_Air, supFan.port_a) annotation (Line(
             points={{-1.82,0},{18,0}},
@@ -342,13 +389,13 @@ package Component "System conmponent models"
             color={0,140,72},
             thickness=0.5));
         connect(port_b_Air, senTDisAir.port_b) annotation (Line(
-            points={{100,0},{92,0}},
+            points={{100,0},{88,0}},
             color={0,127,255},
             thickness=1));
         connect(pMea, add.u1) annotation (Line(points={{-110,94},{-20,94},{-20,
-                68},{68,68},{68,56},{52,56}}, color={0,0,127}));
+                68},{60,68},{60,56},{52,56}}, color={0,0,127}));
         connect(realExpression.y, add.u2) annotation (Line(
-            points={{61,76},{80,76},{80,44},{52,44}},
+            points={{61,76},{68,76},{68,44},{52,44}},
             color={0,0,127}));
         connect(add.y, supFan.pMea) annotation (Line(points={{29,50},{10,50},
                 {10,-10},{16,-10}}, color={0,0,127}));
@@ -356,16 +403,17 @@ package Component "System conmponent models"
                 10},{12,80},{-110,80}}, color={0,0,127}));
         connect(supFan.cooTSet, cooTSet) annotation (Line(points={{16,-2},{-46,
                 -2},{-46,40},{-110,40}}, color={0,0,127}));
-        connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,
-                -48},{8,-48},{8,12},{-0.2,12}}, color={255,0,255}));
+        connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,-50},
+                {8,-50},{8,12},{-0.2,12}},      color={255,0,255}));
         connect(mixBox.TOut, TOut) annotation (Line(points={{-54,-12},{-54,-80},
                 {-110,-80}}, color={0,0,127}));
         connect(On, mixBox.On) annotation (Line(points={{-110,-100},{-68,-100},
                 {-68,-12}}, color={255,0,255}));
         connect(On, supFan.On) annotation (Line(points={{-110,-100},{4,-100},{4,6},{16,
                 6}},     color={255,0,255}));
-        connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,11},{82,
-                40},{110,40}}, color={0,0,127}));
+        connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,6.6},{82,40},
+                {110,40}},     color={0,0,127},
+            pattern=LinePattern.Dash));
         connect(senTMixAir.port_b, cooCoi.port_a_Air) annotation (Line(
             points={{-24,0},{-20,0}},
             color={0,140,72},
@@ -375,28 +423,27 @@ package Component "System conmponent models"
             color={0,140,72},
             thickness=0.5));
         connect(senTMixAir.T, TMixAir) annotation (Line(points={{-34,11},{-34,
-                28},{110,28}}, color={0,0,127}));
-        connect(senTDisAir1.T, TRetAir) annotation (Line(points={{82,-69},{82,
-                -54},{110,-54}}, color={0,0,127}));
+                28},{110,28}}, color={0,0,127},
+            pattern=LinePattern.Dash));
+        connect(senTRetAir.T, TRetAir) annotation (Line(points={{78,-71.2},{78,
+                -54},{110,-54}},
+                            color={0,0,127},
+            pattern=LinePattern.Dash));
         connect(senVolFloSupAir.port_b, senTDisAir.port_a)
-          annotation (Line(points={{64,0},{72,0}}, color={0,127,255}));
-        connect(senVolFloSupAir.port_a, supFan.port_b)
-          annotation (Line(points={{44,0},{38,0}}, color={0,127,255}));
-        connect(senVolFloSupAir.V_flow, V_flowSupAir) annotation (Line(points={{54,11},
-                {56,11},{56,16},{110,16}}, color={0,0,127}));
-        connect(senVolFloSupAir1.port_b, senTDisAir1.port_a)
-          annotation (Line(points={{54,-80},{72,-80}}, color={0,127,255}));
-        connect(senTDisAir1.port_b, port_a_Air)
-          annotation (Line(points={{92,-80},{100,-80}}, color={0,127,255}));
-        connect(senVolFloSupAir1.port_a, retFan.port_a)
-          annotation (Line(points={{34,-80},{-10,-80}}, color={0,127,255}));
-        connect(senVolFloSupAir1.V_flow, V_flowRetAir)
-          annotation (Line(points={{44,-69},{44,-66},{110,-66}}, color={0,0,127}));
+          annotation (Line(points={{72,0},{76,0}}, color={0,127,255}));
+        connect(senVolFloSupAir.V_flow, V_flowSupAir) annotation (Line(points={{66,6.6},
+                {66,16},{110,16}},         color={0,0,127},
+            pattern=LinePattern.Dash));
+        connect(senVolFloRetAir.V_flow, V_flowRetAir) annotation (Line(points={{46,
+                -71.2},{46,-66},{110,-66}},   color={0,0,127},
+            pattern=LinePattern.Dash));
         connect(yDamOutAirMea.y, yDamOutAir)
-          annotation (Line(points={{61,94},{110,94}}, color={0,0,127}));
-        connect(PFanTot.y, PFan) annotation (Line(points={{-13,-32},{44,-32},
-                {44,-28},{110,-28}},
-                            color={0,0,127}));
+          annotation (Line(points={{61,94},{110,94}}, color={0,0,127},
+            pattern=LinePattern.Dash));
+        connect(PFanTot.y, PFan) annotation (Line(points={{-13,-32},{-8,-32},{
+                -8,-28},{110,-28}},
+                            color={0,0,127},
+            pattern=LinePattern.Dash));
         connect(cooCoi.port_a_Wat, port_a_Wat) annotation (Line(
             points={{-2,16},{20,16},{20,100}},
             color={0,127,255},
@@ -406,24 +453,69 @@ package Component "System conmponent models"
             color={0,127,255},
             thickness=1));
         connect(TSupCHWMea.y, TSupCHW)
-          annotation (Line(points={{93,80},{110,80}}, color={0,0,127}));
+          annotation (Line(points={{93,80},{110,80}}, color={0,0,127},
+            pattern=LinePattern.Dash));
         connect(TRetCHWMea.y, TRetCHW)
-          annotation (Line(points={{93,-14},{110,-14}}, color={0,0,127}));
+          annotation (Line(points={{91,-22},{96,-22},{96,-14},{110,-14}},
+                                                        color={0,0,127},
+            pattern=LinePattern.Dash));
         connect(yCooValMea.y, yCooVal)
-          annotation (Line(points={{91,-40},{110,-40}}, color={0,0,127}));
+          annotation (Line(points={{91,-40},{110,-40}}, color={0,0,127},
+            pattern=LinePattern.Dash));
         connect(senVolFloOutAir.port_b, mixBox.port_Fre) annotation (Line(
               points={{-80,20},{-80,6},{-70,6}}, color={0,127,255}));
-        connect(senVolFloOutAir.port_a, port_Fre_Air) annotation (Line(points=
-               {{-80,40},{-80,60},{-100,60}}, color={0,127,255}));
-        connect(senVolFloOutAir.V_flow, V_flowOutAir) annotation (Line(points=
-               {{-69,30},{80,30},{80,60},{110,60}}, color={0,0,127}));
+        connect(senVolFloOutAir.V_flow, V_flowOutAir) annotation (Line(points={{-71.2,
+                28},{80,28},{80,60},{110,60}},      color={0,0,127},
+            pattern=LinePattern.Dash));
         connect(supFan.yRet, oveSpeRetFan.u) annotation (Line(points={{39,
                 -8.2},{42,-8.2},{42,-48},{46.4,-48}}, color={0,0,127}));
-        connect(oveSpeRetFan.y, retFan.u) annotation (Line(points={{64.8,-48},
-                {72,-48},{72,-74},{-9,-74}}, color={0,0,127}));
-        annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+        connect(oveSpeRetFan.y, retFan.u) annotation (Line(points={{64.8,-48},{
+                70,-48},{70,-74},{-9,-74}},  color={0,0,127}));
+        connect(senCO2RetAir.C, conMasVolFra.m) annotation (Line(
+            points={{16,-88.8},{16,-100},{23.4,-100}},
+            color={0,0,127},
+            smooth=Smooth.None,
+            pattern=LinePattern.Dash));
+        connect(conMasVolFra.V,gaiPPM. u)
+          annotation (Line(points={{36.6,-100},{58.8,-100}}, color={0,0,127}));
+        connect(gaiPPM.y, CO2_AHURetAir)
+          annotation (Line(points={{72.6,-100},{110,-100}}, color={0,0,127}));
+        connect(port_a_Air, senTRetAir.port_a)
+          annotation (Line(points={{100,-80},{86,-80}}, color={0,127,255}));
+        connect(senTRetAir.port_b, senVolFloRetAir.port_a)
+          annotation (Line(points={{70,-80},{54,-80}}, color={0,127,255}));
+        connect(senVolFloRetAir.port_b, senCO2RetAir.port_a)
+          annotation (Line(points={{38,-80},{24,-80}}, color={0,127,255}));
+        connect(senCO2RetAir.port_b, retFan.port_a)
+          annotation (Line(points={{8,-80},{-10,-80}}, color={0,127,255}));
+        connect(port_Fre_Air, senCO2FreAir.port_a) annotation (Line(points={{
+                -100,60},{-80,60},{-80,58}}, color={0,127,255}));
+        connect(senCO2FreAir.port_b, senVolFloOutAir.port_a)
+          annotation (Line(points={{-80,42},{-80,36}}, color={0,127,255}));
+        connect(conMasVolFra1.V, gaiPPM1.u)
+          annotation (Line(points={{36.6,-120},{58.8,-120}}, color={0,0,127}));
+        connect(gaiPPM1.y, CO2_AHUFreAir)
+          annotation (Line(points={{72.6,-120},{110,-120}}, color={0,0,127}));
+        connect(conMasVolFra2.V, gaiPPM2.u)
+          annotation (Line(points={{36.6,-138},{58.8,-138}}, color={0,0,127}));
+        connect(gaiPPM2.y, CO2_AHUSupAir)
+          annotation (Line(points={{72.6,-138},{110,-138}}, color={0,0,127}));
+        connect(senCO2FreAir.C, conMasVolFra1.m) annotation (Line(
+            points={{-71.2,50},{-46,50},{-46,-120},{23.4,-120}},
+            color={0,0,127},
+            pattern=LinePattern.Dash));
+        connect(supFan.port_b, senCO2SupAir.port_a)
+          annotation (Line(points={{38,0},{44,0}}, color={0,127,255}));
+        connect(senCO2SupAir.port_b, senVolFloSupAir.port_a)
+          annotation (Line(points={{56,0},{60,0}}, color={0,127,255}));
+        connect(senCO2SupAir.C, conMasVolFra2.m) annotation (Line(
+            points={{50,6.6},{50,24},{-46,24},{-46,-138},{23.4,-138}},
+            color={0,0,127},
+            pattern=LinePattern.Dash));
+        annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{
+                  -100,-120},{100,100}}),                             graphics={
               Rectangle(
-                extent={{-100,100},{100,-100}},
+                extent={{-100,100},{100,-120}},
                 lineColor={0,0,0},
                 fillColor={255,255,255},
                 fillPattern=FillPattern.Solid),
@@ -459,7 +551,8 @@ package Component "System conmponent models"
                 extent={{-156,-148},{144,-108}},
                 textString="%name",
                 textColor={0,0,255})}),                                Diagram(
-              coordinateSystem(preserveAspectRatio=false), graphics={
+              coordinateSystem(preserveAspectRatio=false, extent={{-100,-120},{
+                  100,100}}),                              graphics={
               Text(
                 extent={{-146,300},{154,340}},
                 textString="%name",

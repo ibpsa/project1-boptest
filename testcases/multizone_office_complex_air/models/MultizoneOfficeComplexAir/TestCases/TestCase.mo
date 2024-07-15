@@ -31,30 +31,33 @@ model TestCase "Complex office building model that includes air side systems, wa
                 use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))))
     "Full HVAC system that contains the airside and waterside systems and controls"
-    annotation (Placement(transformation(extent={{10,-10},{-10,10}})));
+    annotation (Placement(transformation(extent={{20,20},{-20,60}})));
 
   MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper loaEnePlu(building(
         spawnExe="spawn-0.3.0-0fa49be497"))
     "Load calculation in EnergyPlus using Spawn, note this version spawn-0.3.0-8d93151657 is specified for BOPTEST environment; Use spawn-0.3.0-0fa49be497 for Buildings library version"
-    annotation (Placement(transformation(extent={{-10,-50},{10,-30}})));
+    annotation (Placement(transformation(extent={{-20,-60},{20,-20}})));
 
 equation
-  connect(loaEnePlu.occ, hva.occ) annotation (Line(points={{11,-48.4},{26,-48.4},
-          {26,8},{11.4,8}},   color={0,0,127}));
-  connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{11,-42},{24,-42},{24,
-          5},{11.4,5}},    color={0,0,127}));
-  connect(loaEnePlu.dryBul, hva.TDryBul) annotation (Line(points={{11,-34},{20,
-          -34},{20,-2},{11.4,-2}}, color={0,0,127}));
-  connect(loaEnePlu.wetBul, hva.TWetBul) annotation (Line(points={{11,-31},{18,
-          -31},{18,-6.85},{11.35,-6.85}}, color={0,0,127}));
-  connect(hva.TZon, loaEnePlu.T) annotation (Line(points={{-11,0},{-20,0},{-20,
-          -40},{-12,-40}}, color={0,0,127}));
-  connect(loaEnePlu.numOcc, hva.numOcc) annotation (Line(points={{11,-38},{22,-38},
-          {22,2},{11.4,2}},          color={0,0,127}));
+  connect(loaEnePlu.occ, hva.occ) annotation (Line(points={{22,-56.8},{22,-56},
+          {46,-56},{46,56},{22.8,56}},
+                              color={0,0,127}));
+  connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{22,-44},{42,-44},{
+          42,50},{22.8,50}},
+                           color={0,0,127}));
+  connect(loaEnePlu.dryBul, hva.TDryBul) annotation (Line(points={{22,-28},{34,
+          -28},{34,36},{22.8,36}}, color={0,0,127}));
+  connect(loaEnePlu.wetBul, hva.TWetBul) annotation (Line(points={{22,-22},{30,
+          -22},{30,26.3},{22.7,26.3}},    color={0,0,127}));
+  connect(hva.TZon, loaEnePlu.T) annotation (Line(points={{-22,40},{-34,40},{
+          -34,-40},{-24,-40}},
+                           color={0,0,127}));
+  connect(loaEnePlu.numOcc, hva.numOcc) annotation (Line(points={{22,-36},{38,
+          -36},{38,44},{22.8,44}},   color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
-      StopTime=172800,
+      StopTime=604800,
       __Dymola_NumberOfIntervals=1440,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
