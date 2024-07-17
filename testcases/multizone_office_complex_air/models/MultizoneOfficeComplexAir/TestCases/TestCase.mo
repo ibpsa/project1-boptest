@@ -45,15 +45,15 @@ equation
   connect(loaEnePlu.loa, hva.loa) annotation (Line(points={{22,-44},{42,-44},{
           42,50},{22.8,50}},
                            color={0,0,127}));
-  connect(loaEnePlu.dryBul, hva.TDryBul) annotation (Line(points={{22,-28},{34,
-          -28},{34,36},{22.8,36}}, color={0,0,127}));
-  connect(loaEnePlu.wetBul, hva.TWetBul) annotation (Line(points={{22,-22},{30,
-          -22},{30,26.3},{22.7,26.3}},    color={0,0,127}));
   connect(hva.TZon, loaEnePlu.T) annotation (Line(points={{-22,40},{-34,40},{
           -34,-40},{-24,-40}},
                            color={0,0,127}));
   connect(loaEnePlu.numOcc, hva.numOcc) annotation (Line(points={{22,-36},{38,
           -36},{38,44},{22.8,44}},   color={0,0,127}));
+  connect(loaEnePlu.weaBus, hva.weaBus) annotation (Line(
+      points={{0,-20},{0,20}},
+      color={255,204,51},
+      thickness=0.5));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)),
     experiment(

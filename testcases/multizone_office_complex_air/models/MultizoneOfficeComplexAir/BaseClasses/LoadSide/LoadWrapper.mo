@@ -40,6 +40,9 @@ model LoadWrapper "Load calculation in EnergyPlus using Spawn"
     usePrecompiledFMU=false) "Building model"
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 
+  Modelica.Icons.SignalBus weaBus
+    annotation (Placement(transformation(extent={{-8,92},{8,108}}),
+        iconTransformation(extent={{-8,92},{8,108}})));
 equation
   connect(whoBui.Outdoor_Humidity, relHum) annotation (Line(points={{-38,0},{40,
           0},{40,-50},{110,-50}}, color={0,0,127}));
@@ -144,6 +147,14 @@ equation
       points={{-60,50},{-50,50},{-50,10}},
       color={255,204,51},
       thickness=0.5));
+  connect(whoBui.weaBus, weaBus) annotation (Line(
+      points={{-50,10},{-50,100},{0,100}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%second",
+      index=1,
+      extent={{-3,6},{-3,6}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
           Rectangle(
           extent={{-100,100},{100,-100}},

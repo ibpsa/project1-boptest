@@ -145,9 +145,6 @@ model Airside "Air side system"
   Modelica.Blocks.Interfaces.RealOutput TZon[15] "Zone air temperature"
    annotation (Placement(transformation(extent={{200,-10},{220,10}}),
                               iconTransformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.RealInput TDryBul "Zone air dry bulb temperature"
-   annotation (Placement(transformation(extent={{-128,-14},{-100,14}}),
-                              iconTransformation(extent={{-128,-34},{-100,-6}})));
   Modelica.Blocks.Interfaces.RealInput numOcc[15] "Number of occupant"
    annotation (Placement(transformation(extent={{-128,6},{-100,34}}),
                               iconTransformation(extent={{-128,6},{-100,34}})));
@@ -416,9 +413,6 @@ model Airside "Air side system"
     annotation (Placement(transformation(extent={{-94,54},{-82,66}})));
 equation
 
-   connect(sou[1].T_in, TDryBul)
-   annotation (Line(points={{38,44},{-38,44},{-38,1.77636e-15},{-114,
-          1.77636e-15}},  color={0,0,127}));
    connect(floor1.port_Exh_Air, sou[1].ports[1]) annotation (Line(
       points={{113.375,30.5},{90,30.5},{90,38.6667},{60,38.6667}},
       color={0,140,72},
@@ -432,7 +426,7 @@ equation
   connect(TSupAirSet[1].y, floor1.disTSet) annotation (Line(points={{-49,56},{
           102,56},{102,48},{112.438,48}}, color={0,0,127}));
   connect(reaToBooOcc.y, floor1.OnFan) annotation (Line(points={{-39,100},{-36,
-          100},{-36,86},{106,86},{106,28.75},{112.438,28.75}},
+          100},{-36,86},{106,86},{106,27},{112.438,27}},
                                                       color={255,0,255}));
   connect(floor1.OnZon, onZon[1].y) annotation (Line(points={{112.438,21.75},{
           108,21.75},{108,22},{104,22},{104,70},{61,70}},
@@ -453,7 +447,6 @@ equation
     connect(loa[(2 - 1)*5 + i], loaMulMidFlo[i].u)
       annotation (Line(points={{-114,60},{-95.2,60}}, color={0,0,127}));
    end for;
-   connect(sou[2].T_in, TDryBul);
    connect(floor2.port_Exh_Air, sou[2].ports[1]);
    connect(floor2.port_Fre_Air, sou[2].ports[2]);
   connect(dpStaSet[2].y, floor2.pSet);
@@ -469,7 +462,6 @@ equation
     connect(TZonAirSet[(2 - 1)*5 + j].SetPoi[2], floor2.zonHeaTSet[j]);
    end for;
 
-   connect(sou[3].T_in, TDryBul);
    connect(floor3.port_Exh_Air, sou[3].ports[1]);
    connect(floor3.port_Fre_Air, sou[3].ports[2]);
   connect(dpStaSet[3].y, floor3.pSet);
@@ -484,11 +476,6 @@ equation
    end for;
   connect(booRep.y, TZonAirSet.Occ)
     annotation (Line(points={{-9,100},{-4,100}}, color={255,0,255}));
-  connect(floor1.TOut, TDryBul) annotation (Line(points={{136.812,18.25},{
-          136.812,0},{-84,0},{-84,0},{-114,0}},
-                                color={0,0,127}));
-  connect(floor2.TOut, TDryBul);
-  connect(floor3.TOut, TDryBul);
   connect(firOrd.y, reaToBooOcc.u)
     annotation (Line(points={{-69,100},{-62,100}}, color={0,0,127}));
   connect(firOrd.u,occ)
