@@ -45,17 +45,9 @@ package Examples
           "modelica://Buildings/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"),
         computeWetBulbTemperature=true)  "Weather data reader"
       annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
-    Buildings.BoundaryConditions.WeatherData.Bus
-                                       weaBus
-      "Weather data bus"
-      annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
     Modelica.Blocks.Sources.Constant numOcc[15](k=10)
       annotation (Placement(transformation(extent={{-80,-20},{-60,0}})));
   equation
-    connect(weaDat.weaBus, weaBus) annotation (Line(
-        points={{-80,-50},{-70,-50}},
-        color={255,204,51},
-        thickness=0.5));
     connect(loa.y, hva.loa) annotation (Line(points={{-59,30},{-20,30},{-20,10},
             {-2.8,10}}, color={0,0,127}));
     connect(occ.y, hva.occ) annotation (Line(points={{-59,70},{-14,70},{-14,16},

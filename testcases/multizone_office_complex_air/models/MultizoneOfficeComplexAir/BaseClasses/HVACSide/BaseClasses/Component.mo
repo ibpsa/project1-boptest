@@ -2185,6 +2185,7 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         parameter Modelica.Media.Interfaces.Types.ExtraProperty C_nominal[MediumAir.nC]=C_nominal
           "Nominal value of trace substances. (Set to typical order of magnitude.)";
 
+        parameter Modelica.Units.SI.MassFlowRate m_flow_lea[4]=m_flow_lea "Air infiltration mass flow rates to four exterior zones";
         MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.FiveZoneDuctNetwork
           ReheatWatNet(
           redeclare package Medium = MediumWat,
@@ -2404,8 +2405,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           "Zonal CO2 volume fraction PPM" annotation (Placement(transformation(
                 extent={{200,-104},{220,-84}}), iconTransformation(extent={{100,
                   80},{120,100}})));
-        Buildings.Fluid.Sources.MassFlowSource_WeatherData leaAir[4](
-          m_flow={0.206*1.2, 0.137*1.2, 0.206*1.2, 0.137*1.2},
+        Buildings.Fluid.Sources.MassFlowSource_WeatherData infAir[4](
+          m_flow=m_flow_lea,
           each nPorts=1,
           redeclare package Medium = MediumAir,
           C={fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
@@ -2422,6 +2423,7 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         Modelica.Icons.SignalBus weaBus
           annotation (Placement(transformation(extent={{-8,-128},{8,-112}}),
               iconTransformation(extent={{-8,-128},{8,-112}})));
+
       equation
 
         connect(fixedHeatFlow.port, vol.heatPort) annotation (Line(points={{-20,-74},{
@@ -2616,28 +2618,32 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         connect(gaiPPM.y, CO2Zon) annotation (Line(points={{138.6,-90},{166,-90},
                 {166,-94},{210,-94}}, color={0,0,127}));
         for i in 1:4 loop
-          connect(leaAir[i].ports[1], vol[i+1].ports[4]) annotation (Line(points={{58,-110},
+          connect(infAir[i].ports[1], vol[i+1].ports[4]) annotation (Line(points={{58,-110},
                   {81.5,-110},{81.5,-70}},                                                                                            color={0,140,72},
-
               pattern=LinePattern.Dash,
               thickness=0.5));
+
         end for;
-        connect(weaBus, leaAir[1].weaBus) annotation (Line(
+        connect(weaBus,infAir [1].weaBus) annotation (Line(
             points={{0,-120},{0,-109.8},{38,-109.8}},
             color={255,204,51},
             thickness=0.5));
-        connect(weaBus, leaAir[2].weaBus) annotation (Line(
+        connect(weaBus,infAir [2].weaBus) annotation (Line(
             points={{0,-120},{0,-109.8},{38,-109.8}},
             color={255,204,51},
             thickness=0.5));
-        connect(weaBus, leaAir[3].weaBus) annotation (Line(
+        connect(weaBus,infAir [3].weaBus) annotation (Line(
             points={{0,-120},{0,-109.8},{38,-109.8}},
             color={255,204,51},
             thickness=0.5));
-        connect(weaBus, leaAir[4].weaBus) annotation (Line(
+        connect(weaBus,infAir [4].weaBus) annotation (Line(
             points={{0,-120},{0,-109.8},{38,-109.8}},
             color={255,204,51},
-            thickness=0.5));
+            thickness=0.5), Text(
+            string="%first",
+            index=-1,
+            extent={{-6,3},{-6,3}},
+            horizontalAlignment=TextAlignment.Right));
           annotation (Placement(transformation(extent={{84,-82},{100,-98}})),
                       Placement(transformation(extent={{122,-98},{138,-82}})),
                       Line(points={{100.8,-90},{121.2,-90}}, color={0,0,127}),
@@ -3172,6 +3178,7 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
                quantity=MediumAir.extraPropertiesNames) = fill(1E-2, MediumAir.nC)
             "Nominal value of zone air trace substances. (Set to typical order of magnitude.)"
            annotation (Dialog(tab="Initialization", enable=Medium.nC > 0));
+          parameter Modelica.Units.SI.MassFlowRate m_flow_lea[4]={0.206*1.2,0.137*1.2,0.206*1.2,0.137*1.2} "Air infiltration mass flow rates to four exterior zones";
 
           Buildings.Fluid.Sources.Boundary_pT souAir(
             p(displayUnit="Pa") = 100000 + PreAirDroMai1 + PreAirDroMai2 + PreAirDroMai3 + PreAirDroMai4 + PreAirDroBra5 + PreDroAir5,
@@ -3196,6 +3203,7 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
             X_start=X_start,
             C_start=C_start,
             C_nominal=C_nominal,
+            m_flow_lea=m_flow_lea,
             PreAirDroMai1=PreAirDroMai1,
             PreAirDroMai2=PreAirDroMai2,
             PreAirDroMai3=PreAirDroMai3,
