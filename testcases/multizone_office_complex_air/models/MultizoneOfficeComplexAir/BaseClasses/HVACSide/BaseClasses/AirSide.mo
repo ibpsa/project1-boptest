@@ -151,6 +151,10 @@ model Airside "Air side system"
   Modelica.Blocks.Interfaces.RealInput numOcc[15] "Number of occupant"
    annotation (Placement(transformation(extent={{-128,6},{-100,34}}),
                               iconTransformation(extent={{-128,6},{-100,34}})));
+  Modelica.Blocks.Math.Gain numOCCMulMidFlo[5](k=10)
+    "Occupant multiplier for ten floors modelled as one middle floor"
+    annotation (Placement(transformation(extent={{-94,14},{-82,26}})));
+
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor
     floor1(
     duaFanAirHanUni(
@@ -497,15 +501,16 @@ equation
   connect(reaToBooOcc.y, booRep.u)
     annotation (Line(points={{-39,100},{-32,100}}, color={255,0,255}));
 
-  connect(numOcc[1:5], floor1.nPeo) annotation (Line(points={{-114,17.2},{-96,
-          17.2},{-96,22},{92,22},{92,35.75},{112.438,35.75}},
-                                                        color={0,0,127}));
-  connect(numOcc[6:10], floor2.nPeo) annotation (Line(points={{-114,21.8667},{
-          92,21.8667},{92,35.75},{112.438,35.75}},
-                                                color={0,0,127}));
+  connect(numOcc[1:5], floor1.nPeo) annotation (Line(points={{-114,17.2},{-114,
+          10},{92,10},{92,35.75},{112.438,35.75}},      color={0,0,127}));
+  connect(numOcc[6:10], numOCCMulMidFlo.u) annotation (Line(points={{-114,
+          21.8667},{-114,20},{-95.2,20}},
+                                 color={0,0,127}));
+  connect(numOCCMulMidFlo.y, floor2.nPeo) annotation (Line(points={{-81.4,20},{
+          92,20},{92,35.75},{112.438,35.75}},
+                                           color={0,0,127}));
   connect(numOcc[11:15], floor3.nPeo) annotation (Line(points={{-114,26.5333},{
-          -96,26.5333},{-96,22},{92,22},{92,35.75},{112.438,35.75}},
-                                                                 color={0,0,127}));
+          -114,10},{92,10},{92,35.75},{112.438,35.75}},          color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}),                                        graphics={
           Rectangle(
