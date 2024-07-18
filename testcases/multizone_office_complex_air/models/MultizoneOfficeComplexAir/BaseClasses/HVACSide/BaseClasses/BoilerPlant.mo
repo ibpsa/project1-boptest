@@ -26,10 +26,6 @@ model BoilerPlant "Boiler hot water plant"
   parameter Real pressure[m,:] = {{2*dP_nominal,1.5*dP_nominal,1.1*dP_nominal,dP_nominal,0.75*dP_nominal} for i in linspace(1,m,m)};
   parameter Real Motor_eta_Sec[m,:] = {{0.6,0.76,0.87,0.86,0.74} for i in linspace(1,m,m)} "Motor efficiency";
   parameter Real Hydra_eta_Sec[m,:] = {{1,1,1,1,1} for i in linspace(1,m,m)} "Hydraulic efficiency";
-//   parameter Real v_flow_rate[m,:] = {{0, sum(mHW_flow_nominal)/m/996} for i in linspace(1,m,m)};
-//   parameter Real pressure[m,:] = {{2*dP_nominal,0} for i in linspace(1,m,m)};
-//   parameter Real Motor_eta_Sec[m,:] = {{0.7,0.7} for i in linspace(1,m,m)}  "Motor efficiency";
-//   parameter Real Hydra_eta_Sec[m,:] = {{1,1} for i in linspace(1,m,m)} "Hydraulic efficiency";
 
   Component.FlowMover.Pump.PumpSystem pumSecHW(
     redeclare package Medium = MediumHW,
