@@ -147,7 +147,7 @@ model Airside "Air side system"
   Modelica.Blocks.Sources.Constant dpStaSet[n](k=400)
     "AHU static ressure setpoint"
     annotation (Placement(transformation(extent={{-60,30},{-40,50}})));
-  Modelica.Blocks.Sources.BooleanExpression onZon[n](each y=true)
+  Modelica.Blocks.Sources.BooleanExpression onZon[n](each y=reaToBooOcc.y)
     "Zone VAV terminal on signal"
     annotation (Placement(transformation(extent={{40,66},{60,86}})));
 
