@@ -176,7 +176,7 @@ model Airside "Air side system"
       Fan_k=0.001,
       Fan_Ti=600,
       booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 283.15 then floor1.duaFanAirHanUni.On else true)),
-    fivZonVAV(vol(V={4344.14, 860.02, 554.22, 860.02, 554.22})),
+    fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
@@ -249,7 +249,7 @@ model Airside "Air side system"
       Fan_Ti=600,
       booleanExpression(y=if floor2.duaFanAirHanUni.TOut < 283.15 then floor2.duaFanAirHanUni.On
              else true)),
-    fivZonVAV(vol(V={10*4344.14, 10*860.02, 10*554.22, 10*860.02, 10*554.22})),
+    fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
@@ -322,7 +322,7 @@ model Airside "Air side system"
       Fan_Ti=600,
       booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 283.15 then floor3.duaFanAirHanUni.On
              else true)),
-    fivZonVAV(vol(V={4344.14, 860.02, 554.22, 860.02, 554.22})),
+    fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
