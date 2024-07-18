@@ -2252,21 +2252,17 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Placement(transformation(extent={{-40,-84},{-20,-64}})));
         Modelica.Blocks.Interfaces.RealInput Q_flow[5]
           annotation (Placement(transformation(extent={{-120,-84},{-100,-64}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{30,90},{50,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
               MediumWat) "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
-        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
-            Medium =
+        Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
               MediumAir)
           "Second port, typically outlet"
           annotation (Placement(transformation(extent={{-110,-70},{-90,-50}})));
@@ -2278,8 +2274,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
         Modelica.Blocks.Interfaces.BooleanInput On[5]
           annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-        Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package
-            Medium = MediumAir)
+        Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium =
+                     MediumAir)
           annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
         Modelica.Blocks.Interfaces.RealOutput p "Pressure at port" annotation (
             Placement(transformation(extent={{200,-22},{220,-2}}),
@@ -2390,23 +2386,21 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           "CO2 emission per person"
           annotation (Placement(transformation(extent={{-40,-96},{-28,-84}})));
 
-        Buildings.Fluid.Sensors.TraceSubstances senCO2[5](redeclare package
-            Medium =                                                                 MediumAir,
+        Buildings.Fluid.Sensors.TraceSubstances senCO2[5](redeclare package Medium = MediumAir,
           each warnAboutOnePortConnection=false) "Sensor at volume"
-          annotation (Placement(transformation(extent={{82,-98},{98,-82}})));
+          annotation (Placement(transformation(extent={{86,-102},{102,-86}})));
         Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra[5](each
             MMMea=Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM)
           "Conversion from mass fraction CO2 to volume fraction CO2"
-          annotation (Placement(transformation(extent={{104,-96},{116,-84}})));
-        Modelica.Blocks.Math.Gain gaiPPM[5](k=1e6)
-          "Convert mass fraction to PPM"
-          annotation (Placement(transformation(extent={{126,-96},{138,-84}})));
+          annotation (Placement(transformation(extent={{108,-100},{120,-88}})));
+        Modelica.Blocks.Math.Gain gaiPPM[5](each k=1e6) "Convert mass fraction to PPM"
+          annotation (Placement(transformation(extent={{130,-100},{142,-88}})));
         Modelica.Blocks.Interfaces.RealOutput CO2Zon[5]
           "Zonal CO2 volume fraction PPM" annotation (Placement(transformation(
                 extent={{200,-104},{220,-84}}), iconTransformation(extent={{100,
                   80},{120,100}})));
         Buildings.Fluid.Sources.MassFlowSource_WeatherData infAir[4](
-          m_flow=m_flow_lea,
+          use_m_flow_in=true,
           each nPorts=1,
           redeclare package Medium = MediumAir,
           C={fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
@@ -2424,6 +2418,18 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           annotation (Placement(transformation(extent={{-8,-128},{8,-112}}),
               iconTransformation(extent={{-8,-128},{8,-112}})));
 
+        Modelica.Blocks.Sources.RealExpression m_flow_infAir[4](y=m_flow_lea)
+          "Infiltration nominal air flow rate"
+          annotation (Placement(transformation(extent={{-86,-114},{-66,-94}})));
+        Modelica.Blocks.Sources.RealExpression schFac_infAir[4](y={if On[1] == true
+               then 0.25 else 1.0 for i in 1:4})
+          "Schedule factor for infiltration air (refer to E+)"
+          annotation (Placement(transformation(extent={{-86,-134},{-66,-114}})));
+        Modelica.Blocks.Math.Gain winSpe_infAir[4](each k=0.224)
+          "Wind speed factor for infiltration air (refer to E+)"
+          annotation (Placement(transformation(extent={{-80,-148},{-66,-134}})));
+        Modelica.Blocks.Math.MultiProduct multiProduct[4](nu=3)
+          annotation (Placement(transformation(extent={{-38,-120},{-26,-108}})));
       equation
 
         connect(fixedHeatFlow.port, vol.heatPort) annotation (Line(points={{-20,-74},{
@@ -2432,7 +2438,6 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         connect(fixedHeatFlow.Q_flow, Q_flow)
           annotation (Line(points={{-40,-74},{-110,-74}}, color={0,0,127},
             pattern=LinePattern.Dash));
-
         connect(vAV1.port_b, vol[1].ports[1])
                                              annotation (Line(points={{10,8},{14,8},{14,
                 -78},{76,-78},{76,-74},{78.5,-74},{78.5,-70}},
@@ -2477,11 +2482,9 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
         connect(AirNetWor.port_a, port_a_Air)
           annotation (Line(points={{-74,-28.2},{-88,-28.2},{-88,40},{-100,40}}, color={0,140,72},
             thickness=0.5));
-
         connect(AirNetWor.port_b, port_b_Air)
           annotation (Line(points={{-74,-45.2},{-80,-45.2},{-80,-60},{-100,-60}}, color={0,140,72},
             thickness=0.5));
-
         connect(AirNetWor.p, p) annotation (Line(
             points={{-42.5,-35},{-8,-35},{-8,-12},{210,-12}},
             color={0,0,127},
@@ -2610,19 +2613,18 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
           connect(senCO2[i].port, vol[i].ports[3]);
         end for;
         connect(senCO2.C, conMasVolFra.m) annotation (Line(
-            points={{98.8,-90},{103.4,-90}},
+            points={{102.8,-94},{107.4,-94}},
             color={0,0,127},
             smooth=Smooth.None));
         connect(conMasVolFra.V, gaiPPM.u)
-          annotation (Line(points={{116.6,-90},{124.8,-90}}, color={0,0,127}));
-        connect(gaiPPM.y, CO2Zon) annotation (Line(points={{138.6,-90},{166,-90},
-                {166,-94},{210,-94}}, color={0,0,127}));
+          annotation (Line(points={{120.6,-94},{128.8,-94}}, color={0,0,127}));
+        connect(gaiPPM.y, CO2Zon) annotation (Line(points={{142.6,-94},{210,-94}},
+                                      color={0,0,127}));
         for i in 1:4 loop
           connect(infAir[i].ports[1], vol[i+1].ports[4]) annotation (Line(points={{58,-110},
                   {81.5,-110},{81.5,-70}},                                                                                            color={0,140,72},
               pattern=LinePattern.Dash,
               thickness=0.5));
-
         end for;
         connect(weaBus,infAir [1].weaBus) annotation (Line(
             points={{0,-120},{0,-109.8},{38,-109.8}},
@@ -2644,6 +2646,30 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Mix
             index=-1,
             extent={{-6,3},{-6,3}},
             horizontalAlignment=TextAlignment.Right));
+        connect(weaBus.winSpe, winSpe_infAir[1].u) annotation (Line(
+            points={{0,-120},{0,-160},{-88,-160},{-88,-141},{-81.4,-141}},
+            color={255,204,51},
+            thickness=0.5), Text(
+            string="%first",
+            index=-1,
+            extent={{-6,3},{-6,3}},
+            horizontalAlignment=TextAlignment.Right));
+        connect(weaBus.winSpe, winSpe_infAir[2].u);
+        connect(weaBus.winSpe, winSpe_infAir[3].u);
+        connect(weaBus.winSpe, winSpe_infAir[4].u);
+        for i in 1:4 loop
+          connect(m_flow_infAir[i].y, multiProduct[i].u[1]) annotation (Line(points={{-65,
+                  -104},{-44,-104},{-44,-115.4},{-38,-115.4}},
+                                                  color={0,0,127}));
+          connect(schFac_infAir[i].y, multiProduct[i].u[2]) annotation (Line(points={{-65,
+                  -124},{-44,-124},{-44,-114},{-38,-114}},
+                                                  color={0,0,127}));
+          connect(winSpe_infAir[i].y, multiProduct[i].u[3]) annotation (Line(points={{-65.3,
+                  -141},{-44,-141},{-44,-112.6},{-38,-112.6}},
+                                                  color={0,0,127}));
+        end for;
+        connect(multiProduct.y, infAir.m_flow_in) annotation (Line(points={{-24.98,-114},
+                {-18,-114},{-18,-102},{38,-102}}, color={0,0,127}));
           annotation (Placement(transformation(extent={{84,-82},{100,-98}})),
                       Placement(transformation(extent={{122,-98},{138,-82}})),
                       Line(points={{100.8,-90},{121.2,-90}}, color={0,0,127}),
@@ -3195,7 +3221,7 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
 
           Modelica.Blocks.Sources.Ramp Q_flow[5](duration=86400, height=1*1000*10)
             annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
-          FiveZoneVAV                                                     fivZonVAV(
+          FiveZoneVAV fivZonVAV(
             redeclare package MediumAir = MediumAir,
             redeclare package MediumWat = MediumWat,
             p_start=p_start,

@@ -166,10 +166,6 @@ model Airside "Air side system"
   Modelica.Blocks.Math.Gain loaMulMidFlo[5](k=10)
     "Load multiplier for ten floors modelled as one middle floor"
     annotation (Placement(transformation(extent={{-94,54},{-82,66}})));
-//   Modelica.Blocks.Sources.RealExpression infAir(y=if reaToBooOcc.y == true
-//          then 0.25 else 1.0)
-//     "infiltration sizing factor based on HVAC ON/OFF schedule"
-//     annotation (Placement(transformation(extent={{0,60},{20,80}})));
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.AirsideFloor
     floor1(
