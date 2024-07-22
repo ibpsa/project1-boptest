@@ -241,7 +241,9 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
       unit="1"))
     annotation (Placement(transformation(extent={{48,-56},{64,-40}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2RetAir(redeclare package
-              Medium = MediumAir, m_flow_nominal=mAirFloRat)
+              Medium = MediumAir, m_flow_nominal=mAirFloRat,
+    C_start=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
     "Sensor at AHU return air"
     annotation (Placement(transformation(extent={{24,-72},{8,-88}})));
   Buildings.Fluid.Sensors.Conversions.To_VolumeFraction conMasVolFra(each
@@ -255,7 +257,10 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
         transformation(extent={{100,-110},{120,-90}}), iconTransformation(
           extent={{100,-110},{120,-90}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2FreAir(redeclare package
-              Medium = MediumAir, m_flow_nominal=mAirFloRat)
+              Medium = MediumAir,
+    allowFlowReversal=false,      m_flow_nominal=mAirFloRat,
+    C_start=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
     "Sensor at AHU fresh air" annotation (Placement(transformation(
         extent={{8,8},{-8,-8}},
         rotation=90,
@@ -281,7 +286,9 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
         transformation(extent={{100,-148},{120,-128}}),
         iconTransformation(extent={{100,-132},{120,-112}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2SupAir(redeclare package
-              Medium = MediumAir, m_flow_nominal=mAirFloRat)
+              Medium = MediumAir, m_flow_nominal=mAirFloRat,
+    C_start=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
+        Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
     "Sensor at AHU supply air" annotation (Placement(transformation(
         extent={{6,6},{-6,-6}},
         rotation=180,
