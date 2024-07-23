@@ -12,7 +12,6 @@ import numpy as np
 import json
 import pandas as pd
 import re
-import matplotlib.pyplot as plt
 from datetime import datetime
 
 
@@ -95,6 +94,8 @@ def compare_references(vars_timeseries = ['reaTRoo_y'],
         Name of the folder containing the new references.
 
     '''
+
+    import matplotlib.pyplot as plt
 
     dir_old = os.path.join(get_root_path(), 'testing', 'references', refs_old)
 
