@@ -12,7 +12,6 @@ import numpy as np
 import json
 import pandas as pd
 import re
-import matplotlib.pyplot as plt
 from datetime import datetime
 
 
@@ -95,6 +94,8 @@ def compare_references(vars_timeseries = ['reaTRoo_y'],
         Name of the folder containing the new references.
 
     '''
+
+    import matplotlib.pyplot as plt
 
     dir_old = os.path.join(get_root_path(), 'testing', 'references', refs_old)
 
@@ -438,7 +439,7 @@ class partialTestAPI(partialChecks):
         version = requests.get('{0}/version'.format(self.url)).json()['payload']
         # Create a regex object as three decimal digits seperated by period
         r_num = re.compile('\d.\d.\d')
-        r_dev = re.compile('0.5.0-dev\n')
+        r_dev = re.compile('0.6.0-dev\n')
         # Test that the returned version matches the expected string format
         if r_num.match(version['version']) or r_dev.match(version['version']):
             self.assertTrue(True)
