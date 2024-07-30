@@ -24,10 +24,9 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.3.0-0-Linux-x86
 	&& conda update -n base -c defaults conda \
 	&& conda create --name pyfmi3 python=3.10 -y \
 	&& conda activate pyfmi3 \
-	&& conda install -c conda-forge pyfmi=2.12 scipy=1.13 -y \
+	&& conda install -c conda-forge pyfmi=2.12 -y \
 	&& pip install -U pip setuptools \
-  && python -m pip install -r /boptest/production.txt \
-  && conda install pandas==1.5.3
+  && python -m pip install -r /boptest/production.txt
 
 COPY service/worker /worker
 
