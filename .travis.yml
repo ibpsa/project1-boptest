@@ -28,68 +28,68 @@ before_script:
 jobs:
   include:
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_parser
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_data
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_forecast
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_kpis
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1 rdflib==6.3.2 bacpypes==0.18.7
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1 rdflib==6.3.2 bacpypes==0.18.7
     script: cd testing && make build_jm_image && make test_bacnet
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_testcase
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_readme_commands
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_testcase1
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_testcase2
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_testcase3
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_bestest_air
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_bestest_hydronic
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_bestest_hydronic_heat_pump
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_singlezone_commercial_hydronic
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_twozone_apartment_hydronic
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && travis_wait 90 make test_multizone_office_simple_hydronic_no_compile
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_simple_air ARG="-s test_peak_heat_day,test_typical_heat_day"
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_simple_air ARG="-s test_peak_cool_day,test_typical_cool_day,test_mix_day"
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_simple_air ARG="-s API"
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_residential_hydronic ARG="-s test_peak_heat_day,test_shoulder"
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_residential_hydronic ARG="-s test_typical_heat_day,test_summer"
   - python: 3.9
-    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 matplotlib==3.3.4 requests==2.25.1
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_residential_hydronic ARG="-s API"
