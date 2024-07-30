@@ -26,7 +26,8 @@ println("TEST CASE INFORMATION ------------- \n")
 # Test id
 res = HTTP.post("$url/testcases/testcase2/select")
 testid = JSON.parse(String(res.body))["testid"]
-if name_status == 200
+testid_status = res.status
+if testid_status == 200
     println("TestID:\t\t\t$testid")
 end
 # Test case name
@@ -75,7 +76,7 @@ end
 # Set simulation step
 
 res = HTTP.put("$url/step/$testid",["Content-Type" => "application/json"], JSON.json(Dict("step" => step)))
-if  res.status == 200
+if res.status == 200
    println("Setting simulation step to $step")
 end
 
