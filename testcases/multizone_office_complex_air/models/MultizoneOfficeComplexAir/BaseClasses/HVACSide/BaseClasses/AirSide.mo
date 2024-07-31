@@ -392,10 +392,7 @@ model Airside "Air side system"
         1,
         15,
         15)},
-    setpoint_off={{273.15 + 26.7,273.15 + 15.6} for i in linspace(
-        1,
-        15,
-        15)})
+    setpoint_off={{273.15 + 35,273.15 + 15.6} for i in linspace(1, 15, 15)})
     "Zone air temperature setpoint controllers based on the occupancy signal"
     annotation (Placement(transformation(extent={{-2,90},{18,110}})));
 
