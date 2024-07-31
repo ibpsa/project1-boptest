@@ -88,9 +88,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork
     chiWatNet(
     redeclare package Medium = MediumCHW,
-    mFloRat1=-datChi[1].QEva_flow_nominal/4200/5.56,
+    mFloRat1=-datChi[1].QEva_flow_nominal/4200/5.56/10,
     mFloRat2=-datChi[1].QEva_flow_nominal/4200/5.56,
-    mFloRat3=-datChi[1].QEva_flow_nominal/4200/5.56,
+    mFloRat3=-datChi[1].QEva_flow_nominal/4200/5.56/10,
     PreDroBra1(displayUnit="Pa") = PreDroCooWat,
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
@@ -162,7 +162,7 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
         iconTransformation(extent={{-8,-108},{8,-92}})));
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
-      points={{40,-90.4667},{40,-94},{104,-94},{104,6},{130.562,6},{130.562,20}},
+      points={{40,-90.4667},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
       color={0,127,225},
       thickness=1));
   connect(floor1.port_a_CooWat, chiWatNet.ports_b[1]) annotation (Line(
@@ -176,7 +176,7 @@ equation
   connect(chiWatNet.ports_a[3], floor3.port_b_CooWat);
   connect(floor3.port_a_CooWat, chiWatNet.ports_b[3]);
   connect(boiWatNet.ports_a[1], floor1.port_b_HeaWat) annotation (Line(
-      points={{176,-94.4667},{196,-94.4667},{196,6},{154,6},{154,20},{149.312,
+      points={{176,-94.4667},{196,-94.4667},{196,6},{154,6},{154,20},{149.938,
           20}},
       color={238,46,47},
       thickness=1));
