@@ -1224,13 +1224,6 @@ public
         extent={{-3,3},{3,-3}},
         rotation=90,
         origin={-91,-127})));
-  Building.Control.ConHea conPumHea(
-    Khea=mBoi_flow_nominal,
-    k=1,
-    Ti=600) annotation (Placement(transformation(
-        extent={{4.99991,-2.99998},{-4.99997,2.99997}},
-        rotation=180,
-        origin={-203,-199})));
   Buildings.Fluid.Movers.FlowControlled_m_flow pumEmiSystem(
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     redeclare package Medium = MediumW,
@@ -1239,7 +1232,7 @@ public
     constantMassFlowRate=0.15,
     m_flow_nominal=mBoi_flow_nominal,
     redeclare Buildings.Fluid.Movers.Data.Generic per,
-    use_inputFilter=false,
+    use_inputFilter=true,
     nominalValuesDefineDefaultPressureCurve=true) "Pump for emission system"
     annotation (Placement(transformation(extent={{5,5},{-5,-5}}, origin={-83,-175})));
   Modelica.Blocks.Sources.RealExpression HeaSetLiv(y=schGeneral.HeaSetRT12 +
@@ -1400,14 +1393,20 @@ public
     annotation (Placement(transformation(
         extent={{-3,-3},{3,3}},
         rotation=0,
-        origin={-187,-199})));
-  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetPum(u(
+        origin={-175,-199})));
+  Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetPumBoi(u(
       min=273.15 + 10,
       max=273.15 + 95,
-      unit="K"), description=
-        "Heating zone air temperature setpoint used to control circulation pump of the emission system")
-    "Overwrite the heating setpoint used to control circulation pump of the emission system"
-    annotation (Placement(transformation(extent={{-238,-210},{-230,-202}})));
+      unit="K"), description="Heating zone air temperature setpoint used to control circulation pump of the emission system")
+    "Overwrite the heating setpoint used to control boiler and circulation pump of the emission system"
+    annotation (Placement(transformation(extent={{-316,-214},{-308,-206}})));
+  Modelica.Blocks.Math.Gain gaiHea(k=mBoi_flow_nominal)
+    annotation (Placement(transformation(extent={{-190,-254},{-182,-246}})));
+  Buildings.Controls.OBC.CDL.Logical.TrueDelay truDel(delayTime=30, delayOnInit=
+       true)
+    annotation (Placement(transformation(extent={{-246,-232},{-232,-220}})));
+  Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea
+    annotation (Placement(transformation(extent={{-220,-260},{-200,-240}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1673,41 +1672,43 @@ equation
       extent={{-6,3},{-6,3}}));
 
   connect(dooRo2.port_b2, ro2.ports[1]) annotation (Line(points={{24.8,2},{26,2},
-          {26,6},{38,6},{38,10},{44,10},{44,12.8}}, color={0,127,255}));
+          {26,6},{38,6},{38,10},{44,10},{44,13.4}}, color={0,127,255}));
   connect(dooRo2.port_a1, ro2.ports[2]) annotation (Line(points={{30.2,2},{32,2},
-          {32,6},{38,6},{38,10},{44,10},{44,13.6}}, color={0,127,255}));
+          {32,6},{38,6},{38,10},{44,10},{44,13.8}}, color={0,127,255}));
   connect(dooRo2.port_b1, hal.ports[1]) annotation (Line(points={{30.2,-7},{
-          30.2,-15.4667},{46,-15.4667}}, color={0,127,255}));
+          30.2,-14.7333},{46,-14.7333}}, color={0,127,255}));
   connect(dooRo2.port_a2, hal.ports[2]) annotation (Line(points={{24.8,-7},{
-          24.8,-15.2},{46,-15.2}}, color={0,127,255}));
+          24.8,-14.6},{46,-14.6}}, color={0,127,255}));
   connect(dooRo3.port_a2, hal.ports[3]) annotation (Line(points={{32.2,-14},{46,
-          -14},{46,-14.9333}}, color={0,127,255}));
+          -14},{46,-14.4667}}, color={0,127,255}));
   connect(dooRo3.port_b1, hal.ports[4]) annotation (Line(points={{26.8,-14},{46,
-          -14},{46,-14.6667}}, color={0,127,255}));
+          -14},{46,-14.3333}}, color={0,127,255}));
   connect(dooBth.port_a2, hal.ports[5]) annotation (Line(points={{-7.8,-14},{46,
-          -14},{46,-14.4}}, color={0,127,255}));
+          -14},{46,-14.2}}, color={0,127,255}));
   connect(dooBth.port_b1, hal.ports[6]) annotation (Line(points={{-13.2,-14},{
-          16,-14},{16,-14.1333},{46,-14.1333}}, color={0,127,255}));
+          16,-14},{16,-14.0667},{46,-14.0667}}, color={0,127,255}));
   connect(dooRo1.port_b1, hal.ports[7]) annotation (Line(points={{-7.8,-7},{-6,
-          -7},{-6,-14},{18,-14},{18,-13.8667},{46,-13.8667}}, color={0,127,255}));
+          -7},{-6,-14},{18,-14},{18,-13.9333},{46,-13.9333}}, color={0,127,255}));
   connect(dooRo1.port_a2, hal.ports[8]) annotation (Line(points={{-13.2,-7},{
-          -12,-7},{-12,-13.6},{46,-13.6}}, color={0,127,255}));
+          -12,-7},{-12,-13.8},{46,-13.8}}, color={0,127,255}));
   connect(dooLiv.port_b1, hal.ports[9]) annotation (Line(points={{-36,-7.8},{
-          -18,-7.8},{-18,-13.3333},{46,-13.3333}}, color={0,127,255}));
+          -18,-7.8},{-18,-13.6667},{46,-13.6667}}, color={0,127,255}));
   connect(dooRo3.port_b2, ro3.ports[1]) annotation (Line(points={{32.2,-23},{
-          32.2,-59.2},{44,-59.2}}, color={0,127,255}));
+          32.2,-58.6},{44,-58.6}}, color={0,127,255}));
   connect(dooRo3.port_a1, ro3.ports[2]) annotation (Line(points={{26.8,-23},{
-          26.8,-58.4},{44,-58.4}}, color={0,127,255}));
-  connect(dooBth.port_a1, bth.ports[1]) annotation (Line(points={{-13.2,-23},{-13.2,
-          -32},{-16,-32},{-16,-59.2}}, color={0,127,255}));
-  connect(dooBth.port_b2, bth.ports[2]) annotation (Line(points={{-7.8,-23},{-7.8,
-          -32},{-16,-32},{-16,-58.4}}, color={0,127,255}));
+          26.8,-58.2},{44,-58.2}}, color={0,127,255}));
+  connect(dooBth.port_a1, bth.ports[1]) annotation (Line(points={{-13.2,-23},{
+          -13.2,-32},{-16,-32},{-16,-58.6}},
+                                       color={0,127,255}));
+  connect(dooBth.port_b2, bth.ports[2]) annotation (Line(points={{-7.8,-23},{
+          -7.8,-32},{-16,-32},{-16,-58.2}},
+                                       color={0,127,255}));
   connect(dooRo1.port_b2, ro1.ports[1]) annotation (Line(points={{-13.2,2},{-14,
-          2},{-14,12.8}}, color={0,127,255}));
+          2},{-14,13.4}}, color={0,127,255}));
   connect(dooRo1.port_a1, ro1.ports[2])
-    annotation (Line(points={{-7.8,2},{-14,2},{-14,13.6}}, color={0,127,255}));
+    annotation (Line(points={{-7.8,2},{-14,2},{-14,13.8}}, color={0,127,255}));
   connect(dooLiv.port_a2, hal.ports[10]) annotation (Line(points={{-36,-13.2},{
-          6,-13.2},{6,-13.0667},{46,-13.0667}}, color={0,127,255}));
+          6,-13.2},{6,-13.5333},{46,-13.5333}}, color={0,127,255}));
 
   connect(THal.port, hal.heaPorAir)
     annotation (Line(points={{60,-10},{51.6,-10}}, color={191,0,0}));
@@ -1991,13 +1992,10 @@ equation
   connect(booleanToReal1.y,product1. u2) annotation (Line(points={{-255.4,-182},
           {-240,-182}},                color={0,0,127}));
   connect(conHeaModeBoiler.y, switch4.u1) annotation (Line(points={{-259.4,-216},
-          {-244.7,-216},{-244.7,-221.2},{-235.2,-221.2}}, color={0,0,127}));
-  connect(switch4.u3, BoilerSafetyMode.y) annotation (Line(points={{-235.2,-230.8},
-          {-242,-230.8},{-242,-244},{-245.3,-244}}, color={0,0,127}));
-  connect(onOffController.y, switch4.u2) annotation (Line(points={{-275,-232},{-246,
-          -232},{-246,-226},{-235.2,-226}}, color={255,0,255}));
-  connect(HeaSetLiv.y, conHeaModeBoiler.u_s) annotation (Line(points={{-328.1,-210},
-          {-306,-210},{-306,-216},{-273.2,-216}}, color={0,0,127}));
+          {-219.2,-216},{-219.2,-221.2}},                 color={0,0,127}));
+  connect(switch4.u3, BoilerSafetyMode.y) annotation (Line(points={{-219.2,
+          -230.8},{-228,-230.8},{-228,-244},{-245.3,-244}},
+                                                    color={0,0,127}));
   connect(expTLiv.y, conHeaModeBoiler.u_m) annotation (Line(points={{-326.1,-247},
           {-266,-247},{-266,-223.2}}, color={0,0,127}));
   connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-136},{-122,-136},
@@ -2011,12 +2009,9 @@ equation
   connect(product1.y, greaterThreshold.u) annotation (Line(points={{-217,-176},{
           -208,-176},{-208,-152},{-308,-152},{-308,-119},{-301,-119}}, color={0,
           0,127}));
-  connect(switch4.y, product1.u1) annotation (Line(points={{-221.4,-226},{-218,
-          -226},{-218,-196},{-248,-196},{-248,-170},{-240,-170}},
-                                                            color={0,0,127}));
-  connect(expTLiv.y, conPumHea.T) annotation (Line(points={{-326.1,-247},{-314,
-          -247},{-314,-199.2},{-208.8,-199.2}},
-                                            color={0,0,127}));
+  connect(switch4.y, product1.u1) annotation (Line(points={{-205.4,-226},{-200,
+          -226},{-200,-204},{-224,-204},{-224,-192},{-248,-192},{-248,-170},{
+          -240,-170}},                                      color={0,0,127}));
   connect(bou.ports[1], temRet.port_a) annotation (Line(points={{-102,-190},{
           -94,-190},{-94,-174}},
                              color={0,127,255}));
@@ -2026,8 +2021,6 @@ equation
           {-184,-136},{-152,-136}}, color={0,0,127}));
   connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,15},{
           9.68,15}}, color={0,0,127}));
-  connect(HeaSetLiv.y, onOffController.reference) annotation (Line(points={{-328.1,
-          -210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
   connect(massFlowRate.port_b, inSplVal1.port_1) annotation (Line(points={{-91,
           -124},{-92,-124},{-92,-119},{-88,-119}}, color={0,127,255}));
   connect(schGeneral.HeaSetRT12, reaTSetHea.u) annotation (Line(points={{-352,
@@ -2104,24 +2097,26 @@ equation
     annotation (Line(points={{-111.7,22},{-108.4,22}}, color={0,0,127}));
   connect(genCO2Liv.y, liv.C_flow[1]) annotation (Line(points={{-103.8,22},{
           -102,22},{-102,23.12},{-96.64,23.12}}, color={0,0,127}));
-  connect(dooLiv.port_a1, liv.ports[1]) annotation (Line(points={{-45,-7.8},{-94,
-          -7.8},{-94,16.72}}, color={0,127,255}));
-  connect(dooLiv.port_b2, liv.ports[2]) annotation (Line(points={{-45,-13.2},{-94,
-          -13.2},{-94,17.36}}, color={0,127,255}));
+  connect(dooLiv.port_a1, liv.ports[1]) annotation (Line(points={{-45,-7.8},{
+          -94,-7.8},{-94,17.36}},
+                              color={0,127,255}));
+  connect(dooLiv.port_b2, liv.ports[2]) annotation (Line(points={{-45,-13.2},{
+          -94,-13.2},{-94,17.68}},
+                               color={0,127,255}));
   connect(extLiv.ports_b, liv.ports[3:5]) annotation (Line(points={{-104.2,18},
-          {-100,18},{-100,19.28},{-94,19.28}}, color={0,127,255}));
+          {-100,18},{-100,18.64},{-94,18.64}}, color={0,127,255}));
   connect(extLiv.weaBus, liv.weaBus) annotation (Line(
       points={{-108,18},{-132,18},{-132,56},{-80.84,56},{-80.84,29.16}},
       color={255,204,51},
       thickness=0.5));
   connect(infAti.ports_b, ati.ports[1:3]) annotation (Line(points={{-234.2,-24},
-          {-230,-24},{-230,-12.9333},{-226,-12.9333}}, color={0,127,255}));
+          {-230,-24},{-230,-13.4667},{-226,-13.4667}}, color={0,127,255}));
   connect(infAti.weaBus, weaDat.weaBus) annotation (Line(
       points={{-238,-24},{-266,-24},{-266,56},{-276,56}},
       color={255,204,51},
       thickness=0.5));
   connect(infGar.ports_b, gar.ports[1:3]) annotation (Line(points={{-144.2,-56},
-          {-140,-56},{-140,-50.9333},{-136,-50.9333}}, color={0,127,255}));
+          {-140,-56},{-140,-51.4667},{-136,-51.4667}}, color={0,127,255}));
   connect(infGar.weaBus, gar.weaBus) annotation (Line(
       points={{-148,-56},{-152,-56},{-152,-94},{-122.84,-94},{-122.84,-40.84}},
       color={255,204,51},
@@ -2139,17 +2134,29 @@ equation
           -112},{-113,-112},{-113,-115.4}}, color={0,0,127}));
   connect(oveMixValSup.y, valBoi.y)
     annotation (Line(points={{-113,-122.3},{-113,-133}}, color={0,0,127}));
-  connect(conPumHea.yHea, oveEmiPum.u)
-    annotation (Line(points={{-197,-199},{-190.6,-199}}, color={0,0,127}));
-  connect(oveEmiPum.y, pumEmiSystem.m_flow_in) annotation (Line(points={{-183.7,
+  connect(oveEmiPum.y, pumEmiSystem.m_flow_in) annotation (Line(points={{-171.7,
           -199},{-83,-199},{-83,-181}}, color={0,0,127}));
   connect(boi.m_PompeCirc, pumEmiSystem.m_flow_in) annotation (Line(points={{-152,
           -145.636},{-168,-145.636},{-168,-199},{-83,-199},{-83,-181}},
         color={0,0,127}));
-  connect(HeaSetLiv.y, oveTSetPum.u) annotation (Line(points={{-328.1,-210},{
-          -314,-210},{-314,-206},{-238.8,-206}}, color={0,0,127}));
-  connect(oveTSetPum.y, conPumHea.TSet) annotation (Line(points={{-229.6,-206},
-          {-226,-206},{-226,-201},{-208.8,-201}}, color={0,0,127}));
+  connect(HeaSetLiv.y, oveTSetPumBoi.u)
+    annotation (Line(points={{-328.1,-210},{-316.8,-210}}, color={0,0,127}));
+  connect(gaiHea.y, oveEmiPum.u) annotation (Line(points={{-181.6,-250},{-180,-250},
+          {-180,-199},{-178.6,-199}},                               color={0,0,
+          127}));
+  connect(truDel.y, switch4.u2) annotation (Line(points={{-230.6,-226},{-219.2,-226}},
+                          color={255,0,255}));
+  connect(onOffController.y, truDel.u) annotation (Line(points={{-275,-232},{-264,
+          -232},{-264,-226},{-247.4,-226}},
+                                   color={255,0,255}));
+  connect(booToRea.y, gaiHea.u) annotation (Line(points={{-198,-250},{-190.8,-250}},
+                                      color={0,0,127}));
+  connect(onOffController.y, booToRea.u) annotation (Line(points={{-275,-232},{-274,
+          -232},{-274,-250},{-222,-250}},      color={255,0,255}));
+  connect(oveTSetPumBoi.y, conHeaModeBoiler.u_s) annotation (Line(points={{-307.6,
+          -210},{-278,-210},{-278,-216},{-273.2,-216}}, color={0,0,127}));
+  connect(oveTSetPumBoi.y, onOffController.reference) annotation (Line(points={{
+          -307.6,-210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
