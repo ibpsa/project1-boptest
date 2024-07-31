@@ -1,4 +1,4 @@
-﻿within MultiZoneResidentialHydronic;
+within MultiZoneResidentialHydronic;
 model TestCase "Multi zone residential hydronic example model"
 
   extends Modelica.Icons.Example;
@@ -471,8 +471,8 @@ public
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3     weaDat(                           winSpe=
         5.25,
     winSpeSou=Buildings.BoundaryConditions.Types.DataSource.Parameter,
-    filNam=ModelicaServices.ExternalReferences.loadResource(
-        "Resources/FRA_Bordeaux.075100_IWEC.mos"))
+    filNam=Modelica.Utilities.Files.loadResource(
+        "modelica://MultiZoneResidentialHydronic/Resources/FRA_Bordeaux.075100_IWEC.mos"))
     annotation (Placement(transformation(extent={{-296,46},{-276,66}})));
   Building.Schedules.ScheduleDay schDay(delta_ST=delta_ST_rad) "Day schedule"
     annotation (Placement(transformation(extent={{-372,-16},{-350,6}})));
