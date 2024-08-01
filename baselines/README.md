@@ -31,11 +31,12 @@ This folder contains examples and results for performing testing of baseline con
 
 Last results update: BOPTEST v0.6.0
 
-The purpose of showing the baseline testing results are to provide a reference range for different KPIs among different test cases with various time periods and three electricity price schemes.  Therefore, the results of predefined representative scenarios are also compared with the average results of one year (Day 15-358) or heating season if only a heating system is present (Day 15-45,297-358) with a rolling window of two weeks.
+The purpose of showing the baseline testing results are to provide a reference range for different KPIs among different test cases with various time periods and three electricity price schemes.  Therefore, the results of predefined representative scenarios are also compared with the average results of one year (Day 15-358) or heating season if only a heating system is present (Day 15-45,297-358) with a rolling window of two weeks.  These results are found in ``root/baselines/csv`` and one can reproduce the results by using the test script `root/baselines/csv/run_all_scenarios.py` and providing the desired test case name as a command-line argument.
+
 In total 3180 scenarios are simulated for different testcases with various time periods and three electricity price schemes.
 However, it is noted that the baseline controls do not use price signal information, and therefore the KPI results are the same for scenarios with different electricity price schemes except the total cost and controller computational time ratio.
 
-The detailed results for each testcase can be analyzed using [baseline_control.ipynb](baseline_control.ipynb).
+The detailed results for each testcase and the high-level statistical results can be analyzed using ``root/baselines/baseline_control.ipynb``.
 The by-testcase results with different time periods are individually illustrated for the following testcases:
 
 1. bestest_air (Day 15-358)
@@ -45,5 +46,3 @@ The by-testcase results with different time periods are individually illustrated
 5. multizone_residential_hydronic (Day 15-45,297-358)
 6. twozone_apartment_hydronic (Day 15-45,297-358)
 7. singlezone_commercial_hydronic (Day 15-45,297-358)
-
-After that the high-level statistical results for all the testcases are summarized. The baseline testing results for the two-week rolling simulation are available in the `root/baselines/csv` directory. To reproduce these results, one can use the test script `root/baselines/csv/run_all_scenarios.py` by providing the desired test case name as a command-line argument.
