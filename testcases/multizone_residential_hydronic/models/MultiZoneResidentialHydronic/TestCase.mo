@@ -1232,7 +1232,7 @@ public
     constantMassFlowRate=0.15,
     m_flow_nominal=mBoi_flow_nominal,
     redeclare Buildings.Fluid.Movers.Data.Generic per,
-    use_inputFilter=true,
+    use_inputFilter=false,
     nominalValuesDefineDefaultPressureCurve=true) "Pump for emission system"
     annotation (Placement(transformation(extent={{5,5},{-5,-5}}, origin={-83,-175})));
   Modelica.Blocks.Sources.RealExpression HeaSetLiv(y=schGeneral.HeaSetRT12 +
@@ -1404,9 +1404,11 @@ public
     annotation (Placement(transformation(extent={{-190,-254},{-182,-246}})));
   Buildings.Controls.OBC.CDL.Logical.TrueDelay truDel(delayTime=30, delayOnInit=
        true)
-    annotation (Placement(transformation(extent={{-246,-232},{-232,-220}})));
+    annotation (Placement(transformation(extent={{-252,-216},{-238,-204}})));
   Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea
     annotation (Placement(transformation(extent={{-220,-260},{-200,-240}})));
+  Buildings.Controls.OBC.CDL.Logical.TrueHoldWithReset truHol(duration=30)
+    annotation (Placement(transformation(extent={{-260,-260},{-240,-240}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -1991,13 +1993,14 @@ equation
           {-286.35,-182.5},{-286.35,-182},{-287.2,-182}}, color={0,0,127}));
   connect(booleanToReal1.y,product1. u2) annotation (Line(points={{-255.4,-182},
           {-240,-182}},                color={0,0,127}));
-  connect(conHeaModeBoiler.y, switch4.u1) annotation (Line(points={{-259.4,-216},
-          {-219.2,-216},{-219.2,-221.2}},                 color={0,0,127}));
+  connect(conHeaModeBoiler.y, switch4.u1) annotation (Line(points={{-259.4,-200},
+          {-219.2,-200},{-219.2,-201.2}},                 color={0,0,127}));
   connect(switch4.u3, BoilerSafetyMode.y) annotation (Line(points={{-219.2,
-          -230.8},{-228,-230.8},{-228,-244},{-245.3,-244}},
+          -210.8},{-226,-210.8},{-226,-226},{-237.3,-226}},
                                                     color={0,0,127}));
-  connect(expTLiv.y, conHeaModeBoiler.u_m) annotation (Line(points={{-326.1,-247},
-          {-266,-247},{-266,-223.2}}, color={0,0,127}));
+  connect(expTLiv.y, conHeaModeBoiler.u_m) annotation (Line(points={{-326.1,
+          -247},{-314,-247},{-314,-238},{-304,-238},{-304,-216},{-266,-216},{
+          -266,-207.2}},              color={0,0,127}));
   connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-136},{-122,-136},
           {-122,-130},{-216,-130},{-216,-144},{-336,-144},{-336,-182.267},{
           -308.04,-182.267}},
@@ -2009,8 +2012,8 @@ equation
   connect(product1.y, greaterThreshold.u) annotation (Line(points={{-217,-176},{
           -208,-176},{-208,-152},{-308,-152},{-308,-119},{-301,-119}}, color={0,
           0,127}));
-  connect(switch4.y, product1.u1) annotation (Line(points={{-205.4,-226},{-200,
-          -226},{-200,-204},{-224,-204},{-224,-192},{-248,-192},{-248,-170},{
+  connect(switch4.y, product1.u1) annotation (Line(points={{-205.4,-206},{-200,
+          -206},{-200,-170},{-212,-170},{-212,-160},{-248,-160},{-248,-170},{
           -240,-170}},                                      color={0,0,127}));
   connect(bou.ports[1], temRet.port_a) annotation (Line(points={{-102,-190},{
           -94,-190},{-94,-174}},
@@ -2144,19 +2147,22 @@ equation
   connect(gaiHea.y, oveEmiPum.u) annotation (Line(points={{-181.6,-250},{-180,-250},
           {-180,-199},{-178.6,-199}},                               color={0,0,
           127}));
-  connect(truDel.y, switch4.u2) annotation (Line(points={{-230.6,-226},{-219.2,-226}},
+  connect(truDel.y, switch4.u2) annotation (Line(points={{-236.6,-210},{-228,
+          -210},{-228,-206},{-219.2,-206}},
                           color={255,0,255}));
-  connect(onOffController.y, truDel.u) annotation (Line(points={{-275,-232},{-264,
-          -232},{-264,-226},{-247.4,-226}},
+  connect(onOffController.y, truDel.u) annotation (Line(points={{-275,-232},{
+          -260,-232},{-260,-210},{-253.4,-210}},
                                    color={255,0,255}));
   connect(booToRea.y, gaiHea.u) annotation (Line(points={{-198,-250},{-190.8,-250}},
                                       color={0,0,127}));
-  connect(onOffController.y, booToRea.u) annotation (Line(points={{-275,-232},{-274,
-          -232},{-274,-250},{-222,-250}},      color={255,0,255}));
   connect(oveTSetPumBoi.y, conHeaModeBoiler.u_s) annotation (Line(points={{-307.6,
-          -210},{-278,-210},{-278,-216},{-273.2,-216}}, color={0,0,127}));
+          -210},{-278,-210},{-278,-200},{-273.2,-200}}, color={0,0,127}));
   connect(oveTSetPumBoi.y, onOffController.reference) annotation (Line(points={{
           -307.6,-210},{-306,-210},{-306,-226},{-298,-226}}, color={0,0,127}));
+  connect(onOffController.y, truHol.u) annotation (Line(points={{-275,-232},{
+          -266,-232},{-266,-250},{-262,-250}}, color={255,0,255}));
+  connect(truHol.y, booToRea.u)
+    annotation (Line(points={{-238,-250},{-222,-250}}, color={255,0,255}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
