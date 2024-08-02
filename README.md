@@ -19,6 +19,7 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
 - ``/forecast`` contains code for returning boundary condition forecast, such as weather, schedules, and energy prices.
 - ``/kpis`` contains code for calculating key performance indicators.
 - ``/docs`` contains design documentation and delivered workshop content.
+- ``/baselines`` contains scripts and data for baselining KPIs for test cases with their embedded control.
 - ``/bacnet`` contains code for a bacnet interface.
 
 ## Quick-Start to Deploy a Test Case
