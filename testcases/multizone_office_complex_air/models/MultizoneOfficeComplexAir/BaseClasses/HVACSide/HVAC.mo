@@ -64,12 +64,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     PreDroBra3(displayUnit="Pa") = 0,
     PreDroMai1(displayUnit="Pa") = (79712/4),
     PreDroMai2(displayUnit="Pa") = (79712/4),
-    mFloRat1=mWatFloRat1[1] + mWatFloRat2[1] + mWatFloRat3[1] + mWatFloRat4[1] +
-        mWatFloRat5[1],
-    mFloRat2=mWatFloRat1[2] + mWatFloRat2[2] + mWatFloRat3[2] + mWatFloRat4[2] +
-        mWatFloRat5[2],
-    mFloRat3=mWatFloRat1[3] + mWatFloRat2[3] + mWatFloRat3[3] + mWatFloRat4[3] +
-        mWatFloRat5[3],
+    mFloRat1=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12,
+    mFloRat2=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12*10,
+    mFloRat3=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12,
     redeclare package Medium = MediumHeaWat,
     PreDroBra1(displayUnit="Pa") = (79712/4))
     "Hot water plant distribution network"
@@ -88,9 +85,12 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork
     chiWatNet(
     redeclare package Medium = MediumCHW,
-    mFloRat1=-datChi[1].QEva_flow_nominal/4200/5.56*3/12,
-    mFloRat2=-datChi[1].QEva_flow_nominal/4200/5.56*3/12*10,
-    mFloRat3=-datChi[1].QEva_flow_nominal/4200/5.56*3/12,
+    mFloRat1=-datChi[1].QEva_flow_nominal/4200/chiWatPla.dTCHW_nominal*
+        chiWatPla.n/12,
+    mFloRat2=-datChi[1].QEva_flow_nominal/4200/chiWatPla.dTCHW_nominal*
+        chiWatPla.n/12*10,
+    mFloRat3=-datChi[1].QEva_flow_nominal/4200/chiWatPla.dTCHW_nominal*
+        chiWatPla.n/12,
     PreDroBra1(displayUnit="Pa") = PreDroCooWat,
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
