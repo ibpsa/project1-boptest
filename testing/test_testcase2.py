@@ -84,38 +84,6 @@ class ExampleSupervisoryJulia(unittest.TestCase, utilities.partialChecks):
         # Test
         self.compare_ref_timeseries_df(df,ref_filepath)
 
-class ExampleSupervisoryJavaScript(unittest.TestCase, utilities.partialChecks):
-    '''Tests the example test of a supervisory controller in JavaScript.
-
-    '''
-
-    def setUp(self):
-        '''Setup for each test.
-
-        '''
-
-        pass
-
-    def test_run(self):
-        '''Runs the example and tests the kpi and trajectory results.
-
-        '''
-
-        # Run test
-        kpi_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'kpi_testcase2.csv')
-        res_path = os.path.join(utilities.get_root_path(), 'examples', 'javascript', 'result_testcase2.csv')
-        # Check kpis
-        df = pd.read_csv(kpi_path, index_col = 'keys')
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'kpis_javascript.csv')
-        self.compare_ref_values_df(df, ref_filepath)
-        # Check trajectories
-        df = pd.read_csv(res_path, index_col = 'time')
-        # Set reference file path
-        ref_filepath = os.path.join(utilities.get_root_path(), 'testing', 'references', 'testcase2', 'results_javascript.csv')
-        # Test
-        self.compare_ref_timeseries_df(df,ref_filepath)
-
-
 class MinMax(unittest.TestCase):
     '''Test the use of min/max attributes to truncate the controller input.
 

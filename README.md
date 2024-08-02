@@ -13,13 +13,14 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
 - ``/service`` contains code for deploying BOPTEST framework as a web-service.
-- ``/examples`` contains code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (Version 2.7 and 3.9), Julia (Version 1.0.3), and JavaScript (Version ECMAScript 2018).
+- ``/examples`` contains code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (3.9) and Julia (Version 1.0.3).
 - ``/parsing`` contains code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
 - ``/data`` contains code for generating and managing data associated with test cases.  This includes boundary conditions, such as weather, schedules, and energy prices, as well as a map of test case FMU outputs needed to calculate KPIs.
 - ``/forecast`` contains code for returning boundary condition forecast, such as weather, schedules, and energy prices.
 - ``/kpis`` contains code for calculating key performance indicators.
 - ``/docs`` contains design documentation and delivered workshop content.
+- ``/baselines`` contains scripts and data for baselining KPIs for test cases with their embedded control.
 - ``/bacnet`` contains code for a bacnet interface.
 
 ## Quick-Start to Deploy BOPTEST on a Personal Computer
@@ -74,11 +75,33 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
-* For JavaScript-based example controllers:
-  * In a separate terminal, use ``$ cd examples/javascript && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on the testcase1 over a two-day period.
-  * In a separate terminal, use ``$ cd examples/javascript && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on the testcase2 over a two-day period.
-  * Ince the test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images, and use ``$ cd examples/javascript && rm geckodriver`` to remove the geckodriver file.
-  * Note that those two controllers can also be executed by web browers, such as chrome or firefox.
+## Test Case RESTful API
+- To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
+- The API will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``. Status codes in ``"status"`` are integers: ``200`` for successful with or without warning, ``400`` for bad input error, or ``500`` for internal error.  Data returned in ``"payload"`` is the data of interest relvant to the specific API request, while the string in ``"message"`` will report any warnings or error messages to help debug encountered problems.
+
+Example RESTful interaction:
+
+- Receive a list of available measurement names and their metadata: ``$ curl http://127.0.0.1:5000/measurements``
+- Receive a forecast of boundary condition data: ``$ curl http://127.0.0.1:5000/forecast``
+- Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"``.  Leave an empty json to advance the simulation using the setpoints embedded in the model.
+
+| Interaction                                                           | Request                                                   |
+|-----------------------------------------------------------------------|-----------------------------------------------------------|
+| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional arguments ``<input_name_u>:<value>``, and corresponding ``<input_name_activate>:<0 or 1>``, where 1 enables value overwrite and 0 disables (0 is default)  |
+| Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
+| Receive communication step in seconds.                                 |  GET ``step``                                             |
+| Set communication step in seconds.                                     |  PUT ``step`` with required argument ``step=<value>``              |
+| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements``                                     |
+| Receive control signal point names (u) and metadata.                        |  GET ``inputs``                                           |
+| Receive test result data for the given point names between the start and final time in seconds. |  PUT ``results`` with required arguments ``point_names=<list of strings>``, ``start_time=<value>``, ``final_time=<value>``|
+| Receive test KPIs.                                                     |  GET ``kpi``                                              |
+| Receive test case name.                                                |  GET ``name``                                             |
+| Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  PUT ``forecast`` with required arguments ``point_names=<list of strings>``, ``horizon=<value>``, ``interval=<value>``|
+| Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points``                              |
+| Receive current test scenario.                                         |  GET ``scenario``                                   |
+| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
+| Receive BOPTEST version.                                               |  GET ``version``                                             |
+| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered with the online dashboard.|
 
 ## Development
 Community development is welcome through reporting [issues](https://github.com/ibpsa/project1-boptest/issues) and/or making pull requests. If making a pull request,
