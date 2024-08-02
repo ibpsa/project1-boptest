@@ -265,30 +265,32 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     PreDroWat5=PreDroWat5,
     eps5=eps5)
     annotation (Placement(transformation(extent={{30,-18},{66,-46}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package Medium =
-        MediumCooWat)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package Medium
+      = MediumCooWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-70,-110},{-50,-90}}),
         iconTransformation(extent={{-70,-110},{-50,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package Medium =
-        MediumCooWat)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package Medium
+      = MediumCooWat)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-40,-110},{-20,-90}}),
         iconTransformation(extent={{-40,-110},{-20,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package Medium =
-        MediumHeaWat)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package Medium
+      = MediumHeaWat)
     "Second port, typically outlet"
     annotation (Placement(transformation(extent={{30,-110},{50,-90}}),
         iconTransformation(extent={{30,-110},{50,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package Medium =
-        MediumHeaWat)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package Medium
+      = MediumHeaWat)
     "Second port, typically outlet"
     annotation (Placement(transformation(extent={{60,-110},{80,-90}}),
         iconTransformation(extent={{60,-110},{80,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium = MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium
+      =                                                                         MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-174,-50},{-154,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium = MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium
+      =                                                                         MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-170,30},{-150,50}})));
   Modelica.Blocks.Routing.BooleanReplicator booleanReplicator(nout=5)
@@ -356,7 +358,7 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     zonVAVCon[5](
     each MinFlowRateSetPoi=0.3,
     each HeatingFlowRateSetPoi=0.5,
-    heaCon(Ti=60, yMin=0.01),
+    heaCon(Ti=60, yMin=0.1),
     cooCon(k=11, Ti=60))
     "Zone terminal VAV controller (airflow rate, reheat valve)l "
     annotation (Placement(transformation(extent={{-14,118},{6,138}})));

@@ -85,8 +85,8 @@ model VAVTerminal "The model of the VAV terminals"
   Buildings.Fluid.Actuators.Valves.TwoWayEqualPercentage rehVal(
     redeclare package Medium = MediumWat,
     m_flow_nominal=mWatFloRat,
-    dpValve_nominal=PreDroWat,
-    y_start=0.01) annotation (Placement(transformation(
+    dpValve_nominal=PreDroWat)
+                  annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=-90,
         origin={-20,42})));
