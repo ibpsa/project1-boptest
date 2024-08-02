@@ -88,9 +88,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork
     chiWatNet(
     redeclare package Medium = MediumCHW,
-    mFloRat1=-datChi[1].QEva_flow_nominal/4200/5.56/10,
-    mFloRat2=-datChi[1].QEva_flow_nominal/4200/5.56,
-    mFloRat3=-datChi[1].QEva_flow_nominal/4200/5.56/10,
+    mFloRat1=-datChi[1].QEva_flow_nominal/4200/5.56*3/12,
+    mFloRat2=-datChi[1].QEva_flow_nominal/4200/5.56*3/12*10,
+    mFloRat3=-datChi[1].QEva_flow_nominal/4200/5.56*3/12,
     PreDroBra1(displayUnit="Pa") = PreDroCooWat,
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
