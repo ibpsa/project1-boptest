@@ -38,7 +38,7 @@ if name_status == 200
     println("Name:\t\t\t$name['name']")
 end
 # Inputs available
-res = HTTP.get("$url/inputs$testid")
+res = HTTP.get("$url/inputs/$testid")
 inputs_status = res.status
 inputs = JSON.parse(String(res.body))["payload"]
 if inputs_status == 200
