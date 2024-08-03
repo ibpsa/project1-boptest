@@ -9,25 +9,24 @@ A reference test case consists of the following components:
 1. Modelica model
 
 	- Include documentation html in .mo file
-
 	- The model should include the “uses” Modelica annotation to specify
 	  the names and versions of additional Modelica libraries on which it depends.
 
 2. FMU
 
-	- Include boundary condition  data (this is: weather data, occupancy
+	- Include boundary condition data in resources folder (this is: weather data, occupancy
 	  schedules, energy pricing, emission factors, internal gains and
-	  comfort set-points) in resources folder.
+	  comfort set-points).
+	- Include additional API configuration jsons in resources folder (this is: kpis.json, days.json, config.json)
 	- Generated without run-time license restrictions.
-	- Generated as co-simulation or model-exchange that can be integrated
-	  with the CVode solver at a tolerance of 10e-6.
-	- Each scenario using model should have own FMU.
+	- Generated as co-simulation.
+	- Generated for Ubuntu 20.04 x86.
 	- Template scripts will be developed to help the model developer
-	  generate the test case FMU.  See Parts B, C, and D of this section.
+	  generate the test case FMU.
 
 3. Documentation
 
-4. BOPTEST API Configuration
+4. BACnet object definition file (optional: for use with BACnet interface)
 
 Test Case Repository
 --------------------
@@ -54,7 +53,7 @@ following structure:
 	|  |  |  |--prices.csv 		// Energy pricing schedules
 	|  |  |  |--emissions.csv 	// Energy emission factor schedules
 	|  |  |  |--setpoints.csv 	// Thermal  and IAQ comfort region schedules
-	|  |--bacnet.ttl        // BACnet object definition file
+	|  |--bacnet.ttl        	// BACnet object definition file
 	|--doc				// Documentation directory
 	|  |--doc.html 			// Copy of .mo file documentation
 	|  |--images 			// Image directory
