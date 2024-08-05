@@ -18,6 +18,7 @@ Thank you to all who have provided guidance on the development of this software.
 - Donghun Kim, Lawrence Berkeley National Laboratory
 - Yanfei Li, National Renewable Energy Laboratory
 - Nicholas Long, National Renewable Energy Laboratory
+- Xing Lu, Pacific Northwest National Laboratory
 - Robert Lutes, Pacific Northwest National Laboratory
 - Bart Merema, dnergy
 - Kefei Mo, Pacific Northwest National Laboratory
