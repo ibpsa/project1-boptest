@@ -770,7 +770,7 @@ The model outputs are:
 <code>heating_cooling_reaPProCoo_y</code> [W] [min=None, max=None]: Electric power used by the cooling production system
 </li>
 <li>
-<code>heating_cooling_reaPProHea_y</code> [W] [min=None, max=None]: Gas power used by the heating production system
+<code>heating_cooling_reaPProHea_y</code> [W] [min=None, max=None]: Electric power used by the heating production system
 </li>
 <li>
 <code>heating_cooling_reaPPumAhuCooNz_y</code> [W] [min=None, max=None]: Electric power used by the north zone cooling AHU water system pump
