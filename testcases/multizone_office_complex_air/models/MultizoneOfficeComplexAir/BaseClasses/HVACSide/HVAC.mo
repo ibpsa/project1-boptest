@@ -12,7 +12,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonSou(zone="bot_floor_sou"),
       oveZonEas(zone="bot_floor_eas"),
       oveZonNor(zone="bot_floor_nor"),
-      oveZonWes(zone="bot_floor_wes")),
+      oveZonWes(zone="bot_floor_wes"),
+      final mWatFloRat=mFloRat1),
       floor2(
       reaZonCor(zone="mid_floor_cor"),
       reaZonSou(zone="mid_floor_sou"),
@@ -23,7 +24,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonSou(zone="mid_floor_sou"),
       oveZonEas(zone="mid_floor_eas"),
       oveZonNor(zone="mid_floor_nor"),
-      oveZonWes(zone="mid_floor_wes")),
+      oveZonWes(zone="mid_floor_wes"),
+      final mWatFloRat=mFloRat2),
       floor3(
       reaZonCor(zone="top_floor_cor"),
       reaZonSou(zone="top_floor_sou"),
@@ -34,7 +36,18 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonSou(zone="top_floor_sou"),
       oveZonEas(zone="top_floor_eas"),
       oveZonNor(zone="top_floor_nor"),
-      oveZonWes(zone="top_floor_wes")));
+      oveZonWes(zone="top_floor_wes"),
+      final mWatFloRat=mFloRat3));
+
+  parameter Modelica.Units.SI.MassFlowRate mFloRat1=-datChi[1].QEva_flow_nominal
+      /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12
+    "mass flow rate for floor 1 (bottom floor)";
+  parameter Modelica.Units.SI.MassFlowRate mFloRat2=-datChi[1].QEva_flow_nominal
+      /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12*10
+    "mass flow rate for floor 2 (middle floor)";
+  parameter Modelica.Units.SI.MassFlowRate mFloRat3=-datChi[1].QEva_flow_nominal
+      /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12
+    "mass flow rate for floor 3 (top floor)";
 
   parameter Modelica.Units.SI.MassFlowRate mCHW_flow_nominal[:]={-datChi[1].QEva_flow_nominal
       /4200/5.56 for i in linspace(
@@ -85,17 +98,15 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork
     chiWatNet(
     redeclare package Medium = MediumCHW,
-    mFloRat1=-datChi[1].QEva_flow_nominal/4200/chiWatPla.dTCHW_nominal*
-        chiWatPla.n/12,
-    mFloRat2=-datChi[1].QEva_flow_nominal/4200/chiWatPla.dTCHW_nominal*
-        chiWatPla.n/12*10,
-    mFloRat3=-datChi[1].QEva_flow_nominal/4200/chiWatPla.dTCHW_nominal*
-        chiWatPla.n/12,
-    PreDroBra1(displayUnit="Pa") = PreDroCooWat,
+    mFloRat1=mFloRat1,
+    mFloRat2=mFloRat2,
+    mFloRat3=mFloRat3,
+    PreDroBra1(displayUnit="Pa") = 0,
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
-    PreDroMai1=PreDroCooWat,
-    PreDroMai2=PreDroCooWat) "Chilled water plant distribution network"
+    PreDroMai1=PreDroCooWat*2,
+    PreDroMai2(displayUnit="Pa") = 0)
+                             "Chilled water plant distribution network"
     annotation (Placement(transformation(extent={{20,-88},{40,-108}})));
   Buildings.Fluid.Chillers.Data.ElectricEIR.ElectricEIRChiller_Trane_CVHE_1442kW_6_61COP_VSD
     datChi[3](each QEva_flow_nominal=-2500000) "Chiller data record"
@@ -160,6 +171,7 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   Modelica.Icons.SignalBus weaBus
     annotation (Placement(transformation(extent={{32,-128},{48,-112}}),
         iconTransformation(extent={{-8,-108},{8,-92}})));
+
 equation
   connect(chiWatNet.ports_a[1], floor1.port_b_CooWat) annotation (Line(
       points={{40,-90.4667},{40,-94},{104,-94},{104,6},{129.625,6},{129.625,20}},
