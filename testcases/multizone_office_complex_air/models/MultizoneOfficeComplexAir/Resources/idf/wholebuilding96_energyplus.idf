@@ -128,7 +128,7 @@ ZoneAirHeatBalanceAlgorithm,AnalyticalSolution,;
 
 !-   ===========  ALL OBJECTS IN CLASS: TIMESTEP ===========
 
-Timestep,12;
+Timestep,60;
 
 !-   ===========  ALL OBJECTS IN CLASS: CONVERGENCELIMITS ===========
 
@@ -1043,7 +1043,7 @@ Zone,
     0.0000,                  !- Direction of Relative North {deg}
     0.0000, 0.0000, 0.0000,             !- X,Y,Z  {m}
     1,                       !- Type
-    1,                       !- Multiplier
+    10,                       !- Multiplier
     ,                        !- Ceiling Height {m}
     ,                        !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
@@ -1082,7 +1082,7 @@ Zone,
     0.0000,                  !- Direction of Relative North {deg}
     0.0000, 0.0000, 0.0000,             !- X,Y,Z  {m}
     1,                       !- Type
-    1,                       !- Multiplier
+    10,                       !- Multiplier
     ,                        !- Ceiling Height {m}
     ,                        !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
@@ -1147,7 +1147,7 @@ Zone,
     0.0000,                  !- Direction of Relative North {deg}
     0.0000, 0.0000, 0.0000,             !- X,Y,Z  {m}
     1,                       !- Type
-    1,                       !- Multiplier
+    10,                       !- Multiplier
     ,                        !- Ceiling Height {m}
     ,                        !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
@@ -1160,7 +1160,7 @@ Zone,
     0.0000,                  !- Direction of Relative North {deg}
     0.0000, 0.0000, 0.0000,             !- X,Y,Z  {m}
     1,                       !- Type
-    1,                       !- Multiplier
+    10,                       !- Multiplier
     ,                        !- Ceiling Height {m}
     ,                        !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
@@ -1173,7 +1173,7 @@ Zone,
     0.0000,                  !- Direction of Relative North {deg}
     0.0000, 0.0000, 0.0000,             !- X,Y,Z  {m}
     1,                       !- Type
-    1,                       !- Multiplier
+    10,                       !- Multiplier
     ,                        !- Ceiling Height {m}
     ,                        !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
@@ -1186,7 +1186,7 @@ Zone,
     0.0000,                  !- Direction of Relative North {deg}
     0.0000, 0.0000, 0.0000,             !- X,Y,Z  {m}
     1,                       !- Type
-    1,                       !- Multiplier
+    10,                       !- Multiplier
     ,                        !- Ceiling Height {m}
     ,                        !- Volume {m3}
     autocalculate,           !- Floor Area {m2}
@@ -4598,9 +4598,9 @@ ZoneInfiltration:DesignFlowRate,
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
     0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
 
 ZoneInfiltration:DesignFlowRate,
@@ -4612,10 +4612,11 @@ ZoneInfiltration:DesignFlowRate,
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
     0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
+
 
 ZoneInfiltration:DesignFlowRate,
     Perimeter_bot_ZN_1_Infiltration,  !- Name
@@ -4624,12 +4625,13 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
+
 
 ZoneInfiltration:DesignFlowRate,
     Perimeter_bot_ZN_2_Infiltration,  !- Name
@@ -4638,12 +4640,13 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
+
 
 ZoneInfiltration:DesignFlowRate,
     Perimeter_bot_ZN_3_Infiltration,  !- Name
@@ -4652,12 +4655,13 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
+
 
 ZoneInfiltration:DesignFlowRate,
     Perimeter_bot_ZN_4_Infiltration,  !- Name
@@ -4666,12 +4670,13 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
+
 
 ZoneInfiltration:DesignFlowRate,
     Perimeter_mid_ZN_1_Infiltration,  !- Name
@@ -4680,12 +4685,13 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
+
 
 ZoneInfiltration:DesignFlowRate,
     Perimeter_mid_ZN_2_Infiltration,  !- Name
@@ -4694,12 +4700,13 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
+
 
 ZoneInfiltration:DesignFlowRate,
     Perimeter_mid_ZN_3_Infiltration,  !- Name
@@ -4708,11 +4715,11 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
 
 ZoneInfiltration:DesignFlowRate,
@@ -4722,11 +4729,11 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
 
 ZoneInfiltration:DesignFlowRate,
@@ -4736,11 +4743,11 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
 
 ZoneInfiltration:DesignFlowRate,
@@ -4750,11 +4757,11 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
 
 ZoneInfiltration:DesignFlowRate,
@@ -4764,11 +4771,11 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
 
 ZoneInfiltration:DesignFlowRate,
@@ -4778,11 +4785,11 @@ ZoneInfiltration:DesignFlowRate,
     Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
-    0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
+    0.00102523005082753,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
 
 ZoneInfiltration:DesignFlowRate,
@@ -4794,9 +4801,9 @@ ZoneInfiltration:DesignFlowRate,
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
     0,                       !- Flow Rate per Exterior Surface Area {m3/s-m2}
     ,                        !- Air Changes per Hour {1/hr}
-    1.0000,                  !- Constant Term Coefficient
+    0.0000,                  !- Constant Term Coefficient
     0.0000,                  !- Temperature Term Coefficient
-    0.0000,                  !- Velocity Term Coefficient
+    0.2240,                  !- Velocity Term Coefficient
     0.0000;                  !- Velocity Squared Term Coefficient
 
 
@@ -5899,20 +5906,21 @@ OutputControl:ReportingTolerances,
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:VARIABLE ===========
 
-Output:Variable,*,Site Outdoor Air Drybulb Temperature,Timestep;
-Output:Variable,*,Zone Air Temperature,Timestep;
-Output:Variable,*,Zone Ideal Loads Zone Sensible Cooling Rate,Timestep;
-Output:Variable,*,People Latent Gain Rate,Timestep;
-Output:Variable,*,Zone Ideal Loads Zone Sensible Heating Rate,Timestep;
-Output:Variable,*,Site Outdoor Air Relative Humidity,Hourly;
-Output:Variable,*,Site Outdoor Air Wetbulb Temperature,Timestep;
-Output:Variable,HVACOperationSchd,Schedule Value,Timestep;
-Output:Variable,CLGSETP_SCH,Schedule Value,Timestep;
-Output:Variable,HTGSETP_SCH,Schedule Value,Timestep;
-Output:Variable,*,Zone People Occupant Count,Timestep;
-Output:Variable,*,Zone Total Internal Radiant Heating Rate,Timestep;
-Output:Variable,*,Zone Total Internal Convective Heating Rate,Timestep;
-Output:Variable,*,Zone Total Internal Latent Gain Rate,Timestep;
+Output:Variable,*,Site Outdoor Air Drybulb Temperature,hourly;
+Output:Variable,*,Zone Air Temperature,hourly;
+Output:Variable,*,Zone Ideal Loads Zone Sensible Cooling Rate,hourly;
+Output:Variable,*,Zone Ideal Loads Supply Air Total Cooling Rate,hourly;
+!Output:Variable,*,People Latent Gain Rate,hourly;
+Output:Variable,*,Zone Ideal Loads Zone Sensible Heating Rate,hourly;
+!Output:Variable,*,Site Outdoor Air Relative Humidity,hourly;
+!Output:Variable,*,Site Outdoor Air Wetbulb Temperature,hourly;
+!Output:Variable,HVACOperationSchd,Schedule Value,hourly;
+!Output:Variable,CLGSETP_SCH,Schedule Value,hourly;
+!Output:Variable,HTGSETP_SCH,Schedule Value,hourly;
+!Output:Variable,*,Zone People Occupant Count,hourly;
+!Output:Variable,*,Zone Total Internal Radiant Heating Rate,hourly;
+!Output:Variable,*,Zone Total Internal Convective Heating Rate,hourly;
+!Output:Variable,*,Zone Total Internal Latent Gain Rate,hourly;
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:PREPROCESSORMESSAGE ===========
 
