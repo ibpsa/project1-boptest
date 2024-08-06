@@ -117,6 +117,10 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
   parameter Modelica.Units.SI.MassFlowRate mWatFloRat5
     "mass flow rate for vav 5";
 
+  parameter Modelica.Units.SI.MassFlowRate mWatFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
+        mAirFloRat5)*(30 - 12.88)/4.2/6
+    "mass flow rate for cooling coil chilled water";
+
   parameter Modelica.Units.SI.Pressure PreDroAir1
     "Pressure drop in the air side of vav 1";
   parameter Modelica.Units.SI.Pressure PreDroWat1
@@ -176,6 +180,7 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.AirHandlingUnit.DuaFanAirHanUnit
     duaFanAirHanUni(
+    mWatFloRat=mWatFloRat,
     numTemp=5,
     redeclare package MediumAir = MediumAir,
     redeclare package MediumWat = MediumCooWat,
@@ -199,8 +204,6 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     TemEcoHig=TemEcoHig,
     TemEcoLow=TemEcoLow,
     MixingBoxDamMin=MixingBoxDamMin,
-    mWatFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
-        mAirFloRat5)*(30 - 12.88)/4.2/6,
     mFreAirFloRat=(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 +
         mAirFloRat5)*0.3,
     UA=-(mAirFloRat1 + mAirFloRat2 + mAirFloRat3 + mAirFloRat4 + mAirFloRat5)*(
@@ -356,7 +359,7 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     zonVAVCon[5](
     each MinFlowRateSetPoi=0.3,
     each HeatingFlowRateSetPoi=0.5,
-    heaCon(Ti=60, yMin=0.01),
+    heaCon(Ti=60, yMin=0.),
     cooCon(k=11, Ti=60))
     "Zone terminal VAV controller (airflow rate, reheat valve)l "
     annotation (Placement(transformation(extent={{-14,118},{6,138}})));
@@ -383,6 +386,7 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
   Modelica.Icons.SignalBus weaBus
     annotation (Placement(transformation(extent={{-8,-108},{8,-92}}),
         iconTransformation(extent={{-8,-108},{8,-92}})));
+
 equation
   connect(fivZonVAV.port_a_Air, duaFanAirHanUni.port_b_Air) annotation (
       Line(

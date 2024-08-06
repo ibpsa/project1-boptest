@@ -1,7 +1,9 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Coil;
 model CoolingCoil "The model of the cooling coil"
-  extends MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Coil.BaseClasses.WatCoil(val(
-        dpValve_nominal=PreDroWat), pI(reverseActing=false, conPID(y_reset=1)));
+  extends
+    MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Coil.BaseClasses.WatCoil(      val(
+        dpValve_nominal=PreDroWat, y_start=0.1),
+                                    pI(reverseActing=false, conPID(y_reset=1)));
   parameter Real UA "Rated heat exchange coefficients";
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Coil.BaseClasses.WetCoil coi(

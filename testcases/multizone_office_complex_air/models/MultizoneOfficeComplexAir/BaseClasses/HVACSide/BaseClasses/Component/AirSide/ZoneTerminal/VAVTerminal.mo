@@ -58,13 +58,11 @@ model VAVTerminal "The model of the VAV terminals"
     eps=eps,
     PreDroAir=0)
     annotation (Placement(transformation(extent={{-40,-4},{-60,16}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
         MediumWat)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-90,90},{-70,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-      Medium =
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
         MediumWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-30,90},{-10,110}})));
@@ -86,7 +84,7 @@ model VAVTerminal "The model of the VAV terminals"
     redeclare package Medium = MediumWat,
     m_flow_nominal=mWatFloRat,
     dpValve_nominal=PreDroWat,
-    y_start=0.01) annotation (Placement(transformation(
+    y_start=0.1)  annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=-90,
         origin={-20,42})));
