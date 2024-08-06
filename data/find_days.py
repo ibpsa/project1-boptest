@@ -15,9 +15,12 @@ import subprocess
 import pandas as pd
 import os
 import numpy as np
+from matplotlib import pyplot as plt
 
 def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
-              plot = False, peak_cool_restriction_hour=None):
+              plot=False, cooling_negative=False, peak_cool_restriction_hour=None,
+              cool_day_low_limit=14, cool_day_high_limit=358,
+              heat_day_low_limit=14, heat_day_high_limit=358):
     '''Find the start and final times for the test case scenarios.
 
     Parameters
@@ -34,18 +37,39 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
         to generate the data.
         `path_to_data.csv` indicates path to .csv file with the yearly
         simulation data.
+        Default is `simulate`.
     img_name: string
         Image name of the container where the simulation is to be
-        performed.
-    plot: boolean
-        Set to True to show an overview of the days found
+        performed.  Used only if data=`simulate`.
+    plot: boolean, optional
+        Set to True to show an overview of the days found.
+        Default is False
+    cooling_negative: boolean, optional
+        Set to True if cooling heat flow data is negative in simulation or data file.
+        Default is False.
     peak_cool_restriction_hour: integer, optional
         Hour if want peak cooling loads to only be considered equal to or after the hour
         each day.  This can be useful to avoid including hours with peak
         cooling loads due to morning start up, which may lead to the
         same peak load for many different days.  None will have no restrictions.
         Default is None.
-
+    cool_day_low_limit: integer, optional
+        Day below which should not be considered for cooling.
+        Must be >= 14.
+        Default = 14.
+    cool_day_high_limit: integer, optional
+        Day below which should not be considered for cooling.
+        Must be <= 358.
+        Default = 358.
+    heat_day_low_limit: integer, optional
+        Day below which should not be considered for heating.
+        Must be >= 14.
+        Default = 14.
+    heat_day_high_limit: integer, optional
+        Day below which should not be considered for heating.
+        Must be <= 358.
+        Default = 358.
+        
     Returns
     -------
     days: dictionary
@@ -89,18 +113,20 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
 
     # Load data
     df_raw.index = pd.TimedeltaIndex(df_raw.index.values, unit='s')
+    if cooling_negative:
+        df_raw[cool] = -df_raw[cool]
     df = df_raw.resample('15T').mean()
     df.dropna(axis=0, inplace=True)
     # Since assume two-week test period with one-week warmup,
     # edges of year are not available to choose from
     df_available =  df.loc[pd.Timedelta(days=14):pd.Timedelta(days=365-7)]
-    df_available_cool = df[cool].loc[pd.Timedelta(days=14):pd.Timedelta(days=365-7)]
+    df_available_cool = df[cool].loc[pd.Timedelta(days=cool_day_low_limit):pd.Timedelta(days=cool_day_high_limit)]
     df_cool = df[cool]
     if peak_cool_restriction_hour is not None:
         # Limit available cooling hours to those after restriction
         df_available_cool = df_available_cool[df_available_cool.index.seconds/3600>=peak_cool_restriction_hour]
         df_cool = df_cool[df_cool.index.seconds/3600>=peak_cool_restriction_hour]
-    df_available_heat = df[heat].loc[pd.Timedelta(days=14):pd.Timedelta(days=365-7)]
+    df_available_heat = df[heat].loc[pd.Timedelta(days=heat_day_low_limit):pd.Timedelta(days=heat_day_high_limit)]
     df_heat = df[heat]
 
 
@@ -153,28 +179,28 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
         if heat is not None:
             plt.figure()
             plt.title('Heating load')
-            plt.plot(time_days, df[heat])
+            plt.plot(time_days, df_heat)
             plt.xlabel('Day of the year')
             plt.ylabel('[W]')
             plt.axvline(x=peak_heat_day, color='r', label='Peak')
-            plt.axhline(y=df[heat].max(), color='r', label='_nolegend_')
+            plt.axhline(y=df_available_heat.max(), color='r', label='_nolegend_')
             plt.axvline(x=typical_heat_day, color='r', linestyle='--', label='Typical')
             plt.axhline(y=median_heat, color='r', linestyle='--', label='_nolegend_')
             plt.legend()
-            plt.show()
 
         if cool is not None:
             plt.figure()
             plt.title('Cooling load')
-            plt.plot(time_days, df[cool])
+            plt.plot(time_days, df_cool)
             plt.xlabel('Day of the year')
             plt.ylabel('[W]')
             plt.axvline(x=peak_cool_day, color='r', label='Peak')
-            plt.axhline(y=df[cool].max(), color='r', label='_nolegend_')
+            plt.axhline(y=df_available_cool.max(), color='r', label='_nolegend_')
             plt.axvline(x=typical_cool_day, color='r', linestyle='--', label='Typical')
             plt.axhline(y=median_cool, color='r', linestyle='--', label='_nolegend_')
             plt.legend()
-            plt.show()
+    
+    plt.show()
 
     return days
 

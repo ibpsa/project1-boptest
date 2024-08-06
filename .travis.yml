@@ -74,6 +74,9 @@ jobs:
     script: cd testing && make build_jm_image && make test_twozone_apartment_hydronic
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
+    script: cd testing && travis_wait 90 make test_multizone_office_simple_hydronic_no_compile
+  - python: 3.9
+    install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && travis_wait 90 make test_multizone_office_simple_air ARG="-s test_peak_heat_day,test_typical_heat_day"
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
