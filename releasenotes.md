@@ -14,6 +14,10 @@ Released on xx/xx/xxxx.
 - Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 
+**The following changes are not backwards-compatible but do not significantly change benchmark results:**
+
+- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` to allow sepoint change to control also the boiler and not just the circulation pump. Furthermore pump control logic is changed from PI following error on setpoint to hysteresis on/off depending on boiler control signal. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).
+
 ## BOPTEST v0.6.0
 
 Released on 04/03/2024.

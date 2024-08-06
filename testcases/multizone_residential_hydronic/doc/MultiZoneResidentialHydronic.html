@@ -195,9 +195,8 @@ A heating curve is implemented to modulate the supply water temperature from the
 circuit based on outdoor temperature readings. A 3 way valve is used for this modulation.
 </li>
 <li>
-The emission circuit pump is modulated by a PI controller
-that observes the indoor air temperature setpoint (from the occupancy schedule) and the measured indoor
-air temperature from the thermostat in the living room.
+The emission circuit pump is controlled according to the same hysteresis controller as the boiler
+with an on/off signal. The boiler on signal has a 30s delay to allow the pump to reach nominal flow rate conditions.
 </li>
 <li>
 There is one radiator per zone with a motorized valve controlled by a PI controller
@@ -362,10 +361,10 @@ The model inputs are:
 <code>oveMixValSup_u</code> [1] [min=0.0, max=1.0]: Actuator signal for three-way mixing valve controlling supply water temperature to radiators
 </li>
 <li>
-<code>oveTSetPum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetPum_u where 1 activates, 0 deactivates (default value)
+<code>oveTSetPumBoi_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetPumBoi_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>oveTSetPum_u</code> [K] [min=283.15, max=368.15]: Heating zone air temperature setpoint used to control circulation pump of the emission system
+<code>oveTSetPumBoi_u</code> [K] [min=283.15, max=368.15]: Heating zone air temperature setpoint used to control boiler and circulation pump of the emission system
 </li>
 <li>
 <code>oveTSetSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetSup_u where 1 activates, 0 deactivates (default value)
