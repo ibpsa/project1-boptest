@@ -31,8 +31,8 @@ model Airside "Air side system"
       mAirFloRat5[3])/1.2*2}} "Volume flow rate curve";
   parameter Real HydEff[n,:] = {{0.93*0.65,0.93*0.7,0.93,0.93*0.6} for i in linspace(1,n,n)} "Hydraulic efficiency";
   parameter Real MotEff[n,:] = {{0.6045*0.65,0.6045*0.7,0.6045,0.6045*0.6} for i in linspace(1,n,n)} "Motor efficiency";
-  parameter Modelica.Units.SI.Pressure SupPreCur[n,:]={{1400,1000,700,700*0.5} for i in linspace(1,n,n)} "Pressure curve";
-  parameter Modelica.Units.SI.Pressure RetPreCur[n,:]={{600,400,200,100} for i in linspace(1,n,n)} "Pressure curve";
+  parameter Modelica.Units.SI.Pressure SupPreCur[n,:]={{1400*beta,1000*beta,700*beta,700*0.5*beta} for i in linspace(1,n,n)} "Pressure curve";
+  parameter Modelica.Units.SI.Pressure RetPreCur[n,:]={{600*beta,400*beta,200*beta,100*beta} for i in linspace(1,n,n)} "Pressure curve";
   parameter Modelica.Units.SI.Pressure PreAirDroMai1=140
     "Pressure drop 1 across the duct";
   parameter Modelica.Units.SI.Pressure PreAirDroMai2=140
@@ -131,6 +131,7 @@ model Airside "Air side system"
   parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 1";
   final parameter Real alpha = 0.8  "Sizing factor";
+  final parameter Real beta = 2  "Sizing factor for AHU fan pressure";
 
   //package MediumAir = Buildings.Media.Air "Medium model for air";
   package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
@@ -261,8 +262,8 @@ model Airside "Air side system"
     redeclare package MediumHeaWat = MediumHeaWat,
     C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
     m_flow_lea={10*0.206*1.2, 10*0.137*1.2, 10*0.206*1.2, 10*0.137*1.2},
-    PreDroCoiAir=PreDroCoiAir*10,
-    PreDroMixingBoxAir=PreDroMixingBoxAir*10,
+    PreDroCoiAir=PreDroCoiAir,
+    PreDroMixingBoxAir=PreDroMixingBoxAir,
     PreDroCooWat=PreDroCooWat/2,
     TemEcoHig=TemEcoHig,
     TemEcoLow=TemEcoLow,
@@ -273,24 +274,24 @@ model Airside "Air side system"
     VolFloCur=VolFloCur[2, :],
     SupPreCur=SupPreCur[2, :],
     RetPreCur=RetPreCur[2, :],
-    PreAirDroMai1=PreAirDroMai1*10,
-    PreAirDroMai2=PreAirDroMai2*10,
-    PreAirDroMai3=PreAirDroMai3*10,
-    PreAirDroMai4=PreAirDroMai4*10,
-    PreAirDroBra1=PreAirDroBra1*10,
-    PreAirDroBra2=PreAirDroBra2*10,
-    PreAirDroBra3=PreAirDroBra3*10,
-    PreAirDroBra4=PreAirDroBra4*10,
-    PreAirDroBra5=PreAirDroBra5*10,
-    PreWatDroMai1=PreWatDroMai1*10,
-    PreWatDroMai2=PreWatDroMai2*10,
-    PreWatDroMai3=PreWatDroMai3*10,
-    PreWatDroMai4=PreWatDroMai4*10,
-    PreWatDroBra1=PreWatDroBra1*10,
-    PreWatDroBra2=PreWatDroBra2*10,
-    PreWatDroBra3=PreWatDroBra3*10,
-    PreWatDroBra4=PreWatDroBra4*10,
-    PreWatDroBra5=PreWatDroBra5*10,
+    PreAirDroMai1=PreAirDroMai1,
+    PreAirDroMai2=PreAirDroMai2,
+    PreAirDroMai3=PreAirDroMai3,
+    PreAirDroMai4=PreAirDroMai4,
+    PreAirDroBra1=PreAirDroBra1,
+    PreAirDroBra2=PreAirDroBra2,
+    PreAirDroBra3=PreAirDroBra3,
+    PreAirDroBra4=PreAirDroBra4,
+    PreAirDroBra5=PreAirDroBra5,
+    PreWatDroMai1=PreWatDroMai1,
+    PreWatDroMai2=PreWatDroMai2,
+    PreWatDroMai3=PreWatDroMai3,
+    PreWatDroMai4=PreWatDroMai4,
+    PreWatDroBra1=PreWatDroBra1,
+    PreWatDroBra2=PreWatDroBra2,
+    PreWatDroBra3=PreWatDroBra3,
+    PreWatDroBra4=PreWatDroBra4,
+    PreWatDroBra5=PreWatDroBra5,
     mAirFloRat1=mAirFloRat1[2],
     mAirFloRat2=mAirFloRat2[2],
     mAirFloRat3=mAirFloRat3[2],
@@ -301,20 +302,20 @@ model Airside "Air side system"
     mWatFloRat3=mWatFloRat3[2],
     mWatFloRat4=mWatFloRat4[2],
     mWatFloRat5=mWatFloRat5[2],
-    PreDroAir1=PreDroAir1*10,
-    PreDroWat1=PreDroWat1*10,
+    PreDroAir1=PreDroAir1,
+    PreDroWat1=PreDroWat1,
     eps1=eps1,
-    PreDroAir2=PreDroAir2*10,
-    PreDroWat2=PreDroWat2*10,
+    PreDroAir2=PreDroAir2,
+    PreDroWat2=PreDroWat2,
     eps2=eps2,
-    PreDroAir3=PreDroAir3*10,
-    PreDroWat3=PreDroWat3*10,
+    PreDroAir3=PreDroAir3,
+    PreDroWat3=PreDroWat3,
     eps3=eps3,
-    PreDroAir4=PreDroAir4*10,
-    PreDroWat4=PreDroWat4*10,
+    PreDroAir4=PreDroAir4,
+    PreDroWat4=PreDroWat4,
     eps4=eps4,
-    PreDroAir5=PreDroAir5*10,
-    PreDroWat5=PreDroWat5*10,
+    PreDroAir5=PreDroAir5,
+    PreDroWat5=PreDroWat5,
     eps5=eps5,
     redeclare package MediumCooWat = MediumCHW,
     mWatFloRat=mWatFloRatMid)
@@ -337,7 +338,7 @@ model Airside "Air side system"
     m_flow_lea={1*0.206*1.2, 1*0.137*1.2, 1*0.206*1.2, 1*0.137*1.2},
     PreDroCoiAir=PreDroCoiAir,
     PreDroMixingBoxAir=PreDroMixingBoxAir,
-    PreDroCooWat=PreDroCooWat/2,
+    PreDroCooWat=PreDroCooWat,
     TemEcoHig=TemEcoHig,
     TemEcoLow=TemEcoLow,
     MixingBoxDamMin=MixingBoxDamMin,
