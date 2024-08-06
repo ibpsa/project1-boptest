@@ -76,7 +76,7 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
     PreDroMai1(displayUnit="Pa") = (79712/4),
-    PreDroMai2(displayUnit="Pa") = (79712/4),
+    PreDroMai2(displayUnit="Pa") = (79712/4/2),
     mFloRat1=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12,
     mFloRat2=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12*10,
     mFloRat3=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12,
@@ -101,11 +101,11 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     mFloRat1=mFloRat1,
     mFloRat2=mFloRat2,
     mFloRat3=mFloRat3,
-    PreDroBra1(displayUnit="Pa") = 0,
+    PreDroBra1(displayUnit="Pa") = PreDroCooWat,
     PreDroBra2(displayUnit="Pa") = 0,
     PreDroBra3(displayUnit="Pa") = 0,
-    PreDroMai1=PreDroCooWat*2,
-    PreDroMai2(displayUnit="Pa") = 0)
+    PreDroMai1=PreDroCooWat,
+    PreDroMai2(displayUnit="Pa") = PreDroCooWat/2)
                              "Chilled water plant distribution network"
     annotation (Placement(transformation(extent={{20,-88},{40,-108}})));
   Buildings.Fluid.Chillers.Data.ElectricEIR.ElectricEIRChiller_Trane_CVHE_1442kW_6_61COP_VSD
