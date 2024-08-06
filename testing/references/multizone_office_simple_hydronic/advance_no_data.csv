@@ -79,8 +79,8 @@ bms_oveValPosEmiHeaNz_activate,0.0
 bms_oveValPosEmiHeaNz_u,1.0
 bms_oveValPosEmiHeaSz_activate,0.0
 bms_oveValPosEmiHeaSz_u,1.0
-heating_cooling_reaPFcuNz_y,0.0
-heating_cooling_reaPFcuSz_y,0.0
+heating_cooling_reaPFcuNz_y,-0.0
+heating_cooling_reaPFcuSz_y,-0.0
 heating_cooling_reaPProCoo_y,-0.0
 heating_cooling_reaPProHea_y,0.0
 heating_cooling_reaPPumAhuCooNz_y,0.0
