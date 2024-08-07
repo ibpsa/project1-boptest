@@ -16,10 +16,10 @@ model ChillerPlant
   parameter Real tWai = 900 "Waiting time";
   parameter Modelica.Units.SI.TemperatureDifference dT=0.5
     "Temperature difference for stage control";
-  parameter Modelica.Units.SI.Power PTow_nominal[:]={10E3 for i in linspace(
+  parameter Modelica.Units.SI.Power PTow_nominal[:]={-datChi[1].QEva_flow_nominal*(COP_nominal + 1)/COP_nominal*0.015 for i in linspace(
       1,
       n,
-      n)} "Nominal cooling tower power (at y=1)";
+      n)} "Nominal cooling tower power (assume specific fan power is 0.015kW per 1kW of CT heat rejected)";
   parameter Modelica.Units.SI.TemperatureDifference dTCHW_nominal=5.56
     "Temperature difference at chilled water side";
   parameter Modelica.Units.SI.TemperatureDifference dTCW_nominal=5.18
@@ -40,12 +40,12 @@ model ChillerPlant
     "Approach temperature for controlling cooling towers";
   parameter Real COP_nominal = datChi[1].COP_nominal "Chiller COP";
   parameter Modelica.Units.SI.MassFlowRate mCHW_flow_nominal[:]={-datChi[1].QEva_flow_nominal
-      /4200/5.56 for i in linspace(
+      /4200/dTCHW_nominal for i in linspace(
       1,
       n,
       n)} "Nominal mass flow rate at chilled water side";
   parameter Modelica.Units.SI.MassFlowRate mCW_flow_nominal[:]={
-      mCHW_flow_nominal[1]*(datChi[1].COP_nominal + 1)/datChi[1].COP_nominal
+      -datChi[1].QEva_flow_nominal*(COP_nominal + 1)/COP_nominal/4200/dTCW_nominal
       for i in linspace(
       1,
       n,
@@ -164,7 +164,7 @@ model ChillerPlant
         1,
         n,
         n)},
-    dp_nominal=dPCW_nominal*10)
+    dp_nominal=dPCW_nominal + dP_nominal + dPByp_nominal)
     annotation (Placement(transformation(extent={{-144,-102},{-116,-76}})));
   Buildings.Fluid.Storage.ExpansionVessel expVesCW(
       redeclare package Medium = MediumCW, V_start=1)
