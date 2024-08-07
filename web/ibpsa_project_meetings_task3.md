@@ -10,7 +10,18 @@ permalink: /ibpsa/project/meetings/task3/
 
 <img src="../../../../images/project2logo.png" alt="drawing" width="50%"/>
 
+
+### General Info
+If you want to submit a new test case application here is the [**form**](https://docs.google.com/forms/d/e/1FAIpQLSdJpGsaJRflkn1shAos86gPjFEvEMH-gblKPq5tjt8kob8-Pg/viewform?usp=sf_link) and if you want to download the test case review document here is the [**review document**](https://docs.google.com/document/d/1zUrHAhI_bthPTCPmkEFU7h_H3GKmp19Ex3sOOuZkOFk/edit?usp=sharing) link.
+
+
+
+
 # Upcoming Meetings
+
+
+
+# Past Meetings
 
 ### August 5, 2024
 
@@ -18,12 +29,10 @@ permalink: /ibpsa/project/meetings/task3/
 
 **Time:** 6:00-7:00 pacific
 
-[**Link to join the meeting**](https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2w0amtjY3Rub2NiY2JkcWphaDNxbmFydDggZXphbmV0dGlAbGJsLmdvdg&tmsrc=ezanetti%40lbl.gov)
+- [Minutes](/ibpsa_project/meetings/task3/20240805_Progress/20240805_IBPSA-BOPTEST_Task3_minutes.pdf)
+- [Presentation](/ibpsa_project/meetings/task3/20240805_Progress/Task3IBPSAproject2_DOPTESTupdate_0240805.pdf)
+- [Presentation](/ibpsa_project/meetings/task3/20240805_Progress/Task3IBPSAproject2_namingconventions_20240805.pdf)
 
-
-
-
-# Past Meetings
 
 ### July 8, 2024
 
