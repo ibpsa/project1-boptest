@@ -72,5 +72,28 @@ equation
           extent={{-100,100},{100,-100}},
           lineColor={0,0,127},
           fillColor={255,255,255},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid),
+        Line(
+          points={{-94,0},{-16,0}},
+          color={0,0,255},
+          smooth=Smooth.None),
+        Line(
+          points={{90,0},{14,0}},
+          color={0,0,255},
+          smooth=Smooth.None),
+        Ellipse(
+          extent={{-28,28},{32,-30}},
+          lineColor={0,0,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{32,0},{-16,-24},{-16,22},{32,0}},
+          lineColor={0,0,255},
+          smooth=Smooth.None,
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{40,86},{-36,46}},
+          textColor={28,108,200},
+          textString="[n]")}));
 end PumpSystem;
