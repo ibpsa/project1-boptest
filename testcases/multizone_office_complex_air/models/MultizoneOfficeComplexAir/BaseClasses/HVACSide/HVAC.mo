@@ -41,16 +41,16 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
 
   parameter Modelica.Units.SI.MassFlowRate mFloRat1=-datChi[1].QEva_flow_nominal
       /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12
-    "mass flow rate for floor 1 (bottom floor)";
+    "CHW mass flow rate for floor 1 (bottom floor)";
   parameter Modelica.Units.SI.MassFlowRate mFloRat2=-datChi[1].QEva_flow_nominal
       /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12*10
-    "mass flow rate for floor 2 (middle floor)";
+    "CHW mass flow rate for floor 2 (middle floor)";
   parameter Modelica.Units.SI.MassFlowRate mFloRat3=-datChi[1].QEva_flow_nominal
       /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12
-    "mass flow rate for floor 3 (top floor)";
+    "CHW mass flow rate for floor 3 (top floor)";
 
   parameter Modelica.Units.SI.MassFlowRate mCHW_flow_nominal[:]={-datChi[1].QEva_flow_nominal
-      /4200/5.56 for i in linspace(
+      /4200/chiWatPla.dTCHW_nominal for i in linspace(
       1,
       3,
       3)} "Nominal mass flow rate at chilled water side";
@@ -109,7 +109,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
                              "Chilled water plant distribution network"
     annotation (Placement(transformation(extent={{20,-88},{40,-108}})));
   Buildings.Fluid.Chillers.Data.ElectricEIR.ElectricEIRChiller_Trane_CVHE_1442kW_6_61COP_VSD
-    datChi[3](each QEva_flow_nominal=-2500000) "Chiller data record"
+    datChi[3](each QEva_flow_nominal=-5500000/3)
+                                               "Chiller data record"
                                                annotation (Placement(transformation(extent={{-52,
             -106},{-32,-86}})));
 
