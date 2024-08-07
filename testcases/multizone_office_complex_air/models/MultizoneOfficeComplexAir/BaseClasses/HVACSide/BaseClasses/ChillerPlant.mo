@@ -19,7 +19,7 @@ model ChillerPlant
   parameter Modelica.Units.SI.Power PTow_nominal[:]={-datChi[1].QEva_flow_nominal*(COP_nominal + 1)/COP_nominal*0.015 for i in linspace(
       1,
       n,
-      n)} "Nominal cooling tower power (assume specific fan power is 0.015kW per 1kW of CT heat rejected)";
+      n)} "Nominal cooling tower power based on CT capacity Q_cond (assume specific fan power is 0.015kW per 1kW of CT heat rejected)";
   parameter Modelica.Units.SI.TemperatureDifference dTCHW_nominal=5.56
     "Temperature difference at chilled water side";
   parameter Modelica.Units.SI.TemperatureDifference dTCW_nominal=5.18
