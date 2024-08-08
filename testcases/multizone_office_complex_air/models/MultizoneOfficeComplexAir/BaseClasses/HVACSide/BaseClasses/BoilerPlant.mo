@@ -206,6 +206,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.B
 MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Control.PlantStageN</a> for a description of the boiler stage control. </p>
 </html>", revisions = "<html>
 <ul>
+<li>August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
+<p>Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
 <li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
 <p> First implementation.</p>
 </ul>

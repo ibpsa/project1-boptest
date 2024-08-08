@@ -350,6 +350,8 @@ See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSid
 <p>The water side system controls include the chiller plant staging control, chilled water supply temperature control, secondary chilled water pump staging control, secondary chilled water loop static pressure control, cooling tower supply water temperature control, minimum condenser supply water temperature control, boiler staging control, boiler water temperature control, and boiler hot water loop static pressure control.</p>
 </html>", revisions = "<html>
 <ul>
+<li>August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
+<p>Added CO2 and air infiltration features; Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
 <li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:
 <p> First implementation.</p>
 </ul>
