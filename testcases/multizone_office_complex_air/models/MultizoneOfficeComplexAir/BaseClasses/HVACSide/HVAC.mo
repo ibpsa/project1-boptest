@@ -69,7 +69,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant
     boiWatPla(secPumCon(conPI(k=0.001)), redeclare package MediumHW =
-        MediumHeaWat) "Boiler hot water plant"
+        MediumHeaWat,
+        alpha=alpha) "Boiler hot water plant"
     annotation (Placement(transformation(extent={{116,-110},{136,-90}})));
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.WaterSide.Network.PipeNetwork

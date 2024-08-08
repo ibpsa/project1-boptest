@@ -3,14 +3,15 @@ model BoilerPlant "Boiler hot water plant"
   replaceable package MediumHW =
      Modelica.Media.Interfaces.PartialMedium
     "Medium in the hot water side";
+  parameter Real alpha = 1  "Sizing factor for overall system design capacity and mass flow rate";
   parameter Integer n=2
     "Number of boilers";
   parameter Integer m=2
     "Number of pumps";
   parameter Real thrhol[:]= {0.95}
     "Threshold for boiler staging";
-  parameter Real Cap[:] = {4191000/n for i in linspace(1, n, n)} "Rated Plant Capacity";
-  parameter Modelica.Units.SI.MassFlowRate mHW_flow_nominal[:]={4191000/n/20
+  parameter Real Cap[:] = {4191000*alpha/n for i in linspace(1, n, n)} "Rated Plant Capacity";
+  parameter Modelica.Units.SI.MassFlowRate mHW_flow_nominal[:]={4191000*alpha/n/20
       /4200 for i in linspace(
       1,
       n,
