@@ -191,6 +191,13 @@ class KPI(Resource):
         status, message, payload = case.get_kpis()
         return construct(status, message, payload)
 
+class KPI_Disaggregated(Resource):
+    '''Interface to test case KPIs disaggregated and with absolute values.'''
+
+    def get(self):
+        '''GET request to receive KPIs disaggregated and with absolute values.'''
+        status, message, payload = case.get_kpis_disaggregated()
+        return construct(status, message, payload)
 
 class Forecast(Resource):
     '''Interface to test case forecast data.'''
@@ -267,6 +274,7 @@ api.add_resource(Measurements, '/measurements')
 api.add_resource(Forecast_Points, '/forecast_points')
 api.add_resource(Results, '/results')
 api.add_resource(KPI, '/kpi')
+api.add_resource(KPI_Disaggregated, '/kpi_disaggregated')
 api.add_resource(Forecast, '/forecast')
 api.add_resource(Scenario, '/scenario')
 api.add_resource(Name, '/name')

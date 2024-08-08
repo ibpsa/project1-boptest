@@ -792,6 +792,50 @@ class TestCase(object):
 
         return status, message, payload
 
+    def get_kpis_disaggregated(self):
+        '''Returns KPIs disaggregated and with absolute values.
+        Requires standard sensor signals.
+        
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        status: int
+            Indicates whether a request for querying the KPIs has been completed.
+            If 200, the KPIs were successfully queried.
+            If 500, an internal error occured.
+        message: str
+            Includes detailed debugging information
+        payload : dict
+            Dictionary containing KPIs disaggregated and with absolute values.
+            {<kpi_ele_name>:<kpi_ele_value>}
+            Returns None if error during calculation.
+
+        '''
+
+        status = 200
+        message = "Queried disaggregated KPIs successfully."
+        try:
+            # Set correct price scenario for cost
+            if self.scenario['electricity_price'] == 'constant':
+                price_scenario = 'Constant'
+            elif self.scenario['electricity_price'] == 'dynamic':
+                price_scenario = 'Dynamic'
+            elif self.scenario['electricity_price'] == 'highly_dynamic':
+                price_scenario = 'HighlyDynamic'
+            # Calculate the disaggregated kpis
+            payload = self.cal.get_kpis_disaggregated(price_scenario=price_scenario)
+        except:
+            payload = None
+            status = 500
+            message = "Failed to query disaggregated KPIs: {}".format(traceback.format_exc())
+            logging.error(message)
+        logging.info(message)
+
+        return status, message, payload
+
     def get_forecast_points(self):
         '''Returns a dictionary of available forecast points and their meta-data.
 

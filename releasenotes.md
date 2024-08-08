@@ -13,6 +13,7 @@ Released on xx/xx/xxxx.
 - Specify version of scipy to 1.13.0 in test case Dockerfile.  This is for [#657](https://github.com/ibpsa/project1-boptest/issues/657).
 - Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
+- Implement method to get disaggregated KPIs with absolute values. This enables to make a more comprehensive analysis of which elements are contributing to each KPI. This is for [#604](https://github.com/ibpsa/project1-boptest/issues/604).
 
 ## BOPTEST v0.6.0
 
@@ -32,7 +33,6 @@ Released on 04/03/2024.
 - Fix unit tests for possible false passes in certain test cases. This is for [#620](https://github.com/ibpsa/project1-boptest/issues/620).
 - Add ``activate`` control inputs to all test case documentation and update ``get_html_IO.py`` to print one file with all inputs, outputs, and forecasts. This is for [#555](https://github.com/ibpsa/project1-boptest/issues/555).
 - Add storing of scenario result trajectories, kpis, and test information to simulation directory within test case docker container. This is for [#626](https://github.com/ibpsa/project1-boptest/issues/626).
-
 
 ## BOPTEST v0.5.0
 
