@@ -359,7 +359,7 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     zonVAVCon[5](
     each MinFlowRateSetPoi=0.3,
     each HeatingFlowRateSetPoi=0.5,
-    heaCon(Ti=60, yMin=0.),
+    heaCon(Ti=60, yMin=0.005),
     cooCon(k=11, Ti=60))
     "Zone terminal VAV controller (airflow rate, reheat valve)l "
     annotation (Placement(transformation(extent={{-14,118},{6,138}})));
@@ -855,6 +855,8 @@ MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Zon
 MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.ZoneTerminal.Controls.ZonCon</a> for a description of the zone terminal VAV controller. </p>
 </html>", revisions = "<html>
 <ul>
+<li> August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
+<p> Added CO2 and air infiltration features; Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
 <li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang:
 <p> First implementation.</p>
 </ul>
