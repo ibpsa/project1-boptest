@@ -1,5 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses;
 model Airside "Air side system"
+  parameter Real alpha = 1  "Sizing factor for overall system design capacity and mass flow rate";
   parameter Integer n =  3  "Number of floors";
   parameter Modelica.Units.SI.Pressure PreDroCoiAir=50
     "Pressure drop in the air side";
@@ -31,8 +32,8 @@ model Airside "Air side system"
       mAirFloRat5[3])/1.2*2}} "Volume flow rate curve";
   parameter Real HydEff[n,:] = {{0.93*0.65,0.93*0.7,0.93,0.93*0.6} for i in linspace(1,n,n)} "Hydraulic efficiency";
   parameter Real MotEff[n,:] = {{0.6045*0.65,0.6045*0.7,0.6045,0.6045*0.6} for i in linspace(1,n,n)} "Motor efficiency";
-  parameter Modelica.Units.SI.Pressure SupPreCur[n,:]={{1400*beta,1000*beta,700*beta,700*0.5*beta} for i in linspace(1,n,n)} "Pressure curve";
-  parameter Modelica.Units.SI.Pressure RetPreCur[n,:]={{600*beta,400*beta,200*beta,100*beta} for i in linspace(1,n,n)} "Pressure curve";
+  parameter Modelica.Units.SI.Pressure SupPreCur[n,:]={{2800,2000,1400,700} for i in linspace(1,n,n)} "Pressure curve";
+  parameter Modelica.Units.SI.Pressure RetPreCur[n,:]={{1200,800,400,200} for i in linspace(1,n,n)} "Pressure curve";
   parameter Modelica.Units.SI.Pressure PreAirDroMai1=140
     "Pressure drop 1 across the duct";
   parameter Modelica.Units.SI.Pressure PreAirDroMai2=140
@@ -94,11 +95,11 @@ model Airside "Air side system"
   parameter Modelica.Units.SI.MassFlowRate mWatFloRat5[n]={mAirFloRat5[1]*0.3*(
       35 - 12.88)/4.2/20,mAirFloRat5[2]*0.3*(35 - 12.88)/4.2/20,mAirFloRat5[3]*
       0.3*(35 - 12.88)/4.2/20} "mass flow rate for vav 5";
-  parameter Modelica.Units.SI.MassFlowRate mWatFloRatBot=26.7
+  parameter Modelica.Units.SI.MassFlowRate mWatFloRatBot=26.7*alpha
     "mass flow rate for cooling coil chilled water in floor 1";
-  parameter Modelica.Units.SI.MassFlowRate mWatFloRatMid=267
+  parameter Modelica.Units.SI.MassFlowRate mWatFloRatMid=267*alpha
     "mass flow rate for cooling coil chilled water in floor 2";
-  parameter Modelica.Units.SI.MassFlowRate mWatFloRatTop=26.7
+  parameter Modelica.Units.SI.MassFlowRate mWatFloRatTop=26.7*alpha
     "mass flow rate for cooling coil chilled water in floor 3";
   parameter Modelica.Units.SI.Pressure PreDroAir1=200
     "Pressure drop in the air side of vav 1";
@@ -130,8 +131,6 @@ model Airside "Air side system"
     "Pressure drop in the water side of vav 1";
   parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 1";
-  final parameter Real alpha = 0.8  "Sizing factor";
-  final parameter Real beta = 2  "Sizing factor for AHU fan pressure";
 
   //package MediumAir = Buildings.Media.Air "Medium model for air";
   package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";

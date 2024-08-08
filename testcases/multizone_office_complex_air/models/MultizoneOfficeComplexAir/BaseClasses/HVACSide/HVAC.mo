@@ -1,6 +1,7 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide;
 model HVAC "Full HVAC system that contains the air side and water side systems"
   extends MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Airside(
+      alpha=alpha,
       sou(nPorts=3),
       floor1(
       reaZonCor(zone="bot_floor_cor"),
@@ -38,6 +39,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonNor(zone="top_floor_nor"),
       oveZonWes(zone="top_floor_wes"),
       final mWatFloRat=mFloRat3));
+
+  parameter Real alpha = 1  "Sizing factor for overall system design capacity and mass flow rate";
 
   parameter Modelica.Units.SI.MassFlowRate mFloRat1=-datChi[1].QEva_flow_nominal
       /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12
@@ -109,7 +112,7 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
                              "Chilled water plant distribution network"
     annotation (Placement(transformation(extent={{20,-88},{40,-108}})));
   Buildings.Fluid.Chillers.Data.ElectricEIR.ElectricEIRChiller_Trane_CVHE_1442kW_6_61COP_VSD
-    datChi[3](each QEva_flow_nominal=-5500000/3)
+    datChi[3](each QEva_flow_nominal=-5500000/3*alpha)
                                                "Chiller data record"
                                                annotation (Placement(transformation(extent={{-52,
             -106},{-32,-86}})));
