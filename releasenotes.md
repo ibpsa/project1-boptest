@@ -12,6 +12,7 @@ Released on xx/xx/xxxx.
 - Remove matplotlib requirement from travis unit testing. This is for [#655](https://github.com/ibpsa/project1-boptest/issues/655).
 - Specify version of scipy to 1.13.0 in test case Dockerfile.  This is for [#657](https://github.com/ibpsa/project1-boptest/issues/657).
 - Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
+- Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 - Implement method to get disaggregated KPIs with absolute values. This enables to make a more comprehensive analysis of which elements are contributing to each KPI. This is for [#604](https://github.com/ibpsa/project1-boptest/issues/604).
 
 ## BOPTEST v0.6.0
