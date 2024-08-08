@@ -4,27 +4,97 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Supply air temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"))  "Supply air temperature measurement"
-    annotation (Placement(transformation(extent={{0,190},{20,210}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Supply_Air_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.          
+       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipment;
+          ref:unit literal:K;
+          ref:isWritable false.
+       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+          Placement(transformation(extent={{0,190},{20,210}})));
   Buildings.Utilities.IO.SignalExchange.Read TMix(
     description="Mixed air temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K"))  "Mixed air temperature measurement"
-    annotation (Placement(transformation(extent={{0,160},{20,180}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Mixed_Air_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone; 
+          ref:equipment: literal:equipement;
+          ref:unit literal:K;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+          Placement(transformation(extent={{0,160},{20,180}})));
   Buildings.Utilities.IO.SignalExchange.Read TRet(
     description="Return air temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Return air temperature measurement"
-    annotation (Placement(transformation(extent={{0,130},{20,150}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Return_Air_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone; 
+          ref:equipment: literal:equipement;
+          ref:unit literal:K;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+Placement(transformation(extent={{0,130},{20,150}})));
   Buildings.Utilities.IO.SignalExchange.Read V_flow_sup(
     description="Supply air flowrate measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s"))  "Supply air flowrate measurement"
-    annotation (Placement(transformation(extent={{0,100},{20,120}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Supply_Air_Flow_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:VolumeFlowRate;
+          qudt:hasUnit qudt:M3-PER-SEC.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:m3/s;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+Placement(transformation(extent={{0,100},{20,120}})));
   Buildings.Utilities.IO.SignalExchange.Read V_flow_ret(
     description="Return air flowrate measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s"))  "Return air flowrate measurement"
-    annotation (Placement(transformation(extent={{0,70},{20,90}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Return_Air_Flow_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:VolumeFlowRate;
+          qudt:hasUnit qudt:M3-PER-SEC.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y ;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:m3/s ;
+          ref:isWritable false. 
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+          Placement(transformation(extent={{0,70},{20,90}})));
   Modelica.Blocks.Interfaces.RealInput TSup_in
     "Supply air temperature measurement"
     annotation (Placement(transformation(extent={{-140,180},{-100,220}})));
@@ -46,13 +116,41 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Discharge pressure of supply fan for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="Pa"))  "Discharge pressure of supply fan"
-    annotation (Placement(transformation(extent={{0,10},{20,30}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Differential_Pressure_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:ForcePerArea;
+          qudt:hasUnit qudt:PA.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:Pa ;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+          Placement(transformation(extent={{0,10},{20,30}})));
 
   Buildings.Utilities.IO.SignalExchange.Read PFanSup(
     description="Electrical power measurement of supply fan for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electrical power of supply fan"
-    annotation (Placement(transformation(extent={{0,-20},{20,0}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:ElectricPower;
+          qudt:hasUnit qudt:W.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:W;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+Placement(transformation(extent={{0,-20},{20,0}})));
 
   Modelica.Blocks.Interfaces.RealInput PFanSup_in
     "Electrical power of supply fan"
@@ -62,7 +160,20 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Electrical power measurement of cooling coil pump for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electrical power of cooling coil pump"
-    annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:ElectricPower;
+          qudt:hasUnit qudt:W.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:W;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),Placement(transformation(extent={{0,-50},{20,-30}})));
 
   Modelica.Blocks.Interfaces.RealInput PPumCoo_in
     "Electrical power of cooling coil pump"
@@ -71,7 +182,21 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Electrical power measurement of heating coil pump for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electrical power of heating coil pump"
-    annotation (Placement(transformation(extent={{0,-80},{20,-60}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:ElectricPower;
+          qudt:hasUnit qudt:W.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:W;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+      Placement(transformation(extent={{0,-80},{20,-60}})));
 
   Modelica.Blocks.Interfaces.RealInput PPumHea_in
     "Electrical power of heating coil pump"
@@ -80,7 +205,21 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Cooling coil supply water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Cooling coil water supply temperature measurement"
-    annotation (Placement(transformation(extent={{0,-110},{20,-90}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Chilled_Water_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:K;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+          Placement(transformation(extent={{0,-110},{20,-90}})));
 
   Modelica.Blocks.Interfaces.RealInput TCooCoiSup_in
     "Cooling coil water supply temperature measurement"
@@ -98,19 +237,61 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     description="Cooling coil return water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Cooling coil water return temperature measurement"
-    annotation (Placement(transformation(extent={{0,-140},{20,-120}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Chilled_Water_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:K;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+      Placement(transformation(extent={{0,-140},{20,-120}})));
 
   Buildings.Utilities.IO.SignalExchange.Read THeaCoiSup(
     description="Heating coil supply water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Heating coil water supply temperature measurement"
-    annotation (Placement(transformation(extent={{0,-170},{20,-150}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Hot_Water_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:K;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+          Placement(transformation(extent={{0,-170},{20,-150}})));
 
   Buildings.Utilities.IO.SignalExchange.Read THeaCoiRet(
     description="Heating coil return water temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Heating coil water return temperature measurement"
-    annotation (Placement(transformation(extent={{0,-200},{20,-180}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Hot_Water_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:K;
+          ref:isWritable false.
+      bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
+      Placement(transformation(extent={{0,-200},{20,-180}})));
 
 equation
   connect(TSup.u, TSup_in)

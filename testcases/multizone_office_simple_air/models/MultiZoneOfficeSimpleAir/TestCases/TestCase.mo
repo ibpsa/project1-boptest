@@ -15,7 +15,7 @@ model TestCase
     redeclare MultiZoneOfficeSimpleAir.BaseClasses.ASHRAE2006 hvac(amb(C=fill(
             400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
             Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumA.nC))),
-    redeclare Buildings.Examples.VAVReheat.Validation.BaseClasses.Floor flo,
+    redeclare MultiZoneOfficeSimpleAir.BaseClasses.Floor flo,
     chi(TSetSup=279.15, QEva_flow_min=-hvac.mCooWat_flow_nominal*4200*10),
     weaDat(computeWetBulbTemperature=true),
     jun(
@@ -75,7 +75,27 @@ equation
       points={{-70.1,-20.1},{-66,-20.1},{-66,-68},{-10,-68},{-10,-80}},
       color={255,204,51},
       thickness=0.5));
-  annotation (
+  annotation (__Buildings(semantic(
+    metdataLanguageDefinition="Brick 1.3 text/turtle" "https://brickschema.org",
+    metadataLanguage="Brick 1.3 text/turtle"
+       "@prefix bldg: <https://BESTESTAir.urn#> .
+        @prefix brick: <https://brickschema.org/schema/Brick#> .
+        @prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+        @prefix literal: <https://literal_values.urn#> .
+        @prefix quantitykind: <http://qudt.org/vocab/quantitykind/> .
+        @prefix qudt: <http://qudt.org/schema/qudt/> .
+        @prefix sh: <http://www.w3.org/ns/shacl#> .
+        @prefix boptestrules: <https://boptest-rules.urn#> .
+
+        bldg:con a brick:Thermostat;
+          boptestrules:sameAs bldg:con_Thermostat_T .
+        bldg:fcu a brick:FCU ;
+          boptestrules:sameAs bldg:fcu_FanCoilUnit_T .
+        bldg:zon a brick:Zone ;
+          brick:isLocationOf bldg:con .  
+        bldg:fcu brick:feeds bldg:zon .
+
+        ")),
     Documentation(info="<html>
 <p>
 <h3>General</h3>

@@ -14,13 +14,43 @@ model WriteZoneLoc "Collection of zone local overwrite points for BOPTEST"
       unit="1",
       min=0,
       max=1)) "Damper position setpoint"
-    annotation (Placement(transformation(extent={{0,30},{20,50}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Damper_Position_Setpoint ;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasUnit qudt:UNITLESS.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:activate literal:<cdl_instance_name>_activate;
+          ref:name literal:<cdl_instance_name>_u;
+          ref:isWritable true;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:max literal:max;
+          ref:min literal:min;
+          ref:unit literal:1.")),
+          Placement(transformation(extent={{0,30},{20,50}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite yReaHea(description=
         "Reheat control signal for zone " + zone, u(
       unit="1",
       min=0,
       max=1)) "Reheat control signal"
-    annotation (Placement(transformation(extent={{0,-50},{20,-30}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Reheat_Command;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasUnit qudt:UNITLESS.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:activate literal:<cdl_instance_name>_activate;
+          ref:name literal:<cdl_instance_name>_u;
+          ref:isWritable true;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:max literal:max;
+          ref:min literal:min;
+          ref:unit literal:1.")),
+          Placement(transformation(extent={{0,-50},{20,-30}})));
   Modelica.Blocks.Interfaces.RealOutput yDam_out
     "Control signal for terminal box damper"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
