@@ -1,7 +1,7 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide;
 model HVAC "Full HVAC system that contains the air side and water side systems"
   extends MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Airside(
-      alpha=alpha,
+      alpha=1,
       sou(nPorts=3),
       floor1(
       reaZonCor(zone="bot_floor_cor"),
@@ -39,8 +39,6 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
       oveZonNor(zone="top_floor_nor"),
       oveZonWes(zone="top_floor_wes"),
       final mWatFloRat=mFloRat3));
-
-  parameter Real alpha = 1  "Sizing factor for overall system design capacity and mass flow rate";
 
   parameter Modelica.Units.SI.MassFlowRate mFloRat1=-datChi[1].QEva_flow_nominal
       /4200/chiWatPla.dTCHW_nominal*chiWatPla.n/12
