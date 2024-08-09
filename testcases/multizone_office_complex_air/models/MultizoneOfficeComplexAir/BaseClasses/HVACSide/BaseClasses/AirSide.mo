@@ -181,7 +181,7 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 253.15 then floor1.duaFanAirHanUni.occ
+      booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 253.15 then floor1.duaFanAirHanUni.onFanOcc
              else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
@@ -257,7 +257,7 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor2.duaFanAirHanUni.TOut < 253.15 then floor2.duaFanAirHanUni.occ
+      booleanExpression(y=if floor2.duaFanAirHanUni.TOut < 253.15 then floor2.duaFanAirHanUni.onFanOcc
              else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
@@ -333,7 +333,7 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 253.15 then floor3.duaFanAirHanUni.occ
+      booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 253.15 then floor3.duaFanAirHanUni.onFanOcc
              else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
@@ -439,8 +439,8 @@ equation
                                         color={0,0,127}));
   connect(TSupAirSet[1].y, floor1.disTSet) annotation (Line(points={{-39,70},{
           108,70},{108,48},{112.438,48}}, color={0,0,127}));
-  connect(reaToBooOcc.y, floor1.occ) annotation (Line(points={{-39,100},{-36,
-          100},{-36,86},{106,86},{106,27},{112.438,27}}, color={255,0,255}));
+  connect(reaToBooOcc.y, floor1.onFanOcc) annotation (Line(points={{-39,100},{
+          -36,100},{-36,86},{106,86},{106,27},{112.438,27}}, color={255,0,255}));
   connect(floor1.onZon, onZon[1].y) annotation (Line(points={{112.438,21.75},{
           104,21.75},{104,76},{61,76}},               color={255,0,255}));
 
@@ -465,7 +465,7 @@ equation
   connect(floor2.port_Fre_Air, sou[2].ports[2]);
   connect(dpStaSet[2].y, floor2.pSet);
   connect(TSupAirSet[2].y, floor2.disTSet);
-  connect(reaToBooOcc.y, floor2.occ);
+  connect(reaToBooOcc.y, floor2.onFanOcc);
   connect(floor2.onZon, onZon[2].y);
 
    for j in 1:5 loop
@@ -481,7 +481,7 @@ equation
   connect(floor3.port_Fre_Air, sou[3].ports[2]);
   connect(dpStaSet[3].y, floor3.pSet);
   connect(TSupAirSet[3].y, floor3.disTSet);
-  connect(reaToBooOcc.y, floor3.occ);
+  connect(reaToBooOcc.y, floor3.onFanOcc);
   connect(floor3.onZon, onZon[3].y);
 
    for j in 1:5 loop

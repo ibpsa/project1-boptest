@@ -17,7 +17,8 @@ model VAVDualFanControl
     Ti=Ti,
     conPID(y_reset=1))
     annotation (Placement(transformation(extent={{-60,36},{-40,56}})));
-  Modelica.Blocks.Interfaces.BooleanInput occ
+  Modelica.Blocks.Interfaces.BooleanInput onFanOcc
+    "Fan On signal during occupied period"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
   Modelica.Blocks.Interfaces.RealInput SetPoi
     "Connector of setpoint input signal"
@@ -27,7 +28,8 @@ model VAVDualFanControl
     annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
   Modelica.Blocks.Interfaces.RealOutput ySup "Connector of Real output signal"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.BooleanInput CyclingOn
+  Modelica.Blocks.Interfaces.BooleanInput onFanUnocc
+    "Fan On signal during unoccupied period"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
   Modelica.Blocks.Logical.Not not1
     annotation (Placement(transformation(extent={{-62,0},{-42,20}})));
@@ -41,16 +43,15 @@ model VAVDualFanControl
   Modelica.Blocks.Math.BooleanToReal booToRea
     annotation (Placement(transformation(extent={{-20,-40},{0,-20}})));
 equation
-  connect(variableSpeed.On, occ) annotation (Line(points={{-62,52},{-80,52},{-80,
-          60},{-120,60}}, color={255,0,255}));
+  connect(variableSpeed.On, onFanOcc) annotation (Line(points={{-62,52},{-80,52},
+          {-80,60},{-120,60}}, color={255,0,255}));
   connect(variableSpeed.mea, Mea) annotation (Line(
       points={{-62,40},{-70,40},{-70,-20},{-120,-20}},
       color={0,0,127}));
-  connect(cyclingOn.CyclingOn, CyclingOn) annotation (Line(
-      points={{-62,-30},{-80,-30},{-80,-60},{-120,-60}},
-      color={255,0,255}));
-  connect(not1.u, occ) annotation (Line(points={{-64,10},{-80,10},{-80,60},{-120,
-          60}}, color={255,0,255}));
+  connect(cyclingOn.CyclingOn, onFanUnocc) annotation (Line(points={{-62,-30},{
+          -80,-30},{-80,-60},{-120,-60}}, color={255,0,255}));
+  connect(not1.u, onFanOcc) annotation (Line(points={{-64,10},{-80,10},{-80,60},
+          {-120,60}}, color={255,0,255}));
   connect(not1.y, cyclingOn.OnSigIn) annotation (Line(
       points={{-41,10},{-24,10},{-24,-8},{-80,-8},{-80,-26},{-62,-26}},
       color={255,0,255}));
@@ -64,8 +65,8 @@ equation
           38},{34,38}}, color={0,0,127}));
   connect(SetPoi, variableSpeed.set) annotation (Line(points={{-120,20},
           {-74,20},{-74,46},{-62,46}}, color={0,0,127}));
-  connect(occ, swi.u2) annotation (Line(points={{-120,60},{-80,60},{-80,28},{-20,
-          28},{-20,38},{10,38}}, color={255,0,255}));
+  connect(onFanOcc, swi.u2) annotation (Line(points={{-120,60},{-80,60},{-80,28},
+          {-20,28},{-20,38},{10,38}}, color={255,0,255}));
   connect(cyclingOn.OnSigOut, booToRea.u)
     annotation (Line(points={{-39,-30},{-22,-30}}, color={255,0,255}));
   connect(booToRea.y, swi.u3) annotation (Line(points={{1,-30},{6,-30},{6,

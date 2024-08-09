@@ -122,7 +122,8 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
                 MediumAir)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
-  Modelica.Blocks.Interfaces.BooleanInput occ "occupied boolean signal"
+  Modelica.Blocks.Interfaces.BooleanInput onFanOcc
+    "Fan On signal during occupied period"
     annotation (Placement(transformation(extent={{-120,-110},{-100,-90}})));
   Modelica.Blocks.Interfaces.RealInput disTSet
     "Connector of setpoint input signal" annotation (Placement(
@@ -333,10 +334,10 @@ equation
           {8,-50},{8,12},{-0.2,12}},      color={255,0,255}));
   connect(mixBox.TOut, TOut) annotation (Line(points={{-54,-12},{-54,-80},
           {-110,-80}}, color={0,0,127}));
-  connect(occ, mixBox.On) annotation (Line(points={{-110,-100},{-68,-100},{-68,
-          -12}}, color={255,0,255}));
-  connect(occ, supFan.occ) annotation (Line(points={{-110,-100},{4,-100},{4,6},
-          {16,6}}, color={255,0,255}));
+  connect(onFanOcc, mixBox.On) annotation (Line(points={{-110,-100},{-68,-100},
+          {-68,-12}}, color={255,0,255}));
+  connect(onFanOcc, supFan.onFanOcc) annotation (Line(points={{-110,-100},{4,-100},
+          {4,6},{16,6}}, color={255,0,255}));
   connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,6.6},{82,40},
           {110,40}},     color={0,0,127},
       pattern=LinePattern.Dash));

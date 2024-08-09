@@ -289,7 +289,7 @@ equation
       points={{-79,-96},{-34,-96},{-34,-18.25},{-25.5625,-18.25}},
       color={255,0,255},
       pattern=LinePattern.Dash));
-  connect(airsideFloor.occ, airsideFloor.onZon) annotation (Line(
+  connect(airsideFloor.onFanOcc, airsideFloor.onZon) annotation (Line(
       points={{-25.5625,-13},{-34,-13},{-34,-18.25},{-25.5625,-18.25}},
       color={255,0,255},
       pattern=LinePattern.Dash));

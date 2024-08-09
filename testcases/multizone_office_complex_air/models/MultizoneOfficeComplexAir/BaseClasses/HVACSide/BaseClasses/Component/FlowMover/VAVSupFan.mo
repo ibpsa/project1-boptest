@@ -24,8 +24,8 @@ model VAVSupFan
         transformation(extent={{-140,-120},{-100,-80}})));
   Modelica.Blocks.Interfaces.RealOutput yRet "Output signal connector"
     annotation (Placement(transformation(extent={{100,-92},{120,-72}})));
-  Control.TemperatureCheck onFan(numTemp=numTemp)
-    "Circulation fan ON signal based on zonal temperature and setpoints"
+  Control.TemperatureCheck onFanUnocc(numTemp=numTemp)
+    "Circulation fan ON signal based on zonal temperature and setpoints during unoccupied period"
     annotation (Placement(transformation(extent={{-92,-50},{-72,-30}})));
   Modelica.Blocks.Interfaces.RealInput T[numTemp]
     "Connector of setpoint input signal" annotation (Placement(
@@ -76,21 +76,21 @@ equation
   connect(withoutMotor.P, P) annotation (Line(
       points={{3,6},{12,6},{20,6},{20,40},{110,40}},
       color={0,0,127}));
-  connect(occ, varSpe.occ)
+  connect(onFanOcc, varSpe.onFanOcc)
     annotation (Line(points={{-120,60},{-62,60}}, color={255,0,255}));
   connect(varSpe.SetPoi, pSet) annotation (Line(points={{-62,56},{-80,56},
           {-80,20},{-120,20}}, color={0,0,127}));
   connect(varSpe.Mea, pMea) annotation (Line(points={{-62,52},{-66,52},{-66,
           16},{-56,16},{-56,-100},{-120,-100}}, color={0,0,127}));
-  connect(onFan.Temp, T) annotation (Line(points={{-94,-40},{-100,-40},{-100,-60},
-          {-120,-60}}, color={0,0,127}));
-  connect(onFan.On, varSpe.CyclingOn) annotation (Line(points={{-71,-40},{-68,-40},
-          {-68,48},{-62,48}}, color={255,0,255}));
-  connect(onFan.CooSetPoi, cooTSet) annotation (Line(points={{-94,-34},{-98,-34},
-          {-98,-20},{-120,-20}}, color={0,0,127}));
-  connect(onFan.HeaSetPoi, heaTSet) annotation (Line(points={{-94,-46},{-98,-46},
-          {-98,-60},{-60,-60},{-60,34},{-88,34},{-88,100},{-120,100}}, color={0,
-          0,127}));
+  connect(onFanUnocc.Temp, T) annotation (Line(points={{-94,-40},{-100,-40},{-100,
+          -60},{-120,-60}}, color={0,0,127}));
+  connect(onFanUnocc.On, varSpe.onFanUnocc) annotation (Line(points={{-71,-40},
+          {-68,-40},{-68,48},{-62,48}}, color={255,0,255}));
+  connect(onFanUnocc.CooSetPoi, cooTSet) annotation (Line(points={{-94,-34},{-98,
+          -34},{-98,-20},{-120,-20}}, color={0,0,127}));
+  connect(onFanUnocc.HeaSetPoi, heaTSet) annotation (Line(points={{-94,-46},{-98,
+          -46},{-98,-60},{-60,-60},{-60,34},{-88,34},{-88,100},{-120,100}},
+        color={0,0,127}));
   connect(varSpe.ySup, oveSpeSupFan.u)
     annotation (Line(points={{-39,54},{-28,54}}, color={0,0,127}));
   connect(oveSpeSupFan.y, withoutMotor.u) annotation (Line(points={{-5,54},

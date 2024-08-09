@@ -36,7 +36,7 @@ partial model FlowMover
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealOutput P "Electrical power consumed"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Interfaces.BooleanInput occ "On-off signal"
+  Modelica.Blocks.Interfaces.BooleanInput onFanOcc "On-off signal"
     annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
   Modelica.Blocks.Interfaces.RealOutput Rat
     "Actual normalised pump speed that is used for computations"

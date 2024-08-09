@@ -298,8 +298,8 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     annotation (Placement(transformation(extent={{-170,30},{-150,50}})));
   Modelica.Blocks.Routing.BooleanReplicator booleanReplicator(nout=5)
     annotation (Placement(transformation(extent={{-140,-96},{-126,-84}})));
-  Modelica.Blocks.Interfaces.BooleanInput occ
-    "Connector of Boolean input signal" annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.BooleanInput onFanOcc
+    "Fan On signal during occupied period" annotation (Placement(transformation(
           extent={{-180,-70},{-160,-50}}), iconTransformation(extent={{-180,-70},
             {-160,-50}})));
   Modelica.Blocks.Interfaces.BooleanInput onZon
@@ -436,8 +436,8 @@ equation
           4.54545}},
         color={0,0,127}));
 
-  connect(occ, duaFanAirHanUni.occ) annotation (Line(points={{-170,-60},{-108,
-          -60},{-108,11.6364},{-79.4,11.6364}}, color={255,0,255}));
+  connect(onFanOcc, duaFanAirHanUni.onFanOcc) annotation (Line(points={{-170,
+          -60},{-108,-60},{-108,11.6364},{-79.4,11.6364}}, color={255,0,255}));
   connect(booleanReplicator.u,onZon)  annotation (Line(
       points={{-141.4,-90},{-170,-90}},
       color={255,0,255}));
@@ -451,8 +451,8 @@ equation
   connect(port_a_CooWat, port_a_CooWat) annotation (Line(points={{-30,-100},
           {-30,-100}},     color={0,127,255}));
 
-  connect(occ, reaAhu.occ_in) annotation (Line(points={{-170,-60},{-112,-60},{-112,
-          62},{26,62},{26,62.8}}, color={255,0,255}));
+  connect(onFanOcc, reaAhu.occ_in) annotation (Line(points={{-170,-60},{-112,-60},
+          {-112,62},{26,62},{26,62.8}}, color={255,0,255}));
   connect(duaFanAirHanUni.TSupAir, reaAhu.TSup_in) annotation (Line(
       points={{-48.6,-4.90909},{-34,-4.90909},{-34,56.1538},{26,56.1538}},
       color={0,0,127},
