@@ -72,8 +72,8 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     VolFloCur=VolFloCur,
     PreCur=SupPreCur)
     annotation (Placement(transformation(extent={{18,-10},{38,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package
-      Medium = MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
+               MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.Coil.CoolingCoil
@@ -102,27 +102,27 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-60,0})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package
-      Medium =  MediumWat)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_Wat(redeclare package Medium =
+                MediumWat)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{10,90},{30,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package
-      Medium = MediumWat)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_Wat(redeclare package Medium =
+               MediumWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package
-      Medium =  MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium
+      =         MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package
-      Medium = MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium
+      =        MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package
-      Medium =  MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
+                MediumAir)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{90,-90},{110,-70}})));
-  Modelica.Blocks.Interfaces.BooleanInput On
+  Modelica.Blocks.Interfaces.BooleanInput occ "occupied boolean signal"
     annotation (Placement(transformation(extent={{-120,-110},{-100,-90}})));
   Modelica.Blocks.Interfaces.RealInput disTSet
     "Connector of setpoint input signal" annotation (Placement(
@@ -241,7 +241,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
       unit="1"))
     annotation (Placement(transformation(extent={{48,-56},{64,-40}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2RetAir(redeclare package
-              Medium = MediumAir, m_flow_nominal=mAirFloRat,
+      Medium =         MediumAir, m_flow_nominal=mAirFloRat,
     C_start=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
     "Sensor at AHU return air"
@@ -257,7 +257,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
         transformation(extent={{100,-110},{120,-90}}), iconTransformation(
           extent={{100,-110},{120,-90}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2FreAir(redeclare package
-              Medium = MediumAir,
+      Medium =         MediumAir,
     allowFlowReversal=false,      m_flow_nominal=mAirFloRat,
     C_start=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
@@ -286,7 +286,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
         transformation(extent={{100,-148},{120,-128}}),
         iconTransformation(extent={{100,-132},{120,-112}})));
   Buildings.Fluid.Sensors.TraceSubstancesTwoPort senCO2SupAir(redeclare package
-              Medium = MediumAir, m_flow_nominal=mAirFloRat,
+      Medium =         MediumAir, m_flow_nominal=mAirFloRat,
     C_start=400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/
         Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM)
     "Sensor at AHU supply air" annotation (Placement(transformation(
@@ -333,10 +333,10 @@ equation
           {8,-50},{8,12},{-0.2,12}},      color={255,0,255}));
   connect(mixBox.TOut, TOut) annotation (Line(points={{-54,-12},{-54,-80},
           {-110,-80}}, color={0,0,127}));
-  connect(On, mixBox.On) annotation (Line(points={{-110,-100},{-68,-100},
-          {-68,-12}}, color={255,0,255}));
-  connect(On, supFan.On) annotation (Line(points={{-110,-100},{4,-100},{4,6},{16,
-          6}},     color={255,0,255}));
+  connect(occ, mixBox.On) annotation (Line(points={{-110,-100},{-68,-100},{-68,
+          -12}}, color={255,0,255}));
+  connect(occ, supFan.occ) annotation (Line(points={{-110,-100},{4,-100},{4,6},
+          {16,6}}, color={255,0,255}));
   connect(senTDisAir.T, TSupAir) annotation (Line(points={{82,6.6},{82,40},
           {110,40}},     color={0,0,127},
       pattern=LinePattern.Dash));

@@ -268,39 +268,41 @@ model AirsideFloor "Thermal zones and corresponding air side HVAC systems"
     PreDroWat5=PreDroWat5,
     eps5=eps5)
     annotation (Placement(transformation(extent={{30,-18},{66,-46}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package Medium =
-        MediumCooWat)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_CooWat(redeclare package Medium
+      = MediumCooWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-70,-110},{-50,-90}}),
         iconTransformation(extent={{-70,-110},{-50,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package Medium =
-        MediumCooWat)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_CooWat(redeclare package Medium
+      = MediumCooWat)
     "Fluid connector a (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-40,-110},{-20,-90}}),
         iconTransformation(extent={{-40,-110},{-20,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package Medium =
-        MediumHeaWat)
+  Modelica.Fluid.Interfaces.FluidPort_a port_a_HeaWat(redeclare package Medium
+      = MediumHeaWat)
     "Second port, typically outlet"
     annotation (Placement(transformation(extent={{30,-110},{50,-90}}),
         iconTransformation(extent={{30,-110},{50,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package Medium =
-        MediumHeaWat)
+  Modelica.Fluid.Interfaces.FluidPort_b port_b_HeaWat(redeclare package Medium
+      = MediumHeaWat)
     "Second port, typically outlet"
     annotation (Placement(transformation(extent={{60,-110},{80,-90}}),
         iconTransformation(extent={{60,-110},{80,-90}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium = MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium
+      =                                                                         MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-174,-50},{-154,-30}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium = MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium
+      =                                                                         MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-170,30},{-150,50}})));
   Modelica.Blocks.Routing.BooleanReplicator booleanReplicator(nout=5)
     annotation (Placement(transformation(extent={{-140,-96},{-126,-84}})));
-  Modelica.Blocks.Interfaces.BooleanInput OnFan
-    "Connector of Boolean input signal"
-    annotation (Placement(transformation(extent={{-180,-70},{-160,-50}}),
-        iconTransformation(extent={{-180,-70},{-160,-50}})));
-  Modelica.Blocks.Interfaces.BooleanInput OnZon
+  Modelica.Blocks.Interfaces.BooleanInput occ
+    "Connector of Boolean input signal" annotation (Placement(transformation(
+          extent={{-180,-70},{-160,-50}}), iconTransformation(extent={{-180,-70},
+            {-160,-50}})));
+  Modelica.Blocks.Interfaces.BooleanInput onZon
     "Connector of Boolean input signal"
     annotation (Placement(transformation(extent={{-180,-100},{-160,-80}}),
         iconTransformation(extent={{-180,-100},{-160,-80}})));
@@ -422,7 +424,7 @@ equation
       points={{-78,-7.27273},{-114,-7.27273},{-114,40},{-160,40}},
       color={0,140,72},
       thickness=0.5));
-  connect(booleanReplicator.y, fivZonVAV.On) annotation (Line(
+  connect(booleanReplicator.y,fivZonVAV.on)  annotation (Line(
       points={{-125.3,-90},{4,-90},{4,-31.7455},{28.8,-31.7455}},
       color={255,0,255}));
   connect(fivZonVAV.p, duaFanAirHanUni.pMea) annotation (Line(points={{55.2,
@@ -434,10 +436,9 @@ equation
           4.54545}},
         color={0,0,127}));
 
-  connect(OnFan, duaFanAirHanUni.On) annotation (Line(points={{-170,-60},{-108,
-          -60},{-108,11.6364},{-79.4,11.6364}},
-                                      color={255,0,255}));
-  connect(booleanReplicator.u, OnZon) annotation (Line(
+  connect(occ, duaFanAirHanUni.occ) annotation (Line(points={{-170,-60},{-108,
+          -60},{-108,11.6364},{-79.4,11.6364}}, color={255,0,255}));
+  connect(booleanReplicator.u,onZon)  annotation (Line(
       points={{-141.4,-90},{-170,-90}},
       color={255,0,255}));
   connect(fivZonVAV.Q_flow, Q_flow) annotation (Line(
@@ -450,8 +451,8 @@ equation
   connect(port_a_CooWat, port_a_CooWat) annotation (Line(points={{-30,-100},
           {-30,-100}},     color={0,127,255}));
 
-  connect(OnFan, reaAhu.occ_in) annotation (Line(points={{-170,-60},{-112,-60},
-          {-112,62},{26,62},{26,62.8}},    color={255,0,255}));
+  connect(occ, reaAhu.occ_in) annotation (Line(points={{-170,-60},{-112,-60},{-112,
+          62},{26,62},{26,62.8}}, color={255,0,255}));
   connect(duaFanAirHanUni.TSupAir, reaAhu.TSup_in) annotation (Line(
       points={{-48.6,-4.90909},{-34,-4.90909},{-34,56.1538},{26,56.1538}},
       color={0,0,127},

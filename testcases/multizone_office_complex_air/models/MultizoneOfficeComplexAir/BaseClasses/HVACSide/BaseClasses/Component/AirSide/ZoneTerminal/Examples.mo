@@ -255,7 +255,7 @@ package Examples
     connect(Q_flow.y, fivZonVAV.Q_flow) annotation (Line(points={{-79,-50},{-48,
             -50},{-48,-18.8},{-30.5333,-18.8}},
                                         color={0,0,127}));
-    connect(booleanExpression.y, fivZonVAV.On) annotation (Line(points={{-49,-4},
+    connect(booleanExpression.y,fivZonVAV.on)  annotation (Line(points={{-49,-4},
             {-38,-4},{-38,-6.4},{-30.5333,-6.4}},                                                                 color={255,0,255}));
     connect(yVal.y, fivZonVAV.yVal) annotation (Line(points={{-79,22},{-40,22},
             {-40,8},{-30.5333,8}},

@@ -15,12 +15,10 @@ partial model FlowMover
     PreCur=PreCur,
     TimCon=TimCon)
     annotation (Placement(transformation(extent={{-18,-10},{2,10}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort temEnt(redeclare package
-      Medium =
+  Modelica.Fluid.Sensors.TemperatureTwoPort temEnt(redeclare package Medium =
         Medium)
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort temLea(redeclare package
-      Medium =
+  Modelica.Fluid.Sensors.TemperatureTwoPort temLea(redeclare package Medium =
         Medium)
     annotation (Placement(transformation(extent={{30,-10},{50,10}})));
   Modelica.Fluid.Sensors.MassFlowRate masFloRat(redeclare package Medium =
@@ -38,7 +36,8 @@ partial model FlowMover
     annotation (Placement(transformation(extent={{90,-10},{110,10}})));
   Modelica.Blocks.Interfaces.RealOutput P "Electrical power consumed"
     annotation (Placement(transformation(extent={{100,30},{120,50}})));
-  Modelica.Blocks.Interfaces.BooleanInput On "On-off signal" annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
+  Modelica.Blocks.Interfaces.BooleanInput occ "On-off signal"
+    annotation (Placement(transformation(extent={{-140,40},{-100,80}})));
   Modelica.Blocks.Interfaces.RealOutput Rat
     "Actual normalised pump speed that is used for computations"
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));

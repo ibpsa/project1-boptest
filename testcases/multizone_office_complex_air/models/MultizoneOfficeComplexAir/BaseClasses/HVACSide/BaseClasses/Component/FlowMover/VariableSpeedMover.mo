@@ -51,9 +51,8 @@ equation
   connect(variableSpeed.y, withoutMotor.u) annotation (Line(
       points={{-39,54},{-30,54},{-30,6},{-19,6}},
       color={0,0,127}));
-  connect(On, variableSpeed.On) annotation (Line(
-      points={{-120,60},{-62,60}},
-      color={255,0,255}));
+  connect(occ, variableSpeed.On)
+    annotation (Line(points={{-120,60},{-62,60}}, color={255,0,255}));
   connect(variableSpeed.set, SetPoi) annotation (Line(
       points={{-62,54},{-78,54},{-78,20},{-120,20}},
       color={0,0,127}));
