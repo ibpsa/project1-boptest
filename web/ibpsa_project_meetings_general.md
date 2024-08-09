@@ -12,7 +12,19 @@ permalink: /ibpsa/project/meetings/general/
 
 # Upcoming Meetings
 
-Coming soon...
+### November 20-21, 2024: In-Person Expert Meeting, Denmark
+
+**Location:**
+Technical University of Denmark (DTU)
+
+**Time:**
+November 20-21, 2024
+
+**Registration:**
+Coming Soon
+
+**Agenda:**
+Coming Soon
 
 # Past Meetings
 
