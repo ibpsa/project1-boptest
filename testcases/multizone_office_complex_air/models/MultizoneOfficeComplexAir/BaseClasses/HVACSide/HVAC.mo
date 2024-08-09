@@ -122,7 +122,8 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
   Modelica.Blocks.Sources.Constant TCHWSupSet(k=273.15 + 5.56)
     "Chilled water supply temperature setpoint"
     annotation (Placement(transformation(extent={{-82,-30},{-62,-10}})));
-  Modelica.Blocks.Sources.RealExpression PHWPum(y=sum(boiWatPla.pumSecHW.P))
+  Modelica.Blocks.Sources.RealExpression PHWPum(y=max(0, boiWatPla.pumSecHW.P[1])
+         + max(0, boiWatPla.pumSecHW.P[2]))
     "Hot water pump power consumption"
     annotation (Placement(transformation(extent={{114,-54},{134,-34}})));
   Modelica.Blocks.Sources.RealExpression PBoi(y=boiWatPla.mulBoi.boi[1].boi.QFue_flow
