@@ -85,17 +85,7 @@ equation
         @prefix quantitykind: <http://qudt.org/vocab/quantitykind/> .
         @prefix qudt: <http://qudt.org/schema/qudt/> .
         @prefix sh: <http://www.w3.org/ns/shacl#> .
-        @prefix boptestrules: <https://boptest-rules.urn#> .
-
-        bldg:con a brick:Thermostat;
-          boptestrules:sameAs bldg:con_Thermostat_T .
-        bldg:fcu a brick:FCU ;
-          boptestrules:sameAs bldg:fcu_FanCoilUnit_T .
-        bldg:zon a brick:Zone ;
-          brick:isLocationOf bldg:con .  
-        bldg:fcu brick:feeds bldg:zon .
-
-        ")),
+        @prefix boptestrules: <https://boptest-rules.urn#>.")),
     Documentation(info="<html>
 <p>
 <h3>General</h3>

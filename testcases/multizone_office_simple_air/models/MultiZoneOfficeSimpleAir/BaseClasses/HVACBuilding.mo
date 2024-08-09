@@ -81,9 +81,15 @@ partial model HVACBuilding
       computeWetBulbTemperature=false) "Weather data reader"
     annotation (Placement(transformation(extent={{-90,0},{-70,20}})));
   AirCooledChiller chi "Chiller"
-    annotation (Placement(transformation(extent={{-10,-100},{10,-80}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Chiller.")),
+      Placement(transformation(extent={{-10,-100},{10,-80}})));
   AirToWaterHeatPump heaPum "Heat pump for heating coil and reheat coils"
-    annotation (Placement(transformation(extent={{40,-100},{60,-80}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Heat_Pump_Condensing_Unit. ")),
+      Placement(transformation(extent={{40,-100},{60,-80}})));
   Buildings.Fluid.FixedResistances.Junction jun(redeclare package Medium =
         MediumW, dp_nominal={0,0,0})
     annotation (Placement(transformation(extent={{22,-46},{12,-56}})));

@@ -149,7 +149,11 @@ partial model PartialHVAC
     T_a1_nominal=THotWatInl_nominal,
     T_a2_nominal=277.15)
     "Heating coil"
-    annotation (Placement(transformation(extent={{118,-36},{98,-56}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Heating_Coil;
+       brick:isPartOf bldg:AHU.")),
+      Placement(transformation(extent={{118,-36},{98,-56}})));
 
   Buildings.Fluid.HeatExchangers.WetCoilCounterFlow cooCoi(
     show_T=true,
@@ -168,7 +172,11 @@ partial model PartialHVAC
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     allowFlowReversal1=false,
     allowFlowReversal2=allowFlowReversal) "Cooling coil"
-    annotation (Placement(transformation(extent={{210,-36},{190,-56}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Cooling_Coil;
+       brick:isPartOf bldg:AHU.")),
+       Placement(transformation(extent={{210,-36},{190,-56}})));
   Buildings.Fluid.FixedResistances.PressureDrop dpRetDuc(
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = MediumA,
@@ -180,7 +188,11 @@ partial model PartialHVAC
     per(pressure(V_flow={0,m_flow_nominal/1.2*2}, dp=2*{780 + 10 + dpBuiStaSet,
             0})),
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) "Supply air fan"
-    annotation (Placement(transformation(extent={{300,-50},{320,-30}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Supply_Fan;
+       brick:isPartOf bldg:AHU.")),
+      Placement(transformation(extent={{300,-50},{320,-30}})));
 
   Buildings.Fluid.Sensors.VolumeFlowRate senSupFlo(redeclare package Medium =
         MediumA, m_flow_nominal=m_flow_nominal)
@@ -238,7 +250,10 @@ partial model PartialHVAC
     TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mCor_flow_nominal*ratVFloHea*cpAir*(32-12))
     "Zone for core of building"
-    annotation (Placement(transformation(extent={{570,22},{610,62}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:VAV.")),
+      Placement(transformation(extent={{570,22},{610,62}})));
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox sou(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
@@ -251,7 +266,10 @@ partial model PartialHVAC
     TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mSou_flow_nominal*ratVFloHea*cpAir*(32-12))
     "South-facing thermal zone"
-    annotation (Placement(transformation(extent={{750,20},{790,60}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:VAV.")),
+      Placement(transformation(extent={{750,20},{790,60}})));
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox eas(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
@@ -264,7 +282,10 @@ partial model PartialHVAC
     TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mEas_flow_nominal*ratVFloHea*cpAir*(32-12))
     "East-facing thermal zone"
-    annotation (Placement(transformation(extent={{930,20},{970,60}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:VAV.")),
+      Placement(transformation(extent={{930,20},{970,60}})));
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox nor(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
@@ -277,7 +298,10 @@ partial model PartialHVAC
     TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mNor_flow_nominal*ratVFloHea*cpAir*(32-12))
     "North-facing thermal zone"
-    annotation (Placement(transformation(extent={{1090,20},{1130,60}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:VAV.")),
+      Placement(transformation(extent={{1090,20},{1130,60}})));
   Buildings.Examples.VAVReheat.BaseClasses.VAVReheatBox wes(
     redeclare package MediumA = MediumA,
     redeclare package MediumW = MediumW,
@@ -290,7 +314,10 @@ partial model PartialHVAC
     TAirInl_nominal=12+273.15,
     QHea_flow_nominal=mWes_flow_nominal*ratVFloHea*cpAir*(32-12))
     "West-facing thermal zone"
-    annotation (Placement(transformation(extent={{1290,20},{1330,60}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:VAV.")),
+      Placement(transformation(extent={{1290,20},{1330,60}})));
   Buildings.Fluid.FixedResistances.Junction splRetRoo1(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,m_flow_nominal - mCor_flow_nominal,
@@ -446,7 +473,11 @@ partial model PartialHVAC
     from_dp=false,
     riseTime=15,
     dpDamper_nominal=5,
-    dpFixed_nominal=5) "Return air damper" annotation (Placement(transformation(
+    dpFixed_nominal=5) "Return air damper" annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Return_Damper;
+       brick:isPartOf bldg:AHU")),
+       Placement(transformation(
         origin={0,-10},
         extent={{10,-10},{-10,10}},
         rotation=90)));
@@ -457,7 +488,11 @@ partial model PartialHVAC
     riseTime=15,
     dpDamper_nominal=5,
     dpFixed_nominal=5) "Outdoor air damper"
-    annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Outside_Damper;
+       brick:isPartOf bldg:AHU")),
+       Placement(transformation(extent={{-50,-50},{-30,-30}})));
   Buildings.Fluid.FixedResistances.Junction splCooSup(
     redeclare package Medium = MediumW,
     m_flow_nominal=mCooWat_flow_nominal*{1,1,1},
@@ -502,7 +537,11 @@ partial model PartialHVAC
     redeclare package Medium = MediumW,
     per(pressure(V_flow={0,mCooWat_flow_nominal/1000*2}, dp=2*{3000,0})),
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial) "Supply air fan"
-    annotation (Placement(transformation(
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Water_Pump;
+       brick:isPartOf bldg:AHU.")),
+      Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={180,-120})));
@@ -510,7 +549,11 @@ partial model PartialHVAC
     redeclare package Medium = MediumW,
     per(pressure(V_flow={0,mHeaWat_flow_nominal/1000*2}, dp=2*{3000,0})),
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-    "Pump for heating coil" annotation (Placement(transformation(
+    "Pump for heating coil" annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Water_Pump;
+       brick:isPartOf bldg:AHU.")),
+       Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
         origin={128,-120})));
