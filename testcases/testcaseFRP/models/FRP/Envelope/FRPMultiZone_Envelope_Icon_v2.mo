@@ -1,6 +1,6 @@
 within FRP.Envelope;
-model FRPMultiZone_Envelope_Icon_v1
-  "FRP MultiZone envelope icon with  FRP construction"
+model FRPMultiZone_Envelope_Icon_v2
+  "FRP MultiZone envelope icon with  FRP construction_withplenum"
   import ModelicaServices;
 
 constant Integer nStaRef=3;
@@ -95,7 +95,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matE
       k=0.16,
       c=1090,
       d=784.9,
-      nStaRef=nStaRef)}) "Exterior wall"
+      nStaRef=nStaRef)}) "Exterior wall for 104"
   annotation (Placement(transformation(extent={{-168,100},{-138,130}})));
   parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matExtWal2(
     nLay=6,
@@ -133,8 +133,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matE
         k=0.16,
         c=1090,
         d=784.9,
-        nStaRef=nStaRef)})
-                         "Exterior wall"
+        nStaRef=nStaRef)}) "Exterior wall for 204"
   annotation (Placement(transformation(extent={{-128,100},{-98,130}})));
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matIntWal(
   nLay=1,
@@ -147,7 +146,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matI
         k=0.16,
         c=1090,
         d=800,
-        nStaRef=nStaRef)}) "Exterior wall"
+        nStaRef=nStaRef)}) "Interior wall"
   annotation (Placement(transformation(extent={{-90,100},{-60,130}})));
 
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic
@@ -172,8 +171,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic
       k=1.95,
       c=900,
       d=2322.6,
-      nStaRef=nStaRef)})
-  "Floor"
+      nStaRef=nStaRef)}) "Ground Floor"
   annotation (Placement(transformation(extent={{22,100},{54,132}})));
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matFlo1(
   nLay=1,
@@ -186,7 +184,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matFlo1(
       k=1.95,
       c=900,
       d=2322.6,
-      nStaRef=nStaRef)}) "Exterior wall"
+      nStaRef=nStaRef)}) "2nd floor "
     annotation (Placement(transformation(extent={{60,100},{90,130}})));
 
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic roof(
@@ -251,20 +249,14 @@ Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir204
 
 Buildings.ThermalZones.Detailed.MixedAir roo204(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
-  nConExt=1,
+    hRoo=2.440,
   nConExtWin=2,
-  nConBou=4,
+    nConBou=5,
   nPorts=4,
   energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
   AFlo=35.273,
   nConPar=0,
   nSurBou=0,
-    datConExt(
-      layers={roof},
-      A={35.27},
-      til={C_},
-      azi={S_}),
     datConExtWin(
       layers={matExtWal2,matExtWal2},
       A={20.07,15.05},
@@ -275,9 +267,9 @@ Buildings.ThermalZones.Detailed.MixedAir roo204(
       til={Z_,Z_},
       azi={N_,W_}),
     datConBou(
-      layers={matFlo1,matIntWal,matIntWal,matIntWal},
-      A={35.27,11.01,11.01,13.10},
-      til={F_,Z_,Z_,Z_}),
+      layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal},
+      A={35.27,35.27,11.01,11.01,13.10},
+      til={F_,C_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
   "Room model for Case 600"
@@ -285,19 +277,13 @@ Buildings.ThermalZones.Detailed.MixedAir roo204(
 
 Buildings.ThermalZones.Detailed.MixedAir roo203(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
-  nConExt=1,
+    hRoo=2.440,
   nConExtWin=1,
   nConBou=5,
   energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    AFlo=15.95,
+    AFlo=12.29,
   nConPar=0,
   nSurBou=0,
-    datConExt(
-      layers={roof},
-      A={15.95},
-      til={C_},
-      azi={S_}),
     datConExtWin(
       layers={matExtWal},
       A={7.80},
@@ -308,9 +294,9 @@ Buildings.ThermalZones.Detailed.MixedAir roo203(
       til={Z_},
       azi={N_}),
     datConBou(
-      layers={matFlo1,matIntWal,matIntWal,matIntWal,matIntWal},
-      A={15.95,11.01,20.07,13.10,3.76},
-      til={F_,Z_,Z_,Z_,Z_}),
+      layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal},
+      A={12.29,12.29,11.01,11.01,3.76},
+      til={F_,C_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
@@ -318,22 +304,16 @@ Buildings.ThermalZones.Detailed.MixedAir roo203(
   annotation (Placement(transformation(extent={{40,-70},{86,-40}})));
 Buildings.ThermalZones.Detailed.MixedAir roo206(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
-  nConExt=1,
+    hRoo=2.440,
   nConExtWin=2,
   nConBou=5,
   energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     AFlo=35.27,
   nConPar=0,
   nSurBou=0,
-    datConExt(
-      layers={roof},
-      A={35.27},
-      til={C_},
-      azi={S_}),
     datConExtWin(
       layers={matExtWal,matExtWal},
-      A={20.07,15.05},
+      A={25.92,15.05},
       glaSys={windowFRP,windowFRP},
       wWin={4.11,4.11},
       hWin={1.95,1.95},
@@ -341,9 +321,9 @@ Buildings.ThermalZones.Detailed.MixedAir roo206(
       til={Z_,Z_},
       azi={S_,E_}),
     datConBou(
-      layers={matFlo1,matIntWal,matIntWal,matIntWal,matIntWal},
-      A={35.27,11.01,13.10,3.76,7.25},
-      til={F_,Z_,Z_,Z_,Z_}),
+      layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal},
+      A={35.27,35.27,11.01,16.86,7.25},
+      til={F_,C_,Z_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
@@ -351,23 +331,17 @@ Buildings.ThermalZones.Detailed.MixedAir roo206(
   annotation (Placement(transformation(extent={{60,-174},{106,-144}})));
 Buildings.ThermalZones.Detailed.MixedAir roo202(
     redeclare package Medium = MediumA,
-    hRoo=2.743,
-    nConExt=1,
+    hRoo=2.44,
     nConExtWin=0,
-    nConBou=5,
+    nConBou=7,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    AFlo=22.80,
+    AFlo=26.46,
     nConPar=0,
     nSurBou=0,
-    datConExt(
-      layers={roof},
-      A={22.80},
-      til={C_},
-      azi={S_}),
     datConBou(
-      layers={matFlo1,matIntWal,matIntWal,matIntWal,matIntWal},
-      A={22.80,13.10,13.10,13.10,13.10},
-      til={F_,Z_,Z_,Z_,Z_}),
+      layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal,matIntWal},
+      A={26.46,26.46,13.10,3.76,13.10,13.10,3.76},
+      til={F_,C_,Z_,Z_,Z_,Z_,Z_}),
     lat=weaDat.lat,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
@@ -375,19 +349,13 @@ Buildings.ThermalZones.Detailed.MixedAir roo202(
     annotation (Placement(transformation(extent={{2,-120},{48,-90}})));
 Buildings.ThermalZones.Detailed.MixedAir roo205(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
-  nConExt=1,
+    hRoo=2.440,
   nConExtWin=2,
-  nConBou=4,
+    nConBou=5,
   energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     AFlo=35.27,
   nConPar=0,
   nSurBou=0,
-    datConExt(
-      layers={roof},
-      A={35.27},
-      til={C_},
-      azi={S_}),
     datConExtWin(
       layers={matExtWal,matExtWal},
       A={15.05,20.07},
@@ -398,9 +366,9 @@ Buildings.ThermalZones.Detailed.MixedAir roo205(
       til={Z_,Z_},
       azi={S_,W_}),
     datConBou(
-      layers={matFlo1,matIntWal,matIntWal,matIntWal},
-      A={35.27,11.01,11.01,13.10},
-      til={F_,Z_,Z_,Z_}),
+      layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal},
+      A={35.27,35.27,11.01,13.10,11.01},
+      til={F_,C_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
@@ -408,19 +376,14 @@ Buildings.ThermalZones.Detailed.MixedAir roo205(
   annotation (Placement(transformation(extent={{-50,-164},{-4,-134}})));
 Buildings.ThermalZones.Detailed.MixedAir roo201(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
-  nConExt=1,
+    hRoo=2.440,
   nConExtWin=2,
-  nConBou=3,
+    nConBou=5,
+    linearizeRadiation=true,
   energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     AFlo=19.32,
   nConPar=0,
   nSurBou=0,
-    datConExt(
-      layers={roof},
-      A={19.32},
-      til={C_},
-      azi={S_}),
     datConExtWin(
       layers={matExtWal,matExtWal},
       A={7.25,20.07},
@@ -431,9 +394,9 @@ Buildings.ThermalZones.Detailed.MixedAir roo201(
       til={Z_,Z_},
       azi={N_,E_}),
     datConBou(
-      layers={matFlo1,matIntWal,matIntWal},
-      A={19.32,11.01,7.25},
-      til={F_,Z_,Z_}),
+      layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal},
+      A={19.32,19.32,11.01,13.1,7.25},
+      til={F_,C_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=2)
@@ -461,7 +424,7 @@ Modelica.Blocks.Sources.RealExpression realExpression12
   annotation (Placement(transformation(extent={{-52,-336},{-38,-320}})));
 Buildings.ThermalZones.Detailed.MixedAir roo104(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
+    hRoo=2.440,
   nConExt=0,
   nConExtWin=2,
   nConBou=5,
@@ -480,16 +443,16 @@ Buildings.ThermalZones.Detailed.MixedAir roo104(
       til={Z_,Z_},
       azi={N_,W_}),
     datConBou(
-      layers={matFlo,matIntWal,matIntWal,matIntWal,matFlo1},
-      A={35.27,11.01,11.01,13.10,35.27},
-      til={F_,Z_,Z_,Z_,C_}),
+      layers={matFlo,matCeil,matIntWal,matIntWal,matIntWal},
+      A={35.27,35.27,11.01,11.01,13.10},
+      til={F_,C_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
   "Room model for Case 600"
   annotation (Placement(transformation(extent={{-44,-322},{8,-282}})));
 Buildings.ThermalZones.Detailed.MixedAir roo102(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
+    hRoo=2.440,
   nConExt=0,
   nConExtWin=1,
   nConBou=6,
@@ -507,9 +470,9 @@ Buildings.ThermalZones.Detailed.MixedAir roo102(
       til={Z_},
       azi={N_}),
     datConBou(
-      layers={matFlo,matIntWal,matIntWal,matIntWal,matIntWal,matFlo1},
-      A={15.95,11.01,20.07,13.10,3.76,15.95},
-      til={F_,Z_,Z_,Z_,Z_,C_}),
+      layers={matFlo,matCeil,matIntWal,matIntWal,matIntWal,matIntWal},
+      A={15.95,15.95,11.01,13.10,20.07,3.76},
+      til={F_,C_Z_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
@@ -517,7 +480,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo102(
   annotation (Placement(transformation(extent={{40,-336},{86,-306}})));
 Buildings.ThermalZones.Detailed.MixedAir roo106(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
+    hRoo=2.440,
   nConExt=0,
   nConExtWin=2,
   nConBou=6,
@@ -536,16 +499,16 @@ Buildings.ThermalZones.Detailed.MixedAir roo106(
       til={Z_,Z_},
       azi={S_,E_}),
     datConBou(
-      layers={matFlo,matIntWal,matIntWal,matIntWal,matIntWal,matFlo1},
-      A={35.273,11.01,13.10,3.76,7.25,35.273},
-      til={F_,Z_,Z_,Z_,Z_,C_}),
+      layers={matFlo,matCeil,matIntWal,matIntWal,matIntWal,matIntWal},
+      A={35.273,35.273,11.01,13.10,3.76,7.25},
+      til={F_,C_,Z_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     "Room model for Case 600"
   annotation (Placement(transformation(extent={{62,-428},{108,-398}})));
 Buildings.ThermalZones.Detailed.MixedAir roo103(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
+    hRoo=2.440,
   nConExt=0,
   nConExtWin=0,
   nConBou=6,
@@ -555,16 +518,16 @@ Buildings.ThermalZones.Detailed.MixedAir roo103(
   nConPar=0,
   nSurBou=0,
     datConBou(
-      layers={matFlo,matIntWal,matIntWal,matIntWal,matIntWal,matFlo1},
-      A={22.80,13.10,13.10,13.10,13.10,22.80},
-      til={F_,Z_,Z_,Z_,Z_,C_}),
+      layers={matFlo,matCeil,matIntWal,matIntWal,matIntWal,matIntWal},
+      A={22.80,22.80,13.10,13.10,13.10,13.10},
+      til={F_,C_,Z_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
   "Room model for Case 600"
   annotation (Placement(transformation(extent={{4,-374},{50,-344}})));
 Buildings.ThermalZones.Detailed.MixedAir roo105(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
+    hRoo=2.440,
   nConExt=0,
   nConExtWin=2,
   nConBou=5,
@@ -582,9 +545,9 @@ Buildings.ThermalZones.Detailed.MixedAir roo105(
       til={Z_,Z_},
       azi={S_,W_}),
     datConBou(
-      layers={matFlo,matIntWal,matIntWal,matIntWal,matFlo1},
-      A={35.27,11.01,11.01,13.10,35.27},
-      til={F_,Z_,Z_,Z_,C_}),
+      layers={matFlo,matCeil,matIntWal,matIntWal,matIntWal},
+      A={35.27,35.27,11.01,13.10,11.01},
+      til={F_,C_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
@@ -592,7 +555,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo105(
   annotation (Placement(transformation(extent={{-48,-418},{-2,-388}})));
 Buildings.ThermalZones.Detailed.MixedAir roo101(
   redeclare package Medium = MediumA,
-  hRoo=2.743,
+    hRoo=2.440,
   nConExt=0,
   nConExtWin=2,
   nConBou=4,
@@ -610,9 +573,9 @@ Buildings.ThermalZones.Detailed.MixedAir roo101(
       til={Z_,Z_},
       azi={N_,E_}),
     datConBou(
-      layers={matFlo,matIntWal,matIntWal,roof},
-      A={19.32,11.01,7.25,19.32},
-      til={F_,Z_,Z_,C_}),
+      layers={matFlo,matCeil,matIntWal,matIntWal},
+      A={19.32,19.32,20.07,7.25},
+      til={F_,C_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=2)
@@ -799,8 +762,8 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf206(
     annotation (Placement(transformation(extent={{-114,-22},{-102,-10}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_206[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{122,-78},{178,-50}}),
-        iconTransformation(extent={{122,-78},{178,-50}})));
+    annotation (Placement(transformation(extent={{128,6},{184,34}}),
+        iconTransformation(extent={{128,6},{184,34}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_205[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
     annotation (Placement(transformation(extent={{-116,-60},{-66,-34}}),
@@ -963,6 +926,19 @@ Modelica.Blocks.Routing.Multiplex3 multiplex3_13(n1=1, n2=1)
   annotation (Placement(transformation(extent={{-232,-438},{-224,-430}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow106(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-258,-444},{-250,-436}})));
+parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matCeil(
+    nLay=1,
+    absIR_a=0.9,
+    absIR_b=0.9,
+    absSol_a=0.6,
+    absSol_b=0.6,
+    material={Buildings.HeatTransfer.Data.Solids.Generic(
+        x=0.0005,
+        k=0.06,
+        c=1340,
+        d=288,
+        nStaRef=nStaRef)}) "Drop Ceiling tile"
+    annotation (Placement(transformation(extent={{100,100},{130,130}})));
 equation
 
   connect(roo204.heaPorAir, TRooAir204.port) annotation (Line(
@@ -1043,32 +1019,31 @@ connect(weaDat.weaBus, weaBus1) annotation (Line(
     extent={{6,3},{6,3}}));
 
 connect(roo204.surf_conBou[2],roo203. surf_conBou[2]) annotation (Line(points={{-0.2,
-          -62.25},{15.75,-62.25},{15.75,-67.3},{69.9,-67.3}},          color={
+          -62.4},{15.75,-62.4},{15.75,-67.3},{69.9,-67.3}},            color={
         191,0,0}));
   connect(roo204.surf_conBou[4], roo202.surf_conBou[2]) annotation (Line(points={{-0.2,
-          -61.25},{-0.2,-91},{31.9,-91},{31.9,-117.3}},         color={191,0,0}));
+          -61.6},{-0.2,-91},{31.9,-91},{31.9,-117.429}},        color={191,0,0}));
 connect(roo204.surf_conBou[3],roo205. surf_conBou[2]) annotation (Line(points={{-0.2,
-          -61.75},{-16,-61.75},{-16,-161.188},{-20.1,-161.188}},
-                                                        color={191,0,0}));
+          -62},{-16,-62},{-16,-161.3},{-20.1,-161.3}},  color={191,0,0}));
   connect(roo205.surf_conBou[4], roo202.surf_conBou[4]) annotation (Line(points={{-20.1,
-          -160.438},{5.95,-160.438},{5.95,-116.7},{31.9,-116.7}},        color={
+          -160.7},{5.95,-160.7},{5.95,-117},{31.9,-117}},                color={
           191,0,0}));
 connect(roo205.surf_conBou[3],roo206. surf_conBou[2]) annotation (Line(points={{-20.1,
-          -160.813},{35.95,-160.813},{35.95,-171.3},{89.9,-171.3}},    color=
+          -161},{35.95,-161},{35.95,-171.3},{89.9,-171.3}},            color=
         {191,0,0}));
   connect(roo206.surf_conBou[3], roo202.surf_conBou[5]) annotation (Line(points={{89.9,
-          -171},{60.95,-171},{60.95,-116.4},{31.9,-116.4}},       color={191,0,0}));
+          -171},{60.95,-171},{60.95,-116.786},{31.9,-116.786}},   color={191,0,0}));
 connect(roo206.surf_conBou[4],roo203. surf_conBou[5]) annotation (Line(points={{89.9,
           -170.7},{89.9,-124.5},{69.9,-124.5},{69.9,-66.4}},           color=
         {191,0,0}));
 connect(roo206.surf_conBou[5],roo201. surf_conBou[3]) annotation (Line(points={{89.9,
-          -170.4},{89.9,-124.5},{145.9,-124.5},{145.9,-78.5}},          color=
+          -170.4},{89.9,-124.5},{145.9,-124.5},{145.9,-79}},            color=
        {191,0,0}));
 connect(roo201.surf_conBou[2],roo203. surf_conBou[3]) annotation (Line(points={{145.9,
-          -79},{99.95,-79},{99.95,-67},{69.9,-67}},
+          -79.3},{99.95,-79.3},{99.95,-67},{69.9,-67}},
       color={191,0,0}));
   connect(roo202.surf_conBou[3], roo203.surf_conBou[4]) annotation (Line(points={{31.9,
-          -117},{31.9,-97.5},{69.9,-97.5},{69.9,-66.7}},       color={191,0,0}));
+          -117.214},{31.9,-97.5},{69.9,-97.5},{69.9,-66.7}},   color={191,0,0}));
 
   connect(roo104.heaPorAir, TRooAir104.port) annotation (Line(
       points={{-19.3,-302},{-2,-302},{-2,-294},{226,-294},{226,-284},{236,-284}},
@@ -1138,19 +1113,19 @@ connect(preHea21.port, roo103.surf_conBou[6]) annotation (Line(points={{-16,
                                                       color={191,0,0}));
 
 connect(roo105.surf_conBou[5], roo205.surf_conBou[1]) annotation (Line(points={{-18.1,
-          -414.4},{-18.1,-161.563},{-20.1,-161.563}},  color={191,0,0}));
+          -414.4},{-18.1,-161.6},{-20.1,-161.6}},      color={191,0,0}));
 connect(roo106.surf_conBou[6], roo206.surf_conBou[1]) annotation (Line(points={{91.9,
           -424.375},{91.9,-171.6},{89.9,-171.6}},         color={191,0,0}));
 connect(roo101.surf_conBou[4], roo201.surf_conBou[1]) annotation (Line(points={{137.9,
-          -332.438},{137.9,-79.5},{145.9,-79.5}},
+          -332.438},{137.9,-79.6},{145.9,-79.6}},
       color={191,0,0}));
 connect(roo102.surf_conBou[6],roo203. surf_conBou[1]) annotation (Line(points={{69.9,
           -332.375},{69.9,-67.6}},                                   color={
         191,0,0}));
   connect(roo103.surf_conBou[6], roo202.surf_conBou[1]) annotation (Line(points={{33.9,
-          -370.375},{33.9,-117.6},{31.9,-117.6}},       color={191,0,0}));
+          -370.375},{33.9,-117.643},{31.9,-117.643}},   color={191,0,0}));
 connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{-10.2,
-          -317.2},{-34,-317.2},{-34,-124},{-0.2,-124},{-0.2,-62.75}},
+          -317.2},{-34,-317.2},{-34,-124},{-0.2,-124},{-0.2,-62.8}},
       color={191,0,0}));
   connect(sinInf203.ports[1], roo203.ports[1]) annotation (Line(points={{-104,42},
           {8,42},{8,-64.5},{45.75,-64.5}},   color={0,127,255}));
@@ -1247,9 +1222,8 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
                                      color={0,127,255}));
   connect(port_202[:], roo202.ports[2:3]) annotation (Line(points={{-28,-75},{
           -28,-110.5},{7.75,-110.5}},  color={0,127,255}));
-  connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{150,-64},{
-          16,-64},{16,-164.5},{65.75,-164.5}},
-                                             color={0,127,255}));
+  connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{156,20},{16,
+          20},{16,-164.5},{65.75,-164.5}},   color={0,127,255}));
   connect(Infilt201.y, sinInf201.m_flow_in) annotation (Line(points={{-135.4,86},
           {-128,86},{-128,88.8},{-117.2,88.8}},color={0,0,127}));
   connect(Infilt203.y, sinInf203.m_flow_in) annotation (Line(points={{-133.4,42},
@@ -1661,4 +1635,4 @@ First implementation.
           fillColor={133,168,200},
           fillPattern=FillPattern.Solid,
           textString="102")}));
-end FRPMultiZone_Envelope_Icon_v1;
+end FRPMultiZone_Envelope_Icon_v2;
