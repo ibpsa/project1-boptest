@@ -806,7 +806,7 @@ Buildings.Fluid.Sources.Outside souInf101(redeclare package Medium = MediumA,
         transformation(extent={{330,-24},{350,-4}}), iconTransformation(extent=
             {{330,-24},{350,-4}})));
 Modelica.Blocks.Sources.Constant qConGai_flow204(k=(23.4*0.1 + 1.7*0.5)/3600)
-                                                        "Convective heat gain"
+    "Convective heat gain"
     annotation (Placement(transformation(extent={{-268,4},{-260,12}})));
 Modelica.Blocks.Sources.Constant qRadGai_flow204(k=(23.4*0.9 + 1.7*0.5)/3600)
     "Radiative heat gain"
@@ -815,10 +815,10 @@ Modelica.Blocks.Routing.Multiplex3 multiplex3_2(n1=1, n2=1)
   annotation (Placement(transformation(extent={{-230,4},{-222,12}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow204(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-256,-4},{-248,4}})));
-Modelica.Blocks.Sources.Constant qConGai_flow203(k=10.58*0.1/3600)
+Modelica.Blocks.Sources.Constant qConGai_flow203(k=8.15*0.1/3600)
                                                         "Convective heat gain"
     annotation (Placement(transformation(extent={{-266,-30},{-258,-22}})));
-Modelica.Blocks.Sources.Constant qRadGai_flow203(k=10.58*0.9/3600)
+Modelica.Blocks.Sources.Constant qRadGai_flow203(k=8.15*0.9/3600)
                                                         "Radiative heat gain"
     annotation (Placement(transformation(extent={{-254,-22},{-246,-14}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_3(n1=1, n2=1)
@@ -835,10 +835,10 @@ Modelica.Blocks.Routing.Multiplex3 multiplex3_4(n1=1, n2=1)
   annotation (Placement(transformation(extent={{-230,-68},{-222,-60}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow201(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-256,-74},{-248,-66}})));
-Modelica.Blocks.Sources.Constant qConGai_flow202(k=(15.13*0.1 + 143.37*0.5)/
+Modelica.Blocks.Sources.Constant qConGai_flow202(k=(17.56*0.1 + 143.37*0.5)/
         3600)                                           "Convective heat gain"
     annotation (Placement(transformation(extent={{-268,-100},{-260,-92}})));
-Modelica.Blocks.Sources.Constant qRadGai_flow202(k=(15.13*0.9 + 143.37*0.5)/
+Modelica.Blocks.Sources.Constant qRadGai_flow202(k=(17.56*0.9 + 143.37*0.5)/
         3600)                                           "Radiative heat gain"
     annotation (Placement(transformation(extent={{-256,-92},{-248,-84}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_5(n1=1, n2=1)
@@ -866,10 +866,10 @@ Modelica.Blocks.Routing.Multiplex3 multiplex3_7(n1=1, n2=1)
 Modelica.Blocks.Sources.Constant qLatGai_flow206(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-256,-170},{-248,-162}})));
 Modelica.Blocks.Sources.Constant qConGai_flow104(k=6.94*0.1 + 22.95*0.5)
-                                                        "Convective heat gain"
+    "Convective heat gain"
     annotation (Placement(transformation(extent={{-270,-270},{-262,-262}})));
 Modelica.Blocks.Sources.Constant qRadGai_flow104(k=6.94*0.9 + 22.95*0.5)
-                                                        "Radiative heat gain"
+    "Radiative heat gain"
     annotation (Placement(transformation(extent={{-258,-262},{-250,-254}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_8(n1=1, n2=1)
   annotation (Placement(transformation(extent={{-232,-270},{-224,-262}})));
@@ -986,6 +986,22 @@ Buildings.ThermalZones.Detailed.MixedAir plenum2(
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     "Room model for Case 600"
     annotation (Placement(transformation(extent={{126,-16},{172,14}})));
+Modelica.Blocks.Sources.Constant qConGai_flowple2(k=0) "Convective heat gain"
+    annotation (Placement(transformation(extent={{-270,40},{-262,48}})));
+Modelica.Blocks.Sources.Constant qRadGai_flowple2(k=0) "Radiative heat gain"
+    annotation (Placement(transformation(extent={{-258,48},{-250,56}})));
+Modelica.Blocks.Routing.Multiplex3 multiplex3_1(n1=1, n2=1)
+  annotation (Placement(transformation(extent={{-232,40},{-224,48}})));
+Modelica.Blocks.Sources.Constant qLatGai_flowple2(k=0) "Latent heat gain"
+    annotation (Placement(transformation(extent={{-258,32},{-250,40}})));
+Modelica.Blocks.Sources.Constant qConGai_flowple1(k=0) "Convective heat gain"
+    annotation (Placement(transformation(extent={{-272,-240},{-264,-232}})));
+Modelica.Blocks.Sources.Constant qRadGai_flowple1(k=0) "Radiative heat gain"
+    annotation (Placement(transformation(extent={{-260,-232},{-252,-224}})));
+Modelica.Blocks.Routing.Multiplex3 multiplex3_14(n1=1, n2=1)
+  annotation (Placement(transformation(extent={{-234,-240},{-226,-232}})));
+Modelica.Blocks.Sources.Constant qLatGai_flowple1(k=0) "Latent heat gain"
+    annotation (Placement(transformation(extent={{-260,-248},{-252,-240}})));
 equation
 
   connect(roo204.heaPorAir, TRooAir204.port) annotation (Line(
@@ -1526,6 +1542,37 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
         color={0,0,127}));
   connect(multiplex3_13.y, roo106.qGai_flow) annotation (Line(points={{-223.6,
           -434},{-198,-434},{-198,-407},{60.16,-407}}, color={0,0,127}));
+  connect(qRadGai_flowple2.y, multiplex3_1.u1[1]) annotation (Line(
+      points={{-249.6,52},{-248,52},{-248,46.8},{-232.8,46.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(qLatGai_flowple2.y, multiplex3_1.u3[1]) annotation (Line(
+      points={{-249.6,36},{-236,36},{-236,40},{-234,40},{-234,41.2},{-232.8,
+          41.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(qConGai_flowple2.y, multiplex3_1.u2[1]) annotation (Line(
+      points={{-261.6,44},{-232.8,44}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(plenum2.qGai_flow, multiplex3_1.y) annotation (Line(points={{124.16,5},
+          {-52,5},{-52,-46},{-202,-46},{-202,44},{-223.6,44}}, color={0,0,127}));
+  connect(qRadGai_flowple1.y, multiplex3_14.u1[1]) annotation (Line(
+      points={{-251.6,-228},{-250,-228},{-250,-233.2},{-234.8,-233.2}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(qLatGai_flowple1.y, multiplex3_14.u3[1]) annotation (Line(
+      points={{-251.6,-244},{-238,-244},{-238,-240},{-236,-240},{-236,-238.8},{
+          -234.8,-238.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(qConGai_flowple1.y, multiplex3_14.u2[1]) annotation (Line(
+      points={{-263.6,-236},{-234.8,-236}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(plenum1.qGai_flow, multiplex3_14.y) annotation (Line(points={{104.16,
+          -255},{-48,-255},{-48,-262},{-200,-262},{-200,-236},{-225.6,-236}},
+        color={0,0,127}));
 annotation (
     experiment(
       StartTime=15984000,
@@ -1572,8 +1619,8 @@ First implementation.
 </li>
 </ul>
 </html>"),
-  Diagram(coordinateSystem(extent={{-260,-460},{320,140}})),
-    Icon(coordinateSystem(extent={{-260,-460},{320,140}}), graphics={
+  Diagram(coordinateSystem(extent={{-300,-460},{320,140}})),
+    Icon(coordinateSystem(extent={{-300,-460},{320,140}}), graphics={
         Rectangle(
           extent={{-140,-166},{210,-438}},
           lineColor={28,108,200},
