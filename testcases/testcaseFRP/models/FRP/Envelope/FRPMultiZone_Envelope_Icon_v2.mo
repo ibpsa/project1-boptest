@@ -57,7 +57,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matExtWal(
       c=1090,
       d=784.9,
       nStaRef=nStaRef)}) "Exterior wall"
-  annotation (Placement(transformation(extent={{-208,100},{-178,130}})));
+  annotation (Placement(transformation(extent={{-178,202},{-148,232}})));
 
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matExtWal1(
   nLay=6,
@@ -96,7 +96,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matE
       c=1090,
       d=784.9,
       nStaRef=nStaRef)}) "Exterior wall for 104"
-  annotation (Placement(transformation(extent={{-168,100},{-138,130}})));
+  annotation (Placement(transformation(extent={{-138,202},{-108,232}})));
   parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matExtWal2(
     nLay=6,
     absIR_a=0.9,
@@ -134,7 +134,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matE
         c=1090,
         d=784.9,
         nStaRef=nStaRef)}) "Exterior wall for 204"
-  annotation (Placement(transformation(extent={{-128,100},{-98,130}})));
+  annotation (Placement(transformation(extent={{-98,202},{-68,232}})));
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matIntWal(
   nLay=1,
   absIR_a=0.9,
@@ -147,7 +147,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic           matI
         c=1090,
         d=800,
         nStaRef=nStaRef)}) "Interior wall"
-  annotation (Placement(transformation(extent={{-90,100},{-60,130}})));
+  annotation (Placement(transformation(extent={{-60,202},{-30,232}})));
 
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic
                                                         matFlo(
@@ -172,7 +172,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic
       c=900,
       d=2322.6,
       nStaRef=nStaRef)}) "Ground Floor"
-  annotation (Placement(transformation(extent={{22,100},{54,132}})));
+  annotation (Placement(transformation(extent={{52,202},{84,234}})));
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matFlo1(
   nLay=1,
   absIR_a=0.9,
@@ -185,7 +185,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matFlo1(
       c=900,
       d=2322.6,
       nStaRef=nStaRef)}) "2nd floor "
-    annotation (Placement(transformation(extent={{60,100},{90,130}})));
+    annotation (Placement(transformation(extent={{90,202},{120,232}})));
 
 parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic roof(
   nLay=4,
@@ -214,16 +214,16 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic roof(
       c=418.4,
       d=7680,
       nStaRef=nStaRef)}) "Roof"
-  annotation (Placement(transformation(extent={{-16,100},{16,132}})));
+  annotation (Placement(transformation(extent={{14,202},{46,234}})));
 
 parameter FRP.BaseClasses.DoubleClearAir16Clear windowFRP
-    annotation (Placement(transformation(extent={{-50,100},{-20,130}})));
+    annotation (Placement(transformation(extent={{-20,202},{10,232}})));
 
 Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
       computeWetBulbTemperature=false, filNam=
         ModelicaServices.ExternalReferences.loadResource(
         "modelica://FRP/Resources/weatherdata/FRP2018.mos"))
-  annotation (Placement(transformation(extent={{282,-130},{270,-118}})));
+  annotation (Placement(transformation(extent={{280,-58},{268,-46}})));
 
 Buildings.Fluid.Sources.MassFlowSource_T sinInf204(
     redeclare package Medium = MediumA,
@@ -233,26 +233,23 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf204(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-116,18},{-104,30}})));
-Buildings.Fluid.Sources.Outside souInf204(redeclare package Medium = MediumA,
-      nPorts=1) "Source model for air infiltration"
-    annotation (Placement(transformation(extent={{-128,-76},{-116,-64}})));
-Modelica.Blocks.Sources.Constant Infilt204(k=1.2*35.273*2.743*0.432/3600)
+    annotation (Placement(transformation(extent={{-118,90},{-106,102}})));
+Modelica.Blocks.Sources.Constant Infilt204(k=1.2*35.273*2.44*0.432/3600)
     "0.432ACH"
-    annotation (Placement(transformation(extent={{-146,16},{-134,28}})));
+    annotation (Placement(transformation(extent={{-148,88},{-136,100}})));
 Buildings.BoundaryConditions.WeatherData.Bus weaBus
-  annotation (Placement(transformation(extent={{-106,-156},{-90,-140}}),
-        iconTransformation(extent={{-106,-156},{-90,-140}})));
+  annotation (Placement(transformation(extent={{-108,-84},{-92,-68}}),
+        iconTransformation(extent={{-108,-84},{-92,-68}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir204
     "Room air temperature"
-    annotation (Placement(transformation(extent={{233,-21},{250,-4}})));
+    annotation (Placement(transformation(extent={{231,51},{248,68}})));
 
 Buildings.ThermalZones.Detailed.MixedAir roo204(
   redeclare package Medium = MediumA,
     hRoo=2.440,
   nConExtWin=2,
     nConBou=5,
-  nPorts=4,
+  nPorts=3,
   energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
   AFlo=35.273,
   nConPar=0,
@@ -273,7 +270,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo204(
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
   "Room model for Case 600"
-  annotation (Placement(transformation(extent={{-34,-66},{18,-26}})));
+  annotation (Placement(transformation(extent={{-36,6},{16,46}})));
 
 Buildings.ThermalZones.Detailed.MixedAir roo203(
   redeclare package Medium = MediumA,
@@ -301,7 +298,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo203(
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
   "Room model for Case 600"
-  annotation (Placement(transformation(extent={{40,-70},{86,-40}})));
+  annotation (Placement(transformation(extent={{38,2},{84,32}})));
 Buildings.ThermalZones.Detailed.MixedAir roo206(
   redeclare package Medium = MediumA,
     hRoo=2.440,
@@ -328,7 +325,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo206(
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
   "Room model for Case 600"
-  annotation (Placement(transformation(extent={{60,-174},{106,-144}})));
+  annotation (Placement(transformation(extent={{58,-102},{104,-72}})));
 Buildings.ThermalZones.Detailed.MixedAir roo202(
     redeclare package Medium = MediumA,
     hRoo=2.44,
@@ -346,7 +343,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo202(
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
     "Room model for Case 600"
-    annotation (Placement(transformation(extent={{2,-120},{48,-90}})));
+    annotation (Placement(transformation(extent={{0,-48},{46,-18}})));
 Buildings.ThermalZones.Detailed.MixedAir roo205(
   redeclare package Medium = MediumA,
     hRoo=2.440,
@@ -373,7 +370,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo205(
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
   "Room model for Case 600"
-  annotation (Placement(transformation(extent={{-50,-164},{-4,-134}})));
+  annotation (Placement(transformation(extent={{-52,-92},{-6,-62}})));
 Buildings.ThermalZones.Detailed.MixedAir roo201(
   redeclare package Medium = MediumA,
     hRoo=2.440,
@@ -401,7 +398,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo201(
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=2)
   "Room model for Case 600"
-  annotation (Placement(transformation(extent={{116,-82},{162,-52}})));
+  annotation (Placement(transformation(extent={{114,-10},{160,20}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf104(
     redeclare package Medium = MediumA,
     m_flow=1,
@@ -411,7 +408,7 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf104(
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
     annotation (Placement(transformation(extent={{-158,-218},{-146,-206}})));
-Modelica.Blocks.Sources.Constant Infilt104(k=1.2*35.27*2.743*0.432/3600)
+Modelica.Blocks.Sources.Constant Infilt104(k=1.2*35.27*2.440*0.432/3600)
                                                                      "0.432ACH"
     annotation (Placement(transformation(extent={{-188,-216},{-178,-206}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir104
@@ -609,9 +606,9 @@ Buildings.BoundaryConditions.WeatherData.Bus           weaBus1
   annotation (Placement(transformation(extent={{-106,-452},{-90,-436}}),
         iconTransformation(extent={{-106,-452},{-90,-436}})));
 
-Modelica.Blocks.Sources.Constant Infilt205(k=1.2*35.27*2.743*0.432/3600)
+Modelica.Blocks.Sources.Constant Infilt205(k=1.2*35.27*2.44*0.432/3600)
                                                                      "0.432ACH"
-    annotation (Placement(transformation(extent={{-146,-6},{-134,6}})));
+    annotation (Placement(transformation(extent={{-148,66},{-136,78}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf205(
     redeclare package Medium = MediumA,
     m_flow=1,
@@ -620,10 +617,10 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf205(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-116,-4},{-104,8}})));
-Modelica.Blocks.Sources.Constant Infilt203(k=1.2*15.95*2.743*0.432/3600)
+    annotation (Placement(transformation(extent={{-118,68},{-106,80}})));
+Modelica.Blocks.Sources.Constant Infilt203(k=1.2*12.49*2.44*0.432/3600)
                                                                      "0.432ACH"
-    annotation (Placement(transformation(extent={{-146,36},{-134,48}})));
+    annotation (Placement(transformation(extent={{-148,108},{-136,120}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf203(
     redeclare package Medium = MediumA,
     m_flow=1,
@@ -632,10 +629,10 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf203(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-116,36},{-104,48}})));
-Modelica.Blocks.Sources.Constant Infilt201(k=1.2*19.32*2.743*0.432/3600)
-                                                                     "0.432ACH"
-    annotation (Placement(transformation(extent={{-148,80},{-136,92}})));
+    annotation (Placement(transformation(extent={{-118,108},{-106,120}})));
+Modelica.Blocks.Sources.Constant Infilt201(k=1.2*19.32*2.44*0.432/3600)
+    "0.432ACH"
+    annotation (Placement(transformation(extent={{-150,152},{-138,164}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf201(
     redeclare package Medium = MediumA,
     m_flow=1,
@@ -644,26 +641,26 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf201(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-116,78},{-104,90}})));
-Modelica.Blocks.Sources.Constant Infilt206(k=1.2*35.27*2.743*0.432/3600)
+    annotation (Placement(transformation(extent={{-118,150},{-106,162}})));
+Modelica.Blocks.Sources.Constant Infilt206(k=1.2*35.27*2.44*0.432/3600)
                                                                      "0.432ACH"
-    annotation (Placement(transformation(extent={{-146,-26},{-134,-14}})));
+    annotation (Placement(transformation(extent={{-148,46},{-136,58}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir201
     "Room air temperature"
-    annotation (Placement(transformation(extent={{231,43},{250,62}})));
+    annotation (Placement(transformation(extent={{229,115},{248,134}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir101
     "Room air temperature"
     annotation (Placement(transformation(extent={{236,-222},{252,-206}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir202
     "Room air temperature"
-    annotation (Placement(transformation(extent={{234,20},{250,36}})));
+    annotation (Placement(transformation(extent={{232,92},{248,108}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir206
     "Room air temperature"
-    annotation (Placement(transformation(extent={{234,-70},{252,-52}})));
+    annotation (Placement(transformation(extent={{232,2},{250,20}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir205
     "Room air temperature"
-    annotation (Placement(transformation(extent={{233,-43},{250,-28}})));
-Modelica.Blocks.Sources.Constant Infilt105(k=1.2*35.27*2.743*0.432/3600)
+    annotation (Placement(transformation(extent={{231,29},{248,44}})));
+Modelica.Blocks.Sources.Constant Infilt105(k=1.2*35.27*2.440*0.432/3600)
                                                                      "0.432ACH"
     annotation (Placement(transformation(extent={{-188,-236},{-178,-226}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf105(
@@ -678,7 +675,7 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf105(
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir105
     "Room air temperature"
     annotation (Placement(transformation(extent={{236,-314},{252,-298}})));
-Modelica.Blocks.Sources.Constant Infilt106(k=1.2*35.27*2.743*0.432/3600)
+Modelica.Blocks.Sources.Constant Infilt106(k=1.2*35.27*2.440*0.432/3600)
                                                                      "0.432ACH"
     annotation (Placement(transformation(extent={{-188,-258},{-178,-248}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf106(
@@ -693,8 +690,8 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf106(
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir106
     "Room air temperature"
     annotation (Placement(transformation(extent={{236,-340},{252,-324}})));
-Modelica.Blocks.Sources.Constant Infilt101(k=1.2*19.32*2.743*0.432/3600)
-                                                                     "0.432ACH"
+Modelica.Blocks.Sources.Constant Infilt101(k=1.2*19.32*2.440*0.432/3600)
+    "0.432ACH"
     annotation (Placement(transformation(extent={{-188,-176},{-178,-166}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf101(
     redeclare package Medium = MediumA,
@@ -704,14 +701,14 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf101(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-158,-182},{-146,-170}})));
+    annotation (Placement(transformation(extent={{-156,-178},{-144,-166}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir103
     "Room air temperature"
     annotation (Placement(transformation(extent={{236,-270},{252,-254}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir102
     "Room air temperature"
     annotation (Placement(transformation(extent={{236,-244},{252,-228}})));
-Modelica.Blocks.Sources.Constant Infilt102(k=1.2*15.95*2.743*0.432/3600)
+Modelica.Blocks.Sources.Constant Infilt102(k=1.2*15.95*2.440*0.432/3600)
                                                                      "0.432ACH"
     annotation (Placement(transformation(extent={{-188,-196},{-178,-186}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf102(
@@ -725,10 +722,10 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf102(
     annotation (Placement(transformation(extent={{-158,-200},{-146,-188}})));
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir203
     "Room air temperature"
-    annotation (Placement(transformation(extent={{234,0},{250,16}})));
-Modelica.Blocks.Sources.Constant Infilt202(k=1.2*22.80*2.743*0.432/3600)
+    annotation (Placement(transformation(extent={{232,72},{248,88}})));
+Modelica.Blocks.Sources.Constant Infilt202(k=1.2*26.46*2.440*0.432/3600)
                                                                      "0.432ACH"
-    annotation (Placement(transformation(extent={{-146,58},{-134,70}})));
+    annotation (Placement(transformation(extent={{-148,130},{-136,142}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf202(
     redeclare package Medium = MediumA,
     m_flow=1,
@@ -737,18 +734,18 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf202(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-116,56},{-104,68}})));
+    annotation (Placement(transformation(extent={{-118,128},{-106,140}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_204[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-86,16},{-16,44}}),
-        iconTransformation(extent={{-86,16},{-16,44}})));
+    annotation (Placement(transformation(extent={{-88,88},{-18,116}}),
+        iconTransformation(extent={{-88,88},{-18,116}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_203[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{50,58},{108,84}}),
-        iconTransformation(extent={{50,58},{108,84}})));
+    annotation (Placement(transformation(extent={{48,130},{106,156}}),
+        iconTransformation(extent={{48,130},{106,156}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_202[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-72,-90},{16,-60}}),
+    annotation (Placement(transformation(extent={{-74,-18},{14,12}}),
         iconTransformation(extent={{24,0},{88,26}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf206(
     redeclare package Medium = MediumA,
@@ -758,14 +755,14 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf206(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-114,-22},{-102,-10}})));
+    annotation (Placement(transformation(extent={{-116,50},{-104,62}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_206[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{128,20},{184,48}}),
-        iconTransformation(extent={{128,20},{184,48}})));
+    annotation (Placement(transformation(extent={{126,92},{182,120}}),
+        iconTransformation(extent={{126,92},{182,120}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_205[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-116,-60},{-66,-34}}),
+    annotation (Placement(transformation(extent={{-118,12},{-68,38}}),
         iconTransformation(extent={{-116,-60},{-44,-32}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_104[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
@@ -789,12 +786,12 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf206(
         iconTransformation(extent={{128,-360},{188,-338}})));
 Buildings.Fluid.Sources.Outside souInf201(redeclare package Medium = MediumA,
       nPorts=1) "Source model for air infiltration"
-    annotation (Placement(transformation(extent={{-128,-62},{-114,-48}})));
+    annotation (Placement(transformation(extent={{-136,-20},{-126,-10}})));
 Buildings.Fluid.Sources.Outside souInf101(redeclare package Medium = MediumA,
       nPorts=1) "Source model for air infiltration"
-    annotation (Placement(transformation(extent={{-130,-300},{-116,-286}})));
+    annotation (Placement(transformation(extent={{-132,-292},{-122,-282}})));
   Modelica.Blocks.Routing.Multiplex6 TRoo_2
-    annotation (Placement(transformation(extent={{276,-32},{314,6}})));
+    annotation (Placement(transformation(extent={{274,40},{312,78}})));
   Modelica.Blocks.Routing.Multiplex6 TRoo_1
     annotation (Placement(transformation(extent={{286,-274},{318,-242}})));
   Modelica.Blocks.Interfaces.RealOutput TrooVecFir[6]
@@ -803,68 +800,68 @@ Buildings.Fluid.Sources.Outside souInf101(redeclare package Medium = MediumA,
           extent={{332,-268},{352,-248}})));
   Modelica.Blocks.Interfaces.RealOutput TrooVecSec[6]
     "2nd floor room air temperature vector" annotation (Placement(
-        transformation(extent={{330,-24},{350,-4}}), iconTransformation(extent=
-            {{330,-24},{350,-4}})));
+        transformation(extent={{328,48},{348,68}}),  iconTransformation(extent={{328,48},
+            {348,68}})));
 Modelica.Blocks.Sources.Constant qConGai_flow204(k=(23.4*0.1 + 1.7*0.5)/3600)
     "Convective heat gain"
-    annotation (Placement(transformation(extent={{-268,4},{-260,12}})));
+    annotation (Placement(transformation(extent={{-270,76},{-262,84}})));
 Modelica.Blocks.Sources.Constant qRadGai_flow204(k=(23.4*0.9 + 1.7*0.5)/3600)
     "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-256,12},{-248,20}})));
+    annotation (Placement(transformation(extent={{-258,84},{-250,92}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_2(n1=1, n2=1)
-  annotation (Placement(transformation(extent={{-230,4},{-222,12}})));
+  annotation (Placement(transformation(extent={{-232,76},{-224,84}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow204(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-256,-4},{-248,4}})));
+    annotation (Placement(transformation(extent={{-258,68},{-250,76}})));
 Modelica.Blocks.Sources.Constant qConGai_flow203(k=8.15*0.1/3600)
                                                         "Convective heat gain"
-    annotation (Placement(transformation(extent={{-266,-30},{-258,-22}})));
+    annotation (Placement(transformation(extent={{-268,42},{-260,50}})));
 Modelica.Blocks.Sources.Constant qRadGai_flow203(k=8.15*0.9/3600)
                                                         "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-254,-22},{-246,-14}})));
+    annotation (Placement(transformation(extent={{-256,50},{-248,58}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_3(n1=1, n2=1)
-  annotation (Placement(transformation(extent={{-228,-30},{-220,-22}})));
+  annotation (Placement(transformation(extent={{-230,42},{-222,50}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow203(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-254,-38},{-246,-30}})));
+    annotation (Placement(transformation(extent={{-256,34},{-248,42}})));
 Modelica.Blocks.Sources.Constant qConGai_flow201(k=12.82*0.1/3600)
                                                         "Convective heat gain"
-    annotation (Placement(transformation(extent={{-268,-68},{-260,-60}})));
+    annotation (Placement(transformation(extent={{-270,4},{-262,12}})));
 Modelica.Blocks.Sources.Constant qRadGai_flow201(k=12.82*0.9/3600)
                                                         "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-256,-60},{-248,-52}})));
+    annotation (Placement(transformation(extent={{-258,12},{-250,20}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_4(n1=1, n2=1)
-  annotation (Placement(transformation(extent={{-230,-68},{-222,-60}})));
+  annotation (Placement(transformation(extent={{-232,4},{-224,12}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow201(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-256,-74},{-248,-66}})));
+    annotation (Placement(transformation(extent={{-258,-2},{-250,6}})));
 Modelica.Blocks.Sources.Constant qConGai_flow202(k=(17.56*0.1 + 143.37*0.5)/
         3600)                                           "Convective heat gain"
-    annotation (Placement(transformation(extent={{-268,-100},{-260,-92}})));
+    annotation (Placement(transformation(extent={{-270,-28},{-262,-20}})));
 Modelica.Blocks.Sources.Constant qRadGai_flow202(k=(17.56*0.9 + 143.37*0.5)/
         3600)                                           "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-256,-92},{-248,-84}})));
+    annotation (Placement(transformation(extent={{-258,-20},{-250,-12}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_5(n1=1, n2=1)
-  annotation (Placement(transformation(extent={{-230,-100},{-222,-92}})));
+  annotation (Placement(transformation(extent={{-232,-28},{-224,-20}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow202(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-256,-106},{-248,-98}})));
+    annotation (Placement(transformation(extent={{-258,-34},{-250,-26}})));
 Modelica.Blocks.Sources.Constant qConGai_flow205(k=(23.40*0.1 + 8.98*0.5)/3600)
                                                         "Convective heat gain"
-    annotation (Placement(transformation(extent={{-268,-132},{-260,-124}})));
+    annotation (Placement(transformation(extent={{-270,-60},{-262,-52}})));
 Modelica.Blocks.Sources.Constant qRadGai_flow205(k=(23.40*0.9 + 8.98*0.5)/3600)
                                                         "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-256,-124},{-248,-116}})));
+    annotation (Placement(transformation(extent={{-258,-52},{-250,-44}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_6(n1=1, n2=1)
-  annotation (Placement(transformation(extent={{-230,-132},{-222,-124}})));
+  annotation (Placement(transformation(extent={{-232,-60},{-224,-52}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow205(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-256,-138},{-248,-130}})));
+    annotation (Placement(transformation(extent={{-258,-66},{-250,-58}})));
 Modelica.Blocks.Sources.Constant qConGai_flow206(k=(23.40*0.1 + 6.36*0.5)/3600)
                                                         "Convective heat gain"
-    annotation (Placement(transformation(extent={{-268,-164},{-260,-156}})));
+    annotation (Placement(transformation(extent={{-270,-92},{-262,-84}})));
 Modelica.Blocks.Sources.Constant qRadGai_flow206(k=(23.40*0.9 + 6.36*0.5)/3600)
                                                         "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-256,-156},{-248,-148}})));
+    annotation (Placement(transformation(extent={{-258,-84},{-250,-76}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_7(n1=1, n2=1)
-  annotation (Placement(transformation(extent={{-230,-164},{-222,-156}})));
+  annotation (Placement(transformation(extent={{-232,-92},{-224,-84}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow206(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-256,-170},{-248,-162}})));
+    annotation (Placement(transformation(extent={{-258,-98},{-250,-90}})));
 Modelica.Blocks.Sources.Constant qConGai_flow104(k=6.94*0.1 + 22.95*0.5)
     "Convective heat gain"
     annotation (Placement(transformation(extent={{-270,-270},{-262,-262}})));
@@ -937,7 +934,7 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matCeil(
         c=1340,
         d=288,
         nStaRef=nStaRef)}) "Drop Ceiling tile"
-    annotation (Placement(transformation(extent={{100,100},{130,130}})));
+    annotation (Placement(transformation(extent={{130,202},{160,232}})));
 Buildings.ThermalZones.Detailed.MixedAir plenum1(
     datConExt(
       layers={matExtWal,matExtWal,matExtWal,matExtWal},
@@ -983,17 +980,17 @@ Buildings.ThermalZones.Detailed.MixedAir plenum2(
       A={19.32,26.46,12.29,35.27,35.27,35.27},
       til={F_,F_,F_,F_,F_,F_}),
     lat=weaDat.lat,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
-    "Room model for Case 600"
-    annotation (Placement(transformation(extent={{126,-16},{172,14}})));
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    nPorts=2) "Room model for Case 600"
+    annotation (Placement(transformation(extent={{124,56},{170,86}})));
 Modelica.Blocks.Sources.Constant qConGai_flowple2(k=0) "Convective heat gain"
-    annotation (Placement(transformation(extent={{-270,40},{-262,48}})));
+    annotation (Placement(transformation(extent={{-272,112},{-264,120}})));
 Modelica.Blocks.Sources.Constant qRadGai_flowple2(k=0) "Radiative heat gain"
-    annotation (Placement(transformation(extent={{-258,48},{-250,56}})));
+    annotation (Placement(transformation(extent={{-260,120},{-252,128}})));
 Modelica.Blocks.Routing.Multiplex3 multiplex3_1(n1=1, n2=1)
-  annotation (Placement(transformation(extent={{-232,40},{-224,48}})));
+  annotation (Placement(transformation(extent={{-234,112},{-226,120}})));
 Modelica.Blocks.Sources.Constant qLatGai_flowple2(k=0) "Latent heat gain"
-    annotation (Placement(transformation(extent={{-258,32},{-250,40}})));
+    annotation (Placement(transformation(extent={{-260,104},{-252,112}})));
 Modelica.Blocks.Sources.Constant qConGai_flowple1(k=0) "Convective heat gain"
     annotation (Placement(transformation(extent={{-272,-240},{-264,-232}})));
 Modelica.Blocks.Sources.Constant qRadGai_flowple1(k=0) "Radiative heat gain"
@@ -1002,70 +999,98 @@ Modelica.Blocks.Routing.Multiplex3 multiplex3_14(n1=1, n2=1)
   annotation (Placement(transformation(extent={{-234,-240},{-226,-232}})));
 Modelica.Blocks.Sources.Constant qLatGai_flowple1(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-260,-248},{-252,-240}})));
+Modelica.Blocks.Sources.Constant Infiltple1(k=1.2*163.88*1.8*0.432/3600)
+    "0.432ACH"
+    annotation (Placement(transformation(extent={{-188,-156},{-178,-146}})));
+Buildings.Fluid.Sources.MassFlowSource_T sinInfple1(
+    redeclare package Medium = MediumA,
+    m_flow=1,
+    use_m_flow_in=true,
+    use_T_in=false,
+    use_X_in=false,
+    use_C_in=false,
+    nPorts=1) "Sink model for air infiltration"
+    annotation (Placement(transformation(extent={{-156,-158},{-144,-146}})));
+Buildings.Fluid.Sources.Outside souInfPle1(redeclare package Medium = MediumA,
+      nPorts=1) "Source model for air infiltration"
+    annotation (Placement(transformation(extent={{-132,-278},{-122,-268}})));
+Buildings.Fluid.Sources.MassFlowSource_T sinInfple2(
+    redeclare package Medium = MediumA,
+    m_flow=1,
+    use_m_flow_in=true,
+    use_T_in=false,
+    use_X_in=false,
+    use_C_in=false,
+    nPorts=1) "Sink model for air infiltration"
+    annotation (Placement(transformation(extent={{-118,176},{-106,188}})));
+Modelica.Blocks.Sources.Constant Infiltple2(k=1.2*163.88*1.8*0.432/3600)
+    "0.432ACH"
+    annotation (Placement(transformation(extent={{-150,178},{-138,190}})));
+Buildings.Fluid.Sources.Outside souInfPle2(redeclare package Medium = MediumA,
+      nPorts=1) "Source model for air infiltration"
+    annotation (Placement(transformation(extent={{-138,-6},{-128,4}})));
 equation
 
   connect(roo204.heaPorAir, TRooAir204.port) annotation (Line(
-      points={{-9.3,-46},{216,-46},{216,-12.5},{233,-12.5}},
+      points={{-11.3,26},{214,26},{214,59.5},{231,59.5}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(sinInf204.ports[1], roo204.ports[1]) annotation (Line(
-      points={{-104,24},{-80,24},{-80,-59},{-27.5,-59}},
+      points={{-106,96},{-82,96},{-82,13.3333},{-29.5,13.3333}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(souInf204.ports[1], roo204.ports[2]) annotation (Line(points={{-116,
-          -70},{-78,-70},{-78,-57},{-27.5,-57}},        color={0,127,255}));
 connect(weaDat.weaBus,roo201.weaBus) annotation (Line(
-    points={{270,-124},{204,-124},{204,-53.575},{159.585,-53.575}},
+    points={{268,-52},{202,-52},{202,18.425},{157.585,18.425}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo203.weaBus) annotation (Line(
-    points={{270,-124},{216,-124},{216,-41.575},{83.585,-41.575}},
+    points={{268,-52},{214,-52},{214,30.425},{81.585,30.425}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo206.weaBus) annotation (Line(
-    points={{270,-124},{138,-124},{138,-145.575},{103.585,-145.575}},
+    points={{268,-52},{136,-52},{136,-73.575},{101.585,-73.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo202.weaBus) annotation (Line(
-      points={{270,-124},{194,-124},{194,-96},{120,-96},{120,-91.575},{45.585,
-          -91.575}},
+      points={{268,-52},{192,-52},{192,-24},{118,-24},{118,-19.575},{43.585,
+          -19.575}},
       color={255,204,51},
       thickness=0.5));
 connect(weaDat.weaBus,roo205.weaBus) annotation (Line(
-    points={{270,-124},{212,-124},{212,-135.575},{-6.415,-135.575}},
+    points={{268,-52},{210,-52},{210,-63.575},{-8.415,-63.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo101.weaBus) annotation (Line(
-    points={{270,-124},{204,-124},{204,-307.575},{151.585,-307.575}},
+    points={{268,-52},{202,-52},{202,-307.575},{151.585,-307.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo102.weaBus) annotation (Line(
-    points={{270,-124},{202,-124},{202,-307.575},{83.585,-307.575}},
+    points={{268,-52},{200,-52},{200,-307.575},{83.585,-307.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo106.weaBus) annotation (Line(
-    points={{270,-124},{204,-124},{204,-399.575},{105.585,-399.575}},
+    points={{268,-52},{202,-52},{202,-399.575},{105.585,-399.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo103.weaBus) annotation (Line(
-    points={{270,-124},{200,-124},{200,-345.575},{47.585,-345.575}},
+    points={{268,-52},{198,-52},{198,-345.575},{47.585,-345.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo105.weaBus) annotation (Line(
-    points={{270,-124},{204,-124},{204,-389.575},{-4.415,-389.575}},
+    points={{268,-52},{202,-52},{202,-389.575},{-4.415,-389.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo104.weaBus) annotation (Line(
-    points={{270,-124},{205.635,-124},{205.635,-284.1},{5.27,-284.1}},
+    points={{268,-52},{203.635,-52},{203.635,-284.1},{5.27,-284.1}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo204.weaBus) annotation (Line(
-    points={{270,-124},{196,-124},{196,-28.1},{15.27,-28.1}},
+    points={{268,-52},{194,-52},{194,43.9},{13.27,43.9}},
     color={255,204,51},
     thickness=0.5));
 
 connect(weaDat.weaBus, weaBus) annotation (Line(
-    points={{270,-124},{184,-124},{184,-130},{-62,-130},{-62,-148},{-98,-148}},
+    points={{268,-52},{182,-52},{182,-58},{-64,-58},{-64,-76},{-100,-76}},
     color={255,204,51},
     thickness=0.5,
     smooth=Smooth.None), Text(
@@ -1073,7 +1098,7 @@ connect(weaDat.weaBus, weaBus) annotation (Line(
     index=1,
     extent={{6,3},{6,3}}));
 connect(weaDat.weaBus, weaBus1) annotation (Line(
-    points={{270,-124},{206,-124},{206,-444},{-98,-444}},
+    points={{268,-52},{204,-52},{204,-444},{-98,-444}},
     color={255,204,51},
     thickness=0.5,
     smooth=Smooth.None), Text(
@@ -1081,32 +1106,32 @@ connect(weaDat.weaBus, weaBus1) annotation (Line(
     index=1,
     extent={{6,3},{6,3}}));
 
-connect(roo204.surf_conBou[2],roo203. surf_conBou[2]) annotation (Line(points={{-0.2,
-          -62.4},{15.75,-62.4},{15.75,-67.3},{69.9,-67.3}},            color={
+connect(roo204.surf_conBou[2],roo203. surf_conBou[2]) annotation (Line(points={{-2.2,
+          9.6},{13.75,9.6},{13.75,4.7},{67.9,4.7}},                    color={
         191,0,0}));
-  connect(roo204.surf_conBou[4], roo202.surf_conBou[2]) annotation (Line(points={{-0.2,
-          -61.6},{-0.2,-91},{31.9,-91},{31.9,-117.429}},        color={191,0,0}));
-connect(roo204.surf_conBou[3],roo205. surf_conBou[2]) annotation (Line(points={{-0.2,
-          -62},{-16,-62},{-16,-161.3},{-20.1,-161.3}},  color={191,0,0}));
-  connect(roo205.surf_conBou[4], roo202.surf_conBou[4]) annotation (Line(points={{-20.1,
-          -160.7},{5.95,-160.7},{5.95,-117},{31.9,-117}},                color={
+  connect(roo204.surf_conBou[4], roo202.surf_conBou[2]) annotation (Line(points={{-2.2,
+          10.4},{-2.2,-19},{29.9,-19},{29.9,-45.4286}},         color={191,0,0}));
+connect(roo204.surf_conBou[3],roo205. surf_conBou[2]) annotation (Line(points={{-2.2,10},
+          {-18,10},{-18,-89.3},{-22.1,-89.3}},          color={191,0,0}));
+  connect(roo205.surf_conBou[4], roo202.surf_conBou[4]) annotation (Line(points={{-22.1,
+          -88.7},{3.95,-88.7},{3.95,-45},{29.9,-45}},                    color={
           191,0,0}));
-connect(roo205.surf_conBou[3],roo206. surf_conBou[2]) annotation (Line(points={{-20.1,
-          -161},{35.95,-161},{35.95,-171.3},{89.9,-171.3}},            color=
+connect(roo205.surf_conBou[3],roo206. surf_conBou[2]) annotation (Line(points={{-22.1,
+          -89},{33.95,-89},{33.95,-99.3},{87.9,-99.3}},                color=
         {191,0,0}));
-  connect(roo206.surf_conBou[3], roo202.surf_conBou[5]) annotation (Line(points={{89.9,
-          -171},{60.95,-171},{60.95,-116.786},{31.9,-116.786}},   color={191,0,0}));
-connect(roo206.surf_conBou[4],roo203. surf_conBou[5]) annotation (Line(points={{89.9,
-          -170.7},{89.9,-124.5},{69.9,-124.5},{69.9,-66.4}},           color=
+  connect(roo206.surf_conBou[3], roo202.surf_conBou[5]) annotation (Line(points={{87.9,
+          -99},{58.95,-99},{58.95,-44.7857},{29.9,-44.7857}},     color={191,0,0}));
+connect(roo206.surf_conBou[4],roo203. surf_conBou[5]) annotation (Line(points={{87.9,
+          -98.7},{87.9,-52.5},{67.9,-52.5},{67.9,5.6}},                color=
         {191,0,0}));
-connect(roo206.surf_conBou[5],roo201. surf_conBou[3]) annotation (Line(points={{89.9,
-          -170.4},{89.9,-124.5},{145.9,-124.5},{145.9,-79}},            color=
+connect(roo206.surf_conBou[5],roo201. surf_conBou[3]) annotation (Line(points={{87.9,
+          -98.4},{87.9,-52.5},{143.9,-52.5},{143.9,-7}},                color=
        {191,0,0}));
-connect(roo201.surf_conBou[2],roo203. surf_conBou[3]) annotation (Line(points={{145.9,
-          -79.3},{99.95,-79.3},{99.95,-67},{69.9,-67}},
+connect(roo201.surf_conBou[2],roo203. surf_conBou[3]) annotation (Line(points={{143.9,
+          -7.3},{97.95,-7.3},{97.95,5},{67.9,5}},
       color={191,0,0}));
-  connect(roo202.surf_conBou[3], roo203.surf_conBou[4]) annotation (Line(points={{31.9,
-          -117.214},{31.9,-97.5},{69.9,-97.5},{69.9,-66.7}},   color={191,0,0}));
+  connect(roo202.surf_conBou[3], roo203.surf_conBou[4]) annotation (Line(points={{29.9,
+          -45.2143},{29.9,-25.5},{67.9,-25.5},{67.9,5.3}},     color={191,0,0}));
 
   connect(roo104.heaPorAir, TRooAir104.port) annotation (Line(
       points={{-19.3,-302},{-2,-302},{-2,-294},{226,-294},{226,-284},{236,-284}},
@@ -1176,39 +1201,39 @@ connect(preHea21.port, roo103.surf_conBou[6]) annotation (Line(points={{-16,
                                                       color={191,0,0}));
 
 connect(roo105.surf_conBou[5], roo205.surf_conBou[1]) annotation (Line(points={{-18.1,
-          -414.4},{-18.1,-161.6},{-20.1,-161.6}},      color={191,0,0}));
+          -414.4},{-18.1,-89.6},{-22.1,-89.6}},        color={191,0,0}));
 connect(roo106.surf_conBou[6], roo206.surf_conBou[1]) annotation (Line(points={{91.9,
-          -424.375},{91.9,-171.6},{89.9,-171.6}},         color={191,0,0}));
+          -424.375},{91.9,-99.6},{87.9,-99.6}},           color={191,0,0}));
 connect(roo101.surf_conBou[4], roo201.surf_conBou[1]) annotation (Line(points={{137.9,
-          -332.438},{137.9,-79.6},{145.9,-79.6}},
+          -332.438},{137.9,-7.6},{143.9,-7.6}},
       color={191,0,0}));
 connect(roo102.surf_conBou[6],roo203. surf_conBou[1]) annotation (Line(points={{69.9,
-          -332.375},{69.9,-67.6}},                                   color={
+          -332.375},{69.9,-132},{67.9,-132},{67.9,4.4}},             color={
         191,0,0}));
   connect(roo103.surf_conBou[6], roo202.surf_conBou[1]) annotation (Line(points={{33.9,
-          -370.375},{33.9,-117.643},{31.9,-117.643}},   color={191,0,0}));
+          -370.375},{33.9,-45.6429},{29.9,-45.6429}},   color={191,0,0}));
 connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{-10.2,
-          -317.2},{-34,-317.2},{-34,-124},{-0.2,-124},{-0.2,-62.8}},
+          -317.2},{-36,-317.2},{-36,-52},{-2.2,-52},{-2.2,9.2}},
       color={191,0,0}));
-  connect(sinInf203.ports[1], roo203.ports[1]) annotation (Line(points={{-104,42},
-          {8,42},{8,-64.5},{45.75,-64.5}},   color={0,127,255}));
-  connect(sinInf201.ports[1], roo201.ports[1]) annotation (Line(points={{-104,84},
-          {98,84},{98,-28},{121.75,-28},{121.75,-76}},     color={0,127,255}));
+  connect(sinInf203.ports[1], roo203.ports[1]) annotation (Line(points={{-106,
+          114},{6,114},{6,7.5},{43.75,7.5}}, color={0,127,255}));
+  connect(sinInf201.ports[1], roo201.ports[1]) annotation (Line(points={{-106,
+          156},{96,156},{96,44},{119.75,44},{119.75,-4}},  color={0,127,255}));
 
-  connect(roo201.heaPorAir, TRooAir201.port) annotation (Line(points={{137.85,
-          -67},{137.85,-64},{216,-64},{216,52.5},{231,52.5}},
+  connect(roo201.heaPorAir, TRooAir201.port) annotation (Line(points={{135.85,5},
+          {135.85,8},{214,8},{214,124.5},{229,124.5}},
                                 color={191,0,0}));
   connect(roo101.heaPorAir, TRooAir101.port) annotation (Line(points={{129.85,
           -321},{214,-321},{214,-214},{236,-214}},
                                              color={191,0,0}));
-  connect(roo202.heaPorAir, TRooAir202.port) annotation (Line(points={{23.85,
-          -105},{98.075,-105},{98.075,-107.5},{212,-107.5},{212,28},{234,28}},
+  connect(roo202.heaPorAir, TRooAir202.port) annotation (Line(points={{21.85,
+          -33},{96.075,-33},{96.075,-35.5},{210,-35.5},{210,100},{232,100}},
                                 color={191,0,0}));
-  connect(roo206.heaPorAir, TRooAir206.port) annotation (Line(points={{81.85,
-          -159},{126.075,-159},{126.075,-158},{220,-158},{220,-61},{234,-61}},
+  connect(roo206.heaPorAir, TRooAir206.port) annotation (Line(points={{79.85,
+          -87},{124.075,-87},{124.075,-86},{218,-86},{218,11},{232,11}},
                                   color={191,0,0}));
-  connect(roo205.heaPorAir, TRooAir205.port) annotation (Line(points={{-28.15,
-          -149},{-28.15,-144},{218,-144},{218,-35.5},{233,-35.5}},
+  connect(roo205.heaPorAir, TRooAir205.port) annotation (Line(points={{-30.15,
+          -77},{-30.15,-72},{216,-72},{216,36.5},{231,36.5}},
                                                   color={191,0,0}));
   connect(sinInf105.ports[1], roo105.ports[1]) annotation (Line(points={{-146,
           -232},{-58,-232},{-58,-412},{-50,-412},{-50,-412.5},{-42.25,-412.5}},
@@ -1222,8 +1247,8 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
   connect(roo106.heaPorAir, TRooAir106.port) annotation (Line(points={{83.85,
           -413},{228,-413},{228,-332},{236,-332}},
                                              color={191,0,0}));
-  connect(sinInf101.ports[1], roo101.ports[1]) annotation (Line(points={{-146,
-          -176},{113.75,-176},{113.75,-330}},
+  connect(sinInf101.ports[1], roo101.ports[1]) annotation (Line(points={{-144,
+          -172},{113.75,-172},{113.75,-330}},
                                           color={0,127,255}));
 
   connect(roo103.heaPorAir, TRooAir103.port) annotation (Line(points={{25.85,
@@ -1237,27 +1262,17 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
   connect(sinInf102.ports[1], roo102.ports[1]) annotation (Line(points={{-146,
           -194},{45.75,-194},{45.75,-330.5}},                   color={0,127,255}));
 
-  connect(roo203.heaPorAir, TRooAir203.port) annotation (Line(points={{61.85,
-          -55},{61.85,-36},{214,-36},{214,8},{234,8}},
+  connect(roo203.heaPorAir, TRooAir203.port) annotation (Line(points={{59.85,17},
+          {59.85,36},{212,36},{212,80},{232,80}},
                                     color={191,0,0}));
-  connect(sinInf202.ports[1], roo202.ports[1]) annotation (Line(points={{-104,62},
-          {-22,62},{-22,-114},{7.75,-114},{7.75,-114.5}},       color={0,127,255}));
+  connect(sinInf202.ports[1], roo202.ports[1]) annotation (Line(points={{-106,
+          134},{-24,134},{-24,-42},{5.75,-42},{5.75,-42.5}},    color={0,127,255}));
 
-  connect(souInf204.weaBus, weaBus) annotation (Line(
-      points={{-128,-69.88},{-128,-148},{-98,-148}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      string="%first",
-      index=-1,
-      extent={{-6,3},{-6,3}}));
-
-  connect(sinInf206.ports[1], roo206.ports[1]) annotation (Line(points={{-102,
-          -16},{28,-16},{28,-170},{32,-170},{32,-168.5},{65.75,-168.5}},
-                                                                       color={0,
+  connect(sinInf206.ports[1], roo206.ports[1]) annotation (Line(points={{-104,56},
+          {26,56},{26,-98},{30,-98},{30,-96.5},{63.75,-96.5}},         color={0,
           127,255}));
-  connect(sinInf205.ports[1], roo205.ports[1]) annotation (Line(points={{-104,2},
-          {-84,2},{-84,-158},{-44.25,-158},{-44.25,-158.5}},    color={0,127,255}));
+  connect(sinInf205.ports[1], roo205.ports[1]) annotation (Line(points={{-106,74},
+          {-86,74},{-86,-86},{-46.25,-86},{-46.25,-86.5}},      color={0,127,255}));
 
   connect(port_104[:], roo104.ports[2:3]) annotation (Line(points={{-117,-249},
           {-70,-249},{-70,-309.333},{-37.5,-309.333}},
@@ -1274,34 +1289,39 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
   connect(port_106[:], roo106.ports[2:3]) annotation (Line(points={{123,-368},{
           123,-418.5},{67.75,-418.5}},
                            color={0,127,255}));
-  connect(port_205[:], roo205.ports[2:3]) annotation (Line(points={{-91,-47},{
-          -44.25,-47},{-44.25,-154.5}},
+  connect(port_205[:], roo205.ports[2:3]) annotation (Line(points={{-93,25},{
+          -46.25,25},{-46.25,-82.5}},
                                   color={0,127,255}));
-  connect(port_204[:], roo204.ports[3:4]) annotation (Line(points={{-51,30},{
-          -62,30},{-62,-53},{-27.5,-53}},
+  connect(port_204[:], roo204.ports[2:3]) annotation (Line(points={{-53,102},{
+          -64,102},{-64,18.6667},{-29.5,18.6667}},
                                    color={0,127,255}));
-  connect(port_203[:], roo203.ports[2:3]) annotation (Line(points={{79,71},{22,
-          71},{22,-60.5},{45.75,-60.5}},
+  connect(port_203[:], roo203.ports[2:3]) annotation (Line(points={{77,143},{20,
+          143},{20,11.5},{43.75,11.5}},
                                      color={0,127,255}));
-  connect(port_202[:], roo202.ports[2:3]) annotation (Line(points={{-28,-75},{
-          -28,-110.5},{7.75,-110.5}},  color={0,127,255}));
-  connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{156,34},{16,
-          34},{16,-164.5},{65.75,-164.5}},   color={0,127,255}));
-  connect(Infilt201.y, sinInf201.m_flow_in) annotation (Line(points={{-135.4,86},
-          {-128,86},{-128,88.8},{-117.2,88.8}},color={0,0,127}));
-  connect(Infilt203.y, sinInf203.m_flow_in) annotation (Line(points={{-133.4,42},
-          {-130,42},{-130,46.8},{-117.2,46.8}},color={0,0,127}));
-  connect(Infilt202.y, sinInf202.m_flow_in) annotation (Line(points={{-133.4,64},
-          {-128,64},{-128,66.8},{-117.2,66.8}},color={0,0,127}));
-  connect(Infilt204.y, sinInf204.m_flow_in) annotation (Line(points={{-133.4,22},
-          {-128,22},{-128,28.8},{-117.2,28.8}},color={0,0,127}));
-  connect(Infilt205.y, sinInf205.m_flow_in) annotation (Line(points={{-133.4,0},
-          {-128,0},{-128,6.8},{-117.2,6.8}},color={0,0,127}));
-  connect(Infilt206.y, sinInf206.m_flow_in) annotation (Line(points={{-133.4,
-          -20},{-124,-20},{-124,-11.2},{-115.2,-11.2}},
-                                                  color={0,0,127}));
-  connect(Infilt101.y, sinInf101.m_flow_in) annotation (Line(points={{-177.5,-171},
-          {-168,-171},{-168,-171.2},{-159.2,-171.2}}, color={0,0,127}));
+  connect(port_202[:], roo202.ports[2:3]) annotation (Line(points={{-30,-3},{
+          -30,-38.5},{5.75,-38.5}},    color={0,127,255}));
+  connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{154,106},{
+          14,106},{14,-92.5},{63.75,-92.5}}, color={0,127,255}));
+  connect(Infilt201.y, sinInf201.m_flow_in) annotation (Line(points={{-137.4,
+          158},{-130,158},{-130,160.8},{-119.2,160.8}},
+                                               color={0,0,127}));
+  connect(Infilt203.y, sinInf203.m_flow_in) annotation (Line(points={{-135.4,
+          114},{-132,114},{-132,118.8},{-119.2,118.8}},
+                                               color={0,0,127}));
+  connect(Infilt202.y, sinInf202.m_flow_in) annotation (Line(points={{-135.4,
+          136},{-130,136},{-130,138.8},{-119.2,138.8}},
+                                               color={0,0,127}));
+  connect(Infilt204.y, sinInf204.m_flow_in) annotation (Line(points={{-135.4,94},
+          {-130,94},{-130,100.8},{-119.2,100.8}},
+                                               color={0,0,127}));
+  connect(Infilt205.y, sinInf205.m_flow_in) annotation (Line(points={{-135.4,72},
+          {-130,72},{-130,78.8},{-119.2,78.8}},
+                                            color={0,0,127}));
+  connect(Infilt206.y, sinInf206.m_flow_in) annotation (Line(points={{-135.4,52},
+          {-126,52},{-126,60.8},{-117.2,60.8}},   color={0,0,127}));
+  connect(Infilt101.y, sinInf101.m_flow_in) annotation (Line(points={{-177.5,
+          -171},{-166,-171},{-166,-167.2},{-157.2,-167.2}},
+                                                      color={0,0,127}));
   connect(Infilt102.y, sinInf102.m_flow_in) annotation (Line(points={{-177.5,-191},
           {-170,-191},{-170,-189.2},{-159.2,-189.2}}, color={0,0,127}));
   connect(Infilt104.y, sinInf104.m_flow_in) annotation (Line(points={{-177.5,-211},
@@ -1311,38 +1331,40 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
   connect(Infilt106.y, sinInf106.m_flow_in) annotation (Line(points={{-177.5,-253},
           {-168.75,-253},{-168.75,-247.2},{-159.2,-247.2}}, color={0,0,127}));
   connect(souInf101.weaBus, weaBus1) annotation (Line(
-      points={{-130,-292.86},{-154,-292.86},{-154,-444},{-98,-444}},
+      points={{-132,-286.9},{-154,-286.9},{-154,-444},{-98,-444}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(souInf101.ports[1], roo101.ports[2]) annotation (Line(points={{-116,
-          -293},{90,-293},{90,-294},{102,-294},{102,-327},{113.75,-327}}, color=
+  connect(souInf101.ports[1], roo101.ports[2]) annotation (Line(points={{-122,
+          -287},{90,-287},{90,-294},{102,-294},{102,-327},{113.75,-327}}, color=
          {0,127,255}));
   connect(weaBus, souInf201.weaBus) annotation (Line(
-      points={{-98,-148},{-146,-148},{-146,-54.86},{-128,-54.86}},
+      points={{-100,-76},{-148,-76},{-148,-14.9},{-136,-14.9}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(souInf201.ports[1], roo201.ports[2]) annotation (Line(points={{-114,
-          -55},{110,-55},{110,-73},{121.75,-73}}, color={0,127,255}));
-  connect(TRooAir201.T, TRoo_2.u1[1]) annotation (Line(points={{250,52.5},{268,
-          52.5},{268,3.15},{273.72,3.15}}, color={0,0,127}));
-  connect(TRooAir202.T, TRoo_2.u2[1]) annotation (Line(points={{250,28},{266,28},
-          {266,-3.31},{273.72,-3.31}}, color={0,0,127}));
-  connect(TRooAir203.T, TRoo_2.u3[1]) annotation (Line(points={{250,8},{264,8},
-          {264,-9.77},{273.72,-9.77}}, color={0,0,127}));
-  connect(TRooAir204.T, TRoo_2.u4[1]) annotation (Line(points={{250,-12.5},{290,
-          -12.5},{290,-16.23},{273.72,-16.23}}, color={0,0,127}));
-  connect(TRooAir205.T, TRoo_2.u5[1]) annotation (Line(points={{250,-35.5},{266,
-          -35.5},{266,-22.69},{273.72,-22.69}}, color={0,0,127}));
-  connect(TRooAir206.T, TRoo_2.u6[1]) annotation (Line(points={{252,-61},{268,
-          -61},{268,-29.15},{273.72,-29.15}}, color={0,0,127}));
+  connect(souInf201.ports[1], roo201.ports[2]) annotation (Line(points={{-126,
+          -15},{108,-15},{108,-1},{119.75,-1}},   color={0,127,255}));
+  connect(TRooAir201.T, TRoo_2.u1[1]) annotation (Line(points={{248,124.5},{266,
+          124.5},{266,75.15},{271.72,75.15}},
+                                           color={0,0,127}));
+  connect(TRooAir202.T, TRoo_2.u2[1]) annotation (Line(points={{248,100},{264,
+          100},{264,68.69},{271.72,68.69}},
+                                       color={0,0,127}));
+  connect(TRooAir203.T, TRoo_2.u3[1]) annotation (Line(points={{248,80},{262,80},
+          {262,62.23},{271.72,62.23}}, color={0,0,127}));
+  connect(TRooAir204.T, TRoo_2.u4[1]) annotation (Line(points={{248,59.5},{288,
+          59.5},{288,55.77},{271.72,55.77}},    color={0,0,127}));
+  connect(TRooAir205.T, TRoo_2.u5[1]) annotation (Line(points={{248,36.5},{264,
+          36.5},{264,49.31},{271.72,49.31}},    color={0,0,127}));
+  connect(TRooAir206.T, TRoo_2.u6[1]) annotation (Line(points={{250,11},{266,11},
+          {266,42.85},{271.72,42.85}},        color={0,0,127}));
   connect(TRooAir101.T, TRoo_1.u1[1]) annotation (Line(points={{252,-214},{268,
           -214},{268,-244.4},{284.08,-244.4}}, color={0,0,127}));
   connect(TRooAir102.T, TRoo_1.u2[1]) annotation (Line(points={{252,-236},{264,
@@ -1357,99 +1379,99 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
           -332},{272,-271.6},{284.08,-271.6}}, color={0,0,127}));
   connect(TRoo_1.y, TrooVecFir)
     annotation (Line(points={{319.6,-258},{342,-258}}, color={0,0,127}));
-  connect(TRoo_2.y, TrooVecSec) annotation (Line(points={{315.9,-13},{326,-13},
-          {326,-12},{330,-12},{330,-14},{340,-14}}, color={0,0,127}));
+  connect(TRoo_2.y, TrooVecSec) annotation (Line(points={{313.9,59},{324,59},{
+          324,60},{328,60},{328,58},{338,58}},      color={0,0,127}));
   connect(qRadGai_flow204.y, multiplex3_2.u1[1]) annotation (Line(
-      points={{-247.6,16},{-246,16},{-246,10.8},{-230.8,10.8}},
+      points={{-249.6,88},{-248,88},{-248,82.8},{-232.8,82.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qLatGai_flow204.y, multiplex3_2.u3[1]) annotation (Line(
-      points={{-247.6,0},{-234,0},{-234,4},{-232,4},{-232,5.2},{-230.8,5.2}},
+      points={{-249.6,72},{-236,72},{-236,76},{-234,76},{-234,77.2},{-232.8,
+          77.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qConGai_flow204.y, multiplex3_2.u2[1]) annotation (Line(
-      points={{-259.6,8},{-230.8,8}},
+      points={{-261.6,80},{-232.8,80}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(multiplex3_2.y, roo204.qGai_flow) annotation (Line(points={{-221.6,8},
-          {-206,8},{-206,-38},{-36.08,-38}}, color={0,0,127}));
+  connect(multiplex3_2.y, roo204.qGai_flow) annotation (Line(points={{-223.6,80},
+          {-208,80},{-208,34},{-38.08,34}},  color={0,0,127}));
   connect(qRadGai_flow203.y, multiplex3_3.u1[1]) annotation (Line(
-      points={{-245.6,-18},{-244,-18},{-244,-23.2},{-228.8,-23.2}},
+      points={{-247.6,54},{-246,54},{-246,48.8},{-230.8,48.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qLatGai_flow203.y, multiplex3_3.u3[1]) annotation (Line(
-      points={{-245.6,-34},{-232,-34},{-232,-30},{-230,-30},{-230,-28.8},{
-          -228.8,-28.8}},
+      points={{-247.6,38},{-234,38},{-234,42},{-232,42},{-232,43.2},{-230.8,
+          43.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qConGai_flow203.y, multiplex3_3.u2[1]) annotation (Line(
-      points={{-257.6,-26},{-228.8,-26}},
+      points={{-259.6,46},{-230.8,46}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qRadGai_flow201.y, multiplex3_4.u1[1]) annotation (Line(
-      points={{-247.6,-56},{-246,-56},{-246,-61.2},{-230.8,-61.2}},
+      points={{-249.6,16},{-248,16},{-248,10.8},{-232.8,10.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qLatGai_flow201.y, multiplex3_4.u3[1]) annotation (Line(
-      points={{-247.6,-70},{-234,-70},{-234,-68},{-232,-68},{-232,-66.8},{
-          -230.8,-66.8}},
+      points={{-249.6,2},{-236,2},{-236,4},{-234,4},{-234,5.2},{-232.8,5.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qConGai_flow201.y, multiplex3_4.u2[1]) annotation (Line(
-      points={{-259.6,-64},{-230.8,-64}},
+      points={{-261.6,8},{-232.8,8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qRadGai_flow202.y, multiplex3_5.u1[1]) annotation (Line(
-      points={{-247.6,-88},{-246,-88},{-246,-93.2},{-230.8,-93.2}},
+      points={{-249.6,-16},{-248,-16},{-248,-21.2},{-232.8,-21.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qLatGai_flow202.y, multiplex3_5.u3[1]) annotation (Line(
-      points={{-247.6,-102},{-234,-102},{-234,-100},{-232,-100},{-232,-98.8},{
-          -230.8,-98.8}},
+      points={{-249.6,-30},{-236,-30},{-236,-28},{-234,-28},{-234,-26.8},{
+          -232.8,-26.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qConGai_flow202.y, multiplex3_5.u2[1]) annotation (Line(
-      points={{-259.6,-96},{-230.8,-96}},
+      points={{-261.6,-24},{-232.8,-24}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qRadGai_flow205.y, multiplex3_6.u1[1]) annotation (Line(
-      points={{-247.6,-120},{-246,-120},{-246,-125.2},{-230.8,-125.2}},
+      points={{-249.6,-48},{-248,-48},{-248,-53.2},{-232.8,-53.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qLatGai_flow205.y, multiplex3_6.u3[1]) annotation (Line(
-      points={{-247.6,-134},{-234,-134},{-234,-132},{-232,-132},{-232,-130.8},{
-          -230.8,-130.8}},
+      points={{-249.6,-62},{-236,-62},{-236,-60},{-234,-60},{-234,-58.8},{
+          -232.8,-58.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qConGai_flow205.y, multiplex3_6.u2[1]) annotation (Line(
-      points={{-259.6,-128},{-230.8,-128}},
+      points={{-261.6,-56},{-232.8,-56}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qRadGai_flow206.y, multiplex3_7.u1[1]) annotation (Line(
-      points={{-247.6,-152},{-246,-152},{-246,-157.2},{-230.8,-157.2}},
+      points={{-249.6,-80},{-248,-80},{-248,-85.2},{-232.8,-85.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qLatGai_flow206.y, multiplex3_7.u3[1]) annotation (Line(
-      points={{-247.6,-166},{-234,-166},{-234,-164},{-232,-164},{-232,-162.8},{
-          -230.8,-162.8}},
+      points={{-249.6,-94},{-236,-94},{-236,-92},{-234,-92},{-234,-90.8},{
+          -232.8,-90.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qConGai_flow206.y, multiplex3_7.u2[1]) annotation (Line(
-      points={{-259.6,-160},{-230.8,-160}},
+      points={{-261.6,-88},{-232.8,-88}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(multiplex3_3.y, roo203.qGai_flow) annotation (Line(points={{-219.6,
-          -26},{-208,-26},{-208,-48},{-84,-48},{-84,-49},{38.16,-49}}, color={0,
+  connect(multiplex3_3.y, roo203.qGai_flow) annotation (Line(points={{-221.6,46},
+          {-210,46},{-210,24},{-86,24},{-86,23},{36.16,23}},           color={0,
           0,127}));
-  connect(multiplex3_4.y, roo201.qGai_flow) annotation (Line(points={{-221.6,
-          -64},{-208,-64},{-208,-61},{114.16,-61}}, color={0,0,127}));
-  connect(multiplex3_5.y, roo202.qGai_flow) annotation (Line(points={{-221.6,
-          -96},{-206,-96},{-206,-98},{-112,-98},{-112,-99},{0.16,-99}}, color={
+  connect(multiplex3_4.y, roo201.qGai_flow) annotation (Line(points={{-223.6,8},
+          {-210,8},{-210,11},{112.16,11}},          color={0,0,127}));
+  connect(multiplex3_5.y, roo202.qGai_flow) annotation (Line(points={{-223.6,
+          -24},{-208,-24},{-208,-26},{-114,-26},{-114,-27},{-1.84,-27}},color={
           0,0,127}));
-  connect(multiplex3_6.y, roo205.qGai_flow) annotation (Line(points={{-221.6,
-          -128},{-208,-128},{-208,-143},{-51.84,-143}}, color={0,0,127}));
-  connect(multiplex3_7.y, roo206.qGai_flow) annotation (Line(points={{-221.6,
-          -160},{-12,-160},{-12,-153},{58.16,-153}}, color={0,0,127}));
+  connect(multiplex3_6.y, roo205.qGai_flow) annotation (Line(points={{-223.6,
+          -56},{-210,-56},{-210,-71},{-53.84,-71}},     color={0,0,127}));
+  connect(multiplex3_7.y, roo206.qGai_flow) annotation (Line(points={{-223.6,
+          -88},{-14,-88},{-14,-81},{56.16,-81}},     color={0,0,127}));
   connect(qRadGai_flow104.y, multiplex3_8.u1[1]) annotation (Line(
       points={{-249.6,-258},{-248,-258},{-248,-263.2},{-232.8,-263.2}},
       color={0,0,127},
@@ -1543,20 +1565,21 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
   connect(multiplex3_13.y, roo106.qGai_flow) annotation (Line(points={{-223.6,
           -434},{-198,-434},{-198,-407},{60.16,-407}}, color={0,0,127}));
   connect(qRadGai_flowple2.y, multiplex3_1.u1[1]) annotation (Line(
-      points={{-249.6,52},{-248,52},{-248,46.8},{-232.8,46.8}},
+      points={{-251.6,124},{-250,124},{-250,118.8},{-234.8,118.8}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qLatGai_flowple2.y, multiplex3_1.u3[1]) annotation (Line(
-      points={{-249.6,36},{-236,36},{-236,40},{-234,40},{-234,41.2},{-232.8,
-          41.2}},
+      points={{-251.6,108},{-238,108},{-238,112},{-236,112},{-236,113.2},{
+          -234.8,113.2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(qConGai_flowple2.y, multiplex3_1.u2[1]) annotation (Line(
-      points={{-261.6,44},{-232.8,44}},
+      points={{-263.6,116},{-234.8,116}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(plenum2.qGai_flow, multiplex3_1.y) annotation (Line(points={{124.16,5},
-          {-52,5},{-52,-46},{-202,-46},{-202,44},{-223.6,44}}, color={0,0,127}));
+  connect(plenum2.qGai_flow, multiplex3_1.y) annotation (Line(points={{122.16,
+          77},{-54,77},{-54,26},{-204,26},{-204,116},{-225.6,116}}, color={0,0,
+          127}));
   connect(qRadGai_flowple1.y, multiplex3_14.u1[1]) annotation (Line(
       points={{-251.6,-228},{-250,-228},{-250,-233.2},{-234.8,-233.2}},
       color={0,0,127},
@@ -1573,6 +1596,36 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
   connect(plenum1.qGai_flow, multiplex3_14.y) annotation (Line(points={{104.16,
           -255},{-48,-255},{-48,-262},{-200,-262},{-200,-236},{-225.6,-236}},
         color={0,0,127}));
+  connect(Infiltple1.y, sinInfple1.m_flow_in) annotation (Line(points={{-177.5,
+          -151},{-168.75,-151},{-168.75,-147.2},{-157.2,-147.2}}, color={0,0,
+          127}));
+  connect(sinInfple1.ports[1], plenum1.ports[1]) annotation (Line(points={{-144,
+          -152},{102,-152},{102,-270},{111.75,-270}}, color={0,127,255}));
+  connect(weaBus1, souInfPle1.weaBus) annotation (Line(
+      points={{-98,-444},{-156,-444},{-156,-272.9},{-132,-272.9}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(souInfPle1.ports[1], plenum1.ports[2]) annotation (Line(points={{-122,
+          -273},{-6,-273},{-6,-267},{111.75,-267}}, color={0,127,255}));
+  connect(Infiltple2.y, sinInfple2.m_flow_in) annotation (Line(points={{-137.4,
+          184},{-128,184},{-128,186.8},{-119.2,186.8}}, color={0,0,127}));
+  connect(sinInfple2.ports[1], plenum2.ports[1]) annotation (Line(points={{-106,
+          182},{114,182},{114,62},{129.75,62}}, color={0,127,255}));
+  connect(weaBus, souInfPle2.weaBus) annotation (Line(
+      points={{-100,-76},{-104,-76},{-104,-78},{-152,-78},{-152,-0.9},{-138,
+          -0.9}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(souInfPle2.ports[1], plenum2.ports[2]) annotation (Line(points={{-128,
+          -1},{-58,-1},{-58,65},{129.75,65}}, color={0,127,255}));
 annotation (
     experiment(
       StartTime=15984000,
@@ -1619,8 +1672,8 @@ First implementation.
 </li>
 </ul>
 </html>"),
-  Diagram(coordinateSystem(extent={{-300,-460},{320,140}})),
-    Icon(coordinateSystem(extent={{-300,-460},{320,140}}), graphics={
+  Diagram(coordinateSystem(extent={{-300,-460},{320,240}})),
+    Icon(coordinateSystem(extent={{-300,-460},{320,240}}), graphics={
         Rectangle(
           extent={{-140,-166},{210,-438}},
           lineColor={28,108,200},
