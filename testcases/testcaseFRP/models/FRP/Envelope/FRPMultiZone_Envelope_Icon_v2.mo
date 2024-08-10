@@ -578,8 +578,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo101(
       til={F_,C_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    nPorts=2)
-  "Room model for Case 600"
+    nPorts=2) "Room model for Case 600"
   annotation (Placement(transformation(extent={{108,-336},{154,-306}})));
 Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea13
   "Prescribed heat flow for heating and cooling"
@@ -762,8 +761,8 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf206(
     annotation (Placement(transformation(extent={{-114,-22},{-102,-10}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_206[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{128,6},{184,34}}),
-        iconTransformation(extent={{128,6},{184,34}})));
+    annotation (Placement(transformation(extent={{128,20},{184,48}}),
+        iconTransformation(extent={{128,20},{184,48}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_205[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
     annotation (Placement(transformation(extent={{-116,-60},{-66,-34}}),
@@ -939,6 +938,54 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matCeil(
         d=288,
         nStaRef=nStaRef)}) "Drop Ceiling tile"
     annotation (Placement(transformation(extent={{100,100},{130,130}})));
+Buildings.ThermalZones.Detailed.MixedAir plenum1(
+    datConExt(
+      layers={matExtWal,matExtWal,matExtWal,matExtWal},
+      A={25.04,25.04,21.46,21.46},
+      til={Z_,Z_,Z_,Z_},
+      azi={N_,S_,E_,W_}),
+    redeclare package Medium = MediumA,
+    hRoo=1.65,
+    nConExt=0,
+    nConExtWin=4,
+    nConBou=12,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    AFlo=163.88,
+    nConPar=0,
+    nSurBou=0,
+    datConBou(
+      layers={matFlo,matFlo,matFlo,matFlo,matFlo,matFlo,matCeil,matCeil,matCeil,
+          matCeil,matCeil,matCeil},
+      A={19.32,26.46,12.29,35.27,35.27,35.27,19.32,15.95,22.80,35.27,35.27,
+          35.27},
+      til={C_,C_,C_,C_,C_,C_,F_,F_,F_,F_,F_,F_}),
+    lat=weaDat.lat,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    nPorts=2) "Room model for Case 600"
+    annotation (Placement(transformation(extent={{106,-276},{152,-246}})));
+Buildings.ThermalZones.Detailed.MixedAir plenum2(
+    datConExt(
+      layers={roof,matExtWal,matExtWal,matExtWal,matExtWal},
+      A={163.88,27.31,27.31,23.41,23.41},
+      til={C_,Z_,Z_,Z_,Z_},
+      azi={S_,N_,S_,E_,W_}),
+    redeclare package Medium = MediumA,
+    hRoo=1.8,
+    nConExt=0,
+    nConExtWin=5,
+    nConBou=6,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    AFlo=163.88,
+    nConPar=0,
+    nSurBou=0,
+    datConBou(
+      layers={matCeil,matCeil,matCeil,matCeil,matCeil,matCeil},
+      A={19.32,26.46,12.29,35.27,35.27,35.27},
+      til={F_,F_,F_,F_,F_,F_}),
+    lat=weaDat.lat,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    "Room model for Case 600"
+    annotation (Placement(transformation(extent={{126,-16},{172,14}})));
 equation
 
   connect(roo204.heaPorAir, TRooAir204.port) annotation (Line(
@@ -1222,8 +1269,8 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
                                      color={0,127,255}));
   connect(port_202[:], roo202.ports[2:3]) annotation (Line(points={{-28,-75},{
           -28,-110.5},{7.75,-110.5}},  color={0,127,255}));
-  connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{156,20},{16,
-          20},{16,-164.5},{65.75,-164.5}},   color={0,127,255}));
+  connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{156,34},{16,
+          34},{16,-164.5},{65.75,-164.5}},   color={0,127,255}));
   connect(Infilt201.y, sinInf201.m_flow_in) annotation (Line(points={{-135.4,86},
           {-128,86},{-128,88.8},{-117.2,88.8}},color={0,0,127}));
   connect(Infilt203.y, sinInf203.m_flow_in) annotation (Line(points={{-133.4,42},
