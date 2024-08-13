@@ -13,7 +13,17 @@ import flask_restful
 from flask_cors import CORS
 import six
 # ----------------------
+import ptvsd
+import os
 
+# Allow other computers to attach to ptvsd at this IP address and port.
+ptvsd.enable_attach(address=('0.0.0.0', 5678), redirect_output=True)
+
+# Pause the program until a remote debugger is attached
+if os.getenv('DEBUG_MODE', 'false').lower() == 'true':
+    print("Waiting for debugger attach...")
+    ptvsd.wait_for_attach()
+    
 
 # GENERAL HTTP RESPONSE
 # ----------------------
