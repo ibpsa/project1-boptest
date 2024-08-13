@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This module implements a simple P controller of heater power control specifically
-for testcase1.
+This module implements a signal generator specifically for `multizone_office_complex_air`.
 
 """
 import numpy.random as random
@@ -35,29 +34,31 @@ def compute_control(y, forecasts=None):
         {<input_name> : <input_value>}
 
     """
+    TSupSet = uniform_int(12,20) # or uniform_real(12,20)
     TzonCooSet = uniform_int(13,30) # Celsius
+    TzonHeaSet = uniform_int(12,TzonCooSet) # ensure Heating setpoint is lower than Cooling setpoint
     u = {
-        'hva_floor1_TSupAirSet_u': 273.15 + uniform_int(12,20), # or uniform_real(12,20)
+        'hva_floor1_TSupAirSet_u': 273.15 + TSupSet, 
         'hva_floor1_TSupAirSet_activate': 1,
         'hva_floor1_oveZonCor_TZonCooSet_u': 273.15 + TzonCooSet,
         'hva_floor1_oveZonCor_TZonCooSet_activate': 1,
-        'hva_floor1_oveZonCor_TZonHeaSet_u': 273.15 + uniform_int(12,TzonCooSet), # ensure Heating setpoint is lower than Cooling setpoint
+        'hva_floor1_oveZonCor_TZonHeaSet_u': 273.15 + TzonHeaSet, 
         'hva_floor1_oveZonCor_TZonHeaSet_activate': 1,
         #'hva_floor1_fivZonVAV_vAV1_oveZonLoc_yDam_u': uniform_real(0.3,1),
         #'hva_floor1_fivZonVAV_vAV1_oveZonLoc_yDam_activate': 1,
         #'hva_floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_u': uniform_real(0.005,1),
         #'hva_floor1_fivZonVAV_vAV1_oveZonLoc_yReaHea_activate': 1,
-        'hva_floor2_TSupAirSet_u': 273.15 + uniform_int(12,20),
+        'hva_floor2_TSupAirSet_u': 273.15 + TSupSet,
         'hva_floor2_TSupAirSet_activate': 1,
         'hva_floor2_oveZonCor_TZonCooSet_u': 273.15 + TzonCooSet,
         'hva_floor2_oveZonCor_TZonCooSet_activate': 1,
-        'hva_floor2_oveZonCor_TZonHeaSet_u': 273.15 + uniform_int(12,TzonCooSet),
+        'hva_floor2_oveZonCor_TZonHeaSet_u': 273.15 + TzonHeaSet,
         'hva_floor2_oveZonCor_TZonHeaSet_activate': 1,
-        'hva_floor3_TSupAirSet_u': 273.15 + uniform_int(12,20),
+        'hva_floor3_TSupAirSet_u': 273.15 + TSupSet,
         'hva_floor3_TSupAirSet_activate': 1,
         'hva_floor3_oveZonCor_TZonCooSet_u': 273.15 + TzonCooSet,
         'hva_floor3_oveZonCor_TZonCooSet_activate': 1,
-        'hva_floor3_oveZonCor_TZonHeaSet_u': 273.15 + uniform_int(12,TzonCooSet),
+        'hva_floor3_oveZonCor_TZonHeaSet_u': 273.15 + TzonHeaSet,
         'hva_floor3_oveZonCor_TZonHeaSet_activate': 1,
     }
 

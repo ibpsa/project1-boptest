@@ -67,8 +67,9 @@ def run(plot=False):
         zone_temperature_west = df_res[f'hva_{floor}_reaZonWes_TZon_y'].values - 273.15
         zone_temperature_cooSet = df_res[f'hva_{floor}_reaZonCor_TRoo_Coo_set_y'].values - 273.15
         zone_temperature_heaSet = df_res[f'hva_{floor}_reaZonCor_TRoo_Hea_set_y'].values - 273.15
-        return (zone_temperature_core, zone_temperature_south, zone_temperature_east,
-                zone_temperature_north, zone_temperature_west, zone_temperature_cooSet, zone_temperature_heaSet)
+        ahu_temperature_supSet = df_res[f'hva_{floor}_reaAhu_TSup_set_y'].values - 273.15
+        return (zone_temperature_core, zone_temperature_south, zone_temperature_east, zone_temperature_north, 
+                zone_temperature_west, zone_temperature_cooSet, zone_temperature_heaSet, ahu_temperature_supSet)
     # Process data for each floor
     floor1_data = process_floor_data('floor1')
     floor2_data = process_floor_data('floor2')
@@ -89,6 +90,7 @@ def run(plot=False):
             plt.plot(time, floor1_data[4], color='magenta', label='West')
             plt.plot(time, floor1_data[5], '--', color='black', label='Cooling Setpoint')
             plt.plot(time, floor1_data[6], '--', color='gray', label='Heating Setpoint')
+            plt.plot(time, floor1_data[7], '--', color='red', label='AHU Supply Setpoint')
             plt.ylabel('Temperature [C]')
             plt.legend(loc='upper right', fontsize='small')
 
@@ -102,6 +104,7 @@ def run(plot=False):
             plt.plot(time, floor2_data[4], color='magenta', label='West')
             plt.plot(time, floor2_data[5], '--', color='black', label='Cooling Setpoint')
             plt.plot(time, floor2_data[6], '--', color='gray', label='Heating Setpoint')
+            plt.plot(time, floor2_data[7], '--', color='red', label='AHU Supply Setpoint')
             plt.ylabel('Temperature [C]')
             plt.legend(loc='upper right', fontsize='small')
 
@@ -115,6 +118,7 @@ def run(plot=False):
             plt.plot(time, floor3_data[4], color='magenta', label='West')
             plt.plot(time, floor3_data[5], '--', color='black', label='Cooling Setpoint')
             plt.plot(time, floor3_data[6], '--', color='gray', label='Heating Setpoint')
+            plt.plot(time, floor3_data[7], '--', color='red', label='AHU Supply Setpoint')
             plt.ylabel('Temperature [C]')
             plt.xlabel('Time [hr]')
             plt.legend(loc='upper right', fontsize='small')
