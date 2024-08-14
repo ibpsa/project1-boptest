@@ -4,7 +4,7 @@ model TestCase "Complex office building model that includes air side systems, wa
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC hva(
     floor1(duaFanAirHanUni(
-        mixBox(mixBox(
+        mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
             valExh(riseTime=15, y_start=1),
             valFre(riseTime=15, y_start=1))),
@@ -13,7 +13,7 @@ model TestCase "Complex office building model that includes air side systems, wa
                 use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))),
     floor2(duaFanAirHanUni(
-        mixBox(mixBox(
+        mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
             valExh(riseTime=15, y_start=1),
             valFre(riseTime=15, y_start=1))),
@@ -22,7 +22,7 @@ model TestCase "Complex office building model that includes air side systems, wa
                 use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))),
     floor3(duaFanAirHanUni(
-        mixBox(mixBox(
+        mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
             valExh(riseTime=15, y_start=1),
             valFre(riseTime=15, y_start=1))),
