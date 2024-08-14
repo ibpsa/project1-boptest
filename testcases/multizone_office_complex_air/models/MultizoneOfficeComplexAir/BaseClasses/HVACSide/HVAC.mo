@@ -68,7 +68,9 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     "Medium model";
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant
-    boiWatPla(secPumCon(conPI(k=0.001)), redeclare package MediumHW =
+    boiWatPla(
+    mHW_flow_nominal={62/2*alpha for i in linspace(1, n, n)},
+              secPumCon(conPI(k=0.001)), redeclare package MediumHW =
         MediumHeaWat,
         alpha=alpha) "Boiler hot water plant"
     annotation (Placement(transformation(extent={{116,-110},{136,-90}})));
@@ -79,9 +81,12 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     PreDroBra3(displayUnit="Pa") = 0,
     PreDroMai1(displayUnit="Pa") = (79712/4),
     PreDroMai2(displayUnit="Pa") = (79712/4/2),
-    mFloRat1=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12,
-    mFloRat2=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12*10,
-    mFloRat3=boiWatPla.Cap[1]/4190/boiWatPla.dTHW_nominal*boiWatPla.n/12,
+    mFloRat1=floor1.mWatFloRat1 + floor1.mWatFloRat2 + floor1.mWatFloRat3 +
+        floor1.mWatFloRat4 + floor1.mWatFloRat5,
+    mFloRat2=floor2.mWatFloRat1 + floor2.mWatFloRat2 + floor2.mWatFloRat3 +
+        floor2.mWatFloRat4 + floor2.mWatFloRat5,
+    mFloRat3=floor3.mWatFloRat1 + floor3.mWatFloRat2 + floor3.mWatFloRat3 +
+        floor3.mWatFloRat4 + floor3.mWatFloRat5,
     redeclare package Medium = MediumHeaWat,
     PreDroBra1(displayUnit="Pa") = (79712/4))
     "Hot water plant distribution network"
