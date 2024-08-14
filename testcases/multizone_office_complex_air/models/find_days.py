@@ -1,5 +1,5 @@
 '''
-Finds the peak and typical heat days for the multizone_office_simple_air.
+Finds the peak and typical heat days for the multizone_office_complex_air.
 This case needs to be deployed if using BOPTEST image.
 
 '''

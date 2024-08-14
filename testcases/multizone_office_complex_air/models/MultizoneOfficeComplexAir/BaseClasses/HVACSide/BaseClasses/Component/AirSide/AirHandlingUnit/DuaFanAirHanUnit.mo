@@ -89,7 +89,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     UA=UA*1.2*eps)
     annotation (Placement(transformation(extent={{-2,-2},{-20,18}})));
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.MixingBox.MixingBoxWithControl
-    mixBox(
+    mixingBox(
     mTotAirFloRat=mAirFloRat,
     redeclare package Medium = MediumAir,
     PreDro=PreDroMixingBoxAir,
@@ -110,12 +110,12 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
                MediumWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium
-      =         MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium =
+                MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium
-      =        MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium =
+               MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
@@ -190,7 +190,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
   Modelica.Blocks.Interfaces.RealOutput V_flowRetAir
     "Return air volume flow rate "
     annotation (Placement(transformation(extent={{100,-76},{120,-56}})));
-  Modelica.Blocks.Sources.RealExpression yDamOutAirMea(y=mixBox.mixBox.valFre.y)
+  Modelica.Blocks.Sources.RealExpression yDamOutAirMea(y=mixingBox.mixBox.valFre.y)
     annotation (Placement(transformation(extent={{40,84},{60,104}})));
   Modelica.Blocks.Interfaces.RealOutput yDamOutAir(
     final min=0,
@@ -299,7 +299,7 @@ equation
       points={{-1.82,0},{18,0}},
       color={0,140,72},
       thickness=0.5));
-  connect(mixBox.TMix, disTSet) annotation (Line(points={{-60,-12},{-60,-20},
+  connect(mixingBox.TMix, disTSet) annotation (Line(points={{-60,-12},{-60,-20},
           {-110,-20}}, color={0,0,127}));
   connect(cooCoi.SetPoi, disTSet) annotation (Line(points={{-0.2,6},{6,
           6},{6,-20},{-110,-20}}, color={0,0,127}));
@@ -307,11 +307,11 @@ equation
           -40}}, color={0,0,127}));
   connect(supFan.pSet, pSet) annotation (Line(points={{16,2},{12,2},{12,
           -60},{-110,-60}}, color={0,0,127}));
-  connect(port_Exh_Air, mixBox.port_Exh) annotation (Line(
+  connect(port_Exh_Air, mixingBox.port_Exh) annotation (Line(
       points={{-102,0},{-82,0},{-82,-6},{-70,-6}},
       color={0,140,72},
       thickness=0.5));
-  connect(mixBox.port_Ret, retFan.port_b) annotation (Line(
+  connect(mixingBox.port_Ret, retFan.port_b) annotation (Line(
       points={{-50,-5.8},{-42,-5.8},{-42,-80},{-30,-80}},
       color={0,140,72},
       thickness=0.5));
@@ -332,9 +332,9 @@ equation
           -2},{-46,40},{-110,40}}, color={0,0,127}));
   connect(booleanExpression.y, cooCoi.On) annotation (Line(points={{-13,-50},
           {8,-50},{8,12},{-0.2,12}},      color={255,0,255}));
-  connect(mixBox.TOut, TOut) annotation (Line(points={{-54,-12},{-54,-80},
-          {-110,-80}}, color={0,0,127}));
-  connect(onFanOcc, mixBox.On) annotation (Line(points={{-110,-100},{-68,-100},
+  connect(mixingBox.TOut, TOut) annotation (Line(points={{-54,-12},{-54,-80},{-110,
+          -80}}, color={0,0,127}));
+  connect(onFanOcc, mixingBox.On) annotation (Line(points={{-110,-100},{-68,-100},
           {-68,-12}}, color={255,0,255}));
   connect(onFanOcc, supFan.onFanOcc) annotation (Line(points={{-110,-100},{4,-100},
           {4,6},{16,6}}, color={255,0,255}));
@@ -345,7 +345,7 @@ equation
       points={{-24,0},{-20,0}},
       color={0,140,72},
       thickness=0.5));
-  connect(mixBox.port_Sup, senTMixAir.port_a) annotation (Line(
+  connect(mixingBox.port_Sup, senTMixAir.port_a) annotation (Line(
       points={{-49.8,6},{-48,6},{-48,0},{-44,0}},
       color={0,140,72},
       thickness=0.5));
@@ -389,8 +389,8 @@ equation
   connect(yCooValMea.y, yCooVal)
     annotation (Line(points={{91,-40},{110,-40}}, color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(senVolFloOutAir.port_b, mixBox.port_Fre) annotation (Line(
-        points={{-80,20},{-80,6},{-70,6}}, color={0,127,255}));
+  connect(senVolFloOutAir.port_b, mixingBox.port_Fre)
+    annotation (Line(points={{-80,20},{-80,6},{-70,6}}, color={0,127,255}));
   connect(senVolFloOutAir.V_flow, V_flowOutAir) annotation (Line(points={{-71.2,
           28},{80,28},{80,60},{110,60}},      color={0,0,127},
       pattern=LinePattern.Dash));
