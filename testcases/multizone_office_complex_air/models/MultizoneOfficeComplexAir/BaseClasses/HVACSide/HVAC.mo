@@ -68,9 +68,7 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
     "Medium model";
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.BoilerPlant
-    boiWatPla(
-    mHW_flow_nominal={62/2*alpha for i in linspace(1, n, n)},
-              secPumCon(conPI(k=0.001)), redeclare package MediumHW =
+    boiWatPla(secPumCon(conPI(k=0.001)), redeclare package MediumHW =
         MediumHeaWat,
         alpha=alpha) "Boiler hot water plant"
     annotation (Placement(transformation(extent={{116,-110},{136,-90}})));
@@ -322,17 +320,17 @@ equation
   connect(boiWatNet.p, reaHotWatSys.dp_in) annotation (Line(points={{177,-102},
           {182,-102},{182,-60},{154,-60},{154,-31.5},{158,-31.5}}, color={0,0,
           127}));
-  connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHW_ret_in) annotation (Line(points
-        ={{11,-96},{16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}}, color
+  connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHW_ret_in) annotation (Line(points={{11,-96},
+          {16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}},          color
         ={0,0,127}));
   connect(chiWatPla.TCHW_sup, reaChiWatSys.TCHW_sup_in) annotation (Line(points
         ={{11,-99},{18,-99},{18,-60},{8,-60},{8,-37},{16,-37}}, color={0,0,127}));
-  connect(boiWatPla.THW_ret, reaHotWatSys.THW_ret_in) annotation (Line(points={
-          {137,-100},{144,-100},{144,-35.1667},{158,-35.1667}}, color={0,0,127}));
-  connect(boiWatPla.THW_sup, reaHotWatSys.THW_sup_in) annotation (Line(points={
-          {137,-103},{146,-103},{146,-38.8333},{158,-38.8333}}, color={0,0,127}));
-  connect(boiWatPla.mHW_tot, reaHotWatSys.mHW_tot_in) annotation (Line(points={
-          {137,-93},{142,-93},{142,-27.8333},{158,-27.8333}}, color={0,0,127}));
+  connect(boiWatPla.THW_ret, reaHotWatSys.THW_ret_in) annotation (Line(points={{137,
+          -100},{144,-100},{144,-35.1667},{158,-35.1667}},      color={0,0,127}));
+  connect(boiWatPla.THW_sup, reaHotWatSys.THW_sup_in) annotation (Line(points={{137,
+          -103},{146,-103},{146,-38.8333},{158,-38.8333}},      color={0,0,127}));
+  connect(boiWatPla.mHW_tot, reaHotWatSys.mHW_tot_in) annotation (Line(points={{137,-93},
+          {142,-93},{142,-27.8333},{158,-27.8333}},           color={0,0,127}));
   connect(chiWatPla.mCHW_tot, reaChiWatSys.mCHW_tot_in) annotation (Line(points
         ={{11,-105},{24,-105},{24,-20},{10,-20},{10,-27.6923},{16,-27.6923}},
         color={0,0,127}));
