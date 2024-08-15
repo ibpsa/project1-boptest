@@ -1,5 +1,6 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses;
 model Airside "Air side system"
+  parameter Real alpha = 1  "Sizing factor for overall system design capacity and mass flow rate";
   parameter Integer n =  3  "Number of floors";
   parameter Modelica.Units.SI.Pressure PreDroCoiAir=50
     "Pressure drop in the air side";
@@ -31,8 +32,8 @@ model Airside "Air side system"
       mAirFloRat5[3])/1.2*2}} "Volume flow rate curve";
   parameter Real HydEff[n,:] = {{0.93*0.65,0.93*0.7,0.93,0.93*0.6} for i in linspace(1,n,n)} "Hydraulic efficiency";
   parameter Real MotEff[n,:] = {{0.6045*0.65,0.6045*0.7,0.6045,0.6045*0.6} for i in linspace(1,n,n)} "Motor efficiency";
-  parameter Modelica.Units.SI.Pressure SupPreCur[n,:]={{1400,1000,700,700*0.5} for i in linspace(1,n,n)} "Pressure curve";
-  parameter Modelica.Units.SI.Pressure RetPreCur[n,:]={{600,400,200,100} for i in linspace(1,n,n)} "Pressure curve";
+  parameter Modelica.Units.SI.Pressure SupPreCur[n,:]={{2800,2000,1400,700} for i in linspace(1,n,n)} "Pressure curve";
+  parameter Modelica.Units.SI.Pressure RetPreCur[n,:]={{1200,800,400,200} for i in linspace(1,n,n)} "Pressure curve";
   parameter Modelica.Units.SI.Pressure PreAirDroMai1=140
     "Pressure drop 1 across the duct";
   parameter Modelica.Units.SI.Pressure PreAirDroMai2=140
@@ -94,11 +95,11 @@ model Airside "Air side system"
   parameter Modelica.Units.SI.MassFlowRate mWatFloRat5[n]={mAirFloRat5[1]*0.3*(
       35 - 12.88)/4.2/20,mAirFloRat5[2]*0.3*(35 - 12.88)/4.2/20,mAirFloRat5[3]*
       0.3*(35 - 12.88)/4.2/20} "mass flow rate for vav 5";
-  parameter Modelica.Units.SI.MassFlowRate mWatFloRatBot=26.7
+  parameter Modelica.Units.SI.MassFlowRate mWatFloRatBot=26.7*alpha
     "mass flow rate for cooling coil chilled water in floor 1";
-  parameter Modelica.Units.SI.MassFlowRate mWatFloRatMid=267
+  parameter Modelica.Units.SI.MassFlowRate mWatFloRatMid=267*alpha
     "mass flow rate for cooling coil chilled water in floor 2";
-  parameter Modelica.Units.SI.MassFlowRate mWatFloRatTop=26.7
+  parameter Modelica.Units.SI.MassFlowRate mWatFloRatTop=26.7*alpha
     "mass flow rate for cooling coil chilled water in floor 3";
   parameter Modelica.Units.SI.Pressure PreDroAir1=200
     "Pressure drop in the air side of vav 1";
@@ -130,7 +131,6 @@ model Airside "Air side system"
     "Pressure drop in the water side of vav 1";
   parameter Modelica.Units.SI.Efficiency eps5(max=1) = 0.8
     "Heat exchanger effectiveness of vav 1";
-  final parameter Real alpha = 0.8  "Sizing factor";
 
   //package MediumAir = Buildings.Media.Air "Medium model for air";
   package MediumAir = Buildings.Media.Air(extraPropertiesNames={"CO2"}) "Buildings library air media package with CO2";
@@ -181,12 +181,15 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 253.15 then floor1.duaFanAirHanUni.On else true)),
+      booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 253.15 then floor1.duaFanAirHanUni.onFanOcc
+             else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
-    C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
-    m_flow_lea={1*0.206*1.2, 1*0.137*1.2, 1*0.206*1.2, 1*0.137*1.2},
+    C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+        /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
+
+    m_flow_lea={1*0.206*1.2,1*0.137*1.2,1*0.206*1.2,1*0.137*1.2},
     PreDroCoiAir=PreDroCoiAir,
     PreDroMixingBoxAir=PreDroMixingBoxAir,
     PreDroCooWat=PreDroCooWat/2,
@@ -254,15 +257,17 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor2.duaFanAirHanUni.TOut < 253.15 then floor2.duaFanAirHanUni.On
+      booleanExpression(y=if floor2.duaFanAirHanUni.TOut < 253.15 then floor2.duaFanAirHanUni.onFanOcc
              else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
-    C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
-    m_flow_lea={10*0.206*1.2, 10*0.137*1.2, 10*0.206*1.2, 10*0.137*1.2},
-    PreDroCoiAir=PreDroCoiAir*10,
-    PreDroMixingBoxAir=PreDroMixingBoxAir*10,
+    C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+        /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
+
+    m_flow_lea={10*0.206*1.2,10*0.137*1.2,10*0.206*1.2,10*0.137*1.2},
+    PreDroCoiAir=PreDroCoiAir,
+    PreDroMixingBoxAir=PreDroMixingBoxAir,
     PreDroCooWat=PreDroCooWat/2,
     TemEcoHig=TemEcoHig,
     TemEcoLow=TemEcoLow,
@@ -273,24 +278,24 @@ model Airside "Air side system"
     VolFloCur=VolFloCur[2, :],
     SupPreCur=SupPreCur[2, :],
     RetPreCur=RetPreCur[2, :],
-    PreAirDroMai1=PreAirDroMai1*10,
-    PreAirDroMai2=PreAirDroMai2*10,
-    PreAirDroMai3=PreAirDroMai3*10,
-    PreAirDroMai4=PreAirDroMai4*10,
-    PreAirDroBra1=PreAirDroBra1*10,
-    PreAirDroBra2=PreAirDroBra2*10,
-    PreAirDroBra3=PreAirDroBra3*10,
-    PreAirDroBra4=PreAirDroBra4*10,
-    PreAirDroBra5=PreAirDroBra5*10,
-    PreWatDroMai1=PreWatDroMai1*10,
-    PreWatDroMai2=PreWatDroMai2*10,
-    PreWatDroMai3=PreWatDroMai3*10,
-    PreWatDroMai4=PreWatDroMai4*10,
-    PreWatDroBra1=PreWatDroBra1*10,
-    PreWatDroBra2=PreWatDroBra2*10,
-    PreWatDroBra3=PreWatDroBra3*10,
-    PreWatDroBra4=PreWatDroBra4*10,
-    PreWatDroBra5=PreWatDroBra5*10,
+    PreAirDroMai1=PreAirDroMai1,
+    PreAirDroMai2=PreAirDroMai2,
+    PreAirDroMai3=PreAirDroMai3,
+    PreAirDroMai4=PreAirDroMai4,
+    PreAirDroBra1=PreAirDroBra1,
+    PreAirDroBra2=PreAirDroBra2,
+    PreAirDroBra3=PreAirDroBra3,
+    PreAirDroBra4=PreAirDroBra4,
+    PreAirDroBra5=PreAirDroBra5,
+    PreWatDroMai1=PreWatDroMai1,
+    PreWatDroMai2=PreWatDroMai2,
+    PreWatDroMai3=PreWatDroMai3,
+    PreWatDroMai4=PreWatDroMai4,
+    PreWatDroBra1=PreWatDroBra1,
+    PreWatDroBra2=PreWatDroBra2,
+    PreWatDroBra3=PreWatDroBra3,
+    PreWatDroBra4=PreWatDroBra4,
+    PreWatDroBra5=PreWatDroBra5,
     mAirFloRat1=mAirFloRat1[2],
     mAirFloRat2=mAirFloRat2[2],
     mAirFloRat3=mAirFloRat3[2],
@@ -301,20 +306,20 @@ model Airside "Air side system"
     mWatFloRat3=mWatFloRat3[2],
     mWatFloRat4=mWatFloRat4[2],
     mWatFloRat5=mWatFloRat5[2],
-    PreDroAir1=PreDroAir1*10,
-    PreDroWat1=PreDroWat1*10,
+    PreDroAir1=PreDroAir1,
+    PreDroWat1=PreDroWat1,
     eps1=eps1,
-    PreDroAir2=PreDroAir2*10,
-    PreDroWat2=PreDroWat2*10,
+    PreDroAir2=PreDroAir2,
+    PreDroWat2=PreDroWat2,
     eps2=eps2,
-    PreDroAir3=PreDroAir3*10,
-    PreDroWat3=PreDroWat3*10,
+    PreDroAir3=PreDroAir3,
+    PreDroWat3=PreDroWat3,
     eps3=eps3,
-    PreDroAir4=PreDroAir4*10,
-    PreDroWat4=PreDroWat4*10,
+    PreDroAir4=PreDroAir4,
+    PreDroWat4=PreDroWat4,
     eps4=eps4,
-    PreDroAir5=PreDroAir5*10,
-    PreDroWat5=PreDroWat5*10,
+    PreDroAir5=PreDroAir5,
+    PreDroWat5=PreDroWat5,
     eps5=eps5,
     redeclare package MediumCooWat = MediumCHW,
     mWatFloRat=mWatFloRatMid)
@@ -328,16 +333,18 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 253.15 then floor3.duaFanAirHanUni.On
+      booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 253.15 then floor3.duaFanAirHanUni.onFanOcc
              else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
-    C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM/Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
-    m_flow_lea={1*0.206*1.2, 1*0.137*1.2, 1*0.206*1.2, 1*0.137*1.2},
+    C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
+        /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
+
+    m_flow_lea={1*0.206*1.2,1*0.137*1.2,1*0.206*1.2,1*0.137*1.2},
     PreDroCoiAir=PreDroCoiAir,
     PreDroMixingBoxAir=PreDroMixingBoxAir,
-    PreDroCooWat=PreDroCooWat/2,
+    PreDroCooWat=PreDroCooWat,
     TemEcoHig=TemEcoHig,
     TemEcoLow=TemEcoLow,
     MixingBoxDamMin=MixingBoxDamMin,
@@ -391,7 +398,7 @@ model Airside "Air side system"
     PreDroWat5=PreDroWat5,
     eps5=eps5,
     redeclare package MediumCooWat = MediumCHW,
-    mWatFloRat=mWatFloRatTop)                      "Top Floor"
+    mWatFloRat=mWatFloRatTop) "Top Floor"
     annotation (Placement(transformation(extent={{114,20},{164,62}})));
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.AirSide.AirHandlingUnit.BaseClasses.ZoneSetpoint
@@ -432,10 +439,9 @@ equation
                                         color={0,0,127}));
   connect(TSupAirSet[1].y, floor1.disTSet) annotation (Line(points={{-39,70},{
           108,70},{108,48},{112.438,48}}, color={0,0,127}));
-  connect(reaToBooOcc.y, floor1.OnFan) annotation (Line(points={{-39,100},{-36,
-          100},{-36,86},{106,86},{106,27},{112.438,27}},
-                                                      color={255,0,255}));
-  connect(floor1.OnZon, onZon[1].y) annotation (Line(points={{112.438,21.75},{
+  connect(reaToBooOcc.y, floor1.onFanOcc) annotation (Line(points={{-39,100},{
+          -36,100},{-36,86},{106,86},{106,27},{112.438,27}}, color={255,0,255}));
+  connect(floor1.onZon, onZon[1].y) annotation (Line(points={{112.438,21.75},{
           104,21.75},{104,76},{61,76}},               color={255,0,255}));
 
    for j in 1:5 loop
@@ -459,8 +465,8 @@ equation
   connect(floor2.port_Fre_Air, sou[2].ports[2]);
   connect(dpStaSet[2].y, floor2.pSet);
   connect(TSupAirSet[2].y, floor2.disTSet);
-  connect(reaToBooOcc.y, floor2.OnFan);
-  connect(floor2.OnZon, onZon[2].y);
+  connect(reaToBooOcc.y, floor2.onFanOcc);
+  connect(floor2.onZon, onZon[2].y);
 
    for j in 1:5 loop
     connect(loaMulMidFlo[j].y, floor2.Q_flow[j]) annotation (Line(points={{-81.4,
@@ -475,8 +481,8 @@ equation
   connect(floor3.port_Fre_Air, sou[3].ports[2]);
   connect(dpStaSet[3].y, floor3.pSet);
   connect(TSupAirSet[3].y, floor3.disTSet);
-  connect(reaToBooOcc.y, floor3.OnFan);
-  connect(floor3.OnZon, onZon[3].y);
+  connect(reaToBooOcc.y, floor3.onFanOcc);
+  connect(floor3.onZon, onZon[3].y);
 
    for j in 1:5 loop
     connect(loa[(3 - 1)*5 + j], floor3.Q_flow[j]);

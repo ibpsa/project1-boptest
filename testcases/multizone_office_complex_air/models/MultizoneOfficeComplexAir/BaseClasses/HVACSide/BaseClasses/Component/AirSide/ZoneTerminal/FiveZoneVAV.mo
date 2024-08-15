@@ -221,10 +221,11 @@ model FiveZoneVAV "Thermal zones, VAV terminals, and duct network"
   Modelica.Blocks.Interfaces.RealInput yVal[5]
     "Actuator position (0: closed, 1: open)"
     annotation (Placement(transformation(extent={{-120,50},{-100,70}})));
-  Modelica.Blocks.Interfaces.BooleanInput On[5]
+  Modelica.Blocks.Interfaces.BooleanInput on[5]
+    "Zonal On signal (not implemented)"
     annotation (Placement(transformation(extent={{-120,-22},{-100,-2}})));
-  Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium =
-               MediumAir)
+  Modelica.Fluid.Sensors.TemperatureTwoPort TZonSen[5](redeclare package Medium
+      =        MediumAir)
     annotation (Placement(transformation(extent={{138,-68},{118,-48}})));
   Modelica.Blocks.Interfaces.RealOutput p "Pressure at port" annotation (
       Placement(transformation(extent={{200,-22},{220,-2}}),
@@ -370,7 +371,7 @@ model FiveZoneVAV "Thermal zones, VAV terminals, and duct network"
   Modelica.Blocks.Sources.RealExpression m_flow_infAir[4](y=m_flow_lea)
     "Infiltration nominal air flow rate"
     annotation (Placement(transformation(extent={{-86,-114},{-66,-94}})));
-  Modelica.Blocks.Sources.RealExpression schFac_infAir[4](y={if On[1] == true
+  Modelica.Blocks.Sources.RealExpression schFac_infAir[4](y={if on[1] == true
          then 0.25 else 1.0 for i in 1:4})
     "Schedule factor for infiltration air (refer to E+)"
     annotation (Placement(transformation(extent={{-86,-134},{-66,-114}})));
@@ -442,18 +443,18 @@ equation
       points={{191,80},{210,80}},
       color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(On[2], vAV2.On) annotation (Line(points={{-110,-14},{18,-14},{18,0},{29,
+  connect(on[2], vAV2.On) annotation (Line(points={{-110,-14},{18,-14},{18,0},{29,
           0}}, color={255,0,255}));
-  connect(On[3], vAV3.On) annotation (Line(points={{-110,-12},{-72,-12},{
+  connect(on[3], vAV3.On) annotation (Line(points={{-110,-12},{-72,-12},{
           -72,-8},{56,-8},{56,0},{71,0}},
                               color={255,0,255}));
-  connect(On[4], vAV4.On) annotation (Line(points={{-110,-10},{-72,-10},{-72,-10},
+  connect(on[4], vAV4.On) annotation (Line(points={{-110,-10},{-72,-10},{-72,-10},
           {100,-10},{100,0},{117,0}},
                                  color={255,0,255}));
-  connect(On[5], vAV5.On) annotation (Line(points={{-110,-8},{-72,-8},{-72,-10},
+  connect(on[5], vAV5.On) annotation (Line(points={{-110,-8},{-72,-8},{-72,-10},
           {148,-10},{148,0},{157,0}},
                                  color={255,0,255}));
-  connect(On[1], vAV1.On) annotation (Line(points={{-110,-16},{-72,-16},{-72,0},
+  connect(on[1], vAV1.On) annotation (Line(points={{-110,-16},{-72,-16},{-72,0},
           {-11,0}},
                color={255,0,255}));
   connect(yVal[1], vAV1.yVal) annotation (Line(points={{-110,56},{-34,56},{-34,12},

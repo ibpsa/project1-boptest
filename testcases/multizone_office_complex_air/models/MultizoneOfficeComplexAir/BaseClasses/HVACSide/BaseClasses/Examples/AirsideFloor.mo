@@ -285,11 +285,11 @@ equation
       points={{19,-50},{3.5,-50},{3.5,-21.75}},
       color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(booleanExpression.y, airsideFloor.OnZon) annotation (Line(
+  connect(booleanExpression.y,airsideFloor.onZon)  annotation (Line(
       points={{-79,-96},{-34,-96},{-34,-18.25},{-25.5625,-18.25}},
       color={255,0,255},
       pattern=LinePattern.Dash));
-  connect(airsideFloor.OnFan, airsideFloor.OnZon) annotation (Line(
+  connect(airsideFloor.onFanOcc, airsideFloor.onZon) annotation (Line(
       points={{-25.5625,-13},{-34,-13},{-34,-18.25},{-25.5625,-18.25}},
       color={255,0,255},
       pattern=LinePattern.Dash));

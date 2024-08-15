@@ -4,28 +4,28 @@ model TestCase "Complex office building model that includes air side systems, wa
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC hva(
     floor1(duaFanAirHanUni(
-        mixBox(mixBox(
+        mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
-            valExh(riseTime=15, y_start=0),
-            valFre(riseTime=15, y_start=0))),
+            valExh(riseTime=15, y_start=1),
+            valFre(riseTime=15, y_start=1))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))),
     floor2(duaFanAirHanUni(
-        mixBox(mixBox(
+        mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
-            valExh(riseTime=15, y_start=0),
-            valFre(riseTime=15, y_start=0))),
+            valExh(riseTime=15, y_start=1),
+            valFre(riseTime=15, y_start=1))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
         cooCoi(val(use_inputFilter=true, y_start=0)))),
     floor3(duaFanAirHanUni(
-        mixBox(mixBox(
+        mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
-            valExh(riseTime=15, y_start=0),
-            valFre(riseTime=15, y_start=0))),
+            valExh(riseTime=15, y_start=1),
+            valFre(riseTime=15, y_start=1))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
@@ -58,7 +58,7 @@ equation
         coordinateSystem(preserveAspectRatio=false)),
     experiment(
       StopTime=31536000,
-      Interval=3600,
+      Interval=60,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Documentation(info="<html>
@@ -66,10 +66,12 @@ equation
 <p><span style=\"font-family: MS Shell Dlg 2;\">See the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC\">MultizoneOfficeComplexAir.BaseClasses.HVACSide.HVAC</a> for a description of the HVAC system, and see the model <a href=\"modelica://MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper\">MultizoneOfficeComplexAir.BaseClasses.LoadSide.LoadWrapper</a> for a description of the building thermal load calculated by EnergyPlus. </span></p>
 <h4>Spawn Version</h4>
 <p>Please use version <i>spawn-0.3.0-8d93151657</i> for BOPTEST environment; and use version <i>spawn-0.3.0-0fa49be497</i> for running testcases with Modlelica Buildings library.</p>
-</html>", revisions = "<html>
+</html>", revisions="<html>
 <ul>
-<li> August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen:
-<p> First implementation.</p>
+<li>August 8, 2024, by Guowen Li, Xing Lu, Yan Chen: </li>
+<p>Added CO2 and air infiltration features; Adjusted system equipment sizing; Reduced nonlinear system warnings.</p>
+<li>August 17, 2023, by Xing Lu, Sen Huang, Lingzhe Wang, Yan Chen: </li>
+<p>First implementation.</p>
 </ul>
 </html>"),
     __Dymola_Commands(file="Resources/script/Testcase.mos"
