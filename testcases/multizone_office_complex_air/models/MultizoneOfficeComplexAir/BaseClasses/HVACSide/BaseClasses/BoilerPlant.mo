@@ -11,8 +11,7 @@ model BoilerPlant "Boiler hot water plant"
   parameter Real thrhol[:]= {0.95}
     "Threshold for boiler staging";
   parameter Real Cap[:] = {4191000*alpha/n for i in linspace(1, n, n)} "Rated Plant Capacity";
-  parameter Modelica.Units.SI.MassFlowRate mHW_flow_nominal[:]={4191000*alpha/n/20
-      /4200 for i in linspace(
+  parameter Modelica.Units.SI.MassFlowRate mHW_flow_nominal[:]={62.4/n*alpha for i in linspace(
       1,
       n,
       n)} "Nominal mass flow rate at the hot water side";
