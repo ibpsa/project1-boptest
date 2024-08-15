@@ -5,13 +5,12 @@ model ReadHotWater
   Buildings.Utilities.IO.SignalExchange.Read dp(
     description="Differential pressure of chilled/hot water measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="K")) "Differential pressure of chilled/hot water measurement"
+    y(unit="Pa")) "Differential pressure of chilled/hot water measurement"
     annotation (Placement(transformation(extent={{-10,70},{10,90}})));
 
   Buildings.Utilities.IO.SignalExchange.Read THW_sup(
     description="Chilled water temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Chilled/hot water temperature measurement"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
@@ -42,18 +41,18 @@ model ReadHotWater
   Buildings.Utilities.IO.SignalExchange.Read THW_ret(
     description="Hot water return temperature measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Hot water return temperature measurement"
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
+
   Modelica.Blocks.Interfaces.RealInput THW_ret_in
     "CHW/HW temperature measurement"
     annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
   Buildings.Utilities.IO.SignalExchange.Read mHW_tot(
     description="Total hot water mass flow rate ",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="kg/s")) "Total hot water mass flow rate"
     annotation (Placement(transformation(extent={{-10,110},{10,130}})));
+
   Modelica.Blocks.Interfaces.RealInput mHW_tot_in
     annotation (Placement(transformation(extent={{-140,100},{-100,140}})));
 equation
@@ -71,8 +70,8 @@ equation
     annotation (Line(points={{-120,40},{-12,40}}, color={0,0,127}));
   connect(mHW_tot.u, mHW_tot_in)
     annotation (Line(points={{-12,120},{-120,120}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,140}}), graphics={Rectangle(
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+            {100,140}}),       graphics={Rectangle(
           extent={{-100,140},{102,-102}},
           lineColor={0,0,0},
           fillColor={255,170,170},

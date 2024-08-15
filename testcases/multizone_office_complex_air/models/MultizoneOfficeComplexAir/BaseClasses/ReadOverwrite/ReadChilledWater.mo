@@ -5,7 +5,7 @@ model ReadChilledWater
   Buildings.Utilities.IO.SignalExchange.Read dp(
     description="Differential pressure of chilled/hot water measurement",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-    y(unit="K")) "Differential pressure of chilled/hot water measurement"
+    y(unit="Pa")) "Differential pressure of chilled/hot water measurement"
     annotation (Placement(transformation(extent={{-10,90},{10,110}})));
 
   Buildings.Utilities.IO.SignalExchange.Read TCHW_sup(
@@ -82,8 +82,8 @@ equation
           -68,70},{-12,70}}, color={0,0,127}));
   connect(mCHW_tot.u, mCHW_tot_in)
     annotation (Line(points={{-12,140},{-120,140}}, color={0,0,127}));
-  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,160}}), graphics={Rectangle(
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+            {100,160}}),       graphics={Rectangle(
           extent={{-100,160},{100,-100}},
           lineColor={0,0,0},
           fillColor={255,170,170},
