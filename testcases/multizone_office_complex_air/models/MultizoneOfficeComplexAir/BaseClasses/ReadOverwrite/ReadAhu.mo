@@ -127,28 +127,28 @@ model ReadAhu "Collection of AHU measurements for BOPTEST"
     annotation (Placement(transformation(extent={{-140,234},{-100,274}})));
   Buildings.Utilities.IO.SignalExchange.Read CO2_AHUSup(
     description="Supply air CO2 measurement for AHU",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm")) "Air CO2 concentration measurement"
     annotation (Placement(transformation(extent={{0,-170},{20,-150}})));
+
   Modelica.Blocks.Interfaces.RealInput CO2_AHUSup_in
     "Volume fraction of CO2 (PPM)"
     annotation (Placement(transformation(extent={{-140,-180},{-100,-140}})));
   Buildings.Utilities.IO.SignalExchange.Read CO2_AHUFre(
     description="Fresh air CO2 measurement for AHU",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm")) "Air CO2 concentration measurement"
     annotation (Placement(transformation(extent={{0,-200},{20,-180}})));
+
   Modelica.Blocks.Interfaces.RealInput CO2_AHUFre_in
     "Volume fraction of CO2 (PPM)"
     annotation (Placement(transformation(extent={{-140,-210},{-100,-170}})));
   Buildings.Utilities.IO.SignalExchange.Read CO2_AHURet(
     description="Return air CO2 measurement for AHU",
-    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
-
+    KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="ppm")) "Air CO2 concentration measurement"
     annotation (Placement(transformation(extent={{0,-230},{20,-210}})));
+
   Modelica.Blocks.Interfaces.RealInput CO2_AHURet_in
     "Volume fraction of CO2 (PPM)"
     annotation (Placement(transformation(extent={{-140,-240},{-100,-200}})));
