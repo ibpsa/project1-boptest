@@ -237,15 +237,20 @@ equation
           {182,-118},{110,-118},{110,-100},{114,-100}},     color={0,0,127}));
 
   connect(PCHWPum.y, reaChiWatSys.PPum_in) annotation (Line(points={{5,-44},{8,
-          -44},{8,-38},{16,-38}}, color={0,0,127}));
+          -44},{8,-40.3846},{16,-40.3846}},
+                                  color={0,0,127}));
   connect(PChi.y, reaChiWatSys.PChi_in) annotation (Line(points={{5,-58},{10,
-          -58},{10,-42},{16,-42}}, color={0,0,127}));
+          -58},{10,-43.7692},{16,-43.7692}},
+                                   color={0,0,127}));
   connect(PCooTow.y, reaChiWatSys.PCooTow_in) annotation (Line(points={{5,-74},
-          {12,-74},{12,-45},{16,-45}}, color={0,0,127}));
+          {12,-74},{12,-46.3077},{16,-46.3077}},
+                                       color={0,0,127}));
   connect(PBoi.y, reaHotWatSys.PBoi_in) annotation (Line(points={{135,-60},{150,
-          -60},{150,-42},{158,-42}}, color={0,0,127}));
-  connect(PHWPum.y, reaHotWatSys.PPum_in) annotation (Line(points={{135,-44},{150,
-          -44},{150,-38},{158,-38}},     color={0,0,127}));
+          -60},{150,-46.1667},{158,-46.1667}},
+                                     color={0,0,127}));
+  connect(PHWPum.y, reaHotWatSys.PPum_in) annotation (Line(points={{135,-44},{
+          150,-44},{150,-42.5},{158,-42.5}},
+                                         color={0,0,127}));
   connect(TCHWSupSet.y, oveChiWatSys.TW_set_in)
     annotation (Line(points={{-61,-20},{-52,-20}}, color={0,0,127}));
   connect(oveChiWatSys.TW_set_out, chiWatPla.TCHWSet) annotation (Line(points={{-29,-20},
@@ -260,14 +265,6 @@ equation
           {64,-64},{64,-30},{68,-30}},         color={0,0,127}));
   connect(oveHotWatSys.dp_set_out, boiWatPla.dpSet) annotation (Line(points={{91,-30},
           {96,-30},{96,-106},{114,-106}},         color={0,0,127}));
-  connect(oveChiWatSys.dp_set_out, reaChiWatSys.dp_in)
-    annotation (Line(points={{-29,-30},{16,-30}}, color={0,0,127}));
-  connect(oveChiWatSys.TW_set_out, reaChiWatSys.TW_in) annotation (Line(points=
-          {{-29,-20},{-22,-20},{-22,-34},{16,-34}}, color={0,0,127}));
-  connect(oveHotWatSys.TW_set_out, reaHotWatSys.TW_in) annotation (Line(points=
-          {{91,-20},{150,-20},{150,-34},{158,-34}}, color={0,0,127}));
-  connect(oveHotWatSys.dp_set_out, reaHotWatSys.dp_in)
-    annotation (Line(points={{91,-30},{158,-30}}, color={0,0,127}));
   connect(THWSupSet.y, oveHotWatSys.TW_set_in)
     annotation (Line(points={{61,-20},{68,-20}}, color={0,0,127}));
 
@@ -319,6 +316,26 @@ equation
       points={{40,-120},{12,-120},{12,44},{38,44}},
       color={255,204,51},
       thickness=0.5));
+  connect(chiWatNet.p, reaChiWatSys.dp_in) annotation (Line(points={{41,-98},{
+          52,-98},{52,-80},{-18,-80},{-18,-31.0769},{16,-31.0769}}, color={0,0,
+          127}));
+  connect(boiWatNet.p, reaHotWatSys.dp_in) annotation (Line(points={{177,-102},
+          {182,-102},{182,-60},{154,-60},{154,-31.5},{158,-31.5}}, color={0,0,
+          127}));
+  connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHW_ret_in) annotation (Line(points
+        ={{11,-96},{16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}}, color
+        ={0,0,127}));
+  connect(chiWatPla.TCHW_sup, reaChiWatSys.TCHW_sup_in) annotation (Line(points
+        ={{11,-99},{18,-99},{18,-60},{8,-60},{8,-37},{16,-37}}, color={0,0,127}));
+  connect(boiWatPla.THW_ret, reaHotWatSys.THW_ret_in) annotation (Line(points={
+          {137,-100},{144,-100},{144,-35.1667},{158,-35.1667}}, color={0,0,127}));
+  connect(boiWatPla.THW_sup, reaHotWatSys.THW_sup_in) annotation (Line(points={
+          {137,-103},{146,-103},{146,-38.8333},{158,-38.8333}}, color={0,0,127}));
+  connect(boiWatPla.mHW_tot, reaHotWatSys.mHW_tot_in) annotation (Line(points={
+          {137,-93},{142,-93},{142,-27.8333},{158,-27.8333}}, color={0,0,127}));
+  connect(chiWatPla.mCHW_tot, reaChiWatSys.mCHW_tot_in) annotation (Line(points
+        ={{11,-105},{24,-105},{24,-20},{10,-20},{10,-27.6923},{16,-27.6923}},
+        color={0,0,127}));
   annotation (experiment(
       StartTime=17280000,
       StopTime=17452800,

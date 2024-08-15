@@ -242,9 +242,10 @@ model ChillerPlant
     annotation (Placement(transformation(extent={{-312,-22},{-280,10}}),
         iconTransformation(extent={{-132,-16},{-100,16}})));
 
-  Modelica.Blocks.Interfaces.RealOutput T "Temperature of the passing fluid"
-    annotation (Placement(transformation(extent={{240,-10},{260,10}}),
-        iconTransformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Interfaces.RealOutput TCHW_sup
+    "Temperature of the passing fluid" annotation (Placement(transformation(
+          extent={{240,-30},{260,-10}}), iconTransformation(extent={{100,-20},{
+            120,0}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTCHWBuiLea(
     redeclare package Medium = MediumCHW,
     allowFlowReversal=true,
@@ -265,6 +266,13 @@ model ChillerPlant
     "Static differential pressure setpoint for the secondary pump"
     annotation (Placement(transformation(extent={{-312,30},{-280,62}}),
         iconTransformation(extent={{-132,26},{-100,58}})));
+  Modelica.Blocks.Interfaces.RealOutput TCHW_ret
+    "Temperature of the passing fluid" annotation (Placement(transformation(
+          extent={{240,-10},{260,10}}), iconTransformation(extent={{100,10},{
+            120,30}})));
+  Modelica.Blocks.Interfaces.RealOutput mCHW_tot annotation (Placement(
+        transformation(extent={{240,-70},{260,-50}}), iconTransformation(extent
+          ={{100,-80},{120,-60}})));
 equation
   connect(senTCHWByp.port_a, senMasFloByp.port_b) annotation (Line(
       points={{-4.44089e-016,-20},{-4.44089e-016,-32},{0,-32},{0,-42}},
@@ -371,9 +379,8 @@ equation
   connect(pumSecCHW.speSig, secPumCon.y) annotation (Line(
       points={{39.1,-62},{18,-62},{18,0},{88,0},{88,48},{81,48}},
       color={0,0,127}));
-  connect(senTCHWBuiEnt.T, T) annotation (Line(
-      points={{96,-81.2},{96,0},{250,0}},
-      color={0,0,127}));
+  connect(senTCHWBuiEnt.T, TCHW_sup) annotation (Line(points={{96,-81.2},{96,-8},
+          {234,-8},{234,-20},{250,-20}}, color={0,0,127}));
   connect(pumPriCHW.port_a, senTCHWBuiLea.port_b) annotation (Line(
       points={{-12,18},{60,18}},
       color={0,127,255},
@@ -392,6 +399,10 @@ equation
           65},{-79.6,65}}, color={0,0,127}));
   connect(secPumCon.dpSet, dpSet) annotation (Line(points={{58,44},{-120,44},
           {-120,46},{-296,46}}, color={0,0,127}));
+  connect(senTCHWBuiLea.T, TCHW_ret) annotation (Line(points={{70,29},{134,29},
+          {134,0},{250,0}}, color={0,0,127}));
+  connect(senMasFloSecCHW.m_flow, mCHW_tot) annotation (Line(points={{130,-81.2},
+          {130,-60},{250,-60}}, color={0,0,127}));
   annotation (__Dymola_Commands(file=
           "modelica://ChillerPlantSystem/Resources/Scripts/Dymola/LejeunePlant/ChillerPlantSystem.mos"
         "Simulate and plot"),
