@@ -694,19 +694,19 @@ class KPI_Calculator(object):
             for signal in self.ltra_source_key_mapping[source]:
                 ltra_data = np.array(self._get_data_from_last_index(signal,self.i_last_ltra, store="u_store"))
                 index_data = np.array(self._get_data_from_last_index('time',self.i_last_ltra, store="u_store"))
-                self.ltra_dict[signal] +=  self._arclength(index_data-index_data[0],ltra_data, 0, len(index_data))/(index_data[-1]-index_data[0])
+                self.ltra_dict[signal] +=  self._arclength(index_data-index_data[0],ltra_data, 0, index_data[-1]-index_data[0])/(index_data[-1]-index_data[0])
                 self.ltra_dict_by_source[source+'_'+signal] += self.ltra_dict[signal]
                 self.ltra_tot = self.ltra_tot + self.ltra_dict[signal] #/self.case._get_area() # Normalize total by floor area
 
         # Assign to case
-        self.case.ltra_tot            = self.ltra_tot
+        self.case.ltra_tot            = self.ltra_tot/len(self.ltra_dict)
         self.case.ltra_dict           = self.ltra_dict
         self.case.ltra_dict_by_source = self.ltra_dict_by_source
 
         # Update last integration index
         self._set_last_index('ltra', set_initial=False, store="u_store")
 
-        return self.ltra_tot
+        return self.ltra_tot/len(self.ltra_dict)
 
 
     def _arclength(self, x, y, a, b):

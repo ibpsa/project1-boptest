@@ -97,7 +97,7 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # SETUP TEST
     # -------------------------------------------------------------------------
     # Set URL for testcase
-    url = 'http://127.0.0.1:5000'
+    url = 'http://127.0.0.1:8080'
     # Instantiate concrete controller (pid, pidTwoZones, sup, etc.)
     controller = Controller(control_module, use_forecast)
 
