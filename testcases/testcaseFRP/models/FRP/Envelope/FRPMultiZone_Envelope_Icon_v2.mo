@@ -215,7 +215,19 @@ parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic roof(
       d=7680,
       nStaRef=nStaRef)}) "Roof"
   annotation (Placement(transformation(extent={{14,202},{46,234}})));
-
+parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matCeil(
+    nLay=1,
+    absIR_a=0.9,
+    absIR_b=0.9,
+    absSol_a=0.6,
+    absSol_b=0.6,
+    material={Buildings.HeatTransfer.Data.Solids.Generic(
+        x=0.0005,
+        k=0.06,
+        c=1340,
+        d=288,
+        nStaRef=nStaRef)}) "Drop Ceiling tile"
+    annotation (Placement(transformation(extent={{130,202},{160,232}})));
 parameter FRP.BaseClasses.DoubleClearAir16Clear windowFRP
     annotation (Placement(transformation(extent={{-20,202},{10,232}})));
 
@@ -245,6 +257,7 @@ Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir204
     annotation (Placement(transformation(extent={{231,51},{248,68}})));
 
 Buildings.ThermalZones.Detailed.MixedAir roo204(
+    nConExt=0,
   redeclare package Medium = MediumA,
     hRoo=2.440,
   nConExtWin=2,
@@ -273,6 +286,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo204(
   annotation (Placement(transformation(extent={{-36,6},{16,46}})));
 
 Buildings.ThermalZones.Detailed.MixedAir roo203(
+    nConExt=0,
   redeclare package Medium = MediumA,
     hRoo=2.440,
   nConExtWin=1,
@@ -300,6 +314,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo203(
   "Room model for Case 600"
   annotation (Placement(transformation(extent={{38,2},{84,32}})));
 Buildings.ThermalZones.Detailed.MixedAir roo206(
+    nConExt=0,
   redeclare package Medium = MediumA,
     hRoo=2.440,
   nConExtWin=2,
@@ -320,13 +335,14 @@ Buildings.ThermalZones.Detailed.MixedAir roo206(
     datConBou(
       layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal},
       A={35.27,35.27,11.01,16.86,7.25},
-      til={F_,C_,Z_,Z_,Z_,Z_}),
+      til={F_,C_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
   "Room model for Case 600"
   annotation (Placement(transformation(extent={{58,-102},{104,-72}})));
 Buildings.ThermalZones.Detailed.MixedAir roo202(
+    nConExt=0,
     redeclare package Medium = MediumA,
     hRoo=2.44,
     nConExtWin=0,
@@ -336,15 +352,17 @@ Buildings.ThermalZones.Detailed.MixedAir roo202(
     nConPar=0,
     nSurBou=0,
     datConBou(
-      layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal,matIntWal},
+      layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal,matIntWal,matIntWal},
+
       A={26.46,26.46,13.10,3.76,13.10,13.10,3.76},
       til={F_,C_,Z_,Z_,Z_,Z_,Z_}),
     lat=weaDat.lat,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    nPorts=3)
+    nPorts=2)
     "Room model for Case 600"
     annotation (Placement(transformation(extent={{0,-48},{46,-18}})));
 Buildings.ThermalZones.Detailed.MixedAir roo205(
+    nConExt=0,
   redeclare package Medium = MediumA,
     hRoo=2.440,
   nConExtWin=2,
@@ -372,6 +390,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo205(
   "Room model for Case 600"
   annotation (Placement(transformation(extent={{-52,-92},{-6,-62}})));
 Buildings.ThermalZones.Detailed.MixedAir roo201(
+    nConExt=0,
   redeclare package Medium = MediumA,
     hRoo=2.440,
   nConExtWin=2,
@@ -416,9 +435,9 @@ Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir104
     annotation (Placement(transformation(extent={{236,-292},{252,-276}})));
 Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea12
   "Prescribed heat flow for heating and cooling"
-  annotation (Placement(transformation(extent={{-32,-334},{-20,-322}})));
+  annotation (Placement(transformation(extent={{-34,-344},{-22,-332}})));
 Modelica.Blocks.Sources.RealExpression realExpression12
-  annotation (Placement(transformation(extent={{-52,-336},{-38,-320}})));
+  annotation (Placement(transformation(extent={{-52,-346},{-38,-330}})));
 Buildings.ThermalZones.Detailed.MixedAir roo104(
   redeclare package Medium = MediumA,
     hRoo=2.440,
@@ -469,7 +488,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo102(
     datConBou(
       layers={matFlo,matCeil,matIntWal,matIntWal,matIntWal,matIntWal},
       A={15.95,15.95,11.01,13.10,20.07,3.76},
-      til={F_,C_Z_,Z_,Z_,Z_}),
+      til={F_,C_,Z_,Z_,Z_,Z_}),
   lat=weaDat.lat,
   massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=3)
@@ -584,14 +603,14 @@ Modelica.Blocks.Sources.RealExpression realExpression13
   annotation (Placement(transformation(extent={{-62,-438},{-48,-422}})));
 Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea14
   "Prescribed heat flow for heating and cooling"
-  annotation (Placement(transformation(extent={{16,-386},{28,-374}})));
+  annotation (Placement(transformation(extent={{56,-388},{68,-376}})));
 Modelica.Blocks.Sources.RealExpression realExpression14
-  annotation (Placement(transformation(extent={{-4,-388},{10,-372}})));
+  annotation (Placement(transformation(extent={{36,-390},{50,-374}})));
 Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea16
   "Prescribed heat flow for heating and cooling"
-  annotation (Placement(transformation(extent={{114,-348},{126,-336}})));
+  annotation (Placement(transformation(extent={{112,-360},{124,-348}})));
 Modelica.Blocks.Sources.RealExpression realExpression16
-  annotation (Placement(transformation(extent={{94,-350},{108,-334}})));
+  annotation (Placement(transformation(extent={{90,-362},{104,-346}})));
 Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea17
   "Prescribed heat flow for heating and cooling"
   annotation (Placement(transformation(extent={{38,-458},{50,-446}})));
@@ -599,9 +618,9 @@ Modelica.Blocks.Sources.RealExpression realExpression17
   annotation (Placement(transformation(extent={{12,-458},{26,-442}})));
 Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHea21
   "Prescribed heat flow for heating and cooling"
-  annotation (Placement(transformation(extent={{-28,-362},{-16,-350}})));
+  annotation (Placement(transformation(extent={{-6,-386},{6,-374}})));
 Modelica.Blocks.Sources.RealExpression realExpression21
-  annotation (Placement(transformation(extent={{-48,-364},{-34,-348}})));
+  annotation (Placement(transformation(extent={{-30,-388},{-16,-372}})));
 Buildings.BoundaryConditions.WeatherData.Bus           weaBus1
   annotation (Placement(transformation(extent={{-106,-452},{-90,-436}}),
         iconTransformation(extent={{-106,-452},{-90,-436}})));
@@ -723,29 +742,17 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf102(
 Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TRooAir203
     "Room air temperature"
     annotation (Placement(transformation(extent={{232,72},{248,88}})));
-Modelica.Blocks.Sources.Constant Infilt202(k=1.2*26.46*2.440*0.432/3600)
-                                                                     "0.432ACH"
-    annotation (Placement(transformation(extent={{-148,130},{-136,142}})));
-Buildings.Fluid.Sources.MassFlowSource_T sinInf202(
-    redeclare package Medium = MediumA,
-    m_flow=1,
-    use_m_flow_in=true,
-    use_T_in=false,
-    use_X_in=false,
-    use_C_in=false,
-    nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-118,128},{-106,140}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_204[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-88,88},{-18,116}}),
-        iconTransformation(extent={{-88,88},{-18,116}})));
+    annotation (Placement(transformation(extent={{-86,62},{-18,86}}),
+        iconTransformation(extent={{-88,58},{-18,86}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_203[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{48,130},{106,156}}),
-        iconTransformation(extent={{48,130},{106,156}})));
+    annotation (Placement(transformation(extent={{46,64},{104,90}}),
+        iconTransformation(extent={{46,64},{104,90}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_202[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-74,-18},{14,12}}),
+    annotation (Placement(transformation(extent={{-56,-16},{14,8}}),
         iconTransformation(extent={{24,0},{88,26}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf206(
     redeclare package Medium = MediumA,
@@ -758,23 +765,23 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf206(
     annotation (Placement(transformation(extent={{-116,50},{-104,62}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_206[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{126,92},{182,120}}),
-        iconTransformation(extent={{126,92},{182,120}})));
+    annotation (Placement(transformation(extent={{114,-44},{170,-20}}),
+        iconTransformation(extent={{114,-48},{170,-20}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_205[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-118,12},{-68,38}}),
+    annotation (Placement(transformation(extent={{-116,18},{-68,38}}),
         iconTransformation(extent={{-116,-60},{-44,-32}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_104[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-150,-264},{-84,-234}}),
+    annotation (Placement(transformation(extent={{-144,-256},{-78,-232}}),
         iconTransformation(extent={{-112,-260},{-46,-234}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_102[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-44,-230},{26,-200}}),
+    annotation (Placement(transformation(extent={{-40,-226},{26,-200}}),
         iconTransformation(extent={{54,-228},{110,-206}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_103[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{-124,-348},{-54,-316}}),
+    annotation (Placement(transformation(extent={{-124,-340},{-62,-316}}),
         iconTransformation(extent={{24,-292},{82,-268}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_105[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
@@ -782,7 +789,7 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf206(
         iconTransformation(extent={{-102,-350},{-42,-324}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b port_106[2](redeclare
       package Medium = MediumA) "Fluid inlet and outlet"
-    annotation (Placement(transformation(extent={{80,-384},{166,-352}}),
+    annotation (Placement(transformation(extent={{100,-386},{158,-368}}),
         iconTransformation(extent={{128,-360},{188,-338}})));
 Buildings.Fluid.Sources.Outside souInf201(redeclare package Medium = MediumA,
       nPorts=1) "Source model for air infiltration"
@@ -922,20 +929,9 @@ Modelica.Blocks.Routing.Multiplex3 multiplex3_13(n1=1, n2=1)
   annotation (Placement(transformation(extent={{-232,-438},{-224,-430}})));
 Modelica.Blocks.Sources.Constant qLatGai_flow106(k=0) "Latent heat gain"
     annotation (Placement(transformation(extent={{-258,-444},{-250,-436}})));
-parameter Buildings.HeatTransfer.Data.OpaqueConstructions.Generic matCeil(
-    nLay=1,
-    absIR_a=0.9,
-    absIR_b=0.9,
-    absSol_a=0.6,
-    absSol_b=0.6,
-    material={Buildings.HeatTransfer.Data.Solids.Generic(
-        x=0.0005,
-        k=0.06,
-        c=1340,
-        d=288,
-        nStaRef=nStaRef)}) "Drop Ceiling tile"
-    annotation (Placement(transformation(extent={{130,202},{160,232}})));
+
 Buildings.ThermalZones.Detailed.MixedAir plenum1(
+    nConExtWin=0,
     datConExt(
       layers={matExtWal,matExtWal,matExtWal,matExtWal},
       A={25.04,25.04,21.46,21.46},
@@ -943,8 +939,7 @@ Buildings.ThermalZones.Detailed.MixedAir plenum1(
       azi={N_,S_,E_,W_}),
     redeclare package Medium = MediumA,
     hRoo=1.65,
-    nConExt=0,
-    nConExtWin=4,
+    nConExt=4,
     nConBou=12,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     AFlo=163.88,
@@ -959,8 +954,9 @@ Buildings.ThermalZones.Detailed.MixedAir plenum1(
     lat=weaDat.lat,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nPorts=2) "Room model for Case 600"
-    annotation (Placement(transformation(extent={{106,-276},{152,-246}})));
+    annotation (Placement(transformation(extent={{128,-278},{174,-248}})));
 Buildings.ThermalZones.Detailed.MixedAir plenum2(
+    nConExtWin=0,
     datConExt(
       layers={roof,matExtWal,matExtWal,matExtWal,matExtWal},
       A={163.88,27.31,27.31,23.41,23.41},
@@ -968,8 +964,7 @@ Buildings.ThermalZones.Detailed.MixedAir plenum2(
       azi={S_,N_,S_,E_,W_}),
     redeclare package Medium = MediumA,
     hRoo=1.8,
-    nConExt=0,
-    nConExtWin=5,
+    nConExt=5,
     nConBou=6,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     AFlo=163.88,
@@ -1106,33 +1101,6 @@ connect(weaDat.weaBus, weaBus1) annotation (Line(
     index=1,
     extent={{6,3},{6,3}}));
 
-connect(roo204.surf_conBou[2],roo203. surf_conBou[2]) annotation (Line(points={{-2.2,
-          9.6},{13.75,9.6},{13.75,4.7},{67.9,4.7}},                    color={
-        191,0,0}));
-  connect(roo204.surf_conBou[4], roo202.surf_conBou[2]) annotation (Line(points={{-2.2,
-          10.4},{-2.2,-19},{29.9,-19},{29.9,-45.4286}},         color={191,0,0}));
-connect(roo204.surf_conBou[3],roo205. surf_conBou[2]) annotation (Line(points={{-2.2,10},
-          {-18,10},{-18,-89.3},{-22.1,-89.3}},          color={191,0,0}));
-  connect(roo205.surf_conBou[4], roo202.surf_conBou[4]) annotation (Line(points={{-22.1,
-          -88.7},{3.95,-88.7},{3.95,-45},{29.9,-45}},                    color={
-          191,0,0}));
-connect(roo205.surf_conBou[3],roo206. surf_conBou[2]) annotation (Line(points={{-22.1,
-          -89},{33.95,-89},{33.95,-99.3},{87.9,-99.3}},                color=
-        {191,0,0}));
-  connect(roo206.surf_conBou[3], roo202.surf_conBou[5]) annotation (Line(points={{87.9,
-          -99},{58.95,-99},{58.95,-44.7857},{29.9,-44.7857}},     color={191,0,0}));
-connect(roo206.surf_conBou[4],roo203. surf_conBou[5]) annotation (Line(points={{87.9,
-          -98.7},{87.9,-52.5},{67.9,-52.5},{67.9,5.6}},                color=
-        {191,0,0}));
-connect(roo206.surf_conBou[5],roo201. surf_conBou[3]) annotation (Line(points={{87.9,
-          -98.4},{87.9,-52.5},{143.9,-52.5},{143.9,-7}},                color=
-       {191,0,0}));
-connect(roo201.surf_conBou[2],roo203. surf_conBou[3]) annotation (Line(points={{143.9,
-          -7.3},{97.95,-7.3},{97.95,5},{67.9,5}},
-      color={191,0,0}));
-  connect(roo202.surf_conBou[3], roo203.surf_conBou[4]) annotation (Line(points={{29.9,
-          -45.2143},{29.9,-25.5},{67.9,-25.5},{67.9,5.3}},     color={191,0,0}));
-
   connect(roo104.heaPorAir, TRooAir104.port) annotation (Line(
       points={{-19.3,-302},{-2,-302},{-2,-294},{226,-294},{226,-284},{236,-284}},
       color={191,0,0},
@@ -1142,79 +1110,30 @@ connect(roo201.surf_conBou[2],roo203. surf_conBou[3]) annotation (Line(points={{
       color={0,127,255},
       smooth=Smooth.None));
 connect(realExpression12.y, preHea12.Q_flow)
-  annotation (Line(points={{-37.3,-328},{-32,-328}}, color={0,0,127}));
+  annotation (Line(points={{-37.3,-338},{-34,-338}}, color={0,0,127}));
 
-connect(roo104.surf_conBou[2], roo102.surf_conBou[2]) annotation (Line(points={{-10.2,
-          -318.4},{17.75,-318.4},{17.75,-333.375},{69.9,-333.375}},
-      color={191,0,0}));
-connect(roo104.surf_conBou[4], roo103.surf_conBou[2]) annotation (Line(points={{-10.2,
-          -317.6},{-10.2,-345},{33.9,-345},{33.9,-371.375}},      color={191,
-        0,0}));
-connect(roo104.surf_conBou[3], roo105.surf_conBou[2]) annotation (Line(points={{-10.2,
-          -318},{-14,-318},{-14,-415.3},{-18.1,-415.3}},      color={191,0,0}));
-connect(roo105.surf_conBou[4], roo103.surf_conBou[4]) annotation (Line(points={{-18.1,
-          -414.7},{7.95,-414.7},{7.95,-370.875},{33.9,-370.875}},      color=
-        {191,0,0}));
-connect(roo105.surf_conBou[3], roo106.surf_conBou[2]) annotation (Line(points={{-18.1,
-          -415},{37.95,-415},{37.95,-425.375},{91.9,-425.375}},      color={
-        191,0,0}));
-connect(roo106.surf_conBou[3], roo103.surf_conBou[5]) annotation (Line(points={{91.9,
-          -425.125},{62.95,-425.125},{62.95,-370.625},{33.9,-370.625}},
-      color={191,0,0}));
-connect(roo106.surf_conBou[4], roo102.surf_conBou[5]) annotation (Line(points={{91.9,
-          -424.875},{91.9,-378.5},{69.9,-378.5},{69.9,-332.625}},     color={
-        191,0,0}));
-connect(roo106.surf_conBou[5], roo101.surf_conBou[3]) annotation (Line(points={{91.9,
-          -424.625},{91.9,-378.5},{137.9,-378.5},{137.9,-332.813}},     color=
-       {191,0,0}));
-connect(roo101.surf_conBou[2], roo102.surf_conBou[3]) annotation (Line(points={{137.9,
-          -333.188},{101.95,-333.188},{101.95,-333.125},{69.9,-333.125}},
-      color={191,0,0}));
-connect(roo103.surf_conBou[3], roo102.surf_conBou[4]) annotation (Line(points={{33.9,
-          -371.125},{33.9,-351.5},{69.9,-351.5},{69.9,-332.875}},     color={
-        191,0,0}));
 connect(realExpression13.y, preHea13.Q_flow)
   annotation (Line(points={{-47.3,-430},{-44,-430}}, color={0,0,127}));
 connect(realExpression14.y, preHea14.Q_flow)
-  annotation (Line(points={{10.7,-380},{16,-380}}, color={0,0,127}));
+  annotation (Line(points={{50.7,-382},{56,-382}}, color={0,0,127}));
 connect(realExpression16.y, preHea16.Q_flow)
-  annotation (Line(points={{108.7,-342},{114,-342}}, color={0,0,127}));
-connect(preHea12.port, roo104.surf_conBou[1]) annotation (Line(points={{-20,
-          -328},{-14,-328},{-14,-318.8},{-10.2,-318.8}},
+  annotation (Line(points={{104.7,-354},{112,-354}}, color={0,0,127}));
+connect(preHea12.port, roo104.surf_conBou[1]) annotation (Line(points={{-22,
+          -338},{-10,-338},{-10,-318.8},{-10.2,-318.8}},
                                                        color={191,0,0}));
-connect(preHea16.port, roo101.surf_conBou[1]) annotation (Line(points={{126,
-          -342},{126,-333.563},{137.9,-333.563}},
+connect(preHea16.port, roo101.surf_conBou[1]) annotation (Line(points={{124,
+          -354},{124,-344},{138,-344},{138,-334},{137.9,-334},{137.9,-333.563}},
                                                 color={191,0,0}));
-connect(preHea14.port, roo103.surf_conBou[1]) annotation (Line(points={{28,-380},
-          {32,-380},{32,-371.625},{33.9,-371.625}},     color={191,0,0}));
 connect(preHea13.port, roo105.surf_conBou[1]) annotation (Line(points={{-32,
-          -430},{-24,-430},{-24,-415.6},{-18.1,-415.6}},
+          -430},{-18,-430},{-18,-415.6},{-18.1,-415.6}},
                                                        color={191,0,0}));
 connect(preHea17.port, roo106.surf_conBou[1]) annotation (Line(points={{50,-452},
-          {72,-452},{72,-425.625},{91.9,-425.625}},     color={191,0,0}));
+          {92,-452},{92,-425.625},{91.9,-425.625}},     color={191,0,0}));
 connect(realExpression17.y, preHea17.Q_flow) annotation (Line(points={{26.7,
         -450},{30,-450},{30,-452},{38,-452}}, color={0,0,127}));
 connect(realExpression21.y, preHea21.Q_flow)
-  annotation (Line(points={{-33.3,-356},{-28,-356}}, color={0,0,127}));
-connect(preHea21.port, roo103.surf_conBou[6]) annotation (Line(points={{-16,
-          -356},{8,-356},{8,-370.375},{33.9,-370.375}},
-                                                      color={191,0,0}));
+  annotation (Line(points={{-15.3,-380},{-6,-380}},  color={0,0,127}));
 
-connect(roo105.surf_conBou[5], roo205.surf_conBou[1]) annotation (Line(points={{-18.1,
-          -414.4},{-18.1,-89.6},{-22.1,-89.6}},        color={191,0,0}));
-connect(roo106.surf_conBou[6], roo206.surf_conBou[1]) annotation (Line(points={{91.9,
-          -424.375},{91.9,-99.6},{87.9,-99.6}},           color={191,0,0}));
-connect(roo101.surf_conBou[4], roo201.surf_conBou[1]) annotation (Line(points={{137.9,
-          -332.438},{137.9,-7.6},{143.9,-7.6}},
-      color={191,0,0}));
-connect(roo102.surf_conBou[6],roo203. surf_conBou[1]) annotation (Line(points={{69.9,
-          -332.375},{69.9,-132},{67.9,-132},{67.9,4.4}},             color={
-        191,0,0}));
-  connect(roo103.surf_conBou[6], roo202.surf_conBou[1]) annotation (Line(points={{33.9,
-          -370.375},{33.9,-45.6429},{29.9,-45.6429}},   color={191,0,0}));
-connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{-10.2,
-          -317.2},{-36,-317.2},{-36,-52},{-2.2,-52},{-2.2,9.2}},
-      color={191,0,0}));
   connect(sinInf203.ports[1], roo203.ports[1]) annotation (Line(points={{-106,
           114},{6,114},{6,7.5},{43.75,7.5}}, color={0,127,255}));
   connect(sinInf201.ports[1], roo201.ports[1]) annotation (Line(points={{-106,
@@ -1265,51 +1184,44 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
   connect(roo203.heaPorAir, TRooAir203.port) annotation (Line(points={{59.85,17},
           {59.85,36},{212,36},{212,80},{232,80}},
                                     color={191,0,0}));
-  connect(sinInf202.ports[1], roo202.ports[1]) annotation (Line(points={{-106,
-          134},{-24,134},{-24,-42},{5.75,-42},{5.75,-42.5}},    color={0,127,255}));
 
   connect(sinInf206.ports[1], roo206.ports[1]) annotation (Line(points={{-104,56},
-          {26,56},{26,-98},{30,-98},{30,-96.5},{63.75,-96.5}},         color={0,
+          {26,56},{26,-96},{30,-96},{30,-96.5},{63.75,-96.5}},         color={0,
           127,255}));
   connect(sinInf205.ports[1], roo205.ports[1]) annotation (Line(points={{-106,74},
           {-86,74},{-86,-86},{-46.25,-86},{-46.25,-86.5}},      color={0,127,255}));
 
-  connect(port_104[:], roo104.ports[2:3]) annotation (Line(points={{-117,-249},
-          {-70,-249},{-70,-309.333},{-37.5,-309.333}},
+  connect(port_104[:], roo104.ports[2:3]) annotation (Line(points={{-111,-244},
+          {-70,-244},{-70,-309.333},{-37.5,-309.333}},
                                               color={0,127,255}));
-  connect(port_102[:], roo102.ports[2:3]) annotation (Line(points={{-9,-215},{
-          36,-215},{36,-326.5},{45.75,-326.5}},
+  connect(port_102[:], roo102.ports[2:3]) annotation (Line(points={{-7,-213},{
+          36,-213},{36,-326.5},{45.75,-326.5}},
                                        color={0,127,255}));
-  connect(port_103[:], roo103.ports[1:2]) annotation (Line(points={{-89,-332},{
-          9.75,-332},{9.75,-365}},
+  connect(port_103[:], roo103.ports[1:2]) annotation (Line(points={{-93,-328},{
+          9.75,-328},{9.75,-365}},
                                 color={0,127,255}));
   connect(port_105[:], roo105.ports[2:3]) annotation (Line(points={{-140,-368},
           {-42.25,-368},{-42.25,-408.5}},
                                   color={0,127,255}));
-  connect(port_106[:], roo106.ports[2:3]) annotation (Line(points={{123,-368},{
-          123,-418.5},{67.75,-418.5}},
+  connect(port_106[:], roo106.ports[2:3]) annotation (Line(points={{129,-377},{
+          129,-418.5},{67.75,-418.5}},
                            color={0,127,255}));
-  connect(port_205[:], roo205.ports[2:3]) annotation (Line(points={{-93,25},{
-          -46.25,25},{-46.25,-82.5}},
-                                  color={0,127,255}));
-  connect(port_204[:], roo204.ports[2:3]) annotation (Line(points={{-53,102},{
-          -64,102},{-64,18.6667},{-29.5,18.6667}},
+  connect(port_205[:], roo205.ports[2:3]) annotation (Line(points={{-92,28},{-46.25,
+          28},{-46.25,-82.5}},    color={0,127,255}));
+  connect(port_204[:], roo204.ports[2:3]) annotation (Line(points={{-52,74},{
+          -64,74},{-64,18.6667},{-29.5,18.6667}},
                                    color={0,127,255}));
-  connect(port_203[:], roo203.ports[2:3]) annotation (Line(points={{77,143},{20,
-          143},{20,11.5},{43.75,11.5}},
-                                     color={0,127,255}));
-  connect(port_202[:], roo202.ports[2:3]) annotation (Line(points={{-30,-3},{
-          -30,-38.5},{5.75,-38.5}},    color={0,127,255}));
-  connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{154,106},{
-          14,106},{14,-92.5},{63.75,-92.5}}, color={0,127,255}));
+  connect(port_203[:], roo203.ports[2:3]) annotation (Line(points={{75,77},{20,77},
+          {20,11.5},{43.75,11.5}},   color={0,127,255}));
+  connect(port_202[:], roo202.ports[1:2]) annotation (Line(points={{-21,-4},{-21,
+          -39},{5.75,-39}},            color={0,127,255}));
+  connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{142,-32},{14,
+          -32},{14,-92.5},{63.75,-92.5}},    color={0,127,255}));
   connect(Infilt201.y, sinInf201.m_flow_in) annotation (Line(points={{-137.4,
           158},{-130,158},{-130,160.8},{-119.2,160.8}},
                                                color={0,0,127}));
   connect(Infilt203.y, sinInf203.m_flow_in) annotation (Line(points={{-135.4,
           114},{-132,114},{-132,118.8},{-119.2,118.8}},
-                                               color={0,0,127}));
-  connect(Infilt202.y, sinInf202.m_flow_in) annotation (Line(points={{-135.4,
-          136},{-130,136},{-130,138.8},{-119.2,138.8}},
                                                color={0,0,127}));
   connect(Infilt204.y, sinInf204.m_flow_in) annotation (Line(points={{-135.4,94},
           {-130,94},{-130,100.8},{-119.2,100.8}},
@@ -1349,8 +1261,6 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(souInf201.ports[1], roo201.ports[2]) annotation (Line(points={{-126,
-          -15},{108,-15},{108,-1},{119.75,-1}},   color={0,127,255}));
   connect(TRooAir201.T, TRoo_2.u1[1]) annotation (Line(points={{248,124.5},{266,
           124.5},{266,75.15},{271.72,75.15}},
                                            color={0,0,127}));
@@ -1593,14 +1503,14 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
       points={{-263.6,-236},{-234.8,-236}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(plenum1.qGai_flow, multiplex3_14.y) annotation (Line(points={{104.16,
-          -255},{-48,-255},{-48,-262},{-200,-262},{-200,-236},{-225.6,-236}},
+  connect(plenum1.qGai_flow, multiplex3_14.y) annotation (Line(points={{126.16,
+          -257},{-48,-257},{-48,-262},{-200,-262},{-200,-236},{-225.6,-236}},
         color={0,0,127}));
   connect(Infiltple1.y, sinInfple1.m_flow_in) annotation (Line(points={{-177.5,
           -151},{-168.75,-151},{-168.75,-147.2},{-157.2,-147.2}}, color={0,0,
           127}));
   connect(sinInfple1.ports[1], plenum1.ports[1]) annotation (Line(points={{-144,
-          -152},{102,-152},{102,-270},{111.75,-270}}, color={0,127,255}));
+          -152},{102,-152},{102,-272},{133.75,-272}}, color={0,127,255}));
   connect(weaBus1, souInfPle1.weaBus) annotation (Line(
       points={{-98,-444},{-156,-444},{-156,-272.9},{-132,-272.9}},
       color={255,204,51},
@@ -1610,7 +1520,7 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(souInfPle1.ports[1], plenum1.ports[2]) annotation (Line(points={{-122,
-          -273},{-6,-273},{-6,-267},{111.75,-267}}, color={0,127,255}));
+          -273},{-6,-273},{-6,-269},{133.75,-269}}, color={0,127,255}));
   connect(Infiltple2.y, sinInfple2.m_flow_in) annotation (Line(points={{-137.4,
           184},{-128,184},{-128,186.8},{-119.2,186.8}}, color={0,0,127}));
   connect(sinInfple2.ports[1], plenum2.ports[1]) annotation (Line(points={{-106,
@@ -1626,6 +1536,131 @@ connect(roo104.surf_conBou[5], roo204.surf_conBou[1]) annotation (Line(points={{
       horizontalAlignment=TextAlignment.Right));
   connect(souInfPle2.ports[1], plenum2.ports[2]) annotation (Line(points={{-128,
           -1},{-58,-1},{-58,65},{129.75,65}}, color={0,127,255}));
+  connect(plenum2.weaBus, weaDat.weaBus) annotation (Line(
+      points={{167.585,84.425},{190,84.425},{190,-52},{268,-52}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(plenum1.weaBus, weaDat.weaBus) annotation (Line(
+      points={{171.585,-249.575},{186,-249.575},{186,-52},{268,-52}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(roo101.surf_conBou[2], plenum1.surf_conBou[7]) annotation (Line(
+        points={{137.9,-333.188},{137.9,-344},{157.9,-344},{157.9,-274.938}},
+        color={191,0,0}));
+  connect(roo101.surf_conBou[3], roo102.surf_conBou[5]) annotation (Line(points={{137.9,
+          -332.813},{137.9,-344},{69.9,-344},{69.9,-332.625}},        color={
+          191,0,0}));
+  connect(preHea14.port, roo102.surf_conBou[1]) annotation (Line(points={{68,-382},
+          {68,-334},{69.9,-334},{69.9,-333.625}},       color={191,0,0}));
+  connect(roo101.surf_conBou[4], roo106.surf_conBou[6]) annotation (Line(points={{137.9,
+          -332.438},{137.9,-434},{91.9,-434},{91.9,-424.375}},        color={191,
+          0,0}));
+  connect(roo102.surf_conBou[2], plenum1.surf_conBou[8]) annotation (Line(
+        points={{69.9,-333.375},{69.9,-344},{158,-344},{158,-280},{157.9,-280},
+          {157.9,-274.813}},color={191,0,0}));
+  connect(roo102.surf_conBou[3], roo104.surf_conBou[3]) annotation (Line(points=
+         {{69.9,-333.125},{-10.2,-333.125},{-10.2,-318}}, color={191,0,0}));
+  connect(roo102.surf_conBou[6], roo106.surf_conBou[5]) annotation (Line(points=
+         {{69.9,-332.375},{69.9,-392},{114,-392},{114,-434},{91.9,-434},{91.9,-424.625}},
+        color={191,0,0}));
+  connect(preHea21.port, roo103.surf_conBou[1]) annotation (Line(points={{6,-380},
+          {33.9,-380},{33.9,-371.625}}, color={191,0,0}));
+  connect(roo103.surf_conBou[2], plenum1.surf_conBou[9]) annotation (Line(
+        points={{33.9,-371.375},{33.9,-376},{157.9,-376},{157.9,-274.688}},
+        color={191,0,0}));
+  connect(roo103.surf_conBou[3], roo104.surf_conBou[5]) annotation (Line(points=
+         {{33.9,-371.125},{-10.2,-371.125},{-10.2,-317.2}}, color={191,0,0}));
+  connect(roo103.surf_conBou[5], roo105.surf_conBou[4]) annotation (Line(points=
+         {{33.9,-370.625},{33.9,-430},{-18.1,-430},{-18.1,-414.7}}, color={191,0,
+          0}));
+  connect(roo103.surf_conBou[6], roo106.surf_conBou[4]) annotation (Line(points=
+         {{33.9,-370.375},{33.9,-430},{91.9,-430},{91.9,-424.875}}, color={191,0,
+          0}));
+  connect(roo104.surf_conBou[2], plenum1.surf_conBou[10]) annotation (Line(
+        points={{-10.2,-318.4},{-10,-318.4},{-10,-336},{157.9,-336},{157.9,
+          -274.563}},
+        color={191,0,0}));
+  connect(roo104.surf_conBou[4], roo105.surf_conBou[3]) annotation (Line(points=
+         {{-10.2,-317.6},{-10.2,-368},{-2,-368},{-2,-430},{-18.1,-430},{-18.1,-415}},
+        color={191,0,0}));
+  connect(roo105.surf_conBou[2], plenum1.surf_conBou[11]) annotation (Line(
+        points={{-18.1,-415.3},{-18.1,-430},{157.9,-430},{157.9,-274.438}},
+        color={191,0,0}));
+  connect(roo105.surf_conBou[5], roo106.surf_conBou[3]) annotation (Line(points=
+         {{-18.1,-414.4},{-18.1,-430},{91.9,-430},{91.9,-425.125}}, color={191,0,
+          0}));
+  connect(roo106.surf_conBou[2], plenum1.surf_conBou[12]) annotation (Line(
+        points={{91.9,-425.375},{91.9,-434},{157.9,-434},{157.9,-274.313}},
+        color={191,0,0}));
+  connect(roo201.surf_conBou[3], roo203.surf_conBou[4]) annotation (Line(points=
+         {{143.9,-7},{143.9,-12},{144,-12},{144,-16},{67.9,-16},{67.9,5.3}},
+        color={191,0,0}));
+  connect(roo201.surf_conBou[4], roo202.surf_conBou[5]) annotation (Line(points={{143.9,
+          -6.7},{144,-6.7},{144,-16},{68,-16},{68,-50},{29.9,-50},{29.9,
+          -44.7857}},
+        color={191,0,0}));
+  connect(roo201.surf_conBou[5], roo206.surf_conBou[5]) annotation (Line(points=
+         {{143.9,-6.4},{143.9,-110},{87.9,-110},{87.9,-98.4}}, color={191,0,0}));
+  connect(roo202.surf_conBou[1], plenum1.surf_conBou[2]) annotation (Line(
+        points={{29.9,-45.6429},{29.9,-280},{157.9,-280},{157.9,-275.563}},
+        color={191,0,0}));
+  connect(roo202.surf_conBou[3], roo204.surf_conBou[5]) annotation (Line(points={{29.9,
+          -45.2143},{29.9,-54},{-2.2,-54},{-2.2,10.8}},       color={191,0,0}));
+  connect(roo202.surf_conBou[4], roo203.surf_conBou[5]) annotation (Line(points=
+         {{29.9,-45},{29.9,-50},{67.9,-50},{67.9,5.6}}, color={191,0,0}));
+  connect(roo202.surf_conBou[6], roo205.surf_conBou[4]) annotation (Line(points={{29.9,
+          -44.5714},{29.9,-98},{-22.1,-98},{-22.1,-88.7}},       color={191,0,0}));
+  connect(roo202.surf_conBou[7], roo206.surf_conBou[4]) annotation (Line(points={{29.9,
+          -44.3571},{29.9,-110},{87.9,-110},{87.9,-98.7}},       color={191,0,0}));
+  connect(roo201.surf_conBou[1], plenum1.surf_conBou[1]) annotation (Line(
+        points={{143.9,-7.6},{143.9,-16},{180,-16},{180,-280},{157.9,-280},{
+          157.9,-275.688}},
+                      color={191,0,0}));
+  connect(roo201.surf_conBou[2], plenum2.surf_conBou[1]) annotation (Line(
+        points={{143.9,-7.3},{143.9,-16},{180,-16},{180,56},{153.9,56},{153.9,58.375}},
+        color={191,0,0}));
+  connect(roo202.surf_conBou[1], plenum1.surf_conBou[2]) annotation (Line(
+        points={{29.9,-45.6429},{29.9,-110},{180,-110},{180,-280},{157.9,-280},
+          {157.9,-275.563}},color={191,0,0}));
+  connect(roo202.surf_conBou[2], plenum2.surf_conBou[2]) annotation (Line(
+        points={{29.9,-45.4286},{29.9,-50},{180,-50},{180,56},{153.9,56},{153.9,
+          58.625}}, color={191,0,0}));
+  connect(roo203.surf_conBou[1], plenum1.surf_conBou[3]) annotation (Line(
+        points={{67.9,4.4},{67.9,-50},{180,-50},{180,-280},{157.9,-280},{157.9,
+          -275.438}},
+        color={191,0,0}));
+  connect(roo203.surf_conBou[2], plenum2.surf_conBou[3]) annotation (Line(
+        points={{67.9,4.7},{67.9,-16},{180,-16},{180,56},{153.9,56},{153.9,58.875}},
+        color={191,0,0}));
+  connect(roo203.surf_conBou[3], roo204.surf_conBou[3]) annotation (Line(points=
+         {{67.9,5},{67.9,-6},{-2.2,-6},{-2.2,10}}, color={191,0,0}));
+  connect(roo204.surf_conBou[1], plenum1.surf_conBou[4]) annotation (Line(
+        points={{-2.2,9.2},{-2,9.2},{-2,-54},{180,-54},{180,-280},{157.9,-280},
+          {157.9,-275.313}},color={191,0,0}));
+  connect(roo204.surf_conBou[2], plenum2.surf_conBou[4]) annotation (Line(
+        points={{-2.2,9.6},{-2,9.6},{-2,-16},{180,-16},{180,56},{153.9,56},{153.9,
+          59.125}}, color={191,0,0}));
+  connect(roo204.surf_conBou[4], roo205.surf_conBou[3]) annotation (Line(points=
+         {{-2.2,10.4},{-2,10.4},{-2,-98},{-22.1,-98},{-22.1,-89}}, color={191,0,
+          0}));
+  connect(roo205.surf_conBou[1], plenum1.surf_conBou[5]) annotation (Line(
+        points={{-22.1,-89.6},{-22.1,-110},{180,-110},{180,-280},{157.9,-280},{
+          157.9,-275.188}},
+                      color={191,0,0}));
+  connect(roo205.surf_conBou[2], plenum2.surf_conBou[5]) annotation (Line(
+        points={{-22.1,-89.3},{-22.1,-110},{180,-110},{180,56},{154,56},{154,60},
+          {153.9,60},{153.9,59.375}}, color={191,0,0}));
+  connect(roo205.surf_conBou[5], roo206.surf_conBou[3]) annotation (Line(points=
+         {{-22.1,-88.4},{-22.1,-110},{87.9,-110},{87.9,-99}}, color={191,0,0}));
+  connect(roo206.surf_conBou[1], plenum1.surf_conBou[6]) annotation (Line(
+        points={{87.9,-99.6},{87.9,-110},{180,-110},{180,-280},{157.9,-280},{
+          157.9,-275.063}},
+                      color={191,0,0}));
+  connect(roo206.surf_conBou[2], plenum2.surf_conBou[6]) annotation (Line(
+        points={{87.9,-99.3},{87.9,-104},{88,-104},{88,-110},{180,-110},{180,56},
+          {153.9,56},{153.9,59.625}}, color={191,0,0}));
+  connect(souInf201.ports[1], roo201.ports[2]) annotation (Line(points={{-126,
+          -15},{-4,-15},{-4,-1},{119.75,-1}}, color={0,127,255}));
 annotation (
     experiment(
       StartTime=15984000,
