@@ -7,7 +7,7 @@ model TestCase "Complex office building model that includes air side systems, wa
         mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
             valExh(riseTime=15, y_start=1),
-            valFre(riseTime=15, y_start=1))),
+            valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
@@ -15,8 +15,8 @@ model TestCase "Complex office building model that includes air side systems, wa
     floor2(duaFanAirHanUni(
         mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
-            valExh(riseTime=15, y_start=1),
-            valFre(riseTime=15, y_start=1))),
+            valExh(riseTime=15, y_start=0),
+            valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
@@ -24,8 +24,8 @@ model TestCase "Complex office building model that includes air side systems, wa
     floor3(duaFanAirHanUni(
         mixingBox(mixBox(
             valRet(riseTime=15, y_start=1),
-            valExh(riseTime=15, y_start=1),
-            valFre(riseTime=15, y_start=1))),
+            valExh(riseTime=15, y_start=0),
+            valFre(riseTime=15, y_start=0))),
         retFan(varSpeFloMov(use_inputFilter=true, y_start=0)),
         supFan(varSpe(variableSpeed(zerSpe(k=0))), withoutMotor(varSpeFloMov(
                 use_inputFilter=true, y_start=0))),
