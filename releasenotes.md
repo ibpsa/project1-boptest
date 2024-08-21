@@ -14,9 +14,32 @@ Released on xx/xx/xxxx.
 - Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 
-**The following changes are not backwards-compatible but do not significantly change benchmark results:**
+**The following changes are not backwards-compatible and significantly change benchmark results:**
 
-- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` to allow sepoint change to control also the boiler and not just the circulation pump. Furthermore pump control logic is changed from PI following error on setpoint to hysteresis on/off depending on boiler control signal. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).
+- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` so that this set point change also controls the boiler and not just the circulation pump. Furthermore, pump control logic is changed from PI following error on set point to hysteresis on/off depending on boiler control signal. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).  Significant impacts on KPIs since v0.6.0 for relevant scenarios are as follows:
+
+  Peak Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+1.78%  |
+  |emis_tot               |+0.65%  |
+  |tdis_tot               |+8.51%  |
+  |pgas_tot               |-13.33% |
+  |cost_tot_constant      |+3.95%  |
+  |cost_tot_dynamic       |+4.06%  |
+  |cost_tot_highly_dynamic|+3.27%  |
+
+  Typical Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot	              |+0.97%  |
+  |emis_tot	              |+0.56%  |
+  |tdis_tot	              |+2.79%  |
+  |pgas_tot	              |-33.32% |
+  |cost_tot_constant	    |+1.69%  |
+  |cost_tot_dynamic	      |+1.71%  |
+  |cost_tot_highly_dynamic|+1.45%  |
+
 
 ## BOPTEST v0.6.0
 
