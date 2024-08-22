@@ -417,7 +417,10 @@ class TestCase(object):
         self.fmu.reset()
         # Reset simulation data storage
         self.__initilize_data()
+        # Reset computational time ratio timer
         self.elapsed_control_time_ratio = np.array([])
+        if hasattr(self, 'tic_time'):
+            delattr(self,'tic_time')
         # Check if the inputs are valid
         try:
             start_time = float(start_time)
