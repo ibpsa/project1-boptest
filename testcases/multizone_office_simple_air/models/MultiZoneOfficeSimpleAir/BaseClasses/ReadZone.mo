@@ -6,10 +6,18 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     y(unit="K"),
     zone=zone) "Zone air temperature measurement"
     annotation (__Buildings(semantic(
-      metadataLanguage="Brick 1.3 text/turtle" 
-               "bldg:<cdl_instance_name>_y a brick:Zone_Air_Temperature_Sensor ;
-                          brick:hasLocation bldg:hvac_cor_zone .")),
-      Placement(transformation(extent={{0,50},{20,70}})));
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Zone_Air_Temperature ;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference ;
+          qudt:hasQuantityKind quantitykind:Temperature ;
+          qudt:hasUnit qudt:K .
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
+          ref:name literal:<cdl_instance_name>_y ;
+          ref:description literal:description ;
+          ref:zone literal:zone;
+          ref:unit literal:K ;
+          ref:isWritable false. ")),
+          Placement(transformation(extent={{0,50},{20,70}})));
 
   Modelica.Blocks.Interfaces.RealInput TZon_in
     "Zone air temperature measurement"
@@ -22,12 +30,38 @@ model ReadZone "Collection of zone measurements for BOPTEST"
         zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Supply air temperature to zone measurement"
-    annotation (Placement(transformation(extent={{0,10},{20,30}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Supply_Air_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipment;
+          ref:unit literal:K;
+          ref:isWritable false.")),
+          Placement(transformation(extent={{0,10},{20,30}})));
   Buildings.Utilities.IO.SignalExchange.Read V_flow(
     description="Discharge air flowrate to zone measurement for zone " + zone,
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s")) "Supply air flowrate to zone measurement"
-    annotation (Placement(transformation(extent={{0,-30},{20,-10}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Supply_Air_Flow_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:VolumeFlowRate;
+          qudt:hasUnit qudt:M3-PER-SEC.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:m3/s;
+          ref:isWritable false.")),
+          Placement(transformation(extent={{0,-30},{20,-10}})));
   Modelica.Blocks.Interfaces.RealInput TSup_in
     "Supply air temperature to zone measurement"
     annotation (Placement(transformation(extent={{-140,0},{-100,40}})));
@@ -46,7 +80,18 @@ model ReadZone "Collection of zone measurements for BOPTEST"
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.CO2Concentration,
     y(unit="ppm"),
     zone=zone) "Zone air CO2 concentration measurement"
-    annotation (Placement(transformation(extent={{0,-70},{20,-50}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Zone_CO2;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;    
+          qudt:hasUnit qudt:PPM.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:unit literal:ppm;
+          ref:isWritable false.")),
+          Placement(transformation(extent={{0,-70},{20,-50}})));
 
   Modelica.Blocks.Interfaces.RealInput C_In "Mass fraction of CO2"
     annotation (Placement(transformation(extent={{-140,-80},{-100,-40}})));
