@@ -17,23 +17,23 @@ model Airside "Air side system"
        + mAirFloRat2[1] + mAirFloRat3[1] + mAirFloRat4[1] + mAirFloRat5[1])/1.2
       *0.5,(mAirFloRat1[1] + mAirFloRat2[1] + mAirFloRat3[1] + mAirFloRat4[1]
        + mAirFloRat5[1])/1.2*0.7,(mAirFloRat1[1] + mAirFloRat2[1] + mAirFloRat3
-      [1] + mAirFloRat4[1] + mAirFloRat5[1])/1.2,(mAirFloRat1[1] + mAirFloRat2[
-      1] + mAirFloRat3[1] + mAirFloRat4[1] + mAirFloRat5[1])/1.2*2},{(
+      [1] + mAirFloRat4[1] + mAirFloRat5[1])/1.2*0.9,(mAirFloRat1[1] + mAirFloRat2[
+      1] + mAirFloRat3[1] + mAirFloRat4[1] + mAirFloRat5[1])/1.2*1.2},{(
       mAirFloRat1[2] + mAirFloRat2[2] + mAirFloRat3[2] + mAirFloRat4[2] +
       mAirFloRat5[2])/1.2*0.5,(mAirFloRat1[2] + mAirFloRat2[2] + mAirFloRat3[2]
        + mAirFloRat4[2] + mAirFloRat5[2])/1.2*0.7,(mAirFloRat1[2] + mAirFloRat2
-      [2] + mAirFloRat3[2] + mAirFloRat4[2] + mAirFloRat5[2])/1.2,(mAirFloRat1[
+      [2] + mAirFloRat3[2] + mAirFloRat4[2] + mAirFloRat5[2])/1.2*0.9,(mAirFloRat1[
       2] + mAirFloRat2[2] + mAirFloRat3[2] + mAirFloRat4[2] + mAirFloRat5[2])/
-      1.2*2},{(mAirFloRat1[3] + mAirFloRat2[3] + mAirFloRat3[3] + mAirFloRat4[3]
+      1.2*1.2},{(mAirFloRat1[3] + mAirFloRat2[3] + mAirFloRat3[3] + mAirFloRat4[3]
        + mAirFloRat5[3])/1.2*0.5,(mAirFloRat1[3] + mAirFloRat2[3] + mAirFloRat3
       [3] + mAirFloRat4[3] + mAirFloRat5[3])/1.2*0.7,(mAirFloRat1[3] +
-      mAirFloRat2[3] + mAirFloRat3[3] + mAirFloRat4[3] + mAirFloRat5[3])/1.2,(
+      mAirFloRat2[3] + mAirFloRat3[3] + mAirFloRat4[3] + mAirFloRat5[3])/1.2*0.9,(
       mAirFloRat1[3] + mAirFloRat2[3] + mAirFloRat3[3] + mAirFloRat4[3] +
-      mAirFloRat5[3])/1.2*2}} "Volume flow rate curve";
-  parameter Real HydEff[n,:] = {{0.93*0.65,0.93*0.7,0.93,0.93*0.6} for i in linspace(1,n,n)} "Hydraulic efficiency";
-  parameter Real MotEff[n,:] = {{0.6045*0.65,0.6045*0.7,0.6045,0.6045*0.6} for i in linspace(1,n,n)} "Motor efficiency";
-  parameter Modelica.Units.SI.Pressure SupPreCur[n,:]={{2800,2000,1400,700} for i in linspace(1,n,n)} "Pressure curve";
-  parameter Modelica.Units.SI.Pressure RetPreCur[n,:]={{1200,800,400,200} for i in linspace(1,n,n)} "Pressure curve";
+      mAirFloRat5[3])/1.2*1.2}} "Volume flow rate curve";
+  parameter Real HydEff[n,:] = {{0.9,0.9,0.9,0.9} for i in linspace(1,n,n)} "Hydraulic efficiency";
+  parameter Real MotEff[n,:] = {{0.8,0.8,0.8,0.8} for i in linspace(1,n,n)} "Motor efficiency";
+  parameter Modelica.Units.SI.Pressure SupPreCur[n,:]={{1400,1000,700,700*0.5} for i in linspace(1,n,n)} "Pressure curve";
+  parameter Modelica.Units.SI.Pressure RetPreCur[n,:]={{600,400,200,100} for i in linspace(1,n,n)} "Pressure curve";
   parameter Modelica.Units.SI.Pressure PreAirDroMai1=140
     "Pressure drop 1 across the duct";
   parameter Modelica.Units.SI.Pressure PreAirDroMai2=140
@@ -181,14 +181,13 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 253.15 then floor1.duaFanAirHanUni.onFanOcc
+      booleanExpression(y=if floor1.duaFanAirHanUni.TOut < 283.15 then floor1.duaFanAirHanUni.onFanOcc
              else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
         /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
-
     m_flow_lea={1*0.206*1.2,1*0.137*1.2,1*0.206*1.2,1*0.137*1.2},
     PreDroCoiAir=PreDroCoiAir,
     PreDroMixingBoxAir=PreDroMixingBoxAir,
@@ -257,14 +256,13 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor2.duaFanAirHanUni.TOut < 253.15 then floor2.duaFanAirHanUni.onFanOcc
+      booleanExpression(y=if floor2.duaFanAirHanUni.TOut < 283.15 then floor2.duaFanAirHanUni.onFanOcc
              else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
         /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
-
     m_flow_lea={10*0.206*1.2,10*0.137*1.2,10*0.206*1.2,10*0.137*1.2},
     PreDroCoiAir=PreDroCoiAir,
     PreDroMixingBoxAir=PreDroMixingBoxAir,
@@ -333,14 +331,13 @@ model Airside "Air side system"
       MixingBox_Ti=600,
       Fan_k=0.001,
       Fan_Ti=600,
-      booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 253.15 then floor3.duaFanAirHanUni.onFanOcc
+      booleanExpression(y=if floor3.duaFanAirHanUni.TOut < 283.15 then floor3.duaFanAirHanUni.onFanOcc
              else true)),
     fivZonVAV(vol(each V=200000)),
     redeclare package MediumAir = MediumAir,
     redeclare package MediumHeaWat = MediumHeaWat,
     C_start=fill(400e-6*Modelica.Media.IdealGases.Common.SingleGasesData.CO2.MM
         /Modelica.Media.IdealGases.Common.SingleGasesData.Air.MM, MediumAir.nC),
-
     m_flow_lea={1*0.206*1.2,1*0.137*1.2,1*0.206*1.2,1*0.137*1.2},
     PreDroCoiAir=PreDroCoiAir,
     PreDroMixingBoxAir=PreDroMixingBoxAir,

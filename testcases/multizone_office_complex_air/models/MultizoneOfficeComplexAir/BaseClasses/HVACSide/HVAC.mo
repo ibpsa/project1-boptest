@@ -1,7 +1,7 @@
 within MultizoneOfficeComplexAir.BaseClasses.HVACSide;
 model HVAC "Full HVAC system that contains the air side and water side systems"
   extends MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Airside(
-      alpha=1,
+      alpha=1.25,
       sou(nPorts=3),
       floor1(
       reaZonCor(zone="bot_floor_cor"),
@@ -114,7 +114,7 @@ model HVAC "Full HVAC system that contains the air side and water side systems"
                              "Chilled water plant distribution network"
     annotation (Placement(transformation(extent={{20,-88},{40,-108}})));
   Buildings.Fluid.Chillers.Data.ElectricEIR.ElectricEIRChiller_Trane_CVHE_1442kW_6_61COP_VSD
-    datChi[3](each QEva_flow_nominal=-5500000/3*alpha)
+    datChi[3](each QEva_flow_nominal=-5740000/3*alpha)
                                                "Chiller data record"
                                                annotation (Placement(transformation(extent={{-52,
             -106},{-32,-86}})));

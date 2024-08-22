@@ -431,41 +431,46 @@ package BaseClasses
       annotation (Placement(transformation(
           extent={{-10,-10},{10,10}},
           rotation=90,
-          origin={80,46})));
+          origin={80,50})));
     BuildingControlEmulator.conPI pI(k=k, Ti=Ti)
-      annotation (Placement(transformation(extent={{-40,10},{-20,30}})));
+      annotation (Placement(transformation(extent={{-80,10},{-60,30}})));
     Modelica.Blocks.Interfaces.BooleanInput On annotation (Placement(transformation(extent={{-140,20},{-100,60}})));
     Modelica.Blocks.Interfaces.RealInput SetPoi "Connector of setpoint input signal"
       annotation (Placement(transformation(extent={{-140,-40},{-100,0}})));
     Buildings.Controls.OBC.CDL.Continuous.LimitSlewRate ramLim(raisingSlewRate=1/
           120) "Ramp limiter for water coil control signal"
-      annotation (Placement(transformation(extent={{30,36},{50,56}})));
+      annotation (Placement(transformation(extent={{-10,40},{10,60}})));
     Buildings.Utilities.IO.SignalExchange.Overwrite yCoo(description=
           "Cooling coil valve control signal for AHU", u(
         unit="1",
         min=0,
         max=1)) "Cooling coil control signal"
-      annotation (Placement(transformation(extent={{-4,36},{16,56}})));
+      annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
+    Buildings.Controls.OBC.CDL.Continuous.Limiter lim(uMax=1, uMin=0)
+      annotation (Placement(transformation(extent={{20,40},{40,60}})));
   equation
     connect(val.port_b, port_b_Wat) annotation (Line(
-        points={{80,56},{80,80},{100,80}},
+        points={{80,60},{80,80},{100,80}},
         color={0,127,255},
         thickness=1));
     connect(pI.On, On)
       annotation (Line(
-        points={{-42,26},{-42,26},{-52,26},{-80,26},{-80,40},{-120,40}},
+        points={{-82,26},{-92,26},{-92,40},{-120,40}},
         color={255,0,255},
         pattern=LinePattern.Dash));
     connect(pI.set, SetPoi) annotation (Line(
-        points={{-42,20},{-42,20},{-80,20},{-80,-20},{-120,-20}},
+        points={{-82,20},{-94,20},{-94,-20},{-120,-20}},
         color={0,0,127},
         pattern=LinePattern.Dash));
-    connect(ramLim.y, val.y) annotation (Line(points={{52,46},{68,46}},
-                  color={0,0,127}));
     connect(yCoo.y, ramLim.u)
-      annotation (Line(points={{17,46},{28,46}}, color={0,0,127}));
-    connect(yCoo.u, pI.y) annotation (Line(points={{-6,46},{-14,46},{
-            -14,20},{-19,20}}, color={0,0,127}));
+      annotation (Line(points={{-19,50},{-12,50}},
+                                                 color={0,0,127}));
+    connect(yCoo.u, pI.y) annotation (Line(points={{-42,50},{-54,50},{-54,20},{
+            -59,20}},          color={0,0,127}));
+    connect(lim.u, ramLim.y)
+      annotation (Line(points={{18,50},{12,50}}, color={0,0,127}));
+    connect(lim.y, val.y)
+      annotation (Line(points={{42,50},{68,50}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(coordinateSystem(preserveAspectRatio=false)));
   end WatCoil;
 
