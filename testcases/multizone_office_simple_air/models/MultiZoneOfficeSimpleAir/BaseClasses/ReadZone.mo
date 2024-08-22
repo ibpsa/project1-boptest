@@ -59,7 +59,7 @@ model ReadZone "Collection of zone measurements for BOPTEST"
           ref:description literal:description;
           ref:zone literal:zone;
           ref:equipment literal:equipement;
-          ref:unit literal:m3/s;
+          ref:unit literal:m3_per_s;
           ref:isWritable false.")),
           Placement(transformation(extent={{0,-30},{20,-10}})));
   Modelica.Blocks.Interfaces.RealInput TSup_in

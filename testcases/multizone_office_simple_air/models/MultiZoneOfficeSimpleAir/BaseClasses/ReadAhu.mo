@@ -72,7 +72,7 @@ Placement(transformation(extent={{0,130},{20,150}})));
           ref:description literal:description;
           ref:zone literal:zone;
           ref:equipment literal:equipement;
-          ref:unit literal:m3/s;
+          ref:unit literal:m3_per_s;
           ref:isWritable false.
       bldg:<cdl_instance_name> boptestrules:pointOf brick:AHU.")),
 Placement(transformation(extent={{0,100},{20,120}})));
