@@ -7,3 +7,4 @@ kubernetes==18.20.0
 matplotlib==3.7.1
 scipy==1.13
 pandas==1.5.3
+numpy==1.26.4

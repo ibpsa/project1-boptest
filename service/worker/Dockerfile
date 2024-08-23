@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM --platform=linux/x86_64 ubuntu:20.04
 
 USER root
 ENV HOME /home/boptest
