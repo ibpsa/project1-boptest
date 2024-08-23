@@ -14,6 +14,10 @@ Released on xx/xx/xxxx.
 - Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 
+**The following changes are backwards-compatible, but might change benchmark results:**
+
+- Fix calculation of computational time ratio (``time_rat``) in the case of a test where the test case was initialized after a test or simulation (use of ``/advance``) had already been done using the same test case deployment (i.e. the docker container had not been shutdown first and newly deployed).  The wait time between the last ``/advance`` before the new initialization and first ``/advance`` of the new initialization was incorrectly incorporated into the calculation as a control step and has been fixed, resulting in a lower computational time ratio.  The extent of impact depends on wait time between tests and control step and number of steps taken in the new test.  This is for [#673](https://github.com/ibpsa/project1-boptest/issues/673).
+
 ## BOPTEST v0.6.0
 
 Released on 04/03/2024.
