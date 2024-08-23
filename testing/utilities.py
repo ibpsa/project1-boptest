@@ -860,10 +860,16 @@ class partialTestAPI(partialChecks):
 
         '''
 
+        # Single invalid
         u = {'invalid': 0}
         y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u)
         self.compare_error_code(y, "Invalid advance request for _u did not return 400 message.")
 
+        # Paired invalid with valid
+        u = self.input
+        u['invalid'] = 1
+        y = requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=u)
+        self.compare_error_code(y, "Invalid advance request for _u did not return 400 message.")
 
     def test_invalid_get_results(self):
         '''Test getting results for start time before and final time after.
