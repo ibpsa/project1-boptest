@@ -15,6 +15,11 @@ Released on xx/xx/xxxx.
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 - Add support to ``parsing/parser.py`` for test case compilation using Modelon's OPTIMICA Compiler Toolkit (OCT).  The parser can take arguments ``'JModelica'`` or ``'OCT'``, with ``'JModelica'`` as default.  A user still requires access to an OCT license and software on their set up.  This is for [#675](https://github.com/ibpsa/project1-boptest/issues/675).
 
+**The following new test cases have been added:**
+
+- ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
+
+
 ## BOPTEST v0.6.0
 
 Released on 04/03/2024.
@@ -34,10 +39,6 @@ Released on 04/03/2024.
 - Add ``activate`` control inputs to all test case documentation and update ``get_html_IO.py`` to print one file with all inputs, outputs, and forecasts. This is for [#555](https://github.com/ibpsa/project1-boptest/issues/555).
 - Add storing of scenario result trajectories, kpis, and test information to simulation directory within test case docker container. This is for [#626](https://github.com/ibpsa/project1-boptest/issues/626).
 
-
-**The following new test cases have been added:**
-
-- ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
 
 ## BOPTEST v0.5.0
 
