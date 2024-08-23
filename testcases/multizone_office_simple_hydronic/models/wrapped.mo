@@ -84,7 +84,7 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPFcuNz_y(unit="W") = mod.heating_cooling.reaPFcuNz.y "Electric power used by the north zone fan coil units";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPFcuSz_y(unit="W") = mod.heating_cooling.reaPFcuSz.y "Electric power used by the south zone fan coil units";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPProCoo_y(unit="W") = mod.heating_cooling.reaPProCoo.y "Electric power used by the cooling production system";
-	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPProHea_y(unit="W") = mod.heating_cooling.reaPProHea.y "Gas power used by the heating production system";
+	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPProHea_y(unit="W") = mod.heating_cooling.reaPProHea.y "Electric power used by the heating production system";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPPumAhuCooNz_y(unit="W") = mod.heating_cooling.reaPPumAhuCooNz.y "Electric power used by the north zone cooling AHU water system pump";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPPumAhuCooSz_y(unit="W") = mod.heating_cooling.reaPPumAhuCooSz.y "Electric power used by the south zone cooling AHU water system pump";
 	Modelica.Blocks.Interfaces.RealOutput heating_cooling_reaPPumAhuHeaNz_y(unit="W") = mod.heating_cooling.reaPPumAhuHeaNz.y "Electric power used by the north zone heating AHU water system pump";
