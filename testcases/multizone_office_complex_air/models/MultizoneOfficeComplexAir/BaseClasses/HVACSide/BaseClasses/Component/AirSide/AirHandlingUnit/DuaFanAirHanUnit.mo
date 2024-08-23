@@ -55,7 +55,8 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     MotEff=MotEff,
     VolFloCur=VolFloCur,
     TimCon=1,
-    PreCur=RetPreCur)
+    PreCur=RetPreCur,
+    varSpeFloMov(use_inputFilter=true))
     annotation (Placement(transformation(extent={{-10,-90},{-30,-70}})));
 
   MultizoneOfficeComplexAir.BaseClasses.HVACSide.BaseClasses.Component.FlowMover.VAVSupFan
@@ -70,7 +71,8 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     HydEff=HydEff,
     MotEff=MotEff,
     VolFloCur=VolFloCur,
-    PreCur=SupPreCur)
+    PreCur=SupPreCur,
+    withoutMotor(varSpeFloMov(use_inputFilter=true)))
     annotation (Placement(transformation(extent={{18,-10},{38,10}})));
   Modelica.Fluid.Interfaces.FluidPort_b port_b_Air(redeclare package Medium =
                MediumAir)

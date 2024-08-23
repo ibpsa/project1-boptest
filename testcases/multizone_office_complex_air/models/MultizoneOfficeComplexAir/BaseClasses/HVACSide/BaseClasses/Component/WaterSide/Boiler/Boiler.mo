@@ -43,7 +43,7 @@ model Boiler "Boiler"
     redeclare package Medium = MediumHW,
     m_flow_nominal=mHW_flow_nominal,
     T_start=THW) annotation (Placement(transformation(extent={{20,-90},{40,-70}})));
-  Buildings.Fluid.Actuators.Valves.TwoWayLinear valCHW(
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear valHW(
     redeclare package Medium = MediumHW,
     m_flow_nominal=mHW_flow_nominal,
     dpValve_nominal=dPHW_nominal)
@@ -82,12 +82,11 @@ model Boiler "Boiler"
   Modelica.Blocks.Sources.RealExpression realExpression(y=boi.T)
     annotation (Placement(transformation(extent={{-70,-40},{-50,-20}})));
 equation
-  connect(senTHWLea.port_b, valCHW.port_a)
-    annotation (Line(
+  connect(senTHWLea.port_b, valHW.port_a) annotation (Line(
       points={{40,-80},{60,-80}},
       color={255,0,0},
       thickness=1));
-  connect(valCHW.port_b, port_b_CHW) annotation (Line(
+  connect(valHW.port_b, port_b_CHW) annotation (Line(
       points={{80,-80},{100,-80}},
       color={255,0,0},
       thickness=1));
@@ -116,13 +115,11 @@ equation
       points={{12,10},{12,0},{0,0},{0,-28},{6.10623e-016,-28}},
       color={255,0,0},
       thickness=1));
-  connect(On, valCHW.y) annotation (Line(
-      points={{-109,-40},{-44,-40},{-44,-24},{70,-24},{70,-68}},
-      color={0,0,127}));
+  connect(On, valHW.y) annotation (Line(points={{-109,-40},{-44,-40},{-44,-24},
+          {70,-24},{70,-68}}, color={0,0,127}));
 
-  connect(realToBoolean.u, valCHW.y) annotation (Line(
-      points={{-71.6,-10},{-80,-10},{-80,-40},{-44,-40},{-44,-24},{70,-24},{70,-68}},
-      color={0,0,127}));
+  connect(realToBoolean.u, valHW.y) annotation (Line(points={{-71.6,-10},{-80,-10},
+          {-80,-40},{-44,-40},{-44,-24},{70,-24},{70,-68}}, color={0,0,127}));
   connect(realToBoolean.y, conPI.On) annotation (Line(
       points={{-53.2,-10},{-40,-10},{-40,10},{-80,10},{-80,46},{-66,46}},
       color={255,0,255}));

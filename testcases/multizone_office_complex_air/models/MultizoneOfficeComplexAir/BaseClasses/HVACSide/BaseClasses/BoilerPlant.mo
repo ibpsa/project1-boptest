@@ -41,7 +41,9 @@ model BoilerPlant "Boiler hot water plant"
     dpValve_nominal={dP_nominal*0.25 for i in linspace(
         1,
         m,
-        m)}) annotation (Placement(transformation(extent={{10,20},{-10,40}})));
+        m)},
+    pum(varSpeFloMov(use_inputFilter=true)))
+             annotation (Placement(transformation(extent={{10,20},{-10,40}})));
   Modelica.Blocks.Math.RealToBoolean reaToBoolea
     annotation (Placement(transformation(extent={{-160,80},{-140,100}})));
   Modelica.Blocks.Sources.Constant On(k=1)

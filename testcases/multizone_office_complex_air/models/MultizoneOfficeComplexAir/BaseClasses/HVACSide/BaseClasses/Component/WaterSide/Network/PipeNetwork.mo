@@ -25,21 +25,30 @@ model PipeNetwork "Water distribution network"
   parameter Modelica.Units.SI.MassFlowRate mFloRat3
     "mass flow rate for the first branch3";
 
-  Buildings.Fluid.FixedResistances.Junction junSup1(m_flow_nominal={mFloRat1 + mFloRat2 + mFloRat3,-mFloRat2-mFloRat3,-
+  Buildings.Fluid.FixedResistances.Junction junSup1(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    m_flow_nominal={mFloRat1 + mFloRat2 + mFloRat3,-mFloRat2 - mFloRat3,-
         mFloRat1}, redeclare package Medium = Medium,
-    dp_nominal={PreDroMai1/2,PreDroMai2/2,PreDroBra1/2})
+    dp_nominal={PreDroMai1/2,-PreDroMai2/2,-PreDroBra1/2})
     annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
   Buildings.Fluid.FixedResistances.Junction junRet1(redeclare package
-      Medium =                                                                 Medium, m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat1-mFloRat2-mFloRat3,mFloRat1},
-    dp_nominal={PreDroMai2/2,PreDroMai1/2,PreDroBra1/2})
+      Medium =                                                                 Medium,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat1 - mFloRat2 - mFloRat3,
+        mFloRat1},
+    dp_nominal={PreDroMai2/2,-PreDroMai1/2,PreDroBra1/2})
                                                 annotation (Placement(transformation(extent={{-70,-70},{-90,-50}})));
   Buildings.Fluid.FixedResistances.Junction junRet2( redeclare package
-      Medium =                                                                  Medium, m_flow_nominal={mFloRat3,-mFloRat2-mFloRat3,mFloRat2},
-    dp_nominal={PreDroBra3/2,PreDroMai2/2,PreDroBra2/2})
+      Medium =                                                                  Medium,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    m_flow_nominal={mFloRat3,-mFloRat2 - mFloRat3,mFloRat2},
+    dp_nominal={PreDroBra3/2,-PreDroMai2/2,PreDroBra2/2})
                                                 annotation (Placement(transformation(extent={{10,-70},{-10,-50}})));
-  Buildings.Fluid.FixedResistances.Junction junSup2(m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat3,-
-        mFloRat2}, redeclare package Medium = Medium,
-    dp_nominal={PreDroMai2/2,PreDroBra3/2,PreDroBra2/2})
+  Buildings.Fluid.FixedResistances.Junction junSup2(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    m_flow_nominal={mFloRat2 + mFloRat3,-mFloRat3,-mFloRat2},
+                   redeclare package Medium = Medium,
+    dp_nominal={PreDroMai2/2,-PreDroBra3/2,-PreDroBra2/2})
                       annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 
   Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
@@ -86,7 +95,7 @@ equation
       thickness=1));
   connect(junSup1.port_3, ports_b[1])
     annotation (Line(
-      points={{-80,30},{-80,30},{-80,0},{90,0},{90,19.3333},{100,19.3333}},
+      points={{-80,30},{-80,30},{-80,0},{90,0},{90,32.6667},{100,32.6667}},
       color={0,127,255},
       thickness=1));
   connect(junRet2.port_3, ports_a[2])
@@ -96,17 +105,17 @@ equation
       thickness=1));
   connect(junRet1.port_3, ports_a[1])
     annotation (Line(
-      points={{-80,-70},{-80,-70},{-80,-94},{100,-94},{100,-88.6667}},
+      points={{-80,-70},{-80,-70},{-80,-94},{100,-94},{100,-75.3333}},
       color={0,127,255},
       thickness=1));
   connect(junSup2.port_2, ports_b[3])
     annotation (Line(
-      points={{10,40},{100,40},{100,72.6667}},
+      points={{10,40},{100,40},{100,59.3333}},
       color={0,127,255},
       thickness=1));
   connect(junRet2.port_1, ports_a[3])
     annotation (Line(
-      points={{10,-60},{100,-60},{100,-35.3333}},
+      points={{10,-60},{100,-60},{100,-48.6667}},
       color={0,127,255},
       thickness=1));
   connect(senRelPre.port_a, port_a) annotation (Line(points={{-80,-16},{-94,-16},{-94,40},{-100,40}}, color={0,127,

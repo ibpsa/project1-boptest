@@ -32,7 +32,7 @@ model ChillerPlant
     "Pressure difference at the condenser water wide";
   parameter Modelica.Units.SI.Temperature TCHW_nominal=273.15 + 5.56
     "Temperature at chilled water side";
-  parameter Modelica.Units.SI.Temperature TCW_nominal=273.15 + 23.89
+  parameter Modelica.Units.SI.Temperature TCW_nominal=273.15 + 28.89
     "Temperature at condenser water wide";
   parameter Modelica.Units.SI.TemperatureDifference dTApp_nominal=4.44
     "Nominal approach temperature";
@@ -74,7 +74,7 @@ model ChillerPlant
     "Volume flow rate rate";
   parameter Real eta[n,:]={{0.3^3,0.6^3,1} for i in linspace(1, n, n)}
     "Fan efficiency";
-  parameter Modelica.Units.SI.Temperature TWetBul_nominal=273.15 + 19.45
+  parameter Modelica.Units.SI.Temperature TWetBul_nominal=273.15 + 22.45
     "Nominal wet bulb temperature";
   replaceable Component.WaterSide.Chiller.MultiChillers mulChiSys(
     redeclare package MediumCHW = MediumCHW,
@@ -101,7 +101,9 @@ model ChillerPlant
     dpValve_nominal(displayUnit="Pa") = {dP_nominal*0.5 for i in linspace(
       1,
       m,
-      m)}) annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
+      m)},
+    pum(varSpeFloMov(use_inputFilter=true)))
+           annotation (Placement(transformation(extent={{40,-80},{60,-60}})));
   Component.FlowMover.Pump.SimPumpSystem pumPriCHW(
     redeclare package Medium = MediumCHW,
     m_flow_nominal=mCHW_flow_nominal,
