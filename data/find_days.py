@@ -69,7 +69,7 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
         Day below which should not be considered for heating.
         Must be <= 358.
         Default = 358.
-        
+
     Returns
     -------
     days: dictionary
@@ -199,8 +199,8 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
             plt.axvline(x=typical_cool_day, color='r', linestyle='--', label='Typical')
             plt.axhline(y=median_cool, color='r', linestyle='--', label='_nolegend_')
             plt.legend()
-    
-    plt.show()
+
+        plt.show()
 
     return days
 
