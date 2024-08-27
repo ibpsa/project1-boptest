@@ -1,4 +1,4 @@
-﻿within MultiZoneOfficeSimpleAir.TestCases;
+within MultiZoneOfficeSimpleAir.TestCases;
 model TestCase
   "Variable air volume flow system with terminal reheat and five thermal zones based on Buildings.Examples.VAVReheat.ASHRAE2006"
   extends Modelica.Icons.Example;
@@ -314,7 +314,7 @@ during unoccupied hours to maintain a cooling set point.
   <td>Unoccupied, night setup</td>
   <td>In unoccupied period, maximum TZon above unoccupied TZonCooSet.  Minimum state time is 30 min.</td>
   <td>12</td>
-  <td>12</td>
+  <td>30</td>
   <td>Enabled</td>
   <td>35</td>
   <td>Enabled</td>
@@ -425,88 +425,175 @@ heating coil pump.
 The model inputs are:
 <ul>
 <li>
+<code>hvac_oveAhu_TSupSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_TSupSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveAhu_TSupSet_u</code> [K] [min=285.15, max=313.15]: Supply air temperature setpoint for AHU
+</li>
+<li>
+<code>hvac_oveAhu_dpSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_dpSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveAhu_dpSet_u</code> [Pa] [min=50.0, max=410.0]: Supply duct pressure setpoint for AHU
 </li>
 <li>
+<code>hvac_oveAhu_yCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_yCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveAhu_yCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil valve control signal for AHU
+</li>
+<li>
+<code>hvac_oveAhu_yFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_yFan_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveAhu_yFan_u</code> [1] [min=0.0, max=1.0]: Supply fan speed setpoint for AHU
 </li>
 <li>
+<code>hvac_oveAhu_yHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_yHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveAhu_yHea_u</code> [1] [min=0.0, max=1.0]: Heating coil valve control signal for AHU
+</li>
+<li>
+<code>hvac_oveAhu_yOA_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_yOA_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveAhu_yOA_u</code> [1] [min=0.0, max=1.0]: Outside air damper position setpoint for AHU
 </li>
 <li>
+<code>hvac_oveAhu_yPumCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_yPumCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveAhu_yPumCoo_u</code> [1] [min=0.0, max=1.0]: Cooling coil pump control signal for AHU
+</li>
+<li>
+<code>hvac_oveAhu_yPumHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_yPumHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveAhu_yPumHea_u</code> [1] [min=0.0, max=1.0]: Heating coil pump control signal for AHU
 </li>
 <li>
+<code>hvac_oveAhu_yRet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveAhu_yRet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveAhu_yRet_u</code> [1] [min=0.0, max=1.0]: Return air damper position setpoint for AHU
+</li>
+<li>
+<code>hvac_oveZonActCor_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActCor_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonActCor_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone cor
 </li>
 <li>
+<code>hvac_oveZonActCor_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActCor_yReaHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonActCor_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone cor
+</li>
+<li>
+<code>hvac_oveZonActEas_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActEas_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonActEas_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone eas
 </li>
 <li>
+<code>hvac_oveZonActEas_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActEas_yReaHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonActEas_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone eas
+</li>
+<li>
+<code>hvac_oveZonActNor_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActNor_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonActNor_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone nor
 </li>
 <li>
+<code>hvac_oveZonActNor_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActNor_yReaHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonActNor_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone nor
+</li>
+<li>
+<code>hvac_oveZonActSou_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActSou_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonActSou_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone sou
 </li>
 <li>
+<code>hvac_oveZonActSou_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActSou_yReaHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonActSou_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone sou
+</li>
+<li>
+<code>hvac_oveZonActWes_yDam_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActWes_yDam_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonActWes_yDam_u</code> [1] [min=0.0, max=1.0]: Damper position setpoint for zone wes
 </li>
 <li>
+<code>hvac_oveZonActWes_yReaHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonActWes_yReaHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonActWes_yReaHea_u</code> [1] [min=0.0, max=1.0]: Reheat control signal for zone wes
+</li>
+<li>
+<code>hvac_oveZonSupCor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupCor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonSupCor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone cor
 </li>
 <li>
+<code>hvac_oveZonSupCor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupCor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonSupCor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone cor
+</li>
+<li>
+<code>hvac_oveZonSupEas_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupEas_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonSupEas_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone eas
 </li>
 <li>
+<code>hvac_oveZonSupEas_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupEas_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonSupEas_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone eas
+</li>
+<li>
+<code>hvac_oveZonSupNor_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupNor_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonSupNor_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone nor
 </li>
 <li>
+<code>hvac_oveZonSupNor_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupNor_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonSupNor_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone nor
+</li>
+<li>
+<code>hvac_oveZonSupSou_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupSou_TZonCooSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonSupSou_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone sou
 </li>
 <li>
+<code>hvac_oveZonSupSou_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupSou_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonSupSou_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone sou
 </li>
 <li>
+<code>hvac_oveZonSupWes_TZonCooSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupWes_TZonCooSet_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>hvac_oveZonSupWes_TZonCooSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature cooling setpoint for zone wes
+</li>
+<li>
+<code>hvac_oveZonSupWes_TZonHeaSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input hvac_oveZonSupWes_TZonHeaSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>hvac_oveZonSupWes_TZonHeaSet_u</code> [K] [min=285.15, max=313.15]: Zone air temperature heating setpoint for zone wes
@@ -1141,6 +1228,11 @@ For reference, see https://www.eia.gov/electricity/state/illinois/
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+February 5, 2024, by Ettore Zanetti:<br/>
+Fixed typo in unoccupied cooling setpoint documentation.
+This is for BOPTEST <a href=\"https://github.com/ibpsa/project1-boptest/issues/605\">issue #605</a>.
+</li>
 <li>
 August 25, 2022, by David Blum:<br/>
 Add forecast point documentation.

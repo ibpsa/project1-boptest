@@ -43,8 +43,11 @@ if __name__ == '__main__':
     testing_dir = os.path.join(utilities.get_root_path(), 'testing')
     logs = []
     for f in os.listdir(testing_dir):
-        if f.endswith('.log'):
+        if f.startswith('test_') and f.endswith('.log'):
             logs.append(os.path.join(testing_dir, f))
+    record('The following test logs were found:')
+    for log in logs:
+        record(log)
     # Get total number of tests run
     cases = 0
     passed = 0

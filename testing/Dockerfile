@@ -1,9 +1,10 @@
-FROM michaelwetter/ubuntu-1804_jmodelica_trunk
+FROM lbnlblum/ubuntu-1804_jmodelica_trunk
 
 USER root
 
 RUN apt-get update && \
     apt-get install -y git && \
+    apt-get install -y git-lfs && \
     apt-get install -y sudo
 
 USER developer
@@ -14,6 +15,7 @@ WORKDIR $HOME
 
 RUN mkdir $HOME/MODELICAPATH && mkdir git && \
     cd git && \
+    git lfs install && \
     git clone https://github.com/ibpsa/modelica-ibpsa.git && cd modelica-ibpsa && git checkout a8b77f6d2820c52a63cd5964db6db9913a5f669d && cd .. && \
     git clone https://github.com/open-ideas/IDEAS.git && \
     git clone https://github.com/lbl-srg/modelica-buildings.git && \
