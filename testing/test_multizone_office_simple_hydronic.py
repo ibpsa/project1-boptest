@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-This module runs tests for bestest_air.  To run these tests, testcase
-multizone_office_simple_air must already be deployed.
+This module runs tests for multizone_office_simple_hydronic.  To run these tests, testcase
+multizone_office_simple_hydronic must already be deployed.
 
 """
 
