@@ -33,3 +33,8 @@ is also served by the district heating source.
 ``constant``
 ``dynamic``
 ``highly_dynamic``
+
+# Dependencies
+The Modelica model for this test case uses the [Modelica Standard Library](https://github.com/modelica/ModelicaStandardLibrary) and the [Modelica Buildings Library](https://simulationresearch.lbl.gov/modelica/index.html).
+
+The FMU for this test case is compiled by the open-source [JModelica.org](https://jmodelica.org/).

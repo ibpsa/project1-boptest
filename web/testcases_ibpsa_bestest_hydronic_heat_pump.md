@@ -37,3 +37,8 @@ floorr when the heat pump is operating.
 ``constant``
 ``dynamic``
 ``highly_dynamic``
+
+# Dependencies
+The Modelica model for this test case uses the [Modelica Standard Library](https://github.com/modelica/ModelicaStandardLibrary) and the [Modelica IDEAS Library](https://github.com/open-ideas/IDEAS).
+
+The FMU for this test case is compiled by the open-source [JModelica.org](https://jmodelica.org/).

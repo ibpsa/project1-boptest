@@ -14,14 +14,16 @@
       link: /testcases/ibpsa/testcases_ibpsa_multizone_residential_hydronic/
     - name: Multizone Office Simple Air
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
+- label: Available in Next Release
+  items:
+    - name: Multizone Office Simple Hydronic
+      link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hydronic/
 - label: Under Development
   items:
     - name: Single Zone Commercial Air
       link: /testcases/ibpsa/testcases_ibpsa_singlezone_commercial_air/
     - name: Flexible Research Platform
       link: /testcases/ibpsa/testcases_ibpsa_flexible_research_platform/
-    - name: Multizone Office Simple Hydronic
-      link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hydronic/
     - name: Multizone Office Simple Hybrid
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hybrid/
     - name: Multizone Office Complex Air
