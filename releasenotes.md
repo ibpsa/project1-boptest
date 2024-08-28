@@ -17,7 +17,7 @@ Released on xx/xx/xxxx.
 
 **The following new test cases have been added:**
 
-- ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
+- ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. FMU compiled by [OCT](https://help.modelon.com/latest/reference/oct/).  This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
 
 
 **The following changes are backwards-compatible, but might change benchmark results:**
