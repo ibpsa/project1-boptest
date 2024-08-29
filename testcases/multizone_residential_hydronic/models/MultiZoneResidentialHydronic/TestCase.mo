@@ -1,4 +1,4 @@
-﻿within MultiZoneResidentialHydronic;
+within MultiZoneResidentialHydronic;
 model TestCase "Multi zone residential hydronic example model"
 
   extends Modelica.Icons.Example;
@@ -214,6 +214,8 @@ protected
   Modelica.Blocks.Logical.OnOffController
                                        onOffController(bandwidth=0.5)
     annotation (Placement(transformation(extent={{-328,-244},{-308,-224}})));
+  Modelica.Blocks.Math.Product product2
+    annotation (Placement(transformation(extent={{-196,-146},{-176,-126}})));
 public
   Buildings.ThermalZones.Detailed.MixedAir gar(
     redeclare package Medium = MediumA,
@@ -1402,13 +1404,12 @@ public
     annotation (Placement(transformation(extent={{-328,-204},{-320,-196}})));
   Modelica.Blocks.Math.Gain gaiHea(k=mBoi_flow_nominal)
     annotation (Placement(transformation(extent={{-190,-254},{-182,-246}})));
-  Buildings.Controls.OBC.CDL.Logical.TrueDelay truDel(delayTime=30, delayOnInit=
-       true)
-    annotation (Placement(transformation(extent={{-292,-220},{-278,-208}})));
   Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea
     annotation (Placement(transformation(extent={{-220,-260},{-200,-240}})));
-  Buildings.Controls.OBC.CDL.Logical.TrueHoldWithReset truHol(duration=30)
-    annotation (Placement(transformation(extent={{-292,-260},{-272,-240}})));
+  Modelica.Blocks.Math.Gain gaiHea1(k=1/mBoi_flow_nominal)
+    annotation (Placement(transformation(extent={{-4,-4},{4,4}},
+        rotation=180,
+        origin={-178,-184})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -2001,8 +2002,8 @@ equation
   connect(expTLiv.y, conHeaModeBoiler.u_m) annotation (Line(points={{-340.2,
           -240},{-336,-240},{-336,-218},{-300,-218},{-300,-207.2}},
                                       color={0,0,127}));
-  connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-136},{-122,-136},
-          {-122,-130},{-216,-130},{-216,-144},{-336,-144},{-336,-182.267},{
+  connect(boi.T, conBoiSaf.T) annotation (Line(points={{-128.2,-136},{-128,-136},
+          {-128,-118},{-216,-118},{-216,-144},{-336,-144},{-336,-182.267},{
           -308.04,-182.267}},
                     color={0,0,127}));
   connect(expTLiv.y, onOffController.u) annotation (Line(points={{-340.2,-240},
@@ -2019,8 +2020,6 @@ equation
                              color={0,127,255}));
   connect(expCooLiv.y, conCooLiv.TSet) annotation (Line(points={{-73.8,16},{-70,
           16},{-70,18.3333},{-66.32,18.3333}}, color={0,0,127}));
-  connect(switch1.y, boi.y) annotation (Line(points={{-239.5,-119},{-184,-119},
-          {-184,-136},{-152,-136}}, color={0,0,127}));
   connect(TRo1.T, conCooRo1.T) annotation (Line(points={{6,18},{8,18},{8,15},{
           9.68,15}}, color={0,0,127}));
   connect(massFlowRate.port_b, inSplVal1.port_1) annotation (Line(points={{-91,
@@ -2146,12 +2145,6 @@ equation
   connect(gaiHea.y, oveEmiPum.u) annotation (Line(points={{-181.6,-250},{-180,-250},
           {-180,-199},{-178.6,-199}},                               color={0,0,
           127}));
-  connect(truDel.y, switch4.u2) annotation (Line(points={{-276.6,-214},{-268,
-          -214},{-268,-200},{-261.2,-200}},
-                          color={255,0,255}));
-  connect(onOffController.y, truDel.u) annotation (Line(points={{-307,-234},{
-          -298,-234},{-298,-214},{-293.4,-214}},
-                                   color={255,0,255}));
   connect(booToRea.y, gaiHea.u) annotation (Line(points={{-198,-250},{-190.8,-250}},
                                       color={0,0,127}));
   connect(oveTSetPumBoi.y, conHeaModeBoiler.u_s) annotation (Line(points={{-319.6,
@@ -2159,10 +2152,20 @@ equation
   connect(oveTSetPumBoi.y, onOffController.reference) annotation (Line(points={{-319.6,
           -200},{-314,-200},{-314,-212},{-334,-212},{-334,-228},{-330,-228}},
                                                              color={0,0,127}));
-  connect(onOffController.y, truHol.u) annotation (Line(points={{-307,-234},{
-          -300,-234},{-300,-250},{-294,-250}}, color={255,0,255}));
-  connect(truHol.y, booToRea.u)
-    annotation (Line(points={{-270,-250},{-222,-250}}, color={255,0,255}));
+  connect(onOffController.y, switch4.u2) annotation (Line(points={{-307,-234},{
+          -298,-234},{-298,-212},{-268,-212},{-268,-200},{-261.2,-200}}, color=
+          {255,0,255}));
+  connect(onOffController.y, booToRea.u) annotation (Line(points={{-307,-234},{
+          -298,-234},{-298,-250},{-222,-250}}, color={255,0,255}));
+  connect(pumEmiSystem.m_flow_actual, gaiHea1.u) annotation (Line(points={{
+          -88.5,-177.5},{-88.5,-196},{-166,-196},{-166,-184},{-173.2,-184}},
+        color={0,0,127}));
+  connect(switch1.y, product2.u1) annotation (Line(points={{-239.5,-119},{
+          -239.5,-120},{-212,-120},{-212,-130},{-198,-130}}, color={0,0,127}));
+  connect(gaiHea1.y, product2.u2) annotation (Line(points={{-182.4,-184},{-206,
+          -184},{-206,-142},{-198,-142}}, color={0,0,127}));
+  connect(product2.y, boi.y)
+    annotation (Line(points={{-175,-136},{-152,-136}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
