@@ -116,12 +116,13 @@ test_%:
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
 test_%_no_compile:
 # Build and deploy testcase image
-	cd .. && TESTCASE=$* docker-compose up -d
+	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
-	cd .. && docker-compose down
+	cd .. && docker compose down
 	if [ $(SINGLE) = true ]; then\
 	     python report.py;\
 	fi\
