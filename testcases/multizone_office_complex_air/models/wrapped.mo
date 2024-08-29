@@ -192,6 +192,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAhu_V_flow_sup_y(unit="m3/s") = mod.hva.floor1.reaAhu.V_flow_sup.y "Supply air flowrate measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAhu_dp_sup_y(unit="Pa") = mod.hva.floor1.reaAhu.dp_sup.y "Discharge pressure of supply fan for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAhu_occ_y(unit="1") = mod.hva.floor1.reaAhu.occ.y "Occupancy status (1 occupied, 0 unoccupied)";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAhu_phiAHURet_y(unit="1") = mod.hva.floor1.reaAhu.phiAHURet.y "Return air relative humidity for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAhu_phiAHUSup_y(unit="1") = mod.hva.floor1.reaAhu.phiAHUSup.y "Supply air relative humidity for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAhu_yCooVal_y(unit="1") = mod.hva.floor1.reaAhu.yCooVal.y "AHU cooling coil valve position measurement";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaAhu_yOA_y(unit="1") = mod.hva.floor1.reaAhu.yOA.y "AHU cooling coil valve position measurement";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor1_reaZonCor_CO2Zon_y(unit="ppm") = mod.hva.floor1.reaZonCor.CO2Zon.y "Zone air CO2 measurement for zone bot_floor_cor";
@@ -264,6 +266,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAhu_V_flow_sup_y(unit="m3/s") = mod.hva.floor2.reaAhu.V_flow_sup.y "Supply air flowrate measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAhu_dp_sup_y(unit="Pa") = mod.hva.floor2.reaAhu.dp_sup.y "Discharge pressure of supply fan for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAhu_occ_y(unit="1") = mod.hva.floor2.reaAhu.occ.y "Occupancy status (1 occupied, 0 unoccupied)";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAhu_phiAHURet_y(unit="1") = mod.hva.floor2.reaAhu.phiAHURet.y "Return air relative humidity for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAhu_phiAHUSup_y(unit="1") = mod.hva.floor2.reaAhu.phiAHUSup.y "Supply air relative humidity for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAhu_yCooVal_y(unit="1") = mod.hva.floor2.reaAhu.yCooVal.y "AHU cooling coil valve position measurement";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaAhu_yOA_y(unit="1") = mod.hva.floor2.reaAhu.yOA.y "AHU cooling coil valve position measurement";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor2_reaZonCor_CO2Zon_y(unit="ppm") = mod.hva.floor2.reaZonCor.CO2Zon.y "Zone air CO2 measurement for zone mid_floor_cor";
@@ -336,6 +340,8 @@ model wrapped "Wrapped model"
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAhu_V_flow_sup_y(unit="m3/s") = mod.hva.floor3.reaAhu.V_flow_sup.y "Supply air flowrate measurement for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAhu_dp_sup_y(unit="Pa") = mod.hva.floor3.reaAhu.dp_sup.y "Discharge pressure of supply fan for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAhu_occ_y(unit="1") = mod.hva.floor3.reaAhu.occ.y "Occupancy status (1 occupied, 0 unoccupied)";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAhu_phiAHURet_y(unit="1") = mod.hva.floor3.reaAhu.phiAHURet.y "Return air relative humidity for AHU";
+	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAhu_phiAHUSup_y(unit="1") = mod.hva.floor3.reaAhu.phiAHUSup.y "Supply air relative humidity for AHU";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAhu_yCooVal_y(unit="1") = mod.hva.floor3.reaAhu.yCooVal.y "AHU cooling coil valve position measurement";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaAhu_yOA_y(unit="1") = mod.hva.floor3.reaAhu.yOA.y "AHU cooling coil valve position measurement";
 	Modelica.Blocks.Interfaces.RealOutput hva_floor3_reaZonCor_CO2Zon_y(unit="ppm") = mod.hva.floor3.reaZonCor.CO2Zon.y "Zone air CO2 measurement for zone top_floor_cor";
