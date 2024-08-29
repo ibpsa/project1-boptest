@@ -112,12 +112,12 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
                MediumWat)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-50,90},{-30,110}})));
-  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium =
-                MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_b port_Exh_Air(redeclare package Medium
+      =         MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-112,-10},{-92,10}})));
-  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium =
-               MediumAir)
+  Modelica.Fluid.Interfaces.FluidPort_a port_Fre_Air(redeclare package Medium
+      =        MediumAir)
     "Fluid connector b (positive design flow direction is from port_a to port_b)"
     annotation (Placement(transformation(extent={{-110,50},{-90,70}})));
   Modelica.Fluid.Interfaces.FluidPort_a port_a_Air(redeclare package Medium =
@@ -172,7 +172,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     annotation (Placement(transformation(extent={{100,18},{120,38}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort senTRetAir(redeclare package
       Medium = MediumAir, m_flow_nominal=mAirFloRat)
-    annotation (Placement(transformation(extent={{86,-88},{70,-72}})));
+    annotation (Placement(transformation(extent={{94,-88},{78,-72}})));
   Modelica.Blocks.Interfaces.RealOutput TRetAir "AHU return air temperature"
     annotation (Placement(transformation(extent={{100,-64},{120,-44}})));
   Buildings.Fluid.Sensors.VolumeFlowRate senVolFloSupAir(
@@ -188,7 +188,7 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
     redeclare package Medium = MediumAir,
     m_flow_nominal=mAirFloRat,
     tau=1)
-    annotation (Placement(transformation(extent={{54,-88},{38,-72}})));
+    annotation (Placement(transformation(extent={{46,-88},{30,-72}})));
   Modelica.Blocks.Interfaces.RealOutput V_flowRetAir
     "Return air volume flow rate "
     annotation (Placement(transformation(extent={{100,-76},{120,-56}})));
@@ -296,6 +296,20 @@ model DuaFanAirHanUnit "AHU with supply/return fans and cooling coil."
         extent={{6,6},{-6,-6}},
         rotation=180,
         origin={50,0})));
+  Buildings.Fluid.Sensors.RelativeHumidityTwoPort senRelHumRetAir(redeclare
+      package Medium = MediumAir, m_flow_nominal=mAirFloRat)
+    annotation (Placement(transformation(extent={{52,-88},{68,-72}})));
+  Modelica.Blocks.Interfaces.RealOutput phiRetAir(final unit="1", min=0)
+    "Relative humidity in return air" annotation (Placement(transformation(
+          extent={{100,-152},{120,-132}}), iconTransformation(extent={{100,-152},
+            {120,-132}})));
+  Modelica.Blocks.Interfaces.RealOutput phiSupAir(final unit="1", min=0)
+    "Relative humidity in supply air" annotation (Placement(transformation(
+          extent={{100,-170},{120,-150}}), iconTransformation(extent={{100,-170},
+            {120,-150}})));
+  Buildings.Fluid.Sensors.RelativeHumidityTwoPort senRelHumSupAir(redeclare
+      package Medium = MediumAir, m_flow_nominal=mAirFloRat)
+    annotation (Placement(transformation(extent={{56,12},{66,22}})));
 equation
   connect(cooCoi.port_b_Air, supFan.port_a) annotation (Line(
       points={{-1.82,0},{18,0}},
@@ -354,17 +368,16 @@ equation
   connect(senTMixAir.T, TMixAir) annotation (Line(points={{-34,11},{-34,
           28},{110,28}}, color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(senTRetAir.T, TRetAir) annotation (Line(points={{78,-71.2},{78,
-          -54},{110,-54}},
-                      color={0,0,127},
+  connect(senTRetAir.T, TRetAir) annotation (Line(points={{86,-71.2},{86,-54},{
+          110,-54}},  color={0,0,127},
       pattern=LinePattern.Dash));
   connect(senVolFloSupAir.port_b, senTDisAir.port_a)
     annotation (Line(points={{72,0},{76,0}}, color={0,127,255}));
   connect(senVolFloSupAir.V_flow, V_flowSupAir) annotation (Line(points={{66,6.6},
           {66,16},{110,16}},         color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(senVolFloRetAir.V_flow, V_flowRetAir) annotation (Line(points={{46,
-          -71.2},{46,-66},{110,-66}},   color={0,0,127},
+  connect(senVolFloRetAir.V_flow, V_flowRetAir) annotation (Line(points={{38,
+          -71.2},{38,-66},{110,-66}},   color={0,0,127},
       pattern=LinePattern.Dash));
   connect(yDamOutAirMea.y, yDamOutAir)
     annotation (Line(points={{61,94},{110,94}}, color={0,0,127},
@@ -406,15 +419,15 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(conMasVolFra.V,gaiPPM. u)
-    annotation (Line(points={{36.6,-100},{58.8,-100}}, color={0,0,127}));
+    annotation (Line(points={{36.6,-100},{58.8,-100}}, color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(gaiPPM.y, CO2_AHURetAir)
-    annotation (Line(points={{72.6,-100},{110,-100}}, color={0,0,127}));
+    annotation (Line(points={{72.6,-100},{110,-100}}, color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(port_a_Air, senTRetAir.port_a)
-    annotation (Line(points={{100,-80},{86,-80}}, color={0,127,255}));
-  connect(senTRetAir.port_b, senVolFloRetAir.port_a)
-    annotation (Line(points={{70,-80},{54,-80}}, color={0,127,255}));
+    annotation (Line(points={{100,-80},{94,-80}}, color={0,127,255}));
   connect(senVolFloRetAir.port_b, senCO2RetAir.port_a)
-    annotation (Line(points={{38,-80},{24,-80}}, color={0,127,255}));
+    annotation (Line(points={{30,-80},{24,-80}}, color={0,127,255}));
   connect(senCO2RetAir.port_b, retFan.port_a)
     annotation (Line(points={{8,-80},{-10,-80}}, color={0,127,255}));
   connect(port_Fre_Air, senCO2FreAir.port_a) annotation (Line(points={{
@@ -422,23 +435,41 @@ equation
   connect(senCO2FreAir.port_b, senVolFloOutAir.port_a)
     annotation (Line(points={{-80,42},{-80,36}}, color={0,127,255}));
   connect(conMasVolFra1.V, gaiPPM1.u)
-    annotation (Line(points={{36.6,-120},{58.8,-120}}, color={0,0,127}));
+    annotation (Line(points={{36.6,-120},{58.8,-120}}, color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(gaiPPM1.y, CO2_AHUFreAir)
-    annotation (Line(points={{72.6,-120},{110,-120}}, color={0,0,127}));
+    annotation (Line(points={{72.6,-120},{110,-120}}, color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(conMasVolFra2.V, gaiPPM2.u)
-    annotation (Line(points={{36.6,-138},{58.8,-138}}, color={0,0,127}));
+    annotation (Line(points={{36.6,-138},{58.8,-138}}, color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(gaiPPM2.y, CO2_AHUSupAir)
-    annotation (Line(points={{72.6,-138},{110,-138}}, color={0,0,127}));
+    annotation (Line(points={{72.6,-138},{110,-138}}, color={0,0,127},
+      pattern=LinePattern.Dash));
   connect(senCO2FreAir.C, conMasVolFra1.m) annotation (Line(
       points={{-71.2,50},{-46,50},{-46,-120},{23.4,-120}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(supFan.port_b, senCO2SupAir.port_a)
     annotation (Line(points={{38,0},{44,0}}, color={0,127,255}));
-  connect(senCO2SupAir.port_b, senVolFloSupAir.port_a)
-    annotation (Line(points={{56,0},{60,0}}, color={0,127,255}));
   connect(senCO2SupAir.C, conMasVolFra2.m) annotation (Line(
       points={{50,6.6},{50,24},{-46,24},{-46,-138},{23.4,-138}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
+  connect(senRelHumRetAir.port_b, senTRetAir.port_b)
+    annotation (Line(points={{68,-80},{78,-80}}, color={0,127,255}));
+  connect(senRelHumRetAir.port_a, senVolFloRetAir.port_a)
+    annotation (Line(points={{52,-80},{46,-80}}, color={0,127,255}));
+  connect(senRelHumRetAir.phi, phiRetAir) annotation (Line(
+      points={{60.08,-71.2},{60.08,-68},{80,-68},{80,-142},{110,-142}},
+      color={0,0,127},
+      pattern=LinePattern.Dash));
+  connect(senCO2SupAir.port_b, senRelHumSupAir.port_a)
+    annotation (Line(points={{56,0},{56,17}}, color={0,127,255}));
+  connect(senRelHumSupAir.port_b, senVolFloSupAir.port_a)
+    annotation (Line(points={{66,17},{66,0},{60,0}}, color={0,127,255}));
+  connect(senRelHumSupAir.phi, phiSupAir) annotation (Line(
+      points={{61.05,22.5},{61.05,34},{82,34},{82,-160},{110,-160}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{

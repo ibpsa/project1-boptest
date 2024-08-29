@@ -323,16 +323,16 @@ equation
   connect(chiWatPla.TCHW_ret, reaChiWatSys.TCHW_ret_in) annotation (Line(points={{11,-96},
           {16,-96},{16,-62},{6,-62},{6,-33.6154},{16,-33.6154}},          color
         ={0,0,127}));
-  connect(chiWatPla.TCHW_sup, reaChiWatSys.TCHW_sup_in) annotation (Line(points
-        ={{11,-99},{18,-99},{18,-60},{8,-60},{8,-37},{16,-37}}, color={0,0,127}));
+  connect(chiWatPla.TCHW_sup, reaChiWatSys.TCHW_sup_in) annotation (Line(points={{11,-99},
+          {18,-99},{18,-60},{8,-60},{8,-37},{16,-37}},          color={0,0,127}));
   connect(boiWatPla.THW_ret, reaHotWatSys.THW_ret_in) annotation (Line(points={{137,
           -100},{144,-100},{144,-35.1667},{158,-35.1667}},      color={0,0,127}));
   connect(boiWatPla.THW_sup, reaHotWatSys.THW_sup_in) annotation (Line(points={{137,
           -103},{146,-103},{146,-38.8333},{158,-38.8333}},      color={0,0,127}));
   connect(boiWatPla.mHW_tot, reaHotWatSys.mHW_tot_in) annotation (Line(points={{137,-93},
           {142,-93},{142,-27.8333},{158,-27.8333}},           color={0,0,127}));
-  connect(chiWatPla.mCHW_tot, reaChiWatSys.mCHW_tot_in) annotation (Line(points
-        ={{11,-105},{24,-105},{24,-20},{10,-20},{10,-27.6923},{16,-27.6923}},
+  connect(chiWatPla.mCHW_tot, reaChiWatSys.mCHW_tot_in) annotation (Line(points={{11,-105},
+          {12,-105},{12,-28},{14,-28},{14,-27.6923},{16,-27.6923}},
         color={0,0,127}));
   annotation (experiment(
       StartTime=17280000,
