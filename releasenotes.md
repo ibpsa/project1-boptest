@@ -31,24 +31,22 @@ Released on xx/xx/xxxx.
   Peak Heat Day
   |KPI                    |% Change|
   |-----------------------|--------|
-  |ener_tot               |+1.78%  |
-  |emis_tot               |+0.65%  |
-  |tdis_tot               |+8.51%  |
-  |pgas_tot               |-13.33% |
-  |cost_tot_constant      |+3.95%  |
-  |cost_tot_dynamic       |+4.06%  |
-  |cost_tot_highly_dynamic|+3.27%  |
+  |ener_tot               |+1.27%  |
+  |emis_tot               |+0.47%  |
+  |tdis_tot               |-2.70%  |
+  |cost_tot_constant      |+2.78%  |
+  |cost_tot_dynamic       |+2.96%  |
+  |cost_tot_highly_dynamic|+2.26%  |
 
   Typical Heat Day
   |KPI                    |% Change|
   |-----------------------|--------|
-  |ener_tot	              |+0.97%  |
-  |emis_tot	              |+0.56%  |
-  |tdis_tot	              |+2.79%  |
-  |pgas_tot	              |-33.32% |
-  |cost_tot_constant	    |+1.69%  |
-  |cost_tot_dynamic	      |+1.71%  |
-  |cost_tot_highly_dynamic|+1.45%  |
+  |ener_tot	              |+0.98%  |
+  |emis_tot	              |+0.47%  |
+  |tdis_tot	              |+3.58%  |
+  |cost_tot_constant	  |+1.94%  |
+  |cost_tot_dynamic	      |+2.06%  |
+  |cost_tot_highly_dynamic|+1.59%  |
 
 
 ## BOPTEST v0.6.0
