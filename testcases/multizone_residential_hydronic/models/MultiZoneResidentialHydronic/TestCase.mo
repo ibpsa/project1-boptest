@@ -1409,7 +1409,11 @@ public
   Modelica.Blocks.Math.Gain gaiHea1(k=1/mBoi_flow_nominal)
     annotation (Placement(transformation(extent={{-4,-4},{4,4}},
         rotation=180,
-        origin={-178,-184})));
+        origin={-176,-184})));
+  Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea1
+    annotation (Placement(transformation(extent={{-210,-148},{-198,-136}})));
+  Buildings.Controls.OBC.CDL.Continuous.GreaterThreshold greThr(t=0.05, h=0.025)
+    annotation (Placement(transformation(extent={{-184,-194},{-204,-174}})));
 equation
   // Heating production
 //  Production_Radiateur_Salon = max(heatFlowSensor_Salon_Conv.Q_flow,0)+max(heatFlowSensor_Salon_Rad.Q_flow,0);
@@ -2157,15 +2161,19 @@ equation
           {255,0,255}));
   connect(onOffController.y, booToRea.u) annotation (Line(points={{-307,-234},{
           -298,-234},{-298,-250},{-222,-250}}, color={255,0,255}));
-  connect(pumEmiSystem.m_flow_actual, gaiHea1.u) annotation (Line(points={{
-          -88.5,-177.5},{-88.5,-196},{-166,-196},{-166,-184},{-173.2,-184}},
+  connect(pumEmiSystem.m_flow_actual, gaiHea1.u) annotation (Line(points={{-88.5,
+          -177.5},{-88.5,-196},{-166,-196},{-166,-184},{-171.2,-184}},
         color={0,0,127}));
   connect(switch1.y, product2.u1) annotation (Line(points={{-239.5,-119},{
-          -239.5,-120},{-212,-120},{-212,-130},{-198,-130}}, color={0,0,127}));
-  connect(gaiHea1.y, product2.u2) annotation (Line(points={{-182.4,-184},{-206,
-          -184},{-206,-142},{-198,-142}}, color={0,0,127}));
+          -239.5,-120},{-212,-120},{-212,-130},{-192,-130}}, color={0,0,127}));
   connect(product2.y, boi.y)
-    annotation (Line(points={{-175,-136},{-152,-136}}, color={0,0,127}));
+    annotation (Line(points={{-169,-136},{-152,-136}}, color={0,0,127}));
+  connect(booToRea1.y, product2.u2)
+    annotation (Line(points={{-196.8,-142},{-192,-142}}, color={0,0,127}));
+  connect(gaiHea1.y, greThr.u)
+    annotation (Line(points={{-180.4,-184},{-182,-184}}, color={0,0,127}));
+  connect(greThr.y, booToRea1.u) annotation (Line(points={{-206,-184},{-212,
+          -184},{-212,-142},{-211.2,-142}}, color={255,0,255}));
   annotation (Icon(coordinateSystem(                           extent={{-100,
             -100},{100,100}})),                                  Diagram(
         coordinateSystem(                           extent={{-380,-260},{100,
