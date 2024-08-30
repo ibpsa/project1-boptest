@@ -26,7 +26,7 @@ Released on xx/xx/xxxx.
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
-- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` so that this set point change also controls the boiler and not just the circulation pump. Furthermore, pump control logic is changed from PI following error on set point to hysteresis on/off depending on boiler control signal. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).  Impacts on KPIs calculated for unit tests (simulation of first two days of indicated scenario) compared to v0.6.0 as follows:
+- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` so that this set point change will control thermostat activating both the boiler and the circulation pump. Furthermore, pump control logic is changed from PI following error on set point to on/off depending on thermostat control signal. Lastly, a safety on boiler control is added, allowing it to turn on only if there is flow through the boiler. This safety is bypassed by controlling the boiler directly via ``boi_oveBoi_u``. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).  Impacts on KPIs calculated compared to v0.6.0 for indicated scenarios are as follows:
 
   Peak Heat Day
   |KPI                    |% Change|
