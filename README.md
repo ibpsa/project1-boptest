@@ -61,6 +61,8 @@ API requests that interact with a running test case (those that require a ``test
 | Stop a queued or running test.  Needed to deploy a new test case when no more idle workers are avaiable.                                                                                              | PUT ``stop/{testid}``                                      |
 | Receive BOPTEST version.                                               |  GET ``version/{testid}``                                             |
 
+API requests for more advanced test case management in the web-service architecture can be found in ``/service/README.md``.
+
 ## Run an example test controller:
 
 * For Python-based example controllers:
