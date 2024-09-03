@@ -32,6 +32,30 @@ Released on xx/xx/xxxx.
 >   - The API requests to interact with a running test case now require the use of a ``testid``, which is received when selecting a test case and is used to uniquely route API requests the intended test case.
 >   - Users can stop a test case with the appropriate API request without shutting down the web-service as a whole.  This is especially needed if a user wants to run a new test case, but has not allocated enough workers (command option when starting deploying web-service).
 
+**The following changes are not backwards-compatible and significantly change benchmark results:**
+
+- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` so that this set point change will control thermostat activating both the boiler and the circulation pump. Furthermore, pump control logic is changed from PI following error on set point to on/off depending on thermostat control signal. Lastly, a safety on boiler control is added, allowing it to turn on only if there is flow through the boiler. This safety is bypassed if controlling the boiler directly via ``boi_oveBoi_u``. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).  Impacts on KPIs calculated compared to v0.6.0 for indicated scenarios are as follows:
+
+  Peak Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+1.27%  |
+  |emis_tot               |+0.47%  |
+  |tdis_tot               |-2.70%  |
+  |cost_tot_constant      |+2.78%  |
+  |cost_tot_dynamic       |+2.96%  |
+  |cost_tot_highly_dynamic|+2.26%  |
+
+  Typical Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot	              |+0.98%  |
+  |emis_tot	              |+0.47%  |
+  |tdis_tot	              |+3.58%  |
+  |cost_tot_constant	  |+1.94%  |
+  |cost_tot_dynamic	      |+2.06%  |
+  |cost_tot_highly_dynamic|+1.59%  |
+
 
 ## BOPTEST v0.6.0
 
