@@ -24,6 +24,31 @@ Released on xx/xx/xxxx.
 
 - Fix calculation of computational time ratio (``time_rat``) in the case of a test where the test case was initialized after a test or simulation (use of ``/advance``) had already been done using the same test case deployment (i.e. the docker container had not been shutdown first and newly deployed).  The wait time between the last ``/advance`` before the new initialization and first ``/advance`` of the new initialization was incorrectly incorporated into the calculation as a control step and has been fixed, resulting in a lower computational time ratio.  The extent of impact depends on wait time between tests and control step and number of steps taken in the new test.  This is for [#673](https://github.com/ibpsa/project1-boptest/issues/673).
 
+**The following changes are not backwards-compatible and significantly change benchmark results:**
+
+- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` so that this set point change will control thermostat activating both the boiler and the circulation pump. Furthermore, pump control logic is changed from PI following error on set point to on/off depending on thermostat control signal. Lastly, a safety on boiler control is added, allowing it to turn on only if there is flow through the boiler. This safety is bypassed if controlling the boiler directly via ``boi_oveBoi_u``. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).  Impacts on KPIs calculated compared to v0.6.0 for indicated scenarios are as follows:
+
+  Peak Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+1.27%  |
+  |emis_tot               |+0.47%  |
+  |tdis_tot               |-2.70%  |
+  |cost_tot_constant      |+2.78%  |
+  |cost_tot_dynamic       |+2.96%  |
+  |cost_tot_highly_dynamic|+2.26%  |
+
+  Typical Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot	              |+0.98%  |
+  |emis_tot	              |+0.47%  |
+  |tdis_tot	              |+3.58%  |
+  |cost_tot_constant	  |+1.94%  |
+  |cost_tot_dynamic	      |+2.06%  |
+  |cost_tot_highly_dynamic|+1.59%  |
+
+
 ## BOPTEST v0.6.0
 
 Released on 04/03/2024.
