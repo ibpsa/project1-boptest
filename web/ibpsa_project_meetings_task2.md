@@ -20,16 +20,18 @@ permalink: /ibpsa/project/meetings/task2/
 
 [**Zoom link to join the meeting**](https://lbnl.zoom.us/j/92943694865?pwd=uFvXE349AuDRYgMskb6ZmxaeT5VaPC.1)
 
+
+# Past Meetings
+
 ### July 23, 2024
 
 **Location:** Online
 
 **Time:** 7:00 AM - 8:00 AM U.S. Pacific
 
-[**Zoom link to join the meeting**](https://lbnl.zoom.us/j/95514305339?pwd=9rQabAOq7WtJ9BhKfmWcpT1DunjhGU.1)
+**Notes:**
 
-
-# Past Meetings
+- [Minutes](/ibpsa_project/meetings/task2/20240723_Progress/20240723_IBPSA-BOPTEST_Task2_Minutes.pdf)
 
 ### April 25, 2024
 
