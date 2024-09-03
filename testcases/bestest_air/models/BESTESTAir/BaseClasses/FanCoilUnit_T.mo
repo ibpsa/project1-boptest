@@ -41,10 +41,10 @@ model FanCoilUnit_T
           qudt:hasQuantityKind quantitykind:MassFlowRate ;
           qudt:hasUnit qudt:KiloGM-PER-SEC .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-      ref:name literal:<cdl_instance_name>_y ;
-      ref:description literal:description;
-      ref:unit literal:kg/s;
-      ref:isWritable false.")),
+        ref:name literal:<cdl_instance_name>_y ;
+        ref:description literal:description;
+        ref:unit literal:kg_per_s;
+        ref:isWritable false.")),
         Placement(transformation(extent={{40,110},{60,130}})));
   Modelica.Blocks.Interfaces.RealInput TSup "Temperature of supply air"
     annotation (Placement(transformation(extent={{-180,20},{-140,60}})));
@@ -79,10 +79,10 @@ model FanCoilUnit_T
           qudt:hasQuantityKind quantitykind:Power ;
           qudt:hasUnit qudt:W .
       bldg:<cdl_instance_name>_Reference a ref:BOPTestReference ;
-      ref:name literal:<cdl_instance_name>_y ;
-      ref:description literal:description;
-      ref:unit literal:kg/s;
-      ref:isWritable false.")),
+        ref:name literal:<cdl_instance_name>_y ;
+        ref:description literal:description;
+        ref:unit literal:kg_per_s;
+        ref:isWritable false.")),
           Placement(transformation(extent={{70,150},{90,170}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPFan(
