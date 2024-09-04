@@ -96,3 +96,18 @@ services:
     image: redis
     ports:
       - "6379:6379"
+  test:
+    build:
+      dockerfile: service/test/Dockerfile
+      context: .
+    depends_on:
+      - web
+    environment:
+      - BOPTEST_SERVER
+      - BOPTEST_DASHBOARD_API_KEY
+      - BOPTEST_DASHBOARD_USERNAME
+      - BOPTEST_TEST_USERNAME
+      - BOPTEST_TEST_KEY
+      - BOPTEST_TEST_PRIVILEGED_USERNAME
+      - BOPTEST_TEST_PRIVILEGED_KEY
+      - BOPTEST_USE_TEST_USERS

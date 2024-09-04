@@ -8,9 +8,9 @@ RUN pip3 install -I \
     pytest-asyncio==0.20.3 \
     pytest-check==2.1.2
 
-COPY provision /provision
-COPY boptest/testcases /boptest/testcases
-COPY test /test
+COPY service/provision /provision
+COPY testcases /boptest/testcases
+COPY service/test /test
 
 WORKDIR /test
 
