@@ -58,7 +58,7 @@ model VAVReHeat_withCtrl_TRooCon
     k=0.1,
     Ti=120,
     controllerType=Buildings.Controls.OBC.CDL.Types.SimpleController.PI,
-    yMin=0.25,
+    yMin=0.5,
     initType=Modelica.Blocks.Types.InitPID.NoInit,
     reverseActing=false)
     "Controller for cooling (acts on damper)"
@@ -73,7 +73,7 @@ model VAVReHeat_withCtrl_TRooCon
     Ti=240,
     controllerType=Buildings.Controls.OBC.CDL.Types.SimpleController.PI)
             "Controller for heating"
-    annotation (Placement(transformation(extent={{-112,62},{-96,78}})));
+    annotation (Placement(transformation(extent={{-112,66},{-96,82}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort ReheatT(redeclare package Medium =
         Medium, m_flow_nominal=m_flow_nominal) "Temperature after Reheat"
     annotation (Placement(transformation(extent={{-6,-10},{14,20}})));
@@ -86,8 +86,8 @@ equation
           {38,56.4}},
                     color={0,0,127}));
   connect(TRoo, conHea.u_m) annotation (Line(points={{-68,114},{-68,48},{-104,
-          48},{-104,60.4}},    color={0,0,127}));
-  connect(conHea.y, ReHeat.u) annotation (Line(points={{-95.2,70},{-90,70},{-90,
+          48},{-104,64.4}},    color={0,0,127}));
+  connect(conHea.y, ReHeat.u) annotation (Line(points={{-95.2,74},{-90,74},{-90,
           22},{-73,22}},
                      color={0,0,127}));
   connect(conCoo.y, vavDam.y)
@@ -97,8 +97,8 @@ equation
           {-12,5},{-6,5}}, color={0,127,255}));
   connect(ReheatT.port_b, vavDam.port_a)
     annotation (Line(points={{14,5},{28,5}}, color={0,127,255}));
-  connect(TRooHeaSet, conHea.u_s) annotation (Line(points={{-176,110},{-176,70},
-          {-113.6,70}}, color={0,0,127}));
+  connect(TRooHeaSet, conHea.u_s) annotation (Line(points={{-176,110},{-176,74},
+          {-113.6,74}}, color={0,0,127}));
   connect(TRooCooSet, conCoo.u_s) annotation (Line(points={{-32,112},{-30,112},
           {-30,66},{28.4,66}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-180,

@@ -3,7 +3,7 @@ model SupplyTempCon "Supply Ari Temperature Control"
   Buildings.Controls.Continuous.LimPID conDX(
     yMax=1,
     Td=60,
-    k=0.3,
+    k=0.1,
     Ti=120,
     controllerType=Buildings.Controls.OBC.CDL.Types.SimpleController.PI,
     yMin=0.1,
