@@ -94,8 +94,6 @@ services:
       - mc
   redis:
     image: redis
-    ports:
-      - "6379:6379"
   test:
     build:
       dockerfile: service/test/Dockerfile
