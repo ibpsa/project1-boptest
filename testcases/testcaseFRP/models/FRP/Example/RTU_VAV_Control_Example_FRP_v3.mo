@@ -470,6 +470,9 @@ model RTU_VAV_Control_Example_FRP_v3
         origin={-812,54})));
   RTUVAV.Component.readAHU readAHU
     annotation (Placement(transformation(extent={{-298,272},{-234,368}})));
+  Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
+    "BOPTEST weather station"
+    annotation (Placement(transformation(extent={{-1278,92},{-1312,124}})));
 equation
   connect(out.ports[1],mixBox. port_Out) annotation (Line(points={{-1158,
           -30.4667},{-1158,-20},{-1108,-20},{-1108,-16.8},{-1022,-16.8}},
@@ -947,10 +950,18 @@ equation
           -838.6,301.44},{-304.4,301.44}}, color={0,0,127}));
   connect(DX.P, readAHU.pDX_in) annotation (Line(points={{-507.8,35.8},{-334,
           35.8},{-334,288.64},{-304.4,288.64}}, color={0,0,127}));
-   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-1240,
-            -480},{1180,800}})),                                  Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-1240,-480},{1180,
-            800}})),
+  connect(weaBus1, weaSta.weaBus) annotation (Line(
+      points={{-1268,168},{-1242,168},{-1242,107.84},{-1278.17,107.84}},
+      color={255,204,51},
+      thickness=0.5), Text(
+      string="%first",
+      index=-1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
+   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-840,
+            -480},{1180,620}})),                                  Diagram(
+        coordinateSystem(preserveAspectRatio=false, extent={{-1400,-480},{1180,
+            820}})),
     experiment(
       StartTime=15984000,
       StopTime=16243200,
