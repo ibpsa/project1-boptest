@@ -235,7 +235,7 @@ Buildings.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
       computeWetBulbTemperature=false, filNam=
         ModelicaServices.ExternalReferences.loadResource(
         "modelica://FRP/Resources/weatherdata/FRP2018.mos"))
-  annotation (Placement(transformation(extent={{280,-58},{268,-46}})));
+  annotation (Placement(transformation(extent={{316,-66},{304,-54}})));
 
 Buildings.Fluid.Sources.MassFlowSource_T sinInf204(
     redeclare package Medium = MediumA,
@@ -353,7 +353,6 @@ Buildings.ThermalZones.Detailed.MixedAir roo202(
     nSurBou=0,
     datConBou(
       layers={matFlo1,matCeil,matIntWal,matIntWal,matIntWal,matIntWal,matIntWal},
-
       A={26.46,26.46,13.10,3.76,13.10,13.10,3.76},
       til={F_,C_,Z_,Z_,Z_,Z_,Z_}),
     lat=weaDat.lat,
@@ -361,6 +360,7 @@ Buildings.ThermalZones.Detailed.MixedAir roo202(
     nPorts=2)
     "Room model for Case 600"
     annotation (Placement(transformation(extent={{0,-48},{46,-18}})));
+
 Buildings.ThermalZones.Detailed.MixedAir roo205(
     nConExt=0,
   redeclare package Medium = MediumA,
@@ -651,7 +651,7 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf203(
     annotation (Placement(transformation(extent={{-118,108},{-106,120}})));
 Modelica.Blocks.Sources.Constant Infilt201(k=1.2*19.32*2.44*0.432/3600)
     "0.432ACH"
-    annotation (Placement(transformation(extent={{-150,152},{-138,164}})));
+    annotation (Placement(transformation(extent={{-150,134},{-138,146}})));
 Buildings.Fluid.Sources.MassFlowSource_T sinInf201(
     redeclare package Medium = MediumA,
     m_flow=1,
@@ -660,7 +660,7 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInf201(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-118,150},{-106,162}})));
+    annotation (Placement(transformation(extent={{-118,132},{-106,144}})));
 Modelica.Blocks.Sources.Constant Infilt206(k=1.2*35.27*2.44*0.432/3600)
                                                                      "0.432ACH"
     annotation (Placement(transformation(extent={{-148,46},{-136,58}})));
@@ -1017,10 +1017,10 @@ Buildings.Fluid.Sources.MassFlowSource_T sinInfple2(
     use_X_in=false,
     use_C_in=false,
     nPorts=1) "Sink model for air infiltration"
-    annotation (Placement(transformation(extent={{-118,176},{-106,188}})));
+    annotation (Placement(transformation(extent={{-118,158},{-106,170}})));
 Modelica.Blocks.Sources.Constant Infiltple2(k=1.2*163.88*1.8*0.432/3600)
     "0.432ACH"
-    annotation (Placement(transformation(extent={{-150,178},{-138,190}})));
+    annotation (Placement(transformation(extent={{-150,160},{-138,172}})));
 Buildings.Fluid.Sources.Outside souInfPle2(redeclare package Medium = MediumA,
       nPorts=1) "Source model for air infiltration"
     annotation (Placement(transformation(extent={{-138,-6},{-128,4}})));
@@ -1035,57 +1035,57 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
 connect(weaDat.weaBus,roo201.weaBus) annotation (Line(
-    points={{268,-52},{202,-52},{202,18.425},{157.585,18.425}},
+    points={{304,-60},{202,-60},{202,18.425},{157.585,18.425}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo203.weaBus) annotation (Line(
-    points={{268,-52},{214,-52},{214,30.425},{81.585,30.425}},
+    points={{304,-60},{214,-60},{214,30.425},{81.585,30.425}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo206.weaBus) annotation (Line(
-    points={{268,-52},{136,-52},{136,-73.575},{101.585,-73.575}},
+    points={{304,-60},{136,-60},{136,-73.575},{101.585,-73.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo202.weaBus) annotation (Line(
-      points={{268,-52},{192,-52},{192,-24},{118,-24},{118,-19.575},{43.585,
+      points={{304,-60},{192,-60},{192,-24},{118,-24},{118,-19.575},{43.585,
           -19.575}},
       color={255,204,51},
       thickness=0.5));
 connect(weaDat.weaBus,roo205.weaBus) annotation (Line(
-    points={{268,-52},{210,-52},{210,-63.575},{-8.415,-63.575}},
+    points={{304,-60},{210,-60},{210,-63.575},{-8.415,-63.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo101.weaBus) annotation (Line(
-    points={{268,-52},{202,-52},{202,-307.575},{151.585,-307.575}},
+    points={{304,-60},{202,-60},{202,-307.575},{151.585,-307.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo102.weaBus) annotation (Line(
-    points={{268,-52},{200,-52},{200,-307.575},{83.585,-307.575}},
+    points={{304,-60},{200,-60},{200,-307.575},{83.585,-307.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo106.weaBus) annotation (Line(
-    points={{268,-52},{202,-52},{202,-399.575},{105.585,-399.575}},
+    points={{304,-60},{202,-60},{202,-399.575},{105.585,-399.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo103.weaBus) annotation (Line(
-    points={{268,-52},{198,-52},{198,-345.575},{47.585,-345.575}},
+    points={{304,-60},{198,-60},{198,-345.575},{47.585,-345.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo105.weaBus) annotation (Line(
-    points={{268,-52},{202,-52},{202,-389.575},{-4.415,-389.575}},
+    points={{304,-60},{202,-60},{202,-389.575},{-4.415,-389.575}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo104.weaBus) annotation (Line(
-    points={{268,-52},{203.635,-52},{203.635,-284.1},{5.27,-284.1}},
+    points={{304,-60},{203.635,-60},{203.635,-284.1},{5.27,-284.1}},
     color={255,204,51},
     thickness=0.5));
 connect(weaDat.weaBus,roo204.weaBus) annotation (Line(
-    points={{268,-52},{194,-52},{194,43.9},{13.27,43.9}},
+    points={{304,-60},{194,-60},{194,43.9},{13.27,43.9}},
     color={255,204,51},
     thickness=0.5));
 
 connect(weaDat.weaBus, weaBus) annotation (Line(
-    points={{268,-52},{182,-52},{182,-58},{-64,-58},{-64,-76},{-100,-76}},
+    points={{304,-60},{-64,-60},{-64,-76},{-100,-76}},
     color={255,204,51},
     thickness=0.5,
     smooth=Smooth.None), Text(
@@ -1093,7 +1093,7 @@ connect(weaDat.weaBus, weaBus) annotation (Line(
     index=1,
     extent={{6,3},{6,3}}));
 connect(weaDat.weaBus, weaBus1) annotation (Line(
-    points={{268,-52},{204,-52},{204,-444},{-98,-444}},
+    points={{304,-60},{214,-60},{214,-444},{-98,-444}},
     color={255,204,51},
     thickness=0.5,
     smooth=Smooth.None), Text(
@@ -1137,7 +1137,7 @@ connect(realExpression21.y, preHea21.Q_flow)
   connect(sinInf203.ports[1], roo203.ports[1]) annotation (Line(points={{-106,
           114},{6,114},{6,7.5},{43.75,7.5}}, color={0,127,255}));
   connect(sinInf201.ports[1], roo201.ports[1]) annotation (Line(points={{-106,
-          156},{96,156},{96,44},{119.75,44},{119.75,-4}},  color={0,127,255}));
+          138},{96,138},{96,26},{119.75,26},{119.75,-4}},  color={0,127,255}));
 
   connect(roo201.heaPorAir, TRooAir201.port) annotation (Line(points={{135.85,5},
           {135.85,8},{214,8},{214,124.5},{229,124.5}},
@@ -1218,7 +1218,7 @@ connect(realExpression21.y, preHea21.Q_flow)
   connect(port_206[:], roo206.ports[2:3]) annotation (Line(points={{142,-32},{14,
           -32},{14,-92.5},{63.75,-92.5}},    color={0,127,255}));
   connect(Infilt201.y, sinInf201.m_flow_in) annotation (Line(points={{-137.4,
-          158},{-130,158},{-130,160.8},{-119.2,160.8}},
+          140},{-130,140},{-130,142.8},{-119.2,142.8}},
                                                color={0,0,127}));
   connect(Infilt203.y, sinInf203.m_flow_in) annotation (Line(points={{-135.4,
           114},{-132,114},{-132,118.8},{-119.2,118.8}},
@@ -1522,9 +1522,9 @@ connect(realExpression21.y, preHea21.Q_flow)
   connect(souInfPle1.ports[1], plenum1.ports[2]) annotation (Line(points={{-122,
           -273},{-6,-273},{-6,-269},{133.75,-269}}, color={0,127,255}));
   connect(Infiltple2.y, sinInfple2.m_flow_in) annotation (Line(points={{-137.4,
-          184},{-128,184},{-128,186.8},{-119.2,186.8}}, color={0,0,127}));
+          166},{-128,166},{-128,168.8},{-119.2,168.8}}, color={0,0,127}));
   connect(sinInfple2.ports[1], plenum2.ports[1]) annotation (Line(points={{-106,
-          182},{114,182},{114,62},{129.75,62}}, color={0,127,255}));
+          164},{114,164},{114,62},{129.75,62}}, color={0,127,255}));
   connect(weaBus, souInfPle2.weaBus) annotation (Line(
       points={{-100,-76},{-104,-76},{-104,-78},{-152,-78},{-152,-0.9},{-138,
           -0.9}},
@@ -1537,11 +1537,11 @@ connect(realExpression21.y, preHea21.Q_flow)
   connect(souInfPle2.ports[1], plenum2.ports[2]) annotation (Line(points={{-128,
           -1},{-58,-1},{-58,65},{129.75,65}}, color={0,127,255}));
   connect(plenum2.weaBus, weaDat.weaBus) annotation (Line(
-      points={{167.585,84.425},{190,84.425},{190,-52},{268,-52}},
+      points={{167.585,84.425},{190,84.425},{190,-60},{304,-60}},
       color={255,204,51},
       thickness=0.5));
   connect(plenum1.weaBus, weaDat.weaBus) annotation (Line(
-      points={{171.585,-249.575},{186,-249.575},{186,-52},{268,-52}},
+      points={{171.585,-249.575},{186,-249.575},{186,-60},{304,-60}},
       color={255,204,51},
       thickness=0.5));
   connect(roo101.surf_conBou[2], plenum1.surf_conBou[7]) annotation (Line(
