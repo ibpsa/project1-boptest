@@ -1,3 +1,6 @@
 VAVReHeat_withCtrl_TRooCon
-Thermostat_T
-SupplyTempCon
+thermostat_T
+supplyTempCon
+staticPressureCon
+readZone
+readAHU
