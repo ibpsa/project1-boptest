@@ -1,4 +1,4 @@
-﻿within BESTESTAir.TestCases;
+within BESTESTAir.TestCases;
 model TestCase_Ideal "Testcase model with ideal airflow"
   extends Modelica.Icons.Example;
   BaseClasses.Case900FF zon(mAir_flow_nominal=fcu.mAir_flow_nominal)
@@ -294,13 +294,13 @@ The model inputs are:
 <code>con_oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input con_oveTSetCoo_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>con_oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone temperature setpoint for cooling
+<code>con_oveTSetCoo_u</code> [K] [min=278.15, max=308.15]: Zone temperature setpoint for cooling
 </li>
 <li>
 <code>con_oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input con_oveTSetHea_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
-<code>con_oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone temperature setpoint for heating
+<code>con_oveTSetHea_u</code> [K] [min=278.15, max=308.15]: Zone temperature setpoint for heating
 </li>
 <li>
 <code>fcu_oveFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input fcu_oveFan_u where 1 activates, 0 deactivates (default value)
