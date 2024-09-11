@@ -135,15 +135,25 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     start = time.time()
     # Initialize test case
     print('Initializing test case simulation.')
+    # Check if a scenario is defined
     if scenario is not None:
-        # Initialize test with a scenario time period
+        # Initialize test with a scenario and get response for time_period field
         res = check_response(requests.put('{0}/scenario'.format(url), json=scenario))['time_period']
-        print(res)
-        # Record test simulation start time
-        start_time = int(res['time'])
-        # Set final time and total time steps to be very large since scenario defines length
-        final_time = np.inf
-        total_time_steps = int((365 * 24 * 3600)/step)
+        if res == None:
+            # If no time_period was specified (only electricity_price), initialize test with a specified start time and warmup period
+            res = check_response(requests.put('{0}/initialize'.format(url), json={'start_time': start_time, 'warmup_period': warmup_period}))
+            print("RESULT: {}".format(res))
+            # Set final time and total time steps according to specified length (seconds)
+            final_time = start_time + length
+            total_time_steps = int(length / step)  # calculate number of timesteps
+        else:
+            # If a time_period was specified, the initialization is complete
+            print("RESULT: {}".format(res))
+            # Record test simulation start time
+            start_time = int(res['time'])
+            # Set final time and total time steps to be very large since scenario defines length
+            final_time = 10e9 # np.inf
+            total_time_steps = int((365 * 24 * 3600)/step)
     else:
         # Initialize test with a specified start time and warmup period
         res = check_response(requests.put('{0}/initialize'.format(url), json={'start_time': start_time, 'warmup_period': warmup_period}))
