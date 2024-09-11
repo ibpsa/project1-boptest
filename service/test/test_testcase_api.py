@@ -29,7 +29,7 @@ def test_ibpsa_boptest_testcase():
 
     # Invalid auth_token to get post-form should return 401
     response = requests.get(f"{host}/testcases/{testcase_id}/post-form", headers={"Authorization": auth_token + "xyz"})
-    check.equal(response.status_code,402)
+    check.equal(response.status_code,401)
 
     # Get post-form should return 200
     # This authorizes a new test case upload

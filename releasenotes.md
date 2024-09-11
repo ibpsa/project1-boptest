@@ -26,7 +26,7 @@ Released on xx/xx/xxxx.
 **The following changes are not backwards-compatible, but do not change benchmark results:**
 
 > [!IMPORTANT]
-> - Refactor the deployment architecture so as to migrate [BOPTEST-Service](https://github.com/NREL/boptest-service) code to the BOPTEST repository and make it the only deployment architecture for BOPTEST.  This is for [#617](https://github.com/ibpsa/project1-boptest/issues/617). Notable changes include:
+> - Refactor the deployment architecture so as to migrate [BOPTEST-Service](https://github.com/NREL/boptest-service) code to the BOPTEST repository and make it the only deployment architecture for BOPTEST.  This is for [#617](https://github.com/ibpsa/project1-boptest/issues/617). Notable changes are for those who deploy and use BOPTEST locally, and they include:
 >   - To use BOPTEST locally, users now deploy the web-service locally and select a test case to run using the appropriate API request.
 >   - Users can run multiple test cases at the same time.
 >   - The API requests to interact with a running test case now require the use of a ``testid``, which is received when selecting a test case and is used to uniquely route API requests the intended test case.
