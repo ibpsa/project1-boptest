@@ -11,10 +11,12 @@ class Logger:
     """A logger specific for the tasks of the Worker"""
 
     def __init__(self):
-        logging.basicConfig(level=os.environ.get("BOPTEST_LOGLEVEL", "INFO"))
         self.logger = logging.getLogger('worker')
-        self.formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        self.logger.setLevel(os.environ.get("BOPTEST_LOGLEVEL", "INFO"))
+        fmt = '%(asctime)s UTC\t%(name)-20s%(levelname)s\t%(message)s'
+        datefmt = '%m/%d/%Y %I:%M:%S %p'
+        formatter = logging.Formatter(fmt,datefmt)
 
-        self.fh = logging.FileHandler('worker.log')
-        self.fh.setFormatter(self.formatter)
-        self.logger.addHandler(self.fh)
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
+        self.logger.addHandler(stream_handler)
