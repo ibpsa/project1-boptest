@@ -130,17 +130,17 @@ model TestCase "Single zone residential hydronic example model"
     annotation (Placement(transformation(extent={{30,50},{50,70}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
-      min=273.15 + 23,
-      max=273.15 + 30), description=
+      min=273.15 + 5,
+      max=273.15 + 35), description=
         "Zone operative temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-110,-50})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
-      max=273.15 + 23,
+      max=273.15 + 35,
       unit="K",
-      min=273.15 + 15), description=
+      min=273.15 + 5), description=
         "Zone operative temperature setpoint for heating")
     "Overwrite for zone heating setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
@@ -340,10 +340,10 @@ depicted as C2 in Figure 1.
 <p>The model inputs are: </p>
 <ul>
 <li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
+<code>oveTSetHea_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint for heating
 </li>
 <li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
+<code>oveTSetCoo_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint for cooling
 </li>
 <li>
 <code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
