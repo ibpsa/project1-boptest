@@ -5,7 +5,11 @@ import { pack, unpack } from 'msgpackr'
 class Messaging {
   constructor() {
     this.subTimeoutTime = 600000
-    this.responseTimeoutTime = 480000
+    this.responseTimeoutTime = Number(
+      process.env.BOPTEST_MESSAGE_TIMEOUT
+        ? process.env.BOPTEST_MESSAGE_TIMEOUT
+        : "1200000", // Default 20 minute message timeout
+    );
 
     this.subscriptionTimers = {}
     this.messageHandlers = {}
@@ -39,7 +43,11 @@ class Messaging {
       this.subscribe(responseChannel)
       this.sendWorkerMessage(requestChannel, requestID, method, params)
       responseTimeout = setTimeout(() => {
-        reject(new Error(`Timeout while sending command '${method}' to testid '${workerID}'`))
+        reject(
+          new Error(
+            `Timeout for request: '${requestID}', with method:'${method}', sent to testid: '${workerID}'`,
+          ),
+        );
       }, this.responseTimeoutTime)
     })
   }
