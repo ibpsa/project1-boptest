@@ -4,13 +4,18 @@ import { pack, unpack } from 'msgpackr'
 
 class Messaging {
   constructor() {
-    this.subTimeoutTime = 600000
-    this.responseTimeoutTime = Number(
+    const timeout = Number(
       process.env.BOPTEST_MESSAGE_TIMEOUT
         ? process.env.BOPTEST_MESSAGE_TIMEOUT
         : "1200000", // Default 20 minute message timeout
     );
 
+    // This is how long we wait for a response from the worker
+    this.responseTimeoutTime = timeout
+    // This is how long we keep the subscription for a particular test open
+    // Subscriptions timeout 1 minutes after the message timeout
+    // New API requests to an existing subscription, will refresh the subscription's timeout
+    this.subTimeoutTime = timeout + 60000
     this.subscriptionTimers = {}
     this.messageHandlers = {}
 
