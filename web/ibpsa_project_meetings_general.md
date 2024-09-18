@@ -23,8 +23,7 @@ November 20-21, 2024
 **Registration:**
 Coming Soon
 
-**Agenda:**
-Coming Soon
+**Information and Draft Agenda:** [PDF](/ibpsa_project/meetings/general/202411_Denmark/2024_DTU_ExpertMeetingAgenda_Draft_v5.pdf)
 
 # Past Meetings
 
