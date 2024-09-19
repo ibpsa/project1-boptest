@@ -16,6 +16,17 @@ There are currently no meetings planned for Task 1.
 
 # Past Meetings
 
+
+### September 19, 2024
+
+**Location:** Online
+
+**Time:** 16:00 PM - 17:00 PM CET.
+
+**Notes:**
+
+- [Minutes](/ibpsa_project/meetings/task1/20240919_BOPTEST_Task1_Outreach.pdf)
+
 ### January 18, 2024
 
 **Location:** Online
