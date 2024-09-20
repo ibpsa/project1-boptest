@@ -13,7 +13,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import zipfile
-from scipy import interpolate
 import warnings
 import os
 import json
@@ -465,16 +464,13 @@ class Data_Manager(object):
                         for category in self.categories:
                             # Use linear interpolation for continuous variables
                             if any(col.startswith(key) for key in self.categories['weather']):
-                                g = interpolate.interp1d(df['time'],df[col],
-                                    kind='linear')
-                                self.case.data.loc[:,col] = \
-                                    g(self.case.data.index)
+                                
+                                self.case.data.loc[:,col] = np.interp(self.case.data.index,\
+                                                                     df['time'],df[col])
                             # Use forward fill for discrete variables
                             elif any(col.startswith(key) for key in self.categories[category]):
-                                g = interpolate.interp1d(df['time'],df[col],
-                                    kind='zero')
-                                self.case.data.loc[:,col] = \
-                                    g(self.case.data.index)
+                                self.case.data.loc[:,col] = df[col].reindex(
+                                    self.case.data.index,method='ffill').values
             else:
                 warnings.warn('The following file does not have '\
                 'time column and therefore no data is going to '\
@@ -549,13 +545,12 @@ class Data_Manager(object):
         for key in df.keys():
             # Use linear interpolation for continuous variables
             if key in self.categories['weather']:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='linear')
+                df.loc[:,key] = np.interp(index,self.case.data.index,
+                self.case.data[key])
             # Use forward fill for discrete variables
             else:
-                f = interpolate.interp1d(self.case.data.index,
-                    self.case.data[key], kind='zero')
-            df.loc[:,key] = f(index)
+                df.loc[:,key] = self.case.data[key].reindex(index,
+                method='ffill').values
         return df
 
 if __name__ == "__main__":
