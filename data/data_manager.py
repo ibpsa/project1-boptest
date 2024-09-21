@@ -9,7 +9,7 @@ test case FMU.
 
 '''
 
-import matplotlib.pyplot as plt
+
 import pandas as pd
 import numpy as np
 import zipfile
@@ -263,7 +263,7 @@ class Data_Manager(object):
         self.z_fmu.close()
 
     def get_data(self, horizon=24*3600, interval=None, index=None,
-                 variables=None, category=None, plot=False):
+                 variables=None, category=None):
         '''Retrieve test case data from the fmu. The data
         is stored within the csv files that are
         located in the resources folder of the test case fmu.
@@ -292,9 +292,7 @@ class Data_Manager(object):
             The possible options are specified at categories.json.
             This argument cannot be used together with the `variables`
             argument.
-        plot : Boolean, default is False
-            True if desired to plot the retrieved data
-
+            
         Returns
         -------
         data: dict
@@ -370,16 +368,6 @@ class Data_Manager(object):
             data_slice_reindexed = self.interpolate_data(data_slice_reindexed,index_norm)
         # Add starting year back to index desired by user
         data_slice_reindexed.index = data_slice_reindexed.index + year_start
-
-        if plot:
-            if category is None:
-                to_plot = data_slice_reindexed.keys()
-            else:
-                to_plot = self.categories[category]
-            for var in to_plot:
-                data_slice_reindexed[var].plot()
-                plt.legend()
-                plt.show()
 
         # Reset the index to keep the 'time' column in the data
         # Transform data frame to dictionary
