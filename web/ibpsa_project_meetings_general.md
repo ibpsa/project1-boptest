@@ -21,7 +21,8 @@ Technical University of Denmark (DTU)
 November 20-21, 2024
 
 **Registration:**
-Coming Soon
+- Link: [https://www.conferencemanager.dk/boptest2024-dtuworkshop-20-21112024/conference](https://www.conferencemanager.dk/boptest2024-dtuworkshop-20-21112024/conference)
+- Deadline: October 31, 2024
 
 **Information and Draft Agenda:** [PDF](/ibpsa_project/meetings/general/202411_Denmark/2024_DTU_ExpertMeetingAgenda_Draft_v5.pdf)
 
