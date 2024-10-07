@@ -7,6 +7,7 @@ import boto3
 import redis
 import numpy as np
 import msgpack
+import logging
 from boptest.lib.testcase import TestCase
 
 class Job:
@@ -18,6 +19,13 @@ class Job:
         # abort True will end the run loop without cleanup
         self.abort = False
         self.last_message_time = datetime.now()
+
+        log_level = os.environ.get("BOPTEST_LOGLEVEL", "INFO")
+        logging.getLogger().setLevel(log_level)
+        logging.getLogger('botocore').setLevel(log_level)
+        logging.getLogger('s3transfer').setLevel(log_level)
+        logging.getLogger('urllib3').setLevel(log_level)
+        self.logger = logging.getLogger('worker')
 
         self.redis = redis.Redis(host=os.environ["BOPTEST_REDIS_HOST"])
         self.redis_pubsub = self.redis.pubsub()
@@ -91,7 +99,7 @@ class Job:
     def check_idle_time(self):
         idle_time = datetime.now() - self.last_message_time
         if idle_time.total_seconds() > self.timeout:
-            print("Testid '%s' is terminating due to inactivity." % self.testid)
+            self.logger.info("Testid '%s' is terminating due to inactivity." % self.testid)
             self.keep_running = False
 
     # Begin methods for message passing between web and worker ###
@@ -149,9 +157,13 @@ class Job:
                     method = message_data.get("method")
                     params = message_data.get("params")
 
+                    self.logger.info("Request ID:   '%s', with method '%s', was received" % (request_id, method))
+
                     callback_result = self.call_message_handler(method, params)
                     packed_result = self.pack({"requestID": request_id, "payload": callback_result})
                     self.redis.publish(response_channel, packed_result)
+
+                    self.logger.info("Response for, '%s', was sent" % request_id)
 
                     self.last_message_time = datetime.now()
         except Job.InvalidRequestError as e:
@@ -161,7 +173,7 @@ class Job:
         except Exception:
             # Generic exceptions are an internal error
             error_message = str(sys.exc_info()[1])
-            print(error_message)
+            self.logger.error(error_message)
 
     # End methods for message passing
 
@@ -258,6 +270,8 @@ class Job:
 
     # cleanup after the simulation is stopped
     def cleanup(self):
+        self.logger.info("Test '%s' is complete" % self.testid)
+
         self.redis.delete(self.testKey)
         if self.userTestsKey:
             self.redis.srem(self.userTestsKey, self.testid)
@@ -294,3 +308,6 @@ class Job:
 
     def init_sim_status(self):
         self.redis.hset(self.testKey, "status", "Running")
+        host = os.getenv("HOSTNAME")
+        if host:
+            self.redis.hset(self.testKey, "host", host)

@@ -56,6 +56,9 @@ def test_ibpsa_boptest_testcase():
     response = requests.get(f"{host}/name/{testid}")
     check.equal(response.status_code, 200)
 
+    response = requests.post(f"{host}/advance/{testid}")
+    check.equal(response.status_code, 200)
+
     # Stop the test
     response = requests.put(f"{host}/stop/{testid}")
     check.equal(response.status_code, 200)
