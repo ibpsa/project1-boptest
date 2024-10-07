@@ -113,9 +113,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Retrieve a list of measurements (outputs) for the model from REST API
     measurements = check_response(requests.get('{0}/measurements'.format(url)))
     print('Measurements:\t\t\t{0}'.format(measurements))
-    # Get the default simulation timestep for the model for simulation run
-    step_def = check_response(requests.get('{0}/step'.format(url)))
-    print('Default Control Step:\t{0}'.format(step_def))
+    # Get the user-defined simulation timestep for the model
+    print('Current Control Step:\t{0}'.format(step))
 
     # IF ANY CUSTOM KPI CALCULATION, DEFINE STRUCTURES
     # ------------------------------------------------
