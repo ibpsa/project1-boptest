@@ -14,15 +14,25 @@ Released on xx/xx/xxxx.
 - Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 - Add support to ``parsing/parser.py`` for test case compilation using [Modelon's OPTIMICA Compiler Toolkit (OCT)](https://help.modelon.com/latest/reference/oct/).  The parser can take arguments ``'JModelica'`` or ``'OCT'``, with ``'JModelica'`` as default.  A user still requires access to an OCT license and software on their set up.  This is for [#675](https://github.com/ibpsa/project1-boptest/issues/675).
+- Remove scipy and matplotlib dependency from worker container. scipy.integrate.trapz was substitued with numpy.trapezoid in ``kpis/kpi_calculator.py``, scipy.interp1d linear with numpy.interp, and scipy.inter1d zero with custmo zero hold interpolation in ``data/data_manager.py``. Update pyfmi from 2.12 to 2.14, update numpy from 1.26.4 to 2.2.1, and update pandas from 1.5.3 to 2.2.3. Update worker Python from 3.10 to 3.11, and miniconda version from py310_24.30-1-Linux-x86_64 to py311_24.7.1-0-Linux-x86_64. This is for [#663](https://github.com/ibpsa/project1-boptest/issues/663).
+
 
 **The following new test cases have been added:**
 
 - ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. FMU compiled by [OCT](https://help.modelon.com/latest/reference/oct/).  This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
 
-
 **The following changes are backwards-compatible, but might change benchmark results:**
 
 - Fix calculation of computational time ratio (``time_rat``) in the case of a test where the test case was initialized after a test or simulation (use of ``/advance``) had already been done using the same test case deployment (i.e. the docker container had not been shutdown first and newly deployed).  The wait time between the last ``/advance`` before the new initialization and first ``/advance`` of the new initialization was incorrectly incorporated into the calculation as a control step and has been fixed, resulting in a lower computational time ratio.  The extent of impact depends on wait time between tests and control step and number of steps taken in the new test.  This is for [#673](https://github.com/ibpsa/project1-boptest/issues/673).
+
+**The following changes are not backwards-compatible, but do not change benchmark results:**
+
+> [!IMPORTANT]
+> - Refactor the deployment architecture so as to migrate [BOPTEST-Service](https://github.com/NREL/boptest-service) code to the BOPTEST repository and make it the only deployment architecture for BOPTEST.  This is for [#617](https://github.com/ibpsa/project1-boptest/issues/617). Notable changes are for those who deploy and use BOPTEST locally, and they include:
+>   - To use BOPTEST locally, users now deploy the web-service locally and select a test case to run using the appropriate API request.
+>   - Users can run multiple test cases at the same time.
+>   - The API requests to interact with a running test case now require the use of a ``testid``, which is received when selecting a test case and is used to uniquely route API requests the intended test case.
+>   - Users can stop a test case with the appropriate API request without shutting down the web-service as a whole.  This is especially needed if a user wants to run a new test case, but has not allocated enough workers (command option when starting deploying web-service).
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 

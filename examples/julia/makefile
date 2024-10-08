@@ -9,7 +9,7 @@ COMMAND_RUN=docker run \
  	  ${IMG_NAME} /bin/bash
 
 build:
-	docker build --build-arg testcase=${Script} --no-cache --rm -t ${IMG_NAME} .
+	docker build --quiet --build-arg testcase=${Script} --no-cache --rm -t ${IMG_NAME} .
 
 remove-image:
 	docker rmi ${IMG_NAME}
