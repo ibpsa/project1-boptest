@@ -569,7 +569,7 @@ class Data_Manager(object):
             if x0 >= xp[-1]:
                 return yp[-1], k
            
-            while x0 > xp[k]:
+            while x0 >= xp[k]:
                 k += 1
             return yp[k-1], k
         k = 0
