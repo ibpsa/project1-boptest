@@ -457,8 +457,8 @@ class Data_Manager(object):
                                                                      df['time'],df[col])
                             # Use forward fill for discrete variables
                             elif any(col.startswith(key) for key in self.categories[category]):
-                                self.case.data.loc[:,col] = df[col].reindex(
-                                    self.case.data.index,method='ffill').values
+                                self.case.data.loc[:,col] = self.interp0(self.case.data.index,\
+                                                                     df['time'],df[col])
             else:
                 warnings.warn('The following file does not have '\
                 'time column and therefore no data is going to '\
@@ -537,9 +537,48 @@ class Data_Manager(object):
                 self.case.data[key])
             # Use forward fill for discrete variables
             else:
-                df.loc[:,key] = self.case.data[key].reindex(index,
-                method='ffill').values
+                df.loc[:,key] = self.interp0(index,self.case.data.index,
+                self.case.data[key])
         return df
+    
+    def interp0(self,x, xp, yp):
+        """ Zeroth order hold interpolation w/ same
+        (base)   signature  as numpy.interp.
+        Parameters
+        ----------
+        x : float, list, or np.array
+            The x-coordinates at which to evaluate the interpolated values.
+            
+        xp : float, list, or np.array
+            The x-coordinates of the data points, must be increasing.
+        
+        yp : float, list, or np.array
+            The y-coordinates of the data points, same length as xp.
+            
+        Returns
+        -------
+        y : float, list, or np.array
+            The interpolated values, same length as x.
+        """
+    
+        def func(x0):
+            if x0 <= xp[0]:
+                return yp[0]
+            if x0 >= xp[-1]:
+                return yp[-1]
+            k = 0
+            while x0 > xp[k]:
+                k += 1
+            return yp[k-1]
+        
+        if isinstance(x,float):
+            return func(x)
+        elif isinstance(x, list):
+            return [func(x) for x in x]
+        elif isinstance(x, np.ndarray):
+            return np.asarray([func(x) for x in x])
+        else:
+            raise TypeError('argument must be float, list, or ndarray')
 
 if __name__ == "__main__":
     import sys
