@@ -14,7 +14,7 @@ services:
       - BOPTEST_DASHBOARD_API_KEY=${BOPTEST_TEST_PRIVILEGED_KEY}
     volumes:
       - ./:/usr/src/boptest
-  web: # main haystack application
+  web: # main boptest application
     build:
       dockerfile: service/web/Dockerfile
       context: .
