@@ -1,25 +1,111 @@
-version: "3.7"
-
 services:
-  boptest:
-    image: boptest_base
-    build:
-      context: .
+  # A service to provision needed resources during development
+  # The main task is to upload test cases
+  # This is not a production container,
+  # but the "boptest_submit" python module that is executed
+  # by this service may be useful in provisioning a production environment
+  provision:
+    build: service/provision
+    depends_on:
+      - web
+    environment:
+      - BOPTEST_SERVER
+      - BOPTEST_DASHBOARD_SERVER
+      - BOPTEST_DASHBOARD_API_KEY=${BOPTEST_TEST_PRIVILEGED_KEY}
     volumes:
-      - ./testcases/${TESTCASE}/models/wrapped.fmu:${APP_PATH}/models/wrapped.fmu
-      - ./testcases/${TESTCASE}/doc/:${APP_PATH}/doc/
-      - ./restapi.py:${APP_PATH}/restapi.py
-      - ./testcase.py:${APP_PATH}/testcase.py
-      - ./version.txt:${APP_PATH}/version.txt
-      - ./data:${APP_PATH}/data/
-      - ./forecast:${APP_PATH}/forecast/
-      - ./kpis:${APP_PATH}/kpis/
+      - ./:/usr/src/boptest
+  web: # main boptest application
+    build:
+      dockerfile: service/web/Dockerfile
+      context: .
+      args:
+        - NODE_ENV
     ports:
-      - 127.0.0.1:5000:5000
-    networks:
-      - boptest-net
-
-networks:
-  boptest-net:
-    name: boptest-net
-    attachable: true
+      - "80:80"
+    environment:
+      - NODE_ENV
+      - BOPTEST_JOB_QUEUE_URL
+      - BOPTEST_INTERNAL_S3_URL
+      - BOPTEST_PUBLIC_S3_URL
+      - BOPTEST_S3_BUCKET
+      - BOPTEST_REDIS_HOST
+      - BOPTEST_REGION
+      - BOPTEST_TIMEOUT
+      - BOPTEST_MESSAGE_TIMEOUT
+      - BOPTEST_DASHBOARD_SERVER
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - BOPTEST_USE_TEST_USERS # If "true" the following user accounts will be used for testing
+      - BOPTEST_TEST_USERNAME # Only for testing
+      - BOPTEST_TEST_KEY # Only for testing
+      - BOPTEST_TEST_PRIVILEGED_USERNAME # Only for testing
+      - BOPTEST_TEST_PRIVILEGED_KEY # Only for testing
+    depends_on:
+      - redis
+      - worker
+      - mc
+  # Local implementation of s3
+  minio:
+    image: minio/minio
+    entrypoint:
+      - minio
+      - server
+      - /data
+      - --console-address
+      - ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+  mc:
+    image: minio/mc
+    entrypoint: >
+      /bin/sh -c "
+      sleep 5;
+      /usr/bin/mc config host add myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      /usr/bin/mc mb myminio/boptest;
+      /usr/bin/mc anonymous set public myminio/boptest;
+      /usr/bin/mc anonymous set download myminio/boptest/testcases;
+      /usr/bin/mc anonymous set download myminio/boptest/tests;
+      /usr/bin/mc admin user svcacct add --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_SECRET_ACCESS_KEY} myminio ${MINIO_ROOT_USER};
+      "
+    depends_on:
+      - minio
+  worker:
+    build:
+      dockerfile: service/worker/Dockerfile
+      context: .
+    environment:
+      - BOPTEST_JOB_QUEUE_URL
+      - BOPTEST_LOGLEVEL
+      - BOPTEST_INTERNAL_S3_URL
+      - BOPTEST_S3_BUCKET
+      - BOPTEST_REDIS_HOST
+      - BOPTEST_REGION
+      - BOPTEST_DASHBOARD_SERVER
+      - BOPTEST_DASHBOARD_API_KEY
+      - BOPTEST_TIMEOUT
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+    depends_on:
+      - redis
+      - mc
+  redis:
+    image: redis
+  test:
+    build:
+      dockerfile: service/test/Dockerfile
+      context: .
+    depends_on:
+      - web
+    environment:
+      - BOPTEST_SERVER
+      - BOPTEST_DASHBOARD_API_KEY
+      - BOPTEST_DASHBOARD_USERNAME
+      - BOPTEST_TEST_USERNAME
+      - BOPTEST_TEST_KEY
+      - BOPTEST_TEST_PRIVILEGED_USERNAME
+      - BOPTEST_TEST_PRIVILEGED_KEY
+      - BOPTEST_USE_TEST_USERS
