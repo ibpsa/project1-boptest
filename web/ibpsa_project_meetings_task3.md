@@ -24,22 +24,22 @@ If you want to submit a new test case application here is the [**form**](https:/
 
 **Time:** 6:00-7:00 pacific
 
-[**Link to join the meeting**](https://lbnl.zoom.us/j/96516068070)
+[**Link to join the meeting**](https://lbnl.zoom.us/j/2197244139)
 - [Calendar Invite](/ibpsa_project/meetings/task3/20241111_Progress/20241111_invite.ics)
 
+
+
+
+# Past Meetings
 
 ### October 10, 2024
 
 **Location:** Online
 
 **Time:** 6:00-7:00 pacific
-
-[**Link to join the meeting**](https://lbnl.zoom.us/j/98225001144)
-- [Calendar Invite](/ibpsa_project/meetings/task3/20241010_Progress/20241010_invite.ics)
+- [Minutes](/ibpsa_project/meetings/task3/20241010_Progress/20241010_IBPSA-BOPTEST_Task3_minutes.pdf)
 
 
-
-# Past Meetings
 
 ### September 10, 2024
 
