@@ -181,7 +181,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
             kpi.processing_data(y)  # Process data as needed for custom KPI
             custom_kpi_value = kpi.calculation()  # Calculate custom KPI value
             custom_kpi_result[kpi.name].append(round(custom_kpi_value, 2))  # Track custom KPI value
-            print('KPI:\t{0}:\t{1}'.format(kpi.name, round(custom_kpi_value, 2)))  # Print custom KPI value
         custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
         # If controller needs a forecast, get the forecast data and provide the forecast to the controller
         if controller.use_forecast:
@@ -224,6 +223,10 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         else:
             unit = None
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
+
+    if customized_kpi_config is not None:
+        print('\nCustom KPI RESULTS \n------------------')
+        print(pd.DataFrame(custom_kpi_result))
 
     # POST PROCESS RESULTS
     # -------------------------------------------------------------------------
