@@ -113,8 +113,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Retrieve a list of measurements (outputs) for the model from REST API
     measurements = check_response(requests.get('{0}/measurements'.format(url)))
     print('Measurements:\t\t\t{0}'.format(measurements))
-    # Get the user-defined simulation timestep for the model
-    print('Current Control Step:\t{0}'.format(step))
 
     # IF ANY CUSTOM KPI CALCULATION, DEFINE STRUCTURES
     # ------------------------------------------------
@@ -163,8 +161,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     if res:
         print('Successfully initialized the simulation')
     print('\nRunning test case...')
-    # Set simulation time step
-    res = check_response(requests.put('{0}/step'.format(url), json={'step': step}))
+    # Set and print simulation time step
+    control_step = check_response(requests.put('{0}/step'.format(url), json={'step': step}))
+    print('Current Control Step:\t{0}'.format(control_step['step']))
     # Initialize input to simulation from controller
     u = controller.initialize()
     # Initialize forecast storage structure
