@@ -1,0 +1,10 @@
+Advanced.StoreProtectedVariables:=true;
+simulateModel("IDEAS.Buildings.Examples.ComfortExample", stopTime=1e+06, method="Lsodar", tolerance=1e-06, resultFile="ComfortExample");
+createPlot(id=1, 
+position={0, 0, 845, 741}, 
+y={"case900_comfort.building.gF.comfort.PPD", "case900_comfort.building.gF.comfort.PMV"}, 
+range={0.0, 1000000.0, -3.5, 1.5}, 
+erase=false, 
+grid=true, 
+colors={{28,108,200}, {238,46,47}});
+Advanced.StoreProtectedVariables:=false;

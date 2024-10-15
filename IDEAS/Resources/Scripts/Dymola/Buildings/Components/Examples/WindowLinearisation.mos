@@ -1,0 +1,8 @@
+simulateModel("IDEAS.Buildings.Components.Examples.WindowLinearisation", stopTime=1e+06, numberOfIntervals=0, outputInterval=600, method="Lsodar", tolerance=1e-06, resultFile="WindowLinearisation");
+
+createPlot(id=1, 
+position={0, 0, 757, 518}, 
+y={"winNonLin.propsBus_a.surfRad.Q_flow", "winLin.propsBus_a.surfRad.Q_flow"}, 
+range={0.0, 1000000.0, -2.0, 11.0}, 
+grid=true, 
+colors={{28,108,200}, {238,46,47}});

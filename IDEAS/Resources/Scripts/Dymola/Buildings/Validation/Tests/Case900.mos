@@ -1,0 +1,5 @@
+simulateModel("IDEAS.Buildings.Validation.Tests.Case900", stopTime=1000000, outputInterval=600, method="Lsodar", tolerance=1e-06, resultFile="Case900");
+
+createPlot(id=1, y={"Case900.building.heatPortCon[1].T", "Case900.building.heatPortRad[1].T"});
+
+createPlot(id=1, y={"Case900.PHea", "Case900.PCoo"}, subPlot=2);

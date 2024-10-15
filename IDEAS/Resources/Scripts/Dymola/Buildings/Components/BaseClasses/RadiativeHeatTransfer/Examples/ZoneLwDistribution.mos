@@ -1,0 +1,3 @@
+simulateModel("IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.Examples.ZoneLwDistribution", stopTime=1e+06, method="Lsodar", tolerance=1e-06, resultFile="ZoneLwDistribution");
+
+createPlot(id=1, position={0, 0, 1549, 874}, y={"zonLwVieFac.port_a[1].Q_flow", "zonLwDist.port_a[1].Q_flow", "intHeaRad.port_a.Q_flow"}, range={0.0, 1000000.0, -650.0, 650.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}});

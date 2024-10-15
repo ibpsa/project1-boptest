@@ -1,0 +1,11 @@
+simulateModel("IDEAS.Buildings.Validation.Tests.SolarBusValidation", stopTime=1000000, outputInterval=600, method="Lsodar", tolerance=1e-06, resultFile="SolarBusValidation");
+
+createPlot(id=1, 
+position={0, 0, 2267, 1092}, 
+y={"Case900SolBus.building.TSensor[1]", "Case900NoSolBus.building.TSensor[1]"}, 
+range={0.0, 1000000.0, 293.0, 301.0}, 
+autoscale=false, 
+grid=true, 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}, {255,0,0}});

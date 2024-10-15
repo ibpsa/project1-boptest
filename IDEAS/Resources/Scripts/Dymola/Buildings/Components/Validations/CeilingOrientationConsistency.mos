@@ -1,0 +1,7 @@
+simulateModel("IDEAS.Buildings.Components.Validations.CeilingOrientationConsistency", startTime=2000000, stopTime=3000000, numberOfIntervals=500, method="Lsodar", tolerance=1e-06, resultFile="CeilingOrientationConsistency");
+
+
+createPlot(id=1, position={0, 0, 1549, 874}, y={"winNor.shaType.HDirTil", "winEas.shaType.HDirTil", "winSou.shaType.HDirTil"}, range={2000000.0, 3000000.0, -50.0, 350.0}, erase=false, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1549, 288}, y={"winSou.shaType.HGroDifTil", "winNor.shaType.HGroDifTil", "winEas.shaType.HGroDifTil"}, range={2000000.0, 3000000.0, -1.5, 1.5}, erase=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1549, 289}, y={"winNor.shaType.HSkyDifTil", "winEas.shaType.HSkyDifTil", "winSou.shaType.HSkyDifTil"}, range={2000000.0, 3000000.0, -50.0, 200.0}, erase=false, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+

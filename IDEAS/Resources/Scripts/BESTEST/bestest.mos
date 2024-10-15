@@ -1,0 +1,6 @@
+openModel("../../../package.mo")
+cd("/tmp")
+Evaluate=true;
+OutputCPUtime=true;
+simulateModel("IDEAS.Buildings.Validation.BESTEST", stopTime=31536000, numberOfIntervals=5000, method="Lsodar", tolerance=1e-6, resultFile="BESTEST");
+exit();

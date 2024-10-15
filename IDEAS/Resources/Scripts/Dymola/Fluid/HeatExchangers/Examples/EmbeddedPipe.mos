@@ -1,0 +1,11 @@
+simulateModel("IDEAS.Fluid.HeatExchangers.Examples.EmbeddedPipe", stopTime=10000, method="dassl", resultFile="EmbeddedPipe");
+
+createPlot(id=1, 
+y={"nakedTabs.port_b.T", "TSen_emb_ret.T", "embeddedPipe.heatPortEmb[1].T"}, 
+range={0.0, 10000.0, 292.0, 308.0}, 
+grid=true, 
+colors={{0,128,0}, {255,0,255}, {28,108,200}});
+
+
+
+

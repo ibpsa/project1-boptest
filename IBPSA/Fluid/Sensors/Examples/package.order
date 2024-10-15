@@ -1,0 +1,16 @@
+Density
+EnthalpyFlowRate
+EntropyFlowRate
+HeatMeter
+MassFraction
+MoistAirEnthalpyFlowRate
+PPM
+Pressure
+RelativeHumidity
+SpecificEnthalpy
+SpecificEntropy
+TemperatureDryBulb
+TemperatureWetBulb
+TraceSubstances
+Velocity
+VolumeFlowRate

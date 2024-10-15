@@ -1,0 +1,3 @@
+simulateModel("IDEAS.Fluid.Actuators.Valves.Examples.TwoWayValveTRV", method="dassl", stopTime=7200, resultFile="TwoWayValveTRV");
+
+createPlot(id=1, position={0, 0, 1198, 743}, y={"valSte.m_flow", "valDyn.m_flow"}, range={0.0, 7200.0, -0.005, 0.035}, grid=true, colors={{28,108,200}, {238,46,47}});

@@ -1,0 +1,20 @@
+simulateModel("IBPSA.Fluid.HeatExchangers.Radiators.Examples.RadiatorEN442_2", tolerance=1e-6, stopTime=10800, method="CVode", resultFile="RadiatorEN442_2");
+createPlot(id=2,
+ position={19, 4, 739, 413},
+ y={"senTemRad1In.T", "senTemRad1Out.T", "rad1.vol[3].T", "senTemRad2In.T", "senTemRad2Out.T", "rad2.vol[3].T", "sou.T"},
+ range={0.0, 12000.0, 15.0, 45.0},
+ grid=true,
+ subPlot=101,
+ colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}, {162,29,33}, {244,125,35}},
+ timeUnit="s",
+ displayUnits={"degC", "degC", "degC", "degC", "degC", "degC", "degC"});
+createPlot(id=2,
+ position={19, 4, 739, 413},
+ y={"rad1.Q_flow", "rad2.Q_flow"},
+ range={0.0, 11000.0, -600.0, 200.0},
+ grid=true,
+ subPlot=102,
+ colors={{28,108,200}, {238,46,47}},
+ timeUnit="s",
+ displayUnits={"W", "W"});
+

@@ -1,0 +1,7 @@
+Advanced.StoreProtectedVariables:=true;
+simulateModel("IDEAS.Buildings.Components.BaseClasses.ConductiveHeatTransfer.Examples.MonoLayer", stopTime=86400, method="Lsodar", tolerance=1e-06, resultFile="MonoLayer");
+Advanced.StoreProtectedVariables:=false;
+
+createPlot(id=1, position={0, 0, 744, 488}, y={"monoLayerSolid.port_a.Q_flow", "monoLayerAir.port_a.Q_flow", "monoLayerAirLin.port_a.Q_flow", "monoLayerSolidStatic.port_a.Q_flow"}, range={0.0, 90000.0, -1500.0, 2000.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});
+createPlot(id=1, position={0, 0, 744, 242}, y={"monoLayerSolid.port_b.Q_flow", "monoLayerAir.port_b.Q_flow", "monoLayerAirLin.port_b.Q_flow",  "monoLayerSolidStatic.port_b.Q_flow"}, range={0.0, 90000.0, -1500.0, 1500.0}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});
+createPlot(id=1, position={0, 0, 1309, 239}, y={"monoLayerSolid.monLayDyn.T[1]", "monoLayerSolid.monLayDyn.T[2]", "monoLayerSolid.monLayDyn.T[3]", "monoLayerSolid.monLayDyn.T[4]", "monoLayerSolid.monLayDyn.T[5]"}, range={0.0, 88000.0, 270.0, 295.0}, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}});

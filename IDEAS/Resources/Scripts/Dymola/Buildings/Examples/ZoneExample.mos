@@ -1,0 +1,12 @@
+simulateModel("IDEAS.Buildings.Examples.ZoneExample", stopTime=1000000, method="Lsodar", tolerance=1e-06, resultFile="ZoneExample");
+
+createPlot(id=1, 
+y={"zone1.TSensor", "zone.TSensor"}, 
+range={0.0, 1000000.0, 274.0, 294.0}, 
+grid=true, 
+filename="ZoneExample.mat", 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}, {255,0,0}});
+createPlot(id=1, position={0, 0, 1549, 435}, y={"zone.airModel.phi", "zone1.airModel.phi"}, range={0.0, 1000000.0, 0.64, 0.88}, erase=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}});
+

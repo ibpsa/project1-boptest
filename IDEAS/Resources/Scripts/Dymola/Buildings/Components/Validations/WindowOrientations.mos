@@ -1,0 +1,7 @@
+simulateModel("IDEAS.Buildings.Components.Validations.WindowOrientations", startTime=2000000, stopTime=3000000, numberOfIntervals=500, method="Lsodar", tolerance=1e-06, resultFile="WindowOrientations");
+
+
+createPlot(id=1, position={0, 0, 1549, 874}, y={"winWal.shaType.HDirTil", "winFlo.shaType.HDirTil", "winCei.shaType.HDirTil"}, range={2000000.0, 3000000.0, -200.0, 800.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1549, 288}, y={"winCei.shaType.HSkyDifTil", "winFlo.shaType.HSkyDifTil", "winWal.shaType.HSkyDifTil"}, range={2000000.0, 3000000.0, -50.0, 300.0}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1549, 289}, y={"winWal.shaType.HGroDifTil", "winFlo.shaType.HGroDifTil", "winCei.shaType.HGroDifTil"}, range={2000000.0, 3000000.0, -20.0, 80.0}, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+

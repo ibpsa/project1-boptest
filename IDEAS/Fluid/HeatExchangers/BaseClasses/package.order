@@ -1,0 +1,13 @@
+HACoilInside
+HADryCoil
+HANaturalCylinder
+PartialEffectiveness
+PartialEffectivenessNTU
+PartialPrescribedOutlet
+dynamicViscosityWater
+epsilon_C
+epsilon_ntuZ
+isobaricExpansionCoefficientWater
+ntu_epsilonZ
+prandtlNumberWater
+Examples

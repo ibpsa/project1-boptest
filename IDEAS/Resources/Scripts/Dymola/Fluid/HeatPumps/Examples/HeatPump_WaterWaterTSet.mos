@@ -1,0 +1,18 @@
+simulateModel("IDEAS.Fluid.HeatPumps.Examples.HeatPump_WaterWaterTSet", stopTime=1000, method="dassl", resultFile="HeatPump_WaterWaterTSet");
+
+createPlot(id=2, 
+y={"TWater_out.T", "TBrine_out.T", "heatPump.TSet", "sine.y"}, 
+range={0.0, 1000.0, 5.0, 40.0}, 
+grid=true, 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}, {255,0,0}, {0,128,0}, {255,0,255}});
+createPlot(id=2, 
+y={"heatPump.mod"}, 
+range={0.0, 1000.0, 0.45, 1.05}, 
+grid=true, 
+subPlot=2, 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}});
+

@@ -1,0 +1,7 @@
+simulateModel("IDEAS.Buildings.Validation.Tests.EnergyConservationValidation", stopTime=5e6, method="Lsodar", tolerance=1e-06, resultFile="EnergyConservationValidation");
+createPlot(id=1, 
+position={0, 0, 804, 518}, 
+y={"sim.Qgai.Q_flow"}, 
+range={0.0, 5000000.0, -1800.0, 1000.0}, 
+grid=true, 
+colors={{28,108,200}});

@@ -1,0 +1,7 @@
+simulateModel("IDEAS.Examples.TwinHouses.BaseClasses.Data.Validation.SolarValidation", startTime=2e+07, stopTime=2.35872e+07, numberOfIntervals=0, outputInterval=600, method="dassl", resultFile="SolarValidation");
+
+createPlot(id=1, position={0, 0, 1309, 724}, y={"validationDataN2Exp1.Solar_radiation_global_horizontal", "HGloHor.y"}, range={20000000.0, 23600000.0, -500.0, 1000.0}, grid=true, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1309, 141}, y={"validationDataN2Exp1.Solar_radiation_global_vertical_south", "HGloS.y"}, range={20000000.0, 23600000.0, -1000.0, 2000.0}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1309, 142}, y={"validationDataN2Exp1.Solar_radiation_global_vertical_east", "HGloE.y"}, range={20000000.0, 23600000.0, -500.0, 1000.0}, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1309, 141}, y={"validationDataN2Exp1.Solar_radiation_global_vertical_north", "HGloN.y"}, range={20000000.0, 23600000.0, -200.0, 400.0}, grid=true, subPlot=4, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1309, 142}, y={"validationDataN2Exp1.Solar_radiation_global_vertical_west", "HGloW.y"}, range={20000000.0, 23600000.0, -1000.0, 2000.0}, grid=true, subPlot=5, colors={{28,108,200}, {238,46,47}});

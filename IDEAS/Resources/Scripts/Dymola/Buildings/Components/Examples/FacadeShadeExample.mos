@@ -1,0 +1,9 @@
+Advanced.StoreProtectedVariables = true;
+simulateModel("IDEAS.Buildings.Components.Examples.FacadeShadeExample", startTime=10000000, stopTime=11000000, method="Lsodar", tolerance=1e-06, resultFile="FacadeShadeExample");
+
+createPlot(id=1, position={0, 0, 1532, 817}, y={"zone.TSensor", "zoneSha.TSensor"}, range={10000000.0, 11000000.0, 8.0, 28.0}, grid=true, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1532, 269}, y={"zone.outA.solAbs.solDir", "zoneSha.outA.solAbs.solDir", "zoneSha.outA.solAbs.solDif", "zone.outA.solAbs.solDif"}, range={10000000.0, 11000000.0, -100.0, 600.0}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});
+createPlot(id=1, position={0, 0, 1532, 270}, y={"zoneSha.outB.solAbs.solDir", "zoneSha.outB.solAbs.solDif", "zone.outB.solAbs.solDir", "zone.outB.solAbs.solDif"}, range={10000000.0, 11000000.0, -200.0, 800.0}, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});
+createPlot(id=1, position={0, 0, 1532, 201}, y={"zoneSha.outB.shaType.fraSunDir", "zoneSha.outC.shaType.fraSunDir", "zoneSha.outD.shaType.fraSunDir", "zoneSha.outA.shaType.fraSunDir"}, range={10000000.0, 11000000.0, -0.5, 1.5}, grid=true, subPlot=4, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});
+
+Advanced.StoreProtectedVariables = false;

@@ -1,0 +1,13 @@
+simulateModel("IDEAS.Buildings.Components.Examples.HorizontalFinExample",
+startTime=2e+06,
+stopTime=3e+06,
+numberOfIntervals=5000, 
+method="Lsodar", 
+tolerance=1e-06,
+resultFile="HorizontalFinExample");
+
+createPlot(id=1, position={0, 0, 1301, 713}, y={"horizontalFins.HShaDirTil", "horizontalFinsBeta.HShaDirTil", "horizontalFinsDisp.HShaDirTil", "horizontalFinsOpen.HShaDirTil", "horizontalFins.HDirTil"}, range={12000000.0, 13000000.0, -200.0, 800.0}, autoscale=false, grid=true, filename="HorizontalFinExample.mat", colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}});
+createPlot(id=1, position={0, 0, 1301, 235}, y={"horizontalFins.shaFrac", "horizontalFinsBeta.shaFrac", "horizontalFinsDisp.shaFrac", "horizontalFinsOpen.shaFrac"}, range={12000000.0, 13000000.0, -0.5, 1.5}, autoscale=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});
+createPlot(id=1, position={0, 0, 1301, 235}, y={"horizontalFinsBeta.Ctrl", "horizontalFinsDisp.Ctrl"}, range={12000000.0, 13000000.0, -0.5, 2.0}, autoscale=false, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1374, 149}, y={"horizontalFins.HShaSkyDifTil", "horizontalFinsBeta.HShaSkyDifTil", "horizontalFinsDisp.HShaSkyDifTil", "horizontalFinsOpen.HShaSkyDifTil"}, range={2000000.0, 3000000.0, -50.0, 100.0}, autoscale=false, grid=true, subPlot=4, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});
+

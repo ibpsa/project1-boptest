@@ -1,0 +1,11 @@
+
+//translateModel("IDEAS.Fluid.Valves.Examples.ThreeWayValveSwitch");
+
+// experiment StopTime=3600
+
+simulateModel("IDEAS.Fluid.Actuators.Valves.Simplified.Examples.ThreeWayValveSwitch", stopTime=10000, tolerance=1e-6, method="LSodar", resultFile="ThreeWayValveSwitch");
+
+plot(y={"T_leg0.T", "T_leg1.T","T_leg0.port_a.m_flow","T_leg1.port_a.m_flow"},colors={{255,0,0}, {0,128,0}, {255,0,255}, {255,0,0}});
+
+
+

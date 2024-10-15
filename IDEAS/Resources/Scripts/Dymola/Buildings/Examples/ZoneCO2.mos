@@ -1,0 +1,3 @@
+simulateModel("IDEAS.Buildings.Examples.ZoneCO2", stopTime=100000, method="Lsodar", tolerance=1e-06, resultFile="ZoneCO2");
+createPlot(id=1, position={0, 0, 1301, 714}, y={"zone.ppm"}, range={0.0, 100000.0, -200.0, 1000.0}, erase=false, grid=true, colors={{28,108,200}});
+createPlot(id=1, position={0, 0, 1301, 355}, y={"pulse.y", "hys.y"}, range={0.0, 100000.0, -1.0, 6.0}, erase=false, grid=true, subPlot=2, colors={{28,108,200}, {28,108,200}});

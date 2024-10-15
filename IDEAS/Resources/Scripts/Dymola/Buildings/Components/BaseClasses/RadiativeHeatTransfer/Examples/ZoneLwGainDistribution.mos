@@ -1,0 +1,4 @@
+simulateModel("IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.Examples.ZoneLwGainDistribution", stopTime=3, method="Lsodar", tolerance=1e-06, resultFile="ZoneLwGainDistribution");
+
+createPlot(id=1, position={0, 0, 1549, 874}, y={"preHeaGai.Q_flow", "preHeaDif.Q_flow", "preHeaDir.Q_flow"}, range={0.0, 3.0, -100.0, 1100.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1549, 435}, y={"zonLwGaiDist.radSurfTot[1].Q_flow", "zonLwGaiDist.radSurfTot[2].Q_flow", "zonLwGaiDist.radSurfTot[3].Q_flow", "zonLwGaiDist.radSurfTot[4].Q_flow", "zonLwGaiDist.radSurfTot[5].Q_flow", "zonLwGaiDist.radSurfTot[6].Q_flow"}, range={0.0, 3.0, -1000.0, 100.0}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}, {162,29,33}});

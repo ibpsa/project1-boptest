@@ -1,0 +1,4 @@
+simulateModel("IDEAS.Templates.Examples.IdealFloorHeating", stopTime=100000, method="Lsodar", tolerance=1e-06, resultFile="IdealFloorHeating");
+createPlot(id=1, position={0, 0, 1541, 817}, y={"structure.TSensor[1]"}, range={0.0, 100000.0, 19.0, 22.4}, erase=false, grid=true, colors={{28,108,200}}, displayUnits={"degC"});
+createPlot(id=1, position={0, 0, 1541, 406}, y={"heating.QHeaSys"}, range={0.0, 100000.0, -200.0, 2200.0}, erase=false, grid=true, subPlot=2, colors={{28,108,200}});
+

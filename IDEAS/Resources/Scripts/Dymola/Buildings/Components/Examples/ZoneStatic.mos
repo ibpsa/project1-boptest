@@ -1,0 +1,4 @@
+simulateModel("IDEAS.Buildings.Components.Examples.ZoneStatic", stopTime=10000, method="Lsodar", tolerance=1e-06, resultFile="ZoneStatic");
+
+createPlot(id=1, position={0, 0, 1163, 735}, y={"zone.propsBus[1].surfCon.T", "zone.propsBus[2].surfCon.T", "zone.gainRad.T", "zone.propsBus[1].surfRad.T", "zone.propsBus[2].surfRad.T", "zone.propsBus[1].iSolDir.T", "zone.propsBus[1].iSolDif.T"}, range={0.0, 10000.0, 240.0, 380.0}, erase=false, grid=true,  colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}, {162,29,33}, {244,125,35}});
+createPlot(id=1, position={0, 0, 1163, 365}, y={"zone.propsBus[2].surfRad.Q_flow", "zone.propsBus[1].surfRad.Q_flow", "zone.propsBus[2].surfCon.Q_flow", "zone.propsBus[1].surfCon.Q_flow"}, range={0.0, 10000.0, -1.5, 1.5}, erase=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});

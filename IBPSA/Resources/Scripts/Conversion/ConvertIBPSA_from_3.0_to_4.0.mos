@@ -1,0 +1,200 @@
+// Conversion script for IBPSA library
+//  from: Version 3.0
+//  to:   Version 4.0
+clear
+
+convertClear();
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1885
+convertModifiers("IBPSA.Fluid.Geothermal.Borefields.BaseClasses.PartialBorefield",
+                {"dynFil"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Geothermal.Borefields.BaseClasses.Boreholes.OneUTube",
+                {"dynFil"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Geothermal.Borefields.BaseClasses.Boreholes.TwoUTube",
+                {"dynFil"}, fill("",0), true);
+
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1614
+convertModifiers("IBPSA.Fluid.Storage.ExpansionVessel", {"p"}, fill("",0), true);
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1542
+convertModifiers("IBPSA.Airflow.Multizone.MediumColumnDynamic", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Actuators.Valves.ThreeWayEqualPercentageLinear", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Actuators.Valves.ThreeWayLinear", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Actuators.Valves.ThreeWayTable", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.HeatExchangers.Radiators.RadiatorEN442_2", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Movers.FlowControlled_dp", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Movers.FlowControlled_m_flow", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Movers.SpeedControlled_Nrpm", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Movers.SpeedControlled_y", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Storage.Stratified", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Storage.StratifiedEnhanced", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Storage.StratifiedEnhancedInternalHex", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.HeatExchangers.EvaporatorCondenser", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.HeatExchangers.HeaterCooler_u", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Humidifiers.Humidifier_u", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Interfaces.TwoPortHeatMassExchanger", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Geothermal.Borefields.BaseClasses.Boreholes.BaseClasses.InternalHEXOneUTube", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Geothermal.Borefields.BaseClasses.Boreholes.BaseClasses.InternalHEXTwoUTube", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.HeatExchangers.PrescribedOutlet", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Interfaces.PrescribedOutlet", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.ThermalZones.ReducedOrder.RC.FourElements", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.ThermalZones.ReducedOrder.RC.OneElement", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.ThermalZones.ReducedOrder.RC.ThreeElements", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.ThermalZones.ReducedOrder.RC.TwoElements", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.HeatExchangers.ActiveBeams.Cooling", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.HeatExchangers.ActiveBeams.CoolingAndHeating", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.HeatExchangers.WetCoilEffectivenessNTU", {"massDynamics"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Delays.DelayFirstOrder", {"massDynamics"}, fill("",0), true);
+
+convertModifiers("IBPSA.Fluid.Storage.StratifiedEnhancedInternalHex", {"massDynamicsHex"}, fill("",0), true);
+
+convertElement("IBPSA.Fluid.Humidifiers.SteamHumidifier_X",
+  "massDynamics",
+  "energyDynamics");
+convertElement("IBPSA.Fluid.Humidifiers.SprayAirWasher_X",
+  "massDynamics",
+  "energyDynamics");
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1522
+convertClass("IBPSA.Controls.Continuous.PIDHysteresisTimer",
+             "IBPSA.Obsolete.Controls.Continuous.PIDHysteresisTimer");
+convertClass("IBPSA.Controls.Continuous.PIDHysteresis",
+             "IBPSA.Obsolete.Controls.Continuous.PIDHysteresis");
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1477
+convertModifiers("IBPSA.BoundaryConditions.SolarGeometry.IncidenceAngle", {"lat"}, fill("",0), true);
+convertModifiers("IBPSA.BoundaryConditions.SolarGeometry.BaseClasses.IncidenceAngle", {"lat"}, fill("",0), true);
+convertModifiers("IBPSA.BoundaryConditions.SolarGeometry.ZenithAngle", {"lat"}, fill("",0), true);
+convertModifiers("IBPSA.BoundaryConditions.SolarIrradiation.DiffusePerez", {"lat"}, fill("",0), true);
+convertModifiers("IBPSA.BoundaryConditions.SolarIrradiation.DirectTiltedSurface", {"lat"}, fill("",0), true);
+
+// Refactoring for https://github.com/ibpsa/modelica-ibpsa/issues/1494
+convertClass("IBPSA.Fluid.FixedResistances.PlugFlowPipe",
+             "IBPSA.Obsolete.Fluid.FixedResistances.PlugFlowPipe");
+convertClass("IBPSA.Fluid.FixedResistances.BaseClasses.PlugFlowCore",
+             "IBPSA.Obsolete.Fluid.FixedResistances.BaseClasses.PlugFlowCore");
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1498
+convertClass("IBPSA.Utilities.Math.Polynominal",
+             "IBPSA.Utilities.Math.Polynomial");
+convertClass("IBPSA.Utilities.Math.Examples.Polynominal",
+             "IBPSA.Utilities.Math.Examples.Polynomial");
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1498
+convertModifiers("IBPSA.Fluid.Movers.FlowControlled_dp",
+                {"y_start"}, fill("",0), true);
+convertModifiers("IBPSA.Fluid.Movers.FlowControlled_m_flow",
+                {"y_start"}, fill("",0), true);
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1365
+convertModifiers("IBPSA.Controls.Continuous.LimPID", {"reverseAction"}, {"reverseActing=not %reverseAction%"});
+convertModifiers("IBPSA.Controls.Continuous.PIDHysteresis", {"reverseAction"}, {"reverseActing=not %reverseAction%"});
+convertModifiers("IBPSA.Controls.Continuous.PIDHysteresisTimer", {"reverseAction"}, {"reverseActing=not %reverseAction%"});
+
+
+// Conversion for https://github.com/ibpsa/modelica-ibpsa/issues/1362
+convertModifiers("IBPSA.Airflow.Multizone.BaseClasses.PowerLawResistance", {"m_flow_small"}, fill("",0), true);
+convertModifiers("IBPSA.Airflow.Multizone.BaseClasses.TwoWayFlowElement", {"m1_flow_small", "m2_flow_small"}, fill("",0), true);
+convertModifiers("IBPSA.Airflow.Multizone.EffectiveAirLeakageArea", {"m_flow_small"}, fill("",0), true);
+convertModifiers("IBPSA.Airflow.Multizone.Orifice", {"m_flow_small"}, fill("",0), true);
+convertModifiers("IBPSA.Airflow.Multizone.DoorDiscretizedOpen", {"m1_flow_small", "m2_flow_small"}, fill("",0), true);
+convertModifiers("IBPSA.Airflow.Multizone.DoorDiscretizedOperable", {"m1_flow_small", "m2_flow_small"}, fill("",0), true);
+convertModifiers("IBPSA.Airflow.Multizone.ZonalFlow_ACS", {"m1_flow_small", "m2_flow_small"}, fill("",0), true);
+convertModifiers("IBPSA.Airflow.Multizone.ZonalFlow_m_flow", {"m1_flow_small", "m2_flow_small"}, fill("",0), true);
+
+convertClass("IBPSA.Fluid.Sources.FixedBoundary",
+             "IBPSA.Obsolete.Fluid.Sources.FixedBoundary");
+convertClass("IBPSA.Controls.SetPoints.HotWaterTemperatureReset",
+             "IBPSA.Controls.SetPoints.SupplyReturnTemperatureReset");
+
+//refactoring of alpha to hCon or hRad
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.OneElement",
+    "alphaWin",
+    "hConWin");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.OneElement",
+    "alphaExt",
+    "hConExt");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.OneElement",
+    "alphaExtWallConst",
+    "hConExtWall_const");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.OneElement",
+    "alphaWinConst",
+    "hConWin_const");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.ThreeElements",
+    "alphaFloor",
+    "hConFloor");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.ThreeElements",
+    "alphaFloorConst",
+    "hConFloor_const");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.TwoElements",
+    "alphaInt",
+    "hConInt");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.TwoElements",
+    "alphaIntWall",
+    "hConIntWall");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.FourElements",
+    "alphaRoof",
+    "hConRoof");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.FourElements",
+    "alphaRoofConst",
+    "hConRoof_const");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.RC.OneElement",
+    "alphaRad",
+    "hRad");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.EquivalentAirTemperature.BaseClasses.PartialVDI6007",
+    "alphaWallOut",
+    "hConWallOut");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.EquivalentAirTemperature.BaseClasses.PartialVDI6007",
+    "alphaRad",
+    "hRad");
+convertElement(
+    "IBPSA.ThermalZones.ReducedOrder.EquivalentAirTemperature.VDI6007WithWindow",
+    "alphaWinOut",
+    "hConWinOut");
+
+// Refactoring damper models.
+convertElement(
+    "IBPSA.Fluid.Actuators.Dampers.PressureIndependent",
+    "dp_nominal",
+    "dpDamper_nominal");
+convertModifiers(
+    "IBPSA.Fluid.Actuators.Dampers.Exponential",
+    {"k1=0.45", "v_nominal=1"},
+    {"k1=%k1%",
+    "dpDamper_nominal=%k1% * 1.2 * %v_nominal%^2 / 2"},
+    true);
+convertModifiers(
+    "IBPSA.Fluid.Actuators.Dampers.VAVBoxExponential",
+    {"dp_nominal", "k1=0.45", "v_nominal=1", "dp_nominalIncludesDamper=true"},
+    {"k1=%k1%",
+    "dpDamper_nominal=%k1% * 1.2 * %v_nominal%^2 / 2",
+    "dpFixed_nominal=if %dp_nominalIncludesDamper% then %dp_nominal% - %k1% * 1.2 * %v_nominal%^2 / 2 else %dp_nominal%"},
+    true);
+convertModifiers(
+    "IBPSA.Fluid.Actuators.Dampers.MixingBox",
+    {"dpOut_nominal", "dpRec_nominal", "dpExh_nominal", "k1=0.45", "v_nominal=1", "dp_nominalIncludesDamper=false"},
+    {"k1=%k1%",
+    "dpDamOut_nominal=%k1% * 1.2 * %v_nominal%^2 / 2",
+    "dpFixOut_nominal=if %dp_nominalIncludesDamper% then %dpOut_nominal% - %k1% * 1.2 * %v_nominal%^2 / 2 else %dpOut_nominal%",
+    "dpDamRec_nominal=%k1% * 1.2 * %v_nominal%^2 / 2",
+    "dpFixRec_nominal=if %dp_nominalIncludesDamper% then %dpRec_nominal% - %k1% * 1.2 * %v_nominal%^2 / 2 else %dpRec_nominal%",
+    "dpDamExh_nominal=%k1% * 1.2 * %v_nominal%^2 / 2",
+    "dpFixExh_nominal=if %dp_nominalIncludesDamper% then %dpExh_nominal% - %k1% * 1.2 * %v_nominal%^2 / 2 else %dpExh_nominal%"},
+    true);
+convertClass(
+    "IBPSA.Fluid.Actuators.Dampers.VAVBoxExponential",
+    "IBPSA.Fluid.Actuators.Dampers.Exponential");

@@ -1,0 +1,6 @@
+simulateModel("IDEAS.Airflow.AHU.Validation.IehWinter", stopTime=500, method="dassl", tolerance=1e-6, resultFile="IehWinter");
+
+createPlot(id=1, position={0, 0, 1549, 874}, y={"TSupOut.T", "datasheet_TSupOut.y"}, range={0.0, 500.0, 293.0, 295.0}, grid=true, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1549, 215}, y={"RhSupOut.phi", "datasheet_RhSupOut.y"}, range={0.0, 500.0, 0.68, 0.76}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1549, 216}, y={"TRetOut.T", "datasheet_TRetOut.y"}, range={0.0, 500.0, 293.0, 299.0}, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1549, 215}, y={"RhRetOut.phi", "datasheet_RhRetOut.y"}, range={0.0, 500.0, 0.55, 0.8500000000000001}, grid=true, subPlot=4, colors={{28,108,200}, {238,46,47}});

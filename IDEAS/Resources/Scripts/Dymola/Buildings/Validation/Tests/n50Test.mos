@@ -1,0 +1,3 @@
+simulateModel("IDEAS.Buildings.Validation.Tests.n50Test", stopTime=3, method="dassl", tolerance=1e-06, resultFile="n50Test");
+
+createPlot(id=1, position={0, 0, 1367, 610}, y={"ach"}, range={0.0, 3.0, -0.2, 3.2}, grid=true, colors={{28,108,200}});

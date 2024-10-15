@@ -1,0 +1,2 @@
+simulateModel("IDEAS.Utilities.Math.Examples.MovingAverage", stopTime=30, method="dassl", resultFile="MovingAverage");
+createPlot(id = 1,y={"movingAverage.u","movingAverage.y"}, colors={{0,0,255},{255,0,0}});

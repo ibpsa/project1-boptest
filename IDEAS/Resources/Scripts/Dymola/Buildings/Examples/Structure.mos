@@ -1,0 +1,8 @@
+simulateModel("IDEAS.Buildings.Examples.Structure", stopTime=8.64e+006, method="Lsodar", tolerance=1e-06, resultFile="Structure");
+createPlot(id=1, 
+position={0, 0, 1156, 757}, 
+y={"structure.TSensor[1]","structure.TSensor[2]","structure.TSensor[3]"}, 
+range={2480000.0, 3020000.0, 0.0, 800.0}, 
+autoscale=false, 
+grid=true, 
+colors={{28,108,200},{238,46,47},{0,140,72}});

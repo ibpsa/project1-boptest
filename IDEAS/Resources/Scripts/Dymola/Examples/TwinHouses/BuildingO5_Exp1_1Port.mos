@@ -1,0 +1,9 @@
+simulateModel("IDEAS.Examples.TwinHouses.BuildingO5_Exp1_1Port", startTime=1.5e+007, stopTime=2.35872e+007, numberOfIntervals=0, outputInterval=900, method="dassl", tolerance=1e-006, resultFile="BuildingO5_Exp1_1Port");
+
+createPlot(id=1, position={0, 0, 1367, 610}, y={"comparison_W40[1]", "comparison_W40[2]"}, range={19900000.0, 21100000.0, 0.03, 0.05}, autoscale=false, grid=true, filename="BuildingO5_Exp1_1Port.mat", colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1367, 119}, y={"comparison_W1[1]", "comparison_W1[2]"}, range={19900000.0, 21100000.0, -0.0005, 0.0005}, autoscale=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1367, 118}, y={"comparison_W7[1]", "comparison_W7[2]"}, range={19900000.0, 21100000.0, -0.005, 0.005}, autoscale=false, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1367, 119}, y={"comparison_W10[1]", "comparison_W10[2]"}, range={19900000.0, 21100000.0, -0.001, 0.001}, autoscale=false, grid=true, subPlot=4, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1367, 119}, y={"comparison_W37[1]", "comparison_W37[2]"}, range={19900000.0, 21100000.0, -0.0005, 0.0005}, autoscale=false, grid=true, subPlot=5, colors={{28,108,200}, {238,46,47}});
+
+

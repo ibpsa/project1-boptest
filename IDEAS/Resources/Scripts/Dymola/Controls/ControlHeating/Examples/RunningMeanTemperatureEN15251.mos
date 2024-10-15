@@ -1,0 +1,10 @@
+simulateModel("IDEAS.Controls.ControlHeating.Examples.RunningMeanTemperatureEN15251", stopTime=1e+007, numberOfIntervals=5000, method="dassl", resultFile="RunningMeanTemperatureEN15251");
+
+createPlot(id=1, 
+position={0, 0, 804, 518}, 
+y={"runningMeanTemperature.TRm"}, 
+range={0.0, 10000000.0, 270.0, 290.0}, 
+grid=true, 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}});

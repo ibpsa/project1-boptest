@@ -1,0 +1,7 @@
+simulateModel("IDEAS.Airflow.AHU.Validation.AdsolairDatasheetSummer", stopTime=3000, method="Lsodar", tolerance=1e-6, resultFile="AdsolairDatasheetSummer");
+
+createPlot(id=1, position={0, 0, 1549, 874}, y={"T_cond.y", "adsolair58.con.T"}, range={0.0, 3000.0, 290.0, 310.0}, erase=false, grid=true, legends={"Datasheet condensor temperature", "Simulation condensor temperature"}, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1549, 215}, y={"adsolair58.con.heatPort.Q_flow", "Q_cond.y"}, range={0.0, 3000.0, -10000.0, 50000.0}, erase=false, grid=true, legends={"Simulation condensor heat flow rate [W]", "Datasheet con heat flow rate [W]"}, subPlot=2, colors={{238,46,47}, {28,108,200}});
+createPlot(id=1, position={0, 0, 1549, 216}, y={"Q_evap.y", "adsolair58.com.port_a.Q_flow"}, range={0.0, 3000.0, 10000.0, 50000.0}, erase=false, grid=true, legends={"Datasheet evaporator heat flow rate [W]", "Simulation evaporator heat flow rate [W]"}, subPlot=3, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1549, 215}, y={"RH_evap.y", "phi_evap.phi"}, range={0.0, 3000.0, 0.65, 0.9}, erase=false, grid=true, legends={"Datasheet evaporator RH", "Simulation evaporator RH"}, subPlot=4, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1549, 172}, y={"adsolair58.PUnit.y", "adsolair58.PPum.y", "adsolair58.fanBot.P", "adsolair58.fanTop.P", "adsolair58.com.P"}, range={0.0, 3000.0, 0.0, 8000.0}, grid=true, subPlot=5, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}});

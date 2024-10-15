@@ -1,0 +1,3 @@
+simulateModel("IDEAS.Buildings.Components.InterzonalAirFlow.Examples.InterzonalAirFlow", stopTime=1000000, method="Lsodar", tolerance=1e-06, resultFile="InterzonalAirFlow");
+
+createPlot(id=1, position={0, 0, 2181, 998}, y={"zoneAirTight.TSensor", "zoneFixedPressure.TSensor", "zoneFixedPressureN50.TSensor", "zoneAirTightN50.TSensor"}, range={0.0, 1000000.0, 0.0, 22.0}, grid=true, filename="InterzonalAirFlow.mat", colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}}, displayUnits={"degC", "degC", "degC", "degC"});

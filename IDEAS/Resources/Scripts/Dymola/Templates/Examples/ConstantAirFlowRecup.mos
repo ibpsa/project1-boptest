@@ -1,0 +1,4 @@
+simulateModel("IDEAS.Templates.Examples.ConstantAirFlowRecup", stopTime=2000000, method="Lsodar", tolerance=1e-06, resultFile="ConstantAirFlowRecup");
+createPlot(id=1, position={0, 0, 746, 503}, y={"structure.TSensor[1]", "structure.TSensor[2]", "structure.TSensor[3]"}, range={0.0, 200000.0, 16.0, 21.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 746, 249}, y={"constantAirFlowRecup.hex.T_in1", "constantAirFlowRecup.hex.T_in2"}, range={0.0, 200000.0, 0.0, 25.0}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}});
+

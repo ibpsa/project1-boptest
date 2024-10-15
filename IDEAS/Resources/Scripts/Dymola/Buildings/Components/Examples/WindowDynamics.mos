@@ -1,0 +1,17 @@
+simulateModel("IDEAS.Buildings.Components.Examples.WindowDynamics", stopTime=1e+06, numberOfIntervals=0, outputInterval=600, method="Lsodar", tolerance=1e-06, resultFile="WindowDynamics");
+
+createPlot(id=1, 
+position={0, 0, 1309, 724}, 
+y={"windowTwo.propsBus_a.surfRad.Q_flow", "windowNone.propsBus_a.surfRad.Q_flow", "windowNormal.propsBus_a.surfRad.Q_flow"}, 
+range={0.0, 1000000.0, -50.0, 300.0}, 
+grid=true, 
+colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, 
+position={0, 0, 1309, 360}, 
+y={"windowTwo.propsBus_a.surfCon.Q_flow", "windowNone.propsBus_a.surfCon.Q_flow", "windowNormal.propsBus_a.surfCon.Q_flow"}, 
+range={0.0, 1000000.0, -200.0, 100.0}, 
+grid=true, 
+subPlot=2, 
+colors={{28,108,200}, {238,46,47}, {0,140,72}});
+
+

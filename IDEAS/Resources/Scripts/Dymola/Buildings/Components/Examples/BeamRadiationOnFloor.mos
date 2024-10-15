@@ -1,0 +1,14 @@
+simulateModel("IDEAS.Buildings.Components.Examples.BeamRadiationOnFloor", stopTime=3e+06, method="Lsodar", tolerance=1e-06, resultFile="BeamRadiationOnFloor");
+
+createPlot(id=1, 
+position={0, 0, 873, 716}, 
+y={"case900WithFloor.building.floor.propsBus_a.surfRad.Q_flow", "case900WithoutFloor.building.floor.propsBus_a.surfRad.Q_flow"}, range={0.0, 3000000.0, -2000.0, 5000.0}, 
+grid=true, 
+colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, 
+position={0, 0, 873, 356}, 
+y={"case900WithFloor.building.wall[1].propsBus_a.surfRad.Q_flow", "case900WithoutFloor.building.wall[1].propsBus_a.surfRad.Q_flow"}, 
+range={0.0, 3000000.0, -200.0, 1400.0}, 
+grid=true, 
+subPlot=2, 
+colors={{28,108,200}, {238,46,47}});

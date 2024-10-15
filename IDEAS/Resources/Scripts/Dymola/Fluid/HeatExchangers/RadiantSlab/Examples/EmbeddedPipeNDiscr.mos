@@ -1,0 +1,4 @@
+simulateModel("IDEAS.Fluid.HeatExchangers.RadiantSlab.Examples.EmbeddedPipeNDiscr", stopTime=100000, method="Lsodar", tolerance=1e-06, resultFile="EmbeddedPipeNDiscr");
+
+createPlot(id=1, position={0, 0, 1301, 895}, y={"QFlows[1]", "QFlows[2]", "QFlows[3]"}, range={0.0, 100000.0, -1000.0, 7000.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1301, 355}, y={"zone.TSensor", "zone1.TSensor", "zone2.TSensor"}, range={0.0, 100000.0, 18.8, 20.2}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}}, displayUnits={"degC", "degC", "degC"});

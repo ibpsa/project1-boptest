@@ -1,0 +1,4 @@
+simulateModel("IDEAS.BoundaryConditions.Examples.StrobeInfoManager_offset", startTime=-864000, stopTime=864000, numberOfIntervals=0, outputInterval=60, method="dassl", resultFile="StrobeInfoManager_offset");
+createPlot(id=1, position={84, 25, 1153, 700}, y={"strobe.tabQCon.y[1]", "strobe.tabQRad.y[1]"}, range={-10.0, 10.0, -1000.0, 4000.0}, grid=true, colors={{28,108,200}, {238,46,47}}, timeUnit="d");
+createPlot(id=1, position={84, 25, 1153, 230}, y={"strobe.tabTSet.y[1]", "strobe.tabTSet2.y[1]"}, range={-10.0, 10.0, 10.0, 22.0}, autoscale=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}}, timeUnit="d");
+createPlot(id=1, position={84, 25, 1153, 229}, y={"strobe.tabDHW.y[1]"}, range={-10.0, 10.0, -5.0, 20.0}, autoscale=false, grid=true, subPlot=3, colors={{28,108,200}}, range2={0.6000000000000001, 0.7500000000000001}, timeUnit="d");

@@ -1,0 +1,29 @@
+removePlots();
+// --------------- Linearization and save matrices into ssm.mat --------------------------------
+// Remove CPU to avoid additional output
+OutputCPUtime:=false;
+linearModelName = "Case900LineariseInputs";
+// linearise model and save results in 're'
+re=Modelica_LinearSystems2.ModelAnalysis.Linearize("IDEAS.LIDEAS.Validation." + linearModelName);
+// extract state space matrices from 're' and save them to a mat file in the current working directory
+save_path = Modelica.Utilities.Files.loadResource("modelica://IDEAS/Resources/LIDEAS/");
+writeMatrix(fileName= save_path + "ssm_" + linearModelName + ".mat",matrixName="A",matrix=re.A);
+writeMatrix(fileName= save_path + "ssm_" +linearModelName + ".mat",matrixName="B",matrix=re.B, append=true);
+writeMatrix(fileName= save_path + "ssm_" +linearModelName + ".mat",matrixName="C",matrix=re.C, append=true);
+writeMatrix(fileName= save_path + "ssm_" +linearModelName + ".mat",matrixName="D",matrix=re.D, append=true);
+// save the variable names of the inputs, outputs and states in the current working directory
+Modelica.Utilities.Files.remove(save_path + "uNames_" + linearModelName + ".txt");
+for i in 1:size(re.uNames,1) loop Modelica.Utilities.Streams.print(re.uNames[i], save_path + "uNames_" + linearModelName + ".txt"); end for;
+Modelica.Utilities.Files.remove(save_path + "yNames_" + linearModelName + ".txt");
+for i in 1:size(re.yNames,1) loop Modelica.Utilities.Streams.print(re.yNames[i], save_path + "yNames_" + linearModelName + ".txt"); end for;
+Modelica.Utilities.Files.remove(save_path + "xNames_" + linearModelName + ".txt");
+for i in 1:size(re.xNames,1) loop Modelica.Utilities.Streams.print(re.xNames[i], save_path + "xNames_" + linearModelName + ".txt"); end for;
+// Re-add CPU
+OutputCPUtime:=true;
+// --------------- Simulate and plot model --------------------------------
+simulateModel("IDEAS.LIDEAS.Validation.Case900ValidationLinearInputs", startTime=0, method="dassl", tolerance=1e-6, stopTime=100000, resultFile="Case900ValidationLinearInputs");
+
+createPlot(id=1, position={0, 0, 1381, 733}, y={"TRecZon.y", "TLinRecZon.y", "TSsm.y"}, range={0.0, 100000.0, 14.0, 21.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1381, 241}, y={"err_linRecZon_ssm.y"}, range={0.0, 100000.0, -0.05, 0.15000000000000002}, grid=true, subPlot=2, colors={{28,108,200}});
+createPlot(id=1, position={0, 0, 1381, 241}, y={"err_linRecZon_recZon.y"}, range={0.0, 100000.0, -1.5, 1.5}, grid=true, subPlot=3, colors={{28,108,200}});
+

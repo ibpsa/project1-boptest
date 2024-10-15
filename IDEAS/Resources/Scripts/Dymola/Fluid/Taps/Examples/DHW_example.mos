@@ -1,0 +1,11 @@
+simulateModel("IDEAS.Fluid.Taps.Examples.DHW_example", stopTime=192800, method="dassl", resultFile="DHW_example");
+
+createPlot(id=1, y={"dHW_RealInput.mDHW60C", "dHW_RealInput.mFloHot.y", "dHW_ProfileReader.mDHW60C.y", "dHW_ProfileReader.mFloHot.y"});
+createPlot(id=2, y={"dHW_RealInput.TDHWSet", "dHW_RealInput.TCold", "bou.T", "dHW_RealInput.THot.T", "dHW_ProfileReader.TDHW_actual"});
+
+
+
+
+
+
+

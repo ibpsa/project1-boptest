@@ -1,0 +1,43 @@
+#1																													
+double tab1(8761,30)
+#LOCATION,<description>,<State/province>,<country>,TMY3,123456789,<latitude (degrees)>,<longitude (degrees)>,<time zone compared to GMT - west negative, e.g. 1.0>,<elevation (meters)>
+#C1 Time in seconds. Beginning of a year is 0s.
+#C2 Dry bulb temperature in Celsius at indicated time
+#C3 Dew point temperature in Celsius at indicated time
+#C4 Relative humidity in percent at indicated time
+#C5 Atmospheric station pressure in Pa at indicated time
+#C6 Extraterrestrial horizontal radiation in Wh/m2
+#C7 Extraterrestrial direct normal radiation in Wh/m2
+#C8 Horizontal infrared radiation intensity in Wh/m2
+#C9 Global horizontal radiation in Wh/m2
+#C10 Direct normal radiation in Wh/m2
+#C11 Diffuse horizontal radiation in Wh/m2
+#C12 Averaged global horizontal illuminance in lux during minutes preceding the indicated time
+#C13 Direct normal illuminance in lux during minutes preceding the indicated time
+#C14 Diffuse horizontal illuminance in lux  during minutes preceding the indicated time
+#C15 Zenith luminance in Cd/m2 during minutes preceding the indicated time
+#C16 Wind direction at indicated time. N=0, E=90, S=180, W=270
+#C17 Wind speed in m/s at indicated time
+#C18 Total sky cover at indicated time
+#C19 Opaque sky cover at indicated time
+#C20 Visibility in km at indicated time
+#C21 Ceiling height in m
+#C22 Present weather observation
+#C23 Present weather codes
+#C24 Precipitable water in mm
+#C25 Aerosol optical depth
+#C26 Snow depth in cm
+#C27 Days since last snowfall
+#C28 Albedo
+#C29 Liquid precipitation depth in mm at indicated time
+#C30 Liquid precipitation quantity
+0	10.6	7.3	80	99927	0	0	329	0	0	0	0	0	0	9999	263	2.3	10	9	9999	99999	9	929999999	150	999	999	99	999	999	99
+3600	10.5	6.5	76	99927	0	0	325	0	0	0	0	0	0	9999	252	1.8	10	9	9999	99999	9	999999999	150	999	999	99	999	999	99
+7200	10.3	6	75	99927	0	0	323	0	0	0	0	0	0	9999	249	1.6	10	9	9999	99999	9	999999999	140	999	999	99	999	999	99
+
+
+# TEMPLATE INSTRUCTIONS
+# replace and include more data at the bottom of this file
+# make sure that the number of _data_ rows corresponds to the number of rows listed at the top of this file (8761)
+# replace the descriptions between <brackets> by the correction information. Make sure to keep the number of commas the same.
+# for more information see the TMY3 or energyplus file format

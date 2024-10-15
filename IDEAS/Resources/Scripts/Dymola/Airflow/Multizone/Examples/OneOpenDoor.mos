@@ -1,0 +1,19 @@
+simulateModel("IDEAS.Airflow.Multizone.Examples.OneOpenDoor", stopTime=7200, method="CVode", tolerance=1e-06, resultFile="OneOpenDoor");
+removePlots();
+createPlot(id = 4,
+ position = {73, 34, 537, 565},
+ y = {"dooOpe.vAB", "dooOpe.vBA", "dooOpeClo.vAB", "dooOpeClo.vBA"},
+ autoscale = true,
+ autoerase = true,
+ autoreplot = true,
+ grid = true,
+ color = true,
+ filename = "OneOpenDoor.mat");
+createPlot(id = 5,
+ y = {"dooOpe.port_a1.m_flow", "dooOpe.port_a2.m_flow", "dooOpeClo.port_a1.m_flow", "dooOpeClo.port_a2.m_flow"},
+ autoscale = true,
+ autoerase = true,
+ autoreplot = true,
+ grid = true,
+ color = true,
+ filename = "OneOpenDoor.mat");

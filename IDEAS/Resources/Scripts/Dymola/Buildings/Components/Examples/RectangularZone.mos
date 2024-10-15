@@ -1,0 +1,4 @@
+simulateModel("IDEAS.Buildings.Components.Examples.RectangularZone", startTime=0, stopTime=604800, method="Lsodar", tolerance=1e-06, resultFile="RectangularZone");
+
+createPlot(id=1, position={0, 0, 1283, 740}, y={"zoneIntWal.TSensor", "zone.TSensor"}, range={0.0, 620000.0, 5.0, 21.0}, grid=true, colors={{28,108,200}, {238,46,47}});
+

@@ -1,0 +1,17 @@
+simulateModel("IDEAS.Buildings.Components.Examples.BuildingShadeExample",
+startTime=2e+06,
+stopTime=3e+06,
+numberOfIntervals=5000, 
+method="Lsodar", 
+tolerance=1e-06,
+resultFile="BuildingShadeExample");
+
+createPlot(id=1,
+position={0, 0, 2130, 1114},
+y={"buildingShade.HShaDirTil", "none.HShaDirTil", "overhang.HShaDirTil", "screen.HShaDirTil", "sideFins.HShaDirTil", "horizontalFins.HShaDirTil"},
+range={2000000.0, 3000000.0, -50.0, 300.0},
+autoscale=false,
+grid=true,
+colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}, {162,29,33}});
+createPlot(id=1, position={0, 0, 2130, 368}, y={"buildingShade.HShaSkyDifTil", "none.HShaSkyDifTil", "overhang.HShaSkyDifTil","screen.HShaSkyDifTil", "sideFins.HShaSkyDifTil", "horizontalFins.HShaSkyDifTil"}, range={2000000.0, 3000000.0, -10.0, 70.0}, autoscale=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}, {162,29,33}});
+createPlot(id=1, position={0, 0, 2130, 369}, y={"buildingShade.HShaGroDifTil", "none.HShaGroDifTil", "overhang.HShaGroDifTil","screen.HShaGroDifTil", "sideFins.HShaGroDifTil", "horizontalFins.HShaGroDifTil"}, range={2000000.0, 3000000.0, -5.0, 40.0}, autoscale=false, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}, {162,29,33}});

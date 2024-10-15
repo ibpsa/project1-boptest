@@ -1,0 +1,7 @@
+
+simulateModel("IDEAS.Fluid.HeatExchangers.Examples.EmbeddedPipeDp", stopTime=10000, method="dassl", resultFile="EmbeddedPipeDp");
+
+plot(y={"embeddedPipe.dp"});
+
+
+

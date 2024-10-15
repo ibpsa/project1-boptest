@@ -1,0 +1,5 @@
+simulateModel("IDEAS.Buildings.Components.Examples.LightingControl", stopTime=5000, method="Lsodar", tolerance=1e-06, resultFile="LightingControl");
+
+createPlot(id=1, position={0, 0, 1549, 874}, y={"zoneFixed.intGaiLig.ctrl", "zoneInput.intGaiLig.ctrl", "zoneBlock.intGaiLig.ctrl", "zoneOcc.intGaiLig.ctrl"}, range={0.0, 5000.0, -0.5, 4.5}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217, 67, 180}});
+createPlot(id=1, position={0, 0, 1549, 435}, y={"zoneFixed.TSensor", "zoneInput.TSensor", "zoneBlock.TSensor", "zoneOcc.TSensor"}, range={0.0, 5000.0, 19.3, 20.1}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217, 67, 180}}, displayUnits={"degC", "degC", "degC", "degC"});
+

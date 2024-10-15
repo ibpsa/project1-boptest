@@ -1,0 +1,8 @@
+simulateModel("IDEAS.Buildings.Validation.Tests.ConvectionVerification", stopTime=1000000, method="Lsodar", tolerance=1e-06, resultFile="ConvectionVerification");
+
+
+
+createPlot(id=1, position={0, 0, 2797, 1532}, y={"CaseNonLin.heatingSystem.QHeaSys", "CaseLin.heatingSystem.QHeaSys"}, range={0.0, 1000000.0, -100.0, 1900.0}, erase=false, grid=true, filename="ConvectionVerification.mat", colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 2797, 686}, y={"CaseLin.building.TSensor[1]", "CaseNonLin.building.TSensor[1]"}, range={0.0, 1000000.0, 19.900000000000002, 22.000000000000004}, erase=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}}, displayUnits={"degC", "degC"});
+
+

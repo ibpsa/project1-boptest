@@ -1,0 +1,2 @@
+experimentSetupOutput(inputs=false,outputs=true,auxiliaries=false,equidistant=true,events=false);
+simulateModel("IDEAS.LIDEAS.Examples.ZoneWithInputsCreateOutputs_customWeather", startTime=0, stopTime=1000800, method="Euler", numberOfIntervals=0, outputInterval=1200, fixedstepsize=10, resultFile="outputs_customWeather");

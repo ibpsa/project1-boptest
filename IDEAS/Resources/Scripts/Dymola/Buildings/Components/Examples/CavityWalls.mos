@@ -1,0 +1,17 @@
+Advanced.StoreProtectedVariables:=true;
+simulateModel("IDEAS.Buildings.Components.Examples.CavityWalls", stopTime=1000000, method="Lsodar", tolerance=1e-06, resultFile="CavityWalls");
+
+createPlot(id=1, 
+position={0, 0, 1126, 839}, 
+y={"outerWall.layMul.monLay[2].airLayer", "outerWall.layMul.monLay[3].airLayer"}, range={0.0, 1000000.0, -0.2, 1.2000000000000002}, 
+grid=true, 
+colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, 
+position={0, 0, 1126, 416}, 
+y={"outerWall.layMul.monLay[2].port_a.T", "outerWall.layMul.monLay[2].port_b.T"}, range={0.0, 1000000.0, 266.0, 294.0}, 
+grid=true, 
+subPlot=2, 
+colors={{28,108,200}, {238,46,47}});
+Advanced.StoreProtectedVariables:=false;
+
+

@@ -1,0 +1,17 @@
+simulateModel("IDEAS.Fluid.HeatPumps.Examples.HeatPump_perfFromTout", stopTime=10000, method="dassl", resultFile="HeatPump_perfFromTout");
+
+createPlot(id=5, 
+position={0, 0, 2254, 1062}, 
+y={"HP_nom_recomp.P_evap", "HP_recomp.P_evap", "HP_nom.P_evap", "HP.P_evap"}, 
+range={0.0, 10000.0, 20000.0, 58000.0}, 
+erase=false, 
+grid=true, 
+colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});
+createPlot(id=5, 
+position={0, 0, 2254, 529}, 
+y={"HP.cop", "HP_nom_recomp.cop", "HP_recomp.cop", "HP_nom.cop"}, 
+range={0.0, 10000.0, 3.0, 9.5}, 
+erase=false, 
+grid=true, 
+subPlot=2, 
+colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}});

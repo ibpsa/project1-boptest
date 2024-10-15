@@ -1,0 +1,4 @@
+simulateModel("IDEAS.Buildings.Components.Examples.WindowThermalBridge", stopTime=1e+06, method="Lsodar", tolerance=1e-06, resultFile="WindowThermalBridge");
+
+createPlot(id=1, position={0, 0, 744, 488}, y={"win.propsBus_a.surfCon.Q_flow", "winLinLos.propsBus_a.surfCon.Q_flow"}, range={0.0, 1000000.0, -16.0, 6.0}, erase=false, grid=true, colors={{28,108,200}, {238,46,47}});
+

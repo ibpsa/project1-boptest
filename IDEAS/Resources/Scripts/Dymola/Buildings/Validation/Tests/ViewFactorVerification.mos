@@ -1,0 +1,23 @@
+simulateModel("IDEAS.Buildings.Validation.Tests.ViewFactorVerification", stopTime=1000000, outputInterval=600, method="Lsodar", tolerance=1e-06, resultFile="ViewFactorVerification");
+
+createPlot(id=1, 
+position={0, 0, 1065, 643}, 
+y={"CaseVf.building.TSensor[1]", "CaseNoVf.building.TSensor[1]"}, 
+range={9200000.0, 10950000.0, 293.0, 301.0}, 
+autoscale=false, 
+grid=true, 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}, {255,0,0}});
+
+createPlot(id=1, 
+position={0, 0, 1065, 318}, 
+y={"CaseVf.PHea", "CaseNoVf.PHea"}, 
+range={9200000.0, 10950000.0, -4000.0, 500.0}, 
+autoscale=false, 
+grid=true, 
+subPlot=2, 
+leftTitleType=1, 
+bottomTitleType=1, 
+colors={{0,0,255}, {255,0,0}});
+

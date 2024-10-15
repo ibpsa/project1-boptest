@@ -1,0 +1,3 @@
+simulateModel("IDEAS.Buildings.Components.BaseClasses.RadiativeHeatTransfer.Examples.LongwaveHeatTransfer", stopTime=1e+06, method="Lsodar", tolerance=1e-06, resultFile="LongwaveHeatTransfer");
+
+createPlot(id=1, position={0, 0, 1549, 874}, y={"extHeaRad.port_a.Q_flow", "intHeaRadLin.port_b.Q_flow", "zonLwDist.port_a[2].Q_flow", "zonLwDistLin.port_a[2].Q_flow", "intHeaRad.port_b.Q_flow"}, range={0.0, 1000000.0, -3000.0, 3000.0}, grid=true, colors={{28,108,200}, {238,46,47}, {0,140,72}, {217,67,180}, {0,0,0}});

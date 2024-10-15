@@ -1,0 +1,5 @@
+simulateModel("IDEAS.Buildings.Components.BaseClasses.ConvectiveHeatTransfer.Examples.Convection", stopTime=1e+06, method="Lsodar", tolerance=1e-06, resultFile="Convection");
+
+createPlot(id=1, position={0, 0, 1309, 724}, y={"extConLin.port_a.Q_flow", "extCon.port_a.Q_flow"}, range={0.0, 1000000.0, -2000.0, 8000.0}, grid=true, colors={{28,108,200}, {238,46,47}});
+createPlot(id=1, position={0, 0, 1309, 238}, y={"intConVer.port_a.Q_flow", "intConVerLin.port_a.Q_flow", "intConFlo.port_a.Q_flow"}, range={0.0, 1000000.0, -100.0, 500.0}, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}, {0,140,72}});
+createPlot(id=1, position={0, 0, 1309, 239}, y={"monLayAirHorLin.port_a.Q_flow", "monLayAirHor.port_a.Q_flow", "monLayAirWal.port_a.Q_flow"}, range={0.0, 1000000.0, -600.0, 600.0}, grid=true, subPlot=3, colors={{28,108,200}, {238,46,47}, {0,140,72}});

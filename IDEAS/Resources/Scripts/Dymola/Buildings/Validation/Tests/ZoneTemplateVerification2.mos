@@ -1,0 +1,8 @@
+simulateModel("IDEAS.Buildings.Validation.Tests.ZoneTemplateVerification2", stopTime=1000000, outputInterval=600, method="Lsodar", tolerance=1e-06, resultFile="ZoneTemplateVerification2");
+
+createPlot(id=1, 
+position={0, 0, 1677, 826}, 
+y={"case900Template.TSensor", "bui900.gF.TSensor"}, 
+range={0.0, 1000000.0, 270.0, 294.0}, 
+grid=true, 
+colors={{28,108,200}, {238,46,47}});
