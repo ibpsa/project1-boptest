@@ -11,13 +11,27 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 5) Save test case data within wrapper FMU.
 
 """
+import ptvsd
 
+# Allow other computers to attach to ptvsd at port 5679
+ptvsd.enable_attach(address=('0.0.0.0', 5679), redirect_output=True)
+
+# Pause the program until a remote debugger is attached
+print("Waiting for debugger to attach...")
+ptvsd.wait_for_attach()
+
+import sys
+import os
+# Add the parent directory to PYTHONPATH to include 'data'
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'data'))
 from pyfmi import load_fmu
 from pymodelica import compile_fmu
-import os
+
 import json
 from data.data_manager import Data_Manager
 import warnings
+
+
 
 def parse_instances(model_path, file_name):
     '''Parse the signal exchange block class instances using fmu xml.

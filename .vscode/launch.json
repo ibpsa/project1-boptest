@@ -1,7 +1,4 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -14,8 +11,24 @@
             },
             "pathMappings": [
                 {
-                    "localRoot": "C:\\Github\\project1-boptest",
+                    "localRoot": "C:/Github/project1-boptest",
                     "remoteRoot": "/home/user"
+                }
+            ],
+            "justMyCode": true
+        },
+        {
+            "name": "Python Debugger: Remote Attach (5679)",
+            "type": "python",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5679
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "C:/Github/project1-boptest/parsing",
+                    "remoteRoot": "/workspace"
                 }
             ],
             "justMyCode": true

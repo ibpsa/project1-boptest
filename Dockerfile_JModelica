@@ -1,0 +1,23 @@
+FROM michaelwetter/ubuntu-1804_jmodelica_trunk
+
+ENV ROOT_DIR /usr/local
+ENV JMODELICA_HOME $ROOT_DIR/JModelica
+ENV IPOPT_HOME $ROOT_DIR/Ipopt-3.12.4
+ENV SUNDIALS_HOME $JMODELICA_HOME/ThirdParty/Sundials
+ENV SEPARATE_PROCESS_JVM /usr/lib/jvm/java-8-openjdk-amd64/
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+ENV PYTHONPATH $PYTHONPATH:$JMODELICA_HOME/Python:$JMODELICA_HOME/Python/pymodelica
+ENV MODELICAPATH $JMODELICA_HOME/Modelica:$JMODELICA_HOME/ThirdParty/MSL
+
+# Copy the IBPSA library to the container
+COPY IBPSA /usr/local/JModelica/Modelica/IBPSA
+
+USER root
+# Edit pyfmi to event update at start of simulation for ME2
+RUN sed -i "350 i \\\n        if isinstance(self.model, fmi.FMUModelME2):\n            self.model.event_update()" $JMODELICA_HOME/Python/pyfmi/fmi_algorithm_drivers.py
+
+# Install necessary Python packages
+RUN pip install matplotlib pandas numpy scipy ptvsd
+
+# Expose port for debugging
+EXPOSE 5679
