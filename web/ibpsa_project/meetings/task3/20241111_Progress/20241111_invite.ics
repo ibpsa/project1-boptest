@@ -24,39 +24,47 @@ END:VTIMEZONE
 BEGIN:VEVENT
 DTSTART;TZID=America/Los_Angeles:20241111T060000
 DTEND;TZID=America/Los_Angeles:20241111T070000
-DTSTAMP:20240826T145408Z
+DTSTAMP:20241014T161338Z
 ORGANIZER;CN=Ettore Zanetti:mailto:ezanetti@lbl.gov
 UID:dn3hr7qlfuakjip27cf42f4rro@google.com
 ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
  TRUE;CN=ettore.zanetti@polimi.it;X-NUM-GUESTS=0:mailto:ettore.zanetti@polim
  i.it
-ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
- TRUE;CN=Ettore Zanetti;X-NUM-GUESTS=0:mailto:ezanetti@lbl.gov
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=Ettore Zanetti;X-NUM-GUESTS=0:mailto:ezanetti@lbl.gov
 X-MICROSOFT-CDO-OWNERAPPTID:560730662
 CREATED:20240826T145403Z
-DESCRIPTION:Ettore Zanetti is inviting you to a scheduled Zoom meeting.\n\n
- Join Zoom Meeting\nhttps://lbnl.zoom.us/j/96516068070\n\nMeeting ID: 965 16
- 06 8070\n\n---\n\nOne tap mobile\n+12133388477\,\,96516068070# US (Los Ange
- les)\n+16692192599\,\,96516068070# US (San Jose)\n\n---\n\nDial by your loc
- ation\n• +1 213 338 8477 US (Los Angeles)\n• +1 669 219 2599 US (San Jose)\
- n• +1 669 900 6833 US (San Jose)\n• +1 206 337 9723 US (Seattle)\n• +1 253 
- 215 8782 US (Tacoma)\n• +1 346 248 7799 US (Houston)\n• +1 602 753 0140 US 
- (Phoenix)\n• +1 720 928 9299 US (Denver)\n• +1 971 247 1195 US (Portland)\n
- • +1 646 558 8656 US (New York)\n• +1 651 372 8299 US (Minnesota)\n• +1 786
-  635 1003 US (Miami)\n• +1 267 831 0333 US (Philadelphia)\n• +1 301 715 859
- 2 US (Washington DC)\n• +1 312 626 6799 US (Chicago)\n• +1 470 250 9358 US 
- (Atlanta)\n• +1 470 381 2552 US (Atlanta)\n• +1 646 518 9805 US (New York)\
- n\nMeeting ID: 965 1606 8070\n\nFind your local number: https://lbnl.zoom.u
- s/u/abQbZHLhoE\n\n---\n\nJoin by SIP\n• 96516068070@zoomcrc.com\n\n---\n\nJ
- oin by H.323\n• 162.255.37.11 (US West)\n• 162.255.36.11 (US East)\n• 115.1
- 14.131.7 (India Mumbai)\n• 115.114.115.7 (India Hyderabad)\n• 213.19.144.11
- 0 (Amsterdam Netherlands)\n• 213.244.140.110 (Germany)\n• 103.122.166.55 (A
- ustralia Sydney)\n• 103.122.167.55 (Australia Melbourne)\n• 64.211.144.160 
- (Brazil)\n• 159.124.168.213 (Canada Toronto)\n• 65.39.152.160 (Canada Vanco
- uver)\n• 207.226.132.110 (Japan Tokyo)\n• 149.137.24.110 (Japan Osaka)\n\nM
- eeting ID: 965 1606 8070\n\n
-LAST-MODIFIED:20240826T145403Z
-LOCATION:https://lbnl.zoom.us/j/96516068070
+DESCRIPTION:Agenda: <br><a href="https://docs.google.com/document/d/1UBJmDk
+ 5g3htTs_W-s4Sig5iZjtqymZY_reiFq1TGb9I/edit#heading=h.zeo6imldwjwn" target="
+ _blank" class="pastedDriveLink-0"><u>https://docs.google.com/document/d/1UB
+ JmDk5g3htTs_W-s4Sig5iZjtqymZY_reiFq1TGb9I/edit#heading=h.zeo6imldwjwn</u></
+ a><br><br>Ettore Zanetti is inviting you to a scheduled Zoom meeting.<br><b
+ r><br>Join Zoom Meeting<br><a href="https://lbnl.zoom.us/j/2197244139" targ
+ et="_blank"><u>https://lbnl.zoom.us/j/2197244139</u></a><br><br>Meeting ID:
+  219 724 4139<br><br>---<br><br>One tap mobile<br>+12133388477\,\,219724413
+ 9# US (Los Angeles)<br>+16692192599\,\,2197244139# US (San Jose)<br><br>---
+ <br><br>Dial by your location<br>• +1 213 338 8477 US (Los Angeles)<br>• +1
+  669 219 2599 US (San Jose)<br>• +1 669 900 6833 US (San Jose)<br>• +1 602 
+ 753 0140 US (Phoenix)<br>• +1 720 928 9299 US (Denver)<br>• +1 971 247 1195
+  US (Portland)<br>• +1 206 337 9723 US (Seattle)<br>• +1 253 215 8782 US (T
+ acoma)<br>• +1 346 248 7799 US (Houston)<br>• +1 470 250 9358 US (Atlanta)<
+ br>• +1 470 381 2552 US (Atlanta)<br>• +1 646 518 9805 US (New York)<br>• +
+ 1 646 558 8656 US (New York)<br>• +1 651 372 8299 US (Minnesota)<br>• +1 78
+ 6 635 1003 US (Miami)<br>• +1 267 831 0333 US (Philadelphia)<br>• +1 301 71
+ 5 8592 US (Washington DC)<br>• +1 312 626 6799 US (Chicago)<br><br>Meeting 
+ ID: 219 724 4139<br><br>Find your local number: <a href="https://lbnl.zoom.
+ us/u/adAWvqLhbx" target="_blank"><u>https://lbnl.zoom.us/u/adAWvqLhbx</u></
+ a><br><br>---<br><br>Join by SIP<br>• <a href="mailto:2197244139@zoomcrc.co
+ m" target="_blank"><u>2197244139@zoomcrc.com</u></a><br><br>---<br><br>Join
+  by H.323<br>• 162.255.37.11 (US West)<br>• 162.255.36.11 (US East)<br>• 11
+ 5.114.131.7 (India Mumbai)<br>• 115.114.115.7 (India Hyderabad)<br>• 213.19
+ .144.110 (Amsterdam Netherlands)<br>• 213.244.140.110 (Germany)<br>• 103.12
+ 2.166.55 (Australia Sydney)<br>• 103.122.167.55 (Australia Melbourne)<br>• 
+ 64.211.144.160 (Brazil)<br>• 159.124.168.213 (Canada Toronto)<br>• 65.39.15
+ 2.160 (Canada Vancouver)<br>• 207.226.132.110 (Japan Tokyo)<br>• 149.137.24
+ .110 (Japan Osaka)<br><br>Meeting ID: 219 724 4139
+LAST-MODIFIED:20241014T161337Z
+LOCATION:https://lbnl.zoom.us/j/2197244139
 SEQUENCE:0
 STATUS:CONFIRMED
 SUMMARY:[Task 3] (Test case Development) IBPSA project 2 monthly meeting
