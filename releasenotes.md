@@ -15,6 +15,10 @@ Released on xx/xx/xxxx.
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 - Add support to ``parsing/parser.py`` for test case compilation using [Modelon's OPTIMICA Compiler Toolkit (OCT)](https://help.modelon.com/latest/reference/oct/).  The parser can take arguments ``'JModelica'`` or ``'OCT'``, with ``'JModelica'`` as default.  A user still requires access to an OCT license and software on their set up.  This is for [#675](https://github.com/ibpsa/project1-boptest/issues/675).
 - Changed ``bestest_hydronic`` and ``bestest_hydronic_heat_pump`` Modelica implementations in this repository to utilize the Modelica IDEAS Library as a dependency for component models, instead of serving as extensions from the Modelica IDEAS Library.  This is to simplify dependencies for maintaining the models, and is how other test cases are implemented.  It required duplication of the model implementations from the Modelica IDEAS Library into this repository.  This is for [#680](https://github.com/ibpsa/project1-boptest/issues/680).
+- Add ``activate`` control inputs missing in ``bestest_hydronic`` and ``bestest_hydronic_heat_pump``  Modelica documentation.  This is for [#625](https://github.com/ibpsa/project1-boptest/issues/625).
+- Update ``min`` and ``max`` parameters for heating `oveTSetHea_u`` and cooling `oveTSetCoo_u`` setpoints in ``bestest_air`` and ``bestest_hydronic`` to ``min=278.15`` and ``max=308.15``.  This is for [#658](https://github.com/ibpsa/project1-boptest/issues/658).
+
+
 
 **The following new test cases have been added:**
 
