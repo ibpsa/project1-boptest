@@ -769,6 +769,12 @@ see https://www.eia.gov/environment/emissions/co2_vol_mass.php.
 revisions="<html>
 <ul>
 <li>
+October 18, 2024, by Ettore Zanetti:<br/>
+Update <code>min</code> and <code>max</code> for ovewrite blocks.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/658>
+BOPTEST issue #658</a>.
+</li>
+<li>
 August 25, 2022, by David Blum:<br/>
 Add forecast point documentation.
 This is for <a href=https://github.com/ibpsa/project1-boptest/issues/356>
