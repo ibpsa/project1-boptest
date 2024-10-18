@@ -5,5 +5,6 @@
 "warmup_period" : 0.0,
 "step"          : 3600.0,
 "scenario"      : {"electricity_price":"constant",
-                   "time_period":null}
+                   "time_period":null,
+                    "weather_forecast_uncertainty": null}
 }
