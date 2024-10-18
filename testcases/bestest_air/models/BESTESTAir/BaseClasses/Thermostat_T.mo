@@ -31,8 +31,8 @@ model Thermostat_T
 
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
-      min=273.15 + 23,
-      max=273.15 + 30), description="Zone temperature setpoint for cooling")
+      min=273.15 + 5,
+      max=273.15 + 35), description="Zone temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint"
     annotation (Placement(transformation(extent={{-70,70},{-50,90}})));
   Modelica.Blocks.Sources.CombiTimeTable TSetCoo(
@@ -43,9 +43,9 @@ model Thermostat_T
     annotation (Placement(transformation(extent={{-100,70},{-80,90}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite oveTSetHea(description="Zone temperature setpoint for heating",
       u(
-      max=273.15 + 23,
+      max=273.15 + 35,
       unit="K",
-      min=273.15 + 15)) "Overwrite for zone heating setpoint"
+      min=273.15 + 5)) "Overwrite for zone heating setpoint"
     annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
   Modelica.Blocks.Sources.CombiTimeTable TSetHea(
     smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments,
