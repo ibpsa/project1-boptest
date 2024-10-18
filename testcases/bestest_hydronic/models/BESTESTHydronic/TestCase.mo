@@ -577,10 +577,10 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 <ul>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
-Changed IDEAS dependency from exteding <code>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</code>
+Changed IDEAS dependency from extending <code>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</code>
 to duplicating the model.
 This is for
-<a href=\"https://github.com/ibpsa/project1-boptest/issues/380\">BOPTEST issue #380</a>. 
+<a href=\"https://github.com/ibpsa/project1-boptest/issues/680\">BOPTEST issue #680</a>. 
 </li>
 <li>
 December 2, 2021, by David Blum:<br/>
