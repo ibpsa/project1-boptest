@@ -291,6 +291,30 @@ GET /kpi
             "time_rat":<value>      // float, Computational time ratio in s/ss
         }
 
+GET /kpi_disaggregated
+----------------------
+
+- **Description:** Receive KPI values disaggregated into contributing components (e.g. each equipment or zone).
+                   The returned results are in absolute values, that is, they are not normalized by floor area or by number of zones.
+                   Calculated from start time and do not include warmup periods.
+
+- **Arguments:** None.
+
+- **Returns:**
+
+    ::
+
+        {
+            "cost":<kpi_ele_name>:<kpi_ele_value>,     // dict, Contribution of each element to HVAC energy cost in $ or Euro
+            "emis":<kpi_ele_name>:<kpi_ele_value>,     // dict, Contribution of each element to HVAC energy emissions in kgCO2e
+            "ener":<kpi_ele_name>:<kpi_ele_value>,     // dict, Contribution of each element to HVAC energy total usage in kWh
+            "pele":<kpi_ele_name>:<kpi_ele_value>,     // dict, Contribution of each element to HVAC at the overall peak electrical demand in kW
+            "pgas":<kpi_ele_name>:<kpi_ele_value>,     // dict, Contribution of each element to HVAC at the overall peak gas demand in kW
+            "pdih":<kpi_ele_name>:<kpi_ele_value>,     // dict, Contribution of each element to HVAC at the overall peak district heating demand in kW
+            "idis":<kpi_ele_name>:<kpi_ele_value>,     // dict, Contribution of each element to indoor air quality discomfort in ppmh
+            "tdis":<kpi_ele_name>:<kpi_ele_value>,     // dict, Contribution of each element to thermal discomfort in Kh
+        }
+
 GET /submit
 -----------
 
