@@ -770,7 +770,7 @@ revisions="<html>
 <ul>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
-Update <code>min</code> and <code>max</code> for ovewrite blocks.
+Update <code>min</code> and <code>max</code> for ovewrite blocks <code>oveTSetHea_u</code> and <code>oveTSetCoo_u</code>.
 This is for <a href=https://github.com/ibpsa/project1-boptest/issues/658>
 BOPTEST issue #658</a>.
 </li>
