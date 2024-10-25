@@ -889,12 +889,6 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 <ul>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
-Update <code>min</code> and <code>max</code> for ovewrite blocks.
-This is for <a href=https://github.com/ibpsa/project1-boptest/issues/658>
-BOPTEST issue #658</a>.
-</li>
-<li>
-October 18, 2024, by Ettore Zanetti:<br/>
 Add <code>activate</code> inputs to documentation
 This is for
 <a href=\"https://github.com/ibpsa/project1-boptest/issues/625\">BOPTEST issue #625</a>. 
