@@ -595,7 +595,7 @@ BOPTEST issue #658</a>.
 </li>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
-Add <code>activate</code> inputs to documentation
+Add <code>activate</code> inputs to documentation.
 This is for
 <a href=\"https://github.com/ibpsa/project1-boptest/issues/625\">BOPTEST issue #625</a>. 
 </li>
