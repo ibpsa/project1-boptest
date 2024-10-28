@@ -113,9 +113,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     # Retrieve a list of measurements (outputs) for the model from REST API
     measurements = check_response(requests.get('{0}/measurements'.format(url)))
     print('Measurements:\t\t\t{0}'.format(measurements))
-    # Get the default simulation timestep for the model for simulation run
-    step_def = check_response(requests.get('{0}/step'.format(url)))
-    print('Default Control Step:\t{0}'.format(step_def))
 
     # IF ANY CUSTOM KPI CALCULATION, DEFINE STRUCTURES
     # ------------------------------------------------
@@ -164,8 +161,9 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     if res:
         print('Successfully initialized the simulation')
     print('\nRunning test case...')
-    # Set simulation time step
-    res = check_response(requests.put('{0}/step'.format(url), json={'step': step}))
+    # Set and print simulation time step
+    control_step = check_response(requests.put('{0}/step'.format(url), json={'step': step}))
+    print('Current Control Step:\t{0}'.format(control_step['step']))
     # Initialize input to simulation from controller
     u = controller.initialize()
     # Initialize forecast storage structure
@@ -183,7 +181,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
             kpi.processing_data(y)  # Process data as needed for custom KPI
             custom_kpi_value = kpi.calculation()  # Calculate custom KPI value
             custom_kpi_result[kpi.name].append(round(custom_kpi_value, 2))  # Track custom KPI value
-            print('KPI:\t{0}:\t{1}'.format(kpi.name, round(custom_kpi_value, 2)))  # Print custom KPI value
         custom_kpi_result['time'].append(y['time'])  # Track custom KPI calculation time
         # If controller needs a forecast, get the forecast data and provide the forecast to the controller
         if controller.use_forecast:
@@ -226,6 +223,10 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         else:
             unit = None
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
+
+    if customized_kpi_config is not None:
+        print('\nCustom KPI RESULTS \n------------------')
+        print(pd.DataFrame(custom_kpi_result))
 
     # POST PROCESS RESULTS
     # -------------------------------------------------------------------------
