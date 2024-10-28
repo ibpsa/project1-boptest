@@ -130,17 +130,17 @@ model TestCase "Single zone residential hydronic example model"
     annotation (Placement(transformation(extent={{30,50},{50,70}})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetCoo(u(
       unit="K",
-      min=273.15 + 23,
-      max=273.15 + 30), description=
+      min=273.15 + 5,
+      max=273.15 + 35), description=
         "Zone operative temperature setpoint for cooling")
     "Overwrite for zone cooling setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=180,
         origin={-110,-50})));
   IDEAS.Utilities.IO.SignalExchange.Overwrite oveTSetHea(u(
-      max=273.15 + 23,
+      max=273.15 + 35,
       unit="K",
-      min=273.15 + 15), description=
+      min=273.15 + 5), description=
         "Zone operative temperature setpoint for heating")
     "Overwrite for zone heating setpoint" annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
@@ -340,16 +340,28 @@ depicted as C2 in Figure 1.
 <p>The model inputs are: </p>
 <ul>
 <li>
-<code>oveTSetHea_u</code> [K] [min=288.15, max=296.15]: Zone operative temperature setpoint for heating
-</li>
-<li>
-<code>oveTSetCoo_u</code> [K] [min=296.15, max=303.15]: Zone operative temperature setpoint for cooling
-</li>
-<li>
-<code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
+<code>ovePum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ovePum_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the stage of the pump either on or off
+</li>
+<li>
+<code>oveTSetCoo_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetCoo_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetCoo_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint for cooling
+</li>
+<li>
+<code>oveTSetHea_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetHea_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetHea_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint for heating
+</li>
+<li>
+<code>oveTSetSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSetSup_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
+<code>oveTSetSup_u</code> [K] [min=293.15, max=353.15]: Supply temperature setpoint of the heater
 </li>
 </ul>
 <h4>Outputs</h4>
@@ -575,6 +587,18 @@ https://www.eia.gov/environment/emissions/co2_vol_mass.php</a>
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 18, 2024, by Ettore Zanetti:<br/>
+Update <code>min</code> and <code>max</code> for ovewrite blocks <code>oveTSetHea_u</code> and <code>oveTSetCoo_u</code>.
+This is for <a href=https://github.com/ibpsa/project1-boptest/issues/658>
+BOPTEST issue #658</a>.
+</li>
+<li>
+October 18, 2024, by Ettore Zanetti:<br/>
+Add <code>activate</code> inputs to documentation.
+This is for
+<a href=\"https://github.com/ibpsa/project1-boptest/issues/625\">BOPTEST issue #625</a>. 
+</li>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
 Changed IDEAS dependency from extending <code>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronic</code>

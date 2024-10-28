@@ -2,11 +2,11 @@ model wrapped "Wrapped model"
 	// Input overwrite
 	Modelica.Blocks.Interfaces.RealInput ovePum_u(unit="1", min=0.0, max=1.0) "Integer signal to control the stage of the pump either on or off";
 	Modelica.Blocks.Interfaces.BooleanInput ovePum_activate "Activation for Integer signal to control the stage of the pump either on or off";
-	Modelica.Blocks.Interfaces.RealInput oveTSetHea_u(unit="K", min=288.15, max=296.15) "Zone operative temperature setpoint for heating";
+	Modelica.Blocks.Interfaces.RealInput oveTSetHea_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetHea_activate "Activation for Zone operative temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.RealInput oveTSetSup_u(unit="K", min=293.15, max=353.15) "Supply temperature setpoint of the heater";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetSup_activate "Activation for Supply temperature setpoint of the heater";
-	Modelica.Blocks.Interfaces.RealInput oveTSetCoo_u(unit="K", min=296.15, max=303.15) "Zone operative temperature setpoint for cooling";
+	Modelica.Blocks.Interfaces.RealInput oveTSetCoo_u(unit="K", min=278.15, max=308.15) "Zone operative temperature setpoint for cooling";
 	Modelica.Blocks.Interfaces.BooleanInput oveTSetCoo_activate "Activation for Zone operative temperature setpoint for cooling";
 	// Out read
 	Modelica.Blocks.Interfaces.RealOutput weaSta_reaWeaSolHouAng_y(unit="rad") = mod.weaSta.reaWeaSolHouAng.y "Solar hour angle measurement";
