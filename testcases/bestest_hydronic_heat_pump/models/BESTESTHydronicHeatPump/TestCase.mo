@@ -636,20 +636,30 @@ is depicted as controller C2 in Figure 1.
 <h4>Inputs</h4>
 <p>The model inputs are: </p>
 <ul>
-
+<li>
+<code>oveFan_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveFan_u where 1 activates, 0 deactivates (default value)
+</li>
 <li>
 <code>oveFan_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the heat pump evaporator fan either on or off
+</li>
+<li>
+<code>oveHeaPumY_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveHeaPumY_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveHeaPumY_u</code> [1] [min=0.0, max=1.0]: Heat pump modulating signal for compressor speed between 0 (not working) and 1 (working at maximum capacity)
 </li>
 <li>
+<code>ovePum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ovePum_u where 1 activates, 0 deactivates (default value)
+</li>
+<li>
 <code>ovePum_u</code> [1] [min=0.0, max=1.0]: Integer signal to control the emission circuit pump either on or off
+</li>
+<li>
+<code>oveTSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveTSet_u</code> [K] [min=278.15, max=308.15]: Zone operative temperature setpoint
 </li>
-
 </ul>
 <h4>Outputs</h4>
 <p>The model outputs are: </p>
@@ -877,6 +887,12 @@ https://www.carbonfootprint.com/docs/2019_06_emissions_factors_sources_for_2019_
 </p>
 </html>", revisions="<html>
 <ul>
+<li>
+October 18, 2024, by Ettore Zanetti:<br/>
+Add <code>activate</code> inputs to documentation.
+This is for
+<a href=\"https://github.com/ibpsa/project1-boptest/issues/625\">BOPTEST issue #625</a>. 
+</li>
 <li>
 October 18, 2024, by Ettore Zanetti:<br/>
 Changed IDEAS dependency from extending <code>IDEAS.Examples.IBPSA.SingleZoneResidentialHydronicHeatPump</code>
