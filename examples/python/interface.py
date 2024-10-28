@@ -139,13 +139,11 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         if res == None:
             # If no time_period was specified (only electricity_price), initialize test with a specified start time and warmup period
             res = check_response(requests.put('{0}/initialize'.format(url), json={'start_time': start_time, 'warmup_period': warmup_period}))
-            print("RESULT: {}".format(res))
             # Set final time and total time steps according to specified length (seconds)
             final_time = start_time + length
             total_time_steps = int(length / step)  # calculate number of timesteps
         else:
             # If a time_period was specified, the initialization is complete
-            print("RESULT: {}".format(res))
             # Record test simulation start time
             start_time = int(res['time'])
             # Set final time and total time steps to be very large since scenario defines length
@@ -154,7 +152,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     else:
         # Initialize test with a specified start time and warmup period
         res = check_response(requests.put('{0}/initialize'.format(url), json={'start_time': start_time, 'warmup_period': warmup_period}))
-        print("RESULT: {}".format(res))
         # Set final time and total time steps according to specified length (seconds)
         final_time = start_time + length
         total_time_steps = int(length / step)  # calculate number of timesteps
@@ -168,7 +165,8 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
     u = controller.initialize()
     # Initialize forecast storage structure
     forecasts = None
-    print(requests.get('{0}/scenario'.format(url)).json())
+    res = check_response(requests.get('{0}/scenario'.format(url)))
+    print('Current Scenario Setting:\t{0}'.format(res))
     # Simulation Loop
     for t in range(total_time_steps):
         # Advance simulation with control input value(s)
@@ -198,9 +196,14 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
 
     # VIEW RESULTS
     # -------------------------------------------------------------------------
-    # Report KPIs
+    # Report Custom KPIs
+    if customized_kpi_config is not None:
+        print('\nCustom KPI RESULTS \n------------------')
+        print(pd.DataFrame(custom_kpi_result))
+
+    # Report BOPTEST KPIs
     kpi = check_response(requests.get('{0}/kpi'.format(url)))
-    print('\nKPI RESULTS \n-----------')
+    print('\nBOPTEST KPI RESULTS \n-------------------')
     for key in kpi.keys():
         if key == 'ener_tot':
             unit = 'kWh/m$^2$'
@@ -223,10 +226,6 @@ def control_test(control_module='', start_time=0, warmup_period=0, length=24*360
         else:
             unit = None
         print('{0}: {1} {2}'.format(key, kpi[key], unit))
-
-    if customized_kpi_config is not None:
-        print('\nCustom KPI RESULTS \n------------------')
-        print(pd.DataFrame(custom_kpi_result))
 
     # POST PROCESS RESULTS
     # -------------------------------------------------------------------------
