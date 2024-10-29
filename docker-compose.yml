@@ -16,7 +16,7 @@ services:
       - ./kpis:${APP_PATH}/kpis/
     ports:
       - "8080:8080"
-      - "5678:5679" # Port for remote debugging
+      - "5678:5678" # Port for remote debugging
     environment:
       - DEBUG_MODE=true  # Add this line to enable debugging
     

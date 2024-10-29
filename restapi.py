@@ -19,7 +19,7 @@ import os
 # Check if debugging is enabled
 if os.getenv('DEBUG_MODE', 'false').lower() == 'true':
     # Allow other computers to attach to ptvsd at this IP address and port.
-    ptvsd.enable_attach(address=('0.0.0.0', 5679), redirect_output=True)
+    ptvsd.enable_attach(address=('0.0.0.0', 5678), redirect_output=True)
     print("Waiting for debugger to attach...")
     # Timeout for the wait function to avoid indefinite blocking
     ptvsd.wait_for_attach(timeout=19)  # Timeout in seconds
