@@ -78,16 +78,22 @@ parser_advance = reqparse.RequestParser(argument_class=CustomArgument)
 for key in case.u.keys():
     if key != 'time':
         parser_advance.add_argument(key, type=float)
-# ``price_scenario`` interface
+# ``scenario`` interface
 parser_scenario = reqparse.RequestParser(argument_class=CustomArgument)
 parser_scenario.add_argument('electricity_price', type=str)
 parser_scenario.add_argument('time_period', type=str)
+parser_scenario.add_argument('temperature_uncertainty', type=str)
+parser_scenario.add_argument('solar_uncertainty', type=str)
+parser_scenario.add_argument('seed', type=int)
 # ``forecast`` interface
 parser_forecast_points = reqparse.RequestParser(argument_class=CustomArgument)
 parser_forecast_points.add_argument('point_names', type=list, action='append', required=True)
-forecast_parameters = ['horizon', 'interval']
-for arg in forecast_parameters:
-    parser_forecast_points.add_argument(arg, required=True)
+# Add required parameters
+parser_forecast_points.add_argument('horizon', required=True)
+parser_forecast_points.add_argument('interval', required=True)
+# Add optional uncertainty parameters
+parser_forecast_points.add_argument('temperature_uncertainty', required=False)
+parser_forecast_points.add_argument('solar_uncertainty', required=False)
 # ``results`` interface
 results_var = reqparse.RequestParser(argument_class=CustomArgument)
 results_var.add_argument('point_names', type=list, action='append', required=True)
@@ -200,10 +206,15 @@ class Forecast(Resource):
         args = parser_forecast_points.parse_args()
         horizon = args['horizon']
         interval = args['interval']
+        temperature_uncertainty = args.get('temperature_uncertainty', None)
+        solar_uncertainty = args.get('solar_uncertainty', None)
         point_names = []
         for point_name in args['point_names']:
             point_names.append(''.join(point_name))
-        status, message, payload = case.get_forecast(point_names, horizon, interval)
+        status, message, payload = case.get_forecast(point_names, horizon, interval, 
+                                                     temperature_uncertainty,
+                                                     solar_uncertainty)
+
         return construct(status, message, payload)
 
 class Scenario(Resource):
@@ -276,3 +287,4 @@ api.add_resource(Submit, '/submit')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+
