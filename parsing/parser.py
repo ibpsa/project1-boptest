@@ -89,14 +89,26 @@ def parse_instances(model_path, file_name):
         # KPI
         elif 'KPIs' in var:
             label = 'kpi'
+        # CAT
+        elif 'CAT' in var:
+            label = 'cat'
         else:
             continue
         # Save instance
-        if label is not 'kpi':
+        if label is not 'kpi' and label is not 'cat':
             instances[label][instance] = {'Unit' : unit}
             instances[label][instance]['Description'] = description
             instances[label][instance]['Minimum'] = mini
             instances[label][instance]['Maximum'] = maxi
+        elif label is 'cat':
+            actuator_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
+            signal_type = '{0}[{1}]'.format("ControlActuator", actuator_type)
+            if actuator_type == 'None':
+                continue
+            elif signal_type in signals:
+                signals[signal_type].append(_make_var_name(instance,style='input_signal'))
+            else:
+                signals[signal_type] = [_make_var_name(instance,style='input_signal')]            
         else:
             signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
             # Split certain signal types for multi-zone
@@ -284,8 +296,8 @@ def _make_var_name(block, style, description='', attribute=''):
 
 if __name__ == '__main__':
     # Define model
-    model_path = 'SimpleRC'
-    mo_path = 'SimpleRC.mo'
+    model_path = 'TestCase'
+    mo_path = 'TestCase.mo'
     # Parse and export
     fmu_path, kpi_path = export_fmu(model_path, [mo_path])
     # Print information
