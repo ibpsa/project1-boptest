@@ -993,8 +993,8 @@ class TestCase(object):
                 point_names,
                 horizon=horizon,
                 interval=interval,
-                weather_temperature_dry_bulb=temperature_params,
-                weather_solar_global_horizontal=solar_params,
+                wea_tem_dry_bul=temperature_params,
+                wea_sol_glo_hor=solar_params,
                 seed=applied_seed
             )
 

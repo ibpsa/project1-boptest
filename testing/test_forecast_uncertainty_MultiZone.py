@@ -29,29 +29,17 @@ class ForecasterSingleZoneTest(unittest.TestCase):
 
         '''
 
-        # Change directory to testcase 3
-        os.chdir(os.path.join(testing_root_dir,'testcase3'))
-        from testcase3.testcase import TestCase
-        self.case=TestCase()
-
-        # Instantiate a forecaster
-        self.forecaster = Forecaster(self.case)
-
-        self.forecast_points = list(self.case.get_forecast_points()[2].keys())
         # Load deterministic forecasts
         self.determinstic_temperature_forecasts=pd.read_csv(os.path.join(utilities.get_root_path(),
             'testing', 'references', 'forecast', 'testcase3', 'determinstic_temperature_forecasts.csv'),index_col=0)
 
         # Load uncertainty parameters
-        with open(os.path.join(utilities.get_root_path(),
-            'testing', 'references', 'forecast','forecast_uncertainty_params.json'), 'r') as f:
+        with open(os.path.join(utilities.get_root_path(), 'forecast', 'forecast_uncertainty_params.json'), 'r') as f:
             uncertainty_params = json.load(f)
         self.ref_temperature_uncertainty_params=uncertainty_params['temperature']
 
         # Set URL for testcase
         self.url = 'http://127.0.0.1:5000'
-        self.input_names=self.case.input_names
-        self.inputs_metadata=self.case.inputs_metadata
 
     def test_interval_horizon(self):
         """Test whether forecast intervals and horizon are correct."""
@@ -92,13 +80,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
             'temperature_uncertainty': 'high',
             'seed': 5
         })
-        u = {
-            self.input_names[0]: float(1),
-            self.input_names[1]: float(self.inputs_metadata[self.input_names[1]]['Minimum'])
-        }
-
         for _ in range(1000):
-
             forecasts=requests.put('{0}/forecast'.format(self.url),
                          json={'point_names': ['TDryBul'],
                                'interval': 3600,
@@ -107,8 +89,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
             for forecast in forecasts:
                 self.assertGreaterEqual(forecast, 173.15, f"Forecast temperature {forecast} is below -100°C")
                 self.assertLessEqual(forecast, 373.15, f"Forecast temperature {forecast} is above 100°C")
-            requests.post('{0}/advance'.format(self.url), json=u).json()
-
+            requests.post('{0}/advance'.format(self.url), json={}).json()
 
     def check_uncertainty(self,uncertain_level):
         """Check the forecast uncertainty parameters against references.
@@ -138,12 +119,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
 
         # Collect forecasts and calculate errors
         all_temperature_forecasts = []
-        u={
-            self.input_names[0]:float(1),
-            self.input_names[1]:float(self.inputs_metadata[self.input_names[1]]['Minimum'])
-        }
         for _ in range(1000):
-
             forecasts=requests.put('{0}/forecast'.format(self.url),
                          json={'point_names': ['TDryBul'],
                                'interval': 3600,
@@ -152,7 +128,7 @@ class ForecasterSingleZoneTest(unittest.TestCase):
             current_temperature_forecast=forecasts['TDryBul']
             all_temperature_forecasts.append(current_temperature_forecast)
 
-            requests.post('{0}/advance'.format(self.url), json=u).json()
+            requests.post('{0}/advance'.format(self.url), json={}).json()
 
 
         # Calculate error between deterministic and forecasted data
