@@ -1016,7 +1016,8 @@ class TestCase(object):
             {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
              'time_period': see available <str> keys for test case,
              'temperature_uncertainty':<'low' or 'medium' or 'high'>,
-             'solar_uncertainty':<'low' or 'medium' or 'high'>
+             'solar_uncertainty':<'low' or 'medium' or 'high'>,
+             'seed': int, used for uncertainty sampling
             }
             If any value is None, it will not change existing.
 
@@ -1025,7 +1026,7 @@ class TestCase(object):
         status: int
             Indicates whether a request for setting the scenario has been completed
             If 200, the scenario was successfully set.
-            If 400, invalid electricity_price and/or time_period (non-numeric) were identified.
+            If 400, invalid scenario entry was identified.
             If 500, an internal error occurred.
         message: str
             Includes the detailed debug information
@@ -1033,7 +1034,8 @@ class TestCase(object):
             {'electricity_price': if succeeded in changing then True, else None,
              'time_period': if succeeded then initial measurements, else None,
              'temperature_uncertainty': if succeeded in changing then True, else None,
-             'solar_uncertainty': if succeeded in changing then True, else None
+             'solar_uncertainty': if succeeded in changing then True, else None,
+             'seed': if succeeded then seed, else None
             }
         '''
 
@@ -1051,7 +1053,7 @@ class TestCase(object):
         if not hasattr(self, 'scenario'):
             self.scenario = {}
         try:
-
+            # Handle weather forecast uncertainty
             if (scenario['temperature_uncertainty'] and 'TDryBul' not in self.forecast_names) or \
                     (scenario['solar_uncertainty'] and 'HGloHor' not in self.forecast_names):
 
@@ -1066,7 +1068,6 @@ class TestCase(object):
                     ', '.join(missing_variables))
                 logging.error(message)
                 return status, message, payload
-
             # Handle electricity price
             if scenario['electricity_price']:
                 if scenario['electricity_price'] not in ['constant', 'dynamic', 'highly_dynamic']:
@@ -1094,14 +1095,11 @@ class TestCase(object):
                 end_time = start_time + 14*24*3600.
 
             # Handle temperature uncertainty
-
-
-
             if scenario['temperature_uncertainty']:
                 if scenario['temperature_uncertainty'] not in ['low', 'medium', 'high']:
                     status = 400
                     message = "Scenario parameter temperature_uncertainty is {}, " \
-                              "but should be 'low', 'medium' or 'high'.". \
+                              "but should be 'low', 'medium', or 'high'.". \
                               format(scenario['temperature_uncertainty'])
                     logging.error(message)
                     return status, message, payload
@@ -1115,7 +1113,7 @@ class TestCase(object):
                 if scenario['solar_uncertainty'] not in ['low', 'medium', 'high']:
                     status = 400
                     message = "Scenario parameter solar_uncertainty is {}, " \
-                              "but should be 'low', 'medium' or 'high'.". \
+                              "but should be 'low', 'medium', or 'high'.". \
                         format(scenario['solar_uncertainty'])
                     logging.error(message)
                     return status, message, payload
@@ -1123,7 +1121,7 @@ class TestCase(object):
                 payload['solar_uncertainty'] = self.scenario['solar_uncertainty']
             else:
                 self.scenario['solar_uncertainty'] = None
-
+            # Handle seed for uncertainty
             if scenario['seed']:
                 if isinstance(scenario['seed'], int) and scenario['seed'] >= 0:
                     self.scenario['seed'] = scenario['seed']
@@ -1136,7 +1134,6 @@ class TestCase(object):
                     return status, message, payload
             else:
                 self.scenario['seed'] = None
-
         except:
             status = 400
             message = "Invalid values for the scenario parameters: {}".format(traceback.format_exc())
@@ -1178,9 +1175,12 @@ class TestCase(object):
         message: str
             Includes detailed debugging information
         payload: dict
-            {'electricity_price': <str>,
-             'time_period': <str>
-             }
+            {'electricity_price': <'constant' or 'dynamic' or 'highly_dynamic'>,
+             'time_period': see available <str> keys for test case,
+             'temperature_uncertainty':<'low' or 'medium' or 'high'>,
+             'solar_uncertainty':<'low' or 'medium' or 'high'>,
+             'seed': int, used for uncertainty sampling
+            }
 
         '''
 

@@ -1,11 +1,12 @@
 '''
 Created on Apr 25, 2019
 
-@author: Javier Arroyo, Laura Zabala and Wanfu Zheng
+@author: Javier Arroyo, Laura Zabala, and Wanfu Zheng
 
 This module contains the Forecaster class with methods to obtain
 forecast data for the test case. It relies on the data_manager object
-of the test case to provide deterministic forecast.
+of the test case to provide a deterministic forecast, and the 
+error_emulator module to generate errors for uncertain forecasts.
 
 '''
 from .error_emulator import predict_temperature_error_AR1, predict_solar_error_AR1, mean_filter
@@ -13,8 +14,8 @@ import numpy as np
 
 
 class Forecaster(object):
-    '''This class retrieves test case data forecast for its use in
-    optimal control strategies.
+    '''
+    This class retrieves test case data forecast for its use in optimal control strategies.
 
     '''
 
@@ -64,6 +65,7 @@ class Forecaster(object):
 
         '''
 
+        # Set uncertainty parameters to 0 if no forecast uncertainty
         if wea_tem_dry_bul is None:
             wea_tem_dry_bul = {
                 "F0": 0, "K0": 0, "F": 0, "K": 0, "mu": 0
@@ -78,6 +80,7 @@ class Forecaster(object):
                                                    horizon=horizon,
                                                    interval=interval)
 
+        # Add any outside dry bulb temperature error
         if 'TDryBul' in point_names and any(wea_tem_dry_bul.values()):
             if seed is not None:
                 np.random.seed(seed)
@@ -94,13 +97,14 @@ class Forecaster(object):
             # forecast error just added to dry bulb temperature
             forecast['TDryBul'] = forecast['TDryBul'] - error_forecast_temp
             forecast['TDryBul'] = forecast['TDryBul'].tolist()
+
+        # Add any outside global horizontal irradiation error
         if 'HGloHor' in point_names and any(wea_sol_glo_hor.values()):
 
             original_HGloHor = np.array(forecast['HGloHor']).copy()
             lower_bound = 0.2 * original_HGloHor
             upper_bound = 2 * original_HGloHor
             indices = np.where(original_HGloHor > 50)[0]
-
 
             for i in range(200):
                 if seed is not None:
