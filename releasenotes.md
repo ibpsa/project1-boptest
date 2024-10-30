@@ -14,6 +14,9 @@ Released on xx/xx/xxxx.
 - Remove javascript controller example.  This is for [#664](https://github.com/ibpsa/project1-boptest/issues/664).
 - Add a new directory ``/baselines``, containing baseline testing scripts and associated KPI results for the baseline controllers of all the testcases. This is for [#495](https://github.com/ibpsa/project1-boptest/issues/495).
 - Add support to ``parsing/parser.py`` for test case compilation using [Modelon's OPTIMICA Compiler Toolkit (OCT)](https://help.modelon.com/latest/reference/oct/).  The parser can take arguments ``'JModelica'`` or ``'OCT'``, with ``'JModelica'`` as default.  A user still requires access to an OCT license and software on their set up.  This is for [#675](https://github.com/ibpsa/project1-boptest/issues/675).
+- Changed ``bestest_hydronic`` and ``bestest_hydronic_heat_pump`` Modelica implementations in this repository to utilize the Modelica IDEAS Library as a dependency for component models, instead of serving as extensions from the Modelica IDEAS Library.  This is to simplify dependencies for maintaining the models, and is how other test cases are implemented.  It required duplication of the model implementations from the Modelica IDEAS Library into this repository.  This is for [#680](https://github.com/ibpsa/project1-boptest/issues/680).
+- Add ``activate`` control inputs that were missing in ``bestest_hydronic`` and ``bestest_hydronic_heat_pump`` Modelica documentation.  This is for [#625](https://github.com/ibpsa/project1-boptest/issues/625).
+- Updated ``examples/python/interface.py`` to print correct simulation time step, this is for [#686](https://github.com/ibpsa/project1-boptest/issues/686). Also removed clutter by printed custom KPI results, which is for [#692](https://github.com/ibpsa/project1-boptest/issues/692).
 
 **The following new test cases have been added:**
 
@@ -23,6 +26,32 @@ Released on xx/xx/xxxx.
 **The following changes are backwards-compatible, but might change benchmark results:**
 
 - Fix calculation of computational time ratio (``time_rat``) in the case of a test where the test case was initialized after a test or simulation (use of ``/advance``) had already been done using the same test case deployment (i.e. the docker container had not been shutdown first and newly deployed).  The wait time between the last ``/advance`` before the new initialization and first ``/advance`` of the new initialization was incorrectly incorporated into the calculation as a control step and has been fixed, resulting in a lower computational time ratio.  The extent of impact depends on wait time between tests and control step and number of steps taken in the new test.  This is for [#673](https://github.com/ibpsa/project1-boptest/issues/673).
+ - Update ``min`` and ``max`` parameters for heating (``oveTSetHea_u``) and cooling (``oveTSetCoo_u``) setpoints in ``bestest_air`` and ``bestest_hydronic`` test cases to ``min=278.15`` and ``max=308.15``.  This may change benchmark results as it expands the allowable min and max set points for these test cases from previous versions.  This is for [#658](https://github.com/ibpsa/project1-boptest/issues/658).
+
+**The following changes are not backwards-compatible and significantly change benchmark results:**
+
+- Update ``multizone_residential_hydronic`` test case overwrite input ``oveTSetPum`` to ``oveTSetPumBoi`` so that this set point change will control thermostat activating both the boiler and the circulation pump. Furthermore, pump control logic is changed from PI following error on set point to on/off depending on thermostat control signal. Lastly, a safety on boiler control is added, allowing it to turn on only if there is flow through the boiler. This safety is bypassed if controlling the boiler directly via ``boi_oveBoi_u``. This is for [#653](https://github.com/ibpsa/project1-boptest/issues/653) and [#660](https://github.com/ibpsa/project1-boptest/issues/660).  Impacts on KPIs calculated compared to v0.6.0 for indicated scenarios are as follows:
+
+  Peak Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot               |+1.27%  |
+  |emis_tot               |+0.47%  |
+  |tdis_tot               |-2.70%  |
+  |cost_tot_constant      |+2.78%  |
+  |cost_tot_dynamic       |+2.96%  |
+  |cost_tot_highly_dynamic|+2.26%  |
+
+  Typical Heat Day
+  |KPI                    |% Change|
+  |-----------------------|--------|
+  |ener_tot	              |+0.98%  |
+  |emis_tot	              |+0.47%  |
+  |tdis_tot	              |+3.58%  |
+  |cost_tot_constant	  |+1.94%  |
+  |cost_tot_dynamic	      |+2.06%  |
+  |cost_tot_highly_dynamic|+1.59%  |
+
 
 ## BOPTEST v0.6.0
 

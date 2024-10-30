@@ -1,8 +1,8 @@
 model wrapped "Wrapped model"
 	// Input overwrite
-	Modelica.Blocks.Interfaces.RealInput con_oveTSetCoo_u(unit="K", min=296.15, max=303.15) "Zone temperature setpoint for cooling";
+	Modelica.Blocks.Interfaces.RealInput con_oveTSetCoo_u(unit="K", min=278.15, max=308.15) "Zone temperature setpoint for cooling";
 	Modelica.Blocks.Interfaces.BooleanInput con_oveTSetCoo_activate "Activation for Zone temperature setpoint for cooling";
-	Modelica.Blocks.Interfaces.RealInput con_oveTSetHea_u(unit="K", min=288.15, max=296.15) "Zone temperature setpoint for heating";
+	Modelica.Blocks.Interfaces.RealInput con_oveTSetHea_u(unit="K", min=278.15, max=308.15) "Zone temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.BooleanInput con_oveTSetHea_activate "Activation for Zone temperature setpoint for heating";
 	Modelica.Blocks.Interfaces.RealInput fcu_oveTSup_u(unit="K", min=285.15, max=313.15) "Supply air temperature setpoint";
 	Modelica.Blocks.Interfaces.BooleanInput fcu_oveTSup_activate "Activation for Supply air temperature setpoint";
