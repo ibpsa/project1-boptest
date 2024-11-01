@@ -796,7 +796,7 @@ class KPI_Calculator(object):
         """
         bounds = (x >= a) & (x <= b)
 
-        return np.trapz(np.sqrt(1 + np.gradient(y[bounds], x[bounds]) ** 2),x[bounds])
+        return trapz(np.sqrt(1 + np.gradient(y[bounds], x[bounds]) ** 2),x[bounds])
 
     def _set_last_index(self,label, set_initial=False, store="y_store"):
         '''Set last index for kpi calcualtion.
