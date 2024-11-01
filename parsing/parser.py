@@ -11,27 +11,13 @@ read any associated signals for KPIs, units, min/max, and descriptions.
 5) Save test case data within wrapper FMU.
 
 """
-import ptvsd
 
-# Allow other computers to attach to ptvsd at port 5679
-ptvsd.enable_attach(address=('0.0.0.0', 5679), redirect_output=True)
-
-# Pause the program until a remote debugger is attached
-print("Waiting for debugger to attach...")
-ptvsd.wait_for_attach()
-
-import sys
-import os
-# Add the parent directory to PYTHONPATH to include 'data'
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'data'))
 from pyfmi import load_fmu
 from pymodelica import compile_fmu
-
+import os
 import json
 from data.data_manager import Data_Manager
 import warnings
-
-
 
 def parse_instances(model_path, file_name):
     '''Parse the signal exchange block class instances using fmu xml.
@@ -89,26 +75,14 @@ def parse_instances(model_path, file_name):
         # KPI
         elif 'KPIs' in var:
             label = 'kpi'
-        # CAT
-        elif 'CAT' in var:
-            label = 'cat'
         else:
             continue
         # Save instance
-        if label is not 'kpi' and label is not 'cat':
+        if label is not 'kpi':
             instances[label][instance] = {'Unit' : unit}
             instances[label][instance]['Description'] = description
             instances[label][instance]['Minimum'] = mini
             instances[label][instance]['Maximum'] = maxi
-        elif label is 'cat':
-            actuator_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
-            signal_type = '{0}[{1}]'.format("ControlActuator", actuator_type)
-            if actuator_type == 'None':
-                continue
-            elif signal_type in signals:
-                signals[signal_type].append(_make_var_name(instance,style='input_signal'))
-            else:
-                signals[signal_type] = [_make_var_name(instance,style='input_signal')]            
         else:
             signal_type = fmu.get_variable_declared_type(var).items[fmu.get(var)[0]][0]
             # Split certain signal types for multi-zone
@@ -296,8 +270,8 @@ def _make_var_name(block, style, description='', attribute=''):
 
 if __name__ == '__main__':
     # Define model
-    model_path = 'TestCase'
-    mo_path = 'TestCase.mo'
+    model_path = 'SimpleRC'
+    mo_path = 'SimpleRC.mo'
     # Parse and export
     fmu_path, kpi_path = export_fmu(model_path, [mo_path])
     # Print information

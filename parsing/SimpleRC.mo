@@ -84,5 +84,5 @@ equation
     annotation (Line(points={{70,20},{98,20}}, color={0,0,127}));
   connect(eff.y, PHeat.u) annotation (Line(points={{41,-80},{98,-80}},
                     color={0,0,127}));
-  annotation (uses(Modelica(version="3.2.3"), IBPSA(version="4.0.0")));
+  annotation (uses(Modelica(version="3.2.2"), IBPSA(version="3.0.0")));
 end SimpleRC;

@@ -13,16 +13,7 @@ import flask_restful
 from flask_cors import CORS
 import six
 # ----------------------
-import ptvsd
-import os
 
-# Check if debugging is enabled
-if os.getenv('DEBUG_MODE', 'false').lower() == 'true':
-    # Allow other computers to attach to ptvsd at this IP address and port.
-    ptvsd.enable_attach(address=('0.0.0.0', 5678), redirect_output=True)
-    print("Waiting for debugger to attach...")
-    # Timeout for the wait function to avoid indefinite blocking
-    ptvsd.wait_for_attach(timeout=19)  # Timeout in seconds
 
 # GENERAL HTTP RESPONSE
 # ----------------------
@@ -284,5 +275,4 @@ api.add_resource(Submit, '/submit')
 # --------------------------------------
 
 if __name__ == '__main__':
-    print("Starting Flask server on port 8080...")
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0')

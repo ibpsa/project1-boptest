@@ -26,7 +26,7 @@ RUN 	cd $HOME && \
 	conda create --name pyfmi3 python=3.10 -y && \
 	conda activate pyfmi3 && \
 	conda install -c conda-forge pyfmi=2.12 -y && \
-	pip install ptvsd==4.3.2 flask-restful==0.3.9 werkzeug==2.2.3 && \
+	pip install flask-restful==0.3.9 werkzeug==2.2.3 && \
 	conda install pandas==1.5.3 flask_cors==3.0.10 matplotlib==3.7.1 requests==2.28.1 scipy==1.13.0
 
 WORKDIR $HOME
@@ -37,7 +37,6 @@ RUN mkdir models && \
 ENV PYTHONPATH $PYTHONPATH:$HOME
 ENV BOPTEST_DASHBOARD_SERVER https://dashboard.boptest.net/
 
-EXPOSE 8080
-EXPOSE 5678
+CMD . miniconda/bin/activate && conda activate pyfmi3 && python restapi.py && bash
 
-ENTRYPOINT ["/bin/bash", "-c", ". miniconda/bin/activate && conda activate pyfmi3 && python restapi.py"]
+EXPOSE 5000

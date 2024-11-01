@@ -15,11 +15,7 @@ services:
       - ./forecast:${APP_PATH}/forecast/
       - ./kpis:${APP_PATH}/kpis/
     ports:
-      - "8080:8080"
-      - "5678:5678" # Port for remote debugging
-    environment:
-      - DEBUG_MODE=true  # Add this line to enable debugging
-    
+      - 127.0.0.1:5000:5000
     networks:
       - boptest-net
 
