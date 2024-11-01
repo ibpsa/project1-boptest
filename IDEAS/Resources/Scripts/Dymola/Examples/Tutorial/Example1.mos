@@ -1,4 +1,0 @@
-simulateModel("IDEAS.Examples.Tutorial.Example1", startTime=10000000, stopTime=11000000, numberOfIntervals=5000, method="LSodar", tolerance=1e-6, resultFile="Tutorial1");
-
-createPlot(id=1, position={0, 0, 851, 533}, y={"zone.TSensor"}, range={10000000.0, 11000000.0, 13.0, 21.0}, erase=false, grid=true, filename="Example1.mat", colors={{28,108,200}}, displayUnits={"degC"});
-

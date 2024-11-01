@@ -1,7 +1,0 @@
-simulateModel("IDEAS.Examples.Tutorial.Example10", startTime=10000000, stopTime=11000000, numberOfIntervals=5000, method="Euler", fixedstepsize=20, resultFile="Tutorial10");
-
-createPlot(id=1, position={0, 0, 965, 656}, y={"rectangularZoneTemplate.ppm", "rectangularZoneTemplate1.ppm"}, range={10000000.0, 11000000.0, 200.0, 1200.0}, erase=false, grid=true, colors={{28,108,200}, {238,46,47}});
-createPlot(id=1, position={0, 0, 965, 326}, y={"conPID1.y", "conPID.y"}, range={10000000.0, 11000000.0, 0.0, 1.0}, erase=false, grid=true, subPlot=2, colors={{28,108,200}, {238,46,47}});
-
-
-

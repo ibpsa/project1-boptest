@@ -1,4 +1,0 @@
-simulateModel("IDEAS.Examples.Tutorial.Example5", startTime=10000000, stopTime=11000000, numberOfIntervals=5000, method="LSodar", tolerance=1e-6, resultFile="Tutorial5");
-
-createPlot(id=1, position={0, 0, 851, 533}, y={"rectangularZoneTemplate.TSensor", "rectangularZoneTemplate1.TSensor"}, range={10000000.0, 11000000.0, 13.0, 22.0}, erase=false, grid=true, colors={{28,108,200}, {238,46,47}}, displayUnits={"degC", "degC"});
-

@@ -1,7 +1,0 @@
-simulateModel("IDEAS.Examples.Tutorial.Example7", startTime=10000000, stopTime=11000000, numberOfIntervals=5000, method="LSodar", tolerance=1e-6, resultFile="Tutorial7");
-
-createPlot(id=1, position={0, 0, 851, 533}, y={"rectangularZoneTemplate.TSensor", "rectangularZoneTemplate1.TSensor"}, range={10000000.0, 11000000.0, 13.0, 22.0}, erase=false, grid=true, colors={{28,108,200}, {238,46,47}}, displayUnits={"degC", "degC"});
-createPlot(id=1, position={0, 0, 851, 175}, y={"heaPum.con.T", "senTemSup.T"}, range={10000000.0, 11000000.0, 0.0, 80.0}, erase=false, grid=true, subPlot=2, colors={{238,46,47}, {28,108,200}}, displayUnits={"degC", "degC"});
-createPlot(id=1, position={0, 0, 1421, 337}, y={"heaPum.QCon_flow"}, range={10000000.0, 11000000.0, -100.0, 800.0}, erase=false, grid=true, subPlot=3, colors={{28,108,200}});
-
-
