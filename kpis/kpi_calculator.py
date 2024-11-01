@@ -70,7 +70,7 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('pele')
         self.initialize_kpi_vars('pgas')
         self.initialize_kpi_vars('pdih')
-        self.initialize_kpi_vars('ltra', store="u_store")
+        self.initialize_kpi_vars('ltra', store="u_store") # "ltra" represents the length of actuator travel. Perhaps Dave could suggest a more fitting name.
 
     def initialize_kpi_vars(self, label='ener', store="y_store"):
         '''Initialize variables required for KPI calculation
@@ -903,7 +903,7 @@ if __name__ == "__main__":
                 'Cooling_pump_y':80.,
                 'Lighting_floor_1_zone1_lamp1_y':15.,
                 'Lighting_floor_1_zone1_lamp2_y':23.,
-                'Lighting_floor_1_zone2_y':87,
+                'Lighting_floor_1_zone2_y':87.,
                 'Lighting_floor_2_y':37.}
 
     cal = KPI_Calculator(testcase=None)
