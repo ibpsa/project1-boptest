@@ -11,8 +11,10 @@ performance indicators.
 
 import numpy as np
 import pandas as pd
+import json
 from scipy.integrate import trapz
 from collections import OrderedDict
+
 
 class KPI_Calculator(object):
     '''This class calculates the KPIs as a post-process after
@@ -177,44 +179,82 @@ class KPI_Calculator(object):
                         self.emis_dict_by_source[source+'_'+signal] = 0.
 
         elif label=='ltra':
-            keys = self.case.u_store.keys()
-
-            # Map the sources to their corresponding keywords
-            source_keywords = {
-                "dam": ["yDam","yOA", "yRet"],
-                "val": ["yCoo","oveCoo", "yReaHea","yHea","oveActHea", "oveMixValSup", "oveVal", "oveMNigZ", "oveMDayZ"],
-                "fan": ["oveFan","yFan"],
-                "pum": ["ovePum","yPum","oveEmiPum", "oveMpum"],
-                "equ": ["oveHeaPum", "oveBoi", "oveAct_u", "oveActNor_u","oveActSou_u"],
-            }
-            # Filter keys that contain any of the elements in source_keywords and end with "_u"
-            filtered_keys = [
-                key for key in keys
-                if any(keyword in key for group in source_keywords.values() for keyword in group) and key.endswith('_u')
-            ]
-
-            # Initialize sources of actuator travel
+            # Initialize sources of actuator variables
             self.sources_ltra = []
             self.ltra_dict = {}
             self.ltra_dict_by_source = {}
             self.ltra_source_key_mapping = {}
+            
+            config_file_path = '/home/user/kpis/control_actuators.json'
 
-            # Iterate over the filtered keys and determine the corresponding source
-            for key in filtered_keys:
-                for source, keywords in source_keywords.items():
-                    if isinstance(keywords, str):  # Check if the value is a string
-                        keywords = [keywords]  # Convert single string to list for uniform processing
-                    for keyword in keywords:
-                        if keyword in key:
-                            if source not in self.sources_ltra:
-                                self.sources_ltra.append(source)
-                            self.ltra_dict[key] = 0.
-                            self.ltra_dict_by_source[source + '_' + key] = 0.
-                            # Add to the ltra_source_key_mapping dictionary
-                            if source in self.ltra_source_key_mapping:
-                                self.ltra_source_key_mapping[source].append(key)
-                            else:
-                                self.ltra_source_key_mapping[source] = [key]
+            # Load the configuration data from the JSON file
+            try:
+                with open(config_file_path, 'r') as f:
+                    config_data = json.load(f)
+            except FileNotFoundError:
+                print(f"Error: The file {config_file_path} was not found.")
+                config_data = {}
+            except json.JSONDecodeError:
+                print(f"Error: The file {config_file_path} is not a valid JSON file.")
+                config_data = {}
+
+            # Existing test cases
+            if self.case.name in config_data:
+                config_data = config_data[self.case.name]
+
+                u_store_keys = self.case.u_store.keys()
+
+                # Create actuator list from config_data
+                ltra_list = [item for sublist in config_data.values() for item in sublist]
+
+                # Check if every item in actuator list is a key in u_store_keys
+                not_existing_items = [item for item in ltra_list if item not in u_store_keys]
+
+                # Raise an error if any items are not existing
+                if not_existing_items:
+                    raise ValueError(
+                        f"Please check the control actuator name list in control_actuators.json for the testcase {self.case.name}. "
+                        f"Not existing items: {', '.join(not_existing_items)}"
+                    )
+                # Define sources_ltra as a list of control actuator categories, e.g., ['Fan', 'Pump']
+                self.sources_ltra = [source for source, items in config_data.items() if items]
+                # Create a dictionary with control actuator variables, e.g., {'oveFan_u': 0.0, 'ovePum_u': 0.0}
+                self.ltra_dict = {item: 0.0 for item in ltra_list}
+                # Create a dictionary with combined keys from sources, e.g., {'Fan_oveFan_u': 0.0, 'Pump_ovePum_u': 0.0}
+                self.ltra_dict_by_source = {f"{source}_{item}": 0.0 
+                            for source in self.sources_ltra 
+                            for item in config_data[source]}
+                # Create a mapping of sources to their corresponding items, e.g., {'Fan': ['oveFan_u'], 'Pump': ['ovePum_u']}
+                self.ltra_source_key_mapping = {source: config_data[source] for source in self.sources_ltra}
+
+            else:
+                # New testcases: 
+                for source in self.case.kpi_json.keys():
+                    if source.startswith('ControlActuator'):
+                        actuator_name = source.split('[')[1][:-1]  # Extract the name inside the brackets
+                        self.sources_ltra.append(actuator_name)          
+
+                        # Access the list of values corresponding to the source
+                        values = self.case.kpi_json[source]
+
+                        # Check if the value is a list and iterate through it
+                        if isinstance(values, list):
+                            for value in values:
+                                self.ltra_dict[value] = 0.0
+                                self.ltra_dict_by_source[f"{actuator_name}_{value}"] = 0.0
+                                
+                                # Initialize and append to the mapping
+                                if actuator_name in self.ltra_source_key_mapping:
+                                    self.ltra_source_key_mapping[actuator_name].append(value)
+                                else:
+                                    self.ltra_source_key_mapping[actuator_name] = [value]
+                        else:
+                            # In case it's not a list
+                            self.ltra_dict[values] = 0.0  
+                            self.ltra_dict_by_source[f"{actuator_name}_{values}"] = 0.0
+                            
+                            # Initialize the mapping for a single value
+                            self.ltra_source_key_mapping[actuator_name] = [values]                          
 
     def initialize(self):
         '''
@@ -694,12 +734,31 @@ class KPI_Calculator(object):
             for signal in self.ltra_source_key_mapping[source]:
                 ltra_data = np.array(self._get_data_from_last_index(signal,self.i_last_ltra, store="u_store"))
                 index_data = np.array(self._get_data_from_last_index('time',self.i_last_ltra, store="u_store"))
-                self.ltra_dict[signal] +=  self._arclength(index_data-index_data[0],ltra_data, 0, index_data[-1]-index_data[0])/(index_data[-1]-index_data[0])
-                self.ltra_dict_by_source[source+'_'+signal] += self.ltra_dict[signal]
-                self.ltra_tot = self.ltra_tot + self.ltra_dict[signal] #/self.case._get_area() # Normalize total by floor area
+                
+                # Normalize ltra_data to [0, 1] with division by zero handling
+                ltra_data_min = self.case.inputs_metadata[signal]['Minimum']
+                ltra_data_max = self.case.inputs_metadata[signal]['Maximum']
+                if ltra_data_max > ltra_data_min:
+                    normalized_ltra_data = (ltra_data - ltra_data_min) / (ltra_data_max - ltra_data_min)
+                else:
+                    normalized_ltra_data = np.zeros_like(ltra_data)  # or np.ones_like(ltra_data), based on your logic
+                
+                # Normalize index_data to [0, 1] with division by zero handling
+                index_data_min = np.min(index_data)
+                index_data_max = np.max(index_data)               
+                if index_data_max > index_data_min:
+                    normalized_index_data = (index_data - index_data_min) / (index_data_max - index_data_min)
+                else:
+                    normalized_index_data = np.zeros_like(index_data)  # or np.ones_like(index_data), based on your logic
+
+                # Calculate arc length and update dictionaries
+                arc_length = self._arclength(normalized_index_data, normalized_ltra_data, 0, normalized_index_data[-1])
+                self.ltra_dict[signal] += arc_length
+                self.ltra_dict_by_source[source + '_' + signal] += self.ltra_dict[signal]
+                self.ltra_tot += self.ltra_dict[signal]
 
         # Assign to case
-        self.case.ltra_tot            = self.ltra_tot/len(self.ltra_dict)
+        self.case.ltra_tot            = self.ltra_tot/len(self.ltra_dict) #Divide by the number of the control actuators
         self.case.ltra_dict           = self.ltra_dict
         self.case.ltra_dict_by_source = self.ltra_dict_by_source
 
