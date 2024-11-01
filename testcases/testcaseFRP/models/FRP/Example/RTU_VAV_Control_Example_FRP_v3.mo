@@ -90,8 +90,6 @@ model RTU_VAV_Control_Example_FRP_v3
     from_dp=false,
     use_inputFilter=false) "mixing box"
     annotation (Placement(transformation(extent={{-1022,-84},{-938,0}})));
-  Modelica.Blocks.Sources.RealExpression oA_actuator(y=0)
-    annotation (Placement(transformation(extent={{-1074,28},{-1034,86}})));
   Buildings.Applications.DataCenters.ChillerCooled.Equipment.ElectricHeater NatHea(
     redeclare package Medium = MediumA,
     m_flow_nominal=m_flow_nominal,
@@ -139,31 +137,31 @@ model RTU_VAV_Control_Example_FRP_v3
     m_flow_nominal=VAV_m_flow_nominal_204,
     Q_flow_nominal=VAV_Heater_nominal_204,
     dp_nominal=dp_nominal_VAVbox_204)
-    annotation (Placement(transformation(extent={{20,462},{80,522}})));
+    annotation (Placement(transformation(extent={{20,406},{80,466}})));
   RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_203(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_203,
     Q_flow_nominal=VAV_Heater_nominal_203,
     dp_nominal=dp_nominal_VAVbox_203)
-    annotation (Placement(transformation(extent={{200,460},{260,520}})));
+    annotation (Placement(transformation(extent={{200,404},{260,464}})));
   RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_205(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_205,
     Q_flow_nominal=VAV_Heater_nominal_205,
     dp_nominal=dp_nominal_VAVbox_205)
-    annotation (Placement(transformation(extent={{-40,340},{20,400}})));
+    annotation (Placement(transformation(extent={{-40,298},{20,358}})));
   RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_202(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_202,
     Q_flow_nominal=VAV_Heater_nominal_202,
     dp_nominal=dp_nominal_VAVbox_202)
-    annotation (Placement(transformation(extent={{140,340},{200,400}})));
+    annotation (Placement(transformation(extent={{140,296},{200,356}})));
   RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_206(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_206,
     Q_flow_nominal=VAV_Heater_nominal_206,
     dp_nominal=dp_nominal_VAVbox_206)
-    annotation (Placement(transformation(extent={{320,340},{380,400}})));
+    annotation (Placement(transformation(extent={{320,296},{380,356}})));
   RTUVAV.Component.VAVReHeat_withCtrl_TRooCon vAVReHeat_withCtrl_TRooCon_102(
     redeclare package Medium = MediumA,
     m_flow_nominal=VAV_m_flow_nominal_102,
@@ -208,9 +206,9 @@ model RTU_VAV_Control_Example_FRP_v3
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0})
     "Splitter for room supply" annotation (Placement(transformation(
-        extent={{26,26},{-26,-26}},
+        extent={{22,22.5},{-22,-22.5}},
         rotation=180,
-        origin={-72,693})));
+        origin={-74,735.5})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo2(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,3/5*0.5*m_flow_nominal,1/5*0.5*
@@ -220,9 +218,9 @@ model RTU_VAV_Control_Example_FRP_v3
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0})
     "Splitter for room supply" annotation (Placement(transformation(
-        extent={{26,26},{-26,-26}},
+        extent={{20,20.5},{-20,-20.5}},
         rotation=180,
-        origin={14,693})));
+        origin={14,735.5})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo3(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,2/5*0.5*m_flow_nominal,1/5*0.5*
@@ -232,9 +230,9 @@ model RTU_VAV_Control_Example_FRP_v3
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0})
     "Splitter for room supply" annotation (Placement(transformation(
-        extent={{26,26},{-26,-26}},
+        extent={{20,20.5},{-20,-20.5}},
         rotation=180,
-        origin={108,693})));
+        origin={100,735.5})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo4(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,1/5*0.5*m_flow_nominal,1/5*0.5*
@@ -244,9 +242,9 @@ model RTU_VAV_Control_Example_FRP_v3
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dp_nominal(each displayUnit="Pa") = {0,0,0})
     "Splitter for room supply" annotation (Placement(transformation(
-        extent={{26,26},{-26,-26}},
+        extent={{20,20.5},{-20,-20.5}},
         rotation=180,
-        origin={198,693})));
+        origin={192,735.5})));
   Buildings.Fluid.FixedResistances.Junction splSupRoo5(
     redeclare package Medium = MediumA,
     m_flow_nominal={m_flow_nominal,4/5*0.5*m_flow_nominal,1/5*0.5*
@@ -403,7 +401,7 @@ model RTU_VAV_Control_Example_FRP_v3
         rotation=90,
         origin={1068,296})));
   Modelica.Blocks.Routing.DeMultiplex6 TRooSec
-    annotation (Placement(transformation(extent={{-302,512},{-240,574}})));
+    annotation (Placement(transformation(extent={{-294,652},{-232,714}})));
   Modelica.Blocks.Routing.DeMultiplex6 TRooFir
     annotation (Placement(transformation(extent={{-294,-178},{-232,-116}})));
   Modelica.Blocks.Sources.BooleanConstant HeaterControl(k=false)
@@ -430,29 +428,27 @@ model RTU_VAV_Control_Example_FRP_v3
         MediumA, m_flow_nominal=m_flow_nominal) "Return air temperature"
     annotation (Placement(transformation(extent={{-864,-344},{-834,-294}})));
   RTUVAV.Component.supplyTempCon supplyTempCon
-    annotation (Placement(transformation(extent={{-692,340},{-570,412}})));
-  RTUVAV.Component.thermostat_T WriteZonethermostat_T
-    annotation (Placement(transformation(extent={{-382,396},{-236,498}})));
+    annotation (Placement(transformation(extent={{-692,342},{-570,414}})));
   RTUVAV.Component.staticPressureCon staticPressureCon
     annotation (Placement(transformation(extent={{-1000,342},{-888,416}})));
   RTUVAV.Component.readZone readZone205
-    annotation (Placement(transformation(extent={{36,278},{80,322}})));
+    annotation (Placement(transformation(extent={{36,236},{80,280}})));
   RTUVAV.Component.readZone readZone202
-    annotation (Placement(transformation(extent={{220,278},{260,320}})));
+    annotation (Placement(transformation(extent={{220,236},{262,280}})));
   RTUVAV.Component.readZone readZone206
-    annotation (Placement(transformation(extent={{380,278},{424,322}})));
+    annotation (Placement(transformation(extent={{380,236},{424,280}})));
   RTUVAV.Component.readZone readZone204
-    annotation (Placement(transformation(extent={{100,400},{140,440}})));
+    annotation (Placement(transformation(extent={{100,366},{140,406}})));
   RTUVAV.Component.readZone readZone203
-    annotation (Placement(transformation(extent={{280,400},{320,440}})));
+    annotation (Placement(transformation(extent={{280,366},{320,406}})));
   RTUVAV.Component.readZone readZone105
-    annotation (Placement(transformation(extent={{40,-160},{80,-120}})));
+    annotation (Placement(transformation(extent={{40,-164},{84,-120}})));
   RTUVAV.Component.readZone readZone103
-    annotation (Placement(transformation(extent={{220,-160},{260,-120}})));
+    annotation (Placement(transformation(extent={{220,-162},{262,-120}})));
   RTUVAV.Component.readZone readZone104
     annotation (Placement(transformation(extent={{120,-40},{160,0}})));
   RTUVAV.Component.readZone readZone106
-    annotation (Placement(transformation(extent={{400,-160},{440,-120}})));
+    annotation (Placement(transformation(extent={{400,-164},{444,-120}})));
   RTUVAV.Component.readZone readZone102
     annotation (Placement(transformation(extent={{300,-40},{340,0}})));
   Buildings.Fluid.Sensors.VolumeFlowRate senSupFlo(redeclare package Medium =
@@ -469,10 +465,16 @@ model RTU_VAV_Control_Example_FRP_v3
         rotation=90,
         origin={-812,54})));
   RTUVAV.Component.readAHU readAHU
-    annotation (Placement(transformation(extent={{-298,272},{-234,368}})));
+    annotation (Placement(transformation(extent={{-298,240},{-234,336}})));
   Buildings.Utilities.IO.SignalExchange.WeatherStation weaSta
     "BOPTEST weather station"
     annotation (Placement(transformation(extent={{-1278,92},{-1312,124}})));
+  RTUVAV.Component.thermostat_T_1stfloor thermostat_T2_1
+    annotation (Placement(transformation(extent={{-196,86},{-96,240}})));
+  RTUVAV.Component.thermostat_T_2ndtfloor thermostat_T_2ndtfloor
+    annotation (Placement(transformation(extent={{-196,498},{-98,646}})));
+  RTUVAV.Component.outdoorAirCon outdoorAirCon
+    annotation (Placement(transformation(extent={{-1116,40},{-1042,96}})));
 equation
   connect(out.ports[1],mixBox. port_Out) annotation (Line(points={{-1158,
           -30.4667},{-1158,-20},{-1108,-20},{-1108,-16.8},{-1022,-16.8}},
@@ -482,15 +484,12 @@ equation
   connect(mixBox.port_Exh,out. ports[2]) annotation (Line(points={{-1022,-67.2},
           {-1158,-67.2},{-1158,-35}},
                                    color={0,127,255}));
-  connect(oA_actuator.y, mixBox.y) annotation (Line(points={{-1032,57},{-1006,
-          57},{-1006,8.4},{-980,8.4}},
-                                  color={0,0,127}));
   connect(SupAirTemSPHeating.y,NatHea. TSet) annotation (Line(points={{-491,186},
           {-450,186},{-450,98},{-450.4,98},{-450.4,7.2}},
                                                         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_204.port_b,
     fRPMultiZone_Envelope_Icon_v2_1.port_204[1]) annotation (Line(points={{79.7,
-          489.545},{94,489.545},{94,590},{604,590},{604,413.92},{642.197,413.92}},
+          433.545},{94,433.545},{94,540},{604,540},{604,413.92},{642.197,413.92}},
         color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_104.port_b,
     fRPMultiZone_Envelope_Icon_v2_1.port_104[1]) annotation (Line(points={{99.7,
@@ -504,20 +503,20 @@ equation
       thickness=0.5));
   connect(vAVReHeat_withCtrl_TRooCon_203.port_b,
     fRPMultiZone_Envelope_Icon_v2_1.port_203[1]) annotation (Line(points={{259.7,
-          487.545},{259.7,580},{742,580},{742,542},{742.771,542},{742.771,
-          417.434}},
+          431.545},{259.7,436},{274,436},{274,526},{742,526},{742,492},{742.771,
+          492},{742.771,417.434}},
         color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_205.port_b,
     fRPMultiZone_Envelope_Icon_v2_1.port_205[1]) annotation (Line(points={{19.7,
-          367.545},{94,367.545},{94,330},{620,330},{620,380},{621.084,380},{
+          325.545},{94,325.545},{94,286},{620,286},{620,336},{621.084,336},{
           621.084,330.983}},               color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_202.port_b,
     fRPMultiZone_Envelope_Icon_v2_1.port_202[1]) annotation (Line(points={{199.7,
-          367.545},{200,367.545},{200,368},{224,368},{224,378},{696,378},{696,
+          323.545},{200,323.545},{200,324},{286,324},{286,290},{582,290},{582,
           372.451},{727.032,372.451}},                color={0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_206.port_b,
     fRPMultiZone_Envelope_Icon_v2_1.port_206[1]) annotation (Line(points={{379.7,
-          367.545},{386,367.545},{386,360},{794.594,360},{794.594,339.417}},
+          323.545},{386,323.545},{386,316},{794.594,316},{794.594,339.417}},
                                                                          color=
           {0,127,255}));
   connect(vAVReHeat_withCtrl_TRooCon_102.port_b,
@@ -542,26 +541,26 @@ equation
   connect(senPreSup.port, splSupRoo.port_1)
     annotation (Line(points={{-280,-20},{-228,-20}}, color={0,127,255}));
   connect(splSupRoo1.port_3, vAVReHeat_withCtrl_TRooCon_205.port_a) annotation (
-     Line(points={{-72,667},{-72,668},{-70,668},{-70,368.364},{-39.7,368.364}},
-                                                                       color={0,
+     Line(points={{-74,713},{-74,326.364},{-39.7,326.364}},            color={0,
           127,255}));
-  connect(splSupRoo1.port_2, splSupRoo2.port_1) annotation (Line(points={{-46,693},
-          {-12,693}},                   color={0,127,255}));
+  connect(splSupRoo1.port_2, splSupRoo2.port_1) annotation (Line(points={{-52,
+          735.5},{-6,735.5}},           color={0,127,255}));
   connect(splSupRoo2.port_3, vAVReHeat_withCtrl_TRooCon_204.port_a) annotation (
-     Line(points={{14,667},{14,490.364},{20.3,490.364}},
+     Line(points={{14,715},{14,434.364},{20.3,434.364}},
                                                      color={0,127,255}));
-  connect(splSupRoo2.port_2, splSupRoo3.port_1) annotation (Line(points={{40,693},
-          {82,693}},                   color={0,127,255}));
+  connect(splSupRoo2.port_2, splSupRoo3.port_1) annotation (Line(points={{34,
+          735.5},{42,735.5},{42,736},{80,736},{80,735.5}},
+                                       color={0,127,255}));
   connect(splSupRoo3.port_3, vAVReHeat_withCtrl_TRooCon_202.port_a) annotation (
-     Line(points={{108,667},{108,368.364},{140.3,368.364}},
+     Line(points={{100,715},{100,324.364},{140.3,324.364}},
                                                         color={0,127,255}));
-  connect(splSupRoo3.port_2, splSupRoo4.port_1) annotation (Line(points={{134,693},
-          {172,693}},                     color={0,127,255}));
+  connect(splSupRoo3.port_2, splSupRoo4.port_1) annotation (Line(points={{120,
+          735.5},{172,735.5}},            color={0,127,255}));
   connect(splSupRoo4.port_3, vAVReHeat_withCtrl_TRooCon_203.port_a) annotation (
-     Line(points={{198,667},{198,488.364},{200.3,488.364}},
+     Line(points={{192,715},{192,432.364},{200.3,432.364}},
                                                         color={0,127,255}));
   connect(splSupRoo4.port_2, vAVReHeat_withCtrl_TRooCon_206.port_a) annotation (
-     Line(points={{224,693},{298,693},{298,368.364},{320.3,368.364}},
+     Line(points={{212,735.5},{298,735.5},{298,324.364},{320.3,324.364}},
                                                                   color={0,127,
           255}));
   connect(splSupRoo.port_2, splSupRoo5.port_1) annotation (Line(points={{-172,
@@ -590,7 +589,8 @@ equation
                                                                     color={0,
           127,255}));
   connect(splSupRoo.port_3, splSupRoo1.port_1) annotation (Line(points={{-200,8},
-          {-202,8},{-202,693},{-98,693}},  color={0,127,255}));
+          {-202,8},{-202,735.5},{-96,735.5}},
+                                           color={0,127,255}));
   connect(splRetRoo1.port_1,fRPMultiZone_Envelope_Icon_v2_1. port_205[2])
     annotation (Line(points={{642,683},{648.723,683},{648.723,330.983}},color={
           0,127,255}));
@@ -648,7 +648,7 @@ equation
 
   connect(TRooSec.u,fRPMultiZone_Envelope_Icon_v2_1. TrooVecSec) annotation (
       Line(
-      points={{-308.2,543},{-354,543},{-354,740},{1108,740},{1108,404.08},{
+      points={{-300.2,683},{-354,683},{-354,782},{1108,782},{1108,404.08},{
           955.819,404.08}},
       color={0,0,0},
       pattern=LinePattern.Dash));
@@ -681,24 +681,24 @@ equation
       pattern=LinePattern.Dash));
 
   connect(TRooFir.y6[1], vAVReHeat_withCtrl_TRooCon_106.TRoo) annotation (Line(
-      points={{-228.9,-174.9},{-94,-174.9},{-94,82},{342.5,82},{342.5,-60}},
+      points={{-228.9,-174.9},{-96,-174.9},{-96,82},{342.5,82},{342.5,-60}},
       color={0,0,0},
       pattern=LinePattern.Dash));
 
   connect(TRooSec.y4[1], vAVReHeat_withCtrl_TRooCon_204.TRoo) annotation (Line(
-      points={{-236.9,537.42},{42.5,537.42},{42.5,522}},
+      points={{-228.9,677.42},{42.5,677.42},{42.5,466}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooSec.y2[1], vAVReHeat_withCtrl_TRooCon_202.TRoo) annotation (Line(
-      points={{-236.9,559.74},{162.5,559.74},{162.5,400}},
+      points={{-228.9,699.74},{162.5,699.74},{162.5,356}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooSec.y3[1], vAVReHeat_withCtrl_TRooCon_203.TRoo) annotation (Line(
-      points={{-236.9,548.58},{222.5,548.58},{222.5,520}},
+      points={{-228.9,688.58},{222.5,688.58},{222.5,464}},
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(TRooSec.y6[1], vAVReHeat_withCtrl_TRooCon_206.TRoo) annotation (Line(
-      points={{-236.9,515.1},{342.5,515.1},{342.5,400}},
+      points={{-228.9,655.1},{342.5,655.1},{342.5,356}},
       color={0,0,0},
       pattern=LinePattern.Dash));
 
@@ -739,92 +739,18 @@ equation
   connect(TRA.port_b, splRetRoo.port_1) annotation (Line(points={{-834,-319},{
           1068,-319},{1068,268}},color={0,127,255}));
   connect(supplyTempCon.TSupSet_out, DX.speRat) annotation (Line(
-      points={{-566.611,372.914},{-566.611,304},{-642,304},{-642,88},{-644.2,88},
+      points={{-566.611,374.914},{-566.611,304},{-642,304},{-642,88},{-644.2,88},
           {-644.2,29.6}},
       color={0,0,127},
       pattern=LinePattern.Dash));
   connect(T_after_CC.T, supplyTempCon.u_m1) annotation (Line(
-      points={{-478,8.6},{-478,272},{-601.856,272},{-601.856,335.886}},
+      points={{-478,8.6},{-478,272},{-601.856,272},{-601.856,337.886}},
       color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_205.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-31,467.4},{-31,400}},
-                                         color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_204.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-28,467.4},{-28,546},{29,546},{29,522}},  color={0,0,
-          127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_202.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-26,467.4},{-26,596},{149,596},{149,400}},color={0,0,
-          127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_203.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-26,467.4},{-26,596},{209,596},{209,520}},color={0,0,
-          127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_206.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-26,467.4},{-26,576},{329,576},{329,400}},color={0,0,
-          127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_105.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-70,467.4},{-70,114},{-31,114},{-31,-60}},  color={0,
-          0,127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_104.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-68,467.4},{-68,114},{49,114},{49,60}},  color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_103.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-68,467.4},{-68,114},{149,114},{149,-60}},color={0,0,
-          127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_102.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-152,467.4},{-152,306},{-68,306},{-68,114},{222,114},
-          {222,78},{229,78},{229,60}}, color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonHeatingSet_out,
-    vAVReHeat_withCtrl_TRooCon_106.TRooHeaSet) annotation (Line(points={{
-          -230.385,467.4},{-154,467.4},{-154,306},{-70,306},{-70,114},{329,114},
-          {329,-60}},
-                 color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_205.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{16,436.8},{16,444},{-7,444},{-7,400}},
-                                                         color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_203.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{16,436.8},{16,580},{233,580},{233,520}},color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_206.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{16,436.8},{16,580},{353,580},{353,400}},color={0,0,127}));
   connect(TRooSec.y5[1], vAVReHeat_withCtrl_TRooCon_205.TRoo) annotation (Line(
-      points={{-236.9,526.26},{-17.5,526.26},{-17.5,400}},
+      points={{-228.9,666.26},{-17.5,666.26},{-17.5,358}},
       color={0,0,127},
       pattern=LinePattern.Dash));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_202.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{16,436.8},{16,580},{173,580},{173,400}},color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_105.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{-86,436.8},{-86,94},{-7,94},{-7,-60}},    color={0,0,
-          127}));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_104.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{-84,436.8},{-84,92},{73,92},{73,60}},    color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_103.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{-84,436.8},{-84,92},{173,92},{173,-60}},  color={0,0,
-          127}));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_102.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{-86,436.8},{-86,92},{253,92},{253,60}},  color={0,0,127}));
-  connect(WriteZonethermostat_T.TZonCoolingSet_out,
-    vAVReHeat_withCtrl_TRooCon_106.TRooCooSet) annotation (Line(points={{
-          -230.385,436.8},{-86,436.8},{-86,92},{353,92},{353,-60}},  color={0,0,
-          127}));
-  connect(vAVReHeat_withCtrl_TRooCon_204.TRooCooSet, WriteZonethermostat_T.TZonCoolingSet_out)
-    annotation (Line(points={{53,522},{53,564},{2,564},{2,436.8},{-230.385,
-          436.8}}, color={0,0,127}));
   connect(staticPressureCon.staticPressure_out, fan.y) annotation (Line(
       points={{-884.591,373.913},{-876,373.913},{-876,20.8}},
       color={0,0,0},
@@ -835,85 +761,91 @@ equation
       color={0,0,0},
       pattern=LinePattern.Dash));
   connect(vAVReHeat_withCtrl_TRooCon_205.y_actual1, readZone205.DamPosition_in)
-    annotation (Line(points={{4.4,337.818},{4.4,307.92},{31.16,307.92}}, color=
+    annotation (Line(points={{4.4,295.818},{4.4,265.92},{31.16,265.92}}, color=
           {0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_205.T1, readZone205.TSupZone_in)
-    annotation (Line(points={{9.5,337.818},{9.5,299.12},{31.16,299.12}}, color=
+    annotation (Line(points={{9.5,295.818},{9.5,257.12},{31.16,257.12}}, color=
           {0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_205.V_flow1, readZone205.VflowSupply_in)
-    annotation (Line(points={{14,337.818},{14,288.12},{31.6,288.12}}, color={0,
+    annotation (Line(points={{14,295.818},{14,246.12},{31.6,246.12}}, color={0,
           0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_202.y_actual1, readZone202.DamPosition_in)
-    annotation (Line(points={{184.4,337.818},{184.4,306.56},{215.6,306.56}},
+    annotation (Line(points={{184.4,293.818},{184.4,265.92},{215.38,265.92}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_202.T1, readZone202.TSupZone_in)
-    annotation (Line(points={{189.5,337.818},{189.5,298.16},{215.6,298.16}},
+    annotation (Line(points={{189.5,293.818},{189.5,257.12},{215.38,257.12}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_202.V_flow1, readZone202.VflowSupply_in)
-    annotation (Line(points={{194,337.818},{194,287.66},{216,287.66}}, color={0,
+    annotation (Line(points={{194,293.818},{194,246.12},{215.8,246.12}},
+                                                                       color={0,
           0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_206.y_actual1, readZone206.DamPosition_in)
-    annotation (Line(points={{364.4,337.818},{364.4,307.92},{375.16,307.92}},
+    annotation (Line(points={{364.4,293.818},{364.4,265.92},{375.16,265.92}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_206.T1, readZone206.TSupZone_in)
-    annotation (Line(points={{369.5,337.818},{369.5,299.12},{375.16,299.12}},
+    annotation (Line(points={{369.5,293.818},{369.5,257.12},{375.16,257.12}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_206.V_flow1, readZone206.VflowSupply_in)
-    annotation (Line(points={{374,337.818},{374,288.12},{375.6,288.12}}, color=
+    annotation (Line(points={{374,293.818},{374,246.12},{375.6,246.12}}, color=
           {0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_204.y_actual1, readZone204.DamPosition_in)
-    annotation (Line(points={{64.4,459.818},{64.4,427.2},{95.6,427.2}}, color={
+    annotation (Line(points={{64.4,403.818},{64.4,393.2},{95.6,393.2}}, color={
           0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_204.T1, readZone204.TSupZone_in)
-    annotation (Line(points={{69.5,459.818},{69.5,419.2},{95.6,419.2}}, color={
+    annotation (Line(points={{69.5,403.818},{69.5,385.2},{95.6,385.2}}, color={
           0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_204.V_flow1, readZone204.VflowSupply_in)
-    annotation (Line(points={{74,459.818},{74,410},{96,410},{96,409.2}}, color=
+    annotation (Line(points={{74,403.818},{74,374},{96,374},{96,375.2}}, color=
           {0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_203.y_actual1, readZone203.DamPosition_in)
-    annotation (Line(points={{244.4,457.818},{244.4,427.2},{275.6,427.2}},
+    annotation (Line(points={{244.4,401.818},{244.4,393.2},{275.6,393.2}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_203.T1, readZone203.TSupZone_in)
-    annotation (Line(points={{249.5,457.818},{249.5,419.2},{275.6,419.2}},
+    annotation (Line(points={{249.5,401.818},{249.5,385.2},{275.6,385.2}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_203.V_flow1, readZone203.VflowSupply_in)
-    annotation (Line(points={{254,457.818},{254,409.2},{276,409.2}}, color={0,0,
+    annotation (Line(points={{254,401.818},{254,375.2},{276,375.2}}, color={0,0,
           127}));
   connect(vAVReHeat_withCtrl_TRooCon_105.y_actual1, readZone105.DamPosition_in)
-    annotation (Line(points={{4.4,-122.182},{4.4,-132.8},{35.6,-132.8}}, color=
+    annotation (Line(points={{4.4,-122.182},{4.4,-134.08},{35.16,-134.08}},
+                                                                         color=
           {0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_105.T1, readZone105.TSupZone_in)
-    annotation (Line(points={{9.5,-122.182},{9.5,-140.8},{35.6,-140.8}}, color=
+    annotation (Line(points={{9.5,-122.182},{9.5,-142.88},{35.16,-142.88}},
+                                                                         color=
           {0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_105.V_flow1, readZone105.VflowSupply_in)
-    annotation (Line(points={{14,-122.182},{14,-150.8},{36,-150.8}}, color={0,0,
+    annotation (Line(points={{14,-122.182},{14,-153.88},{35.6,-153.88}},
+                                                                     color={0,0,
           127}));
   connect(vAVReHeat_withCtrl_TRooCon_103.y_actual1, readZone103.DamPosition_in)
-    annotation (Line(points={{184.4,-122.182},{184.4,-132.8},{215.6,-132.8}},
+    annotation (Line(points={{184.4,-122.182},{184.4,-133.44},{215.38,-133.44}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_103.T1, readZone103.TSupZone_in)
-    annotation (Line(points={{189.5,-122.182},{189.5,-140.8},{215.6,-140.8}},
+    annotation (Line(points={{189.5,-122.182},{189.5,-141.84},{215.38,-141.84}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_103.V_flow1, readZone103.VflowSupply_in)
-    annotation (Line(points={{194,-122.182},{194,-150.8},{216,-150.8}}, color={
+    annotation (Line(points={{194,-122.182},{194,-152.34},{215.8,-152.34}},
+                                                                        color={
           0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_104.y_actual1, readZone104.DamPosition_in)
-    annotation (Line(points={{84.4,-2.18182},{84.4,-12.8},{115.6,-12.8}}, color
-        ={0,0,127}));
+    annotation (Line(points={{84.4,-2.18182},{84.4,-12.8},{115.6,-12.8}}, color=
+         {0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_104.T1, readZone104.TSupZone_in)
-    annotation (Line(points={{89.5,-2.18182},{89.5,-20.8},{115.6,-20.8}}, color
-        ={0,0,127}));
+    annotation (Line(points={{89.5,-2.18182},{89.5,-20.8},{115.6,-20.8}}, color=
+         {0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_104.V_flow1, readZone104.VflowSupply_in)
     annotation (Line(points={{94,-2.18182},{94,-30.8},{116,-30.8}}, color={0,0,
           127}));
   connect(vAVReHeat_withCtrl_TRooCon_106.y_actual1, readZone106.DamPosition_in)
-    annotation (Line(points={{364.4,-122.182},{364.4,-132.8},{395.6,-132.8}},
+    annotation (Line(points={{364.4,-122.182},{364.4,-134.08},{395.16,-134.08}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_106.T1, readZone106.TSupZone_in)
-    annotation (Line(points={{369.5,-122.182},{369.5,-140.8},{395.6,-140.8}},
+    annotation (Line(points={{369.5,-122.182},{369.5,-142.88},{395.16,-142.88}},
         color={0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_106.V_flow1, readZone106.VflowSupply_in)
-    annotation (Line(points={{374,-122.182},{374,-150.8},{396,-150.8}}, color={
+    annotation (Line(points={{374,-122.182},{374,-153.88},{395.6,-153.88}},
+                                                                        color={
           0,0,127}));
   connect(vAVReHeat_withCtrl_TRooCon_102.y_actual1, readZone102.DamPosition_in)
     annotation (Line(points={{264.4,-2.18182},{264.4,-12.8},{295.6,-12.8}},
@@ -937,19 +869,19 @@ equation
   connect(out.ports[3], dpDisSupFan.port_b) annotation (Line(points={{-1158,
           -39.5333},{-1158,134},{-812,134},{-812,72}}, color={0,127,255}));
   connect(TSA.T, readAHU.TSup_in) annotation (Line(points={{-332,8.6},{-330,8.6},
-          {-330,361.6},{-303.76,361.6}}, color={0,0,127}));
+          {-330,329.6},{-303.76,329.6}}, color={0,0,127}));
   connect(TRA.T, readAHU.TRet_in) annotation (Line(points={{-849,-291.5},{-324,
-          -291.5},{-324,350.72},{-303.76,350.72}}, color={0,0,127}));
+          -291.5},{-324,318.72},{-303.76,318.72}}, color={0,0,127}));
   connect(senSupFlo.V_flow, readAHU.VflowSup_in) annotation (Line(points={{-737,
-          4.2},{-737,340.48},{-304.4,340.48}}, color={0,0,127}));
+          4.2},{-737,308.48},{-304.4,308.48}}, color={0,0,127}));
   connect(senRetFlo.V_flow, readAHU.VflowRet_in) annotation (Line(points={{-910,
-          -291.5},{-326,-291.5},{-326,329.6},{-304.4,329.6}}, color={0,0,127}));
+          -291.5},{-326,-291.5},{-326,297.6},{-304.4,297.6}}, color={0,0,127}));
   connect(dpDisSupFan.p_rel, readAHU.dP_in) annotation (Line(points={{-826.4,54},
-          {-826.4,319.36},{-304.4,319.36}}, color={0,0,127}));
+          {-826.4,287.36},{-304.4,287.36}}, color={0,0,127}));
   connect(fan.P, readAHU.pFan_in) annotation (Line(points={{-838.6,10.6},{
-          -838.6,301.44},{-304.4,301.44}}, color={0,0,127}));
+          -838.6,269.44},{-304.4,269.44}}, color={0,0,127}));
   connect(DX.P, readAHU.pDX_in) annotation (Line(points={{-507.8,35.8},{-334,
-          35.8},{-334,288.64},{-304.4,288.64}}, color={0,0,127}));
+          35.8},{-334,256.64},{-304.4,256.64}}, color={0,0,127}));
   connect(weaBus1, weaSta.weaBus) annotation (Line(
       points={{-1268,168},{-1242,168},{-1242,107.84},{-1278.17,107.84}},
       color={255,204,51},
@@ -958,10 +890,70 @@ equation
       index=-1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-840,
-            -480},{1180,620}})),                                  Diagram(
-        coordinateSystem(preserveAspectRatio=false, extent={{-1400,-480},{1180,
-            820}})),
+  connect(thermostat_T2_1.TZonHeatingSet_out104, vAVReHeat_withCtrl_TRooCon_104.TRooHeaSet)
+    annotation (Line(points={{-93.7778,167.813},{49,167.813},{49,60}}, color={0,
+          0,127}));
+  connect(thermostat_T2_1.TZonCoolingSet_out104, vAVReHeat_withCtrl_TRooCon_104.TRooCooSet)
+    annotation (Line(points={{-93.7778,153.375},{73,153.375},{73,60}}, color={0,
+          0,127}));
+  connect(thermostat_T2_1.TZonHeatingSet_out105, vAVReHeat_withCtrl_TRooCon_105.TRooHeaSet)
+    annotation (Line(points={{-93.7778,138.938},{-31,138.938},{-31,-60}}, color=
+         {0,0,127}));
+  connect(thermostat_T2_1.TZonCoolingSet_out105, vAVReHeat_withCtrl_TRooCon_105.TRooCooSet)
+    annotation (Line(points={{-93.7778,124.5},{-7,124.5},{-7,-60}}, color={0,0,
+          127}));
+  connect(thermostat_T2_1.TZonHeatingSet_out106, vAVReHeat_withCtrl_TRooCon_106.TRooHeaSet)
+    annotation (Line(points={{-93.7778,110.063},{329,110.063},{329,-60}}, color=
+         {0,0,127}));
+  connect(thermostat_T2_1.TZonCoolingSet_out106, vAVReHeat_withCtrl_TRooCon_106.TRooCooSet)
+    annotation (Line(points={{-93.7778,95.625},{353,95.625},{353,-60}}, color={
+          0,0,127}));
+  connect(thermostat_T2_1.TZonHeatingSet_out102, vAVReHeat_withCtrl_TRooCon_102.TRooHeaSet)
+    annotation (Line(points={{-93.7778,225.563},{229,225.563},{229,60}}, color=
+          {0,0,127}));
+  connect(thermostat_T2_1.TZonCoolingSet_out102, vAVReHeat_withCtrl_TRooCon_102.TRooCooSet)
+    annotation (Line(points={{-93.7778,211.125},{253,211.125},{253,60}}, color=
+          {0,0,127}));
+  connect(thermostat_T2_1.TZonHeatingSet_out103, vAVReHeat_withCtrl_TRooCon_103.TRooHeaSet)
+    annotation (Line(points={{-93.7778,196.688},{149,196.688},{149,-60}}, color=
+         {0,0,127}));
+  connect(thermostat_T2_1.TZonCoolingSet_out103, vAVReHeat_withCtrl_TRooCon_103.TRooCooSet)
+    annotation (Line(points={{-93.7778,182.25},{173,182.25},{173,-60}}, color={
+          0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonHeatingSet_out202,
+    vAVReHeat_withCtrl_TRooCon_202.TRooHeaSet) annotation (Line(points={{
+          -95.8222,632.125},{149,632.125},{149,356}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonCoolingSet_out202,
+    vAVReHeat_withCtrl_TRooCon_202.TRooCooSet) annotation (Line(points={{
+          -95.8222,618.25},{173,618.25},{173,356}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonHeatingSet_out203,
+    vAVReHeat_withCtrl_TRooCon_203.TRooHeaSet) annotation (Line(points={{
+          -95.8222,604.375},{209,604.375},{209,464}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonCoolingSet_out203,
+    vAVReHeat_withCtrl_TRooCon_203.TRooCooSet) annotation (Line(points={{
+          -95.8222,590.5},{233,590.5},{233,464}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonHeatingSet_out204,
+    vAVReHeat_withCtrl_TRooCon_204.TRooHeaSet) annotation (Line(points={{
+          -95.8222,576.625},{29,576.625},{29,466}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonCoolingSet_out204,
+    vAVReHeat_withCtrl_TRooCon_204.TRooCooSet) annotation (Line(points={{
+          -95.8222,562.75},{53,562.75},{53,466}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonHeatingSet_out205,
+    vAVReHeat_withCtrl_TRooCon_205.TRooHeaSet) annotation (Line(points={{
+          -95.8222,548.875},{-31,548.875},{-31,358}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonCoolingSet_out105,
+    vAVReHeat_withCtrl_TRooCon_205.TRooCooSet) annotation (Line(points={{
+          -95.8222,535},{-7,535},{-7,358}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonHeatingSet_out206,
+    vAVReHeat_withCtrl_TRooCon_206.TRooHeaSet) annotation (Line(points={{
+          -95.8222,521.125},{329,521.125},{329,356}}, color={0,0,127}));
+  connect(thermostat_T_2ndtfloor.TZonCoolingSet_out206,
+    vAVReHeat_withCtrl_TRooCon_206.TRooCooSet) annotation (Line(points={{
+          -95.8222,507.25},{353,507.25},{353,356}}, color={0,0,127}));
+  connect(outdoorAirCon.oAactuator, mixBox.y) annotation (Line(points={{
+          -1040.56,69.2},{-980,69.2},{-980,8.4}}, color={0,0,127}));
+ annotation (Icon(coordinateSystem(preserveAspectRatio=false)),                                       Diagram(
+        coordinateSystem(preserveAspectRatio=false, extent={{-1580,-620},{1360,1000}})),
     experiment(
       StartTime=15984000,
       StopTime=16243200,

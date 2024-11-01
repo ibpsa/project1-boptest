@@ -87,8 +87,8 @@ model VAVReHeat_withCtrl_TRooCon
       min=0,
       max=1)) "Reheat control signal"
     annotation (Placement(transformation(extent={{-106,72},{-90,88}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort senTemp(redeclare package Medium
-      = Medium, m_flow_nominal=m_flow_nominal) "supply air tempearature - VAV"
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTemp(redeclare package Medium =
+        Medium, m_flow_nominal=m_flow_nominal) "supply air tempearature - VAV"
     annotation (Placement(transformation(extent={{136,18},{156,-12}})));
   Buildings.Fluid.Sensors.VolumeFlowRate
                                senVolFlo(
@@ -116,7 +116,7 @@ model VAVReHeat_withCtrl_TRooCon
         extent={{-13,-13},{13,13}},
         rotation=-90,
         origin={150,-108})));
-  Modelica.Blocks.Interfaces.RealOutput y_actual1
+  Modelica.Blocks.Interfaces.RealOutput y_damper_actual
     "Actual actuator position" annotation (Placement(transformation(
         extent={{-12,-12},{12,12}},
         rotation=-90,
@@ -153,8 +153,8 @@ equation
           -108},{180,-108}}, color={0,0,127}));
   connect(senTemp.T, T1) annotation (Line(points={{146,-13.5},{147,-13.5},{147,
           -109}}, color={0,0,127}));
-  connect(vavDam.y_actual, y_actual1) annotation (Line(points={{86,30.3},{116,
-          30.3},{116,-108}}, color={0,0,127}));
+  connect(vavDam.y_actual, y_damper_actual) annotation (Line(points={{86,30.3},
+          {116,30.3},{116,-108}}, color={0,0,127}));
   connect(T1, T1)
     annotation (Line(points={{147,-109},{147,-109}}, color={0,0,127}));
   connect(port_b, port_b)
@@ -166,7 +166,7 @@ equation
           lineColor={0,0,0},
           fillColor={0,140,72},
           fillPattern=FillPattern.Solid), Text(
-          extent={{-82,62},{112,-52}},
+          extent={{-140,86},{180,-74}},
           lineColor={255,255,255},
           fillColor={0,140,72},
           fillPattern=FillPattern.Solid,

@@ -52,11 +52,12 @@ equation
           lineColor={255,255,255},
           fillColor={0,140,72},
           fillPattern=FillPattern.Solid), Text(
-          extent={{-66,14},{290,-156}},
+          extent={{-96,20},{310,-180}},
           lineColor={255,255,255},
           fillColor={0,140,72},
           fillPattern=FillPattern.Solid,
-          textString="StaticPressureCon",
-          textStyle={TextStyle.Bold})}), Diagram(coordinateSystem(
+          textStyle={TextStyle.Bold},
+          textString="StaticPressureCon")}),
+                                         Diagram(coordinateSystem(
           preserveAspectRatio=false, extent={{-120,-240},{340,80}})));
 end staticPressureCon;

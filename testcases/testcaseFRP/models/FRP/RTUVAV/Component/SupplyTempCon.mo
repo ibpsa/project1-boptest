@@ -1,5 +1,5 @@
 within FRP.RTUVAV.Component;
-model supplyTempCon "Supply Ari Temperature Control"
+model supplyTempCon "Supply Air Temperature Control"
   Buildings.Controls.Continuous.LimPID conDX(
     yMax=1,
     Td=60,
@@ -43,7 +43,7 @@ equation
           lineColor={28,108,200},
           fillColor={0,140,72},
           fillPattern=FillPattern.Solid), Text(
-          extent={{-94,26},{46,-42}},
+          extent={{-112,36},{62,-46}},
           lineColor={255,255,255},
           fillColor={102,44,145},
           fillPattern=FillPattern.None,

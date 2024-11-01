@@ -3,45 +3,45 @@ model readAHU
   Buildings.Utilities.IO.SignalExchange.Read TSup(
     description="Supply air temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Supply air temperature measurement"
     annotation (Placement(transformation(extent={{-6,210},{14,230}})));
+
   Buildings.Utilities.IO.SignalExchange.Read TRet(
     description="Return air temperature measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Return air temperature measurement"
     annotation (Placement(transformation(extent={{-6,176},{14,196}})));
+
   Buildings.Utilities.IO.SignalExchange.Read V_flow_sup(
     description="Supply air flowrate measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="m3/s"))  "Supply air flowrate measurement"
     annotation (Placement(transformation(extent={{-6,144},{14,164}})));
+
   Buildings.Utilities.IO.SignalExchange.Read V_flow_ret(
     description="Return air flowrate measurement for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="m3/s"))  "Return air flowrate measurement"
     annotation (Placement(transformation(extent={{-6,110},{14,130}})));
+
   Buildings.Utilities.IO.SignalExchange.Read dp_sup(
     description="Discharge pressure of supply fan for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="Pa"))  "Discharge pressure of supply fan"
     annotation (Placement(transformation(extent={{-6,78},{14,98}})));
+
   Buildings.Utilities.IO.SignalExchange.Read PFanSup(
     description="Electrical power measurement of supply fan for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Electrical power of supply fan"
     annotation (Placement(transformation(extent={{-6,22},{14,42}})));
+
   Buildings.Utilities.IO.SignalExchange.Read PDXCool(
     description="Electrical power measurement of DX cooling coil for AHU",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Electrical power of Dx cooling coil"
     annotation (Placement(transformation(extent={{-6,-18},{14,2}})));
+
   Modelica.Blocks.Interfaces.RealInput TSup_in "Connector of Real input signal"
     annotation (Placement(transformation(extent={{-138,200},{-98,240}})));
   Modelica.Blocks.Interfaces.RealInput TRet_in "Connector of Real input signal"
@@ -79,10 +79,12 @@ equation
           lineColor={0,0,127},
           fillColor={244,125,35},
           fillPattern=FillPattern.Solid), Text(
-          extent={{-78,138},{82,40}},
+          extent={{-90,148},{94,32}},
           lineColor={255,255,255},
           fillColor={0,140,72},
           fillPattern=FillPattern.Solid,
-          textString="ReadAHU")}), Diagram(coordinateSystem(preserveAspectRatio
-          =false, extent={{-100,-40},{100,240}})));
+          textString="ReadAHU",
+          textStyle={TextStyle.Bold})}),
+                                   Diagram(coordinateSystem(preserveAspectRatio=
+           false, extent={{-100,-40},{100,240}})));
 end readAHU;

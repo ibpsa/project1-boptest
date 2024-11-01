@@ -2,5 +2,8 @@ VAVReHeat_withCtrl_TRooCon
 thermostat_T
 supplyTempCon
 staticPressureCon
+outdoorAirCon
+thermostat_T_1stfloor
+thermostat_T_2ndtfloor
 readZone
 readAHU

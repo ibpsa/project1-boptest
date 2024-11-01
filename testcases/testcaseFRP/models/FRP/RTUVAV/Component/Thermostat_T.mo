@@ -23,7 +23,7 @@ model thermostat_T
     annotation (Placement(transformation(extent={{-80,-28},{-60,-8}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite
                                               oveTSetHea(description="Zone temperature setpoint for heating", u(unit=
-          "K"))         "Overwrite for zone heating setpoint"
+          "K")) "Overwrite for zone heating setpoint"
     annotation (Placement(transformation(extent={{-82,30},{-62,50}})));
   Modelica.Blocks.Interfaces.RealOutput TZonCoolingSet_out
     "Connector of Real output signal"

@@ -3,21 +3,21 @@ model readZone
   Buildings.Utilities.IO.SignalExchange.Read TSupZone(
     description="Discharge air temperature to zone measurement for zone",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="K")) "Supply air temperature to zone measurement"
     annotation (Placement(transformation(extent={{-6,-14},{14,6}})));
+
   Buildings.Utilities.IO.SignalExchange.Read V_flow(
     description="Discharge air flowrate to zone measurement for zone",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="m3/s")) "Supply air flowrate to zone measurement"
     annotation (Placement(transformation(extent={{-4,-64},{16,-44}})));
+
   Buildings.Utilities.IO.SignalExchange.Read DamPosition(
     description="VAV zone damper position",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
-
     y(unit="1")) "VAV zone damper position"
     annotation (Placement(transformation(extent={{-6,26},{14,46}})));
+
   Modelica.Blocks.Interfaces.RealInput TSupZone_in
     "Connector of Real input signal" annotation (Placement(transformation(
           extent={{-142,-24},{-102,16}}), iconTransformation(extent={{-142,-24},
@@ -43,10 +43,12 @@ equation
           lineColor={0,0,127},
           fillColor={244,125,35},
           fillPattern=FillPattern.Solid), Text(
-          extent={{-78,52},{82,-46}},
+          extent={{-88,52},{92,-60}},
           lineColor={255,255,255},
           fillColor={0,140,72},
           fillPattern=FillPattern.Solid,
-          textString="ReadZone")}), Diagram(coordinateSystem(
+          textString="ReadZone",
+          textStyle={TextStyle.Bold})}),
+                                    Diagram(coordinateSystem(
           preserveAspectRatio=false)));
 end readZone;
