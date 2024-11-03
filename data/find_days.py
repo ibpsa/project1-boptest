@@ -14,11 +14,14 @@ To run only post processing to find days:
 2. Set 'data' parameter to None
 3. Set 'heat' and 'cool' parameters to point names that neeed to be used to 
    evaluate heating and cooling demand
+4. Run script
 
 To run with simulation:
 1. Build BOPTEST worker provision
 2. Set 'heat' and 'cool' parameters to point names that neeed to be used to 
    evaluate heating and cooling demand
+3. Copy test case 'wrapped.fmu' to project1-boptest/data
+4. Run script
 
 """
 
