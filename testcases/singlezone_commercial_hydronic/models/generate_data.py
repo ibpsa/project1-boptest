@@ -66,6 +66,7 @@ column_map = {'ou44Bdg.qGai_flow[1]': 'InternalGainsRad[1]',
               'ou44Bdg.qGai_flow[2]': 'InternalGainsCon[1]',
               'ou44Bdg.qGai_flow[3]': 'InternalGainsLat[1]',
               'occupancy.y[1]': 'Occupancy[1]'}
+df = df[list(column_map.keys())]
 df = df.rename(columns=column_map)
 
 # Make occupancy data integers
