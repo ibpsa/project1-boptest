@@ -9,6 +9,17 @@ typical days for heating and cooling. These days are used to define
 the test case scenarios. BOPTEST needs to be deployed if the data is
 to be simulated.
 
+To run only post processing to find days:
+1. Add 'simulation.csv' file with all needed points to project1-boptest/data
+2. Set 'data' parameter to None
+3. Set 'heat' and 'cool' parameters to point names that neeed to be used to 
+   evaluate heating and cooling demand
+
+To run with simulation:
+1. Build BOPTEST worker provision
+2. Set 'heat' and 'cool' parameters to point names that neeed to be used to 
+   evaluate heating and cooling demand
+
 """
 
 import subprocess

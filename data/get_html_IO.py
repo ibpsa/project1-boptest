@@ -4,7 +4,7 @@ This script can be used to generate the html documentation code for I/O.
 
 To run:
 1. Build BOPTEST worker provision
-2. Run BOPTEST worker provision
+2. Run BOPTEST test case worker
 3. Run this script with test case as string input argument (i.e. "bestest_air")
 
 Output:
