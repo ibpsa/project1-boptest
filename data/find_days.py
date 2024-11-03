@@ -6,7 +6,7 @@ Created on Thu Jan  7 13:20:58 2021
 
 Module to perform a test case yearly simulation and find the peak and
 typical days for heating and cooling. These days are used to define
-the test case scenarios. The case needs to be deployed if the data is
+the test case scenarios. BOPTEST needs to be deployed if the data is
 to be simulated.
 
 """
@@ -15,10 +15,9 @@ import subprocess
 import pandas as pd
 import os
 import numpy as np
-from matplotlib import pyplot as plt
 
-def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
-              plot=False, cooling_negative=False, peak_cool_restriction_hour=None,
+def find_days(heat, cool, data='simulate', plot=False, cooling_negative=False, 
+              peak_cool_restriction_hour=None,
               cool_day_low_limit=14, cool_day_high_limit=358,
               heat_day_low_limit=14, heat_day_high_limit=358):
     '''Find the start and final times for the test case scenarios.
@@ -38,9 +37,6 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
         `path_to_data.csv` indicates path to .csv file with the yearly
         simulation data.
         Default is `simulate`.
-    img_name: string
-        Image name of the container where the simulation is to be
-        performed.  Used only if data=`simulate`.
     plot: boolean, optional
         Set to True to show an overview of the days found.
         Default is False
@@ -79,7 +75,7 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
 
     days = {}
 
-    if data=='simulate':
+    if data == 'simulate':
 
         length = 3.1536e+7
         start_time = 0
@@ -91,14 +87,29 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
             points = heat
         elif heat is None and cool is not None:
             points = cool
-        cmd_docker ='docker exec -t {} /bin/bash -c '.format(img_name).split()
-        cmd_python = ['python data/simulate_skip_API.py {} {} {}'.format(start_time,length,points)]
-        cmd = cmd_docker + cmd_python
-        subprocess.call(cmd)
-
+        
+        # Create container from worker image and copy FMU
+        print('Creating container find_days...')
+        cmd_docker_container = 'docker run -t --name find_days -d project1-boptest-worker /bin/bash'.split()
+        print('Copying FMU into container...')
+        subprocess.call(cmd_docker_container)
+        cmd_docker_cp = 'docker cp wrapped.fmu find_days:/boptest/wrapped.fmu'.split()
+        subprocess.call(cmd_docker_cp)
+        print('Running simulation ...')
+        # Run simulation for target 'length'
+        cmd_docker ='docker exec -t find_days /bin/bash -c '.split()
+        cmd_python = ['. miniconda/bin/activate && conda activate pyfmi3 && cd boptest && python lib/data/simulate_skip_API.py {} {} {}'.format(start_time,length,points)]
+        cmd_sim = cmd_docker + cmd_python
+        subprocess.call(cmd_sim)
+        print('Copying results simulation.csv from running container...')
         # Copy results to host
-        cmd='docker cp {}:/home/developer/simulation.csv .'.format(img_name)
-        subprocess.call(cmd)
+        cmd_cp_res = 'docker cp find_days:/boptest/simulation.csv .'.split()
+        subprocess.call(cmd_cp_res)
+        print('Removing container...')
+        # Remove container
+        cmd_docker_rm = 'docker rm --force find_days'.split()
+        subprocess.call(cmd_docker_rm)
+        
 
         # Read results to data frame
         df_raw = pd.read_csv('simulation.csv', index_col='Time')
@@ -120,40 +131,40 @@ def find_days(heat, cool, data='simulate', img_name='boptest_bestest_air',
     # Since assume two-week test period with one-week warmup,
     # edges of year are not available to choose from
     df_available =  df.loc[pd.Timedelta(days=14):pd.Timedelta(days=365-7)]
-    df_available_cool = df[cool].loc[pd.Timedelta(days=cool_day_low_limit):pd.Timedelta(days=cool_day_high_limit)]
-    df_cool = df[cool]
-    if peak_cool_restriction_hour is not None:
-        # Limit available cooling hours to those after restriction
-        df_available_cool = df_available_cool[df_available_cool.index.seconds/3600>=peak_cool_restriction_hour]
-        df_cool = df_cool[df_cool.index.seconds/3600>=peak_cool_restriction_hour]
-    df_available_heat = df[heat].loc[pd.Timedelta(days=heat_day_low_limit):pd.Timedelta(days=heat_day_high_limit)]
-    df_heat = df[heat]
+
 
 
     # Find peak
     if heat is not None:
+        df_available_heat = df[heat].loc[pd.Timedelta(days=heat_day_low_limit):pd.Timedelta(days=heat_day_high_limit)]
+        df_heat = df[heat]
         peak_heat_day = df_available_heat.idxmax().days
         days['peak_heat_day'] = peak_heat_day
         print('Peak heat is day {0}.'.format(peak_heat_day))
 
     if cool is not None:
+        df_available_cool = df[cool].loc[pd.Timedelta(days=cool_day_low_limit):pd.Timedelta(days=cool_day_high_limit)]
+        df_cool = df[cool]
+        if peak_cool_restriction_hour is not None:
+            # Limit available cooling hours to those after restriction
+            df_available_cool = df_available_cool[df_available_cool.index.seconds/3600>=peak_cool_restriction_hour]
+            df_cool = df_cool[df_cool.index.seconds/3600>=peak_cool_restriction_hour]
         peak_cool_day = df_available_cool.idxmax().days
         days['peak_cool_day'] = peak_cool_day
         print('Peak cool is day {0}.'.format(peak_cool_day))
 
     # Find typical
-    df_daily_cool = df_cool.resample('D').max()
-    df_available_daily_cool = df_available_cool.resample('D').max()
-    df_daily_heat = df_heat.resample('D').max()
-    df_available_daily_heat = df_available_heat.resample('D').max()
-
     if heat is not None:
+        df_daily_heat = df_heat.resample('D').max()
+        df_available_daily_heat = df_available_heat.resample('D').max()
         median_heat = df_daily_heat[df_daily_heat>1].median()
         typical_heat_day = df_available_daily_heat[df_available_daily_heat.values <= median_heat].sort_values(ascending=False).index[0].days
         days['typical_heat_day'] = typical_heat_day
         print('Typical heat is day {0}.'.format(typical_heat_day))
 
     if cool is not None:
+        df_daily_cool = df_cool.resample('D').max()
+        df_available_daily_cool = df_available_cool.resample('D').max()
         median_cool = df_daily_cool[df_daily_cool>1].median()
         typical_cool_day = df_available_daily_cool[df_available_daily_cool.values <= median_cool].sort_values(ascending=False).index[0].days
         days['typical_cool_day'] = typical_cool_day

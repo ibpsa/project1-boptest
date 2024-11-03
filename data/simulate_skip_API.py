@@ -36,7 +36,7 @@ def simulate_skip_API(start_time=0, length=3.1536e+7,
     length=int(float(length))
     points=points.split(',')
 
-    case = TestCase()
+    case = TestCase(fmupath='wrapped.fmu')
     case.initialize(start_time=start_time, warmup_period=0)
 
     # Initialize
@@ -51,7 +51,10 @@ def simulate_skip_API(start_time=0, length=3.1536e+7,
     # Gather and store results
     y['time'] = np.append(y['time'], res['time'][1:])
     for point in points:
-        y[point] = np.append(y[point], res['mod.'+point][1:])
+        if ('_y' in point) or ('_u' in point):
+            y[point] = np.append(y[point], res[point][1:])
+        else:
+            y[point] = np.append(y[point], res['mod.'+point][1:])
     df = pd.DataFrame(y)
     df.set_index('time', inplace=True)
     df.index.name='Time'
