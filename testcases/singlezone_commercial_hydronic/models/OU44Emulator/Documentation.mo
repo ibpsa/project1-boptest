@@ -83,61 +83,37 @@ The second, with parameters kp=0.05 and Ti=800 s, regulates the supply air tempe
 The third, with parameters kp=0.05 and Ti=800 s, regulates indoor temperature of the zone to the heating set point by controlling the hot water valve position serving the radiator.
 
 </p>
-<h3>Model IO's</h3>
+<p><h3>Model IO&apos;s</h3></p>
 <h4>Inputs</h4>
-The model inputs are:
+<p>The model inputs are</p>
 <ul>
 <li>
-<code>ahu_oveFanRet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ahu_oveFanRet_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
 <code>ahu_oveFanRet_u</code> [1] [min=0.0, max=1.0]: AHU return fan speed control signal
-</li>
-<li>
-<code>ahu_oveFanSup_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ahu_oveFanSup_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>ahu_oveFanSup_u</code> [1] [min=0.0, max=1.0]: AHU supply fan speed control signal
 </li>
 <li>
-<code>oveCO2ZonSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveCO2ZonSet_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
 <code>oveCO2ZonSet_u</code> [ppm] [min=400.0, max=1000.0]: Zone CO2 concentration setpoint
-</li>
-<li>
-<code>ovePum_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input ovePum_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>ovePum_u</code> [1] [min=0.0, max=1.0]: Pump speed control signal for heating distribution system
 </li>
 <li>
-<code>oveTSupSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTSupSet_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
 <code>oveTSupSet_u</code> [K] [min=288.15, max=313.15]: AHU supply air temperature set point for heating
-</li>
-<li>
-<code>oveTZonSet_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveTZonSet_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveTZonSet_u</code> [K] [min=283.15, max=303.15]: Zone temperature set point for heating
 </li>
 <li>
-<code>oveValCoi_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveValCoi_u where 1 activates, 0 deactivates (default value)
-</li>
-<li>
 <code>oveValCoi_u</code> [1] [min=0.0, max=1.0]: AHU heating coil valve control signal
-</li>
-<li>
-<code>oveValRad_activate</code> [1] [min=0, max=1]: Activation signal to overwrite input oveValRad_u where 1 activates, 0 deactivates (default value)
 </li>
 <li>
 <code>oveValRad_u</code> [1] [min=0.0, max=1.0]: Radiator valve control signal
 </li>
 </ul>
 <h4>Outputs</h4>
-The model outputs are:
+<p>The model outputs are</p>
 <ul>
 <li>
 <code>ahu_reaFloSupAir_y</code> [kg/s] [min=None, max=None]: AHU supply air mass flowrate
@@ -255,7 +231,7 @@ The model outputs are:
 </li>
 </ul>
 <h4>Forecasts</h4>
-The model forecasts are:
+<p>The model forecasts are</p>
 <ul>
 <li>
 <code>EmissionsBiomassPower</code> [kgCO2/kWh]: Kilograms of carbon dioxide to produce 1 kWh thermal from biomass
