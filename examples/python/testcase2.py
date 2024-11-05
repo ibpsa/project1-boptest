@@ -98,4 +98,3 @@ def run(plot=False):
 
 if __name__ == "__main__":
     kpi, df_res, custom_kpi_result = run()
-    print(kpi)
