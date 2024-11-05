@@ -9,18 +9,22 @@ typical days for heating and cooling. These days are used to define
 the test case scenarios. BOPTEST needs to be deployed if the data is
 to be simulated.
 
-To run only post processing to find days:
-1. Add 'simulation.csv' file with all needed points to project1-boptest/data
-2. Set 'data' parameter to None
+The ``find_days`` class should be imported to a script within the 
+``models`` directory of a test case, since
+parameters are specific to each test case.  For that test case specific script:
+
+To run only post processing to find days (simulation data exported otherwise):
+1. Create a csv file of annual simulation data with all needed points
+2. Set 'data' parameter to the simulation data file name (e.g. ``simulation.csv``)
 3. Set 'heat' and 'cool' parameters to point names that neeed to be used to 
-   evaluate heating and cooling demand
+   evaluate heating and cooling demand, along with any other parameters.
 4. Run script
 
 To run with simulation:
-1. Build BOPTEST worker provision
+1. Build BOPTEST worker docker image
 2. Set 'heat' and 'cool' parameters to point names that neeed to be used to 
    evaluate heating and cooling demand
-3. Copy test case 'wrapped.fmu' to project1-boptest/data
+3. Ensure the test case FMU is called ``wrapped.fmu`` within the test case models directory
 4. Run script
 
 """

@@ -3,12 +3,13 @@
 This script can be used to generate the html documentation code for I/O.
 
 To run:
-1. Build BOPTEST worker provision
-2. Run BOPTEST test case worker
-3. Run this script with test case as string input argument (i.e. "bestest_air")
+1. Deploy BOPTEST as described in README.md at root of repository.
+2. Run this script with test case as string input argument:
+
+$ python get_html_IO.py bestest_air
 
 Output:
-"inputs_measurements_forecasts.html" html code documenting inputs, outputs and 
+``inputs_measurements_forecasts.html`` html code documenting inputs, outputs and 
 forecasts together
 """
 
