@@ -43,7 +43,12 @@ def simulate_skip_API(start_time=0, length=3.1536e+7,
     y = {'time':np.array([])}
     for point in points:
         y[point] = np.array([])
-
+    
+    # Add points to result list
+    for point in points:
+        if not ('_y' in point) or not ('_u' in point):
+            case.options['filter'].append('mod.'+point)
+    
     # Simulate
     res = case._TestCase__simulation(start_time=start_time,
                                      end_time=start_time+length)
