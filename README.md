@@ -9,7 +9,7 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
-- ``/service`` contains code for deploying BOPTEST framework as a web-service.
+- ``/service`` contains code for deploying BOPTEST framework as a web-service, known as BOPTEST-Service.
 - ``/examples`` contains code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (3.9) and Julia (Version 1.0.3).
 - ``/parsing`` contains code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
@@ -75,6 +75,53 @@ API requests for more advanced test case management in the web-service architect
   * Build and deploy ``testcase1``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase1 && make run Script=testcase1`` to test a simple proportional feedback controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
+
+## BOPTEST-Service Deployment Architecture
+
+BOPTEST is deployed by a web service architecture, known as BOPTEST-Service and located in ``/service``, which enables support for multiple clients and multiple simultaneous tests at a large scale. This is a containerized design that can be deployed on a personal computer, however the software is targeted at commercial cloud computing environments such as AWS.
+
+BOPTEST-Service is a sibling of [Alfalfa](https://github.com/NREL/alfalfa), which follows the same architecture, but adopts a more general purpose API to support interactive building simulation, whereas the BOPTEST API is designed around predetermined test scenarios.
+
+```mermaid
+flowchart LR
+    A[API Client] <--> B[Web Frontend]
+    subgraph cloud [Cloud Deployment]
+            B <--> C[(Message Broker)]
+            C <--> D[Worker 1]
+            C <--> E[Worker 2]
+            C <--> F[Worker N]
+        subgraph workers [Worker Pool]
+            D
+            E
+            F
+        end
+    end
+```
+
+### BOPTEST-Service APIs
+
+The BOPTEST-Service offers a number of additional APIs in addition to those listed above for the purpose of managing test cases and running tests, some of which require authorization.
+
+| Description                                                                                                                 | Request                                                    |
+| --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------
+| List official BOPTEST test cases.                                                                                           | GET `testcases`                                            |
+| List unofficial test cases in a namespace.                                                                                  | GET `testcases/{namespace}`                                |
+| List private user test cases. (Auth required)                                                                               | GET `users/{username}/testcases/`                          |
+| Check if specific test case exists.                                                                                         | GET `testcases/{testcase_name}`                            |
+| Check if specific test case exists in the namespace.                                                                        | GET `testcases/{namespace}/{testcase_name}`                |
+| Check if specific private user test case exists.                                                                            | GET `users/{username}/testcases/{testcase_name}`           |
+| Select a test case and begin a new test. (Auth optional)                                                                    | POST ``testcases/{testcase_name}/select``                  |
+| Select a test case from the namespace and begin a new test. (Auth optional)                                                 | POST ``testcases/{namespace}/{testcase_name}/select``      |
+| Select a private user test case and begin a new test. (Auth required)                                                       | POST ``users/{username}/testcases/{testcase_name}/select`` |
+| Get test status as `Running` or `Queued`                                                                                    | GET ``status/{testid}``                                    |
+| Stop a queued or running test.                                                                                              | PUT ``stop/{testid}``                                      |
+| List tests for a user. (Auth required)                                                                                      | GET ``users/{username}/tests``                             |
+
+The family of the `select` APIs are used to choose a test case and begin a running test. Select returns a `testid` which is required by all APIs that interact with the test or provide test information.
+
+### Kubernetes Based Deployment
+
+NREL maintains a helm chart for Kubernetes based deployments of BOPTEST-Service.
 
 ## Development
 Community development is welcome through reporting [issues](https://github.com/ibpsa/project1-boptest/issues) and/or making pull requests. If making a pull request,
