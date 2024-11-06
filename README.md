@@ -20,7 +20,9 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
 - ``/baselines`` contains scripts and data for baselining KPIs for test cases with their embedded control.
 - ``/bacnet`` contains code for a bacnet interface.
 
-## Quick-Start to Use BOPTEST on a Local Computer
+## Quick-Start to Deploy and Use BOPTEST on a Local Computer
+BOPTEST can be deployed and used on your own computing resource by following the steps below.
+
 1) Download or Clone this repository.
 
 2) Install [Docker](https://docs.docker.com/get-docker/).
@@ -34,6 +36,8 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
 5) Shutdown BOPTEST by the command ``docker compose down`` executed in the root directory of this repository.
 
 ## Quick-Start to Use BOPTEST through the Public Online Web-Service
+
+BOPTEST is also available as a public web-service and can be used by following the step below:
 
 1) Use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``https://api.boptest.net/<request>``
 
