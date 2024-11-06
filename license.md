@@ -46,8 +46,8 @@ at the end that makes it easy to accept improvements.
 Modifications
 =============
 
-Service
--------
+BOPTEST-Service
+---------------
 The code in ``/service`` is based on that which was distributed under the following BSD License
 (see [https://github.com/NREL/boptest-service/blob/develop/LICENSE.md](https://github.com/NREL/boptest-service/blob/develop/LICENSE.md)), which has also been reproduced in ``/service/LICENSE.md``:
 
