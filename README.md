@@ -28,7 +28,7 @@ BOPTEST can be deployed and used on your own computing resource by following the
 2) Install [Docker](https://docs.docker.com/get-docker/).
 
 3) Use Docker to build and run BOPTEST.  In the root of this repository, run the following command.  Note that if you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` where ``n`` equals the number of test cases you want to be able to have running at the same time.
-  
+
 ``docker compose up web worker provision``
 
 4) In a separate process, use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``

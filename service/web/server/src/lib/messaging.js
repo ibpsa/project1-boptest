@@ -22,13 +22,13 @@ class Messaging {
     redis.subclient.on('message', (channel, message) => this.onMessage(channel, message))
   }
 
-  // This function calls a remote worker method, and then waits for a reply.   
+  // This function calls a remote worker method, and then waits for a reply.
   //
   // The following steps are involved.
   // 1. A message is published on the redis channel <workerID>:request
   //    signaling a request to the worker for data. The type of data is identified by `method`.
   //    Any `params` necessary to compute the requested data are included in the message.
-  // 2. The worker listens for data requests on the redis request channel, `method` is mapped to a 
+  // 2. The worker listens for data requests on the redis request channel, `method` is mapped to a
   //    to a worker method, and the method is called with the given parameters.
   // 4. The worker publishes a message on the redis channel <workerID>:response,
   //    with the response data

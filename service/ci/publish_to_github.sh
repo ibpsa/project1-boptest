@@ -1,4 +1,4 @@
-# load .env defines in root of repo 
+# load .env defines in root of repo
 export $(egrep -v '^#' .env | xargs)
 export GITHUB_WEB_REGISTRY_URI=ghcr.io/NREL/boptest-web
 export GITHUB_WORKER_REGISTRY_URI=ghcr.io/NREL/boptest-worker
@@ -10,7 +10,7 @@ elif [[ "${GITHUB_REF}" =~ ^refs/tags/v[0-9].* ]]; then
     export VERSION_TAG="${GITHUB_REF/refs\/tags\//}"
     echo "The docker tag is set to: ${VERSION_TAG}"
 # use conditional below if you want to build a custom branch
-# elif [[] "${GITHUB_REF}" == "refs/heads/boptest-service-custom" ]]; then 
+# elif [[] "${GITHUB_REF}" == "refs/heads/boptest-service-custom" ]]; then
 #     export VERSION_TAG="experimental"
 fi
 

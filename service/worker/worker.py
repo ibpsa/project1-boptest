@@ -42,7 +42,7 @@ class Worker:
         self.logger = Logger().logger
         self.redis = redis.Redis(host=os.environ["BOPTEST_REDIS_HOST"])
         self.logger.info("Worker initialized")
-        
+
     def process_job(self, job):
         """
         Process a single message from Queue.
