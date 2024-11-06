@@ -33,7 +33,7 @@ BOPTEST can be deployed and used on your own computing resource by following the
 
 4) In a separate process, use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``
 
-5) Shutdown BOPTEST by the command ``docker compose down`` executed in the root directory of this repository.
+5) Shutdown BOPTEST by the command ``docker compose down`` executed in the root directory of this repository.  NOTE: This is the best and most complete way to shutdown BOPTEST to prevent issues upon redeployment.
 
 ## Quick-Start to Use BOPTEST through the Public Online Web-Service
 
