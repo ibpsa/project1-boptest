@@ -21,7 +21,7 @@ Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for mor
 - ``/bacnet`` contains code for a bacnet interface.
 
 ## Quick-Start to Deploy and Use BOPTEST on a Local Computer
-BOPTEST can be deployed and used on your own computing resource by following the steps below.
+BOPTEST can be deployed and used on your own computing resource by following the steps below:
 
 1) Download or Clone this repository.
 
