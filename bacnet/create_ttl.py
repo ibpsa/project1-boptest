@@ -3,7 +3,7 @@
 Creates ttl file for creation of Brick objects.
 
 To run this script:
-1. Build BOPTEST worker docker image
+1. Deploy BOPTEST as described in README.md at root of repository
 2. Set 'test_case_name' parameter to test case that needs bacnet .ttl
    (i.e. bestest_air)
 3. Run script
