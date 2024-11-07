@@ -13,7 +13,7 @@ Click the button below to download the latest version as a zip file.
 
 <a class="button is-primary" href="https://github.com/ibpsa/project1-boptest/releases/download/v0.6.0/project1-boptest-0.6.0.zip"><b>Download</b></a>
 
-Get started with the [User Guide](/docs-userguide/index.html).
+Get started with the [User Guide](/docs-userguide/index.html) and [Training](/project1-boptest/training/index.html).
 
 Then, check out the available [Test Cases](/project1-boptest/testcases/index.html).
 

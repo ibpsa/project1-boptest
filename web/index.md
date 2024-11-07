@@ -14,11 +14,11 @@ hero_height: is-fullwidth
 BOPTEST is designed to facilitate the performance evaluation and benchmarking of building control strategies.
 It contains these key components:
 
-1. **Run-Time Environment (RTE)**: Deployed with Docker and accessed with a RESTful HTTP API, use the RTE to set up tests, control building emulators, access data, and report KPIs.
+1. **Run-Time Environment (RTE)**: An environment accessible with a RESTful HTTP API that is used to start a building emulator, set up tests, control the virtual systems, access data, and report KPIs.
 
 2. **Test Case Repository**: A collection of ready-to-use building emulators representing a range of building types and HVAC systems.
 
-3. **Key Performance Indicator (KPI) Reporting**: A set of KPIs is calculated by the the RTE using data from the building emulator being controlled.
+3. **Key Performance Indicator (KPI) Reporting**: A set of KPIs calculated by the RTE using data from the building emulator being controlled.
 
 Head over to the [Software](/project1-boptest/software/index.html) page to start testing your control strategy or look at the [Results Dashboard](/project1-boptest/dashboard/index.html) to view and compare tested control strategies.
 
@@ -38,6 +38,8 @@ Financial support provided in-part by:
 - Engie
 - EU-H2020
 - VLAIO
+
+BOPTEST uses the open modeling language [Modelica](https://modelica.org/) and standard [FMI](https://fmi-standard.org/).
 
 ### Contact
 David Blum, Lawrence Berkeley National Laboratory, dhblum@lbl.gov
