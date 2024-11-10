@@ -70,7 +70,6 @@ class KPI_Calculator(object):
         self.initialize_kpi_vars('pele')
         self.initialize_kpi_vars('pgas')
         self.initialize_kpi_vars('pdih')
-        self.initialize_kpi_vars('ltra', store="u_store") # "ltra" represents the length of actuator travel. Perhaps Dave could suggest a more fitting name.
 
     def initialize_kpi_vars(self, label='ener', store="y_store"):
         '''Initialize variables required for KPI calculation
@@ -794,9 +793,13 @@ class KPI_Calculator(object):
             The arclength of the curve
 
         """
+        # Check if there is only one point in the x and y arrays
+        if len(x) == 1:
+            return 0  # Return 0 if there's only one data point
+
         bounds = (x >= a) & (x <= b)
 
-        return trapz(np.sqrt(1 + np.gradient(y[bounds], x[bounds]) ** 2),x[bounds])
+        return np.trapz(np.sqrt(1 + np.gradient(y[bounds], x[bounds]) ** 2), x[bounds])
 
     def _set_last_index(self,label, set_initial=False, store="y_store"):
         '''Set last index for kpi calcualtion.
@@ -903,7 +906,6 @@ if __name__ == "__main__":
                 'Cooling_pump_y':80.,
                 'Lighting_floor_1_zone1_lamp1_y':15.,
                 'Lighting_floor_1_zone1_lamp2_y':23.,
-                'Lighting_floor_1_zone2_y':87.,
                 'Lighting_floor_2_y':37.}
 
     cal = KPI_Calculator(testcase=None)
