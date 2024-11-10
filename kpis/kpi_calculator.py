@@ -794,6 +794,10 @@ class KPI_Calculator(object):
             The arclength of the curve
 
         """
+        # Check if there is only one point in the x and y arrays
+        if len(x) == 1:
+            return 0  # Return 0 if there's only one data point
+            
         bounds = (x >= a) & (x <= b)
 
         return trapz(np.sqrt(1 + np.gradient(y[bounds], x[bounds]) ** 2),x[bounds])
