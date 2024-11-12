@@ -16,11 +16,11 @@
         "Others": []
     },
     "multizone_office_simple_air": {
-        "Damper": ["oveZonActSou_yDam_u", "hvac_oveZonActEas_yDam_u", "hvac_oveZonActNor_yDam_u", "hvac_oveZonActCor_yDam_u", "hvac_oveZonActWes_yDam_u",
-            "oveAhu_yRet_u", "hvac_oveAhu_yOA_u"],
+        "Damper": ["hvac_oveZonActSou_yDam_u", "hvac_oveZonActEas_yDam_u", "hvac_oveZonActNor_yDam_u", "hvac_oveZonActCor_yDam_u", "hvac_oveZonActWes_yDam_u",
+            "hvac_oveAhu_yRet_u", "hvac_oveAhu_yOA_u"],
         "Valve": ["hvac_oveZonActCor_yReaHea_u", "hvac_oveZonActSou_yReaHea_u", "hvac_oveZonActWes_yReaHea_u", "hvac_oveZonActNor_yReaHea_u", "hvac_oveZonActEas_yReaHea_u",
             "hvac_oveAhu_yCoo_u", "hvac_oveAhu_yHea_u"],
-        "Fan": ["oveAhu_yFan_u"],
+        "Fan": ["hvac_oveAhu_yFan_u"],
         "Pump": ["hvac_oveAhu_yPumCoo_u", "hvac_oveAhu_yPumHea_u"],
         "HVACEquipment": [],
         "Others": []
@@ -46,7 +46,7 @@
     "singlezone_commercial_hydronic": {
         "Damper": [],
         "Valve": ["oveValRad_u", "oveValCoi_u"],
-        "Fan": ["ahu_oveFanRet_u", "oveFanSup_u"],
+        "Fan": ["ahu_oveFanRet_u", "ahu_oveFanSup_u"],
         "Pump": ["ovePum_u"],
         "HVACEquipment": [],
         "Others": []
