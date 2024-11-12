@@ -1,3 +1,5 @@
+dist: focal
+
 language: python
 
 branches:
@@ -13,20 +15,20 @@ notifications:
 services:
   - docker
 
-env:
-  - DOCKER_COMPOSE_VERSION=1.26.0
-
 before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+  - sudo systemctl stop docker.service && sudo systemctl stop docker.socket
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - yes | sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - sudo systemctl start docker
 
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 jobs:
   include:
+  - script: docker compose up -d web worker provision && sleep 10 && docker compose up test --no-deps --exit-code-from test
   - python: 3.9
     install: pip install --upgrade pip && pip install pandas==1.2.5 numpy==1.20.2 requests==2.25.1
     script: cd testing && make build_jm_image && make test_parser
