@@ -27,7 +27,7 @@ RUN 	cd $HOME && \
 	conda activate pyfmi3 && \
 	conda install -c conda-forge pyfmi=2.12 -y && \
 	pip install flask-restful==0.3.9 werkzeug==2.2.3 && \
-	conda install pandas==1.5.3 flask_cors==3.0.10 matplotlib==3.7.1 requests==2.28.1
+	conda install pandas==1.5.3 flask_cors==3.0.10 matplotlib==3.7.1 requests==2.28.1 scipy==1.13.0
 
 WORKDIR $HOME
 
