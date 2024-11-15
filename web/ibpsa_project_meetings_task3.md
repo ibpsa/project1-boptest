@@ -18,16 +18,6 @@ If you want to submit a new test case application here is the [**form**](https:/
 
 
 # Upcoming Meetings
-### XXXXX, XXXX
-
-**Location:** Online
-
-**Time:** 6:00-7:00 pacific
-
-[**Link to join the meeting**](https://lbnl.zoom.us/j/2197244139)
-- [Calendar Invite](/ibpsa_project/meetings/task3/20241111_Progress/20241111_invite.ics)
-
-
 
 
 # Past Meetings
@@ -37,7 +27,6 @@ If you want to submit a new test case application here is the [**form**](https:/
 
 **Time:** 6:00-7:00 pacific
 
-[**Link to join the meeting**](https://lbnl.zoom.us/j/2197244139)
 - [Minutes](/ibpsa_project/meetings/task3/20241111_Progress/20241111_IBPSA-BOPTEST_Task3_minutes.pdf)
 - [Presentation](/ibpsa_project/meetings/task3/20241111_Progress/Task3_Presentations_noIntro.pdf)
 
