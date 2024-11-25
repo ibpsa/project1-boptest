@@ -2,10 +2,9 @@
 API Summary
 ===========
 
-To interact with a deployed test case, use the API defined in the sections below by sending RESTful requests as follows:
-
-- If Single Test Case on Local Computing Resource, send API requests to localhost port 5000 as ``http://127.0.0.1:5000/<request>``.
-- If using Public Web Service, send API requests to ``<url>/<request>/<testid>``, where ``<testid>`` is your returned testid upon test case selection.  See the section Getting Started for more information.
+After accessing BOPTEST and deploying a test case as described in the Getting Started section,
+interact with a deployed test case using the API defined in the sections below by sending HTTP RESTful requests.
+Note that you will need to prepend the request url with the base url and append the request with the ``testid`` as described in the Getting Started section.
 
 Each API request will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``, where:
 
