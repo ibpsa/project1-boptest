@@ -30,7 +30,20 @@ model AirToWaterHeatPump "Air to water heat pump model"
     description="Electric power consumed by heat pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
     y(unit="W")) "Electric power consumed by heat pump"
-    annotation (Placement(transformation(extent={{76,90},{96,110}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:ElectricPower;
+          qudt:hasUnit qudt:W.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+      ref:name literal:<cdl_instance_name>_y;
+      ref:description literal:description;
+      ref:zone literal:zone;
+      ref:equipment literal:equipement;
+      ref:unit literal:W;
+      ref:isWritable false.")),
+      Placement(transformation(extent={{76,90},{96,110}})));
   parameter Modelica.SIunits.Temperature TSetSup
   "Supply water temperature set point";
   parameter Modelica.SIunits.HeatFlowRate QCon_flow_max = Modelica.Constants.inf
@@ -58,13 +71,39 @@ model AirToWaterHeatPump "Air to water heat pump model"
     description="Return water temperature of heat pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Return water temperature of heat pump"
-    annotation (Placement(transformation(extent={{60,-60},{80,-40}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Hot_Water_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:K;
+          ref:isWritable false.")),
+          Placement(transformation(extent={{60,-60},{80,-40}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaFloSup(
     description="Supply water flow rate of heat pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="m3/s")) "Supply water flow rate of heat pump"
-    annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Hot_Water_Flow_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:VolumeFlowRate;
+          qudt:hasUnit qudt:M3-PER-SEC.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:m3/s;
+          ref:isWritable false.")),
+          Placement(transformation(extent={{-40,-80},{-20,-60}})));
 
   Buildings.Fluid.Movers.FlowControlled_dp pum(
     redeclare package Medium = MediumW,
@@ -89,14 +128,39 @@ model AirToWaterHeatPump "Air to water heat pump model"
     description="Supply water temperature of heat pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.None,
     y(unit="K")) "Supply water temperature of heat pump"
-    annotation (Placement(transformation(extent={{60,-90},{80,-70}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Hot_Water_Temperature_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:Temperature;
+          qudt:hasUnit qudt:K.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:K;
+          ref:isWritable false.")),
+          Placement(transformation(extent={{60,-90},{80,-70}})));
 
   Buildings.Utilities.IO.SignalExchange.Read reaPPumDis(
     description="Electric power consumed by hot water distribution pump",
     KPIs=Buildings.Utilities.IO.SignalExchange.SignalTypes.SignalsForKPIs.ElectricPower,
-
     y(unit="W")) "Electric power consumed by distribution pump"
-    annotation (Placement(transformation(extent={{76,70},{96,90}})));
+    annotation (__Buildings(semantic(
+      metadataLanguage="Brick 1.3 text/turtle"
+      "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
+          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
+          qudt:hasQuantityKind quantitykind:ElectricPower;
+          qudt:hasUnit qudt:W.
+      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
+          ref:name literal:<cdl_instance_name>_y;
+          ref:description literal:description;
+          ref:zone literal:zone;
+          ref:equipment literal:equipement;
+          ref:unit literal:W;
+          ref:isWritable false.")),
+      Placement(transformation(extent={{76,70},{96,90}})));
 
   Modelica.Blocks.Interfaces.RealOutput PPum
     "Electric power consumed by distribution pump"
