@@ -20,6 +20,7 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Tim Coleman (National Renewable Energy Laboratory, USA)** for web-service development.
 - **Iago Cupeiro Figueroa (Cupeiro Sinte, dnergy, Spain)** for framework development, test case implementation (multizone_office_simple_hybrid), tutorial and workshop development.
 - **Roel De Coninck (dnergy, Belgium)** for framework development.
+- **Jaap Neven (KU Leuven, VITO, Belgium)** for software implementation.
 - **Jan Drgona (Pacific Northwest National Laboratory, USA)** for framework development.
 - **Jesus Febres (IK4 Tekniker, Spain)** for framework development.
 - **Gauthier-Clerc Francois (Pure Control, France)** for software implementation.
@@ -33,10 +34,11 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Amit Kapoor (Devetry, USA)** for online dashboard development.
 - **Donghun Kim (Lawrence Berkeley National Laboratory, USA)** for framework development, tutorial development.
 - **Nicholas Long (National Renewable Energy Laboratory, USA)** for software implementation.
+- **Xing Lu (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Robert Lutes (Pacific Northwest National Laboratory, USA)** for software implementation.
 - **Bart Merema (dnergy, Belgium)** for test case implementation (multizone_office_simple_hybrid).
 - **Kefei Mo (Pacific Northwest National Laboratory, USA)** for software implementation.
-- **Erik Paulson (Independent, USA)** for BACnet interface development.
+- **Erik Paulson (Independent, USA)** for BACnet interface development and implementation.
 - **Matt Robinson (University of Colorado Boulder, USA)** for software implementation.
 - **Marjorie Schott (National Renewable Energy Laboratory, USA)** for online dashboard development.
 - **Jermy Thomas (National Renewable Energy Laboratory, USA)** for web-service development, tutorial development.
@@ -46,4 +48,4 @@ Thank you to all contributors of the project.  They are in alphabetical order:
 - **Michael Wetter (Lawrence Berkeley National Laboratory, USA)** for framework development.
 - **Tao Yang (Southern Denmark University, Denmark)** for framework development, test case development (singlezone_commercial_hydronic).
 - **Laura Zabala (IK4 Tekniker, Spain)** for framework development, forecast uncertainty characterization.
-- **Ettore Zanetti (Lawrence Berkeley National Laboratory, USA)** for framework development, test case implementation (twozone_apartment_hydronic), test case review, controller testing.
+- **Ettore Zanetti (Lawrence Berkeley National Laboratory, USA)** for framework development, test case implementation (twozone_apartment_hydronic), test case review, controller testing, software implementation.

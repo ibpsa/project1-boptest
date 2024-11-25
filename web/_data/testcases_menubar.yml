@@ -14,8 +14,6 @@
       link: /testcases/ibpsa/testcases_ibpsa_multizone_residential_hydronic/
     - name: Multizone Office Simple Air
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_air/
-- label: Available in Next Release
-  items:
     - name: Multizone Office Simple Hydronic
       link: /testcases/ibpsa/testcases_ibpsa_multizone_office_simple_hydronic/
 - label: Under Development
