@@ -7,6 +7,7 @@ Thank you to all who have provided guidance on the development of this software.
 - Dave Biagioni, National Renewable Energy Laboratory
 - David Blum, Lawrence Berkeley National Laboratory
 - Yan Chen, Pacific Northwest National Laboratory
+- Tim Coleman, National Renewable Energy Laboratory
 - Roel De Coninck, dnergy
 - Iago Cupeiro Figueroa, Cupeiro Sinte, dnergy
 - Konstantin Filonenko, University of Southern Denmark
