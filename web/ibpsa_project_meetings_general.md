@@ -12,6 +12,10 @@ permalink: /ibpsa/project/meetings/general/
 
 # Upcoming Meetings
 
+Coming soon...
+
+# Past Meetings
+
 ### November 20-21, 2024: In-Person Expert Meeting, Denmark
 
 **Location:**
@@ -20,13 +24,16 @@ Technical University of Denmark (DTU)
 **Time:**
 November 20-21, 2024
 
-**Registration:**
-- Link: [https://www.conferencemanager.dk/boptest2024-dtuworkshop-20-21112024/conference](https://www.conferencemanager.dk/boptest2024-dtuworkshop-20-21112024/conference)
-- Deadline: November 8, 2024
+**Information and Agenda:** [PDF](/ibpsa_project/meetings/general/202411_Denmark/2024_DTU_ExpertMeeting_Agenda_Draft_v7.pdf)
 
-**Information and Draft Agenda:** [PDF](/ibpsa_project/meetings/general/202411_Denmark/2024_DTU_ExpertMeetingAgenda_Draft_v7.pdf)
+**Slides:**
 
-# Past Meetings
+- IBPSA Project 2 Introduction and Overview: [PDF](/ibpsa_project/meetings/general/202411_Denmark/[General]_Overview_20241120.pdf)
+- Task Technical Objectives, Progress, and Plans: [ZIP](/ibpsa_project/meetings/general/202411_Denmark/2024_DTU_ExpertMeeting_Slides_TaskProgressPlans.zip)
+- Breakout Sessions: [ZIP](/ibpsa_project/meetings/general/202411_Denmark/2024_DTU_ExpertMeeting_Slides_Breakouts.zip)
+
+<img src="../../../../ibpsa_project/meetings/general/202411_Denmark/2024_DTU_ExpertMeeting_Photo.jpg" alt="drawing" width="50%"/>
+
 
 ### May 22, 2024: In-Person Meeting, Denver
 
