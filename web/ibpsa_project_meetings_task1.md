@@ -16,6 +16,15 @@ There are currently no meetings planned for Task 1.
 
 # Past Meetings
 
+### November 21, 2024 (In-Person Expert Meeting)
+
+**Location:** Technical University of Denmark (DTU), Denmark
+
+**Time:** 14:45 PM - 15:45 PM CET.
+
+**Notes:**
+
+- [Minutes](/ibpsa_project/meetings/task1/20251121_Task1_Outreach_Expert_Meeting_DTU.pdf)
 
 ### September 19, 2024
 
