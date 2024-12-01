@@ -21,13 +21,17 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
         '''
 
         self.name = 'bestest_air'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.points_check = ['fcu_reaPCoo_y', 'fcu_reaFloSup_y',
                              'fcu_oveTSup_u', 'fcu_oveFan_u',
                              'zon_reaPPlu_y', 'fcu_reaPFan_y',
                              'fcu_reaPHea_y', 'zon_reaPLig_y',
                              'zon_reaTRooAir_y', 'zon_reaCO2RooAir_y',
                              'zon_weaSta_reaWeaTDryBul_y']
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
     def test_peak_heat_day(self):
         self.run_time_period('peak_heat_day')
@@ -59,20 +63,20 @@ class Run(unittest.TestCase, utilities.partialTestTimePeriod):
 
         length = 86400*14
         # Get current step
-        step_current = requests.get('{0}/step'.format(self.url)).json()['payload']
+        step_current = requests.get('{0}/step/{1}'.format(self.url,self.testid)).json()['payload']
         # Initialize test case scenario
-        requests.put('{0}/scenario'.format(self.url), json={'time_period':'peak_heat_day'})
+        requests.put('{0}/scenario/{1}'.format(self.url,self.testid), json={'time_period':'peak_heat_day'})
         # Set simulation step
-        requests.put('{0}/step'.format(self.url), json={'step':length})
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':length})
         # Simulation Loop
-        requests.post('{0}/advance'.format(self.url), json=dict())
+        requests.post('{0}/advance/{1}'.format(self.url,self.testid), json=dict())
         # Try submit results to dashboard
-        status = requests.post("{0}/submit".format(self.url), json={"api_key": 'valid_key',
-                                                                     "unit_test":"True"}).json()['status']
+        status = requests.post("{0}/submit/{1}".format(self.url,self.testid), json={"api_key": 'valid_key',
+                                                                                    "unit_test":"True"}).json()['status']
         # Check result
         self.assertEqual(status,200)
         # Return scenario and step to original
-        requests.put('{0}/step'.format(self.url), json={'step':step_current})
+        requests.put('{0}/step/{1}'.format(self.url,self.testid), json={'step':step_current})
 
 class API(unittest.TestCase, utilities.partialTestAPI):
     '''Tests the api for testcase.
@@ -88,13 +92,17 @@ class API(unittest.TestCase, utilities.partialTestAPI):
         '''
 
         self.name = 'bestest_air'
-        self.url = 'http://127.0.0.1:5000'
+        self.url = 'http://127.0.0.1:80'
         self.step_ref = 3600
         self.test_time_period = 'peak_heat_day'
         #<u_variable>_activate is meant to be 0 for the test_advance_false_overwrite API test
         self.input = {'fcu_oveTSup_activate': 0, 'fcu_oveTSup_u': 290}
         self.measurement = 'zon_weaSta_reaWeaSolHouAng_y'
         self.forecast_point = 'EmissionsElectricPower'
+        self.testid = requests.post("{0}/testcases/{1}/select".format(self.url, self.name)).json()["testid"]
+
+    def tearDown(self):
+        requests.put("{0}/stop/{1}".format(self.url, self.testid))
 
 if __name__ == '__main__':
     utilities.run_tests(os.path.basename(__file__))

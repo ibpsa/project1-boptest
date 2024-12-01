@@ -1,8 +1,13 @@
 # Release Notes
 
-## BOPTEST v0.6.0-dev
+## BOPTEST v0.7.0-dev
 
 Released on xx/xx/xxxx.
+
+
+## BOPTEST v0.7.0
+
+Released on 11/25/2024.
 
 **The following changes are backwards-compatible and do not significantly change benchmark results:**
 
@@ -22,11 +27,19 @@ Released on xx/xx/xxxx.
 
 - ``multizone_office_simple_hydronic``, a 2-zone typical office building in Brussels, Belgium, served by fan-coil units for space heating and cooling, air handling units for space ventilation, an air-source heat pump for hot water production, and an air-cooled chiller for chilled water production. FMU compiled by [OCT](https://help.modelon.com/latest/reference/oct/).  This is for [#465](https://github.com/ibpsa/project1-boptest/issues/465).
 
-
 **The following changes are backwards-compatible, but might change benchmark results:**
 
 - Fix calculation of computational time ratio (``time_rat``) in the case of a test where the test case was initialized after a test or simulation (use of ``/advance``) had already been done using the same test case deployment (i.e. the docker container had not been shutdown first and newly deployed).  The wait time between the last ``/advance`` before the new initialization and first ``/advance`` of the new initialization was incorrectly incorporated into the calculation as a control step and has been fixed, resulting in a lower computational time ratio.  The extent of impact depends on wait time between tests and control step and number of steps taken in the new test.  This is for [#673](https://github.com/ibpsa/project1-boptest/issues/673).
  - Update ``min`` and ``max`` parameters for heating (``oveTSetHea_u``) and cooling (``oveTSetCoo_u``) setpoints in ``bestest_air`` and ``bestest_hydronic`` test cases to ``min=278.15`` and ``max=308.15``.  This may change benchmark results as it expands the allowable min and max set points for these test cases from previous versions.  This is for [#658](https://github.com/ibpsa/project1-boptest/issues/658).
+
+**The following changes are not backwards-compatible, but do not change benchmark results:**
+
+> [!IMPORTANT]
+> - Refactor the deployment architecture so as to migrate [BOPTEST-Service](https://github.com/NREL/boptest-service) code to the BOPTEST repository and make it the only deployment architecture for BOPTEST.  This is for [#617](https://github.com/ibpsa/project1-boptest/issues/617). Notable changes are for those who deploy and use BOPTEST locally, and they include:
+>   - To use BOPTEST locally, users now deploy the web-service locally and select a test case to run using the appropriate API request.
+>   - Users can run multiple test cases at the same time.
+>   - The API requests to interact with a running test case now require the use of a ``testid``, which is received when selecting a test case and is used to uniquely route API requests the intended test case.
+>   - Users can stop a test case with the appropriate API request without shutting down the web-service as a whole.  This is especially needed if a user wants to run a new test case, but has not allocated enough workers (command option when starting deploying web-service).
 
 **The following changes are not backwards-compatible and significantly change benchmark results:**
 
