@@ -15,16 +15,16 @@ COMMAND_RUN=docker run \
 	  ${IMG_NAME}
 
 build_jm_image:
-	docker build --no-cache --rm -t ${IMG_NAME} .
+	docker build --no-cache --rm -q -t ${IMG_NAME} .
 
 build_boptest_image:
-	cd .. && docker-compose build
+	cd .. && docker compose build
 
 remove_jm_image:
 	docker rmi ${IMG_NAME}
 
 remove_boptest_image:
-	docker rmi boptest_base
+	docker rmi project1-boptest-provision project1-boptest-web project1-boptest-worker minio/minio minio/mc redis pafortin/goaws
 
 run_jm:
 	$(COMMAND_RUN)
@@ -87,17 +87,28 @@ generate_testcase_data:
 # Tests
 ###############################################################################
 
-# Generic test for all testcases except testcase1 and testcase2
+# Generic test for all testcases except testcase1 and testcase2 to run on travis
+test_%_travis:
+# Compile testcase model
+	make compile_testcase_model TESTCASE=$*
+# Build and deploy boptest
+	cd .. && docker compose up -d web worker provision
+	python sleep10.py
+# Run testcase tests
+	cd .. && python testing/test_$*.py $(ARG)
+
+# Generic test for all testcases except testcase1 and testcase2 to run locally with cleanup
 test_%:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=$*
 # Build and deploy testcase image
-	cd .. && TESTCASE=$* docker-compose up -d
+	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
-	cd .. && docker-compose down
+	cd .. && docker compose down
 	if [ $(SINGLE) = true ]; then\
 	     python report.py;\
 	fi\
@@ -105,12 +116,13 @@ test_%:
 # Generic test for all testcases that will not test with model compile to run locally with cleanup
 test_%_no_compile:
 # Build and deploy testcase image
-	cd .. && TESTCASE=$* docker-compose up -d
+	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_$*.py $(ARG)
 # Stop testcase container
-	cd .. && docker-compose down
+	cd .. && docker compose down
 	if [ $(SINGLE) = true ]; then\
 	     python report.py;\
 	fi\
@@ -119,7 +131,8 @@ test_testcase1:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase1
 # Build and deploy testcase image
-	cd .. && TESTCASE=testcase1 docker-compose up -d
+	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 # Julia
@@ -127,7 +140,7 @@ test_testcase1:
 # Python and checks
 	cd .. && python testing/test_testcase1.py
 # Stop testcase container
-	cd .. && TESTCASE=testcase1 docker-compose down
+	cd .. && docker compose down
 # Remove julia image 
 	cd ../examples/julia && make remove-image Script=testcase1
 # Report test results
@@ -139,7 +152,8 @@ test_testcase2:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=testcase2
 # Build and deploy testcase image
-	cd .. && TESTCASE=testcase2 docker-compose up -d
+	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 # Julia
@@ -147,7 +161,7 @@ test_testcase2:
 # Python and checks
 	cd .. && python testing/test_testcase2.py
 # Stop testcase container
-	cd .. && TESTCASE=testcase2 docker-compose down
+	cd .. && docker compose down
 # Remove julia image
 	cd ../examples/julia && make remove-image Script=testcase2
 # Report test results
@@ -243,12 +257,13 @@ test_bacnet:
 # Compile testcase model
 	make compile_testcase_model TESTCASE=bestest_air
 # Build and deploy testcase image
-	cd .. && TESTCASE=bestest_air docker-compose up -d
+	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
 # Run testcase tests
 	cd .. && python testing/test_bacnet.py
 # Stop testcase container
-	cd .. && docker-compose down
+	cd .. && docker compose down
 # Report test results
 	if [ $(SINGLE) = true ]; then\
         	python report.py;\
@@ -272,12 +287,13 @@ test_testcase:
 
 test_readme_commands:
 # Test readme commands work right after instantiation of test case container
-	cd .. && TESTCASE=testcase2 docker-compose up -d
+	cd .. && docker compose build -q web worker provision	
+	cd .. && docker compose up -d --quiet-pull web worker provision
 	python sleep10.py
-	curl http://127.0.0.1:5000/measurements
-	curl http://127.0.0.1:5000/forecast
-	curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
-	cd .. && TESTCASE=testcase2 docker-compose down
+	curl http://127.0.0.1:80/measurements
+	curl http://127.0.0.1:80/forecast
+	curl http://127.0.0.1:80/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"
+	cd .. && docker compose down
 
 ###############################################################################
 

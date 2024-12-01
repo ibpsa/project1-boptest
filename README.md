@@ -1,17 +1,15 @@
-# IBPSA Project 1 - BOPTEST
+# Building Optimization Performance Tests (BOPTEST)
 
 [![Build Status](https://travis-ci.com/ibpsa/project1-boptest.svg?branch=master)](https://travis-ci.com/ibpsa/project1-boptest)
 
-Building Optimization Performance Tests
+This repository contains code for the BOPTEST framework that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io/project1-boptest/ibpsa/index.html) and was previously developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
 
-Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for more information about the project, software, and documentation.
-
-This repository contains code for the Building Optimization Performance Test framework (BOPTEST)
-that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io/project1-boptest/ibpsa/index.html) and was previously developed as part of the [IBPSA Project 1](https://ibpsa.github.io/project1/).
+Visit the [BOPTEST Home Page](https://ibpsa.github.io/project1-boptest/) for more information about the project, software, documentation, and [tutorials](https://ibpsa.github.io/project1-boptest/training/index.html).
 
 
 ## Structure
 - ``/testcases`` contains test cases, including docs, models, and configuration settings.
+- ``/service`` contains code for deploying BOPTEST framework as a web-service, known as BOPTEST-Service.
 - ``/examples`` contains code for interacting with a test case and running example tests with simple controllers.  Those controllers are implemented in Python (3.9) and Julia (Version 1.0.3).
 - ``/parsing`` contains code for a script that parses a Modelica model using signal exchange blocks and outputs a wrapper FMU and KPI json.
 - ``/testing`` contains code for unit and functional testing of this software.  See the README there for more information about running these tests.
@@ -22,21 +20,52 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
 - ``/baselines`` contains scripts and data for baselining KPIs for test cases with their embedded control.
 - ``/bacnet`` contains code for a bacnet interface.
 
-## Quick-Start to Deploy a Test Case
-1) Download this repository.
-2) Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
-3) To build and deploy a test case, use the following commands within the root directory of the extracted software:
+## Quick-Start to Deploy and Use BOPTEST on a Local Computer
+BOPTEST can be deployed and used on your own computing resource by following the steps below:
 
-  * Linux or macOS: ``$ TESTCASE=<testcase_name> docker-compose up``
-  * Windows PowerShell: ``> ($env:TESTCASE="<testcase_name>") -and (docker-compose up)``
-  * A couple notes:
-    * Replace ``<testcase_name>`` with the name of the test case you wish to deploy.  Test case names can be found in the ["testcases" directory](https://github.com/ibpsa/project1-boptest/tree/master/testcases) or on the ["Test Cases" web page](https://ibpsa.github.io/project1-boptest/testcases/index.html).
-    * The first time this command is run, the image ``boptest_base`` will be built. This takes about a minute. Subsequent usage will use the already-built image and deploy much faster.
-    * If you update your BOPTEST repository, use the command ``docker rmi boptest_base`` to remove the image so it can be re-built with the updated repository upon next deployment.
-    * ``TESTCASE`` is simply an environment variable. Consistent with use of docker-compose, you may also edit the value of this variable in the ``.env`` file and then use ``docker-compose up``.
+1) Download or Clone this repository.
 
-4) In a separate process, use the test case API defined below to interact with the test case using your test controller.  Alternatively, view and run an example test controller as described below.
-5) Shutdown the test case by the command ``docker-compose down`` executed in the root directory of this repository
+2) Install [Docker](https://docs.docker.com/get-docker/).
+
+3) Use Docker to build and run BOPTEST.  In the root of this repository, run the following command.  Note that if you want to be able to deploy multiple test cases at the same time, append the argument ``--scale worker=n`` where ``n`` equals the number of test cases you want to be able to have running at the same time.
+
+``docker compose up web worker provision``
+
+4) In a separate process, use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``http://127.0.0.1:80/<request>``
+
+5) Shutdown BOPTEST by the command ``docker compose down`` executed in the root directory of this repository.  NOTE: This is the best and most complete way to shutdown BOPTEST to prevent issues upon redeployment.
+
+## Quick-Start to Use BOPTEST through the Public Online Web-Service
+
+BOPTEST is also available as a public web-service and can be used by following the step below:
+
+1) Use the API below to first select a test case to run, and then interact with it using your test controller.  Send API requests to ``https://api.boptest.net/<request>``
+
+## RESTful HTTP API
+API requests that interact with a running test case (those that require a ``testid``) will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``. Status codes in ``"status"`` are integers: ``200`` for successful with or without warning, ``400`` for bad input error, or ``500`` for internal error.  Data returned in ``"payload"`` is the data of interest relvant to the specific API request, while the string in ``"message"`` will report any warnings or error messages to help debug encountered problems.
+
+| Interaction                                                           | Request                                                   |
+|-----------------------------------------------------------------------|-----------------------------------------------------------|
+| List IBPSA BOPTEST test cases.                                                                                           | GET `testcases`                                             |
+| Select an IBPSA BOPTEST test case and begin a new test. Returns a `testid` which is required by all APIs that interact with the test or provide test information.                                                            | POST ``testcases/{testcase_name}/select``. See the [Test Case](https://ibpsa.github.io/project1-boptest/testcases/index.html) page for options and documentation.          |
+| Advance simulation with control input and receive measurements.        |  POST ``advance/{testid}`` with optional arguments ``<input_name_u>:<value>``, and corresponding ``<input_name_activate>:<0 or 1>``, where 1 enables value overwrite and 0 disables (0 is default)  |
+| Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize/{testid}`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
+| Receive communication step in seconds.                                 |  GET ``step/{testid}``                                             |
+| Set communication step in seconds.                                     |  PUT ``step/{testid}`` with required argument ``step=<value>``              |
+| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements/{testid}``                                     |
+| Receive control signal point names (u) and metadata.                        |  GET ``inputs/{testid}``                                           |
+| Receive test result data for the given point names between the start and final time in seconds. |  PUT ``results/{testid}`` with required arguments ``point_names=<list of strings>``, ``start_time=<value>``, ``final_time=<value>``|
+| Receive test KPIs.                                                     |  GET ``kpi/{testid}``                                              |
+| Receive test case name.                                                |  GET ``name/{testid}``                                             |
+| Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  PUT ``forecast/{testid}`` with required arguments ``point_names=<list of strings>``, ``horizon=<value>``, ``interval=<value>``|
+| Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points/{testid}``                              |
+| Receive current test scenario.                                         |  GET ``scenario/{testid}``                                   |
+| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario/{testid}`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See the [Test Case](https://ibpsa.github.io/project1-boptest/testcases/index.html) page for options and documentation.|
+| Get test status as `Running` or `Queued`                                                                                    | GET ``status/{testid}``                                    |
+| Stop a queued or running test.  Needed to deploy a new test case when no more idle workers are avaiable.                                                                                              | PUT ``stop/{testid}``                                      |
+| Receive BOPTEST version.                                               |  GET ``version/{testid}``                                             |
+
+API requests for more advanced test case management in the web-service architecture can be found in ``/service/README.md``.
 
 ## Run an example test controller:
 
@@ -51,33 +80,52 @@ that is being developed as part of the [IBPSA Project 2](https://ibpsa.github.io
   * Build and deploy ``testcase2``.  Then, in a separate terminal, use ``$ cd examples/julia && make build Script=testcase2 && make run Script=testcase2`` to test a simple supervisory controller on this test case over a two-day period.  Note that the Julia-based controller is run in a separate Docker container.
   * Once either test is done, use ``$ make remove-image Script=testcase1`` or ``$ make remove-image Script=testcase2`` to removes containers, networks, volumes, and images associated with these Julia-based examples.
 
-## Test Case RESTful API
-- To interact with a deployed test case, use the API defined in the table below by sending RESTful requests to: ``http://127.0.0.1:5000/<request>``
-- The API will return a JSON in the form ``{"status":<status_code_int>, "message":<message_str>, "payload":<relevant_return_data>}``. Status codes in ``"status"`` are integers: ``200`` for successful with or without warning, ``400`` for bad input error, or ``500`` for internal error.  Data returned in ``"payload"`` is the data of interest relvant to the specific API request, while the string in ``"message"`` will report any warnings or error messages to help debug encountered problems.
+## BOPTEST-Service Deployment Architecture
 
-Example RESTful interaction:
+BOPTEST is deployed by a web service architecture, known as BOPTEST-Service and located in ``/service``, which enables support for multiple clients and multiple simultaneous tests at a large scale. This is a containerized design that can be deployed on a personal computer, however the software is targeted at commercial cloud computing environments such as AWS.
 
-- Receive a list of available measurement names and their metadata: ``$ curl http://127.0.0.1:5000/measurements``
-- Receive a forecast of boundary condition data: ``$ curl http://127.0.0.1:5000/forecast``
-- Advance simulation of test case 2 with new heating and cooling temperature setpoints: ``$ curl http://127.0.0.1:5000/advance -d '{"oveTSetRooHea_u":293.15,"oveTSetRooHea_activate":1, "oveTSetRooCoo_activate":1,"oveTSetRooCoo_u":298.15}' -H "Content-Type: application/json"``.  Leave an empty json to advance the simulation using the setpoints embedded in the model.
+BOPTEST-Service is a sibling of [Alfalfa](https://github.com/NREL/alfalfa), which follows the same architecture, but adopts a more general purpose API to support interactive building simulation, whereas the BOPTEST API is designed around predetermined test scenarios.
 
-| Interaction                                                           | Request                                                   |
-|-----------------------------------------------------------------------|-----------------------------------------------------------|
-| Advance simulation with control input and receive measurements.        |  POST ``advance`` with optional arguments ``<input_name_u>:<value>``, and corresponding ``<input_name_activate>:<0 or 1>``, where 1 enables value overwrite and 0 disables (0 is default)  |
-| Initialize simulation to a start time using a warmup period in seconds.  Also resets point data history and KPI calculations.     |  PUT ``initialize`` with required arguments ``start_time=<value>``, ``warmup_period=<value>``|
-| Receive communication step in seconds.                                 |  GET ``step``                                             |
-| Set communication step in seconds.                                     |  PUT ``step`` with required argument ``step=<value>``              |
-| Receive sensor signal point names (y) and metadata.                          |  GET ``measurements``                                     |
-| Receive control signal point names (u) and metadata.                        |  GET ``inputs``                                           |
-| Receive test result data for the given point names between the start and final time in seconds. |  PUT ``results`` with required arguments ``point_names=<list of strings>``, ``start_time=<value>``, ``final_time=<value>``|
-| Receive test KPIs.                                                     |  GET ``kpi``                                              |
-| Receive test case name.                                                |  GET ``name``                                             |
-| Receive boundary condition forecast from current communication step for the given point names for the horizon and at the interval in seconds.   |  PUT ``forecast`` with required arguments ``point_names=<list of strings>``, ``horizon=<value>``, ``interval=<value>``|
-| Receive boundary condition forecast available point names and metadata. |  GET ``forecast_points``                              |
-| Receive current test scenario.                                         |  GET ``scenario``                                   |
-| Set test scenario. Setting the argument ``time_period`` performs an initialization with predefined start time and warmup period and will only simulate for predefined duration. |  PUT ``scenario`` with optional arguments ``electricity_price=<string>``, ``time_period=<string>``.  See README in [/testcases](https://github.com/ibpsa/project1-boptest/tree/master/testcases) for options and test case documentation for details.|
-| Receive BOPTEST version.                                               |  GET ``version``                                             |
-| Submit KPIs, other test information, and optional string tags (up to 10) to online dashboard.  Requires a formal test scenario to be completed, initialized using the PUT ``scenario`` API. |  POST ``submit`` with required argument ``api_key=<string>`` and optional arguments ``tag#=<string>`` where # is an integer between 1 and 10.  The API key can be obtained from the user account registered with the online dashboard.|
+```mermaid
+flowchart LR
+    A[API Client] <--> B[Web Frontend]
+    subgraph cloud [Cloud Deployment]
+            B <--> C[(Message Broker)]
+            C <--> D[Worker 1]
+            C <--> E[Worker 2]
+            C <--> F[Worker N]
+        subgraph workers [Worker Pool]
+            D
+            E
+            F
+        end
+    end
+```
+
+### BOPTEST-Service APIs
+
+The BOPTEST-Service offers a number of additional APIs in addition to those listed above for the purpose of managing test cases and running tests, some of which require authorization.
+
+| Description                                                                                                                 | Request                                                    |
+| --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------
+| List official BOPTEST test cases.                                                                                           | GET `testcases`                                            |
+| List unofficial test cases in a namespace.                                                                                  | GET `testcases/{namespace}`                                |
+| List private user test cases. (Auth required)                                                                               | GET `users/{username}/testcases/`                          |
+| Check if specific test case exists.                                                                                         | GET `testcases/{testcase_name}`                            |
+| Check if specific test case exists in the namespace.                                                                        | GET `testcases/{namespace}/{testcase_name}`                |
+| Check if specific private user test case exists.                                                                            | GET `users/{username}/testcases/{testcase_name}`           |
+| Select a test case and begin a new test. (Auth optional)                                                                    | POST ``testcases/{testcase_name}/select``                  |
+| Select a test case from the namespace and begin a new test. (Auth optional)                                                 | POST ``testcases/{namespace}/{testcase_name}/select``      |
+| Select a private user test case and begin a new test. (Auth required)                                                       | POST ``users/{username}/testcases/{testcase_name}/select`` |
+| Get test status as `Running` or `Queued`                                                                                    | GET ``status/{testid}``                                    |
+| Stop a queued or running test.                                                                                              | PUT ``stop/{testid}``                                      |
+| List tests for a user. (Auth required)                                                                                      | GET ``users/{username}/tests``                             |
+
+The family of the `select` APIs are used to choose a test case and begin a running test. Select returns a `testid` which is required by all APIs that interact with the test or provide test information.
+
+### Kubernetes Based Deployment
+
+NREL maintains a helm chart for Kubernetes based deployments of BOPTEST-Service.
 
 ## Development
 Community development is welcome through reporting [issues](https://github.com/ibpsa/project1-boptest/issues) and/or making pull requests. If making a pull request,
@@ -90,10 +138,6 @@ pre-commit into your Python version using pip `pip install pre-commit`. Pre-comm
 as a hook on all commits by calling `pre-commit install` in the root directory of the BOPTEST GitHub checkout.
 
 ## Additional Software
-
-### Deployment as a Web-Service
-BOPTEST is delpoyed as a web-service using [BOPTEST-Service](https://github.com/NREL/boptest-service).
-See the related [section in the user guide](https://ibpsa.github.io/project1-boptest/docs-userguide/getting_started.html#public-web-service) for getting started.
 
 ### OpenAI-Gym Environment
 An OpenAI-Gym environment for BOPTEST is implemented in [ibpsa/project1-boptest-gym](https://github.com/ibpsa/project1-boptest-gym).

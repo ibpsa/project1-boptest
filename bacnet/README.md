@@ -24,7 +24,7 @@ The BACnet objects are configured based on a .ttl file for each test case locate
 
 2. Configure ``BACpypes.ini``, particularly the address to define where the BACnet device will sit on the network.
 
-3. In a new terminal, run ``$ python BopTestProxy.py 0 0`` to deploy the BACnet device and objects for the test case and initialize the test case with start time of 0 and warmup period of 0.
+3. In a new terminal, run ``$ python BopTestProxy.py bestest_air 0 0`` to deploy the BACnet device and objects for the test case ``bestest_air`` (or choose another) and initialize it with start time of 0 and warmup period of 0.
 
 4. Use a BACnet application to locate the device and objects on the network and communicate with them.
 
