@@ -40,16 +40,9 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:ElectricPower;
           qudt:hasUnit qudt:W.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:W;
-          ref:isWritable false.")),
+          ")),
       Placement(transformation(extent={{76,90},{96,110}})));
   parameter Modelica.SIunits.Temperature TSetSup
   "Supply water temperature set point";
@@ -68,16 +61,9 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Chilled_Water_Temperature_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:Temperature;
           qudt:hasUnit qudt:K.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:K;
-          ref:isWritable false.")),
+          ")),
           Placement(transformation(extent={{60,-60},{80,-40}})));
 
   Buildings.Fluid.Sensors.VolumeFlowRate senSupFlo(redeclare package Medium =
@@ -91,16 +77,9 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
     annotation (      __Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Chilled_Water_Flow_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:VolumeFlowRate;
           qudt:hasUnit qudt:M3-PER-SEC.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:m3_per_s;
-          ref:isWritable false.")),
+          ")),
           Placement(transformation(extent={{-40,-80},{-20,-60}})));
 
   Buildings.Fluid.Sensors.TemperatureTwoPort senTemSup(
@@ -130,16 +109,9 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Chilled_Water_Temperature_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:Temperature;
           qudt:hasUnit qudt:K.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:K;
-          ref:isWritable false.")),
+          ")),
           Placement(transformation(extent={{60,-90},{80,-70}})));
 
   Modelica.Blocks.Sources.BooleanConstant on(k=true) "Chiller on"
@@ -155,16 +127,9 @@ model AirCooledChiller "Air cooled chiller model (York YCAL0033EE)"
     annotation (__Buildings(semantic(
       metadataLanguage="Brick 1.3 text/turtle"
       "bldg:<cdl_instance_name> a brick:Electric_Power_Sensor;
-          ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
           qudt:hasQuantityKind quantitykind:ElectricPower;
           qudt:hasUnit qudt:W.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-          ref:name literal:<cdl_instance_name>_y;
-          ref:description literal:description;
-          ref:zone literal:zone;
-          ref:equipment literal:equipement;
-          ref:unit literal:W;
-          ref:isWritable false.")),
+          ")),
       Placement(transformation(extent={{76,70},{96,90}})));
 
 equation

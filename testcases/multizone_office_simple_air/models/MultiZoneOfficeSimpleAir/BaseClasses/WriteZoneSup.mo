@@ -19,18 +19,9 @@ model WriteZoneSup
     annotation (__Buildings(semantic(
      metadataLanguage="Brick 1.3 text/turtle"
      "bldg:<cdl_instance_name> a brick:Zone_Air_Heating_Temperature_Setpoint;
-      ref:hasExternalReference bldg:<cdl_instance_name>_Reference;
       qudt:hasQuantityKind quantitykind:Temperature;
       qudt:hasUnit qudt:K.
-      bldg:<cdl_instance_name>_Reference a ref:BOPTestReference;
-           ref:activate literal:<cdl_instance_name>_activate;
-           ref:name literal:<cdl_instance_name>_u;
-           ref:isWritable true;
-           ref:description literal:description;
-           ref:zone literal:zone;
-           ref:max literal:max;
-           ref:min literal:min;
-           ref:unit literal:K.")),
+      ")),
           Placement(transformation(extent={{0,30},{20,50}})));
   Buildings.Utilities.IO.SignalExchange.Overwrite TZonCooSet(description=
         "Zone air temperature cooling setpoint for zone " + zone, u(
